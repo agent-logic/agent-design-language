@@ -528,13 +528,13 @@ mod tests {
     fn unknown_and_metadata_success_cannot_resolve_an_incident() {
         let mut s = ResidentHealthSupervisor::default();
         let mut o = failed("resident");
-        s.observe(&[o.clone()], true, 100).unwrap();
+        s.observe(std::slice::from_ref(&o), true, 100).unwrap();
         o.unhealthy = false;
-        s.observe(&[o.clone()], true, 200).unwrap();
+        s.observe(std::slice::from_ref(&o), true, 200).unwrap();
         assert_eq!(s.snapshot()[0].state, IncidentState::Open);
         o.inference_verified = true;
         o.inference_observed_at_unix_millis = 50;
-        s.observe(&[o.clone()], true, 300).unwrap();
+        s.observe(std::slice::from_ref(&o), true, 300).unwrap();
         assert_eq!(s.snapshot()[0].state, IncidentState::Open);
         o.inference_observed_at_unix_millis = 301;
         s.observe(&[o], true, 302).unwrap();
@@ -544,7 +544,7 @@ mod tests {
     fn replaced_binding_fences_old_response_and_retains_incident() {
         let mut s = ResidentHealthSupervisor::default();
         let mut o = failed("resident");
-        s.observe(&[o.clone()], true, 100).unwrap();
+        s.observe(std::slice::from_ref(&o), true, 100).unwrap();
         let old = s.reserve_response(100).unwrap().unwrap();
         o.binding = "binding-2".into();
         s.observe(&[o], true, 200).unwrap();
@@ -556,12 +556,16 @@ mod tests {
     fn timeout_escalates_and_response_budget_is_bounded() {
         let mut s = ResidentHealthSupervisor::default();
         let o = failed("resident");
-        s.observe(&[o.clone()], true, 100).unwrap();
+        s.observe(std::slice::from_ref(&o), true, 100).unwrap();
         for n in 0..3 {
             let now = 100 + n * 1_000_000;
             let response = s.reserve_response(now).unwrap().unwrap();
-            s.observe(&[o.clone()], true, now + RESPONSE_TIMEOUT_MILLIS)
-                .unwrap();
+            s.observe(
+                std::slice::from_ref(&o),
+                true,
+                now + RESPONSE_TIMEOUT_MILLIS,
+            )
+            .unwrap();
             s.finish_response(&response, true, now + RESPONSE_TIMEOUT_MILLIS + 1)
                 .unwrap();
             assert_eq!(s.snapshot()[0].response_status, "response_timeout");
@@ -639,9 +643,9 @@ mod tests {
         let mut s = ResidentHealthSupervisor::default();
         let mut o = failed("beacon");
         o.reason = "inference_evidence_stale";
-        s.observe(&[o.clone()], true, 100).unwrap();
+        s.observe(std::slice::from_ref(&o), true, 100).unwrap();
         for now in [200, 40_000, 400_000] {
-            s.observe(&[o.clone()], true, now).unwrap();
+            s.observe(std::slice::from_ref(&o), true, now).unwrap();
             assert!(s.reserve_response(now).unwrap().is_none());
         }
         assert_eq!(s.snapshot().len(), 1);
@@ -653,7 +657,7 @@ mod tests {
         let mut s = ResidentHealthSupervisor::default();
         let mut o = failed("resident");
         o.reason = "inference_unverified";
-        s.observe(&[o.clone()], false, 100).unwrap();
+        s.observe(std::slice::from_ref(&o), false, 100).unwrap();
         let first = s.reserve_alert(100).unwrap().unwrap();
         s.finish_alert(&first, true).unwrap();
         o.reason = "observed_health_failure";
