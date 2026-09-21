@@ -143,7 +143,9 @@ validated report as JSON to stdout; failures return a nonzero status with a
 generic diagnostic. This command does not contact providers or the website.
 
 Verification checks the native report digest, identity shape, expiry, complete
-review-record contract, all four lane manifests and versions, and exact agreement
+review-record contract, all four lane manifests and versions, or the complete
+update-cycle plan, admission, selected activity results, embedded review, artifact
+digests and nonempty admitted source references. It also checks exact agreement
 between report and admitted-input retention deadlines. The website separately
 binds the verified report to the authenticated agent, pending run and consent.
 Contract integrity does not independently prove that a provider executed.

@@ -1144,7 +1144,7 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
                 }
             }
             let index = calls.fetch_add(1, Ordering::SeqCst);
-            if index >= 6 {
+            if index >= 7 {
                 if write!(
                     stream,
                     "HTTP/1.1 200 OK\r\nTransfer-Encoding: chunked\r\nConnection: close\r\n\r\n"
@@ -1167,6 +1167,8 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
             }
             let text = if index < 4 || index == 5 {
                 json!({"findings":[]})
+            } else if index == 6 {
+                json!({"schema":"wrong"})
             } else {
                 json!({"findings":[{"rule":"correctness.wrong_lane","semantic_anchor":"lib.rs","title":"fixture","severity":"info","rationale":"fixture","confidence":{"state":"known","percent":90},"evidence":["foreign"],"inference":"fixture","limitations":[]}]})
             };
@@ -1318,6 +1320,37 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
             result["model_identity"]["provider_model_id"],
             f.config.provider.route.provider_model_id
         );
+        let mut failed_cycle = f.request("cycle-failed");
+        failed_cycle["cycle"] = serde_json::to_value(UpdateCyclePlan {
+            schema: PLAN_SCHEMA.into(),
+            repository: f.packet.repository.clone(),
+            activities: vec![Activity::Documentation],
+            testing: None,
+        })
+        .unwrap();
+        assert_eq!(
+            client
+                .post(format!("{base}/v1/operations"))
+                .bearer_auth(ALICE)
+                .json(&failed_cycle)
+                .send()
+                .unwrap()
+                .status()
+                .as_u16(),
+            202
+        );
+        assert_eq!(terminal(ALICE, "cycle-failed")["status"], "failed");
+        assert_eq!(
+            client
+                .get(format!("{base}/v1/operations/cycle-failed/result"))
+                .bearer_auth(ALICE)
+                .send()
+                .unwrap()
+                .status()
+                .as_u16(),
+            409
+        );
+        assert_eq!(count.load(Ordering::SeqCst), 7);
         for (id, token, mode) in [
             ("oversized-hosted", ALICE, "hosted"),
             ("oversized-local", AGENT, "local_model"),

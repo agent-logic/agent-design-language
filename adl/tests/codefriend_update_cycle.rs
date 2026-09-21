@@ -9,6 +9,7 @@ use adl::{
         },
         evidence::{Admission, Retention},
         ingestion::{local, Scope},
+        review::runner::{self, ExecutionOptions, LaneExecution},
     },
     provider_communication::ProviderInvocationFinalStatusV1,
 };
@@ -188,6 +189,77 @@ fn selected_activities_only_produce_bound_proposals_without_coverage_claims() {
     assert!(result.activities[..2]
         .iter()
         .all(|item| item.input_manifest.testing.is_none()));
+    fs::remove_dir_all(root).unwrap();
+}
+
+#[test]
+fn generated_artifacts_and_gaps_require_admitted_source_evidence() {
+    let (root, admission) = admission();
+    for empty_artifact in [true, false] {
+        let result = run_with_executor(
+            plan(vec![Activity::Documentation], None),
+            admission.clone(),
+            "cycle-evidence".into(),
+            "provider:fixture:model-v1".into(),
+            None,
+            |_, _, _| {
+                Ok(adl::codefriend::activities::ProviderOutput {
+                    final_status: ProviderInvocationFinalStatusV1::Ok,
+                    output_text: Some(
+                        serde_json::json!({
+                            "schema":OUTPUT_SCHEMA,
+                            "artifacts":[{"path":"docs/guide.md","kind":"documentation","content":"# Guide","evidence_paths":if empty_artifact { vec![] } else { vec!["src/lib.rs"] },"limitations":[]}],
+                            "gaps":[{"category":"documentation","title":"Gap","rationale":"Bounded gap","evidence_paths":if empty_artifact { vec!["src/lib.rs"] } else { vec![] },"limitations":[]}],
+                            "measured_coverage_percent":null
+                        })
+                        .to_string(),
+                    ),
+                })
+            },
+        )
+        .unwrap();
+        assert_eq!(
+            result.completion,
+            adl::codefriend::evidence::contracts::Completion::Failed
+        );
+        assert_eq!(result.activities[0].status, ActivityStatus::Failed);
+    }
+    fs::remove_dir_all(root).unwrap();
+}
+
+#[test]
+fn aggregate_revalidates_embedded_review_content_beyond_its_digest() {
+    let (root, admission) = admission();
+    let route = "provider:fixture:model-v1";
+    let review = runner::run_with_executor(
+        ExecutionOptions {
+            out: root.join("review"),
+            run_id: "cycle-review".into(),
+            cancel_file: None,
+        },
+        admission.clone(),
+        route.into(),
+        |_, _, _| {
+            Ok(LaneExecution {
+                final_status: ProviderInvocationFinalStatusV1::Ok,
+                output_text: Some("{\"findings\":[]}".into()),
+            })
+        },
+    )
+    .unwrap();
+    let mut result = run_with_executor(
+        plan(vec![Activity::Review], None),
+        admission,
+        "cycle-review".into(),
+        route.into(),
+        Some(review),
+        |_, _, _| unreachable!(),
+    )
+    .unwrap();
+    result.review.as_mut().unwrap().lane_results[0].provider_route = "forged:route".into();
+    result.activities[0].review_result_digest =
+        Some(adl::codefriend::evidence::hash(result.review.as_ref().unwrap()).unwrap());
+    assert!(result.validate(route).is_err());
     fs::remove_dir_all(root).unwrap();
 }
 

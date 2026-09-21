@@ -613,6 +613,21 @@ impl RunReport {
                     self.gateway_lanes.len() == 1 && self.gateway_lanes[0].lane == "cycle",
                     "agent_cycle_gateway_identity"
                 );
+                let identity = &self.gateway_lanes[0];
+                let route = identity.route()?;
+                let cycle = self
+                    .cycle_result
+                    .as_ref()
+                    .ok_or_else(|| anyhow::anyhow!("agent_cycle_result_missing"))?;
+                cycle.validate(&route)?;
+                ensure!(
+                    cycle.run_id == self.run_id
+                        && cycle.completion == Completion::Complete
+                        && cycle.failures.is_empty()
+                        && cycle.admission.expires_at == self.expires_at
+                        && cycle.admission.expires_at > now,
+                    "agent_cycle_result_invalid"
+                );
             }
             (None, None, "failed_or_interrupted" | "interrupted") => {}
             _ => anyhow::bail!("agent_report_completion"),
@@ -996,7 +1011,6 @@ impl Transport {
             model_execution_location: String,
             candidate_revision: String,
             model_identity: crate::model_identity::ModelIdentityV1,
-            admission: super::evidence::Admission,
             cycle_result: super::activities::UpdateCycleResult,
         }
         let result: CycleModelResult = if output_path.exists() {
@@ -1015,15 +1029,17 @@ impl Transport {
                 && result.execution_location == "local_agent"
                 && result.model_execution_location == "agent_logic_provider"
                 && result.cycle_result.run_id == operation_id
-                && result.admission.packet == admission.packet,
+                && result.cycle_result.plan == *plan
+                && result.cycle_result.admission.packet == admission.packet,
             "agent_cycle_result_identity"
         );
-        result.admission.validate()?;
         let route =
             super::review::runner::provider_route_identity_from_model(&result.model_identity);
-        result
-            .cycle_result
-            .validate(plan, &result.admission, &route)?;
+        result.cycle_result.validate(&route)?;
+        ensure!(
+            result.cycle_result.completion == super::evidence::contracts::Completion::Complete,
+            "agent_cycle_result_incomplete"
+        );
         let identity = GatewayLaneIdentity {
             lane: "cycle".into(),
             candidate_revision: result.candidate_revision.clone(),
@@ -1282,7 +1298,11 @@ impl Transport {
         } else {
             (None, None)
         };
-        let complete = review_result.is_some() || cycle_result.is_some();
+        let complete = review_result.is_some()
+            || cycle_result.as_ref().is_some_and(|result| {
+                result.completion == super::evidence::contracts::Completion::Complete
+                    && result.failures.is_empty()
+            });
         let mut report = RunReport {
             schema: PROTOCOL.into(),
             agent_id: pairing.agent_id.clone(),

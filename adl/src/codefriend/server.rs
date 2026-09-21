@@ -314,6 +314,10 @@ fn execute_cycle(
             })
         },
     )?;
+    ensure!(
+        result.completion == Completion::Complete,
+        "activity_cycle_incomplete"
+    );
     let first = identities
         .first()
         .cloned()

@@ -254,6 +254,8 @@ pub struct ActivityResult {
 #[serde(deny_unknown_fields)]
 pub struct UpdateCycleResult {
     pub schema: String,
+    pub plan: UpdateCyclePlan,
+    pub admission: Admission,
     pub run_id: String,
     pub repository: String,
     pub revision: String,
@@ -267,36 +269,33 @@ pub struct UpdateCycleResult {
     pub failures: Vec<String>,
 }
 impl UpdateCycleResult {
-    pub fn validate(
-        &self,
-        plan: &UpdateCyclePlan,
-        admission: &Admission,
-        provider_route: &str,
-    ) -> Result<()> {
-        plan.validate(admission)?;
+    pub fn validate(&self, provider_route: &str) -> Result<()> {
+        self.plan.validate(&self.admission)?;
         ensure!(
             self.schema == RESULT_SCHEMA
-                && self.repository == admission.packet.repository
-                && self.revision == admission.packet.revision
-                && self.packet_id == admission.packet.packet_id
-                && self.admission_digest == admission.digest
-                && self.scope_digest == admission.packet.scope_digest
-                && self.plan_digest == hash(plan)?
-                && self.activities.len() == plan.activities.len(),
+                && self.repository == self.admission.packet.repository
+                && self.revision == self.admission.packet.revision
+                && self.packet_id == self.admission.packet.packet_id
+                && self.admission_digest == self.admission.digest
+                && self.scope_digest == self.admission.packet.scope_digest
+                && self.plan_digest == hash(&self.plan)?
+                && self.activities.len() == self.plan.activities.len(),
             "activity_result_identity"
         );
         let mut expected_failures = Vec::new();
-        for (expected, result) in plan.activities.iter().zip(&self.activities) {
+        for (expected, result) in self.plan.activities.iter().zip(&self.activities) {
             ensure!(
                 result.activity == *expected && result.provider_route == provider_route,
                 "activity_result_order"
             );
-            result.input_manifest.validate(admission, &self.run_id)?;
+            result
+                .input_manifest
+                .validate(&self.admission, &self.run_id)?;
             ensure!(
                 result.input_manifest.activity == *expected
                     && result.input_manifest.testing
                         == if *expected == Activity::Tests {
-                            plan.testing.clone()
+                            self.plan.testing.clone()
                         } else {
                             None
                         },
@@ -320,7 +319,7 @@ impl UpdateCycleResult {
                         .output
                         .as_ref()
                         .ok_or_else(|| anyhow::anyhow!("activity_output_missing"))?;
-                    validate_output(*expected, output, admission)?;
+                    validate_output(*expected, output, &self.admission)?;
                     let output_digest = hash(output)?;
                     ensure!(
                         result.output_digest.as_deref() == Some(output_digest.as_str())
@@ -355,7 +354,7 @@ impl UpdateCycleResult {
             "activity_completion_invalid"
         );
         ensure!(
-            self.review.is_none() || plan.activities.contains(&Activity::Review),
+            self.review.is_none() || self.plan.activities.contains(&Activity::Review),
             "activity_review_presence"
         );
         ensure!(
@@ -365,10 +364,18 @@ impl UpdateCycleResult {
             "activity_review_presence"
         );
         if let Some(review) = &self.review {
+            super::review::runner::validate_complete_run(
+                review,
+                &self.run_id,
+                &self.admission,
+                provider_route,
+            )?;
             ensure!(
-                review.run_id == self.run_id
-                    && review.review_record.admission == *admission
-                    && review.review_record.run.provider_route == provider_route,
+                self.activities
+                    .iter()
+                    .find(|item| item.activity == Activity::Review)
+                    .and_then(|item| item.review_result_digest.as_deref())
+                    == Some(hash(review)?.as_str()),
                 "activity_review_binding"
             );
         }
@@ -386,7 +393,7 @@ fn text(value: &str) -> Result<()> {
 
 fn validate_paths(paths: &[String], admitted: &BTreeSet<&str>) -> Result<()> {
     ensure!(
-        paths.len() <= 128 && paths.windows(2).all(|pair| pair[0] < pair[1]),
+        !paths.is_empty() && paths.len() <= 128 && paths.windows(2).all(|pair| pair[0] < pair[1]),
         "activity_evidence_paths_invalid"
     );
     ensure!(
@@ -683,6 +690,8 @@ where
     };
     let result = UpdateCycleResult {
         schema: RESULT_SCHEMA.into(),
+        plan: plan.clone(),
+        admission: admission.clone(),
         run_id,
         repository: admission.packet.repository.clone(),
         revision: admission.packet.revision.clone(),
@@ -695,6 +704,6 @@ where
         review,
         failures,
     };
-    result.validate(&plan, &admission, &provider_route)?;
+    result.validate(&provider_route)?;
     Ok(result)
 }

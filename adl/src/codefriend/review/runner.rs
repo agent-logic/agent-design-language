@@ -3,7 +3,7 @@ use crate::codefriend::evidence::{
     contracts::{Completion, Confidence, Finding, ReviewRecord, Run, Severity},
     hash,
     store::Store,
-    Admission,
+    valid_digest, Admission,
 };
 use crate::codefriend::ingestion::{digest, validate_path};
 use crate::provider_adapter::execute_provider_invocation;
@@ -112,6 +112,79 @@ pub struct FourPerspectiveReviewRun {
     pub review_record: ReviewRecord,
     pub lane_results: Vec<LaneResult>,
     pub failures: Vec<String>,
+}
+
+pub(crate) fn validate_complete_run(
+    result: &FourPerspectiveReviewRun,
+    run_id: &str,
+    admission: &Admission,
+    provider_route: &str,
+) -> Result<()> {
+    ensure!(
+        result.schema == REVIEW_RUN_SCHEMA
+            && result.run_id == run_id
+            && result.completion == Completion::Complete
+            && result.failures.is_empty()
+            && result.review_record.admission == *admission
+            && result.review_record.run.provider_route == provider_route
+            && result.review_record.run.completion == Completion::Complete
+            && result.review_record.run.failures.is_empty()
+            && result.lane_results.len() == ReviewLane::ALL.len(),
+        "review_run_incomplete"
+    );
+    result.review_record.validate()?;
+    ensure!(
+        result.review_record.run.lane_versions.len() == ReviewLane::ALL.len()
+            && result
+                .review_record
+                .findings
+                .iter()
+                .all(|finding| ReviewLane::ALL
+                    .iter()
+                    .any(|lane| lane.id() == finding.perspective)),
+        "review_run_perspectives"
+    );
+    for lane in ReviewLane::ALL {
+        ensure!(
+            result
+                .review_record
+                .run
+                .lane_versions
+                .get(lane.id())
+                .is_some_and(|version| version == LANE_CONTRACT_VERSION),
+            "review_run_lane_version"
+        );
+        let found: Vec<_> = result
+            .lane_results
+            .iter()
+            .filter(|item| item.lane == lane.id())
+            .collect();
+        ensure!(found.len() == 1, "review_run_lane");
+        let item = found[0];
+        let (manifest, _) = lane_input_manifest(run_id, lane, admission)?;
+        let mut findings: Vec<_> = result
+            .review_record
+            .findings
+            .iter()
+            .filter(|finding| finding.perspective == lane.id())
+            .map(|finding| finding.id.clone())
+            .collect();
+        findings.sort();
+        ensure!(
+            item.schema == LANE_RESULT_SCHEMA
+                && item.run_id == run_id
+                && item.lane_contract == LANE_CONTRACT_VERSION
+                && item.input_digest == manifest.input_digest
+                && item.input_manifest_ref == format!("lanes/{}/input.json", lane.id())
+                && item.provider_route == provider_route
+                && item.provider_status == ProviderInvocationFinalStatusV1::Ok
+                && item.failure.is_none()
+                && item.finding_ids == findings
+                && item.output_digest.as_deref().is_some_and(valid_digest),
+            "review_run_lane_integrity"
+        );
+    }
+    Ok(())
 }
 
 fn read_json<T: serde::de::DeserializeOwned>(path: &Path, limit: u64) -> Result<T> {

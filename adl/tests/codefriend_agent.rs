@@ -191,6 +191,7 @@ fn journal_rejects_world_readable_or_symlink_store() {
 enum Scenario {
     Success,
     Cycle,
+    CycleFailure,
     Unpair,
     AggregateLimit,
     LostResultObservation,
@@ -443,16 +444,18 @@ impl WireServer {
                                 };
                                 Ok(adl::codefriend::activities::ProviderOutput {
                                     final_status: adl::provider_communication::ProviderInvocationFinalStatusV1::Ok,
-                                    output_text: Some(json!({
+                                    output_text: Some(if matches!(scenario, Scenario::CycleFailure) {
+                                        "{\"schema\":\"wrong\"}".into()
+                                    } else { json!({
                                         "schema":"codefriend.activity_output.v1",
                                         "artifacts":[{"path":path,"kind":kind,"content":content,"evidence_paths":["src/lib.rs"],"limitations":["proposal only"]}],
                                         "gaps":[],"measured_coverage_percent":null
-                                    }).to_string()),
+                                    }).to_string() }),
                                 })
                             },
                         )
                         .unwrap();
-                        json!({"schema":"codefriend.local_cycle_result.v1","execution_location":"local_agent","model_execution_location":"agent_logic_provider","candidate_revision":"c".repeat(40),"model_identity":{"provider_kind":"openai","provider":"agent-logic-fixture","model_ref":"fixture/exact","provider_model_id":"fixture-model-v1","runtime_surface":"hosted_api","identity_strength":"provider_asserted","observed_at":format!("unix:{}", clock.load(Ordering::SeqCst))},"admission":admission,"cycle_result":cycle})
+                        json!({"schema":"codefriend.local_cycle_result.v1","execution_location":"local_agent","model_execution_location":"agent_logic_provider","candidate_revision":"c".repeat(40),"model_identity":{"provider_kind":"openai","provider":"agent-logic-fixture","model_ref":"fixture/exact","provider_model_id":"fixture-model-v1","runtime_surface":"hosted_api","identity_strength":"provider_asserted","observed_at":format!("unix:{}", clock.load(Ordering::SeqCst))},"cycle_result":cycle})
                     } else {
                         let lane = r.lane.unwrap().id();
                         let findings = if matches!(scenario, Scenario::AggregateLimit) {
@@ -563,7 +566,7 @@ fn journey(scenario: Scenario) -> (u64, Vec<serde_json::Value>) {
         c.retention_seconds = 600;
     }
     let mut cmd = command(&c);
-    if matches!(scenario, Scenario::Cycle) {
+    if matches!(scenario, Scenario::Cycle | Scenario::CycleFailure) {
         cmd.cycle = Some(adl::codefriend::activities::UpdateCyclePlan {
             schema: adl::codefriend::activities::PLAN_SCHEMA.into(),
             repository: c.repository.clone(),
@@ -830,6 +833,28 @@ fn local_update_cycle_uses_one_durable_gateway_operation_and_preserves_activity_
             .len(),
         3
     );
+}
+
+#[test]
+fn failed_cycle_cannot_be_uploaded_as_a_complete_report() {
+    let (calls, reports) = journey(Scenario::CycleFailure);
+    assert_eq!(calls, 1);
+    assert_eq!(reports[0]["status"], "failed_or_interrupted");
+    assert!(reports[0]["cycle_result"].is_null());
+}
+
+#[test]
+fn native_report_verifier_rejects_rehashed_malformed_cycle_content() {
+    let (_, reports) = journey(Scenario::Cycle);
+    let mut report: adl::codefriend::agent::RunReport =
+        serde_json::from_value(reports[0].clone()).unwrap();
+    let activity = &mut report.cycle_result.as_mut().unwrap().activities[0];
+    let output = activity.output.as_mut().unwrap();
+    output.artifacts[0].evidence_paths.clear();
+    activity.output_digest = Some(adl::codefriend::evidence::hash(output).unwrap());
+    report.digest.clear();
+    report.digest = adl::codefriend::evidence::hash(&report).unwrap();
+    assert!(report.validate(live_now()).is_err());
 }
 #[test]
 fn lost_model_reply_is_terminal_and_never_replayed() {

@@ -109,12 +109,15 @@ model identity. Clients must verify both identities against their expected candi
 and run contract, rather than using a constant gateway label.
 A hosted review-only result is the existing four-perspective review result. A cycle
 result is `codefriend.update_cycle_result.v1`, with one ordered result for each selected
-activity. Documentation, diagram and test outputs are source-bound proposals; they do
+activity and its exact admitted packet and plan. Consumers can therefore revalidate the
+aggregate, embedded review, artifact digests and source references without trusting the
+transport wrapper. Documentation, diagram and test outputs are source-bound proposals; they do
 not grant source mutation or publication authority. Diagram proposals use Mermaid
 source. Test proposals retain the requested test goal or percentage target but leave
 `measured_coverage_percent` null because this executor does not run a coverage tool.
 Provider failure or malformed output is recorded against the affected activity and
-cannot become a successful result. Publication approval and rendering remain separate.
+fails the outer operation; it cannot become a successful result. Publication approval
+and rendering remain separate.
 
 ## Failure, replay and retention
 
