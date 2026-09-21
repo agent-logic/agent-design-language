@@ -13,6 +13,7 @@ use adl::{
     },
     provider_communication::ProviderInvocationFinalStatusV1,
 };
+use serde_json::json;
 use std::{
     fs,
     path::{Path, PathBuf},
@@ -77,6 +78,55 @@ fn admission() -> (PathBuf, Admission) {
             max_files: 2,
             max_bytes: 8192,
             max_file_bytes: 4096,
+        },
+    )
+    .unwrap();
+    let admission = Admission::new(packet, Retention { seconds: 3600 }, 100).unwrap();
+    (root, admission)
+}
+
+fn admission_with_prompt_omission() -> (PathBuf, Admission) {
+    static NEXT: AtomicUsize = AtomicUsize::new(0);
+    let root = Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join("target/codefriend-update-cycle-prompt-boundary-tests")
+        .join(format!(
+            "{}-{}",
+            std::process::id(),
+            NEXT.fetch_add(1, Ordering::Relaxed)
+        ));
+    let repo = root.join("repo");
+    fs::create_dir_all(repo.join("src")).unwrap();
+    git(&repo, &["init"]);
+    git(
+        &repo,
+        &["remote", "add", "origin", "https://example.com/team/repo"],
+    );
+    fs::write(repo.join("src/large.rs"), "a".repeat(90 * 1024)).unwrap();
+    fs::write(repo.join("src/omitted.rs"), "b".repeat(20 * 1024)).unwrap();
+    git(&repo, &["add", "."]);
+    git(
+        &repo,
+        &[
+            "-c",
+            "user.name=fixture",
+            "-c",
+            "user.email=fixture@example.com",
+            "commit",
+            "-m",
+            "fixture",
+        ],
+    );
+    let revision = git(&repo, &["rev-parse", "HEAD"]);
+    let packet = local::acquire(
+        &repo,
+        "https://example.com/team/repo",
+        &revision,
+        Scope {
+            analysis: vec!["src/large.rs".into(), "src/omitted.rs".into()],
+            context: vec![],
+            max_files: 2,
+            max_bytes: 128 * 1024,
+            max_file_bytes: 100 * 1024,
         },
     )
     .unwrap();
@@ -160,7 +210,7 @@ fn selected_activities_only_produce_bound_proposals_without_coverage_claims() {
                 Activity::Review=>unreachable!(),
             };
             Ok(adl::codefriend::activities::ProviderOutput{final_status:ProviderInvocationFinalStatusV1::Ok,output_text:Some(serde_json::json!({
-                "schema":OUTPUT_SCHEMA,"artifacts":[{"path":path,"kind":kind,"content":content,"evidence_paths":["src/lib.rs"],"limitations":["Proposal only"]}],
+                "schema":OUTPUT_SCHEMA,"artifacts":[{"path":path,"kind":kind,"disposition":"create","content":content,"evidence_paths":["src/lib.rs"],"unsupported_claims":[],"limitations":["Proposal only"],"render_manifest":if activity == Activity::Diagrams { Some(json!({"schema":"codefriend.mermaid_render_manifest.v1","source_path":path,"output_path":"docs/system.svg","format":"svg","renderer":"mmdc"})) } else { None }}],
                 "gaps":[{"category":activity.id(),"title":"Bounded gap","rationale":"The admitted source leaves this behavior undocumented.","evidence_paths":["src/lib.rs"],"limitations":["Scoped evidence only"]}],
                 "measured_coverage_percent":null
             }).to_string())})
@@ -208,7 +258,7 @@ fn generated_artifacts_and_gaps_require_admitted_source_evidence() {
                     output_text: Some(
                         serde_json::json!({
                             "schema":OUTPUT_SCHEMA,
-                            "artifacts":[{"path":"docs/guide.md","kind":"documentation","content":"# Guide","evidence_paths":if empty_artifact { vec![] } else { vec!["src/lib.rs"] },"limitations":[]}],
+                            "artifacts":[{"path":"docs/guide.md","kind":"documentation","disposition":"update","content":"# Guide","evidence_paths":if empty_artifact { vec![] } else { vec!["src/lib.rs"] },"unsupported_claims":[],"limitations":[],"render_manifest":null}],
                             "gaps":[{"category":"documentation","title":"Gap","rationale":"Bounded gap","evidence_paths":if empty_artifact { vec!["src/lib.rs"] } else { vec![] },"limitations":[]}],
                             "measured_coverage_percent":null
                         })
@@ -224,6 +274,118 @@ fn generated_artifacts_and_gaps_require_admitted_source_evidence() {
         );
         assert_eq!(result.activities[0].status, ActivityStatus::Failed);
     }
+    fs::remove_dir_all(root).unwrap();
+}
+
+#[test]
+fn citations_are_limited_to_evidence_actually_supplied_to_the_model() {
+    let (root, admission) = admission_with_prompt_omission();
+    assert!(admission
+        .evidence
+        .iter()
+        .any(|item| item.path == "src/omitted.rs"));
+    let result = run_with_executor(
+        plan(vec![Activity::Documentation], None),
+        admission,
+        "cycle-prompt-boundary".into(),
+        "provider:fixture:model-v1".into(),
+        None,
+        |_, _, manifest| {
+            assert!(!manifest
+                .evidence
+                .iter()
+                .any(|item| item.path == "src/omitted.rs"));
+            Ok(adl::codefriend::activities::ProviderOutput {
+                final_status: ProviderInvocationFinalStatusV1::Ok,
+                output_text: Some(
+                    json!({
+                        "schema":OUTPUT_SCHEMA,
+                        "artifacts":[{"path":"docs/guide.md","kind":"documentation","disposition":"create","content":"# Guide","evidence_paths":["src/omitted.rs"],"unsupported_claims":[],"limitations":[],"render_manifest":null}],
+                        "gaps":[],
+                        "measured_coverage_percent":null
+                    })
+                    .to_string(),
+                ),
+            })
+        },
+    )
+    .unwrap();
+    assert_eq!(
+        result.completion,
+        adl::codefriend::evidence::contracts::Completion::Failed
+    );
+    assert_eq!(result.activities[0].status, ActivityStatus::Failed);
+    fs::remove_dir_all(root).unwrap();
+}
+
+#[test]
+fn diagrams_require_mermaid_syntax_and_an_exact_render_manifest() {
+    let (root, admission) = admission();
+    for (content, render_manifest) in [
+        (
+            "hello",
+            Some(
+                json!({"schema":"codefriend.mermaid_render_manifest.v1","source_path":"docs/system.mmd","output_path":"docs/system.svg","format":"svg","renderer":"mmdc"}),
+            ),
+        ),
+        ("flowchart LR\nA-->B", None),
+        (
+            "flowchart LR\nA-->B",
+            Some(
+                json!({"schema":"codefriend.mermaid_render_manifest.v1","source_path":"docs/system.mmd","output_path":"docs/wrong.svg","format":"svg","renderer":"mmdc"}),
+            ),
+        ),
+    ] {
+        let result = run_with_executor(
+            plan(vec![Activity::Diagrams], None),
+            admission.clone(),
+            "cycle-diagram-contract".into(),
+            "provider:fixture:model-v1".into(),
+            None,
+            |_, _, _| {
+                Ok(adl::codefriend::activities::ProviderOutput {
+                    final_status: ProviderInvocationFinalStatusV1::Ok,
+                    output_text: Some(
+                        json!({
+                            "schema":OUTPUT_SCHEMA,
+                            "artifacts":[{"path":"docs/system.mmd","kind":"mermaid_diagram","disposition":"create","content":content,"evidence_paths":["src/lib.rs"],"unsupported_claims":[],"limitations":[],"render_manifest":render_manifest}],
+                            "gaps":[],
+                            "measured_coverage_percent":null
+                        })
+                        .to_string(),
+                    ),
+                })
+            },
+        )
+        .unwrap();
+        assert_eq!(result.activities[0].status, ActivityStatus::Failed);
+    }
+    fs::remove_dir_all(root).unwrap();
+}
+
+#[test]
+fn documentation_proposals_require_create_or_update_classification() {
+    let (root, admission) = admission();
+    let result = run_with_executor(
+        plan(vec![Activity::Documentation], None),
+        admission,
+        "cycle-doc-disposition".into(),
+        "provider:fixture:model-v1".into(),
+        None,
+        |_, _, _| {
+            Ok(adl::codefriend::activities::ProviderOutput {
+                final_status: ProviderInvocationFinalStatusV1::Ok,
+                output_text: Some(json!({
+                    "schema":OUTPUT_SCHEMA,
+                    "artifacts":[{"path":"docs/guide.md","kind":"documentation","content":"# Guide","evidence_paths":["src/lib.rs"],"unsupported_claims":[],"limitations":[],"render_manifest":null}],
+                    "gaps":[],
+                    "measured_coverage_percent":null
+                }).to_string()),
+            })
+        },
+    )
+    .unwrap();
+    assert_eq!(result.activities[0].status, ActivityStatus::Failed);
     fs::remove_dir_all(root).unwrap();
 }
 

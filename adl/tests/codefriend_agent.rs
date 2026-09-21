@@ -192,6 +192,8 @@ enum Scenario {
     Success,
     Cycle,
     CycleFailure,
+    CycleLostResultObservation,
+    CycleCancel,
     Unpair,
     AggregateLimit,
     LostResultObservation,
@@ -360,7 +362,7 @@ impl WireServer {
                     if matches!(scenario, Scenario::ExpireDuringControl) && controls == 2 {
                         clock.fetch_add(61, Ordering::SeqCst);
                     }
-                    json!({"schema":PROTOCOL,"agent_id":command.agent_id,"subject":command.subject,"run_id":command.run_id,"cancelled":(matches!(scenario,Scenario::Cancel)&&count.load(Ordering::SeqCst)>0) || (matches!(scenario,Scenario::CancelRedelivery)&& !captures.lock().unwrap().is_empty())})
+                    json!({"schema":PROTOCOL,"agent_id":command.agent_id,"subject":command.subject,"run_id":command.run_id,"cancelled":(matches!(scenario,Scenario::Cancel | Scenario::CycleCancel)&&count.load(Ordering::SeqCst)>0) || (matches!(scenario,Scenario::CancelRedelivery)&& !captures.lock().unwrap().is_empty())})
                 } else if method == "PUT" && path.ends_with("/result") {
                     captures.lock().unwrap().push(body.clone());
                     json!({"schema":PROTOCOL,"run_id":command.run_id,"digest":body["digest"]})
@@ -405,10 +407,16 @@ impl WireServer {
                     if matches!(
                         scenario,
                         Scenario::LostResultObservation
+                            | Scenario::CycleLostResultObservation
                             | Scenario::MissingOriginalStore
                             | Scenario::TamperedOriginalStore
                             | Scenario::CachedBeyondObservationDeadline
-                    ) && count.load(Ordering::SeqCst) == 2
+                    ) && count.load(Ordering::SeqCst)
+                        == if matches!(scenario, Scenario::CycleLostResultObservation) {
+                            1
+                        } else {
+                            2
+                        }
                         && !observation_dropped
                     {
                         observation_dropped = true;
@@ -448,7 +456,7 @@ impl WireServer {
                                         "{\"schema\":\"wrong\"}".into()
                                     } else { json!({
                                         "schema":"codefriend.activity_output.v1",
-                                        "artifacts":[{"path":path,"kind":kind,"content":content,"evidence_paths":["src/lib.rs"],"limitations":["proposal only"]}],
+                                        "artifacts":[{"path":path,"kind":kind,"disposition":"create","content":content,"evidence_paths":["src/lib.rs"],"unsupported_claims":[],"limitations":["proposal only"],"render_manifest":if activity == adl::codefriend::activities::Activity::Diagrams { Some(json!({"schema":"codefriend.mermaid_render_manifest.v1","source_path":path,"output_path":"docs/system.svg","format":"svg","renderer":"mmdc"})) } else { None }}],
                                         "gaps":[],"measured_coverage_percent":null
                                     }).to_string() }),
                                 })
@@ -566,7 +574,13 @@ fn journey(scenario: Scenario) -> (u64, Vec<serde_json::Value>) {
         c.retention_seconds = 600;
     }
     let mut cmd = command(&c);
-    if matches!(scenario, Scenario::Cycle | Scenario::CycleFailure) {
+    if matches!(
+        scenario,
+        Scenario::Cycle
+            | Scenario::CycleFailure
+            | Scenario::CycleLostResultObservation
+            | Scenario::CycleCancel
+    ) {
         cmd.cycle = Some(adl::codefriend::activities::UpdateCyclePlan {
             schema: adl::codefriend::activities::PLAN_SCHEMA.into(),
             repository: c.repository.clone(),
@@ -638,7 +652,7 @@ fn journey(scenario: Scenario) -> (u64, Vec<serde_json::Value>) {
     }
     if let Ok(bytes) = fs::read(run_dir.join("report.json")) {
         let report: serde_json::Value = serde_json::from_slice(&bytes).unwrap();
-        if report["status"] == "complete" && !matches!(scenario, Scenario::Cycle) {
+        if report["status"] == "complete" && cmd.cycle.is_none() {
             let original: serde_json::Value =
                 serde_json::from_slice(&fs::read(run_dir.join("work/review/run.json")).unwrap())
                     .unwrap();
@@ -668,6 +682,7 @@ fn journey(scenario: Scenario) -> (u64, Vec<serde_json::Value>) {
     let reconnecting = matches!(
         scenario,
         Scenario::LostResultObservation
+            | Scenario::CycleLostResultObservation
             | Scenario::MissingOriginalStore
             | Scenario::TamperedOriginalStore
             | Scenario::LostStatusObservation
@@ -681,7 +696,7 @@ fn journey(scenario: Scenario) -> (u64, Vec<serde_json::Value>) {
         assert_eq!(
             server.dispatches.load(Ordering::SeqCst),
             match scenario {
-                Scenario::LostInitialControl => 1,
+                Scenario::LostInitialControl | Scenario::CycleLostResultObservation => 1,
                 Scenario::LostFinalControl => 4,
                 _ => 2,
             }
@@ -707,6 +722,7 @@ fn journey(scenario: Scenario) -> (u64, Vec<serde_json::Value>) {
     if matches!(
         scenario,
         Scenario::Cancel
+            | Scenario::CycleCancel
             | Scenario::DeleteConsent
             | Scenario::ExpireRetention
             | Scenario::DeleteDuringControl
@@ -732,6 +748,7 @@ fn journey(scenario: Scenario) -> (u64, Vec<serde_json::Value>) {
     if matches!(
         scenario,
         Scenario::Cancel
+            | Scenario::CycleCancel
             | Scenario::DeleteConsent
             | Scenario::ExpireRetention
             | Scenario::DeleteDuringControl
@@ -836,11 +853,38 @@ fn local_update_cycle_uses_one_durable_gateway_operation_and_preserves_activity_
 }
 
 #[test]
-fn failed_cycle_cannot_be_uploaded_as_a_complete_report() {
+fn local_update_cycle_restart_observes_the_known_result_without_reposting() {
+    let (calls, reports) = journey(Scenario::CycleLostResultObservation);
+    assert_eq!(calls, 1);
+    assert_eq!(reports[0]["status"], "complete");
+    assert_eq!(reports[0]["cycle_result"]["completion"], "complete");
+}
+
+#[test]
+fn local_update_cycle_cancellation_stops_without_replay_or_upload() {
+    let (calls, reports) = journey(Scenario::CycleCancel);
+    assert_eq!(calls, 1);
+    assert!(reports.is_empty());
+}
+
+#[test]
+fn failed_cycle_retains_each_activity_record_without_claiming_completion() {
     let (calls, reports) = journey(Scenario::CycleFailure);
     assert_eq!(calls, 1);
     assert_eq!(reports[0]["status"], "failed_or_interrupted");
-    assert!(reports[0]["cycle_result"].is_null());
+    assert_eq!(reports[0]["cycle_result"]["completion"], "failed");
+    assert_eq!(
+        reports[0]["cycle_result"]["activities"]
+            .as_array()
+            .unwrap()
+            .len(),
+        3
+    );
+    assert!(reports[0]["cycle_result"]["activities"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .all(|activity| activity["status"] == "failed"));
 }
 
 #[test]

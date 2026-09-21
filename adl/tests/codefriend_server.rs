@@ -1340,16 +1340,16 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
             202
         );
         assert_eq!(terminal(ALICE, "cycle-failed")["status"], "failed");
-        assert_eq!(
-            client
-                .get(format!("{base}/v1/operations/cycle-failed/result"))
-                .bearer_auth(ALICE)
-                .send()
-                .unwrap()
-                .status()
-                .as_u16(),
-            409
-        );
+        let failed_result: Value = client
+            .get(format!("{base}/v1/operations/cycle-failed/result"))
+            .bearer_auth(ALICE)
+            .send()
+            .unwrap()
+            .json()
+            .unwrap();
+        assert_eq!(failed_result["completion"], "failed");
+        assert_eq!(failed_result["activities"][0]["status"], "failed");
+        assert_eq!(failed_result["failures"][0], "documentation_failed");
         assert_eq!(count.load(Ordering::SeqCst), 7);
         for (id, token, mode) in [
             ("oversized-hosted", ALICE, "hosted"),

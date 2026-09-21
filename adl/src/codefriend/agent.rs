@@ -608,7 +608,7 @@ impl RunReport {
                         && item.output_digest.as_deref().is_some_and(valid_digest), "agent_report_lane_integrity");
                 }
             }
-            (None, Some(_), "complete") => {
+            (None, Some(_), "complete" | "failed_or_interrupted") => {
                 ensure!(
                     self.gateway_lanes.len() == 1 && self.gateway_lanes[0].lane == "cycle",
                     "agent_cycle_gateway_identity"
@@ -627,10 +627,18 @@ impl RunReport {
                 ))?;
                 let route = runner::provider_route_identity_from_model(&identity.model_identity);
                 cycle.validate(&route)?;
+                let completion_matches_status = match self.status.as_str() {
+                    "complete" => {
+                        cycle.completion == Completion::Complete && cycle.failures.is_empty()
+                    }
+                    "failed_or_interrupted" => {
+                        cycle.completion == Completion::Failed && !cycle.failures.is_empty()
+                    }
+                    _ => false,
+                };
                 ensure!(
                     cycle.run_id == expected_cycle_run_id
-                        && cycle.completion == Completion::Complete
-                        && cycle.failures.is_empty()
+                        && completion_matches_status
                         && self.expires_at <= cycle.admission.expires_at
                         && cycle.admission.expires_at > now,
                     "agent_cycle_result_invalid"
@@ -998,7 +1006,8 @@ impl Transport {
                 );
                 anyhow::bail!("agent_stopped_remote_effect_may_continue");
             }
-            if output_path.exists() || operation.status == Status::Complete {
+            if output_path.exists() || matches!(operation.status, Status::Complete | Status::Failed)
+            {
                 break;
             }
             ensure!(
@@ -1043,10 +1052,6 @@ impl Transport {
         let route =
             super::review::runner::provider_route_identity_from_model(&result.model_identity);
         result.cycle_result.validate(&route)?;
-        ensure!(
-            result.cycle_result.completion == super::evidence::contracts::Completion::Complete,
-            "agent_cycle_result_incomplete"
-        );
         let identity = GatewayLaneIdentity {
             lane: "cycle".into(),
             candidate_revision: result.candidate_revision.clone(),
@@ -1057,7 +1062,7 @@ impl Transport {
             identity.candidate_revision == operation.candidate_revision,
             "agent_gateway_candidate_changed"
         );
-        if operation.status == Status::Complete {
+        if matches!(operation.status, Status::Complete | Status::Failed) {
             let observed = operation
                 .model_identity
                 .as_ref()

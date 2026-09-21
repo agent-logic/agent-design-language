@@ -314,10 +314,6 @@ fn execute_cycle(
             })
         },
     )?;
-    ensure!(
-        result.completion == Completion::Complete,
-        "activity_cycle_incomplete"
-    );
     let first = identities
         .first()
         .cloned()
@@ -837,9 +833,7 @@ async fn submit(
         })();
         if let Ok(_guard) = service.0.gate.lock() {
             let mut op = operation;
-            op.status = if dir.join("cancel").exists() || op.expires_at <= now() {
-                Status::Cancelled
-            } else if let Ok(value) = outcome {
+            op.status = if let Ok(value) = outcome {
                 match serde_json::to_vec(&value) {
                     Ok(bytes) if bytes.len() <= MAX_RESULT => {
                         if write_json(&dir.join("result.json"), &value).is_ok() {
@@ -849,13 +843,27 @@ async fn submit(
                                         serde_json::from_value(identity.clone()).ok()
                                     });
                             }
-                            Status::Complete
+                            let failed_cycle = request.cycle.is_some()
+                                && (value
+                                    .get("completion")
+                                    .or_else(|| value.get("cycle_result")?.get("completion"))
+                                    .and_then(Value::as_str)
+                                    == Some("failed"));
+                            if dir.join("cancel").exists() || op.expires_at <= now() {
+                                Status::Cancelled
+                            } else if failed_cycle {
+                                Status::Failed
+                            } else {
+                                Status::Complete
+                            }
                         } else {
                             Status::Failed
                         }
                     }
                     _ => Status::Failed,
                 }
+            } else if dir.join("cancel").exists() || op.expires_at <= now() {
+                Status::Cancelled
             } else {
                 Status::Failed
             };
@@ -908,13 +916,16 @@ async fn result(
 ) -> ApiResult<Json<Value>> {
     internal(service.expire())?;
     let op = service.operation(&c, &operation)?;
-    if op.status != Status::Complete || op.expires_at <= now() {
+    let result_path = service.dir(&c.subject, &operation).join("result.json");
+    if !matches!(
+        op.status,
+        Status::Complete | Status::Failed | Status::Cancelled
+    ) || op.expires_at <= now()
+        || !result_path.exists()
+    {
         return Err(ApiError(StatusCode::CONFLICT, "result_not_complete"));
     }
-    Ok(Json(internal(read_json(
-        &service.dir(&c.subject, &operation).join("result.json"),
-        MAX_RESULT,
-    ))?))
+    Ok(Json(internal(read_json(&result_path, MAX_RESULT))?))
 }
 
 #[derive(Deserialize, Default)]

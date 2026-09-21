@@ -108,7 +108,7 @@ may retransmit the exact retained result after checking current consent and canc
 A reservation with no acknowledged model operation is forwarded as interrupted;
 a lost POST response never permits another POST. A durably acknowledged operation
 instead resumes bounded GET/control observation after disconnect or restart.
-Validated completed lane results and a completed aggregate cycle operation are reused while consent/retention remain valid;
+Validated completed lane results and a terminal aggregate cycle operation are reused while consent/retention remain valid;
 only lanes that were never dispatched may start. The original 120-second observation
 deadline persists across restart for each pending operation, while already completed
 lane outputs remain reusable for the run retention period. Directory ancestry and
@@ -122,7 +122,9 @@ and payload cleanup, never an unforwardable successful completion.
 `RunReport.result` is the legacy validated four-perspective review record **including its
 selected admitted source evidence**, which is necessary for website artifact inspection.
 For an update-cycle command, `result` is null and `RunReport.cycle_result` contains the
-validated ordered activity results. `gateway_lanes` contains one `cycle` execution
+validated ordered activity results for both complete and explicitly failed cycles.
+The report status remains `failed_or_interrupted` when the cycle envelope contains
+activity failures. `gateway_lanes` contains one `cycle` execution
 identity because the complete plan is protected by one durable gateway reservation.
 `allow_result_upload` explicitly authorizes that selected evidence in addition to
 findings. It does not grant external publication. The website must display this
@@ -143,7 +145,7 @@ validated report as JSON to stdout; failures return a nonzero status with a
 generic diagnostic. This command does not contact providers or the website.
 
 Verification checks the native report digest, identity shape, expiry, complete
-review-record contract, all four lane manifests and versions, or the complete
+review-record contract, all four lane manifests and versions, or the terminal
 update-cycle plan, admission, selected activity results, embedded review, artifact
 digests and nonempty admitted source references. It also checks exact agreement
 between report and admitted-input retention deadlines. The website separately

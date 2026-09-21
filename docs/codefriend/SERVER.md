@@ -98,8 +98,10 @@ or invalid credentials return 401 even for malformed or oversized request bodies
 
 The response is HTTP 202 with the operation identity, request digest, packet/source
 and candidate identities, expiry and status. Poll `GET /v1/operations/<id>`.
-Fetch the bounded validated result using `GET /v1/operations/<id>/result` only after
-`complete`. `POST /v1/operations/<id>/cancel` requests cancellation. Access is scoped
+Fetch the bounded validated result using `GET /v1/operations/<id>/result` after a
+terminal operation when a validated result envelope was retained. Successful work is
+`complete`; a cycle with one or more explicit activity failures is `failed` but keeps
+the envelope available for inspection. `POST /v1/operations/<id>/cancel` requests cancellation. Access is scoped
 to the authenticated user and mode. Arbitrary provider logs/files are not served.
 A local-model result includes `candidate_revision` and the actual invocation's
 canonical `model_identity` (provider, model reference, provider model ID, runtime
@@ -112,11 +114,15 @@ result is `codefriend.update_cycle_result.v1`, with one ordered result for each 
 activity and its exact admitted packet and plan. Consumers can therefore revalidate the
 aggregate, embedded review, artifact digests and source references without trusting the
 transport wrapper. Documentation, diagram and test outputs are source-bound proposals; they do
-not grant source mutation or publication authority. Diagram proposals use Mermaid
-source. Test proposals retain the requested test goal or percentage target but leave
+not grant source mutation or publication authority. Every proposal declares whether it
+creates or updates a path and lists unsupported claims separately from general limitations.
+Citations are restricted to the exact evidence included in that activity's prompt.
+Diagram proposals use recognized Mermaid syntax and include an exact `mmdc` SVG render
+manifest; successful rendering remains separate downstream proof. Test proposals retain the requested test goal or percentage target but leave
 `measured_coverage_percent` null because this executor does not run a coverage tool.
 Provider failure or malformed output is recorded against the affected activity and
-fails the outer operation; it cannot become a successful result. Publication approval
+fails the outer operation while preserving every selected activity's terminal record;
+it cannot become a successful result. Publication approval
 and rendering remain separate.
 
 ## Failure, replay and retention
@@ -130,8 +136,9 @@ proof that an earlier call had no effect.
 
 Cancellation retains the concurrency slot until the worker exits. Hosted cancellation
 is checked between provider lanes; it cannot undo an active provider request. Late
-success after cancellation is not published as a complete result. Failures have no
-successful result endpoint. Per-subject quotas count every reserved operation across
+success after cancellation is not published as a complete result. A failed or cancelled
+operation exposes a result only when the worker durably produced a validated cycle
+envelope; transport/provider failures without one remain unavailable. Per-subject quotas count every reserved operation across
 restarts, including failures and expired operations; expiry does not replenish quota.
 Changing quotas or rotating a store is an explicit operator action.
 
