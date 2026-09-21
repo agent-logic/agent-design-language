@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implemented versioned repository update-cycle plans and source-bound documentation, Mermaid diagram, and test proposal results for hosted and paired-local CodeFriend execution. Remediated the first independent review by making results self-validating, rejecting source-free artifacts, and preventing failed activities from becoming successful operations or reports. Fresh exact-head review, publication, CI, merge, and website consumption remain pending.
+Implemented the versioned CodeFriend update-cycle plan and independently selectable review, documentation, diagram, and test activities for hosted and paired-local execution. All five exact-head review findings were remediated: failed activity records are retained, citations bind the actual prompt manifest, documentation proposals are classified, Mermaid output has a render contract, and local cycle cancellation/restart/no-replay behavior has direct coverage. Fresh review of the final lifecycle commit and PR publication remain pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
@@ -76,23 +76,23 @@ Implemented versioned repository update-cycle plans and source-bound documentati
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/1101/cards/sor.md`
 - Tracked implementation artifacts: `adl/src/codefriend/activities.rs; adl/src/codefriend/agent.rs; adl/src/codefriend/server.rs; adl/src/codefriend/review/runner.rs; adl/tests/codefriend_update_cycle.rs; adl/tests/codefriend_agent.rs; adl/tests/codefriend_server.rs; adl/tests/fixtures/codefriend/update-cycle/PVF.json; docs/codefriend/SERVER.md; docs/codefriend/LOCAL_AGENT.md`
-- Additional proof artifacts: `Focused deterministic component tests and the issue-local PVF manifest; no live provider or deployment artifact is claimed.`
+- Additional proof artifacts: `Focused deterministic component tests and the issue-local PVF manifest; no paid provider, deployment, or successful Mermaid render artifact is claimed.`
 
 ## Actions taken
-- `Added strict self-contained plan, admission, input-manifest, proposal-output, activity-result, and aggregate-result validation for independently selected work.`
-- `Integrated hosted execution and one durable paired-local cycle operation with cancellation, retention, observed model identity, exact request binding, no replay, and fail-closed terminal propagation.`
-- `Preserved review-only compatibility and added regressions for rehashed malformed reports, embedded-review tampering, empty source evidence, and provider failures that must not expose a successful result.`
+- `Added strict prompt-bound proposal contracts: citations can name only supplied evidence, documentation declares create/update disposition and unsupported claims, and Mermaid requires recognized syntax plus an exact mmdc SVG render manifest.`
+- `Retained validated failed-cycle envelopes through hosted and paired-local paths while preserving failed operation/report status; non-cycle cancellation still exposes no successful result.`
+- `Added cycle-specific failure-envelope, cancellation, restart, redelivery/no-replay, omitted-prompt-evidence, documentation-classification, Mermaid syntax, and render-manifest regressions.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none: the implementation is committed only on the bound issue branch`
 - Worktree-only paths remaining: `All issue #1101 implementation, tests, docs, and lifecycle records remain on the bound branch pending PR review and merge.`
 - Integration state: `worktree_only`
 - Verification scope: `bound issue worktree`
-- Integration method used: `Seven commits on the bound issue branch through ae1df48ed93c66500bc0ef75bbfec604d4f6339f; no main checkout edits and no merge.`
+- Integration method used: `Nine implementation commits on the bound issue branch through 8bb433d00c980b2ab97b402dbc3d92a7873ed63f; no main checkout edits and no merge.`
 - Verification performed:
   - `git status --short --branch; git diff --check origin/main...HEAD`
     `Verified the bound branch identity, clean worktree, and patch whitespace hygiene without claiming main integration.`
-- Result: `Committed through ae1df48ed93c66500bc0ef75bbfec604d4f6339f; first independent review findings are remediated, but fresh exact-head review, publication, CI, merge, and deployment remain pending.`
+- Result: `Committed through 8bb433d00c980b2ab97b402dbc3d92a7873ed63f with all known code-review findings remediated; final lifecycle record, fresh exact-head review, publication, CI, merge, and deployment remain pending.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -108,9 +108,9 @@ Rules:
 ## Validation
 - Validation commands and their purpose:
   - `cargo test --manifest-path adl/Cargo.toml --test codefriend_update_cycle --test codefriend_server --test codefriend_agent --test codefriend_agent_receipt --test codefriend_agent_publication --test codefriend_integration; cargo clippy --manifest-path adl/Cargo.toml --test codefriend_update_cycle --test codefriend_server --test codefriend_agent -- -D warnings; cargo fmt --manifest-path adl/Cargo.toml --all -- --check; git diff --check origin/main...HEAD`
-    `Exercises activity selection and binding, malformed and failed outputs, hosted admission, paired-local single-operation replay protection, legacy agent/report compatibility, publication receipts, hosted integration, formatting, and patch hygiene.`
+    `Exercises activity selection, prompt-bound citations, create/update classification, Mermaid syntax and render manifests, retained failure envelopes, hosted admission, paired-local cancellation/restart/redelivery/no-replay, legacy compatibility, publication receipts, hosted integration, formatting, lint, and patch hygiene.`
 - Results:
-  - `85 focused and compatibility tests passed with zero failures after remediation; strict focused Clippy, formatting, and diff hygiene passed. Fresh independent exact-head review remains pending.`
+  - `90 focused and compatibility tests passed with zero failures: 39 agent, 6 agent publication, 9 agent receipt, 5 integration, 22 server, and 9 update-cycle tests. Strict focused Clippy, formatting, and diff hygiene also passed.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -125,7 +125,7 @@ verification_summary:
   validation:
     status: passed_with_remaining_review_gates
     checks_run:
-      - "85 focused CodeFriend tests passed, including real server-binary failed-cycle behavior, native report tamper rejection, embedded-review validation, and nonempty source-evidence enforcement; strict focused Clippy, formatting, and diff hygiene passed."
+      - "90 focused CodeFriend tests passed, including failed-cycle result retrieval, paired-local failed-envelope retention, cycle cancellation and restart without redispatch, omitted-prompt citation rejection, documentation disposition, Mermaid syntax/render-manifest rejection, report tamper rejection, and legacy compatibility."
   determinism:
     status: passed
     replay_verified: true
@@ -146,7 +146,7 @@ verification_summary:
 ## Determinism Evidence
 - Determinism tests executed: `codefriend_update_cycle, codefriend_server, codefriend_agent, codefriend_agent_receipt, codefriend_agent_publication, and codefriend_integration`
 - Fixtures or scripts used: `Local Git repositories, controlled clocks, bounded filesystem fixtures, loopback HTTP, and injected providers; no external provider.`
-- Replay verification (same inputs -> same artifacts/order): `Paired-local cycle redelivery retained one gateway dispatch and the exact report; operation IDs bind agent, run, cycle, and plan digest.`
+- Replay verification (same inputs -> same artifacts/order): `Cycle-specific deterministic tests cover normal redelivery, lost-result restart, and cancellation; none reposts the durable gateway operation.`
 - Ordering guarantees (sorting / tie-break rules used): `Plans require canonical review, documentation, diagrams, tests ordering and reject duplicates; results preserve the selected order.`
 - Artifact stability notes: `Input, plan, output, review, report, and request digests bind retained typed bytes; observed timestamps may vary without changing the execution identity comparison.`
 
@@ -160,19 +160,19 @@ verification_summary:
 - Trace bundle path(s): `not_applicable: deterministic component tests did not retain a live provider trace bundle`
 - Run artifact root: `adl/target test fixtures only; disposable and not tracked`
 - Replay command used for verification: `cargo test --manifest-path adl/Cargo.toml --test codefriend_agent local_update_cycle_uses_one_durable_gateway_operation_and_preserves_activity_results -- --exact`
-- Replay result: `Passed with one model gateway dispatch across initial delivery and redelivery.`
+- Replay result: `Passed: normal cycle redelivery and restart after a lost result observation each retained one gateway dispatch and the exact report.`
 
 ## Artifact Verification
 - Primary proof surface: `adl/tests/codefriend_update_cycle.rs; adl/tests/codefriend_server.rs; adl/tests/codefriend_agent.rs`
 - Required artifacts present: `Versioned contracts, hosted and paired-local integration, compatibility tests, protocol docs, and PVF manifest are present on the bound branch.`
 - Artifact schema/version checks: `Strict serde unknown-field rejection and explicit schemas validate the retained plan and admission, manifests, outputs, embedded review, aggregate result, command, and local report; recomputed outer and nested digests do not admit malformed cycle content.`
 - Hash/byte-stability checks: `Plan, admission, manifest, output, embedded review, operation request, gateway result, and local report digests are recomputed and compared by focused tests.`
-- Missing/optional artifacts and rationale: `No rendered Mermaid, executed generated tests, measured coverage, source mutation, publication, live provider, installed service, or deployment proof is claimed by this issue.`
+- Missing/optional artifacts and rationale: `No executed generated tests, measured coverage, source mutation, publication, paid provider, installed service, deployment, or successful Mermaid render proof is claimed by this issue; the render manifest intentionally defines a separate downstream rendering step.`
 
 ## Decisions / Deviations
 - `Use one durable paired-local gateway operation for the complete plan so normal reconnection never requires a second update-cycle dispatch.`
 - `Keep legacy review-only request and report serialization unchanged when cycle is absent.`
 
 ## Follow-ups / Deferred work
-- `Obtain mandatory fresh independent exact-head review of ae1df48ed93c66500bc0ef75bbfec604d4f6339f and fix every actionable finding before publication.`
-- `After #1101 is reviewed and merged, update codefriend.ai PR #9 to enable all four activities and consume the self-validating result contract.`
+- `Obtain mandatory independent review of the exact post-edit head and fix every actionable finding before native publication.`
+- `After #1101 merges, coordinate the current codefriend.ai consumer with this final self-validating activity-result contract.`
