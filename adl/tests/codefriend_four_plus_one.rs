@@ -223,7 +223,11 @@ fn generation_fixture_at(
             "https://example.com/owner/architecture-fixture",
         ],
     );
-    fs::write(root.join("lib.rs"), "pub mod worker;\n").unwrap();
+    fs::write(
+        root.join("lib.rs"),
+        "pub mod worker;\nuse crate::worker::execute;\n",
+    )
+    .unwrap();
     fs::write(root.join("worker.rs"), "pub fn execute() {}\n").unwrap();
     fs::write(root.join("LICENSE"), "MIT fixture\n").unwrap();
     fs::write(
@@ -790,4 +794,195 @@ fn four_plus_one_derives_membership_only_from_declared_relationship_endpoints() 
         generation::accept_response(&a, &graph, &serde_json::to_string(&draft).unwrap(), 101)
             .is_err()
     );
+}
+
+#[test]
+fn four_plus_one_structure_seed_preserves_edges_without_inventing_runtime() {
+    let (_temp, store, graph) = generation_fixture();
+    let admission = store.get(&graph.record().run.packet_id).unwrap();
+    let package = from_structure(&store, &graph, 100).unwrap();
+    package.validate(&admission, 100).unwrap();
+    assert!(!package.complete);
+    assert_eq!(package.entities.len(), 2);
+    let development = &package.views[&View::Development];
+    assert_eq!(development.relationships.len(), 1);
+    let edge = &development.relationships[0];
+    assert!(development.entities.contains(&edge.from));
+    assert!(development.entities.contains(&edge.to));
+    edge.citations[0].validate(&admission).unwrap();
+    for view in [View::Logical, View::Process, View::Deployment] {
+        assert!(package.views[&view].entities.is_empty());
+        assert!(package.views[&view].relationships.is_empty());
+        assert!(!package.views[&view].missing_inputs.is_empty());
+    }
+    assert!(package.scenarios.is_empty());
+    assert!(!package.missing_inputs.is_empty());
+    assert!(from_structure(&store, &graph, admission.expires_at).is_err());
+}
+
+#[test]
+fn four_plus_one_cli_generates_retrievable_package_and_refuses_overwrite() {
+    use adl::codefriend::architecture::{artifact, four_plus_one::generation::Generation};
+    use std::{
+        io::{Read, Write},
+        net::TcpListener,
+        time::{Duration, Instant},
+    };
+    let now = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .unwrap()
+        .as_secs();
+    let (temp, store, graph) = generation_fixture_at(now);
+    let admission = store.get(&graph.record().run.packet_id).unwrap();
+    let graph_path = temp.path().join("graph.json");
+    artifact::write_report(&graph, &store, &graph_path, now).unwrap();
+    drop(store);
+    let payload = serde_json::to_string(&full_draft(&admission)).unwrap();
+    let listener = TcpListener::bind("127.0.0.1:0").unwrap();
+    listener.set_nonblocking(true).unwrap();
+    let endpoint = format!("http://{}/v1/responses", listener.local_addr().unwrap());
+    let server = std::thread::spawn(move || {
+        let deadline = Instant::now() + Duration::from_secs(30);
+        let mut stream = loop {
+            match listener.accept() {
+                Ok((stream, _)) => break stream,
+                Err(e) if e.kind() == std::io::ErrorKind::WouldBlock => {
+                    assert!(
+                        Instant::now() < deadline,
+                        "architecture request did not arrive"
+                    );
+                    std::thread::sleep(Duration::from_millis(5));
+                }
+                Err(e) => panic!("{e}"),
+            }
+        };
+        stream.set_nonblocking(false).unwrap();
+        stream
+            .set_read_timeout(Some(Duration::from_secs(5)))
+            .unwrap();
+        stream
+            .set_write_timeout(Some(Duration::from_secs(5)))
+            .unwrap();
+        let mut bytes = Vec::new();
+        loop {
+            let mut chunk = [0; 4096];
+            let n = stream.read(&mut chunk).unwrap();
+            assert!(n > 0);
+            bytes.extend_from_slice(&chunk[..n]);
+            assert!(bytes.len() <= 1024 * 1024);
+            if let Some(end) = bytes.windows(4).position(|v| v == b"\r\n\r\n") {
+                let headers = String::from_utf8_lossy(&bytes[..end]);
+                let len: usize = headers
+                    .lines()
+                    .find_map(|line| {
+                        let (key, value) = line.split_once(':')?;
+                        key.eq_ignore_ascii_case("content-length")
+                            .then(|| value.trim().parse().unwrap())
+                    })
+                    .unwrap();
+                if bytes.len() >= end + 4 + len {
+                    break;
+                }
+            }
+        }
+        assert!(String::from_utf8_lossy(&bytes).contains("codefriend.four_plus_one.prompt.v1"));
+        let body = serde_json::json!({"output_text":payload}).to_string();
+        write!(stream, "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{}",body.len(),body).unwrap();
+    });
+    let mut request = four_plus_one_cli_provider_request();
+    request.route.endpoint_ref = Some(endpoint);
+    let request_path = temp.path().join("provider.json");
+    fs::write(&request_path, serde_json::to_vec(&request).unwrap()).unwrap();
+    let output = temp.path().join("generated");
+    let invoke = || {
+        Command::new(env!("CARGO_BIN_EXE_adl"))
+            .args(["codefriend", "architecture", "four-plus-one", "--store"])
+            .arg(temp.path().join("store"))
+            .arg("--graph")
+            .arg(&graph_path)
+            .arg("--provider-request")
+            .arg(&request_path)
+            .arg("--out")
+            .arg(&output)
+            .env(
+                "ADL_CODEFRIEND_REVIEW_FIXTURE_KEY",
+                "public-loopback-fixture",
+            )
+            .env("ADL_OBSERVABILITY_OTEL", "0")
+            .output()
+            .unwrap()
+    };
+    let result = invoke();
+    assert!(
+        result.status.success(),
+        "{}",
+        String::from_utf8_lossy(&result.stderr)
+    );
+    server.join().unwrap();
+    let summary: serde_json::Value = serde_json::from_slice(&result.stdout).unwrap();
+    assert_eq!(summary["complete"], true);
+    assert_eq!(summary["views"], 4);
+    let report_bytes = fs::read(output.join("four-plus-one.json")).unwrap();
+    let report: Generation = serde_json::from_slice(&report_bytes).unwrap();
+    report.package.validate(&admission, now).unwrap();
+    assert_eq!(summary["digest"], report.package.digest);
+    assert!(output.join("rendered").is_dir());
+    let rejected = invoke();
+    assert!(!rejected.status.success());
+    assert!(String::from_utf8_lossy(&rejected.stderr).contains("four_plus_one_output_exists"));
+    assert_eq!(
+        fs::read(output.join("four-plus-one.json")).unwrap(),
+        report_bytes
+    );
+    request.input_text = Some("unapproved input".into());
+    fs::write(&request_path, serde_json::to_vec(&request).unwrap()).unwrap();
+    assert!(String::from_utf8_lossy(&invoke().stderr)
+        .contains("provider_request_must_not_preload_review_input"));
+}
+
+fn four_plus_one_cli_provider_request() -> adl::provider_communication::ProviderInvocationRequestV1
+{
+    use adl::{model_identity::ModelIdentityStrengthV1, provider_communication::*};
+    let route = ProviderRouteV1 {
+        provider_kind: ProviderKindV1::Hosted,
+        provider: "openai".to_string(),
+        runtime_surface: RuntimeSurfaceV1::HostedApi,
+        provider_model_id: "codefriend-fixture-model".to_string(),
+        endpoint_ref: Some("http://127.0.0.1:1".to_string()),
+        credential_ref: Some("env:ADL_CODEFRIEND_REVIEW_FIXTURE_KEY".to_string()),
+        source_registry: Some("codefriend-review-fixture".to_string()),
+    };
+    let mut model_identity = hosted_model_identity(
+        "openai",
+        "codefriend-fixture-model",
+        "codefriend-fixture-model",
+        Some("codefriend-review-fixture".to_string()),
+    );
+    model_identity.identity_strength = ModelIdentityStrengthV1::ProviderAsserted;
+    ProviderInvocationRequestV1 {
+        route,
+        model_identity,
+        prompt_contract_ref: "template.replaced.by.runner".to_string(),
+        lane_ref: "template".to_string(),
+        run_id: None,
+        request_id: None,
+        attempt_policy: ProviderAttemptPolicyV1 {
+            max_attempts: 1,
+            timeout_ms: 5_000,
+            retry_backoff_ms: Some(1),
+        },
+        input_text: None,
+        max_output_tokens: Some(512),
+        context_window_tokens: None,
+        reasoning_effort: None,
+        clear_thinking: Some(true),
+        temperature: Some(0.0),
+        top_p: None,
+        local_keep_alive: None,
+        inference_parameter_fingerprint: Some("temperature=0,max_output_tokens=512".into()),
+        tool_surface: Some("none".into()),
+        governance_surface: Some("read_only_findings_only".into()),
+        evaluator_ref: None,
+        benchmark_ref: None,
+    }
 }

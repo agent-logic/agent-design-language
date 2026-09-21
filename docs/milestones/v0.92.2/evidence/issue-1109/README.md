@@ -61,7 +61,7 @@ privacy-omitted inputs; both outputs retain unresolved-module and scope gaps.
 
 ## Contract and export proof
 
-The focused targets are `codefriend_four_plus_one` (14 tests) and
+The original focused targets were `codefriend_four_plus_one` (14 tests) and
 `codefriend_journey` (21 tests). The clean `69afb828f3` run passed all 35, including
 complete/incomplete/conflicting evidence, invalid references, deletion/expiry,
 response reconstruction, duplicate keys, fenced JSON, create-only output, artifact
@@ -115,3 +115,22 @@ architectural interpretation. Generated completeness never certifies running
 behavior. Existing retention, redaction and approval owners remain authoritative;
 no additional review pipeline, automatic source mutation or external publication
 was introduced.
+
+## PR validation repair
+
+PR #1121 at `030187b2648895394a39cfca9eb1665811ae46e9` passed Rust tests,
+Clippy, installed-product and CodeFriend checks, and both coverage execution
+jobs. The final coverage-impact gate correctly rejected two changed files:
+`codefriend_structure_cmd.rs` at 71.20% and `four_plus_one.rs` at 56.39%.
+The gate was not waived.
+
+Two additional tests exercise structure-seeded partial output and complete CLI
+architecture generation through a deterministic loopback provider, retained
+retrieval, overwrite refusal and preloaded-input refusal. The architecture target
+now passes 16 tests. Its explicit coverage mapping and the CLI's eight-target
+architecture mapping select the relevant tests without a basename fallback.
+Focused instrumented coverage reports 171/184 lines (92.93%) for the CLI and
+272/305 lines (89.18%) for the 4+1 contract; the 80% preflight passes.
+The mapping contract suite passed and independent review found no actionable
+issues. These are local repair results; the repaired PR still requires fresh
+native proof/review and CI. No live provider call or build cancellation was used.

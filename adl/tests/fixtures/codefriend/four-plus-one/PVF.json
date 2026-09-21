@@ -1,10 +1,10 @@
 {
   "schema": "codefriend.four_plus_one_tests.pvf.v1",
   "test_target": "codefriend_four_plus_one",
-  "expected_tests": 14,
+  "expected_tests": 16,
   "lane": "component",
-  "proof_role": "Generation, source/admission binding, full/partial/conflicting package contracts, isolated diagram entities, approved Markdown/HTML/PDF export and artifact-tamper rejection; raw-response-bound complete fence handling and truncated/prose rejection; relationship membership normalization retains unknown-endpoint rejection",
-  "determinism": "Local inert Git fixtures and fixed admission clocks; no providers",
+  "proof_role": "Generation, source/admission binding, full/partial/conflicting package contracts, isolated diagram entities, approved Markdown/HTML/PDF export and artifact-tamper rejection; raw-response-bound complete fence handling and truncated/prose rejection; relationship membership normalization retains unknown-endpoint rejection; structure-seeded partial package and CLI generation/retrieval/create-only contract",
+  "determinism": "Local inert Git fixtures, fixed admission clocks for component tests, deterministic loopback provider for the CLI contract; no live or paid provider",
   "resource_profile": "Local CPU, small Git fixtures under worktree TMPDIR, installed Unicode TrueType font for PDF",
   "release_gate": true,
   "executed": true,
