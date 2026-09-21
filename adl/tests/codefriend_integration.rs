@@ -803,6 +803,15 @@ fn interrupted_preparation_does_not_block_distinct_format_bundles() {
 
 #[tokio::test]
 async fn hosted_journey_reuses_original_admission_and_completed_review() {
+    hosted_journey(false).await;
+}
+
+#[tokio::test]
+async fn hosted_v2_journey_preserves_native_versions_gaps_and_original_owners() {
+    hosted_journey(true).await;
+}
+
+async fn hosted_journey(v2: bool) {
     use adl::codefriend::{
         evidence::Admission,
         ingestion::{local, Scope},
@@ -973,18 +982,35 @@ async fn hosted_journey_reuses_original_admission_and_completed_review() {
         serde_json::from_slice(&fs::read(result_path).unwrap()).unwrap();
     let original_digest = completed["review_record"]["admission"]["digest"].clone();
     let route = "/v1/operations/journey1/journey";
-    let policies = json!({
+    let legacy_policies = json!({
         "boundary_policy":{"schema":"codefriend.structure.v1","crate_root":"lib.rs","manifest_path":null,"layers":{"lib.rs":"core"},"allowed":[],"coupling_threshold":2},
         "fitness_policy":{"schema":"codefriend.fitness.v1","rules":[{"id":"no_network","kind":"forbidden_declared_use","source_path":"lib.rs","forbidden_prefix":"reqwest"}]}
     });
+    let analysis = json!({"schema":"codefriend.language_analysis.v1","files":{"lib.rs":"rust"},"roots":[{"language":"rust","root":".","manifest":null}],"layers":{"lib.rs":"core"},"allowed":[],"limits":{"max_nodes":10000,"max_depth":128,"max_facts":1000,"max_output_bytes":1048576}});
+    let policies = if v2 {
+        json!({
+            "boundary_policy":{"schema":"codefriend.structure.v2","analysis":analysis,"coupling_threshold":2},
+            "fitness_policy":{"schema":"codefriend.fitness.v2","analysis":analysis,"rules":[{"id":"no_network","kind":"forbidden_static_import","source_path":"lib.rs","selector":{"language_form":"rust_use","prefix":["reqwest"]}}]}
+        })
+    } else {
+        legacy_policies.clone()
+    };
     let mut invalid = policies.clone();
-    invalid["fitness_policy"]["rules"][0]["forbidden_prefix"] = json!("self::bad");
+    if v2 {
+        invalid["fitness_policy"] = legacy_policies["fitness_policy"].clone();
+    } else {
+        invalid["fitness_policy"]["rules"][0]["forbidden_prefix"] = json!("self::bad");
+    }
     assert_eq!(
         http_call(&app, "POST", route, Some(token), invalid).await.0,
         400
     );
     let mut invalid = policies.clone();
-    invalid["boundary_policy"]["crate_root"] = json!("foreign.rs");
+    if v2 {
+        invalid["boundary_policy"]["analysis"]["files"] = json!({"foreign.rs":"rust"});
+    } else {
+        invalid["boundary_policy"]["crate_root"] = json!("foreign.rs");
+    }
     assert_eq!(
         http_call(&app, "POST", route, Some(token), invalid).await.0,
         400
@@ -995,6 +1021,20 @@ async fn hosted_journey_reuses_original_admission_and_completed_review() {
     let (status, manifest) = http_call(&app, "POST", route, Some(token), policies.clone()).await;
     assert_eq!(status, 200, "{manifest}");
     assert_eq!(manifest["admission_digest"], original_digest);
+    assert_eq!(
+        manifest["schema"],
+        if v2 {
+            "codefriend.journey.v2"
+        } else {
+            "codefriend.journey.v1"
+        }
+    );
+    if v2 {
+        assert_eq!(
+            manifest["stages"]["structure"]["reason"],
+            "analysis_gaps_reported"
+        );
+    }
     assert_eq!(manifest["stages"]["review"]["status"], "complete");
     assert_eq!(manifest["status"], "pending");
     assert_eq!(
@@ -1015,6 +1055,17 @@ async fn hosted_journey_reuses_original_admission_and_completed_review() {
     .await;
     assert_eq!(status, 200, "{graph}");
     assert_eq!(graph["record"]["admission"]["digest"], original_digest);
+    assert_eq!(
+        graph["schema"],
+        if v2 {
+            "codefriend.structure.v2"
+        } else {
+            "codefriend.structure.v1"
+        }
+    );
+    if v2 {
+        assert_eq!(graph["analysis_complete"], false);
+    }
     let artifact_route = "/v1/operations/journey1/journey/artifacts";
     assert_eq!(
         http_call(
@@ -1043,11 +1094,23 @@ async fn hosted_journey_reuses_original_admission_and_completed_review() {
     let step_route = "/v1/operations/journey1/journey/step";
     let changes = json!({"stage":"impact","changes":{"schema":"codefriend.impact.v1","repository":graph["record"]["run"]["repository"],"revision":revision,"graph_digest":graph["digest"],"targets":[{"kind":"module","name":graph["nodes"][0]["module"]}]}});
     let rationale = json!({"stage":"rationale","selection":{"schema":"codefriend.rationale.v1","graph_digest":graph["digest"],"revision":revision,"boundaries":[{"boundary":"core","deployment_path":"compose.json","service":"api","rationale_paths":["adr.md"]}]}});
+    let changes = if v2 {
+        json!({"stage":"impact","changes":{"schema":"codefriend.impact.v2","repository":graph["record"]["run"]["repository"],"revision":revision,"graph_digest":graph["digest"],"targets":[{"kind":"path","value":"lib.rs"}]}})
+    } else {
+        changes
+    };
+    let mut rationale = rationale;
+    if v2 {
+        rationale["selection"]["schema"] = json!("codefriend.rationale.v2");
+    }
     for body in [changes, rationale] {
         let stage = body["stage"].as_str().unwrap().to_string();
         let (status, value) = http_call(&app, "POST", step_route, Some(token), body.clone()).await;
         assert_eq!(status, 200, "{value}");
         assert_eq!(value["stages"][&stage]["status"], "complete", "{value}");
+        if v2 {
+            assert_eq!(value["stages"][&stage]["reason"], "analysis_gaps_reported");
+        }
         assert_eq!(
             http_call(&app, "POST", step_route, Some(token), body)
                 .await
@@ -1066,6 +1129,10 @@ async fn hosted_journey_reuses_original_admission_and_completed_review() {
         .await;
         assert_eq!(status, 200, "{value}");
         assert_eq!(value["record"]["admission"]["digest"], original_digest);
+        assert_eq!(
+            value["schema"],
+            format!("codefriend.{stage}.{}", if v2 { "v2" } else { "v1" })
+        );
     }
     // Existing hosted native exports join the same Journey without renderer replay,
     // source re-admission, or another provider request.
@@ -1321,7 +1388,22 @@ async fn hosted_journey_reuses_original_admission_and_completed_review() {
     )
     .await;
     assert_eq!(status, 200, "{projection}");
-    assert_eq!(projection["schema"], "codefriend.owned_drift.v1");
+    assert_eq!(
+        projection["schema"],
+        if v2 {
+            "codefriend.owned_drift.v2"
+        } else {
+            "codefriend.owned_drift.v1"
+        }
+    );
+    if v2 {
+        assert_eq!(projection["structural_comparison"]["comparable"], false);
+        let (_, current) = http_call(&app, "GET", second_route, Some(token), json!(null)).await;
+        assert_eq!(
+            current["stages"]["drift"]["reason"],
+            "analysis_gaps_reported"
+        );
+    }
     assert!(projection.get("baseline").is_none());
     assert!(projection.get("baseline_traces").is_none());
     assert!(!serde_json::to_string(&projection)
@@ -1378,6 +1460,25 @@ async fn hosted_journey_reuses_original_admission_and_completed_review() {
     .await;
     assert_eq!(status, 200, "{palace_result}");
     assert_eq!(palace_result["schema"], "codefriend.palace.v1");
+    assert_eq!(
+        palace_state["schema"],
+        if v2 {
+            "codefriend.journey.v2"
+        } else {
+            "codefriend.journey.v1"
+        }
+    );
+    if v2 {
+        assert_eq!(
+            palace_state["stages"]["palace_comparison"]["reason"],
+            if palace_result["delta"]["comparable"] == true {
+                json!(null)
+            } else {
+                json!("analysis_gaps_reported")
+            }
+        );
+    }
+
     assert!(!serde_json::to_string(&palace_result)
         .unwrap()
         .contains("pub fn answer"));
@@ -1471,11 +1572,11 @@ async fn hosted_journey_reuses_original_admission_and_completed_review() {
     // Delete through the actual baseline owner rather than forging a success record.
     {
         use adl::codefriend::{
-            architecture::structure::StructureReport,
+            architecture::artifact::StructureArtifact,
             evidence::store::Store,
             memory::baseline::{AdmittedBaselines, BaselineRef},
         };
-        let baseline: StructureReport = serde_json::from_slice(&first_graph_bytes).unwrap();
+        let baseline: StructureArtifact = serde_json::from_slice(&first_graph_bytes).unwrap();
         let store = Store::open(&first_work.join("evidence"), || {
             SystemTime::now()
                 .duration_since(UNIX_EPOCH)
@@ -1486,7 +1587,7 @@ async fn hosted_journey_reuses_original_admission_and_completed_review() {
         let baselines =
             AdmittedBaselines::open(&store, &first_work.join("hosted-baselines"), false).unwrap();
         baselines
-            .delete(&BaselineRef::from_record(&baseline.record).unwrap())
+            .delete(&BaselineRef::from_record(baseline.record()).unwrap())
             .unwrap();
     }
     assert_ne!(

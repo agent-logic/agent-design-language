@@ -1,0 +1,22 @@
+{
+  "issue": 1102,
+  "target": "codefriend_ingestion::javascript_runtime_header_references_do_not_relax_literal_privacy_guards",
+  "lane_class": "component",
+  "proof_role": "native JavaScript AST runtime-reference classification through production privacy scanner",
+  "determinism": "fixed source strings, serialized tree-sitter parser; no source execution/network",
+  "resources": "1MiB input,100000nodes,depth128,4096exemptions; conservative fallback; existing literal privacy rules preserved",
+  "release_gate": true,
+  "execution": "authored pending root run",
+  "cases": [
+    "js/mjs/cjs optional runtime member and empty fallback",
+    "literal/nested credential, computed/call/object values remain omitted",
+    "strings/templates/comments and parse errors receive no exemption",
+    "cross-format and credential files unchanged",
+    "input/depth bound fallback"
+  ],
+  "nonclaims": [
+    "universal secret detection",
+    "semantic origin tracing of runtime properties",
+    "partial packet acceptance"
+  ]
+}
