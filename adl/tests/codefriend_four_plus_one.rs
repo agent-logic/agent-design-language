@@ -687,9 +687,7 @@ fn four_plus_one_approved_exports_preserve_diagrams_and_reject_tampering() {
                     font,
                 })
                 .unwrap();
-                assert!(
-                    result.page_count >= files.keys().filter(|n| n.ends_with(".svg")).count() + 1
-                );
+                assert!(result.page_count > files.keys().filter(|n| n.ends_with(".svg")).count());
             }
         }
         for (name, bytes) in &files {
@@ -722,6 +720,28 @@ fn four_plus_one_approved_exports_preserve_diagrams_and_reject_tampering() {
         &destination,
         PublicationFormat::Html,
         Some(&files)
+    )
+    .is_err());
+}
+
+#[test]
+fn four_plus_one_accepts_complete_json_fence_but_not_truncated_or_extra_text() {
+    use adl::codefriend::architecture::four_plus_one::generation;
+    let (_temp, store, graph) = generation_fixture();
+    let a = store.get(&graph.record().run.packet_id).unwrap();
+    let response = serde_json::to_string(&full_draft(&a)).unwrap();
+    let fenced = format!("```json\n{response}\n```");
+    let g = generation::accept_response(&a, &graph, &fenced, 101).unwrap();
+    g.validate(&store, &graph, &fenced, 101).unwrap();
+    assert!(g.validate(&store, &graph, &response, 101).is_err());
+    assert!(
+        generation::accept_response(&a, &graph, &format!("{fenced} trailing prose"), 101).is_err()
+    );
+    assert!(generation::accept_response(
+        &a,
+        &graph,
+        &format!("```json\n{}\n```", &response[..response.len() / 2]),
+        101
     )
     .is_err());
 }
