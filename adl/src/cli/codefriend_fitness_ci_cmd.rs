@@ -1,3 +1,5 @@
+#[path = "codefriend_fitness_ci_v2_cmd.rs"]
+mod v2;
 use super::codefriend_fitness_cmd::{read, safe_path, FitnessExit};
 use adl::codefriend::{
     evidence::store::Store,
@@ -166,6 +168,9 @@ fn execute(args: &[String]) -> Result<Receipt> {
 }
 
 pub(super) fn run(args: &[String], execute_runner: bool) -> Result<()> {
+    if v2::selected(args, execute_runner).unwrap_or(false) {
+        return v2::run(args, execute_runner);
+    }
     let receipt = if execute_runner {
         execute(args)
     } else {

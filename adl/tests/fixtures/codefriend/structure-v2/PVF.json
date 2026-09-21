@@ -1,0 +1,18 @@
+{
+  "schema": "codefriend.structure_v2_tests.pvf.v1",
+  "test_target": "codefriend_structure_v2",
+  "expected_tests": 7,
+  "lane": "component",
+  "proof_role": "source-owner architecture v2 identity, admitted-edge findings, retention, raw-byte bounds and existing Cargo-built CLI report/read",
+  "determinism": "Serialized parser-owner tests; temporary local Git fixtures; fixed clocks except actual CLI current-clock admission; no providers or project execution",
+  "resource_profile": "Bounded admitted source/fact/node counts and4MiB aggregate; no elapsed-only cancellation. Original Store consent, deletion and retention expiry remain enforced.",
+  "release_gate": true,
+  "executed": false,
+  "non_claims": [
+    "not full Journey acceptance",
+    "not semantic resolution",
+    "not independent #915 installed qualification",
+    "v1 artifacts and interfaces unchanged"
+  ],
+  "validation_log": "primary Git metadata csdlc-v3/local/invocations/1102/owners-tests-04.log"
+}

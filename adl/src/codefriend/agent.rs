@@ -637,6 +637,7 @@ impl std::error::Error for ObservationPending {}
 #[serde(deny_unknown_fields)]
 struct AcknowledgedOperation {
     operation: super::server::Operation,
+    // Legacy journal compatibility only; elapsed observation time is not cancellation authority.
     observation_deadline: u64,
 }
 impl Transport {
@@ -759,10 +760,7 @@ impl Transport {
             } else {
                 true
             };
-            if !allowed
-                || cancelled
-                || (!output_path.exists() && (self.clock)() >= known.observation_deadline)
-            {
+            if !allowed || cancelled {
                 // Cancellation is best effort; stopping local work is not a claim
                 // that an in-flight remote provider effect was undone.
                 let _: Result<Operation> = self.request(

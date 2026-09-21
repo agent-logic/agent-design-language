@@ -48,7 +48,9 @@ GitHub requests are GET-only, pinned to the fixed API host, with redirects and
 pagination rejected. Nonrecursive tree traversal visits only directories needed
 for the exact selected paths; trees are not recursively downloaded. Limits:
 2 MiB per metadata response, 8 MiB cumulative response bytes, 4,096 requests,
-120 seconds per capture, 20 seconds per request and five seconds to connect.
+and five seconds to establish a connection. Active acquisition has no total capture
+or request-duration cutoff; an advancing read is not cancelled solely because
+time has elapsed. Transport failure remains an error, not a complete packet.
 The existing maximum 1,000 files/1 MiB total source and declared per-file limits
 apply before blob reads, including omitted content. Large metadata, truncated
 responses or missing expected blob objects fail; a genuinely absent selected tree

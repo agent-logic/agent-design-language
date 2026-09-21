@@ -1,5 +1,6 @@
 //! Borrowed authenticated hosted owners; saved identities cannot restore authority.
 use super::*;
+use crate::codefriend::architecture::artifact::{self, DriftArtifact, StructureArtifact};
 use crate::codefriend::memory::baseline::{BaselineAccess, BaselineRef};
 
 const VERSION: &str = "codefriend.owned_drift_intent.v1";
@@ -7,7 +8,7 @@ const VERSION: &str = "codefriend.owned_drift_intent.v1";
 pub(crate) struct OwnedBaseline<'a> {
     pub operation: &'a str,
     pub store: &'a Store,
-    pub graph: &'a structure::StructureReport,
+    pub graph: &'a StructureArtifact,
     pub review: &'a crate::codefriend::evidence::contracts::ReviewRecord,
     pub baseline_root: &'a Path,
     pub expires_at: u64,
@@ -19,14 +20,14 @@ impl OwnedBaseline<'_> {
             !self.operation.is_empty() && self.operation.len() <= 256,
             "journey_baseline_operation_invalid"
         );
-        self.graph.validate(self.store)?;
+        self.graph.validate(self.store, now())?;
         self.review.validate()?;
         ensure!(
-            self.review.admission == self.graph.record.admission,
+            self.review.admission == self.graph.record().admission,
             "journey_baseline_review_changed"
         );
         ensure!(
-            now() < self.expires_at && self.expires_at <= self.graph.record.admission.expires_at,
+            now() < self.expires_at && self.expires_at <= self.graph.record().admission.expires_at,
             "journey_baseline_expired"
         );
         Ok(())
@@ -37,8 +38,8 @@ impl OwnedBaseline<'_> {
         Ok(OwnedDriftIntent {
             schema: VERSION.into(),
             operation: self.operation.into(),
-            baseline: BaselineRef::from_record(&self.graph.record)?,
-            admission_digest: self.graph.record.admission.digest.clone(),
+            baseline: BaselineRef::from_record(self.graph.record())?,
+            admission_digest: self.graph.record().admission.digest.clone(),
             expires_at: self.expires_at,
         })
     }
@@ -67,16 +68,43 @@ pub(crate) struct OwnedDriftReport {
     current_traces: Vec<drift::FactTrace>,
 }
 impl OwnedDriftReport {
-    fn from_report(report: drift::DriftReport, deadline: u64) -> Self {
-        Self {
-            schema: "codefriend.owned_drift.v1".into(),
-            original_report_digest: report.digest,
-            expires_at: deadline
-                .min(report.baseline.record.admission.expires_at)
-                .min(report.current.record.admission.expires_at),
-            graph_comparison: report.graph_comparison,
-            structural_comparison: report.structural_comparison,
-            current_traces: report.current_traces,
+    pub(crate) fn schema(&self) -> &str {
+        &self.schema
+    }
+
+    pub(crate) fn comparable(&self) -> bool {
+        self.graph_comparison.comparable && self.structural_comparison.comparable
+    }
+
+    fn from_report(report: DriftArtifact, deadline: u64) -> Self {
+        match report {
+            DriftArtifact::V1(report) => Self {
+                schema: "codefriend.owned_drift.v1".into(),
+                original_report_digest: report.digest,
+                expires_at: deadline
+                    .min(report.baseline.record.admission.expires_at)
+                    .min(report.current.record.admission.expires_at),
+                graph_comparison: report.graph_comparison,
+                structural_comparison: report.structural_comparison,
+                current_traces: report.current_traces,
+            },
+            DriftArtifact::V2(report) => Self {
+                schema: "codefriend.owned_drift.v2".into(),
+                original_report_digest: report.digest,
+                expires_at: deadline
+                    .min(report.baseline.record.admission.expires_at)
+                    .min(report.current.record.admission.expires_at),
+                graph_comparison: report.graph_comparison,
+                structural_comparison: report.structural_comparison,
+                current_traces: report
+                    .current_traces
+                    .into_iter()
+                    .map(|trace| drift::FactTrace {
+                        finding_id: trace.finding_id,
+                        locations: trace.locations,
+                    })
+                    .collect(),
+            },
         }
     }
 }
@@ -103,10 +131,7 @@ pub(crate) fn operation(output: &Path) -> Result<Option<String>> {
 
 /// A baseline graph has its own original policy/admission binding. Its prior
 /// comparisons are not authority for this graph and are not recursively loaded.
-pub(crate) fn validate_graph_source(
-    output: &Path,
-    graph: &structure::StructureReport,
-) -> Result<()> {
+pub(crate) fn validate_graph_source(output: &Path, graph: &StructureArtifact) -> Result<()> {
     private_journey(output)?;
     let session: PersistedSession = read_typed(&output.join("session.json"))?;
     let binding = session.resume_binding(output)?;
@@ -114,9 +139,9 @@ pub(crate) fn validate_graph_source(
         matches!(binding.source, PathBoundary::Owned { .. }),
         "journey_owned_baseline_required"
     );
-    session.validate_admission(&graph.record.admission)?;
+    session.validate_admission(&graph.record().admission)?;
     ensure!(
-        hash(&binding.boundary_policy)? == hash(&graph.policy)?,
+        hash(&binding.boundary_policy)? == hash(&graph.policy())?,
         "journey_baseline_policy_changed"
     );
     // Validate the original graph's immutable checkpoint owner without treating
@@ -135,7 +160,12 @@ pub(crate) fn validate_graph_source(
         let mut unsigned = cp.clone();
         unsigned.digest.clear();
         ensure!(
-            cp.schema == "codefriend.journey_checkpoint.v1"
+            cp.schema
+                == if graph.is_v2() {
+                    "codefriend.journey_checkpoint.v2"
+                } else {
+                    "codefriend.journey_checkpoint.v1"
+                }
                 && cp.sequence == index
                 && cp.previous == previous
                 && cp.session_digest == session_digest
@@ -163,10 +193,21 @@ pub(crate) fn validate_graph_source(
         .stages
         .get("structure")
         .ok_or_else(|| anyhow::anyhow!("journey_baseline_structure_missing"))?;
+    validate_analysis_stage(
+        stage,
+        graph.is_v2(),
+        graph.record().run.completion == Completion::Complete,
+    )?;
     ensure!(
-        manifest.candidate_revision == binding.candidate_revision
+        manifest.schema
+            == if graph.is_v2() {
+                "codefriend.journey.v2"
+            } else {
+                "codefriend.journey.v1"
+            }
+            && manifest.candidate_revision == binding.candidate_revision
             && manifest.candidate_clean == (env!("CODEFRIEND_BUILD_CLEAN") == "true")
-            && manifest.admission_digest == graph.record.admission.digest
+            && manifest.admission_digest == graph.record().admission.digest
             && stage.status == StageStatus::Complete
             && stage.artifact.as_deref() == Some("structure.json")
             && stage.digest.as_deref() == Some(hash(graph)?.as_str()),
@@ -177,7 +218,7 @@ pub(crate) fn validate_graph_source(
         &binding.review_root.join("review-record.json"),
     )?;
     ensure!(
-        retained.review_record == original && original.admission == graph.record.admission,
+        retained.review_record == original && original.admission == graph.record().admission,
         "journey_baseline_review_changed"
     );
     Ok(())
@@ -222,6 +263,7 @@ pub(super) fn validate_saved(
     store: &Store,
     deadline: Option<u64>,
     context: Option<&OwnedBaseline<'_>>,
+    manifest: &JourneyManifest,
 ) -> Result<bool> {
     let Some(intent) = saved(output)? else {
         return Ok(false);
@@ -236,24 +278,34 @@ pub(super) fn validate_saved(
         "journey_baseline_binding_changed"
     );
     if !output.join("drift.json").exists() {
+        ensure!(
+            manifest
+                .stages
+                .get("drift")
+                .is_some_and(|s| s.status != StageStatus::Complete
+                    && s.artifact.is_none()
+                    && s.digest.is_none()),
+            "journey_comparison_payload_missing"
+        );
         return Ok(true); // A failed reservation has no comparison payload.
     }
     let report: OwnedDriftReport = read_typed(&output.join("drift.json"))?;
-    let current: structure::StructureReport = read_typed(&output.join("structure.json"))?;
+    let current: StructureArtifact = read_typed(&output.join("structure.json"))?;
     let before = AdmittedBaselines::open(context.store, context.baseline_root, false)?;
     let after = AdmittedBaselines::open(store, &output.join("hosted-baselines"), false)?;
     let pair = Pair {
         owners: [
             (&before, intent.baseline),
-            (&after, BaselineRef::from_record(&current.record)?),
+            (&after, BaselineRef::from_record(current.record())?),
         ],
     };
-    let original = drift::architecture_drift_reporter_pair(
+    let original = artifact::drift_report_pair(
         context.store,
         store,
         &pair,
         context.graph.clone(),
         current,
+        now(),
     )?;
     ensure!(
         report
@@ -263,8 +315,52 @@ pub(super) fn validate_saved(
             ),
         "journey_owned_drift_changed"
     );
+    validate_comparison_stage(
+        manifest,
+        "drift",
+        &report,
+        report.graph_comparison.comparable && report.structural_comparison.comparable,
+    )?;
     context.validate()?;
     Ok(true)
+}
+
+/// Validate execution status separately from the retained comparison assessment.
+pub(super) fn validate_comparison_stage<T: Serialize>(
+    manifest: &JourneyManifest,
+    name: &str,
+    report: &T,
+    comparable: bool,
+) -> Result<()> {
+    let v2 = manifest.schema == "codefriend.journey.v2";
+    ensure!(
+        v2 || manifest.schema == "codefriend.journey.v1",
+        "journey_schema_changed"
+    );
+    let stage = manifest
+        .stages
+        .get(name)
+        .ok_or_else(|| anyhow::anyhow!("journey_comparison_stage_missing"))?;
+    let status = if comparable || v2 {
+        StageStatus::Complete
+    } else {
+        StageStatus::Failed
+    };
+    let reason = if comparable {
+        None
+    } else if v2 {
+        Some("analysis_gaps_reported")
+    } else {
+        Some("stage_incomplete_or_failed")
+    };
+    ensure!(
+        stage.status == status
+            && stage.reason.as_deref() == reason
+            && stage.artifact.as_deref() == Some(format!("{name}.json").as_str())
+            && stage.digest.as_deref() == Some(hash(report)?.as_str()),
+        "journey_comparison_stage_changed"
+    );
+    Ok(())
 }
 
 impl Journey {
@@ -281,22 +377,23 @@ impl Journey {
             .ok_or_else(|| anyhow::anyhow!("journey_structure_missing"))?;
         write_json_create_only(&self.output.join("intent-drift.json"), &intent)?;
         self.persist()?;
-        let result: Result<drift::DriftReport> = (|| {
+        let result: Result<DriftArtifact> = (|| {
             let before = AdmittedBaselines::open(baseline.store, baseline.baseline_root, true)?;
             let after =
                 AdmittedBaselines::open(&self.store, &self.output.join("hosted-baselines"), true)?;
             let pair = Pair {
                 owners: [
-                    (&before, before.retain(&baseline.graph.record)?),
-                    (&after, after.retain(&current.record)?),
+                    (&before, before.retain(baseline.graph.record())?),
+                    (&after, after.retain(current.record())?),
                 ],
             };
-            let report = drift::architecture_drift_reporter_pair(
+            let report = artifact::drift_report_pair(
                 baseline.store,
                 &self.store,
                 &pair,
                 baseline.graph.clone(),
                 current,
+                now(),
             )?;
             baseline.validate()?;
             Ok(report)
@@ -307,11 +404,13 @@ impl Journey {
                     report,
                     self.deadline.unwrap_or(u64::MAX).min(baseline.expires_at),
                 );
-                self.record(
-                    "drift",
-                    &report,
-                    report.graph_comparison.comparable && report.structural_comparison.comparable,
-                )
+                let comparable =
+                    report.graph_comparison.comparable && report.structural_comparison.comparable;
+                if report.schema == "codefriend.owned_drift.v2" {
+                    self.record_analysis("drift", &report, comparable)
+                } else {
+                    self.record("drift", &report, comparable)
+                }
             }
             Err(_) => self.failed("drift", "drift_baseline_unavailable_or_incompatible"),
         }

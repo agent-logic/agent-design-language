@@ -1707,3 +1707,50 @@ async fn private_control_rejects_shared_directory_and_oversized_requests() {
     task.abort();
     let _ = task.await;
 }
+
+#[tokio::test]
+async fn uncertain_provider_effect_is_retained_after_cancel_and_cannot_redispatch() {
+    struct Uncertain(AtomicUsize);
+    impl Backend for Uncertain {
+        fn execute(&self, _: &Config, _: &Submit, _: Admission, dir: &Path) -> Result<Value> {
+            self.0.fetch_add(1, Ordering::SeqCst);
+            fs::write(dir.join("cancel"), b"operator cancellation")?;
+            Err(adl::provider_adapter::CodeFriendProviderInterrupted.into())
+        }
+    }
+    let f = Fixture::new();
+    let backend = Arc::new(Uncertain(AtomicUsize::new(0)));
+    let service = Service::open(f.config.clone(), backend.clone()).unwrap();
+    let app = service.clone().router();
+    assert_eq!(
+        call(
+            &app,
+            "POST",
+            "/v1/operations",
+            Some(ALICE),
+            f.request("uncertain")
+        )
+        .await
+        .0,
+        StatusCode::ACCEPTED
+    );
+    assert_eq!(
+        settled(&app, ALICE, "uncertain").await["status"],
+        "interrupted"
+    );
+    assert_eq!(
+        call(
+            &app,
+            "POST",
+            "/v1/operations",
+            Some(ALICE),
+            f.request("uncertain")
+        )
+        .await
+        .0,
+        StatusCode::CONFLICT
+    );
+    assert_eq!(backend.0.load(Ordering::SeqCst), 1);
+    service.begin_drain().unwrap();
+    assert!(!service.drained_without_payloads().unwrap());
+}

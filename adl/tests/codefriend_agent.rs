@@ -195,6 +195,7 @@ enum Scenario {
     MissingOriginalStore,
     TamperedOriginalStore,
     LostStatusObservation,
+    RunningBeyondLegacyDeadline,
     LostInitialControl,
     LostFinalControl,
     CachedBeyondObservationDeadline,
@@ -381,20 +382,32 @@ impl WireServer {
                     if matches!(scenario, Scenario::ExpireRetention) {
                         clock.fetch_add(61, Ordering::SeqCst);
                     }
-                    requests.insert(id.clone(), submit);
+                    assert!(
+                        requests.insert(id.clone(), submit).is_none(),
+                        "each lane must dispatch exactly once"
+                    );
                     if matches!(scenario, Scenario::LostModelReply) {
                         continue;
                     }
                     operation(
                         &requests[&id],
                         &command,
-                        if matches!(scenario, Scenario::Cancel | Scenario::LostStatusObservation) {
+                        if matches!(
+                            scenario,
+                            Scenario::Cancel
+                                | Scenario::LostStatusObservation
+                                | Scenario::RunningBeyondLegacyDeadline
+                        ) {
                             "running"
                         } else {
                             "complete"
                         },
                     )
                 } else if path.ends_with("/cancel") {
+                    assert!(
+                        !matches!(scenario, Scenario::RunningBeyondLegacyDeadline),
+                        "elapsed observation must not cancel"
+                    );
                     let id = path.split('/').nth(3).unwrap();
                     operation(&requests[id], &command, "cancelled")
                 } else if path.ends_with("/result") {
@@ -429,8 +442,10 @@ impl WireServer {
                     };
                     json!({"schema":"codefriend.local_model_result.v1","execution_location":"local_agent","model_execution_location":"agent_logic_provider","candidate_revision":"c".repeat(40),"model_identity":{"provider_kind":"openai","provider":"agent-logic-fixture","model_ref":"fixture/exact","provider_model_id":"fixture-model-v1","runtime_surface":"hosted_api","identity_strength":"provider_asserted","observed_at":format!("unix:{}", clock.load(Ordering::SeqCst))},"input_manifest":{"schema":"codefriend.review_lane_input_manifest.v1","run_id":id,"packet_id":r.packet.packet_id,"admission_digest":"a".repeat(64),"lane":lane,"lane_contract":"codefriend.review_lane.v1","prompt_contract":"codefriend.four_perspective_review_prompt.v1","repository":r.packet.repository,"revision":r.packet.revision,"scope_digest":r.packet.scope_digest,"evidence":[],"peer_result_refs":[],"source_mutation_authority":"none","tool_authority":"none","publication_authority":"none","input_digest":"a".repeat(64)},"output":{"findings":findings}})
                 } else if method == "GET" && path.starts_with("/v1/operations/") {
-                    if matches!(scenario, Scenario::LostStatusObservation)
-                        && count.load(Ordering::SeqCst) == 2
+                    if ((matches!(scenario, Scenario::LostStatusObservation)
+                        && count.load(Ordering::SeqCst) == 2)
+                        || (matches!(scenario, Scenario::RunningBeyondLegacyDeadline)
+                            && count.load(Ordering::SeqCst) == 1))
                         && !observation_dropped
                     {
                         observation_dropped = true;
@@ -613,6 +628,7 @@ fn journey(scenario: Scenario) -> (u64, Vec<serde_json::Value>) {
             | Scenario::MissingOriginalStore
             | Scenario::TamperedOriginalStore
             | Scenario::LostStatusObservation
+            | Scenario::RunningBeyondLegacyDeadline
             | Scenario::LostInitialControl
             | Scenario::LostFinalControl
             | Scenario::CachedBeyondObservationDeadline
@@ -623,7 +639,7 @@ fn journey(scenario: Scenario) -> (u64, Vec<serde_json::Value>) {
         assert_eq!(
             server.dispatches.load(Ordering::SeqCst),
             match scenario {
-                Scenario::LostInitialControl => 1,
+                Scenario::LostInitialControl | Scenario::RunningBeyondLegacyDeadline => 1,
                 Scenario::LostFinalControl => 4,
                 _ => 2,
             }
@@ -641,6 +657,24 @@ fn journey(scenario: Scenario) -> (u64, Vec<serde_json::Value>) {
             b"{}",
         )
         .unwrap();
+    }
+    if matches!(scenario, Scenario::RunningBeyondLegacyDeadline) {
+        let lanes: Vec<_> = fs::read_dir(run_dir.join("gateway")).unwrap().collect();
+        assert_eq!(lanes.len(), 1);
+        let ack = lanes
+            .into_iter()
+            .next()
+            .unwrap()
+            .unwrap()
+            .path()
+            .join("acknowledged-operation.json");
+        let mut saved: serde_json::Value =
+            serde_json::from_slice(&fs::read(&ack).unwrap()).unwrap();
+        assert_eq!(saved["operation"]["status"], "running");
+        saved["observation_deadline"] = (clock.load(Ordering::SeqCst) - 1).into();
+        fs::write(&ack, serde_json::to_vec(&saved).unwrap()).unwrap();
+        assert!(clock.load(Ordering::SeqCst) < cmd.expires_at);
+        assert_eq!(server.dispatches.load(Ordering::SeqCst), 1);
     }
     // Release the process-owned lock and re-open persisted state before reconnect.
     drop(journal);
@@ -994,4 +1028,14 @@ fn tampered_original_store_never_dispatches_on_reconnect() {
     assert_eq!(calls, 2);
     assert_eq!(reports[0]["status"], "failed_or_interrupted");
     assert!(reports[0]["result"].is_null());
+}
+
+#[test]
+fn known_running_operation_resumes_after_legacy_deadline_without_cancel_or_repost() {
+    let (calls, reports) = journey(Scenario::RunningBeyondLegacyDeadline);
+    assert_eq!(
+        calls, 4,
+        "one POST per distinct review lane, no repeated dispatch"
+    );
+    assert_eq!(reports[0]["status"], "complete");
 }

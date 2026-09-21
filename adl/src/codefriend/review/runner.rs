@@ -6,7 +6,7 @@ use crate::codefriend::evidence::{
     Admission,
 };
 use crate::codefriend::ingestion::{digest, validate_path};
-use crate::provider_adapter::execute_provider_invocation;
+use crate::provider_adapter::{execute_codefriend_invocation, retain_codefriend_provider_outcome};
 use crate::provider_communication::{
     ProviderInvocationFinalStatusV1, ProviderInvocationRequestV1, ProviderRunLoggerV1,
 };
@@ -206,8 +206,10 @@ pub fn run(options: ReviewRunOptions, admission: Admission) -> Result<FourPerspe
                 request.request_id.clone(),
                 Some(format!("lanes/{}/provider.log.jsonl", lane.id())),
             )?;
-            let result = execute_provider_invocation(request, &mut logger);
-            write_json(&dir.join("provider-result.json"), &result)?;
+            let result = execute_codefriend_invocation(request, &mut logger);
+            retain_codefriend_provider_outcome(&result, || {
+                write_json(&dir.join("provider-result.json"), &result)
+            })?;
             Ok(LaneExecution {
                 final_status: result.final_status,
                 output_text: result.output_text,

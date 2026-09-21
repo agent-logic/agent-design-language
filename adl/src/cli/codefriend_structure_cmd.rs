@@ -1,9 +1,6 @@
 use adl::codefriend::{
-    architecture::{
-        drift,
-        impact::{self, ChangeSet},
-        rationale::{self, RationaleSelection},
-        structure::{self, BoundaryPolicy},
+    architecture::artifact::{
+        self, BoundaryPolicyArtifact, ChangeSetArtifact, RationaleSelectionArtifact,
     },
     evidence::store::Store,
     memory::baseline::AdmittedBaselines,
@@ -49,6 +46,9 @@ pub(super) fn run(args: &[String]) -> Result<()> {
             .unwrap_or_default()
             .as_secs()
     })?;
+    let now = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)?
+        .as_secs();
     if args[0] == "rationale" || args[0] == "rationale-read" {
         let report = if args[0] == "rationale" {
             let path = Path::new(flags["--selection"]);
@@ -61,23 +61,20 @@ pub(super) fn run(args: &[String]) -> Result<()> {
                 .take(128 * 1024 + 1)
                 .read_to_end(&mut bytes)?;
             ensure!(bytes.len() <= 128 * 1024, "rationale_selection_too_large");
-            let selection: RationaleSelection = serde_json::from_slice(&bytes)
+            let selection: RationaleSelectionArtifact = serde_json::from_slice(&bytes)
                 .map_err(|_| anyhow::anyhow!("invalid_rationale_selection"))?;
-            let graph = structure::read_report(&store, Path::new(flags["--graph"]))?;
-            let report = rationale::architecture_rationale_reporter(&store, graph, selection)?;
-            rationale::write_report(&report, &store, Path::new(flags["--out"]))?;
+            let graph = artifact::read_report(&store, Path::new(flags["--graph"]), now)?;
+            let report = artifact::rationale_report(&store, graph, selection, now)?;
+            artifact::write_rationale(&report, &store, Path::new(flags["--out"]), now)?;
             report
         } else {
-            rationale::read_report(&store, Path::new(flags["--input"]))?
+            artifact::read_rationale(&store, Path::new(flags["--input"]), now)?
         };
-        println!(
-            "{}",
-            serde_json::json!({"schema":rationale::VERSION,"digest":report.digest,"run_id":report.record.run.id,"analysis_complete":report.analysis_complete,"boundaries":report.boundaries.len(),"findings":report.record.findings.len()})
-        );
+        let summary = report.summary();
+        println!("{}", summary);
         eprintln!(
             "adl_event kind=codefriend_rationale status=success analysis_complete={} boundaries={}",
-            report.analysis_complete,
-            report.boundaries.len()
+            summary["analysis_complete"], summary["boundaries"]
         );
         return Ok(());
     }
@@ -93,27 +90,25 @@ pub(super) fn run(args: &[String]) -> Result<()> {
                 .take(128 * 1024 + 1)
                 .read_to_end(&mut bytes)?;
             ensure!(bytes.len() <= 128 * 1024, "change_input_too_large");
-            let changes: ChangeSet = serde_json::from_slice(&bytes)
+            let changes: ChangeSetArtifact = serde_json::from_slice(&bytes)
                 .map_err(|_| anyhow::anyhow!("invalid_change_input"))?;
-            let graph = structure::read_report(&store, Path::new(flags["--graph"]))?;
-            let report = impact::change_impact_reporter(&store, graph, changes)?;
-            impact::write_report(&report, &store, Path::new(flags["--out"]))?;
+            let graph = artifact::read_report(&store, Path::new(flags["--graph"]), now)?;
+            let report = artifact::impact_report(&store, graph, changes, now)?;
+            artifact::write_impact(&report, &store, Path::new(flags["--out"]), now)?;
             report
         } else {
-            impact::read_report(&store, Path::new(flags["--input"]))?
+            artifact::read_impact(&store, Path::new(flags["--input"]), now)?
         };
-        println!(
-            "{}",
-            serde_json::json!({"schema":impact::VERSION,"digest":report.digest,"run_id":report.record.run.id,"analysis_complete":report.analysis_complete,"impacts":report.impacts.len(),"unknowns":report.unknowns.len()})
-        );
-        eprintln!("adl_event kind=codefriend_impact status=success analysis_complete={} impacts={} unknowns={}",report.analysis_complete,report.impacts.len(),report.unknowns.len());
+        let summary = report.summary();
+        println!("{}", summary);
+        eprintln!("adl_event kind=codefriend_impact status=success analysis_complete={} impacts={} unknowns={}",summary["analysis_complete"],summary["impacts"],summary["unknowns"]);
         return Ok(());
     }
     if args[0] == "drift" || args[0] == "drift-read" {
         let baselines_root = Path::new(flags["--baselines"]);
         let report = if args[0] == "drift" {
-            let baseline = structure::read_report(&store, Path::new(flags["--baseline"]))?;
-            let current = structure::read_report(&store, Path::new(flags["--current"]))?;
+            let baseline = artifact::read_report(&store, Path::new(flags["--baseline"]), now)?;
+            let current = artifact::read_report(&store, Path::new(flags["--current"]), now)?;
             let output = std::path::absolute(flags["--out"])?;
             ensure!(
                 !output.starts_with(std::path::absolute(root)?)
@@ -121,23 +116,28 @@ pub(super) fn run(args: &[String]) -> Result<()> {
                 "drift_output_inside_managed_store"
             );
             let baselines = AdmittedBaselines::open(&store, baselines_root, true)?;
-            baselines.retain(&baseline.record)?;
-            baselines.retain(&current.record)?;
-            let report = drift::architecture_drift_reporter(&store, &baselines, baseline, current)?;
-            drift::write_report(&report, &store, &baselines, Path::new(flags["--out"]))?;
+            baselines.retain(baseline.record())?;
+            baselines.retain(current.record())?;
+            let report =
+                artifact::drift_report_pair(&store, &store, &baselines, baseline, current, now)?;
+            artifact::write_drift_pair(
+                &report,
+                &store,
+                &store,
+                &baselines,
+                Path::new(flags["--out"]),
+                now,
+            )?;
             report
         } else {
             let baselines = AdmittedBaselines::open(&store, baselines_root, false)?;
-            drift::read_report(&store, &baselines, Path::new(flags["--input"]))?
+            artifact::read_drift_pair(&store, &store, &baselines, Path::new(flags["--input"]), now)?
         };
-        println!(
-            "{}",
-            serde_json::json!({"schema":drift::VERSION,"digest":report.digest,"comparable":report.structural_comparison.comparable,"reasons":report.structural_comparison.reasons,"changes":report.structural_comparison.changes.len()})
-        );
+        let summary = report.summary();
+        println!("{}", summary);
         eprintln!(
             "adl_event kind=codefriend_drift status=success comparable={} changes={}",
-            report.structural_comparison.comparable,
-            report.structural_comparison.changes.len()
+            summary["comparable"], summary["changes"]
         );
         return Ok(());
     }
@@ -147,20 +147,16 @@ pub(super) fn run(args: &[String]) -> Result<()> {
             .take(128 * 1024 + 1)
             .read_to_end(&mut bytes)?;
         ensure!(bytes.len() <= 128 * 1024, "policy_too_large");
-        let policy: BoundaryPolicy = serde_json::from_slice(&bytes)
+        let policy: BoundaryPolicyArtifact = serde_json::from_slice(&bytes)
             .map_err(|_| anyhow::anyhow!("invalid_boundary_policy"))?;
-        let r = structure::repository_structure_reporter(&store, flags["--packet-id"], policy)?;
-        structure::write_report(&r, &store, Path::new(flags["--out"]))?;
+        let r = artifact::report(&store, flags["--packet-id"], policy, now)?;
+        artifact::write_report(&r, &store, Path::new(flags["--out"]), now)?;
         r
     } else {
-        structure::read_report(&store, Path::new(flags["--input"]))?
+        artifact::read_report(&store, Path::new(flags["--input"]), now)?
     };
-    println!(
-        "{}",
-        serde_json::to_string(
-            &serde_json::json!({"schema":structure::VERSION,"digest":report.digest,"run_id":report.record.run.id,"analysis_complete":report.analysis_complete,"nodes":report.nodes.len(),"edges":report.edges.len(),"findings":report.record.findings.len(),"unknowns":report.unknowns.len()})
-        )?
-    );
-    eprintln!("adl_event kind=codefriend_architecture status=success analysis_complete={} nodes={} edges={} unknowns={}",report.analysis_complete,report.nodes.len(),report.edges.len(),report.unknowns.len());
+    let summary = report.summary();
+    println!("{}", serde_json::to_string(&summary)?);
+    eprintln!("adl_event kind=codefriend_architecture status=success analysis_complete={} nodes={} edges={} unknowns={}",summary["analysis_complete"],summary["nodes"],summary["edges"],summary["unknowns"]);
     Ok(())
 }

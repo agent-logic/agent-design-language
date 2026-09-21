@@ -14,3 +14,6 @@ pub mod review;
 pub mod server;
 
 pub mod agent;
+
+pub mod language;
+pub(crate) mod schema;

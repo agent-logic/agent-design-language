@@ -22,8 +22,12 @@ The config is the serialized `server::Config`: absolute private `root` with an e
 parent, `credentials_file`, `provider` (the existing `ProviderInvocationRequestV1`
 contract), exact compiled `candidate_revision`, `max_concurrent` (1–8),
 `max_operations_per_subject` (1–1000) and `retention_seconds` (60–86400).
-Provider config permits one attempt, timeout at most 60 seconds and 1–4096 output
-tokens. Generated prompts are capped at 128 KiB per lane before any model dispatch.
+Provider config permits one attempt and 1–4096 output tokens. CodeFriend uses the
+adapter's active-work mode: the legacy request `timeout_ms` field does not impose
+a customer-cycle or provider-response deadline. A successful response remains valid
+when it arrives after that configured duration. Connection establishment has a
+separate transport guard; a lost response does not authorize repeating the request.
+Generated prompts are capped at 128 KiB per lane before any model dispatch.
 Response bodies are capped at 4 MiB before HTTP decoding or Bedrock SDK Blob
 aggregation, including error replies. Oversized responses fail without a successful
 result; token limits alone are not a byte bound.
@@ -31,6 +35,14 @@ Do not preload input text. Only the service operator selects routes,
 endpoint, model and provider credential references. Provision actual credentials
 through approved server-side indirection; never send them to either client.
 The service logs fixed event codes to stderr and reserves stdout for machine output.
+
+The host's 30-minute setting measures idle time only. Active or uncertain work
+prevents automatic shutdown, even when a review takes longer than 30 minutes.
+Elapsed cycle duration alone is not evidence of a hang. Inspect operation state,
+worker liveness and observed progress before deciding that work is stalled.
+Explicit cancellation and the original source authorization/retention rules remain
+in force. The installed agent can resume observation of an acknowledged operation
+past its legacy observation timer without repeating its submission.
 
 The build embeds the Git revision and clean status of compilation-relevant source
 inputs. The service rejects missing/dirty build provenance and any configured revision

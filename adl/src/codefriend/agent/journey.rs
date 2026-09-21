@@ -1,9 +1,12 @@
 //! Paired transport for native Journey owners. No model or renderer dispatch.
 use super::*;
 use crate::codefriend::{
-    architecture::{impact, rationale, structure},
+    architecture::artifact::{
+        BoundaryPolicyArtifact, ChangeSetArtifact, ImpactArtifact, RationaleArtifact,
+        RationaleSelectionArtifact, StructureArtifact,
+    },
     evidence::valid_digest,
-    governance::local as fitness,
+    governance::artifact::{FitnessArtifact, PolicyArtifact},
     integration::PublicationFormat,
 };
 use crate::codefriend::{evidence::store::Store, integration::journey as native};
@@ -16,6 +19,7 @@ pub mod verification;
 mod tests;
 
 const JOB_SCHEMA: &str = "codefriend.agent_journey_job.v1";
+const JOB_SCHEMA_V2: &str = "codefriend.agent_journey_job.v2";
 const MAX_REQUEST: usize = 128 * 1024;
 const MAX_JOBS_PER_RUN: usize = 32;
 
@@ -38,8 +42,8 @@ pub struct Binding {
 #[serde(tag = "stage", rename_all = "snake_case", deny_unknown_fields)]
 pub enum Request {
     Prepare {
-        boundary_policy: structure::BoundaryPolicy,
-        fitness_policy: fitness::Policy,
+        boundary_policy: BoundaryPolicyArtifact,
+        fitness_policy: PolicyArtifact,
     },
     Status,
     Graph,
@@ -47,10 +51,10 @@ pub enum Request {
         artifact: Artifact,
     },
     Impact {
-        changes: impact::ChangeSet,
+        changes: ChangeSetArtifact,
     },
     Rationale {
-        selection: rationale::RationaleSelection,
+        selection: RationaleSelectionArtifact,
     },
     Drift {
         baseline_run: String,
@@ -64,6 +68,25 @@ pub enum Request {
     },
 }
 
+impl Request {
+    fn matches_schema(&self, schema: &str) -> bool {
+        let v2 = schema == JOB_SCHEMA_V2;
+        match self {
+            Self::Prepare {
+                boundary_policy,
+                fitness_policy,
+            } => {
+                matches!(boundary_policy, BoundaryPolicyArtifact::V2(_)) == v2
+                    && matches!(fitness_policy, PolicyArtifact::V2(_)) == v2
+            }
+            Self::Impact { changes } => matches!(changes, ChangeSetArtifact::V2(_)) == v2,
+            Self::Rationale { selection } => {
+                matches!(selection, RationaleSelectionArtifact::V2(_)) == v2
+            }
+            _ => true,
+        }
+    }
+}
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum Artifact {
@@ -164,7 +187,8 @@ impl Job {
         report.validate(now)?;
         let b = &self.binding;
         ensure!(
-            b.schema == JOB_SCHEMA
+            matches!(b.schema.as_str(), JOB_SCHEMA | JOB_SCHEMA_V2)
+                && self.request.matches_schema(&b.schema)
                 && identifier(&b.job_id)
                 && identifier(&b.run_id)
                 && valid_digest(&b.request_digest)
@@ -360,7 +384,7 @@ struct BaselineOwner {
     owner: LocalOwner,
     binding: Job,
     store: Store,
-    graph: structure::StructureReport,
+    graph: StructureArtifact,
     baseline_root: PathBuf,
 }
 
@@ -407,7 +431,7 @@ impl Transport {
         let request = Request::Status;
         let binding = Job {
             binding: Binding {
-                schema: JOB_SCHEMA.into(),
+                schema: current.binding.schema.clone(),
                 job_id: current.binding.job_id.clone(),
                 subject: current.binding.subject.clone(),
                 agent_id: current.binding.agent_id.clone(),
@@ -423,7 +447,7 @@ impl Transport {
         };
         let owner = self.journey_owner(journal, &consent.path, &binding)?;
         let output = root.join("journey");
-        let graph: structure::StructureReport =
+        let graph: StructureArtifact =
             publication::read(&output.join("structure.json"), MAX_RESPONSE as usize)?;
         native::owned_baseline::validate_graph_source(&output, &graph)?;
         ensure!(
@@ -496,6 +520,7 @@ impl Transport {
 }
 
 const RESULT_SCHEMA: &str = "codefriend.agent_journey_result.v1";
+const RESULT_SCHEMA_V2: &str = "codefriend.agent_journey_result.v2";
 
 #[derive(Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -526,16 +551,10 @@ fn artifact_digest(artifact: &Artifact, value: &serde_json::Value) -> Result<Str
     // Reconstruct the shared native type: hashing a generic JSON map would
     // change field order and would not verify the original stage's digest.
     match artifact {
-        Artifact::Structure => hash(&serde_json::from_value::<structure::StructureReport>(
-            value.clone(),
-        )?),
-        Artifact::Fitness => hash(&serde_json::from_value::<fitness::Report>(value.clone())?),
-        Artifact::Impact => hash(&serde_json::from_value::<impact::ImpactReport>(
-            value.clone(),
-        )?),
-        Artifact::Rationale => hash(&serde_json::from_value::<rationale::RationaleReport>(
-            value.clone(),
-        )?),
+        Artifact::Structure => hash(&serde_json::from_value::<StructureArtifact>(value.clone())?),
+        Artifact::Fitness => hash(&serde_json::from_value::<FitnessArtifact>(value.clone())?),
+        Artifact::Impact => hash(&serde_json::from_value::<ImpactArtifact>(value.clone())?),
+        Artifact::Rationale => hash(&serde_json::from_value::<RationaleArtifact>(value.clone())?),
         Artifact::Drift => hash(&serde_json::from_value::<
             native::owned_baseline::OwnedDriftReport,
         >(value.clone())?),
@@ -673,6 +692,15 @@ impl Transport {
             // A retained reservation only permits reconstruction/observation.
             native::resume_with_owners(&output, baseline_context.as_ref(), Some(&palace))?
         };
+        ensure!(
+            journey.manifest().schema
+                == if job.binding.schema == JOB_SCHEMA_V2 {
+                    "codefriend.journey.v2"
+                } else {
+                    "codefriend.journey.v1"
+                },
+            "agent_journey_version_mismatch"
+        );
         if first_effect {
             match &job.request {
                 Request::Impact { changes } => {
@@ -780,7 +808,12 @@ impl Transport {
         journey.validate_owned_palace(baseline_context.as_ref(), &palace)?;
         journey.continue_with(native::Continuation::Status)?;
         let mut result = StageResult {
-            schema: RESULT_SCHEMA.into(),
+            schema: if job.binding.schema == JOB_SCHEMA_V2 {
+                RESULT_SCHEMA_V2
+            } else {
+                RESULT_SCHEMA
+            }
+            .into(),
             binding: job.binding.clone(),
             agent_candidate_revision: env!("CODEFRIEND_BUILD_REVISION").into(),
             checkpoint_sequence: journey.checkpoint_sequence(),

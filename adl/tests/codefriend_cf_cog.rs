@@ -1,5 +1,6 @@
 //! PVF runtime: deterministic local CPU/filesystem production graph and CLI integration.
 //! Required acceptance gate; no provider, network, source builds or repository script execution.
+//! V2 dispatch compatibility regression retains genuine v1 owner bytes and Store authority.
 use adl::codefriend::{
     architecture::structure::{self, BoundaryPolicy, VERSION},
     evidence::{store::Store, Retention},
@@ -15,6 +16,35 @@ use std::{
         Arc,
     },
 };
+
+#[test]
+fn version_dispatch_preserves_original_v1_payload_and_source_authority() {
+    use adl::codefriend::architecture::artifact::{BoundaryPolicyArtifact, StructureArtifact};
+    let fixture = Fixture::new(&[("src/lib.rs", "pub fn value() {}")]);
+    let original = fixture.report();
+    let bytes = serde_json::to_vec(&original).unwrap();
+    let decoded: StructureArtifact = serde_json::from_slice(&bytes).unwrap();
+    assert!(matches!(&decoded, StructureArtifact::V1(_)));
+    assert_eq!(serde_json::to_vec(&decoded).unwrap(), bytes);
+    assert_eq!(decoded.digest(), original.digest);
+    decoded.validate(&fixture.store, 101).unwrap();
+    let policy_bytes = serde_json::to_vec(&fixture.policy).unwrap();
+    let policy: BoundaryPolicyArtifact = serde_json::from_slice(&policy_bytes).unwrap();
+    assert_eq!(serde_json::to_vec(&policy).unwrap(), policy_bytes);
+    let policy_text = String::from_utf8(policy_bytes).unwrap();
+    let duplicate_schema = policy_text.replacen("{", "{\"schema\":\"codefriend.structure.v1\",", 1);
+    assert!(serde_json::from_str::<BoundaryPolicyArtifact>(&duplicate_schema).unwrap_err().to_string().contains("duplicate_json_field"));
+    let duplicate_nested = policy_text.replace("\"layers\":{", "\"layers\":{\"src/lib.rs\":\"forged\",");
+    assert_ne!(duplicate_nested, policy_text);
+    assert!(serde_json::from_str::<BoundaryPolicyArtifact>(&duplicate_nested).unwrap_err().to_string().contains("duplicate_json_field"));
+    for schema in ["codefriend.structure.v3", "", "codefriend.fitness.v1"] {
+        let mut value = serde_json::to_value(&original).unwrap();
+        value["schema"] = schema.into();
+        assert!(serde_json::from_value::<StructureArtifact>(value).is_err());
+    }
+    fixture.store.delete(&fixture.packet).unwrap();
+    assert!(decoded.validate(&fixture.store, 101).is_err());
+}
 
 fn git(root: &Path, args: &[&str]) -> String {
     let o = Command::new("git")

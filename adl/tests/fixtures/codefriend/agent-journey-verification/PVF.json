@@ -6,7 +6,21 @@
   "determinism": "bounded loopback; actual original Store and native Journey; synthetic model lane output; current-time retention and clean candidate",
   "resources": "private temporary filesystem and bounded loopback HTTP; no external provider/cloud",
   "release_gate": "required component proof",
-  "cases": ["actual preparation and typed graph response", "rewritten source/candidate/receipt/original digests", "unknown or inconsistent stage shape", "expiry", "same-binding previous snapshot ordering"],
-  "nonclaims": ["absent artifact semantic recomputation", "live website authorization", "independent qualification"],
-  "execution_status": "authored; pending clean-candidate execution"
+  "cases": [
+    "actual preparation and typed graph response",
+    "rewritten source/candidate/receipt/original digests",
+    "unknown or inconsistent stage shape",
+    "expiry",
+    "same-binding previous snapshot ordering",
+    "v2 actual original Store preparation and graph response with versioned policies",
+    "immutable effect redelivery forwards identical native result",
+    "resealed v2 result downgrade and mismatched job version rejected"
+  ],
+  "nonclaims": [
+    "absent artifact semantic recomputation",
+    "live website authorization",
+    "independent qualification"
+  ],
+  "execution_status": "v2 extension authored; pending clean-candidate execution",
+  "extension_issue": 1102
 }

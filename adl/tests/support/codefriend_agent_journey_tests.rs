@@ -32,7 +32,8 @@ fn prepared_job() -> (Case, relay::Job) {
             layers: [("lib.rs".into(), "core".into())].into(),
             allowed: Default::default(),
             coupling_threshold: 2,
-        },
+        }
+        .into(),
         fitness_policy: fitness::Policy {
             schema: fitness::VERSION.into(),
             rules: vec![fitness::Rule {
@@ -41,7 +42,8 @@ fn prepared_job() -> (Case, relay::Job) {
                 source_path: "lib.rs".into(),
                 forbidden_prefix: "reqwest".into(),
             }],
-        },
+        }
+        .into(),
     };
     let job = relay::Job {
         binding: relay::Binding {
@@ -125,7 +127,8 @@ fn reserved_but_unattempted_effect_cannot_be_reported_complete_or_reexecuted() {
             revision: graph.record.run.revision.clone(),
             graph_digest: graph.digest.clone(),
             targets: vec![],
-        },
+        }
+        .into(),
     };
     job.binding.request_digest = job.request.digest().unwrap();
     // Simulate a crash after the create-only reservation and before native dispatch.
