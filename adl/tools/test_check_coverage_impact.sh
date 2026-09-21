@@ -1233,6 +1233,9 @@ grep -Fx 'binary_id(adl::codefriend_ingestion) or binary_id(adl::codefriend_revi
 
 # These new production owners must select their real component tests, never a basename fallback.
 for mapping in \
+  'adl/src/codefriend/schema.rs|binary_id(adl) and test(/^codefriend::schema::/)' \
+  'adl/src/codefriend/language/imports.rs|binary_id(adl) and test(/^codefriend::language::imports::/)' \
+  'adl/src/codefriend/governance/ci_v2.rs|binary_id(adl::codefriend_language_fitness_ci)' \
   'adl/src/codefriend/rust_parse.rs|binary_id(adl) and test(/^codefriend::rust_parse::/)' \
   'adl/src/codefriend/architecture/drift.rs|binary_id(adl::codefriend_cf_cog_drift) or binary_id(adl::codefriend_journey) or binary_id(adl::codefriend_integration)' \
   'adl/src/codefriend/memory/palace.rs|binary_id(adl::codefriend_plat_memory) or binary_id(adl::codefriend_journey)' \

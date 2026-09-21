@@ -159,6 +159,15 @@ fn paired_continuations_and_native_artifacts_preserve_owner_and_order() {
     use relay::verification::{verify_stage, VerificationContext};
     let (case, mut job) = prepared_job();
     case.poll().unwrap();
+    let prepared = case.journey_results.lock().unwrap()[0].clone();
+    assert_eq!(
+        prepared["manifest"]["stages"]["structure"]["status"], "complete",
+        "prepare: {prepared}"
+    );
+    assert_eq!(
+        prepared["manifest"]["stages"]["fitness"]["status"], "complete",
+        "prepare: {prepared}"
+    );
     let root = case.temp.path().join("state/run-run1");
     let report: RunReport =
         serde_json::from_slice(&fs::read(root.join("report.json")).unwrap()).unwrap();
@@ -172,16 +181,7 @@ fn paired_continuations_and_native_artifacts_preserve_owner_and_order() {
                 repository: graph.record.run.repository.clone(),
                 revision: graph.record.run.revision.clone(),
                 graph_digest: graph.digest.clone(),
-                targets: vec![],
-            }
-            .into(),
-        },
-        relay::Request::Rationale {
-            selection: rationale::RationaleSelection {
-                schema: rationale::VERSION.into(),
-                graph_digest: graph.digest.clone(),
-                revision: graph.record.run.revision.clone(),
-                boundaries: vec![],
+                targets: vec![impact::ChangeTarget::Module(graph.nodes[0].module.clone())],
             }
             .into(),
         },
@@ -195,16 +195,14 @@ fn paired_continuations_and_native_artifacts_preserve_owner_and_order() {
         relay::Request::Artifact {
             artifact: relay::Artifact::Impact,
         },
-        relay::Request::Artifact {
-            artifact: relay::Artifact::Rationale,
-        },
     ];
     for (index, request) in requests.into_iter().enumerate() {
         job.binding.job_id = format!("continuation{index}");
         job.request = request;
         job.binding.request_digest = job.request.digest().unwrap();
         *case.journey.lock().unwrap() = serde_json::to_value(&job).unwrap();
-        case.poll().unwrap();
+        case.poll()
+            .unwrap_or_else(|error| panic!("request {index} {:?}: {error:#}", job.request));
         let result: relay::StageResult =
             serde_json::from_value(case.journey_results.lock().unwrap().last().unwrap().clone())
                 .unwrap();
@@ -256,6 +254,32 @@ fn paired_continuations_and_native_artifacts_preserve_owner_and_order() {
             original
         );
     }
+    job.binding.job_id = "rationale_missing_evidence".into();
+    job.request = relay::Request::Rationale {
+        selection: rationale::RationaleSelection {
+            schema: rationale::VERSION.into(),
+            graph_digest: graph.digest.clone(),
+            revision: graph.record.run.revision.clone(),
+            boundaries: vec![rationale::BoundarySelection {
+                boundary: "core".into(),
+                deployment_path: "compose.yaml".into(),
+                service: "app".into(),
+                rationale_paths: vec![],
+            }],
+        }
+        .into(),
+    };
+    job.binding.request_digest = job.request.digest().unwrap();
+    *case.journey.lock().unwrap() = serde_json::to_value(&job).unwrap();
+    let error = case.poll().unwrap_err();
+    assert!(
+        error.to_string().contains("journey_failed"),
+        "rationale: {error:#}"
+    );
+    let rationale: rationale::RationaleReport =
+        serde_json::from_slice(&fs::read(root.join("journey/rationale.json")).unwrap()).unwrap();
+    assert!(!rationale.analysis_complete);
+    assert!(!rationale.boundaries[0].unknowns.is_empty());
     assert_eq!(case.posts(), 0);
 }
 
