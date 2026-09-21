@@ -271,10 +271,15 @@ fn paired_continuations_and_native_artifacts_preserve_owner_and_order() {
     };
     job.binding.request_digest = job.request.digest().unwrap();
     *case.journey.lock().unwrap() = serde_json::to_value(&job).unwrap();
-    let error = case.poll().unwrap_err();
-    assert!(
-        error.to_string().contains("journey_failed"),
-        "rationale: {error:#}"
+    assert_eq!(case.poll().unwrap(), Some("run1".into()));
+    let delivered = case.journey_results.lock().unwrap().last().unwrap().clone();
+    assert_eq!(
+        delivered["manifest"]["stages"]["rationale"]["status"],
+        "failed"
+    );
+    assert_eq!(
+        delivered["manifest"]["stages"]["rationale"]["reason"],
+        "stage_incomplete_or_failed"
     );
     let rationale: rationale::RationaleReport =
         serde_json::from_slice(&fs::read(root.join("journey/rationale.json")).unwrap()).unwrap();

@@ -10,8 +10,8 @@
   ],
   "proof": "pending root clean-candidate tests and measured coverage; no percentage claim",
   "coverage_scope": [
-    "Impact/Rationale actual native continuations",
-    "Status/Structure/Fitness/Impact/Rationale artifact readback and verification",
+    "Impact actual native continuation; rationale incomplete report and delivered failed-stage retention",
+    "Status/Structure/Fitness/Impact artifact readback and verification",
     "identity and absent/same-owner baseline denial",
     "genuine approved Markdown attachment and cached replay without POST",
     "publication mutation invalidates replay"
