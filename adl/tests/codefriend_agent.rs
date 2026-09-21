@@ -451,8 +451,10 @@ impl WireServer {
                         )
                     }
                     .unwrap();
+                    // Few large valid assessments cross the same aggregate limit
+                    // without hundreds of identity validations under instrumentation.
                     let assessments = if matches!(scenario, Scenario::AggregateLimit) {
-                        (0..50).map(|i| json!({"kind":"defect_candidate", "summary":format!("{i}{}", "x".repeat(7900)), "explanation":"y".repeat(7900), "citations":[{"evidence_id":admission.evidence[0].id,"start_byte":0,"end_byte":3,"quote":"pub"}],"limitations":[],"defect":{"severity":"medium","observed_behavior":"observed", "expected_behavior":"expected","concrete_trigger":format!("distinct trigger {i}"),"impact":"impact","proposed_remedy_or_verification":"verify"}})).collect::<Vec<_>>()
+                        (0..4).map(|i| json!({"kind":"defect_candidate", "summary":format!("{i}{}", "x".repeat(7900)), "explanation":"y".repeat(7900), "citations":[{"evidence_id":admission.evidence[0].id,"start_byte":0,"end_byte":3,"quote":"pub"}],"limitations":(0..16).map(|n| format!("limitation {n}: {}", "z".repeat(7900))).collect::<Vec<_>>(),"defect":{"severity":"medium","observed_behavior":"observed", "expected_behavior":"expected","concrete_trigger":format!("distinct trigger {i}"),"impact":"impact","proposed_remedy_or_verification":"verify"}})).collect::<Vec<_>>()
                     } else {
                         vec![]
                     };
@@ -461,9 +463,9 @@ impl WireServer {
                         let raw =
                             serde_json::to_string(&json!({"assessments": &assessments})).unwrap();
                         let parsed = parse_lane(r.lane.unwrap().id(), &raw, &admission).unwrap();
-                        assert_eq!(parsed.len(), 50);
+                        assert_eq!(parsed.len(), 4);
                         let valid = AssessmentSet::new(&admission, parsed).unwrap();
-                        assert_eq!(valid.findings(&admission).unwrap().len(), 50);
+                        assert_eq!(valid.findings(&admission).unwrap().len(), 4);
                     }
                     let wrong_generation = matches!(scenario, Scenario::MixedGeneration)
                         && count.load(Ordering::SeqCst) == 2;

@@ -805,7 +805,7 @@ fn journey_responses_server() -> (String, std::thread::JoinHandle<usize>) {
                 }
             }
             assert!(String::from_utf8_lossy(&request).contains("answer"));
-            let body = r#"{"output_text":"{\"findings\":[]}"}"#;
+            let body = r#"{"output_text":"{\"assessments\":[]}"}"#;
             write!(stream,"HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{}",body.len(),body).unwrap();
         }
         8
@@ -991,6 +991,22 @@ fn actual_journey_continuations_complete_all_eighteen_stages_and_resume() {
         "exactly four loopback calls per review"
     );
     let current = publication::read_review(&output.join("review/review-record.json")).unwrap();
+    assert!(baseline_review.run.assessment_generation());
+    assert!(current.run.assessment_generation());
+    assert!(baseline_review
+        .run
+        .assessment_set
+        .as_ref()
+        .unwrap()
+        .assessments
+        .is_empty());
+    assert!(current
+        .run
+        .assessment_set
+        .as_ref()
+        .unwrap()
+        .assessments
+        .is_empty());
     assert_ne!(baseline_graph.record.run.revision, current.run.revision);
     let authority_root = f.dir.path().join("authority");
     journey_authority_fixture::generate(&authority_root).unwrap();
