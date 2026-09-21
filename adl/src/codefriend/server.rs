@@ -833,7 +833,11 @@ async fn submit(
         })();
         if let Ok(_guard) = service.0.gate.lock() {
             let mut op = operation;
-            op.status = if let Ok(value) = outcome {
+            op.status = if (dir.join("cancel").exists() || op.expires_at <= now())
+                && request.cycle.is_none()
+            {
+                Status::Cancelled
+            } else if let Ok(value) = outcome {
                 match serde_json::to_vec(&value) {
                     Ok(bytes) if bytes.len() <= MAX_RESULT => {
                         if write_json(&dir.join("result.json"), &value).is_ok() {
