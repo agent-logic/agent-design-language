@@ -451,22 +451,13 @@ impl WireServer {
                         )
                     }
                     .unwrap();
-                    // Few large valid assessments cross the same aggregate limit
-                    // without hundreds of identity validations under instrumentation.
+                    // Escape-heavy text exercises serialized byte budgets with one
+                    // valid assessment per lane rather than large repeated scans.
                     let assessments = if matches!(scenario, Scenario::AggregateLimit) {
-                        (0..4).map(|i| json!({"kind":"defect_candidate", "summary":format!("{i}{}", "x".repeat(7900)), "explanation":"y".repeat(7900), "citations":[{"evidence_id":admission.evidence[0].id,"start_byte":0,"end_byte":3,"quote":"pub"}],"limitations":(0..16).map(|n| format!("limitation {n}: {}", "z".repeat(7900))).collect::<Vec<_>>(),"defect":{"severity":"medium","observed_behavior":"observed", "expected_behavior":"expected","concrete_trigger":format!("distinct trigger {i}"),"impact":"impact","proposed_remedy_or_verification":"verify"}})).collect::<Vec<_>>()
+                        (0..1).map(|i| json!({"kind":"defect_candidate", "summary":format!("{i}{}", "x".repeat(7900)), "explanation":"y".repeat(7900), "citations":[{"evidence_id":admission.evidence[0].id,"start_byte":0,"end_byte":3,"quote":"pub"}],"limitations":(0..16).map(|n| format!("limitation {n}: {}", "\u{0001}".repeat(7900))).collect::<Vec<_>>(),"defect":{"severity":"medium","observed_behavior":"observed", "expected_behavior":"expected","concrete_trigger":format!("distinct trigger {i}"),"impact":"impact","proposed_remedy_or_verification":"verify"}})).collect::<Vec<_>>()
                     } else {
                         vec![]
                     };
-                    if matches!(scenario, Scenario::AggregateLimit) {
-                        use adl::codefriend::evidence::assessments::{parse_lane, AssessmentSet};
-                        let raw =
-                            serde_json::to_string(&json!({"assessments": &assessments})).unwrap();
-                        let parsed = parse_lane(r.lane.unwrap().id(), &raw, &admission).unwrap();
-                        assert_eq!(parsed.len(), 4);
-                        let valid = AssessmentSet::new(&admission, parsed).unwrap();
-                        assert_eq!(valid.findings(&admission).unwrap().len(), 4);
-                    }
                     let wrong_generation = matches!(scenario, Scenario::MixedGeneration)
                         && count.load(Ordering::SeqCst) == 2;
                     json!({"schema":if assessment_mode && !wrong_generation {"codefriend.local_model_result.v2"} else {"codefriend.local_model_result.v1"},"execution_location":"local_agent","model_execution_location":"agent_logic_provider","candidate_revision":"c".repeat(40),"model_identity":{"provider_kind":"openai","provider":"agent-logic-fixture","model_ref":"fixture/exact","provider_model_id":"fixture-model-v1","runtime_surface":"hosted_api","identity_strength":"provider_asserted","observed_at":format!("unix:{}", clock.load(Ordering::SeqCst))},"input_manifest":manifest,"output":if assessment_mode {json!({"assessments":assessments})} else {json!({"findings":[]})}})
@@ -619,41 +610,84 @@ fn journey(scenario: Scenario) -> (u64, Vec<serde_json::Value>) {
     let run_dir = f.0.join("state/run-run-one");
     let saved_admission = fs::read(run_dir.join("admission.json")).ok();
     if matches!(scenario, Scenario::AggregateLimit) {
-        // RunReport intentionally exposes no internal error text. Replay only the
-        // retained inert lane responses through the same native runner to prove
-        // its failure is the aggregate byte guard, not malformed fixture data.
-        use adl::codefriend::review::runner;
+        // Rebuild the precise native record from retained original inputs and
+        // lane results, without dispatching or running the four-lane pipeline twice.
+        use adl::codefriend::{
+            evidence::{
+                assessments,
+                contracts::{Completion, ReviewRecord, Run},
+            },
+            review::{lanes::ReviewLane, runner},
+        };
+        let work = run_dir.join("work/review");
         let admission = serde_json::from_slice(saved_admission.as_ref().unwrap()).unwrap();
-        let mut observed = 0;
-        let error = runner::run_assessments_with_executor(
-            runner::ExecutionOptions {
-                out: f.0.join("aggregate-proof"),
-                run_id: cmd.run_id.clone(),
-                cancel_file: None,
-            },
-            admission,
-            "aggregate-budget-fixture".into(),
-            |lane, _, _| {
-                observed += 1;
-                let result: serde_json::Value = serde_json::from_slice(
-                    &fs::read(
-                        run_dir
-                            .join("gateway")
-                            .join(lane.id())
-                            .join("gateway-result.json"),
-                    )
-                    .unwrap(),
+        let mut values = Vec::new();
+        let mut versions = std::collections::BTreeMap::new();
+        let mut provider_route = None;
+        for lane in ReviewLane::ALL {
+            let result: runner::LaneResult = serde_json::from_slice(
+                &fs::read(work.join("lanes").join(lane.id()).join("result.json")).unwrap(),
+            )
+            .unwrap();
+            assert_eq!(
+                result.provider_status,
+                adl::provider_communication::ProviderInvocationFinalStatusV1::Ok
+            );
+            assert!(result.failure.is_none());
+            let retained: serde_json::Value = serde_json::from_slice(
+                &fs::read(
+                    run_dir
+                        .join("gateway")
+                        .join(lane.id())
+                        .join("gateway-result.json"),
                 )
-                .unwrap();
-                Ok(runner::LaneExecution {
-                    final_status: adl::provider_communication::ProviderInvocationFinalStatusV1::Ok,
-                    output_text: Some(serde_json::to_string(&result["output"]).unwrap()),
-                })
-            },
+                .unwrap(),
+            )
+            .unwrap();
+            let parsed = assessments::parse_lane(
+                lane.id(),
+                &serde_json::to_string(&retained["output"]).unwrap(),
+                &admission,
+            )
+            .unwrap();
+            let mut ids = parsed.iter().map(|a| a.id.clone()).collect::<Vec<_>>();
+            ids.sort();
+            assert_eq!(result.assessment_ids.as_ref().unwrap(), &ids);
+            assert_eq!(ids.len(), 1);
+            assert_eq!(result.finding_ids.len(), 1);
+            if let Some(route) = &provider_route {
+                assert_eq!(route, &result.provider_route);
+            }
+            provider_route = Some(result.provider_route);
+            versions.insert(lane.id().to_owned(), result.lane_contract);
+            values.extend(parsed);
+        }
+        let set = assessments::AssessmentSet::new(&admission, values).unwrap();
+        let findings = set.findings(&admission).unwrap();
+        assert_eq!(findings.len(), 4);
+        let run = Run::new(
+            &admission,
+            versions,
+            provider_route.unwrap(),
+            Completion::Complete,
+            Vec::new(),
         )
-        .unwrap_err();
-        assert_eq!(observed, 4);
+        .unwrap()
+        .with_assessments(&admission, set)
+        .unwrap();
+        let record = ReviewRecord {
+            admission,
+            run,
+            findings,
+        };
+        let error = record.validate().unwrap_err();
         assert_eq!(error.to_string(), "assessment_byte_limit", "{error:#}");
+        assert!(assessments::bounded(&record, assessments::MAX_REVIEW_BYTES).is_err());
+        assert!(!work.join("review-record.json").exists());
+        assert!(
+            !work.join("run.json").exists(),
+            "oversized completion must not be persisted"
+        );
     }
     if let Some(bytes) = &saved_admission {
         let binding: serde_json::Value =
