@@ -7,7 +7,7 @@ use super::{
         snapshot_artifacts,
     },
     markdown::{
-        approved_input_path, normalized_path, publish_create_only_anchored,
+        approved_input_path, normalized_path, publish_with_attachments,
         read_remediation_from_snapshot, read_synthesis_from_snapshot, read_test_plan_from_snapshot,
         require_bundle_files, validate_plan_parity, validate_source_identity,
     },
@@ -154,7 +154,14 @@ pub fn render_html(options: HtmlRenderOptions) -> Result<HtmlRenderResult> {
     validate_source_identity(&review, &synthesis, &remediation, &tests)?;
     validate_plan_parity(&synthesis, &remediation, &tests)?;
 
-    let report = render_report(&review, &synthesis, &remediation, &tests, &decision)?;
+    let mut report = render_report(&review, &synthesis, &remediation, &tests, &decision)?;
+    let architecture = super::architecture::from_snapshot(&artifacts, &review)?;
+    if !architecture.is_empty() {
+        report = report.replace(
+            "</body>",
+            &format!("{}</body>", super::architecture::html(&architecture)?),
+        );
+    }
     ensure!(
         report.len() <= MAX_RENDERED_BYTES,
         "html_report_byte_limit_exceeded"
@@ -204,7 +211,7 @@ pub fn render_html(options: HtmlRenderOptions) -> Result<HtmlRenderResult> {
         !unsafe_content("manifest.json", std::str::from_utf8(&manifest_bytes)?),
         "html_manifest_redaction_recheck_failed"
     );
-    let (actual_report, actual_manifest) = publish_create_only_anchored(
+    let (actual_report, actual_manifest) = publish_with_attachments(
         &options.destination_root,
         std::path::Path::new(&publication.target),
         "report.html",
@@ -212,6 +219,7 @@ pub fn render_html(options: HtmlRenderOptions) -> Result<HtmlRenderResult> {
         &manifest_bytes,
         MAX_RENDERED_BYTES as u64,
         "html",
+        &super::architecture::attachments(&architecture)?,
     )?;
     ensure!(
         actual_report == report.as_bytes(),
@@ -269,7 +277,7 @@ pub(crate) fn render_report(
         .map(|item| (item.finding_id.as_str(), item))
         .collect::<BTreeMap<_, _>>();
 
-    let mut out = String::from("<!doctype html>\n<html lang=\"en\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><title>CodeFriend Review Report</title><style>body{font:16px/1.55 system-ui,sans-serif;max-width:78rem;margin:auto;padding:2rem;color:#18202a;background:#fff}nav,section,article{margin:2rem 0}nav ul{columns:2}a{color:#0757a5}a:focus{outline:3px solid #f5a623;outline-offset:3px}code{overflow-wrap:anywhere}dt{font-weight:700;margin-top:.65rem}dd{margin-left:0}.finding{border-top:2px solid #ccd4dd;padding-top:1.5rem}.meta{background:#f4f6f8;padding:1rem}h1,h2,h3{line-height:1.2}</style></head><body>\n<a href=\"#report\">Skip to report</a><main id=\"report\"><h1>CodeFriend Review Report</h1>\n");
+    let mut out = String::from("<!doctype html>\n<html lang=\"en\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><title>CodeFriend Review Report</title><style>body{font:16px/1.55 system-ui,sans-serif;max-width:78rem;margin:auto;padding:2rem;color:#18202a;background:#fff}nav,section,article{margin:2rem 0}nav ul{columns:2}a{color:#0757a5}a:focus{outline:3px solid #f5a623;outline-offset:3px}code{overflow-wrap:anywhere}dt{font-weight:700;margin-top:.65rem}dd{margin-left:0}.finding{border-top:2px solid #ccd4dd;padding-top:1.5rem}.meta{background:#f4f6f8;padding:1rem}h1,h2,h3{line-height:1.2}.architecture table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:.9rem}.architecture th,.architecture td{text-align:left;vertical-align:top;padding:.6rem;border:1px solid #ccd4dd;overflow-wrap:anywhere}.architecture th{background:#f4f6f8}.architecture img{max-width:100%;height:auto}</style></head><body>\n<a href=\"#report\">Skip to report</a><main id=\"report\"><h1>CodeFriend Review Report</h1>\n");
     out.push_str("<nav aria-label=\"Report contents\"><h2>Contents</h2><ul><li><a href=\"#source\">Source and scope</a></li><li><a href=\"#approval\">Publication approval</a></li><li><a href=\"#findings\">Findings</a></li><li><a href=\"#evidence\">Evidence index</a></li><li><a href=\"#boundary\">Output boundary</a></li></ul><h3>Finding index</h3><ul>");
     for finding in &synthesis.synthesized_findings {
         write!(

@@ -392,6 +392,7 @@ pub(super) async fn artifact(
         "fitness" => "fitness.json",
         "impact" => "impact.json",
         "rationale" => "rationale.json",
+        "four_plus_one" => "four_plus_one.json",
         "drift" => "drift.json",
         "palace_comparison" => "palace_comparison.json",
         _ => {
