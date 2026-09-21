@@ -250,6 +250,17 @@ fn exercise(timeout: u64, cancel: bool) {
     assert_eq!(receipt["status"], "failed");
     assert_eq!(result["envelope"]["effects"]["outcome"], "performed");
     let validator = &receipt["validators"][0];
+    let temporary = std::path::Path::new(validator["temporary_root"].as_str().unwrap());
+    assert!(!temporary.is_absolute());
+    assert_eq!(temporary.components().count(), 1);
+    assert!(temporary
+        .to_str()
+        .unwrap()
+        .starts_with(".csdlc-validator-tmp-"));
+    assert!(
+        !linked.join(temporary).exists(),
+        "temporary root leaked after cancellation/timeout"
+    );
     assert_eq!(validator["timeout_seconds"], timeout);
     assert_eq!(validator["timed_out"], !cancel);
     assert_eq!(validator["cancelled"], cancel);
