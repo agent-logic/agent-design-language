@@ -712,6 +712,9 @@ fn four_plus_one_approved_exports_preserve_diagrams_and_reject_tampering() {
         if let PublicationFormat::Html = format {
             let html = fs::read_to_string(out.join("report.html")).unwrap();
             assert!(html.contains("id=\"logical\""));
+            assert!(html.contains("<table>"));
+            assert!(html.contains("<th>ID</th>"));
+            assert!(!html.contains("| ID | Name and responsibility |"));
             assert!(html.contains("architecture-logical-000.svg"));
             assert!(html.contains("id=\"scenario-failure\""));
         }

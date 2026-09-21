@@ -13,5 +13,5 @@
     "Injected model output is not live semantic-analysis proof",
     "Not independent qualification"
   ],
-  "validation_log": ".adl/issue-1109/membership-tests.log"
+  "validation_log": ".adl/issue-1109/candidate-r3-tests.log"
 }

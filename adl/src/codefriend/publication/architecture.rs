@@ -83,7 +83,8 @@ pub(crate) fn markdown(files: &BTreeMap<String, Vec<u8>>) -> Result<String> {
 }
 
 pub(crate) fn html(files: &BTreeMap<String, Vec<u8>>) -> Result<String> {
-    let mut html = ::markdown::to_html(&markdown(files)?);
+    let mut html = ::markdown::to_html_with_options(&markdown(files)?, &::markdown::Options::gfm())
+        .map_err(|_| anyhow::anyhow!("architecture_html_render_failed"))?;
     for view in [
         "logical",
         "development",
@@ -108,7 +109,7 @@ pub(crate) fn html(files: &BTreeMap<String, Vec<u8>>) -> Result<String> {
         }
     }
     Ok(format!(
-        "<section aria-label=\"4+1 architecture\">{html}</section>"
+        "<section class=\"architecture\" aria-label=\"4+1 architecture\">{html}</section>"
     ))
 }
 

@@ -130,5 +130,11 @@ explicit. Conflict records retain citations to conflicting evidence.
 A lower-level `adl codefriend architecture four-plus-one --store STORE --graph
 GRAPH --provider-request REQUEST --out NEW_DIRECTORY` command uses the same
 contracts. That command alone does not establish product-journey qualification.
-Hosted/paired generation and installed ADL/external-repository qualification remain
-pending in this candidate. Component fixtures do not establish their completion.
+Installed native generation and retrieval passed on ADL and a bounded external
+repository; see [the #1109 evidence](../milestones/v0.92.2/evidence/issue-1109/README.md)
+for exact candidates, source revisions and partial-coverage limits. Hosted and
+paired-local activity integration remains with #1101 (and the website integration
+in agent-logic/codefriend.ai#6); those paths must consume this package and existing
+approval contracts before claiming website 4+1 support. Independent Beta 1
+qualification remains #915, including its prescribed repositories, provider,
+platforms and both website modes. These native demonstrations do not satisfy it.

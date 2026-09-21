@@ -20,7 +20,7 @@ Run ID: issue-1109
 Version: 1.0.5
 Title: [v0.92.2][CF-ARCH] Generate the complete 4+1 architecture package in Beta 1
 Branch: codex/1109-codefriend-four-plus-one-architecture
-Card Status: draft
+Card Status: ready
 Status: IN_PROGRESS
 Generated: <timestamp>
 
@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implemented source-bound 4+1 model generation, optional native journey continuation, reconstruction on resume, editable Mermaid/SVG package, and existing approval-bound Markdown/HTML/PDF exports. Hosted/paired integration and installed qualification remain incomplete.
+Implemented source-bound 4+1 generation in native CodeFriend journey, response reconstruction and retention guards, Mermaid/SVG artifacts and existing approval-bound Markdown/HTML/PDF exports. Installed ADL and external native generation/retrieval passed with truthful partial packages.
 
 ## PVF Lane Truth
 - Initial PVF lane: `<initial_pvf_lane>`

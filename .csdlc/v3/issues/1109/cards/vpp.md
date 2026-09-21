@@ -13,10 +13,10 @@ card_status: "ready"
 status: "IN_PROGRESS"
 initial_pvf_lane: "runtime_full_validation"
 planned_pvf_lane: "runtime_full_validation"
-lane_registry_path: "issue-1109-proof-inventory"
+lane_registry_path: "docs/milestones/v0.92.2/evidence/issue-1109/README.md"
 lane_registry_template_set: "1.0.5"
 validation_runtime_class: "deterministic-local-and-installed"
-validation_resource_profile: "local-cpu"
+validation_resource_profile: "local CPU and five explicit single-attempt Anthropic generation calls; no other paid/cloud experiments"
 validation_family: "codefriend"
 validation_size_split: "focused-then-installed"
 expected_proof_cost: "unknown"
@@ -35,13 +35,13 @@ source_refs:
   - kind: "spp"
     ref: "<spp_card>"
 selected_lanes:
-  - "Focused deterministic Rust contract tests; installed journey; rendered report inspection; CI integration lanes"
+  - "Focused deterministic 35-test contract/native-journey lane locally; isolated installed ADL/external generation; fixture PDF inspection and HTML structure checks; broader runtime/coverage integration deferred to GitHub CI because no changed runtime kernel/provider contract requires broad local rerun."
 parallel_groups:
   - "sequential implementation and proof; bounded pre-PR independent review"
 validation_commands:
-  - "cargo test --manifest-path adl/Cargo.toml four_plus_one; cargo fmt --manifest-path adl/Cargo.toml --check; focused installed journey commands selected after CLI integration"
+  - "cargo test --manifest-path adl/Cargo.toml --test codefriend_four_plus_one --test codefriend_journey; cargo fmt --manifest-path adl/Cargo.toml --check; cargo clippy --manifest-path adl/Cargo.toml --test codefriend_four_plus_one --test codefriend_journey -- -D warnings; installed adl codefriend journey local and resume; native csdlc proof 1109 before publication."
 failure_policy: "Fail closed on missing view evidence, mismatched revision, invalid references, or unrun required installed proof."
-notes: "Worker 9 assigned and bound. No implementation or proof complete. No new approval pipeline; missing evidence remains explicit. Independent qualification #915 is not claimed."
+notes: "35 focused tests and clippy passed at 69afb828f3; final exact-head native proof required after HTML table repair. Installed ADL and external generation/status retrieval passed with partial evidence; neither proves #915. Browser visual inspection unavailable due supported runtime bootstrap failure; PDF pages inspected and HTML asset/link structure checked."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/vpp.md`
@@ -54,20 +54,20 @@ Generate a source-bound 4+1 package in the existing CodeFriend journey and publi
 
 ## Lane Registry Inputs
 
-- Registry path: `issue-1109-proof-inventory`
+- Registry path: `docs/milestones/v0.92.2/evidence/issue-1109/README.md`
 - Registry template set: `1.0.5`
 - Initial PVF lane from issue creation: `runtime_full_validation`
 - Planned PVF lane for execution: `runtime_full_validation`
 
 ## Selected Validation Lanes
 
-- Focused deterministic Rust contract tests; installed journey; rendered report inspection; CI integration lanes
+- Focused deterministic 35-test contract/native-journey lane locally; isolated installed ADL/external generation; fixture PDF inspection and HTML structure checks; broader runtime/coverage integration deferred to GitHub CI because no changed runtime kernel/provider contract requires broad local rerun.
 
 ## Parallelization Plan
 
 - Parallel groups: sequential implementation and proof; bounded pre-PR independent review
 - Validation runtime class: `deterministic-local-and-installed`
-- Validation resource profile: `local-cpu`
+- Validation resource profile: `local CPU and five explicit single-attempt Anthropic generation calls; no other paid/cloud experiments`
 - Validation family: `codefriend`
 - Validation size split: `focused-then-installed`
 
@@ -86,7 +86,7 @@ Generate a source-bound 4+1 package in the existing CodeFriend journey and publi
 
 ## Validation Commands
 
-- cargo test --manifest-path adl/Cargo.toml four_plus_one; cargo fmt --manifest-path adl/Cargo.toml --check; focused installed journey commands selected after CLI integration
+- cargo test --manifest-path adl/Cargo.toml --test codefriend_four_plus_one --test codefriend_journey; cargo fmt --manifest-path adl/Cargo.toml --check; cargo clippy --manifest-path adl/Cargo.toml --test codefriend_four_plus_one --test codefriend_journey -- -D warnings; installed adl codefriend journey local and resume; native csdlc proof 1109 before publication.
 
 ## Failure Semantics
 
@@ -98,4 +98,4 @@ Use this VPP to bridge planning and execution. Keep lane assignment fail-closed,
 
 ## Notes
 
-Worker 9 assigned and bound. No implementation or proof complete. No new approval pipeline; missing evidence remains explicit. Independent qualification #915 is not claimed.
+35 focused tests and clippy passed at 69afb828f3; final exact-head native proof required after HTML table repair. Installed ADL and external generation/status retrieval passed with partial evidence; neither proves #915. Browser visual inspection unavailable due supported runtime bootstrap failure; PDF pages inspected and HTML asset/link structure checked.

@@ -1,0 +1,147 @@
+{
+  "schema": "codefriend.four_plus_one.qualification_summary.v1",
+  "issue": 1109,
+  "date": "2026-09-21",
+  "platform": "macOS arm64",
+  "provider": "anthropic",
+  "model": "claude-fable-5",
+  "attempt_policy": "one provider attempt per explicitly started fresh journey",
+  "runs": [
+    {
+      "name": "adl",
+      "repository": "https://github.com/agent-logic/agent-design-language",
+      "source_revision": "6a5ca087f9737df8512cd7872927d7d95ae3077a",
+      "candidate_revision": "ed929a498257acb8b2fdd919e3a1a961a8a092e7",
+      "installed_binary_source_hash": "da9ee8af1fce0c6870c60ad95d0edebe71a6238bf99dc5c28d5470cf2ff63548",
+      "scope": {
+        "analysis": [
+          "adl/src/codefriend/integration/journey.rs",
+          "adl/src/codefriend/server.rs"
+        ],
+        "context": [
+          "LICENSE",
+          "docs/codefriend/HOSTING.md",
+          "docs/codefriend/LOCAL_AGENT.md",
+          "docs/codefriend/SERVER.md"
+        ],
+        "max_files": 16,
+        "max_bytes": 524288,
+        "max_file_bytes": 262144
+      },
+      "generation": "passed",
+      "installed_status_retrieval": "passed",
+      "complete": false,
+      "entity_count": 12,
+      "scenario_count": 2,
+      "views": {
+        "logical": {
+          "entities": 7,
+          "relationships": 4,
+          "missing_inputs": 1
+        },
+        "development": {
+          "entities": 4,
+          "relationships": 3,
+          "missing_inputs": 3
+        },
+        "process": {
+          "entities": 4,
+          "relationships": 4,
+          "missing_inputs": 2
+        },
+        "deployment": {
+          "entities": 3,
+          "relationships": 3,
+          "missing_inputs": 3
+        }
+      },
+      "global_gap_count": 8,
+      "conflict_count": 0,
+      "package_digest": "f638dfddcae8e09852eb4aa2bd68707c62f962195416bbf0dae8b75e4813e3be",
+      "prompt_digest": "bbe3bbfc27479ec33deba6cb960f79d656fff81c47b4578db704ef6c456f57b7",
+      "response_digest": "8a8c2b2f635b34fc9284e2a50002d56dc808d32968030599565e777b4554d5b7",
+      "graph_digest": "61870205a1b45207af69cbe95e340f3bdf9be4656e711db4137bee7df4e539cc",
+      "local_evidence_root": ".adl/issue-1109/qualification-r2/adl",
+      "sha256": {
+        "journey/four_plus_one.json": "09c311050ad20072ed6cc403ffcd281729b05d47f9b75f6f608d73d7aeaf8c73",
+        "journey/session.json": "ae6dc59f3a01ca734aa9923ee1835de6405d8572445b7c88b7da3a8a4d411bc0",
+        "generate.stdout.json": "d70a8a8569259d3601cd837f9bfe85ebf1c4291d9de6321fce15f767f185d651",
+        "generate.stderr.log": "d322b05cb953303502647ea2bfc0e076dcdd87f9407b45fe07c3fb808483a14f",
+        "retrieval.stdout.json": "d70a8a8569259d3601cd837f9bfe85ebf1c4291d9de6321fce15f767f185d651",
+        "retrieval.stderr.log": "d322b05cb953303502647ea2bfc0e076dcdd87f9407b45fe07c3fb808483a14f"
+      }
+    },
+    {
+      "name": "external",
+      "repository": "https://github.com/agent-logic/codefriend.ai",
+      "source_revision": "e28c8f7cd85e656086cc4fb4d0e854427b04b76a",
+      "candidate_revision": "69afb828f31fdbb64acc6483d7f52878f9ab4e4d",
+      "installed_binary_source_hash": "85c9ed9e1d09e7a0a190b39c518ed9caaca583d7dd0c5f6b1e0d810fa4bed581",
+      "scope": {
+        "analysis": [
+          "app/journey.mjs",
+          "app/local-journey.mjs",
+          "app/main.mjs"
+        ],
+        "context": [
+          "README.md",
+          "docs/SECURITY_AND_PUBLICATION_BOUNDARY.md",
+          "infra/terraform/cloudfront.tf",
+          "infra/terraform/s3_site.tf"
+        ],
+        "max_files": 16,
+        "max_bytes": 524288,
+        "max_file_bytes": 262144
+      },
+      "generation": "passed",
+      "installed_status_retrieval": "passed",
+      "complete": false,
+      "entity_count": 10,
+      "scenario_count": 2,
+      "views": {
+        "logical": {
+          "entities": 6,
+          "relationships": 4,
+          "missing_inputs": 1
+        },
+        "development": {
+          "entities": 3,
+          "relationships": 1,
+          "missing_inputs": 2
+        },
+        "process": {
+          "entities": 6,
+          "relationships": 4,
+          "missing_inputs": 1
+        },
+        "deployment": {
+          "entities": 4,
+          "relationships": 2,
+          "missing_inputs": 2
+        }
+      },
+      "global_gap_count": 3,
+      "conflict_count": 1,
+      "package_digest": "410c767075d559c4a57181002e9b5495e5ddea0bb48ba8459c332fd784f1f4d7",
+      "prompt_digest": "6a6d3ee89b4ced08d78d966f3c1bcb78e21a4cff41f10bb93e2d23a7c75f6d65",
+      "response_digest": "628d53877b1172e899389b4e5c8d16a4141d93b3850f5eedba1e8305fa034b64",
+      "graph_digest": "cd2d514b37b7a0ad889fd91e75c39829a4bbf809a44f5b910e75b594d2eda9c8",
+      "local_evidence_root": ".adl/issue-1109/qualification-r3/external",
+      "sha256": {
+        "journey/four_plus_one.json": "38bce8bb3076aa291f3ec6d23a14fc8d03b5a6fcac65a4f037fd8e7fc5314899",
+        "journey/session.json": "8da1c215586abd2c5c59d4afa58341fd4775439624898702eb8ea1a15a2e188c",
+        "generate.stdout": "f9a0a905a34caed0e4dd484324b81ed2f3c7e691161258bb4f83a7140a318775",
+        "generate.stderr": "d322b05cb953303502647ea2bfc0e076dcdd87f9407b45fe07c3fb808483a14f",
+        "retrieve.stdout": "f9a0a905a34caed0e4dd484324b81ed2f3c7e691161258bb4f83a7140a318775",
+        "retrieve.stderr": "d322b05cb953303502647ea2bfc0e076dcdd87f9407b45fe07c3fb808483a14f"
+      }
+    }
+  ],
+  "non_claims": [
+    "Not independent issue-915 qualification",
+    "Not hosted or paired-local website generation",
+    "Partial packages do not establish running topology",
+    "Private source, raw provider responses and credentials are not published",
+    "Approval/export contract proof uses deterministic fixtures; live packages were generated and retrieved without fabricated review approval"
+  ]
+}
