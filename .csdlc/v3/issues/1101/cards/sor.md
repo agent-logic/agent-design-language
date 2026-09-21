@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implemented the versioned CodeFriend update-cycle plan and independently selectable review, documentation, diagram, and test activities for hosted and paired-local execution. All five exact-head review findings were remediated: failed activity records are retained, citations bind the actual prompt manifest, documentation proposals are classified, Mermaid output has a render contract, and local cycle cancellation/restart/no-replay behavior has direct coverage. Fresh review of the final lifecycle commit and PR publication remain pending.
+Implemented the versioned CodeFriend update-cycle plan and independently selectable review, documentation, diagram, and test activities for hosted and paired-local execution. All findings from two independent review passes were remediated, including retained failed-cycle envelopes, prompt-bound citations, documentation classification, constrained Mermaid validation, cycle-specific restart/cancellation/replay, production gateway admission decoding, and Review-lane failure retention. Fresh review of the final lifecycle commit and PR publication remain pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
@@ -79,20 +79,20 @@ Implemented the versioned CodeFriend update-cycle plan and independently selecta
 - Additional proof artifacts: `Focused deterministic component tests and the issue-local PVF manifest; no paid provider, deployment, or successful Mermaid render artifact is claimed.`
 
 ## Actions taken
-- `Added strict prompt-bound proposal contracts: citations can name only supplied evidence, documentation declares create/update disposition and unsupported claims, and Mermaid requires recognized syntax plus an exact mmdc SVG render manifest.`
-- `Retained validated failed-cycle envelopes through hosted and paired-local paths while preserving failed operation/report status; non-cycle cancellation still exposes no successful result.`
-- `Added cycle-specific failure-envelope, cancellation, restart, redelivery/no-replay, omitted-prompt-evidence, documentation-classification, Mermaid syntax, and render-manifest regressions.`
+- `Implemented strict prompt-bound activity proposals with create/update and unsupported-claim classification, constrained renderable Mermaid flowchart/sequence syntax, and exact mmdc SVG render manifests.`
+- `Retained explicit Documentation and Review failure envelopes through hosted and paired-local paths, and bound the real gateway admission to the locally owned admission before accepting local cycle results.`
+- `Added direct regressions for production gateway decoding, Review-lane failure retention, invalid allowed-prefix Mermaid, prompt omissions, cancellation, restart, redelivery/no-replay, and report tampering.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none: the implementation is committed only on the bound issue branch`
 - Worktree-only paths remaining: `All issue #1101 implementation, tests, docs, and lifecycle records remain on the bound branch pending PR review and merge.`
 - Integration state: `worktree_only`
 - Verification scope: `bound issue worktree`
-- Integration method used: `Nine implementation commits on the bound issue branch through 8bb433d00c980b2ab97b402dbc3d92a7873ed63f; no main checkout edits and no merge.`
+- Integration method used: `Fifteen commits on the bound issue branch through e283058ed47bc5ed6c3b63ffef362cafa973dc4a; no main checkout edits and no merge.`
 - Verification performed:
   - `git status --short --branch; git diff --check origin/main...HEAD`
     `Verified the bound branch identity, clean worktree, and patch whitespace hygiene without claiming main integration.`
-- Result: `Committed through 8bb433d00c980b2ab97b402dbc3d92a7873ed63f with all known code-review findings remediated; final lifecycle record, fresh exact-head review, publication, CI, merge, and deployment remain pending.`
+- Result: `Committed through e283058ed47bc5ed6c3b63ffef362cafa973dc4a with every known review finding remediated and the interrupted proof ticket truthfully abandoned; final lifecycle record, fresh exact-head review, native proof/publication, CI, merge, and deployment remain pending.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -108,9 +108,9 @@ Rules:
 ## Validation
 - Validation commands and their purpose:
   - `cargo test --manifest-path adl/Cargo.toml --test codefriend_update_cycle --test codefriend_server --test codefriend_agent --test codefriend_agent_receipt --test codefriend_agent_publication --test codefriend_integration; cargo clippy --manifest-path adl/Cargo.toml --test codefriend_update_cycle --test codefriend_server --test codefriend_agent -- -D warnings; cargo fmt --manifest-path adl/Cargo.toml --all -- --check; git diff --check origin/main...HEAD`
-    `Exercises activity selection, prompt-bound citations, create/update classification, Mermaid syntax and render manifests, retained failure envelopes, hosted admission, paired-local cancellation/restart/redelivery/no-replay, legacy compatibility, publication receipts, hosted integration, formatting, lint, and patch hygiene.`
+    `Exercises activity selection, actual-prompt citation binding, create/update classification, constrained Mermaid grammar and render manifests, retained Documentation and Review failure envelopes, production gateway admission decoding, hosted admission, paired-local cancellation/restart/redelivery/no-replay, legacy compatibility, publication receipts, hosted integration, formatting, lint, and patch hygiene.`
 - Results:
-  - `90 focused and compatibility tests passed with zero failures: 39 agent, 6 agent publication, 9 agent receipt, 5 integration, 22 server, and 9 update-cycle tests. Strict focused Clippy, formatting, and diff hygiene also passed.`
+  - `90 focused and compatibility tests passed with zero failures after the second review repair: 39 agent, 6 agent publication, 9 agent receipt, 5 integration, 22 server, and 9 update-cycle tests. Strict focused Clippy, formatting, and diff hygiene passed.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -125,7 +125,7 @@ verification_summary:
   validation:
     status: passed_with_remaining_review_gates
     checks_run:
-      - "90 focused CodeFriend tests passed, including failed-cycle result retrieval, paired-local failed-envelope retention, cycle cancellation and restart without redispatch, omitted-prompt citation rejection, documentation disposition, Mermaid syntax/render-manifest rejection, report tamper rejection, and legacy compatibility."
+      - "90 focused CodeFriend tests passed, including the real server binary retaining malformed Review and Documentation cycle failures, production-shaped paired-local gateway decoding, failed-cycle retrieval, cycle cancellation/restart without redispatch, omitted-prompt citation rejection, documentation disposition, invalid allowed-prefix Mermaid rejection, report tamper rejection, and legacy compatibility."
   determinism:
     status: passed
     replay_verified: true
