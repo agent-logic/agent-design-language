@@ -915,12 +915,16 @@ fn local_orchestration_uses_four_gateway_lanes_and_redelivery_never_dispatches()
     let identities = reports[0]["gateway_lanes"].as_array().unwrap();
     assert_eq!(identities.len(), 4);
     for identity in identities {
+        assert!(identity.get("request_digest").is_none());
         assert_eq!(identity["candidate_revision"], "c".repeat(40));
         assert_eq!(
             identity["model_identity"]["provider_model_id"],
             "fixture-model-v1"
         );
     }
+    let retained: adl::codefriend::agent::RunReport =
+        serde_json::from_value(reports[0].clone()).unwrap();
+    assert_eq!(serde_json::to_value(retained).unwrap(), reports[0]);
 }
 #[test]
 fn local_update_cycle_uses_one_durable_gateway_operation_and_preserves_activity_results() {

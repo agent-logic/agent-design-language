@@ -190,6 +190,24 @@ pub(crate) fn validate_complete_run(
 }
 
 impl FourPerspectiveReviewRun {
+    pub fn rebind_provider_route(&mut self, provider_route: &str) -> Result<()> {
+        for lane in &mut self.lane_results {
+            lane.provider_route = provider_route.to_string();
+        }
+        if let Some(coverage) = &mut self.review_record.run.coverage {
+            coverage.lane_result_digests = self
+                .lane_results
+                .iter()
+                .map(|lane| Ok((lane.lane.clone(), hash(lane)?)))
+                .collect::<Result<BTreeMap<_, _>>>()?;
+        }
+        self.review_record.run.provider_route = provider_route.to_string();
+        self.review_record
+            .run
+            .refresh_identity(&self.review_record.admission)?;
+        self.successful_execution()
+    }
+
     pub fn successful_execution(&self) -> Result<()> {
         self.review_record.successful_execution()?;
         let coverage = self.review_record.run.coverage.as_ref();

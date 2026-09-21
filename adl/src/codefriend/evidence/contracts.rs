@@ -169,6 +169,10 @@ impl Run {
         c.id.clear();
         hash(&c)
     }
+    pub(crate) fn refresh_identity(&mut self, a: &Admission) -> Result<()> {
+        self.id = self.identity()?;
+        self.validate(a)
+    }
     pub fn validate(&self, a: &Admission) -> Result<()> {
         a.validate()?;
         ensure!(

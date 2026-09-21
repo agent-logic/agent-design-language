@@ -411,10 +411,10 @@ fn diagrams_require_mermaid_syntax_and_an_exact_render_manifest() {
 
 #[test]
 fn documentation_proposals_require_create_or_update_classification() {
-    let (root, admission) = admission();
+    let (root, missing_admission) = admission();
     let result = run_with_executor(
         plan(vec![Activity::Documentation], None),
-        admission,
+        missing_admission,
         "cycle-doc-disposition".into(),
         "provider:fixture:model-v1".into(),
         None,
@@ -433,13 +433,36 @@ fn documentation_proposals_require_create_or_update_classification() {
     .unwrap();
     assert_eq!(result.activities[0].status, ActivityStatus::Failed);
     fs::remove_dir_all(root).unwrap();
+
+    let (root, admission) = admission();
+    let result = run_with_executor(
+        plan(vec![Activity::Documentation], None),
+        admission,
+        "cycle-doc-contradictory-disposition".into(),
+        "provider:fixture:model-v1".into(),
+        None,
+        |_, _, _| {
+            Ok(adl::codefriend::activities::ProviderOutput {
+                final_status: ProviderInvocationFinalStatusV1::Ok,
+                output_text: Some(json!({
+                    "schema":OUTPUT_SCHEMA,
+                    "artifacts":[{"path":"src/lib.rs","kind":"documentation","disposition":"create","content":"# Replacement","evidence_paths":["src/lib.rs"],"unsupported_claims":[],"limitations":["proposal only"],"render_manifest":null}],
+                    "gaps":[],
+                    "measured_coverage_percent":null
+                }).to_string()),
+            })
+        },
+    )
+    .unwrap();
+    assert_eq!(result.activities[0].status, ActivityStatus::Failed);
+    fs::remove_dir_all(root).unwrap();
 }
 
 #[test]
 fn aggregate_revalidates_embedded_review_content_beyond_its_digest() {
     let (root, admission) = admission();
     let route = "provider:fixture:model-v1";
-    let review = runner::run_with_executor(
+    let mut review = runner::run_with_executor(
         ExecutionOptions {
             out: root.join("review"),
             run_id: "cycle-review".into(),
@@ -455,11 +478,13 @@ fn aggregate_revalidates_embedded_review_content_beyond_its_digest() {
         },
     )
     .unwrap();
+    let resolved_route = "provider:fixture:resolved-model-v2";
+    review.rebind_provider_route(resolved_route).unwrap();
     let mut result = run_with_executor(
         plan(vec![Activity::Review], None),
         admission,
         "cycle-review".into(),
-        route.into(),
+        resolved_route.into(),
         Some(review),
         |_, _, _| unreachable!(),
     )
@@ -467,7 +492,7 @@ fn aggregate_revalidates_embedded_review_content_beyond_its_digest() {
     result.review.as_mut().unwrap().lane_results[0].provider_route = "forged:route".into();
     result.activities[0].review_result_digest =
         Some(adl::codefriend::evidence::hash(result.review.as_ref().unwrap()).unwrap());
-    assert!(result.validate(route).is_err());
+    assert!(result.validate(resolved_route).is_err());
     fs::remove_dir_all(root).unwrap();
 }
 
@@ -475,7 +500,7 @@ fn aggregate_revalidates_embedded_review_content_beyond_its_digest() {
 fn review_activity_accepts_successful_partial_review_with_explicit_coverage() {
     let (root, admission) = admission_with_privacy_omission();
     let route = "provider:fixture:model-v1";
-    let review = runner::run_with_executor(
+    let mut review = runner::run_with_executor(
         ExecutionOptions {
             out: root.join("partial-review"),
             run_id: "cycle-partial-review".into(),
@@ -496,18 +521,20 @@ fn review_activity_accepts_successful_partial_review_with_explicit_coverage() {
         review.completion,
         adl::codefriend::evidence::contracts::Completion::Incomplete
     );
+    let resolved_route = "provider:fixture:resolved-model-v2";
+    review.rebind_provider_route(resolved_route).unwrap();
     let result = run_with_executor(
         plan(vec![Activity::Review], None),
         admission,
         "cycle-partial-review".into(),
-        route.into(),
+        resolved_route.into(),
         Some(review),
         |_, _, _| unreachable!(),
     )
     .unwrap();
     assert_eq!(result.activities[0].status, ActivityStatus::Complete);
     assert!(result.failures.is_empty());
-    result.validate(route).unwrap();
+    result.validate(resolved_route).unwrap();
     fs::remove_dir_all(root).unwrap();
 }
 

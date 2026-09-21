@@ -341,14 +341,7 @@ fn execute_cycle(
         activity.provider_route.clone_from(&observed_route);
     }
     if let Some(review) = &mut result.review {
-        review
-            .review_record
-            .run
-            .provider_route
-            .clone_from(&observed_route);
-        for lane in &mut review.lane_results {
-            lane.provider_route.clone_from(&observed_route);
-        }
+        review.rebind_provider_route(&observed_route)?;
         if let Some(activity) = result
             .activities
             .iter_mut()

@@ -141,7 +141,7 @@ impl Case {
                 .map(|lane| GatewayLaneIdentity {
                     lane: lane.id().into(),
                     candidate_revision: candidate.clone(),
-                    request_digest: "e".repeat(64),
+                    request_digest: None,
                     model_identity: model.clone(),
                 })
                 .collect(),

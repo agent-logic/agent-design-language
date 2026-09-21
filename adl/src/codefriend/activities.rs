@@ -616,6 +616,19 @@ pub(crate) fn validate_output(
                 | (Activity::Tests, ArtifactKind::Test)
         );
         ensure!(kind_ok, "activity_artifact_kind_mismatch");
+        ensure!(
+            !(artifact.disposition == ArtifactDisposition::Create
+                && admitted.contains(artifact.path.as_str())),
+            "activity_artifact_disposition_conflict"
+        );
+        if artifact.disposition == ArtifactDisposition::Update
+            && !admitted.contains(artifact.path.as_str())
+        {
+            ensure!(
+                !artifact.limitations.is_empty(),
+                "activity_update_existence_unverified"
+            );
+        }
         if artifact.kind == ArtifactKind::MermaidDiagram {
             ensure!(
                 artifact.path.ends_with(".mmd") && valid_mermaid(&artifact.content),

@@ -399,7 +399,8 @@ struct Control {
 pub struct GatewayLaneIdentity {
     pub lane: String,
     pub candidate_revision: String,
-    pub request_digest: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub request_digest: Option<String>,
     pub model_identity: crate::model_identity::ModelIdentityV1,
 }
 impl GatewayLaneIdentity {
@@ -411,7 +412,10 @@ impl GatewayLaneIdentity {
                     .bytes()
                     .all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b))
                 && self.candidate_revision.bytes().any(|b| b != b'0')
-                && super::evidence::valid_digest(&self.request_digest),
+                && self
+                    .request_digest
+                    .as_deref()
+                    .is_none_or(super::evidence::valid_digest),
             "agent_gateway_candidate"
         );
         ensure!(
@@ -634,7 +638,8 @@ impl RunReport {
                     .ok_or_else(|| anyhow::anyhow!("agent_cycle_execution_binding_missing"))?;
                 ensure!(
                     execution.candidate_revision == identity.candidate_revision
-                        && execution.request_digest == identity.request_digest
+                        && identity.request_digest.as_deref()
+                            == Some(execution.request_digest.as_str())
                         && execution.model_identity == identity.model_identity,
                     "agent_cycle_execution_binding_changed"
                 );
@@ -883,7 +888,7 @@ impl Transport {
         let identity = GatewayLaneIdentity {
             lane: lane.id().into(),
             candidate_revision: result.candidate_revision.clone(),
-            request_digest: operation.request_digest.clone(),
+            request_digest: None,
             model_identity: result.model_identity.clone(),
         };
         identity.validate()?;
@@ -895,7 +900,7 @@ impl Transport {
             let operation_identity = GatewayLaneIdentity {
                 lane: lane.id().into(),
                 candidate_revision: operation.candidate_revision.clone(),
-                request_digest: operation.request_digest.clone(),
+                request_digest: None,
                 model_identity: observed.clone(),
             };
             operation_identity.validate()?;
@@ -1090,7 +1095,7 @@ impl Transport {
         let identity = GatewayLaneIdentity {
             lane: "cycle".into(),
             candidate_revision: result.candidate_revision.clone(),
-            request_digest: operation.request_digest.clone(),
+            request_digest: Some(operation.request_digest.clone()),
             model_identity: result.model_identity.clone(),
         };
         identity.validate()?;
@@ -1106,7 +1111,7 @@ impl Transport {
             let operation_identity = GatewayLaneIdentity {
                 lane: "cycle".into(),
                 candidate_revision: operation.candidate_revision.clone(),
-                request_digest: operation.request_digest.clone(),
+                request_digest: Some(operation.request_digest.clone()),
                 model_identity: observed.clone(),
             };
             ensure!(
