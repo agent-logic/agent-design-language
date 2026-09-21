@@ -3,7 +3,7 @@ mod github_command;
 use adl::codefriend::ingestion::{local, AdmissionInput, Scope};
 use anyhow::{ensure, Result};
 use std::{collections::BTreeMap, path::Path};
-const USAGE: &str = "Usage: adl codefriend journey resume --output <journey-directory> --request <step.json>\n       adl codefriend journey admitted --request <acquisition-options.json>\n        adl codefriend journey local --request <journey.json> [--provider-request <request.json> --run-id <id> --destination <existing-directory>]\n       adl codefriend ingest local --checkout <directory> --repository <https://host/owner/repo> --revision <full-commit-id> --scope <scope.json> --out <new-packet.json>\n       adl codefriend packet read --input <packet.json>\n       adl codefriend review run --store <store-dir> --packet-id <id> --provider-request <request.json> --out <dir> [--run-id <id>]\n       adl codefriend review synthesize --input <review-record.json> --out <new-dir>\n       adl codefriend plan remediation --input <synthesis.json> --out <new-dir>\n       adl codefriend plan remediation read --input <remediation-plan.json>\n       adl codefriend plan tests --input <synthesis.json> --out <new-dir>\n       adl codefriend plan tests read --input <test-plan.json>\n       adl codefriend publication prepare|approve|withhold|invalidate|inspect|admit ...\n       adl codefriend export markdown|html --review-record <review-record.json> --publication <publication.json> --approval-store <dir> --artifact-root <dir> --synthesis <relative-path> --remediation-plan <relative-path> --test-plan <relative-path> --destination-root <dir> --out <new-dir>\n       adl codefriend export pdf --review-record <review-record.json> --publication <publication.json> --approval-store <dir> --artifact-root <dir> --synthesis <relative-path> --remediation-plan <relative-path> --test-plan <relative-path> --destination-root <dir> --out <new-dir> --font <font.ttf>\n       adl codefriend review shell start|inspect|cancel|retry|withhold-publication ...";
+const USAGE: &str = "Usage: adl codefriend journey resume --output <journey-directory> --request <step.json>\n       adl codefriend journey admitted --request <acquisition-options.json>\n        adl codefriend journey local --request <journey.json> [--provider-request <request.json> --run-id <id> --destination <existing-directory>]\n       adl codefriend ingest local --checkout <directory> --repository <https://host/owner/repo> --revision <full-commit-id> --scope <scope.json> --out <new-packet.json>\n       adl codefriend packet read --input <packet.json>\n       adl codefriend review run --store <store-dir> --packet-id <id> --provider-request <request.json> --out <dir> [--run-id <id>]\n       adl codefriend review synthesize --input <review-record.json> --out <new-dir>\n       adl codefriend plan remediation --input <synthesis.json> --out <new-dir>\n       adl codefriend plan remediation read --input <remediation-plan.json>\n       adl codefriend plan tests --store <original-store> --input <synthesis.json> --out <new-dir>\n       adl codefriend plan tests read --input <test-plan.json> [--store <original-store>]\n       adl codefriend publication prepare|approve|withhold|invalidate|inspect|admit ...\n       adl codefriend export markdown|html --review-record <review-record.json> --publication <publication.json> --approval-store <dir> --artifact-root <dir> --synthesis <relative-path> --remediation-plan <relative-path> --test-plan <relative-path> --destination-root <dir> --out <new-dir>\n       adl codefriend export pdf --review-record <review-record.json> --publication <publication.json> --approval-store <dir> --artifact-root <dir> --synthesis <relative-path> --remediation-plan <relative-path> --test-plan <relative-path> --destination-root <dir> --out <new-dir> --font <font.ttf>\n       adl codefriend review shell start|inspect|cancel|retry|withhold-publication ...";
 pub(super) fn real_codefriend(args: &[String]) -> Result<()> {
     if args.len() >= 2 && args[0] == "journey" && args[1] == "resume" {
         return journey_resume(&args[2..]);
@@ -262,30 +262,56 @@ fn plan_remediation(args: &[String]) -> Result<()> {
 }
 
 fn plan_tests(args: &[String]) -> Result<()> {
+    use adl::codefriend::{actions::test_plan, evidence::store::Store};
+    fn open_store(path: &str) -> Result<Store> {
+        ensure!(
+            Path::new(path).join(".codefriend-store-v1").is_file(),
+            "test_plan_requires_existing_original_store"
+        );
+        Store::open(Path::new(path), || {
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap_or_default()
+                .as_secs()
+        })
+    }
     if args.first().is_some_and(|arg| arg == "read") {
-        let flags = exact_flags(&args[1..], &["--input"], "test_plan_read")?;
-        let plan =
-            adl::codefriend::actions::test_plan::read_plan_from_file(Path::new(flags["--input"]))?;
+        let has_store = args.iter().any(|arg| arg == "--store");
+        let expected: &[&str] = if has_store {
+            &["--input", "--store"]
+        } else {
+            &["--input"]
+        };
+        let flags = exact_flags(&args[1..], expected, "test_plan_read")?;
+        let plan = if has_store {
+            test_plan::read_plan_from_store(
+                Path::new(flags["--input"]),
+                &open_store(flags["--store"])?,
+            )?
+        } else {
+            test_plan::read_plan_from_file(Path::new(flags["--input"]))?
+        };
         println!("{}", serde_json::to_string(&plan)?);
         return Ok(());
     }
-    let flags = exact_flags(args, &["--input", "--out"], "test_plan")?;
-    let plan = adl::codefriend::actions::test_plan::plan_from_file(
-        adl::codefriend::actions::test_plan::TestPlanOptions {
+    let flags = exact_flags(args, &["--input", "--out", "--store"], "test_plan")?;
+    let store = open_store(flags["--store"])?;
+    let plan = test_plan::plan_from_store(
+        test_plan::TestPlanOptions {
             input: Path::new(flags["--input"]).to_path_buf(),
             out: Path::new(flags["--out"]).to_path_buf(),
         },
+        &store,
     )?;
     println!(
         "{}",
         serde_json::to_string(&serde_json::json!({
-            "schema": adl::codefriend::actions::test_plan::TEST_PLAN_SCHEMA,
+            "schema": plan.schema,
             "synthesis_digest": plan.synthesis_digest,
             "run_id": plan.run_id,
             "test_case_count": plan.test_cases.len(),
             "omitted_finding_count": plan.omitted_findings.len(),
-            "test_plan": "test-plan.json",
-            "manifest": "manifest.json"
+            "test_plan": "test-plan.json", "manifest": "manifest.json"
         }))?
     );
     Ok(())

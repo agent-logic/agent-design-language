@@ -11,7 +11,7 @@ use super::{
 use crate::codefriend::{
     actions::{
         remediation::{self, RemediationManifest, RemediationPlan, REMEDIATION_MANIFEST_SCHEMA},
-        test_plan::{self, TestPlan, TestPlanManifest, TEST_PLAN_MANIFEST_SCHEMA},
+        test_plan::{self, TestPlan, TestPlanManifest},
     },
     evidence::{contracts::ReviewRecord, hash, valid_digest},
     ingestion::{digest, unsafe_content, validate_path},
@@ -493,7 +493,7 @@ pub(super) fn read_test_plan_from_snapshot(
     )?;
     validate_synthesis_snapshot(&synthesis_manifest, &synthesis, &review)?;
     ensure!(
-        manifest.schema == TEST_PLAN_MANIFEST_SCHEMA
+        manifest.schema == test_plan::manifest_schema(&plan)?
             && manifest.synthesis_manifest_ref == "synthesis-manifest.json"
             && manifest.synthesis_ref == "synthesis.json"
             && manifest.review_record_ref == "review-record.json"
@@ -504,7 +504,7 @@ pub(super) fn read_test_plan_from_snapshot(
             && manifest.test_plan_digest == hash(&plan)?
             && manifest.test_case_count == plan.test_cases.len()
             && manifest.omitted_finding_count == plan.omitted_findings.len()
-            && test_plan::plan(&synthesis)? == plan,
+            && test_plan::derive_for_schema(&plan.schema, &synthesis, &review)? == plan,
         "test_plan_snapshot_digest_or_canonicality_mismatch"
     );
     Ok(plan)

@@ -1,7 +1,8 @@
 use crate::codefriend::{
     evidence::{
-        contracts::{ReviewRecord, Severity},
+        contracts::{ReviewCoverage, ReviewRecord, Severity},
         hash,
+        store::Store,
     },
     review::synthesis::{
         synthesize, ReviewSynthesis, SynthesisManifest, SynthesizedFinding,
@@ -11,13 +12,17 @@ use crate::codefriend::{
 use anyhow::{ensure, Context, Result};
 use serde::{Deserialize, Serialize};
 use std::{
-    collections::BTreeSet,
+    collections::{BTreeMap, BTreeSet},
     fs::{self, File},
     io::{Read, Write},
+    os::unix::fs::MetadataExt,
     path::{Component, Path, PathBuf},
 };
 
 pub const TEST_PLAN_SCHEMA: &str = "codefriend.test_plan.v1";
+pub const TEST_PLAN_SCHEMA_V2: &str = "codefriend.test_plan.v2";
+pub const TEST_PLAN_MANIFEST_SCHEMA_V2: &str = "codefriend.test_plan_manifest.v2";
+
 pub const TEST_PLAN_MANIFEST_SCHEMA: &str = "codefriend.test_plan_manifest.v1";
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
@@ -60,6 +65,8 @@ pub struct OmittedFinding {
 #[serde(deny_unknown_fields)]
 pub struct TestPlan {
     pub schema: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub coverage: Option<ReviewCoverage>,
     pub synthesis_schema: String,
     pub synthesis_digest: String,
     pub run_id: String,
@@ -86,30 +93,89 @@ pub struct TestPlanManifest {
     pub omitted_finding_count: usize,
 }
 
+/// Historical v1 snapshot derivation. New live operations use `plan_from_store`.
 pub fn plan_from_file(options: TestPlanOptions) -> Result<TestPlan> {
+    write_plan_bundle(options, None)
+}
+
+pub fn plan_from_store(options: TestPlanOptions, store: &Store) -> Result<TestPlan> {
+    write_plan_bundle(options, Some(store))
+}
+
+fn check_owner(store: &Store, record: &ReviewRecord) -> Result<()> {
+    ensure!(
+        store.get(&record.admission.packet.packet_id)? == record.admission,
+        "test_plan_original_admission_mismatch"
+    );
+    Ok(())
+}
+
+struct CreatedOutput {
+    path: PathBuf,
+    identity: (u64, u64),
+    committed: bool,
+}
+impl Drop for CreatedOutput {
+    fn drop(&mut self) {
+        if !self.committed
+            && fs::symlink_metadata(&self.path)
+                .is_ok_and(|m| m.is_dir() && (m.dev(), m.ino()) == self.identity)
+        {
+            let _ = fs::remove_dir_all(&self.path);
+        }
+    }
+}
+
+fn write_plan_bundle(options: TestPlanOptions, store: Option<&Store>) -> Result<TestPlan> {
     ensure!(
         !options.out.exists(),
         "test_plan_output_directory_already_exists"
     );
     let (synthesis, source_manifest, review_record) = read_synthesis_bundle(&options.input)?;
-    let plan = plan(&synthesis)?;
+    let plan = if let Some(store) = store {
+        check_owner(store, &review_record)?;
+        plan_with_record(&synthesis, &review_record)?
+    } else {
+        plan(&synthesis)?
+    };
+    if let Some(store) = store {
+        check_owner(store, &review_record)?;
+    }
     fs::create_dir(&options.out).with_context(|| format!("create {}", options.out.display()))?;
-    copy_json_snapshot(&options.input, &options.out.join("synthesis.json"))?;
-    let source_dir = options
-        .input
-        .parent()
-        .ok_or_else(|| anyhow::anyhow!("synthesis_bundle_requires_parent_directory"))?;
-    copy_json_snapshot(
-        &source_dir.join("manifest.json"),
-        &options.out.join("synthesis-manifest.json"),
-    )?;
-    copy_json_snapshot(
-        &source_dir.join("review-record.json"),
-        &options.out.join("review-record.json"),
-    )?;
+    let metadata = fs::symlink_metadata(&options.out)?;
+    let mut output = CreatedOutput {
+        path: options.out.clone(),
+        identity: (metadata.dev(), metadata.ino()),
+        committed: false,
+    };
+    if store.is_some() {
+        // Persist the already validated values, never reopen mutable input paths
+        // after authority and canonical synthesis have been checked.
+        write_json(&options.out.join("synthesis.json"), &synthesis)?;
+        write_json(
+            &options.out.join("synthesis-manifest.json"),
+            &source_manifest,
+        )?;
+        write_json(&options.out.join("review-record.json"), &review_record)?;
+    } else {
+        // Historical v1 artifacts preserve their original byte snapshots.
+        copy_json_snapshot(&options.input, &options.out.join("synthesis.json"))?;
+        let source_dir = options
+            .input
+            .parent()
+            .context("synthesis_bundle_requires_parent_directory")?;
+        copy_json_snapshot(
+            &source_dir.join("manifest.json"),
+            &options.out.join("synthesis-manifest.json"),
+        )?;
+        copy_json_snapshot(
+            &source_dir.join("review-record.json"),
+            &options.out.join("review-record.json"),
+        )?;
+    }
     write_json(&options.out.join("test-plan.json"), &plan)?;
     let manifest = TestPlanManifest {
-        schema: TEST_PLAN_MANIFEST_SCHEMA.to_string(),
+        schema: manifest_schema(&plan)?.to_string(),
         synthesis_manifest_ref: "synthesis-manifest.json".to_string(),
         synthesis_manifest_digest: hash(&source_manifest)?,
         synthesis_ref: "synthesis.json".to_string(),
@@ -122,10 +188,26 @@ pub fn plan_from_file(options: TestPlanOptions) -> Result<TestPlan> {
         omitted_finding_count: plan.omitted_findings.len(),
     };
     write_json(&options.out.join("manifest.json"), &manifest)?;
+    if let Some(store) = store {
+        check_owner(store, &review_record)?;
+    }
+    let metadata = fs::symlink_metadata(&options.out)?;
+    ensure!(
+        metadata.is_dir() && (metadata.dev(), metadata.ino()) == output.identity,
+        "test_plan_output_identity_changed"
+    );
+    output.committed = true;
     Ok(plan)
 }
 
+/// Historical v1 readback does not establish current Store authority.
 pub fn read_plan_from_file(input: &Path) -> Result<TestPlan> {
+    read_plan_bundle(input, None)
+}
+pub fn read_plan_from_store(input: &Path, store: &Store) -> Result<TestPlan> {
+    read_plan_bundle(input, Some(store))
+}
+fn read_plan_bundle(input: &Path, store: Option<&Store>) -> Result<TestPlan> {
     ensure!(
         input.file_name().and_then(|name| name.to_str()) == Some("test-plan.json"),
         "test_plan_bundle_requires_canonical_plan_ref"
@@ -136,7 +218,7 @@ pub fn read_plan_from_file(input: &Path) -> Result<TestPlan> {
     let plan: TestPlan = read_json(input, 8 * 1024 * 1024)?;
     let manifest: TestPlanManifest = read_json(&bundle.join("manifest.json"), 1024 * 1024)?;
     ensure!(
-        manifest.schema == TEST_PLAN_MANIFEST_SCHEMA
+        manifest.schema == manifest_schema(&plan)?
             && manifest.synthesis_manifest_ref == "synthesis-manifest.json"
             && manifest.synthesis_ref == "synthesis.json"
             && manifest.review_record_ref == "review-record.json"
@@ -150,6 +232,12 @@ pub fn read_plan_from_file(input: &Path) -> Result<TestPlan> {
     let review_record: ReviewRecord =
         read_json(&bundle.join(&manifest.review_record_ref), 8 * 1024 * 1024)?;
     validate_synthesis_bundle(&source_manifest, &synthesis, &review_record)?;
+    if plan.schema == TEST_PLAN_SCHEMA_V2 {
+        check_owner(
+            store.context("test_plan_v2_requires_original_store")?,
+            &review_record,
+        )?;
+    }
     ensure!(
         manifest.synthesis_manifest_digest == hash(&source_manifest)?
             && manifest.synthesis_digest == hash(&synthesis)?
@@ -161,10 +249,69 @@ pub fn read_plan_from_file(input: &Path) -> Result<TestPlan> {
     );
     validate_plan_against_synthesis(&plan, &synthesis)?;
     ensure!(
-        plan == self::plan(&synthesis)?,
+        plan == derive_for_schema(&plan.schema, &synthesis, &review_record)?,
         "test_plan_not_canonical_for_synthesis"
     );
+    if let Some(store) = store {
+        check_owner(store, &review_record)?;
+    }
     Ok(plan)
+}
+
+pub fn manifest_schema(plan: &TestPlan) -> Result<&'static str> {
+    match plan.schema.as_str() {
+        TEST_PLAN_SCHEMA => Ok(TEST_PLAN_MANIFEST_SCHEMA),
+        TEST_PLAN_SCHEMA_V2 => Ok(TEST_PLAN_MANIFEST_SCHEMA_V2),
+        _ => anyhow::bail!("invalid_test_plan_schema"),
+    }
+}
+
+/// Canonical snapshot derivation; live owners must separately check original Store authority.
+pub fn derive_for_schema(
+    schema: &str,
+    synthesis: &ReviewSynthesis,
+    record: &ReviewRecord,
+) -> Result<TestPlan> {
+    match schema {
+        TEST_PLAN_SCHEMA => plan(synthesis),
+        TEST_PLAN_SCHEMA_V2 => plan_with_record(synthesis, record),
+        _ => anyhow::bail!("invalid_test_plan_schema"),
+    }
+}
+
+/// Inert deterministic derivation, not a grant of live source or publication authority.
+pub fn plan_with_record(synthesis: &ReviewSynthesis, record: &ReviewRecord) -> Result<TestPlan> {
+    record.successful_execution()?;
+    ensure!(
+        &synthesize(record)? == synthesis,
+        "test_plan_review_synthesis_mismatch"
+    );
+    let mut index = BTreeMap::new();
+    for evidence in &record.admission.evidence {
+        ensure!(
+            index
+                .insert(evidence.id.as_str(), evidence.path.as_str())
+                .is_none(),
+            "test_plan_duplicate_evidence_identity"
+        );
+    }
+    plan_using(synthesis, TEST_PLAN_SCHEMA_V2, |finding| {
+        let mut paths = BTreeSet::new();
+        for id in &finding.evidence {
+            let path = *index
+                .get(id.as_str())
+                .context("test_plan_unknown_evidence")?;
+            if validate_relative_path(path).is_ok()
+                && matches!(
+                    Path::new(path).extension().and_then(|s| s.to_str()),
+                    Some("rs" | "py" | "java" | "js" | "mjs" | "cjs")
+                )
+            {
+                paths.insert(path.to_owned());
+            }
+        }
+        Ok(paths.into_iter().collect())
+    })
 }
 
 fn read_synthesis_bundle(
@@ -215,12 +362,22 @@ fn validate_synthesis_bundle(
 }
 
 pub fn plan(synthesis: &ReviewSynthesis) -> Result<TestPlan> {
+    plan_using(synthesis, TEST_PLAN_SCHEMA, |finding| {
+        Ok(relevant_paths(finding))
+    })
+}
+
+fn plan_using(
+    synthesis: &ReviewSynthesis,
+    schema: &str,
+    paths: impl Fn(&SynthesizedFinding) -> Result<Vec<String>>,
+) -> Result<TestPlan> {
     validate_synthesis(synthesis)?;
     let synthesis_digest = hash(synthesis)?;
     let mut test_cases = Vec::new();
     let mut omitted_findings = Vec::new();
     for finding in &synthesis.synthesized_findings {
-        let relevant_paths = relevant_paths(finding);
+        let relevant_paths = paths(finding)?;
         if relevant_paths.is_empty() {
             omitted_findings.push(OmittedFinding {
                 finding_id: finding.id.clone(),
@@ -235,15 +392,28 @@ pub fn plan(synthesis: &ReviewSynthesis) -> Result<TestPlan> {
             .map(|source| source.finding_id.clone())
             .collect::<Vec<_>>();
         let primary_path = &relevant_paths[0];
-        let proposed_test_location = proposed_test_location(primary_path);
+        let proposed_test_location = if schema == TEST_PLAN_SCHEMA_V2 {
+            match Path::new(primary_path).extension().and_then(|s| s.to_str()) {
+                Some("java") => "tests/CodeFriendRegressionTest.java".into(),
+                Some("py") => "tests/test_codefriend_regression.py".into(),
+                Some("js" | "mjs" | "cjs") => "tests/codefriend_regression.test.js".into(),
+                _ => "tests/codefriend_regression.rs".into(),
+            }
+        } else {
+            proposed_test_location(primary_path)
+        };
         let id = hash(&(
-            "codefriend.test_case_plan.v1",
+            if schema == TEST_PLAN_SCHEMA_V2 {
+                "codefriend.test_case_plan.v2"
+            } else {
+                "codefriend.test_case_plan.v1"
+            },
             &synthesis.repository,
             &synthesis.revision,
             &finding.id,
             &proposed_test_location,
         ))?;
-        test_cases.push(TestCasePlan {
+        let mut case = TestCasePlan {
             id,
             finding_id: finding.id.clone(),
             source_finding_ids,
@@ -264,11 +434,28 @@ pub fn plan(synthesis: &ReviewSynthesis) -> Result<TestPlan> {
                 "Do not mutate repository source while generating the plan.".to_string(),
             ],
             scope_limits: finding.scope_limits.clone(),
-        });
+        };
+        if schema == TEST_PLAN_SCHEMA_V2 {
+            case.behavior_under_test = format!(
+                "Review the reported behavior at admitted source `{primary_path}`: {}",
+                finding.title
+            );
+            case.proposed_fixture = format!("Derive a minimal regression fixture from admitted source `{primary_path}` and evidence IDs {}. Review source behavior before implementation; no fixture bytes or expected result have been executed.", finding.evidence.join(", "));
+            case.expected_pre_fix_failure = "Demonstrate the reported defect with an assertion derived from the admitted source; expected failure remains a proposal until executed.".into();
+            case.expected_post_fix_assertion = "Assert the intended externally observable behavior derived from the reviewed source, then execute the test to verify it.".into();
+            case.detection_rationale = format!("Source-bound proposal for finding {} using admitted path `{primary_path}`; it does not prove the finding or measured coverage.", finding.id);
+            case.scope_limits.push("Test location is proposed, not verified existing; unsupported and privacy-omitted source is not covered by this proposal.".into());
+        }
+        test_cases.push(case);
     }
     test_cases.sort_by(|a, b| a.id.cmp(&b.id));
     let plan = TestPlan {
-        schema: TEST_PLAN_SCHEMA.to_string(),
+        schema: schema.to_string(),
+        coverage: if schema == TEST_PLAN_SCHEMA_V2 {
+            synthesis.coverage.clone()
+        } else {
+            None
+        },
         synthesis_schema: synthesis.schema.clone(),
         synthesis_digest,
         run_id: synthesis.run_id.clone(),
@@ -284,12 +471,20 @@ pub fn plan(synthesis: &ReviewSynthesis) -> Result<TestPlan> {
 
 pub fn validate_plan(plan: &TestPlan) -> Result<()> {
     ensure!(
-        plan.schema == TEST_PLAN_SCHEMA
+        matches!(plan.schema.as_str(), TEST_PLAN_SCHEMA | TEST_PLAN_SCHEMA_V2)
             && matches!(
                 plan.synthesis_schema.as_str(),
                 SYNTHESIS_SCHEMA | SYNTHESIS_SCHEMA_V2 | SYNTHESIS_SCHEMA_V3
             ),
         "invalid_test_plan_schema"
+    );
+    ensure!(
+        if plan.schema == TEST_PLAN_SCHEMA_V2 && plan.synthesis_schema == SYNTHESIS_SCHEMA_V2 {
+            plan.coverage.is_some()
+        } else {
+            plan.coverage.is_none()
+        },
+        "test_plan_coverage_schema_mismatch"
     );
     ensure!(
         !plan.synthesis_digest.is_empty(),
@@ -336,7 +531,11 @@ pub fn validate_plan(plan: &TestPlan) -> Result<()> {
 fn validate_plan_against_synthesis(plan: &TestPlan, synthesis: &ReviewSynthesis) -> Result<()> {
     validate_plan(plan)?;
     ensure!(
-        plan.synthesis_schema == synthesis.schema
+        (if plan.schema == TEST_PLAN_SCHEMA_V2 {
+            plan.coverage == synthesis.coverage
+        } else {
+            plan.coverage.is_none()
+        }) && plan.synthesis_schema == synthesis.schema
             && plan.synthesis_digest == hash(synthesis)?
             && plan.run_id == synthesis.run_id
             && plan.repository == synthesis.repository

@@ -4,7 +4,8 @@
 
 use adl::codefriend::{
     actions::test_plan::{
-        plan, plan_from_file, read_plan_from_file, validate_plan, TestPlan, TestPlanOptions,
+        plan, plan_from_file, plan_from_store, plan_with_record, read_plan_from_file,
+        read_plan_from_store, validate_plan, TestPlan, TestPlanOptions, TEST_PLAN_SCHEMA_V2,
     },
     evidence::contracts::{Confidence, ReviewRecord, Severity},
     review::synthesis::{ReviewSynthesis, SynthesisSource, SynthesizedFinding, SYNTHESIS_SCHEMA},
@@ -252,12 +253,12 @@ fn test_plan_reader_rejects_placeholder_untraceable_or_non_test_cases() {
 #[test]
 fn installed_cli_generates_and_reads_test_plan_without_source_mutation() {
     let root = temp_dir("installed-cli");
-    let bundle = predecessor_bundle();
+    let (record, store, _clock, bundle) = admitted_fixture(&root);
+    let store_path = store.root_path().to_path_buf();
+    drop(store);
     let input = bundle.join("synthesis.json");
     let out_dir = root.join("test-plan-out");
     let source_root = root.join("inspected-repository");
-    let record: ReviewRecord =
-        serde_json::from_slice(&fs::read(bundle.join("review-record.json")).unwrap()).unwrap();
     for object in &record.admission.packet.objects {
         if let Some(content) = &object.content {
             let path = source_root.join(&object.path);
@@ -270,7 +271,9 @@ fn installed_cli_generates_and_reads_test_plan_without_source_mutation() {
     let before = tree_inventory(&source_root);
 
     let output = Command::new(env!("CARGO_BIN_EXE_adl"))
-        .args(["codefriend", "plan", "tests", "--input"])
+        .args(["codefriend", "plan", "tests", "--store"])
+        .arg(&store_path)
+        .arg("--input")
         .arg(&input)
         .arg("--out")
         .arg(&out_dir)
@@ -283,7 +286,7 @@ fn installed_cli_generates_and_reads_test_plan_without_source_mutation() {
         String::from_utf8_lossy(&output.stderr)
     );
     let summary: serde_json::Value = serde_json::from_slice(&output.stdout).unwrap();
-    assert_eq!(summary["schema"], "codefriend.test_plan.v1");
+    assert_eq!(summary["schema"], TEST_PLAN_SCHEMA_V2);
     assert_eq!(summary["test_case_count"], 1);
     assert!(out_dir.join("synthesis.json").exists());
     assert!(out_dir.join("synthesis-manifest.json").exists());
@@ -293,7 +296,9 @@ fn installed_cli_generates_and_reads_test_plan_without_source_mutation() {
     assert!(plan_path.exists());
 
     let read = Command::new(env!("CARGO_BIN_EXE_adl"))
-        .args(["codefriend", "plan", "tests", "read", "--input"])
+        .args(["codefriend", "plan", "tests", "read", "--store"])
+        .arg(&store_path)
+        .arg("--input")
         .arg(&plan_path)
         .env("ADL_OBSERVABILITY_OTEL", "0")
         .output()
@@ -305,11 +310,22 @@ fn installed_cli_generates_and_reads_test_plan_without_source_mutation() {
     );
     let read_plan: TestPlan = serde_json::from_slice(&read.stdout).unwrap();
     assert_eq!(read_plan.test_cases.len(), 1);
-    assert_eq!(read_plan_from_file(&plan_path).unwrap(), read_plan);
+    let store = adl::codefriend::evidence::store::Store::open(&store_path, || {
+        std::time::SystemTime::now()
+            .duration_since(std::time::UNIX_EPOCH)
+            .unwrap()
+            .as_secs()
+    })
+    .unwrap();
+    assert_eq!(read_plan_from_store(&plan_path, &store).unwrap(), read_plan);
+    assert!(read_plan_from_file(&plan_path).is_err());
+    drop(store);
     assert_eq!(tree_inventory(&source_root), before);
 
     let duplicate = Command::new(env!("CARGO_BIN_EXE_adl"))
-        .args(["codefriend", "plan", "tests", "--input"])
+        .args(["codefriend", "plan", "tests", "--store"])
+        .arg(&store_path)
+        .arg("--input")
         .arg(&input)
         .arg("--out")
         .arg(&out_dir)
@@ -414,4 +430,292 @@ fn copy_dir(source: &Path, destination: &Path) {
         let entry = entry.unwrap();
         fs::copy(entry.path(), destination.join(entry.file_name())).unwrap();
     }
+}
+
+// PVF runtime: deterministic Admission/Store mapping regression, local filesystem,
+// no models, network or source execution; required pre-publication proof.
+fn admitted_fixture(
+    root: &Path,
+) -> (
+    ReviewRecord,
+    adl::codefriend::evidence::store::Store,
+    std::rc::Rc<std::cell::Cell<u64>>,
+    PathBuf,
+) {
+    use adl::codefriend::{
+        evidence::{contracts::Run, store::Store, Retention},
+        review::synthesis::{synthesize_from_file, SynthesisOptions},
+    };
+    let mut record: ReviewRecord =
+        serde_json::from_slice(&fs::read(predecessor_bundle().join("review-record.json")).unwrap())
+            .unwrap();
+    let now = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .unwrap()
+        .as_secs();
+    let clock = std::rc::Rc::new(std::cell::Cell::new(now));
+    let c = clock.clone();
+    let store = Store::open(&root.join("original-store"), move || c.get()).unwrap();
+    record.admission = store
+        .admit(record.admission.packet.clone(), Retention { seconds: 3600 })
+        .unwrap();
+    record.run = Run::new(
+        &record.admission,
+        record.run.lane_versions.clone(),
+        record.run.provider_route.clone(),
+        record.run.completion.clone(),
+        record.run.failures.clone(),
+    )
+    .unwrap();
+    for (i, finding) in record.findings.iter_mut().enumerate() {
+        finding.semantic_anchor = format!("opaque-behavior-{i}");
+        finding.id = finding.identity().unwrap();
+    }
+    record.validate().unwrap();
+    let input = root.join("review-record.json");
+    fs::write(&input, serde_json::to_vec(&record).unwrap()).unwrap();
+    let bundle = root.join("synthesis");
+    synthesize_from_file(SynthesisOptions {
+        input,
+        out: bundle.clone(),
+    })
+    .unwrap();
+    (record, store, clock, bundle)
+}
+
+#[test]
+fn admitted_ids_with_opaque_anchors_produce_source_bound_v2_without_fixture_guessing() {
+    let root = temp_dir("admitted-id-only");
+    let (record, _store, _clock, _) = admitted_fixture(&root);
+    let synthesis = adl::codefriend::review::synthesis::synthesize(&record).unwrap();
+    let result = plan_with_record(&synthesis, &record).unwrap();
+    assert_eq!(result.schema, TEST_PLAN_SCHEMA_V2);
+    assert!(!result.test_cases.is_empty());
+    for case in &result.test_cases {
+        assert!(case.source_evidence.iter().all(|id| record
+            .admission
+            .evidence
+            .iter()
+            .any(|e| &e.id == id)));
+        assert!(record
+            .admission
+            .evidence
+            .iter()
+            .any(|e| case.behavior_under_test.contains(&e.path)));
+        assert!(!case.proposed_fixture.contains("BGZyZWTAEwNqb2XAEw=="));
+        assert!(case
+            .scope_limits
+            .iter()
+            .any(|s| s.contains("privacy-omitted")));
+    }
+    assert_eq!(result, plan_with_record(&synthesis, &record).unwrap());
+}
+
+#[test]
+fn admitted_mapping_rejects_unknown_duplicate_or_mismatched_identity() {
+    let root = temp_dir("admitted-invalid-ids");
+    let (record, _store, _clock, _) = admitted_fixture(&root);
+    let synthesis = adl::codefriend::review::synthesis::synthesize(&record).unwrap();
+    let mut unknown = record.clone();
+    unknown.findings[0].evidence = vec!["0".repeat(64)];
+    assert!(plan_with_record(&synthesis, &unknown).is_err());
+    let mut duplicate = record.clone();
+    duplicate
+        .admission
+        .evidence
+        .push(duplicate.admission.evidence[0].clone());
+    assert!(plan_with_record(&synthesis, &duplicate).is_err());
+    let mut duplicate_ref = record.clone();
+    let repeated = duplicate_ref.findings[0].evidence[0].clone();
+    duplicate_ref.findings[0].evidence.push(repeated);
+    assert!(plan_with_record(&synthesis, &duplicate_ref).is_err());
+    let mut wrong = synthesis.clone();
+    wrong.revision = "0".repeat(40);
+    assert!(plan_with_record(&wrong, &record).is_err());
+}
+
+#[test]
+fn admitted_v2_file_owner_requires_original_store_and_rejects_deletion_expiry_and_tamper() {
+    let root = temp_dir("admitted-owner");
+    let (record, store, clock, bundle) = admitted_fixture(&root);
+    let out = root.join("tests");
+    let result = plan_from_store(
+        TestPlanOptions {
+            input: bundle.join("synthesis.json"),
+            out: out.clone(),
+        },
+        &store,
+    )
+    .unwrap();
+    let path = out.join("test-plan.json");
+    assert_eq!(read_plan_from_store(&path, &store).unwrap(), result);
+    assert!(read_plan_from_file(&path).is_err());
+    let mut tampered = result.clone();
+    tampered.test_cases[0].proposed_test_location = "tests/invented.rs".into();
+    fs::write(&path, serde_json::to_vec(&tampered).unwrap()).unwrap();
+    assert!(read_plan_from_store(&path, &store).is_err());
+    fs::write(&path, serde_json::to_vec(&result).unwrap()).unwrap();
+    clock.set(record.admission.expires_at);
+    assert!(read_plan_from_store(&path, &store).is_err());
+    let rejected = root.join("expired-output");
+    assert!(plan_from_store(
+        TestPlanOptions {
+            input: bundle.join("synthesis.json"),
+            out: rejected.clone()
+        },
+        &store
+    )
+    .is_err());
+    assert!(!rejected.exists());
+    let root2 = temp_dir("admitted-deleted");
+    let (r2, s2, _, b2) = admitted_fixture(&root2);
+    s2.delete(&r2.admission.packet.packet_id).unwrap();
+    assert!(plan_from_store(
+        TestPlanOptions {
+            input: b2.join("synthesis.json"),
+            out: root2.join("tests")
+        },
+        &s2
+    )
+    .is_err());
+}
+
+#[test]
+fn admitted_mixed_privacy_and_unsupported_sources_preserve_real_coverage() {
+    use adl::codefriend::{
+        evidence::{
+            contracts::{Completion, ReviewCoverage, Run},
+            Admission, Retention,
+        },
+        ingestion::{local, Scope},
+        review::{lanes::LANE_CONTRACT_VERSION, synthesis::synthesize},
+    };
+    let root = temp_dir("mixed-privacy");
+    let checkout = root.join("repo");
+    fs::create_dir(&checkout).unwrap();
+    let git = |args: &[&str]| {
+        let out = Command::new("git")
+            .arg("-C")
+            .arg(&checkout)
+            .args(args)
+            .output()
+            .unwrap();
+        assert!(
+            out.status.success(),
+            "{}",
+            String::from_utf8_lossy(&out.stderr)
+        );
+        String::from_utf8(out.stdout).unwrap().trim().to_owned()
+    };
+    git(&["init"]);
+    git(&[
+        "remote",
+        "add",
+        "origin",
+        "https://example.com/test/planner",
+    ]);
+    fs::write(
+        checkout.join("safe.rs"),
+        "pub fn divide(a: u32, b: u32) -> u32 { a / b }\n",
+    )
+    .unwrap();
+    fs::write(checkout.join("README.md"), "Source documentation\n").unwrap();
+    fs::write(
+        checkout.join("private.txt"),
+        "password = \"private-fixture-value\"",
+    )
+    .unwrap();
+    git(&["add", "."]);
+    git(&[
+        "-c",
+        "user.name=fixture",
+        "-c",
+        "user.email=fixture@example.com",
+        "commit",
+        "-m",
+        "fixture",
+    ]);
+    let revision = git(&["rev-parse", "HEAD"]);
+    let packet = local::acquire(
+        &checkout,
+        "https://example.com/test/planner",
+        &revision,
+        Scope {
+            analysis: vec!["safe.rs".into()],
+            context: vec!["README.md".into(), "private.txt".into()],
+            max_files: 3,
+            max_bytes: 4096,
+            max_file_bytes: 4096,
+        },
+    )
+    .unwrap();
+    let admission = Admission::new(packet, Retention { seconds: 100 }, 100).unwrap();
+    assert!(admission.evidence.iter().all(|e| e.path != "private.txt"));
+    let lanes: BTreeMap<String, String> =
+        ["adversarial", "constitutional", "correctness", "security"]
+            .into_iter()
+            .map(|s| (s.into(), LANE_CONTRACT_VERSION.into()))
+            .collect();
+    let coverage = ReviewCoverage::new(
+        &admission,
+        lanes.keys().map(|s| (s.clone(), "a".repeat(64))).collect(),
+    )
+    .unwrap();
+    let run = Run::new(
+        &admission,
+        lanes,
+        "fixture:mock:reviewer".into(),
+        Completion::Incomplete,
+        vec![],
+    )
+    .unwrap()
+    .with_review_coverage(&admission, coverage.clone())
+    .unwrap();
+    let predecessor: ReviewRecord =
+        serde_json::from_slice(&fs::read(predecessor_bundle().join("review-record.json")).unwrap())
+            .unwrap();
+    let mut supported = predecessor.findings[0].clone();
+    supported.repository = run.repository.clone();
+    supported.scope_digest = run.scope_digest.clone();
+    supported.perspective = "correctness".into();
+    supported.semantic_anchor = "opaque-supported".into();
+    supported.evidence = admission.evidence.iter().map(|e| e.id.clone()).collect();
+    supported.evidence.sort();
+    supported.id = supported.identity().unwrap();
+    let mut unsupported = supported.clone();
+    unsupported.semantic_anchor = "opaque-docs-only".into();
+    unsupported.evidence = vec![admission
+        .evidence
+        .iter()
+        .find(|e| e.path == "README.md")
+        .unwrap()
+        .id
+        .clone()];
+    unsupported.id = unsupported.identity().unwrap();
+    let record = ReviewRecord {
+        admission,
+        run,
+        findings: vec![supported.clone(), unsupported],
+    };
+    let synthesis = synthesize(&record).unwrap();
+    let result = plan_with_record(&synthesis, &record).unwrap();
+    assert_eq!(result.test_cases.len(), 1);
+    assert_eq!(result.omitted_findings.len(), 1);
+    assert_eq!(result.coverage, Some(coverage));
+    assert!(result.test_cases[0].behavior_under_test.contains("safe.rs"));
+    let encoded = serde_json::to_string(&result).unwrap();
+    assert!(encoded.contains("privacy_filter"));
+    assert!(!encoded.contains("private-fixture-value"));
+    let mut repeated = record.clone();
+    supported.perspective = "security".into();
+    supported.id = supported.identity().unwrap();
+    repeated.findings.push(supported);
+    let joined = plan_with_record(&synthesize(&repeated).unwrap(), &repeated).unwrap();
+    assert!(joined
+        .test_cases
+        .iter()
+        .all(|c| c.source_evidence.windows(2).all(|w| w[0] < w[1])));
+    let mut erased = result.clone();
+    erased.coverage = None;
+    assert_ne!(erased, plan_with_record(&synthesis, &record).unwrap());
 }

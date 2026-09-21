@@ -246,6 +246,46 @@ fn prepared_receipt_cannot_be_relabelled_complete_or_bypass_owned_report_validat
 
 #[test]
 fn shared_builder_preserves_all_thirteen_original_owner_bytes_for_snapshot_encodings() {
+    assert_original_owner_bytes(false);
+}
+
+#[test]
+fn v2_builder_preserves_all_thirteen_admitted_owner_bytes_for_snapshot_encodings() {
+    assert_original_owner_bytes(true);
+}
+
+#[test]
+fn publication_preparation_bounds_the_single_snapshot_for_both_versions() {
+    let f = Fixture::new(PublicationFormat::Markdown);
+    let review = &f.context.report.result.as_ref().unwrap().review_record;
+    let input = f._temp.path().join("oversized-review.json");
+    let mut bytes = serde_json::to_vec(review).unwrap();
+    // Valid JSON whitespace must count toward the raw snapshot budget too.
+    bytes.resize(2 * 1024 * 1024 + 1, b' ');
+    fs::write(&input, bytes).unwrap();
+    let destination = f._temp.path().join("bounded-destination");
+    fs::create_dir(&destination).unwrap();
+    for (name, v2) in [("legacy", false), ("admitted", true)] {
+        let output = f._temp.path().join(name);
+        let prepare = if v2 {
+            adl::codefriend::integration::prepare_publication_bundle_for_format_v2
+        } else {
+            prepare_publication_bundle_for_format
+        };
+        let error =
+            prepare(&input, &output, &destination, PublicationFormat::Markdown).unwrap_err();
+        assert!(
+            error.to_string().contains("review_record_too_large"),
+            "{error:#}"
+        );
+        assert!(
+            !output.exists(),
+            "failed preparation must not publish an output bundle"
+        );
+    }
+}
+
+fn assert_original_owner_bytes(v2: bool) {
     use adl::codefriend::{
         actions::{remediation, test_plan},
         review::synthesis,
@@ -275,21 +315,38 @@ fn shared_builder_preserves_all_thirteen_original_owner_bytes_for_snapshot_encod
             out: original.join("remediation"),
         })
         .unwrap();
-        test_plan::plan_from_file(test_plan::TestPlanOptions {
+        let options = test_plan::TestPlanOptions {
             input: original.join("synthesis/synthesis.json"),
             out: original.join("tests"),
-        })
-        .unwrap();
+        };
+        if v2 {
+            let now = review.admission.admitted_at;
+            let store = adl::codefriend::evidence::store::Store::open(
+                &f._temp.path().join("original-store"),
+                move || now,
+            )
+            .unwrap();
+            let original_admission = store
+                .admit(
+                    review.admission.packet.clone(),
+                    review.admission.retention.clone(),
+                )
+                .unwrap();
+            assert_eq!(original_admission, review.admission);
+            test_plan::plan_from_store(options, &store).unwrap();
+        } else {
+            test_plan::plan_from_file(options).unwrap();
+        }
         let destination = f._temp.path().join("comparison-exports");
         fs::create_dir(&destination).unwrap();
         let bundle = f._temp.path().join("comparison-bundle");
-        let publication = prepare_publication_bundle_for_format(
-            &input,
-            &bundle,
-            &destination,
-            PublicationFormat::Markdown,
-        )
-        .unwrap();
+        let prepare = if v2 {
+            adl::codefriend::integration::prepare_publication_bundle_for_format_v2
+        } else {
+            prepare_publication_bundle_for_format
+        };
+        let publication =
+            prepare(&input, &bundle, &destination, PublicationFormat::Markdown).unwrap();
         assert_eq!(publication.artifact_manifest.len(), 13);
         for artifact in &publication.artifact_manifest {
             assert_eq!(

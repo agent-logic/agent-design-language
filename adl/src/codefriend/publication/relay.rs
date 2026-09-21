@@ -74,14 +74,24 @@ pub(crate) fn verify_prepared(
     );
     // Rebuild exact artifact bytes through the shared native builder without
     // filesystem destination, approval, or renderer effects.
-    let expected = crate::codefriend::integration::publication_artifacts(
+    use crate::codefriend::actions::test_plan::{TEST_PLAN_SCHEMA, TEST_PLAN_SCHEMA_V2};
+    let snapshot = serde_json::to_vec(review)?;
+    let current = crate::codefriend::integration::publication_artifacts(
         review,
-        &serde_json::to_vec(review)?,
+        &snapshot,
+        TEST_PLAN_SCHEMA_V2,
     )?;
-    ensure!(
-        expected.inventory() == publication.artifact_manifest,
-        "relay_artifact_inventory"
-    );
+    if current.inventory() != publication.artifact_manifest {
+        let legacy = crate::codefriend::integration::publication_artifacts(
+            review,
+            &snapshot,
+            TEST_PLAN_SCHEMA,
+        )?;
+        ensure!(
+            legacy.inventory() == publication.artifact_manifest,
+            "relay_artifact_inventory"
+        );
+    }
     Ok(())
 }
 pub(crate) fn verify_local_decision(
@@ -164,7 +174,14 @@ pub(crate) fn verify_rendered(
     };
     let synthesis = synthesis::synthesize(review)?;
     let remediation = remediation::plan(&synthesis, review)?;
-    let tests = test_plan::plan(&synthesis)?;
+    let current_tests = test_plan::plan_with_record(&synthesis, review)?;
+    let tests = if manifest.get("test_plan_digest").and_then(Value::as_str)
+        == Some(hash(&current_tests)?.as_str())
+    {
+        current_tests
+    } else {
+        test_plan::plan(&synthesis)?
+    };
     let publication = &decision.publication;
     match format {
         PublicationFormat::Markdown => {

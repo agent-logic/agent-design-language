@@ -1,0 +1,17 @@
+{
+  "schema": "codefriend.test_proof.v1",
+  "issue": 1113,
+  "test_surface": "adl/tests/codefriend_testplan.rs",
+  "lane": "runtime",
+  "proof_role": "Admission evidence identifier mapping, deterministic versioned plan derivation, original Store ownership, CLI/readback and historical v1 compatibility; exact13-file legacy/v2 publication owner-byte equivalence across raw review encodings; single bounded publication snapshot for both versions",
+  "determinism": "Synthetic review records built from tracked inert predecessor packet; temporary Store clock controls retention; no model calls",
+  "resource_profile": "Local CPU/filesystem and installed Cargo test binary subprocesses; no source execution, provider, network or cloud",
+  "release_gate": true,
+  "non_claims": [
+    "test proposals have been implemented or executed",
+    "model finding correctness",
+    "measured test coverage",
+    "independent installed-product qualification"
+  ],
+  "additional_test_surface": "adl/tests/codefriend_agent_publication.rs::v2_builder_preserves_all_thirteen_admitted_owner_bytes_for_snapshot_encodings"
+}
