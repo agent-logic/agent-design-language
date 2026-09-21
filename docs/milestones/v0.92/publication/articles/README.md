@@ -1,5 +1,13 @@
 # v0.92 Article Series
 
+> **Superseded for publication.** The ten numbered directories below are the
+> v0.92 editorial round and are retained as the record of that work. The series
+> that goes to Medium is the thirteen-article set in
+> [`medium-2026-09/`](medium-2026-09/README.md), which changed the running order
+> and titles, split CodeFriend into its own article, and added a
+> routing/escalation article. Review comments on the numbered directories are
+> comments on a superseded draft.
+
 This directory retains the completed editorial packet for the v0.92 article
 series.
 
