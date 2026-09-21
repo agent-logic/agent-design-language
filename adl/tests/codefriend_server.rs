@@ -1104,7 +1104,9 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
                 }
                 continue;
             }
-            let text = if index < 4 || index == 5 {
+            let text = if index < 4 {
+                json!({"assessments":[]})
+            } else if index == 5 {
                 json!({"findings":[]})
             } else {
                 json!({"findings":[{"rule":"correctness.wrong_lane","semantic_anchor":"lib.rs","title":"fixture","severity":"info","rationale":"fixture","confidence":{"state":"known","percent":90},"evidence":["foreign"],"inference":"fixture","limitations":[]}]})
@@ -1194,6 +1196,30 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
         let result: Value = response.json().unwrap();
         assert_eq!(result["lane_results"].as_array().unwrap().len(), 4);
         assert_eq!(result["completion"], "complete");
+        assert_eq!(
+            result["schema"],
+            "codefriend.four_perspective_review_run.v3"
+        );
+        assert_eq!(
+            result["review_record"]["run"]["schema"],
+            "codefriend.contracts.v3"
+        );
+        assert_eq!(
+            result["review_record"]["run"]["assessment_set"]["schema"],
+            "codefriend.assessment_set.v1"
+        );
+        assert_eq!(
+            result["review_record"]["run"]["assessment_set"]["assessments"],
+            json!([])
+        );
+        assert_eq!(result["review_record"]["findings"], json!([]));
+        for lane in result["lane_results"].as_array().unwrap() {
+            assert_eq!(lane["schema"], "codefriend.review_lane_result.v2");
+            assert_eq!(lane["assessment_ids"], json!([]));
+        }
+        let typed: adl::codefriend::review::runner::FourPerspectiveReviewRun =
+            serde_json::from_value(result).unwrap();
+        typed.successful_execution().unwrap();
         let mut local = f.request("local");
         local["mode"] = json!("local_model");
         local["lane"] = json!("security");
@@ -1243,6 +1269,8 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
             .unwrap()
             .json()
             .unwrap();
+        assert_eq!(result["schema"], "codefriend.local_model_result.v1");
+        assert_eq!(result["output"], json!({"findings":[]}));
         assert_eq!(result["candidate_revision"], build_revision());
         assert_eq!(
             operation["candidate_revision"],
