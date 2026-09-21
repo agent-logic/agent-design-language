@@ -34,6 +34,11 @@ impl BaselineRef {
             record_digest: hash(&(VERSION, &record.run, &findings))?,
         })
     }
+    /// Stable retained-result identity; existing reference wire bytes are unchanged.
+    pub fn storage_identity(&self) -> Result<String> {
+        self.validate()?;
+        hash(&("codefriend.baseline.storage.v2", self))
+    }
     pub fn validate(&self) -> Result<()> {
         ensure!(
             valid_digest(&self.run_id)
@@ -178,7 +183,10 @@ impl<'a> AdmittedBaselines<'a> {
             let id = n
                 .strip_suffix(".json")
                 .or_else(|| n.strip_suffix(".deleted"));
-            ensure!(id.is_some_and(valid_digest), "invalid_baseline_name");
+            ensure!(
+                id.is_some_and(|id| valid_digest(id.strip_prefix("v2-").unwrap_or(id))),
+                "invalid_baseline_name"
+            );
             ids.insert(id.unwrap().to_string());
             ensure!(ids.len() <= 128, "baseline_count_limit");
         }
@@ -203,8 +211,14 @@ impl<'a> AdmittedBaselines<'a> {
             packet_id: r.run.packet_id.clone(),
             record_digest: r.digest.clone(),
         };
+        self.ensure_not_deleted(&reference)?;
+        if let Some(old) = self.legacy(&reference)? {
+            if old.digest == reference.record_digest {
+                self.load(&reference)?;
+                return Ok(reference);
+            }
+        }
         let path = self.path(&reference)?;
-        ensure!(!self.deleted(&reference)?.exists(), "baseline_deleted");
         if path.exists() {
             self.load(&reference)?;
             return Ok(reference);
@@ -216,17 +230,55 @@ impl<'a> AdmittedBaselines<'a> {
     }
     fn path(&self, r: &BaselineRef) -> Result<PathBuf> {
         r.validate()?;
-        Ok(self.root.join(format!("{}.json", r.run_id)))
+        Ok(self.root.join(format!("v2-{}.json", r.storage_identity()?)))
     }
     fn deleted(&self, r: &BaselineRef) -> Result<PathBuf> {
         r.validate()?;
-        Ok(self.root.join(format!("{}.deleted", r.run_id)))
+        Ok(self
+            .root
+            .join(format!("v2-{}.deleted", r.storage_identity()?)))
+    }
+    fn ensure_not_deleted(&self, r: &BaselineRef) -> Result<()> {
+        r.validate()?;
+        ensure!(
+            !self.root.join(format!("{}.deleted", r.run_id)).exists() && !self.deleted(r)?.exists(),
+            "baseline_deleted"
+        );
+        Ok(())
+    }
+    // Authenticate any legacy record before considering a different tuple. Corrupt
+    // old storage must never become a silent fallback to a newer namespace.
+    fn legacy(&self, reference: &BaselineRef) -> Result<Option<Retained>> {
+        reference.validate()?;
+        let path = self.root.join(format!("{}.json", reference.run_id));
+        if !path.exists() {
+            return Ok(None);
+        }
+        let r: Retained = read_json(&path)?;
+        ensure!(
+            r.schema == VERSION
+                && r.digest == r.expected_digest()?
+                && r.run.id == reference.run_id
+                && r.run.packet_id == reference.packet_id,
+            "baseline_identity_or_digest_mismatch"
+        );
+        let record = ReviewRecord {
+            admission: self.store.get(&reference.packet_id)?,
+            run: r.run.clone(),
+            findings: r.findings.clone(),
+        };
+        record.validate()?;
+        Ok(Some(r))
     }
     fn retained(&self, reference: &BaselineRef) -> Result<Retained> {
+        self.ensure_not_deleted(reference)?;
+        let legacy = self.legacy(reference)?;
         let path = self.path(reference)?;
-        ensure!(!self.deleted(reference)?.exists(), "baseline_deleted");
-        ensure!(path.exists(), "baseline_missing_or_deleted");
-        let r: Retained = read_json(&path)?;
+        let r: Retained = if path.exists() {
+            read_json(&path)?
+        } else {
+            legacy.ok_or_else(|| anyhow::anyhow!("baseline_missing_or_deleted"))?
+        };
         ensure!(
             r.schema == VERSION
                 && r.digest == r.expected_digest()?
@@ -238,7 +290,19 @@ impl<'a> AdmittedBaselines<'a> {
         Ok(r)
     }
     pub fn delete(&self, r: &BaselineRef) -> Result<()> {
-        let tombstone = self.deleted(r)?;
+        r.validate()?;
+        let legacy_path = self.root.join(format!("{}.json", r.run_id));
+        let legacy_tombstone = self.root.join(format!("{}.deleted", r.run_id));
+        let legacy_selected = !self.path(r)?.exists()
+            && (legacy_tombstone.exists()
+                || self
+                    .legacy(r)?
+                    .is_some_and(|old| old.digest == r.record_digest));
+        let tombstone = if legacy_selected {
+            legacy_tombstone
+        } else {
+            self.deleted(r)?
+        };
         if tombstone.exists() {
             let old: BaselineRef = read_json(&tombstone)?;
             ensure!(&old == r, "baseline_deletion_mismatch");
@@ -246,7 +310,11 @@ impl<'a> AdmittedBaselines<'a> {
             self.retained(r)?;
             write_json(&tombstone, r)?;
         }
-        let path = self.path(r)?;
+        let path = if legacy_selected {
+            legacy_path
+        } else {
+            self.path(r)?
+        };
         if path.exists() {
             safe_path(&path)?;
             fs::remove_file(path)?;
