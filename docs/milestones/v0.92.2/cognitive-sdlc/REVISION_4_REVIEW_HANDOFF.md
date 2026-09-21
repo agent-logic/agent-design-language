@@ -30,10 +30,12 @@ No fresh manuscript build or substantive review was performed for this handoff.
 ## Preservation and follow-up
 
 The private PDF and manuscript remain in the existing private manuscript worktree.
-That worktree contains uncommitted source edits and untracked review artifacts;
-its HEAD alone is not an identity for revision 4. Preserve the worktree and its
-files pending a separate private source/artifact checkpoint. Do not prune it as
-part of closing the public coordination issue.
+The manuscript edits, both retained PDFs, bibliography, synchronization tool,
+and review artifacts are now committed in the private repository at
+`73d76a60d1dae93d2cb036e39a9760fc78026d01`. The private worktree is clean.
+This checkpoint has not yet been pushed; preserve the worktree and branch until
+it is safely backed up and integrated. Do not prune it as part of closing the
+public coordination issue.
 
 Further author review, editing, source reconciliation, and final approval remain
 future work. The public ADL PR contains only this sanitized handoff record, not
