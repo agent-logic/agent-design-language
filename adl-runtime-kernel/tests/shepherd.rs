@@ -1387,3 +1387,121 @@ async fn resident_shepherd_invalidation_during_probe_is_not_overwritten() {
     shutdown.cancel();
     task.await.unwrap();
 }
+
+// PVF runtime: deterministic virtual-clock freshness proof, local CPU only.
+#[tokio::test(start_paused = true)]
+async fn live_shepherd_supervisor_refreshes_without_repeating_inference() {
+    use std::sync::atomic::{AtomicUsize, Ordering};
+    let calls = Arc::new(AtomicUsize::new(0));
+    let observations = Arc::new(AtomicUsize::new(0));
+    let shutdown = CancellationToken::new();
+    let task = tokio::spawn({
+        let calls = calls.clone();
+        let observations = observations.clone();
+        let shutdown = shutdown.clone();
+        async move {
+            run_resident_shepherd_recovery(
+                "beacon.axioma",
+                ResidentShepherdRecoveryPolicy {
+                    timeout: Duration::from_secs(5),
+                    retry_initial: Duration::from_secs(1),
+                    retry_max: Duration::from_secs(5),
+                },
+                ResidentShepherdReadiness::default(),
+                shutdown,
+                move || {
+                    calls.fetch_add(1, Ordering::SeqCst);
+                    async { Ok(()) }
+                },
+                move |state| {
+                    if state == ResidentShepherdRecoveryState::Ready {
+                        observations.fetch_add(1, Ordering::SeqCst);
+                    }
+                },
+            )
+            .await;
+        }
+    });
+    tokio::task::yield_now().await;
+    for _ in 0..40 {
+        tokio::time::advance(Duration::from_secs(10)).await;
+        tokio::task::yield_now().await;
+    }
+    assert_eq!(calls.load(Ordering::SeqCst), 1);
+    assert!(observations.load(Ordering::SeqCst) >= 40);
+    shutdown.cancel();
+    task.await.unwrap();
+}
+
+// PVF runtime: deterministic binding replacement/recovery race, no network.
+#[tokio::test(start_paused = true)]
+async fn retired_recovery_cannot_begin_or_complete_for_successor() {
+    use std::sync::atomic::{AtomicUsize, Ordering};
+    let temp = tempfile::tempdir().unwrap();
+    let native = build_production_operation_executors_with_recorder(
+        temp.path().to_path_buf(),
+        adl_runtime_kernel::RuntimeRecorder::new(16),
+    )
+    .unwrap()
+    .remove(&AdapterKind::Shepherd)
+    .unwrap();
+    let config = ResidentShepherdInitConfig {
+        name: "beacon.axioma".to_owned(),
+        display_name: "Beacon".to_owned(),
+        office: "resident shepherd".to_owned(),
+        provider: "ollama".to_owned(),
+        model: "old".to_owned(),
+        endpoint: "http://127.0.0.1:9".to_owned(),
+        preload: Default::default(),
+    };
+    let executor = Arc::new(ResidentShepherdExecutor::new(
+        "runtime-test",
+        [config.clone()],
+        native,
+    ));
+    let revision = executor.bindings()[0].0;
+    let scope = executor.recovery_scope(&config.name, revision);
+    let retired = executor.recovery_scope(&config.name, revision);
+    let attempts = Arc::new(AtomicUsize::new(0));
+    let captured_executor = executor.clone();
+    let calls = attempts.clone();
+    let mut successor = config.clone();
+    successor.model = "new".to_owned();
+    run_resident_shepherd_recovery(
+        &config.name,
+        ResidentShepherdRecoveryPolicy {
+            timeout: Duration::from_secs(2),
+            retry_initial: Duration::from_secs(1),
+            retry_max: Duration::from_secs(1),
+        },
+        scope,
+        CancellationToken::new(),
+        move || {
+            calls.fetch_add(1, Ordering::SeqCst);
+            captured_executor.replace_bindings(vec![successor.clone()]);
+            async { Ok(()) }
+        },
+        |_| {},
+    )
+    .await;
+    assert_eq!(attempts.load(Ordering::SeqCst), 1);
+    assert!(!executor.readiness().is_ready(&config.name));
+    executor.readiness().mark_ready(&config.name);
+    run_resident_shepherd_recovery(
+        &config.name,
+        ResidentShepherdRecoveryPolicy {
+            timeout: Duration::from_secs(2),
+            retry_initial: Duration::from_secs(1),
+            retry_max: Duration::from_secs(1),
+        },
+        retired,
+        CancellationToken::new(),
+        || async { panic!("retired task must not probe the successor") },
+        |_| {},
+    )
+    .await;
+    assert!(executor.readiness().is_ready(&config.name));
+    assert!(executor
+        .with_current_binding(&config.name, revision, || panic!("retired metadata"))
+        .is_none());
+}

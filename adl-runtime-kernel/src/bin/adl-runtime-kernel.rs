@@ -289,7 +289,6 @@ async fn main() -> ExitCode {
                 )
                 .with_usage(recorder.provider_usage.clone()),
             );
-            let resident_shepherd_readiness = resident_shepherd.readiness();
             let shepherd_probe = Arc::new(
                 OperationalAdapter::new(
                     AdapterKind::Shepherd,
@@ -307,7 +306,7 @@ async fn main() -> ExitCode {
                 )
                 .expect("resident Shepherd probe policy is valid"),
             );
-            operation_executors.insert(AdapterKind::Shepherd, resident_shepherd);
+            operation_executors.insert(AdapterKind::Shepherd, resident_shepherd.clone());
             if let Err(error) = validate_production_operation_executors(&operation_executors) {
                 eprintln!("runtime live operation adapters unavailable: {error}");
                 return ExitCode::from(78);
@@ -746,6 +745,7 @@ async fn main() -> ExitCode {
             .with_polis_identity(&init)
             .with_readiness_time(Arc::new(roster_trusted_time.clone()))
             .with_resident_agent_bindings(&init.resident_shepherd)
+            .with_live_resident_executor(resident_shepherd.clone(), &init.resident_shepherd)
             .with_provider_state_transaction(provider_state_transaction)
             .with_canonical_ingress(assembly.canonical_ingress.clone());
             service = match service.with_runtime_agent_authority_store(
@@ -869,32 +869,89 @@ async fn main() -> ExitCode {
             service.set_weather_stale_after(std::time::Duration::from_millis(
                 init.kernel.weather_stale_after_millis,
             ));
-            for (shepherd_index, shepherd) in init.resident_shepherd.iter().cloned().enumerate() {
-                let orientation_service = Arc::clone(&service);
-                let provider_usage = recorder.provider_usage.clone();
-                let health_service = Arc::clone(&service);
-                let readiness = resident_shepherd_readiness.clone();
-                let probe_adapter = shepherd_probe.clone();
-                let probe_runtime_id = instance_id.clone();
-                let shutdown = api_shutdown.child_token();
-                let shepherd_agent_id = resident_shepherd_runtime_id(shepherd_index, &shepherd);
-                provider_usage.register_resident_alias(&shepherd_agent_id, &shepherd.name);
-                tokio::spawn(async move {
-                    let name = shepherd.name.clone();
-                    let policy = ResidentShepherdRecoveryPolicy {
-                        timeout: std::time::Duration::from_millis(shepherd.preload.timeout_millis),
-                        retry_initial: std::time::Duration::from_millis(
-                            shepherd.preload.retry_initial_millis,
-                        ),
-                        retry_max: std::time::Duration::from_millis(
-                            shepherd.preload.retry_max_millis,
-                        ),
-                    };
-                    let attempt_shutdown = shutdown.clone();
-                    let attempt_shepherd = shepherd.clone();
-                    let health_name = name.clone();
-                    let sequence = Arc::new(std::sync::atomic::AtomicU64::new(0));
-                    run_resident_shepherd_recovery(
+            let resident_supervisor_service = service.clone();
+            let resident_supervisor_shutdown = api_shutdown.clone();
+            let supervisor_runtime_id = instance_id.clone();
+            let supervisor_usage = recorder.provider_usage.clone();
+            let bootstrap_ids = init
+                .resident_shepherd
+                .iter()
+                .enumerate()
+                .map(|(i, c)| (c.name.clone(), resident_shepherd_runtime_id(i, c)))
+                .collect::<std::collections::BTreeMap<_, _>>();
+            tokio::spawn(async move {
+                let service = resident_supervisor_service;
+                let api_shutdown = resident_supervisor_shutdown;
+                let instance_id = supervisor_runtime_id;
+                let mut tasks: std::collections::BTreeMap<
+                    String,
+                    (
+                        u64,
+                        tokio_util::sync::CancellationToken,
+                        tokio::task::JoinHandle<()>,
+                    ),
+                > = std::collections::BTreeMap::new();
+                let mut tick = tokio::time::interval(std::time::Duration::from_secs(1));
+                loop {
+                    tokio::select! { _ = api_shutdown.cancelled() => break, _ = tick.tick() => {} }
+                    tasks.retain(|name, (revision, cancel, handle)| {
+                        if resident_shepherd.binding_is_current(name, *revision)
+                            && !handle.is_finished()
+                        {
+                            true
+                        } else {
+                            cancel.cancel();
+                            handle.abort();
+                            false
+                        }
+                    });
+                    for (revision, shepherd) in resident_shepherd.bindings() {
+                        if tasks
+                            .get(&shepherd.name)
+                            .is_some_and(|(active, _, handle)| {
+                                *active == revision && !handle.is_finished()
+                            })
+                        {
+                            continue;
+                        }
+                        if let Some((_, cancel, handle)) = tasks.remove(&shepherd.name) {
+                            cancel.cancel();
+                            handle.abort();
+                        }
+                        let task_name = shepherd.name.clone();
+                        let orientation_service = Arc::clone(&service);
+                        let provider_usage = supervisor_usage.clone();
+                        let health_service = Arc::clone(&service);
+                        let readiness = resident_shepherd.recovery_scope(&shepherd.name, revision);
+                        let probe_adapter = shepherd_probe.clone();
+                        let probe_runtime_id = instance_id.clone();
+                        let shutdown = api_shutdown.child_token();
+                        let Some(shepherd_agent_id) = bootstrap_ids.get(&shepherd.name).cloned()
+                        else {
+                            continue;
+                        };
+                        provider_usage.register_resident_alias(&shepherd_agent_id, &shepherd.name);
+                        let task_cancel = shutdown.clone();
+                        let binding_executor = resident_shepherd.clone();
+                        let handle = tokio::spawn(async move {
+                            let name = shepherd.name.clone();
+                            let policy = ResidentShepherdRecoveryPolicy {
+                                timeout: std::time::Duration::from_millis(
+                                    shepherd.preload.timeout_millis,
+                                ),
+                                retry_initial: std::time::Duration::from_millis(
+                                    shepherd.preload.retry_initial_millis,
+                                ),
+                                retry_max: std::time::Duration::from_millis(
+                                    shepherd.preload.retry_max_millis,
+                                ),
+                            };
+                            let attempt_shutdown = shutdown.clone();
+                            let attempt_shepherd = shepherd.clone();
+                            let health_name = name.clone();
+                            let attempt_executor = binding_executor.clone();
+                            let sequence = Arc::new(std::sync::atomic::AtomicU64::new(0));
+                            run_resident_shepherd_recovery(
                         &name,
                         policy,
                         readiness,
@@ -908,7 +965,11 @@ async fn main() -> ExitCode {
                             let agent_id = shepherd_agent_id.clone();
                             let orientation_service = Arc::clone(&orientation_service);
                             let provider_usage = provider_usage.clone();
+                            let attempt_executor = attempt_executor.clone();
                             async move {
+                                if !attempt_executor.binding_is_current(&shepherd.name, revision) {
+                                    return Err("operation cancelled");
+                                }
                                 let orientation = orientation_service
                                     .orientation_for_agent(&agent_id)
                                     .ok_or("agent_orientation_missing")?;
@@ -917,10 +978,12 @@ async fn main() -> ExitCode {
                                     std::sync::atomic::Ordering::Relaxed,
                                 ) + 1;
                                 let metadata = preload_resident_shepherd_model(&shepherd, &orientation, &shutdown).await;
-                                provider_usage.observe_metadata(&shepherd.name, &shepherd.provider, &shepherd.model, metadata);
+                                attempt_executor.with_current_binding(&shepherd.name, revision, || {
+                                    provider_usage.observe_metadata(&shepherd.name, &shepherd.provider, &shepherd.model, metadata);
+                                }).ok_or("operation cancelled")?;
                                 metadata?;
                                 let probe_id = format!(
-                                    "{}:resident-shepherd-probe:{probe_sequence}",
+                                    "{}:resident-shepherd-probe:{revision}:{probe_sequence}",
                                     shepherd.name
                                 );
                                 let governed_probe_prompt =
@@ -948,16 +1011,25 @@ async fn main() -> ExitCode {
                         },
                         move |state| {
                             let (status, detail) = state.health();
-                            health_service.update_resident_shepherd_health(
+                            if !binding_executor.binding_is_current(&health_name, revision) { return; }
+                            health_service.update_live_shepherd_health(
                                 &health_name,
+                                revision,
                                 status,
                                 detail,
                             );
                         },
                     )
                     .await;
-                });
-            }
+                        });
+                        tasks.insert(task_name, (revision, task_cancel, handle));
+                    }
+                }
+                for (_, (_, cancel, handle)) in tasks {
+                    cancel.cancel();
+                    handle.abort();
+                }
+            });
             let reload_parser: ConfigParser<ParsedRuntimeInit> = Arc::new(|raw| {
                 let config = RuntimeInitConfig::from_toml_str(raw).map_err(|_| {
                     eprintln!("{}", config_reload_rejection_diagnostic("parse_invalid"));
