@@ -1,29 +1,5 @@
 use syn::{spanned::Spanned, visit::Visit};
 
-/// Conservative, allocation-free guard before invoking recursive Rust parsers.
-/// Count units even inside comments/literals: over-budget sources are
-/// explicitly unknown, rather than trusting another parser to establish safety.
-pub(super) fn within_parse_budget(source: &str) -> bool {
-    if source.len() > 32 * 1024 {
-        return false;
-    }
-    let mut units = 0;
-    let mut in_word = false;
-    for byte in source.bytes() {
-        let word = byte.is_ascii_alphanumeric() || byte == b'_';
-        if word {
-            units += usize::from(!in_word);
-        } else if !byte.is_ascii_whitespace() {
-            units += 1;
-        }
-        in_word = word;
-        if units > 128 {
-            return false;
-        }
-    }
-    true
-}
-
 #[derive(Default)]
 pub(super) struct References {
     pub paths: Vec<(Vec<String>, usize)>,

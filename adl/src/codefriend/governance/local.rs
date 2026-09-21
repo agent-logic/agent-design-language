@@ -149,25 +149,6 @@ impl<'ast> Visit<'ast> for Imports {
         self.unsupported = true;
     }
 }
-fn parse_budget(source: &str) -> bool {
-    if source.len() > 32768 {
-        return false;
-    }
-    let (mut units, mut word) = (0, false);
-    for b in source.bytes() {
-        let next = b.is_ascii_alphanumeric() || b == b'_';
-        if next {
-            units += usize::from(!word);
-        } else if !b.is_ascii_whitespace() {
-            units += 1;
-        }
-        word = next;
-        if units > 128 {
-            return false;
-        }
-    }
-    true
-}
 /// The policy is data; no source script, compiler, macro or provider is executed.
 pub fn local_fitness_runner(store: &Store, packet_id: &str, policy: Policy) -> Result<Report> {
     policy.validate()?;
@@ -196,19 +177,21 @@ fn evaluate(admission: Admission, policy: Policy) -> Result<Report> {
             errors.push(format!("required_evidence_omitted:{}", rule.id));
             continue;
         };
-        if !parse_budget(source) {
-            errors.push(format!("rust_complexity_limit:{}", rule.id));
-            continue;
-        }
-        let file = match syn::parse_file(source) {
-            Ok(f) => f,
-            Err(_) => {
+        let imports = match crate::codefriend::rust_parse::inspect(source, |file| {
+            let mut imports = Imports::default();
+            imports.visit_file(file);
+            imports
+        }) {
+            Ok(imports) => imports,
+            Err(crate::codefriend::rust_parse::Error::Resource) => {
+                errors.push(format!("rust_complexity_limit:{}", rule.id));
+                continue;
+            }
+            Err(crate::codefriend::rust_parse::Error::Syntax) => {
                 errors.push(format!("rust_parse_failed:{}", rule.id));
                 continue;
             }
         };
-        let mut imports = Imports::default();
-        imports.visit_file(&file);
         if imports.unsupported {
             errors.push(format!("macro_expansion_unassessed:{}", rule.id));
         }
