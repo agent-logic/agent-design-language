@@ -191,17 +191,20 @@ fn analyze(a: Admission, policy: BoundaryPolicy) -> Result<StructureReport> {
             continue;
         };
         if path.ends_with(".rs") {
-            if !super::syntax::within_parse_budget(content) {
-                unknown(&mut unknowns, &a, path, 1, "rust_syntax_complexity_limit");
-                continue;
-            }
-            match syn::parse_file(content) {
-                Ok(file) => {
-                    let mut refs = References::default();
-                    refs.visit_file(&file);
+            match crate::codefriend::rust_parse::inspect(content, |file| {
+                let mut refs = References::default();
+                refs.visit_file(file);
+                refs
+            }) {
+                Ok(refs) => {
                     parsed.insert(path.clone(), refs);
                 }
-                Err(_) => unknown(&mut unknowns, &a, path, 1, "rust_parse_failed"),
+                Err(crate::codefriend::rust_parse::Error::Resource) => {
+                    unknown(&mut unknowns, &a, path, 1, "rust_syntax_complexity_limit")
+                }
+                Err(crate::codefriend::rust_parse::Error::Syntax) => {
+                    unknown(&mut unknowns, &a, path, 1, "rust_parse_failed")
+                }
             }
         } else if path.ends_with("Cargo.toml") {
             let manifest = content.parse::<toml::Value>();

@@ -195,7 +195,6 @@ fn unprovable_inputs_are_errors_not_passes() {
         "generate!();",
         "this is not rust",
         &"!".repeat(12000),
-        &" ".repeat(33000),
     ] {
         let report = Fixture::new(source).report();
         assert_eq!(report.status, Status::Error, "{source:.50}");
@@ -386,4 +385,32 @@ fn cli_rejects_symlink_and_oversized_input() {
     ]);
     assert_eq!(out.status.code(), Some(2));
     assert!(!f.dir.path().join("absent.json").exists());
+}
+
+#[test]
+fn bounded_parser_accepts_normal_files_and_denies_recursive_chains() {
+    let _isolation = FIXTURE_PROCESSES.lock().unwrap();
+    let source = include_str!("../src/codefriend/review/lanes.rs");
+    let normal = Fixture::new(source);
+    assert_eq!(normal.report().status, Status::Pass);
+    assert_eq!(
+        Fixture::new(&" ".repeat(33000)).report().status,
+        Status::Pass
+    );
+    assert_eq!(
+        fs::read_to_string(normal.root.join("lib.rs")).unwrap(),
+        source
+    );
+    for source in [
+        format!("fn f() {{ let _ = {}true; }}", "!".repeat(12000)),
+        format!("fn f() {{ {} {{}} }}", "if true {} else ".repeat(2000)),
+        format!("type T = {}bool{};", "Vec<".repeat(6000), ">".repeat(6000)),
+    ] {
+        let report = Fixture::new(&source).report();
+        assert_eq!(report.status, Status::Error);
+        assert!(report
+            .errors
+            .iter()
+            .any(|e| e.starts_with("rust_complexity_limit:")));
+    }
 }
