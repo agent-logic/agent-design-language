@@ -377,7 +377,7 @@ where
     Ok(output)
 }
 
-fn provider_route_identity(request: &ProviderInvocationRequestV1) -> String {
+pub(crate) fn provider_route_identity(request: &ProviderInvocationRequestV1) -> String {
     format!(
         "{}:{}:{}",
         request.route.provider,

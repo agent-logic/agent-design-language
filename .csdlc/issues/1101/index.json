@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.v3.local_state.v1",
+  "issue": 1101,
+  "phase": "bound",
+  "generation": 2,
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/1101-codefriend-update-cycle-activity-executors",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-1101-codefriend-update-cycle-activity-executors",
+  "template_registry_version": "1.0.5",
+  "operational_authority": true,
+  "digest": "085479ff3cd85f90c268fbb0fab71778a7c8c9b539810f1b909454425fed12c1"
+}

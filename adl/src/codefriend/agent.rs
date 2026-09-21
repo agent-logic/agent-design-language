@@ -713,6 +713,8 @@ impl Transport {
             packet: packet.clone(),
             mode: Mode::LocalModel,
             lane: Some(lane),
+            cycle: None,
+            activity: None,
         };
         let validate_operation = |operation: &Operation| -> Result<()> {
             ensure!(

@@ -6,6 +6,7 @@ mod journey;
 mod journey_publication;
 mod publication_export;
 use super::{
+    activities::{self, Activity, ProviderOutput, UpdateCyclePlan},
     evidence::{contracts::Completion, store::Store, Admission, Retention},
     ingestion::Packet,
     review::{
@@ -98,6 +99,10 @@ pub struct Submit {
     pub packet: Packet,
     pub mode: Mode,
     pub lane: Option<ReviewLane>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub cycle: Option<UpdateCyclePlan>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub activity: Option<Activity>,
 }
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "snake_case")]
@@ -148,31 +153,87 @@ impl Backend for ProductionBackend {
     ) -> Result<Value> {
         let work = dir.join("work");
         fs::create_dir_all(&work)?;
-        // Bound model input before the first provider effect, including hosted lanes.
-        for lane in ReviewLane::ALL {
-            let (_, prompt) = runner::lane_input_manifest(&request.operation_id, lane, &admission)?;
-            ensure!(prompt.len() <= MAX_PROMPT_BYTES, "model_prompt_byte_limit");
-        }
         match request.mode {
             Mode::Hosted => {
-                let run = runner::run(
-                    ReviewRunOptions {
-                        store: work.join("evidence"),
-                        packet_id: admission.packet.packet_id.clone(),
-                        provider_request: config.provider.clone(),
-                        out: work.join("review"),
-                        run_id: request.operation_id.clone(),
-                        cancel_file: Some(dir.join("cancel")),
-                    },
+                if request.cycle.is_none() {
+                    // Preserve the original review-only protocol byte shape.
+                    for lane in ReviewLane::ALL {
+                        let (_, prompt) =
+                            runner::lane_input_manifest(&request.operation_id, lane, &admission)?;
+                        ensure!(prompt.len() <= MAX_PROMPT_BYTES, "model_prompt_byte_limit");
+                    }
+                    let run = runner::run(
+                        ReviewRunOptions {
+                            store: work.join("evidence"),
+                            packet_id: admission.packet.packet_id.clone(),
+                            provider_request: config.provider.clone(),
+                            out: work.join("review"),
+                            run_id: request.operation_id.clone(),
+                            cancel_file: Some(dir.join("cancel")),
+                        },
+                        admission,
+                    )?;
+                    ensure!(
+                        run.completion == Completion::Complete,
+                        "hosted_review_incomplete"
+                    );
+                    return Ok(serde_json::to_value(run)?);
+                }
+                let plan = request.cycle.clone().expect("checked");
+                plan.validate(&admission)?;
+                let review = if plan.activities.contains(&Activity::Review) {
+                    Some(runner::run(
+                        ReviewRunOptions {
+                            store: work.join("evidence"),
+                            packet_id: admission.packet.packet_id.clone(),
+                            provider_request: config.provider.clone(),
+                            out: work.join("review"),
+                            run_id: request.operation_id.clone(),
+                            cancel_file: Some(dir.join("cancel")),
+                        },
+                        admission.clone(),
+                    )?)
+                } else {
+                    None
+                };
+                let route = runner::provider_route_identity(&config.provider);
+                let cancel = dir.join("cancel");
+                let result = activities::run_with_executor(
+                    plan,
                     admission,
+                    request.operation_id.clone(),
+                    route,
+                    review,
+                    |activity, prompt, _manifest| {
+                        ensure!(!cancel.exists(), "cancelled");
+                        let mut provider = config.provider.clone();
+                        provider.input_text = Some(prompt);
+                        provider.run_id = Some(request.operation_id.clone());
+                        provider.request_id =
+                            Some(format!("{}-{}", request.operation_id, activity.id()));
+                        provider.lane_ref = format!("activity:{}", activity.id());
+                        provider.prompt_contract_ref =
+                            format!("{}:{}", activities::PROMPT_CONTRACT, activity.id());
+                        let mut logger = ProviderRunLoggerV1::create_with_context(
+                            work.join(format!("activity-{}.jsonl", activity.id())),
+                            &request.operation_id,
+                            provider.request_id.clone(),
+                            Some(format!("activity-{}.jsonl", activity.id())),
+                        )?;
+                        let output = execute_provider_invocation(provider, &mut logger);
+                        Ok(ProviderOutput {
+                            final_status: output.final_status,
+                            output_text: output.output_text,
+                        })
+                    },
                 )?;
-                ensure!(
-                    run.completion == Completion::Complete,
-                    "hosted_review_incomplete"
-                );
-                Ok(serde_json::to_value(run)?)
+                Ok(serde_json::to_value(result)?)
             }
             Mode::LocalModel => {
+                ensure!(
+                    request.cycle.is_none() && request.activity.is_none(),
+                    "local_activity_requires_agent_v2"
+                );
                 let lane = request
                     .lane
                     .ok_or_else(|| anyhow::anyhow!("lane_required"))?;
@@ -592,7 +653,13 @@ async fn submit(
     if credential.mode != request.mode {
         return Err(ApiError(StatusCode::FORBIDDEN, "scope_denied"));
     }
-    if !id(&request.operation_id) || (request.mode == Mode::Hosted) != request.lane.is_none() {
+    let shape_valid = match request.mode {
+        Mode::Hosted => request.lane.is_none() && request.activity.is_none(),
+        Mode::LocalModel => {
+            request.lane.is_some() && request.cycle.is_none() && request.activity.is_none()
+        }
+    };
+    if !id(&request.operation_id) || !shape_valid {
         return Err(ApiError(StatusCode::BAD_REQUEST, "invalid_operation"));
     }
     let admission = Admission::new(
@@ -603,6 +670,10 @@ async fn submit(
         now(),
     )
     .map_err(|_| ApiError(StatusCode::BAD_REQUEST, "invalid_evidence"))?;
+    if let Some(plan) = &request.cycle {
+        plan.validate(&admission)
+            .map_err(|_| ApiError(StatusCode::BAD_REQUEST, "invalid_activity_plan"))?;
+    }
     let permit = service
         .0
         .slots

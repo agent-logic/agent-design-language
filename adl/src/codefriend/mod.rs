@@ -3,6 +3,7 @@ pub mod ingestion;
 pub mod integration;
 
 pub mod actions;
+pub mod activities;
 pub mod architecture;
 pub mod evidence;
 pub mod governance;
