@@ -1349,7 +1349,7 @@ mod tests {
         fs::create_dir(&target).unwrap();
         fs::write(target.join("owner"), b"competitor").unwrap();
 
-        let error = publish_create_only_anchored(
+        let error = publish_with_attachments(
             root.path(),
             Path::new("report"),
             "report.md",
@@ -1357,6 +1357,7 @@ mod tests {
             br#"{"manifest":true}"#,
             MAX_RENDERED_BYTES as u64,
             "markdown",
+            &BTreeMap::new(),
         )
         .unwrap_err()
         .to_string();
