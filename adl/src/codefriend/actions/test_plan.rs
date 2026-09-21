@@ -479,8 +479,12 @@ pub fn validate_plan(plan: &TestPlan) -> Result<()> {
         "invalid_test_plan_schema"
     );
     ensure!(
-        if plan.schema == TEST_PLAN_SCHEMA_V2 && plan.synthesis_schema == SYNTHESIS_SCHEMA_V2 {
-            plan.coverage.is_some()
+        if plan.schema == TEST_PLAN_SCHEMA_V2 {
+            match plan.synthesis_schema.as_str() {
+                SYNTHESIS_SCHEMA_V2 => plan.coverage.is_some(),
+                SYNTHESIS_SCHEMA_V3 => true, // Canonical record equality binds optional coverage.
+                _ => plan.coverage.is_none(),
+            }
         } else {
             plan.coverage.is_none()
         },

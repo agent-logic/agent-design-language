@@ -497,3 +497,54 @@ fn remedy_only_change_preserves_logical_identity_but_changes_assessment() {
         .unwrap();
     }
 }
+
+#[test]
+fn privacy_assessments_traverse_original_store_planner_and_publication() {
+    use adl::codefriend::{actions::test_plan, integration, review::synthesis};
+    let f = Fixture::new(true);
+    let raw = json(vec![f.item(AssessmentKind::DefectCandidate)]);
+    let run = f.execute("privacy-planning", |_| raw.clone()).unwrap();
+    run.successful_execution().unwrap();
+    let review_path = f.dir.path().join("privacy-review.json");
+    fs::write(
+        &review_path,
+        serde_json::to_vec(&run.review_record).unwrap(),
+    )
+    .unwrap();
+    let synthesis_dir = f.dir.path().join("privacy-synthesis");
+    synthesis::synthesize_from_file(synthesis::SynthesisOptions {
+        input: review_path.clone(),
+        out: synthesis_dir.clone(),
+    })
+    .unwrap();
+    let plan_dir = f.dir.path().join("privacy-plan");
+    let plan = test_plan::plan_from_store(
+        test_plan::TestPlanOptions {
+            input: synthesis_dir.join("synthesis.json"),
+            out: plan_dir.clone(),
+        },
+        &f._store,
+    )
+    .unwrap();
+    assert_eq!(plan.coverage, run.review_record.run.coverage);
+    assert!(plan.coverage.is_some());
+    assert_eq!(
+        plan,
+        test_plan::read_plan_from_store(&plan_dir.join("test-plan.json"), &f._store).unwrap()
+    );
+    assert!(!plan.test_cases.is_empty());
+    assert!(test_plan::read_plan_from_file(&plan_dir.join("test-plan.json")).is_err());
+    let destination = f.dir.path().join("destination");
+    fs::create_dir(&destination).unwrap();
+    integration::prepare_publication_bundle_for_format_v2(
+        &review_path,
+        &f.dir.path().join("privacy-publication"),
+        &destination,
+        integration::PublicationFormat::Markdown,
+    )
+    .unwrap();
+    assert_eq!(
+        f._store.get(&f.admission.packet.packet_id).unwrap(),
+        f.admission
+    );
+}
