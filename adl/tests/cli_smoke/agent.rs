@@ -4210,7 +4210,11 @@ memory:
         otel_status_path: None,
         otel_log_path: None,
     };
-    let status_deadline = std::time::Instant::now() + std::time::Duration::from_secs(30);
+    // PVF: retain the production shutdown assertions with the same bounded
+    // observation budget as wait_for_governed_shutdown_child. Instrumented
+    // shutdown may still be flushing its state after the former 30s limit.
+    let status_deadline = std::time::Instant::now()
+        + std::time::Duration::from_secs(CSM_CONTROL_PLANE_FIRST_REQUEST_TIMEOUT_SECS);
     let api_status = loop {
         let status = adl::csm_runtime_api::runtime_api_response(&api_options, "/status")
             .expect("governed API status response");
@@ -4219,8 +4223,9 @@ memory:
         }
         assert!(
             std::time::Instant::now() < status_deadline,
-            "daemon did not reach governed_stopped state: {}",
-            serde_json::to_string(&status).unwrap()
+            "daemon did not reach governed_stopped state: liveness={}, shutdown={}",
+            status["daemon_liveness"],
+            status["shutdown"]
         );
         std::thread::sleep(std::time::Duration::from_millis(100));
     };
