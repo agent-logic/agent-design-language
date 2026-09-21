@@ -134,6 +134,46 @@ fn admission_with_prompt_omission() -> (PathBuf, Admission) {
     (root, admission)
 }
 
+fn admission_with_privacy_omission() -> (PathBuf, Admission) {
+    let (root, _) = admission();
+    let repo = root.join("repo");
+    fs::write(
+        repo.join("private.txt"),
+        "password = \"private-fixture-value\"",
+    )
+    .unwrap();
+    git(&repo, &["add", "."]);
+    git(
+        &repo,
+        &[
+            "-c",
+            "user.name=fixture",
+            "-c",
+            "user.email=fixture@example.com",
+            "commit",
+            "-m",
+            "privacy fixture",
+        ],
+    );
+    let revision = git(&repo, &["rev-parse", "HEAD"]);
+    let packet = local::acquire(
+        &repo,
+        "https://example.com/team/repo",
+        &revision,
+        Scope {
+            analysis: vec!["src/lib.rs".into()],
+            context: vec!["private.txt".into()],
+            max_files: 2,
+            max_bytes: 8192,
+            max_file_bytes: 4096,
+        },
+    )
+    .unwrap();
+    assert_eq!(packet.completeness, "partial");
+    let admission = Admission::new(packet, Retention { seconds: 3600 }, 100).unwrap();
+    (root, admission)
+}
+
 fn plan(activities: Vec<Activity>, testing: Option<TestingGoal>) -> UpdateCyclePlan {
     UpdateCyclePlan {
         schema: PLAN_SCHEMA.into(),
@@ -432,6 +472,46 @@ fn aggregate_revalidates_embedded_review_content_beyond_its_digest() {
 }
 
 #[test]
+fn review_activity_accepts_successful_partial_review_with_explicit_coverage() {
+    let (root, admission) = admission_with_privacy_omission();
+    let route = "provider:fixture:model-v1";
+    let review = runner::run_with_executor(
+        ExecutionOptions {
+            out: root.join("partial-review"),
+            run_id: "cycle-partial-review".into(),
+            cancel_file: None,
+        },
+        admission.clone(),
+        route.into(),
+        |_, prompt, _| {
+            assert!(!prompt.contains("private-fixture-value"));
+            Ok(LaneExecution {
+                final_status: ProviderInvocationFinalStatusV1::Ok,
+                output_text: Some("{\"findings\":[]}".into()),
+            })
+        },
+    )
+    .unwrap();
+    assert_eq!(
+        review.completion,
+        adl::codefriend::evidence::contracts::Completion::Incomplete
+    );
+    let result = run_with_executor(
+        plan(vec![Activity::Review], None),
+        admission,
+        "cycle-partial-review".into(),
+        route.into(),
+        Some(review),
+        |_, _, _| unreachable!(),
+    )
+    .unwrap();
+    assert_eq!(result.activities[0].status, ActivityStatus::Complete);
+    assert!(result.failures.is_empty());
+    result.validate(route).unwrap();
+    fs::remove_dir_all(root).unwrap();
+}
+
+#[test]
 fn invalid_or_failed_activity_output_is_explicit_and_does_not_dispatch_unselected_work() {
     let (root, admission) = admission();
     let mut calls = 0;
@@ -460,6 +540,22 @@ fn invalid_or_failed_activity_output_is_explicit_and_does_not_dispatch_unselecte
     );
     assert_eq!(result.failures, vec!["documentation_failed"]);
     assert!(result.activities[0].output.is_none());
+    fs::remove_dir_all(root).unwrap();
+}
+
+#[test]
+fn uncertain_provider_effect_is_not_downgraded_to_an_activity_failure() {
+    let (root, admission) = admission();
+    let error = run_with_executor(
+        plan(vec![Activity::Documentation], None),
+        admission,
+        "cycle-uncertain".into(),
+        "provider:fixture:model-v1".into(),
+        None,
+        |_, _, _| Err(adl::provider_adapter::CodeFriendProviderInterrupted.into()),
+    )
+    .unwrap_err();
+    assert!(error.is::<adl::provider_adapter::CodeFriendProviderInterrupted>());
     fs::remove_dir_all(root).unwrap();
 }
 

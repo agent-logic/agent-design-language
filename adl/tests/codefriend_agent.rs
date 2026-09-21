@@ -193,6 +193,9 @@ enum Scenario {
     Cycle,
     CycleFailure,
     CycleLostResultObservation,
+    CycleAdmissionDrift,
+    CycleRunningBeyondLegacyDeadline,
+    CycleTerminalFailure,
     CycleCancel,
     PrivacyOmission,
     Unpair,
@@ -398,11 +401,14 @@ impl WireServer {
                     operation(
                         &requests[&id],
                         &command,
-                        if matches!(
+                        if matches!(scenario, Scenario::CycleTerminalFailure) {
+                            "failed"
+                        } else if matches!(
                             scenario,
                             Scenario::Cancel
                                 | Scenario::LostStatusObservation
                                 | Scenario::RunningBeyondLegacyDeadline
+                                | Scenario::CycleRunningBeyondLegacyDeadline
                         ) {
                             "running"
                         } else {
@@ -411,13 +417,20 @@ impl WireServer {
                     )
                 } else if path.ends_with("/cancel") {
                     assert!(
-                        !matches!(scenario, Scenario::RunningBeyondLegacyDeadline),
+                        !matches!(
+                            scenario,
+                            Scenario::RunningBeyondLegacyDeadline
+                                | Scenario::CycleRunningBeyondLegacyDeadline
+                        ),
                         "elapsed observation must not cancel"
                     );
                     let id = path.split('/').nth(3).unwrap();
                     operation(&requests[id], &command, "cancelled")
                 } else if path.ends_with("/result") {
                     let id = path.split('/').nth(3).unwrap();
+                    if matches!(scenario, Scenario::CycleTerminalFailure) {
+                        continue;
+                    }
                     if matches!(
                         scenario,
                         Scenario::LostResultObservation
@@ -443,8 +456,15 @@ impl WireServer {
                     if let Some(plan) = &r.cycle {
                         let admission = adl::codefriend::evidence::Admission::new(
                             r.packet.clone(),
-                            adl::codefriend::evidence::Retention { seconds: 60 },
-                            clock.load(Ordering::SeqCst),
+                            adl::codefriend::evidence::Retention {
+                                seconds: if matches!(scenario, Scenario::CycleAdmissionDrift) {
+                                    45
+                                } else {
+                                    60
+                                },
+                            },
+                            clock.load(Ordering::SeqCst)
+                                + u64::from(matches!(scenario, Scenario::CycleAdmissionDrift)),
                         )
                         .unwrap();
                         let route = "agent-logic-fixture:hosted_api:fixture-model-v1";
@@ -503,8 +523,11 @@ impl WireServer {
                 } else if method == "GET" && path.starts_with("/v1/operations/") {
                     if ((matches!(scenario, Scenario::LostStatusObservation)
                         && count.load(Ordering::SeqCst) == 2)
-                        || (matches!(scenario, Scenario::RunningBeyondLegacyDeadline)
-                            && count.load(Ordering::SeqCst) == 1))
+                        || (matches!(
+                            scenario,
+                            Scenario::RunningBeyondLegacyDeadline
+                                | Scenario::CycleRunningBeyondLegacyDeadline
+                        ) && count.load(Ordering::SeqCst) == 1))
                         && !observation_dropped
                     {
                         observation_dropped = true;
@@ -613,6 +636,9 @@ fn journey(scenario: Scenario) -> (u64, Vec<serde_json::Value>) {
         Scenario::Cycle
             | Scenario::CycleFailure
             | Scenario::CycleLostResultObservation
+            | Scenario::CycleAdmissionDrift
+            | Scenario::CycleRunningBeyondLegacyDeadline
+            | Scenario::CycleTerminalFailure
             | Scenario::CycleCancel
     ) {
         cmd.cycle = Some(adl::codefriend::activities::UpdateCyclePlan {
@@ -721,6 +747,7 @@ fn journey(scenario: Scenario) -> (u64, Vec<serde_json::Value>) {
             | Scenario::TamperedOriginalStore
             | Scenario::LostStatusObservation
             | Scenario::RunningBeyondLegacyDeadline
+            | Scenario::CycleRunningBeyondLegacyDeadline
             | Scenario::LostInitialControl
             | Scenario::LostFinalControl
             | Scenario::CachedBeyondObservationDeadline
@@ -733,7 +760,8 @@ fn journey(scenario: Scenario) -> (u64, Vec<serde_json::Value>) {
             match scenario {
                 Scenario::LostInitialControl
                 | Scenario::CycleLostResultObservation
-                | Scenario::RunningBeyondLegacyDeadline => 1,
+                | Scenario::RunningBeyondLegacyDeadline
+                | Scenario::CycleRunningBeyondLegacyDeadline => 1,
                 Scenario::LostFinalControl => 4,
                 _ => 2,
             }
@@ -752,7 +780,10 @@ fn journey(scenario: Scenario) -> (u64, Vec<serde_json::Value>) {
         )
         .unwrap();
     }
-    if matches!(scenario, Scenario::RunningBeyondLegacyDeadline) {
+    if matches!(
+        scenario,
+        Scenario::RunningBeyondLegacyDeadline | Scenario::CycleRunningBeyondLegacyDeadline
+    ) {
         let lanes: Vec<_> = fs::read_dir(run_dir.join("gateway")).unwrap().collect();
         assert_eq!(lanes.len(), 1);
         let ack = lanes
@@ -916,6 +947,29 @@ fn local_update_cycle_restart_observes_the_known_result_without_reposting() {
 }
 
 #[test]
+fn local_update_cycle_accepts_gateway_admission_with_independent_clock_and_retention() {
+    let (calls, reports) = journey(Scenario::CycleAdmissionDrift);
+    assert_eq!(calls, 1);
+    assert_eq!(reports[0]["status"], "complete");
+    assert_eq!(reports[0]["cycle_result"]["completion"], "complete");
+}
+
+#[test]
+fn local_update_cycle_resumes_after_legacy_deadline_without_cancel_or_repost() {
+    let (calls, reports) = journey(Scenario::CycleRunningBeyondLegacyDeadline);
+    assert_eq!(calls, 1);
+    assert_eq!(reports[0]["status"], "complete");
+}
+
+#[test]
+fn terminal_cycle_failure_without_envelope_reports_once_without_replay() {
+    let (calls, reports) = journey(Scenario::CycleTerminalFailure);
+    assert_eq!(calls, 1);
+    assert_eq!(reports[0]["status"], "failed_or_interrupted");
+    assert!(reports[0]["cycle_result"].is_null());
+}
+
+#[test]
 fn local_update_cycle_cancellation_stops_without_replay_or_upload() {
     let (calls, reports) = journey(Scenario::CycleCancel);
     assert_eq!(calls, 1);
@@ -940,11 +994,38 @@ fn failed_cycle_retains_each_activity_record_without_claiming_completion() {
         .unwrap()
         .iter()
         .all(|activity| activity["status"] == "failed"));
+
+    let mut report: adl::codefriend::agent::RunReport =
+        serde_json::from_value(reports[0].clone()).unwrap();
+    report.cycle_result.as_mut().unwrap().activities[0].failure =
+        Some("sensitive arbitrary provider detail".into());
+    report.digest.clear();
+    report.digest = adl::codefriend::evidence::hash(&report).unwrap();
+    assert!(report.validate(live_now()).is_err());
 }
 
 #[test]
 fn native_report_verifier_rejects_rehashed_malformed_cycle_content() {
     let (_, reports) = journey(Scenario::Cycle);
+    for mutation in ["missing", "contradictory"] {
+        let mut candidate: adl::codefriend::agent::RunReport =
+            serde_json::from_value(reports[0].clone()).unwrap();
+        if mutation == "missing" {
+            candidate.cycle_result.as_mut().unwrap().execution = None;
+        } else {
+            candidate
+                .cycle_result
+                .as_mut()
+                .unwrap()
+                .execution
+                .as_mut()
+                .unwrap()
+                .request_digest = "f".repeat(64);
+        }
+        candidate.digest.clear();
+        candidate.digest = adl::codefriend::evidence::hash(&candidate).unwrap();
+        assert!(candidate.validate(live_now()).is_err(), "{mutation}");
+    }
     let mut report: adl::codefriend::agent::RunReport =
         serde_json::from_value(reports[0].clone()).unwrap();
     report.validate(live_now()).unwrap();

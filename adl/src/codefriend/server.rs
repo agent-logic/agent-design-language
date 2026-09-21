@@ -249,7 +249,7 @@ fn execute_cycle(
     let cancel = dir.join("cancel");
     let mut identities = Vec::new();
     let review = if plan.activities.contains(&Activity::Review) {
-        runner::run_with_executor(
+        Some(runner::run_with_executor(
             runner::ExecutionOptions {
                 out: work.join("review"),
                 run_id: request.operation_id.clone(),
@@ -272,14 +272,16 @@ fn execute_cycle(
                     Some(format!("lanes/{}/provider.log.jsonl", lane.id())),
                 )?;
                 let output = execute_codefriend_invocation(provider, &mut logger);
-                identities.push(output.model_identity);
+                crate::provider_adapter::retain_codefriend_provider_outcome(&output, || {
+                    write_json(&lane_dir.join("provider-result.json"), &output)
+                })?;
+                identities.push(output.model_identity.clone());
                 Ok(runner::LaneExecution {
                     final_status: output.final_status,
                     output_text: output.output_text,
                 })
             },
-        )
-        .ok()
+        )?)
     } else {
         None
     };
@@ -305,7 +307,13 @@ fn execute_cycle(
                 Some(format!("activity-{}.jsonl", activity.id())),
             )?;
             let output = execute_codefriend_invocation(provider, &mut logger);
-            identities.push(output.model_identity);
+            crate::provider_adapter::retain_codefriend_provider_outcome(&output, || {
+                write_json(
+                    &work.join(format!("activity-{}-provider-result.json", activity.id())),
+                    &output,
+                )
+            })?;
+            identities.push(output.model_identity.clone());
             Ok(ProviderOutput {
                 final_status: output.final_status,
                 output_text: output.output_text,
@@ -322,12 +330,33 @@ fn execute_cycle(
             .all(|identity| same_model_execution(&first, identity)),
         "activity_model_identity_changed"
     );
+    let observed_route = runner::provider_route_identity_from_model(&first);
+    for activity in &mut result.activities {
+        activity.provider_route.clone_from(&observed_route);
+    }
+    if let Some(review) = &mut result.review {
+        review
+            .review_record
+            .run
+            .provider_route
+            .clone_from(&observed_route);
+        for lane in &mut review.lane_results {
+            lane.provider_route.clone_from(&observed_route);
+        }
+        if let Some(activity) = result
+            .activities
+            .iter_mut()
+            .find(|activity| activity.activity == Activity::Review)
+        {
+            activity.review_result_digest = Some(super::evidence::hash(review)?);
+        }
+    }
     result.execution = Some(activities::CycleExecutionBinding {
         candidate_revision: build::REVISION.into(),
         request_digest: super::evidence::hash(request)?,
         model_identity: first.clone(),
     });
-    result.validate(&runner::provider_route_identity_from_model(&first))?;
+    result.validate(&observed_route)?;
     Ok((result, first))
 }
 
@@ -813,6 +842,14 @@ async fn submit(
         status: Status::Running,
     };
     internal(write_json(&dir.join("operation.json"), &operation))?;
+    if request.cycle.is_some() {
+        internal(
+            File::create(dir.join("cycle-operation"))
+                .and_then(|file| file.sync_all())
+                .and_then(|_| File::open(&dir)?.sync_all())
+                .map_err(Into::into),
+        )?;
+    }
     drop(guard);
     let returned = operation.clone();
     tokio::task::spawn_blocking(move || {
@@ -930,10 +967,13 @@ async fn result(
     internal(service.expire())?;
     let op = service.operation(&c, &operation)?;
     let result_path = service.dir(&c.subject, &operation).join("result.json");
-    if !matches!(
-        op.status,
-        Status::Complete | Status::Failed | Status::Cancelled
-    ) || op.expires_at <= now()
+    let cycle_result = service
+        .dir(&c.subject, &operation)
+        .join("cycle-operation")
+        .exists();
+    if !(op.status == Status::Complete
+        || (cycle_result && matches!(op.status, Status::Failed | Status::Cancelled)))
+        || op.expires_at <= now()
         || !result_path.exists()
     {
         return Err(ApiError(StatusCode::CONFLICT, "result_not_complete"));

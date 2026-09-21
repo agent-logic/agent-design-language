@@ -126,15 +126,11 @@ pub(crate) fn validate_complete_run(
     admission: &Admission,
     provider_route: &str,
 ) -> Result<()> {
+    result.successful_execution()?;
     ensure!(
-        result.schema == REVIEW_RUN_SCHEMA
-            && result.run_id == run_id
-            && result.completion == Completion::Complete
-            && result.failures.is_empty()
+        result.run_id == run_id
             && result.review_record.admission == *admission
             && result.review_record.run.provider_route == provider_route
-            && result.review_record.run.completion == Completion::Complete
-            && result.review_record.run.failures.is_empty()
             && result.lane_results.len() == ReviewLane::ALL.len(),
         "review_run_incomplete"
     );

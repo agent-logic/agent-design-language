@@ -399,6 +399,7 @@ struct Control {
 pub struct GatewayLaneIdentity {
     pub lane: String,
     pub candidate_revision: String,
+    pub request_digest: String,
     pub model_identity: crate::model_identity::ModelIdentityV1,
 }
 impl GatewayLaneIdentity {
@@ -409,7 +410,8 @@ impl GatewayLaneIdentity {
                     .candidate_revision
                     .bytes()
                     .all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b))
-                && self.candidate_revision.bytes().any(|b| b != b'0'),
+                && self.candidate_revision.bytes().any(|b| b != b'0')
+                && super::evidence::valid_digest(&self.request_digest),
             "agent_gateway_candidate"
         );
         ensure!(
@@ -626,6 +628,16 @@ impl RunReport {
                 ))?;
                 let route = runner::provider_route_identity_from_model(&identity.model_identity);
                 cycle.validate(&route)?;
+                let execution = cycle
+                    .execution
+                    .as_ref()
+                    .ok_or_else(|| anyhow::anyhow!("agent_cycle_execution_binding_missing"))?;
+                ensure!(
+                    execution.candidate_revision == identity.candidate_revision
+                        && execution.request_digest == identity.request_digest
+                        && execution.model_identity == identity.model_identity,
+                    "agent_cycle_execution_binding_changed"
+                );
                 let completion_matches_status = match self.status.as_str() {
                     "complete" => {
                         cycle.completion == Completion::Complete && cycle.failures.is_empty()
@@ -871,6 +883,7 @@ impl Transport {
         let identity = GatewayLaneIdentity {
             lane: lane.id().into(),
             candidate_revision: result.candidate_revision.clone(),
+            request_digest: operation.request_digest.clone(),
             model_identity: result.model_identity.clone(),
         };
         identity.validate()?;
@@ -882,6 +895,7 @@ impl Transport {
             let operation_identity = GatewayLaneIdentity {
                 lane: lane.id().into(),
                 candidate_revision: operation.candidate_revision.clone(),
+                request_digest: operation.request_digest.clone(),
                 model_identity: observed.clone(),
             };
             operation_identity.validate()?;
@@ -994,7 +1008,7 @@ impl Transport {
             } else {
                 true
             };
-            if !allowed || cancelled || (self.clock)() >= known.observation_deadline {
+            if !allowed || cancelled {
                 let _: Result<Operation> = self.request(
                     Method::POST,
                     &format!("{path}/cancel"),
@@ -1030,13 +1044,18 @@ impl Transport {
         let result: CycleModelResult = if output_path.exists() {
             serde_json::from_slice(&fs::read(&output_path)?)?
         } else {
-            self.request(
+            match self.request(
                 Method::GET,
                 &format!("{path}/result"),
                 Some(&pairing.model_token),
                 None,
-            )
-            .map_err(|_| ObservationPending)?
+            ) {
+                Ok(result) => result,
+                Err(_) if operation.status == Status::Failed => {
+                    anyhow::bail!("agent_gateway_failed_without_result")
+                }
+                Err(_) => return Err(ObservationPending.into()),
+            }
         };
         ensure!(
             result.schema == "codefriend.local_cycle_result.v1"
@@ -1044,9 +1063,15 @@ impl Transport {
                 && result.model_execution_location == "agent_logic_provider"
                 && result.cycle_result.run_id == operation_id
                 && result.cycle_result.plan == *plan
-                && result.admission == *admission
                 && result.cycle_result.admission == result.admission,
             "agent_cycle_result_identity"
+        );
+        result.admission.validate()?;
+        ensure!(
+            result.admission.packet == admission.packet
+                && result.admission.expires_at > (self.clock)()
+                && admission.expires_at > (self.clock)(),
+            "agent_cycle_admission_identity"
         );
         let route =
             super::review::runner::provider_route_identity_from_model(&result.model_identity);
@@ -1065,6 +1090,7 @@ impl Transport {
         let identity = GatewayLaneIdentity {
             lane: "cycle".into(),
             candidate_revision: result.candidate_revision.clone(),
+            request_digest: operation.request_digest.clone(),
             model_identity: result.model_identity.clone(),
         };
         identity.validate()?;
@@ -1080,6 +1106,7 @@ impl Transport {
             let operation_identity = GatewayLaneIdentity {
                 lane: "cycle".into(),
                 candidate_revision: operation.candidate_revision.clone(),
+                request_digest: operation.request_digest.clone(),
                 model_identity: observed.clone(),
             };
             ensure!(

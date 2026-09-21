@@ -387,11 +387,16 @@ impl UpdateCycleResult {
                 }
                 ActivityStatus::Failed => {
                     expected_failures.push(format!("{}_failed", expected.id()));
+                    let expected_failure = if *expected == Activity::Review {
+                        "review_failed"
+                    } else {
+                        "activity_execution_failed"
+                    };
                     ensure!(
                         result.output.is_none()
                             && result.output_digest.is_none()
                             && result.review_result_digest.is_none()
-                            && result.failure.is_some(),
+                            && result.failure.as_deref() == Some(expected_failure),
                         "activity_failure_invalid"
                     );
                 }
@@ -794,11 +799,13 @@ where
             let mut manifest = manifest;
             manifest.input_digest = hash(&manifest)?;
             let valid = review.as_ref().is_some_and(|value| {
-                value.run_id == run_id
-                    && value.review_record.admission == admission
-                    && value.review_record.run.provider_route == provider_route
-                    && value.completion == super::evidence::contracts::Completion::Complete
-                    && value.failures.is_empty()
+                super::review::runner::validate_complete_run(
+                    value,
+                    &run_id,
+                    &admission,
+                    &provider_route,
+                )
+                .is_ok()
             });
             let digest = if valid {
                 Some(hash(review.as_ref().expect("checked"))?)
@@ -827,7 +834,12 @@ where
             continue;
         }
         let (manifest, prompt) = prompt(*activity, &plan, &admission, &run_id)?;
-        let executed = execute(*activity, prompt, &manifest);
+        let executed = match execute(*activity, prompt, &manifest) {
+            Err(error) if error.is::<crate::provider_adapter::CodeFriendProviderInterrupted>() => {
+                return Err(error);
+            }
+            outcome => outcome,
+        };
         let parsed = executed.and_then(|provider| {
             ensure!(
                 provider.final_status == ProviderInvocationFinalStatusV1::Ok,
