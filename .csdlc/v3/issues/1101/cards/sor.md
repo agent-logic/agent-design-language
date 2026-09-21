@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implemented the versioned CodeFriend update-cycle plan and independently selectable review, documentation, diagram, and test activities for hosted and paired-local execution. All findings from four independent review passes were remediated, including retained failed-cycle envelopes, prompt-bound citations, documentation classification, constrained Mermaid validation, cycle-specific restart/cancellation/replay, production gateway admission decoding, Review-lane failure retention, exact request/candidate/model execution binding, and the corresponding consumer contract documentation. Fresh native proof and exact-head review remain required before PR publication.
+Implemented the versioned CodeFriend update-cycle plan and independently selectable review, documentation, diagram, and test activities for hosted and paired-local execution. All findings from five independent review passes were remediated, including retained failed-cycle envelopes, prompt-bound citations, documentation classification, constrained Mermaid validation, cycle-specific restart/cancellation/replay, production gateway admission decoding, Review-lane failure retention, exact request/candidate/model execution binding, the corresponding consumer contract documentation, and precise lifecycle proof wording. Native proof passes against the final pre-projection head and is retained by the following typed proof projection commit; fresh exact-head review and PR publication remain pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
@@ -57,7 +57,7 @@ Implemented the versioned CodeFriend update-cycle plan and independently selecta
 - Goal metrics source ref: `not_collected`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `implementation_complete_fresh_exact_head_review_pending`
+- Completion state: `implementation_and_native_proof_complete_fresh_exact_head_review_pending`
 - Issue goal ref: `Active issue #1101 implementation and reviewed-green PR publication goal`
 - Sprint goal ref: `CodeFriend Beta 1 update-cycle prerequisite for codefriend.ai issue #6`
 - Goal metrics rollup ref: `not_collected`
@@ -76,7 +76,7 @@ Implemented the versioned CodeFriend update-cycle plan and independently selecta
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/1101/cards/sor.md`
 - Tracked implementation artifacts: `adl/src/codefriend/activities.rs; adl/src/codefriend/agent.rs; adl/src/codefriend/server.rs; adl/src/codefriend/review/runner.rs; adl/tests/codefriend_update_cycle.rs; adl/tests/codefriend_agent.rs; adl/tests/codefriend_server.rs; adl/tests/fixtures/codefriend/update-cycle/PVF.json; docs/codefriend/SERVER.md; docs/codefriend/LOCAL_AGENT.md`
-- Additional proof artifacts: `Focused deterministic component tests, production-server and paired-local execution-binding regressions, source-backed consumer protocol documentation, and the issue-local PVF manifest. Native proof is retained separately by the typed lifecycle after each final tracked reconciliation. No paid provider, deployment, or successful Mermaid render artifact is claimed.`
+- Additional proof artifacts: `Focused deterministic component tests, production-server and paired-local execution-binding regressions, source-backed consumer protocol documentation, the issue-local PVF manifest, and typed native proof retained against the final pre-projection head. Any later tracked content change requires fresh proof. No paid provider, deployment, or successful Mermaid render artifact is claimed.`
 
 ## Actions taken
 - `Implemented strict prompt-bound activity proposals with create/update and unsupported-claim classification, constrained renderable Mermaid flowchart/sequence syntax, and exact mmdc SVG render manifests.`
@@ -92,7 +92,7 @@ Implemented the versioned CodeFriend update-cycle plan and independently selecta
 - Verification performed:
   - `git status --short --branch; git diff --check origin/main...HEAD`
     `Verified the bound branch identity, clean worktree, and patch whitespace hygiene without claiming main integration.`
-- Result: `Every known review finding is remediated on the issue-bound branch, including the execution-binding implementation, production regressions, and consumer documentation. Native proof must bind the final implementation and lifecycle content before exact-head review and publication; CI, merge, and deployment remain pending.`
+- Result: `Every known review finding is remediated on the issue-bound branch, including the execution-binding implementation, production regressions, consumer documentation, and lifecycle record. Native proof passes against the final pre-projection head and the typed lifecycle retains that result in its following proof projection commit. Exact-head review, CI, merge, and deployment remain pending.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -174,5 +174,5 @@ verification_summary:
 - `Keep legacy review-only request and report serialization unchanged when cycle is absent.`
 
 ## Follow-ups / Deferred work
-- `Run native proof for the final implementation and lifecycle content, obtain mandatory independent exact-head review, and fix every actionable finding before native publication.`
+- `Obtain mandatory independent exact-head review of the proof-bearing projection commit and fix every actionable finding before native publication.`
 - `After #1101 merges, coordinate the current codefriend.ai consumer with this final self-validating activity-result contract.`
