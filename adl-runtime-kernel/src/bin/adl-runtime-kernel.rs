@@ -814,14 +814,27 @@ async fn main() -> ExitCode {
                 "adl.runtime_v3.agent_delegation.continuity.v1",
                 &continuity_secret,
             ));
-            let greeting_recovery_service = Arc::clone(&service);
+            let dynamic_health_service = Arc::clone(&service);
+            let dynamic_health_cancel = api_shutdown.child_token();
             tokio::spawn(async move {
-                greeting_recovery_service
-                    .refresh_dynamic_agent_health()
-                    .await;
-                greeting_recovery_service
-                    .recover_admission_greetings()
-                    .await;
+                let mut tick = tokio::time::interval(std::time::Duration::from_secs(10));
+                tick.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Skip);
+                loop {
+                    tokio::select! {
+                        _ = dynamic_health_cancel.cancelled() => break,
+                        _ = tick.tick() => {}
+                    }
+                    // One sweep at a time, independent of synchronous logging
+                    // housekeeping in the main service loop.
+                    tokio::select! {
+                        _ = dynamic_health_cancel.cancelled() => break,
+                        _ = dynamic_health_service.refresh_dynamic_agent_health() => {}
+                    }
+                    let greetings = Arc::clone(&dynamic_health_service);
+                    tokio::spawn(async move {
+                        greetings.recover_admission_greetings().await;
+                    });
+                }
             });
             let api_policy = ControlApiPolicy::new(
                 api_drain_timeout,
@@ -1316,10 +1329,6 @@ async fn main() -> ExitCode {
             let mut shepherd_heartbeat =
                 tokio::time::interval(std::time::Duration::from_millis(1_000));
             shepherd_heartbeat.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Delay);
-            let mut dynamic_agent_heartbeat =
-                tokio::time::interval(std::time::Duration::from_secs(10));
-            dynamic_agent_heartbeat
-                .set_missed_tick_behavior(tokio::time::MissedTickBehavior::Delay);
             let mut cloud_health_heartbeat =
                 tokio::time::interval(std::time::Duration::from_secs(30));
             cloud_health_heartbeat.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Delay);
@@ -1394,13 +1403,6 @@ async fn main() -> ExitCode {
                                 );
                             }
                         }
-                    },
-                    _ = dynamic_agent_heartbeat.tick() => {
-                        service.refresh_dynamic_agent_health().await;
-                        let greeting_recovery_service = Arc::clone(&service);
-                        tokio::spawn(async move {
-                            greeting_recovery_service.recover_admission_greetings().await;
-                        });
                     },
                     _ = cloud_health_heartbeat.tick() => {
                         let snapshot = recorder.snapshot();

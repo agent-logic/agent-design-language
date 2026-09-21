@@ -6473,6 +6473,44 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         Ok(detail)
     }
 
+    /// Small, read-only status projection: no log scan or provider invocation.
+    pub fn agent_health_status(&self, agent_id: &str) -> Result<serde_json::Value, ControlError> {
+        let agent = self.agent_roster_detail(agent_id)?;
+        let now = now_unix_millis();
+        let fresh =
+            agent.observed_at_unix_millis <= now && agent.freshness_deadline_unix_millis >= now;
+        let model = agent
+            .provider_binding
+            .as_ref()
+            .map(|b| b.model_ref.as_str())
+            .or(agent.model.as_deref());
+        let signals = self
+            .recorder
+            .provider_usage
+            .health_snapshot()
+            .into_iter()
+            .find(|s| {
+                (s.agent == agent.name || s.agent == agent.id)
+                    && Some(s.provider.as_str()) == agent.provider.as_deref()
+                    && Some(s.model.as_str()) == model
+            });
+        Ok(serde_json::json!({
+            "schema": "adl.runtime_v3.agent_health.v1",
+            "id": agent.id, "name": agent.name,
+            "health": agent.health, "availability": agent.availability,
+            "inference_readiness": agent.inference_readiness,
+            "fresh": fresh,
+            "observed_at_unix_millis": agent.observed_at_unix_millis,
+            "heartbeat_age_millis": now.saturating_sub(agent.observed_at_unix_millis),
+            "freshness_deadline_unix_millis": agent.freshness_deadline_unix_millis,
+            "last_successful_response_at_unix_millis": signals.as_ref().and_then(|s| s.last_successful_inference_at_unix_millis),
+            "reason": if fresh { agent.activity.as_deref() } else { Some("health_observation_expired") },
+            "provider": agent.provider, "model": agent.model,
+            "checked_at_unix_millis": now,
+            "check_invokes_model": false
+        }))
+    }
+
     fn resolve_agent_name(
         &self,
         canonical_name: &str,
@@ -6960,6 +6998,10 @@ where
         .route("/v1/metrics/providers", get(provider_metrics_handler::<C>))
         .route("/v1/health/providers", get(provider_health_handler::<C>))
         .route("/v1/providers", get(provider_catalog_handler::<C>))
+        .route(
+            "/v1/agents/{agent_id}/health",
+            get(agent_health_handler::<C>).options(control_preflight_handler::<C>),
+        )
         .route(
             "/v1/agents/{agent_id}/help",
             post(resident_help_handler::<C>),
@@ -7477,6 +7519,28 @@ async fn agent_detail_handler<C: LifecycleControl + 'static>(
                 "code": "agent_not_visible"
             }),
             allowed_origin,
+        ),
+    }
+}
+
+async fn agent_health_handler<C: LifecycleControl + 'static>(
+    State(service): State<Arc<ControlService<C>>>,
+    axum::extract::Path(agent_id): axum::extract::Path<String>,
+    headers: HeaderMap,
+) -> Response {
+    if headers.contains_key(header::AUTHORIZATION) && !agent_write_authorized(&service, &headers) {
+        return StatusCode::UNAUTHORIZED.into_response();
+    }
+    let origin = allowed_origin(&service, &headers);
+    if headers.contains_key(header::ORIGIN) && origin.is_none() {
+        return StatusCode::FORBIDDEN.into_response();
+    }
+    match service.agent_health_status(&agent_id) {
+        Ok(status) => observatory_json(StatusCode::OK, status, origin),
+        Err(_) => observatory_json(
+            StatusCode::NOT_FOUND,
+            serde_json::json!({"code":"agent_not_visible"}),
+            origin,
         ),
     }
 }
@@ -8993,6 +9057,25 @@ mod layer8_conversation_ingress_tests {
         } = fixture;
         let service = service_from_layer8_parts(authority, exchange);
         (service, root)
+    }
+
+    #[test]
+    fn direct_resident_health_reads_are_small_and_do_not_invoke_models() {
+        let service = service_with_room_agents();
+        let before = service.recorder.provider_usage.health_snapshot().len();
+        for _ in 0..100 {
+            let status = service.agent_health_status("shepherd").unwrap();
+            assert_eq!(status["schema"], "adl.runtime_v3.agent_health.v1");
+            assert_eq!(status["id"], "shepherd");
+            assert_eq!(status["check_invokes_model"], false);
+            assert!(status["last_successful_response_at_unix_millis"].is_null());
+            assert!(status.to_string().len() < 2048);
+        }
+        assert_eq!(
+            service.recorder.provider_usage.health_snapshot().len(),
+            before
+        );
+        assert!(service.agent_health_status("missing-resident").is_err());
     }
 
     fn service_with_room_agents() -> ControlService<FakeLifecycle> {

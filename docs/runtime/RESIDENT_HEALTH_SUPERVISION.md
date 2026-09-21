@@ -7,6 +7,15 @@ change or paid recovery inference is performed by this supervisor.
 
 ## Detection and response
 
+Resident metadata refresh runs in its own cancellation-aware ten-second worker,
+with one sweep in flight. It does not share the logging housekeeping loop.
+Live logging-health checks read at most 64 KiB of new bytes per poll, retain at
+most 256 KiB of an incomplete record, and discard oversized/malformed records
+through their next newline. They reset on file replacement, removal, truncation
+or a changed cursor boundary. The master log is append-only; arbitrary in-place
+historical edits are outside that contract. Full historical audits remain separate.
+Cursor catch-up does not count as fresh exporter progress in the stall detector.
+
 An independent task checks observed health every five seconds. Provider failure,
 stale resident observations, unknown inference and inference evidence older than
 five minutes have distinct reason codes. Metadata success does not establish
@@ -39,6 +48,19 @@ proxy falsely claiming to be Ollama is outside that trust boundary. See the
 [upstream API schema](https://github.com/ollama/ollama/blob/main/docs/openapi.yaml).
 
 ## Asking for help
+
+Each resident has a small read-only status endpoint:
+`GET /v1/agents/{agent_id}/health`. Operators can use
+`csmctl agent health --init /absolute/runtime-init.toml --id <resident-id>`.
+It returns heartbeat age/freshness, inference state, last successful response time,
+and the current reason without reading logs or invoking a provider. A null response
+time means unknown, including after process start or binding replacement.
+
+Each provider invocation receives its own current provider-health observation as
+Runtime context. This is a read of retained evidence, not an active self-probe;
+heartbeat age is explicitly unavailable in this provider-only context. The context
+is injected at execution, outside the durable request identity, so retries remain
+idempotent. The resident can assess that evidence and emit the help action below.
 
 An authenticated operator can request help for a known resident:
 
@@ -132,6 +154,10 @@ fixtures and mock AWS executable; no paid provider or AWS calls. Release gate:
 required Runtime tests/CI. Coverage includes census, independent escalation,
 unknown/stale inference, replacement fencing, retry exhaustion, restart recovery,
 retired outbox entries, authenticated help, structured action projection, exact
-role/account and SNS receipt handling. Observatory uses the existing JavaScript
+role/account and SNS receipt handling. Cursor regressions additionally prove bounded
+read and record storage, concurrent append boundaries, partial records, and file
+replacement/truncation recovery. Compact health and self-context regressions prove
+no inference on status reads and recipient-scoped context outside retry identity.
+These are deterministic local regression gates, not throughput benchmarks. Observatory uses the existing JavaScript
 projection test. Installed Runtime qualification is separate and pending authorized
 deployment; a prior operator-confirmed SNS email test is transport evidence only.
