@@ -488,7 +488,7 @@ impl WireServer {
                             Some(run(adl::codefriend::review::runner::ExecutionOptions {
                                 out:consent_path.parent().unwrap().join(format!("cycle-review-{id}")),
                                 run_id:id.into(),cancel_file:None,
-                            },admission.clone(),route.into(),|_,_,_| Ok(adl::codefriend::review::runner::LaneExecution {
+                            },admission.clone(),route.into(),|_: adl::codefriend::review::lanes::ReviewLane, _: String, _: &std::path::Path| Ok(adl::codefriend::review::runner::LaneExecution {
                                 final_status:adl::provider_communication::ProviderInvocationFinalStatusV1::Ok,
                                 output_text:Some(if assessments { "{\"assessments\":[]}" } else { "{\"findings\":[]}" }.into()),
                             })).unwrap())
