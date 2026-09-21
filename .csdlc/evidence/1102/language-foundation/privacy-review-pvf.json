@@ -1,0 +1,25 @@
+{
+  "lane": "runtime",
+  "proof_role": "native review execution and synthesis privacy coverage component regression",
+  "determinism": "local Git acquisition and synthetic four-lane output; no external provider or cloud",
+  "resource_profile": "bounded fixture source, four executor calls; no elapsed cutoff",
+  "tests": [
+    "codefriend_synthesis::privacy_omissions_preserve_failed_guards_and_explicit_synthesis_coverage",
+    "codefriend_agent::privacy_omissions_survive_agent_forwarding_without_replay_or_secret_bytes",
+    "codefriend_language_fitness::privacy_filtered_manifest_continues_with_explicit_dependency_gap",
+    "codefriend_language_fitness::privacy_omissions_are_unknown_while_available_violations_still_fail",
+    "codefriend_integration::hosted_privacy_omissions_continue_through_approval_and_exports"
+  ],
+  "assertions": [
+    "actual omitted_unsafe acquisition",
+    "no excluded contents in prompts",
+    "all four native lane receipts",
+    "zero-finding synthesis retains safe omission list",
+    "failed or missing lanes rejected",
+    "tampered receipt rejected",
+    "Complete invariant preserved",
+    "missing objects rejected",
+    "legacy coverage field omitted"
+  ],
+  "release_gate": "Supporting component/installed interoperability evidence only; not real-provider or deployed acceptance"
+}

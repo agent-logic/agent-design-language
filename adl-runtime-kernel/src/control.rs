@@ -218,6 +218,8 @@ pub struct AgentIdentityMigrationRequest {
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 struct DynamicAgentStore {
     schema: String,
+    #[serde(default)]
+    bootstrap_residents_seeded: bool,
     agents: Vec<DynamicAgentStoreEntry>,
     #[serde(default)]
     admission_greetings: BTreeMap<String, AdmissionGreetingRecord>,
@@ -1034,6 +1036,7 @@ struct ConversationTurn {
 
 #[derive(Clone)]
 struct ConversationDispatch {
+    binding_epoch: u64,
     intent: ObservatoryConversationIntent,
     initiation: Option<AgentInitiationMetadata>,
     sequence: u64,
@@ -1209,6 +1212,8 @@ pub struct ControlService<C> {
     active_admission_greetings: Mutex<BTreeSet<String>>,
     admission_greeting_dispatches: Mutex<BTreeMap<String, ConversationDispatch>>,
     resident_agent_bindings: RwLock<BTreeMap<String, AgentAdmissionRequest>>,
+    resident_executor: Option<Arc<crate::ResidentShepherdExecutor>>,
+    resident_templates: BTreeMap<String, ResidentShepherdInitConfig>,
     pending_agent_migrations: Mutex<BTreeMap<String, FreezeDriedAgent>>,
     dynamic_agent_admission: Arc<Mutex<()>>,
     #[cfg(test)]
@@ -1343,6 +1348,8 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             active_admission_greetings: Mutex::new(BTreeSet::new()),
             admission_greeting_dispatches: Mutex::new(BTreeMap::new()),
             resident_agent_bindings: RwLock::new(BTreeMap::new()),
+            resident_executor: None,
+            resident_templates: BTreeMap::new(),
             pending_agent_migrations: Mutex::new(BTreeMap::new()),
             dynamic_agent_admission: Arc::new(Mutex::new(())),
             #[cfg(test)]
@@ -1687,6 +1694,49 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .write()
             .expect("resident agent bindings lock poisoned") = bindings;
         self
+    }
+
+    pub fn with_live_resident_executor(
+        mut self,
+        executor: Arc<crate::ResidentShepherdExecutor>,
+        configs: &ResidentShepherdSetInitConfig,
+    ) -> Self {
+        self.resident_templates = configs
+            .iter()
+            .enumerate()
+            .map(|(i, c)| (resident_shepherd_runtime_id(i, c), c.clone()))
+            .collect();
+        self.resident_executor = Some(executor);
+        self
+    }
+
+    fn is_supervised_shepherd(&self, id: &str) -> bool {
+        self.resident_templates
+            .get(id)
+            .is_some_and(|c| id == "shepherd" || c.office == "resident shepherd")
+    }
+
+    fn sync_resident_executor(&self, agents: &[AgentAdmissionRequest]) {
+        let Some(executor) = &self.resident_executor else {
+            return;
+        };
+        let configs = agents
+            .iter()
+            .filter_map(|agent| {
+                if !self.is_supervised_shepherd(&agent.id) {
+                    return None;
+                }
+                let mut config = self.resident_templates.get(&agent.id)?.clone();
+                config.name = agent.name.clone();
+                config.display_name = agent.display_name.clone();
+                config.office = agent.office.clone();
+                config.provider = agent.provider.clone();
+                config.model = agent.model.clone();
+                config.endpoint = agent.endpoint.clone();
+                Some(config)
+            })
+            .collect();
+        executor.replace_bindings(configs);
     }
 
     pub fn with_layer8_authority(mut self, authority: Layer8ConversationAuthority) -> Self {
@@ -3339,6 +3389,10 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         ConversationAcceptance::Dispatch {
             accepted: Box::new(accepted),
             dispatch: ConversationDispatch {
+                binding_epoch: self
+                    .recorder
+                    .provider_usage
+                    .binding_epoch(&intent.recipient_id),
                 intent: intent.clone(),
                 initiation,
                 sequence,
@@ -3663,6 +3717,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 "model": agent.model,
                 "endpoint": agent.endpoint,
                 "credential_ref": agent.credential_ref,
+                "binding_epoch": dispatch.binding_epoch,
                 "required_capabilities": agent.required_capabilities,
             }),
             None => serde_json::json!({
@@ -3705,6 +3760,13 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             } else {
                 outcome("timed_out", "conversation_timed_out")
             }
+        } else if self
+            .recorder
+            .provider_usage
+            .binding_epoch(&dispatch.intent.recipient_id)
+            != dispatch.binding_epoch
+        {
+            outcome("cancelled", "agent_binding_replaced")
         } else if !matches!(
             self.conversation_dispatch_eligibility(
                 &dispatch.intent.recipient_id,
@@ -3756,17 +3818,32 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                     // this branch, and an already cancelled operator token wins.
                     let execution_timed_out =
                         submitted.is_none() && !dispatch.cancellation.is_cancelled();
-                    if execution_timed_out {
+                    if execution_timed_out
+                        && self
+                            .recorder
+                            .provider_usage
+                            .binding_epoch(&dispatch.intent.recipient_id)
+                            == dispatch.binding_epoch
+                    {
                         if let Some(agent) = continuation_binding.as_ref() {
                             self.recorder.provider_usage.observe_execution_timeout(
                                 &dispatch.intent.recipient_id,
                                 &agent.provider,
                                 &agent.model,
+                                dispatch.binding_epoch,
                             );
                         }
                         dispatch.cancellation.cancel();
                     }
                     match submitted {
+                        _ if self
+                            .recorder
+                            .provider_usage
+                            .binding_epoch(&dispatch.intent.recipient_id)
+                            != dispatch.binding_epoch =>
+                        {
+                            outcome("cancelled", "agent_binding_replaced")
+                        }
                         None if execution_timed_out => {
                             outcome("timed_out", "conversation_timed_out")
                         }
@@ -4037,9 +4114,10 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         let accounting = crate::provider_usage::ProviderCallContext {
             usage: &self.recorder.provider_usage,
             agent: &dispatch.intent.recipient_id,
+            binding_epoch: dispatch.binding_epoch,
             reason: crate::provider_usage::ProviderRequestReason::OperatorConversation,
         };
-        let usage = accounting.begin(&binding.provider, &binding.model, &prompt);
+        let usage = accounting.begin(&binding.provider, &binding.model, &prompt)?;
         let completion = match crate::provider_registry::complete_with_metadata(
             Arc::clone(&self.recorder.providers),
             provider_binding(binding),
@@ -4191,7 +4269,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
     }
 
     pub fn configure_dynamic_agent_store(&self, path: PathBuf) -> Result<(), ControlError> {
-        let (entries, mut greetings, greeting_outbox_present) = if path.exists() {
+        let (mut entries, mut greetings, greeting_outbox_present, seeded) = if path.exists() {
             let bytes = fs::read(&path).map_err(|error| ControlError::Io(error.to_string()))?;
             let greeting_outbox_present = serde_json::from_slice::<serde_json::Value>(&bytes)
                 .map_err(|error| ControlError::Encoding(error.to_string()))?
@@ -4206,28 +4284,58 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 store.agents,
                 store.admission_greetings,
                 greeting_outbox_present,
+                store.bootstrap_residents_seeded,
             )
         } else {
-            (Vec::new(), BTreeMap::new(), true)
+            (Vec::new(), BTreeMap::new(), true, false)
         };
-        let (mut seen, mut seen_names) = {
-            let population = self
-                .agent_population
-                .read()
-                .expect("agent population state poisoned");
-            (
-                population
-                    .sample
+        let bootstrap_ids = self
+            .resident_agent_bindings
+            .read()
+            .expect("resident bindings poisoned")
+            .clone();
+        if self.resident_executor.is_some() && !seeded {
+            let orientation = self.active_agent_orientation();
+            for declaration in bootstrap_ids.values() {
+                if !entries
                     .iter()
-                    .map(|sample| sample.id.clone())
-                    .collect::<BTreeSet<_>>(),
-                population
-                    .sample
-                    .iter()
-                    .map(|sample| sample.name.clone())
-                    .collect::<BTreeSet<_>>(),
-            )
-        };
+                    .any(|entry| entry.declaration().id == declaration.id)
+                {
+                    entries.push(DynamicAgentStoreEntry::Current {
+                        declaration: declaration.clone(),
+                        orientation: orientation.clone(),
+                    });
+                }
+            }
+        }
+        let managed_ids = self
+            .dynamic_agents
+            .lock()
+            .expect("dynamic agents poisoned")
+            .iter()
+            .map(|a| a.id.clone())
+            .chain(self.resident_templates.keys().cloned())
+            .collect::<BTreeSet<_>>();
+        let mut population = self
+            .agent_population
+            .read()
+            .expect("agent population poisoned")
+            .clone();
+        for id in managed_ids {
+            population.remove_dynamic(&id);
+        }
+        let (mut seen, mut seen_names) = (
+            population
+                .sample
+                .iter()
+                .map(|a| a.id.clone())
+                .collect::<BTreeSet<_>>(),
+            population
+                .sample
+                .iter()
+                .map(|a| a.name.clone())
+                .collect::<BTreeSet<_>>(),
+        );
         let mut agents = Vec::new();
         let mut removals = BTreeMap::new();
         for entry in entries {
@@ -4257,15 +4365,12 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 }
             }
         }
-        let mut population = self
-            .agent_population
-            .write()
-            .expect("agent population state poisoned");
         let active_orientation = self.active_agent_orientation();
         let mut deliveries = self
             .agent_orientation_deliveries
             .lock()
-            .expect("agent orientation delivery state poisoned");
+            .expect("agent orientation delivery state poisoned")
+            .clone();
         for agent_id in removals.keys() {
             population.remove_dynamic(agent_id);
             deliveries.remove(agent_id);
@@ -4302,9 +4407,12 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         }) {
             return Err(ControlError::InvalidIdentifier);
         }
-        let mut upgraded = false;
+        let mut upgraded = self.resident_executor.is_some() && !seeded;
         for (agent_id, agent) in &active_agents {
-            if agent_id != "beacon" && !greetings.contains_key(agent_id) {
+            if agent_id != "beacon"
+                && !self.is_supervised_shepherd(agent_id)
+                && !greetings.contains_key(agent_id)
+            {
                 let record = if greeting_outbox_present {
                     AdmissionGreetingRecord::new(&self.instance_id, agent)
                 } else {
@@ -4321,11 +4429,29 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 .collect::<Vec<_>>();
             persist_dynamic_agents(&path, &declarations, &deliveries, &greetings)?;
         }
+        let declarations = agents
+            .iter()
+            .map(|(agent, _)| agent.clone())
+            .collect::<Vec<_>>();
+        *self
+            .agent_population
+            .write()
+            .expect("agent population poisoned") = population;
+        *self
+            .agent_orientation_deliveries
+            .lock()
+            .expect("agent orientation poisoned") = deliveries;
+        self.sync_resident_executor(&declarations);
+        if self.resident_executor.is_some() {
+            self.resident_agent_bindings
+                .write()
+                .expect("resident bindings poisoned")
+                .clear();
+        }
         *self
             .dynamic_agents
             .lock()
-            .expect("dynamic agents state poisoned") =
-            agents.iter().map(|(agent, _)| agent.clone()).collect();
+            .expect("dynamic agents state poisoned") = declarations;
         *self
             .pending_agent_removals
             .lock()
@@ -4423,6 +4549,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .expect("admission greeting state poisoned")
             .clone();
         persist_dynamic_agents(&path, &agents, &orientations, &greetings)?;
+        self.sync_resident_executor(&agents);
         self.pending_agent_removals
             .lock()
             .expect("pending agent removals state poisoned")
@@ -4836,11 +4963,27 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
     }
 
     pub async fn refresh_dynamic_agent_health(&self) {
-        let declarations = self
-            .dynamic_agents
-            .lock()
-            .expect("dynamic agents state poisoned")
-            .clone();
+        let (declarations, epochs) = {
+            let _transaction = self
+                .dynamic_agent_admission
+                .lock()
+                .expect("dynamic admission poisoned");
+            let declarations = self
+                .dynamic_agents
+                .lock()
+                .expect("dynamic agents state poisoned")
+                .clone();
+            let epochs = declarations
+                .iter()
+                .map(|a| {
+                    (
+                        a.id.clone(),
+                        self.recorder.provider_usage.binding_epoch(&a.id),
+                    )
+                })
+                .collect::<BTreeMap<_, _>>();
+            (declarations, epochs)
+        };
         let mut checks = tokio::task::JoinSet::new();
         let mut declarations_by_task = BTreeMap::new();
         for declaration in declarations {
@@ -4957,6 +5100,11 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 .dynamic_agent_admission
                 .lock()
                 .expect("dynamic admission state poisoned");
+            if epochs.get(&declaration.id).copied()
+                != Some(self.recorder.provider_usage.binding_epoch(&declaration.id))
+            {
+                continue;
+            }
             if !self
                 .dynamic_agents
                 .lock()
@@ -4984,6 +5132,20 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             };
             // Read inference after the awaited metadata operation and after the
             // population lock, so recovery/failure observed during verification wins.
+            if let Some(executor) = self
+                .resident_executor
+                .as_ref()
+                .filter(|_| self.is_supervised_shepherd(&declaration.id))
+            {
+                if matches!(
+                    readiness,
+                    InferenceReadinessState::Ready | InferenceReadinessState::Configured
+                ) {
+                    // Metadata cannot bless a shepherd before its governed probe.
+                    continue;
+                }
+                executor.readiness().mark_unready(&declaration.name);
+            }
             let inference = self
                 .recorder
                 .provider_usage
@@ -5073,6 +5235,29 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
     ) -> Result<AgentAdmissionResponse, AgentAdmissionFailure> {
         validate_agent_admission(&request)
             .map_err(|_| AgentAdmissionFailure::Invalid("invalid_agent_declaration"))?;
+        if request.id == "shepherd" && self.resident_executor.is_none() {
+            return Err(AgentAdmissionFailure::Invalid(
+                "live_shepherd_management_unconfigured",
+            ));
+        }
+        if let Some(template) = self
+            .resident_templates
+            .get(&request.id)
+            .filter(|_| self.is_supervised_shepherd(&request.id))
+        {
+            // Local shepherd execution is a host-local responsibility, not a cloud fallback.
+            let host_local = is_host_local_shepherd_endpoint(&request.endpoint);
+            if request.name != template.name
+                || request.office != template.office
+                || request.provider != "ollama"
+                || !host_local
+                || request.credential_ref.is_some()
+            {
+                return Err(AgentAdmissionFailure::Invalid(
+                    "invalid_local_shepherd_binding",
+                ));
+            }
+        }
         let (provider_projection, _transaction) = {
             let mut attempts = 0_u8;
             loop {
@@ -5172,7 +5357,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .lock()
             .expect("admission greeting state poisoned")
             .clone();
-        if request.id != "beacon" {
+        if request.id != "beacon" && !self.is_supervised_shepherd(&request.id) {
             greetings
                 .entry(request.id.clone())
                 .or_insert_with(|| AdmissionGreetingRecord::new(&self.instance_id, &request));
@@ -5203,6 +5388,10 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .lock()
             .expect("admission greeting state poisoned") = greetings;
         if is_new {
+            self.recorder.provider_usage.invalidate_binding(&request.id);
+            self.recorder
+                .provider_usage
+                .invalidate_binding(&request.name);
             let mut sample = agent_sample(&request);
             sample.capabilities = provider_projection.capabilities.names();
             sample.model = Some(provider_projection.provider_model_id.clone());
@@ -5216,6 +5405,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 .write()
                 .expect("agent population state poisoned")
                 .admit_dynamic(sample);
+            self.sync_resident_executor(&agents);
             *agents_guard = agents;
         }
         Ok(AgentAdmissionResponse {
@@ -5239,7 +5429,9 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
     }
 
     fn remove_agent(&self, agent_id: &str) -> Result<&'static str, AgentAdmissionFailure> {
-        if agent_id == "shepherd" || !is_safe_identifier(agent_id) {
+        if !is_safe_identifier(agent_id)
+            || (agent_id == "shepherd" && self.resident_executor.is_none())
+        {
             return Err(AgentAdmissionFailure::Invalid("protected_or_invalid_agent"));
         }
         let _transaction = self
@@ -5334,6 +5526,8 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             let _ = self.configure_dynamic_agent_store(path);
             return Err(AgentAdmissionFailure::Unavailable("persistence_failed"));
         }
+        self.recorder.provider_usage.invalidate_binding(agent_id);
+        self.sync_resident_executor(&next);
         if self
             .fail_dynamic_agent_removal_at("semantic", "after_intent_commit")
             .is_err()
@@ -5403,11 +5597,14 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .lock()
             .expect("pending agent removals state poisoned")
             .remove(agent_id);
+        self.sync_resident_executor(&agents);
         Ok("removed")
     }
 
     fn dehydrate_agent(&self, agent_id: &str) -> Result<FreezeDriedAgent, AgentAdmissionFailure> {
-        if agent_id == "shepherd" || !is_safe_identifier(agent_id) {
+        if !is_safe_identifier(agent_id)
+            || (agent_id == "shepherd" && self.resident_executor.is_none())
+        {
             return Err(AgentAdmissionFailure::Invalid("protected_or_invalid_agent"));
         }
         if let Some(bundle) = self
@@ -5461,7 +5658,9 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
     }
 
     fn checkpoint_agent(&self, agent_id: &str) -> Result<AgentCheckpoint, AgentAdmissionFailure> {
-        if agent_id == "shepherd" || !is_safe_identifier(agent_id) {
+        if !is_safe_identifier(agent_id)
+            || (agent_id == "shepherd" && self.resident_executor.is_none())
+        {
             return Err(AgentAdmissionFailure::Invalid("protected_or_invalid_agent"));
         }
         let declaration = self
@@ -6288,6 +6487,26 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .iter()
             .find(|sample| sample.id == agent_id)
             .map(|sample| sample.name.clone())
+    }
+
+    pub fn update_live_shepherd_health(
+        &self,
+        name: &str,
+        revision: u64,
+        state: &str,
+        detail: &str,
+    ) {
+        let _transaction = self
+            .dynamic_agent_admission
+            .lock()
+            .expect("dynamic admission poisoned");
+        if self
+            .resident_executor
+            .as_ref()
+            .is_some_and(|e| e.binding_is_current(name, revision))
+        {
+            self.update_resident_shepherd_health(name, state, detail);
+        }
     }
 
     pub fn update_resident_shepherd_health(&self, name: &str, state: &str, detail: &str) {
@@ -12150,6 +12369,7 @@ mod agent_lifecycle {
             &store_path,
             serde_json::to_vec_pretty(&DynamicAgentStore {
                 schema: DYNAMIC_AGENT_STORE_SCHEMA.to_owned(),
+                bootstrap_residents_seeded: true,
                 agents: vec![DynamicAgentStoreEntry::Removing { removal }],
                 admission_greetings: BTreeMap::new(),
             })
@@ -12239,6 +12459,7 @@ mod agent_lifecycle {
                 &store_path,
                 serde_json::to_vec_pretty(&DynamicAgentStore {
                     schema: DYNAMIC_AGENT_STORE_SCHEMA.to_owned(),
+                    bootstrap_residents_seeded: true,
                     agents: vec![DynamicAgentStoreEntry::Current {
                         declaration,
                         orientation,
@@ -13218,9 +13439,17 @@ fn inference_readiness_from_agent_admission_failure(
     }
 }
 
+fn is_host_local_shepherd_endpoint(endpoint: &str) -> bool {
+    parse_private_provider_endpoint(endpoint).is_ok_and(|(host, _)| {
+        host == "localhost"
+            || host
+                .parse::<std::net::IpAddr>()
+                .is_ok_and(|ip| ip.is_loopback())
+    })
+}
+
 fn validate_agent_admission_base(request: &AgentAdmissionRequest) -> Result<(), ControlError> {
     if request.schema != AGENT_ADMISSION_SCHEMA
-        || request.id == "shepherd"
         || !is_safe_identifier(&request.id)
         || !is_safe_identifier(&request.provider)
         || request.name.is_empty()
@@ -13247,7 +13476,7 @@ fn validate_agent_admission_base(request: &AgentAdmissionRequest) -> Result<(), 
     if request
         .credential_ref
         .as_deref()
-        .is_some_and(|r| adl_provider_core::registry::credential_env(r).is_err())
+        .is_some_and(|r| adl_provider_core::registry::validate_credential_reference(r).is_err())
     {
         return Err(ControlError::InvalidIdentifier);
     }
@@ -13688,7 +13917,7 @@ pub(crate) async fn invoke_provider_conversation(
 ) -> Result<ProviderConversationOutput, &'static str> {
     match provider {
         "ollama" => {
-            let usage = accounting.begin(provider, model, prompt);
+            let usage = accounting.begin(provider, model, prompt)?;
             match invoke_ollama_conversation(endpoint, model, prompt, cancellation).await {
                 Ok(output) => {
                     usage.success(&output.message);
@@ -13698,7 +13927,7 @@ pub(crate) async fn invoke_provider_conversation(
                     // The rejected chat and compatibility fallback are separate
                     // provider requests, even though they serve one conversation.
                     drop(usage);
-                    let fallback = accounting.begin(provider, model, prompt);
+                    let fallback = accounting.begin(provider, model, prompt)?;
                     let message =
                         match invoke_ollama_model(endpoint, model, prompt, cancellation).await {
                             Ok(message) => message,
@@ -14254,6 +14483,7 @@ mod provider_conversation_tool_tests {
             crate::provider_usage::ProviderCallContext {
                 usage: &usage,
                 agent: "fixture-agent",
+                binding_epoch: usage.binding_epoch("fixture-agent"),
                 reason: crate::provider_usage::ProviderRequestReason::OperatorConversation,
             },
         )
@@ -14487,6 +14717,7 @@ fn persist_dynamic_agents(
         path,
         &DynamicAgentStore {
             schema: DYNAMIC_AGENT_STORE_SCHEMA.to_owned(),
+            bootstrap_residents_seeded: true,
             agents,
             admission_greetings: admission_greetings.clone(),
         },
@@ -14517,6 +14748,7 @@ fn persist_dynamic_agents_with_hook(
         path,
         &DynamicAgentStore {
             schema: DYNAMIC_AGENT_STORE_SCHEMA.to_owned(),
+            bootstrap_residents_seeded: true,
             agents,
             admission_greetings: admission_greetings.clone(),
         },
@@ -14553,6 +14785,7 @@ fn persist_dynamic_agents_with_removal(
         path,
         &DynamicAgentStore {
             schema: DYNAMIC_AGENT_STORE_SCHEMA.to_owned(),
+            bootstrap_residents_seeded: true,
             agents: entries,
             admission_greetings: admission_greetings.clone(),
         },
@@ -14637,6 +14870,117 @@ mod orientation_tests {
             credential_ref: None,
             required_capabilities: Vec::new(),
         }
+    }
+
+    // PVF runtime: local production lifecycle and persistence regression, mock
+    // metadata transport only; no model inference or service process restart.
+    #[tokio::test]
+    async fn live_shepherd_replace_remove_readd_and_restart_persistence() {
+        use tokio::io::AsyncWriteExt;
+        let listener = tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap();
+        let endpoint = format!("http://{}", listener.local_addr().unwrap());
+        let fixture = tokio::spawn(async move {
+            loop {
+                let (mut stream, _) = listener.accept().await.unwrap();
+                let _ = read_http_fixture_request(&mut stream).await;
+                let body = r#"{"models":[{"name":"first"},{"name":"second"}]}"#;
+                stream.write_all(format!("HTTP/1.1 200 OK\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{body}", body.len()).as_bytes()).await.unwrap();
+            }
+        });
+        let root = tempfile::tempdir().unwrap();
+        let config = ResidentShepherdInitConfig {
+            name: "beacon.axioma".into(),
+            display_name: "Beacon".into(),
+            office: "resident shepherd".into(),
+            provider: "ollama".into(),
+            model: "first".into(),
+            endpoint,
+            preload: Default::default(),
+        };
+        let configs = ResidentShepherdSetInitConfig::One(config.clone());
+        let make = || {
+            let recorder = RuntimeRecorder::new(16);
+            let native = crate::build_production_operation_executors_with_recorder(
+                root.path()
+                    .join(format!("operations-{}", uuid::Uuid::new_v4())),
+                recorder.clone(),
+            )
+            .unwrap()
+            .remove(&crate::AdapterKind::Shepherd)
+            .unwrap();
+            let executor = Arc::new(
+                crate::ResidentShepherdExecutor::new(
+                    "orientation-runtime",
+                    [config.clone()],
+                    native,
+                )
+                .with_usage(recorder.provider_usage.clone()),
+            );
+            let service = ControlService::new_with_observatory_config_and_agents(
+                "orientation-runtime",
+                recorder,
+                FakeLifecycle,
+                ControlAuthority::new(BTreeMap::new()),
+                16,
+                std::iter::empty(),
+                AgentPopulationFeed::resident_shepherds_from_config(&configs),
+            )
+            .with_resident_agent_bindings(&configs)
+            .with_live_resident_executor(executor.clone(), &configs);
+            (service, executor)
+        };
+        let (service, executor) = make();
+        let store = root.path().join("agents.json");
+        service
+            .configure_dynamic_agent_store(store.clone())
+            .unwrap();
+        let mut declaration = service.dynamic_agents.lock().unwrap()[0].clone();
+        let first_epoch = executor.bindings()[0].0;
+        declaration.model = "second".into();
+        assert_eq!(
+            service
+                .admit_agent(declaration.clone())
+                .await
+                .unwrap()
+                .status,
+            "replaced"
+        );
+        let next_epoch = executor.bindings()[0].0;
+        assert_ne!(first_epoch, next_epoch);
+        executor.readiness().mark_unready(&declaration.name);
+        service.refresh_dynamic_agent_health().await;
+        assert!(
+            !service
+                .agent_roster_detail("shepherd")
+                .unwrap()
+                .communication_eligible
+        );
+        service.update_live_shepherd_health(&declaration.name, first_epoch, "ready", "stale");
+        assert!(
+            !service
+                .agent_roster_detail("shepherd")
+                .unwrap()
+                .communication_eligible
+        );
+        assert_eq!(service.remove_agent("shepherd").unwrap(), "removed");
+        assert!(executor.bindings().is_empty());
+        service
+            .configure_dynamic_agent_store(store.clone())
+            .unwrap();
+        assert!(executor.bindings().is_empty());
+        let (restarted, restored_executor) = make();
+        restarted.configure_dynamic_agent_store(store).unwrap();
+        assert!(
+            restored_executor.bindings().is_empty(),
+            "bootstrap config must not resurrect removal"
+        );
+        assert!(restarted.agent_roster_detail("shepherd").is_err());
+        assert_eq!(
+            service.admit_agent(declaration).await.unwrap().status,
+            "admitted"
+        );
+        assert!(executor.bindings()[0].0 > next_epoch);
+        fixture.abort();
     }
 
     // PVF: local loopback cloud-provider fixture, virtual idle time; production
@@ -14754,6 +15098,7 @@ mod orientation_tests {
             crate::provider_usage::ProviderCallContext {
                 usage: &usage,
                 agent: "shepherd",
+                binding_epoch: usage.binding_epoch("shepherd"),
                 reason: crate::provider_usage::ProviderRequestReason::OperatorConversation,
             },
         )
@@ -14809,6 +15154,7 @@ mod orientation_tests {
             &store_path,
             serde_json::to_vec_pretty(&DynamicAgentStore {
                 schema: DYNAMIC_AGENT_STORE_SCHEMA.to_owned(),
+                bootstrap_residents_seeded: true,
                 agents: vec![
                     admission("ember", "ember.axioma").into(),
                     admission("relay", "ember.axioma").into(),
@@ -14849,6 +15195,7 @@ mod orientation_tests {
             &store_path,
             serde_json::to_vec_pretty(&DynamicAgentStore {
                 schema: DYNAMIC_AGENT_STORE_SCHEMA.to_owned(),
+                bootstrap_residents_seeded: true,
                 agents: vec![admission("impostor", &resident_name).into()],
                 admission_greetings: BTreeMap::new(),
             })
@@ -14881,6 +15228,7 @@ mod orientation_tests {
             &store_path,
             serde_json::to_vec_pretty(&DynamicAgentStore {
                 schema: DYNAMIC_AGENT_STORE_SCHEMA.to_owned(),
+                bootstrap_residents_seeded: true,
                 agents: vec![unavailable.clone().into()],
                 admission_greetings: BTreeMap::new(),
             })
@@ -15059,6 +15407,7 @@ mod orientation_tests {
             &store_path,
             serde_json::to_vec_pretty(&DynamicAgentStore {
                 schema: DYNAMIC_AGENT_STORE_SCHEMA.to_owned(),
+                bootstrap_residents_seeded: true,
                 agents: vec![admission("ember", "ember.axioma").into()],
                 admission_greetings: BTreeMap::new(),
             })
@@ -15119,6 +15468,7 @@ mod orientation_tests {
             &store_path,
             serde_json::to_vec_pretty(&DynamicAgentStore {
                 schema: DYNAMIC_AGENT_STORE_SCHEMA.to_owned(),
+                bootstrap_residents_seeded: true,
                 agents: vec![DynamicAgentStoreEntry::Current {
                     declaration: admission("ember", "ember.axioma"),
                     orientation: admission_time_orientation.clone(),
@@ -15184,6 +15534,7 @@ This package grants no authority by itself.\n";
             &store_path,
             serde_json::to_vec_pretty(&DynamicAgentStore {
                 schema: DYNAMIC_AGENT_STORE_SCHEMA.to_owned(),
+                bootstrap_residents_seeded: true,
                 agents: vec![DynamicAgentStoreEntry::Current {
                     declaration: admission("ember", "ember.axioma"),
                     orientation: historical_orientation.clone(),

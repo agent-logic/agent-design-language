@@ -180,6 +180,9 @@ pub struct ProviderCredentialReferenceV1 {
     pub environment: String,
     #[serde(default)]
     pub file_environment: Option<String>,
+    /// Non-secret leaf name under the operator-approved key directory.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub key_file: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq)]
@@ -482,7 +485,7 @@ fn credential_reference_v1(
         }
     };
     if nested.is_some_and(|auth| {
-        ["type", "env", "file_env"]
+        ["type", "env", "file_env", "key_file"]
             .into_iter()
             .any(|key| auth.get(key).is_some_and(|value| !value.is_string()))
     }) || ["api_key_env", "auth_env", "token_env"]
@@ -511,6 +514,31 @@ fn credential_reference_v1(
     let file_environment = nested
         .and_then(|auth| auth.get("file_env"))
         .and_then(Value::as_str);
+    if let Some(name) = nested
+        .and_then(|auth| auth.get("key_file"))
+        .and_then(Value::as_str)
+    {
+        crate::registry::validate_key_file_name(name)
+            .map_err(|_| anyhow!("invalid_aprovider_credential_reference"))?;
+        if strategy != "bearer"
+            || environment.is_some()
+            || file_environment.is_some()
+            || !matches!(
+                codec.codec.as_str(),
+                "openai_responses_v1" | "anthropic_messages_v1"
+            )
+        {
+            return Err(anyhow!(
+                "invalid_aprovider_credential_reference: unsupported or ambiguous key file"
+            ));
+        }
+        return Ok(Some(ProviderCredentialReferenceV1 {
+            strategy: strategy.to_owned(),
+            environment: String::new(),
+            file_environment: None,
+            key_file: Some(name.to_owned()),
+        }));
+    }
     let Some(environment) = environment else {
         if file_environment.is_some() {
             return Err(anyhow!(
@@ -540,6 +568,7 @@ fn credential_reference_v1(
         strategy: strategy.to_string(),
         environment: environment.to_string(),
         file_environment: file_environment.map(ToString::to_string),
+        key_file: None,
     }))
 }
 

@@ -2,9 +2,9 @@
 //! Handles derive from acquisition or an authenticated owner attachment, never an asserted manifest.
 use super::PublicationFormat;
 use crate::codefriend::{
-    architecture::{drift, impact, rationale, structure},
+    architecture::{artifact as architecture_artifact, drift, structure},
     evidence::{contracts::Completion, hash, store::Store, Admission, Retention},
-    governance::local as fitness,
+    governance::{artifact as fitness_artifact, local as fitness},
     ingestion::{local, Scope},
     memory::{baseline::AdmittedBaselines, palace},
     publication::write_json_create_only,
@@ -60,7 +60,7 @@ pub struct JourneyManifest {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
-pub struct LocalJourneyOptions {
+pub struct LocalJourneyOptions<P = structure::BoundaryPolicy, F = fitness::Policy> {
     pub checkout: PathBuf,
     pub repository: String,
     pub revision: String,
@@ -69,8 +69,67 @@ pub struct LocalJourneyOptions {
     /// New private output directory whose existing parent is outside the source checkout.
     pub output: PathBuf,
     pub retention: Retention,
-    pub boundary_policy: structure::BoundaryPolicy,
-    pub fitness_policy: fitness::Policy,
+    pub boundary_policy: P,
+    pub fitness_policy: F,
+}
+
+pub type VersionedLocalJourneyOptions = LocalJourneyOptions<
+    architecture_artifact::BoundaryPolicyArtifact,
+    fitness_artifact::PolicyArtifact,
+>;
+
+impl<P, F> LocalJourneyOptions<P, F>
+where
+    P: Into<architecture_artifact::BoundaryPolicyArtifact>,
+    F: Into<fitness_artifact::PolicyArtifact>,
+{
+    fn into_artifacts(self) -> VersionedLocalJourneyOptions {
+        LocalJourneyOptions {
+            checkout: self.checkout,
+            repository: self.repository,
+            revision: self.revision,
+            scope: self.scope,
+            store: self.store,
+            output: self.output,
+            retention: self.retention,
+            boundary_policy: self.boundary_policy.into(),
+            fitness_policy: self.fitness_policy.into(),
+        }
+    }
+}
+
+fn policies_are_v2(
+    boundary: &architecture_artifact::BoundaryPolicyArtifact,
+    fitness: &fitness_artifact::PolicyArtifact,
+) -> Result<bool> {
+    match (boundary, fitness) {
+        (
+            architecture_artifact::BoundaryPolicyArtifact::V1(_),
+            fitness_artifact::PolicyArtifact::V1(_),
+        ) => Ok(false),
+        (
+            architecture_artifact::BoundaryPolicyArtifact::V2(_),
+            fitness_artifact::PolicyArtifact::V2(_),
+        ) => Ok(true),
+        _ => anyhow::bail!("journey_policy_versions_mismatch"),
+    }
+}
+
+fn session_schema(v2: bool, owned: bool) -> &'static str {
+    match (v2, owned) {
+        (false, false) => "codefriend.journey_session.v1",
+        (false, true) => "codefriend.journey_owned_session.v1",
+        (true, false) => "codefriend.journey_session.v2",
+        (true, true) => "codefriend.journey_owned_session.v2",
+    }
+}
+
+fn checkpoint_schema(v2: bool) -> &'static str {
+    if v2 {
+        "codefriend.journey_checkpoint.v2"
+    } else {
+        "codefriend.journey_checkpoint.v1"
+    }
 }
 
 pub struct Journey {
@@ -82,7 +141,7 @@ pub struct Journey {
     deadline: Option<u64>,
     external_review: Option<ExternalReviewBinding>,
     manifest: JourneyManifest,
-    graph: Option<structure::StructureReport>,
+    graph: Option<architecture_artifact::StructureArtifact>,
     review: Option<FourPerspectiveReviewRun>,
     sequence: usize,
     persistence_failed: bool,
@@ -152,14 +211,24 @@ fn outside_source(path: &Path, source: &Path) -> Result<PathBuf> {
 
 /// Acquisition and policy validation happen before a model executor is reachable.
 /// Invalid input returns an error; execution failures after admission remain in the manifest.
-pub fn prepare_local(options: LocalJourneyOptions) -> Result<Journey> {
+pub fn prepare_local<P, F>(options: LocalJourneyOptions<P, F>) -> Result<Journey>
+where
+    P: Into<architecture_artifact::BoundaryPolicyArtifact>,
+    F: Into<fitness_artifact::PolicyArtifact>,
+{
     prepare_source(options, AcquisitionSource::Local)
 }
 
-pub fn prepare_source(
-    mut options: LocalJourneyOptions,
+pub fn prepare_source<P, F>(
+    options: LocalJourneyOptions<P, F>,
     mut acquisition: AcquisitionSource,
-) -> Result<Journey> {
+) -> Result<Journey>
+where
+    P: Into<architecture_artifact::BoundaryPolicyArtifact>,
+    F: Into<fitness_artifact::PolicyArtifact>,
+{
+    let mut options = options.into_artifacts();
+    let v2 = policies_are_v2(&options.boundary_policy, &options.fitness_policy)?;
     let source = fs::canonicalize(&options.checkout)?;
     let output = outside_source(&options.output, &source)?;
     let store_path = outside_source(&options.store, &source)?;
@@ -178,7 +247,7 @@ pub fn prepare_source(
         *receipt = std::path::absolute(&*receipt)?;
     }
     let session = SessionRecord {
-        schema: "codefriend.journey_session.v1".into(),
+        schema: session_schema(v2, false).into(),
         candidate_revision: env!("CODEFRIEND_BUILD_REVISION").into(),
         options: options.clone(),
         provenance_digest: provenance_digest(&options, &acquisition)?,
@@ -217,9 +286,10 @@ fn initialize<S: Serialize>(
     external_review: Option<ExternalReviewBinding>,
     session: &S,
     admission: Admission,
-    boundary_policy: structure::BoundaryPolicy,
-    fitness_policy: fitness::Policy,
+    boundary_policy: architecture_artifact::BoundaryPolicyArtifact,
+    fitness_policy: fitness_artifact::PolicyArtifact,
 ) -> Result<Journey> {
+    let v2 = policies_are_v2(&boundary_policy, &fitness_policy)?;
     #[cfg(unix)]
     {
         use std::os::unix::fs::DirBuilderExt;
@@ -229,7 +299,12 @@ fn initialize<S: Serialize>(
     fs::create_dir(&output)?;
     write_json_create_only(&output.join("session.json"), session)?;
     let mut manifest = JourneyManifest {
-        schema: "codefriend.journey.v1".into(),
+        schema: if v2 {
+            "codefriend.journey.v2"
+        } else {
+            "codefriend.journey.v1"
+        }
+        .into(),
         candidate_revision: env!("CODEFRIEND_BUILD_REVISION").into(),
         candidate_clean: env!("CODEFRIEND_BUILD_CLEAN") == "true",
         repository: admission.packet.repository.clone(),
@@ -288,23 +363,35 @@ fn initialize<S: Serialize>(
     };
     journey.record("acquisition", &admission.packet, true)?;
     journey.record("admission", &admission, true)?;
-    match structure::repository_structure_reporter(
+    match architecture_artifact::report(
         &journey.store,
         &journey.manifest.packet_id,
         boundary_policy,
+        now(),
     ) {
         Ok(graph) => {
-            let complete = graph.record.run.completion == Completion::Complete;
-            journey.record("structure", &graph, complete)?;
+            let complete = graph.record().run.completion == Completion::Complete;
+            journey.record_analysis("structure", &graph, complete)?;
             journey.graph = Some(graph);
         }
         Err(_) => journey.failed("structure", "structure_execution_failed")?,
     }
-    match fitness::local_fitness_runner(&journey.store, &journey.manifest.packet_id, fitness_policy)
-    {
+    match fitness_artifact::evaluate(
+        &journey.store,
+        &journey.manifest.packet_id,
+        fitness_policy,
+        now(),
+    ) {
         Ok(report) => {
-            let passed = report.status == fitness::Status::Pass;
-            journey.record("fitness", &report, passed)?;
+            let partial = matches!(&report, fitness_artifact::FitnessArtifact::V2(value)
+                if value.status == crate::codefriend::governance::language::Status::Unknown);
+            let passed = report.passes();
+            journey.record_with_reason(
+                "fitness",
+                &report,
+                passed || partial,
+                partial.then_some("analysis_gaps_reported"),
+            )?;
         }
         Err(_) => journey.failed("fitness", "fitness_execution_failed")?,
     }
@@ -346,7 +433,16 @@ impl Journey {
         &self.output
     }
     pub fn graph(&self) -> Option<&structure::StructureReport> {
+        match self.graph.as_ref()? {
+            architecture_artifact::StructureArtifact::V1(value) => Some(value),
+            architecture_artifact::StructureArtifact::V2(_) => None,
+        }
+    }
+    pub fn graph_artifact(&self) -> Option<&architecture_artifact::StructureArtifact> {
         self.graph.as_ref()
+    }
+    fn accepts_analysis_gaps(&self) -> bool {
+        self.manifest.schema == "codefriend.journey.v2"
     }
 
     fn pending(&self, name: &str) -> Result<()> {
@@ -390,7 +486,7 @@ impl Journey {
             .join(format!("journey-{:04}.json", self.sequence));
         write_json_create_only(&path, &self.manifest)?;
         let mut checkpoint = Checkpoint {
-            schema: "codefriend.journey_checkpoint.v1".into(),
+            schema: checkpoint_schema(self.accepts_analysis_gaps()).into(),
             sequence: self.sequence,
             previous: self.checkpoint_digest.clone(),
             session_digest: self.session_digest.clone(),
@@ -416,6 +512,31 @@ impl Journey {
         self.persist()
     }
     fn record<T: Serialize>(&mut self, name: &str, value: &T, complete: bool) -> Result<()> {
+        self.record_with_reason(name, value, complete, None)
+    }
+    // V2 distinguishes a successfully produced analysis from complete coverage.
+    // The original report retains its gaps and assessment without reclassification.
+    fn record_analysis<T: Serialize>(
+        &mut self,
+        name: &str,
+        value: &T,
+        complete: bool,
+    ) -> Result<()> {
+        let partial = self.accepts_analysis_gaps() && !complete;
+        self.record_with_reason(
+            name,
+            value,
+            complete || partial,
+            partial.then_some("analysis_gaps_reported"),
+        )
+    }
+    fn record_with_reason<T: Serialize>(
+        &mut self,
+        name: &str,
+        value: &T,
+        complete: bool,
+        reason: Option<&str>,
+    ) -> Result<()> {
         // An owner operation may have crossed the retention deadline.
         self.live_admission()?;
         let artifact = format!("{name}.json");
@@ -426,37 +547,47 @@ impl Journey {
         } else {
             StageStatus::Failed
         };
-        stage.reason = (!complete).then(|| "stage_incomplete_or_failed".into());
+        stage.reason = if complete {
+            reason.map(str::to_owned)
+        } else {
+            Some("stage_incomplete_or_failed".into())
+        };
         stage.artifact = Some(artifact);
         stage.digest = Some(hash(value)?);
         self.persist()
     }
-    pub fn analyze_impact(&mut self, changes: impact::ChangeSet) -> Result<()> {
+    pub fn analyze_impact(
+        &mut self,
+        changes: impl Into<architecture_artifact::ChangeSetArtifact>,
+    ) -> Result<()> {
         self.pending("impact")?;
         let graph = self
             .graph
             .clone()
             .ok_or_else(|| anyhow::anyhow!("journey_structure_missing"))?;
-        match impact::change_impact_reporter(&self.store, graph, changes) {
-            Ok(report) => self.record(
+        match architecture_artifact::impact_report(&self.store, graph, changes.into(), now()) {
+            Ok(report) => self.record_analysis(
                 "impact",
                 &report,
-                report.record.run.completion == Completion::Complete,
+                report.record().run.completion == Completion::Complete,
             ),
             Err(_) => self.failed("impact", "impact_execution_failed"),
         }
     }
-    pub fn analyze_rationale(&mut self, selection: rationale::RationaleSelection) -> Result<()> {
+    pub fn analyze_rationale(
+        &mut self,
+        selection: impl Into<architecture_artifact::RationaleSelectionArtifact>,
+    ) -> Result<()> {
         self.pending("rationale")?;
         let graph = self
             .graph
             .clone()
             .ok_or_else(|| anyhow::anyhow!("journey_structure_missing"))?;
-        match rationale::architecture_rationale_reporter(&self.store, graph, selection) {
-            Ok(report) => self.record(
+        match architecture_artifact::rationale_report(&self.store, graph, selection.into(), now()) {
+            Ok(report) => self.record_analysis(
                 "rationale",
                 &report,
-                report.record.run.completion == Completion::Complete,
+                report.record().run.completion == Completion::Complete,
             ),
             Err(_) => self.failed("rationale", "rationale_execution_failed"),
         }
@@ -494,7 +625,7 @@ impl Journey {
             admission,
         ) {
             Ok(review) => {
-                self.record("review", &review, review.completion == Completion::Complete)?;
+                self.record("review", &review, review.successful_execution().is_ok())?;
                 self.review = Some(review);
                 Ok(())
             }
@@ -511,7 +642,7 @@ impl Journey {
         ensure!(
             self.review
                 .as_ref()
-                .is_some_and(|r| r.completion == Completion::Complete),
+                .is_some_and(|r| r.successful_execution().is_ok()),
             "journey_complete_review_required"
         );
         self.source.check(destination)?;
@@ -535,25 +666,33 @@ impl Journey {
     pub fn analyze_drift(
         &mut self,
         baseline_root: &Path,
-        baseline: structure::StructureReport,
+        baseline: impl Into<architecture_artifact::StructureArtifact>,
     ) -> Result<()> {
         self.pending("drift")?;
         self.source.check(baseline_root)?;
+        let baseline = baseline.into();
         let result = (|| {
             let current = self
                 .graph
                 .clone()
                 .ok_or_else(|| anyhow::anyhow!("journey_structure_missing"))?;
             let backend = AdmittedBaselines::open(&self.store, baseline_root, true)?;
-            backend.retain(&baseline.record)?;
-            backend.retain(&current.record)?;
-            drift::architecture_drift_reporter(&self.store, &backend, baseline, current)
+            backend.retain(baseline.record())?;
+            backend.retain(current.record())?;
+            architecture_artifact::drift_report_pair(
+                &self.store,
+                &self.store,
+                &backend,
+                baseline,
+                current,
+                now(),
+            )
         })();
         match result {
-            Ok(report) => self.record(
+            Ok(report) => self.record_analysis(
                 "drift",
                 &report,
-                report.graph_comparison.comparable && report.structural_comparison.comparable,
+                report.summary()["comparable"].as_bool() == Some(true),
             ),
             Err(_) => self.failed("drift", "drift_baseline_unavailable_or_incompatible"),
         }
@@ -591,7 +730,9 @@ impl Journey {
             palace::retrieve(&backend, palace_root, &retrieve)
         })();
         match result {
-            Ok(report) => self.record("palace_comparison", &report, report.delta.comparable),
+            Ok(report) => {
+                self.record_analysis("palace_comparison", &report, report.delta.comparable)
+            }
             Err(_) => self.failed("palace_comparison", "palace_comparison_failed"),
         }
     }
@@ -731,7 +872,7 @@ pub enum AcquisitionSource {
 struct SessionRecord {
     schema: String,
     candidate_revision: String,
-    options: LocalJourneyOptions,
+    options: VersionedLocalJourneyOptions,
     acquisition: AcquisitionSource,
     provenance_digest: String,
 }
@@ -762,6 +903,21 @@ fn bounded_read(path: &Path) -> Result<Vec<u8>> {
     );
     Ok(data)
 }
+fn validate_analysis_stage(stage: &Stage, v2: bool, complete: bool) -> Result<()> {
+    ensure!(
+        stage.status == StageStatus::Complete
+            && (complete || v2)
+            && stage.reason.as_deref()
+                == if v2 && !complete {
+                    Some("analysis_gaps_reported")
+                } else {
+                    None
+                },
+        "journey_analysis_stage_changed"
+    );
+    Ok(())
+}
+
 fn read_typed<T: serde::de::DeserializeOwned>(path: &Path) -> Result<T> {
     Ok(serde_json::from_slice(&bounded_read(path)?)?)
 }
@@ -803,7 +959,10 @@ fn inventory(root: &Path) -> Result<BTreeMap<String, String>> {
     visit(root, root, &mut result, &mut 0, &mut 0)?;
     Ok(result)
 }
-fn provenance_digest(options: &LocalJourneyOptions, source: &AcquisitionSource) -> Result<String> {
+fn provenance_digest(
+    options: &VersionedLocalJourneyOptions,
+    source: &AcquisitionSource,
+) -> Result<String> {
     match source {
         AcquisitionSource::Local => hash(source),
         AcquisitionSource::Github => hash(
@@ -842,7 +1001,7 @@ fn private_journey(root: &Path) -> Result<()> {
     Ok(())
 }
 fn acquire_source(
-    options: &LocalJourneyOptions,
+    options: &VersionedLocalJourneyOptions,
     source: &AcquisitionSource,
 ) -> Result<crate::codefriend::ingestion::Packet> {
     use crate::codefriend::ingestion::{ci, github};
@@ -888,10 +1047,10 @@ fn acquire_source(
 pub enum Continuation {
     Status,
     Impact {
-        changes: impact::ChangeSet,
+        changes: architecture_artifact::ChangeSetArtifact,
     },
     Rationale {
-        selection: rationale::RationaleSelection,
+        selection: architecture_artifact::RationaleSelectionArtifact,
     },
     Drift {
         baseline_root: PathBuf,
@@ -1009,6 +1168,7 @@ pub(crate) fn resume_with_owners(
     let session: PersistedSession = read_typed(&output.join("session.json"))?;
     let session_digest = hash(&session)?;
     let binding = session.resume_binding(output)?;
+    let v2 = policies_are_v2(&binding.boundary_policy, &binding.fitness_policy)?;
     let source = binding.source;
     let output = binding.output;
     let store_path = binding.store;
@@ -1026,7 +1186,7 @@ pub(crate) fn resume_with_owners(
         let mut unsigned = cp.clone();
         unsigned.digest.clear();
         ensure!(
-            cp.schema == "codefriend.journey_checkpoint.v1"
+            cp.schema == checkpoint_schema(v2)
                 && cp.sequence == index
                 && cp.previous == previous
                 && cp.session_digest == session_digest
@@ -1048,7 +1208,13 @@ pub(crate) fn resume_with_owners(
     let manifest: JourneyManifest =
         read_typed(&output.join(format!("journey-{:04}.json", count - 1)))?;
     ensure!(
-        manifest.candidate_revision == binding.candidate_revision
+        manifest.schema
+            == (if v2 {
+                "codefriend.journey.v2"
+            } else {
+                "codefriend.journey.v1"
+            })
+            && manifest.candidate_revision == binding.candidate_revision
             && manifest.candidate_clean == (env!("CODEFRIEND_BUILD_CLEAN") == "true"),
         "journey_candidate_changed"
     );
@@ -1142,11 +1308,19 @@ pub(crate) fn resume_with_owners(
         }
     }
     if manifest.stages["structure"].status == StageStatus::Complete {
-        let value: structure::StructureReport = read_typed(&output.join("structure.json"))?;
-        value.validate(&store)?;
+        let value: architecture_artifact::StructureArtifact =
+            read_typed(&output.join("structure.json"))?;
+        value.validate(&store, now())?;
+        validate_analysis_stage(
+            &manifest.stages["structure"],
+            v2,
+            value.record().run.completion == Completion::Complete,
+        )?;
         ensure!(
-            value.record.admission == admission
-                && hash(&value.policy)? == hash(&binding.boundary_policy)?
+            value.record().admission == admission
+                && value.is_v2() == v2
+                && (v2 || value.record().run.completion == Completion::Complete)
+                && hash(&value.policy())? == hash(&binding.boundary_policy)?
                 && manifest.stages["structure"].digest.as_deref() == Some(hash(&value)?.as_str()),
             "journey_structure_changed"
         );
@@ -1156,7 +1330,7 @@ pub(crate) fn resume_with_owners(
         let value: FourPerspectiveReviewRun = read_typed(&output.join("review.json"))?;
         value.review_record.validate()?;
         ensure!(
-            value.completion == Completion::Complete
+            value.successful_execution().is_ok()
                 && value.review_record.admission == admission
                 && manifest.stages["review"].digest.as_deref() == Some(hash(&value)?.as_str())
                 && crate::codefriend::publication::read_review(
@@ -1173,35 +1347,135 @@ pub(crate) fn resume_with_owners(
         review = Some(value);
     }
     if manifest.stages["fitness"].status == StageStatus::Complete {
-        let value: fitness::Report = read_typed(&output.join("fitness.json"))?;
-        value.validate(&store)?;
+        let value: fitness_artifact::FitnessArtifact = read_typed(&output.join("fitness.json"))?;
+        value.validate(&store, now())?;
+        validate_analysis_stage(&manifest.stages["fitness"], v2, value.passes())?;
+        let policy = match &value {
+            fitness_artifact::FitnessArtifact::V1(v) => {
+                fitness_artifact::PolicyArtifact::V1(v.policy.clone())
+            }
+            fitness_artifact::FitnessArtifact::V2(v) => {
+                fitness_artifact::PolicyArtifact::V2(v.policy.clone())
+            }
+        };
         ensure!(
-            hash(&value.policy)? == hash(&binding.fitness_policy)?,
+            value.record().admission == admission
+                && (value.passes() || (v2 && value.exit_code() == 2))
+                && hash(&policy)? == hash(&binding.fitness_policy)?,
             "journey_fitness_policy_changed"
         );
     }
     if manifest.stages["impact"].status == StageStatus::Complete {
-        let value: impact::ImpactReport = read_typed(&output.join("impact.json"))?;
-        value.validate(&store)?;
+        let value: architecture_artifact::ImpactArtifact = read_typed(&output.join("impact.json"))?;
+        value.validate(&store, now())?;
+        validate_analysis_stage(
+            &manifest.stages["impact"],
+            v2,
+            value.record().run.completion == Completion::Complete,
+        )?;
+        let retained_graph = match &value {
+            architecture_artifact::ImpactArtifact::V1(v) => {
+                architecture_artifact::StructureArtifact::V1(v.graph.clone())
+            }
+            architecture_artifact::ImpactArtifact::V2(v) => {
+                architecture_artifact::StructureArtifact::V2(v.graph.clone())
+            }
+        };
+        ensure!(
+            value.record().admission == admission
+                && (v2 || value.record().run.completion == Completion::Complete)
+                && graph
+                    .as_ref()
+                    .is_some_and(|g| g.is_v2() == retained_graph.is_v2()
+                        && g.digest() == retained_graph.digest()),
+            "journey_impact_graph_changed"
+        );
     }
     if manifest.stages["rationale"].status == StageStatus::Complete {
-        let value: rationale::RationaleReport = read_typed(&output.join("rationale.json"))?;
-        value.validate(&store)?;
+        let value: architecture_artifact::RationaleArtifact =
+            read_typed(&output.join("rationale.json"))?;
+        value.validate(&store, now())?;
+        validate_analysis_stage(
+            &manifest.stages["rationale"],
+            v2,
+            value.record().run.completion == Completion::Complete,
+        )?;
+        let retained_graph = match &value {
+            architecture_artifact::RationaleArtifact::V1(v) => {
+                architecture_artifact::StructureArtifact::V1(v.graph.clone())
+            }
+            architecture_artifact::RationaleArtifact::V2(v) => {
+                architecture_artifact::StructureArtifact::V2(v.graph.clone())
+            }
+        };
+        ensure!(
+            value.record().admission == admission
+                && (v2 || value.record().run.completion == Completion::Complete)
+                && graph
+                    .as_ref()
+                    .is_some_and(|g| g.is_v2() == retained_graph.is_v2()
+                        && g.digest() == retained_graph.digest()),
+            "journey_rationale_graph_changed"
+        );
     }
-    let owned_drift =
-        owned_baseline::validate_saved(&source, &output, &store, binding.deadline, baseline)?;
+    let owned_drift = owned_baseline::validate_saved(
+        &source,
+        &output,
+        &store,
+        binding.deadline,
+        baseline,
+        &manifest,
+    )?;
     if manifest.stages["drift"].status == StageStatus::Complete && !owned_drift {
         let step: Continuation = read_typed(&output.join("intent-drift.json"))?;
-        let Continuation::Drift { baseline_root, .. } = step else {
+        let Continuation::Drift {
+            baseline_root,
+            baseline: baseline_path,
+        } = step
+        else {
             anyhow::bail!("journey_drift_intent_missing")
         };
         source.check(&baseline_root)?;
         let backend = AdmittedBaselines::open(&store, &baseline_root, false)?;
-        let value: drift::DriftReport = read_typed(&output.join("drift.json"))?;
-        value.validate(&store, &backend)?;
+        let value: architecture_artifact::DriftArtifact = read_typed(&output.join("drift.json"))?;
+        value.validate_pair(&store, &store, &backend, now())?;
+        source.check(&baseline_path)?;
+        let intended_baseline: architecture_artifact::StructureArtifact =
+            read_typed(&baseline_path)?;
+        let (retained_baseline, retained_current) = match &value {
+            architecture_artifact::DriftArtifact::V1(v) => (
+                architecture_artifact::StructureArtifact::V1(v.baseline.clone()),
+                architecture_artifact::StructureArtifact::V1(v.current.clone()),
+            ),
+            architecture_artifact::DriftArtifact::V2(v) => (
+                architecture_artifact::StructureArtifact::V2(v.baseline.clone()),
+                architecture_artifact::StructureArtifact::V2(v.current.clone()),
+            ),
+        };
+        ensure!(
+            retained_current.is_v2() == v2
+                && hash(&intended_baseline)? == hash(&retained_baseline)?
+                && graph
+                    .as_ref()
+                    .is_some_and(|g| g.digest() == retained_current.digest()
+                        && g.is_v2() == retained_current.is_v2()),
+            "journey_drift_graph_changed"
+        );
+        validate_analysis_stage(
+            &manifest.stages["drift"],
+            v2,
+            value.summary()["comparable"].as_bool() == Some(true),
+        )?;
     }
-    let owned_palace =
-        owned_palace::validate_saved(&source, &output, &store, baseline, palace, review.as_ref())?;
+    let owned_palace = owned_palace::validate_saved(
+        &source,
+        &output,
+        &store,
+        baseline,
+        palace,
+        review.as_ref(),
+        &manifest,
+    )?;
     if manifest.stages["palace_comparison"].status == StageStatus::Complete && !owned_palace {
         let step: Continuation = read_typed(&output.join("intent-palace_comparison.json"))?;
         let Continuation::Palace {
@@ -1221,6 +1495,21 @@ pub(crate) fn resume_with_owners(
             crate::codefriend::memory::palace_authority::provision(&trust, &authority)?;
         let retained: palace::RetrievedComparison =
             read_typed(&output.join("palace_comparison.json"))?;
+        let current_review = review
+            .as_ref()
+            .ok_or_else(|| anyhow::anyhow!("journey_review_missing"))?;
+        ensure!(
+            retrieve.current
+                == crate::codefriend::memory::baseline::BaselineRef::from_record(
+                    &current_review.review_record
+                )?,
+            "journey_palace_current_mismatch"
+        );
+        validate_analysis_stage(
+            &manifest.stages["palace_comparison"],
+            v2,
+            retained.delta.comparable,
+        )?;
         let mut current_request = retrieve;
         // Re-evaluate freshness against the clock, while keeping the packet's
         // original observation pinned to the retained owner result.
@@ -1317,7 +1606,10 @@ impl Journey {
             Continuation::Drift {
                 baseline_root,
                 baseline,
-            } => self.analyze_drift(&baseline_root, read_typed(&baseline)?),
+            } => self.analyze_drift(
+                &baseline_root,
+                read_typed::<architecture_artifact::StructureArtifact>(&baseline)?,
+            ),
             Continuation::Review {
                 provider_request,
                 run_id,
@@ -1372,8 +1664,8 @@ pub(crate) struct OwnedAdmissionJourneyOptions {
     pub candidate_revision: String,
     pub expires_at: u64,
     pub completed_run: FourPerspectiveReviewRun,
-    pub boundary_policy: structure::BoundaryPolicy,
-    pub fitness_policy: fitness::Policy,
+    pub boundary_policy: architecture_artifact::BoundaryPolicyArtifact,
+    pub fitness_policy: fitness_artifact::PolicyArtifact,
 }
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -1395,8 +1687,8 @@ struct OwnedSession {
     operation_id: String,
     expires_at: u64,
     external_review: ExternalReviewBinding,
-    boundary_policy: structure::BoundaryPolicy,
-    fitness_policy: fitness::Policy,
+    boundary_policy: architecture_artifact::BoundaryPolicyArtifact,
+    fitness_policy: fitness_artifact::PolicyArtifact,
 }
 #[derive(Serialize, Deserialize)]
 #[serde(untagged)]
@@ -1441,8 +1733,8 @@ struct ResumeBinding {
     store: PathBuf,
     review_root: PathBuf,
     candidate_revision: String,
-    boundary_policy: structure::BoundaryPolicy,
-    fitness_policy: fitness::Policy,
+    boundary_policy: architecture_artifact::BoundaryPolicyArtifact,
+    fitness_policy: fitness_artifact::PolicyArtifact,
     deadline: Option<u64>,
     external_review: Option<ExternalReviewBinding>,
 }
@@ -1451,7 +1743,14 @@ impl PersistedSession {
         match self {
             Self::Checkout(record) => {
                 ensure!(
-                    record.schema == "codefriend.journey_session.v1"
+                    record.schema
+                        == session_schema(
+                            policies_are_v2(
+                                &record.options.boundary_policy,
+                                &record.options.fitness_policy
+                            )?,
+                            false
+                        )
                         && record.candidate_revision == env!("CODEFRIEND_BUILD_REVISION"),
                     "journey_candidate_changed"
                 );
@@ -1475,7 +1774,11 @@ impl PersistedSession {
             }
             Self::Owned(record) => {
                 ensure!(
-                    record.schema == "codefriend.journey_owned_session.v1"
+                    record.schema
+                        == session_schema(
+                            policies_are_v2(&record.boundary_policy, &record.fitness_policy)?,
+                            true
+                        )
                         && record.candidate_revision == env!("CODEFRIEND_BUILD_REVISION"),
                     "journey_candidate_changed"
                 );
@@ -1578,8 +1881,7 @@ pub(crate) fn prepare_owned_admission(options: OwnedAdmissionJourneyOptions) -> 
     let run = options.completed_run;
     run.review_record.validate()?;
     ensure!(
-        run.schema == runner::REVIEW_RUN_SCHEMA
-            && run.completion == Completion::Complete
+        run.successful_execution().is_ok()
             && run.run_id == options.operation_id
             && run.review_record.admission == admission,
         "journey_owned_review_changed"
@@ -1595,7 +1897,11 @@ pub(crate) fn prepare_owned_admission(options: OwnedAdmissionJourneyOptions) -> 
     options.boundary_policy.validate(&admission)?;
     options.fitness_policy.validate()?;
     let session = OwnedSession {
-        schema: "codefriend.journey_owned_session.v1".into(),
+        schema: session_schema(
+            policies_are_v2(&options.boundary_policy, &options.fitness_policy)?,
+            true,
+        )
+        .into(),
         candidate_revision: options.candidate_revision,
         owner_root: safe_absolute(&options.owner_root)?,
         store: store_path.clone(),

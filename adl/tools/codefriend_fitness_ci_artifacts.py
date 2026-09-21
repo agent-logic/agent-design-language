@@ -12,13 +12,21 @@ def require(condition):
         raise ValueError('fitness_ci_contract_rejected')
 
 
+def unique_object(pairs):
+    result = {}
+    for key, value in pairs:
+        require(key not in result)
+        result[key] = value
+    return result
+
+
 def regular_json(path, limit):
     require(stat.S_ISREG(path.lstat().st_mode) and not path.is_symlink())
     require(path.stat().st_size <= limit)
     with path.open('rb') as source:
         data = source.read(limit + 1)
         require(len(data) <= limit)
-        return json.loads(data)
+        return json.loads(data, object_pairs_hook=unique_object)
 
 
 def check():
@@ -39,7 +47,12 @@ def check():
     pins = regular_json(out / 'expectations.json', 16384)
     require(pins == {k: flags['--' + k.replace('_', '-')] for k in ('candidate', 'packet_id', 'policy_digest')})
     receipt = regular_json(out / 'receipt.json', 32768)
-    require(receipt['schema'] == 'codefriend.fitness.ci.v1')
+    versions = {
+        'codefriend.fitness.ci.v1': ('codefriend.fitness.v1', 16 * 1024 * 1024, {'pass': 0, 'fail': 1, 'error': 2}),
+        'codefriend.fitness.ci.v2': ('codefriend.fitness.v2', 4 * 1024 * 1024, {'pass': 0, 'fail': 1, 'unknown': 2}),
+    }
+    require(receipt['schema'] in versions)
+    schema, report_limit, assessments = versions[receipt['schema']]
     require(receipt['exit_code'] == status)
     original = out / 'runner-exit.txt'
     require(stat.S_ISREG(original.lstat().st_mode) and not original.is_symlink() and original.stat().st_size <= 32)
@@ -50,14 +63,14 @@ def check():
     require(receipt['artifact_valid'] is True and receipt['error'] is None)
     require(receipt['original_exit'] == status)
     require({k: receipt[k] for k in pins} == pins)
-    report = regular_json(out / 'report.json', 16 * 1024 * 1024)
-    require(report['schema'] == 'codefriend.fitness.v1')
+    report = regular_json(out / 'report.json', report_limit)
+    require(report['schema'] == schema)
     require(report['digest'] == receipt['report_digest'])
     require(report['record']['run']['revision'] == pins['candidate'])
     require(report['record']['run']['packet_id'] == pins['packet_id'])
     require(report['policy_digest'] == pins['policy_digest'])
     require(report['status'] == receipt['assessment'])
-    require({'pass': 0, 'fail': 1, 'error': 2}[report['status']] == status)
+    require(assessments[report['status']] == status)
     return status
 
 

@@ -166,6 +166,14 @@ fn reject_credential_value_at(
         }
         return Ok(());
     }
+    if path == ["auth", "key_file"] {
+        let name = value
+            .as_str()
+            .ok_or_else(|| anyhow!("invalid key file reference"))?;
+        crate::registry::validate_key_file_name(name)
+            .map_err(|_| anyhow!("invalid key file reference"))?;
+        return Ok(());
+    }
     if matches!(path, ["auth", "env"] | ["auth", "file_env"]) && !value.is_string() {
         return Err(anyhow!(
             "provider reload sidecar has invalid credential reference"
@@ -325,6 +333,32 @@ mod tests {
         let replacement =
             parse_validated_provider_sidecar("providers: {replacement: {type: mock}}").unwrap();
         assert!(!replacement.providers.contains_key("good"));
+    }
+
+    // PVF runtime: deterministic config admission, no filesystem or network.
+    #[test]
+    fn live_key_file_sidecar_rejects_ambiguous_and_unsupported_auth() {
+        let good = "providers: {hosted: {type: openai, default_model: gpt-5.4, config: {auth: {type: bearer, key_file: openai2.key}}}}";
+        let candidate = parse_validated_provider_sidecar(good).unwrap();
+        let target = crate::provider_substrate::provider_invocation_target_v1(
+            "hosted",
+            &candidate.providers["hosted"],
+            None,
+        )
+        .unwrap();
+        assert!(serde_json::to_string(&target)
+            .unwrap()
+            .contains("openai2.key"));
+        for bad in [
+            good.replace("type: openai", "type: deepseek"),
+            good.replace("key_file: openai2.key", "key_file: ../secret"),
+            good.replace(
+                "key_file: openai2.key",
+                "key_file: openai2.key, env: OPENAI_API_KEY",
+            ),
+        ] {
+            assert!(parse_validated_provider_sidecar(&bad).is_err());
+        }
     }
 
     #[test]

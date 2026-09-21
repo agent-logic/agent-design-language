@@ -540,6 +540,29 @@ impl Provider for BudgetedProvider {
     }
 }
 
+/// A non-secret reference accepted by authenticated live agent management.
+/// Key files are leaf names below the Runtime user's approved `$HOME/keys` root.
+pub fn validate_credential_reference(reference: &str) -> Result<(), ProviderFailure> {
+    if let Some(name) = reference.strip_prefix("keyfile:") {
+        validate_key_file_name(name)
+    } else {
+        credential_env(reference).map(|_| ())
+    }
+}
+
+pub(crate) fn validate_key_file_name(name: &str) -> Result<(), ProviderFailure> {
+    if name.is_empty()
+        || name.len() > 128
+        || name.starts_with('.')
+        || !name
+            .bytes()
+            .all(|b| b.is_ascii_alphanumeric() || matches!(b, b'_' | b'-' | b'.'))
+    {
+        return Err(ProviderFailure::Credentials);
+    }
+    Ok(())
+}
+
 pub fn credential_env(reference: &str) -> Result<&str, ProviderFailure> {
     let name = reference
         .strip_prefix("env:")
@@ -703,12 +726,24 @@ impl RuntimeProviderAdapter for NativeAdapter {
         // Bound transport even if the caller stops awaiting the blocking call.
         apply_runtime_transport_bounds(&mut spec, &self.kind);
         if let Some(reference) = &binding.credential_ref {
-            let name = credential_env(reference)?;
-            spec.config.insert("auth_env".into(), name.into());
-            spec.config.insert(
-                "auth".into(),
-                serde_json::json!({"type":"bearer","env":name}),
-            );
+            validate_credential_reference(reference)?;
+            if let Some(name) = reference.strip_prefix("keyfile:") {
+                if !matches!(self.kind.as_str(), "openai" | "anthropic") {
+                    return Err(ProviderFailure::UnsupportedCapability);
+                }
+                spec.config.remove("auth_env");
+                spec.config.insert(
+                    "auth".into(),
+                    serde_json::json!({"type":"bearer","key_file":name}),
+                );
+            } else {
+                let name = credential_env(reference)?;
+                spec.config.insert("auth_env".into(), name.into());
+                spec.config.insert(
+                    "auth".into(),
+                    serde_json::json!({"type":"bearer","env":name}),
+                );
+            }
         }
         let endpoint = if binding.endpoint.is_empty() {
             spec.config
@@ -753,7 +788,11 @@ impl RuntimeProviderAdapter for NativeAdapter {
                 .get("auth")
                 .and_then(|a| a.get("file_env"))
                 .and_then(|v| v.as_str());
-            if name.is_none() && file_name.is_none() {
+            let key_file = spec.config.get("auth").and_then(|a| a.get("key_file"));
+            if let Some(key_file) = key_file {
+                validate_key_file_name(key_file.as_str().ok_or(ProviderFailure::Credentials)?)?;
+            }
+            if name.is_none() && file_name.is_none() && key_file.is_none() {
                 return Err(ProviderFailure::Credentials);
             }
             if let Some(name) = name {
@@ -768,6 +807,15 @@ impl RuntimeProviderAdapter for NativeAdapter {
             || binding.model.chars().any(char::is_control)
         {
             return Err(ProviderFailure::ModelUnavailable);
+        }
+        if spec
+            .config
+            .get("auth")
+            .and_then(|a| a.get("key_file"))
+            .is_some()
+            && !matches!(self.kind.as_str(), "openai" | "anthropic")
+        {
+            return Err(ProviderFailure::UnsupportedCapability);
         }
         let mut credential_scan_spec = spec.clone();
         credential_scan_spec.config.remove("profile_state");

@@ -1417,6 +1417,7 @@ impl InProcessOperationExecutor {
                                 usage: &self.state.recorder.provider_usage,
                                 agent: recipient_id,
                                 reason,
+                                binding_epoch: task["binding_epoch"].as_u64().unwrap_or(0),
                             };
                             let binding = adl_provider_core::registry::ProviderBinding {
                                 provider: provider.to_owned(),
@@ -1432,7 +1433,9 @@ impl InProcessOperationExecutor {
                                 }
                                 .to_owned()],
                             };
-                            let usage = accounting.begin(provider, model, &prompt);
+                            let usage = accounting
+                                .begin(provider, model, &prompt)
+                                .map_err(|error| adapter_error(FailureClass::Fatal, error))?;
                             let completion = match crate::provider_registry::complete_with_metadata(
                                 Arc::clone(&self.state.recorder.providers),
                                 binding,

@@ -569,3 +569,62 @@ fn ordinary_json_values_duplicate_parents_and_toml_remain_admissible() {
         assert_eq!(input.packet().objects[1].content.as_deref(), Some(content));
     }
 }
+
+#[test]
+fn javascript_runtime_header_references_do_not_relax_literal_privacy_guards() {
+    use adl::codefriend::ingestion::unsafe_content;
+    let source = "const h = { 'X-CSRF-Token': session?.csrf || '' };";
+    for path in ["app.js", "app.mjs", "app.cjs"] {
+        assert!(!unsafe_content(path, source), "{path}");
+    }
+    assert!(!unsafe_content(
+        "app.js",
+        "const h = { 'X-CSRF-Token': session.csrf ?? \"\" };"
+    ));
+    for source in [
+        "const h = { 'X-CSRF-Token': 'embedded-value' };",
+        "const h = { 'X-CSRF-Token': session.csrf || 'fallback-value' };",
+        "const h = { 'X-CSRF-Token': session['csrf'] };",
+        "const h = { ['X-CSRF-Token']: session.csrf };",
+        "const h = { 'X-CSRF-Token': getSession().csrf };",
+        "const h = { 'X-CSRF-Token': session.csrf() };",
+        "const h = { 'X-CSRF-Token': ({csrf:'embedded-value'}).csrf };",
+        "const h = { 'X-CSRF-Token': session.csrf, nested:{token:'embedded-value'} };",
+        "const h = { 'X-CSRF-Token': session.csrf }; const text = \"'token': session.csrf\";",
+        "const text = `{'token': session.csrf}`;",
+        "// 'token': session.csrf\nconst h = {};",
+        "const h = { 'X-CSRF-Token': session.csrf }; // github_pat_example",
+        "const h = { 'X-CSRF-Token': session.csrf ",
+    ] {
+        assert!(
+            unsafe_content("app.js", source),
+            "unsafe expression retained: {source}"
+        );
+    }
+    for path in [
+        "data.json",
+        "config.toml",
+        "app.py",
+        "app.rs",
+        ".env",
+        "credentials",
+        "key.pem",
+    ] {
+        assert!(
+            unsafe_content(path, source),
+            "cross-format exemption: {path}"
+        );
+    }
+    assert!(unsafe_content(
+        "app.js",
+        &format!("{}{}", " ".repeat(1024 * 1024), source)
+    ));
+    assert!(unsafe_content(
+        "app.js",
+        &format!(
+            "const deep = {}{{'X-CSRF-Token':session.csrf}}{};",
+            "[".repeat(130),
+            "]".repeat(130)
+        )
+    ));
+}

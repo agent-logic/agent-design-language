@@ -59,7 +59,12 @@ fn observation_slot(request: &Request) -> Option<&'static str> {
 
 fn check_result(result: &StageResult, job: &Job) -> Result<()> {
     ensure!(
-        result.schema == RESULT_SCHEMA
+        result.schema
+            == if job.binding.schema == JOB_SCHEMA_V2 {
+                RESULT_SCHEMA_V2
+            } else {
+                RESULT_SCHEMA
+            }
             && result.binding == job.binding
             && result.agent_candidate_revision == job.permitted_agent_candidate,
         "agent_journey_cached_identity_changed"

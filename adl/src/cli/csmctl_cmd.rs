@@ -279,8 +279,10 @@ fn load_agent_add_config(path: &std::path::Path) -> Result<AgentAddConfig> {
         }
     }
     if let Some(reference) = config.provider.credential_ref.as_deref() {
-        adl_provider_core::registry::credential_env(reference).map_err(|_| {
-            anyhow!("agent provider credential_ref must name an approved environment reference")
+        adl_provider_core::registry::validate_credential_reference(reference).map_err(|_| {
+            anyhow!(
+                "agent provider credential_ref must name an approved env: or keyfile: reference"
+            )
         })?;
     }
     if config.provider.endpoint.chars().any(char::is_control)
@@ -1063,6 +1065,24 @@ provider:
         let configured = load_agent_add_config(&config_path).expect("definition supplies endpoint");
         assert!(configured.provider.endpoint.is_empty());
         assert_eq!(configured.provider.required_capabilities, ["conversation"]);
+        // PVF runtime: deterministic CLI reference validation, no secrets/network.
+        let keyfile =
+            provider_definition_config.replace("env:ISSUE855_TEST_TOKEN", "keyfile:operator.key");
+        fs::write(&config_path, &keyfile).unwrap();
+        assert_eq!(
+            load_agent_add_config(&config_path)
+                .unwrap()
+                .provider
+                .credential_ref
+                .as_deref(),
+            Some("keyfile:operator.key")
+        );
+        fs::write(
+            &config_path,
+            keyfile.replace("keyfile:operator.key", "keyfile:../escape"),
+        )
+        .unwrap();
+        assert!(load_agent_add_config(&config_path).is_err());
         provider_definition_config =
             provider_definition_config.replace("env:ISSUE855_TEST_TOKEN", "raw-secret-value");
         fs::write(&config_path, provider_definition_config).unwrap();

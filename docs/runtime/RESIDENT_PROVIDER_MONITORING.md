@@ -35,8 +35,9 @@ means no observation; a metadata success does not prove generated inference.
 Signals retain last-observed evidence, not a continuous connectivity guarantee.
 Health rows are keyed by the complete agent/provider/model identity. If a
 resident ID is removed and re-admitted with a different provider or model, its
-new observations have a separate row; the previous row remains historical
-evidence. A late completion from the old model cannot overwrite the new row.
+new binding starts without inherited inference health. Aggregate request counters
+remain historical evidence. Lifecycle epochs reject late inference observations
+from a replaced binding, including same-model credential or endpoint changes.
 
 The resident's canonical name and office remain independent from that health
 key. Replacing a provider or model for the same resident ID preserves its
@@ -78,3 +79,6 @@ a real conversation failure followed by one recovery inference; and another
 400 virtual seconds without polling. Separate tests cover exponential retry,
 shutdown, invalidation during a successful attempt, fallback accounting and
 content-free counter snapshots. Fixtures make no paid provider calls.
+
+See [live resident management](LIVE_RESIDENT_MANAGEMENT.md) for credential rotation
+and shepherd lifecycle commands that do not restart Runtime.

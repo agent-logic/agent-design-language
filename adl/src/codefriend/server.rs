@@ -7,7 +7,7 @@ mod journey_publication;
 mod publication_export;
 use super::{
     activities::{self, Activity, ProviderOutput, UpdateCyclePlan},
-    evidence::{contracts::Completion, store::Store, Admission, Retention},
+    evidence::{store::Store, Admission, Retention},
     ingestion::Packet,
     review::{
         lanes::ReviewLane,
@@ -15,7 +15,7 @@ use super::{
     },
 };
 use crate::{
-    provider_adapter::execute_provider_invocation,
+    provider_adapter::execute_codefriend_invocation,
     provider_communication::{
         ProviderInvocationFinalStatusV1, ProviderInvocationRequestV1, ProviderRunLoggerV1,
     },
@@ -51,7 +51,6 @@ pub fn build_revision() -> &'static str {
 
 pub const MAX_BODY: usize = 2 * 1024 * 1024;
 const MAX_RESULT: usize = 4 * 1024 * 1024;
-const MAX_PROMPT_BYTES: usize = 128 * 1024;
 fn now() -> u64 {
     SystemTime::now()
         .duration_since(UNIX_EPOCH)
@@ -155,11 +154,6 @@ impl Backend for ProductionBackend {
             Mode::Hosted => {
                 if request.cycle.is_none() {
                     // Preserve the original review-only protocol byte shape.
-                    for lane in ReviewLane::ALL {
-                        let (_, prompt) =
-                            runner::lane_input_manifest(&request.operation_id, lane, &admission)?;
-                        ensure!(prompt.len() <= MAX_PROMPT_BYTES, "model_prompt_byte_limit");
-                    }
                     let run = runner::run(
                         ReviewRunOptions {
                             store: work.join("evidence"),
@@ -172,7 +166,7 @@ impl Backend for ProductionBackend {
                         admission,
                     )?;
                     ensure!(
-                        run.completion == Completion::Complete,
+                        run.successful_execution().is_ok(),
                         "hosted_review_incomplete"
                     );
                     return Ok(serde_json::to_value(run)?);
@@ -210,7 +204,10 @@ impl Backend for ProductionBackend {
                     work.join("provider.jsonl"),
                     &request.operation_id,
                 )?;
-                let result = execute_provider_invocation(provider, &mut logger);
+                let result = execute_codefriend_invocation(provider, &mut logger);
+                crate::provider_adapter::retain_codefriend_provider_outcome(&result, || {
+                    write_json(&work.join("provider-result.json"), &result)
+                })?;
                 ensure!(
                     result.final_status == ProviderInvocationFinalStatusV1::Ok,
                     "model_request_failed"
@@ -423,8 +420,7 @@ impl Service {
             "preloaded_prompt_forbidden"
         );
         ensure!(
-            config.provider.attempt_policy.max_attempts == 1
-                && (1..=60000).contains(&config.provider.attempt_policy.timeout_ms),
+            config.provider.attempt_policy.max_attempts == 1,
             "bounded_provider_attempt_required"
         );
         ensure!(
@@ -840,10 +836,12 @@ async fn submit(
         })();
         if let Ok(_guard) = service.0.gate.lock() {
             let mut op = operation;
-            op.status = if (dir.join("cancel").exists() || op.expires_at <= now())
-                && request.cycle.is_none()
-            {
-                Status::Cancelled
+            op.status = if let Some(status) = stopped_provider_status(
+                &outcome,
+                dir.join("cancel").exists(),
+                op.expires_at <= now(),
+            ) {
+                status
             } else if let Ok(value) = outcome {
                 match serde_json::to_vec(&value) {
                     Ok(bytes) if bytes.len() <= MAX_RESULT => {
@@ -1004,9 +1002,8 @@ async fn publication_challenge(
     let run: FourPerspectiveReviewRun = internal(read_json(&dir.join("result.json"), MAX_RESULT))?;
     let review_path = dir.join("work/review/review-record.json");
     let review: ReviewRecord = internal(read_json(&review_path, MAX_RESULT))?;
-    if run.schema != runner::REVIEW_RUN_SCHEMA
+    if run.successful_execution().is_err()
         || run.run_id != operation
-        || run.completion != Completion::Complete
         || run.review_record != review
         || review.run.packet_id != op.packet_id
         || review.run.revision != op.source_revision
@@ -1266,4 +1263,46 @@ async fn publication_result(
         decision.as_ref(),
     ))?;
     publication_export::checked_response(&service, &headers, &operation, &credential.subject, value)
+}
+
+// Unknown provider effect survives cancellation/expiry; neither proves non-effect.
+fn stopped_provider_status(
+    outcome: &Result<Value>,
+    cancelled: bool,
+    expired: bool,
+) -> Option<Status> {
+    if outcome
+        .as_ref()
+        .err()
+        .is_some_and(|error| error.is::<crate::provider_adapter::CodeFriendProviderInterrupted>())
+    {
+        Some(Status::Interrupted)
+    } else if cancelled || expired {
+        Some(Status::Cancelled)
+    } else {
+        None
+    }
+}
+#[cfg(test)]
+mod provider_outcome_tests {
+    use super::*;
+    #[test]
+    fn unknown_effect_survives_cancellation_and_expiry() {
+        for (cancelled, expired) in [(false, false), (true, false), (false, true), (true, true)] {
+            let result: Result<Value> =
+                Err(crate::provider_adapter::CodeFriendProviderInterrupted.into());
+            assert_eq!(
+                stopped_provider_status(&result, cancelled, expired),
+                Some(Status::Interrupted)
+            );
+        }
+        assert_eq!(
+            stopped_provider_status(&Ok(Value::Null), true, false),
+            Some(Status::Cancelled)
+        );
+        assert_eq!(
+            stopped_provider_status(&Ok(Value::Null), false, true),
+            Some(Status::Cancelled)
+        );
+    }
 }

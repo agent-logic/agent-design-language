@@ -495,7 +495,7 @@ impl RunReport {
     /// Validate received website artifacts using their native typed serialization.
     /// This proves contract integrity, not independent provider execution.
     pub fn validate(&self, now: u64) -> Result<()> {
-        use super::evidence::{contracts::Completion, valid_digest};
+        use super::evidence::valid_digest;
         use super::review::{
             lanes::{ReviewLane, LANE_CONTRACT_VERSION},
             runner,
@@ -532,9 +532,8 @@ impl RunReport {
         match (&self.result, &self.cycle_result, self.status.as_str()) {
             (Some(result), None, "complete") => {
                 ensure!(
-                    result.schema == runner::REVIEW_RUN_SCHEMA
+                    result.successful_execution().is_ok()
                         && result.run_id == self.run_id
-                        && result.completion == Completion::Complete
                         && result.failures.is_empty(),
                     "agent_report_completion"
                 );
@@ -560,7 +559,7 @@ impl RunReport {
                 }
                 let record = &result.review_record;
                 ensure!(
-                    record.run.completion == Completion::Complete
+                    record.successful_execution().is_ok()
                         && record.run.failures.is_empty()
                         && record.admission.expires_at == self.expires_at
                         && record.admission.expires_at > now
@@ -684,6 +683,7 @@ impl std::error::Error for ObservationPending {}
 #[serde(deny_unknown_fields)]
 struct AcknowledgedOperation {
     operation: super::server::Operation,
+    // Legacy journal compatibility only; elapsed observation time is not cancellation authority.
     observation_deadline: u64,
 }
 impl Transport {
@@ -807,10 +807,7 @@ impl Transport {
             } else {
                 true
             };
-            if !allowed
-                || cancelled
-                || (!output_path.exists() && (self.clock)() >= known.observation_deadline)
-            {
+            if !allowed || cancelled {
                 // Cancellation is best effort; stopping local work is not a claim
                 // that an in-flight remote provider effect was undone.
                 let _: Result<Operation> = self.request(
@@ -1242,10 +1239,7 @@ impl Transport {
             let admission = self.original_admission(&dir, &consent, expires_at, resuming)?;
             authority.check((self.clock)())?;
             admission.validate()?;
-            ensure!(
-                admission.packet.completeness == "complete_scoped_acquisition",
-                "review_requires_complete_scoped_acquisition"
-            );
+            super::evidence::contracts::reviewable_acquisition(&admission)?;
             ensure!(
                 admission.expires_at == expires_at
                     && admission.packet.revision == consent.revision

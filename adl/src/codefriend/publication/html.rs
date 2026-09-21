@@ -291,6 +291,26 @@ pub(crate) fn render_report(
     )?;
     list(&mut out, "Included paths", &review.run.included)?;
     list(&mut out, "Excluded paths", &review.run.excluded)?;
+    if let Some(coverage) = &review.run.coverage {
+        field(&mut out, "Review execution", "complete")?;
+        field(
+            &mut out,
+            "Source coverage",
+            "incomplete: privacy-filtered files were not reviewed",
+        )?;
+        let omissions: Vec<String> = coverage
+            .omissions
+            .iter()
+            .map(|omission| {
+                format!(
+                    "{}: excluded by privacy filtering; contents were not reviewed",
+                    omission.path
+                )
+            })
+            .collect();
+        list(&mut out, "Privacy exclusions", &omissions)?;
+        field(&mut out, "Coverage limitation", "Findings cover retained source only. Excluded files may contain additional problems and affect dependencies or runtime behavior.")?;
+    }
     list(&mut out, "Run failures", &review.run.failures)?;
     out.push_str(
         "</dl></section><section id=\"approval\"><h2>Publication approval</h2><dl class=\"meta\">",

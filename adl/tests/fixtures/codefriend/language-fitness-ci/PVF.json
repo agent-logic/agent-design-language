@@ -1,0 +1,20 @@
+{
+  "schema": "codefriend.language_fitness_ci.pvf.v1",
+  "issue": 1102,
+  "lane": "component",
+  "proof_role": "native v2 CI report recomputation and real CLI/shell transport contract; not full qualification",
+  "determinism": "temporary Git source and Store, local installed-test executable, no provider/cloud/inspected-source execution",
+  "resource_profile": "4MiB report/stdout cap,256KiB stderr cap,32KiB receipt cap; no elapsed-only work cutoff",
+  "targets": {
+    "codefriend_language_fitness_ci": 3,
+    "test_codefriend_fitness_ci_artifacts.py": 5
+  },
+  "executed": false,
+  "release_gate": true,
+  "limitations": [
+    "Unknown remains explicit exit2; no full semantic claim",
+    "candidate pin means admitted source revision; installed ADL identity is independent",
+    "v1 report/receipt bytes and legacy execution branch preserved",
+    "Missing original Store must not create Store metadata or output; regression authored pending execution"
+  ]
+}

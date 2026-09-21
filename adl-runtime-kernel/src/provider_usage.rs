@@ -43,6 +43,7 @@ pub struct ProviderUsage(
     Arc<Mutex<BTreeMap<HealthKey, ProviderHealthSignals>>>,
     pub(crate) crate::ResidentShepherdReadiness,
     Arc<Mutex<BTreeMap<String, String>>>,
+    Arc<Mutex<BTreeMap<String, u64>>>,
 );
 
 /// Last observed evidence, not an active liveness check. Unknown stays null.
@@ -76,6 +77,29 @@ impl ProviderUsage {
 
     pub(crate) fn readiness(&self) -> crate::ResidentShepherdReadiness {
         self.2.clone()
+    }
+
+    /// Fence observations from requests that predate a live binding change.
+    pub fn binding_epoch(&self, agent: &str) -> u64 {
+        let agent = self.canonical_agent(agent);
+        self.4
+            .lock()
+            .expect("provider epochs poisoned")
+            .get(&agent)
+            .copied()
+            .unwrap_or(0)
+    }
+
+    pub fn invalidate_binding(&self, agent: &str) {
+        let agent = self.canonical_agent(agent);
+        let mut epochs = self.4.lock().expect("provider epochs poisoned");
+        let epoch = epochs.entry(agent.clone()).or_default();
+        *epoch = epoch.saturating_add(1);
+        self.1
+            .lock()
+            .expect("provider health poisoned")
+            .retain(|(name, _, _), _| name != &agent);
+        self.2.mark_unready(&agent);
     }
 
     pub fn health_snapshot(&self) -> Vec<ProviderHealthSignals> {
@@ -148,8 +172,18 @@ impl ProviderUsage {
     /// The outer execution deadline can cancel a provider future before it
     /// reports its own timeout. Preserve that failure without counting a second
     /// provider attempt. Operator cancellation must not call this method.
-    pub(crate) fn observe_execution_timeout(&self, agent: &str, provider: &str, model: &str) {
+    pub(crate) fn observe_execution_timeout(
+        &self,
+        agent: &str,
+        provider: &str,
+        model: &str,
+        epoch: u64,
+    ) {
         let agent = self.canonical_agent(agent);
+        let epochs = self.4.lock().expect("provider epochs poisoned");
+        if epochs.get(&agent).copied().unwrap_or(0) != epoch {
+            return;
+        }
         self.observe_inference(
             &(
                 agent.clone(),
@@ -179,6 +213,35 @@ impl ProviderUsage {
         model: &str,
         reason: ProviderRequestReason,
         prompt: &str,
+    ) -> ProviderUsageRequest {
+        let epoch = self.binding_epoch(agent);
+        self.begin_recorded(agent, provider, model, reason, prompt, epoch)
+    }
+
+    /// Preserve the admission epoch across queueing and provider execution.
+    pub fn begin_at_epoch(
+        &self,
+        agent: &str,
+        provider: &str,
+        model: &str,
+        reason: ProviderRequestReason,
+        prompt: &str,
+        epoch: u64,
+    ) -> Result<ProviderUsageRequest, &'static str> {
+        if self.binding_epoch(agent) != epoch {
+            return Err("agent_binding_replaced");
+        }
+        Ok(self.begin_recorded(agent, provider, model, reason, prompt, epoch))
+    }
+
+    fn begin_recorded(
+        &self,
+        agent: &str,
+        provider: &str,
+        model: &str,
+        reason: ProviderRequestReason,
+        prompt: &str,
+        epoch: u64,
     ) -> ProviderUsageRequest {
         let canonical = self.canonical_agent(agent);
         let agent = canonical.as_str();
@@ -217,6 +280,7 @@ impl ProviderUsage {
             serde_json::json!({"event":"provider_request", "agent":agent, "provider":provider, "model":model, "reason":reason, "request_count":counter.requests, "estimated_input_tokens":counter.estimated_input_tokens, "token_accounting":counter.token_accounting})
         );
         ProviderUsageRequest {
+            epoch,
             usage: self.clone(),
             key,
             completed: false,
@@ -230,21 +294,38 @@ pub(crate) struct ProviderCallContext<'a> {
     pub usage: &'a ProviderUsage,
     pub agent: &'a str,
     pub reason: ProviderRequestReason,
+    pub binding_epoch: u64,
 }
 impl ProviderCallContext<'_> {
-    pub fn begin(&self, provider: &str, model: &str, prompt: &str) -> ProviderUsageRequest {
-        self.usage
-            .begin(self.agent, provider, model, self.reason, prompt)
+    pub fn begin(
+        &self,
+        provider: &str,
+        model: &str,
+        prompt: &str,
+    ) -> Result<ProviderUsageRequest, &'static str> {
+        self.usage.begin_at_epoch(
+            self.agent,
+            provider,
+            model,
+            self.reason,
+            prompt,
+            self.binding_epoch,
+        )
     }
 }
 
 pub struct ProviderUsageRequest {
+    epoch: u64,
     usage: ProviderUsage,
     key: Key,
     completed: bool,
 }
 impl ProviderUsageRequest {
     pub fn failure(&self, error: &str) {
+        let epochs = self.usage.4.lock().expect("provider epochs poisoned");
+        if epochs.get(&self.key.0).copied().unwrap_or(0) != self.epoch {
+            return;
+        }
         if !matches!(error, "operation cancelled" | "provider_cancelled") {
             self.usage.observe_inference(&self.key, false);
         }
@@ -302,7 +383,10 @@ impl ProviderUsageRequest {
                 .saturating_add(estimate(response));
         }
         self.completed = true;
-        self.usage.observe_inference(&self.key, true);
+        let epochs = self.usage.4.lock().expect("provider epochs poisoned");
+        if epochs.get(&self.key.0).copied().unwrap_or(0) == self.epoch {
+            self.usage.observe_inference(&self.key, true);
+        }
     }
 }
 impl Drop for ProviderUsageRequest {
@@ -323,6 +407,67 @@ fn estimate(text: &str) -> u64 {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    // PVF runtime: deterministic lifecycle epoch regression, no network, required.
+    #[test]
+    fn retired_binding_completion_cannot_change_successor_health() {
+        let usage = ProviderUsage::default();
+        let old = usage.begin(
+            "resident",
+            "ollama",
+            "model",
+            ProviderRequestReason::OperatorConversation,
+            "fixture",
+        );
+        usage.invalidate_binding("resident");
+        let next = usage.begin(
+            "resident",
+            "ollama",
+            "model",
+            ProviderRequestReason::OperatorConversation,
+            "fixture",
+        );
+        next.success("ok");
+        old.failure("provider_timeout");
+        assert_eq!(usage.health_snapshot()[0].inference_ready, Some(true));
+        usage.invalidate_binding("resident");
+        old.success("stale success");
+        assert!(usage.health_snapshot().is_empty());
+    }
+
+    // PVF runtime: queued retired work must not begin using successor credentials.
+    #[test]
+    fn queued_binding_preserves_its_admitted_epoch() {
+        let usage = ProviderUsage::default();
+        let epoch = usage.binding_epoch("resident");
+        usage.invalidate_binding("resident");
+        assert!(matches!(
+            usage.begin_at_epoch(
+                "resident",
+                "ollama",
+                "model",
+                ProviderRequestReason::OperatorConversation,
+                "old",
+                epoch
+            ),
+            Err("agent_binding_replaced")
+        ));
+        assert!(usage.snapshot().is_empty());
+        let current = usage.binding_epoch("resident");
+        let request = usage
+            .begin_at_epoch(
+                "resident",
+                "ollama",
+                "model",
+                ProviderRequestReason::OperatorConversation,
+                "new",
+                current,
+            )
+            .unwrap();
+        usage.invalidate_binding("resident");
+        request.success("retired while executing");
+        assert!(usage.health_snapshot().is_empty());
+    }
 
     #[test]
     fn provider_reported_usage_and_finish_reason_are_preserved() {

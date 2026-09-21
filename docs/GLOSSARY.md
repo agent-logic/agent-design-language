@@ -35,7 +35,10 @@ Primary public source surfaces include:
 | Term | Definition |
 | --- | --- |
 | ADL | Agent Design Language: the language, Rust runtime, CLI, review surfaces, and milestone proof packages used to make agent workflows deterministic, inspectable, and falsifiable. |
-| CSM | Cognitive Spacetime Model: ADL's model for a governed runtime world with time, state, causality, trace, and identity-continuity surfaces. |
+| CSM | Cognitive SpaceTime Manifold: ADL's model for a governed runtime world with time, state, causality, trace, and identity-continuity surfaces. Grounded in the Principle of Cognitive Relativity. |
+| Cognitive relativity | The principle that there is no privileged cognitive frame: the meaning of an event, claim, commitment, or instruction is relative to the frame in which it is evaluated. Participants may disagree about measurements (what is now, recent, or settled) and still cooperate, but only where they share the laws of the world they reason about: causality, authority, evidence, and continuity. CSM is the substrate that makes those laws shared. |
+| Cognitive frame | A participant's position in the manifold, supplied by chronosense, from which claims about time, state, and causality are evaluated. A stateless invocation occupies no frame rather than a poor one. |
+| Cognitive invariant | A quantity that must be computed identically from every frame. Identity under continuity-preserving transformations and trace-as-execution-truth are the two load-bearing invariants; a name is not one. |
 | Runtime v2 | The current ADL runtime architecture line for manifold, citizen, kernel, snapshot, rehydration, wake, quarantine, Observatory, and proof-surface work. |
 | AEE | Adaptive Execution Engine: the older ADL execution-adaptation line for bounded strategy selection, recovery, learning, and policy-aware execution. Later runtime work inherits parts of this lineage without treating adaptation as hidden magic. |
 | ObsMem | Observational Memory: ADL's evidence-adjusted retrieval and indexing concept for using prior run evidence, scores, traces, and provenance without turning memory into unverifiable lore. |

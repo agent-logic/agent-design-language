@@ -54,14 +54,82 @@ static OLLAMA_RUNTIME_BULKHEADS: OnceLock<Mutex<HashMap<String, &'static Mutex<(
 static PROVIDER_CIRCUIT_STATES: OnceLock<Mutex<HashMap<String, CircuitBreakerStateV1>>> =
     OnceLock::new();
 
+#[derive(Clone, Copy, PartialEq, Eq)]
+enum ExecutionMode {
+    RuntimePolicy,
+    CodeFriendActive,
+}
+
+/// The transport outcome is unknown; a consumed CodeFriend operation must not be replayed.
+#[derive(Debug)]
+pub struct CodeFriendProviderInterrupted;
+impl fmt::Display for CodeFriendProviderInterrupted {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.write_str("codefriend_provider_effect_unresolved")
+    }
+}
+impl std::error::Error for CodeFriendProviderInterrupted {}
+
+pub fn check_codefriend_provider_outcome(result: &ProviderInvocationResultV1) -> Result<()> {
+    if result.final_status == ProviderInvocationFinalStatusV1::Failed
+        && result.failure.as_ref().is_some_and(|failure| {
+            failure
+                .message
+                .starts_with("codefriend_transport_effect_unknown:")
+        })
+    {
+        return Err(CodeFriendProviderInterrupted.into());
+    }
+    Ok(())
+}
+
+/// Preserve uncertain remote effects even when saving their receipt fails.
+/// The write is still attempted; persistence failure cannot prove non-effect.
+pub fn retain_codefriend_provider_outcome(
+    result: &ProviderInvocationResultV1,
+    retain: impl FnOnce() -> Result<()>,
+) -> Result<()> {
+    let outcome = check_codefriend_provider_outcome(result);
+    let retention = retain();
+    if let Err(unknown) = outcome {
+        if retention.is_err() {
+            eprintln!("adl_event component=codefriend_provider event=uncertain_receipt_persistence_failed");
+        }
+        return Err(unknown);
+    }
+    retention
+}
+
+/// Source review work has no elapsed-only completion deadline and never retries a dispatch.
+pub fn execute_codefriend_invocation(
+    request: ProviderInvocationRequestV1,
+    logger: &mut ProviderRunLoggerV1,
+) -> ProviderInvocationResultV1 {
+    execute_invocation(request, logger, ExecutionMode::CodeFriendActive)
+}
+
 pub fn execute_provider_invocation(
+    request: ProviderInvocationRequestV1,
+    logger: &mut ProviderRunLoggerV1,
+) -> ProviderInvocationResultV1 {
+    execute_invocation(request, logger, ExecutionMode::RuntimePolicy)
+}
+
+fn execute_invocation(
     mut request: ProviderInvocationRequestV1,
     logger: &mut ProviderRunLoggerV1,
+    mode: ExecutionMode,
 ) -> ProviderInvocationResultV1 {
     ensure_request_identity(&mut request);
     let started = Instant::now();
 
-    if let Err(error) = validate_adapter_request(&request) {
+    if let Err(error) = validate_adapter_request(&request).and_then(|()| {
+        anyhow::ensure!(
+            mode != ExecutionMode::CodeFriendActive || request.attempt_policy.max_attempts == 1,
+            "codefriend_provider_single_attempt_required"
+        );
+        Ok(())
+    }) {
         let failure = provider_failure_from_note(&error.to_string(), None);
         let _ = logger.event(
             event("run_finish", &request)
@@ -107,13 +175,17 @@ pub fn execute_provider_invocation(
                             .with_lane(&lane_ref)
                             .with_attempt(attempt_index),
                     );
+                    if mode == ExecutionMode::CodeFriendActive {
+                        return execute_runtime_surface_attempt(&mut request, &policy, mode)
+                            .map_err(active_body_failure);
+                    }
                     let started = Instant::now();
                     execute_timeout_policy(
                         &resilience_policy,
                         ResilienceSurfaceV1::Provider,
                         "provider_adapter.attempt",
                         || TimeoutObservation {
-                            result: execute_runtime_surface_attempt(&mut request, &policy),
+                            result: execute_runtime_surface_attempt(&mut request, &policy, mode),
                             elapsed_ms: started.elapsed().as_millis() as u64,
                             cancelled: false,
                         },
@@ -323,12 +395,13 @@ fn now_ms() -> u64 {
 fn execute_runtime_surface_attempt(
     request: &mut ProviderInvocationRequestV1,
     policy: &ProviderAttemptPolicyV1,
+    mode: ExecutionMode,
 ) -> std::result::Result<ProviderTextResponse, ProviderFailureV1> {
     match request.route.runtime_surface {
-        RuntimeSurfaceV1::HostedApi => execute_hosted(request, policy),
+        RuntimeSurfaceV1::HostedApi => execute_hosted(request, policy, mode),
         RuntimeSurfaceV1::OllamaHttp => {
             let _guard = acquire_ollama_runtime_slot(request)?;
-            execute_ollama_http(request, policy)
+            execute_ollama_http(request, policy, mode)
         }
         RuntimeSurfaceV1::OllamaCli | RuntimeSurfaceV1::Mock | RuntimeSurfaceV1::Unknown => Err(
             provider_failure_from_note("unsupported provider runtime surface", None),
@@ -621,17 +694,18 @@ struct ProviderTextResponse {
 fn execute_hosted(
     request: &ProviderInvocationRequestV1,
     policy: &ProviderAttemptPolicyV1,
+    mode: ExecutionMode,
 ) -> std::result::Result<ProviderTextResponse, ProviderFailureV1> {
     match request.route.provider.to_ascii_lowercase().as_str() {
-        "openai" | "chatgpt" => execute_hosted_openai(request, policy),
-        "anthropic" | "claude" => execute_hosted_anthropic(request, policy),
-        "deepseek" => execute_hosted_deepseek(request, policy),
-        "kimi" | "moonshot" => execute_hosted_kimi(request, policy),
-        "minimax" => execute_hosted_minimax(request, policy),
-        "openrouter" => execute_hosted_openrouter(request, policy),
-        "bedrock" | "aws_bedrock" => execute_hosted_bedrock(request, policy),
-        "z_ai" | "zai" | "zhipu" => execute_hosted_zai(request, policy),
-        "google" | "gemini" => execute_hosted_gemini(request, policy),
+        "openai" | "chatgpt" => execute_hosted_openai(request, policy, mode),
+        "anthropic" | "claude" => execute_hosted_anthropic(request, policy, mode),
+        "deepseek" => execute_hosted_deepseek(request, policy, mode),
+        "kimi" | "moonshot" => execute_hosted_kimi(request, policy, mode),
+        "minimax" => execute_hosted_minimax(request, policy, mode),
+        "openrouter" => execute_hosted_openrouter(request, policy, mode),
+        "bedrock" | "aws_bedrock" => execute_hosted_bedrock(request, policy, mode),
+        "z_ai" | "zai" | "zhipu" => execute_hosted_zai(request, policy, mode),
+        "google" | "gemini" => execute_hosted_gemini(request, policy, mode),
         _ => Err(ProviderFailureV1 {
             kind: ProviderFailureKindV1::ProviderError,
             retryable: false,
@@ -645,18 +719,19 @@ fn execute_hosted(
 fn execute_hosted_openai(
     request: &ProviderInvocationRequestV1,
     policy: &ProviderAttemptPolicyV1,
+    mode: ExecutionMode,
 ) -> std::result::Result<ProviderTextResponse, ProviderFailureV1> {
     let key = resolve_credential(request.route.credential_ref.as_deref(), "OPENAI_API_KEY")?;
     let url = provider_endpoint_url(
         request.route.endpoint_ref.as_deref(),
         DEFAULT_OPENAI_RESPONSES_URL,
     )?;
-    let response = client(policy)?
+    let response = client_with_mode(policy, mode)?
         .post(url)
         .bearer_auth(key.as_str())
         .json(&openai_request_body(request))
         .send()
-        .map_err(map_reqwest_error)?;
+        .map_err(|error| map_execution_transport(error, mode))?;
     decode_text_response(
         response,
         extract_openai_output_text,
@@ -681,19 +756,20 @@ fn openai_request_body(request: &ProviderInvocationRequestV1) -> Value {
 fn execute_hosted_anthropic(
     request: &ProviderInvocationRequestV1,
     policy: &ProviderAttemptPolicyV1,
+    mode: ExecutionMode,
 ) -> std::result::Result<ProviderTextResponse, ProviderFailureV1> {
     let key = resolve_credential(request.route.credential_ref.as_deref(), "ANTHROPIC_API_KEY")?;
     let url = provider_endpoint_url(
         request.route.endpoint_ref.as_deref(),
         DEFAULT_ANTHROPIC_MESSAGES_URL,
     )?;
-    let response = client(policy)?
+    let response = client_with_mode(policy, mode)?
         .post(url)
         .header("x-api-key", key.as_str())
         .header("anthropic-version", "2023-06-01")
         .json(&anthropic_request_body(request))
         .send()
-        .map_err(map_reqwest_error)?;
+        .map_err(|error| map_execution_transport(error, mode))?;
     decode_text_response(
         response,
         extract_anthropic_output_text,
@@ -716,18 +792,19 @@ fn anthropic_request_body(request: &ProviderInvocationRequestV1) -> Value {
 fn execute_hosted_deepseek(
     request: &ProviderInvocationRequestV1,
     policy: &ProviderAttemptPolicyV1,
+    mode: ExecutionMode,
 ) -> std::result::Result<ProviderTextResponse, ProviderFailureV1> {
     let key = resolve_credential(request.route.credential_ref.as_deref(), "DEEPSEEK_API_KEY")?;
     let url = provider_endpoint_url(
         request.route.endpoint_ref.as_deref(),
         DEFAULT_DEEPSEEK_CHAT_COMPLETIONS_URL,
     )?;
-    let response = client(policy)?
+    let response = client_with_mode(policy, mode)?
         .post(url)
         .bearer_auth(key.as_str())
         .json(&deepseek_request_body(request))
         .send()
-        .map_err(map_reqwest_error)?;
+        .map_err(|error| map_execution_transport(error, mode))?;
     decode_text_response(
         response,
         extract_deepseek_output_text,
@@ -739,18 +816,19 @@ fn execute_hosted_deepseek(
 fn execute_hosted_kimi(
     request: &ProviderInvocationRequestV1,
     policy: &ProviderAttemptPolicyV1,
+    mode: ExecutionMode,
 ) -> std::result::Result<ProviderTextResponse, ProviderFailureV1> {
     let key = resolve_credential(request.route.credential_ref.as_deref(), "MOONSHOT_API_KEY")?;
     let url = provider_endpoint_url(
         request.route.endpoint_ref.as_deref(),
         DEFAULT_KIMI_CHAT_COMPLETIONS_URL,
     )?;
-    let response = client(policy)?
+    let response = client_with_mode(policy, mode)?
         .post(url)
         .bearer_auth(key.as_str())
         .json(&chat_completion_request_body(request))
         .send()
-        .map_err(map_reqwest_error)?;
+        .map_err(|error| map_execution_transport(error, mode))?;
     decode_text_response(
         response,
         extract_chat_completion_output_text,
@@ -771,18 +849,19 @@ fn minimax_request_body(request: &ProviderInvocationRequestV1) -> Value {
 fn execute_hosted_minimax(
     request: &ProviderInvocationRequestV1,
     policy: &ProviderAttemptPolicyV1,
+    mode: ExecutionMode,
 ) -> std::result::Result<ProviderTextResponse, ProviderFailureV1> {
     let key = resolve_credential(request.route.credential_ref.as_deref(), "MINIMAX_API_KEY")?;
     let url = provider_endpoint_url(
         request.route.endpoint_ref.as_deref(),
         DEFAULT_MINIMAX_CHAT_COMPLETIONS_URL,
     )?;
-    let response = client(policy)?
+    let response = client_with_mode(policy, mode)?
         .post(url)
         .bearer_auth(key.as_str())
         .json(&minimax_request_body(request))
         .send()
-        .map_err(map_reqwest_error)?;
+        .map_err(|error| map_execution_transport(error, mode))?;
     decode_minimax_response(response)
 }
 
@@ -814,6 +893,7 @@ fn deepseek_request_body(request: &ProviderInvocationRequestV1) -> Value {
 fn execute_hosted_openrouter(
     request: &ProviderInvocationRequestV1,
     policy: &ProviderAttemptPolicyV1,
+    mode: ExecutionMode,
 ) -> std::result::Result<ProviderTextResponse, ProviderFailureV1> {
     let key = resolve_credential(
         request.route.credential_ref.as_deref(),
@@ -823,12 +903,12 @@ fn execute_hosted_openrouter(
         request.route.endpoint_ref.as_deref(),
         DEFAULT_OPENROUTER_CHAT_COMPLETIONS_URL,
     )?;
-    let response = client(policy)?
+    let response = client_with_mode(policy, mode)?
         .post(url)
         .bearer_auth(key.as_str())
         .json(&openrouter_request_body(request))
         .send()
-        .map_err(map_reqwest_error)?;
+        .map_err(|error| map_execution_transport(error, mode))?;
     decode_text_response(
         response,
         extract_chat_completion_output_text,
@@ -852,12 +932,13 @@ fn openrouter_request_body(request: &ProviderInvocationRequestV1) -> Value {
 fn execute_hosted_bedrock(
     request: &ProviderInvocationRequestV1,
     policy: &ProviderAttemptPolicyV1,
+    mode: ExecutionMode,
 ) -> std::result::Result<ProviderTextResponse, ProviderFailureV1> {
     tokio::runtime::Builder::new_current_thread()
         .enable_all()
         .build()
         .map_err(|err| provider_failure_from_note(&format!("bedrock runtime init: {err}"), None))?
-        .block_on(execute_hosted_bedrock_async(request, policy))
+        .block_on(execute_hosted_bedrock_async(request, policy, mode))
 }
 
 #[derive(Debug)]
@@ -894,25 +975,46 @@ fn bounded_bedrock_client(builder: bedrockruntime::config::Builder) -> bedrockru
     bedrockruntime::Client::from_conf(builder.interceptor(BoundedBedrockResponse).build())
 }
 
+fn bedrock_timeouts(
+    policy: &ProviderAttemptPolicyV1,
+    mode: ExecutionMode,
+) -> aws_config::timeout::TimeoutConfig {
+    let builder =
+        aws_config::timeout::TimeoutConfig::builder().connect_timeout(Duration::from_secs(5));
+    if mode == ExecutionMode::CodeFriendActive {
+        builder
+            .disable_read_timeout()
+            .disable_operation_timeout()
+            .disable_operation_attempt_timeout()
+            .build()
+    } else {
+        builder
+            .operation_timeout(Duration::from_millis(policy.timeout_ms.max(1)))
+            .operation_attempt_timeout(Duration::from_millis(policy.timeout_ms.max(1)))
+            .build()
+    }
+}
+
 async fn execute_hosted_bedrock_async(
     request: &ProviderInvocationRequestV1,
     policy: &ProviderAttemptPolicyV1,
+    mode: ExecutionMode,
 ) -> std::result::Result<ProviderTextResponse, ProviderFailureV1> {
     let profile = bedrock_profile()?;
     let region = bedrock_region();
     let region_provider =
         RegionProviderChain::first_try(Some(aws_config::Region::new(region.clone())));
-    let timeout_config = aws_config::timeout::TimeoutConfig::builder()
-        .connect_timeout(Duration::from_secs(5))
-        .operation_timeout(Duration::from_millis(policy.timeout_ms.max(1)))
-        .operation_attempt_timeout(Duration::from_millis(policy.timeout_ms.max(1)))
-        .build();
-    let shared_config = aws_config::defaults(BehaviorVersion::latest())
+    let timeout_config = bedrock_timeouts(policy, mode);
+    let loader = aws_config::defaults(BehaviorVersion::latest())
         .region(region_provider)
         .profile_name(&profile)
-        .timeout_config(timeout_config)
-        .load()
-        .await;
+        .timeout_config(timeout_config);
+    let loader = if mode == ExecutionMode::CodeFriendActive {
+        loader.retry_config(aws_config::retry::RetryConfig::disabled())
+    } else {
+        loader
+    };
+    let shared_config = loader.load().await;
     let identity = sts::Client::new(&shared_config)
         .get_caller_identity()
         .send()
@@ -926,7 +1028,15 @@ async fn execute_hosted_bedrock_async(
     )?;
     let message = bedrock_converse_message(request)?;
     let inference_config = bedrock_converse_inference_config(request)?;
-    let client = bounded_bedrock_client(bedrockruntime::config::Builder::from(&shared_config));
+    let builder = bedrockruntime::config::Builder::from(&shared_config);
+    let builder = if mode == ExecutionMode::CodeFriendActive {
+        builder.stalled_stream_protection(
+            bedrockruntime::config::StalledStreamProtectionConfig::disabled(),
+        )
+    } else {
+        builder
+    };
+    let client = bounded_bedrock_client(builder);
     let response = client
         .converse()
         .model_id(&request.route.provider_model_id)
@@ -934,7 +1044,20 @@ async fn execute_hosted_bedrock_async(
         .inference_config(inference_config)
         .send()
         .await
-        .map_err(|err| bedrock_failure(format!("{err:?}"), None))?;
+        .map_err(|err| {
+            let uncertain = matches!(
+                &err,
+                aws_smithy_runtime_api::client::result::SdkError::DispatchFailure(_)
+                    | aws_smithy_runtime_api::client::result::SdkError::TimeoutError(_)
+                    | aws_smithy_runtime_api::client::result::SdkError::ResponseError(_)
+            );
+            let failure = bedrock_failure(format!("{err:?}"), None);
+            if mode == ExecutionMode::CodeFriendActive && uncertain {
+                unknown_transport(failure)
+            } else {
+                failure
+            }
+        })?;
     let output_text = extract_bedrock_converse_output_text(response.output())
         .ok_or_else(|| provider_failure_from_note("empty Bedrock provider output", Some(200)))?;
     Ok(ProviderTextResponse {
@@ -1124,18 +1247,19 @@ fn redact_aws_error_value(input: &str, marker: &str) -> String {
 fn execute_hosted_zai(
     request: &ProviderInvocationRequestV1,
     policy: &ProviderAttemptPolicyV1,
+    mode: ExecutionMode,
 ) -> std::result::Result<ProviderTextResponse, ProviderFailureV1> {
     let key = resolve_credential(request.route.credential_ref.as_deref(), "ZAI_API_KEY")?;
     let url = provider_endpoint_url(
         request.route.endpoint_ref.as_deref(),
         zai_default_chat_completions_url(request),
     )?;
-    let response = client(policy)?
+    let response = client_with_mode(policy, mode)?
         .post(url)
         .bearer_auth(key.as_str())
         .json(&zai_request_body(request))
         .send()
-        .map_err(map_reqwest_error)?;
+        .map_err(|error| map_execution_transport(error, mode))?;
     decode_text_response(
         response,
         extract_chat_completion_output_text,
@@ -1214,6 +1338,7 @@ fn is_zai_glm_5_3_flash(request: &ProviderInvocationRequestV1) -> bool {
 fn execute_hosted_gemini(
     request: &ProviderInvocationRequestV1,
     policy: &ProviderAttemptPolicyV1,
+    mode: ExecutionMode,
 ) -> std::result::Result<ProviderTextResponse, ProviderFailureV1> {
     let key = resolve_credential(
         request.route.credential_ref.as_deref(),
@@ -1227,12 +1352,12 @@ fn execute_hosted_gemini(
         request.route.endpoint_ref.as_deref(),
         &request.route.provider_model_id,
     )?;
-    let response = client(policy)?
+    let response = client_with_mode(policy, mode)?
         .post(url)
         .header("x-goog-api-key", key.as_str())
         .json(&gemini_request_body(request))
         .send()
-        .map_err(map_reqwest_error)?;
+        .map_err(|error| map_execution_transport(error, mode))?;
     decode_text_response(
         response,
         extract_gemini_output_text,
@@ -1262,13 +1387,14 @@ fn gemini_request_body(request: &ProviderInvocationRequestV1) -> Value {
 fn execute_ollama_http(
     request: &mut ProviderInvocationRequestV1,
     policy: &ProviderAttemptPolicyV1,
+    mode: ExecutionMode,
 ) -> std::result::Result<ProviderTextResponse, ProviderFailureV1> {
     refresh_ollama_identity(request, policy);
-    let response = client(policy)?
+    let response = client_with_mode(policy, mode)?
         .post(ollama_generate_url(request.route.endpoint_ref.as_deref())?)
         .json(&ollama_request_body(request))
         .send()
-        .map_err(map_reqwest_error)?;
+        .map_err(|error| map_execution_transport(error, mode))?;
     decode_text_response(
         response,
         |json| {
@@ -1560,9 +1686,50 @@ fn ollama_base_url(endpoint_ref: Option<&str>) -> std::result::Result<Url, Provi
     Ok(url)
 }
 
+fn unknown_transport(mut failure: ProviderFailureV1) -> ProviderFailureV1 {
+    failure.retryable = false;
+    failure.message = format!("codefriend_transport_effect_unknown:{}", failure.message);
+    failure
+}
+fn active_body_failure(failure: ProviderFailureV1) -> ProviderFailureV1 {
+    if matches!(
+        failure.message.as_str(),
+        "provider response body read failed" | "provider timed out reading response body"
+    ) {
+        unknown_transport(failure)
+    } else {
+        failure
+    }
+}
+fn map_execution_transport(error: reqwest::Error, mode: ExecutionMode) -> ProviderFailureV1 {
+    let uncertain = !error.is_builder() && !error.is_connect();
+    let failure = map_reqwest_error(error);
+    if mode == ExecutionMode::CodeFriendActive && uncertain {
+        unknown_transport(failure)
+    } else {
+        failure
+    }
+}
+
 fn client(policy: &ProviderAttemptPolicyV1) -> std::result::Result<Client, ProviderFailureV1> {
-    Client::builder()
-        .timeout(Duration::from_millis(policy.timeout_ms))
+    client_with_mode(policy, ExecutionMode::RuntimePolicy)
+}
+
+fn client_with_mode(
+    policy: &ProviderAttemptPolicyV1,
+    mode: ExecutionMode,
+) -> std::result::Result<Client, ProviderFailureV1> {
+    let builder = Client::builder();
+    let builder = if mode == ExecutionMode::CodeFriendActive {
+        builder
+            .timeout(None)
+            .connect_timeout(Duration::from_secs(5))
+            .retry(reqwest::retry::never())
+            .redirect(reqwest::redirect::Policy::none())
+    } else {
+        builder.timeout(Duration::from_millis(policy.timeout_ms))
+    };
+    builder
         .build()
         .map_err(|error| provider_failure_from_note(&error.to_string(), None))
 }
@@ -3846,5 +4013,132 @@ mod tests {
             .expect("preflight failure result stays contract-valid");
 
         let _ = fs::remove_file(path);
+    }
+    #[test]
+    fn codefriend_active_response_outlives_legacy_timeout_without_retry() {
+        let key = "ADL_PROVIDER_ACTIVE_SLOW_KEY";
+        env::set_var(key, "fixture");
+        let endpoint = delayed_server(r#"{"output_text":"still progressing"}"#, "200 OK", 80);
+        let path = temp_log("active-slow");
+        let mut logger = ProviderRunLoggerV1::create(&path, "active-slow").unwrap();
+        let mut req = request(RuntimeSurfaceV1::HostedApi, endpoint);
+        req.route.credential_ref = Some(format!("env:{key}"));
+        req.attempt_policy.timeout_ms = 1;
+        let result = execute_codefriend_invocation(req, &mut logger);
+        assert_eq!(result.final_status, ProviderInvocationFinalStatusV1::Ok);
+        assert_eq!(result.output_text.as_deref(), Some("still progressing"));
+        assert_eq!(result.attempts.len(), 1);
+        assert!(result.duration_ms > 1);
+        check_codefriend_provider_outcome(&result).unwrap();
+        drop(logger);
+        fs::remove_file(path).unwrap();
+        env::remove_var(key);
+    }
+
+    #[test]
+    fn codefriend_active_partial_response_is_unknown_and_not_retried() {
+        let key = "ADL_PROVIDER_ACTIVE_PARTIAL_KEY";
+        env::set_var(key, "fixture");
+        let listener = TcpListener::bind("127.0.0.1:0").unwrap();
+        let endpoint = format!("http://{}", listener.local_addr().unwrap());
+        let worker = thread::spawn(move || {
+            let (mut stream, _) = listener.accept().unwrap();
+            stream
+                .set_read_timeout(Some(Duration::from_secs(3)))
+                .unwrap();
+            let mut bytes = [0u8; 8192];
+            assert!(stream.read(&mut bytes).unwrap() > 0);
+            stream
+                .write_all(b"HTTP/1.1 200 OK\r\nContent-Length: 1000\r\nConnection: close\r\n\r\n{")
+                .unwrap();
+        });
+        let path = temp_log("active-partial");
+        let mut logger = ProviderRunLoggerV1::create(&path, "active-partial").unwrap();
+        let mut req = request(RuntimeSurfaceV1::HostedApi, endpoint);
+        req.route.credential_ref = Some(format!("env:{key}"));
+        let result = execute_codefriend_invocation(req, &mut logger);
+        worker.join().unwrap();
+        assert_eq!(result.attempts.len(), 1);
+        assert!(check_codefriend_provider_outcome(&result)
+            .unwrap_err()
+            .is::<CodeFriendProviderInterrupted>());
+        let attempted = std::cell::Cell::new(false);
+        let retained = retain_codefriend_provider_outcome(&result, || {
+            attempted.set(true);
+            anyhow::bail!("injected_receipt_write_failure")
+        });
+        assert!(attempted.get());
+        assert!(retained.unwrap_err().is::<CodeFriendProviderInterrupted>());
+        drop(logger);
+        fs::remove_file(path).unwrap();
+        env::remove_var(key);
+    }
+
+    #[test]
+    fn codefriend_active_rejects_retry_policy_before_dispatch() {
+        let path = temp_log("active-retry");
+        let mut logger = ProviderRunLoggerV1::create(&path, "active-retry").unwrap();
+        let mut req = request(RuntimeSurfaceV1::HostedApi, "http://127.0.0.1:1".into());
+        req.attempt_policy.max_attempts = 2;
+        let result = execute_codefriend_invocation(req, &mut logger);
+        assert!(result
+            .failure
+            .unwrap()
+            .message
+            .contains("single_attempt_required"));
+        assert!(result.trace_ref.is_none());
+        drop(logger);
+        fs::remove_file(path).unwrap();
+    }
+
+    #[test]
+    fn codefriend_active_bedrock_preserves_connect_guard_without_work_deadline() {
+        let policy =
+            request(RuntimeSurfaceV1::HostedApi, "http://127.0.0.1:1".into()).attempt_policy;
+        let config = bedrock_timeouts(&policy, ExecutionMode::CodeFriendActive);
+        assert_eq!(config.connect_timeout(), Some(Duration::from_secs(5)));
+        assert_eq!(config.read_timeout(), None);
+        assert_eq!(config.operation_timeout(), None);
+        assert_eq!(config.operation_attempt_timeout(), None);
+        assert_eq!(aws_config::retry::RetryConfig::disabled().max_attempts(), 1);
+        let legacy = bedrock_timeouts(&policy, ExecutionMode::RuntimePolicy);
+        assert_eq!(
+            legacy.operation_timeout(),
+            Some(Duration::from_millis(policy.timeout_ms))
+        );
+    }
+    #[test]
+    fn codefriend_active_predispatch_failures_are_not_unknown_effects() {
+        for (name, provider, endpoint, credential) in [
+            (
+                "missing",
+                "openai",
+                "http://127.0.0.1:1",
+                "env:ADL_ACTIVE_ABSENT_KEY",
+            ),
+            (
+                "unsupported",
+                "not-a-provider",
+                "http://127.0.0.1:1",
+                "env:ADL_ACTIVE_ABSENT_KEY",
+            ),
+        ] {
+            let path = temp_log(name);
+            let mut logger = ProviderRunLoggerV1::create(&path, name).unwrap();
+            let mut req = request(RuntimeSurfaceV1::HostedApi, endpoint.into());
+            req.route.provider = provider.into();
+            req.route.credential_ref = Some(credential.into());
+            let result = execute_codefriend_invocation(req, &mut logger);
+            assert_ne!(result.final_status, ProviderInvocationFinalStatusV1::Ok);
+            check_codefriend_provider_outcome(&result).unwrap();
+            let failed_write = retain_codefriend_provider_outcome(&result, || {
+                anyhow::bail!("injected_receipt_write_failure")
+            })
+            .unwrap_err();
+            assert!(!failed_write.is::<CodeFriendProviderInterrupted>());
+            assert_eq!(failed_write.to_string(), "injected_receipt_write_failure");
+            drop(logger);
+            fs::remove_file(path).unwrap();
+        }
     }
 }

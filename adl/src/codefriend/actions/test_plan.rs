@@ -1,11 +1,11 @@
 use crate::codefriend::{
     evidence::{
-        contracts::{Completion, ReviewRecord, Severity},
+        contracts::{ReviewRecord, Severity},
         hash,
     },
     review::synthesis::{
         synthesize, ReviewSynthesis, SynthesisManifest, SynthesizedFinding,
-        SYNTHESIS_MANIFEST_SCHEMA, SYNTHESIS_SCHEMA,
+        SYNTHESIS_MANIFEST_SCHEMA, SYNTHESIS_SCHEMA, SYNTHESIS_SCHEMA_V2,
     },
 };
 use anyhow::{ensure, Context, Result};
@@ -198,7 +198,7 @@ fn validate_synthesis_bundle(
     );
     review_record.validate()?;
     ensure!(
-        review_record.run.completion == Completion::Complete,
+        review_record.successful_execution().is_ok(),
         "test_plan_requires_complete_review"
     );
     let expected = synthesize(review_record)?;
@@ -284,7 +284,11 @@ pub fn plan(synthesis: &ReviewSynthesis) -> Result<TestPlan> {
 
 pub fn validate_plan(plan: &TestPlan) -> Result<()> {
     ensure!(
-        plan.schema == TEST_PLAN_SCHEMA && plan.synthesis_schema == SYNTHESIS_SCHEMA,
+        plan.schema == TEST_PLAN_SCHEMA
+            && matches!(
+                plan.synthesis_schema.as_str(),
+                SYNTHESIS_SCHEMA | SYNTHESIS_SCHEMA_V2
+            ),
         "invalid_test_plan_schema"
     );
     ensure!(
@@ -385,7 +389,8 @@ fn validate_plan_against_synthesis(plan: &TestPlan, synthesis: &ReviewSynthesis)
 
 fn validate_synthesis(synthesis: &ReviewSynthesis) -> Result<()> {
     ensure!(
-        synthesis.schema == SYNTHESIS_SCHEMA,
+        (synthesis.schema == SYNTHESIS_SCHEMA && synthesis.coverage.is_none())
+            || (synthesis.schema == SYNTHESIS_SCHEMA_V2 && synthesis.coverage.is_some()),
         "invalid_synthesis_schema"
     );
     // A complete review may truthfully contain no findings. Preserve that

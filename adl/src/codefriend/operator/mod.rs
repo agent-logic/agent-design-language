@@ -288,9 +288,11 @@ fn run_attempt(
     } else {
         None
     };
+    let mut completed_schema = None;
     let (attempt_status, attempt_summary_ref, attempt_failure, overall_status, overall_message) =
         match result {
             Ok(output) => {
+                completed_schema = Some(output.schema.clone());
                 let summary_path = out.join(format!("attempt-{attempt}-summary.json"));
                 write_json(&summary_path, &review_run_summary(&output)?)?;
                 (
@@ -298,8 +300,12 @@ fn run_attempt(
                     Some(format!("attempt-{attempt}-summary.json")),
                     None,
                     OperatorReviewStatus::Complete,
-                    "review complete; publication is still a separate downstream authority"
-                        .to_string(),
+                    if output.review_record.run.coverage.is_some() {
+                        "review execution complete with privacy omissions; source coverage incomplete; publication requires separate approval".to_string()
+                    } else {
+                        "review complete; publication is still a separate downstream authority"
+                            .to_string()
+                    },
                 )
             }
             Err(error) => {
@@ -341,6 +347,9 @@ fn run_attempt(
     if persisted.active_attempt == attempt {
         persisted.status = overall_status;
         persisted.message = overall_message;
+        if let Some(schema) = completed_schema {
+            persisted.review_schema = schema;
+        }
     }
     persisted.artifact_navigation = artifact_navigation(out)?;
     write_state(out, &persisted)?;

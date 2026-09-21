@@ -79,6 +79,11 @@ slow-proof-tests = [
 slow-finish-tests = []
 
 [dependencies]
+tree-sitter = "=0.26.13"
+tree-sitter-rust = "=0.24.2"
+tree-sitter-java = "=0.23.5"
+tree-sitter-python = "=0.25.0"
+tree-sitter-javascript = "=0.25.0"
 same-file = "1.0.6"
 adl-provider-core = { path = "../adl-provider-core" }
 adl-uts = { version = "=0.1.0", path = "../adl-uts" }

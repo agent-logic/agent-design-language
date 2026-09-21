@@ -115,6 +115,7 @@ pub(super) fn validate_saved(
     baseline: Option<&OwnedBaseline<'_>>,
     authority: Option<&AuthorityContext>,
     review: Option<&FourPerspectiveReviewRun>,
+    manifest: &JourneyManifest,
 ) -> Result<bool> {
     let Some(intent) = saved(output)? else {
         return Ok(false);
@@ -143,6 +144,15 @@ pub(super) fn validate_saved(
     let req = request(&intent)?;
     // An interrupted reservation is observable but never indexed again.
     if !output.join("palace_comparison.json").exists() {
+        ensure!(
+            manifest
+                .stages
+                .get("palace_comparison")
+                .is_some_and(|s| s.status != StageStatus::Complete
+                    && s.artifact.is_none()
+                    && s.digest.is_none()),
+            "journey_comparison_payload_missing"
+        );
         return Ok(true);
     }
     let before = AdmittedBaselines::open(baseline.store, baseline.baseline_root, false)?;
@@ -163,6 +173,12 @@ pub(super) fn validate_saved(
             && retained.observed_epoch_ms == intent.observed_epoch_ms,
         "journey_palace_changed"
     );
+    super::owned_baseline::validate_comparison_stage(
+        manifest,
+        "palace_comparison",
+        &retained,
+        retained.delta.comparable,
+    )?;
     baseline.validate()?;
     ensure!(
         authority.load()?.1 == intent.authority,
@@ -185,6 +201,7 @@ impl Journey {
             baseline,
             Some(authority),
             self.review.as_ref(),
+            &self.manifest,
         )?;
         self.live_admission()?;
         Ok(())
@@ -268,7 +285,13 @@ impl Journey {
             Ok(report)
         })();
         match result {
-            Ok(report) => self.record("palace_comparison", &report, report.delta.comparable),
+            Ok(report) => {
+                if self.graph.as_ref().is_some_and(|graph| graph.is_v2()) {
+                    self.record_analysis("palace_comparison", &report, report.delta.comparable)
+                } else {
+                    self.record("palace_comparison", &report, report.delta.comparable)
+                }
+            }
             Err(_) => self.failed("palace_comparison", "palace_comparison_failed_or_uncertain"),
         }
     }

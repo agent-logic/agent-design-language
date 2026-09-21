@@ -290,7 +290,18 @@ impl AgentPopulationFeed {
             .iter()
             .any(|agent| agent.provenance == "runtime_component_state")
         {
-            return Ok(self.clone());
+            let mut feed = self.clone();
+            feed.rendered_sample_count = feed.sample.len() as u64;
+            for agent in &mut feed.sample {
+                if now_unix_millis > agent.freshness_deadline_unix_millis {
+                    agent.communication_eligible = false;
+                    agent.availability = "unavailable".to_owned();
+                    agent.health = "stale".to_owned();
+                    agent.state = "unreachable".to_owned();
+                    agent.detail = "Resident health observation expired".to_owned();
+                }
+            }
+            return Ok(feed);
         }
         let Some(public_policy) = self.public_policy.as_ref() else {
             return Ok(Self::empty());

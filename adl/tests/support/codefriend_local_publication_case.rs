@@ -1,8 +1,6 @@
 use adl::codefriend::{
     agent::{
-        publication::{
-            Binding, Prepared, PreparedNative, Stage,
-        },
+        publication::{Binding, Prepared, PreparedNative, Stage},
         GatewayLaneIdentity, RunReport, PROTOCOL,
     },
     evidence::{contracts::ReviewRecord, hash, Admission},
@@ -74,6 +72,8 @@ struct Case {
     journey_results: Arc<Mutex<Vec<Value>>>,
     #[allow(dead_code)]
     drop_journey_ack: Arc<AtomicBool>,
+    #[allow(dead_code)]
+    extra_receipts: Arc<Mutex<std::collections::BTreeMap<String, Value>>>,
     calls: Arc<Mutex<Vec<String>>>,
     stop: Arc<AtomicBool>,
     server: Option<thread::JoinHandle<()>>,
@@ -305,6 +305,10 @@ impl Case {
         let pairing_path = temp.path().join("state/pairing.json");
         let mutation = mutation.to_owned();
         let time = clock.clone();
+        let extra_receipts = Arc::new(Mutex::new(
+            std::collections::BTreeMap::<String, Value>::new(),
+        ));
+        let run_receipts = extra_receipts.clone();
         let server = thread::spawn(move || {
             let mut controls = 0;
             while !stopping.load(Ordering::SeqCst) {
@@ -359,9 +363,12 @@ impl Case {
                 } else if first.starts_with("GET /v1/agent/journeys/") {
                     journey_web.lock().unwrap().clone()
                 } else if first.starts_with("PUT /v1/agent/journeys/") {
-                    let posted: Value = serde_json::from_slice(&bytes[split..split + count]).unwrap();
+                    let posted: Value =
+                        serde_json::from_slice(&bytes[split..split + count]).unwrap();
                     received_journeys.lock().unwrap().push(posted.clone());
-                    if drop_ack.swap(false, Ordering::SeqCst) { continue; }
+                    if drop_ack.swap(false, Ordering::SeqCst) {
+                        continue;
+                    }
                     json!({"binding":posted["binding"],"agent_candidate_revision":posted["agent_candidate_revision"],
                         "checkpoint_sequence":posted["checkpoint_sequence"],"digest":posted["digest"],"superseded":false})
                 } else if first.starts_with("GET /v1/agent/runs/run1/control ") {
@@ -369,6 +376,19 @@ impl Case {
                     json!({"schema":PROTOCOL,"agent_id":"agent1","subject":"user1","run_id":"run1","cancelled":false})
                 } else if first.starts_with("GET /v1/agent/runs/run1/receipt ") {
                     receipt.clone()
+                } else if first.starts_with("GET /v1/agent/runs/") {
+                    let path = first.split_whitespace().nth(1).unwrap();
+                    let suffix = path.strip_prefix("/v1/agent/runs/").unwrap();
+                    let (run_id, action) = suffix.split_once('/').unwrap();
+                    let receipts = run_receipts.lock().unwrap();
+                    let receipt = receipts.get(run_id).expect("unregistered fixture run");
+                    match action {
+                        "receipt" => receipt.clone(),
+                        "control" => {
+                            json!({"schema":PROTOCOL,"agent_id":"agent1","subject":"user1","run_id":run_id,"cancelled":false})
+                        }
+                        _ => panic!("unexpected run action"),
+                    }
                 } else if first.starts_with("GET /v1/agent/publications/job1 ") {
                     controls += 1;
                     if controls == control_number {
@@ -421,6 +441,7 @@ impl Case {
             journey_results,
             drop_journey_ack,
             calls,
+            extra_receipts,
             stop,
             server: Some(server),
         }
