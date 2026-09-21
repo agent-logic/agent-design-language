@@ -4,7 +4,7 @@ pub mod journey;
 pub mod publication;
 
 use super::{
-    evidence::hash,
+    evidence::{contracts::Completion, hash},
     ingestion::{self, Scope},
 };
 use anyhow::{ensure, Result};
@@ -119,6 +119,8 @@ pub struct Command {
     pub run_id: String,
     pub consent_digest: String,
     pub expires_at: u64,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub cycle: Option<super::activities::UpdateCyclePlan>,
 }
 impl Command {
     pub fn validate(&self, pairing: &Pairing, consent: &Consent, now: u64) -> Result<()> {
@@ -142,6 +144,12 @@ impl Command {
                 && self.expires_at <= consent.expires_at,
             "agent_command_expired"
         );
+        if let Some(plan) = &self.cycle {
+            ensure!(
+                plan.repository == consent.repository,
+                "agent_cycle_repository"
+            );
+        }
         Ok(())
     }
 }
@@ -391,6 +399,8 @@ struct Control {
 pub struct GatewayLaneIdentity {
     pub lane: String,
     pub candidate_revision: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub request_digest: Option<String>,
     pub model_identity: crate::model_identity::ModelIdentityV1,
 }
 impl GatewayLaneIdentity {
@@ -401,13 +411,18 @@ impl GatewayLaneIdentity {
                     .candidate_revision
                     .bytes()
                     .all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b))
-                && self.candidate_revision.bytes().any(|b| b != b'0'),
+                && self.candidate_revision.bytes().any(|b| b != b'0')
+                && self
+                    .request_digest
+                    .as_deref()
+                    .is_none_or(super::evidence::valid_digest),
             "agent_gateway_candidate"
         );
         ensure!(
-            super::review::lanes::ReviewLane::ALL
-                .iter()
-                .any(|lane| lane.id() == self.lane),
+            self.lane == "cycle"
+                || super::review::lanes::ReviewLane::ALL
+                    .iter()
+                    .any(|lane| lane.id() == self.lane),
             "agent_gateway_lane"
         );
         crate::model_identity::validate_model_identity_v1(&self.model_identity)?;
@@ -478,6 +493,8 @@ pub struct RunReport {
     pub status: String,
     pub expires_at: u64,
     pub result: Option<super::review::runner::FourPerspectiveReviewRun>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub cycle_result: Option<super::activities::UpdateCycleResult>,
     pub digest: String,
 }
 impl RunReport {
@@ -518,8 +535,8 @@ impl RunReport {
                 "agent_gateway_identity_changed"
             );
         }
-        match (&self.result, self.status.as_str()) {
-            (Some(result), "complete") => {
+        match (&self.result, &self.cycle_result, self.status.as_str()) {
+            (Some(result), None, "complete") => {
                 ensure!(
                     result.successful_execution().is_ok()
                         && result.run_id == self.run_id
@@ -596,7 +613,54 @@ impl RunReport {
                         && item.output_digest.as_deref().is_some_and(valid_digest), "agent_report_lane_integrity");
                 }
             }
-            (None, "failed_or_interrupted" | "interrupted") => {}
+            (None, Some(_), "complete" | "failed_or_interrupted") => {
+                ensure!(
+                    self.gateway_lanes.len() == 1 && self.gateway_lanes[0].lane == "cycle",
+                    "agent_cycle_gateway_identity"
+                );
+                let identity = &self.gateway_lanes[0];
+                let cycle = self
+                    .cycle_result
+                    .as_ref()
+                    .ok_or_else(|| anyhow::anyhow!("agent_cycle_result_missing"))?;
+                let expected_cycle_run_id = hash(&(
+                    PROTOCOL,
+                    &self.agent_id,
+                    &self.run_id,
+                    "cycle",
+                    hash(&cycle.plan)?,
+                ))?;
+                let route = runner::provider_route_identity_from_model(&identity.model_identity);
+                cycle.validate(&route)?;
+                let execution = cycle
+                    .execution
+                    .as_ref()
+                    .ok_or_else(|| anyhow::anyhow!("agent_cycle_execution_binding_missing"))?;
+                ensure!(
+                    execution.candidate_revision == identity.candidate_revision
+                        && identity.request_digest.as_deref()
+                            == Some(execution.request_digest.as_str())
+                        && execution.model_identity == identity.model_identity,
+                    "agent_cycle_execution_binding_changed"
+                );
+                let completion_matches_status = match self.status.as_str() {
+                    "complete" => {
+                        cycle.completion == Completion::Complete && cycle.failures.is_empty()
+                    }
+                    "failed_or_interrupted" => {
+                        cycle.completion == Completion::Failed && !cycle.failures.is_empty()
+                    }
+                    _ => false,
+                };
+                ensure!(
+                    cycle.run_id == expected_cycle_run_id
+                        && completion_matches_status
+                        && self.expires_at <= cycle.admission.expires_at
+                        && cycle.admission.expires_at > now,
+                    "agent_cycle_result_invalid"
+                );
+            }
+            (None, None, "failed_or_interrupted" | "interrupted") => {}
             _ => anyhow::bail!("agent_report_completion"),
         }
         Ok(())
@@ -713,6 +777,7 @@ impl Transport {
             packet: packet.clone(),
             mode: Mode::LocalModel,
             lane: Some(lane),
+            cycle: None,
         };
         let validate_operation = |operation: &Operation| -> Result<()> {
             ensure!(
@@ -823,6 +888,7 @@ impl Transport {
         let identity = GatewayLaneIdentity {
             lane: lane.id().into(),
             candidate_revision: result.candidate_revision.clone(),
+            request_digest: None,
             model_identity: result.model_identity.clone(),
         };
         identity.validate()?;
@@ -834,6 +900,7 @@ impl Transport {
             let operation_identity = GatewayLaneIdentity {
                 lane: lane.id().into(),
                 candidate_revision: operation.candidate_revision.clone(),
+                request_digest: None,
                 model_identity: observed.clone(),
             };
             operation_identity.validate()?;
@@ -857,6 +924,207 @@ impl Transport {
             identity,
         ))
     }
+    fn model_cycle(
+        &self,
+        authority: &RunAuthority<'_>,
+        admission: &super::evidence::Admission,
+        plan: &super::activities::UpdateCyclePlan,
+        dir: &Path,
+    ) -> Result<(super::activities::UpdateCycleResult, GatewayLaneIdentity)> {
+        use super::server::{Mode, Operation, Status, Submit};
+        let pairing = authority.pairing;
+        let command = authority.command;
+        authority.check((self.clock)())?;
+        ensure!(
+            !self
+                .control(pairing, command)
+                .map_err(|_| ObservationPending)?,
+            "agent_cancelled"
+        );
+        plan.validate(admission)?;
+        let operation_id = hash(&(
+            PROTOCOL,
+            &pairing.agent_id,
+            &command.run_id,
+            "cycle",
+            hash(plan)?,
+        ))?;
+        fs::create_dir_all(dir)?;
+        let gateway = dir
+            .parent()
+            .ok_or_else(|| anyhow::anyhow!("agent_gateway_parent"))?;
+        let run_root = gateway
+            .parent()
+            .ok_or_else(|| anyhow::anyhow!("agent_run_parent"))?;
+        for directory in [gateway, dir] {
+            fs::set_permissions(directory, fs::Permissions::from_mode(0o700))?;
+        }
+        for directory in [dir, gateway, run_root] {
+            File::open(directory)?.sync_all()?;
+        }
+        let path = format!("/v1/operations/{operation_id}");
+        let submit = Submit {
+            operation_id: operation_id.clone(),
+            packet: admission.packet.clone(),
+            mode: Mode::LocalModel,
+            lane: None,
+            cycle: Some(plan.clone()),
+        };
+        let validate_operation = |operation: &Operation| -> Result<()> {
+            ensure!(
+                operation.operation_id == operation_id
+                    && operation.subject == pairing.subject
+                    && operation.mode == Mode::LocalModel
+                    && operation.packet_id == admission.packet.packet_id
+                    && operation.source_revision == admission.packet.revision
+                    && operation.request_digest == hash(&submit)?,
+                "agent_gateway_identity"
+            );
+            Ok(())
+        };
+        let acknowledged = dir.join("acknowledged-operation.json");
+        let known: AcknowledgedOperation = if acknowledged.exists() {
+            serde_json::from_slice(&fs::read(&acknowledged)?)?
+        } else {
+            save_private(&dir.join("gateway-reservation.json"), &operation_id)?;
+            let operation: Operation = self.request(
+                Method::POST,
+                "/v1/operations",
+                Some(&pairing.model_token),
+                Some(&serde_json::to_value(&submit)?),
+            )?;
+            validate_operation(&operation)?;
+            let known = AcknowledgedOperation {
+                operation,
+                observation_deadline: (self.clock)().saturating_add(300).min(authority.expires_at),
+            };
+            save_private(&acknowledged, &known)?;
+            known
+        };
+        validate_operation(&known.operation)?;
+        let mut operation = known.operation;
+        let output_path = dir.join("gateway-result.json");
+        loop {
+            validate_operation(&operation)?;
+            let allowed = authority.check((self.clock)()).is_ok();
+            let cancelled = if allowed {
+                self.control(pairing, command)
+                    .map_err(|_| ObservationPending)?
+            } else {
+                true
+            };
+            if !allowed || cancelled {
+                let _: Result<Operation> = self.request(
+                    Method::POST,
+                    &format!("{path}/cancel"),
+                    Some(&pairing.model_token),
+                    None,
+                );
+                anyhow::bail!("agent_stopped_remote_effect_may_continue");
+            }
+            if output_path.exists() || matches!(operation.status, Status::Complete | Status::Failed)
+            {
+                break;
+            }
+            ensure!(
+                operation.status == Status::Running,
+                "agent_gateway_not_complete"
+            );
+            std::thread::sleep(Duration::from_millis(250));
+            operation = self
+                .request(Method::GET, &path, Some(&pairing.model_token), None)
+                .map_err(|_| ObservationPending)?;
+        }
+        #[derive(Serialize, Deserialize)]
+        #[serde(deny_unknown_fields)]
+        struct CycleModelResult {
+            schema: String,
+            execution_location: String,
+            model_execution_location: String,
+            candidate_revision: String,
+            model_identity: crate::model_identity::ModelIdentityV1,
+            admission: super::evidence::Admission,
+            cycle_result: super::activities::UpdateCycleResult,
+        }
+        let result: CycleModelResult = if output_path.exists() {
+            serde_json::from_slice(&fs::read(&output_path)?)?
+        } else {
+            match self.request(
+                Method::GET,
+                &format!("{path}/result"),
+                Some(&pairing.model_token),
+                None,
+            ) {
+                Ok(result) => result,
+                Err(_) if operation.status == Status::Failed => {
+                    anyhow::bail!("agent_gateway_failed_without_result")
+                }
+                Err(_) => return Err(ObservationPending.into()),
+            }
+        };
+        ensure!(
+            result.schema == "codefriend.local_cycle_result.v1"
+                && result.execution_location == "local_agent"
+                && result.model_execution_location == "agent_logic_provider"
+                && result.cycle_result.run_id == operation_id
+                && result.cycle_result.plan == *plan
+                && result.cycle_result.admission == result.admission,
+            "agent_cycle_result_identity"
+        );
+        result.admission.validate()?;
+        ensure!(
+            result.admission.packet == admission.packet
+                && result.admission.expires_at > (self.clock)()
+                && admission.expires_at > (self.clock)(),
+            "agent_cycle_admission_identity"
+        );
+        let route =
+            super::review::runner::provider_route_identity_from_model(&result.model_identity);
+        result.cycle_result.validate(&route)?;
+        let execution = result
+            .cycle_result
+            .execution
+            .as_ref()
+            .ok_or_else(|| anyhow::anyhow!("agent_cycle_execution_binding_missing"))?;
+        ensure!(
+            execution.candidate_revision == result.candidate_revision
+                && execution.request_digest == operation.request_digest
+                && execution.model_identity == result.model_identity,
+            "agent_cycle_execution_binding_changed"
+        );
+        let identity = GatewayLaneIdentity {
+            lane: "cycle".into(),
+            candidate_revision: result.candidate_revision.clone(),
+            request_digest: Some(operation.request_digest.clone()),
+            model_identity: result.model_identity.clone(),
+        };
+        identity.validate()?;
+        ensure!(
+            identity.candidate_revision == operation.candidate_revision,
+            "agent_gateway_candidate_changed"
+        );
+        if matches!(operation.status, Status::Complete | Status::Failed) {
+            let observed = operation
+                .model_identity
+                .as_ref()
+                .ok_or_else(|| anyhow::anyhow!("agent_gateway_operation_model_missing"))?;
+            let operation_identity = GatewayLaneIdentity {
+                lane: "cycle".into(),
+                candidate_revision: operation.candidate_revision.clone(),
+                request_digest: Some(operation.request_digest.clone()),
+                model_identity: observed.clone(),
+            };
+            ensure!(
+                identity.same_execution(&operation_identity),
+                "agent_gateway_operation_model_changed"
+            );
+        }
+        if !output_path.exists() {
+            save_private(&output_path, &result)?;
+        }
+        Ok((result.cycle_result, identity))
+    }
+
     fn original_admission(
         &self,
         dir: &Path,
@@ -932,13 +1200,16 @@ impl Transport {
         let resuming = existing.exists()
             && !existing.join("report.json").exists()
             && existing.join("admission.json").exists()
-            && super::review::lanes::ReviewLane::ALL.iter().any(|lane| {
-                existing
-                    .join("gateway")
-                    .join(lane.id())
-                    .join("acknowledged-operation.json")
-                    .exists()
-            });
+            && (existing
+                .join("gateway/cycle/acknowledged-operation.json")
+                .exists()
+                || super::review::lanes::ReviewLane::ALL.iter().any(|lane| {
+                    existing
+                        .join("gateway")
+                        .join(lane.id())
+                        .join("acknowledged-operation.json")
+                        .exists()
+                }));
         if existing.exists() && !resuming {
             self.forward(journal, &pairing, &command, consent_path)?;
             return Ok(Some(command.run_id));
@@ -984,8 +1255,12 @@ impl Transport {
             consent_path,
             expires_at,
         };
+        enum AgentRun {
+            Review(Box<super::review::runner::FourPerspectiveReviewRun>),
+            Cycle(Box<super::activities::UpdateCycleResult>),
+        }
         let mut gateway_lanes = Vec::new();
-        let run = (|| {
+        let run: Result<AgentRun> = (|| {
             authority.check((self.clock)())?;
             ensure!(
                 !self
@@ -1009,6 +1284,12 @@ impl Transport {
             if resuming && dir.join("work").exists() {
                 fs::remove_dir_all(dir.join("work"))?;
             }
+            if let Some(plan) = &command.cycle {
+                let (result, identity) =
+                    self.model_cycle(&authority, &admission, plan, &dir.join("gateway/cycle"))?;
+                gateway_lanes.push(identity);
+                return Ok(AgentRun::Cycle(Box::new(result)));
+            }
             let first_lane = super::review::lanes::ReviewLane::ALL[0];
             let (first_output, first_identity) = self.model_lane(
                 &authority,
@@ -1019,7 +1300,7 @@ impl Transport {
             let route = first_identity.route()?;
             let mut first_output = Some(first_output);
             gateway_lanes.push(first_identity.clone());
-            super::review::runner::run_with_executor(
+            let review = super::review::runner::run_with_executor(
                 super::review::runner::ExecutionOptions {
                     out: dir.join("work/review"),
                     run_id: command.run_id.clone(),
@@ -1044,7 +1325,8 @@ impl Transport {
                     gateway_lanes.push(identity);
                     Ok(output)
                 },
-            )
+            )?;
+            Ok(AgentRun::Review(Box::new(review)))
         })();
         if run
             .as_ref()
@@ -1058,6 +1340,31 @@ impl Transport {
                 .control(&pairing, &command)
                 .map_err(|_| ObservationPending)?;
         ensure!(expires_at > (self.clock)(), "agent_retention_expired");
+        let (review_result, cycle_result) = if still_allowed {
+            match run.ok() {
+                Some(AgentRun::Review(result)) => (Some(*result), None),
+                Some(AgentRun::Cycle(result)) => (None, Some(*result)),
+                None => (None, None),
+            }
+        } else {
+            (None, None)
+        };
+        let complete = review_result.is_some()
+            || cycle_result.as_ref().is_some_and(|result| {
+                result.completion == super::evidence::contracts::Completion::Complete
+                    && result.failures.is_empty()
+            });
+        // A cycle report retains the gateway admission, including admitted
+        // source bytes. Its website retention may therefore end sooner, never
+        // later, than the independently configured gateway admission.
+        let report_expires_at = cycle_result
+            .as_ref()
+            .map(|result| expires_at.min(result.admission.expires_at))
+            .unwrap_or(expires_at);
+        ensure!(
+            report_expires_at > (self.clock)(),
+            "agent_retention_expired"
+        );
         let mut report = RunReport {
             schema: PROTOCOL.into(),
             agent_id: pairing.agent_id.clone(),
@@ -1066,14 +1373,15 @@ impl Transport {
             consent_digest: command.consent_digest.clone(),
             execution_location: "local_agent".into(),
             gateway_lanes,
-            status: if run.is_ok() && still_allowed {
+            status: if complete {
                 "complete"
             } else {
                 "failed_or_interrupted"
             }
             .into(),
-            expires_at,
-            result: if still_allowed { run.ok() } else { None },
+            expires_at: report_expires_at,
+            result: review_result,
+            cycle_result,
             digest: String::new(),
         };
         report.digest = hash(&report)?;
@@ -1081,6 +1389,7 @@ impl Transport {
         // Never persist or announce an unforwardable successful report.
         if serde_json::to_vec(&report)?.len() as u64 > MAX_RESPONSE {
             report.result = None;
+            report.cycle_result = None;
             report.status = "failed_or_interrupted".into();
             report.digest.clear();
             report.digest = hash(&report)?;
@@ -1131,6 +1440,7 @@ impl Transport {
                 status: "interrupted".into(),
                 expires_at,
                 result: None,
+                cycle_result: None,
                 digest: String::new(),
             };
             interrupted.digest = hash(&interrupted)?;

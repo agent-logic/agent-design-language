@@ -105,12 +105,14 @@ impl Fixture {
                 .map(|lane| GatewayLaneIdentity {
                     lane: lane.id().into(),
                     candidate_revision: candidate.clone(),
+                    request_digest: None,
                     model_identity: model.clone(),
                 })
                 .collect(),
             status: "complete".into(),
             expires_at: 650,
             result: Some(result),
+            cycle_result: None,
             digest: String::new(),
         };
         report.digest = hash(&report).unwrap();

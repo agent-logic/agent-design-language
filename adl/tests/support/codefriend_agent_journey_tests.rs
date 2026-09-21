@@ -400,6 +400,7 @@ fn paired_drift_reopens_both_original_run_owners_and_denies_revoked_baseline() {
         run_id: "run2".into(),
         consent_digest: consent.digest().unwrap(),
         expires_at: now + 80,
+        cycle: None,
     };
     let root = case
         .journal
@@ -444,6 +445,7 @@ fn paired_drift_reopens_both_original_run_owners_and_denies_revoked_baseline() {
         status: "complete".into(),
         expires_at: admission.expires_at,
         result: Some(result),
+        cycle_result: None,
         digest: String::new(),
     };
     second.digest = hash(&second).unwrap();
