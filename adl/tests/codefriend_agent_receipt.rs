@@ -90,6 +90,7 @@ impl Case {
             run_id: "run1".into(),
             consent_digest: consent.digest().unwrap(),
             expires_at: 180,
+            cycle: None,
         };
         let journal = Journal::open(&temp.path().join("state")).unwrap();
         journal.save_pairing(&pairing, 100).unwrap();
@@ -146,6 +147,7 @@ impl Case {
             status: "complete".into(),
             expires_at: 160,
             result: Some(result),
+            cycle_result: None,
             digest: String::new(),
         };
         report.digest = hash(&report).unwrap();

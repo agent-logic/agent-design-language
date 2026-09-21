@@ -111,6 +111,7 @@ impl Fixture {
             status: "complete".into(),
             expires_at: 650,
             result: Some(result),
+            cycle_result: None,
             digest: String::new(),
         };
         report.digest = hash(&report).unwrap();

@@ -132,6 +132,58 @@ pub struct ActivityInputManifest {
     pub publication_authority: String,
     pub input_digest: String,
 }
+impl ActivityInputManifest {
+    pub fn validate(&self, admission: &Admission, run_id: &str) -> Result<()> {
+        ensure!(
+            self.schema == INPUT_SCHEMA
+                && self.run_id == run_id
+                && self.activity_contract == ACTIVITY_CONTRACT
+                && self.repository == admission.packet.repository
+                && self.revision == admission.packet.revision
+                && self.packet_id == admission.packet.packet_id
+                && self.admission_digest == admission.digest
+                && self.scope_digest == admission.packet.scope_digest
+                && self.source_mutation_authority == "none"
+                && self.publication_authority == "none"
+                && valid_digest(&self.input_digest),
+            "activity_input_manifest_invalid"
+        );
+        ensure!(
+            self.prompt_contract
+                == if self.activity == Activity::Review {
+                    super::review::runner::PROMPT_CONTRACT
+                } else {
+                    PROMPT_CONTRACT
+                },
+            "activity_prompt_contract_invalid"
+        );
+        ensure!(
+            (self.activity == Activity::Tests) == self.testing.is_some(),
+            "activity_testing_binding_invalid"
+        );
+        let mut seen = BTreeSet::new();
+        for evidence in &self.evidence {
+            ensure!(seen.insert(&evidence.path), "activity_evidence_duplicate");
+            ensure!(
+                admission
+                    .evidence
+                    .iter()
+                    .any(|item| item.id == evidence.evidence_id
+                        && item.path == evidence.path
+                        && item.content_digest == evidence.content_digest),
+                "activity_evidence_changed"
+            );
+        }
+        ensure!(!self.evidence.is_empty(), "activity_evidence_empty");
+        let mut unsigned = self.clone();
+        unsigned.input_digest.clear();
+        ensure!(
+            self.input_digest == hash(&unsigned)?,
+            "activity_input_digest"
+        );
+        Ok(())
+    }
+}
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "snake_case")]
@@ -213,6 +265,115 @@ pub struct UpdateCycleResult {
     pub activities: Vec<ActivityResult>,
     pub review: Option<FourPerspectiveReviewRun>,
     pub failures: Vec<String>,
+}
+impl UpdateCycleResult {
+    pub fn validate(
+        &self,
+        plan: &UpdateCyclePlan,
+        admission: &Admission,
+        provider_route: &str,
+    ) -> Result<()> {
+        plan.validate(admission)?;
+        ensure!(
+            self.schema == RESULT_SCHEMA
+                && self.repository == admission.packet.repository
+                && self.revision == admission.packet.revision
+                && self.packet_id == admission.packet.packet_id
+                && self.admission_digest == admission.digest
+                && self.scope_digest == admission.packet.scope_digest
+                && self.plan_digest == hash(plan)?
+                && self.activities.len() == plan.activities.len(),
+            "activity_result_identity"
+        );
+        let mut expected_failures = Vec::new();
+        for (expected, result) in plan.activities.iter().zip(&self.activities) {
+            ensure!(
+                result.activity == *expected && result.provider_route == provider_route,
+                "activity_result_order"
+            );
+            result.input_manifest.validate(admission, &self.run_id)?;
+            ensure!(
+                result.input_manifest.activity == *expected
+                    && result.input_manifest.testing
+                        == if *expected == Activity::Tests {
+                            plan.testing.clone()
+                        } else {
+                            None
+                        },
+                "activity_result_input_binding"
+            );
+            match result.status {
+                ActivityStatus::Complete if *expected == Activity::Review => {
+                    ensure!(
+                        result.output.is_none()
+                            && result.output_digest.is_none()
+                            && result.failure.is_none()
+                            && result
+                                .review_result_digest
+                                .as_deref()
+                                .is_some_and(valid_digest),
+                        "activity_review_result_invalid"
+                    );
+                }
+                ActivityStatus::Complete => {
+                    let output = result
+                        .output
+                        .as_ref()
+                        .ok_or_else(|| anyhow::anyhow!("activity_output_missing"))?;
+                    validate_output(*expected, output, admission)?;
+                    let output_digest = hash(output)?;
+                    ensure!(
+                        result.output_digest.as_deref() == Some(output_digest.as_str())
+                            && result.review_result_digest.is_none()
+                            && result.failure.is_none(),
+                        "activity_output_digest"
+                    );
+                }
+                ActivityStatus::Failed => {
+                    expected_failures.push(format!("{}_failed", expected.id()));
+                    ensure!(
+                        result.output.is_none()
+                            && result.output_digest.is_none()
+                            && result.review_result_digest.is_none()
+                            && result.failure.is_some(),
+                        "activity_failure_invalid"
+                    );
+                }
+            }
+        }
+        ensure!(
+            self.failures == expected_failures,
+            "activity_failures_changed"
+        );
+        ensure!(
+            self.completion
+                == if self.failures.is_empty() {
+                    super::evidence::contracts::Completion::Complete
+                } else {
+                    super::evidence::contracts::Completion::Failed
+                },
+            "activity_completion_invalid"
+        );
+        ensure!(
+            !self.review.is_some() || plan.activities.contains(&Activity::Review),
+            "activity_review_presence"
+        );
+        ensure!(
+            !self.activities.iter().any(|item| {
+                item.activity == Activity::Review && item.status == ActivityStatus::Complete
+            }) || self.review.is_some(),
+            "activity_review_presence"
+        );
+        if let Some(review) = &self.review {
+            ensure!(
+                review.run_id == self.run_id
+                    && review.review_record.admission == *admission
+                    && review.review_record.run.provider_route == provider_route,
+                "activity_review_binding"
+            );
+        }
+        Ok(())
+    }
 }
 
 fn text(value: &str) -> Result<()> {
@@ -520,7 +681,7 @@ where
     } else {
         super::evidence::contracts::Completion::Failed
     };
-    Ok(UpdateCycleResult {
+    let result = UpdateCycleResult {
         schema: RESULT_SCHEMA.into(),
         run_id,
         repository: admission.packet.repository.clone(),
@@ -533,5 +694,7 @@ where
         activities: results,
         review,
         failures,
-    })
+    };
+    result.validate(&plan, &admission, &provider_route)?;
+    Ok(result)
 }

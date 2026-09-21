@@ -101,8 +101,6 @@ pub struct Submit {
     pub lane: Option<ReviewLane>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub cycle: Option<UpdateCyclePlan>,
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub activity: Option<Activity>,
 }
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "snake_case")]
@@ -179,61 +177,24 @@ impl Backend for ProductionBackend {
                     );
                     return Ok(serde_json::to_value(run)?);
                 }
-                let plan = request.cycle.clone().expect("checked");
-                plan.validate(&admission)?;
-                let review = if plan.activities.contains(&Activity::Review) {
-                    Some(runner::run(
-                        ReviewRunOptions {
-                            store: work.join("evidence"),
-                            packet_id: admission.packet.packet_id.clone(),
-                            provider_request: config.provider.clone(),
-                            out: work.join("review"),
-                            run_id: request.operation_id.clone(),
-                            cancel_file: Some(dir.join("cancel")),
-                        },
-                        admission.clone(),
-                    )?)
-                } else {
-                    None
-                };
-                let route = runner::provider_route_identity(&config.provider);
-                let cancel = dir.join("cancel");
-                let result = activities::run_with_executor(
-                    plan,
-                    admission,
-                    request.operation_id.clone(),
-                    route,
-                    review,
-                    |activity, prompt, _manifest| {
-                        ensure!(!cancel.exists(), "cancelled");
-                        let mut provider = config.provider.clone();
-                        provider.input_text = Some(prompt);
-                        provider.run_id = Some(request.operation_id.clone());
-                        provider.request_id =
-                            Some(format!("{}-{}", request.operation_id, activity.id()));
-                        provider.lane_ref = format!("activity:{}", activity.id());
-                        provider.prompt_contract_ref =
-                            format!("{}:{}", activities::PROMPT_CONTRACT, activity.id());
-                        let mut logger = ProviderRunLoggerV1::create_with_context(
-                            work.join(format!("activity-{}.jsonl", activity.id())),
-                            &request.operation_id,
-                            provider.request_id.clone(),
-                            Some(format!("activity-{}.jsonl", activity.id())),
-                        )?;
-                        let output = execute_provider_invocation(provider, &mut logger);
-                        Ok(ProviderOutput {
-                            final_status: output.final_status,
-                            output_text: output.output_text,
-                        })
-                    },
-                )?;
+                let (result, _) = execute_cycle(config, request, admission, dir, &work)?;
                 Ok(serde_json::to_value(result)?)
             }
             Mode::LocalModel => {
-                ensure!(
-                    request.cycle.is_none() && request.activity.is_none(),
-                    "local_activity_requires_agent_v2"
-                );
+                if request.cycle.is_some() {
+                    let gateway_admission = admission.clone();
+                    let (result, model_identity) =
+                        execute_cycle(config, request, admission, dir, &work)?;
+                    return Ok(json!({
+                        "schema":"codefriend.local_cycle_result.v1",
+                        "execution_location":"local_agent",
+                        "model_execution_location":"agent_logic_provider",
+                        "candidate_revision":build::REVISION,
+                        "model_identity":model_identity,
+                        "admission":gateway_admission,
+                        "cycle_result":result
+                    }));
+                }
                 let lane = request
                     .lane
                     .ok_or_else(|| anyhow::anyhow!("lane_required"))?;
@@ -270,6 +231,113 @@ impl Backend for ProductionBackend {
             }
         }
     }
+}
+
+fn execute_cycle(
+    config: &Config,
+    request: &Submit,
+    admission: Admission,
+    dir: &Path,
+    work: &Path,
+) -> Result<(
+    activities::UpdateCycleResult,
+    crate::model_identity::ModelIdentityV1,
+)> {
+    let plan = request
+        .cycle
+        .clone()
+        .ok_or_else(|| anyhow::anyhow!("activity_plan_required"))?;
+    plan.validate(&admission)?;
+    let route = runner::provider_route_identity(&config.provider);
+    let cancel = dir.join("cancel");
+    let mut identities = Vec::new();
+    let review = if plan.activities.contains(&Activity::Review) {
+        Some(runner::run_with_executor(
+            runner::ExecutionOptions {
+                out: work.join("review"),
+                run_id: request.operation_id.clone(),
+                cancel_file: Some(dir.join("cancel")),
+            },
+            admission.clone(),
+            route.clone(),
+            |lane, prompt, lane_dir| {
+                ensure!(!cancel.exists(), "cancelled");
+                let mut provider = config.provider.clone();
+                provider.input_text = Some(prompt);
+                provider.run_id = Some(request.operation_id.clone());
+                provider.request_id = Some(format!("{}-{}", request.operation_id, lane.id()));
+                provider.lane_ref = lane.id().into();
+                provider.prompt_contract_ref = format!("{}:{}", runner::PROMPT_CONTRACT, lane.id());
+                let mut logger = ProviderRunLoggerV1::create_with_context(
+                    lane_dir.join("provider.log.jsonl"),
+                    &request.operation_id,
+                    provider.request_id.clone(),
+                    Some(format!("lanes/{}/provider.log.jsonl", lane.id())),
+                )?;
+                let output = execute_provider_invocation(provider, &mut logger);
+                identities.push(output.model_identity);
+                Ok(runner::LaneExecution {
+                    final_status: output.final_status,
+                    output_text: output.output_text,
+                })
+            },
+        )?)
+    } else {
+        None
+    };
+    let result = activities::run_with_executor(
+        plan,
+        admission,
+        request.operation_id.clone(),
+        route,
+        review,
+        |activity, prompt, _manifest| {
+            ensure!(!cancel.exists(), "cancelled");
+            let mut provider = config.provider.clone();
+            provider.input_text = Some(prompt);
+            provider.run_id = Some(request.operation_id.clone());
+            provider.request_id = Some(format!("{}-{}", request.operation_id, activity.id()));
+            provider.lane_ref = format!("activity:{}", activity.id());
+            provider.prompt_contract_ref =
+                format!("{}:{}", activities::PROMPT_CONTRACT, activity.id());
+            let mut logger = ProviderRunLoggerV1::create_with_context(
+                work.join(format!("activity-{}.jsonl", activity.id())),
+                &request.operation_id,
+                provider.request_id.clone(),
+                Some(format!("activity-{}.jsonl", activity.id())),
+            )?;
+            let output = execute_provider_invocation(provider, &mut logger);
+            identities.push(output.model_identity);
+            Ok(ProviderOutput {
+                final_status: output.final_status,
+                output_text: output.output_text,
+            })
+        },
+    )?;
+    let first = identities
+        .first()
+        .cloned()
+        .ok_or_else(|| anyhow::anyhow!("activity_model_identity_missing"))?;
+    ensure!(
+        identities
+            .iter()
+            .all(|identity| same_model_execution(&first, identity)),
+        "activity_model_identity_changed"
+    );
+    Ok((result, first))
+}
+
+fn same_model_execution(
+    left: &crate::model_identity::ModelIdentityV1,
+    right: &crate::model_identity::ModelIdentityV1,
+) -> bool {
+    left.provider_kind == right.provider_kind
+        && left.provider == right.provider
+        && left.model_ref == right.model_ref
+        && left.provider_model_id == right.provider_model_id
+        && left.runtime_surface == right.runtime_surface
+        && left.identity_strength == right.identity_strength
+        && left.resolved_digest == right.resolved_digest
 }
 struct Inner {
     config: Config,
@@ -654,9 +722,10 @@ async fn submit(
         return Err(ApiError(StatusCode::FORBIDDEN, "scope_denied"));
     }
     let shape_valid = match request.mode {
-        Mode::Hosted => request.lane.is_none() && request.activity.is_none(),
+        Mode::Hosted => request.lane.is_none(),
         Mode::LocalModel => {
-            request.lane.is_some() && request.cycle.is_none() && request.activity.is_none()
+            (request.lane.is_some() && request.cycle.is_none())
+                || (request.lane.is_none() && request.cycle.is_some())
         }
     };
     if !id(&request.operation_id) || !shape_valid {

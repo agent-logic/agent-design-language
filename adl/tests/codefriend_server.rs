@@ -1,6 +1,7 @@
 //! PVF runtime component tests: deterministic HTTP authorization, persistence and
 //! cancellation with injected backend. No paid provider or deployment proof.
 use adl::codefriend::{
+    activities::{Activity, TestingGoal, TestingMode, UpdateCyclePlan, PLAN_SCHEMA},
     evidence::Admission,
     ingestion::{local, Packet, Scope},
     review::lanes::ReviewLane,
@@ -720,6 +721,66 @@ async fn authentication_scope_and_isolation_precede_provider_effects() {
             .0,
         StatusCode::UNAUTHORIZED
     );
+}
+
+#[tokio::test]
+async fn update_cycle_plan_is_validated_before_reservation_for_hosted_and_local_modes() {
+    let f = Fixture::new();
+    let backend = Fake::new(false, false);
+    let app = Service::open(f.config.clone(), backend.clone())
+        .unwrap()
+        .router();
+    let plan = UpdateCyclePlan {
+        schema: PLAN_SCHEMA.into(),
+        repository: f.packet.repository.clone(),
+        activities: vec![Activity::Documentation, Activity::Tests],
+        testing: Some(TestingGoal {
+            mode: TestingMode::Target,
+            target: Some(80),
+        }),
+    };
+    let mut invalid = f.request("cycle-hosted");
+    invalid["cycle"] = serde_json::to_value(&plan).unwrap();
+    invalid["cycle"]["repository"] = "https://example.com/wrong/repo".into();
+    assert_eq!(
+        call(&app, "POST", "/v1/operations", Some(ALICE), invalid)
+            .await
+            .0,
+        StatusCode::BAD_REQUEST
+    );
+    assert_eq!(backend.calls.load(Ordering::SeqCst), 0);
+
+    let mut hosted = f.request("cycle-hosted");
+    hosted["cycle"] = serde_json::to_value(&plan).unwrap();
+    assert_eq!(
+        call(&app, "POST", "/v1/operations", Some(ALICE), hosted)
+            .await
+            .0,
+        StatusCode::ACCEPTED
+    );
+    assert_eq!(
+        settled(&app, ALICE, "cycle-hosted").await["status"],
+        "complete"
+    );
+
+    let local = json!({
+        "operation_id":"cycle-local",
+        "packet":f.packet,
+        "mode":"local_model",
+        "lane":null,
+        "cycle":plan
+    });
+    assert_eq!(
+        call(&app, "POST", "/v1/operations", Some(AGENT), local)
+            .await
+            .0,
+        StatusCode::ACCEPTED
+    );
+    assert_eq!(
+        settled(&app, AGENT, "cycle-local").await["status"],
+        "complete"
+    );
+    assert_eq!(backend.calls.load(Ordering::SeqCst), 2);
 }
 #[tokio::test]
 async fn durable_reservation_rejects_replay_and_restart_interruption() {

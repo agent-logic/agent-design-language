@@ -67,6 +67,7 @@ fn command(consent: &Consent) -> Command {
         run_id: "run-one".into(),
         consent_digest: consent.digest().unwrap(),
         expires_at: 300,
+        cycle: None,
     }
 }
 #[test]
@@ -189,6 +190,7 @@ fn journal_rejects_world_readable_or_symlink_store() {
 #[derive(Clone, Copy)]
 enum Scenario {
     Success,
+    Cycle,
     Unpair,
     AggregateLimit,
     LostResultObservation,
@@ -415,19 +417,57 @@ impl WireServer {
                         continue;
                     }
                     let r = &requests[id];
-                    let lane = r.lane.unwrap().id();
-                    let findings = if matches!(scenario, Scenario::AggregateLimit) {
+                    if let Some(plan) = &r.cycle {
                         let admission = adl::codefriend::evidence::Admission::new(
                             r.packet.clone(),
                             adl::codefriend::evidence::Retention { seconds: 60 },
-                            live_now(),
+                            clock.load(Ordering::SeqCst),
                         )
                         .unwrap();
-                        json!([{"rule":format!("{lane}.aggregate"),"semantic_anchor":"src/lib.rs","title":"x".repeat(700_000),"severity":"info","rationale":"y".repeat(700_000),"confidence":{"state":"known","percent":90},"evidence":[admission.evidence[0].id],"inference":"bounded fixture","limitations":[]}])
+                        let route = "agent-logic-fixture:hosted_api:fixture-model-v1";
+                        let cycle = adl::codefriend::activities::run_with_executor(
+                            plan.clone(),
+                            admission.clone(),
+                            id.into(),
+                            route.into(),
+                            None,
+                            |activity, _, _| {
+                                let (path, kind, content) = match activity {
+                                    adl::codefriend::activities::Activity::Documentation =>
+                                        ("docs/guide.md", "documentation", "# Guide"),
+                                    adl::codefriend::activities::Activity::Diagrams =>
+                                        ("docs/system.mmd", "mermaid_diagram", "flowchart LR\nA-->B"),
+                                    adl::codefriend::activities::Activity::Tests =>
+                                        ("tests/answer.rs", "test", "assert_eq!(answer(), 42);"),
+                                    adl::codefriend::activities::Activity::Review => unreachable!(),
+                                };
+                                Ok(adl::codefriend::activities::ProviderOutput {
+                                    final_status: adl::provider_communication::ProviderInvocationFinalStatusV1::Ok,
+                                    output_text: Some(json!({
+                                        "schema":"codefriend.activity_output.v1",
+                                        "artifacts":[{"path":path,"kind":kind,"content":content,"evidence_paths":["src/lib.rs"],"limitations":["proposal only"]}],
+                                        "gaps":[],"measured_coverage_percent":null
+                                    }).to_string()),
+                                })
+                            },
+                        )
+                        .unwrap();
+                        json!({"schema":"codefriend.local_cycle_result.v1","execution_location":"local_agent","model_execution_location":"agent_logic_provider","candidate_revision":"c".repeat(40),"model_identity":{"provider_kind":"openai","provider":"agent-logic-fixture","model_ref":"fixture/exact","provider_model_id":"fixture-model-v1","runtime_surface":"hosted_api","identity_strength":"provider_asserted","observed_at":format!("unix:{}", clock.load(Ordering::SeqCst))},"admission":admission,"cycle_result":cycle})
                     } else {
-                        json!([])
-                    };
-                    json!({"schema":"codefriend.local_model_result.v1","execution_location":"local_agent","model_execution_location":"agent_logic_provider","candidate_revision":"c".repeat(40),"model_identity":{"provider_kind":"openai","provider":"agent-logic-fixture","model_ref":"fixture/exact","provider_model_id":"fixture-model-v1","runtime_surface":"hosted_api","identity_strength":"provider_asserted","observed_at":format!("unix:{}", clock.load(Ordering::SeqCst))},"input_manifest":{"schema":"codefriend.review_lane_input_manifest.v1","run_id":id,"packet_id":r.packet.packet_id,"admission_digest":"a".repeat(64),"lane":lane,"lane_contract":"codefriend.review_lane.v1","prompt_contract":"codefriend.four_perspective_review_prompt.v1","repository":r.packet.repository,"revision":r.packet.revision,"scope_digest":r.packet.scope_digest,"evidence":[],"peer_result_refs":[],"source_mutation_authority":"none","tool_authority":"none","publication_authority":"none","input_digest":"a".repeat(64)},"output":{"findings":findings}})
+                        let lane = r.lane.unwrap().id();
+                        let findings = if matches!(scenario, Scenario::AggregateLimit) {
+                            let admission = adl::codefriend::evidence::Admission::new(
+                                r.packet.clone(),
+                                adl::codefriend::evidence::Retention { seconds: 60 },
+                                live_now(),
+                            )
+                            .unwrap();
+                            json!([{"rule":format!("{lane}.aggregate"),"semantic_anchor":"src/lib.rs","title":"x".repeat(700_000),"severity":"info","rationale":"y".repeat(700_000),"confidence":{"state":"known","percent":90},"evidence":[admission.evidence[0].id],"inference":"bounded fixture","limitations":[]}])
+                        } else {
+                            json!([])
+                        };
+                        json!({"schema":"codefriend.local_model_result.v1","execution_location":"local_agent","model_execution_location":"agent_logic_provider","candidate_revision":"c".repeat(40),"model_identity":{"provider_kind":"openai","provider":"agent-logic-fixture","model_ref":"fixture/exact","provider_model_id":"fixture-model-v1","runtime_surface":"hosted_api","identity_strength":"provider_asserted","observed_at":format!("unix:{}", clock.load(Ordering::SeqCst))},"input_manifest":{"schema":"codefriend.review_lane_input_manifest.v1","run_id":id,"packet_id":r.packet.packet_id,"admission_digest":"a".repeat(64),"lane":lane,"lane_contract":"codefriend.review_lane.v1","prompt_contract":"codefriend.four_perspective_review_prompt.v1","repository":r.packet.repository,"revision":r.packet.revision,"scope_digest":r.packet.scope_digest,"evidence":[],"peer_result_refs":[],"source_mutation_authority":"none","tool_authority":"none","publication_authority":"none","input_digest":"a".repeat(64)},"output":{"findings":findings}})
+                    }
                 } else if method == "GET" && path.starts_with("/v1/operations/") {
                     if matches!(scenario, Scenario::LostStatusObservation)
                         && count.load(Ordering::SeqCst) == 2
@@ -523,6 +563,21 @@ fn journey(scenario: Scenario) -> (u64, Vec<serde_json::Value>) {
         c.retention_seconds = 600;
     }
     let mut cmd = command(&c);
+    if matches!(scenario, Scenario::Cycle) {
+        cmd.cycle = Some(adl::codefriend::activities::UpdateCyclePlan {
+            schema: adl::codefriend::activities::PLAN_SCHEMA.into(),
+            repository: c.repository.clone(),
+            activities: vec![
+                adl::codefriend::activities::Activity::Documentation,
+                adl::codefriend::activities::Activity::Diagrams,
+                adl::codefriend::activities::Activity::Tests,
+            ],
+            testing: Some(adl::codefriend::activities::TestingGoal {
+                mode: adl::codefriend::activities::TestingMode::CloseGaps,
+                target: None,
+            }),
+        });
+    }
     cmd.expires_at = live_now()
         + if matches!(scenario, Scenario::ShortDeadline) {
             30
@@ -580,7 +635,7 @@ fn journey(scenario: Scenario) -> (u64, Vec<serde_json::Value>) {
     }
     if let Ok(bytes) = fs::read(run_dir.join("report.json")) {
         let report: serde_json::Value = serde_json::from_slice(&bytes).unwrap();
-        if report["status"] == "complete" {
+        if report["status"] == "complete" && !matches!(scenario, Scenario::Cycle) {
             let original: serde_json::Value =
                 serde_json::from_slice(&fs::read(run_dir.join("work/review/run.json")).unwrap())
                     .unwrap();
@@ -760,6 +815,21 @@ fn local_orchestration_uses_four_gateway_lanes_and_redelivery_never_dispatches()
             "fixture-model-v1"
         );
     }
+}
+#[test]
+fn local_update_cycle_uses_one_durable_gateway_operation_and_preserves_activity_results() {
+    let (calls, reports) = journey(Scenario::Cycle);
+    assert_eq!(calls, 1);
+    assert_eq!(reports[0]["status"], "complete");
+    assert!(reports[0]["result"].is_null());
+    assert_eq!(reports[0]["gateway_lanes"][0]["lane"], "cycle");
+    assert_eq!(
+        reports[0]["cycle_result"]["activities"]
+            .as_array()
+            .unwrap()
+            .len(),
+        3
+    );
 }
 #[test]
 fn lost_model_reply_is_terminal_and_never_replayed() {

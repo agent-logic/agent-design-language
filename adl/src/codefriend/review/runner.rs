@@ -386,6 +386,15 @@ pub(crate) fn provider_route_identity(request: &ProviderInvocationRequestV1) -> 
     )
 }
 
+pub(crate) fn provider_route_identity_from_model(
+    identity: &crate::model_identity::ModelIdentityV1,
+) -> String {
+    format!(
+        "{}:{}:{}",
+        identity.provider, identity.runtime_surface, identity.provider_model_id
+    )
+}
+
 trait RuntimeSurfaceName {
     fn runtime_surface_name(&self) -> &'static str;
 }
