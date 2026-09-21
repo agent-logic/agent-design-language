@@ -848,6 +848,7 @@ fn native_report_verifier_rejects_rehashed_malformed_cycle_content() {
     let (_, reports) = journey(Scenario::Cycle);
     let mut report: adl::codefriend::agent::RunReport =
         serde_json::from_value(reports[0].clone()).unwrap();
+    report.validate(live_now()).unwrap();
     let activity = &mut report.cycle_result.as_mut().unwrap().activities[0];
     let output = activity.output.as_mut().unwrap();
     output.artifacts[0].evidence_paths.clear();

@@ -614,17 +614,24 @@ impl RunReport {
                     "agent_cycle_gateway_identity"
                 );
                 let identity = &self.gateway_lanes[0];
-                let route = identity.route()?;
                 let cycle = self
                     .cycle_result
                     .as_ref()
                     .ok_or_else(|| anyhow::anyhow!("agent_cycle_result_missing"))?;
+                let expected_cycle_run_id = hash(&(
+                    PROTOCOL,
+                    &self.agent_id,
+                    &self.run_id,
+                    "cycle",
+                    hash(&cycle.plan)?,
+                ))?;
+                let route = runner::provider_route_identity_from_model(&identity.model_identity);
                 cycle.validate(&route)?;
                 ensure!(
-                    cycle.run_id == self.run_id
+                    cycle.run_id == expected_cycle_run_id
                         && cycle.completion == Completion::Complete
                         && cycle.failures.is_empty()
-                        && cycle.admission.expires_at == self.expires_at
+                        && self.expires_at <= cycle.admission.expires_at
                         && cycle.admission.expires_at > now,
                     "agent_cycle_result_invalid"
                 );
@@ -1303,6 +1310,17 @@ impl Transport {
                 result.completion == super::evidence::contracts::Completion::Complete
                     && result.failures.is_empty()
             });
+        // A cycle report retains the gateway admission, including admitted
+        // source bytes. Its website retention may therefore end sooner, never
+        // later, than the independently configured gateway admission.
+        let report_expires_at = cycle_result
+            .as_ref()
+            .map(|result| expires_at.min(result.admission.expires_at))
+            .unwrap_or(expires_at);
+        ensure!(
+            report_expires_at > (self.clock)(),
+            "agent_retention_expired"
+        );
         let mut report = RunReport {
             schema: PROTOCOL.into(),
             agent_id: pairing.agent_id.clone(),
@@ -1317,7 +1335,7 @@ impl Transport {
                 "failed_or_interrupted"
             }
             .into(),
-            expires_at,
+            expires_at: report_expires_at,
             result: review_result,
             cycle_result,
             digest: String::new(),
