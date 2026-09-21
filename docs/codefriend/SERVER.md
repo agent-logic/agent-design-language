@@ -111,9 +111,14 @@ model identity. Clients must verify both identities against their expected candi
 and run contract, rather than using a constant gateway label.
 A hosted review-only result is the existing four-perspective review result. A cycle
 result is `codefriend.update_cycle_result.v1`, with one ordered result for each selected
-activity and its exact admitted packet and plan. Consumers can therefore revalidate the
-aggregate, embedded review, artifact digests and source references without trusting the
-transport wrapper. Documentation, diagram and test outputs are source-bound proposals; they do
+activity and its exact admitted packet and plan. Complete and explicitly failed cycle
+results also contain an `execution` object with the compiled `candidate_revision`, the
+exact submitted operation `request_digest`, and the observed canonical `model_identity`.
+Each field must equal the corresponding terminal operation field before a consumer accepts
+the result. The provider route retained by each activity is derived from that same model
+identity and is revalidated with the aggregate. Consumers can therefore revalidate the
+aggregate, execution identity, embedded review, artifact digests and source references
+without trusting the transport wrapper. Documentation, diagram and test outputs are source-bound proposals; they do
 not grant source mutation or publication authority. Every proposal declares whether it
 creates or updates a path and lists unsupported claims separately from general limitations.
 Citations are restricted to the exact evidence included in that activity's prompt.

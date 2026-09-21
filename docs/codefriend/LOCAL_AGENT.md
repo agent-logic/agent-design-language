@@ -127,7 +127,12 @@ The report status remains `failed_or_interrupted` when the cycle envelope contai
 activity failures. `gateway_lanes` contains one `cycle` execution
 identity because the complete plan is protected by one durable gateway reservation.
 The agent validates the gateway's complete retained admission against its locally
-owned admission before accepting either a complete or failed cycle result.
+owned admission before accepting either a complete or failed cycle result. The nested
+`cycle_result.execution` object must also match the gateway operation and outer response:
+its `request_digest` equals the exact submitted operation digest, its
+`candidate_revision` equals both candidate revisions, and its canonical
+`model_identity` equals both observed model identities. Missing or contradictory execution
+bindings fail closed and are never retained as an accepted report.
 `allow_result_upload` explicitly authorizes that selected evidence in addition to
 findings. It does not grant external publication. The website must display this
 scope before consent/pairing and retain the record for no longer than `expires_at`.
