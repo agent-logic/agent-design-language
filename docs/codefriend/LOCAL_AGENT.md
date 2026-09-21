@@ -109,11 +109,12 @@ A reservation with no acknowledged model operation is forwarded as interrupted;
 a lost POST response never permits another POST. A durably acknowledged operation
 instead resumes bounded GET/control observation after disconnect or restart.
 Validated completed lane results and a terminal aggregate cycle operation are reused while consent/retention remain valid;
-only lanes that were never dispatched may start. The original 120-second observation
-deadline persists across restart for each pending operation, while already completed
-lane outputs remain reusable for the run retention period. Directory ancestry and
-reservation files are synced before dispatch. A crash before reservation metadata
-completed requires explicit investigation.
+only lanes that were never dispatched may start. The original observation deadline
+persists across restart for each pending operation: 120 seconds for an activity lane
+and 300 seconds for the terminal aggregate cycle operation. Already completed lane
+outputs remain reusable for the run retention period. Directory ancestry and reservation
+files are synced before dispatch. A crash before reservation metadata completed requires
+explicit investigation.
 
 The final report, including all four lanes and admitted evidence, must fit the
 4 MiB website/verifier limit. Oversized aggregates produce a bounded failure report
