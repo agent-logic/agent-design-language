@@ -439,6 +439,22 @@ impl ResidentShepherdExecutor {
         } else {
             ProviderRequestReason::OperatorConversation
         };
+        if shepherd_name == self.primary_name
+            || config.office.to_ascii_lowercase().contains("shepherd")
+        {
+            if config.provider != "ollama" {
+                return Err(Self::invalid("shepherd_model_not_local"));
+            }
+            let mut local_config = config.clone();
+            local_config.office = "resident shepherd".into();
+            crate::control::preload_resident_shepherd_model(
+                &local_config,
+                &crate::AgentOrientationResource::bundled_default(),
+                cancellation,
+            )
+            .await
+            .map_err(Self::invalid)?;
+        }
         let usage = self.usage.begin(
             shepherd_name,
             &config.provider,

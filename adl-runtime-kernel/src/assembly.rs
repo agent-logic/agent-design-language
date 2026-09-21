@@ -1891,6 +1891,15 @@ fn provider_conversation_output(
         "recipient_id": recipient_id,
         "message": message,
     });
+    if let Some(help) = value.get("request_help") {
+        if help.as_bool() != Some(true) {
+            return Err(adapter_error(
+                FailureClass::Fatal,
+                "resident_help_action_malformed",
+            ));
+        }
+        output["request_help"] = serde_json::Value::Bool(true);
+    }
     if let Some(action) = value.get("agent_to_agent_initiation") {
         validate_provider_agent_initiation_action(task, action)?;
         output["agent_to_agent_initiation"] = action.clone();
@@ -2096,6 +2105,17 @@ mod provider_conversation_action_tests {
             output["agent_to_agent_initiation"]["message"],
             "Ember, please answer through the governed A2A path."
         );
+    }
+
+    #[test]
+    fn provider_structured_help_is_bounded_and_cannot_choose_identity() {
+        let output = provider_conversation_output(&task(), "beacon", crate::control::ProviderConversationOutput {
+            message: serde_json::json!({"schema":PROVIDER_CONVERSATION_ACTION_RESPONSE_SCHEMA,"message":"Please help", "request_help":true,"resident_id":"someone-else"}).to_string(),
+            agent_to_agent: None,
+        }).unwrap();
+        assert_eq!(output["recipient_id"], "beacon");
+        assert_eq!(output["request_help"], true);
+        assert!(output.get("resident_id").is_none());
     }
 
     #[test]
