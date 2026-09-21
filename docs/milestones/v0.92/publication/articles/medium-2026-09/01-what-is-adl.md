@@ -38,7 +38,7 @@ One sentence, and then the rest of this article unpacks it:
 
 It's three layers, and the order matters because each one only makes sense given the one below it.
 
-![Agent Logic Platform — three-layer architecture](platform-overview.png)
+![Agent Logic Platform — three-layer architecture](platform-overview.svg)
 
 **Layer 1 is the language.** ADL is an engineering substrate rather than a wrapper: six runtime primitives, three artifacts, one control plane.
 
