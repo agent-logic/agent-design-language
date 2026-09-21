@@ -578,4 +578,231 @@ mod tests {
         assert!(bytes <= 4096);
         assert!(collect("lib.rs", Language::Rust, source, n, 16, bytes - 1,).is_err());
     }
+    fn language_tree(source: &str, language: Language) -> tree_sitter::Tree {
+        let mut parser = tree_sitter::Parser::new();
+        let grammar = match language {
+            Language::Rust => tree_sitter_rust::LANGUAGE,
+            Language::Java => tree_sitter_java::LANGUAGE,
+            Language::Python => tree_sitter_python::LANGUAGE,
+            Language::JavaScript => tree_sitter_javascript::LANGUAGE,
+        };
+        parser.set_language(&grammar.into()).unwrap();
+        let tree = parser.parse(source, None).unwrap();
+        assert!(
+            !tree.root_node().has_error(),
+            "fixture grammar: {}",
+            tree.root_node().to_sexp()
+        );
+        tree
+    }
+    #[test]
+    fn rust_group_alias_glob_and_absolute_paths_preserve_distinct_intent() {
+        let source = "mod outer { use crate::api::{self, Client as Local, nested::*}; }";
+        let t = tree(source);
+        let specs = collect(
+            "lib.rs",
+            Language::Rust,
+            source,
+            find(&t, "use_declaration"),
+            16,
+            65536,
+        )
+        .unwrap();
+        assert_eq!(specs.len(), 3);
+        assert!(specs
+            .iter()
+            .all(|s| s.module_context == ["outer"] && !s.unsupported));
+        assert!(specs
+            .iter()
+            .any(|s| s.components == ["crate", "api", "Client"]
+                && s.alias.as_deref() == Some("Local")));
+        assert!(specs
+            .iter()
+            .any(|s| s.is_glob && s.components == ["crate", "api", "nested"]));
+        let absolute = "use ::external::Thing;";
+        let t = tree(absolute);
+        assert!(
+            collect(
+                "lib.rs",
+                Language::Rust,
+                absolute,
+                find(&t, "use_declaration"),
+                16,
+                65536
+            )
+            .unwrap()[0]
+                .unsupported
+        );
+    }
+    #[test]
+    fn rust_external_alias_and_attributed_module_do_not_invent_local_ownership() {
+        let source = "extern crate external as renamed; #[path = \"elsewhere.rs\"] mod child;";
+        let t = tree(source);
+        let external = collect(
+            "lib.rs",
+            Language::Rust,
+            source,
+            find(&t, "extern_crate_declaration"),
+            16,
+            65536,
+        )
+        .unwrap();
+        assert_eq!(external[0].components, ["external"]);
+        assert_eq!(external[0].alias.as_deref(), Some("renamed"));
+        let module = collect(
+            "lib.rs",
+            Language::Rust,
+            source,
+            find(&t, "mod_item"),
+            16,
+            65536,
+        )
+        .unwrap();
+        assert!(module[0].unsupported);
+        assert_eq!(module[0].components, ["child"]);
+    }
+    #[test]
+    fn java_static_wildcard_and_top_level_types_have_package_identity() {
+        let source =
+            "package org.example; import static org.tools.Util.*; class Outer { class Inner {} }";
+        let t = language_tree(source, Language::Java);
+        let import = collect(
+            "Outer.java",
+            Language::Java,
+            source,
+            find(&t, "import_declaration"),
+            16,
+            65536,
+        )
+        .unwrap();
+        assert!(matches!(import[0].form, ImportForm::JavaStaticImport));
+        assert_eq!(import[0].components, ["org", "tools", "Util"]);
+        assert!(import[0].is_glob);
+        let outer = children(t.root_node())
+            .find(|n| n.kind() == "class_declaration")
+            .unwrap();
+        let spec = collect("Outer.java", Language::Java, source, outer, 16, 65536).unwrap();
+        assert_eq!(spec[0].components, ["org", "example", "Outer"]);
+        let body = outer.child_by_field_name("body").unwrap();
+        let inner = children(body)
+            .find(|n| n.kind() == "class_declaration")
+            .unwrap();
+        assert!(
+            collect("Outer.java", Language::Java, source, inner, 16, 65536)
+                .unwrap()
+                .is_empty()
+        );
+    }
+    #[test]
+    fn python_relative_alias_and_wildcard_keep_unresolved_member_boundary() {
+        let source = "from ..package import child as local\n";
+        let t = language_tree(source, Language::Python);
+        let spec = collect(
+            "pkg/file.py",
+            Language::Python,
+            source,
+            find(&t, "import_from_statement"),
+            16,
+            65536,
+        )
+        .unwrap();
+        assert_eq!(spec[0].relative_depth, 2);
+        assert_eq!(spec[0].components, ["package"]);
+        assert_eq!(spec[0].imported.as_deref(), Some("child"));
+        assert_eq!(spec[0].alias.as_deref(), Some("local"));
+        let source = "from . import *\n";
+        let t = language_tree(source, Language::Python);
+        let spec = collect(
+            "pkg/file.py",
+            Language::Python,
+            source,
+            find(&t, "import_from_statement"),
+            16,
+            65536,
+        )
+        .unwrap();
+        assert!(spec[0].is_glob);
+        assert_eq!(spec[0].relative_depth, 1);
+        let source = "import package.child as local, another\n";
+        let t = language_tree(source, Language::Python);
+        let specs = collect(
+            "file.py",
+            Language::Python,
+            source,
+            find(&t, "import_statement"),
+            16,
+            65536,
+        )
+        .unwrap();
+        assert_eq!(specs.len(), 2);
+        assert_eq!(specs[0].components, ["package", "child"]);
+        assert_eq!(specs[0].alias.as_deref(), Some("local"));
+    }
+    #[test]
+    fn javascript_escaped_reexports_decode_without_executing_source() {
+        for (source, expected) in [
+            (r"export { item } from './\x61pi.js';", "./api.js"),
+            (r"export * from './\u{61}pi.js';", "./api.js"),
+            (r"import './it\'s.js';", "./it's.js"),
+            ("import './a\\\nb.js';", "./ab.js"),
+            (r"import './\v.js';", "./\u{000b}.js"),
+        ] {
+            let t = language_tree(source, Language::JavaScript);
+            let node = children(t.root_node()).next().unwrap();
+            let specs = collect("app.js", Language::JavaScript, source, node, 16, 65536).unwrap();
+            let expected = expected.replace("\\u{000b}", "\u{000b}");
+            assert_eq!(specs[0].specifier.as_deref(), Some(expected.as_str()));
+            assert!(!specs[0].unsupported);
+        }
+        let source = "export const value = 1;";
+        let t = language_tree(source, Language::JavaScript);
+        assert!(collect(
+            "app.js",
+            Language::JavaScript,
+            source,
+            children(t.root_node()).next().unwrap(),
+            16,
+            65536
+        )
+        .unwrap()
+        .is_empty());
+    }
+    #[test]
+    fn unsupported_javascript_escape_and_truncated_source_fail_closed() {
+        let source = r"import './\u{110000}.js';";
+        let t = language_tree(source, Language::JavaScript);
+        let specs = collect(
+            "app.js",
+            Language::JavaScript,
+            source,
+            children(t.root_node()).next().unwrap(),
+            16,
+            65536,
+        )
+        .unwrap();
+        assert!(specs[0].unsupported);
+        assert!(specs[0].specifier.is_none());
+        let source = "use crate::valid;";
+        let t = tree(source);
+        assert!(collect(
+            "lib.rs",
+            Language::Rust,
+            "",
+            find(&t, "use_declaration"),
+            16,
+            65536
+        )
+        .is_err());
+        let t = tree("use crate::{");
+        assert!(collect(
+            "lib.rs",
+            Language::Rust,
+            "use crate::{",
+            t.root_node(),
+            16,
+            65536
+        )
+        .unwrap()
+        .is_empty());
+    }
 }

@@ -151,6 +151,9 @@ fn native_v2_receipt_unknown_is_valid_but_never_success_and_pins_live_source() {
     assert_eq!(receipt.exit_code, 2);
     assert_eq!(receipt.assessment, Some(Status::Unknown));
     assert!(ci_v2::verify(&f.store, &report, &pins, 0, 101).is_err());
+    for unsupported in [-1, 3] {
+        assert!(ci_v2::verify(&f.store, &report, &pins, unsupported, 101).is_err());
+    }
     for changed in [
         Expected {
             candidate: "a".repeat(40),
@@ -295,8 +298,65 @@ fn actual_ci_run_and_wrapper_preserve_pass_fail_unknown_for_four_languages() {
             .output()
             .unwrap();
         assert_eq!(result.status.code(), Some(exit));
-        let saved: serde_json::Value = serde_json::from_slice(&fs::read(verify).unwrap()).unwrap();
+        let saved: serde_json::Value = serde_json::from_slice(&fs::read(&verify).unwrap()).unwrap();
         assert_eq!(saved, receipt);
+        // A valid analysis cannot certify a different source candidate. The rejection
+        // must retain the runner exit for audit, without carrying successful identities.
+        let wrong_revision = format!(
+            "{}{}",
+            if revision.starts_with('a') { 'b' } else { 'a' },
+            &revision[1..]
+        );
+        let rejected_path = f._temp.path().join("rejected.json");
+        let report_bytes = fs::read(out.join("report.json")).unwrap();
+        let rejected = Command::new(env!("CARGO_BIN_EXE_adl"))
+            .args([
+                "codefriend",
+                "fitness",
+                "ci-verify",
+                "--store",
+                store.to_str().unwrap(),
+                "--input",
+                out.join("report.json").to_str().unwrap(),
+                "--candidate",
+                &wrong_revision,
+                "--packet-id",
+                &packet,
+                "--policy-digest",
+                &digest,
+                "--runner-exit",
+                &exit.to_string(),
+                "--out",
+                rejected_path.to_str().unwrap(),
+            ])
+            .output()
+            .unwrap();
+        assert_eq!(rejected.status.code(), Some(2));
+        let rejection: serde_json::Value =
+            serde_json::from_slice(&fs::read(&rejected_path).unwrap()).unwrap();
+        assert_eq!(
+            serde_json::from_slice::<serde_json::Value>(&rejected.stdout).unwrap(),
+            rejection
+        );
+        assert_eq!(rejection["schema"], "codefriend.fitness.ci.v2");
+        assert_eq!(rejection["artifact_valid"], false);
+        assert_eq!(rejection["exit_code"], 2);
+        assert_eq!(rejection["original_exit"], exit);
+        assert_eq!(rejection["error"], "fitness_ci_contract_rejected");
+        for key in [
+            "assessment",
+            "candidate",
+            "packet_id",
+            "policy_digest",
+            "report_digest",
+        ] {
+            assert!(rejection[key].is_null(), "rejected receipt retained {key}");
+        }
+        assert_eq!(fs::read(out.join("report.json")).unwrap(), report_bytes);
+        assert_eq!(
+            serde_json::from_slice::<serde_json::Value>(&fs::read(&verify).unwrap()).unwrap(),
+            receipt
+        );
     }
 }
 
