@@ -1144,7 +1144,7 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
                 }
             }
             let index = calls.fetch_add(1, Ordering::SeqCst);
-            if index >= 11 {
+            if index >= 12 {
                 if write!(
                     stream,
                     "HTTP/1.1 200 OK\r\nTransfer-Encoding: chunked\r\nConnection: close\r\n\r\n"
@@ -1168,6 +1168,13 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
             let text = if index < 4 || index == 5 {
                 json!({"findings":[]})
             } else if index == 6 {
+                json!({
+                    "schema":"codefriend.activity_output.v1",
+                    "artifacts":[{"path":"docs/guide.md","kind":"documentation","disposition":"create","content":"# Guide","evidence_paths":["lib.rs"],"unsupported_claims":[],"limitations":["proposal only"],"render_manifest":null}],
+                    "gaps":[],
+                    "measured_coverage_percent":null
+                })
+            } else if index == 7 {
                 json!({"schema":"wrong"})
             } else {
                 json!({"findings":[{"rule":"correctness.wrong_lane","semantic_anchor":"lib.rs","title":"fixture","severity":"info","rationale":"fixture","confidence":{"state":"known","percent":90},"evidence":["foreign"],"inference":"fixture","limitations":[]}]})
@@ -1320,6 +1327,47 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
             result["model_identity"]["provider_model_id"],
             f.config.provider.route.provider_model_id
         );
+        let mut complete_cycle = f.request("cycle-complete");
+        complete_cycle["cycle"] = serde_json::to_value(UpdateCyclePlan {
+            schema: PLAN_SCHEMA.into(),
+            repository: f.packet.repository.clone(),
+            activities: vec![Activity::Documentation],
+            testing: None,
+        })
+        .unwrap();
+        assert_eq!(
+            client
+                .post(format!("{base}/v1/operations"))
+                .bearer_auth(ALICE)
+                .json(&complete_cycle)
+                .send()
+                .unwrap()
+                .status()
+                .as_u16(),
+            202
+        );
+        let complete_operation = terminal(ALICE, "cycle-complete");
+        assert_eq!(complete_operation["status"], "complete");
+        let complete_result: Value = client
+            .get(format!("{base}/v1/operations/cycle-complete/result"))
+            .bearer_auth(ALICE)
+            .send()
+            .unwrap()
+            .json()
+            .unwrap();
+        assert_eq!(complete_result["completion"], "complete");
+        assert_eq!(
+            complete_result["execution"]["candidate_revision"],
+            complete_operation["candidate_revision"]
+        );
+        assert_eq!(
+            complete_result["execution"]["request_digest"],
+            complete_operation["request_digest"]
+        );
+        assert_eq!(
+            complete_result["execution"]["model_identity"],
+            complete_operation["model_identity"]
+        );
         let mut failed_cycle = f.request("cycle-failed");
         failed_cycle["cycle"] = serde_json::to_value(UpdateCyclePlan {
             schema: PLAN_SCHEMA.into(),
@@ -1339,7 +1387,8 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
                 .as_u16(),
             202
         );
-        assert_eq!(terminal(ALICE, "cycle-failed")["status"], "failed");
+        let failed_operation = terminal(ALICE, "cycle-failed");
+        assert_eq!(failed_operation["status"], "failed");
         let failed_result: Value = client
             .get(format!("{base}/v1/operations/cycle-failed/result"))
             .bearer_auth(ALICE)
@@ -1350,6 +1399,18 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
         assert_eq!(failed_result["completion"], "failed");
         assert_eq!(failed_result["activities"][0]["status"], "failed");
         assert_eq!(failed_result["failures"][0], "documentation_failed");
+        assert_eq!(
+            failed_result["execution"]["candidate_revision"],
+            failed_operation["candidate_revision"]
+        );
+        assert_eq!(
+            failed_result["execution"]["request_digest"],
+            failed_operation["request_digest"]
+        );
+        assert_eq!(
+            failed_result["execution"]["model_identity"],
+            failed_operation["model_identity"]
+        );
         let mut failed_review_cycle = f.request("cycle-review-failed");
         failed_review_cycle["cycle"] = serde_json::to_value(UpdateCyclePlan {
             schema: PLAN_SCHEMA.into(),
@@ -1381,7 +1442,7 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
         assert_eq!(failed_review_result["activities"][0]["activity"], "review");
         assert_eq!(failed_review_result["activities"][0]["status"], "failed");
         assert_eq!(failed_review_result["failures"][0], "review_failed");
-        assert_eq!(count.load(Ordering::SeqCst), 11);
+        assert_eq!(count.load(Ordering::SeqCst), 12);
         for (id, token, mode) in [
             ("oversized-hosted", ALICE, "hosted"),
             ("oversized-local", AGENT, "local_model"),

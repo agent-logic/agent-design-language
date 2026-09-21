@@ -286,7 +286,7 @@ fn execute_cycle(
     } else {
         None
     };
-    let result = activities::run_with_executor(
+    let mut result = activities::run_with_executor(
         plan,
         admission,
         request.operation_id.clone(),
@@ -325,6 +325,12 @@ fn execute_cycle(
             .all(|identity| same_model_execution(&first, identity)),
         "activity_model_identity_changed"
     );
+    result.execution = Some(activities::CycleExecutionBinding {
+        candidate_revision: build::REVISION.into(),
+        request_digest: super::evidence::hash(request)?,
+        model_identity: first.clone(),
+    });
+    result.validate(&runner::provider_route_identity_from_model(&first))?;
     Ok((result, first))
 }
 
@@ -842,12 +848,16 @@ async fn submit(
                 match serde_json::to_vec(&value) {
                     Ok(bytes) if bytes.len() <= MAX_RESULT => {
                         if write_json(&dir.join("result.json"), &value).is_ok() {
-                            if op.mode == Mode::LocalModel {
-                                op.model_identity =
-                                    value.get("model_identity").and_then(|identity| {
-                                        serde_json::from_value(identity.clone()).ok()
-                                    });
-                            }
+                            op.model_identity = value
+                                .get("model_identity")
+                                .or_else(|| value.get("execution")?.get("model_identity"))
+                                .or_else(|| {
+                                    value
+                                        .get("cycle_result")?
+                                        .get("execution")?
+                                        .get("model_identity")
+                                })
+                                .and_then(|identity| serde_json::from_value(identity.clone()).ok());
                             let failed_cycle = request.cycle.is_some()
                                 && (value
                                     .get("completion")

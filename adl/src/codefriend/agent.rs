@@ -1054,6 +1054,17 @@ impl Transport {
         let route =
             super::review::runner::provider_route_identity_from_model(&result.model_identity);
         result.cycle_result.validate(&route)?;
+        let execution = result
+            .cycle_result
+            .execution
+            .as_ref()
+            .ok_or_else(|| anyhow::anyhow!("agent_cycle_execution_binding_missing"))?;
+        ensure!(
+            execution.candidate_revision == result.candidate_revision
+                && execution.request_digest == operation.request_digest
+                && execution.model_identity == result.model_identity,
+            "agent_cycle_execution_binding_changed"
+        );
         let identity = GatewayLaneIdentity {
             lane: "cycle".into(),
             candidate_revision: result.candidate_revision.clone(),

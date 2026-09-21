@@ -434,7 +434,7 @@ impl WireServer {
                         )
                         .unwrap();
                         let route = "agent-logic-fixture:hosted_api:fixture-model-v1";
-                        let cycle = adl::codefriend::activities::run_with_executor(
+                        let mut cycle = adl::codefriend::activities::run_with_executor(
                             plan.clone(),
                             admission.clone(),
                             id.into(),
@@ -463,7 +463,14 @@ impl WireServer {
                             },
                         )
                         .unwrap();
-                        json!({"schema":"codefriend.local_cycle_result.v1","execution_location":"local_agent","model_execution_location":"agent_logic_provider","candidate_revision":"c".repeat(40),"model_identity":{"provider_kind":"openai","provider":"agent-logic-fixture","model_ref":"fixture/exact","provider_model_id":"fixture-model-v1","runtime_surface":"hosted_api","identity_strength":"provider_asserted","observed_at":format!("unix:{}", clock.load(Ordering::SeqCst))},"admission":admission,"cycle_result":cycle})
+                        let model_identity: adl::model_identity::ModelIdentityV1 = serde_json::from_value(json!({"provider_kind":"openai","provider":"agent-logic-fixture","model_ref":"fixture/exact","provider_model_id":"fixture-model-v1","runtime_surface":"hosted_api","identity_strength":"provider_asserted","observed_at":format!("unix:{}", clock.load(Ordering::SeqCst))})).unwrap();
+                        cycle.execution =
+                            Some(adl::codefriend::activities::CycleExecutionBinding {
+                                candidate_revision: "c".repeat(40),
+                                request_digest: adl::codefriend::evidence::hash(&r).unwrap(),
+                                model_identity: model_identity.clone(),
+                            });
+                        json!({"schema":"codefriend.local_cycle_result.v1","execution_location":"local_agent","model_execution_location":"agent_logic_provider","candidate_revision":"c".repeat(40),"model_identity":model_identity,"admission":admission,"cycle_result":cycle})
                     } else {
                         let lane = r.lane.unwrap().id();
                         let findings = if matches!(scenario, Scenario::AggregateLimit) {

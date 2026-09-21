@@ -5,6 +5,7 @@ use super::{
     ingestion::{unsafe_content, validate_path},
     review::runner::FourPerspectiveReviewRun,
 };
+use crate::model_identity::ModelIdentityV1;
 use crate::provider_communication::ProviderInvocationFinalStatusV1;
 use anyhow::{ensure, Result};
 use serde::{Deserialize, Serialize};
@@ -288,6 +289,41 @@ pub struct UpdateCycleResult {
     pub activities: Vec<ActivityResult>,
     pub review: Option<FourPerspectiveReviewRun>,
     pub failures: Vec<String>,
+    /// Set by the production execution boundary after the provider call returns.
+    /// Pure activity-contract tests may leave this unbound, but served results must
+    /// retain it before they cross the API boundary.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub execution: Option<CycleExecutionBinding>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+pub struct CycleExecutionBinding {
+    pub candidate_revision: String,
+    pub request_digest: String,
+    pub model_identity: ModelIdentityV1,
+}
+
+impl CycleExecutionBinding {
+    pub fn validate(&self, provider_route: &str) -> Result<()> {
+        ensure!(
+            self.candidate_revision.len() == 40
+                && self
+                    .candidate_revision
+                    .bytes()
+                    .all(|byte| byte.is_ascii_digit() || (b'a'..=b'f').contains(&byte))
+                && self.candidate_revision.bytes().any(|byte| byte != b'0')
+                && valid_digest(&self.request_digest),
+            "activity_execution_binding_invalid"
+        );
+        crate::model_identity::validate_model_identity_v1(&self.model_identity)?;
+        ensure!(
+            super::review::runner::provider_route_identity_from_model(&self.model_identity)
+                == provider_route,
+            "activity_execution_model_route_changed"
+        );
+        Ok(())
+    }
 }
 impl UpdateCycleResult {
     pub fn validate(&self, provider_route: &str) -> Result<()> {
@@ -399,6 +435,9 @@ impl UpdateCycleResult {
                     == Some(hash(review)?.as_str()),
                 "activity_review_binding"
             );
+        }
+        if let Some(execution) = &self.execution {
+            execution.validate(provider_route)?;
         }
         Ok(())
     }
@@ -848,6 +887,7 @@ where
         activities: results,
         review,
         failures,
+        execution: None,
     };
     result.validate(&provider_route)?;
     Ok(result)
