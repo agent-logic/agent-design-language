@@ -302,7 +302,34 @@ async fn website_approval_authenticates_rejects_stale_binding_and_expires_payloa
             run_id: "run1".into(),
             completion: review.run.completion.clone(),
             review_record: review.clone(),
-            lane_results: vec![],
+            lane_results: ["adversarial", "constitutional", "correctness", "security"]
+                .into_iter()
+                .map(|lane| {
+                    use adl::codefriend::review::{
+                        lanes::LANE_CONTRACT_VERSION,
+                        runner::{LaneResult, LANE_RESULT_SCHEMA},
+                    };
+                    LaneResult {
+                        schema: LANE_RESULT_SCHEMA.into(),
+                        run_id: "run1".into(),
+                        lane: lane.into(),
+                        lane_contract: LANE_CONTRACT_VERSION.into(),
+                        input_manifest_ref: format!("lanes/{lane}/input.json"),
+                        input_digest: hash(&format!("fixture-input-{lane}")).unwrap(),
+                        provider_status:
+                            adl::provider_communication::ProviderInvocationFinalStatusV1::Ok,
+                        provider_route: review.run.provider_route.clone(),
+                        output_digest: Some(hash(&format!("fixture-output-{lane}")).unwrap()),
+                        finding_ids: review
+                            .findings
+                            .iter()
+                            .filter(|f| f.perspective == lane)
+                            .map(|f| f.id.clone())
+                            .collect(),
+                        failure: None,
+                    }
+                })
+                .collect(),
             failures: vec![],
         })
         .unwrap(),
@@ -803,15 +830,23 @@ fn interrupted_preparation_does_not_block_distinct_format_bundles() {
 
 #[tokio::test]
 async fn hosted_journey_reuses_original_admission_and_completed_review() {
-    hosted_journey(false).await;
+    hosted_journey(false, false).await;
 }
 
 #[tokio::test]
 async fn hosted_v2_journey_preserves_native_versions_gaps_and_original_owners() {
-    hosted_journey(true).await;
+    hosted_journey(true, false).await;
 }
 
-async fn hosted_journey(v2: bool) {
+#[tokio::test]
+async fn hosted_privacy_omissions_continue_through_approval_and_exports() {
+    hosted_journey(true, true).await;
+}
+
+async fn hosted_journey(v2: bool, privacy_omission: bool) {
+    // These fixtures share the intentional single-parser quota.
+    static SERIAL: std::sync::Mutex<()> = std::sync::Mutex::new(());
+    let _guard = SERIAL.lock().unwrap();
     use adl::codefriend::{
         evidence::Admission,
         ingestion::{local, Scope},
@@ -887,6 +922,14 @@ async fn hosted_journey(v2: bool) {
         include_bytes!("fixtures/codefriend/rationale/accepted.md"),
     )
     .unwrap();
+    if privacy_omission {
+        fs::write(
+            source.join("private.js"),
+            "const api_key = 'fixture-withheld-value';",
+        )
+        .unwrap();
+        git(&["add", "private.js"]);
+    }
     git(&["add", "lib.rs", "compose.json", "adr.md"]);
     git(&[
         "-c",
@@ -906,8 +949,12 @@ async fn hosted_journey(v2: bool) {
         &revision,
         Scope {
             analysis: vec!["lib.rs".into()],
-            context: vec!["adr.md".into(), "compose.json".into()],
-            max_files: 3,
+            context: if privacy_omission {
+                vec!["adr.md".into(), "compose.json".into(), "private.js".into()]
+            } else {
+                vec!["adr.md".into(), "compose.json".into()]
+            },
+            max_files: 4,
             max_bytes: 8192,
             max_file_bytes: 4096,
         },

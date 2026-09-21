@@ -189,6 +189,7 @@ fn journal_rejects_world_readable_or_symlink_store() {
 #[derive(Clone, Copy)]
 enum Scenario {
     Success,
+    PrivacyOmission,
     Unpair,
     AggregateLimit,
     LostResultObservation,
@@ -503,6 +504,13 @@ fn journey(scenario: Scenario) -> (u64, Vec<serde_json::Value>) {
         "pub fn answer() -> u8 { 42 }\n",
     )
     .unwrap();
+    if matches!(scenario, Scenario::PrivacyOmission) {
+        fs::write(
+            checkout.join("private.txt"),
+            "api_key = 'agent-private-fixture'",
+        )
+        .unwrap();
+    }
     git(&checkout, &["init"]);
     git(
         &checkout,
@@ -530,6 +538,10 @@ fn journey(scenario: Scenario) -> (u64, Vec<serde_json::Value>) {
     c.repository_path = checkout.clone();
     c.revision = git(&checkout, &["rev-parse", "HEAD"]);
     c.expires_at = live_now() + 1000;
+    if matches!(scenario, Scenario::PrivacyOmission) {
+        c.scope.context.push("private.txt".into());
+        c.scope.max_files = 2;
+    }
     if matches!(scenario, Scenario::PartialScope) {
         c.scope.analysis.push("src/missing.rs".into());
         c.scope.max_files = 2;
@@ -1038,4 +1050,23 @@ fn known_running_operation_resumes_after_legacy_deadline_without_cancel_or_repos
         "one POST per distinct review lane, no repeated dispatch"
     );
     assert_eq!(reports[0]["status"], "complete");
+}
+
+// PVF component: production local transport and retained report; synthetic gateway.
+#[test]
+fn privacy_omissions_survive_agent_forwarding_without_replay_or_secret_bytes() {
+    let (calls, reports) = journey(Scenario::PrivacyOmission);
+    assert_eq!(calls, 4);
+    assert_eq!(reports[0]["status"], "complete");
+    assert_eq!(reports[0]["result"]["completion"], "incomplete");
+    assert_eq!(
+        reports[0]["result"]["review_record"]["run"]["coverage"]["omissions"][0]["path"],
+        "private.txt"
+    );
+    assert!(!serde_json::to_string(&reports)
+        .unwrap()
+        .contains("agent-private-fixture"));
+    let report: adl::codefriend::agent::RunReport =
+        serde_json::from_value(reports[0].clone()).unwrap();
+    report.validate(live_now()).unwrap();
 }

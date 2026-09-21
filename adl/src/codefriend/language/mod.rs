@@ -110,7 +110,9 @@ impl AnalysisPolicy {
                         .packet
                         .objects
                         .iter()
-                        .any(|o| &o.path == path && o.content.is_some()),
+                        .any(|o| &o.path == path && (o.content.is_some()
+                            || (o.disposition == "omitted_unsafe"
+                                && crate::codefriend::evidence::contracts::reviewable_acquisition(admission).is_ok()))),
                     "language_manifest_not_admitted"
                 );
             }

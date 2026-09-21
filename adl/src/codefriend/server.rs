@@ -6,7 +6,7 @@ mod journey;
 mod journey_publication;
 mod publication_export;
 use super::{
-    evidence::{contracts::Completion, store::Store, Admission, Retention},
+    evidence::{store::Store, Admission, Retention},
     ingestion::Packet,
     review::{
         lanes::ReviewLane,
@@ -167,7 +167,7 @@ impl Backend for ProductionBackend {
                     admission,
                 )?;
                 ensure!(
-                    run.completion == Completion::Complete,
+                    run.successful_execution().is_ok(),
                     "hosted_review_incomplete"
                 );
                 Ok(serde_json::to_value(run)?)
@@ -840,9 +840,8 @@ async fn publication_challenge(
     let run: FourPerspectiveReviewRun = internal(read_json(&dir.join("result.json"), MAX_RESULT))?;
     let review_path = dir.join("work/review/review-record.json");
     let review: ReviewRecord = internal(read_json(&review_path, MAX_RESULT))?;
-    if run.schema != runner::REVIEW_RUN_SCHEMA
+    if run.successful_execution().is_err()
         || run.run_id != operation
-        || run.completion != Completion::Complete
         || run.review_record != review
         || review.run.packet_id != op.packet_id
         || review.run.revision != op.source_revision

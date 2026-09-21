@@ -302,6 +302,21 @@ pub(crate) fn resolve(
     }
     let mut report = syntax.clone();
     for file in &mut report.files {
+        let project_root = root(policy, &file.coverage.path, file.coverage.language);
+        if policy.roots.iter().any(|r| {
+            Some(r.root.as_str()) == project_root
+                && r.language == file.coverage.language
+                && r.manifest.as_ref().is_some_and(|path| {
+                    admission.packet.objects.iter().any(|o| {
+                        &o.path == path && o.disposition == "omitted_unsafe" && o.content.is_none()
+                    })
+                })
+        }) {
+            file.coverage.diagnostics.push(Diagnostic {
+                code: "project_manifest_excluded_by_privacy_filter".into(),
+                span: None,
+            });
+        }
         file.coverage.semantics = Coverage::Unsupported;
         file.coverage
             .diagnostics

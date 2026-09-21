@@ -625,7 +625,7 @@ impl Journey {
             admission,
         ) {
             Ok(review) => {
-                self.record("review", &review, review.completion == Completion::Complete)?;
+                self.record("review", &review, review.successful_execution().is_ok())?;
                 self.review = Some(review);
                 Ok(())
             }
@@ -642,7 +642,7 @@ impl Journey {
         ensure!(
             self.review
                 .as_ref()
-                .is_some_and(|r| r.completion == Completion::Complete),
+                .is_some_and(|r| r.successful_execution().is_ok()),
             "journey_complete_review_required"
         );
         self.source.check(destination)?;
@@ -1330,7 +1330,7 @@ pub(crate) fn resume_with_owners(
         let value: FourPerspectiveReviewRun = read_typed(&output.join("review.json"))?;
         value.review_record.validate()?;
         ensure!(
-            value.completion == Completion::Complete
+            value.successful_execution().is_ok()
                 && value.review_record.admission == admission
                 && manifest.stages["review"].digest.as_deref() == Some(hash(&value)?.as_str())
                 && crate::codefriend::publication::read_review(
@@ -1881,8 +1881,7 @@ pub(crate) fn prepare_owned_admission(options: OwnedAdmissionJourneyOptions) -> 
     let run = options.completed_run;
     run.review_record.validate()?;
     ensure!(
-        run.schema == runner::REVIEW_RUN_SCHEMA
-            && run.completion == Completion::Complete
+        run.successful_execution().is_ok()
             && run.run_id == options.operation_id
             && run.review_record.admission == admission,
         "journey_owned_review_changed"

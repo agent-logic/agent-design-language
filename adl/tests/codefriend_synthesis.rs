@@ -375,3 +375,159 @@ fn installed_cli_writes_create_only_synthesis_artifacts() {
         .contains("synthesis_output_directory_already_exists"));
     assert_eq!(git(&fixture.root, &["rev-parse", "HEAD"]), fixture.revision);
 }
+
+// PVF: deterministic native review execution; synthetic four-lane transport, no provider/network.
+#[test]
+fn privacy_omissions_preserve_failed_guards_and_explicit_synthesis_coverage() {
+    use adl::codefriend::evidence::contracts::reviewable_acquisition;
+    use adl::codefriend::review::runner::{
+        run_with_executor, ExecutionOptions, LaneExecution, REVIEW_RUN_SCHEMA_V2,
+    };
+    use adl::provider_communication::ProviderInvocationFinalStatusV1;
+    let f = Fixture::new();
+    let secret = "password = \"private-fixture-value\"";
+    fs::write(f.root.join("private.txt"), secret).unwrap();
+    git(&f.root, &["add", "."]);
+    git(
+        &f.root,
+        &[
+            "-c",
+            "user.name=fixture",
+            "-c",
+            "user.email=fixture@example.com",
+            "commit",
+            "-m",
+            "privacy fixture",
+        ],
+    );
+    let revision = git(&f.root, &["rev-parse", "HEAD"]);
+    let packet = local::acquire(
+        &f.root,
+        &f.admission.packet.repository,
+        &revision,
+        Scope {
+            analysis: vec!["src/lib.rs".into()],
+            context: vec!["private.txt".into()],
+            max_files: 10,
+            max_bytes: 64 * 1024,
+            max_file_bytes: 64 * 1024,
+        },
+    )
+    .unwrap();
+    assert_eq!(packet.completeness, "partial");
+    let admission = Admission::new(packet, Retention { seconds: 3600 }, 100).unwrap();
+    reviewable_acquisition(&admission).unwrap();
+    let mut calls = 0;
+    let output = run_with_executor(
+        ExecutionOptions {
+            out: f.temp.join("partial-review"),
+            run_id: "partial".into(),
+            cancel_file: None,
+        },
+        admission.clone(),
+        "fixture:mock:reviewer".into(),
+        |_, prompt, _| {
+            calls += 1;
+            assert!(!prompt.contains("private-fixture-value"));
+            assert!(prompt.contains("Coverage limitation"));
+            Ok(LaneExecution {
+                final_status: ProviderInvocationFinalStatusV1::Ok,
+                output_text: Some("{\"findings\":[]}".into()),
+            })
+        },
+    )
+    .unwrap();
+    assert_eq!(calls, 4);
+    assert_eq!(output.schema, REVIEW_RUN_SCHEMA_V2);
+    let summary = adl::codefriend::review::runner::review_run_summary(&output).unwrap();
+    assert_eq!(summary["schema"], REVIEW_RUN_SCHEMA_V2);
+    assert_eq!(summary["coverage"]["source_coverage"], "incomplete");
+    assert_eq!(summary["coverage"]["omissions"][0]["path"], "private.txt");
+    assert_eq!(output.completion, Completion::Incomplete);
+    output.successful_execution().unwrap();
+    let synthesis = synthesize(&output.review_record).unwrap();
+    assert!(synthesis.synthesized_findings.is_empty());
+    let coverage = synthesis.coverage.unwrap();
+    assert_eq!(coverage.omissions[0].path, "private.txt");
+    assert_eq!(coverage.omissions[0].reason, "privacy_filter");
+    let mut bad = output.clone();
+    bad.lane_results.pop();
+    assert!(bad.successful_execution().is_err());
+    let mut bad = output.clone();
+    bad.lane_results[0].output_digest = Some("0".repeat(64));
+    assert!(bad.successful_execution().is_err());
+    let mut bad = output.clone();
+    bad.completion = Completion::Complete;
+    assert!(bad.successful_execution().is_err());
+    assert!(Run::new(
+        &admission,
+        output.review_record.run.lane_versions.clone(),
+        "fixture:mock:reviewer".into(),
+        Completion::Complete,
+        vec![]
+    )
+    .is_err());
+    let failed = run_with_executor(
+        ExecutionOptions {
+            out: f.temp.join("failed-review"),
+            run_id: "failed".into(),
+            cancel_file: None,
+        },
+        admission,
+        "fixture:mock:reviewer".into(),
+        |_, _, _| {
+            Ok(LaneExecution {
+                final_status: ProviderInvocationFinalStatusV1::Ok,
+                output_text: Some("invalid lane output".into()),
+            })
+        },
+    );
+    assert!(failed.is_err());
+    let missing_packet = local::acquire(
+        &f.root,
+        &f.admission.packet.repository,
+        &revision,
+        Scope {
+            analysis: vec!["src/lib.rs".into()],
+            context: vec!["absent.txt".into()],
+            max_files: 10,
+            max_bytes: 64 * 1024,
+            max_file_bytes: 64 * 1024,
+        },
+    )
+    .unwrap();
+    let missing = Admission::new(missing_packet, Retention { seconds: 3600 }, 100).unwrap();
+    assert!(reviewable_acquisition(&missing).is_err());
+    let omitted_packet = local::acquire(
+        &f.root,
+        &f.admission.packet.repository,
+        &revision,
+        Scope {
+            analysis: vec!["private.txt".into()],
+            context: vec![],
+            max_files: 10,
+            max_bytes: 64 * 1024,
+            max_file_bytes: 64 * 1024,
+        },
+    )
+    .unwrap();
+    match Admission::new(omitted_packet, Retention { seconds: 3600 }, 100) {
+        Ok(omitted) => assert!(reviewable_acquisition(&omitted).is_err()),
+        Err(_) => {} // Acquisition admission itself may reject a packet with no usable evidence.
+    }
+
+    let mut erased = output.review_record.clone();
+    erased.run.coverage = None;
+    assert!(erased.successful_execution().is_err());
+    let legacy = f.review_record();
+    assert!(!serde_json::to_value(&legacy.run)
+        .unwrap()
+        .as_object()
+        .unwrap()
+        .contains_key("coverage"));
+    assert!(!serde_json::to_value(synthesize(&legacy).unwrap())
+        .unwrap()
+        .as_object()
+        .unwrap()
+        .contains_key("coverage"));
+}

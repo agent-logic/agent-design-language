@@ -439,3 +439,81 @@ fn real_cli_v2_run_read_preserves_status_and_raw_input_limit() {
         assert_eq!(body["report_available"], false);
     }
 }
+
+// PVF component; deterministic local Git/Store. Proves privacy omission coverage
+// and witnessed failure precedence; no provider or release qualification.
+#[test]
+fn privacy_omissions_are_unknown_while_available_violations_still_fail() {
+    let _g = SERIAL.lock().unwrap();
+    let fixture = Fixture::new(&[
+        ("safe.js", "import fs from 'node:fs';", Language::JavaScript),
+        (
+            "private.js",
+            "const api_key = 'fixture-private-value';",
+            Language::JavaScript,
+        ),
+    ]);
+    let mut policy = fixture.policy(static_rule(
+        "private.js",
+        StaticSelector::JavaScriptModule {
+            specifier: "node:fs".into(),
+        },
+    ));
+    let report = fixture.run(&policy);
+    assert_eq!(report.status, Status::Unknown);
+    assert!(report.results[0].violations.is_empty());
+    assert!(report.results[0]
+        .unknowns
+        .iter()
+        .any(|s| s == "source_excluded_by_privacy_filter"));
+    assert_eq!(
+        report.record.run.completion,
+        adl::codefriend::evidence::contracts::Completion::Incomplete
+    );
+    let serialized = serde_json::to_string(&report).unwrap();
+    assert!(!serialized.contains("fixture-private-value"));
+    policy.rules.push(Rule::ForbiddenStaticImport {
+        id: "visible_violation".into(),
+        source_path: "safe.js".into(),
+        selector: StaticSelector::JavaScriptModule {
+            specifier: "node:fs".into(),
+        },
+    });
+    let report = fixture.run(&policy);
+    assert_eq!(report.status, Status::Fail);
+    assert_eq!(report.results[1].violations.len(), 1);
+    report.validate(&fixture.store, 101).unwrap();
+}
+
+// PVF component: retained source with a genuinely filtered declared manifest.
+#[test]
+fn privacy_filtered_manifest_continues_with_explicit_dependency_gap() {
+    let _g = SERIAL.lock().unwrap();
+    let fixture = Fixture::new(&[
+        ("main.js", "export const answer = 42;", Language::JavaScript),
+        (
+            "package.json",
+            r#"{"api_key":"manifest-private-fixture"}"#,
+            Language::JavaScript,
+        ),
+    ]);
+    let mut policy = fixture.policy(static_rule(
+        "main.js",
+        StaticSelector::JavaScriptModule {
+            specifier: "node:fs".into(),
+        },
+    ));
+    policy.analysis.roots[0].manifest = Some("package.json".into());
+    let report = fixture.run(&policy);
+    assert_eq!(report.status, Status::Unknown);
+    assert!(report.results[0]
+        .unknowns
+        .iter()
+        .any(|s| s == "project_manifest_excluded_by_privacy_filter"));
+    assert!(!serde_json::to_string(&report)
+        .unwrap()
+        .contains("manifest-private-fixture"));
+    report.validate(&fixture.store, 101).unwrap();
+    policy.analysis.roots[0].manifest = Some("missing.json".into());
+    assert!(language::evaluate(&fixture.store, &fixture.packet, &policy, 101).is_err());
+}

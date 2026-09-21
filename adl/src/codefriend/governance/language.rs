@@ -343,10 +343,7 @@ pub fn evaluate(store: &Store, packet_id: &str, policy: &Policy, now: u64) -> Re
     bounded(policy, false)?;
     policy.validate()?;
     let admission = store.get(packet_id)?;
-    ensure!(
-        admission.packet.completeness == "complete_scoped_acquisition",
-        "fitness_acquisition_incomplete"
-    );
+    crate::codefriend::evidence::contracts::reviewable_acquisition(&admission)?;
     policy.analysis.validate(&admission)?;
     let outcome = owner::analyze_outcome(store, packet_id, &policy.analysis, now)?;
     ensure!(
@@ -368,10 +365,28 @@ pub fn evaluate(store: &Store, packet_id: &str, policy: &Policy, now: u64) -> Re
             .iter()
             .find(|f| f.coverage.path == rule.source())
             .ok_or_else(|| anyhow::anyhow!("fitness_analysis_source_missing"))?;
-        ensure!(
-            file.coverage.evidence_id.is_some(),
-            "fitness_source_unavailable"
-        );
+        if file.coverage.evidence_id.is_none() {
+            ensure!(
+                admission
+                    .packet
+                    .objects
+                    .iter()
+                    .any(|object| object.path == rule.source()
+                        && object.disposition == "omitted_unsafe"
+                        && object.content.is_none()),
+                "fitness_source_unavailable"
+            );
+            let result = RuleResult {
+                rule_id: rule.id().into(),
+                source_path: rule.source().into(),
+                status: Status::Unknown,
+                violations: Vec::new(),
+                unknowns: vec!["source_excluded_by_privacy_filter".into()],
+            };
+            charge(&result, &mut output_bytes)?;
+            results.push(result);
+            continue;
+        }
         ensure!(
             file.coverage.syntax != Coverage::Failed,
             "fitness_analysis_failed"
@@ -502,11 +517,14 @@ pub fn evaluate(store: &Store, packet_id: &str, policy: &Policy, now: u64) -> Re
         Status::Pass
     };
     let policy_digest = hash(policy)?;
-    let failures: Vec<_> = results
+    let mut failures: Vec<_> = results
         .iter()
         .filter(|r| !r.unknowns.is_empty())
         .map(|r| format!("fitness_unassessed:{}", r.rule_id))
         .collect();
+    if admission.packet.completeness != "complete_scoped_acquisition" {
+        failures.push("source_coverage_incomplete_privacy_omissions".into());
+    }
     let complete =
         failures.is_empty() && admission.packet.completeness == "complete_scoped_acquisition";
     let run = Run::new(

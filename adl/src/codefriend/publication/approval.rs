@@ -3,7 +3,7 @@ use super::manifest::{
 };
 use crate::codefriend::{
     evidence::{
-        contracts::{Approval, Completion, Publication, PublicationState, ReviewRecord},
+        contracts::{Approval, Publication, PublicationState, ReviewRecord},
         hash, valid_digest,
     },
     ingestion::unsafe_content,
@@ -515,7 +515,7 @@ impl DecisionRecord {
         match decision {
             DecisionKind::Approved => {
                 ensure!(
-                    review.run.completion == Completion::Complete,
+                    review.successful_execution().is_ok(),
                     "approval_requires_complete_run"
                 );
                 governed.state = PublicationState::Approved;
@@ -659,7 +659,7 @@ impl DecisionRecord {
         );
         if self.decision == DecisionKind::Approved {
             ensure!(
-                review.run.completion == Completion::Complete,
+                review.successful_execution().is_ok(),
                 "approval_requires_complete_run"
             );
         }

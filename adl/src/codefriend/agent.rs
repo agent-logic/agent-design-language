@@ -484,7 +484,7 @@ impl RunReport {
     /// Validate received website artifacts using their native typed serialization.
     /// This proves contract integrity, not independent provider execution.
     pub fn validate(&self, now: u64) -> Result<()> {
-        use super::evidence::{contracts::Completion, valid_digest};
+        use super::evidence::valid_digest;
         use super::review::{
             lanes::{ReviewLane, LANE_CONTRACT_VERSION},
             runner,
@@ -521,9 +521,8 @@ impl RunReport {
         match (&self.result, self.status.as_str()) {
             (Some(result), "complete") => {
                 ensure!(
-                    result.schema == runner::REVIEW_RUN_SCHEMA
+                    result.successful_execution().is_ok()
                         && result.run_id == self.run_id
-                        && result.completion == Completion::Complete
                         && result.failures.is_empty(),
                     "agent_report_completion"
                 );
@@ -549,7 +548,7 @@ impl RunReport {
                 }
                 let record = &result.review_record;
                 ensure!(
-                    record.run.completion == Completion::Complete
+                    record.successful_execution().is_ok()
                         && record.run.failures.is_empty()
                         && record.admission.expires_at == self.expires_at
                         && record.admission.expires_at > now
@@ -997,10 +996,7 @@ impl Transport {
             let admission = self.original_admission(&dir, &consent, expires_at, resuming)?;
             authority.check((self.clock)())?;
             admission.validate()?;
-            ensure!(
-                admission.packet.completeness == "complete_scoped_acquisition",
-                "review_requires_complete_scoped_acquisition"
-            );
+            super::evidence::contracts::reviewable_acquisition(&admission)?;
             ensure!(
                 admission.expires_at == expires_at
                     && admission.packet.revision == consent.revision
