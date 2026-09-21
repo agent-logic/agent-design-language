@@ -43,7 +43,10 @@ struct Fixture {
 }
 impl Fixture {
     fn new(source_text: &str) -> Self {
-        let dir = tempfile::tempdir_in(std::env::temp_dir().canonicalize().unwrap()).unwrap();
+        // Native proof scrubs ambient TMPDIR; keep fixtures in this checkout.
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("target/codefriend-fixtures");
+        fs::create_dir_all(&root).unwrap();
+        let dir = tempfile::tempdir_in(root.canonicalize().unwrap()).unwrap();
         let source = dir.path().join("source");
         fs::create_dir(&source).unwrap();
         git(&source, &["init", "-b", "main"]);

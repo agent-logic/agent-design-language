@@ -5,6 +5,13 @@ use adl::codefriend::{
     ingestion::{local, Scope},
 };
 use std::{collections::BTreeMap, fs, path::Path, process::Command};
+// Native proof scrubs ambient TMPDIR; fixture artifacts remain in this checkout.
+fn fixture_tempdir() -> tempfile::TempDir {
+    let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("target/codefriend-fixtures");
+    fs::create_dir_all(&root).unwrap();
+    tempfile::tempdir_in(root.canonicalize().unwrap()).unwrap()
+}
+
 fn git(root: &Path, args: &[&str]) -> String {
     let o = Command::new("git")
         .arg("-C")
@@ -16,7 +23,7 @@ fn git(root: &Path, args: &[&str]) -> String {
     String::from_utf8(o.stdout).unwrap().trim().into()
 }
 fn fixture() -> (Admission, Package) {
-    let temp = tempfile::tempdir().unwrap();
+    let temp = fixture_tempdir();
     let root = temp.path();
     git(root, &["init", "-b", "main"]);
     git(
@@ -204,7 +211,7 @@ fn generation_fixture_at(
 ) {
     use adl::codefriend::architecture::{artifact::StructureArtifact, structure};
     use adl::codefriend::evidence::store::Store;
-    let temp = tempfile::tempdir().unwrap();
+    let temp = fixture_tempdir();
     let root = temp.path();
     git(root, &["init", "-b", "main"]);
     git(

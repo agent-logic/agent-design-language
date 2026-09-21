@@ -13,5 +13,6 @@
     "Injected model output is not live semantic-analysis proof",
     "Not independent qualification"
   ],
-  "validation_log": ".csdlc/issue-1109-evidence/candidate-r3-tests.log"
+  "validation_log": ".csdlc/issue-1109-evidence/candidate-r3-tests.log",
+  "temporary_artifacts": "Unique tempfile fixtures beneath adl/target/codefriend-fixtures, independent of ambient TMPDIR and compatible with native proof environment scrubbing."
 }
