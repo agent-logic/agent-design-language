@@ -22,6 +22,14 @@ slow-timeout = { period = "120s", terminate-after = 1 }
 filter = 'test(/^runtime_v2::tests::unified_runtime_kernel::/)'
 slow-timeout = { period = "240s", terminate-after = 1 }
 
+# Issue #1110: run 35557102726 timed out this existing negative-matrix proof
+# at 120s under coverage; its sibling completed in 116s. The exact test passes
+# locally in 2.73s without instrumentation. Keep the assertions and zero retries,
+# and apply the existing bounded coverage allowance only to this test identity.
+[[profile.ci-coverage.overrides]]
+filter = 'test(/^runtime_v2::tests::resource_stewardship_bridge::runtime_v2_resource_stewardship_bridge_negative_matrix_rejects_drift$/)'
+slow-timeout = { period = "240s", terminate-after = 1 }
+
 # Rust 1.92.0 coverage instrumentation can push the exact signed continuity
 # restore proof past the generic 120s hosted ceiling even while the ordinary
 # required Rust test lane remains green. Keep the proof in required coverage
