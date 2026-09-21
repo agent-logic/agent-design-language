@@ -3,7 +3,7 @@
   "issue": 1056,
   "test": "adl/tests/codefriend_server.rs",
   "lane": "runtime",
-  "proof_role": "HTTP authentication, scoped isolation, operation durability, cancellation, quota and retention regression; Unix operator SIGINT shutdown and successful instrumented subprocess exit; authentication before body consumption, immutable clean-build provenance and relocation, bounded HTTP/SDK provider responses in both modes, observed model identity; local drain admission exclusion, worker/retention guard and uncertain-state refusal; private Unix operator control framing, instance/attempt binding, permission guards and bounded malformed/oversized requests",
+  "proof_role": "HTTP authentication, scoped isolation, operation durability, cancellation, quota and retention regression; Unix operator SIGINT shutdown and successful instrumented subprocess exit; authentication before body consumption, immutable clean-build provenance and relocation, bounded HTTP/SDK provider responses in both modes, observed model identity; local drain admission exclusion, worker/retention guard and uncertain-state refusal; private Unix operator control framing, instance/attempt binding, permission guards and bounded malformed/oversized requests; canonical 4 MiB assessment prompt boundaries, later-lane preflight with zero dispatch, actual hosted/local HTTP acceptance above 128 KiB, preserved legacy bound and expanded-source rejection",
   "determinism": "deterministic fixtures and bounded loopback transport; no external provider",
   "resources": {
     "network": "loopback HTTP and owner-only Unix sockets",
@@ -14,6 +14,7 @@
   "beta_release_gate": true,
   "limits": "Component proof only; real installed hosted/provider and website/local-agent journeys remain required. Drain methods are not yet wired to an installed host controller.",
   "additional_issues": [
-    1077
+    1077,
+    1124
   ]
 }

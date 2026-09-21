@@ -50,7 +50,7 @@ pub fn build_revision() -> &'static str {
 
 pub const MAX_BODY: usize = 2 * 1024 * 1024;
 const MAX_RESULT: usize = 4 * 1024 * 1024;
-const MAX_PROMPT_BYTES: usize = 128 * 1024;
+const MAX_LEGACY_PROMPT_BYTES: usize = 128 * 1024;
 fn now() -> u64 {
     SystemTime::now()
         .duration_since(UNIX_EPOCH)
@@ -165,7 +165,12 @@ impl Backend for ProductionBackend {
             } else {
                 runner::lane_input_manifest(&request.operation_id, lane, &admission)?
             };
-            ensure!(prompt.len() <= MAX_PROMPT_BYTES, "model_prompt_byte_limit");
+            let limit = if assessments {
+                runner::MAX_ASSESSMENT_PROMPT_BYTES
+            } else {
+                MAX_LEGACY_PROMPT_BYTES
+            };
+            ensure!(prompt.len() <= limit, "model_prompt_byte_limit");
         }
         match request.mode {
             Mode::Hosted => {

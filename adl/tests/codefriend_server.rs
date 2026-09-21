@@ -50,6 +50,9 @@ fn git(p: &Path, args: &[&str]) -> String {
 }
 impl Fixture {
     fn new() -> Self {
+        Self::with_source("pub fn answer() -> u32 { 42 }\n")
+    }
+    fn with_source(source: &str) -> Self {
         static NEXT: AtomicUsize = AtomicUsize::new(0);
         let dir = Path::new(env!("CARGO_MANIFEST_DIR"))
             .join("target/codefriend-server-tests")
@@ -67,7 +70,7 @@ impl Fixture {
             &repo,
             &["remote", "add", "origin", "https://example.com/team/repo"],
         );
-        fs::write(repo.join("lib.rs"), "pub fn answer() -> u32 { 42 }\n").unwrap();
+        fs::write(repo.join("lib.rs"), source).unwrap();
         git(&repo, &["add", "lib.rs"]);
         git(
             &repo,
@@ -90,8 +93,8 @@ impl Fixture {
                 analysis: vec!["lib.rs".into()],
                 context: vec![],
                 max_files: 1,
-                max_bytes: 4096,
-                max_file_bytes: 4096,
+                max_bytes: 1024 * 1024,
+                max_file_bytes: 1024 * 1024,
             },
         )
         .unwrap();
@@ -1083,7 +1086,7 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
                 }
             }
             let index = calls.fetch_add(1, Ordering::SeqCst);
-            if index >= 6 {
+            if index >= 11 {
                 if write!(
                     stream,
                     "HTTP/1.1 200 OK\r\nTransfer-Encoding: chunked\r\nConnection: close\r\n\r\n"
@@ -1104,7 +1107,7 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
                 }
                 continue;
             }
-            let text = if index < 4 {
+            let text = if index < 4 || (6..11).contains(&index) {
                 json!({"assessments":[]})
             } else if index == 5 {
                 json!({"findings":[]})
@@ -1285,6 +1288,88 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
             result["model_identity"]["provider_model_id"],
             f.config.provider.route.provider_model_id
         );
+        // Real source acquisition and production HTTP/provider paths: the same
+        // >128 KiB prompt is accepted only by assessment generation.
+        let large = Fixture::with_source(&format!("// {}\n", "a".repeat(200 * 1024)));
+        let expanded = Fixture::with_source(&"\n".repeat(400 * 1024));
+        for (id, token, mode, generation, packet, expected) in [
+            (
+                "large-legacy",
+                AGENT,
+                "local_model",
+                None,
+                &large.packet,
+                "failed",
+            ),
+            (
+                "large-hosted",
+                ALICE,
+                "hosted",
+                None,
+                &large.packet,
+                "complete",
+            ),
+            (
+                "large-local",
+                AGENT,
+                "local_model",
+                Some("assessments"),
+                &large.packet,
+                "complete",
+            ),
+            (
+                "expanded-hosted",
+                ALICE,
+                "hosted",
+                None,
+                &expanded.packet,
+                "failed",
+            ),
+            (
+                "expanded-local",
+                AGENT,
+                "local_model",
+                Some("assessments"),
+                &expanded.packet,
+                "failed",
+            ),
+        ] {
+            let before = count.load(Ordering::SeqCst);
+            let mut request = f.request(id);
+            request["packet"] = serde_json::to_value(packet).unwrap();
+            request["mode"] = json!(mode);
+            if mode == "local_model" {
+                request["lane"] = json!("security");
+            }
+            if let Some(generation) = generation {
+                request["review_generation"] = json!(generation);
+            }
+            assert_eq!(
+                client
+                    .post(format!("{base}/v1/operations"))
+                    .bearer_auth(token)
+                    .json(&request)
+                    .send()
+                    .unwrap()
+                    .status()
+                    .as_u16(),
+                202
+            );
+            let operation = terminal(token, id);
+            assert_eq!(operation["status"], expected, "{id}: {operation}");
+            let after = count.load(Ordering::SeqCst);
+            assert_eq!(
+                after - before,
+                if expected == "failed" {
+                    0
+                } else if mode == "hosted" {
+                    4
+                } else {
+                    1
+                }
+            );
+        }
+        assert_eq!(count.load(Ordering::SeqCst), 11);
         for (id, token, mode) in [
             ("oversized-hosted", ALICE, "hosted"),
             ("oversized-local", AGENT, "local_model"),
@@ -1803,4 +1888,85 @@ fn model_generation_is_explicit_and_legacy_submit_bytes_are_preserved() {
     let mut unknown = serde_json::to_value(modern).unwrap();
     unknown["review_generation"] = "unknown".into();
     assert!(serde_json::from_value::<Submit>(unknown).is_err());
+}
+
+/// PVF owner_binary, deterministic CPU/files only: actual admission and canonical
+/// annotated source prompts, including a later lane that fails before dispatch.
+#[test]
+fn assessment_prompt_exact_boundary_and_all_lane_preflight() {
+    use adl::codefriend::{
+        evidence::{store::Store, Retention},
+        review::runner,
+    };
+    let admit = |f: &Fixture| {
+        Store::open(&f.dir.join("prompt-evidence"), now)
+            .unwrap()
+            .admit(f.packet.clone(), Retention { seconds: 3600 })
+            .unwrap()
+    };
+    let base_source = format!("{}a", "\n".repeat(250_000));
+    let base = Fixture::with_source(&base_source);
+    let admission = admit(&base);
+    let sizes: Vec<_> = ReviewLane::ALL
+        .into_iter()
+        .map(|lane| {
+            runner::assessment_lane_input_manifest("boundary", lane, &admission)
+                .unwrap()
+                .1
+                .len()
+        })
+        .collect();
+    let largest = *sizes.iter().max().unwrap();
+    assert!(largest < runner::MAX_ASSESSMENT_PROMPT_BYTES);
+    assert!(
+        sizes[0] < largest,
+        "fixture must isolate a later oversized lane"
+    );
+    let padding = runner::MAX_ASSESSMENT_PROMPT_BYTES - largest;
+    for extra in [0usize, 1] {
+        let f = Fixture::with_source(&format!("{base_source}{}", "a".repeat(padding + extra)));
+        let admission = admit(&f);
+        let results: Vec<_> = ReviewLane::ALL
+            .into_iter()
+            .map(|lane| runner::assessment_lane_input_manifest("boundary", lane, &admission))
+            .collect();
+        assert!(results[0].is_ok());
+        if extra == 0 {
+            assert!(results.iter().all(Result::is_ok));
+            assert_eq!(
+                results
+                    .iter()
+                    .map(|r| r.as_ref().unwrap().1.len())
+                    .max()
+                    .unwrap(),
+                runner::MAX_ASSESSMENT_PROMPT_BYTES
+            );
+        } else {
+            assert!(results.iter().any(|r| r
+                .as_ref()
+                .err()
+                .is_some_and(|e| e.to_string() == "assessment_prompt_byte_limit")));
+            let calls = AtomicUsize::new(0);
+            let out = f.dir.join("no-dispatch");
+            let result = runner::run_assessments_with_executor(
+                runner::ExecutionOptions {
+                    out: out.clone(),
+                    run_id: "boundary".into(),
+                    cancel_file: None,
+                },
+                admission,
+                "synthetic:no-provider".into(),
+                |_, _, _| {
+                    calls.fetch_add(1, Ordering::SeqCst);
+                    anyhow::bail!("must not dispatch")
+                },
+            );
+            assert_eq!(
+                result.unwrap_err().to_string(),
+                "assessment_prompt_byte_limit"
+            );
+            assert_eq!(calls.load(Ordering::SeqCst), 0);
+            assert!(!out.exists());
+        }
+    }
 }
