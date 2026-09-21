@@ -211,7 +211,7 @@ fn paired_continuations_and_native_artifacts_preserve_owner_and_order() {
         let mut context = VerificationContext {
             schema: "codefriend.agent_journey_verifier_context.v1".into(),
             job: job.clone(),
-            report: report.clone(),
+            report: serde_json::from_slice(&fs::read(root.join("report.json")).unwrap()).unwrap(),
             receipt: crate::codefriend::agent::ForwardReceipt {
                 schema: "codefriend.agent_report_receipt.v1".into(),
                 subject: report.subject.clone(),
@@ -233,8 +233,16 @@ fn paired_continuations_and_native_artifacts_preserve_owner_and_order() {
         changed.digest.clear();
         changed.digest = hash(&changed).unwrap();
         // A future observation cannot be manufactured merely by retaining an older receipt.
-        context.previous.as_mut().unwrap().checkpoint_sequence = changed.checkpoint_sequence + 1;
-        assert!(verify_stage(&changed, &context, context.now).is_err());
+        let previous = context.previous.as_mut().unwrap();
+        previous.checkpoint_sequence = changed.checkpoint_sequence + 1;
+        previous.digest.clear();
+        previous.digest = hash(previous).unwrap();
+        assert_eq!(
+            verify_stage(&changed, &context, context.now)
+                .unwrap_err()
+                .to_string(),
+            "agent_journey_verifier_regression"
+        );
         if result.payload.is_some() {
             let mut changed = result.clone();
             changed.payload = None;
