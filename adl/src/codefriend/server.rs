@@ -249,7 +249,7 @@ fn execute_cycle(
     let cancel = dir.join("cancel");
     let mut identities = Vec::new();
     let review = if plan.activities.contains(&Activity::Review) {
-        Some(runner::run_with_executor(
+        match runner::run_with_executor(
             runner::ExecutionOptions {
                 out: work.join("review"),
                 run_id: request.operation_id.clone(),
@@ -281,7 +281,13 @@ fn execute_cycle(
                     output_text: output.output_text,
                 })
             },
-        )?)
+        ) {
+            Ok(review) => Some(review),
+            Err(error) if error.is::<crate::provider_adapter::CodeFriendProviderInterrupted>() => {
+                return Err(error);
+            }
+            Err(_) => None,
+        }
     } else {
         None
     };
