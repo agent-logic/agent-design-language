@@ -76,17 +76,30 @@ Exports preserve Mermaid sources, SVG diagrams, citations, shared entity IDs and
 scenario cross-references. The PDF draws corresponding native vector diagrams.
 
 The fixture's eight-page PDF was inspected on narrative page 3 and diagram page 8:
-text and diagram labels were readable without clipping. Static HTML inspection
-verified all 17 links and five image targets. It also exposed pipe tables rendered
+text and diagram labels were readable without clipping. Initial static HTML inspection
+verified 17 links and five image targets. Final fixture capture after the table
+repair verified nine real tables, 37 headers, 18 links and five images, with no
+missing targets. It also exposed pipe tables rendered
 as prose; the repair enables GFM tables, bounded table/image styling and a focused
 assertion for real table headers. Browser visual inspection could not run because
 the supported browser runtime rejected its trusted RPC dependency path. This
 packet does not claim browser-rendered inspection. PDF evidence does not substitute
 for website-mode or live-package approval proof.
 
-Focused clippy passed at `69afb828f3`. The final publication requires native
-exact-head proof and independent review after the presentation repair and records
-are committed. CI integration and merge readiness remain separate claims.
+Focused clippy passed at `977fe732976726c15bad7c34cdf6717d11ba698c`.
+Native proof passed all 35 tests at `94be96e44d437c48a908fffb785c9507fe2593ae`
+in 185,156 ms, with unchanged inputs and no timeout or cancellation. Independent
+exact-head review passed and its native receipt was recorded. The final records
+commit still requires fresh native proof/review before publication. CI integration
+and merge readiness remain separate claims.
+
+The initial native run was cancelled by the implementer before any tests ran;
+it did not reproduce a TMPDIR-caused failure. Native proof deliberately clears
+ambient environment and uses `target/intent-validation`. The fixture repair now
+creates unique temporary directories under `adl/target/codefriend-fixtures`, and
+the actual native target was warmed through the approved wrapper. #1117 is a
+proposed runner improvement, not a prerequisite for this publication. No Cargo
+shim, global configuration change or proof bypass was used.
 
 ## Review dispositions and boundaries
 

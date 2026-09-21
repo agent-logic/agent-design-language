@@ -82,7 +82,7 @@ codex_plan:
   - step: "Run focused validation and proof gates."
     status: "completed"
   - step: "Record issue-specific SRP findings and VPP/SOR outcome truth."
-    status: "in_progress"
+    status: "completed"
 affected_areas:
   - "codefriend-four-plus-one-architecture"
 invariants_to_preserve:
@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "Installed native generation and retrieval passed on ADL and bounded external source. Fourteen package and twenty-one journey tests passed at 69afb828f3. Final presentation repair, exact-head proof/review and PR publication remain; hosted/paired activity integration stays #1101 and independent Beta1 qualification stays #915."
+notes: "Implementation, local proof and independent review complete at94be96e44d; finalize native review/output records and publish after fresh exact-head proof. Hosted/paired #1101 and independent #915 remain separate."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -146,7 +146,7 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 2. [completed] Inspect repo inputs and target surfaces before editing.
 3. [completed] Implement the bounded deliverables only.
 4. [completed] Run focused validation and proof gates.
-5. [in_progress] Record issue-specific SRP findings and VPP/SOR outcome truth.
+5. [completed] Record issue-specific SRP findings and VPP/SOR outcome truth.
 
 ## Assumptions
 
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-Installed native generation and retrieval passed on ADL and bounded external source. Fourteen package and twenty-one journey tests passed at 69afb828f3. Final presentation repair, exact-head proof/review and PR publication remain; hosted/paired activity integration stays #1101 and independent Beta1 qualification stays #915.
+Implementation, local proof and independent review complete at94be96e44d; finalize native review/output records and publish after fresh exact-head proof. Hosted/paired #1101 and independent #915 remain separate.

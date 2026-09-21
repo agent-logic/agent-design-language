@@ -8,7 +8,7 @@ version: "1.0.5"
 title: "[v0.92.2][CF-ARCH] Generate the complete 4+1 architecture package in Beta 1"
 branch: "codex/1109-codefriend-four-plus-one-architecture"
 generated_at: "<timestamp>"
-card_status: "ready"
+card_status: "completed"
 status: "draft"
 source_refs:
   - kind: "issue"
@@ -55,9 +55,9 @@ policy_refs:
   - "<sip_card>"
   - "<vpp_card>"
 review_results:
-  findings_status: "<findings_status>"
-  recommended_outcome: "<recommended_outcome>"
-notes: "<review_notes>"
+  findings_status: "no_findings"
+  recommended_outcome: "pass"
+notes: "Independent reviewer /root/review_1109_core PASS at94be96e44d437c48a908fffb785c9507fe2593ae. Prior full implementation/presentation/evidence review plus worktree-local fixture/PVF repair; no actionable findings. Native proof passed35tests with unchanged inputs and no timeout/cancellation. Final record commit requires fresh exact-head proof/review before publication. Installed ADL/external demonstrations do not satisfy #915 or hosted/paired #1101. Browser visual inspection remains unclaimed."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- <review_findings>
+- Bounded independent source review found missing actionable gap explanations, omitted isolated-node diagrams, response decode mismatch, attachment link prefix mismatch and fenced-response publication rejection. All repaired. No actionable findings remain in repair review at 69afb828f3 or subsequent HTML/evidence delta review.
 
 ### Dispositions
 
-- <review_dispositions>
+- All five actionable findings fixed with regression coverage. Parent static HTML inspection additionally identified pipe tables rendered as prose; GFM table rendering and actual table-header assertions added and independently reviewed.
 
 ### Recommended Outcome
 
-- <recommended_outcome>
+- pass
 
 ## Notes
 
-<review_notes>
+Independent reviewer /root/review_1109_core PASS at94be96e44d437c48a908fffb785c9507fe2593ae. Prior full implementation/presentation/evidence review plus worktree-local fixture/PVF repair; no actionable findings. Native proof passed35tests with unchanged inputs and no timeout/cancellation. Final record commit requires fresh exact-head proof/review before publication. Installed ADL/external demonstrations do not satisfy #915 or hosted/paired #1101. Browser visual inspection remains unclaimed.
