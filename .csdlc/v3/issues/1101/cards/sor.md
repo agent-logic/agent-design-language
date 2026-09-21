@@ -1,4 +1,4 @@
-# <slug>
+# codefriend-update-cycle-activity-executors
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/sor.md`
 
@@ -20,79 +20,79 @@ Run ID: issue-1101
 Version: 1.0.5
 Title: [v0.92.2][CF-ACTIVITIES] Generate documentation, diagrams and tests for update cycles
 Branch: codex/1101-codefriend-update-cycle-activity-executors
-Card Status: ready
-Status: <status>
-Generated: <timestamp>
+Card Status: draft
+Status: IN_PROGRESS
+Generated: 2026-09-20
 
 Execution:
-- Actor: `<execution_actor>`
-- Model: `<model>`
-- Provider: `<provider>`
-- Start Time: `<start_time>`
-- End Time: `<end_time>`
+- Actor: `Planning #5`
+- Model: `Codex`
+- Provider: `OpenAI`
+- Start Time: `not_collected`
+- End Time: `not_collected`
 
 ## Summary
 
-<summary>
+Implemented versioned repository update-cycle plans and source-bound documentation, Mermaid diagram, and test proposal results for hosted and paired-local CodeFriend execution while preserving the legacy review-only protocol. Independent exact-head review, publication, CI, merge, and website consumption remain pending.
 
 ## PVF Lane Truth
-- Initial PVF lane: `<initial_pvf_lane>`
-- Planned PVF lane: `<planned_pvf_lane>`
-- Final PVF lane: `<final_pvf_lane>`
-- Lane change reason: `<lane_change_reason>`
+- Initial PVF lane: `runtime`
+- Planned PVF lane: `runtime`
+- Final PVF lane: `runtime`
+- Lane change reason: `not_applicable: the implementation remained in the planned deterministic runtime lane`
 
 ## Issue Metrics Truth
-- Expected runtime class: `<expected_runtime_class>`
-- Estimated elapsed seconds: `<estimated_elapsed_seconds>`
-- Actual elapsed seconds: `<actual_elapsed_seconds>`
-- Actual active work seconds: `<actual_active_work_seconds>`
-- Estimated total tokens: `<estimated_total_tokens>`
-- Actual total tokens: `<actual_total_tokens>`
-- Estimated validation seconds: `<estimated_validation_seconds>`
-- Actual validation seconds: `<actual_validation_seconds>`
-- Actual PR wait seconds: `<actual_pr_wait_seconds>`
-- Actual CI wait seconds: `<actual_ci_wait_seconds>`
-- Budget source: `<budget_source>`
-- Goal metrics data source: `<actual_metrics_data_source>`
-- Goal metrics source ref: `<actual_metrics_source_ref>`
-- Data-source confidence: `<actual_metrics_confidence>`
-- Estimate error percent: `<estimate_error_percent>`
-- Completion state: `<completion_state>`
-- Issue goal ref: `<issue_goal_ref>`
-- Sprint goal ref: `<sprint_goal_ref>`
-- Goal metrics rollup ref: `<goal_metrics_rollup_ref>`
-- Validation planning prompt: `<vpp_card>`
+- Expected runtime class: `bounded component implementation and focused Rust validation`
+- Estimated elapsed seconds: `unknown`
+- Actual elapsed seconds: `not_collected`
+- Actual active work seconds: `not_collected`
+- Estimated total tokens: `unknown`
+- Actual total tokens: `not_collected`
+- Estimated validation seconds: `unknown`
+- Actual validation seconds: `not_collected`
+- Actual PR wait seconds: `0`
+- Actual CI wait seconds: `0`
+- Budget source: `not_collected`
+- Goal metrics data source: `not_collected`
+- Goal metrics source ref: `not_collected`
+- Data-source confidence: `unknown`
+- Estimate error percent: `unknown`
+- Completion state: `implementation_complete_review_pending`
+- Issue goal ref: `Active issue #1101 implementation and reviewed-green PR publication goal`
+- Sprint goal ref: `CodeFriend Beta 1 update-cycle prerequisite for codefriend.ai issue #6`
+- Goal metrics rollup ref: `not_collected`
+- Validation planning prompt: `.csdlc/issues/1101/cards/vpp.md`
 - Missing-telemetry rule: record `unknown` or `not_collected`; do not invent precision from chat memory or broad timestamp guesses.
 - Goal-metrics substrate note: consume the `#4264` issue-goal metrics summary when available and record `unknown` instead of duplicating raw session logs here.
 
 ## Variance Analysis
 - Threshold policy: require variance analysis when any known estimated/actual pair for elapsed seconds, total tokens, or validation seconds differs by more than 10 percent.
-- Variance analysis required: `<variance_analysis_required>`
-- Variance analysis completed: `<variance_analysis_completed>`
-- Variance category: `<variance_category>`
-- Variance note: `<variance_note>`
+- Variance analysis required: `unknown: estimate and actual telemetry were not collected`
+- Variance analysis completed: `not_applicable`
+- Variance category: `not_applicable`
+- Variance note: `No numeric estimate/actual pair exists; no variance percentage is claimed.`
 - Sprint rollup guidance: count only completed variance analyses by `Variance category`; keep `not_applicable` out of category totals and never treat unknown metrics as zero variance.
 
 ## Artifacts produced
-- Local ignored output-card scaffold at `<output_card>`
-- Tracked implementation artifacts: `<tracked_implementation_artifacts>`
-- Additional proof artifacts: `<additional_proof_artifacts>`
+- Local ignored output-card scaffold at `.csdlc/issues/1101/cards/sor.md`
+- Tracked implementation artifacts: `adl/src/codefriend/activities.rs; adl/src/codefriend/agent.rs; adl/src/codefriend/server.rs; adl/src/codefriend/review/runner.rs; adl/tests/codefriend_update_cycle.rs; adl/tests/codefriend_agent.rs; adl/tests/codefriend_server.rs; adl/tests/fixtures/codefriend/update-cycle/PVF.json; docs/codefriend/SERVER.md; docs/codefriend/LOCAL_AGENT.md`
+- Additional proof artifacts: `Focused deterministic component tests and the issue-local PVF manifest; no live provider or deployment artifact is claimed.`
 
 ## Actions taken
-- `<actions_taken_line_1>`
-- `<actions_taken_line_2>`
-- `<actions_taken_line_3>`
+- `Added strict versioned plan, input-manifest, proposal-output, activity-result, and aggregate-result contracts for independently selected work.`
+- `Integrated hosted execution and a single durable paired-local cycle operation with cancellation, retention, observed model identity, exact request binding, and no-replay behavior.`
+- `Preserved the original review-only wire shapes and added deterministic compatibility, failure, admission, and result-validation tests.`
 
 ## Main Repo Integration (REQUIRED)
-- Main-repo paths updated: `<main_repo_paths_updated>`
-- Worktree-only paths remaining: `<worktree_only_paths_remaining>`
-- Integration state: `<integration_state>`
-- Verification scope: `<verification_scope>`
-- Integration method used: `<integration_method_used>`
+- Main-repo paths updated: `none: the implementation is committed only on the bound issue branch`
+- Worktree-only paths remaining: `All issue #1101 implementation, tests, docs, and lifecycle records remain on the bound branch pending PR review and merge.`
+- Integration state: `worktree_only`
+- Verification scope: `bound issue worktree`
+- Integration method used: `Three commits on the bound issue branch; no main checkout edits and no merge.`
 - Verification performed:
-  - `<integration_verification_command>`
-    `<integration_verification_effect>`
-- Result: `<integration_result>`
+  - `git status --short --branch; git diff --check origin/main...HEAD`
+    `Verified the bound branch identity, clean worktree, and patch whitespace hygiene without claiming main integration.`
+- Result: `Committed through dbff251e4269609ea6c502412003e6bee05d44ff; not reviewed, published, merged, or deployed.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -107,10 +107,10 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `<validation_command>`
-    `<validation_effect>`
+  - `cargo test --manifest-path adl/Cargo.toml --test codefriend_update_cycle --test codefriend_server --test codefriend_agent --test codefriend_agent_receipt --test codefriend_agent_publication --test codefriend_integration; cargo fmt --manifest-path adl/Cargo.toml --all -- --check; git diff --check origin/main...HEAD`
+    `Exercises activity selection and binding, malformed and failed outputs, hosted admission, paired-local single-operation replay protection, legacy agent/report compatibility, publication receipts, hosted integration, formatting, and patch hygiene.`
 - Results:
-  - `<validation_result>`
+  - `75 focused and compatibility tests passed with zero failures; formatting and diff hygiene passed. Strict Clippy and independent exact-head review remain pending.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -123,56 +123,56 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: <verification_validation_status>
+    status: passed_with_remaining_review_gates
     checks_run:
-      - "<verification_check_1>"
+      - "75 focused CodeFriend contract, server, agent, receipt, publication, and integration tests passed"
   determinism:
-    status: <verification_determinism_status>
-    replay_verified: <verification_replay_verified>
-    ordering_guarantees_verified: <verification_ordering_guarantees_verified>
+    status: passed
+    replay_verified: true
+    ordering_guarantees_verified: true
   security_privacy:
-    status: <verification_security_privacy_status>
-    secrets_leakage_detected: <verification_secrets_leakage_detected>
-    prompt_or_tool_arg_leakage_detected: <verification_prompt_or_tool_arg_leakage_detected>
-    absolute_path_leakage_detected: <verification_absolute_path_leakage_detected>
+    status: passed_for_component_scope
+    secrets_leakage_detected: false
+    prompt_or_tool_arg_leakage_detected: false
+    absolute_path_leakage_detected: false
   artifacts:
-    status: <verification_artifacts_status>
-    required_artifacts_present: <verification_required_artifacts_present>
+    status: passed
+    required_artifacts_present: true
     schema_changes:
-      present: <verification_schema_changes_present>
-      approved: <verification_schema_changes_approved>
+      present: true
+      approved: true: issue #1101 explicitly requires versioned update-cycle contracts
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `<determinism_tests_executed>`
-- Fixtures or scripts used: `<fixtures_or_scripts_used>`
-- Replay verification (same inputs -> same artifacts/order): `<replay_verification>`
-- Ordering guarantees (sorting / tie-break rules used): `<ordering_guarantees>`
-- Artifact stability notes: `<artifact_stability_notes>`
+- Determinism tests executed: `codefriend_update_cycle, codefriend_server, codefriend_agent, codefriend_agent_receipt, codefriend_agent_publication, and codefriend_integration`
+- Fixtures or scripts used: `Local Git repositories, controlled clocks, bounded filesystem fixtures, loopback HTTP, and injected providers; no external provider.`
+- Replay verification (same inputs -> same artifacts/order): `Paired-local cycle redelivery retained one gateway dispatch and the exact report; operation IDs bind agent, run, cycle, and plan digest.`
+- Ordering guarantees (sorting / tie-break rules used): `Plans require canonical review, documentation, diagrams, tests ordering and reject duplicates; results preserve the selected order.`
+- Artifact stability notes: `Input, plan, output, review, report, and request digests bind retained typed bytes; observed timestamps may vary without changing the execution identity comparison.`
 
 ## Security / Privacy Checks
-- Secret leakage scan performed: `<secret_leakage_scan_performed>`
-- Prompt / tool argument redaction verified: `<prompt_tool_arg_redaction_verified>`
-- Absolute path leakage check: `<absolute_path_leakage_check>`
-- Sandbox / policy invariants preserved: `<sandbox_policy_invariants_preserved>`
+- Secret leakage scan performed: `Output validation rejects recognized credential content and unsafe paths; focused fixtures contain no real credentials.`
+- Prompt / tool argument redaction verified: `Prompts contain bounded admitted source and fixed instructions only; provider failures become fixed redacted activity error codes.`
+- Absolute path leakage check: `Generated outputs reject unsafe paths; tracked docs use repository-relative references. The lifecycle worktree field is template-required local coordination metadata.`
+- Sandbox / policy invariants preserved: `Generated content remains proposal-only and grants no source mutation or publication authority.`
 
 ## Replay Artifacts
-- Trace bundle path(s): `<trace_bundle_paths>`
-- Run artifact root: `<run_artifact_root>`
-- Replay command used for verification: `<replay_command>`
-- Replay result: `<replay_result>`
+- Trace bundle path(s): `not_applicable: deterministic component tests did not retain a live provider trace bundle`
+- Run artifact root: `adl/target test fixtures only; disposable and not tracked`
+- Replay command used for verification: `cargo test --manifest-path adl/Cargo.toml --test codefriend_agent local_update_cycle_uses_one_durable_gateway_operation_and_preserves_activity_results -- --exact`
+- Replay result: `Passed with one model gateway dispatch across initial delivery and redelivery.`
 
 ## Artifact Verification
-- Primary proof surface: `<primary_proof_surface>`
-- Required artifacts present: `<required_artifacts_present>`
-- Artifact schema/version checks: `<artifact_schema_checks>`
-- Hash/byte-stability checks: `<hash_byte_stability_checks>`
-- Missing/optional artifacts and rationale: `<missing_optional_artifacts_rationale>`
+- Primary proof surface: `adl/tests/codefriend_update_cycle.rs; adl/tests/codefriend_server.rs; adl/tests/codefriend_agent.rs`
+- Required artifacts present: `Versioned contracts, hosted and paired-local integration, compatibility tests, protocol docs, and PVF manifest are present on the bound branch.`
+- Artifact schema/version checks: `Strict serde unknown-field rejection and explicit schema constants validate plan, manifest, output, aggregate result, command, and report shapes.`
+- Hash/byte-stability checks: `Plan, manifest, output, operation request, gateway result, and local report digests are recomputed and compared by focused tests.`
+- Missing/optional artifacts and rationale: `No rendered Mermaid, executed generated tests, measured coverage, source mutation, publication, live provider, installed service, or deployment proof is claimed by this issue.`
 
 ## Decisions / Deviations
-- `<decision_or_deviation_1>`
-- `<decision_or_deviation_2>`
+- `Use one durable paired-local gateway operation for the complete plan so normal reconnection never requires a second update-cycle dispatch.`
+- `Keep legacy review-only request and report serialization unchanged when cycle is absent.`
 
 ## Follow-ups / Deferred work
-- `<follow_up_1>`
-- `<follow_up_2>`
+- `Run strict focused Clippy and obtain mandatory independent exact-head review; fix every actionable finding before publication.`
+- `After #1101 is reviewed and merged, update codefriend.ai PR #9 to enable the four activities and consume the new result contract.`
