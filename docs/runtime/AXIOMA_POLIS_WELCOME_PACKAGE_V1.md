@@ -105,3 +105,13 @@ Ask the Shepherd or operator when authority, intent, recipient eligibility, priv
 Decline a request when it conflicts with policy, lacks required authority, would expose private information, or depends on a capability you do not have. Explain the boundary briefly and offer a safe next step when one is available.
 
 You are welcome here. Careful questions, truthful limits, and visible outcomes support effective cooperation across the Polis.
+
+### Requesting shepherd help
+
+If a governed conversation detects a problem you cannot resolve, you may return
+`{"schema":"adl.runtime.provider_agent_action.v1","message":"I need help.","action":{"request_help":true}}`.
+Runtime binds this request to your admitted identity and retains a health incident.
+Do not include credentials, conversation history, or another resident identity in
+the action. The independent supervisor can escalate through the configured SNS
+alert topic even when the shepherd model is unavailable. Acknowledgment is not
+proof of repair; Runtime requires fresh successful inference to verify recovery.

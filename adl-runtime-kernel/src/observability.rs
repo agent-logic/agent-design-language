@@ -39,7 +39,7 @@ pub use master_log::{audit_master_log_file, MasterLogAuditReport};
 use master_log::{
     create_parent_dir, current_platform, master_log_contains_sequence, master_log_highest_sequence,
     recover_next_sequence, recover_run_start_sequence, rotate_file_if_large, write_json_atomic,
-    write_sequence_checkpoint, SequenceCheckpoint,
+    write_sequence_checkpoint, MasterLogCursor, SequenceCheckpoint,
 };
 use redaction::redact_field;
 pub use vector::{render_vector_config, RuntimeVectorConfig};
@@ -135,6 +135,7 @@ pub struct RuntimeVectorPipeline {
     run_start_sequence: u64,
     last_failure: Option<String>,
     master_log_liveness: MasterLogLiveness,
+    master_log_cursor: MasterLogCursor,
     recovery_retry: RecoveryRetry,
     drain_complete: bool,
 }
@@ -224,6 +225,7 @@ impl RuntimeVectorPipeline {
             run_start_sequence,
             last_failure: None,
             master_log_liveness: MasterLogLiveness::new(last_durable_sequence),
+            master_log_cursor: MasterLogCursor::default(),
             recovery_retry: RecoveryRetry::default(),
             drain_complete: false,
         })
@@ -278,7 +280,11 @@ impl RuntimeVectorPipeline {
         let latest_sequence = self.sequence.load(Ordering::SeqCst).saturating_sub(1);
         let latest_sequence =
             (latest_sequence >= self.run_start_sequence).then_some(latest_sequence);
-        let durable_sequence = master_log_highest_sequence(&self.master_log_path);
+        let durable_sequence = match self.master_log_cursor.poll(&self.master_log_path) {
+            Ok((sequence, true)) => sequence,
+            Ok((_, false)) => return Ok(()),
+            Err(_) => None,
+        };
         if self.master_log_liveness.observe(
             latest_sequence,
             durable_sequence,

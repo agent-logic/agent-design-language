@@ -113,6 +113,13 @@ fn real_agent(args: &[String]) -> Result<()> {
         Some("add") => csmctl_agent_add(&args[1..]),
         Some("list") => csmctl_agent_read(&args[1..], None),
         Some("get") => csmctl_agent_read(&args[1..], Some(required_arg(&args[1..], "--id")?)),
+        Some("health") => {
+            let id = safe_agent_id(required_arg(&args[1..], "--id")?)?;
+            let client = RuntimeAgentClient::from_args(&args[1..])?;
+            let status = client.call(reqwest::Method::GET, &format!("/v1/agents/{id}/health"), None)?;
+            println!("{}", serde_json::to_string_pretty(&status)?);
+            Ok(())
+        }
         Some("remove") => csmctl_agent_remove(&args[1..]),
         Some("checkpoint") => csmctl_agent_checkpoint(&args[1..]),
         Some("dehydrate") => csmctl_agent_dehydrate(&args[1..]),
@@ -123,7 +130,7 @@ fn real_agent(args: &[String]) -> Result<()> {
             Ok(())
         }
         Some(other) => Err(anyhow!(
-            "unknown csmctl agent command '{other}'. Expected add, list, get, remove, checkpoint, dehydrate, migrate, rehydrate, or help"
+            "unknown csmctl agent command '{other}'. Expected add, list, get, health, remove, checkpoint, dehydrate, migrate, rehydrate, or help"
         )),
     }
 }
@@ -134,6 +141,7 @@ Usage:\n\
   csmctl agent add --config <agent.yaml>\n\
   csmctl agent list --init <init>\n\
   csmctl agent get --init <init> --id <id>\n\
+  csmctl agent health --init <init> --id <id>\n\
   csmctl agent checkpoint --init <init> --id <id> [--out <checkpoint.json>]\n\
   csmctl agent dehydrate --init <init> --id <id> --out <freeze-dried-agent.json>\n\
   csmctl agent migrate --init <init> --id <id> --out <freeze-dried-agent.json>\n\
@@ -964,6 +972,7 @@ safety:
             "agent add",
             "agent list",
             "agent get",
+            "agent health",
             "agent checkpoint",
             "agent dehydrate",
             "agent migrate",

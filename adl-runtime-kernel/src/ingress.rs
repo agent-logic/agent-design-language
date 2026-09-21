@@ -496,11 +496,27 @@ fn project_public_output(
         {
             return Err(IngressError::ExecutionFailed);
         }
-        return Ok(Some(serde_json::json!({
+        let mut projected = serde_json::json!({
             "schema": "adl.runtime.conversation_reply.v1",
             "recipient_id": recipient_id,
             "message": response.response,
-        })));
+        });
+        if let Ok(action) = serde_json::from_str::<serde_json::Value>(&response.response) {
+            if (action["schema"] == "adl.runtime.agent_conversation_response.v1"
+                && action["request_help"] == true)
+                || (action["schema"] == "adl.runtime.provider_agent_action.v1"
+                    && action["action"].as_object().is_some_and(|a| a.len() == 1)
+                    && action["action"]["request_help"] == true)
+            {
+                let message = action["message"]
+                    .as_str()
+                    .filter(|m| !m.trim().is_empty() && m.len() <= 4096)
+                    .ok_or(IngressError::ExecutionFailed)?;
+                projected["message"] = serde_json::Value::String(message.to_owned());
+                projected["request_help"] = serde_json::Value::Bool(true);
+            }
+        }
+        return Ok(Some(projected));
     }
     let Ok(command) = serde_json::from_slice::<serde_json::Value>(&work.payload) else {
         return Ok(None);
@@ -552,6 +568,12 @@ fn project_public_output(
         "recipient_id": recipient_id,
         "message": message,
     });
+    if let Some(help) = output.get("request_help") {
+        if help.as_bool() != Some(true) {
+            return Err(IngressError::ExecutionFailed);
+        }
+        projected["request_help"] = serde_json::Value::Bool(true);
+    }
     if let Some(action) = output.get("agent_to_agent_initiation") {
         let schema = action.get("schema").and_then(serde_json::Value::as_str);
         let valid_recipient = match schema {
@@ -706,6 +728,30 @@ mod tests {
                 }]
             }))
             .expect("operation payload serializes"),
+        }
+    }
+
+    #[test]
+    fn conversation_public_output_projects_only_boolean_self_help() {
+        let work = DomainWork {
+            schema: DOMAIN_WORK_SCHEMA.into(),
+            work_id: "help".into(),
+            kind: crate::AdapterKind::Agent.service_name().into(),
+            payload: conversation_work_payload("beacon"),
+        };
+        for help in [
+            serde_json::json!(true),
+            serde_json::json!({"secret":"must not pass"}),
+        ] {
+            let operation = operation_with_output(
+                serde_json::json!({"recipient_id":"beacon","message":"Help", "request_help":help}),
+            );
+            let result = project_public_output(&work, &operation);
+            if help == true {
+                assert_eq!(result.unwrap().unwrap()["request_help"], true);
+            } else {
+                assert!(result.is_err());
+            }
         }
     }
 

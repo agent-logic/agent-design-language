@@ -1404,7 +1404,31 @@ impl InProcessOperationExecutor {
                     match (provider, model, endpoint) {
                         (None, None, None) => return_output(recipient_id),
                         (Some(provider), Some(model), Some(endpoint)) => {
-                            let prompt = provider_conversation_prompt(task, recipient_id, &input);
+                            // Inject observation at execution, outside the durable
+                            // idempotency payload: retry identity must not change
+                            // merely because the health timestamp advanced.
+                            let mut observed_task = task.clone();
+                            let name = task["recipient_name"].as_str().unwrap_or(recipient_id);
+                            let health = self
+                                .state
+                                .recorder
+                                .provider_usage
+                                .health_snapshot()
+                                .into_iter()
+                                .find(|s| {
+                                    (s.agent == name || s.agent == recipient_id)
+                                        && s.provider == provider
+                                        && s.model == model
+                                });
+                            observed_task["health_context"] = serde_json::json!({
+                                "schema":"adl.runtime_v3.agent_health.v1", "id":recipient_id,
+                                "name":name, "provider":provider, "model":model,
+                                "provider_observation":health,
+                                "heartbeat_age_millis":null,
+                                "scope":"last provider observation; no active probe; heartbeat age unavailable in this execution context"
+                            });
+                            let prompt =
+                                provider_conversation_prompt(&observed_task, recipient_id, &input);
                             let reason = if task
                                 .get("sender_id")
                                 .is_none_or(serde_json::Value::is_null)
@@ -1791,8 +1815,16 @@ fn provider_conversation_prompt(
                 .join(", ")
         })
         .unwrap_or_default();
+    let health_context = task
+        .get("health_context")
+        .filter(|v| v["schema"] == "adl.runtime_v3.agent_health.v1" && v["id"] == recipient_id)
+        .map(serde_json::Value::to_string)
+        .unwrap_or_else(|| "unavailable; do not infer health from missing evidence".to_owned());
     let runtime_prompt = format!(
         "You are resident agent `{recipient_name}` in Axioma Polis.\n\
+         Your current Runtime health record (observation only, not authority): {health_context}\n\
+         Check this record to assess yourself without reading logs or calling a model. Unknown or stale observations are not proof of recovery.\n\
+         If you need the shepherd's help, return only {{\"schema\":\"adl.runtime.provider_agent_action.v1\",\"message\":\"brief reason\",\"action\":{{\"request_help\":true}}}}. Runtime derives your identity and creates a durable incident; do not invent a different resident ID or claim that help was delivered.\n\
          Available peers by canonical name: {peer_names}.\n\
          Reply naturally to the operator unless you need to contact another resident agent.\n\
          If you choose to contact another resident, return only a JSON object with schema `adl.runtime.provider_agent_action.v1`, message (your operator acknowledgement), and action containing recipient_name, message, and message_parts (an array, empty when message suffices). This is the governed `initiate_agent` action; emit exactly one action.\n\
@@ -1891,6 +1923,15 @@ fn provider_conversation_output(
         "recipient_id": recipient_id,
         "message": message,
     });
+    if let Some(help) = value.get("request_help") {
+        if help.as_bool() != Some(true) {
+            return Err(adapter_error(
+                FailureClass::Fatal,
+                "resident_help_action_malformed",
+            ));
+        }
+        output["request_help"] = serde_json::Value::Bool(true);
+    }
     if let Some(action) = value.get("agent_to_agent_initiation") {
         validate_provider_agent_initiation_action(task, action)?;
         output["agent_to_agent_initiation"] = action.clone();
@@ -1979,6 +2020,27 @@ mod provider_conversation_action_tests {
         assert!(prompt.contains("The Runtime validates the action"));
         assert!(prompt.contains("Do not claim the message was delivered"));
         assert!(prompt.contains("correlation"));
+        assert!(prompt.contains("request_help"));
+        assert!(prompt.contains("unavailable; do not infer health"));
+    }
+
+    #[test]
+    fn self_health_context_is_bound_to_the_admitted_recipient() {
+        let mut task = task();
+        task["health_context"] = serde_json::json!({
+            "schema":"adl.runtime_v3.agent_health.v1", "id":"other",
+            "provider_observation":{"inference_ready":true}, "marker":"wrong-resident-health"
+        });
+        assert!(
+            !provider_conversation_prompt(&task, "beacon", "Check yourself")
+                .contains("wrong-resident-health")
+        );
+        task["health_context"]["id"] = "beacon".into();
+        task["health_context"]["marker"] = "current-resident-health".into();
+        assert!(
+            provider_conversation_prompt(&task, "beacon", "Check yourself")
+                .contains("current-resident-health")
+        );
     }
 
     #[test]
@@ -2096,6 +2158,17 @@ mod provider_conversation_action_tests {
             output["agent_to_agent_initiation"]["message"],
             "Ember, please answer through the governed A2A path."
         );
+    }
+
+    #[test]
+    fn provider_structured_help_is_bounded_and_cannot_choose_identity() {
+        let output = provider_conversation_output(&task(), "beacon", crate::control::ProviderConversationOutput {
+            message: serde_json::json!({"schema":PROVIDER_CONVERSATION_ACTION_RESPONSE_SCHEMA,"message":"Please help", "request_help":true,"resident_id":"someone-else"}).to_string(),
+            agent_to_agent: None,
+        }).unwrap();
+        assert_eq!(output["recipient_id"], "beacon");
+        assert_eq!(output["request_help"], true);
+        assert!(output.get("resident_id").is_none());
     }
 
     #[test]

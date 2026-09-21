@@ -331,6 +331,7 @@ mod tests {
             status: "interrupted".into(),
             expires_at: now() + 600,
             result: None,
+            cycle_result: None,
             digest: String::new(),
         };
         report.digest = adl::codefriend::evidence::hash(&report).unwrap();

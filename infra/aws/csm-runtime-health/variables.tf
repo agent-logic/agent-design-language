@@ -101,3 +101,9 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "shepherd_principal_arns" {
+  description = "Explicit trusted principals for the read-only CloudWatch / one-topic alert role. Empty disables role provisioning."
+  type        = set(string)
+  default     = []
+}

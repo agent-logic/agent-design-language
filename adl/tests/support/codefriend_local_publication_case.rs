@@ -150,6 +150,7 @@ impl Case {
             run_id: "run1".into(),
             consent_digest: consent.digest().unwrap(),
             expires_at: now + 80,
+            cycle: None,
         };
         let journal = Journal::open(&temp.path().join("state")).unwrap();
         journal.save_pairing(&pairing, now).unwrap();
@@ -208,11 +209,13 @@ impl Case {
                 .map(|lane| GatewayLaneIdentity {
                     lane: lane.id().into(),
                     candidate_revision: candidate.clone(),
+                    request_digest: None,
                     model_identity: model.clone(),
                 })
                 .collect(),
             status: "complete".into(),
             expires_at: now + 60,
+            cycle_result: None,
             result: Some(result),
             digest: String::new(),
         };

@@ -386,6 +386,8 @@ pub struct RuntimeInitConfig {
     #[serde(default)]
     pub agent_orientation: AgentOrientationConfig,
     pub weather: WeatherConfig,
+    #[serde(default)]
+    pub resident_alerts: Option<crate::resident_health::ResidentAlertConfig>,
 }
 
 impl RuntimeInitConfig {
@@ -461,6 +463,22 @@ impl RuntimeInitConfig {
         }
         self.polis.validate(public_host)?;
         self.resident_shepherd.validate()?;
+        for (index, shepherd) in self.resident_shepherd.iter().enumerate() {
+            if (index == 0 || shepherd.office.to_ascii_lowercase().contains("shepherd"))
+                && (shepherd.provider != "ollama"
+                    || !crate::control::is_host_local_shepherd_endpoint(&shepherd.endpoint))
+            {
+                return Err(RuntimeInitError::Policy(
+                    "supervised shepherd must use host-local Ollama".into(),
+                ));
+            }
+        }
+
+        if let Some(alerts) = &self.resident_alerts {
+            alerts
+                .validate()
+                .map_err(|e| RuntimeInitError::Policy(e.to_owned()))?;
+        }
         self.service_convergence.validate()?;
         if self.api.bind_attempts == 0 || self.api.bind_attempts > 100 {
             return Err(RuntimeInitError::Policy(
