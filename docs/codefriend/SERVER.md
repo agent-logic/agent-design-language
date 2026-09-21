@@ -2,8 +2,10 @@
 
 Issue #1056 implements the HTTP backend in ADL. The website remains in
 `agent-logic/codefriend.ai`; repository extraction is separate v0.93 work.
-This service supplies hosted review execution and restricted model requests for
-installed local agents. It does not implement website GitHub login or agent pairing.
+This service supplies hosted update-cycle execution and restricted model requests for
+installed local agents. Issue #1101 extends the original review protocol with
+independently selected documentation, Mermaid-diagram and test-proposal activities.
+It does not implement website GitHub login or agent pairing.
 Those owners are #1057 and #1058. Full journey integration and qualification remain
 #914 and #915.
 
@@ -89,7 +91,16 @@ carry `Cache-Control: no-store`. There is no CORS wildcard or public signup.
 - `packet`: existing bounded CodeFriend repository packet, admitted through existing
   privacy, provenance and retention validation;
 - `mode`: `hosted` or `local_model`, matching the credential;
-- `lane`: null for hosted, or one existing review lane for local-model requests.
+- `lane`: null for hosted, or one existing review lane for legacy local-model requests;
+- optional `cycle`: `codefriend.update_cycle_plan.v1`, containing the exact repository,
+  one or more activities in canonical `review`, `documentation`, `diagrams`, `tests`
+  order, and a testing goal only when tests are selected.
+
+Omitting `cycle` preserves the original review-only request and response. A hosted
+cycle has a null lane. A paired local agent sends one local-model operation with a
+null lane and the complete cycle plan; the durable operation reservation covers all
+selected work, so reconnecting observes that operation rather than dispatching it
+again. Invalid plans are rejected before an operation ID is reserved.
 
 The service never accepts a client path, arbitrary prompt, provider route or identity.
 The local-model gateway constructs the existing lane prompt from admitted evidence,
@@ -103,8 +114,10 @@ or invalid credentials return 401 even for malformed or oversized request bodies
 
 The response is HTTP 202 with the operation identity, request digest, packet/source
 and candidate identities, expiry and status. Poll `GET /v1/operations/<id>`.
-Fetch the bounded validated result using `GET /v1/operations/<id>/result` only after
-`complete`. `POST /v1/operations/<id>/cancel` requests cancellation. Access is scoped
+Fetch the bounded validated result using `GET /v1/operations/<id>/result` after a
+terminal operation when a validated result envelope was retained. Successful work is
+`complete`; a cycle with one or more explicit activity failures is `failed` but keeps
+the envelope available for inspection. `POST /v1/operations/<id>/cancel` requests cancellation. Access is scoped
 to the authenticated user and mode. Arbitrary provider logs/files are not served.
 A local-model result includes `candidate_revision` and the actual invocation's
 canonical `model_identity` (provider, model reference, provider model ID, runtime
@@ -112,8 +125,27 @@ surface, identity strength and optional resolved digest). A completed local-mode
 operation exposes the same identity; pending operations do not claim an observed
 model identity. Clients must verify both identities against their expected candidate
 and run contract, rather than using a constant gateway label.
-A hosted result is the existing four-perspective review result; publication approval,
-rendering and full journey wiring remain their existing owners and #914.
+A hosted review-only result is the existing four-perspective review result. A cycle
+result is `codefriend.update_cycle_result.v1`, with one ordered result for each selected
+activity and its exact admitted packet and plan. Complete and explicitly failed cycle
+results also contain an `execution` object with the compiled `candidate_revision`, the
+exact submitted operation `request_digest`, and the observed canonical `model_identity`.
+Each field must equal the corresponding terminal operation field before a consumer accepts
+the result. The provider route retained by each activity is derived from that same model
+identity and is revalidated with the aggregate. Consumers can therefore revalidate the
+aggregate, execution identity, embedded review, artifact digests and source references
+without trusting the transport wrapper. Documentation, diagram and test outputs are source-bound proposals; they do
+not grant source mutation or publication authority. Every proposal declares whether it
+creates or updates a path and lists unsupported claims separately from general limitations.
+Citations are restricted to the exact evidence included in that activity's prompt.
+Diagram proposals use a deliberately constrained Mermaid flowchart/sequence grammar
+and include an exact `mmdc` SVG render manifest; successful rendering remains separate
+downstream proof. Test proposals retain the requested test goal or percentage target but leave
+`measured_coverage_percent` null because this executor does not run a coverage tool.
+Provider failure or malformed output is recorded against the affected activity and
+fails the outer operation while preserving every selected activity's terminal record;
+it cannot become a successful result. Publication approval
+and rendering remain separate.
 
 ## Failure, replay and retention
 
@@ -126,8 +158,9 @@ proof that an earlier call had no effect.
 
 Cancellation retains the concurrency slot until the worker exits. Hosted cancellation
 is checked between provider lanes; it cannot undo an active provider request. Late
-success after cancellation is not published as a complete result. Failures have no
-successful result endpoint. Per-subject quotas count every reserved operation across
+success after cancellation is not published as a complete result. A failed or cancelled
+operation exposes a result only when the worker durably produced a validated cycle
+envelope; transport/provider failures without one remain unavailable. Per-subject quotas count every reserved operation across
 restarts, including failures and expired operations; expiry does not replenish quota.
 Changing quotas or rotating a store is an explicit operator action.
 

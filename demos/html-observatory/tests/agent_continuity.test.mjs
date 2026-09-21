@@ -59,3 +59,12 @@ assert.equal(never.snapshotState, "never_snapshotted");
 assert.equal(never.archiveState, "disabled");
 
 console.log("agent continuity observatory projection: PASS");
+
+const incident = { incident_id: "incident-1", resident_id: "ember", state: "open", response_status: "shepherd_unavailable", alert_status: "delivery_failed_retry_pending", next_alert_at_unix_millis: 1000, alert_delivered: false };
+const [withIncident] = buildRuntimeAgentRows({ status: { schema: "adl.runtime_v3.observatory_feed.v3", agent_population: {sample:[{id:"ember"}]}, resident_incidents:[incident] }});
+assert.deepEqual(withIncident.residentIncident, incident);
+assert.equal(never.residentIncident, null);
+
+const history = Array.from({length:12}, (_, n) => ({...incident, incident_id:`incident-${n+1}`, sequence:n+1, state:n===11 ? "open" : "recovered"})).reverse();
+const [latest] = buildRuntimeAgentRows({status:{schema:"adl.runtime_v3.observatory_feed.v3",agent_population:{sample:[{id:"ember"}]},resident_incidents:history}});
+assert.equal(latest.residentIncident.incident_id, "incident-12");

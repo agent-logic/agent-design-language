@@ -600,6 +600,8 @@ pub struct ObservatoryFeed {
     pub agents: AgentPopulationFeed,
     pub proof: ObservatoryProofFeed,
     pub events: Vec<BootstrapEvent>,
+    #[serde(default)]
+    pub resident_incidents: Vec<crate::resident_health::ResidentIncident>,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]

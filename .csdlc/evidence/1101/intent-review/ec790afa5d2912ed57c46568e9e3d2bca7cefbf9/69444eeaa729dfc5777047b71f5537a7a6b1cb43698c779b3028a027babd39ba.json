@@ -1,0 +1,43 @@
+{
+  "schema": "csdlc.v3.typed_review_receipt.v1",
+  "repository": "agent-logic/agent-design-language",
+  "issue": 1101,
+  "implementer": "Planning #5",
+  "reviewer": "codex-subagent:/root/review_1101_ec790a",
+  "reviewed_revision": "ec790afa5d2912ed57c46568e9e3d2bca7cefbf9",
+  "expected_head_sha": "ec790afa5d2912ed57c46568e9e3d2bca7cefbf9",
+  "evidence_digest": "cfad0e1c9ff0bc6f16ca23376edbdebb0427a4bc9f828339b81aa3ccb793d15e",
+  "publication_linkage": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 1101,
+    "mode": "closing"
+  },
+  "external_review": {
+    "receipt": {
+      "schema": "csdlc.v3.typed_review_receipt.v1",
+      "repository": "agent-logic/agent-design-language",
+      "issue": 1101,
+      "implementer": "Planning #5",
+      "reviewer": "codex-subagent:/root/review_1101_ec790a",
+      "reviewed_revision": "ec790afa5d2912ed57c46568e9e3d2bca7cefbf9",
+      "expected_head_sha": "ec790afa5d2912ed57c46568e9e3d2bca7cefbf9",
+      "evidence_digest": "cfad0e1c9ff0bc6f16ca23376edbdebb0427a4bc9f828339b81aa3ccb793d15e",
+      "publication_linkage": {
+        "repository": "agent-logic/agent-design-language",
+        "issue": 1101,
+        "mode": "closing"
+      }
+    },
+    "receipt_digest": "d0f6a9ebb4eab4707abd9e7d4cab411378356eb60a1b42269ce5991a26c374f5",
+    "proof_path": ".csdlc/v3/issues/1101/proof.json",
+    "proof_digest": "3e9bf1c8e6116122b14850c3dde5203e7229828a8957ab5bbbd7b34f2df7fd7c",
+    "judgment": {
+      "schema": "csdlc.v3.review_judgment.v1",
+      "implementer": "Planning #5",
+      "reviewer": "codex-subagent:/root/review_1101_ec790a",
+      "reviewed_revision": "ec790afa5d2912ed57c46568e9e3d2bca7cefbf9",
+      "verdict": "pass",
+      "evidence": "No actionable findings. Confirmed complete and failed hosted cycles retain and validate candidate revision, exact request digest, and observed model identity; paired-local acceptance rejects missing or contradictory bindings; consumer docs state the equality contract; SOR truth matches the final pre-projection proof head; retained native proof passed 9/9 with unchanged inputs; production hosted, paired-local, formatting, and diff checks passed."
+    }
+  }
+}

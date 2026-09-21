@@ -1204,6 +1204,7 @@ pub struct ControlService<C> {
     agent_orientation: RwLock<AgentOrientationResource>,
     agent_orientation_deliveries: Mutex<BTreeMap<String, AgentOrientationResource>>,
     dynamic_agent_store: Mutex<Option<PathBuf>>,
+    pub(crate) resident_health: Mutex<crate::resident_health::ResidentHealthSupervisor>,
     agent_partial_store: RwLock<Option<Arc<AgentPartialCheckpointStore>>>,
     agent_archive_operation: tokio::sync::Mutex<()>,
     dynamic_agents: Mutex<Vec<AgentAdmissionRequest>>,
@@ -1340,6 +1341,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             agent_orientation: RwLock::new(agent_orientation),
             agent_orientation_deliveries: Mutex::new(agent_orientation_deliveries),
             dynamic_agent_store: Mutex::new(None),
+            resident_health: Mutex::new(Default::default()),
             agent_partial_store: RwLock::new(None),
             agent_archive_operation: tokio::sync::Mutex::new(()),
             dynamic_agents: Mutex::new(Vec::new()),
@@ -3853,6 +3855,19 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                         }
                         Some(Ok(result)) => {
                             let public_output = result.public_output.as_ref();
+                            if public_output
+                                .and_then(|o| o.get("request_help"))
+                                .and_then(serde_json::Value::as_bool)
+                                == Some(true)
+                                && self
+                                    .request_resident_help(
+                                        &dispatch.intent.recipient_id,
+                                        Some(dispatch.binding_epoch),
+                                    )
+                                    .is_err()
+                            {
+                                tracing::error!(event = "resident_help_persistence_failed");
+                            }
                             let reply = public_output
                                 .and_then(|output| output.get("message"))
                                 .and_then(serde_json::Value::as_str)
@@ -6263,6 +6278,11 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 .map(CanonicalIngress::snapshot)
                 .unwrap_or_default(),
             agents,
+            resident_incidents: self
+                .resident_health
+                .lock()
+                .expect("resident health poisoned")
+                .snapshot(),
             proof: ObservatoryProofFeed {
                 default_runtime_switch_authorized: false,
                 runtime_v2_decommission_authorized: false,
@@ -6453,6 +6473,44 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         Ok(detail)
     }
 
+    /// Small, read-only status projection: no log scan or provider invocation.
+    pub fn agent_health_status(&self, agent_id: &str) -> Result<serde_json::Value, ControlError> {
+        let agent = self.agent_roster_detail(agent_id)?;
+        let now = now_unix_millis();
+        let fresh =
+            agent.observed_at_unix_millis <= now && agent.freshness_deadline_unix_millis >= now;
+        let model = agent
+            .provider_binding
+            .as_ref()
+            .map(|b| b.model_ref.as_str())
+            .or(agent.model.as_deref());
+        let signals = self
+            .recorder
+            .provider_usage
+            .health_snapshot()
+            .into_iter()
+            .find(|s| {
+                (s.agent == agent.name || s.agent == agent.id)
+                    && Some(s.provider.as_str()) == agent.provider.as_deref()
+                    && Some(s.model.as_str()) == model
+            });
+        Ok(serde_json::json!({
+            "schema": "adl.runtime_v3.agent_health.v1",
+            "id": agent.id, "name": agent.name,
+            "health": agent.health, "availability": agent.availability,
+            "inference_readiness": agent.inference_readiness,
+            "fresh": fresh,
+            "observed_at_unix_millis": agent.observed_at_unix_millis,
+            "heartbeat_age_millis": now.saturating_sub(agent.observed_at_unix_millis),
+            "freshness_deadline_unix_millis": agent.freshness_deadline_unix_millis,
+            "last_successful_response_at_unix_millis": signals.as_ref().and_then(|s| s.last_successful_inference_at_unix_millis),
+            "reason": if fresh { agent.activity.as_deref() } else { Some("health_observation_expired") },
+            "provider": agent.provider, "model": agent.model,
+            "checked_at_unix_millis": now,
+            "check_invokes_model": false
+        }))
+    }
+
     fn resolve_agent_name(
         &self,
         canonical_name: &str,
@@ -6487,6 +6545,167 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .iter()
             .find(|sample| sample.id == agent_id)
             .map(|sample| sample.name.clone())
+    }
+
+    pub fn configure_resident_health(&self, path: PathBuf) -> std::io::Result<()> {
+        *self
+            .resident_health
+            .lock()
+            .expect("resident health poisoned") =
+            crate::resident_health::ResidentHealthSupervisor::open(path)?;
+        Ok(())
+    }
+
+    pub fn resident_health_observations(&self) -> Vec<crate::resident_health::ResidentObservation> {
+        let _transaction = self
+            .dynamic_agent_admission
+            .lock()
+            .expect("admission poisoned");
+        self.resident_health_observations_locked()
+    }
+
+    fn resident_health_observations_locked(
+        &self,
+    ) -> Vec<crate::resident_health::ResidentObservation> {
+        let samples = self
+            .agent_population
+            .read()
+            .expect("population poisoned")
+            .sample
+            .clone();
+        let signals = self.recorder.provider_usage.health_snapshot();
+        let now = now_unix_millis();
+        samples
+            .iter()
+            .map(|sample| {
+                let evidence = signals.iter().find(|s| {
+                    (s.agent == sample.id || s.agent == sample.name)
+                        && sample.provider.as_ref() == Some(&s.provider)
+                        && sample.model.as_ref() == Some(&s.model)
+                });
+                let stale = sample.freshness_deadline_unix_millis > 0
+                    && now > sample.freshness_deadline_unix_millis;
+                let inference_at = evidence
+                    .and_then(|e| e.inference_observed_at_unix_millis)
+                    .unwrap_or(0);
+                let failed = matches!(
+                    sample.inference_readiness,
+                    InferenceReadinessState::Failed | InferenceReadinessState::Unavailable
+                ) || evidence.is_some_and(|e| e.inference_ready == Some(false));
+                let reason = if failed {
+                    "observed_health_failure"
+                } else if stale {
+                    "resident_observation_stale"
+                } else if inference_at == 0 {
+                    "inference_unverified"
+                } else if now.saturating_sub(inference_at) > 300_000 {
+                    "inference_evidence_stale"
+                } else {
+                    "healthy"
+                };
+                let unhealthy = reason != "healthy";
+                crate::resident_health::ResidentObservation {
+                    id: sample.id.clone(),
+                    binding: format!(
+                        "{}:{}:{}:{}",
+                        self.runtime_incarnation_id,
+                        self.recorder.provider_usage.binding_epoch(&sample.id),
+                        sample.provider.as_deref().unwrap_or(""),
+                        sample.model.as_deref().unwrap_or("")
+                    ),
+                    unhealthy,
+                    reason,
+                    inference_verified: !stale
+                        && evidence.is_some_and(|e| e.inference_ready == Some(true)),
+                    inference_observed_at_unix_millis: evidence
+                        .and_then(|e| e.inference_observed_at_unix_millis)
+                        .unwrap_or(0),
+                    present: true,
+                }
+            })
+            .collect()
+    }
+
+    pub fn supervise_resident_health(&self, shepherd_ready: bool) -> std::io::Result<()> {
+        let _transaction = self
+            .dynamic_agent_admission
+            .lock()
+            .expect("admission poisoned");
+        let observations = self.resident_health_observations_locked();
+        self.resident_health
+            .lock()
+            .expect("resident health poisoned")
+            .observe(&observations, shepherd_ready, now_unix_millis())
+    }
+
+    fn request_resident_help(
+        &self,
+        agent_id: &str,
+        expected_epoch: Option<u64>,
+    ) -> std::io::Result<()> {
+        let _transaction = self
+            .dynamic_agent_admission
+            .lock()
+            .expect("admission poisoned");
+        if expected_epoch
+            .is_some_and(|epoch| self.recorder.provider_usage.binding_epoch(agent_id) != epoch)
+        {
+            return Err(std::io::Error::other("resident_binding_replaced"));
+        }
+        let observations = self.resident_health_observations_locked();
+        let observation = observations
+            .iter()
+            .find(|o| o.id == agent_id)
+            .ok_or_else(|| std::io::Error::new(std::io::ErrorKind::NotFound, "unknown_resident"))?;
+        self.resident_health
+            .lock()
+            .expect("resident health poisoned")
+            .request_help(observation, now_unix_millis())
+    }
+
+    pub fn reserve_resident_response(
+        &self,
+    ) -> std::io::Result<Option<crate::resident_health::ResidentIncident>> {
+        self.resident_health
+            .lock()
+            .expect("resident health poisoned")
+            .reserve_response(now_unix_millis())
+    }
+    pub fn finish_resident_response(
+        &self,
+        incident: &crate::resident_health::ResidentIncident,
+        success: bool,
+    ) -> std::io::Result<()> {
+        // Refresh replacement/removal fences before accepting any async completion.
+        let _transaction = self
+            .dynamic_agent_admission
+            .lock()
+            .expect("admission poisoned");
+        let observations = self.resident_health_observations_locked();
+        let mut supervisor = self
+            .resident_health
+            .lock()
+            .expect("resident health poisoned");
+        supervisor.observe(&observations, true, now_unix_millis())?;
+        supervisor.finish_response(incident, success, now_unix_millis())
+    }
+    pub fn reserve_resident_alert(
+        &self,
+    ) -> std::io::Result<Option<crate::resident_health::ResidentIncident>> {
+        self.resident_health
+            .lock()
+            .expect("resident health poisoned")
+            .reserve_alert(now_unix_millis())
+    }
+    pub fn finish_resident_alert(
+        &self,
+        incident: &crate::resident_health::ResidentIncident,
+        delivered: bool,
+    ) -> std::io::Result<()> {
+        self.resident_health
+            .lock()
+            .expect("resident health poisoned")
+            .finish_alert(incident, delivered)
     }
 
     pub fn update_live_shepherd_health(
@@ -6779,6 +6998,14 @@ where
         .route("/v1/metrics/providers", get(provider_metrics_handler::<C>))
         .route("/v1/health/providers", get(provider_health_handler::<C>))
         .route("/v1/providers", get(provider_catalog_handler::<C>))
+        .route(
+            "/v1/agents/{agent_id}/health",
+            get(agent_health_handler::<C>).options(control_preflight_handler::<C>),
+        )
+        .route(
+            "/v1/agents/{agent_id}/help",
+            post(resident_help_handler::<C>),
+        )
         .route(ACIP_WS_PATH, get(acip_ws_handler::<C>))
         .route(RUNTIME_OPENAPI_PATH, get(runtime_openapi_handler))
         .route(OBSERVATORY_OPENAPI_PATH, get(observatory_openapi_handler))
@@ -6931,6 +7158,29 @@ async fn runtime_metrics_handler<C: LifecycleControl + 'static>(
     State(service): State<Arc<ControlService<C>>>,
 ) -> Response {
     Json(service.recorder.snapshot().observability_pipeline).into_response()
+}
+
+async fn resident_help_handler<C: LifecycleControl + 'static>(
+    State(service): State<Arc<ControlService<C>>>,
+    headers: HeaderMap,
+    axum::extract::Path(agent_id): axum::extract::Path<String>,
+) -> Response {
+    if !agent_write_authorized(&service, &headers) {
+        return (
+            StatusCode::UNAUTHORIZED,
+            Json(serde_json::json!({"error":"authentication_required"})),
+        )
+            .into_response();
+    }
+    match service.request_resident_help(&agent_id, None) {
+        Ok(()) => (
+            StatusCode::ACCEPTED,
+            Json(serde_json::json!({"status":"help_requested"})),
+        )
+            .into_response(),
+        Err(e) if e.kind() == std::io::ErrorKind::NotFound => StatusCode::NOT_FOUND.into_response(),
+        Err(_) => StatusCode::SERVICE_UNAVAILABLE.into_response(),
+    }
 }
 
 async fn agent_admission_handler<C: LifecycleControl + 'static>(
@@ -7269,6 +7519,28 @@ async fn agent_detail_handler<C: LifecycleControl + 'static>(
                 "code": "agent_not_visible"
             }),
             allowed_origin,
+        ),
+    }
+}
+
+async fn agent_health_handler<C: LifecycleControl + 'static>(
+    State(service): State<Arc<ControlService<C>>>,
+    axum::extract::Path(agent_id): axum::extract::Path<String>,
+    headers: HeaderMap,
+) -> Response {
+    if headers.contains_key(header::AUTHORIZATION) && !agent_write_authorized(&service, &headers) {
+        return StatusCode::UNAUTHORIZED.into_response();
+    }
+    let origin = allowed_origin(&service, &headers);
+    if headers.contains_key(header::ORIGIN) && origin.is_none() {
+        return StatusCode::FORBIDDEN.into_response();
+    }
+    match service.agent_health_status(&agent_id) {
+        Ok(status) => observatory_json(StatusCode::OK, status, origin),
+        Err(_) => observatory_json(
+            StatusCode::NOT_FOUND,
+            serde_json::json!({"code":"agent_not_visible"}),
+            origin,
         ),
     }
 }
@@ -8785,6 +9057,25 @@ mod layer8_conversation_ingress_tests {
         } = fixture;
         let service = service_from_layer8_parts(authority, exchange);
         (service, root)
+    }
+
+    #[test]
+    fn direct_resident_health_reads_are_small_and_do_not_invoke_models() {
+        let service = service_with_room_agents();
+        let before = service.recorder.provider_usage.health_snapshot().len();
+        for _ in 0..100 {
+            let status = service.agent_health_status("shepherd").unwrap();
+            assert_eq!(status["schema"], "adl.runtime_v3.agent_health.v1");
+            assert_eq!(status["id"], "shepherd");
+            assert_eq!(status["check_invokes_model"], false);
+            assert!(status["last_successful_response_at_unix_millis"].is_null());
+            assert!(status.to_string().len() < 2048);
+        }
+        assert_eq!(
+            service.recorder.provider_usage.health_snapshot().len(),
+            before
+        );
+        assert!(service.agent_health_status("missing-resident").is_err());
     }
 
     fn service_with_room_agents() -> ControlService<FakeLifecycle> {
@@ -13439,7 +13730,7 @@ fn inference_readiness_from_agent_admission_failure(
     }
 }
 
-fn is_host_local_shepherd_endpoint(endpoint: &str) -> bool {
+pub(crate) fn is_host_local_shepherd_endpoint(endpoint: &str) -> bool {
     parse_private_provider_endpoint(endpoint).is_ok_and(|(host, _)| {
         host == "localhost"
             || host
@@ -13618,15 +13909,28 @@ async fn verify_ollama_model(request: &AgentAdmissionRequest) -> Result<(), Agen
     };
     let value: serde_json::Value = serde_json::from_slice(&body)
         .map_err(|_| AgentAdmissionFailure::Unavailable("provider_response_invalid"))?;
-    let found = value["models"].as_array().is_some_and(|models| {
-        models.iter().any(|model| {
-            model["name"].as_str() == Some(request.model.as_str())
-                || model["model"].as_str() == Some(request.model.as_str())
+    let model = value["models"]
+        .as_array()
+        .and_then(|models| {
+            models.iter().find(|model| {
+                model["name"].as_str() == Some(request.model.as_str())
+                    || model["model"].as_str() == Some(request.model.as_str())
+            })
         })
-    });
-    if !found {
-        return Err(AgentAdmissionFailure::Invalid("model_not_installed"));
+        .ok_or(AgentAdmissionFailure::Invalid("model_not_installed"))?;
+    if request.office.to_ascii_lowercase().contains("shepherd")
+        && (!is_host_local_shepherd_endpoint(&request.endpoint)
+            || !address.ip().is_loopback()
+            || model
+                .get("remote_host")
+                .is_some_and(|v| !v.is_null() && v.as_str() != Some(""))
+            || model
+                .get("remote_model")
+                .is_some_and(|v| !v.is_null() && v.as_str() != Some("")))
+    {
+        return Err(AgentAdmissionFailure::Invalid("shepherd_model_not_local"));
     }
+
     Ok(())
 }
 
@@ -13702,6 +14006,18 @@ pub(crate) fn normalize_registered_conversation(
             message,
             agent_to_agent: None,
         });
+    }
+    if value
+        .get("action")
+        .is_some_and(|a| a.as_object().is_some_and(|o| o.len() == 1) && a["request_help"] == true)
+    {
+        let message = value["message"]
+            .as_str()
+            .filter(|m| {
+                !m.trim().is_empty() && m.len() <= AGENT_CONVERSATION_MESSAGE_TOTAL_LIMIT_BYTES
+            })
+            .ok_or("agent_provider_action_invalid")?;
+        return Ok(ProviderConversationOutput { message: serde_json::json!({"schema":"adl.runtime.agent_conversation_response.v1","message":message,"request_help":true}).to_string(), agent_to_agent: None });
     }
     let action: ProviderAgentToAgentAction = serde_json::from_value(
         value
@@ -14856,6 +15172,63 @@ mod orientation_tests {
         )
     }
 
+    #[test]
+    fn resident_health_census_includes_unknown_inference_and_persisted_projection() {
+        let service = service_with_resident();
+        let temp = tempfile::tempdir().unwrap();
+        service
+            .configure_resident_health(temp.path().join("health.json"))
+            .unwrap();
+        let observations = service.resident_health_observations();
+        assert_eq!(observations.len(), 1);
+        assert!(observations[0].unhealthy);
+        assert_eq!(observations[0].reason, "inference_unverified");
+        service.supervise_resident_health(false).unwrap();
+        let feed = service.observatory_feed();
+        assert_eq!(feed.resident_incidents.len(), 1);
+        assert!(feed.resident_incidents[0].escalated);
+    }
+
+    #[tokio::test]
+    async fn resident_help_requires_operator_authority_and_known_resident() {
+        let service = Arc::new(service_with_resident());
+        let id = service.resident_health_observations()[0].id.clone();
+        let response = resident_help_handler(
+            State(service.clone()),
+            HeaderMap::new(),
+            AxumPath(id.clone()),
+        )
+        .await;
+        assert_eq!(response.status(), StatusCode::UNAUTHORIZED);
+        assert!(service
+            .resident_health
+            .lock()
+            .unwrap()
+            .snapshot()
+            .is_empty());
+        service
+            .set_acip_write_bearer_token("test-health-token-0123456789abcdef")
+            .unwrap();
+        let mut headers = HeaderMap::new();
+        headers.insert(
+            header::AUTHORIZATION,
+            HeaderValue::from_static("Bearer test-health-token-0123456789abcdef"),
+        );
+        let response = resident_help_handler(
+            State(service.clone()),
+            headers.clone(),
+            AxumPath("unknown".into()),
+        )
+        .await;
+        assert_eq!(response.status(), StatusCode::NOT_FOUND);
+        let response = resident_help_handler(State(service.clone()), headers, AxumPath(id)).await;
+        assert_eq!(response.status(), StatusCode::ACCEPTED);
+        assert_eq!(
+            service.resident_health.lock().unwrap().snapshot()[0].reason,
+            "explicit_help_request"
+        );
+    }
+
     fn admission(id: &str, name: &str) -> AgentAdmissionRequest {
         AgentAdmissionRequest {
             schema: AGENT_ADMISSION_SCHEMA.to_owned(),
@@ -15286,6 +15659,43 @@ mod orientation_tests {
             }
         }
         request
+    }
+
+    #[tokio::test]
+    async fn resident_shepherd_rejects_cloud_alias_before_inference() {
+        use tokio::io::AsyncWriteExt;
+        for remote_field in ["remote_host", "remote_model"] {
+            let listener = tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap();
+            let endpoint = format!("http://{}", listener.local_addr().unwrap());
+            let server = tokio::spawn(async move {
+                let (mut socket, _) = listener.accept().await.unwrap();
+                let request = read_http_fixture_request(&mut socket).await;
+                assert!(String::from_utf8_lossy(&request).starts_with("GET /api/tags"));
+                let body =
+                    serde_json::json!({"models":[{"name":"alias", remote_field:"upstream"}]})
+                        .to_string();
+                socket
+                    .write_all(
+                        format!(
+                            "HTTP/1.1 200 OK\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{}",
+                            body.len(),
+                            body
+                        )
+                        .as_bytes(),
+                    )
+                    .await
+                    .unwrap();
+            });
+            let mut request = admission("beacon", "beacon.axioma");
+            request.office = "resident shepherd".into();
+            request.model = "alias".into();
+            request.endpoint = endpoint;
+            assert!(matches!(
+                verify_ollama_model(&request).await,
+                Err(AgentAdmissionFailure::Invalid("shepherd_model_not_local"))
+            ));
+            server.await.unwrap();
+        }
     }
 
     #[tokio::test]

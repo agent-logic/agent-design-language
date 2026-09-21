@@ -90,6 +90,7 @@ impl Case {
             run_id: "run1".into(),
             consent_digest: consent.digest().unwrap(),
             expires_at: 180,
+            cycle: None,
         };
         let journal = Journal::open(&temp.path().join("state")).unwrap();
         journal.save_pairing(&pairing, 100).unwrap();
@@ -140,12 +141,14 @@ impl Case {
                 .map(|lane| GatewayLaneIdentity {
                     lane: lane.id().into(),
                     candidate_revision: candidate.clone(),
+                    request_digest: None,
                     model_identity: model.clone(),
                 })
                 .collect(),
             status: "complete".into(),
             expires_at: 160,
             result: Some(result),
+            cycle_result: None,
             digest: String::new(),
         };
         report.digest = hash(&report).unwrap();

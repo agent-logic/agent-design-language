@@ -55,6 +55,8 @@ pub struct ProviderHealthSignals {
     pub provider_reachable: Option<bool>,
     pub model_available: Option<bool>,
     pub inference_ready: Option<bool>,
+    pub inference_observed_at_unix_millis: Option<u64>,
+    pub last_successful_inference_at_unix_millis: Option<u64>,
 }
 
 impl ProviderUsage {
@@ -163,7 +165,15 @@ impl ProviderUsage {
                 ..Default::default()
             });
         signals.inference_ready = Some(success);
+        signals.inference_observed_at_unix_millis = Some(
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap_or_default()
+                .as_millis() as u64,
+        );
         if success {
+            signals.last_successful_inference_at_unix_millis =
+                signals.inference_observed_at_unix_millis;
             signals.provider_reachable = Some(true);
             signals.model_available = Some(true);
         }

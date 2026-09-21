@@ -7,7 +7,7 @@ use crate::codefriend::evidence::{
     },
     hash,
     store::Store,
-    Admission,
+    valid_digest, Admission,
 };
 use crate::codefriend::ingestion::{digest, validate_path};
 use crate::provider_adapter::{execute_codefriend_invocation, retain_codefriend_provider_outcome};
@@ -128,7 +128,111 @@ pub struct FourPerspectiveReviewRun {
     pub failures: Vec<String>,
 }
 
+/// Revalidate an embedded completed review against the exact update-cycle
+/// admission, run, and provider route rather than accepting digest shape alone.
+pub(crate) fn validate_complete_run(
+    result: &FourPerspectiveReviewRun,
+    run_id: &str,
+    admission: &Admission,
+    provider_route: &str,
+) -> Result<()> {
+    result.successful_execution()?;
+    ensure!(
+        result.run_id == run_id
+            && result.review_record.admission == *admission
+            && result.review_record.run.provider_route == provider_route
+            && result.lane_results.len() == ReviewLane::ALL.len(),
+        "review_run_incomplete"
+    );
+    result.review_record.validate()?;
+    ensure!(
+        result.review_record.run.lane_versions.len() == ReviewLane::ALL.len()
+            && result
+                .review_record
+                .findings
+                .iter()
+                .all(|finding| ReviewLane::ALL
+                    .iter()
+                    .any(|lane| lane.id() == finding.perspective)),
+        "review_run_perspectives"
+    );
+    let assessments = result.review_record.run.assessment_generation();
+    let lane_contract = if assessments {
+        ASSESSMENT_LANE_CONTRACT_VERSION
+    } else {
+        LANE_CONTRACT_VERSION
+    };
+    for lane in ReviewLane::ALL {
+        ensure!(
+            result
+                .review_record
+                .run
+                .lane_versions
+                .get(lane.id())
+                .is_some_and(|version| version == lane_contract),
+            "review_run_lane_version"
+        );
+        let found: Vec<_> = result
+            .lane_results
+            .iter()
+            .filter(|item| item.lane == lane.id())
+            .collect();
+        ensure!(found.len() == 1, "review_run_lane");
+        let item = found[0];
+        let (manifest, _) = if assessments {
+            assessment_lane_input_manifest(run_id, lane, admission)?
+        } else {
+            lane_input_manifest(run_id, lane, admission)?
+        };
+        let mut findings: Vec<_> = result
+            .review_record
+            .findings
+            .iter()
+            .filter(|finding| finding.perspective == lane.id())
+            .map(|finding| finding.id.clone())
+            .collect();
+        findings.sort();
+        ensure!(
+            item.schema
+                == if assessments {
+                    LANE_RESULT_SCHEMA_V2
+                } else {
+                    LANE_RESULT_SCHEMA
+                }
+                && item.run_id == run_id
+                && item.lane_contract == lane_contract
+                && item.input_digest == manifest.input_digest
+                && item.input_manifest_ref == format!("lanes/{}/input.json", lane.id())
+                && item.provider_route == provider_route
+                && item.provider_status == ProviderInvocationFinalStatusV1::Ok
+                && item.failure.is_none()
+                && item.finding_ids == findings
+                && item.output_digest.as_deref().is_some_and(valid_digest),
+            "review_run_lane_integrity"
+        );
+    }
+    Ok(())
+}
+
 impl FourPerspectiveReviewRun {
+    pub fn rebind_provider_route(&mut self, provider_route: &str) -> Result<()> {
+        for lane in &mut self.lane_results {
+            lane.provider_route = provider_route.to_string();
+        }
+        if let Some(coverage) = &mut self.review_record.run.coverage {
+            coverage.lane_result_digests = self
+                .lane_results
+                .iter()
+                .map(|lane| Ok((lane.lane.clone(), hash(lane)?)))
+                .collect::<Result<BTreeMap<_, _>>>()?;
+        }
+        self.review_record.run.provider_route = provider_route.to_string();
+        self.review_record
+            .run
+            .refresh_identity(&self.review_record.admission)?;
+        self.successful_execution()
+    }
+
     pub fn successful_execution(&self) -> Result<()> {
         self.review_record.successful_execution()?;
         let coverage = self.review_record.run.coverage.as_ref();
@@ -581,12 +685,21 @@ where
     Ok(output)
 }
 
-fn provider_route_identity(request: &ProviderInvocationRequestV1) -> String {
+pub(crate) fn provider_route_identity(request: &ProviderInvocationRequestV1) -> String {
     format!(
         "{}:{}:{}",
         request.route.provider,
         request.route.runtime_surface_name(),
         request.route.provider_model_id
+    )
+}
+
+pub(crate) fn provider_route_identity_from_model(
+    identity: &crate::model_identity::ModelIdentityV1,
+) -> String {
+    format!(
+        "{}:{}:{}",
+        identity.provider, identity.runtime_surface, identity.provider_model_id
     )
 }
 
