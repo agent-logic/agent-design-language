@@ -745,3 +745,33 @@ fn four_plus_one_accepts_complete_json_fence_but_not_truncated_or_extra_text() {
     )
     .is_err());
 }
+
+#[test]
+fn four_plus_one_derives_membership_only_from_declared_relationship_endpoints() {
+    use adl::codefriend::architecture::four_plus_one::generation;
+    let (_temp, store, graph) = generation_fixture();
+    let a = store.get(&graph.record().run.packet_id).unwrap();
+    let mut draft = full_draft(&a);
+    draft
+        .views
+        .get_mut(&View::Development)
+        .unwrap()
+        .entities
+        .retain(|id| id != "worker");
+    let response = serde_json::to_string(&draft).unwrap();
+    let g = generation::accept_response(&a, &graph, &response, 101).unwrap();
+    assert!(g.package.views[&View::Development]
+        .entities
+        .contains(&"worker".into()));
+    g.validate(&store, &graph, &response, 101).unwrap();
+    draft
+        .views
+        .get_mut(&View::Development)
+        .unwrap()
+        .relationships[0]
+        .to = "invented_worker".into();
+    assert!(
+        generation::accept_response(&a, &graph, &serde_json::to_string(&draft).unwrap(), 101)
+            .is_err()
+    );
+}

@@ -94,6 +94,20 @@ pub fn accept_response(
         complete: false,
         digest: String::new(),
     };
+    // A cited relationship already assigns both endpoints to its view. Complete
+    // the redundant membership index only from globally declared entities;
+    // never invent entities or repair an unknown endpoint.
+    let declared: std::collections::BTreeSet<_> =
+        package.entities.iter().map(|e| e.id.clone()).collect();
+    for view in package.views.values_mut() {
+        for relationship in &view.relationships {
+            for endpoint in [&relationship.from, &relationship.to] {
+                if declared.contains(endpoint) && !view.entities.contains(endpoint) {
+                    view.entities.push(endpoint.clone());
+                }
+            }
+        }
+    }
     for v in View::ALL {
         if let Some(view) = package.views.get_mut(&v) {
             if (view.entities.is_empty() || view.relationships.is_empty())
