@@ -129,6 +129,7 @@ pub struct ActivityInputManifest {
     pub admission_digest: String,
     pub scope_digest: String,
     pub testing: Option<TestingGoal>,
+    pub known_repository_paths: Vec<String>,
     pub evidence: Vec<ActivityEvidence>,
     pub source_mutation_authority: String,
     pub publication_authority: String,
@@ -162,6 +163,18 @@ impl ActivityInputManifest {
         ensure!(
             (self.activity == Activity::Tests) == self.testing.is_some(),
             "activity_testing_binding_invalid"
+        );
+        let mut expected_paths: Vec<_> = admission
+            .packet
+            .objects
+            .iter()
+            .map(|object| object.path.clone())
+            .collect();
+        expected_paths.sort();
+        expected_paths.dedup();
+        ensure!(
+            self.known_repository_paths == expected_paths,
+            "activity_repository_path_inventory_changed"
         );
         let mut seen = BTreeSet::new();
         for evidence in &self.evidence {
@@ -592,6 +605,11 @@ pub(crate) fn validate_output(
         .iter()
         .map(|evidence| evidence.path.as_str())
         .collect();
+    let known_repository_paths: BTreeSet<_> = input
+        .known_repository_paths
+        .iter()
+        .map(String::as_str)
+        .collect();
     let mut paths = BTreeSet::new();
     let mut total = 0usize;
     for artifact in &output.artifacts {
@@ -618,14 +636,15 @@ pub(crate) fn validate_output(
         ensure!(kind_ok, "activity_artifact_kind_mismatch");
         ensure!(
             !(artifact.disposition == ArtifactDisposition::Create
-                && admitted.contains(artifact.path.as_str())),
+                && known_repository_paths.contains(artifact.path.as_str())),
             "activity_artifact_disposition_conflict"
         );
         if artifact.disposition == ArtifactDisposition::Update
-            && !admitted.contains(artifact.path.as_str())
+            && !known_repository_paths.contains(artifact.path.as_str())
         {
             ensure!(
-                !artifact.limitations.is_empty(),
+                artifact.limitations.iter().any(|limitation| limitation
+                    == "path existence outside admitted packet is unverified"),
                 "activity_update_existence_unverified"
             );
         }
@@ -721,6 +740,14 @@ pub(crate) fn prompt(
         });
     }
     ensure!(!evidence.is_empty(), "activity_evidence_empty");
+    let mut known_repository_paths: Vec<_> = admission
+        .packet
+        .objects
+        .iter()
+        .map(|object| object.path.clone())
+        .collect();
+    known_repository_paths.sort();
+    known_repository_paths.dedup();
     let mut manifest = ActivityInputManifest {
         schema: INPUT_SCHEMA.into(),
         run_id: run_id.into(),
@@ -737,6 +764,7 @@ pub(crate) fn prompt(
         } else {
             None
         },
+        known_repository_paths,
         evidence,
         source_mutation_authority: "none".into(),
         publication_authority: "none".into(),
@@ -796,6 +824,17 @@ where
                 admission_digest: admission.digest.clone(),
                 scope_digest: admission.packet.scope_digest.clone(),
                 testing: None,
+                known_repository_paths: {
+                    let mut paths: Vec<_> = admission
+                        .packet
+                        .objects
+                        .iter()
+                        .map(|object| object.path.clone())
+                        .collect();
+                    paths.sort();
+                    paths.dedup();
+                    paths
+                },
                 evidence: admission
                     .evidence
                     .iter()

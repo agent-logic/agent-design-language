@@ -318,15 +318,15 @@ fn generated_artifacts_and_gaps_require_admitted_source_evidence() {
 }
 
 #[test]
-fn citations_are_limited_to_evidence_actually_supplied_to_the_model() {
-    let (root, admission) = admission_with_prompt_omission();
-    assert!(admission
+fn prompt_subset_limits_citations_but_preserves_full_path_disposition_truth() {
+    let (root, omitted_admission) = admission_with_prompt_omission();
+    assert!(omitted_admission
         .evidence
         .iter()
         .any(|item| item.path == "src/omitted.rs"));
     let result = run_with_executor(
         plan(vec![Activity::Documentation], None),
-        admission,
+        omitted_admission,
         "cycle-prompt-boundary".into(),
         "provider:fixture:model-v1".into(),
         None,
@@ -356,6 +356,65 @@ fn citations_are_limited_to_evidence_actually_supplied_to_the_model() {
     );
     assert_eq!(result.activities[0].status, ActivityStatus::Failed);
     fs::remove_dir_all(root).unwrap();
+
+    let (root, existing_admission) = admission_with_prompt_omission();
+    let result = run_with_executor(
+        plan(vec![Activity::Documentation], None),
+        existing_admission,
+        "cycle-doc-prompt-omitted-existing".into(),
+        "provider:fixture:model-v1".into(),
+        None,
+        |_, _, manifest| {
+            assert!(!manifest.evidence.iter().any(|item| item.path == "src/omitted.rs"));
+            assert!(manifest
+                .known_repository_paths
+                .iter()
+                .any(|path| path == "src/omitted.rs"));
+            Ok(adl::codefriend::activities::ProviderOutput {
+                final_status: ProviderInvocationFinalStatusV1::Ok,
+                output_text: Some(json!({
+                    "schema":OUTPUT_SCHEMA,
+                    "artifacts":[{"path":"src/omitted.rs","kind":"documentation","disposition":"create","content":"# Existing","evidence_paths":["src/large.rs"],"unsupported_claims":[],"limitations":["proposal only"],"render_manifest":null}],
+                    "gaps":[],
+                    "measured_coverage_percent":null
+                }).to_string()),
+            })
+        },
+    )
+    .unwrap();
+    assert_eq!(result.activities[0].status, ActivityStatus::Failed);
+    fs::remove_dir_all(root).unwrap();
+
+    for (limitations, expected) in [
+        (vec!["proposal only"], ActivityStatus::Failed),
+        (
+            vec!["path existence outside admitted packet is unverified"],
+            ActivityStatus::Complete,
+        ),
+    ] {
+        let (root, admission) = admission();
+        let result = run_with_executor(
+            plan(vec![Activity::Documentation], None),
+            admission,
+            "cycle-doc-unknown-update".into(),
+            "provider:fixture:model-v1".into(),
+            None,
+            |_, _, _| {
+                Ok(adl::codefriend::activities::ProviderOutput {
+                    final_status: ProviderInvocationFinalStatusV1::Ok,
+                    output_text: Some(json!({
+                        "schema":OUTPUT_SCHEMA,
+                        "artifacts":[{"path":"docs/unknown.md","kind":"documentation","disposition":"update","content":"# Update","evidence_paths":["src/lib.rs"],"unsupported_claims":[],"limitations":limitations,"render_manifest":null}],
+                        "gaps":[],
+                        "measured_coverage_percent":null
+                    }).to_string()),
+                })
+            },
+        )
+        .unwrap();
+        assert_eq!(result.activities[0].status, expected);
+        fs::remove_dir_all(root).unwrap();
+    }
 }
 
 #[test]
