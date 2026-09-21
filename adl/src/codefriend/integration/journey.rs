@@ -652,11 +652,37 @@ impl Journey {
             )? == self.review.as_ref().unwrap().review_record,
             "journey_review_artifact_changed"
         );
-        match super::prepare_publication_bundle_for_format(
+        let architecture = if self.manifest.stages.contains_key("four_plus_one") {
+            use crate::codefriend::architecture::four_plus_one::{generation::Generation, render};
+            ensure!(
+                self.manifest.stages["four_plus_one"].status == StageStatus::Complete,
+                "journey_architecture_incomplete"
+            );
+            let generation: Generation = read_typed(&self.output.join("four_plus_one.json"))?;
+            let graph = self
+                .graph
+                .as_ref()
+                .ok_or_else(|| anyhow::anyhow!("journey_structure_missing"))?;
+            let response: String =
+                read_typed(&self.output.join("four-plus-one-provider/response.json"))?;
+            generation.validate(&self.store, graph, &response, now())?;
+            let mut files = render::artifacts(&generation.package, &self.live_admission()?, now())?;
+            files.insert(
+                "generation.json".into(),
+                serde_json::to_vec_pretty(&generation)?,
+            );
+            files.insert("graph.json".into(), serde_json::to_vec_pretty(graph)?);
+            files.insert("response.json".into(), serde_json::to_vec(&response)?);
+            Some(files)
+        } else {
+            None
+        };
+        match super::prepare_publication_bundle_with_architecture(
             &self.review_root.join("review-record.json"),
             &self.output.join(&stage),
             destination,
             format,
+            architecture.as_ref(),
         ) {
             Ok(publication) => self.record(&stage, &publication, true),
             Err(_) => self.failed(&stage, "publication_preparation_failed"),
@@ -1052,6 +1078,9 @@ pub enum Continuation {
     Rationale {
         selection: architecture_artifact::RationaleSelectionArtifact,
     },
+    FourPlusOne {
+        provider_request: PathBuf,
+    },
     Drift {
         baseline_root: PathBuf,
         baseline: PathBuf,
@@ -1088,6 +1117,7 @@ impl Continuation {
         };
         match self {
             Self::Status | Self::Impact { .. } | Self::Rationale { .. } => {}
+            Self::FourPlusOne { provider_request } => absolute(provider_request)?,
             Self::Drift {
                 baseline_root,
                 baseline,
@@ -1138,6 +1168,7 @@ impl Continuation {
             Self::Status => "status".into(),
             Self::Impact { .. } => "impact".into(),
             Self::Rationale { .. } => "rationale".into(),
+            Self::FourPlusOne { .. } => "four_plus_one".into(),
             Self::Drift { .. } => "drift".into(),
             Self::Review { .. } => "review".into(),
             Self::Palace { .. } => "palace_comparison".into(),
@@ -1230,7 +1261,7 @@ pub(crate) fn resume_with_owners(
     session.validate_admission(&admission)?;
     binding.boundary_policy.validate(&admission)?;
     binding.fitness_policy.validate()?;
-    let expected_stages: std::collections::BTreeSet<_> = [
+    let mut expected_stages: std::collections::BTreeSet<_> = [
         "acquisition",
         "admission",
         "structure",
@@ -1252,6 +1283,14 @@ pub(crate) fn resume_with_owners(
     ]
     .into_iter()
     .collect();
+    if manifest.stages.contains_key("four_plus_one") {
+        let intent: Continuation = read_typed(&output.join("intent-four_plus_one.json"))?;
+        ensure!(
+            matches!(intent, Continuation::FourPlusOne { .. }),
+            "journey_architecture_intent_changed"
+        );
+        expected_stages.insert("four_plus_one");
+    }
     ensure!(
         manifest
             .stages
@@ -1277,7 +1316,7 @@ pub(crate) fn resume_with_owners(
         StageStatus::Pending
     };
     ensure!(
-        computed == manifest.status && manifest.stages.len() == 18,
+        computed == manifest.status && manifest.stages.len() == expected_stages.len(),
         "journey_status_changed"
     );
     ensure!(
@@ -1417,6 +1456,40 @@ pub(crate) fn resume_with_owners(
                         && g.digest() == retained_graph.digest()),
             "journey_rationale_graph_changed"
         );
+    }
+    if let Some(stage) = manifest.stages.get("four_plus_one") {
+        if stage.status == StageStatus::Complete {
+            use crate::codefriend::architecture::four_plus_one::generation::Generation;
+            let value: Generation = read_typed(&output.join("four_plus_one.json"))?;
+            let response: String =
+                read_typed(&output.join("four-plus-one-provider/response.json"))?;
+            let graph = graph
+                .as_ref()
+                .ok_or_else(|| anyhow::anyhow!("journey_structure_missing"))?;
+            value.validate(&store, graph, &response, now())?;
+            let rendered = crate::codefriend::architecture::four_plus_one::render::artifacts(
+                &value.package,
+                &admission,
+                now(),
+            )?;
+            for (path, bytes) in rendered {
+                ensure!(
+                    bounded_read(&output.join("four-plus-one-rendered").join(path))? == bytes,
+                    "journey_architecture_render_changed"
+                );
+            }
+            ensure!(
+                stage.artifact.as_deref() == Some("four_plus_one.json")
+                    && stage.digest.as_deref() == Some(hash(&value)?.as_str())
+                    && stage.reason.as_deref()
+                        == if value.package.complete {
+                            None
+                        } else {
+                            Some("analysis_gaps_reported")
+                        },
+                "journey_architecture_stage_changed"
+            );
+        }
     }
     let owned_drift = owned_baseline::validate_saved(
         &source,
@@ -1595,6 +1668,26 @@ impl Journey {
             return Ok(());
         }
         let key = step.key();
+        if matches!(step, Continuation::FourPlusOne { .. }) {
+            ensure!(
+                self.manifest.candidate_clean,
+                "journey_dispatch_requires_clean_candidate"
+            );
+        }
+        if matches!(step, Continuation::FourPlusOne { .. })
+            && !self.manifest.stages.contains_key(&key)
+        {
+            self.live_admission()?;
+            self.manifest.stages.insert(
+                key.clone(),
+                Stage {
+                    status: StageStatus::Pending,
+                    reason: None,
+                    artifact: None,
+                    digest: None,
+                },
+            );
+        }
         self.pending(&key)?;
         // Create-only reservation survives a crash before any potentially costly effect.
         write_json_create_only(&self.output.join(format!("intent-{key}.json")), &step)?;
@@ -1603,6 +1696,26 @@ impl Journey {
             Continuation::Status => unreachable!(),
             Continuation::Impact { changes } => self.analyze_impact(changes),
             Continuation::Rationale { selection } => self.analyze_rationale(selection),
+            Continuation::FourPlusOne { provider_request } => {
+                use crate::codefriend::architecture::four_plus_one::generation;
+                let graph = self
+                    .graph
+                    .as_ref()
+                    .ok_or_else(|| anyhow::anyhow!("journey_structure_missing"))?;
+                let request = runner::read_provider_request(&provider_request)?;
+                let provider_output = self.output.join("four-plus-one-provider");
+                fs::create_dir(&provider_output)?;
+                let value =
+                    generation::run_provider(&self.store, graph, request, &provider_output)?;
+                crate::codefriend::architecture::four_plus_one::render::write_artifacts(
+                    &value.package,
+                    &self.live_admission()?,
+                    now(),
+                    &self.output.join("four-plus-one-rendered"),
+                )?;
+                let reason = (!value.package.complete).then_some("analysis_gaps_reported");
+                self.record_with_reason("four_plus_one", &value, true, reason)
+            }
             Continuation::Drift {
                 baseline_root,
                 baseline,

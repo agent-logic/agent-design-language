@@ -43,7 +43,10 @@ struct Fixture {
 }
 impl Fixture {
     fn new(source_text: &str) -> Self {
-        let dir = tempfile::tempdir_in(std::env::temp_dir().canonicalize().unwrap()).unwrap();
+        // Native proof scrubs ambient TMPDIR; keep fixtures in this checkout.
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("target/codefriend-fixtures");
+        fs::create_dir_all(&root).unwrap();
+        let dir = tempfile::tempdir_in(root.canonicalize().unwrap()).unwrap();
         let source = dir.path().join("source");
         fs::create_dir(&source).unwrap();
         git(&source, &["init", "-b", "main"]);
@@ -750,7 +753,7 @@ fn journey_provider_request() -> adl::provider_communication::ProviderInvocation
 mod journey_authority_fixture;
 
 // Actual provider adapter transport, but deterministic loopback output; no paid provider.
-fn journey_responses_server() -> (String, std::thread::JoinHandle<usize>) {
+fn journey_responses_server(architecture: bool) -> (String, std::thread::JoinHandle<usize>) {
     use std::{
         io::{Read, Write},
         net::TcpListener,
@@ -760,7 +763,7 @@ fn journey_responses_server() -> (String, std::thread::JoinHandle<usize>) {
     listener.set_nonblocking(true).unwrap();
     let endpoint = format!("http://{}/v1/responses", listener.local_addr().unwrap());
     let worker = std::thread::spawn(move || {
-        for _ in 0..8 {
+        for _ in 0..(if architecture { 9 } else { 8 }) {
             let deadline = Instant::now() + Duration::from_secs(30);
             let mut stream = loop {
                 match listener.accept() {
@@ -805,10 +808,27 @@ fn journey_responses_server() -> (String, std::thread::JoinHandle<usize>) {
                 }
             }
             assert!(String::from_utf8_lossy(&request).contains("answer"));
-            let body = r#"{"output_text":"{\"findings\":[]}"}"#;
+            let partial = serde_json::json!({"entities":[],"views":{
+                "logical":{"entities":[],"relationships":[],"missing_inputs":["Admit domain design"]},
+                "development":{"entities":[],"relationships":[],"missing_inputs":["Admit module relationships"]},
+                "process":{"entities":[],"relationships":[],"missing_inputs":["Admit interaction evidence"]},
+                "deployment":{"entities":[],"relationships":[],"missing_inputs":["Admit deployment evidence"]}
+            },"scenarios":[],"conflicts":[],"missing_inputs":["Admit use-case and failure evidence"]});
+            let payload = if String::from_utf8_lossy(&request)
+                .contains("codefriend.four_plus_one.prompt.v1")
+            {
+                format!("```json\n{partial}\n```")
+            } else {
+                "{\"findings\":[]}".into()
+            };
+            let body = serde_json::json!({"output_text":payload}).to_string();
             write!(stream,"HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{}",body.len(),body).unwrap();
         }
-        8
+        if architecture {
+            9
+        } else {
+            8
+        }
     });
     (endpoint, worker)
 }
@@ -840,6 +860,15 @@ fn journey_step(
 
 #[test]
 fn actual_journey_continuations_complete_all_eighteen_stages_and_resume() {
+    complete_journey(false);
+}
+
+#[test]
+fn actual_journey_four_plus_one_generates_resumes_exports_and_rejects_replay() {
+    complete_journey(true);
+}
+
+fn complete_journey(architecture: bool) {
     use adl::codefriend::{
         architecture::{
             rationale::{BoundarySelection, RationaleSelection},
@@ -886,7 +915,7 @@ fn actual_journey_continuations_complete_all_eighteen_stages_and_resume() {
     };
     let baseline_output = f.dir.path().join("baseline-journey");
     drop(prepare_local(options(&f, "baseline-journey")).unwrap());
-    let (endpoint, server) = journey_responses_server();
+    let (endpoint, server) = journey_responses_server(architecture);
     let mut provider = journey_provider_request();
     provider.route.endpoint_ref = Some(endpoint);
     let provider_path = f.dir.path().join("journey-provider.json");
@@ -980,15 +1009,30 @@ fn actual_journey_continuations_complete_all_eighteen_stages_and_resume() {
     journey_step(
         &output,
         Continuation::Review {
-            provider_request: provider_path,
+            provider_request: provider_path.clone(),
             run_id: "current-provider-review".into(),
             cancel_file: None,
         },
     );
+    if architecture {
+        journey_step(
+            &output,
+            Continuation::FourPlusOne {
+                provider_request: provider_path.clone(),
+            },
+        );
+        let mut resumed = resume(&output).unwrap();
+        assert!(resumed
+            .continue_with(Continuation::FourPlusOne {
+                provider_request: provider_path
+            })
+            .is_err());
+        drop(resumed);
+    }
     assert_eq!(
         server.join().unwrap(),
-        8,
-        "exactly four loopback calls per review"
+        if architecture { 9 } else { 8 },
+        "four calls per review and one architecture call when requested"
     );
     let current = publication::read_review(&output.join("review/review-record.json")).unwrap();
     assert_ne!(baseline_graph.record.run.revision, current.run.revision);
@@ -1077,6 +1121,12 @@ fn actual_journey_continuations_complete_all_eighteen_stages_and_resume() {
                 font: Some(font.clone()),
             },
         );
+        if architecture {
+            assert!(destination
+                .join(&publication.target)
+                .join("architecture-package.json")
+                .is_file());
+        }
         assert!(destination
             .join(publication.target)
             .join(format!("report.{extension}"))
@@ -1084,7 +1134,10 @@ fn actual_journey_continuations_complete_all_eighteen_stages_and_resume() {
     }
     let status = journey_step(&output, Continuation::Status);
     assert_eq!(status["status"], "complete");
-    assert_eq!(status["stages"].as_object().unwrap().len(), 18);
+    assert_eq!(
+        status["stages"].as_object().unwrap().len(),
+        if architecture { 19 } else { 18 }
+    );
     assert!(status["stages"]
         .as_object()
         .unwrap()

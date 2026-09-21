@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 1109,
+  "issue_padded": "1109",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/1109",
+  "title": "[v0.92.2][CF-ARCH] Generate the complete 4+1 architecture package in Beta 1",
+  "branch": "codex/1109-codefriend-four-plus-one-architecture",
+  "version": "1.0.5",
+  "card": "stp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-1109-codefriend-four-plus-one-architecture"
+}
