@@ -3,8 +3,9 @@
 The current thirteen-article Medium series, one article per day, for the Agent
 Logic soft launch.
 
-These files are the canonical copy of what goes to Medium. They are byte-identical
-to the review copies in the `medium-drafts` Google Drive folder.
+These files are the canonical copy of what goes to Medium. Their prose matches
+the review copies in the `medium-drafts` Google Drive folder. Article 1 now uses
+the repository SVG image reference rather than the original PNG reference.
 
 ## Running Order
 
@@ -54,12 +55,16 @@ issue #912 closure. Further article review and editing will be tracked in a
 separate issue to be opened later. This records draft completion, not final
 editorial approval or external publication.
 
+## Platform Illustration
+
+`platform-overview.svg` is the operator-approved vector conversion of the supplied
+platform overview PDF. Its prompt ordering is corrected to
+`SIP → STP → SPP → SRP → SOR`; article 1 references this local asset.
+
 ## Before Publication
 
 Remaining publication work (deferred to the later review/editing issue):
 
-- article 1 references `platform-overview.png`, which is not included in this
-  draft packet; supply or replace the illustration before publication
 
 - repo status drift, including the birthday claim in `docs/milestones/v0.92/README.md`
   and `docs/planning/ADL_FEATURE_LIST.md` — these contradict the birthday feature
@@ -68,5 +73,3 @@ Remaining publication work (deferred to the later review/editing issue):
 - the supporting Principle of Cognitive Relativity and CSM terminology updates
   are included in `docs/GLOSSARY.md` and `docs/explainers/CSM.md`; their editorial
   review continues with the articles
-- AL-001 shows the card order as `STP → SIP → SOR`; the correct order is
-  `SIP → STP → SPP → SRP → SOR`
