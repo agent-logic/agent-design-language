@@ -1035,7 +1035,7 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
     use std::net::TcpListener;
     use std::process::Stdio;
     let mut f = Fixture::new();
-    f.config.max_operations_per_subject = 8;
+    f.config.max_operations_per_subject = 16;
     let provider = TcpListener::bind("127.0.0.1:0").unwrap();
     provider.set_nonblocking(true).unwrap();
     f.config.provider.route.endpoint_ref = Some(format!(
