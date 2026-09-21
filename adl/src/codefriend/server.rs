@@ -299,7 +299,7 @@ fn execute_cycle(
             },
             admission.clone(),
             route.clone(),
-            |lane, prompt, lane_dir| {
+            |lane: ReviewLane, prompt: String, lane_dir: &Path| {
                 ensure!(!cancel.exists(), "cancelled");
                 let mut provider = config.provider.clone();
                 provider.input_text = Some(prompt);
