@@ -14,6 +14,7 @@ use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 use std::{collections::BTreeSet, path::Path};
 pub const VERSION: &str = "codefriend.palace.v1";
+const TUPLE_VERSION: &str = "codefriend.palace.baseline_tuple.v2";
 const WORKFLOW: &str = "codefriend-review";
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -116,13 +117,24 @@ pub fn index_with_baselines(
     baseline::safe_path(root)?;
     let mut refs = request.references.clone();
     refs.sort_by(|a, b| (&a.run_id, &a.record_digest).cmp(&(&b.run_id, &b.record_digest)));
+    let tuple_version = refs
+        .iter()
+        .map(|r| &r.run_id)
+        .collect::<BTreeSet<_>>()
+        .len()
+        != refs.len();
+    let trace_version = if tuple_version {
+        TUPLE_VERSION
+    } else {
+        VERSION
+    };
     let mut seen = BTreeSet::new();
     for r in &refs {
         r.validate()?;
         backend.load(r)?;
-        ensure!(seen.insert(r.run_id.clone()), "palace_duplicate_run");
+        ensure!(seen.insert(r.storage_identity()?), "palace_duplicate_run");
     }
-    let trace_digest = sha256(&(VERSION, &refs, request.observed_epoch_ms))?;
+    let trace_digest = sha256(&(trace_version, &refs, request.observed_epoch_ms))?;
     let trace = MemoryReference {
         id: format!("trace:{trace_digest}"),
         path: format!(".adl/runtime-v3/observability/codefriend/{trace_digest}.json"),
@@ -134,7 +146,11 @@ pub fn index_with_baselines(
         .map(|r| {
             Ok(ObsMemContextRecord {
                 id: format!("baseline:{}", r.record_digest),
-                run_id: r.run_id.clone(),
+                run_id: if tuple_version {
+                    r.storage_identity()?
+                } else {
+                    r.run_id.clone()
+                },
                 workflow_id: WORKFLOW.into(),
                 payload: serde_json::to_string(r)?,
                 visibility: MemoryVisibility::Public,
@@ -156,14 +172,17 @@ pub fn index_with_baselines(
     let trace_path = root.join(&trace.path);
     baseline::safe_path(&trace_path)?;
     std::fs::create_dir_all(trace_path.parent().unwrap())?;
-    let trace_bytes = serde_json::to_vec(&(VERSION, &refs, request.observed_epoch_ms))?;
+    let trace_bytes = serde_json::to_vec(&(trace_version, &refs, request.observed_epoch_ms))?;
     if trace_path.exists() {
         ensure!(
             read_trace(&trace_path)? == trace_bytes,
             "palace_trace_collision"
         );
     } else {
-        baseline::write_json(&trace_path, &(VERSION, &refs, request.observed_epoch_ms))?;
+        baseline::write_json(
+            &trace_path,
+            &(trace_version, &refs, request.observed_epoch_ms),
+        )?;
     }
     let input = MemoryPalaceInput {
         schema: adl_runtime_kernel::MEMORY_PALACE_INPUT_SCHEMA.into(),
@@ -247,6 +266,16 @@ pub fn retrieve_with_baselines(
         format!("{:x}", Sha256::digest(&trace_bytes)) == checkpoint.trace_reference.sha256,
         "palace_trace_digest_mismatch"
     );
+    let (trace_version, trace_refs, trace_time): (String, Vec<BaselineRef>, u64) =
+        serde_json::from_slice(&trace_bytes)
+            .map_err(|_| anyhow::anyhow!("palace_trace_invalid"))?;
+    ensure!(
+        (trace_version == VERSION || trace_version == TUPLE_VERSION)
+            && trace_time == request.packet_observed_epoch_ms
+            && trace_refs.len() <= 64,
+        "palace_trace_invalid"
+    );
+    let tuple_version = trace_version == TUPLE_VERSION;
     ensure!(
         checkpoint.identity_root == request.expected_identity_root
             && checkpoint.continuity_head == request.expected_continuity_head,
@@ -272,7 +301,12 @@ pub fn retrieve_with_baselines(
         let citation = reference_citation(&r)?;
         ensure!(
             item.record_id == format!("baseline:{}", r.record_digest)
-                && anchor.run_id == r.run_id
+                && anchor.run_id
+                    == if tuple_version {
+                        r.storage_identity()?
+                    } else {
+                        r.run_id.clone()
+                    }
                 && anchor.continuity_id.as_deref()
                     == Some(request.expected_continuity_head.as_str()),
             "palace_run_identity_mismatch"
@@ -288,7 +322,13 @@ pub fn retrieve_with_baselines(
                 <= u128::from(request.stale_after_ms),
             "palace_stale_reference"
         );
-        ensure!(seen.insert(r.run_id.clone()), "palace_ambiguous_run");
+        ensure!(trace_refs.contains(&r), "palace_trace_reference_mismatch");
+        let identity = if tuple_version {
+            r.storage_identity()?
+        } else {
+            r.run_id.clone()
+        };
+        ensure!(seen.insert(identity), "palace_ambiguous_run");
         backend.load(&r)?;
         selected.push(r);
     }

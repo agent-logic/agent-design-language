@@ -1,0 +1,9 @@
+{
+  "issue": 1115,
+  "lane": "owner_binary",
+  "proof_role": "Required deterministic baseline identity and signed Palace regression gate",
+  "determinism": "Local admitted Git source, controlled Store clock, native test authority; no external provider",
+  "resources": "Bounded local CPU and private temporary files",
+  "release_gate": "Required focused tests and independent review; installed qualification remains separate",
+  "execution": "Not yet run"
+}

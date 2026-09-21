@@ -311,6 +311,9 @@ candidate_filter_for_path() {
     adl/src/codefriend/architecture/drift.rs)
       printf 'codefriend_drift'
       ;;
+    adl/src/codefriend/memory/baseline.rs)
+      printf 'codefriend_baseline'
+      ;;
     adl/src/codefriend/memory/palace.rs)
       printf 'codefriend_palace'
       ;;
@@ -573,6 +576,9 @@ nextest_expression_for_filter() {
       ;;
     codefriend_drift)
       printf 'binary_id(adl::codefriend_cf_cog_drift) or binary_id(adl::codefriend_journey) or binary_id(adl::codefriend_integration)'
+      ;;
+    codefriend_baseline)
+      printf 'binary_id(adl::codefriend_cf_memory) or binary_id(adl::codefriend_baseline_repeat) or binary_id(adl::codefriend_plat_memory)'
       ;;
     codefriend_palace)
       printf 'binary_id(adl::codefriend_plat_memory) or binary_id(adl::codefriend_journey)'
