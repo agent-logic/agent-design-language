@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 1101,
+  "issue_padded": "1101",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/1101",
+  "title": "[v0.92.2][CF-ACTIVITIES] Generate documentation, diagrams and tests for update cycles",
+  "branch": "codex/1101-codefriend-update-cycle-activity-executors",
+  "version": "1.0.5",
+  "card": "sip",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-1101-codefriend-update-cycle-activity-executors"
+}

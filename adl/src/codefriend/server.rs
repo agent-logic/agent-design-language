@@ -6,6 +6,7 @@ mod journey;
 mod journey_publication;
 mod publication_export;
 use super::{
+    activities::{self, Activity, ProviderOutput, UpdateCyclePlan},
     evidence::{store::Store, Admission, Retention},
     ingestion::Packet,
     review::{
@@ -50,7 +51,6 @@ pub fn build_revision() -> &'static str {
 
 pub const MAX_BODY: usize = 2 * 1024 * 1024;
 const MAX_RESULT: usize = 4 * 1024 * 1024;
-const MAX_PROMPT_BYTES: usize = 128 * 1024;
 fn now() -> u64 {
     SystemTime::now()
         .duration_since(UNIX_EPOCH)
@@ -98,6 +98,8 @@ pub struct Submit {
     pub packet: Packet,
     pub mode: Mode,
     pub lane: Option<ReviewLane>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub cycle: Option<UpdateCyclePlan>,
 }
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "snake_case")]
@@ -148,31 +150,45 @@ impl Backend for ProductionBackend {
     ) -> Result<Value> {
         let work = dir.join("work");
         fs::create_dir_all(&work)?;
-        // Bound model input before the first provider effect, including hosted lanes.
-        for lane in ReviewLane::ALL {
-            let (_, prompt) = runner::lane_input_manifest(&request.operation_id, lane, &admission)?;
-            ensure!(prompt.len() <= MAX_PROMPT_BYTES, "model_prompt_byte_limit");
-        }
         match request.mode {
             Mode::Hosted => {
-                let run = runner::run(
-                    ReviewRunOptions {
-                        store: work.join("evidence"),
-                        packet_id: admission.packet.packet_id.clone(),
-                        provider_request: config.provider.clone(),
-                        out: work.join("review"),
-                        run_id: request.operation_id.clone(),
-                        cancel_file: Some(dir.join("cancel")),
-                    },
-                    admission,
-                )?;
-                ensure!(
-                    run.successful_execution().is_ok(),
-                    "hosted_review_incomplete"
-                );
-                Ok(serde_json::to_value(run)?)
+                if request.cycle.is_none() {
+                    // Preserve the original review-only protocol byte shape.
+                    let run = runner::run(
+                        ReviewRunOptions {
+                            store: work.join("evidence"),
+                            packet_id: admission.packet.packet_id.clone(),
+                            provider_request: config.provider.clone(),
+                            out: work.join("review"),
+                            run_id: request.operation_id.clone(),
+                            cancel_file: Some(dir.join("cancel")),
+                        },
+                        admission,
+                    )?;
+                    ensure!(
+                        run.successful_execution().is_ok(),
+                        "hosted_review_incomplete"
+                    );
+                    return Ok(serde_json::to_value(run)?);
+                }
+                let (result, _) = execute_cycle(config, request, admission, dir, &work)?;
+                Ok(serde_json::to_value(result)?)
             }
             Mode::LocalModel => {
+                if request.cycle.is_some() {
+                    let gateway_admission = admission.clone();
+                    let (result, model_identity) =
+                        execute_cycle(config, request, admission, dir, &work)?;
+                    return Ok(json!({
+                        "schema":"codefriend.local_cycle_result.v1",
+                        "execution_location":"local_agent",
+                        "model_execution_location":"agent_logic_provider",
+                        "candidate_revision":build::REVISION,
+                        "model_identity":model_identity,
+                        "admission":gateway_admission,
+                        "cycle_result":result
+                    }));
+                }
                 let lane = request
                     .lane
                     .ok_or_else(|| anyhow::anyhow!("lane_required"))?;
@@ -212,6 +228,148 @@ impl Backend for ProductionBackend {
             }
         }
     }
+}
+
+fn execute_cycle(
+    config: &Config,
+    request: &Submit,
+    admission: Admission,
+    dir: &Path,
+    work: &Path,
+) -> Result<(
+    activities::UpdateCycleResult,
+    crate::model_identity::ModelIdentityV1,
+)> {
+    let plan = request
+        .cycle
+        .clone()
+        .ok_or_else(|| anyhow::anyhow!("activity_plan_required"))?;
+    plan.validate(&admission)?;
+    let route = runner::provider_route_identity(&config.provider);
+    let cancel = dir.join("cancel");
+    let mut identities = Vec::new();
+    let review = if plan.activities.contains(&Activity::Review) {
+        match runner::run_with_executor(
+            runner::ExecutionOptions {
+                out: work.join("review"),
+                run_id: request.operation_id.clone(),
+                cancel_file: Some(dir.join("cancel")),
+            },
+            admission.clone(),
+            route.clone(),
+            |lane, prompt, lane_dir| {
+                ensure!(!cancel.exists(), "cancelled");
+                let mut provider = config.provider.clone();
+                provider.input_text = Some(prompt);
+                provider.run_id = Some(request.operation_id.clone());
+                provider.request_id = Some(format!("{}-{}", request.operation_id, lane.id()));
+                provider.lane_ref = lane.id().into();
+                provider.prompt_contract_ref = format!("{}:{}", runner::PROMPT_CONTRACT, lane.id());
+                let mut logger = ProviderRunLoggerV1::create_with_context(
+                    lane_dir.join("provider.log.jsonl"),
+                    &request.operation_id,
+                    provider.request_id.clone(),
+                    Some(format!("lanes/{}/provider.log.jsonl", lane.id())),
+                )?;
+                let output = execute_codefriend_invocation(provider, &mut logger);
+                crate::provider_adapter::retain_codefriend_provider_outcome(&output, || {
+                    write_json(&lane_dir.join("provider-result.json"), &output)
+                })?;
+                identities.push(output.model_identity.clone());
+                Ok(runner::LaneExecution {
+                    final_status: output.final_status,
+                    output_text: output.output_text,
+                })
+            },
+        ) {
+            Ok(review) => Some(review),
+            Err(error) if error.is::<crate::provider_adapter::CodeFriendProviderInterrupted>() => {
+                return Err(error);
+            }
+            Err(_) => None,
+        }
+    } else {
+        None
+    };
+    let mut result = activities::run_with_executor(
+        plan,
+        admission,
+        request.operation_id.clone(),
+        route,
+        review,
+        |activity, prompt, _manifest| {
+            ensure!(!cancel.exists(), "cancelled");
+            let mut provider = config.provider.clone();
+            provider.input_text = Some(prompt);
+            provider.run_id = Some(request.operation_id.clone());
+            provider.request_id = Some(format!("{}-{}", request.operation_id, activity.id()));
+            provider.lane_ref = format!("activity:{}", activity.id());
+            provider.prompt_contract_ref =
+                format!("{}:{}", activities::PROMPT_CONTRACT, activity.id());
+            let mut logger = ProviderRunLoggerV1::create_with_context(
+                work.join(format!("activity-{}.jsonl", activity.id())),
+                &request.operation_id,
+                provider.request_id.clone(),
+                Some(format!("activity-{}.jsonl", activity.id())),
+            )?;
+            let output = execute_codefriend_invocation(provider, &mut logger);
+            crate::provider_adapter::retain_codefriend_provider_outcome(&output, || {
+                write_json(
+                    &work.join(format!("activity-{}-provider-result.json", activity.id())),
+                    &output,
+                )
+            })?;
+            identities.push(output.model_identity.clone());
+            Ok(ProviderOutput {
+                final_status: output.final_status,
+                output_text: output.output_text,
+            })
+        },
+    )?;
+    let first = identities
+        .first()
+        .cloned()
+        .ok_or_else(|| anyhow::anyhow!("activity_model_identity_missing"))?;
+    ensure!(
+        identities
+            .iter()
+            .all(|identity| same_model_execution(&first, identity)),
+        "activity_model_identity_changed"
+    );
+    let observed_route = runner::provider_route_identity_from_model(&first);
+    for activity in &mut result.activities {
+        activity.provider_route.clone_from(&observed_route);
+    }
+    if let Some(review) = &mut result.review {
+        review.rebind_provider_route(&observed_route)?;
+        if let Some(activity) = result
+            .activities
+            .iter_mut()
+            .find(|activity| activity.activity == Activity::Review)
+        {
+            activity.review_result_digest = Some(super::evidence::hash(review)?);
+        }
+    }
+    result.execution = Some(activities::CycleExecutionBinding {
+        candidate_revision: build::REVISION.into(),
+        request_digest: super::evidence::hash(request)?,
+        model_identity: first.clone(),
+    });
+    result.validate(&observed_route)?;
+    Ok((result, first))
+}
+
+fn same_model_execution(
+    left: &crate::model_identity::ModelIdentityV1,
+    right: &crate::model_identity::ModelIdentityV1,
+) -> bool {
+    left.provider_kind == right.provider_kind
+        && left.provider == right.provider
+        && left.model_ref == right.model_ref
+        && left.provider_model_id == right.provider_model_id
+        && left.runtime_surface == right.runtime_surface
+        && left.identity_strength == right.identity_strength
+        && left.resolved_digest == right.resolved_digest
 }
 struct Inner {
     config: Config,
@@ -594,7 +752,14 @@ async fn submit(
     if credential.mode != request.mode {
         return Err(ApiError(StatusCode::FORBIDDEN, "scope_denied"));
     }
-    if !id(&request.operation_id) || (request.mode == Mode::Hosted) != request.lane.is_none() {
+    let shape_valid = match request.mode {
+        Mode::Hosted => request.lane.is_none(),
+        Mode::LocalModel => {
+            (request.lane.is_some() && request.cycle.is_none())
+                || (request.lane.is_none() && request.cycle.is_some())
+        }
+    };
+    if !id(&request.operation_id) || !shape_valid {
         return Err(ApiError(StatusCode::BAD_REQUEST, "invalid_operation"));
     }
     let admission = Admission::new(
@@ -605,6 +770,10 @@ async fn submit(
         now(),
     )
     .map_err(|_| ApiError(StatusCode::BAD_REQUEST, "invalid_evidence"))?;
+    if let Some(plan) = &request.cycle {
+        plan.validate(&admission)
+            .map_err(|_| ApiError(StatusCode::BAD_REQUEST, "invalid_activity_plan"))?;
+    }
     let permit = service
         .0
         .slots
@@ -672,6 +841,14 @@ async fn submit(
         status: Status::Running,
     };
     internal(write_json(&dir.join("operation.json"), &operation))?;
+    if request.cycle.is_some() {
+        internal(
+            File::create(dir.join("cycle-operation"))
+                .and_then(|file| file.sync_all())
+                .and_then(|_| File::open(&dir)?.sync_all())
+                .map_err(Into::into),
+        )?;
+    }
     drop(guard);
     let returned = operation.clone();
     tokio::task::spawn_blocking(move || {
@@ -705,19 +882,37 @@ async fn submit(
                 match serde_json::to_vec(&value) {
                     Ok(bytes) if bytes.len() <= MAX_RESULT => {
                         if write_json(&dir.join("result.json"), &value).is_ok() {
-                            if op.mode == Mode::LocalModel {
-                                op.model_identity =
-                                    value.get("model_identity").and_then(|identity| {
-                                        serde_json::from_value(identity.clone()).ok()
-                                    });
+                            op.model_identity = value
+                                .get("model_identity")
+                                .or_else(|| value.get("execution")?.get("model_identity"))
+                                .or_else(|| {
+                                    value
+                                        .get("cycle_result")?
+                                        .get("execution")?
+                                        .get("model_identity")
+                                })
+                                .and_then(|identity| serde_json::from_value(identity.clone()).ok());
+                            let failed_cycle = request.cycle.is_some()
+                                && (value
+                                    .get("completion")
+                                    .or_else(|| value.get("cycle_result")?.get("completion"))
+                                    .and_then(Value::as_str)
+                                    == Some("failed"));
+                            if dir.join("cancel").exists() || op.expires_at <= now() {
+                                Status::Cancelled
+                            } else if failed_cycle {
+                                Status::Failed
+                            } else {
+                                Status::Complete
                             }
-                            Status::Complete
                         } else {
                             Status::Failed
                         }
                     }
                     _ => Status::Failed,
                 }
+            } else if dir.join("cancel").exists() || op.expires_at <= now() {
+                Status::Cancelled
             } else {
                 Status::Failed
             };
@@ -770,13 +965,19 @@ async fn result(
 ) -> ApiResult<Json<Value>> {
     internal(service.expire())?;
     let op = service.operation(&c, &operation)?;
-    if op.status != Status::Complete || op.expires_at <= now() {
+    let result_path = service.dir(&c.subject, &operation).join("result.json");
+    let cycle_result = service
+        .dir(&c.subject, &operation)
+        .join("cycle-operation")
+        .exists();
+    if !(op.status == Status::Complete
+        || (cycle_result && matches!(op.status, Status::Failed | Status::Cancelled)))
+        || op.expires_at <= now()
+        || !result_path.exists()
+    {
         return Err(ApiError(StatusCode::CONFLICT, "result_not_complete"));
     }
-    Ok(Json(internal(read_json(
-        &service.dir(&c.subject, &operation).join("result.json"),
-        MAX_RESULT,
-    ))?))
+    Ok(Json(internal(read_json(&result_path, MAX_RESULT))?))
 }
 
 #[derive(Deserialize, Default)]

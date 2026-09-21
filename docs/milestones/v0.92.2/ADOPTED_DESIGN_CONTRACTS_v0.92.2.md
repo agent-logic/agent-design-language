@@ -41,3 +41,14 @@ The prior TBD scheduling reconciliation names local source documents as active i
 ## Complete consumer ownership
 
 CF-REVIEW executes isolated perspectives; CF-SYNTHESIS merges their attributed results; CF-REMEDIATE and CF-TESTPLAN each generate their own usable plan from synthesis. CF-UX enforces exact-artifact approval while CF-RENDER-MD, CF-RENDER-HTML and CF-RENDER-PDF each deliver a working exporter. PLAT-MEMORY connects the actual second-review path to Memory Palace. The [atomic task contracts](ATOMIC_TASK_CONTRACTS_v0.92.2.md) bind all split tasks and eleven strengthened closure requirements; an interface contract does not count as a completed implementation.
+
+## 4+1 architecture package acceptance (#1109)
+
+Beta 1 includes the generated repository 4+1 package specified in
+[Architecture Cognition](features/ARCHITECTURE_COGNITION_v0.92.2.md): four coherent
+architecture views plus evidence-traced scenarios, delivered through the existing
+journey and approved report exports. Declared infrastructure is not observed running
+topology. Missing evidence requires actionable partial output; completeness cannot
+be inferred from merely having five headings. Installed ADL/external generation and
+rendered readability evidence are required. Existing evidence, redaction, approval
+and independent #915 qualification boundaries remain authoritative.

@@ -766,6 +766,15 @@ async fn main() -> ExitCode {
                 eprintln!("runtime agent orientation resource is invalid: {error}");
                 return ExitCode::from(78);
             }
+            if let Err(error) = service
+                .configure_resident_health(operation_state_identity.join("resident-health.json"))
+            {
+                eprintln!(
+                    "runtime resident health journal unavailable: {}",
+                    error.kind()
+                );
+                return ExitCode::from(78);
+            }
             if let Err(error) = service.configure_dynamic_agent_store(dynamic_agent_store_path) {
                 eprintln!("runtime dynamic agent store is invalid: {error}");
                 return ExitCode::from(78);
@@ -805,14 +814,27 @@ async fn main() -> ExitCode {
                 "adl.runtime_v3.agent_delegation.continuity.v1",
                 &continuity_secret,
             ));
-            let greeting_recovery_service = Arc::clone(&service);
+            let dynamic_health_service = Arc::clone(&service);
+            let dynamic_health_cancel = api_shutdown.child_token();
             tokio::spawn(async move {
-                greeting_recovery_service
-                    .refresh_dynamic_agent_health()
-                    .await;
-                greeting_recovery_service
-                    .recover_admission_greetings()
-                    .await;
+                let mut tick = tokio::time::interval(std::time::Duration::from_secs(10));
+                tick.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Skip);
+                loop {
+                    tokio::select! {
+                        _ = dynamic_health_cancel.cancelled() => break,
+                        _ = tick.tick() => {}
+                    }
+                    // One sweep at a time, independent of synchronous logging
+                    // housekeeping in the main service loop.
+                    tokio::select! {
+                        _ = dynamic_health_cancel.cancelled() => break,
+                        _ = dynamic_health_service.refresh_dynamic_agent_health() => {}
+                    }
+                    let greetings = Arc::clone(&dynamic_health_service);
+                    tokio::spawn(async move {
+                        greetings.recover_admission_greetings().await;
+                    });
+                }
             });
             let api_policy = ControlApiPolicy::new(
                 api_drain_timeout,
@@ -879,7 +901,11 @@ async fn main() -> ExitCode {
                 .enumerate()
                 .map(|(i, c)| (c.name.clone(), resident_shepherd_runtime_id(i, c)))
                 .collect::<std::collections::BTreeMap<_, _>>();
+            let recovery_executor = Arc::clone(&resident_shepherd);
+            let recovery_probe = Arc::clone(&shepherd_probe);
             tokio::spawn(async move {
+                let resident_shepherd = recovery_executor;
+                let shepherd_probe = recovery_probe;
                 let service = resident_supervisor_service;
                 let api_shutdown = resident_supervisor_shutdown;
                 let instance_id = supervisor_runtime_id;
@@ -1192,16 +1218,117 @@ async fn main() -> ExitCode {
                     &init.api.public_base_url,
                 )
             );
+            let health_service = Arc::clone(&service);
+            let health_cancel = api_shutdown.child_token();
+            let primary_name = init.resident_shepherd.primary().name.clone();
+            let health_readiness = resident_shepherd.readiness();
+            let supervisor_task = tokio::spawn(async move {
+                let mut tick = tokio::time::interval(std::time::Duration::from_millis(
+                    adl_runtime_kernel::resident_health::DETECTION_INTERVAL_MILLIS,
+                ));
+                tick.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Skip);
+                loop {
+                    tokio::select! {
+                        _ = health_cancel.cancelled() => break,
+                        _ = tick.tick() => {
+                            if health_service.supervise_resident_health(health_readiness.is_ready(&primary_name)).is_err() {
+                                tracing::error!(event="resident_incident_persistence_failed", "Resident health journal unavailable");
+                            }
+                        }
+                    }
+                }
+            });
+            let response_service = Arc::clone(&service);
+            let response_cancel = api_shutdown.child_token();
+            let response_adapter = Arc::clone(&shepherd_probe);
+            let response_readiness = resident_shepherd.readiness();
+            let response_name = init.resident_shepherd.primary().name.clone();
+            let response_runtime = instance_id.clone();
+            let response_task = tokio::spawn(async move {
+                loop {
+                    tokio::select! {
+                        _ = response_cancel.cancelled() => break,
+                        _ = tokio::time::sleep(std::time::Duration::from_secs(1)) => {}
+                    }
+                    if !response_readiness.is_ready(&response_name) {
+                        continue;
+                    }
+                    let incident = match response_service.reserve_resident_response() {
+                        Ok(Some(i)) => i,
+                        Ok(None) => continue,
+                        Err(_) => {
+                            tracing::error!(event = "resident_response_persistence_failed");
+                            continue;
+                        }
+                    };
+                    let request_id = format!(
+                        "{}-response-{}",
+                        incident.incident_id, incident.response_attempts
+                    );
+                    let request = OperationRequest {
+                        schema: OPERATION_REQUEST_SCHEMA.to_owned(), request_id: request_id.clone(),
+                        idempotency_key: request_id.clone(), principal: "runtime-recovery".to_owned(), permit: None,
+                        payload: serde_json::to_vec(&serde_json::json!({
+                            "schema": adl_runtime_kernel::SHEPHERD_REQUEST_SCHEMA,
+                            "correlation_id": request_id, "runtime_id": response_runtime,
+                            "shepherd_name": response_name,
+                            "prompt": format!("Resident health incident {} for {}: {}. Acknowledge and assess this incident. Do not change models, restart hosts, expand permissions, or claim recovery. Independent supervision will request operator help and verify recovery.", incident.incident_id, incident.resident_id, incident.reason)
+                        })).expect("structured incident request"),
+                    };
+                    let success = tokio::select! {
+                        _ = response_cancel.cancelled() => break,
+                        result = tokio::time::timeout(std::time::Duration::from_millis(adl_runtime_kernel::resident_health::RESPONSE_TIMEOUT_MILLIS), response_adapter.invoke(request)) => matches!(result, Ok(Ok(_))),
+                    };
+                    if response_service
+                        .finish_resident_response(&incident, success)
+                        .is_err()
+                    {
+                        tracing::error!(event = "resident_response_persistence_failed");
+                    }
+                }
+            });
+            let alert_service = Arc::clone(&service);
+            let alert_cancel = api_shutdown.child_token();
+            let alert_config = init.resident_alerts.clone();
+            let alert_task = tokio::spawn(async move {
+                loop {
+                    tokio::select! {
+                        _ = alert_cancel.cancelled() => break,
+                        _ = tokio::time::sleep(std::time::Duration::from_secs(1)) => {}
+                    }
+                    let incident = match alert_service.reserve_resident_alert() {
+                        Ok(Some(i)) => i,
+                        Ok(None) => continue,
+                        Err(_) => {
+                            tracing::error!(event = "resident_alert_persistence_failed");
+                            continue;
+                        }
+                    };
+                    let delivered = if let Some(config) = &alert_config {
+                        tokio::select! {
+                            _ = alert_cancel.cancelled() => break,
+                            result = config.publish(&incident) => result.is_ok(),
+                        }
+                    } else {
+                        false
+                    };
+                    if alert_service
+                        .finish_resident_alert(&incident, delivered)
+                        .is_err()
+                    {
+                        tracing::error!(event = "resident_alert_persistence_failed");
+                    }
+                }
+            });
+            // Dropping join handles does not cancel tasks; all workers are tied
+            // to the Runtime API shutdown token for graceful terminal handling.
+            let _resident_health_workers = (supervisor_task, response_task, alert_task);
             let mut pressure_retry_at = None;
             let mut observability_tick = tokio::time::interval(observability_poll);
             observability_tick.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Delay);
             let mut shepherd_heartbeat =
                 tokio::time::interval(std::time::Duration::from_millis(1_000));
             shepherd_heartbeat.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Delay);
-            let mut dynamic_agent_heartbeat =
-                tokio::time::interval(std::time::Duration::from_secs(10));
-            dynamic_agent_heartbeat
-                .set_missed_tick_behavior(tokio::time::MissedTickBehavior::Delay);
             let mut cloud_health_heartbeat =
                 tokio::time::interval(std::time::Duration::from_secs(30));
             cloud_health_heartbeat.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Delay);
@@ -1276,13 +1403,6 @@ async fn main() -> ExitCode {
                                 );
                             }
                         }
-                    },
-                    _ = dynamic_agent_heartbeat.tick() => {
-                        service.refresh_dynamic_agent_health().await;
-                        let greeting_recovery_service = Arc::clone(&service);
-                        tokio::spawn(async move {
-                            greeting_recovery_service.recover_admission_greetings().await;
-                        });
                     },
                     _ = cloud_health_heartbeat.tick() => {
                         let snapshot = recorder.snapshot();

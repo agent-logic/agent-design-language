@@ -311,6 +311,9 @@ candidate_filter_for_path() {
     adl/src/codefriend/architecture/drift.rs)
       printf 'codefriend_drift'
       ;;
+    adl/src/codefriend/memory/baseline.rs)
+      printf 'codefriend_baseline'
+      ;;
     adl/src/codefriend/memory/palace.rs)
       printf 'codefriend_palace'
       ;;
@@ -325,6 +328,12 @@ candidate_filter_for_path() {
       ;;
     adl/src/codefriend/integration/journey/publication_attachment.rs)
       printf 'codefriend_hosted_attachment'
+      ;;
+    adl/src/cli/codefriend_structure_cmd.rs)
+      printf 'codefriend_architecture_cli'
+      ;;
+    adl/src/codefriend/architecture/four_plus_one.rs|adl/src/codefriend/architecture/four_plus_one/*.rs)
+      printf 'codefriend_four_plus_one'
       ;;
     adl/src/cli/codefriend_cmd.rs)
       printf 'codefriend_cli'
@@ -547,6 +556,12 @@ nextest_expression_for_filter() {
     markdown)
       printf 'binary_id(adl::bin/adl) and test(/^cli::tooling_cmd::tests::markdown/)'
       ;;
+    codefriend_four_plus_one)
+      printf 'binary_id(adl::codefriend_four_plus_one)'
+      ;;
+    codefriend_architecture_cli)
+      printf 'binary_id(adl::codefriend_four_plus_one) or binary_id(adl::codefriend_cf_cog) or binary_id(adl::codefriend_cf_cog_drift) or binary_id(adl::codefriend_cf_cog_rationale) or binary_id(adl::codefriend_cf_cog_impact) or binary_id(adl::codefriend_structure_v2) or binary_id(adl::codefriend_drift_v2) or binary_id(adl::codefriend_rationale_v2)'
+      ;;
     codefriend_review)
       printf 'binary_id(adl::codefriend_review)'
       ;;
@@ -573,6 +588,9 @@ nextest_expression_for_filter() {
       ;;
     codefriend_drift)
       printf 'binary_id(adl::codefriend_cf_cog_drift) or binary_id(adl::codefriend_journey) or binary_id(adl::codefriend_integration)'
+      ;;
+    codefriend_baseline)
+      printf 'binary_id(adl::codefriend_cf_memory) or binary_id(adl::codefriend_baseline_repeat) or binary_id(adl::codefriend_plat_memory)'
       ;;
     codefriend_palace)
       printf 'binary_id(adl::codefriend_plat_memory) or binary_id(adl::codefriend_journey)'

@@ -1,7 +1,7 @@
 //! Deterministic, local PDF export for an approved CodeFriend review.
 
 use super::{
-    markdown::{prepare_report, publish_create_only_anchored},
+    markdown::{prepare_report, publish_with_attachments},
     MarkdownRenderOptions,
 };
 use crate::codefriend::{evidence::hash, ingestion::digest};
@@ -160,9 +160,14 @@ pub fn render_pdf(options: PdfRenderOptions) -> Result<PdfRenderResult> {
         maximum_line_width_mm <= PRINTABLE_WIDTH_MM,
         "pdf_line_exceeds_printable_width"
     );
-    let page_count = lines.len().div_ceil(LINES_PER_PAGE);
+    let page_count = lines.len().div_ceil(LINES_PER_PAGE)
+        + prepared
+            .architecture
+            .keys()
+            .filter(|name| name.ends_with(".svg"))
+            .count();
     ensure!(page_count <= MAX_PAGES, "pdf_page_limit_exceeded");
-    let pdf_bytes = build_pdf(&lines, font)?;
+    let pdf_bytes = build_pdf(&lines, font, &prepared.architecture)?;
     ensure!(
         pdf_bytes.starts_with(b"%PDF-") && pdf_bytes.len() > 1_024,
         "pdf_output_invalid_or_empty"
@@ -219,7 +224,7 @@ pub fn render_pdf(options: PdfRenderOptions) -> Result<PdfRenderResult> {
         "pdf_manifest_redaction_recheck_failed"
     );
 
-    let (actual_pdf, actual_manifest) = publish_create_only_anchored(
+    let (actual_pdf, actual_manifest) = publish_with_attachments(
         &options.destination_root,
         std::path::Path::new(&prepared.publication.target),
         "report.pdf",
@@ -227,6 +232,7 @@ pub fn render_pdf(options: PdfRenderOptions) -> Result<PdfRenderResult> {
         &manifest_bytes,
         MAX_PDF_BYTES,
         "pdf",
+        &super::architecture::attachments(&prepared.architecture)?,
     )?;
     ensure!(actual_pdf == pdf_bytes, "pdf_report_readback_mismatch");
     ensure!(
@@ -249,10 +255,14 @@ pub fn render_pdf(options: PdfRenderOptions) -> Result<PdfRenderResult> {
     })
 }
 
-fn build_pdf(lines: &[String], font: ParsedFont) -> Result<Vec<u8>> {
+fn build_pdf(
+    lines: &[String],
+    font: ParsedFont,
+    architecture: &std::collections::BTreeMap<String, Vec<u8>>,
+) -> Result<Vec<u8>> {
     let mut document = PdfDocument::new("CodeFriend approved review");
     let font_id = document.add_font(&font);
-    let pages = lines
+    let mut pages = lines
         .chunks(LINES_PER_PAGE)
         .map(|page_lines| {
             let mut operations = vec![
@@ -282,12 +292,131 @@ fn build_pdf(lines: &[String], font: ParsedFont) -> Result<Vec<u8>> {
             PdfPage::new(Mm(210.0), Mm(297.0), operations)
         })
         .collect::<Vec<_>>();
+    if let Some(bytes) = architecture.get("package.json") {
+        use crate::codefriend::architecture::four_plus_one::Package;
+        let package: Package = serde_json::from_slice(bytes)?;
+        let mut rendered = std::collections::BTreeSet::new();
+        for (view_name, view) in &package.views {
+            let key = serde_json::to_value(view_name)?
+                .as_str()
+                .unwrap()
+                .to_owned();
+            let entity = |id: &str| {
+                package
+                    .entities
+                    .iter()
+                    .find(|e| e.id == id)
+                    .expect("validated entity")
+            };
+            for (i, relationship) in view.relationships.iter().enumerate() {
+                let name = format!("{key}-{i:03}.svg");
+                let labels = [
+                    &entity(&relationship.from).name[..],
+                    &entity(&relationship.to).name[..],
+                ];
+                pages.push(diagram_page(&name, &labels, &font, &font_id)?);
+                rendered.insert(name);
+            }
+            for (i, id) in view.entities.iter().enumerate() {
+                if view
+                    .relationships
+                    .iter()
+                    .any(|r| &r.from == id || &r.to == id)
+                {
+                    continue;
+                }
+                let name = format!("{key}-entity-{i:03}.svg");
+                pages.push(diagram_page(&name, &[&entity(id).name], &font, &font_id)?);
+                rendered.insert(name);
+            }
+        }
+        ensure!(
+            rendered
+                == architecture
+                    .keys()
+                    .filter(|n| n.ends_with(".svg"))
+                    .cloned()
+                    .collect(),
+            "architecture_pdf_diagram_parity"
+        );
+    }
     let mut warnings = Vec::new();
     let bytes = document
         .with_pages(pages)
         .save(&PdfSaveOptions::default(), &mut warnings);
     ensure!(warnings.is_empty(), "pdf_render_warning");
     Ok(bytes)
+}
+
+// Draw the same approved entities and directed relationships with the existing
+// PDF vector primitives. No SVG parser, external resources or font lookup.
+fn diagram_page(
+    name: &str,
+    labels: &[&str],
+    font: &ParsedFont,
+    font_id: &printpdf::FontId,
+) -> Result<PdfPage> {
+    let mut operations = Vec::new();
+    let mut text_at = |label: &str, x: f32, y: f32| {
+        operations.extend([
+            Op::StartTextSection,
+            Op::SetTextCursor {
+                pos: Point::new(Mm(x), Mm(y)),
+            },
+            Op::SetFont {
+                font: PdfFontHandle::External(font_id.clone()),
+                size: Pt(FONT_SIZE_PT),
+            },
+            Op::ShowText {
+                items: vec![TextItem::Text(label.into())],
+            },
+            Op::EndTextSection,
+        ]);
+    };
+    text_at(&format!("Architecture diagram: {name}"), 18.0, 280.0);
+    let wrapped = labels
+        .iter()
+        .map(|label| wrap_text(label, font, 66.0))
+        .collect::<Result<Vec<_>>>()?;
+    let height = 12.0 + 5.0 * wrapped.iter().map(Vec::len).max().unwrap_or(0) as f32;
+    ensure!(height <= 240.0, "architecture_pdf_diagram_height");
+    for (i, lines) in wrapped.iter().enumerate() {
+        let x = if i == 0 { 18.0 } else { 120.0 };
+        for (line, text) in lines.iter().enumerate() {
+            text_at(text, x + 3.0, 260.0 - 5.0 * line as f32);
+        }
+    }
+    let mut line = |points: &[(f32, f32)], closed: bool| {
+        operations.push(Op::DrawLine {
+            line: printpdf::Line {
+                points: points
+                    .iter()
+                    .map(|(x, y)| printpdf::LinePoint {
+                        p: Point::new(Mm(*x), Mm(*y)),
+                        bezier: false,
+                    })
+                    .collect(),
+                is_closed: closed,
+            },
+        });
+    };
+    for i in 0..labels.len() {
+        let x = if i == 0 { 18.0 } else { 120.0 };
+        line(
+            &[
+                (x, 268.0),
+                (x + 72.0, 268.0),
+                (x + 72.0, 268.0 - height),
+                (x, 268.0 - height),
+            ],
+            true,
+        );
+    }
+    if labels.len() == 2 {
+        line(&[(90.0, 258.0), (118.0, 258.0)], false);
+        line(&[(115.0, 260.0), (118.0, 258.0), (115.0, 256.0)], false);
+    }
+    Ok(PdfPage::new(Mm(210.0), Mm(297.0), operations))
 }
 
 fn glyph_width_mm(character: char, font: &ParsedFont) -> Result<f32> {

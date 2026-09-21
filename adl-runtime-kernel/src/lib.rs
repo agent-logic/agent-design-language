@@ -44,6 +44,7 @@ pub mod protocol_adapters;
 pub mod provider_usage;
 pub mod reasoning;
 pub mod resident_cycle;
+pub mod resident_health;
 pub mod resident_shepherd;
 pub mod shepherd;
 pub mod supervisor;

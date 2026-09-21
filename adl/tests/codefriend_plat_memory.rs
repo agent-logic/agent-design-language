@@ -639,3 +639,47 @@ fn cli_palace_roundtrip_and_managed_path_guards() {
     assert!(String::from_utf8_lossy(&denied.stderr).contains("authority input invalid"));
     assert_eq!(latest, fs::read(palace.join("latest.json")).unwrap());
 }
+
+#[test]
+fn repeated_run_distinct_results_use_versioned_tuple_anchors() {
+    let _guard = TEST_LOCK.lock().unwrap();
+    let f = Fixture::new();
+    let (authority, _) = setup_authority(&f);
+    let first = f.record(
+        "pub fn same() {}",
+        &[("same", "first")],
+        "1",
+        Completion::Complete,
+        false,
+    );
+    let mut second = first.clone();
+    second.findings[0].title = "second result".into();
+    let backend = AdmittedBaselines::open(f.store(), &f.baselines(), true).unwrap();
+    let a = backend.retain(&first).unwrap();
+    let b = backend.retain(&second).unwrap();
+    assert_eq!(a.run_id, b.run_id);
+    assert_ne!(a.record_digest, b.record_digest);
+    let root = f.temp.path().join("palace");
+    palace::index(
+        &backend,
+        &root,
+        &authority,
+        &index_request(vec![a.clone(), b.clone()]),
+    )
+    .unwrap();
+    let request = retrieve_request(a.clone(), b.clone(), &authority);
+    let comparison = palace::retrieve(&backend, &root, &request).unwrap();
+    assert!(comparison.selected_references.contains(&a));
+    assert!(comparison.selected_references.contains(&b));
+    assert_eq!(
+        comparison,
+        palace::retrieve(&backend, &root, &request).unwrap()
+    );
+    assert!(palace::index(
+        &backend,
+        &f.temp.path().join("duplicate"),
+        &authority,
+        &index_request(vec![a.clone(), a])
+    )
+    .is_err());
+}

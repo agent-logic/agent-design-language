@@ -98,6 +98,7 @@ pub(crate) struct PreparedReport {
     pub remediation: RemediationPlan,
     pub tests: TestPlan,
     pub text: String,
+    pub architecture: BTreeMap<String, Vec<u8>>,
 }
 
 pub fn render_markdown(options: MarkdownRenderOptions) -> Result<MarkdownRenderResult> {
@@ -127,6 +128,7 @@ pub fn render_markdown(options: MarkdownRenderOptions) -> Result<MarkdownRenderR
         remediation,
         tests,
         text: report,
+        architecture,
     } = prepared;
     ensure!(
         report.len() <= MAX_RENDERED_BYTES,
@@ -176,7 +178,7 @@ pub fn render_markdown(options: MarkdownRenderOptions) -> Result<MarkdownRenderR
         "markdown_manifest_redaction_recheck_failed"
     );
 
-    let (actual_report, actual_manifest) = publish_create_only_anchored(
+    let (actual_report, actual_manifest) = publish_with_attachments(
         &options.destination_root,
         Path::new(&publication.target),
         "report.md",
@@ -184,6 +186,7 @@ pub fn render_markdown(options: MarkdownRenderOptions) -> Result<MarkdownRenderR
         &manifest_bytes,
         MAX_RENDERED_BYTES as u64,
         "markdown",
+        &super::architecture::attachments(&architecture)?,
     )?;
     ensure!(
         actual_report == report.as_bytes(),
@@ -285,7 +288,7 @@ pub(crate) fn prepare_report(
     let tests = read_test_plan_from_snapshot(&artifacts, &test_path)?;
     validate_source_identity(&review, &synthesis, &remediation, &tests)?;
     validate_plan_parity(&synthesis, &remediation, &tests)?;
-    let text = render_report(
+    let mut text = render_report(
         &review,
         &synthesis,
         &remediation,
@@ -294,6 +297,11 @@ pub(crate) fn prepare_report(
         renderer_version,
         output_boundary,
     )?;
+    let architecture = super::architecture::from_snapshot(&artifacts, &review)?;
+    if !architecture.is_empty() {
+        text.push_str("\n\n");
+        text.push_str(&super::architecture::markdown(&architecture)?);
+    }
     Ok(PreparedReport {
         review,
         publication,
@@ -302,6 +310,7 @@ pub(crate) fn prepare_report(
         remediation,
         tests,
         text,
+        architecture,
     })
 }
 
@@ -975,7 +984,8 @@ pub(super) fn normalized_path(path: &Path) -> Result<PathBuf> {
     Ok(normalized)
 }
 
-pub(super) fn publish_create_only_anchored(
+#[allow(clippy::too_many_arguments)]
+pub(super) fn publish_with_attachments(
     destination_root: &Path,
     target: &Path,
     artifact_name: &str,
@@ -983,7 +993,22 @@ pub(super) fn publish_create_only_anchored(
     manifest: &[u8],
     artifact_limit: u64,
     stage_kind: &str,
+    attachments: &BTreeMap<String, Vec<u8>>,
 ) -> Result<(Vec<u8>, Vec<u8>)> {
+    ensure!(
+        attachments.len() <= 1536
+            && attachments.values().map(Vec::len).sum::<usize>() <= 16 * 1024 * 1024,
+        "architecture_attachment_limit"
+    );
+    for name in attachments.keys() {
+        ensure!(
+            name.starts_with("architecture-")
+                && name
+                    .bytes()
+                    .all(|b| b.is_ascii_lowercase() || b.is_ascii_digit() || b"-_.".contains(&b)),
+            "architecture_attachment_name"
+        );
+    }
     let target_name = target
         .file_name()
         .ok_or_else(|| anyhow::anyhow!("markdown_target_name_missing"))?;
@@ -999,6 +1024,9 @@ pub(super) fn publish_create_only_anchored(
     let result = (|| -> Result<(Vec<u8>, Vec<u8>)> {
         write_create_only_at(&stage, artifact_name, report)?;
         write_create_only_at(&stage, "manifest.json", manifest)?;
+        for (name, bytes) in attachments {
+            write_create_only_at(&stage, name, bytes)?;
+        }
         stage.sync_all()?;
         rename_create_only_at(&parent, &stage_name, target_name)?;
         parent.sync_all()?;
@@ -1009,9 +1037,23 @@ pub(super) fn publish_create_only_anchored(
         let committed = open_directory_at(&parent, target_name)?;
         let actual_report = read_limited_at(&committed, artifact_name, artifact_limit)?;
         let actual_manifest = read_limited_at(&committed, "manifest.json", 2 * 1024 * 1024)?;
+        for (name, bytes) in attachments {
+            ensure!(
+                &read_limited_at(&committed, name, 16 * 1024 * 1024)? == bytes,
+                "architecture_attachment_readback_changed"
+            );
+        }
         Ok((actual_report, actual_manifest))
     })();
     if result.is_err() {
+        for name in attachments.keys() {
+            if let Ok(name) = c_name(std::ffi::OsStr::new(name)) {
+                // SAFETY: the validated filename and held stage descriptor remain live.
+                unsafe {
+                    libc::unlinkat(stage.as_raw_fd(), name.as_ptr(), 0);
+                }
+            }
+        }
         cleanup_stage_at(&parent, &stage_name, &stage, artifact_name);
     }
     result
@@ -1307,7 +1349,7 @@ mod tests {
         fs::create_dir(&target).unwrap();
         fs::write(target.join("owner"), b"competitor").unwrap();
 
-        let error = publish_create_only_anchored(
+        let error = publish_with_attachments(
             root.path(),
             Path::new("report"),
             "report.md",
@@ -1315,6 +1357,7 @@ mod tests {
             br#"{"manifest":true}"#,
             MAX_RENDERED_BYTES as u64,
             "markdown",
+            &BTreeMap::new(),
         )
         .unwrap_err()
         .to_string();

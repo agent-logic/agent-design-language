@@ -290,7 +290,10 @@ fn missing_tampered_and_colliding_baselines_fail_closed() {
     assert!(a.load(&bad).is_err());
     let mut changed = old.clone();
     changed.findings[0].title = "Changed".into();
-    assert!(a.retain(&changed).is_err());
+    let changed_ref = a.retain(&changed).unwrap();
+    assert_ne!(changed_ref, r);
+    assert_eq!(a.load(&changed_ref).unwrap(), changed);
+    assert_eq!(a.load(&r).unwrap(), old);
     let mut duplicate = old.clone();
     duplicate.findings.push(duplicate.findings[0].clone());
     assert!(a
@@ -301,7 +304,9 @@ fn missing_tampered_and_colliding_baselines_fail_closed() {
     let mut forged = old.clone();
     forged.run.revision = "0".repeat(40);
     assert!(a.retain(&forged).is_err());
-    let p = f.baselines().join(format!("{}.json", r.run_id));
+    let p = f
+        .baselines()
+        .join(format!("v2-{}.json", r.storage_identity().unwrap()));
     let mut stored: serde_json::Value = baseline::read_json(&p).unwrap();
     stored["findings"] = serde_json::json!([]);
     fs::write(&p, serde_json::to_vec(&stored).unwrap()).unwrap();
@@ -384,7 +389,11 @@ fn persisted_delta_tampering_and_unsafe_paths_are_rejected() {
         std::os::unix::fs::symlink(&p, &link).unwrap();
         assert!(baseline::read_json::<serde_json::Value>(&link).is_err());
     }
-    let bytes = fs::read(f.baselines().join(format!("{}.json", r.run_id))).unwrap();
+    let bytes = fs::read(
+        f.baselines()
+            .join(format!("v2-{}.json", r.storage_identity().unwrap())),
+    )
+    .unwrap();
     assert!(!String::from_utf8(bytes).unwrap().contains("pub fn old"));
 }
 fn cli(args: &[&str]) -> std::process::Output {
@@ -544,4 +553,148 @@ fn invalid_roots_and_malformed_artifacts_leave_existing_content() {
         record_digest: "0".repeat(64),
     };
     assert!(r.validate().is_err());
+}
+
+#[test]
+fn same_run_distinct_results_coexist_and_tuple_deletion_does_not_delete_sibling() {
+    let f = Fixture::new();
+    let first = f.record(
+        "pub fn same() {}",
+        &[("same", "first")],
+        "1",
+        Completion::Complete,
+        false,
+    );
+    let mut second = first.clone();
+    second.findings[0].title = "second independent result".into();
+    second.findings[0].id = second.findings[0].identity().unwrap();
+    second.validate().unwrap();
+    let backend = AdmittedBaselines::open(f.store(), &f.baselines(), true).unwrap();
+    let a = backend.retain(&first).unwrap();
+    let b = backend.retain(&second).unwrap();
+    assert_eq!(a.run_id, b.run_id);
+    assert_ne!(a.record_digest, b.record_digest);
+    assert_eq!(backend.retain(&first).unwrap(), a);
+    assert_eq!(backend.load(&a).unwrap(), first);
+    assert_eq!(backend.load(&b).unwrap(), second);
+    comparison::compare(&backend, &a, &b).unwrap();
+    backend.delete(&a).unwrap();
+    assert!(backend.retain(&first).is_err());
+    assert_eq!(backend.load(&b).unwrap(), second);
+}
+
+#[test]
+fn legacy_records_load_unchanged_and_run_tombstones_deny_all_variants() {
+    let f = Fixture::new();
+    let first = f.record(
+        "pub fn same() {}",
+        &[("same", "first")],
+        "1",
+        Completion::Complete,
+        false,
+    );
+    let mut second = first.clone();
+    second.findings[0].title = "second".into();
+    let backend = AdmittedBaselines::open(f.store(), &f.baselines(), true).unwrap();
+    let a = backend.retain(&first).unwrap();
+    let new_path = f
+        .baselines()
+        .join(format!("v2-{}.json", a.storage_identity().unwrap()));
+    let legacy_path = f.baselines().join(format!("{}.json", a.run_id));
+    fs::rename(&new_path, &legacy_path).unwrap();
+    let bytes = fs::read(&legacy_path).unwrap();
+    assert_eq!(backend.load(&a).unwrap(), first);
+    let b = backend.retain(&second).unwrap();
+    assert_eq!(fs::read(&legacy_path).unwrap(), bytes);
+    fs::write(&legacy_path, b"{}").unwrap();
+    assert!(backend.load(&b).is_err());
+    fs::write(&legacy_path, bytes).unwrap();
+    baseline::write_json(&f.baselines().join(format!("{}.deleted", a.run_id)), &a).unwrap();
+    assert!(backend.load(&a).is_err());
+    assert!(backend.load(&b).is_err());
+    assert!(backend.retain(&second).is_err());
+}
+
+#[test]
+fn deleting_legacy_record_scrubs_payload_and_preserves_run_wide_tombstone() {
+    let f = Fixture::new();
+    let first = f.record(
+        "pub fn same() {}",
+        &[("same", "first")],
+        "1",
+        Completion::Complete,
+        false,
+    );
+    let mut second = first.clone();
+    second.findings[0].title = "second".into();
+    let backend = AdmittedBaselines::open(f.store(), &f.baselines(), true).unwrap();
+    let a = backend.retain(&first).unwrap();
+    let path = f.baselines().join(format!("{}.json", a.run_id));
+    fs::rename(
+        f.baselines()
+            .join(format!("v2-{}.json", a.storage_identity().unwrap())),
+        &path,
+    )
+    .unwrap();
+    let b = backend.retain(&second).unwrap();
+    let sibling = f
+        .baselines()
+        .join(format!("v2-{}.json", b.storage_identity().unwrap()));
+    let sibling_bytes = fs::read(&sibling).unwrap();
+    backend.delete(&a).unwrap();
+    backend.delete(&a).unwrap();
+    assert!(!path.exists());
+    assert!(f
+        .baselines()
+        .join(format!("{}.deleted", a.run_id))
+        .is_file());
+    assert_eq!(fs::read(&sibling).unwrap(), sibling_bytes);
+    assert!(backend.load(&a).is_err());
+    assert!(backend.load(&b).is_err());
+    assert!(backend.retain(&first).is_err());
+    assert!(backend.retain(&second).is_err());
+}
+
+#[test]
+fn capacity_is_shared_by_legacy_records_new_results_and_tombstones() {
+    let f = Fixture::new();
+    let first = f.record(
+        "pub fn same() {}",
+        &[("same", "first")],
+        "1",
+        Completion::Complete,
+        false,
+    );
+    let backend = AdmittedBaselines::open(f.store(), &f.baselines(), true).unwrap();
+    let a = backend.retain(&first).unwrap();
+    fs::rename(
+        f.baselines()
+            .join(format!("v2-{}.json", a.storage_identity().unwrap())),
+        f.baselines().join(format!("{}.json", a.run_id)),
+    )
+    .unwrap();
+    let mut last = None;
+    for index in 1..128 {
+        let mut result = first.clone();
+        result.findings[0].title = format!("Result {index}");
+        last = Some(backend.retain(&result).unwrap());
+    }
+    let mut overflow = first.clone();
+    overflow.findings[0].title = "Overflow".into();
+    assert!(backend
+        .retain(&overflow)
+        .unwrap_err()
+        .to_string()
+        .contains("baseline_count_limit"));
+    backend.delete(&last.unwrap()).unwrap();
+    assert!(backend
+        .retain(&overflow)
+        .unwrap_err()
+        .to_string()
+        .contains("baseline_count_limit"));
+    assert_eq!(backend.retain(&first).unwrap(), a);
+    backend.delete(&a).unwrap();
+    assert!(!f.baselines().join(format!("{}.json", a.run_id)).exists());
+    drop(backend);
+    AdmittedBaselines::open(f.store(), &f.baselines(), false).unwrap();
 }

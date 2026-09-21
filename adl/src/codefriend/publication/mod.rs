@@ -1,5 +1,6 @@
 //! Exact-artifact publication approval and fail-closed local admission.
 pub mod approval;
+pub(crate) mod architecture;
 pub mod html;
 pub mod manifest;
 pub mod markdown;
