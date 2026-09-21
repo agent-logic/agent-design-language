@@ -30,12 +30,8 @@ pub(crate) fn validate_files(
         graph.record().admission == review.admission,
         "architecture_publication_admission_changed"
     );
-    let rebuilt = generation::accept_response(
-        &review.admission,
-        &graph,
-        std::str::from_utf8(get("response.json")?)?,
-        now,
-    )?;
+    let response: String = serde_json::from_slice(get("response.json")?)?;
+    let rebuilt = generation::accept_response(&review.admission, &graph, &response, now)?;
     ensure!(
         hash(&generation)? == hash(&rebuilt)?,
         "architecture_publication_generation_changed"

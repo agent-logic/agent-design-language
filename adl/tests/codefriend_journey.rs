@@ -814,7 +814,7 @@ fn journey_responses_server(architecture: bool) -> (String, std::thread::JoinHan
             let payload = if String::from_utf8_lossy(&request)
                 .contains("codefriend.four_plus_one.prompt.v1")
             {
-                partial.to_string()
+                format!("```json\n{partial}\n```")
             } else {
                 "{\"findings\":[]}".into()
             };

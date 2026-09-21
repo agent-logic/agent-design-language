@@ -574,7 +574,10 @@ fn four_plus_one_approved_exports_preserve_diagrams_and_reject_tampering() {
         .as_secs();
     let (temp, store, graph) = generation_fixture_at(now);
     let a = store.get(&graph.record().run.packet_id).unwrap();
-    let response = serde_json::to_string(&full_draft(&a)).unwrap();
+    let response = format!(
+        "```json\n{}\n```",
+        serde_json::to_string(&full_draft(&a)).unwrap()
+    );
     let g = generation::accept_response(&a, &graph, &response, now).unwrap();
     let mut files = render::artifacts(&g.package, &a, now).unwrap();
     files.insert(
@@ -585,7 +588,10 @@ fn four_plus_one_approved_exports_preserve_diagrams_and_reject_tampering() {
         "graph.json".into(),
         serde_json::to_vec_pretty(&graph).unwrap(),
     );
-    files.insert("response.json".into(), response.into_bytes());
+    files.insert(
+        "response.json".into(),
+        serde_json::to_vec(&response).unwrap(),
+    );
     // Synthetic complete lane records exercise export contracts only.
     use adl::codefriend::evidence::contracts::{Completion, ReviewRecord, Run};
     let review = ReviewRecord {

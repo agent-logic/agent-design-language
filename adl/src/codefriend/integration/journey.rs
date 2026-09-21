@@ -672,7 +672,7 @@ impl Journey {
                 serde_json::to_vec_pretty(&generation)?,
             );
             files.insert("graph.json".into(), serde_json::to_vec_pretty(graph)?);
-            files.insert("response.json".into(), response.as_bytes().to_vec());
+            files.insert("response.json".into(), serde_json::to_vec(&response)?);
             Some(files)
         } else {
             None
