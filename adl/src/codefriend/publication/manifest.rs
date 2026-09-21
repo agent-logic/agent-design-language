@@ -80,9 +80,16 @@ pub(crate) fn destination_digest(root: &Path) -> Result<String> {
 }
 
 pub fn read_review(path: &Path) -> Result<ReviewRecord> {
-    let review: ReviewRecord = read_json(path, "review_record")?;
+    read_review_snapshot(path).map(|(review, _)| review)
+}
+
+/// Retain the exact bounded bytes validated for downstream snapshot artifacts.
+pub(crate) fn read_review_snapshot(path: &Path) -> Result<(ReviewRecord, Vec<u8>)> {
+    let bytes = read_input_bytes(path, "review_record")?;
+    let review: ReviewRecord = serde_json::from_slice(&bytes)
+        .map_err(|_| anyhow::anyhow!("invalid_review_record_json"))?;
     review.validate()?;
-    Ok(review)
+    Ok((review, bytes))
 }
 
 pub fn read_publication(path: &Path) -> Result<Publication> {
@@ -242,6 +249,11 @@ pub(crate) fn reject_symlink_components(path: &Path) -> Result<()> {
 }
 
 pub(crate) fn read_json<T: serde::de::DeserializeOwned>(path: &Path, label: &str) -> Result<T> {
+    let bytes = read_input_bytes(path, label)?;
+    serde_json::from_slice(&bytes).map_err(|_| anyhow::anyhow!("invalid_{label}_json"))
+}
+
+fn read_input_bytes(path: &Path, label: &str) -> Result<Vec<u8>> {
     ensure!(
         fs::symlink_metadata(path)?.file_type().is_file(),
         "invalid_{label}_file"
@@ -251,7 +263,7 @@ pub(crate) fn read_json<T: serde::de::DeserializeOwned>(path: &Path, label: &str
         .take(MAX_INPUT_BYTES + 1)
         .read_to_end(&mut bytes)?;
     ensure!(bytes.len() as u64 <= MAX_INPUT_BYTES, "{label}_too_large");
-    serde_json::from_slice(&bytes).map_err(|_| anyhow::anyhow!("invalid_{label}_json"))
+    Ok(bytes)
 }
 
 #[cfg(test)]

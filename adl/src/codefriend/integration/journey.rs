@@ -652,7 +652,7 @@ impl Journey {
             )? == self.review.as_ref().unwrap().review_record,
             "journey_review_artifact_changed"
         );
-        match super::prepare_publication_bundle_for_format(
+        match super::prepare_publication_bundle_for_format_v2(
             &self.review_root.join("review-record.json"),
             &self.output.join(&stage),
             destination,

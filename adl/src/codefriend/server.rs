@@ -807,7 +807,7 @@ async fn publication_challenge(
 ) -> ApiResult<Json<Value>> {
     use super::{
         evidence::contracts::{Publication, ReviewRecord},
-        integration::{prepare_publication_bundle_for_format, PublicationChallenge},
+        integration::{prepare_publication_bundle_for_format_v2, PublicationChallenge},
         publication::{read_decision_head, verify_artifacts},
         review::runner::FourPerspectiveReviewRun,
     };
@@ -858,7 +858,7 @@ async fn publication_challenge(
     let publication: Publication = if bundle.exists() {
         internal(read_json(&bundle.join("publication.json"), MAX_RESULT))?
     } else {
-        internal(prepare_publication_bundle_for_format(
+        internal(prepare_publication_bundle_for_format_v2(
             &review_path,
             &bundle,
             &destination,
