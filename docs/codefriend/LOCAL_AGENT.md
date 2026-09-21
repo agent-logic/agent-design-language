@@ -17,8 +17,8 @@ a local `Consent` JSON file with `schema: codefriend.local_agent.v1`, one absolu
 The consent digest covers every field, including the local path. Only its digest
 is advertised to the website. Source acquisition uses the existing privacy filter;
 selected evidence goes to Agent Logic's model service and configured model provider.
-This is local review orchestration, not a zero-egress product. A validated review
-record including selected admitted source evidence is uploaded to the website, still subject to exact-artifact approval before
+This is local update-cycle orchestration, not a zero-egress product. A validated review
+or update-cycle record including selected admitted source evidence is uploaded to the website, still subject to exact-artifact approval before
 external publication. Repository content is never executable authority.
 
 ## Pairing protocol
@@ -49,8 +49,9 @@ The explicit loopback fixture transport is solely for deterministic local tests.
 
 ## Run command
 
-A website command has exactly `schema`, `agent_id`, `subject`, `run_id`,
-`consent_digest`, and `expires_at`. It must match the pairing and current local
+A legacy review command has exactly `schema`, `agent_id`, `subject`, `run_id`,
+`consent_digest`, and `expires_at`. An update-cycle command adds `cycle`, a validated
+`codefriend.update_cycle_plan.v1` whose repository must match local consent. It must match the pairing and current local
 consent, and expire no later than either. Unknown fields are rejected. Each run ID
 is durably reserved before acquisition or model dispatch. Reservation directories
 survive disconnects and process restarts; their presence denies another dispatch,
@@ -107,7 +108,7 @@ may retransmit the exact retained result after checking current consent and canc
 A reservation with no acknowledged model operation is forwarded as interrupted;
 a lost POST response never permits another POST. A durably acknowledged operation
 instead resumes bounded GET/control observation after disconnect or restart.
-Validated completed lane results are reused while consent/retention remain valid;
+Validated completed lane results and a completed aggregate cycle operation are reused while consent/retention remain valid;
 only lanes that were never dispatched may start. The original 120-second observation
 deadline persists across restart for each pending operation, while already completed
 lane outputs remain reusable for the run retention period. Directory ancestry and
@@ -118,8 +119,11 @@ The final report, including all four lanes and admitted evidence, must fit the
 4 MiB website/verifier limit. Oversized aggregates produce a bounded failure report
 and payload cleanup, never an unforwardable successful completion.
 
-`RunReport.result` is the validated four-perspective review record **including its
+`RunReport.result` is the legacy validated four-perspective review record **including its
 selected admitted source evidence**, which is necessary for website artifact inspection.
+For an update-cycle command, `result` is null and `RunReport.cycle_result` contains the
+validated ordered activity results. `gateway_lanes` contains one `cycle` execution
+identity because the complete plan is protected by one durable gateway reservation.
 `allow_result_upload` explicitly authorizes that selected evidence in addition to
 findings. It does not grant external publication. The website must display this
 scope before consent/pairing and retain the record for no longer than `expires_at`.

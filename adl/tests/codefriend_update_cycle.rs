@@ -1,4 +1,4 @@
-//! PVF lane: runtime. Role: deterministic update-cycle contract and activity
+//! PVF: fixtures/codefriend/update-cycle/PVF.json. Lane: runtime. Role: deterministic update-cycle contract and activity
 //! orchestration proof. Local Git/files only; no provider, deployment, source
 //! mutation, publication, or rendered-diagram proof.
 use adl::{
