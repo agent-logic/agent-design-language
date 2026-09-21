@@ -525,7 +525,7 @@ fn review_shell_withhold_publication(args: &[String]) -> Result<()> {
 
 fn journey_local(args: &[String]) -> Result<()> {
     use adl::codefriend::integration::{
-        journey::{prepare_local, LocalJourneyOptions, StageStatus},
+        journey::{prepare_local, StageStatus, VersionedLocalJourneyOptions},
         PublicationFormat,
     };
     use std::io::Read;
@@ -547,7 +547,7 @@ fn journey_local(args: &[String]) -> Result<()> {
         .take(131073)
         .read_to_end(&mut bytes)?;
     ensure!(bytes.len() <= 131072, "journey_request_too_large");
-    let options: LocalJourneyOptions =
+    let options: VersionedLocalJourneyOptions =
         serde_json::from_slice(&bytes).map_err(|_| anyhow::anyhow!("invalid_journey_request"))?;
     // Validate provider input before acquisition, but dispatch only after native preparation.
     let provider = if with_provider {
@@ -607,12 +607,12 @@ fn journey_read_request<T: serde::de::DeserializeOwned>(path: &Path) -> Result<T
 }
 fn journey_admitted(args: &[String]) -> Result<()> {
     use adl::codefriend::integration::journey::{
-        prepare_source, AcquisitionSource, LocalJourneyOptions, StageStatus,
+        prepare_source, AcquisitionSource, StageStatus, VersionedLocalJourneyOptions,
     };
     #[derive(serde::Deserialize)]
     #[serde(deny_unknown_fields)]
     struct Input {
-        options: LocalJourneyOptions,
+        options: VersionedLocalJourneyOptions,
         acquisition: AcquisitionSource,
     }
     let flags = exact_flags(args, &["--request"], "journey admitted")?;

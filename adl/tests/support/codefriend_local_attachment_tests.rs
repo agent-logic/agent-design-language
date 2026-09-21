@@ -65,7 +65,8 @@ fn owned(case: &Case, context: &VerificationContext) -> journey::Journey {
             layers: [("lib.rs".into(), "core".into())].into(),
             allowed: Default::default(),
             coupling_threshold: 2,
-        },
+        }
+        .into(),
         fitness_policy: fitness::Policy {
             schema: fitness::VERSION.into(),
             rules: vec![fitness::Rule {
@@ -74,7 +75,8 @@ fn owned(case: &Case, context: &VerificationContext) -> journey::Journey {
                 source_path: "lib.rs".into(),
                 forbidden_prefix: "reqwest".into(),
             }],
-        },
+        }
+        .into(),
     })
     .unwrap()
 }

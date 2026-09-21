@@ -1,0 +1,21 @@
+{
+  "schema": "codefriend.active_provider.pvf.v1",
+  "issue": 1102,
+  "lane": "component",
+  "proof_role": "active CodeFriend provider execution has no elapsed-only deadline; generic runtime policy preserved",
+  "determinism": "loopback synthetic HTTP, static AWS configuration introspection, injected server backend; no cloud/model execution",
+  "resource_profile": "bounded short fixture delays, existing4MiB HTTP cap and output token caps retained",
+  "release_gate": true,
+  "executed": true,
+  "targets": [
+    "--lib provider_adapter::tests::codefriend_active_ (5 tests)",
+    "--lib codefriend::server::provider_outcome_tests:: (1 test)",
+    "--test codefriend_server uncertain_provider_effect_is_retained_after_cancel_and_cannot_redispatch (1 test)",
+    "existing generic provider timeout and server regression targets"
+  ],
+  "limits": [
+    "No claim of live provider acceptance or evidence-based autonomous hang detection",
+    "Original consent/retention and no-replay reservations remain authoritative"
+  ],
+  "execution_evidence": ".csdlc/evidence/1102/language-foundation/idle-policy-validation.json"
+}

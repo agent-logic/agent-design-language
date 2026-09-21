@@ -1,0 +1,17 @@
+{
+  "schema": "codefriend.github_active_acquisition.pvf.v1",
+  "issue": 1102,
+  "lane": "component",
+  "proof_role": "existing genuine Git-data acquisition, packet parity and transport guard regressions after removal of elapsed-only cutoff",
+  "test_target": "codefriend_github_ingestion",
+  "expected_tests": 8,
+  "executed": true,
+  "determinism": "local fixed Git blobs and bounded loopback fixture; no real GitHub/provider/cloud calls or long timer sleeps",
+  "resource_profile": "preserved4096 requests,8MiB aggregate,2MiB metadata and declared source limits;5s connection establishment guard",
+  "release_gate": true,
+  "limitations": [
+    "No live hosted acquisition acceptance",
+    "No arbitrary customer capture or request duration cutoff"
+  ],
+  "execution_evidence": ".csdlc/evidence/1102/language-foundation/idle-policy-validation.json"
+}

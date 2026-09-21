@@ -1,0 +1,20 @@
+{
+  "schema": "codefriend.fitness.v2.pvf.v1",
+  "lane": "component",
+  "proof_role": "required source-only fitness rule and retention regressions; not complete product qualification",
+  "determinism": "actual temporary Git admissions, fixed Store clock, pinned local grammars, no network/providers/inspected-code execution",
+  "resource_profile": "small admitted files; supervised parser budgets; private temporary Store; one deterministic 4MiB boundary report verifies full envelope rejection before hashing/recomputation",
+  "test_target": "codefriend_language_fitness",
+  "expected_tests": 9,
+  "executed": false,
+  "release_gate": true,
+  "limitations": [
+    "No Journey or website schema routing yet",
+    "No full semantic/runtime dependency claims",
+    "Original fitness.v1 preserved unchanged"
+  ],
+  "scope": "Static declaration-specific policies, unresolved edges/raw Rust identifiers Unknown, witness Fail plus Unknown, v2 dispatcher payload preservation/duplicate schema rejection, retained Store/resource validation; realclockCLI closes originalStore before subprocess, v1CI unchanged; No elapsed-time cycle cutoff; persistence/revalidation/final Store checks retain source authority; failed verification cleanup checks original inode",
+  "prior_execution": "8/8 libraryfitness passed rootprecedessor; new actualCLI run/read test coversPassFailUnknown and raw4MiB+1 boundary, awaiting execution",
+  "cli_unit_test": "codefriend_fitness_cmd::output_cleanup_tests::{cleanup_preserves_replacement_and_removes_only_owned_inode,failed_verification_cleans_owned_output}",
+  "cli_unit_expected_tests": 2
+}

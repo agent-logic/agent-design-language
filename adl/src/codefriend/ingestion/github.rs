@@ -15,13 +15,12 @@ use std::{
     fs,
     io::{Read, Write},
     path::Path,
-    time::{Duration, Instant},
+    time::Duration,
 };
 
 const META_LIMIT: u64 = 2 * 1024 * 1024;
 const MAX_REQUESTS: usize = 4096;
 const MAX_TRANSPORT_BYTES: u64 = 8 * 1024 * 1024;
-const CAPTURE_TIMEOUT: Duration = Duration::from_secs(120);
 
 /// Tokens are borrowed from the caller's approved resolver, never serialized.
 /// The fixture constructor deliberately cannot receive credentials.
@@ -29,7 +28,6 @@ pub struct Transport {
     client: Client,
     base: String,
     fixture: bool,
-    started: Instant,
     requests: usize,
     response_bytes: u64,
 }
@@ -83,31 +81,26 @@ impl Transport {
             .redirect(Policy::none())
             .no_proxy()
             .connect_timeout(Duration::from_secs(5))
-            .timeout(Duration::from_secs(20))
+            .timeout(None)
             .build()
             .map_err(|_| anyhow::anyhow!("github_transport_setup_failed"))?;
         Ok(Self {
             client,
             base: base.into(),
             fixture,
-            started: Instant::now(),
             requests: 0,
             response_bytes: 0,
         })
     }
     fn get(&mut self, path: &str, limit: u64) -> Result<Value> {
         ensure!(
-            self.requests < MAX_REQUESTS && self.started.elapsed() < CAPTURE_TIMEOUT,
+            self.requests < MAX_REQUESTS,
             "github_capture_limit_exceeded"
         );
         self.requests += 1;
-        let timeout = CAPTURE_TIMEOUT
-            .saturating_sub(self.started.elapsed())
-            .min(Duration::from_secs(20));
         let response = self
             .client
             .get(format!("{}{path}", self.base))
-            .timeout(timeout)
             .send()
             .map_err(|_| anyhow::anyhow!("github_transport_failed_or_timeout"))?;
         match response.status().as_u16() {

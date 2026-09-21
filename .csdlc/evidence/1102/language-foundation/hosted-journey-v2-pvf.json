@@ -1,0 +1,24 @@
+{
+  "issue": 1102,
+  "target": "codefriend_integration::hosted_v2_journey_preserves_native_versions_gaps_and_original_owners",
+  "lane_class": "component",
+  "proof_role": "actual authenticated Router/Service and original native Journey owners",
+  "determinism": "real local Git/Store; synthetic four model lane results; actual deterministic Runtime Palace authority fixture",
+  "resource_profile": "private temporary files; no external provider or cloud; original retention and native resource bounds",
+  "release_gate": true,
+  "execution": "authored pending root run",
+  "cases": [
+    "v1 helper preserves prior behavior",
+    "v2 policy mismatch rejected before reservation",
+    "v2 structure impact rationale native artifacts and gaps",
+    "separate original-operation drift and Palace",
+    "actual separately approved Markdown/HTML render+atomic Journey attachment and no replay",
+    "cross-owner rejection, original graph/checkpoint tamper, original expiry/deletion, trust alteration, drain and final auth"
+  ],
+  "nonclaims": [
+    "real provider output",
+    "human approval",
+    "PDF exercise in this fixture",
+    "full independent qualification"
+  ]
+}

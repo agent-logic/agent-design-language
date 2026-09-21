@@ -13,6 +13,32 @@ use std::{
 // Each fixture launches Git/CLI subprocesses while using exclusive store locks.
 // Isolate their lifetimes so a concurrent fork cannot retain another fixture lock.
 static FIXTURE_PROCESSES: std::sync::Mutex<()> = std::sync::Mutex::new(());
+
+#[test]
+fn fitness_dispatch_preserves_v1_bytes_and_original_store_validation() {
+    use adl::codefriend::governance::artifact::{FitnessArtifact, PolicyArtifact};
+    let _guard = FIXTURE_PROCESSES.lock().unwrap();
+    let fixture = Fixture::new("pub fn value() {}\n");
+    let original = fixture.report();
+    let bytes = serde_json::to_vec(&original).unwrap();
+    let decoded: FitnessArtifact = serde_json::from_slice(&bytes).unwrap();
+    assert!(matches!(&decoded, FitnessArtifact::V1(_)));
+    assert_eq!(serde_json::to_vec(&decoded).unwrap(), bytes);
+    let now = original.record.admission.admitted_at;
+    let store = fixture.store();
+    decoded.validate(&store, now).unwrap();
+    let policy_bytes = serde_json::to_vec(&policy()).unwrap();
+    let decoded_policy: PolicyArtifact = serde_json::from_slice(&policy_bytes).unwrap();
+    assert_eq!(serde_json::to_vec(&decoded_policy).unwrap(), policy_bytes);
+    let text = String::from_utf8(policy_bytes).unwrap();
+    let duplicate = text.replacen("{", "{\"schema\":\"codefriend.fitness.v1\",", 1);
+    assert!(serde_json::from_str::<PolicyArtifact>(&duplicate)
+        .unwrap_err()
+        .to_string()
+        .contains("duplicate_json_field"));
+    store.delete(&fixture.packet).unwrap();
+    assert!(decoded.validate(&store, now).is_err());
+}
 fn git(root: &Path, args: &[&str]) -> String {
     let o = Command::new("git")
         .arg("-C")

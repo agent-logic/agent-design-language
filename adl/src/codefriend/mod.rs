@@ -15,4 +15,6 @@ pub mod server;
 
 pub mod agent;
 
+pub mod language;
 mod rust_parse;
+pub(crate) mod schema;

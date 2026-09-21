@@ -402,6 +402,10 @@ fn actual_baseline_storage_is_required_and_deletion_revokes() {
     let br = db.retain(&b.record).unwrap();
     db.retain(&c.record).unwrap();
     let r = drift::architecture_drift_reporter(&f.store, &db, b, c).unwrap();
+    let original_bytes = serde_json::to_vec(&r).unwrap();
+    let dispatched: adl::codefriend::architecture::artifact::DriftArtifact =
+        serde_json::from_slice(&original_bytes).unwrap();
+    assert_eq!(serde_json::to_vec(&dispatched).unwrap(), original_bytes);
     db.delete(&br).unwrap();
     assert!(r.validate(&f.store, &db).is_err());
 }

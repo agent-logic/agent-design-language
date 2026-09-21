@@ -33,6 +33,44 @@ const STAGES: [&str; 18] = [
     "pdf",
 ];
 
+fn payload_outcome(stage: &native::Stage, success: bool, gap: bool) -> Result<()> {
+    ensure!(
+        stage.status
+            == if success || gap {
+                native::StageStatus::Complete
+            } else {
+                native::StageStatus::Failed
+            }
+            && stage.reason.as_deref()
+                == if gap {
+                    Some("analysis_gaps_reported")
+                } else if success {
+                    None
+                } else {
+                    Some("stage_incomplete_or_failed")
+                },
+        "agent_journey_payload_outcome"
+    );
+    Ok(())
+}
+
+fn analysis_outcome(
+    stage: &native::Stage,
+    completion: &crate::codefriend::evidence::contracts::Completion,
+    analysis_complete: Option<bool>,
+) -> Result<()> {
+    use crate::codefriend::evidence::contracts::Completion;
+    let complete = *completion == Completion::Complete;
+    if let Some(claim) = analysis_complete {
+        ensure!(claim == complete, "agent_journey_payload_completeness");
+    }
+    payload_outcome(
+        stage,
+        complete,
+        analysis_complete.is_some() && *completion == Completion::Incomplete,
+    )
+}
+
 fn snapshot(result: &StageResult, context: &VerificationContext, now: u64) -> Result<()> {
     let job = &context.job;
     let binding = &job.binding;
@@ -40,7 +78,8 @@ fn snapshot(result: &StageResult, context: &VerificationContext, now: u64) -> Re
     report.validate(now)?;
     let receipt = &context.receipt;
     ensure!(
-        binding.schema == JOB_SCHEMA
+        matches!(binding.schema.as_str(), JOB_SCHEMA | JOB_SCHEMA_V2)
+            && job.request.matches_schema(&binding.schema)
             && identifier(&binding.job_id)
             && binding.subject == report.subject
             && binding.agent_id == report.agent_id
@@ -86,7 +125,12 @@ fn snapshot(result: &StageResult, context: &VerificationContext, now: u64) -> Re
         );
     }
     ensure!(
-        result.schema == RESULT_SCHEMA
+        result.schema
+            == if binding.schema == JOB_SCHEMA_V2 {
+                RESULT_SCHEMA_V2
+            } else {
+                RESULT_SCHEMA
+            }
             && result.binding == *binding
             && (5..=64).contains(&result.checkpoint_sequence)
             && serde_json::to_vec(result)?.len() as u64 <= MAX_RESPONSE,
@@ -105,7 +149,12 @@ fn snapshot(result: &StageResult, context: &VerificationContext, now: u64) -> Re
     let admission = &run.review_record.admission;
     let manifest = &result.manifest;
     ensure!(
-        manifest.schema == "codefriend.journey.v1"
+        manifest.schema
+            == if binding.schema == JOB_SCHEMA_V2 {
+                "codefriend.journey.v2"
+            } else {
+                "codefriend.journey.v1"
+            }
             && manifest.candidate_revision == job.permitted_agent_candidate
             && manifest.candidate_clean
             && manifest.repository == admission.packet.repository
@@ -134,7 +183,19 @@ fn snapshot(result: &StageResult, context: &VerificationContext, now: u64) -> Re
                 "agent_journey_verifier_pending"
             ),
             native::StageStatus::Complete => ensure!(
-                stage.reason.is_none() && stage.artifact.is_some(),
+                stage.artifact.is_some()
+                    && (stage.reason.is_none()
+                        || (binding.schema == JOB_SCHEMA_V2
+                            && matches!(
+                                name.as_str(),
+                                "structure"
+                                    | "fitness"
+                                    | "impact"
+                                    | "rationale"
+                                    | "drift"
+                                    | "palace_comparison"
+                            )
+                            && stage.reason.as_deref() == Some("analysis_gaps_reported"))),
                 "agent_journey_verifier_complete"
             ),
             native::StageStatus::Failed => ensure!(
@@ -222,20 +283,77 @@ fn snapshot(result: &StageResult, context: &VerificationContext, now: u64) -> Re
                 "agent_journey_verifier_payload"
             );
             // Source-bearing native records must retain the original admission.
+            let v2 = binding.schema == JOB_SCHEMA_V2;
             let record = match artifact {
-                Artifact::Structure => Some(
-                    serde_json::from_value::<structure::StructureReport>(value.clone())?.record,
-                ),
+                Artifact::Structure => {
+                    let a: StructureArtifact = serde_json::from_value(value.clone())?;
+                    ensure!(
+                        matches!(&a, StructureArtifact::V2(_)) == v2,
+                        "agent_journey_payload_version"
+                    );
+                    let analysis_complete = match &a {
+                        StructureArtifact::V1(_) => None,
+                        StructureArtifact::V2(value) => Some(value.analysis_complete),
+                    };
+                    analysis_outcome(stage, &a.record().run.completion, analysis_complete)?;
+                    Some(a.record().clone())
+                }
                 Artifact::Fitness => {
-                    Some(serde_json::from_value::<fitness::Report>(value.clone())?.record)
+                    let a: FitnessArtifact = serde_json::from_value(value.clone())?;
+                    ensure!(
+                        matches!(&a, FitnessArtifact::V2(_)) == v2,
+                        "agent_journey_payload_version"
+                    );
+                    payload_outcome(stage, a.passes(), v2 && a.exit_code() == 2)?;
+                    Some(a.record().clone())
                 }
                 Artifact::Impact => {
-                    Some(serde_json::from_value::<impact::ImpactReport>(value.clone())?.record)
+                    let a: ImpactArtifact = serde_json::from_value(value.clone())?;
+                    ensure!(
+                        matches!(&a, ImpactArtifact::V2(_)) == v2,
+                        "agent_journey_payload_version"
+                    );
+                    let analysis_complete = match &a {
+                        ImpactArtifact::V1(_) => None,
+                        ImpactArtifact::V2(value) => Some(value.analysis_complete),
+                    };
+                    analysis_outcome(stage, &a.record().run.completion, analysis_complete)?;
+                    Some(a.record().clone())
                 }
-                Artifact::Rationale => Some(
-                    serde_json::from_value::<rationale::RationaleReport>(value.clone())?.record,
-                ),
-                Artifact::Drift | Artifact::PalaceComparison => None,
+                Artifact::Rationale => {
+                    let a: RationaleArtifact = serde_json::from_value(value.clone())?;
+                    ensure!(
+                        matches!(&a, RationaleArtifact::V2(_)) == v2,
+                        "agent_journey_payload_version"
+                    );
+                    let analysis_complete = match &a {
+                        RationaleArtifact::V1(_) => None,
+                        RationaleArtifact::V2(value) => Some(value.analysis_complete),
+                    };
+                    analysis_outcome(stage, &a.record().run.completion, analysis_complete)?;
+                    Some(a.record().clone())
+                }
+                Artifact::Drift => {
+                    let a: native::owned_baseline::OwnedDriftReport =
+                        serde_json::from_value(value.clone())?;
+                    ensure!(
+                        a.schema()
+                            == if v2 {
+                                "codefriend.owned_drift.v2"
+                            } else {
+                                "codefriend.owned_drift.v1"
+                            },
+                        "agent_journey_payload_version"
+                    );
+                    payload_outcome(stage, a.comparable(), v2 && !a.comparable())?;
+                    None
+                }
+                Artifact::PalaceComparison => {
+                    let a: crate::codefriend::memory::palace::RetrievedComparison =
+                        serde_json::from_value(value.clone())?;
+                    payload_outcome(stage, a.delta.comparable, v2 && !a.delta.comparable)?;
+                    None
+                }
             };
             if let Some(record) = record {
                 record.validate()?;

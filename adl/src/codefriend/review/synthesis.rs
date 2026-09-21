@@ -1,5 +1,5 @@
 use crate::codefriend::evidence::{
-    contracts::{Completion, Finding, ReviewRecord, Severity},
+    contracts::{Finding, ReviewCoverage, ReviewRecord, Severity},
     hash,
 };
 use crate::codefriend::review::lanes::LANE_CONTRACT_VERSION;
@@ -13,6 +13,7 @@ use std::{
 };
 
 pub const SYNTHESIS_SCHEMA: &str = "codefriend.review_synthesis.v1";
+pub const SYNTHESIS_SCHEMA_V2: &str = "codefriend.review_synthesis.v2";
 pub const SYNTHESIS_MANIFEST_SCHEMA: &str = "codefriend.review_synthesis_manifest.v1";
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
@@ -62,6 +63,8 @@ pub struct ReviewSynthesis {
     pub lane_count: usize,
     pub input_finding_count: usize,
     pub synthesized_findings: Vec<SynthesizedFinding>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub coverage: Option<ReviewCoverage>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
@@ -140,11 +143,7 @@ pub fn read_synthesis_from_file(input: &Path) -> Result<ReviewSynthesis> {
 }
 
 pub fn synthesize(record: &ReviewRecord) -> Result<ReviewSynthesis> {
-    record.validate()?;
-    ensure!(
-        record.run.completion == Completion::Complete,
-        "synthesis_requires_complete_review"
-    );
+    record.successful_execution()?;
     let required = ["adversarial", "constitutional", "correctness", "security"];
     let lanes: BTreeSet<_> = record
         .run
@@ -269,7 +268,12 @@ pub fn synthesize(record: &ReviewRecord) -> Result<ReviewSynthesis> {
     }
     synthesized_findings.sort_by(|a, b| a.id.cmp(&b.id));
     Ok(ReviewSynthesis {
-        schema: SYNTHESIS_SCHEMA.to_string(),
+        schema: if record.run.coverage.is_some() {
+            SYNTHESIS_SCHEMA_V2
+        } else {
+            SYNTHESIS_SCHEMA
+        }
+        .to_string(),
         review_record_digest: hash(record)?,
         run_id: record.run.id.clone(),
         repository: record.run.repository.clone(),
@@ -278,6 +282,7 @@ pub fn synthesize(record: &ReviewRecord) -> Result<ReviewSynthesis> {
         lane_count: record.run.lane_versions.len(),
         input_finding_count: record.findings.len(),
         synthesized_findings,
+        coverage: record.run.coverage.clone(),
     })
 }
 

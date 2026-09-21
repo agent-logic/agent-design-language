@@ -296,6 +296,15 @@ candidate_filter_for_path() {
     adl/src/bin/codefriend_server.rs|adl/src/codefriend/server.rs|adl/src/codefriend/server/journey.rs|adl/src/codefriend/server/publication_export.rs|adl/src/codefriend/server/journey_publication.rs)
       printf 'codefriend_server'
       ;;
+    adl/src/codefriend/schema.rs)
+      printf 'codefriend_schema'
+      ;;
+    adl/src/codefriend/language/imports.rs)
+      printf 'codefriend_imports'
+      ;;
+    adl/src/codefriend/governance/ci_v2.rs)
+      printf 'codefriend_ci_v2'
+      ;;
     adl/src/codefriend/rust_parse.rs)
       printf 'codefriend_rust_parse'
       ;;
@@ -549,6 +558,15 @@ nextest_expression_for_filter() {
       ;;
     codefriend_server)
       printf 'binary_id(adl::codefriend_server) or binary_id(adl::codefriend_integration)'
+      ;;
+    codefriend_schema)
+      printf 'binary_id(adl) and test(/^codefriend::schema::/)'
+      ;;
+    codefriend_imports)
+      printf 'binary_id(adl) and test(/^codefriend::language::imports::/)'
+      ;;
+    codefriend_ci_v2)
+      printf 'binary_id(adl::codefriend_language_fitness_ci)'
       ;;
     codefriend_rust_parse)
       printf 'binary_id(adl) and test(/^codefriend::rust_parse::/)'

@@ -160,8 +160,8 @@ fn owned(f: &Fixture) -> (OwnedAdmissionJourneyOptions, Admission) {
         candidate_revision: env!("CODEFRIEND_BUILD_REVISION").into(),
         expires_at: admission.expires_at - 1,
         completed_run: run,
-        boundary_policy: o.boundary_policy,
-        fitness_policy: o.fitness_policy,
+        boundary_policy: o.boundary_policy.into(),
+        fitness_policy: o.fitness_policy.into(),
     };
     (options, admission)
 }

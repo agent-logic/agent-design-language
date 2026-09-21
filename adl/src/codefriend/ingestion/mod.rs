@@ -6,6 +6,7 @@ use serde::{Deserialize, Serialize};
 use std::{fs::File, io::Read, path::Path};
 pub mod ci;
 pub mod github;
+mod javascript_runtime;
 pub mod local;
 
 pub const SCHEMA: &str = "codefriend.repository_packet.v1";
@@ -327,9 +328,13 @@ pub fn unsafe_content(path: &str, content: &str) -> bool {
             _ => name.ends_with(".json") || candidate.starts_with('{') || json_array,
         },
     };
-    let credential_assignment = text
-        .split_inclusive(['=', ':'])
-        .any(|segment| segment.strip_suffix(['=', ':']).is_some_and(credential_key));
+    let runtime_colons = javascript_runtime::assignment_colons(path, content);
+    let mut segment_start = 0;
+    let credential_assignment = text.match_indices(['=', ':']).any(|(offset, delimiter)| {
+        let key = &text[segment_start..offset];
+        segment_start = offset + delimiter.len();
+        credential_key(key) && !(delimiter == ":" && runtime_colons.contains(&offset))
+    });
     let url_userinfo = text.split("://").skip(1).any(|tail| {
         tail.split(['/', ' ', '\t', '\r', '\n', '"', '\''])
             .next()

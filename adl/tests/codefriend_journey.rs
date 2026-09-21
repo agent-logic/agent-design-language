@@ -949,7 +949,8 @@ fn actual_journey_continuations_complete_all_eighteen_stages_and_resume() {
                 revision: f.revision.clone(),
                 graph_digest: graph.digest.clone(),
                 targets: vec![ChangeTarget::Module("crate".into())],
-            },
+            }
+            .into(),
         },
     );
     journey_step(
@@ -965,7 +966,8 @@ fn actual_journey_continuations_complete_all_eighteen_stages_and_resume() {
                     service: "api".into(),
                     rationale_paths: vec!["adr.md".into()],
                 }],
-            },
+            }
+            .into(),
         },
     );
     journey_step(

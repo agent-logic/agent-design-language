@@ -6,7 +6,7 @@
 pub mod journey;
 use crate::codefriend::{
     evidence::{
-        contracts::{Completion, Publication, ReviewRecord},
+        contracts::{Publication, ReviewRecord},
         hash, valid_digest,
     },
     publication::verify_artifacts,
@@ -65,7 +65,7 @@ impl PublicationChallenge {
         );
         publication.validate(review)?;
         ensure!(
-            review.run.completion == Completion::Complete,
+            review.successful_execution().is_ok(),
             "challenge_requires_complete_run"
         );
         verify_artifacts(artifact_root, &publication.artifact_manifest)?;
@@ -131,7 +131,7 @@ impl PublicationChallenge {
         );
         current_publication.validate(review)?;
         ensure!(
-            review.run.completion == Completion::Complete,
+            review.successful_execution().is_ok(),
             "challenge_requires_complete_run"
         );
         let expected = self.publication.binding_digest()?;
@@ -266,7 +266,7 @@ fn build_publication_bundle(
     use std::{collections::BTreeMap, fs, io::Write};
     let review = read_review(review_path)?;
     ensure!(
-        review.run.completion == Completion::Complete,
+        review.successful_execution().is_ok(),
         "publication_bundle_requires_complete_run"
     );
     let snapshot = fs::read(review_path)?;

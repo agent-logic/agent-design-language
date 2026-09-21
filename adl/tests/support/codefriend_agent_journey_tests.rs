@@ -14,6 +14,10 @@ fn prepared_job() -> (Case, relay::Job) {
     let now = crate::codefriend::agent::clock();
     let case = Case::with_format_at("none", 0, false, PublicationFormat::Markdown, now);
     *case.state.lock().unwrap() = Value::Null;
+    job_for_case(case)
+}
+
+fn job_for_case(case: Case) -> (Case, relay::Job) {
     let root = case.temp.path().join("state/run-run1");
     let report: RunReport =
         serde_json::from_slice(&fs::read(root.join("report.json")).unwrap()).unwrap();
@@ -32,7 +36,8 @@ fn prepared_job() -> (Case, relay::Job) {
             layers: [("lib.rs".into(), "core".into())].into(),
             allowed: Default::default(),
             coupling_threshold: 2,
-        },
+        }
+        .into(),
         fitness_policy: fitness::Policy {
             schema: fitness::VERSION.into(),
             rules: vec![fitness::Rule {
@@ -41,7 +46,8 @@ fn prepared_job() -> (Case, relay::Job) {
                 source_path: "lib.rs".into(),
                 forbidden_prefix: "reqwest".into(),
             }],
-        },
+        }
+        .into(),
     };
     let job = relay::Job {
         binding: relay::Binding {
@@ -125,7 +131,8 @@ fn reserved_but_unattempted_effect_cannot_be_reported_complete_or_reexecuted() {
             revision: graph.record.run.revision.clone(),
             graph_digest: graph.digest.clone(),
             targets: vec![],
-        },
+        }
+        .into(),
     };
     job.binding.request_digest = job.request.digest().unwrap();
     // Simulate a crash after the create-only reservation and before native dispatch.
@@ -143,5 +150,341 @@ fn reserved_but_unattempted_effect_cannot_be_reported_complete_or_reexecuted() {
     }
     assert_eq!(case.journey_results.lock().unwrap().len(), 1);
     assert!(!root.join("journey/impact.json").exists());
+    assert_eq!(case.posts(), 0);
+}
+
+#[test]
+fn paired_continuations_and_native_artifacts_preserve_owner_and_order() {
+    use crate::codefriend::architecture::{impact, rationale};
+    use relay::verification::{verify_stage, VerificationContext};
+    let (case, mut job) = prepared_job();
+    case.poll().unwrap();
+    let prepared = case.journey_results.lock().unwrap()[0].clone();
+    assert_eq!(
+        prepared["manifest"]["stages"]["structure"]["status"], "complete",
+        "prepare: {prepared}"
+    );
+    assert_eq!(
+        prepared["manifest"]["stages"]["fitness"]["status"], "complete",
+        "prepare: {prepared}"
+    );
+    let root = case.temp.path().join("state/run-run1");
+    let report: RunReport =
+        serde_json::from_slice(&fs::read(root.join("report.json")).unwrap()).unwrap();
+    let graph: structure::StructureReport =
+        serde_json::from_slice(&fs::read(root.join("journey/structure.json")).unwrap()).unwrap();
+    let original = fs::read(root.join("work/review/run.json")).unwrap();
+    let requests = vec![
+        relay::Request::Impact {
+            changes: impact::ChangeSet {
+                schema: impact::VERSION.into(),
+                repository: graph.record.run.repository.clone(),
+                revision: graph.record.run.revision.clone(),
+                graph_digest: graph.digest.clone(),
+                targets: vec![impact::ChangeTarget::Module(graph.nodes[0].module.clone())],
+            }
+            .into(),
+        },
+        relay::Request::Status,
+        relay::Request::Artifact {
+            artifact: relay::Artifact::Structure,
+        },
+        relay::Request::Artifact {
+            artifact: relay::Artifact::Fitness,
+        },
+        relay::Request::Artifact {
+            artifact: relay::Artifact::Impact,
+        },
+    ];
+    for (index, request) in requests.into_iter().enumerate() {
+        job.binding.job_id = format!("continuation{index}");
+        job.request = request;
+        job.binding.request_digest = job.request.digest().unwrap();
+        *case.journey.lock().unwrap() = serde_json::to_value(&job).unwrap();
+        case.poll()
+            .unwrap_or_else(|error| panic!("request {index} {:?}: {error:#}", job.request));
+        let result: relay::StageResult =
+            serde_json::from_value(case.journey_results.lock().unwrap().last().unwrap().clone())
+                .unwrap();
+        let mut context = VerificationContext {
+            schema: "codefriend.agent_journey_verifier_context.v1".into(),
+            job: job.clone(),
+            report: serde_json::from_slice(&fs::read(root.join("report.json")).unwrap()).unwrap(),
+            receipt: crate::codefriend::agent::ForwardReceipt {
+                schema: "codefriend.agent_report_receipt.v1".into(),
+                subject: report.subject.clone(),
+                agent_id: report.agent_id.clone(),
+                run_id: report.run_id.clone(),
+                report_digest: report.digest.clone(),
+                received_digest: "d".repeat(64),
+                consent_digest: report.consent_digest.clone(),
+                expires_at: report.expires_at,
+            },
+            previous: None,
+            now: crate::codefriend::agent::clock(),
+        };
+        verify_stage(&result, &context, context.now).unwrap();
+        context.previous = Some(result.clone());
+        verify_stage(&result, &context, context.now).unwrap();
+        let mut changed = result.clone();
+        changed.checkpoint_sequence += 1;
+        changed.digest.clear();
+        changed.digest = hash(&changed).unwrap();
+        // A future observation cannot be manufactured merely by retaining an older receipt.
+        let previous = context.previous.as_mut().unwrap();
+        previous.checkpoint_sequence = changed.checkpoint_sequence + 1;
+        previous.digest.clear();
+        previous.digest = hash(previous).unwrap();
+        assert_eq!(
+            verify_stage(&changed, &context, context.now)
+                .unwrap_err()
+                .to_string(),
+            "agent_journey_verifier_regression"
+        );
+        if result.payload.is_some() {
+            let mut changed = result.clone();
+            changed.payload = None;
+            changed.digest.clear();
+            changed.digest = hash(&changed).unwrap();
+            context.previous = None;
+            assert!(verify_stage(&changed, &context, context.now).is_err());
+        }
+        assert_eq!(
+            fs::read(root.join("work/review/run.json")).unwrap(),
+            original
+        );
+    }
+    job.binding.job_id = "rationale_missing_evidence".into();
+    job.request = relay::Request::Rationale {
+        selection: rationale::RationaleSelection {
+            schema: rationale::VERSION.into(),
+            graph_digest: graph.digest.clone(),
+            revision: graph.record.run.revision.clone(),
+            boundaries: vec![rationale::BoundarySelection {
+                boundary: "core".into(),
+                deployment_path: "compose.yaml".into(),
+                service: "app".into(),
+                rationale_paths: vec![],
+            }],
+        }
+        .into(),
+    };
+    job.binding.request_digest = job.request.digest().unwrap();
+    *case.journey.lock().unwrap() = serde_json::to_value(&job).unwrap();
+    assert_eq!(case.poll().unwrap(), Some("run1".into()));
+    let delivered = case.journey_results.lock().unwrap().last().unwrap().clone();
+    assert_eq!(
+        delivered["manifest"]["stages"]["rationale"]["status"],
+        "failed"
+    );
+    assert_eq!(
+        delivered["manifest"]["stages"]["rationale"]["reason"],
+        "stage_incomplete_or_failed"
+    );
+    let rationale: rationale::RationaleReport =
+        serde_json::from_slice(&fs::read(root.join("journey/rationale.json")).unwrap()).unwrap();
+    assert!(!rationale.analysis_complete);
+    assert!(!rationale.boundaries[0].unknowns.is_empty());
+    assert_eq!(case.posts(), 0);
+}
+
+#[test]
+fn paired_jobs_reject_foreign_authority_and_unavailable_baselines_without_dispatch() {
+    let (case, original) = prepared_job();
+    case.poll().unwrap();
+    for (index, field) in [
+        "subject",
+        "agent_id",
+        "consent_digest",
+        "report_digest",
+        "received_digest",
+        "expires_at",
+    ]
+    .into_iter()
+    .enumerate()
+    {
+        let mut job = serde_json::to_value(&original).unwrap();
+        job["binding"]["job_id"] = json!(format!("foreign{index}"));
+        job["binding"][field] = if field == "expires_at" {
+            json!(1)
+        } else {
+            json!("other")
+        };
+        *case.journey.lock().unwrap() = job;
+        assert!(case.poll().is_err(), "accepted {field}");
+    }
+    for (index, baseline) in ["run1", "absent"].into_iter().enumerate() {
+        let mut job = original.clone();
+        job.binding.job_id = format!("baseline{index}");
+        job.request = relay::Request::Drift {
+            baseline_run: baseline.into(),
+        };
+        job.binding.request_digest = job.request.digest().unwrap();
+        *case.journey.lock().unwrap() = serde_json::to_value(&job).unwrap();
+        assert!(case.poll().is_err());
+    }
+    assert_eq!(case.journey_results.lock().unwrap().len(), 1);
+    assert_eq!(case.posts(), 0);
+}
+
+#[test]
+fn paired_existing_publication_attaches_without_renderer_or_provider_replay() {
+    let now = crate::codefriend::agent::clock();
+    let case = Case::with_format_at("none", 0, false, PublicationFormat::Markdown, now);
+    fs::remove_dir_all(
+        case.temp
+            .path()
+            .join("state/run-run1/work/publications/job1"),
+    )
+    .unwrap();
+    case.poll().unwrap();
+    {
+        let mut job = case.state.lock().unwrap();
+        job["decision"] = json!({"challenge_digest":job["prepared"]["challenge_digest"],"binding_digest":job["prepared"]["binding_digest"],"expected_decision_digest":job["prepared"]["expected_decision_digest"],"decision":"approved"});
+        job["status"] = json!("decision_pending");
+    }
+    case.poll().unwrap();
+    assert_eq!(case.state.lock().unwrap()["status"], "complete");
+    let before_posts = case.posts();
+    let (case, mut job) = job_for_case(case);
+    let consent = case.temp.path().join("consent.json");
+    case.transport
+        .poll_journey(&case.journal, &consent)
+        .unwrap();
+    job.binding.job_id = "attach1".into();
+    job.request = relay::Request::AttachPublication {
+        publication_job: "job1".into(),
+        format: PublicationFormat::Markdown,
+    };
+    job.binding.request_digest = job.request.digest().unwrap();
+    *case.journey.lock().unwrap() = serde_json::to_value(&job).unwrap();
+    case.transport
+        .poll_journey(&case.journal, &consent)
+        .unwrap();
+    let first = case.journey_results.lock().unwrap().last().unwrap().clone();
+    assert_eq!(
+        first["manifest"]["stages"]["markdown"]["status"],
+        "complete"
+    );
+    case.transport
+        .poll_journey(&case.journal, &consent)
+        .unwrap();
+    assert_eq!(*case.journey_results.lock().unwrap().last().unwrap(), first);
+    assert_eq!(case.posts(), before_posts);
+    case.state.lock().unwrap()["prepared_digest"] = json!("e".repeat(64));
+    assert!(case
+        .transport
+        .poll_journey(&case.journal, &consent)
+        .is_err());
+    assert_eq!(case.posts(), before_posts);
+}
+
+#[test]
+fn paired_drift_reopens_both_original_run_owners_and_denies_revoked_baseline() {
+    let (case, mut current) = prepared_job();
+    case.poll().unwrap();
+    let now = crate::codefriend::agent::clock();
+    let source_root = case.temp.path().join("state/run-run1");
+    let report: RunReport =
+        serde_json::from_slice(&fs::read(source_root.join("report.json")).unwrap()).unwrap();
+    let mut consent: Consent =
+        serde_json::from_slice(&fs::read(case.temp.path().join("consent.json")).unwrap()).unwrap();
+    consent.expires_at = now + 100;
+    let consent_path = case.temp.path().join("baseline-consent.json");
+    private(&consent_path, &consent);
+    let pairing = case.journal.pairing(now).unwrap();
+    let command = Command {
+        schema: PROTOCOL.into(),
+        agent_id: pairing.agent_id.clone(),
+        subject: pairing.subject.clone(),
+        run_id: "run2".into(),
+        consent_digest: consent.digest().unwrap(),
+        expires_at: now + 80,
+    };
+    let root = case
+        .journal
+        .reserve(&command, &pairing, &consent, now)
+        .unwrap();
+    let store =
+        crate::codefriend::evidence::store::Store::open(&root.join("evidence"), move || now)
+            .unwrap();
+    // A separate original admission and native run, even for a repeated source revision.
+    let original = &report.result.as_ref().unwrap().review_record;
+    let admission = store
+        .admit(
+            original.admission.packet.clone(),
+            original.admission.retention.clone(),
+        )
+        .unwrap();
+    drop(store);
+    let result = runner::run_with_executor(
+        ExecutionOptions {
+            out: root.join("work/review"),
+            run_id: "run2".into(),
+            cancel_file: None,
+        },
+        admission.clone(),
+        original.run.provider_route.clone(),
+        |_, _, _| {
+            Ok(LaneExecution {
+                final_status: ProviderInvocationFinalStatusV1::Ok,
+                output_text: Some("{\"findings\":[]}".into()),
+            })
+        },
+    )
+    .unwrap();
+    let mut second = RunReport {
+        schema: PROTOCOL.into(),
+        subject: pairing.subject,
+        agent_id: pairing.agent_id,
+        run_id: "run2".into(),
+        consent_digest: command.consent_digest.clone(),
+        execution_location: "local_agent".into(),
+        gateway_lanes: report.gateway_lanes,
+        status: "complete".into(),
+        expires_at: admission.expires_at,
+        result: Some(result),
+        digest: String::new(),
+    };
+    second.digest = hash(&second).unwrap();
+    second.validate(now).unwrap();
+    private(&root.join("expires.json"), &second.expires_at);
+    private(&root.join("report.json"), &second);
+    private(
+        &root.join("local-consent.json"),
+        &json!({"path":consent_path.canonicalize().unwrap(),"digest":second.consent_digest}),
+    );
+    case.extra_receipts.lock().unwrap().insert("run2".into(), json!({"schema":"codefriend.agent_report_receipt.v1",
+        "subject":second.subject,"agent_id":second.agent_id,"run_id":"run2","report_digest":second.digest,
+        "received_digest":"e".repeat(64),"consent_digest":second.consent_digest,"expires_at":second.expires_at}));
+    let mut baseline = current.clone();
+    baseline.binding.job_id = "prepare_run2".into();
+    baseline.binding.run_id = "run2".into();
+    baseline.binding.report_digest = second.digest.clone();
+    baseline.binding.consent_digest = second.consent_digest.clone();
+    baseline.binding.received_digest = "e".repeat(64);
+    baseline.binding.expires_at = second.expires_at;
+    *case.journey.lock().unwrap() = serde_json::to_value(&baseline).unwrap();
+    case.transport
+        .poll_journey(&case.journal, &consent_path)
+        .unwrap();
+    current.binding.job_id = "drift_original_owners".into();
+    current.request = relay::Request::Drift {
+        baseline_run: "run2".into(),
+    };
+    current.binding.request_digest = current.request.digest().unwrap();
+    *case.journey.lock().unwrap() = serde_json::to_value(&current).unwrap();
+    case.poll().unwrap();
+    let drift = case.journey_results.lock().unwrap().last().unwrap().clone();
+    assert_eq!(drift["manifest"]["stages"]["drift"]["status"], "complete");
+    current.binding.job_id = "status_with_saved_baseline".into();
+    current.request = relay::Request::Status;
+    current.binding.request_digest = current.request.digest().unwrap();
+    *case.journey.lock().unwrap() = serde_json::to_value(&current).unwrap();
+    case.poll().unwrap();
+    let count = case.journey_results.lock().unwrap().len();
+    fs::remove_file(&consent_path).unwrap();
+    assert!(case.poll().is_err());
+    assert_eq!(case.journey_results.lock().unwrap().len(), count);
     assert_eq!(case.posts(), 0);
 }

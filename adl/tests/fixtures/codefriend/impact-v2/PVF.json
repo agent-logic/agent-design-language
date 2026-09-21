@@ -1,0 +1,17 @@
+{
+  "schema": "codefriend.impact_v2_tests.pvf.v1",
+  "test_target": "codefriend_impact_v2",
+  "expected_tests": 4,
+  "lane": "component",
+  "proof_role": "source-owner impact graph identity, deterministic witness and retention validation",
+  "determinism": "fixed clock and tiny local temporary Git fixtures; no network, providers or source execution",
+  "resource_profile": "Bounded admitted source/fact/node counts and4MiB aggregate; no elapsed-only cancellation. Original Store consent, deletion and retention expiry remain enforced.",
+  "release_gate": true,
+  "executed": false,
+  "non_claims": [
+    "no unaffected absence proof",
+    "no semantic or runtime impact proof",
+    "not full Journey or independent installed #915 qualification",
+    "v1 unchanged"
+  ]
+}

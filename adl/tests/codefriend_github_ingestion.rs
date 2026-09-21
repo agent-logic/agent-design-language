@@ -1,6 +1,8 @@
 //! PVF runtime lane; required #879 Beta ingestion gate. Deterministic Git-data
 //! HTTP + actual CLI/packet-reader integration, local CPU/disk/loopback only.
 //! No live GitHub, provider, paid inference, or lifecycle writes.
+//! #1102 preserves count/byte/auth/redirect guards without elapsed capture cutoff;
+//! see fixtures/codefriend/github-active-acquisition/PVF.json.
 use adl::codefriend::ingestion::{
     github::{self, Input, Transport},
     local, AdmissionInput, Scope,

@@ -5,6 +5,74 @@ use anyhow::{ensure, Result};
 use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, BTreeSet};
 pub const CONTRACT: &str = "codefriend.contracts.v1";
+pub const REVIEW_CONTRACT_V2: &str = "codefriend.contracts.v2";
+pub const REVIEW_LANES: [&str; 4] = ["adversarial", "constitutional", "correctness", "security"];
+
+/// Privacy exclusions remain absent; acquisition failures do not become review authority.
+pub fn reviewable_acquisition(a: &Admission) -> Result<()> {
+    a.validate()?;
+    ensure!(!a.evidence.is_empty(), "review_requires_available_evidence");
+    ensure!(
+        a.packet.completeness == "complete_scoped_acquisition"
+            || (a.packet.completeness == "partial"
+                && a.packet
+                    .objects
+                    .iter()
+                    .all(|o| o.content.is_some() || o.disposition == "omitted_unsafe")),
+        "review_acquisition_not_reviewable"
+    );
+    Ok(())
+}
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+pub struct ReviewOmission {
+    pub path: String,
+    pub reason: String,
+}
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+pub struct ReviewCoverage {
+    pub schema: String,
+    pub execution: String,
+    pub source_coverage: String,
+    pub omissions: Vec<ReviewOmission>,
+    pub lane_result_digests: BTreeMap<String, String>,
+}
+impl ReviewCoverage {
+    pub fn new(a: &Admission, lane_result_digests: BTreeMap<String, String>) -> Result<Self> {
+        reviewable_acquisition(a)?;
+        ensure!(
+            a.packet.completeness == "partial",
+            "coverage_requires_privacy_omissions"
+        );
+        let mut omissions: Vec<_> = a
+            .packet
+            .objects
+            .iter()
+            .filter(|o| o.content.is_none())
+            .map(|o| ReviewOmission {
+                path: o.path.clone(),
+                reason: "privacy_filter".into(),
+            })
+            .collect();
+        omissions.sort_by(|a, b| a.path.cmp(&b.path));
+        ensure!(
+            !omissions.is_empty()
+                && lane_result_digests.len() == 4
+                && REVIEW_LANES.iter().all(|lane| lane_result_digests
+                    .get(*lane)
+                    .is_some_and(|d| valid_digest(d))),
+            "invalid_review_coverage_lanes"
+        );
+        Ok(Self {
+            schema: "codefriend.review_coverage.v1".into(),
+            execution: "complete".into(),
+            source_coverage: "incomplete".into(),
+            omissions,
+            lane_result_digests,
+        })
+    }
+}
 fn text(value: &str) -> Result<()> {
     ensure!(
         !value.is_empty() && value.len() <= 8192 && !unsafe_content("", value),
@@ -48,6 +116,8 @@ pub struct Run {
     pub provider_route: String,
     pub completion: Completion,
     pub failures: Vec<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub coverage: Option<ReviewCoverage>,
 }
 impl Run {
     pub fn new(
@@ -79,12 +149,20 @@ impl Run {
             provider_route,
             completion,
             failures,
+            coverage: None,
         };
         r.excluded.sort();
         r.excluded.dedup();
         r.id = r.identity()?;
         r.validate(a)?;
         Ok(r)
+    }
+    pub fn with_review_coverage(mut self, a: &Admission, coverage: ReviewCoverage) -> Result<Self> {
+        self.schema = REVIEW_CONTRACT_V2.into();
+        self.coverage = Some(coverage);
+        self.id = self.identity()?;
+        self.validate(a)?;
+        Ok(self)
     }
     fn identity(&self) -> Result<String> {
         let mut c = self.clone();
@@ -94,7 +172,8 @@ impl Run {
     pub fn validate(&self, a: &Admission) -> Result<()> {
         a.validate()?;
         ensure!(
-            self.schema == CONTRACT && self.id == self.identity()?,
+            (self.schema == CONTRACT || self.schema == REVIEW_CONTRACT_V2)
+                && self.id == self.identity()?,
             "invalid_run_identity_or_version"
         );
         ensure!(
@@ -132,6 +211,19 @@ impl Run {
         ensure!(self.failures.len() <= 100, "too_many_failures");
         for f in &self.failures {
             text(f)?;
+        }
+        match (&self.coverage, self.schema.as_str()) {
+            (None, CONTRACT) => {}
+            (Some(coverage), REVIEW_CONTRACT_V2) => {
+                ensure!(
+                    self.completion == Completion::Incomplete
+                        && self.failures.is_empty()
+                        && *coverage
+                            == ReviewCoverage::new(a, coverage.lane_result_digests.clone())?,
+                    "invalid_review_coverage"
+                );
+            }
+            _ => anyhow::bail!("review_coverage_version_mismatch"),
         }
         if self.completion == Completion::Complete {
             ensure!(
@@ -252,6 +344,30 @@ impl ReviewRecord {
             f.validate(&self.run, &self.admission)?;
             ensure!(seen.insert(&f.id), "finding_identity_collision");
         }
+        Ok(())
+    }
+    /// Semantic execution claim; the full runner additionally verifies retained lane receipts.
+    pub fn successful_execution(&self) -> Result<()> {
+        self.validate()?;
+        if self.run.completion == Completion::Complete {
+            return Ok(());
+        }
+        reviewable_acquisition(&self.admission)?;
+        ensure!(
+            self.run.failures.is_empty()
+                && self.run.lane_versions.len() == 4
+                && REVIEW_LANES.iter().all(|lane| self
+                    .run
+                    .lane_versions
+                    .get(*lane)
+                    .is_some_and(|v| v == crate::codefriend::review::lanes::LANE_CONTRACT_VERSION)),
+            "review_requires_successful_four_lanes"
+        );
+        ensure!(
+            self.run.completion == Completion::Complete
+                || (self.run.completion == Completion::Incomplete && self.run.coverage.is_some()),
+            "review_execution_incomplete"
+        );
         Ok(())
     }
     pub fn finding_digest(&self) -> Result<String> {

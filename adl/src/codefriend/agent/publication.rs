@@ -3,7 +3,7 @@
 use super::*;
 use crate::codefriend::{
     evidence::{
-        contracts::{Completion, Publication, ReviewRecord},
+        contracts::{Publication, ReviewRecord},
         valid_digest,
     },
     integration::{prepare_publication_bundle_for_format, PublicationChallenge, PublicationFormat},
@@ -255,7 +255,7 @@ impl Binding {
                 && report
                     .result
                     .as_ref()
-                    .is_some_and(|r| r.completion == Completion::Complete),
+                    .is_some_and(|r| r.successful_execution().is_ok()),
             "publication_report_binding"
         );
         Ok(())

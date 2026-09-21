@@ -158,6 +158,10 @@ fn accepted_rationale_traces_graph_deployment_and_source_revision() {
     let g = f.report();
     let s = selection(&g, &["adr.md"]);
     let r = rationale::architecture_rationale_reporter(f.store(), g.clone(), s.clone()).unwrap();
+    let original_bytes = serde_json::to_vec(&r).unwrap();
+    let dispatched: adl::codefriend::architecture::artifact::RationaleArtifact =
+        serde_json::from_slice(&original_bytes).unwrap();
+    assert_eq!(serde_json::to_vec(&dispatched).unwrap(), original_bytes);
     assert!(r.analysis_complete);
     assert_eq!(r.boundaries.len(), 1);
     let b = &r.boundaries[0];

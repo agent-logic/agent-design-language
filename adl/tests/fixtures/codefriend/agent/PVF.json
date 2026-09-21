@@ -23,5 +23,20 @@
       "missing or tampered original Store denies further dispatch without re-admission",
       "expiry and confirmed unpair scrub original Store while preserving no-replay reservations"
     ]
+  },
+  "legacy_observation_deadline_regression": {
+    "issue": 1102,
+    "test": "known_running_operation_resumes_after_legacy_deadline_without_cancel_or_repost",
+    "lane": "component",
+    "proof_role": "customer cycle continues known Running operation despite elapsed legacy observation timer",
+    "determinism": "controlled loopback and clock; persisted acknowledgement seeded with elapsed old deadline while authority remains live",
+    "resource_profile": "four synthetic local lane responses; no external provider calls",
+    "assertions": [
+      "first invocation dispatches exactly one lane and loses GET observation",
+      "restart reads original Running acknowledgement with past legacy deadline",
+      "each distinct lane POST exactly once; no cancellation POST; completed identical retained report"
+    ],
+    "executed": true,
+    "execution_evidence": ".csdlc/evidence/1102/language-foundation/idle-policy-validation.json"
   }
 }

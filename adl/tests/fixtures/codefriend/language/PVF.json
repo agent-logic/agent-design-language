@@ -1,0 +1,33 @@
+{
+  "schema": "codefriend.language_tests.pvf.v1",
+  "lane": "component",
+  "proof_role": "required contract validation regression; not parser or installed product qualification",
+  "determinism": "fixed clock, local temporary Git source, no external network or provider",
+  "resource_profile": "four tiny files, bounded filesystem and CPU; no shared cache or daemon",
+  "test_target": "codefriend_language",
+  "expected_tests": 7,
+  "release_gate": true,
+  "executed": true,
+  "parser_target": "codefriend_language_parser",
+  "parser_expected_tests": 11,
+  "parser_scope": "Actual four pinned grammars, modern syntax, recovered error spans/subtree exclusion, Unicode, deterministic outputs and resource failures; no module resolution or product qualification; original Store deletion/expiry and stale-caller time rejected; expiry between extraction and return discards source-bearing report",
+  "prior_execution": "6 contract + 5 raw parser passed root32865; replaced by Store-backed owner regression evidence.",
+  "execution": {
+    "contract_passed": 7,
+    "contract_log": "language-tests-04.log",
+    "parser_passed": 11,
+    "parser_log": "language-tests-07.log",
+    "unit_passed": 8,
+    "unit_log": "language-tests-08.log",
+    "log_root": "primary Git metadata csdlc-v3/local/invocations/1102",
+    "product_qualification": false
+  },
+  "unit_filter": "codefriend::language::",
+  "unit_expected_tests": 8,
+  "unit_scope": "AST collector shared byte/spec limits and conditional ancestors; admitted resolver ambiguity, exact paths, roots, packages",
+  "preserved_failed_attempts": {
+    "language-tests-05.log": "Tree-sitter child index type compile error corrected",
+    "language-tests-06.log": "New fixture scope ordering error corrected, followed by mutex poison cascade"
+  },
+  "elapsed_time_policy": "No elapsed-only customer work cutoff. Structural nodes/depth/facts/bytes remain bounded; original Store retention remains enforced."
+}

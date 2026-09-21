@@ -1,0 +1,17 @@
+{
+  "schema": "codefriend.rationale_v2_tests.pvf.v1",
+  "test_target": "codefriend_rationale_v2",
+  "expected_tests": 6,
+  "lane": "component",
+  "proof_role": "original-owner source-bound rationale and deployment evidence regression; existing CLI schema dispatch, original admission and raw4MiB read bound",
+  "determinism": "fixed clock, admitted local context fixtures; no provider/deployment execution",
+  "resource_profile": "Bounded admitted source/fact/node counts and4MiB aggregate; no elapsed-only cancellation. Original Store consent, deletion and retention expiry remain enforced.",
+  "release_gate": true,
+  "executed": false,
+  "non_claims": [
+    "ADR accepted status is not execution approval",
+    "not runtime independence",
+    "not full Journey or independent #915 qualification",
+    "v1 unchanged"
+  ]
+}

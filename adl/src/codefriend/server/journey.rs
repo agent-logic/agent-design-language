@@ -1,9 +1,11 @@
 //! Hosted adapter over the common journey owner and existing operation admission.
 use super::*;
 use crate::codefriend::{
-    architecture::{impact, rationale, structure},
+    architecture::artifact::{
+        BoundaryPolicyArtifact, ChangeSetArtifact, RationaleSelectionArtifact, StructureArtifact,
+    },
     evidence::hash,
-    governance::local as fitness,
+    governance::artifact::PolicyArtifact,
     integration::journey::{self, Continuation, OwnedAdmissionJourneyOptions},
     publication,
     review::runner::FourPerspectiveReviewRun,
@@ -12,18 +14,18 @@ use crate::codefriend::{
 #[derive(Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub(super) struct PrepareRequest {
-    boundary_policy: structure::BoundaryPolicy,
-    fitness_policy: fitness::Policy,
+    boundary_policy: BoundaryPolicyArtifact,
+    fitness_policy: PolicyArtifact,
 }
 
 #[derive(Deserialize)]
 #[serde(tag = "stage", rename_all = "snake_case", deny_unknown_fields)]
 pub(super) enum StepRequest {
     Impact {
-        changes: impact::ChangeSet,
+        changes: ChangeSetArtifact,
     },
     Rationale {
-        selection: rationale::RationaleSelection,
+        selection: RationaleSelectionArtifact,
     },
     Drift {
         baseline_operation: String,
@@ -36,7 +38,7 @@ pub(super) enum StepRequest {
 struct BaselineOwner {
     operation: String,
     store: crate::codefriend::evidence::store::Store,
-    graph: structure::StructureReport,
+    graph: StructureArtifact,
     review: crate::codefriend::evidence::contracts::ReviewRecord,
     root: PathBuf,
     expires_at: u64,
@@ -66,11 +68,11 @@ impl BaselineOwner {
         let work = dir.join("work");
         let run: FourPerspectiveReviewRun =
             internal(read_json(&dir.join("result.json"), MAX_RESULT))?;
-        let graph: structure::StructureReport =
+        let graph: StructureArtifact =
             internal(read_json(&work.join("journey/structure.json"), MAX_RESULT))?;
         if run.run_id != operation
-            || graph.record.admission != run.review_record.admission
-            || graph.record.run.packet_id != op.packet_id
+            || graph.record().admission != run.review_record.admission
+            || graph.record().run.packet_id != op.packet_id
         {
             return Err(ApiError(
                 StatusCode::CONFLICT,
@@ -96,7 +98,7 @@ impl BaselineOwner {
         ))?;
         let owner = Self {
             operation: operation.into(),
-            expires_at: op.expires_at.min(graph.record.admission.expires_at),
+            expires_at: op.expires_at.min(graph.record().admission.expires_at),
             graph,
             review,
             store,
@@ -237,6 +239,15 @@ pub(super) async fn prepare(
             MAX_RESULT,
         ))?;
         // Reject invalid policies before reserving this operation's journey.
+        if matches!(&request.boundary_policy, BoundaryPolicyArtifact::V2(_))
+            != matches!(&request.fitness_policy, PolicyArtifact::V2(_))
+        {
+            return Err(ApiError(
+                StatusCode::BAD_REQUEST,
+                "journey_policy_version_mismatch",
+            ));
+        }
+
         request
             .boundary_policy
             .validate(&completed_run.review_record.admission)
@@ -363,7 +374,7 @@ pub(super) async fn graph(
         &operation,
         |journey| {
             let graph = journey
-                .graph()
+                .graph_artifact()
                 .ok_or(ApiError(StatusCode::CONFLICT, "journey_graph_unavailable"))?;
             internal(serde_json::to_value(graph).map_err(Into::into))
         },
