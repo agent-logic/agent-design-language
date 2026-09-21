@@ -126,6 +126,8 @@ validated ordered activity results for both complete and explicitly failed cycle
 The report status remains `failed_or_interrupted` when the cycle envelope contains
 activity failures. `gateway_lanes` contains one `cycle` execution
 identity because the complete plan is protected by one durable gateway reservation.
+The agent validates the gateway's complete retained admission against its locally
+owned admission before accepting either a complete or failed cycle result.
 `allow_result_upload` explicitly authorizes that selected evidence in addition to
 findings. It does not grant external publication. The website must display this
 scope before consent/pairing and retain the record for no longer than `expires_at`.

@@ -2,7 +2,7 @@
   "schema": "codefriend.update_cycle.pvf.v1",
   "issue": 1101,
   "lane": "runtime",
-  "proof_role": "independent activity selection, prompt-bound citation validation, create/update and unsupported-claim classification, Mermaid syntax plus render-manifest validation, testing-goal retention, retained explicit failure envelopes, and paired-local cancellation/restart/no-replay orchestration",
+  "proof_role": "independent activity selection, prompt-bound citation validation, create/update and unsupported-claim classification, constrained Mermaid grammar plus render-manifest validation, testing-goal retention, retained documentation and review failure envelopes, production gateway admission decoding, and paired-local cancellation/restart/no-replay orchestration",
   "determinism": "local Git repositories, bounded filesystem fixtures and loopback HTTP; no external provider",
   "resource_profile": "bounded local CPU, disk and loopback networking; provider spend 0",
   "release_gate": "required component evidence; installed website and real-provider acceptance remain separate",

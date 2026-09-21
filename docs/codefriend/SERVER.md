@@ -117,8 +117,9 @@ transport wrapper. Documentation, diagram and test outputs are source-bound prop
 not grant source mutation or publication authority. Every proposal declares whether it
 creates or updates a path and lists unsupported claims separately from general limitations.
 Citations are restricted to the exact evidence included in that activity's prompt.
-Diagram proposals use recognized Mermaid syntax and include an exact `mmdc` SVG render
-manifest; successful rendering remains separate downstream proof. Test proposals retain the requested test goal or percentage target but leave
+Diagram proposals use a deliberately constrained Mermaid flowchart/sequence grammar
+and include an exact `mmdc` SVG render manifest; successful rendering remains separate
+downstream proof. Test proposals retain the requested test goal or percentage target but leave
 `measured_coverage_percent` null because this executor does not run a coverage tool.
 Provider failure or malformed output is recorded against the affected activity and
 fails the outer operation while preserving every selected activity's terminal record;
