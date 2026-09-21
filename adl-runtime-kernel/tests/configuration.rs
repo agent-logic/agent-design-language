@@ -1742,7 +1742,17 @@ fn resident_shepherd_configuration_requires_provider_model_and_unique_nonempty_s
     assert!(adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&invalid_provider).is_err());
     let gateway_provider =
         valid.replace("provider = \"ollama\"", "provider = \"openai-compatible\"");
-    assert!(adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&gateway_provider).is_ok());
+    let error = adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&gateway_provider)
+        .expect_err("the primary shepherd cannot delegate inference to a gateway");
+    assert!(error
+        .to_string()
+        .contains("supervised shepherd must use host-local Ollama"));
+    let remote_ollama = valid.replace("http://127.0.0.1:11434", "http://192.168.68.64:11434");
+    let error = adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&remote_ollama)
+        .expect_err("private-network Ollama is not host-local shepherd execution");
+    assert!(error
+        .to_string()
+        .contains("supervised shepherd must use host-local Ollama"));
     for invalid in [
         valid.replace("model = \"qwen3:8b\"", "model = \"bad model\""),
         valid.replace(

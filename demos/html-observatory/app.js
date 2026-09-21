@@ -1561,6 +1561,7 @@ function runtimeV3SnapshotFromFeed(feed, readiness = null, healthReport = null) 
       runtime_incarnation_id: feed.runtime_incarnation_id,
       agent_instance_id: feed.runtime_instance_id,
       agent_population: feed.agents,
+      resident_incidents: asArray(feed.resident_incidents),
       status: snapshot.lifecycle || "unknown",
       observability: snapshot.observability,
       topology_generation: snapshot.topology_generation,
@@ -2673,6 +2674,10 @@ function renderAgentDirectory(agents = lastAgentPopulation) {
         <div><dt>Provider</dt><dd>${escapeHtml(formatLabel(agent.provider || "not reported"))}</dd></div>
         <div><dt>Health</dt><dd>${escapeHtml(formatLabel(agent.health || "unknown"))}</dd></div>
         <div><dt>Availability</dt><dd>${escapeHtml(formatLabel(agent.availability || "unknown"))}</dd></div>
+        ${agent.resident_incident ? `<div><dt>Shepherd response</dt><dd>${escapeHtml(formatLabel(agent.resident_incident.response_status))}</dd></div>
+        <div><dt>Health incident</dt><dd>${escapeHtml(formatLabel(agent.resident_incident.reason))} · ${escapeHtml(formatLabel(agent.resident_incident.state))}</dd></div>
+        <div><dt>Help request</dt><dd>${escapeHtml(agent.resident_incident.alert_delivered ? "Accepted by SNS" : formatLabel(agent.resident_incident.alert_status))}</dd></div>
+        <div><dt>Next alert attempt</dt><dd>${escapeHtml(agent.resident_incident.alert_delivered ? "None pending" : new Date(agent.resident_incident.next_alert_at_unix_millis).toLocaleString())}</dd></div>` : ""}
         <div><dt>Last snapshotted</dt><dd data-tone="${escapeHtml(fresh.tone)}">${escapeHtml(fresh.label)}</dd></div>
         <div><dt>Admission</dt><dd>${escapeHtml(admission.label)}</dd></div>
         <div><dt>Orientation package</dt><dd>${escapeHtml(formatAgentOrientation(agent.orientation))}</dd></div>
@@ -3159,6 +3164,14 @@ function formatAgentOrientation(orientation = null) {
   return `${orientation.version} / ${orientation.digestAlgorithm}:${orientation.digest.slice(0, 12)} / ${orientation.projection} / non-authoritative`;
 }
 
+function latestResidentIncident(incidents, id) {
+  return asArray(incidents).filter((i) => i.resident_id === id).sort((a, b) =>
+    Number(a.state === "open") - Number(b.state === "open") ||
+    Number(a.sequence || 0) - Number(b.sequence || 0) ||
+    Number(a.opened_at_unix_millis || 0) - Number(b.opened_at_unix_millis || 0)
+  ).at(-1) || null;
+}
+
 function buildRuntimeAgentRows({ status = {}, health = {}, ready = {}, metrics = {}, events = [], packet = FALLBACK_PACKET } = {}) {
   const hasApiStatus = Object.keys(status || {}).length > 0 && !status.__load_error;
   const retainedCitizens = asArray(packet.citizens);
@@ -3217,6 +3230,7 @@ function buildRuntimeAgentRows({ status = {}, health = {}, ready = {}, metrics =
       freshnessDeadlineUnixMillis: Number(agent.freshness_deadline_unix_millis || 0),
       sourceRevision: agent.source_revision || "unknown",
       provenance: agent.provenance || "unknown",
+      residentIncident: latestResidentIncident(status.resident_incidents, agent.id),
       orientation: normalizeAgentOrientation(agent.orientation)
     }));
   }
@@ -3402,7 +3416,7 @@ function renderPanopticon(snapshot = {}, packet = FALLBACK_PACKET) {
   setText("statusbar-updated", vm.mode === "live" ? formatTimestampLabel(vm.fetchedAt) : formatCurrentTimestampLabel());
   setDataset("statusbar-indicator", "state", vm.mode === "live" ? "live" : vm.mode === "published" ? "published" : "fallback");
   setText("hero-agent-count", `${vm.agentTotal.toLocaleString()}`);
-  renderAgentDirectory(asArray(snapshot.status?.agent_population?.sample));
+  renderAgentDirectory(asArray(snapshot.status?.agent_population?.sample).map((agent) => ({ ...agent, resident_incident: latestResidentIncident(snapshot.status?.resident_incidents, agent.id) })));
   if (snapshot.rawFeed) renderInspector(snapshot, snapshot.rawFeed);
 
   // Live stat cards — CPU, memory, components

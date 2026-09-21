@@ -879,6 +879,23 @@ async fn shepherd_provider_routes_governed_reasoning_to_configured_model() {
     let listener = tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap();
     let address = listener.local_addr().unwrap();
     let server = tokio::spawn(async move {
+        let (mut metadata, _) = listener.accept().await.unwrap();
+        let mut request = [0; 2048];
+        let n = metadata.read(&mut request).await.unwrap();
+        assert!(String::from_utf8_lossy(&request[..n]).contains("GET /api/tags"));
+        let body = r#"{"models":[{"name":"gemma4:e4b-mlx"}]}"#;
+        metadata
+            .write_all(
+                format!(
+                    "HTTP/1.1 200 OK\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{}",
+                    body.len(),
+                    body
+                )
+                .as_bytes(),
+            )
+            .await
+            .unwrap();
+        drop(metadata);
         let (mut stream, _) = listener.accept().await.unwrap();
         let mut request = Vec::new();
         loop {
@@ -1036,15 +1053,26 @@ async fn shepherd_provider_routes_through_private_openai_compatible_gateway() {
     .unwrap();
     let executor = Arc::new(ResidentShepherdExecutor::new(
         "runtime-test",
-        [ResidentShepherdInitConfig {
-            name: "meridian.axioma".to_owned(),
-            display_name: "Meridian Axioma".to_owned(),
-            office: "resident shepherd".to_owned(),
-            provider: "openai-compatible".to_owned(),
-            model: "gemini-2.5-flash".to_owned(),
-            endpoint: format!("http://{address}"),
-            preload: Default::default(),
-        }],
+        [
+            ResidentShepherdInitConfig {
+                name: "beacon.axioma".into(),
+                display_name: "Beacon".into(),
+                office: "resident shepherd".into(),
+                provider: "ollama".into(),
+                model: "local".into(),
+                endpoint: "http://127.0.0.1:11434".into(),
+                preload: Default::default(),
+            },
+            ResidentShepherdInitConfig {
+                name: "meridian.axioma".to_owned(),
+                display_name: "Meridian Axioma".to_owned(),
+                office: "resident agent".to_owned(),
+                provider: "openai-compatible".to_owned(),
+                model: "gemini-2.5-flash".to_owned(),
+                endpoint: format!("http://{address}"),
+                preload: Default::default(),
+            },
+        ],
         native,
     ));
     let request = OperationRequest {
