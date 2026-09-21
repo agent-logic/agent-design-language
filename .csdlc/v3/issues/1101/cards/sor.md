@@ -92,7 +92,7 @@ Implemented versioned repository update-cycle plans and source-bound documentati
 - Verification performed:
   - `git status --short --branch; git diff --check origin/main...HEAD`
     `Verified the bound branch identity, clean worktree, and patch whitespace hygiene without claiming main integration.`
-- Result: `Committed through dbff251e4269609ea6c502412003e6bee05d44ff; not reviewed, published, merged, or deployed.`
+- Result: `Committed through ddc209c40be8266debe24562c823b8d80c6a1f74; not independently reviewed, published, merged, or deployed.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -107,10 +107,10 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `cargo test --manifest-path adl/Cargo.toml --test codefriend_update_cycle --test codefriend_server --test codefriend_agent --test codefriend_agent_receipt --test codefriend_agent_publication --test codefriend_integration; cargo fmt --manifest-path adl/Cargo.toml --all -- --check; git diff --check origin/main...HEAD`
+  - `cargo test --manifest-path adl/Cargo.toml --test codefriend_update_cycle --test codefriend_server --test codefriend_agent --test codefriend_agent_receipt --test codefriend_agent_publication --test codefriend_integration; cargo clippy --manifest-path adl/Cargo.toml --test codefriend_update_cycle --test codefriend_server --test codefriend_agent -- -D warnings; cargo fmt --manifest-path adl/Cargo.toml --all -- --check; git diff --check origin/main...HEAD`
     `Exercises activity selection and binding, malformed and failed outputs, hosted admission, paired-local single-operation replay protection, legacy agent/report compatibility, publication receipts, hosted integration, formatting, and patch hygiene.`
 - Results:
-  - `75 focused and compatibility tests passed with zero failures; formatting and diff hygiene passed. Strict Clippy and independent exact-head review remain pending.`
+  - `75 focused and compatibility tests passed with zero failures; strict focused Clippy, formatting, and diff hygiene passed. Independent exact-head review remains pending.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -125,7 +125,7 @@ verification_summary:
   validation:
     status: passed_with_remaining_review_gates
     checks_run:
-      - "75 focused CodeFriend contract, server, agent, receipt, publication, and integration tests passed"
+      - "75 focused CodeFriend tests, strict focused Clippy, formatting, and diff hygiene passed"
   determinism:
     status: passed
     replay_verified: true
@@ -174,5 +174,5 @@ verification_summary:
 - `Keep legacy review-only request and report serialization unchanged when cycle is absent.`
 
 ## Follow-ups / Deferred work
-- `Run strict focused Clippy and obtain mandatory independent exact-head review; fix every actionable finding before publication.`
+- `Obtain mandatory independent exact-head review and fix every actionable finding before publication.`
 - `After #1101 is reviewed and merged, update codefriend.ai PR #9 to enable the four activities and consume the new result contract.`
