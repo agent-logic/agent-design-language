@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implemented the governed CodeFriend update-cycle activities for hosted and paired-local execution, remediated every review finding, and integrated current main after publication exposed a conflict. The reconciliation preserves main's review-v2 and provider-interruption behavior together with #1101's retained failure envelopes, strict execution binding, durable paired-local operation, and consumer documentation. Native proof and independent exact-head review are retained separately against the final candidate before publication.
+Implemented the governed CodeFriend update-cycle activities for hosted and paired-local execution, integrated current main, and fixed all nine findings from the consolidated post-integration review plus the independent-admission timing finding. The candidate preserves review-v2 and provider-interruption behavior, retains failed cycle envelopes, binds exact execution identity, and never replays a durable paired-local operation.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
@@ -57,7 +57,7 @@ Implemented the governed CodeFriend update-cycle activities for hosted and paire
 - Goal metrics source ref: `not_collected`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `post_main_integration_validation_complete_proof_review_retained_before_publication`
+- Completion state: `all_review_findings_fixed_validation_complete_proof_and_exact_head_review_pending`
 - Issue goal ref: `Active issue #1101 implementation and reviewed-green PR publication goal`
 - Sprint goal ref: `CodeFriend Beta 1 update-cycle prerequisite for codefriend.ai issue #6`
 - Goal metrics rollup ref: `not_collected`
@@ -76,12 +76,12 @@ Implemented the governed CodeFriend update-cycle activities for hosted and paire
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/1101/cards/sor.md`
 - Tracked implementation artifacts: `adl/src/codefriend/activities.rs; adl/src/codefriend/agent.rs; adl/src/codefriend/server.rs; adl/src/codefriend/review/runner.rs; adl/tests/codefriend_update_cycle.rs; adl/tests/codefriend_agent.rs; adl/tests/codefriend_server.rs; adl/tests/fixtures/codefriend/update-cycle/PVF.json; docs/codefriend/SERVER.md; docs/codefriend/LOCAL_AGENT.md`
-- Additional proof artifacts: `Focused deterministic component tests, production-server and paired-local execution-binding regressions, review-v2 and provider-interruption compatibility checks, source-backed consumer protocol documentation, the issue-local PVF manifest, and typed proof/review retained separately against the final candidate. No paid provider, deployment, or successful Mermaid render artifact is claimed.`
+- Additional proof artifacts: `Focused deterministic component tests cover all ten post-publication findings; production-server and paired-local regressions cover execution binding, no replay, cancellation, terminal failure, observed-model aliases, review-v2 privacy coverage, and provider-effect uncertainty. No paid provider, deployment, or successful Mermaid render artifact is claimed.`
 
 ## Actions taken
 - `Implemented strict prompt-bound activity proposals with create/update and unsupported-claim classification, constrained renderable Mermaid flowchart/sequence syntax, and exact mmdc SVG render manifests.`
 - `Retained explicit Documentation and Review failure envelopes through hosted and paired-local paths, and bound the real gateway admission to the locally owned admission before accepting local cycle results.`
-- `Bound every served complete or failed update cycle to the exact operation request digest, candidate revision, and observed model identity; documented the contract; and reconciled current main review-v2, provider-interruption, privacy, and journey-fixture changes without weakening cycle behavior.`
+- `Resolved the post-main review findings for independent admission timing, elapsed-only cancellation, uncertain provider effects, successful partial reviews, native execution readback binding, observed model aliases, legacy result visibility, terminal failure observation, and fixed redacted activity failures.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none: the implementation is committed only on the bound issue branch`
@@ -92,7 +92,7 @@ Implemented the governed CodeFriend update-cycle activities for hosted and paire
 - Verification performed:
   - `git status --short --branch; git diff --check origin/main...HEAD`
     `Verified the bound branch identity, clean worktree, and patch whitespace hygiene without claiming main integration.`
-- Result: `The issue branch contains current main plus the complete #1101 implementation, tests, documentation, and lifecycle records. Post-merge focused compatibility validation passes; typed native proof and independent review bind the final pre-projection candidate before the existing draft PR is updated. PR merge and deployment remain pending.`
+- Result: `The issue branch contains current main plus the complete #1101 implementation, tests, documentation, and lifecycle records. All focused compatibility validation passes. Typed native proof and independent exact-head review remain the final gates before updating draft PR #1118; PR merge and deployment remain pending.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -108,9 +108,9 @@ Rules:
 ## Validation
 - Validation commands and their purpose:
   - `cargo test --manifest-path adl/Cargo.toml --test codefriend_agent --test codefriend_agent_publication --test codefriend_agent_receipt --test codefriend_integration --test codefriend_server --test codefriend_update_cycle -- --test-threads=1; cargo clippy --manifest-path adl/Cargo.toml --lib --bins --tests -- -D warnings; cargo fmt --manifest-path adl/Cargo.toml -- --check; git diff --check`
-    `Exercises activity selection, prompt-bound citations, proposal classification, constrained Mermaid validation, complete and failed hosted execution binding, review-v2 compatibility, provider-interruption truth, privacy omissions, paired-local cancellation/restart/redelivery/no-replay, publication receipts, hosted integration, formatting, lint, and merge-conflict hygiene.`
+    `Exercises activity selection, partial review-v2 coverage, prompt-bound citations, proposal classification, constrained Mermaid validation, hosted execution identity including observed aliases, uncertain provider-effect interruption, failure-envelope readback boundaries, independent admission clocks, paired-local terminal failure/cancellation/restart/redelivery/no-replay, native report tamper rejection, publication receipts, hosted integration, formatting, lint, and merge-conflict hygiene.`
 - Results:
-  - `95 focused and compatibility tests passed with zero failures after current-main integration: 41 agent, 6 agent publication, 9 agent receipt, 7 integration, 23 server, and 9 update-cycle tests. Strict Clippy across library, binaries, and tests, formatting, and diff hygiene passed.`
+  - `100 focused and compatibility tests passed with zero failures: 44 agent, 6 agent publication, 9 agent receipt, 7 integration, 23 server, and 11 update-cycle tests. Strict Clippy across library, binaries, and tests, formatting, and diff hygiene passed.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -125,7 +125,7 @@ verification_summary:
   validation:
     status: passed_with_remaining_review_gates
     checks_run:
-      - "95 focused CodeFriend tests passed on the current-main-integrated candidate, including production hosted complete/failed execution binding, paired-local durable operation and binding, review-v2 compatibility, uncertain provider-effect retention, privacy propagation, report tamper rejection, and legacy compatibility."
+      - "100 focused CodeFriend tests passed on the current-main-integrated candidate, including every consolidated exact-head review regression and the independently timed gateway-admission regression."
   determinism:
     status: passed
     replay_verified: true
@@ -174,5 +174,5 @@ verification_summary:
 - `Keep legacy review-only request and report serialization unchanged when cycle is absent.`
 
 ## Follow-ups / Deferred work
-- `Retain typed native proof and mandatory independent exact-head review against the final current-main-integrated candidate, then update the existing draft PR and monitor required checks without merging.`
+- `Run typed native proof and mandatory independent exact-head review against the final candidate, then update existing draft PR #1118 and monitor required checks without merging.`
 - `After #1101 merges, coordinate the current codefriend.ai consumer with this final self-validating activity-result contract.`
