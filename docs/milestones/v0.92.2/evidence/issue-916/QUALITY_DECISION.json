@@ -173,6 +173,18 @@
       "scope": "Declared issue-local path, common evidence roots for #902/#852, registered producer worktrees, and #902 merge tree checked; broader backup stores not yet checked.",
       "disposition": "resolved_retained_evidence_recovered",
       "resolution": "Exact SHA-256 archive found under Git-local archived-worktree-residue/v0922-closeout-20260916/902, copied to issue-local replay path without changing original; existing admission now passes all five rows."
+    },
+    {
+      "id": "916-G05",
+      "severity": "P2",
+      "kind": "implementation_gap",
+      "bucket": "routed_work",
+      "summary": "Live PAIR processes are running, but the probed local proxy has no available active node/model inventory.",
+      "evidence": [
+        "PAIR_HEALTH.json"
+      ],
+      "required_action": "Reconcile the current PAIR engine/node selection and configuration with its owner, then verify actual routing. Preserve the healthy direct Ollama service; no restart or repair attempted by this audit.",
+      "limitation": "Observed local default proxy only. Historical REPAIR decision is separate. Remote unauthenticated403 is not a failure verdict; this is not proof that every possible PAIR route is unusable."
     }
   ],
   "stragglers": [
@@ -235,6 +247,7 @@
       "criterion_evidence_admitted": 5,
       "historical_record_inspected": 17,
       "operator_accepted_bounded_handoff": 2
-    }
+    },
+    "live_verification": "LIVE_VERIFICATION.json"
   }
 }

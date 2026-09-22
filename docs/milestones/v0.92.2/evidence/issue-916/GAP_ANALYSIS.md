@@ -78,3 +78,17 @@ The exact #852 archive was subsequently found under Git-local `archived-worktree
 These are claim boundaries, not newly assigned implementation defects. #915 is still OPEN. PR #1137 is OPEN/CLEAN at `8e2d85e8655cef7e0ae36ddbacc13df3fdc95d8c`; #1138 is OPEN/BLOCKED at `5cf0bdedc9bc1236df52550d4d9a27ff794d1266`. Merge-state observations are not independent review verdicts or final candidate acceptance.
 
 All 24 prerequisite rows now have an initial source disposition: five producer issues admitted by criterion replay, two operator-accepted bounded handoffs, and seventeen historical/status inspections (including pending #915). This is not 24 accepted current-candidate results. #849 and #862 explicitly retain historical broad-suite failures/partial runs; a later green check cannot silently rewrite those records. Their current relevance must be reconciled against final-candidate coverage rather than rerunning every historical workload.
+
+## Current execution verification
+
+The operator requested actual working-state checks after the source audit. [Live verification](LIVE_VERIFICATION.json) keeps these local executions separate from #915 independent provider/browser acceptance. Website tests use an isolated snapshot of `f48cbc962031f17e009e3da2f1cb5346cdafcba5`; native checks use the #916 source checkpoint based on `a26e9e56e3f0de58954fc9628870aaa5edd60301`. Unmerged #1137/#1138 behavior is not claimed by these runs.
+
+**916-G05 (P2, operational follow-up):** PAIR is running, correcting the initial check of the retired experiment port. The current local proxy returns 503 (`model inventory unavailable`) and 502 (`no active node selected or available`). Direct Ollama answers independently and reports a loaded model. Both machines are reachable; remote unauthenticated 403 responses do not establish service failure. See [PAIR observations](PAIR_HEALTH.json). No service was restarted or reconfigured, and no claim is made about authenticated routes that were not exercised.
+
+### Executed local verification results
+
+All **39 native CodeFriend test targets pass (396 tests, zero failures or ignored)** after correcting one test startup race and rerunning the entire affected server target. Website snapshot tests pass **135/135**; installed CLI fitness passes **3 scenarios**; Runtime evidence negative contracts pass **13 tests**. Exact identities, target results and log hashes are retained in the live-verification record.
+
+The first native run failed on control-socket connection readiness. The corrected test waits for a successful connection and uses that connection for its first actual status request, preserving deadlines, unexpected-error failures and drain/resume/shutdown assertions. The intermediate abandoned-probe attempt also failed and remains recorded; it is not counted as passing proof. Independent bounded review of the final test change passed. Production control-server code was not changed.
+
+These local tests use controlled inputs/providers. They do not replace #915's real-provider, invited-user, both-website-mode, platform and rendered-artifact qualification or human acceptance. PAIR's observed default proxy remains unavailable; no live service repair is claimed.

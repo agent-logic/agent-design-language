@@ -1857,19 +1857,35 @@ fn server_cli_control_socket_drains_resumes_and_shuts_down_gracefully() {
         .strip_prefix(std::env::current_dir().unwrap())
         .unwrap();
     let deadline = std::time::Instant::now() + Duration::from_secs(5);
-    while !socket.exists() {
+    // A socket pathname can be visible between bind and listen. Readiness must
+    // observe an accepted connection, not merely filesystem publication.
+    let first_stream = loop {
+        match UnixStream::connect(client_socket) {
+            Ok(stream) => break stream,
+            Err(error)
+                if matches!(
+                    error.kind(),
+                    std::io::ErrorKind::NotFound | std::io::ErrorKind::ConnectionRefused
+                ) => {}
+            Err(error) => panic!("control readiness connection failed: {error}"),
+        }
         assert!(
             child.0.try_wait().unwrap().is_none(),
-            "server exited before control bind"
+            "server exited before control readiness"
         );
         assert!(
             std::time::Instant::now() < deadline,
-            "control bind deadline"
+            "control readiness deadline"
         );
         std::thread::sleep(Duration::from_millis(10));
-    }
-    let request = |value: Value| -> Value {
-        let mut stream = UnixStream::connect(client_socket).unwrap();
+    };
+    // Use the readiness connection for the real status request; do not create
+    // an extra client that disconnects before the server authenticates it.
+    let mut first_stream = Some(first_stream);
+    let mut request = |value: Value| -> Value {
+        let mut stream = first_stream
+            .take()
+            .unwrap_or_else(|| UnixStream::connect(client_socket).unwrap());
         stream
             .set_read_timeout(Some(Duration::from_secs(3)))
             .unwrap();
