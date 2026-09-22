@@ -33,6 +33,7 @@ pub use publication::{
     publication_body_is_valid, typed_review_receipt_payload_digest,
 };
 pub use routing::dispatch_operational_remote;
+pub use storage::retained_mutation_request;
 pub(crate) use storage::{
     repository_scoped_issue_creation_receipt, require_settled_transition_remote,
     settled_coordination_completion_receipt, settled_issue_mutation_receipt,
