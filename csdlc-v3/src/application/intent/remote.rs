@@ -1367,6 +1367,17 @@ pub fn recover(context: &Context, request: &IntentRequest) -> Result<Option<Valu
                 serde_json::from_value(staged["request"].clone())
                     .map_err(|_| "semantic_remote_recovery_packet_invalid")?;
             if !matches!(native.mutation, GithubMutation::PullRequestMerge { .. }) {
+                native = retained_mutation_request(
+                    &context.root,
+                    &native,
+                    staged["operation_digest"]
+                        .as_str()
+                        .ok_or("semantic_remote_recovery_packet_invalid")?,
+                    staged["intent_digest"]
+                        .as_str()
+                        .ok_or("semantic_remote_recovery_packet_invalid")?,
+                )
+                .map_err(failure)?;
                 native.recovery = Some(GithubMutationRecovery::RetryAfterAuthenticatedAbsence);
             }
 

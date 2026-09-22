@@ -273,11 +273,13 @@ pub fn stage_github_mutation(
         }
         None
     };
+    let mut original_request = request.clone();
+    original_request.recovery = None;
     let request_bytes = serde_json::to_vec(&serde_json::json!({
         "schema":"csdlc.v3.staged_github_mutation.v1",
         "operation_digest":operation_digest,
         "intent_digest":intent_digest,
-        "request":effective_request
+        "request":original_request
     }))
     .map_err(|_| {
         remote_finding(
@@ -309,6 +311,42 @@ pub fn stage_github_mutation(
         recovery,
         reuse_rejected_recovery: false,
     })
+}
+
+/// Resolve a semantic packet to its original native request. Older packets held
+/// the resolved edit (including preserved fields), whose digest is not the
+/// operation digest. Neither a missing intent nor altered content proves absence.
+pub fn retained_mutation_request(
+    repo_root: &Path,
+    request: &GithubMutationRequest,
+    operation_digest: &str,
+    intent_digest: &str,
+) -> Result<GithubMutationRequest, RemoteRouteFinding> {
+    if operation_digest.len() != 64
+        || !operation_digest
+            .bytes()
+            .all(|byte| byte.is_ascii_hexdigit())
+    {
+        return Err(remote_finding(
+            "github_mutation_intent_mismatch",
+            "invalid retained operation digest",
+        ));
+    }
+    let path = github_mutation_intent_path(repo_root, operation_digest)?;
+    let retained = load_mutation_intent(&path, operation_digest)?;
+    let mut resolved = retained.request.clone();
+    if let Some(edit) = &retained.resolved_edit {
+        resolved.mutation = edit.clone();
+    }
+    if github_mutation_intent_digest(&retained) != intent_digest
+        || (*request != retained.request && *request != resolved)
+    {
+        return Err(remote_finding(
+            "github_mutation_intent_mismatch",
+            "semantic packet differs from the original or resolved native intent",
+        ));
+    }
+    Ok(retained.request)
 }
 
 /// Reconstruct an already-retained, non-merge mutation for reconciliation.
