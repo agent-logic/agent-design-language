@@ -1150,7 +1150,7 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
                 }
             }
             let index = calls.fetch_add(1, Ordering::SeqCst);
-            if index >= 25 {
+            if index >= 30 {
                 if write!(
                     stream,
                     "HTTP/1.1 200 OK\r\nTransfer-Encoding: chunked\r\nConnection: close\r\n\r\n"
@@ -1171,7 +1171,7 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
                 }
                 continue;
             }
-            let text = if index < 4 || (12..25).contains(&index) {
+            let text = if index < 4 || (12..30).contains(&index) {
                 json!({"assessments":[]})
             } else if index == 5 {
                 json!({"findings":[]})
@@ -1627,7 +1627,8 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
         }
         assert_eq!(count.load(Ordering::SeqCst), 20);
         // Real source acquisition and production HTTP/provider paths: the same
-        // >128 KiB prompt is accepted only by assessment generation.
+        // >128 KiB prompt is accepted only by assessment generation. Verbatim v4
+        // also accepts newline-heavy source without historical annotation inflation.
         let large = Fixture::with_source(&format!("// {}\n", "a".repeat(200 * 1024)));
         let expanded = Fixture::with_source(&"\n".repeat(400 * 1024));
         for (id, token, mode, generation, packet, expected) in [
@@ -1661,7 +1662,7 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
                 "hosted",
                 None,
                 &expanded.packet,
-                "failed",
+                "complete",
             ),
             (
                 "expanded-local",
@@ -1669,7 +1670,7 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
                 "local_model",
                 Some("assessments"),
                 &expanded.packet,
-                "failed",
+                "complete",
             ),
         ] {
             let before = count.load(Ordering::SeqCst);
@@ -1707,7 +1708,7 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
                 }
             );
         }
-        assert_eq!(count.load(Ordering::SeqCst), 25);
+        assert_eq!(count.load(Ordering::SeqCst), 30);
 
         for (id, token, mode) in [
             ("oversized-hosted", ALICE, "hosted"),
