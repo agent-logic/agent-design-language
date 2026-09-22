@@ -795,7 +795,7 @@ fn mixed_assessment_gaps_traverse_original_store_planner_and_publication() {
         remediation_plan: "remediation/remediation-plan.json".into(),
         test_plan: "tests/test-plan.json".into(),
         destination_root: destination.clone(),
-        out: destination.join("report"),
+        out: destination.join(&bundle.target),
     })
     .unwrap();
 
