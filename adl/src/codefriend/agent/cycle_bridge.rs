@@ -84,6 +84,16 @@ impl Transport {
                 report.expires_at <= capsule.expires_at,
                 "agent_cycle_import_expiry"
             );
+            // The run's cleanup owner must honor the shorter remote deadline,
+            // even when a later request rejects the expired report before import.
+            let expiry_path = root.join("expires.json");
+            let local_deadline: u64 = publication::read(&expiry_path, 64)?;
+            let deadline = local_deadline
+                .min(capsule.expires_at)
+                .min(report.expires_at);
+            if deadline < local_deadline {
+                save_private(&expiry_path, &deadline)?;
+            }
             // This binding is an import receipt, not a fabricated producer receipt.
             let binding = ImportBinding {
                 schema: "codefriend.imported_cycle_review.v1".into(),

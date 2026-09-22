@@ -6,7 +6,10 @@ unavailable. Honest partial source coverage follows the review owner's existing
 `successful_execution` rule; it is not a claim of complete source analysis.
 
 Hosted owners select and validate the retained nested review and reuse the
-original server review directory. They do not replace the aggregate result or
+original server review directory. The producer finalizes the retained run,
+review record and lane results with the observed provider identity before
+publishing its cycle. Every hosted Journey access checks the selected review
+against that retained run. They do not replace the aggregate result or
 invoke a model again.
 
 Installed agents fetch `GET /v1/operations/:gateway_operation/review-evidence`
@@ -25,7 +28,11 @@ nested review and its deterministic lane input contracts. The agent stores the
 import under a distinct `imported-cycle` owner with an explicit receipt. It
 preserves the website run ID, gateway run ID, original local admission and
 gateway admission; it does not modify the original report or forwarding receipt.
-Imported evidence is not labelled original local producer output.
+Imported evidence is not labelled original local producer output. Importing
+shortens the run cleanup deadline to the earlier of its existing deadline, the
+report deadline and the capsule deadline. This makes ordinary expiry cleanup
+remove imported source even when a later request rejects an expired report
+before reaching the import owner.
 
 Each continuation and publication boundary performs fresh authenticated gateway
 GETs before and after importing/checking evidence, then rechecks local consent,

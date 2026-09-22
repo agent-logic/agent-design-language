@@ -86,7 +86,7 @@ impl Capsule {
             ensure!(input == expected, "cycle_capsule_input_changed");
             let result: LaneResult = self.read(&format!("lanes/{}/result.json", lane.id()))?;
             ensure!(
-                result.lane == lane.id() && run.lane_results.iter().any(|r| *r == result),
+                result.lane == lane.id() && run.lane_results.contains(&result),
                 "cycle_capsule_lane_changed"
             );
         }

@@ -864,3 +864,24 @@ fn cycle_drift_rechecks_two_imported_owners_and_denies_revoked_baseline() {
     assert!(source_root.join("imported-cycle").exists());
     assert_eq!(case.posts(), 0);
 }
+
+#[test]
+fn cycle_import_shortens_cleanup_deadline_before_expired_report_rejection() {
+    let (case, _, capsule) = cycle_job();
+    let root = case.temp.path().join("state/run-run1");
+    let original = fs::read(root.join("report.json")).unwrap();
+    fs::write(
+        root.join("expires.json"),
+        (capsule.expires_at + 3600).to_string(),
+    )
+    .unwrap();
+    case.poll().unwrap();
+    let deadline: u64 =
+        serde_json::from_slice(&fs::read(root.join("expires.json")).unwrap()).unwrap();
+    assert!(deadline <= capsule.expires_at);
+    assert_eq!(fs::read(root.join("report.json")).unwrap(), original);
+    case.journal.expire(capsule.expires_at).unwrap();
+    assert!(!root.join("imported-cycle").exists());
+    assert!(!root.join("report.json").exists());
+    assert_eq!(case.posts(), 0);
+}

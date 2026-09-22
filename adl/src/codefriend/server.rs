@@ -397,6 +397,19 @@ fn execute_cycle(
     }
     if let Some(review) = &mut result.review {
         review.rebind_provider_route(&observed_route)?;
+        // Publish the same finalized producer bytes used by Journey and capsules.
+        fs::write(work.join("review/run.json"), serde_json::to_vec(review)?)?;
+        fs::write(
+            work.join("review/review-record.json"),
+            serde_json::to_vec(&review.review_record)?,
+        )?;
+        for lane in &review.lane_results {
+            fs::write(
+                work.join(format!("review/lanes/{}/result.json", lane.lane)),
+                serde_json::to_vec(lane)?,
+            )?;
+        }
+
         if let Some(activity) = result
             .activities
             .iter_mut()

@@ -199,6 +199,17 @@ fn owned(
             "journey_operation_not_current",
         ));
     }
+    let review = internal(operation_review(service, &credential, &op))?;
+    let retained: crate::codefriend::review::runner::FourPerspectiveReviewRun =
+        internal(read_json(
+            &service
+                .dir(&credential.subject, operation)
+                .join("work/review/run.json"),
+            MAX_RESULT,
+        ))?;
+    if retained != review {
+        return Err(ApiError(StatusCode::CONFLICT, "journey_review_changed"));
+    }
     Ok((credential, op))
 }
 
