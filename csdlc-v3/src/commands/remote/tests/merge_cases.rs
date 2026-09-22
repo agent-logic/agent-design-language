@@ -188,6 +188,91 @@ fn staged_merge_persists_exact_identity_before_dispatch() {
     assert_eq!(result.receipt.intent_digest, staged.intent_digest);
     std::fs::remove_dir_all(root).unwrap();
 }
+
+#[test]
+fn issue1139_retained_never_dispatched_merge_can_make_its_first_dispatch() {
+    let root = mutation_repo("issue1139-retained-never-dispatched", true);
+    let request = request(&root);
+    let before = state(&request, false);
+    let after = state(&request, true);
+    let mut initial = adapter(&root, &request, vec![out(before.clone()), out(rules())]);
+    super::super::stage_github_mutation(&root, &request, &mut initial).unwrap();
+
+    let mut restage = adapter(&root, &request, vec![out(before.clone())]);
+    let retained = super::super::stage_github_mutation(&root, &request, &mut restage).unwrap();
+    assert!(retained.retained_merge_was_never_dispatched(&root).unwrap());
+    let mut execute = adapter(
+        &root,
+        &request,
+        vec![
+            out(before.clone()),
+            out(rules()),
+            out(before),
+            out(json!({"merged":true,"sha":"2222222222222222222222222222222222222222"})),
+            out(after),
+        ],
+    );
+    let result =
+        super::super::execute_staged_github_mutation(&root, &retained, false, &mut execute)
+            .unwrap();
+    assert_eq!(put_count(&execute), 1);
+    assert_eq!(result.performed_mutation, Some(true));
+    std::fs::remove_dir_all(root).unwrap();
+}
+
+#[test]
+fn issue1139_dispatch_evidence_keeps_retained_merge_reconciliation_only() {
+    let root = mutation_repo("issue1139-retained-after-dispatch", true);
+    let request = request(&root);
+    let before = state(&request, false);
+    let mut initial = adapter(&root, &request, vec![out(before.clone()), out(rules())]);
+    super::super::stage_github_mutation(&root, &request, &mut initial).unwrap();
+    let digest = super::super::github_mutation_operation_digest(&request);
+    super::super::persist_json_create_new(
+        &root
+            .join(".git/csdlc-v3/remote/merges")
+            .join(format!("{digest}.dispatch-prestate.json")),
+        &json!({"observation":before,"rules":rules()}),
+    )
+    .unwrap();
+
+    let mut restage = adapter(&root, &request, vec![out(state(&request, false))]);
+    let retained = super::super::stage_github_mutation(&root, &request, &mut restage).unwrap();
+    assert!(!retained.retained_merge_was_never_dispatched(&root).unwrap());
+    let mut execute = adapter(&root, &request, vec![out(state(&request, false))]);
+    assert!(
+        super::super::execute_staged_github_mutation(&root, &retained, false, &mut execute,)
+            .is_err()
+    );
+    assert_eq!(put_count(&execute), 0);
+    std::fs::remove_dir_all(root).unwrap();
+}
+
+#[test]
+fn issue1139_dispatch_marker_race_is_rechecked_under_merge_lock() {
+    let root = mutation_repo("issue1139-late-dispatch-marker", true);
+    let request = request(&root);
+    let before = state(&request, false);
+    let mut initial = adapter(&root, &request, vec![out(before.clone()), out(rules())]);
+    super::super::stage_github_mutation(&root, &request, &mut initial).unwrap();
+    let mut restage = adapter(&root, &request, vec![out(before.clone())]);
+    let retained = super::super::stage_github_mutation(&root, &request, &mut restage).unwrap();
+    assert!(retained.retained_merge_was_never_dispatched(&root).unwrap());
+
+    let digest = super::super::github_mutation_operation_digest(&request);
+    let marker = root
+        .join(".git/csdlc-v3/remote/merges")
+        .join(format!("{digest}.dispatch-prestate.json"));
+    let mut execute = adapter(&root, &request, vec![out(before)])
+        .writing_marker_before_first_return(marker.clone());
+    assert!(
+        super::super::execute_staged_github_mutation(&root, &retained, false, &mut execute,)
+            .is_err()
+    );
+    assert!(marker.exists());
+    assert_eq!(put_count(&execute), 0);
+    std::fs::remove_dir_all(root).unwrap();
+}
 #[test]
 fn merge_eligibility_negative_matrix_never_writes_intent_or_dispatches() {
     let cases = [

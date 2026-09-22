@@ -460,7 +460,11 @@ fn semantic_recover_remote_effect(
             };
         }
     }
-    let native = execute_staged_github_mutation(&context.root, &staged, true, process);
+    let reconciliation_only = !staged
+        .retained_merge_was_never_dispatched(&context.root)
+        .map_err(failure)?;
+    let native =
+        execute_staged_github_mutation(&context.root, &staged, reconciliation_only, process);
     #[cfg(debug_assertions)]
     if std::env::var("CSDLC_V3_TEST_CRASH_POINT").as_deref()
         == Ok("semantic_remote_recovery_after_native")
@@ -552,9 +556,31 @@ fn semantic_mutation(
     let owner::SemanticMutationTarget::Issue(command) = target else {
         unreachable!()
     };
+    if command == crate::lifecycle::semantic::SemanticCommand::RecordMerge
+        && !retained_merge_intent_exists(&context.root, request).map_err(failure)?
+    {
+        let mut facts = crate::lifecycle::semantic::Facts {
+            merge_ready: true,
+            merged: true,
+            ..Default::default()
+        };
+        facts.original_command = Some(command);
+        crate::lifecycle::semantic::decide(
+            Some(session.snapshot.phase()),
+            crate::lifecycle::semantic::SemanticCommand::Reserve,
+            crate::lifecycle::semantic::Outcome::Success,
+            &facts,
+        )
+        .map_err(|_| "intent_semantic_admission_changed")?;
+    }
     // The shared native owner stages its exact resolved intent without dispatch.
     // It must delegate merge staging to the existing merge owner as well.
     let staged = stage_github_mutation(&context.root, request, process).map_err(failure)?;
+    #[cfg(debug_assertions)]
+    if std::env::var("CSDLC_V3_TEST_CRASH_POINT").as_deref() == Ok("semantic_remote_after_staging")
+    {
+        std::process::exit(91);
+    }
     let operation = transaction::EffectRequest::new(
         command,
         staged.native_identity(),

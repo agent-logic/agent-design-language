@@ -4309,6 +4309,148 @@ fn installed_remote_recover_reconciles_pending_merge_without_retry_flag() {
     );
 }
 
+// PVF #1139: deterministic installed-owner integration, synthetic GitHub
+// transport and local files only; required no-poisoning/first-dispatch proof.
+#[test]
+fn issue1139_wrong_phase_merge_refusal_does_not_poison_later_dispatch() {
+    let (mut fixture, linked) = reviewed_fixture("issue1139-wrong-phase-merge");
+    let primary = fixture.root.clone();
+    success(fixture.run(&linked, &["publish", "505"]));
+    let merge = fixture.write_json(
+        "merge.json",
+        &json!({"action":"pull_request_merge","base":"main","method":"merge",
+            "operator_approval":"synthetic operator authorizes fixture PR639 exact merge"}),
+    );
+    let rejected = fixture.run(
+        &linked,
+        &[
+            "github-pr",
+            "505",
+            "--operation",
+            merge.to_str().unwrap(),
+            "--execute",
+        ],
+    );
+    assert!(!rejected.status.success());
+    assert!(String::from_utf8_lossy(&rejected.stdout).contains("intent_semantic_admission_changed"));
+    let merges = primary.join(".git/csdlc-v3/remote/merges");
+    assert!(
+        !merges.exists()
+            || fs::read_dir(&merges).unwrap().all(|entry| !entry
+                .unwrap()
+                .path()
+                .to_string_lossy()
+                .contains(".intent.json")),
+        "wrong-phase refusal retained a merge intent"
+    );
+    assert_eq!(fixture.remote_effects(), 1, "wrong-phase merge dispatched");
+
+    let ready = fixture.write_json("ready.json", &json!({"action":"pull_request_ready"}));
+    success(fixture.run(
+        &linked,
+        &[
+            "github-pr",
+            "505",
+            "--operation",
+            ready.to_str().unwrap(),
+            "--execute",
+        ],
+    ));
+    fixture.enable_merge_transport(&linked);
+    success(fixture.run(
+        &linked,
+        &[
+            "github-pr",
+            "505",
+            "--operation",
+            merge.to_str().unwrap(),
+            "--execute",
+        ],
+    ));
+    assert_eq!(fixture.remote_effects(), 3);
+    assert_eq!(fixture.remote_pr()["merged"], true);
+}
+
+#[test]
+fn issue1139_pending_never_dispatched_merge_recovery_dispatches_once() {
+    let (mut fixture, linked) = reviewed_fixture("issue1139-pending-never-dispatched-merge");
+    success(fixture.run(&linked, &["publish", "505"]));
+    let ready = fixture.write_json("ready.json", &json!({"action":"pull_request_ready"}));
+    success(fixture.run(
+        &linked,
+        &[
+            "github-pr",
+            "505",
+            "--operation",
+            ready.to_str().unwrap(),
+            "--execute",
+        ],
+    ));
+    fixture.enable_merge_transport(&linked);
+    let merge = fixture.write_json(
+        "merge.json",
+        &json!({"action":"pull_request_merge","base":"main","method":"merge",
+            "operator_approval":"synthetic operator authorizes fixture PR639 exact merge recovery"}),
+    );
+    let staged = fixture.run_with_env(
+        &linked,
+        &[
+            "github-pr",
+            "505",
+            "--operation",
+            merge.to_str().unwrap(),
+            "--execute",
+        ],
+        &[("CSDLC_V3_TEST_CRASH_POINT", "semantic_remote_after_staging")],
+    );
+    assert_eq!(staged.status.code(), Some(91));
+    assert_eq!(fixture.remote_effects(), 2);
+
+    let pending = fixture.run_with_env(
+        &linked,
+        &[
+            "github-pr",
+            "505",
+            "--operation",
+            merge.to_str().unwrap(),
+            "--execute",
+        ],
+        &[(
+            "CSDLC_V3_TEST_CRASH_POINT",
+            "semantic_remote_after_reservation",
+        )],
+    );
+    assert_eq!(pending.status.code(), Some(91));
+    assert_eq!(fixture.remote_effects(), 2);
+
+    let preview = success(fixture.run(&linked, &["recover", "505"]));
+    assert_eq!(preview["action"], "reconcile_retained_remote_effect");
+    success(fixture.run(
+        &linked,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+    ));
+    assert_eq!(fixture.remote_effects(), 3);
+    assert_eq!(fixture.remote_pr()["merged"], true);
+    let replay = success(fixture.run(
+        &linked,
+        &[
+            "github-pr",
+            "505",
+            "--operation",
+            merge.to_str().unwrap(),
+            "--execute",
+        ],
+    ));
+    assert_eq!(replay["envelope"]["status"], "expected_noop");
+    assert_eq!(fixture.remote_effects(), 3);
+}
+
 #[test]
 fn installed_proof_refuses_ignored_configuration_outside_declared_caches() {
     let mut fixture = Fixture::new("ignored-configuration");
