@@ -1,0 +1,24 @@
+{
+  "schema": "csdlc.pvf.classification.v1",
+  "issue": 1135,
+  "lane": "tooling",
+  "proof_role": "regression",
+  "determinism": "offline genuine Cargo compilation, isolated Git fixture and deterministic local record-selection unit negatives",
+  "resource_profile": "local CPU/disk/processes only; no remote effects or provider",
+  "release_gate": true,
+  "targets": [
+    "cargo test --manifest-path csdlc-v3/Cargo.toml --lib dependency_record_tests",
+    "cargo test --manifest-path csdlc-v3/Cargo.toml --test installed_intent_commands installed_proof_"
+  ],
+  "claims": [
+    "Same normalized target names from distinct packages retain source ownership.",
+    "Cargo aggregate triggers do not replace rustc source inventory.",
+    "Missing, wrong-owner, ambiguous and symlinked executable records fail closed.",
+    "Existing excluded include, build-script, nested-target and external dependency guards remain required."
+  ],
+  "non_claims": [
+    "No cryptographic attestation of Cargo or compiler against malicious host mutation.",
+    "No live GitHub publication or operational shared installation proven by these fixtures."
+  ],
+  "observed": "Dependency-record units6/6PASS; installed_proof_ filter16/16PASS including genuine collision and existing guards; semantic_local_proof15/15PASS. Total37 nonduplicated targeted tests; initial standalone genuine1/1 rerun included in16."
+}

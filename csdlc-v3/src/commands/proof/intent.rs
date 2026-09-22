@@ -1254,6 +1254,20 @@ fn compiler_inputs_tracked(
                 .filter(|v| v.starts_with(&format!("{target}-")))
                 .unwrap_or(filename)
                 .replace('-', "_");
+            if final_binary_matches_target(&file, &target)
+                && parent == root.join("target/intent-validation/debug")
+            {
+                // The adjacent .d is Cargo's aggregate (including rerun triggers),
+                // not rustc's source inventory. Resolve the real hashed executable.
+                records.insert(final_binary_dependency_record(
+                    &file,
+                    &parent.join("deps"),
+                    &target,
+                    directory,
+                    &source,
+                )?);
+                continue;
+            }
             for entry in fs::read_dir(&parent)
                 .map_err(|_| "intent_validator_dependency_inventory_unreadable")?
             {
@@ -1268,41 +1282,8 @@ fn compiler_inputs_tracked(
                 let is_build =
                     target == "build_script_build" && name.starts_with("build_script_build");
                 if path.extension().is_some_and(|v| v == "d") && (name == stem || is_build) {
-                    let metadata = entry
-                        .file_type()
-                        .map_err(|_| "intent_validator_dependency_inventory_unreadable")?;
-                    if !metadata.is_file() || metadata.is_symlink() {
-                        return Err("intent_validator_dependency_symlink".into());
-                    }
+                    regular_dependency_file(&path)?;
                     records.insert(path);
-                }
-            }
-
-            // Cargo can report the final, unhashed binary in `debug/` while
-            // retaining its dependency record beside the hashed compiler
-            // artifact in `debug/deps/`. Keep the same target-name guard and
-            // admit every matching record so input validation remains
-            // conservative when more than one build profile artifact exists.
-            if records.is_empty()
-                && final_binary_matches_target(&file, &target)
-                && parent == root.join("target/intent-validation/debug")
-            {
-                let deps = parent.join("deps");
-                for entry in fs::read_dir(&deps)
-                    .map_err(|_| "intent_validator_dependency_inventory_unreadable")?
-                {
-                    let entry =
-                        entry.map_err(|_| "intent_validator_dependency_inventory_unreadable")?;
-                    let path = entry.path();
-                    if hashed_dep_info_matches_target(&path, &target) {
-                        let metadata = entry
-                            .file_type()
-                            .map_err(|_| "intent_validator_dependency_inventory_unreadable")?;
-                        if !metadata.is_file() || metadata.is_symlink() {
-                            return Err("intent_validator_dependency_symlink".into());
-                        }
-                        records.insert(path);
-                    }
                 }
             }
         }
@@ -1311,36 +1292,9 @@ fn compiler_inputs_tracked(
             return Err("intent_validator_compiler_inputs_missing".into());
         }
         for path in records {
-            let text = fs::read_to_string(path)
-                .map_err(|_| "intent_validator_dependency_record_invalid")?;
-            let dependencies = text
-                .lines()
-                .next()
-                .and_then(|line| line.split_once(": "))
-                .map(|(_, v)| v)
-                .ok_or("intent_validator_dependency_record_invalid")?;
-            let mut tokens = Vec::new();
-            let mut token = String::new();
-            let mut escaped = false;
-            for c in dependencies.chars() {
-                if escaped {
-                    token.push(c);
-                    escaped = false;
-                } else if c == '\\' {
-                    escaped = true;
-                } else if c.is_whitespace() {
-                    if !token.is_empty() {
-                        tokens.push(std::mem::take(&mut token));
-                    }
-                } else {
-                    token.push(c);
-                }
-            }
-            if !token.is_empty() {
-                tokens.push(token);
-            }
-            if tokens.is_empty() {
-                return Err("intent_validator_compiler_inputs_missing".into());
+            let tokens = dependency_tokens(&path)?;
+            if directory.join(&tokens[0]).canonicalize().ok().as_ref() != Some(&source) {
+                return Err("intent_validator_dependency_owner_mismatch".into());
             }
             for token in tokens {
                 let candidate = directory
@@ -1360,6 +1314,132 @@ fn compiler_inputs_tracked(
         }
     }
     Ok(())
+}
+
+fn regular_dependency_file(path: &Path) -> Result<(), String> {
+    let metadata = fs::symlink_metadata(path)
+        .map_err(|_| "intent_validator_dependency_inventory_unreadable")?;
+    if !metadata.is_file() || metadata.is_symlink() {
+        return Err("intent_validator_dependency_symlink".into());
+    }
+    Ok(())
+}
+
+fn dependency_tokens(path: &Path) -> Result<Vec<String>, String> {
+    regular_dependency_file(path)?;
+    let text =
+        fs::read_to_string(path).map_err(|_| "intent_validator_dependency_record_invalid")?;
+    let dependencies = text
+        .lines()
+        .next()
+        .and_then(|line| line.split_once(": "))
+        .map(|(_, value)| value)
+        .ok_or("intent_validator_dependency_record_invalid")?;
+    let mut tokens = Vec::new();
+    let mut token = String::new();
+    let mut escaped = false;
+    for c in dependencies.chars() {
+        if escaped {
+            token.push(c);
+            escaped = false;
+        } else if c == '\\' {
+            escaped = true;
+        } else if c.is_whitespace() {
+            if !token.is_empty() {
+                tokens.push(std::mem::take(&mut token));
+            }
+        } else {
+            token.push(c);
+        }
+    }
+    if escaped {
+        return Err("intent_validator_dependency_record_invalid".into());
+    }
+    if !token.is_empty() {
+        tokens.push(token);
+    }
+    if tokens.is_empty() {
+        return Err("intent_validator_compiler_inputs_missing".into());
+    }
+    Ok(tokens)
+}
+
+fn identical_compiler_files(left: &Path, right: &Path) -> Result<bool, String> {
+    use std::io::Read;
+    regular_dependency_file(left)?;
+    regular_dependency_file(right)?;
+    let mut left =
+        fs::File::open(left).map_err(|_| "intent_validator_dependency_inventory_unreadable")?;
+    let mut right =
+        fs::File::open(right).map_err(|_| "intent_validator_dependency_inventory_unreadable")?;
+    if left
+        .metadata()
+        .map_err(|_| "intent_validator_dependency_inventory_unreadable")?
+        .len()
+        != right
+            .metadata()
+            .map_err(|_| "intent_validator_dependency_inventory_unreadable")?
+            .len()
+    {
+        return Ok(false);
+    }
+    let mut a = [0_u8; 65536];
+    let mut b = [0_u8; 65536];
+    loop {
+        let count = left
+            .read(&mut a)
+            .map_err(|_| "intent_validator_dependency_inventory_unreadable")?;
+        if count == 0 {
+            return Ok(true);
+        }
+        right
+            .read_exact(&mut b[..count])
+            .map_err(|_| "intent_validator_dependency_inventory_unreadable")?;
+        if a[..count] != b[..count] {
+            return Ok(false);
+        }
+    }
+}
+
+fn final_binary_dependency_record(
+    file: &Path,
+    deps: &Path,
+    target: &str,
+    directory: &Path,
+    source: &Path,
+) -> Result<PathBuf, String> {
+    let mut selected = None;
+    for entry in
+        fs::read_dir(deps).map_err(|_| "intent_validator_dependency_inventory_unreadable")?
+    {
+        let path = entry
+            .map_err(|_| "intent_validator_dependency_inventory_unreadable")?
+            .path();
+        if !hashed_dep_info_matches_target(&path, target) {
+            continue;
+        }
+        regular_dependency_file(&path)?;
+        let executable = path.with_extension("");
+        // Libraries have libNAME-HASH artifacts, never this executable name.
+        // Do not interpret their relative source paths under the binary package.
+        if !executable
+            .try_exists()
+            .map_err(|_| "intent_validator_dependency_inventory_unreadable")?
+        {
+            continue;
+        }
+        if !identical_compiler_files(file, &executable)? {
+            continue;
+        }
+        let tokens = dependency_tokens(&path)?;
+        if directory.join(&tokens[0]).canonicalize().ok().as_deref() != Some(source) {
+            return Err("intent_validator_dependency_owner_mismatch".into());
+        }
+        if selected.replace(path).is_some() {
+            return Err("intent_validator_dependency_owner_ambiguous".into());
+        }
+    }
+    selected.ok_or_else(|| "intent_validator_compiler_inputs_missing".into())
 }
 
 fn hashed_dep_info_matches_target(path: &Path, target: &str) -> bool {
@@ -1572,6 +1652,92 @@ mod dependency_record_tests {
         final_binary_matches_target, hashed_dep_info_matches_target, positional_filter_admitted,
     };
     use std::path::Path;
+
+    struct OwnershipFixture(std::path::PathBuf);
+    impl OwnershipFixture {
+        fn new() -> Self {
+            static NEXT: std::sync::atomic::AtomicUsize = std::sync::atomic::AtomicUsize::new(0);
+            let root = std::env::temp_dir().canonicalize().unwrap().join(format!(
+                "1135-owner-{}-{}",
+                std::process::id(),
+                NEXT.fetch_add(1, std::sync::atomic::Ordering::Relaxed)
+            ));
+            std::fs::create_dir(&root).unwrap();
+            std::fs::create_dir(root.join("deps")).unwrap();
+            std::fs::write(root.join("main.rs"), "fn main(){}\n").unwrap();
+            std::fs::write(root.join("other.rs"), "fn other(){}\n").unwrap();
+            std::fs::write(root.join("same-name"), b"actual executable").unwrap();
+            Self(root)
+        }
+        fn record(
+            &self,
+            hash: &str,
+            source: &str,
+            executable: Option<&[u8]>,
+        ) -> std::path::PathBuf {
+            let path = self.0.join(format!("deps/same_name-{hash}.d"));
+            std::fs::write(&path, format!("artifact: {source}\n")).unwrap();
+            if let Some(bytes) = executable {
+                std::fs::write(path.with_extension(""), bytes).unwrap();
+            }
+            path
+        }
+        fn select(&self) -> Result<std::path::PathBuf, String> {
+            super::final_binary_dependency_record(
+                &self.0.join("same-name"),
+                &self.0.join("deps"),
+                "same_name",
+                &self.0,
+                &self.0.join("main.rs"),
+            )
+        }
+    }
+    impl Drop for OwnershipFixture {
+        fn drop(&mut self) {
+            let _ = std::fs::remove_dir_all(&self.0);
+        }
+    }
+
+    #[test]
+    fn ownership_rejects_missing_and_wrong_source_executables() {
+        let fixture = OwnershipFixture::new();
+        fixture.record("a1", "main.rs", None);
+        assert_eq!(
+            fixture.select().unwrap_err(),
+            "intent_validator_compiler_inputs_missing"
+        );
+        fixture.record("a1", "other.rs", Some(b"actual executable"));
+        assert_eq!(
+            fixture.select().unwrap_err(),
+            "intent_validator_dependency_owner_mismatch"
+        );
+    }
+
+    #[test]
+    fn ownership_ignores_foreign_library_but_rejects_ambiguous_binary() {
+        let fixture = OwnershipFixture::new();
+        fixture.record("b2", "foreign/missing.rs", None);
+        fixture.record("c3", "other.rs", Some(b"different executable"));
+        let expected = fixture.record("a1", "main.rs", Some(b"actual executable"));
+        assert_eq!(fixture.select().unwrap(), expected);
+        fixture.record("d4", "main.rs", Some(b"actual executable"));
+        assert_eq!(
+            fixture.select().unwrap_err(),
+            "intent_validator_dependency_owner_ambiguous"
+        );
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn ownership_rejects_symlinked_compiler_executable() {
+        let fixture = OwnershipFixture::new();
+        let record = fixture.record("a1", "main.rs", None);
+        std::os::unix::fs::symlink(fixture.0.join("same-name"), record.with_extension("")).unwrap();
+        assert_eq!(
+            fixture.select().unwrap_err(),
+            "intent_validator_dependency_symlink"
+        );
+    }
 
     #[test]
     fn final_binary_dep_info_requires_exact_target_and_hash() {
