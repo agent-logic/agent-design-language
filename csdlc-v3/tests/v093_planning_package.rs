@@ -120,6 +120,51 @@ fn check(plan: &Value) -> Result<(), String> {
     ) {
         return Err("opening claim".into());
     }
+    let schedule = &plan["sprint_plan"];
+    let sprints = schedule["sprints"].as_array().ok_or("missing sprints")?;
+    if schedule["sprint_count"].as_u64() != Some(sprints.len() as u64) {
+        return Err("sprint count mismatch".into());
+    }
+    let mut assigned = BTreeMap::new();
+    for (index, sprint) in sprints.iter().enumerate() {
+        let number = (index + 1) as u64;
+        if sprint["number"].as_u64() != Some(number) {
+            return Err("nonconsecutive sprint numbering".into());
+        }
+        let members = sprint["work_packages"]
+            .as_array()
+            .ok_or("missing members")?;
+        if members.is_empty() {
+            return Err("empty sprint".into());
+        }
+        for member in members {
+            let id = member.as_str().ok_or("invalid sprint member")?;
+            if !by_id.contains_key(id) || assigned.insert(id, number).is_some() {
+                return Err(format!("unknown or duplicate sprint member {id}"));
+            }
+        }
+    }
+    let split_end = *assigned.get("RD-11").ok_or("unscheduled split gate")?;
+    for (id, row) in &by_id {
+        let number = *assigned
+            .get(id)
+            .ok_or_else(|| format!("unscheduled {id}"))?;
+        if row["sprint"].as_u64() != Some(number) {
+            return Err(format!("sprint membership mismatch {id}"));
+        }
+        let split_task = *id == "WP-01" || id.starts_with("RD-");
+        if (split_task && number > split_end) || (!split_task && number <= split_end) {
+            return Err(format!("split must finish before features: {id}"));
+        }
+        for dep in row["depends_on"].as_array().unwrap() {
+            if assigned
+                .get(dep.as_str().unwrap())
+                .is_none_or(|n| *n > number)
+            {
+                return Err(format!("sprint precedes dependency: {id}"));
+            }
+        }
+    }
     Ok(())
 }
 #[test]
@@ -134,6 +179,11 @@ fn issue_wave_and_specifications_match_canonical_results() {
         read("WP_EXECUTION_SPECIFICATIONS_v0.93.yaml")["work_packages"]
     );
     let wave = read("WP_ISSUE_WAVE_v0.93.yaml");
+    assert_eq!(p["sprint_plan"], wave["sprint_plan"]);
+    assert_eq!(
+        p["sprint_plan"],
+        read("WP_EXECUTION_SPECIFICATIONS_v0.93.yaml")["sprint_plan"]
+    );
     let rows = p["work_packages"].as_array().unwrap();
     let w = wave["work_packages"].as_array().unwrap();
     assert_eq!(rows.len(), w.len());
@@ -144,9 +194,48 @@ fn issue_wave_and_specifications_match_canonical_results() {
             ("repository", "repository"),
             ("depends_on", "depends_on"),
             ("result", "outcome"),
+            ("sprint", "sprint"),
         ] {
             assert_eq!(r[a], w[b], "{} {a}", r["id"]);
         }
+    }
+}
+
+#[test]
+fn rejects_missing_duplicate_and_premature_sprint_assignments() {
+    let mut p = read("EXECUTION_PLAN_v0.93.json");
+    p["sprint_plan"]["sprints"][0]["work_packages"]
+        .as_array_mut()
+        .unwrap()
+        .pop();
+    assert!(check(&p).is_err());
+    let mut p = read("EXECUTION_PLAN_v0.93.json");
+    p["sprint_plan"]["sprints"][0]["work_packages"]
+        .as_array_mut()
+        .unwrap()
+        .push(serde_json::json!("WP-01"));
+    assert!(check(&p).is_err());
+    for (id, target) in [("CF-01", 3_u64), ("RV-08", 4)] {
+        let mut p = read("EXECUTION_PLAN_v0.93.json");
+        for sprint in p["sprint_plan"]["sprints"].as_array_mut().unwrap() {
+            sprint["work_packages"]
+                .as_array_mut()
+                .unwrap()
+                .retain(|v| v != id);
+            if sprint["number"] == target {
+                sprint["work_packages"]
+                    .as_array_mut()
+                    .unwrap()
+                    .push(serde_json::json!(id));
+            }
+        }
+        p["work_packages"]
+            .as_array_mut()
+            .unwrap()
+            .iter_mut()
+            .find(|r| r["id"] == id)
+            .unwrap()["sprint"] = serde_json::json!(target);
+        assert!(check(&p).is_err(), "allowed premature {id}");
     }
 }
 #[test]
