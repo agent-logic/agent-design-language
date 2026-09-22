@@ -574,7 +574,35 @@ fn semantic_mutation(
         {
             transaction::Reservation::Reserved(ticket) => (ticket, false),
             transaction::Reservation::AlreadyPending(ticket) => (ticket, true),
-            transaction::Reservation::AlreadyCompleted(done) => return Ok(semantic_replay(&done)),
+            transaction::Reservation::AlreadyCompleted(done) => {
+                if request.recovery != Some(GithubMutationRecovery::RetryAfterAuthenticatedAbsence)
+                    || done.outcome_kind() != transaction::OutcomeKind::Success
+                    || !matches!(request.mutation, GithubMutation::PullRequestUpdate { .. })
+                    || staged
+                        .retained_receipt_exists(&context.root)
+                        .map_err(failure)?
+                {
+                    return Ok(semantic_replay(&done));
+                }
+                // reserve_effect has authenticated the exact retained request and
+                // its completed semantic identity. Settle only its native receipt;
+                // completed semantic history must never be reopened or reattached.
+                context.fresh_integrity()?;
+                let result = staged
+                    .reconcile_completed_publication(&context.root, process)
+                    .map_err(failure)?;
+                staged.verified_outcome(&result).map_err(failure)?;
+                return Ok(json!({
+                    "status":"completed", "read_only":false,
+                    "operational_authority":true, "performed_mutation":false,
+                    "effects_unknown":false,
+                    "result":{"receipt":result.receipt,"reconciliation":result.reconciliation},
+                    "semantic":{"original_version":done.original_version(),
+                        "current_version":done.current_version(),
+                        "operation":done.operation_id().as_str(),
+                        "outcome":done.outcome_kind(),"effect_truth":done.truth()}
+                }));
+            }
         };
     session.admit_before_effect(ticket.id())?;
     #[cfg(debug_assertions)]

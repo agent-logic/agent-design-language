@@ -16,6 +16,29 @@ use super::support::{
 use super::transport::*;
 
 impl StagedGithubMutation {
+    /// Reconcile a completed publication's orphaned transport without granting a
+    /// fresh write. A metadata mismatch cannot distinguish an absent update from
+    /// a later author's edit: legacy intents contain no authenticated pre-state.
+    pub fn reconcile_completed_publication(
+        &self,
+        repo_root: &Path,
+        process: &mut impl ProcessAdapter,
+    ) -> Result<GithubMutationResult, RemoteRouteFinding> {
+        if !self.preexisting
+            || !matches!(
+                self.request.mutation,
+                GithubMutation::PullRequestUpdate { .. }
+            )
+        {
+            return Err(remote_finding(
+                "github_mutation_recovery_ineligible",
+                "completed publication reconciliation requires a retained PR update",
+            ));
+        }
+        let mut reconcile_only = self.clone();
+        reconcile_only.recovery = None;
+        execute_staged_github_mutation(repo_root, &reconcile_only, true, process)
+    }
     pub fn retained_receipt_exists(&self, repo_root: &Path) -> Result<bool, RemoteRouteFinding> {
         Ok(github_mutation_receipt_path(repo_root, &self.operation_digest)?.exists())
     }
