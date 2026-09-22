@@ -299,17 +299,28 @@ fn wrong_file_support_retains_incomplete_run_not_empty_success() {
         .id
         .clone();
     let bad = json(vec![wrong]);
-    assert!(f
-        .execute("bad", |lane| if lane == "adversarial" {
+    f.execute("bad", |lane| {
+        if lane == "adversarial" {
             bad.clone()
         } else {
             good.clone()
-        })
-        .is_err());
+        }
+    })
+    .unwrap();
     let run: runner::FourPerspectiveReviewRun =
         serde_json::from_slice(&fs::read(f.dir.path().join("bad/run.json")).unwrap()).unwrap();
     assert_eq!(run.completion, Completion::Incomplete);
-    assert_eq!(run.failures.len(), 1);
+    assert!(run.failures.is_empty());
+    assert_eq!(
+        run.review_record
+            .run
+            .assessment_coverage
+            .as_ref()
+            .unwrap()
+            .gaps
+            .len(),
+        1
+    );
     assert_eq!(
         run.review_record
             .assessment_counts()
@@ -317,7 +328,7 @@ fn wrong_file_support_retains_incomplete_run_not_empty_success() {
             .positive_observations,
         3
     );
-    assert!(run.successful_execution().is_err());
+    run.successful_execution().unwrap();
 }
 #[test]
 fn citation_utf8_and_actionability_and_aggregate_bounds_fail_closed() {
@@ -615,7 +626,8 @@ fn mixed_claims_keep_supported_siblings_and_drop_entire_unsupported_assessment()
         .findings(&f.admission)
         .unwrap()
         .is_empty());
-    assert!(f.execute("mixed-gaps", |_| raw.clone()).is_err());
+    let run = f.execute("mixed-gaps", |_| raw.clone()).unwrap();
+    assert!(run.review_record.run.assessment_coverage.is_some());
     let run: runner::FourPerspectiveReviewRun =
         serde_json::from_slice(&fs::read(f.dir.path().join("mixed-gaps/run.json")).unwrap())
             .unwrap();
@@ -631,8 +643,11 @@ fn mixed_claims_keep_supported_siblings_and_drop_entire_unsupported_assessment()
     assert!(run
         .lane_results
         .iter()
-        .all(|lane| lane.assessment_gaps.len() == 1 && lane.failure.is_some()));
-    assert!(run.successful_execution().is_err());
+        .all(|lane| lane.assessment_gaps.len() == 1 && lane.failure.is_none()));
+    run.successful_execution().unwrap();
+    let mut tampered = run.clone();
+    tampered.lane_results[0].assessment_gaps.clear();
+    assert!(tampered.successful_execution().is_err());
 }
 
 #[test]
@@ -700,4 +715,81 @@ fn historical_assessment_lane_v2_remains_readable_with_verified_spans() {
     .unwrap();
     record.successful_execution().unwrap();
     adl::codefriend::review::synthesis::synthesize(&record).unwrap();
+}
+
+#[test]
+fn mixed_assessment_gaps_traverse_original_store_planner_and_publication() {
+    use adl::codefriend::{actions::test_plan, integration, review::synthesis};
+    let f = Fixture::new(false);
+    let mut unsupported = f.item(AssessmentKind::DefectCandidate);
+    unsupported.summary = "Potential unverified problem".into();
+    unsupported.citations[0].quote = "invented code".into();
+    let raw = json(vec![f.item(AssessmentKind::DefectCandidate), unsupported]);
+    let run = f.execute("privacy-planning", |_| raw.clone()).unwrap();
+    run.successful_execution().unwrap();
+    let review_path = f.dir.path().join("privacy-review.json");
+    fs::write(
+        &review_path,
+        serde_json::to_vec(&run.review_record).unwrap(),
+    )
+    .unwrap();
+    let synthesis_dir = f.dir.path().join("privacy-synthesis");
+    synthesis::synthesize_from_file(synthesis::SynthesisOptions {
+        input: review_path.clone(),
+        out: synthesis_dir.clone(),
+    })
+    .unwrap();
+    let plan_dir = f.dir.path().join("privacy-plan");
+    let plan = test_plan::plan_from_store(
+        test_plan::TestPlanOptions {
+            input: synthesis_dir.join("synthesis.json"),
+            out: plan_dir.clone(),
+        },
+        &f._store,
+    )
+    .unwrap();
+    assert_eq!(plan.coverage, run.review_record.run.coverage);
+    assert!(plan.coverage.is_none());
+    assert_eq!(
+        plan.assessment_coverage,
+        run.review_record.run.assessment_coverage
+    );
+    assert!(plan.assessment_coverage.is_some());
+    assert_eq!(run.completion, Completion::Incomplete);
+    assert_eq!(
+        plan,
+        test_plan::read_plan_from_store(&plan_dir.join("test-plan.json"), &f._store).unwrap()
+    );
+    assert!(!plan.test_cases.is_empty());
+    assert!(test_plan::read_plan_from_file(&plan_dir.join("test-plan.json")).is_err());
+    let destination = f.dir.path().join("destination");
+    fs::create_dir(&destination).unwrap();
+    integration::prepare_publication_bundle_for_format_v2(
+        &review_path,
+        &f.dir.path().join("privacy-publication"),
+        &destination,
+        integration::PublicationFormat::Markdown,
+    )
+    .unwrap();
+    let publication = f.dir.path().join("privacy-publication");
+    fn report_bytes(path: &Path) -> String {
+        let mut text = String::new();
+        for entry in fs::read_dir(path).unwrap() {
+            let p = entry.unwrap().path();
+            if p.is_dir() {
+                text.push_str(&report_bytes(&p));
+            } else if p.extension().is_some_and(|e| e == "md") {
+                text.push_str(&fs::read_to_string(p).unwrap());
+            }
+        }
+        text
+    }
+    let rendered = report_bytes(&publication);
+    assert!(rendered.contains("Unverified assessment gaps"));
+    assert!(rendered.contains("Potential unverified problem"));
+    assert!(rendered.contains("incomplete"));
+    assert_eq!(
+        f._store.get(&f.admission.packet.packet_id).unwrap(),
+        f.admission
+    );
 }

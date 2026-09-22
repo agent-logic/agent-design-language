@@ -215,7 +215,6 @@ pub(crate) fn validate_complete_run(
                 && item.provider_route == provider_route
                 && item.provider_status == ProviderInvocationFinalStatusV1::Ok
                 && item.failure.is_none()
-                && item.assessment_gaps.is_empty()
                 && item.finding_ids == findings
                 && item.output_digest.as_deref().is_some_and(valid_digest),
             "review_run_lane_integrity"
@@ -228,6 +227,13 @@ impl FourPerspectiveReviewRun {
     pub fn rebind_provider_route(&mut self, provider_route: &str) -> Result<()> {
         for lane in &mut self.lane_results {
             lane.provider_route = provider_route.to_string();
+        }
+        if let Some(coverage) = &mut self.review_record.run.assessment_coverage {
+            coverage.lane_result_digests = self
+                .lane_results
+                .iter()
+                .map(|lane| Ok((lane.lane.clone(), hash(lane)?)))
+                .collect::<Result<BTreeMap<_, _>>>()?;
         }
         if let Some(coverage) = &mut self.review_record.run.coverage {
             coverage.lane_result_digests = self
@@ -281,7 +287,6 @@ impl FourPerspectiveReviewRun {
                         == Some(&lane.lane_contract)
                     && lane.provider_status == ProviderInvocationFinalStatusV1::Ok
                     && lane.failure.is_none()
-                    && lane.assessment_gaps.is_empty()
                     && lane.provider_route == self.review_record.run.provider_route
                     && crate::codefriend::evidence::valid_digest(&lane.input_digest)
                     && lane
@@ -294,6 +299,18 @@ impl FourPerspectiveReviewRun {
             ensure!(
                 digests.insert(lane.lane.clone(), hash(lane)?).is_none(),
                 "review_duplicate_lane"
+            );
+            let expected_gaps = self
+                .review_record
+                .run
+                .assessment_coverage
+                .as_ref()
+                .and_then(|coverage| coverage.gaps.get(&lane.lane))
+                .map(Vec::as_slice)
+                .unwrap_or(&[]);
+            ensure!(
+                lane.assessment_gaps == expected_gaps,
+                "review_lane_gap_mismatch"
             );
             if assessment_mode {
                 let mut expected: Vec<_> = self
@@ -338,6 +355,12 @@ impl FourPerspectiveReviewRun {
             .collect();
         expected.sort();
         ensure!(finding_ids == expected, "review_lane_finding_mismatch");
+        if let Some(coverage) = &self.review_record.run.assessment_coverage {
+            ensure!(
+                coverage.lane_result_digests == digests,
+                "review_gap_receipt_mismatch"
+            );
+        }
         if let Some(coverage) = coverage {
             ensure!(
                 coverage.lane_result_digests == digests,
@@ -597,11 +620,6 @@ where
                 failure = Some(message);
             }
         }
-        if !assessment_gaps.is_empty() {
-            let message = format!("assessment_evidence_gaps:{}", assessment_gaps.len());
-            failures.push(format!("{lane_id}:{message}"));
-            failure = Some(message);
-        }
         lane_finding_ids.sort();
         let result = LaneResult {
             schema: if assessment_mode {
@@ -637,8 +655,16 @@ where
         failures.push("run:review_cancelled_by_operator".to_string());
     }
 
+    let gaps: BTreeMap<_, _> = lane_results
+        .iter()
+        .filter(|lane| !lane.assessment_gaps.is_empty())
+        .map(|lane| (lane.lane.clone(), lane.assessment_gaps.clone()))
+        .collect();
+    if !gaps.is_empty() && retained_assessments.is_empty() {
+        failures.push("assessment_no_supported_items".into());
+    }
     let completion = if failures.is_empty() && lane_results.len() == ReviewLane::ALL.len() {
-        if admission.packet.completeness == "partial" {
+        if admission.packet.completeness == "partial" || !gaps.is_empty() {
             Completion::Incomplete
         } else {
             Completion::Complete
@@ -655,7 +681,10 @@ where
         completion.clone(),
         failures.clone(),
     )?;
-    if completion == Completion::Incomplete && failures.is_empty() {
+    if completion == Completion::Incomplete
+        && failures.is_empty()
+        && admission.packet.completeness == "partial"
+    {
         let lane_digests = lane_results
             .iter()
             .map(|lane| Ok((lane.lane.clone(), hash(lane)?)))
@@ -667,6 +696,19 @@ where
         run = run.with_assessments(
             &admission,
             AssessmentSet::new(&admission, retained_assessments)?,
+        )?;
+    }
+    if !gaps.is_empty() && failures.is_empty() {
+        let lane_result_digests = lane_results
+            .iter()
+            .map(|lane| Ok((lane.lane.clone(), hash(lane)?)))
+            .collect::<Result<BTreeMap<_, _>>>()?;
+        run = run.with_assessment_coverage(
+            &admission,
+            assessments::AssessmentCoverage {
+                gaps,
+                lane_result_digests,
+            },
         )?;
     }
     findings.sort_by(|a, b| a.id.cmp(&b.id));
@@ -1053,6 +1095,9 @@ pub fn review_run_summary(output: &FourPerspectiveReviewRun) -> Result<serde_jso
     });
     if let Some(coverage) = &output.review_record.run.coverage {
         summary["coverage"] = serde_json::to_value(coverage)?;
+    }
+    if let Some(coverage) = &output.review_record.run.assessment_coverage {
+        summary["assessment_coverage"] = serde_json::to_value(coverage)?;
     }
     if let Some(counts) = output.review_record.assessment_counts() {
         summary["assessment_counts"] = serde_json::to_value(counts)?;

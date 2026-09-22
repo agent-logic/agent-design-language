@@ -64,6 +64,8 @@ pub struct OmittedFinding {
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(deny_unknown_fields)]
 pub struct TestPlan {
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub assessment_coverage: Option<crate::codefriend::evidence::assessments::AssessmentCoverage>,
     pub schema: String,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub coverage: Option<ReviewCoverage>,
@@ -450,6 +452,7 @@ fn plan_using(
     }
     test_cases.sort_by(|a, b| a.id.cmp(&b.id));
     let plan = TestPlan {
+        assessment_coverage: synthesis.assessment_coverage.clone(),
         schema: schema.to_string(),
         coverage: if schema == TEST_PLAN_SCHEMA_V2 {
             synthesis.coverage.clone()
@@ -470,6 +473,13 @@ fn plan_using(
 }
 
 pub fn validate_plan(plan: &TestPlan) -> Result<()> {
+    if let Some(coverage) = &plan.assessment_coverage {
+        ensure!(
+            plan.synthesis_schema == SYNTHESIS_SCHEMA_V3,
+            "assessment_gap_plan_schema"
+        );
+        coverage.validate()?;
+    }
     ensure!(
         matches!(plan.schema.as_str(), TEST_PLAN_SCHEMA | TEST_PLAN_SCHEMA_V2)
             && matches!(
@@ -533,6 +543,10 @@ pub fn validate_plan(plan: &TestPlan) -> Result<()> {
 }
 
 fn validate_plan_against_synthesis(plan: &TestPlan, synthesis: &ReviewSynthesis) -> Result<()> {
+    ensure!(
+        plan.assessment_coverage == synthesis.assessment_coverage,
+        "assessment_gap_plan_mismatch"
+    );
     validate_plan(plan)?;
     ensure!(
         (if plan.schema == TEST_PLAN_SCHEMA_V2 {

@@ -58,6 +58,8 @@ pub struct OmittedFinding {
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(deny_unknown_fields)]
 pub struct RemediationPlan {
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub assessment_coverage: Option<crate::codefriend::evidence::assessments::AssessmentCoverage>,
     pub schema: String,
     pub synthesis_schema: String,
     pub synthesis_digest: String,
@@ -313,6 +315,7 @@ fn plan_with_evidence_paths(
     });
     let action_order = topological_order(&actions)?;
     let plan = RemediationPlan {
+        assessment_coverage: synthesis.assessment_coverage.clone(),
         schema: REMEDIATION_PLAN_SCHEMA.to_string(),
         synthesis_schema: synthesis.schema.clone(),
         synthesis_digest,
@@ -329,6 +332,13 @@ fn plan_with_evidence_paths(
 }
 
 pub fn validate_plan(plan: &RemediationPlan) -> Result<()> {
+    if let Some(coverage) = &plan.assessment_coverage {
+        ensure!(
+            plan.synthesis_schema == SYNTHESIS_SCHEMA_V3,
+            "assessment_gap_plan_schema"
+        );
+        coverage.validate()?;
+    }
     ensure!(
         plan.schema == REMEDIATION_PLAN_SCHEMA
             && matches!(
@@ -395,6 +405,10 @@ fn validate_plan_against_synthesis(
     plan: &RemediationPlan,
     synthesis: &ReviewSynthesis,
 ) -> Result<()> {
+    ensure!(
+        plan.assessment_coverage == synthesis.assessment_coverage,
+        "assessment_gap_plan_mismatch"
+    );
     validate_plan(plan)?;
     ensure!(
         plan.synthesis_digest == hash(synthesis)?,

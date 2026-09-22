@@ -121,6 +121,8 @@ pub struct Run {
     pub coverage: Option<ReviewCoverage>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub assessment_set: Option<super::assessments::AssessmentSet>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub assessment_coverage: Option<super::assessments::AssessmentCoverage>,
 }
 impl Run {
     pub fn new(
@@ -154,6 +156,7 @@ impl Run {
             failures,
             coverage: None,
             assessment_set: None,
+            assessment_coverage: None,
         };
         r.excluded.sort();
         r.excluded.dedup();
@@ -178,6 +181,15 @@ impl Run {
         self.assessment_set = Some(set);
         self.id = self.identity()?;
         self.validate(a)?;
+        Ok(self)
+    }
+    pub fn with_assessment_coverage(
+        mut self,
+        a: &Admission,
+        coverage: super::assessments::AssessmentCoverage,
+    ) -> Result<Self> {
+        self.assessment_coverage = Some(coverage);
+        self.refresh_identity(a)?;
         Ok(self)
     }
     pub fn assessment_generation(&self) -> bool {
@@ -270,6 +282,24 @@ impl Run {
                 );
             }
             _ => anyhow::bail!("review_coverage_version_mismatch"),
+        }
+        if let Some(coverage) = &self.assessment_coverage {
+            coverage.validate()?;
+            ensure!(
+                self.assessment_generation()
+                    && self.completion == Completion::Incomplete
+                    && self.failures.is_empty()
+                    && self
+                        .assessment_set
+                        .as_ref()
+                        .is_some_and(|set| !set.assessments.is_empty())
+                    && self
+                        .lane_versions
+                        .values()
+                        .all(|v| v
+                            == crate::codefriend::review::lanes::ASSESSMENT_LANE_CONTRACT_VERSION),
+                "invalid_assessment_coverage"
+            );
         }
         if self.completion == Completion::Complete {
             ensure!(
@@ -429,7 +459,8 @@ impl ReviewRecord {
         );
         ensure!(
             self.run.completion == Completion::Complete
-                || (self.run.completion == Completion::Incomplete && self.run.coverage.is_some()),
+                || (self.run.completion == Completion::Incomplete
+                    && (self.run.coverage.is_some() || self.run.assessment_coverage.is_some())),
             "review_execution_incomplete"
         );
         Ok(())

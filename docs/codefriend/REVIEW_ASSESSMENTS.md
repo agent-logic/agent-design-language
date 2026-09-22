@@ -23,7 +23,12 @@ valid evidence from other lanes and independently supported siblings within the
 same lane. `assessment_gaps` retains the original item index, safely bounded
 summary, and rejection reason. Every citation required by an assessment must
 validate; one matching citation cannot rescue its unsupported siblings. A gap
-keeps the run incomplete and unavailable for successful Journey publication. They must not become a successful empty review.
+keeps assessment coverage incomplete. A run with independently supported items
+may continue through Journey, synthesis, plans and report/export, with gaps
+bound to its identity and displayed as unverified. All-unusable assessment
+output and operational or structural failures remain blocked. Activity execution
+may finish while the nested review remains explicitly incomplete; that does not
+certify a clean or complete review. They must not become a successful empty review.
 
 ## Source citations
 

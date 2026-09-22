@@ -71,6 +71,8 @@ pub struct ReviewSynthesis {
     pub assessment_counts: Option<AssessmentCounts>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub observations: Option<Vec<Assessment>>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub assessment_coverage: Option<crate::codefriend::evidence::assessments::AssessmentCoverage>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
@@ -93,11 +95,15 @@ pub fn validate_generation(synthesis: &ReviewSynthesis) -> Result<()> {
             ensure!(
                 synthesis.assessment_counts.is_none()
                     && synthesis.observations.is_none()
+                    && synthesis.assessment_coverage.is_none()
                     && (synthesis.schema == SYNTHESIS_SCHEMA_V2) == synthesis.coverage.is_some(),
                 "invalid_synthesis_schema"
             );
         }
         SYNTHESIS_SCHEMA_V3 => {
+            if let Some(coverage) = &synthesis.assessment_coverage {
+                coverage.validate()?;
+            }
             let counts = synthesis
                 .assessment_counts
                 .as_ref()
@@ -349,6 +355,7 @@ pub fn synthesize(record: &ReviewRecord) -> Result<ReviewSynthesis> {
         synthesized_findings,
         coverage: record.run.coverage.clone(),
         assessment_counts: record.assessment_counts(),
+        assessment_coverage: record.run.assessment_coverage.clone(),
         observations: record.run.assessment_set.as_ref().map(|set| {
             set.assessments
                 .iter()

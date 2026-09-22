@@ -502,13 +502,14 @@ fn install_cycle(
     case: &Case,
     job: relay::Job,
 ) -> (relay::Job, crate::codefriend::cycle_bridge::Capsule) {
-    install_cycle_version(case, job, false)
+    install_cycle_version(case, job, false, false)
 }
 
 fn install_cycle_version(
     case: &Case,
     mut job: relay::Job,
     historical_v2: bool,
+    mixed_gaps: bool,
 ) -> (relay::Job, crate::codefriend::cycle_bridge::Capsule) {
     use crate::codefriend::{
         activities::{self, Activity, CycleExecutionBinding, UpdateCyclePlan},
@@ -552,6 +553,22 @@ fn install_cycle_version(
         .temp
         .path()
         .join(format!("gateway-producer-{}", report.run_id));
+    let provider_output = if mixed_gaps {
+        let evidence = &gateway.evidence[0];
+        let object = gateway
+            .packet
+            .objects
+            .iter()
+            .find(|o| o.path == evidence.path)
+            .unwrap();
+        let supported = json!({"kind":"positive_observation","summary":"Supported source observation","explanation":"Synthetic fixture","citations":[{"evidence_id":evidence.id,"quote":object.content.as_ref().unwrap()}],"limitations":[],"defect":null});
+        let mut unsupported = supported.clone();
+        unsupported["summary"] = json!("Unverified possible problem");
+        unsupported["citations"][0]["quote"] = json!("invented code that does not exist in source");
+        json!({"assessments":[supported,unsupported]}).to_string()
+    } else {
+        "{\"assessments\":[]}".into()
+    };
     let mut run = runner::run_assessments_with_executor(
         ExecutionOptions {
             out: producer.clone(),
@@ -563,7 +580,7 @@ fn install_cycle_version(
         |_, _, _| {
             Ok(LaneExecution {
                 final_status: ProviderInvocationFinalStatusV1::Ok,
-                output_text: Some("{\"assessments\":[]}".into()),
+                output_text: Some(provider_output.clone()),
             })
         },
     )
@@ -954,7 +971,7 @@ fn cycle_import_shortens_cleanup_deadline_before_expired_report_rejection() {
 #[test]
 fn historical_v2_cycle_capsule_and_report_preserve_original_prompt_contract() {
     let (case, job) = prepared_job();
-    let (_, capsule) = install_cycle_version(&case, job, true);
+    let (_, capsule) = install_cycle_version(&case, job, true, false);
     let root = case.temp.path().join("state/run-run1");
     let original = fs::read(root.join("report.json")).unwrap();
     let report: RunReport = serde_json::from_slice(&original).unwrap();
@@ -963,6 +980,31 @@ fn historical_v2_cycle_capsule_and_report_preserve_original_prompt_contract() {
     capsule
         .validate(report.cycle_result.as_ref().unwrap(), now)
         .unwrap();
+    case.poll().unwrap();
+    assert!(!case.journey_results.lock().unwrap().is_empty());
+    assert_eq!(fs::read(root.join("report.json")).unwrap(), original);
+    assert_eq!(case.posts(), 0);
+}
+
+// PVF #1140: useful partial review traverses retained cycle import without replay.
+#[test]
+fn mixed_assessment_gaps_remain_incomplete_through_cycle_journey() {
+    let (case, job) = prepared_job();
+    let (_, capsule) = install_cycle_version(&case, job, false, true);
+    let root = case.temp.path().join("state/run-run1");
+    let original = fs::read(root.join("report.json")).unwrap();
+    let report: RunReport = serde_json::from_slice(&original).unwrap();
+    let cycle = report.cycle_result.as_ref().unwrap();
+    let run = cycle.review.as_ref().unwrap();
+    assert_eq!(
+        run.completion,
+        crate::codefriend::evidence::contracts::Completion::Incomplete
+    );
+    assert!(run.review_record.run.assessment_coverage.is_some());
+    assert!(run.review_record.findings.is_empty());
+    let now = crate::codefriend::agent::clock();
+    report.validate(now).unwrap();
+    capsule.validate(cycle, now).unwrap();
     case.poll().unwrap();
     assert!(!case.journey_results.lock().unwrap().is_empty());
     assert_eq!(fs::read(root.join("report.json")).unwrap(), original);

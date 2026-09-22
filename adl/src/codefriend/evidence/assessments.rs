@@ -370,6 +370,61 @@ pub struct AssessmentGap {
     pub summary: String,
     pub reason: String,
 }
+/// Incomplete assessment support, bound to the actual four lane result receipts.
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+pub struct AssessmentCoverage {
+    pub gaps: std::collections::BTreeMap<String, Vec<AssessmentGap>>,
+    pub lane_result_digests: std::collections::BTreeMap<String, String>,
+}
+impl AssessmentCoverage {
+    pub fn validate(&self) -> Result<()> {
+        ensure!(
+            !self.gaps.is_empty() && self.gaps.len() <= 4,
+            "assessment_gap_lanes"
+        );
+        ensure!(
+            self.lane_result_digests.len() == 4
+                && REVIEW_LANES.iter().all(|lane| self
+                    .lane_result_digests
+                    .get(*lane)
+                    .is_some_and(|d| valid_digest(d))),
+            "assessment_gap_receipts"
+        );
+        for (lane, gaps) in &self.gaps {
+            ensure!(
+                REVIEW_LANES.contains(&lane.as_str()) && !gaps.is_empty() && gaps.len() <= 100,
+                "assessment_gap_lanes"
+            );
+            let mut previous = None;
+            for gap in gaps {
+                ensure!(
+                    gap.assessment_index < 100 && previous.is_none_or(|i| i < gap.assessment_index),
+                    "assessment_gap_order"
+                );
+                text(&gap.summary)?;
+                text(&gap.reason)?;
+                previous = Some(gap.assessment_index);
+            }
+        }
+        bounded(self, MAX_REVIEW_BYTES)
+    }
+    pub fn descriptions(&self) -> Vec<String> {
+        self.gaps
+            .iter()
+            .flat_map(|(lane, gaps)| {
+                gaps.iter().map(move |gap| {
+                    format!(
+                        "Unverified {lane} assessment {}: {} ({})",
+                        gap.assessment_index + 1,
+                        gap.summary,
+                        gap.reason
+                    )
+                })
+            })
+            .collect()
+    }
+}
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct ParsedAssessments {
     pub assessments: Vec<Assessment>,

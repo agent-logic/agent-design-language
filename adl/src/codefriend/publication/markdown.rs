@@ -660,6 +660,18 @@ pub(crate) fn render_report(
     )?;
     list(&mut out, "Included paths", &review.run.included)?;
     list(&mut out, "Excluded paths", &review.run.excluded)?;
+    if let Some(coverage) = &review.run.assessment_coverage {
+        field(
+            &mut out,
+            "Assessment coverage",
+            "incomplete: unverified claims remain; this is not a clean review",
+        )?;
+        list(
+            &mut out,
+            "Unverified assessment gaps",
+            &coverage.descriptions(),
+        )?;
+    }
     if let Some(coverage) = &review.run.coverage {
         field(&mut out, "Review execution", "complete")?;
         field(
