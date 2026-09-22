@@ -677,7 +677,7 @@ impl Journey {
         } else {
             None
         };
-        match super::prepare_publication_bundle_with_architecture(
+        match super::prepare_publication_bundle_with_architecture_v2(
             &self.review_root.join("review-record.json"),
             &self.output.join(&stage),
             destination,

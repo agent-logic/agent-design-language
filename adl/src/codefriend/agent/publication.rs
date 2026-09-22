@@ -6,7 +6,9 @@ use crate::codefriend::{
         contracts::{Publication, ReviewRecord},
         valid_digest,
     },
-    integration::{prepare_publication_bundle_for_format, PublicationChallenge, PublicationFormat},
+    integration::{
+        prepare_publication_bundle_for_format_v2, PublicationChallenge, PublicationFormat,
+    },
     publication::{self as native, DecisionKind, DecisionRecord},
 };
 use base64::{engine::general_purpose::STANDARD, Engine};
@@ -425,7 +427,7 @@ impl Transport {
         private_dirs(&destination)?;
         let review = &context.report.result.as_ref().unwrap().review_record;
         save_private(&root.join("review-record.json"), review)?;
-        let bound = prepare_publication_bundle_for_format(
+        let bound = prepare_publication_bundle_for_format_v2(
             &root.join("review-record.json"),
             &root.join("bundle"),
             &destination,

@@ -207,15 +207,76 @@ pub fn prepare_publication_bundle_for_format(
     destination: &Path,
     format: PublicationFormat,
 ) -> Result<Publication> {
-    prepare_publication_bundle_with_architecture(review_path, output, destination, format, None)
+    prepare_publication_bundle_for_options(
+        review_path,
+        output,
+        destination,
+        format,
+        crate::codefriend::actions::test_plan::TEST_PLAN_SCHEMA,
+        None,
+    )
 }
 
-/// Prepare the existing approval bundle with an optional, validated 4+1 package.
+/// Current live owners use admitted evidence mappings. The caller retains its
+/// original Store authorization before and after this deterministic preparation.
+pub fn prepare_publication_bundle_for_format_v2(
+    review_path: &Path,
+    output: &Path,
+    destination: &Path,
+    format: PublicationFormat,
+) -> Result<Publication> {
+    prepare_publication_bundle_for_options(
+        review_path,
+        output,
+        destination,
+        format,
+        crate::codefriend::actions::test_plan::TEST_PLAN_SCHEMA_V2,
+        None,
+    )
+}
+
+/// Prepare a bundle with a validated architecture package and explicit planner generation.
 pub fn prepare_publication_bundle_with_architecture(
     review_path: &Path,
     output: &Path,
     destination: &Path,
     format: PublicationFormat,
+    architecture: Option<&std::collections::BTreeMap<String, Vec<u8>>>,
+) -> Result<Publication> {
+    prepare_publication_bundle_for_options(
+        review_path,
+        output,
+        destination,
+        format,
+        crate::codefriend::actions::test_plan::TEST_PLAN_SCHEMA,
+        architecture,
+    )
+}
+
+/// Prepare a bundle with a validated architecture package and explicit planner generation.
+pub fn prepare_publication_bundle_with_architecture_v2(
+    review_path: &Path,
+    output: &Path,
+    destination: &Path,
+    format: PublicationFormat,
+    architecture: Option<&std::collections::BTreeMap<String, Vec<u8>>>,
+) -> Result<Publication> {
+    prepare_publication_bundle_for_options(
+        review_path,
+        output,
+        destination,
+        format,
+        crate::codefriend::actions::test_plan::TEST_PLAN_SCHEMA_V2,
+        architecture,
+    )
+}
+
+fn prepare_publication_bundle_for_options(
+    review_path: &Path,
+    output: &Path,
+    destination: &Path,
+    format: PublicationFormat,
+    test_plan_schema: &str,
     architecture: Option<&std::collections::BTreeMap<String, Vec<u8>>>,
 ) -> Result<Publication> {
     use std::{
@@ -241,8 +302,14 @@ pub fn prepare_publication_bundle_with_architecture(
             Err(error) => return Err(error.into()),
         }
     };
-    let publication =
-        build_publication_bundle(review_path, &stage, destination, format, architecture)?;
+    let publication = build_publication_bundle(
+        review_path,
+        &stage,
+        destination,
+        format,
+        test_plan_schema,
+        architecture,
+    )?;
     for artifact in &publication.artifact_manifest {
         File::open(stage.join("artifacts").join(&artifact.path))?.sync_all()?;
     }
@@ -276,17 +343,17 @@ fn build_publication_bundle(
     output: &Path,
     destination: &Path,
     format: PublicationFormat,
+    test_plan_schema: &str,
     architecture: Option<&std::collections::BTreeMap<String, Vec<u8>>>,
 ) -> Result<Publication> {
-    use crate::codefriend::publication::{read_review, ManifestInput};
+    use crate::codefriend::publication::{manifest::read_review_snapshot, ManifestInput};
     use std::{collections::BTreeMap, fs, io::Write};
-    let review = read_review(review_path)?;
+    let (review, snapshot) = read_review_snapshot(review_path)?;
     ensure!(
         review.successful_execution().is_ok(),
         "publication_bundle_requires_complete_run"
     );
-    let snapshot = fs::read(review_path)?;
-    let mut generated = publication_artifacts(&review, &snapshot)?;
+    let mut generated = publication_artifacts(&review, &snapshot, test_plan_schema)?;
     if let Some(files) = architecture {
         for (name, bytes) in files {
             ensure!(
@@ -363,11 +430,12 @@ impl PublicationArtifacts {
 pub(crate) fn publication_artifacts(
     review: &crate::codefriend::evidence::contracts::ReviewRecord,
     review_bytes: &[u8],
+    test_plan_schema: &str,
 ) -> anyhow::Result<PublicationArtifacts> {
     use crate::codefriend::{
         actions::{
             remediation::{self, RemediationManifest, REMEDIATION_MANIFEST_SCHEMA},
-            test_plan::{self, TestPlanManifest, TEST_PLAN_MANIFEST_SCHEMA},
+            test_plan::{self, TestPlanManifest},
         },
         evidence::hash,
         review::synthesis::{self, SynthesisManifest, SYNTHESIS_MANIFEST_SCHEMA},
@@ -378,7 +446,7 @@ pub(crate) fn publication_artifacts(
     review.validate()?;
     let synthesis = synthesis::synthesize(review)?;
     let remediation = remediation::plan(&synthesis, review)?;
-    let tests = test_plan::plan(&synthesis)?;
+    let tests = test_plan::derive_for_schema(test_plan_schema, &synthesis, review)?;
     let sm = SynthesisManifest {
         schema: SYNTHESIS_MANIFEST_SCHEMA.into(),
         synthesis_ref: "synthesis.json".into(),
@@ -402,7 +470,7 @@ pub(crate) fn publication_artifacts(
         omitted_finding_count: remediation.omitted_findings.len(),
     };
     let tm = TestPlanManifest {
-        schema: TEST_PLAN_MANIFEST_SCHEMA.into(),
+        schema: test_plan::manifest_schema(&tests)?.into(),
         synthesis_manifest_ref: "synthesis-manifest.json".into(),
         synthesis_manifest_digest: hash(&sm)?,
         synthesis_ref: "synthesis.json".into(),
@@ -437,7 +505,14 @@ pub(crate) fn publication_artifacts(
                 bytes(&remediation)?,
             ),
             ("remediation/manifest.json".into(), bytes(&rm)?),
-            ("tests/review-record.json".into(), review_bytes.to_vec()),
+            (
+                "tests/review-record.json".into(),
+                if test_plan_schema == test_plan::TEST_PLAN_SCHEMA_V2 {
+                    bytes(review)?
+                } else {
+                    review_bytes.to_vec()
+                },
+            ),
             ("tests/synthesis.json".into(), synthesis_bytes),
             ("tests/synthesis-manifest.json".into(), sm_bytes),
             ("tests/test-plan.json".into(), bytes(&tests)?),
