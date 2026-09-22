@@ -764,7 +764,7 @@ fn mixed_assessment_gaps_traverse_original_store_planner_and_publication() {
     assert!(test_plan::read_plan_from_file(&plan_dir.join("test-plan.json")).is_err());
     let destination = f.dir.path().join("destination");
     fs::create_dir(&destination).unwrap();
-    integration::prepare_publication_bundle_for_format_v2(
+    let bundle = integration::prepare_publication_bundle_for_format_v2(
         &review_path,
         &f.dir.path().join("privacy-publication"),
         &destination,
@@ -772,6 +772,33 @@ fn mixed_assessment_gaps_traverse_original_store_planner_and_publication() {
     )
     .unwrap();
     let publication = f.dir.path().join("privacy-publication");
+    use adl::codefriend::publication::{
+        append_decision, render_markdown, DecisionKind, MarkdownRenderOptions,
+    };
+    let approval_store = f.dir.path().join("approvals");
+    append_decision(
+        &approval_store,
+        &run.review_record,
+        &bundle,
+        DecisionKind::Approved,
+        "fixture",
+        "Approve incomplete report with explicit unverified gaps",
+        1_700_000_000,
+    )
+    .unwrap();
+    render_markdown(MarkdownRenderOptions {
+        review_record: review_path,
+        publication: publication.join("publication.json"),
+        approval_store,
+        artifact_root: publication.join("artifacts"),
+        synthesis: "synthesis/synthesis.json".into(),
+        remediation_plan: "remediation/remediation-plan.json".into(),
+        test_plan: "tests/test-plan.json".into(),
+        destination_root: destination.clone(),
+        out: destination.join("report"),
+    })
+    .unwrap();
+
     fn report_bytes(path: &Path) -> String {
         let mut text = String::new();
         for entry in fs::read_dir(path).unwrap() {
@@ -784,7 +811,7 @@ fn mixed_assessment_gaps_traverse_original_store_planner_and_publication() {
         }
         text
     }
-    let rendered = report_bytes(&publication);
+    let rendered = report_bytes(&destination);
     assert!(rendered.contains("Unverified assessment gaps"));
     assert!(rendered.contains("Potential unverified problem"));
     assert!(rendered.contains("incomplete"));

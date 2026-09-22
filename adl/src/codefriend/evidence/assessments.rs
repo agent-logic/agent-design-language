@@ -450,6 +450,15 @@ fn provider_json(raw: &str) -> Result<&str> {
     Ok(body)
 }
 
+/// Bounded wire decoding only; callers must verify support against admission.
+pub fn decode_provider_output(raw: &str) -> Result<ProviderAssessmentOutput> {
+    ensure!(raw.len() <= MAX_LANE_BYTES, "assessment_lane_byte_limit");
+    let output: ProviderAssessmentOutput = serde_json::from_str(provider_json(raw)?)
+        .map_err(|_| anyhow::anyhow!("assessment_json_invalid"))?;
+    ensure!(output.assessments.len() <= 100, "assessment_lane_count");
+    Ok(output)
+}
+
 fn resolve_quote(c: &ProviderCitation, admission: &Admission) -> Result<VerifiedCitation> {
     let mut evidence = admission.evidence.iter().filter(|e| e.id == c.evidence_id);
     let e = evidence
@@ -513,8 +522,7 @@ pub fn parse_lane_with_gaps(
 ) -> Result<ParsedAssessments> {
     ensure!(raw.len() <= MAX_LANE_BYTES, "assessment_lane_byte_limit");
     admission.validate()?;
-    let output: ProviderAssessmentOutput = serde_json::from_str(provider_json(raw)?)
-        .map_err(|_| anyhow::anyhow!("assessment_json_invalid"))?;
+    let output = decode_provider_output(raw)?;
     ensure!(output.assessments.len() <= 100, "assessment_lane_count");
     // Enforce aggregate bounds even on quotes in rejected assessments.
     let quoted: usize = output
