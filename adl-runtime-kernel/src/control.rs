@@ -11447,7 +11447,9 @@ mod layer8_conversation_ingress_tests {
                 "completed peer result must enter the next initiator turn exactly once: {follow_up_prompt}"
             );
             assert!(follow_up_prompt.contains("\"status\": \"delivered\""));
-            assert!(follow_up_prompt.contains("\"recipient_id\": \"ember\""));
+            assert!(follow_up_prompt.contains("\"recipient_name\": \"ember.runtime\""));
+            assert!(follow_up_prompt.contains("You are resident agent `beacon.runtime`"));
+            assert!(!follow_up_prompt.contains("\"recipient_id\""));
         }
         let events = recorder.events();
         assert!(
