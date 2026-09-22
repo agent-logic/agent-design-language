@@ -1,0 +1,204 @@
+{
+  "schema": "adl.v0922.quality_decision.v1",
+  "issue": 916,
+  "sprint": 937,
+  "status": "in_progress",
+  "decision": "not_proven",
+  "observed_at": "2026-09-22T03:29:54.654792+00:00",
+  "audit_baseline": "a26e9e56e3f0de58954fc9628870aaa5edd60301",
+  "accepted_release_candidate": null,
+  "installed_binary_digests": null,
+  "accepted_artifact_manifest_digest": null,
+  "operator_authority": "September 21 instruction: open Sprint 11 and start #916 gap analysis while stragglers finish. Analysis may overlap; final acceptance remains evidence-gated.",
+  "gates": [
+    {
+      "id": "Q01",
+      "requirement": "Canonical planning and issue-routing parity",
+      "status": "fail",
+      "evidence": [
+        "planning-validation.json"
+      ],
+      "limitation": "Two reproduced specification/manifest mismatches."
+    },
+    {
+      "id": "Q02",
+      "requirement": "Local/GitHub/CI portable ingestion",
+      "status": "not_proven",
+      "evidence": [
+        "TASK_LEDGER.json"
+      ],
+      "limitation": "Opening audit has not established acceptance on a single installed release candidate."
+    },
+    {
+      "id": "Q03",
+      "requirement": "Identity/provenance/redaction/retention",
+      "status": "not_proven",
+      "evidence": [
+        "TASK_LEDGER.json"
+      ],
+      "limitation": "Opening audit has not established acceptance on a single installed release candidate."
+    },
+    {
+      "id": "Q04",
+      "requirement": "Explainable architecture",
+      "status": "not_proven",
+      "evidence": [
+        "TASK_LEDGER.json"
+      ],
+      "limitation": "Opening audit has not established acceptance on a single installed release candidate."
+    },
+    {
+      "id": "Q05",
+      "requirement": "Deterministic fitness and judgment separation",
+      "status": "not_proven",
+      "evidence": [
+        "TASK_LEDGER.json"
+      ],
+      "limitation": "Opening audit has not established acceptance on a single installed release candidate."
+    },
+    {
+      "id": "Q06",
+      "requirement": "Four attributed review perspectives and synthesis",
+      "status": "not_proven",
+      "evidence": [
+        "TASK_LEDGER.json"
+      ],
+      "limitation": "Opening audit has not established acceptance on a single installed release candidate."
+    },
+    {
+      "id": "Q07",
+      "requirement": "Bounded remediation and test plans",
+      "status": "not_proven",
+      "evidence": [
+        "TASK_LEDGER.json"
+      ],
+      "limitation": "Opening audit has not established acceptance on a single installed release candidate."
+    },
+    {
+      "id": "Q08",
+      "requirement": "Second-run comparison",
+      "status": "not_proven",
+      "evidence": [
+        "TASK_LEDGER.json"
+      ],
+      "limitation": "Opening audit has not established acceptance on a single installed release candidate."
+    },
+    {
+      "id": "Q09",
+      "requirement": "Approved Markdown/HTML/PDF claim parity",
+      "status": "not_proven",
+      "evidence": [
+        "TASK_LEDGER.json"
+      ],
+      "limitation": "Opening audit has not established acceptance on a single installed release candidate."
+    },
+    {
+      "id": "Q10",
+      "requirement": "Privacy/legal/manifests",
+      "status": "not_proven",
+      "evidence": [
+        "TASK_LEDGER.json"
+      ],
+      "limitation": "Opening audit has not established acceptance on a single installed release candidate."
+    },
+    {
+      "id": "Q11",
+      "requirement": "Independent ADL and external repository qualification",
+      "status": "not_proven",
+      "evidence": [
+        "TASK_LEDGER.json"
+      ],
+      "limitation": "Opening audit has not established acceptance on a single installed release candidate."
+    },
+    {
+      "id": "Q12",
+      "requirement": "Integrated success/failure and no unresolved P1",
+      "status": "not_proven",
+      "evidence": [
+        "TASK_LEDGER.json"
+      ],
+      "limitation": "Opening audit has not established acceptance on a single installed release candidate."
+    }
+  ],
+  "findings": [
+    {
+      "id": "916-G01",
+      "severity": "P2",
+      "kind": "docs_drift",
+      "bucket": "stale_release_readiness_docs",
+      "summary": "CF-INTEGRATE and CF-PROOF execution specifications omit accepted website-mode and invitation/isolation evidence present in the atomic contracts.",
+      "evidence": [
+        "../../WP_EXECUTION_SPECIFICATIONS_v0.92.2.yaml",
+        "../../ATOMIC_TASK_CONTRACTS_v0.92.2.json"
+      ],
+      "required_action": "Align the specification with the stronger accepted contract; do not weaken acceptance."
+    },
+    {
+      "id": "916-G02",
+      "severity": "P1",
+      "kind": "missing_evidence",
+      "bucket": "release_blockers",
+      "summary": "Independent #915 qualification has not supplied accepted final candidate evidence.",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/915"
+      ],
+      "required_action": "Consume the existing independent qualification handoff after remaining integration repairs; do not duplicate its implementation or paid runs."
+    },
+    {
+      "id": "916-G03",
+      "severity": "P2",
+      "kind": "missing_evidence",
+      "bucket": "durable_proof_gaps",
+      "summary": "Closed task state and merge ancestry have not yet been reconciled with source-specific proof, installed identities and claim freshness.",
+      "evidence": [
+        "TASK_LEDGER.json",
+        "../../FEATURE_PROOF_COVERAGE_v0.92.2.md"
+      ],
+      "required_action": "Inspect producer artifacts against their exact acceptance criteria and record accepted, failed, deferred or not-proven per obligation."
+    }
+  ],
+  "stragglers": [
+    {
+      "issue": 915,
+      "state": "OPEN",
+      "role": "independent product qualification",
+      "delivery_status": "outstanding_qualification",
+      "status_source": "Operator clarification on September 21: only #915 remains outstanding; others are in PR."
+    },
+    {
+      "issue": 1132,
+      "state": "OPEN",
+      "role": "website cycle-to-Journey integration",
+      "delivery_status": "in_pr_review",
+      "status_source": "Operator clarification on September 21: only #915 remains outstanding; others are in PR."
+    },
+    {
+      "issue": 1133,
+      "state": "OPEN",
+      "role": "native cycle-to-Journey/publication integration",
+      "delivery_status": "in_pr_review",
+      "status_source": "Operator clarification on September 21: only #915 remains outstanding; others are in PR."
+    }
+  ],
+  "denominators": {
+    "tasks": 69,
+    "planning_results": 7,
+    "quality_gates": 12,
+    "early_prerequisites": 24,
+    "closed_early_prerequisites": 23,
+    "pending_early_prerequisites": 1
+  },
+  "nonclaims": [
+    "No release approval",
+    "No provider or deployment execution",
+    "No blanket acceptance from closed issues or green CI",
+    "OBS-S3 and ARCH-ADR remain final TAIL-10 acceptance obligations",
+    "No child after 916 accepted by this audit"
+  ],
+  "next_actions": [
+    "Reconcile 57 closed producer outputs without rerunning unrelated workloads",
+    "Reconcile the two planning contract mismatches",
+    "Consume #915 independent qualification and reconcile the other owner deliveries already in PR review",
+    "Refresh the exact installed candidate and affected evidence before final quality decision"
+  ]
+}

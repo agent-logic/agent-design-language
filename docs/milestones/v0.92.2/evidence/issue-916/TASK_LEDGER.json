@@ -1,0 +1,1595 @@
+{
+  "schema": "adl.v0922.task_disposition_ledger.v1",
+  "issue": 916,
+  "observed_at": "2026-09-22T03:29:54.654792+00:00",
+  "audit_baseline": "a26e9e56e3f0de58954fc9628870aaa5edd60301",
+  "tasks": [
+    {
+      "task": "WP-01",
+      "issue": 864,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/864",
+      "title": "[v0.92.2][WP-01][planning] Publish and open the CodeFriend Beta 1 execution wave",
+      "sprint": 1,
+      "evidence_category": "planning_result",
+      "is_916_prerequisite": false,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-11T23:50:22Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 865,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/865",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "155d1822db941e7139cb2caa6795e3f58236a2cb",
+          "merge_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "CSDLC-MAN",
+      "issue": 861,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/861",
+      "title": "[v0.92.2][C-SDLC v3][docs] Write complete operator man pages",
+      "sprint": 1,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": true,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-12T01:43:45Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 947,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/947",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "4e816f87d61d11f48c950ededae75c6ca84f6258",
+          "merge_commit": "dd3464513f38a884e8f720eea6a8d56abddd49d8",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "SIM-UMBRELLA",
+      "issue": 866,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/866",
+      "title": "[v0.92.2][SIM-UMBRELLA] Coordinate the first C-SDLC simplification sprint",
+      "sprint": 1,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": true,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-19T01:06:49Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "SIM-01",
+      "issue": 867,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/867",
+      "title": "[v0.92.2][SIM-01] Make diagnostics observably read-only",
+      "sprint": 1,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": false,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-12T04:39:38Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 948,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/948",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "1c3836c7a612e96836d8c88807ae70f78ce4319c",
+          "merge_commit": "5fa19bda03ee44c76b2b17fbdcf9bf208586c8f5",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "SIM-02",
+      "issue": 868,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/868",
+      "title": "[v0.92.2][SIM-02] One current installed command contract",
+      "sprint": 1,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": false,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-12T05:42:43Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 958,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/958",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "6425ba9bbce4cc1f46789c2e3ac019adf86238b8",
+          "merge_commit": "be159210e0a87fdaca246b932d77af28770689a1",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "SIM-03",
+      "issue": 869,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/869",
+      "title": "[v0.92.2][SIM-03] Execute the supported installed intent-command inventory",
+      "sprint": 1,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": false,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-12T18:13:45Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 966,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/966",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "bd169d5ca7713f3fd4caa7c527aef64683d13bf1",
+          "merge_commit": "bf198d2d7609626c7dc4a9ff8cbfaa3f08229b11",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "SIM-04",
+      "issue": 870,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/870",
+      "title": "[v0.92.2][SIM-04] Route operational mutations through one semantic transaction owner",
+      "sprint": 1,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": false,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-15T16:18:23Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 969,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/969",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "25b84230e8acdabc7affebcd372f0f8cbfd687e8",
+          "merge_commit": "41f6132aa0bff2ec264a00276d237b936bc5006d",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "SIM-05",
+      "issue": 871,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/871",
+      "title": "[v0.92.2][SIM-05] Derived cards and precise evidence invalidation",
+      "sprint": 1,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": false,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-15T18:40:47Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 986,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/986",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "468c034731b80048db51b6ca68a8262a28a2745b",
+          "merge_commit": "88a074b0109fddffc0562f6028300e2dbbd3cd07",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "SIM-06",
+      "issue": 872,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/872",
+      "title": "[v0.92.2][SIM-06] Deliver one safe conversion rehearsal",
+      "sprint": 1,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": false,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-16T02:44:09Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 1002,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/1002",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "6918bd019a687c85c49953d272baae31098f306c",
+          "merge_commit": "40b756aeea5eaac10b5dc4940614ded13ae21275",
+          "merge_ancestor_of_audit_baseline": true
+        },
+        {
+          "number": 1008,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/1008",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "496fac10713af226d67a8c0367a5b1907870392a",
+          "merge_commit": "a4da940a200189ffaa7ed831a5a965a767f57bab",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "SIM-07",
+      "issue": 873,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/873",
+      "title": "[v0.92.2][SIM-07] Produce one independent transition qualification",
+      "sprint": 1,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": false,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-17T11:44:48Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 1060,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/1060",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "9dab7cf91ab1726a894b8bedcaa1c10162dadcde",
+          "merge_commit": "e9d2429bd20eedf33b5efacf1d0c0c5128993e3e",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "SIM-08",
+      "issue": 874,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/874",
+      "title": "[v0.92.2][SIM-08] Produce one transition operations packet",
+      "sprint": 1,
+      "evidence_category": "planning_result",
+      "is_916_prerequisite": false,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-18T18:39:04Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 1062,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/1062",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "e4ac154e2253cf7596710ad606d0ac2814523792",
+          "merge_commit": "904f650644217004fb3e16ac31586064f5e7b78f",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "SIM-09",
+      "issue": 875,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/875",
+      "title": "[v0.93][SIM-09] Run one authorized consecutive-issue pilot",
+      "sprint": 1,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": false,
+      "issue_state": "OPEN",
+      "closed_at": null,
+      "disposition": "operator_deferred_to_v0.93",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "ARCH-SPLIT",
+      "issue": 848,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/848",
+      "title": "[v0.92.2][planning] Decide repository decomposition and public/private product boundaries",
+      "sprint": 2,
+      "evidence_category": "planning_result",
+      "is_916_prerequisite": true,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-12T01:22:42Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 943,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/943",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "38299a26703d07650bb75c1b3b7707b353c61b58",
+          "merge_commit": "b5219c8bb742ba5c42ff2c2def299cd03bacd76f",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "RT-COST",
+      "issue": 854,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/854",
+      "title": "[v0.92.2][runtime][cost] Stop metered cloud inference health-probe loops",
+      "sprint": 2,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": true,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-12T01:47:03Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 941,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/941",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "224c61a84f715ee4e65898277e0e04efb44d636f",
+          "merge_commit": "57a82b08bf687afd0b1573fd8d78f4b2b2268dba",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "RT-PROVIDER",
+      "issue": 855,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/855",
+      "title": "[v0.92.2][RT-PROVIDER] Provider-neutral dynamic agent lifecycle",
+      "sprint": 2,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": false,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-12T08:16:32Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 964,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/964",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "9c471d41a5606a5b2dd564f486d92dd819f19624",
+          "merge_commit": "cfd865bda539529372ca6e9954102b158410d6dc",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "PLAT-PROVIDER",
+      "issue": 876,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/876",
+      "title": "[v0.92.2][PLAT-PROVIDER] Consume validated editable provider definitions",
+      "sprint": 2,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": false,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-12T05:30:27Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 953,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/953",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "c5cf2ca3de32a5f242fb938a7355aab06d6b15d8",
+          "merge_commit": "b6d110c84e11253b392d0bb078f2fb33a36b9a0c",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "PLAT-UTS",
+      "issue": 877,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/877",
+      "title": "[v0.92.2][PLAT-UTS] Install a versioned UTS package consumed by Runtime tool dispatch",
+      "sprint": 2,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": true,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-12T01:40:12Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 946,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/946",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "6eda895616aeb814734b997cc904512483d99f72",
+          "merge_commit": "15c476fe497ad975cabe4c73f729930d20a302d9",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "CF-ADAPTER",
+      "issue": 878,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/878",
+      "title": "[v0.92.2][CF-ADAPTER] Ingest a local checkout into a portable repository packet",
+      "sprint": 2,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": false,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-12T04:38:18Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 944,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/944",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "3fa601a888a8ba90541fd2d092802a9291b78ae9",
+          "merge_commit": "b9b16707f0bf3b95138fd4019f208734c7522ec6",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "CF-ADAPTER-GITHUB",
+      "issue": 879,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/879",
+      "title": "[v0.92.2][CF-ADAPTER-GITHUB] Ingest a pinned GitHub revision or PR into a repository packet",
+      "sprint": 2,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": false,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-12T06:16:48Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 955,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/955",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "d3202466dbb3d775c42ceddb4d036fd85fdcebf6",
+          "merge_commit": "79325e981a446c7967bbf9b1ee9b320292c0904a",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "CF-ADAPTER-CI",
+      "issue": 880,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/880",
+      "title": "[v0.92.2][CF-ADAPTER-CI] Ingest CI repository inputs into a repository packet",
+      "sprint": 2,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": false,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-12T07:27:43Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 957,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/957",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "884f18c47c88d2a3e0bbc34eb0b1b462cd281e15",
+          "merge_commit": "7e07eade5c2f4f5807cd4a0fd6d2339f68a30b09",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "CF-EVIDENCE",
+      "issue": 881,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/881",
+      "title": "[v0.92.2][CF-EVIDENCE] Admit and retain governed evidence through the production adapter",
+      "sprint": 2,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": false,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-12T05:33:19Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 956,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/956",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "067bc4316030cbdfe3e95bdfb254ada3016d339e",
+          "merge_commit": "41aa503e80a31250ce8d1df05c46d16d99c843bf",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "CF-COG",
+      "issue": 882,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/882",
+      "title": "[v0.92.2][CF-COG] Report repository dependency and boundary structure",
+      "sprint": 3,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": false,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-15T19:31:33Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 982,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/982",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "d8156d94029c8c722bc91961a5c1d93e42ccdc61",
+          "merge_commit": "1e839cad09df3a4b45fa53fa39539b911a78e3d4",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "CF-COG-IMPACT",
+      "issue": 883,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/883",
+      "title": "[v0.92.2][CF-COG-IMPACT] Report the impact of a scoped repository change",
+      "sprint": 3,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": false,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-15T22:13:16Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 991,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/991",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "44ceec0c80639d7fea5bdd6ac61633d6b9535c4b",
+          "merge_commit": "2301d1d8e4537a615be6c0900e061a2ec2fe4f3a",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "CF-COG-RATIONALE",
+      "issue": 884,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/884",
+      "title": "[v0.92.2][CF-COG-RATIONALE] Explain architectural quanta against recorded rationale",
+      "sprint": 3,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": false,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-15T22:57:13Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 992,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/992",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "2c085d9d0f1f5dab1e7d2375f516ae50e3cfeadf",
+          "merge_commit": "61e83cf425b26299466ff21916c266d3864c8d82",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "CF-MEMORY",
+      "issue": 885,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/885",
+      "title": "[v0.92.2][CF-MEMORY] Stable second-run comparison and longitudinal review memory",
+      "sprint": 3,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": false,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-15T21:42:50Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 987,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/987",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "3a0d138fcb00d78c8c23927335077ffd789f3892",
+          "merge_commit": "7e586a34d6a6ee7e2103ca8d004bc0848a839e31",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "CF-COG-DRIFT",
+      "issue": 886,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/886",
+      "title": "[v0.92.2][CF-COG-DRIFT] Report architecture drift between compatible revisions",
+      "sprint": 3,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": false,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-15T23:42:09Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 996,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/996",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "2e99348bf0b571827de5a745724bec2a5b66bbfd",
+          "merge_commit": "85727e1046da975cf0c650ab7ab0728efd32d569",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "CF-GOV",
+      "issue": 887,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/887",
+      "title": "[v0.92.2][CF-GOV] Execute local architecture fitness functions",
+      "sprint": 3,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": false,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-15T23:42:46Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 989,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/989",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "ffd0ae08e9c3d1a0ef54f5cc368908ae1c6855ad",
+          "merge_commit": "49ca9f2fcf785a2f8e6b75676279db4f0936f925",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "CF-GOV-CI",
+      "issue": 888,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/888",
+      "title": "[v0.92.2][CF-GOV-CI] Execute architecture fitness functions as a CI gate",
+      "sprint": 3,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": false,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-16T01:40:34Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 1000,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/1000",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "429b806ce9518bb4af9f086f039b97e6539fd4dd",
+          "merge_commit": "05719245014b84d548657a868b98aed3db0b662e",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "PLAT-MEMORY",
+      "issue": 889,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/889",
+      "title": "[v0.92.2][PLAT-MEMORY] Retrieve a compatible prior CodeFriend review through Memory Palace",
+      "sprint": 3,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": false,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-16T00:07:23Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 997,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/997",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "16fb7f3aca157578acafb21e712e0be93450a8e7",
+          "merge_commit": "e59590b51229addb6d4cddcf6d6f731005dee7ec",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "CF-REVIEW",
+      "issue": 890,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/890",
+      "title": "[v0.92.2][CF-REVIEW] Execute isolated four-perspective repository review",
+      "sprint": 4,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": false,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-15T22:58:40Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 993,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/993",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "e2f5c09319019fd9709c5a8394baa054cbb569a0",
+          "merge_commit": "53e2f5524359c1704d508fc22a871625d14b8816",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "CF-SHELL",
+      "issue": 891,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/891",
+      "title": "[v0.92.2][CF-SHELL] Operate a real repository review through the installed CodeFriend shell",
+      "sprint": 4,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": false,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-16T01:29:26Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 999,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/999",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "e2d173017eaa7413d5095cd3b0eb178e96eae0ae",
+          "merge_commit": "e9b188f81c5087e9e0c9480d7df49c87d4b6341a",
+          "merge_ancestor_of_audit_baseline": true
+        },
+        {
+          "number": 1009,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/1009",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "933035a1e179b5fd4b47c9006fb32bbc1feb8767",
+          "merge_commit": "21f13c8a9921028ebb140eba069dd37681573fc8",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "CF-SYNTHESIS",
+      "issue": 892,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/892",
+      "title": "[v0.92.2][CF-SYNTHESIS] Synthesize completed review perspectives",
+      "sprint": 4,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": false,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-16T02:41:28Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 1001,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/1001",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "1b88cfdfd8e5d6f743f0ef1474aeb9a291eea742",
+          "merge_commit": "ced79b611d319bf93392985ff0ec3b790314795e",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "CF-REMEDIATE",
+      "issue": 893,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/893",
+      "title": "[v0.92.2][CF-REMEDIATE] Generate a bounded remediation plan from review findings",
+      "sprint": 4,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": false,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-16T07:57:26Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 1012,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/1012",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "3d2dc0e008535107841cc299ce153f7fdcf92d84",
+          "merge_commit": "e24e0438e40d1f716bd0653ea369d06450827230",
+          "merge_ancestor_of_audit_baseline": true
+        },
+        {
+          "number": 1024,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/1024",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "6d404a0da7e51c021903b6bdb0e6f500398ffc76",
+          "merge_commit": "75f6d600f3c474d2135f7928951a7ff79220187e",
+          "merge_ancestor_of_audit_baseline": true
+        },
+        {
+          "number": 1027,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/1027",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "b47e47a4f71306d8c60a68d61b9b34c74c09a658",
+          "merge_commit": "870e4d14f3c74547cf3523f6807a4d3e338c873f",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "CF-TESTPLAN",
+      "issue": 894,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/894",
+      "title": "[v0.92.2][CF-TESTPLAN] Generate a bounded test plan from review findings",
+      "sprint": 4,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": false,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-16T14:38:18Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 1026,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/1026",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "1e4a287dfdbe19908ebbd4cc5f1c732545e1aa91",
+          "merge_commit": "75f6d600f3c474d2135f7928951a7ff79220187e",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "CF-UX",
+      "issue": 895,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/895",
+      "title": "[v0.92.2][CF-UX] Enforce exact-artifact publication approval",
+      "sprint": 4,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": false,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-16T13:44:37Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 1025,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/1025",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "7f2bf5003abb76af0d1a552f063bc4d521ecd33b",
+          "merge_commit": "559e9493732258b49c6d62276b6a65339f48c5da",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "CF-RENDER-MD",
+      "issue": 896,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/896",
+      "title": "[v0.92.2][CF-RENDER-MD] Render an approved review as Markdown",
+      "sprint": 4,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": false,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-16T18:36:18Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 1032,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/1032",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "eacc3d65b48be722c3c27f48e8b228b8c372723b",
+          "merge_commit": "7c09a6526714e562ef8a458652b289ad0e7b63b2",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "CF-RENDER-HTML",
+      "issue": 897,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/897",
+      "title": "[v0.92.2][CF-RENDER-HTML] Render an approved review as HTML",
+      "sprint": 4,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": false,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-17T00:52:27Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 1038,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/1038",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "e30eb5c327c9f2d50c5977aab678989a4335e2a4",
+          "merge_commit": "485f95cfbe7808caabe8fd4e4bef37128e555c95",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "CF-RENDER-PDF",
+      "issue": 898,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/898",
+      "title": "[v0.92.2][CF-RENDER-PDF] Render an approved review as a verified PDF",
+      "sprint": 4,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": false,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-17T11:22:50Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 1055,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/1055",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "b0d8265b82c4a61b2ad0c4c76590ce20e928fa16",
+          "merge_commit": "034ccc2b9068c21833483931c4b3d71b257d85d3",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "QUAL-RUNTIME",
+      "issue": 852,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/852",
+      "title": "[v0.92.2][runtime] Emit correlated canonical ingress failure events",
+      "sprint": 5,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": true,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-12T07:25:26Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 963,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/963",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "a00a3d2286afe5b4b315517874a8b0b9939ed0c9",
+          "merge_commit": "ee8635aea3b1de928ea397be246320c696b57095",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "QUAL-INVENTORY",
+      "issue": 899,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/899",
+      "title": "[v0.92.2][QUAL-INVENTORY] Measure the registered before and after validation inventory",
+      "sprint": 5,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": true,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-12T06:46:18Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 961,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/961",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "713776d7dd481b8f7ea06a1a20478be9ef3ae278",
+          "merge_commit": "b124cfbd79de94103bc1e2f895ceb973273a7079",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "QUAL-RESIDENT",
+      "issue": 900,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/900",
+      "title": "[v0.92.2][QUAL-RESIDENT] Execute resident workload and signed restore qualification",
+      "sprint": 5,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": true,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-15T16:18:42Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 973,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/973",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "2e406b75fbefd4a825dc2700bf5ae4dd668d1f77",
+          "merge_commit": "b13069dd71d1ccd70083c4018c777f8e56daafd6",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "QUAL-PROVIDER",
+      "issue": 901,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/901",
+      "title": "[v0.92.2][QUAL-PROVIDER] Execute real provider failure and recovery qualification",
+      "sprint": 5,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": true,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-15T16:19:11Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 974,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/974",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "3fb8606a438dcc6e7c112eaaaad01cb1fa6012cc",
+          "merge_commit": "f69019c24a9b61511e912c93f95442f96fa66d92",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "QUAL-EVIDENCE",
+      "issue": 902,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/902",
+      "title": "[v0.92.2][QUAL-EVIDENCE] Validate criterion-bound Runtime qualification evidence",
+      "sprint": 5,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": true,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-15T19:32:02Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 983,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/983",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "12a3d37758a222c17f65223cdbb90093560007fc",
+          "merge_commit": "551a7b6e2790c512bd316b917d134570f297e3ed",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "PLAT-MLX",
+      "issue": 903,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/903",
+      "title": "[v0.92.2][PLAT-MLX] Bounded MLX and Apple Metal provider adapter",
+      "sprint": 6,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": true,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-12T18:13:01Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 965,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/965",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "dd5040549b960c83921d96713223af15b62c333a",
+          "merge_commit": "6aaf316996d68726d38a20ae5f3cef4f81ce1412",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "PLAT-PAIR",
+      "issue": 904,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/904",
+      "title": "[v0.92.2][PLAT-PAIR] NVIDIA PAIR multi-node local-inference experiment",
+      "sprint": 6,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": true,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-14T17:20:16Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 972,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/972",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "85b6d24eb14129451851c12df53b5a679a12a34c",
+          "merge_commit": "b7cbd784e5ed2dd750a09f1656de611f13d4ca86",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "SPEC-RETEST",
+      "issue": 905,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/905",
+      "title": "[v0.92.2][SPEC-RETEST] Speculative-decoding requalification",
+      "sprint": 6,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": true,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-16T03:48:02Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 1004,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/1004",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "0906d81d3c848bd69d89a32ba011ca27ba6cd036",
+          "merge_commit": "8a6fdb694f0e49bf72062d01830eb66ffa15d8e2",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "CSDLC-MERGE",
+      "issue": 849,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/849",
+      "title": "[v0.92.2][C-SDLC v3][P2] Preserve publication linkage during native PR merge",
+      "sprint": 7,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": true,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-12T05:34:34Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 952,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/952",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "f5f07aa9a15286b945dabb2e1bf42e1ae8d24dd2",
+          "merge_commit": "b70ea9b9a12f642b46c71284f8df744ebaca2e7f",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "CSDLC-DECOMPOSE",
+      "issue": 862,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/862",
+      "title": "[v0.92.2][C-SDLC v3][refactor] Decompose the local command owner",
+      "sprint": 7,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": true,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-16T02:39:35Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 1007,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/1007",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "e35feb750f4ec8b410ddaf40b8891b50f0ed8ac1",
+          "merge_commit": "0b27711fb2678aa4ed59eddd42360122f45b6780",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "PLAT-RUST",
+      "issue": 906,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/906",
+      "title": "[v0.92.2][PLAT-RUST] Complete one selected production Rust responsibility refactor",
+      "sprint": 7,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": true,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-16T17:10:51Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 1022,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/1022",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "28fa6251cb32a394d8b7a07cf307a5cc86e7a146",
+          "merge_commit": "364f5ad264ef22217707fbb126a8a4a3549dfd6c",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "CSDLC-REMOTE",
+      "issue": 907,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/907",
+      "title": "[v0.92.2][CSDLC-REMOTE] Decompose the remote C-SDLC command owner",
+      "sprint": 7,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": true,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-16T07:33:18Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 1015,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/1015",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "6e3a70fc00192558055dbf47ace7f2e4ad49abd2",
+          "merge_commit": "b054a2510c13f39e7d869534087d58a9b94d204d",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "OBS-LIVE",
+      "issue": 720,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/720",
+      "title": "[v0.92.2][Observatory] Remove retained-mode demo hazards",
+      "sprint": 8,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": true,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-12T01:22:10Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 939,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/939",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "9b469bdf5efb9d4786b612897696c78d0b9fb7bb",
+          "merge_commit": "9c583cec78d396527798e592082595f316c67ce2",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "OPS-AWS",
+      "issue": 908,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/908",
+      "title": "[v0.92.2][OPS-AWS] Produce one current AWS inventory packet from the #484 baseline",
+      "sprint": 8,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": true,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-12T00:29:58Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 940,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/940",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "8108b9b42260c0ccc2470ff4327796370d366349",
+          "merge_commit": "2c09eca135808fb6385a6613f7317088b01ffeab",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "OPS-GCP",
+      "issue": 909,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/909",
+      "title": "[v0.92.2][OPS-GCP] Produce one apply-ready company GCP move-in execution packet",
+      "sprint": 8,
+      "evidence_category": "planning_result",
+      "is_916_prerequisite": true,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-12T01:49:18Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 949,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/949",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "fd734c660b8a687fcc93aa6867f3ef801923e503",
+          "merge_commit": "52027fe7b6a5b84379f338378aaed4e658cfa7ea",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "OBS-S3",
+      "issue": 910,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/910",
+      "title": "[v0.92.2][OBS-S3] Deploy the existing Observatory S3 and CloudFront sidecar",
+      "sprint": 8,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": false,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-12T05:10:06Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 954,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/954",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "35dd2078617c69c8b60a6ce008c6c5c27433b565",
+          "merge_commit": "7ba22ac49359d621dcf704db0874aa54c0207796",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "ARCH-ADR",
+      "issue": 911,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/911",
+      "title": "[v0.92.2][ARCH-ADR] Generate and reconcile the ADRs required by v0.92.2",
+      "sprint": 9,
+      "evidence_category": "planning_result",
+      "is_916_prerequisite": false,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-12T01:01:10Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 942,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/942",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "3593d6726652b155b20998667a22880a2ca6c65c",
+          "merge_commit": "35a22b49113f688cac412ae469270ae10812d33a",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "PUB-MEDIUM",
+      "issue": 912,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/912",
+      "title": "[v0.92.2][PUB-MEDIUM] Write one complete selected Medium article manuscript",
+      "sprint": 9,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": true,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-20T23:54:22Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 1104,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/1104",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "d1a5f87d4c389bb2ceeaf1483e62eddf4e42b41d",
+          "merge_commit": "2c3663f6a59190fcd5f2f42a193d371f7e2bcb55",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "PUB-CSDLC",
+      "issue": 913,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/913",
+      "title": "[v0.92.2][PUB-CSDLC] Complete one named C-SDLC manuscript revision",
+      "sprint": 9,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": true,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-21T00:32:25Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 1107,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/1107",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "323fd834ecd5133e4ea3ab6dcb2ee9211c3b8bdf",
+          "merge_commit": "584d0093425f7098493d3a2243b8bb9f4cdf5b6c",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "CF-INTEGRATE",
+      "issue": 914,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/914",
+      "title": "[v0.92.2][CF-INTEGRATE] Connect the complete installed CodeFriend Beta 1 journey",
+      "sprint": 10,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": true,
+      "issue_state": "CLOSED",
+      "closed_at": "2026-09-20T22:30:53Z",
+      "disposition": "closed_pending_acceptance_audit",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [
+        {
+          "number": 1084,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/1084",
+          "state": "MERGED",
+          "reviewed_head_not_verified": "6caee1822ed3aab75ac2ee146a97d57c882cbc51",
+          "merge_commit": "2e65d16e1a44bc75cbfdbe256e0390d75f803dde",
+          "merge_ancestor_of_audit_baseline": true
+        }
+      ],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "CF-PROOF",
+      "issue": 915,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/915",
+      "title": "[v0.92.2][CF-PROOF] Execute independent installed Beta 1 qualification on ADL and an external repository",
+      "sprint": 10,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": true,
+      "issue_state": "OPEN",
+      "closed_at": null,
+      "disposition": "pending_qualification",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "TAIL-01",
+      "issue": 916,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/916",
+      "title": "[v0.92.2][TAIL-01] Quality gate",
+      "sprint": 11,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": false,
+      "issue_state": "OPEN",
+      "closed_at": null,
+      "disposition": "active_gap_analysis",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "TAIL-02",
+      "issue": 917,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/917",
+      "title": "[v0.92.2][TAIL-02] Documentation review and external-review handoff",
+      "sprint": 11,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": false,
+      "issue_state": "OPEN",
+      "closed_at": null,
+      "disposition": "pending_tail",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "TAIL-03",
+      "issue": 918,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/918",
+      "title": "[v0.92.2][TAIL-03] Publication finalization",
+      "sprint": 11,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": false,
+      "issue_state": "OPEN",
+      "closed_at": null,
+      "disposition": "pending_tail",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "TAIL-04",
+      "issue": 919,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/919",
+      "title": "[v0.92.2][TAIL-04] Internal milestone review",
+      "sprint": 11,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": false,
+      "issue_state": "OPEN",
+      "closed_at": null,
+      "disposition": "pending_tail",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "TAIL-05",
+      "issue": 920,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/920",
+      "title": "[v0.92.2][TAIL-05] External or third-party review",
+      "sprint": 11,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": false,
+      "issue_state": "OPEN",
+      "closed_at": null,
+      "disposition": "pending_tail",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "TAIL-06",
+      "issue": 921,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/921",
+      "title": "[v0.92.2][TAIL-06] Accepted-findings remediation or explicit deferral capture",
+      "sprint": 11,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": false,
+      "issue_state": "OPEN",
+      "closed_at": null,
+      "disposition": "pending_tail",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "TAIL-07",
+      "issue": 922,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/922",
+      "title": "[v0.92.2][TAIL-07] Next-milestone planning",
+      "sprint": 11,
+      "evidence_category": "planning_result",
+      "is_916_prerequisite": false,
+      "issue_state": "OPEN",
+      "closed_at": null,
+      "disposition": "pending_tail",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "TAIL-08",
+      "issue": 923,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/923",
+      "title": "[v0.92.2][TAIL-08] Next-milestone closeout planning",
+      "sprint": 11,
+      "evidence_category": "planning_result",
+      "is_916_prerequisite": false,
+      "issue_state": "OPEN",
+      "closed_at": null,
+      "disposition": "pending_tail",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "TAIL-09",
+      "issue": 924,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/924",
+      "title": "[v0.92.2][TAIL-09] Next-milestone planning review",
+      "sprint": 11,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": false,
+      "issue_state": "OPEN",
+      "closed_at": null,
+      "disposition": "pending_tail",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    },
+    {
+      "task": "TAIL-10",
+      "issue": 925,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/925",
+      "title": "[v0.92.2][TAIL-10] Release ceremony and milestone close",
+      "sprint": 11,
+      "evidence_category": "non_planning_result",
+      "is_916_prerequisite": false,
+      "issue_state": "OPEN",
+      "closed_at": null,
+      "disposition": "pending_tail",
+      "acceptance": "not_proven",
+      "closing_pull_requests": [],
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+    }
+  ],
+  "denominator": 69,
+  "planning_denominator": 7,
+  "prerequisite_denominator": 24,
+  "counts": {
+    "closed": 57,
+    "operator_deferred": 1,
+    "open_current_release": 11
+  },
+  "deferrals": [
+    {
+      "issue": 875,
+      "target": "v0.93",
+      "authority": "https://github.com/agent-logic/agent-design-language/issues/875",
+      "reason": "Explicit September 19 operator deferral of five live journeys; zero live-journey completion claimed."
+    }
+  ]
+}
