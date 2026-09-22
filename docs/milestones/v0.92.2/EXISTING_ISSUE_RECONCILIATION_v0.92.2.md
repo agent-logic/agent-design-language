@@ -1,5 +1,9 @@
 # v0.92.2 existing issue reconciliation
 
+## Current disposition — September 21 review
+
+The original planning/creation observations below are retained history. Podcast #671 and SIM-09 pilot #875 are now assigned to v0.93; any original sidecar or 82-membership statement is not a current membership count. The 69-row core roster remains an immutable identity denominator, with #875 explicitly deferred. [#916 evidence](evidence/issue-916/GAP_ANALYSIS.md) records current observed results; #915 independent qualification and #916 acceptance remain pending. This overlay does not waive acceptance or finish successor planning.
+
 Status: all 69 core identities are assigned and independently reviewed; nine existing issues are reconciled and 60 successors/new tasks are created.
 
 The authenticated complete issue inventory originally admitted three existing issues. On 2026-09-09 the operator promoted #717 and #718 into the active v0.92.1 bugfix band. They are predecessor work consumed by v0.92.2, not part of this milestone's execution denominator.

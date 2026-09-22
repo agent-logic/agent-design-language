@@ -1,6 +1,6 @@
 # v0.92.2 Demo Matrix
 
-Status: planned demonstrations; none are yet claimed as passing.
+Status: demonstration acceptance matrix. Local component checks are recorded in [post-merge verification](evidence/issue-916/POSTMERGE_VERIFICATION.json); this matrix does not relabel them as executed independent demonstrations. D9/D10 and the full #915 qualification remain pending.
 
 | Demo | User-visible proof | Primary WP | Non-claim |
 |---|---|---|---|

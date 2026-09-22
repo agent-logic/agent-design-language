@@ -1,0 +1,664 @@
+{
+  "schema": "adl.v0922.documentation_handoff.v1",
+  "issue": 917,
+  "acceptance": "pending_916",
+  "operator_authority": "Work on917 now; bounded documentation work overlaps pending916 acceptance without waiving it.",
+  "sources": {
+    "native_main": "2b047c8dc34e133ee1353ec265507a17c523e06f",
+    "website_main": "a45e339c13b24716edbd3fadf29dddff36ffe02e",
+    "inherited_916_checkpoint": "51c9fdee5aabe2c934b1caffa4d1f0eb3a0198c2"
+  },
+  "documents": [
+    {
+      "path": ".csdlc/evidence/864/all-issue-launch.json",
+      "sha256": "79058c4453bfcd0e53678db9de35eef0e9e5722c51ba4f9d751498bf25fb086a",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/ADOPTED_DESIGN_CONTRACTS_v0.92.2.md",
+      "sha256": "8cc5ae0a8468abfa59684aac39bacef41cd2f37b1631d757d870821e5e6107e1",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/ADR_PLAN_v0.92.2.md",
+      "sha256": "2f59bbb08b7fa3221ba06f602e245aeefc213b5469710287e80b018c1ddd943c",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/ATOMIC_TASK_CONTRACTS_v0.92.2.json",
+      "sha256": "b1b5b751a7b3f7e3a22408d706e68835d29d080818bd818e2d9215c84a6be759",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/ATOMIC_TASK_CONTRACTS_v0.92.2.md",
+      "sha256": "93c9fc0890cdf71fbd240b35a5ed1af66a3774be7c4dfb8e733eca94bcdb6c59",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/CANONICAL_DOC_INVENTORY_v0.92.2.md",
+      "sha256": "04baaa55909232dadf6c727b67da386f505540ed95f4dba43b0aea98288beff2",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/CREATION_SELECTIONS_v0.92.2.md",
+      "sha256": "4ae6b38a46534d5fd58b6761a4a747e447fe0057412cd298b6daad2c0d00ff96",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/DECISIONS_v0.92.2.md",
+      "sha256": "7172aea9ca3e320f2d07dea5889f8b2b0665b98e45008be76ee52443ee1623fd",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/DEMO_MATRIX_v0.92.2.md",
+      "sha256": "5a8277994dbd17e753446ca1300e5d8babf94969e48c145d8e33fe76df643d75",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/DESIGN_v0.92.2.md",
+      "sha256": "dbb4bbe97a1bf6e499e34cb81a6cf37f37cd25f791785f46e3374f00aade904a",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/EXISTING_ISSUE_RECONCILIATION_v0.92.2.md",
+      "sha256": "b0264c8539addf3d037ffece1b9711a8615a5bb1335125a062f10992f0a376dc",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/FEATURE_PROOF_COVERAGE_v0.92.2.md",
+      "sha256": "40917842367cbce96463295803d22c37af5615b3f036c78da5aeb964de0e5f0e",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/ISSUE_CREATION_BATCHES_v0.92.2.json",
+      "sha256": "5c6f82b2a38b5f803c34dfbfdc047613a2ab4adbd93a3239c9ec89f62b39eb30",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/MILESTONE_CHECKLIST_v0.92.2.md",
+      "sha256": "cdf03fadcf4fd6e8ee6711682cdc447de2236572ac9a1473e1c82e7eed0eddfb",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/NEXT_MILESTONE_HANDOFF_v0.92.2.md",
+      "sha256": "e58609351c5539dd28b3bf0d796b392bf499340e357b1a5e11adb95f3e8d84a3",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/PLANNED_ISSUE_CATALOG_v0.92.2.md",
+      "sha256": "6e49c64b3ef5ed0a0d3684016f6c28051724cda1c6c9302185c8ac639d8a0918",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/QUALITY_GATE_v0.92.2.md",
+      "sha256": "3b4e0722e231fa198603c01292530c5fb8b9657f167fe7b033e9cca0aebe0d42",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/README.md",
+      "sha256": "b902499e05b69bc1c2add7b69c46e5beabf36602d1230f50fdbc7555dd2e5759",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/RELEASE_NOTES_v0.92.2.md",
+      "sha256": "3b2d6565351ae2a3200110f67cc1aa71d8c6eaffdead525a295db75ad3cd053a",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/RELEASE_PLAN_v0.92.2.md",
+      "sha256": "997887d3a7b204fc16fe8cb7583b19feeb16ea2298eae31384bf74518bab6580",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/SPRINT_v0.92.2.md",
+      "sha256": "3ec4a9ced68fb4f3e9ce5340b25cd51dad019573957293cab62d0e4be5b997ef",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/TBD_SCHEDULING_RECONCILIATION_v0.92.2.md",
+      "sha256": "91624c38ddfa7af8f0cb0fbee1bdb9c57748389d8da98ae3adc692c24e57e308",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/TBD_SOURCE_AUDIT_MANIFEST_v0.92.2.txt",
+      "sha256": "a940782ae2104a9d70d170d9af9df920e356b9b0bb8be59be5038f964837844e",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/VISION_v0.92.2.md",
+      "sha256": "774669a5207a571895699a08cbfb05ab0ac77639ca885ce59c5523b4b1e3efb7",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/WBS_v0.92.2.md",
+      "sha256": "9a85f0480867d8055c26507f1518fb0560df2ea649c95a305968750572ccfd65",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/WP_EXECUTION_READINESS_v0.92.2.md",
+      "sha256": "1a3cb5785170df81eb9ee5f870cd867e2682685cd2136a2f58d699d6132baf30",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/WP_EXECUTION_SPECIFICATIONS_v0.92.2.yaml",
+      "sha256": "46a341cf7d576f02b40696e4360e97e02d8041c475e426991c226e5c17445347",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/WP_ISSUE_WAVE_v0.92.2.yaml",
+      "sha256": "56a8c264e14d0e13bfec8d726e529119e8c2e9d6c0999b4e6d542183484b221e",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md",
+      "sha256": "0cefde9f9723d6f8b2cf756689a6f571f3f52a33a3f329d5fd3b56ee5dcf7a60",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/cognitive-sdlc/source-promotion-manifest.json",
+      "sha256": "3fbc0459099c84bbd6406b931725ebaf3f0be7c949a9c1450becb6d08cb533e6",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/cognitive-sdlc/statistical-review-2026-09-08/METHODS.md",
+      "sha256": "4d9992e4b6d59dcc5c3e26e1dcbfaf515990c1620771f0950760a4815116cb6b",
+      "classification": "retained_historical_study"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/cognitive-sdlc/statistical-review-2026-09-08/RECOMMENDATIONS.md",
+      "sha256": "0d96810e0feb84ebae82b444c36d1c78085b9aeb47320be4f4f85e87d6f2cff3",
+      "classification": "retained_historical_study"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/cognitive-sdlc/statistical-review-2026-09-08/REPORT.md",
+      "sha256": "272def2fbbb686e92b2034a5a4cb12e1667c097e6322a3c5b62871043c9bda09",
+      "classification": "retained_historical_study"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-916/PAIR_HEALTH_RECHECK.json",
+      "sha256": "16589414ef91095df0cebcf5e745d97245bbd648663f6d60918689d0753a9f31",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-916/POSTMERGE_VERIFICATION.json",
+      "sha256": "e1b060a7b93908b2ed5b774fa3e8ebde0a971b4140ccb076b2fb99e0e90a76c4",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-916/PREREQUISITE_ACCEPTANCE.json",
+      "sha256": "cbbd16ee061067594324917a24597bbcfe75c68448297d7cebb6b947aecc3920",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-916/QUALITY_DECISION.json",
+      "sha256": "759fabe3ec528ab0b96f41b009dc0e7f921fa752b15b4236d28fff4dafd8a784",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-916/TASK_LEDGER.json",
+      "sha256": "d6299f221d39112a02c9d379a935de586aa147106d62006936f620c533f2623d",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-917/HANDOFF.md",
+      "sha256": "87e56a4e3e0cc206a13592534e5b51d3532e4025437ebb08bb2ec2330e1e54f6",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-917/validate_handoff.py",
+      "sha256": "07bb93f310a256c6fd7bdc807c558d015ab4b045a56a68898f9f2623e0736aeb",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/features/ARCHITECTURE_COGNITION_v0.92.2.md",
+      "sha256": "30fce69671a4876b067201d873bf07dcc60c248e4d5c6ee8019e5c0754348ae4",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/features/BETA1_QUALIFICATION_v0.92.2.md",
+      "sha256": "b62858141b4657d7611339b756133d36ca8c8a4ad434e2868764dd56dcf2c149",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/features/EVIDENCE_CORE_v0.92.2.md",
+      "sha256": "2aa7fda7d19c7ecee1c6e7a436c415b2fbde73493f63f5e54732dabeb17ba4f0",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/features/EXECUTABLE_GOVERNANCE_v0.92.2.md",
+      "sha256": "2b927f0d5f06cd91f101e8cb920e4be9419ce607e5f2ab62f7ce6c4556407f9b",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/features/GOVERNED_PUBLICATION_v0.92.2.md",
+      "sha256": "6ebc6e4f385a43eb9f07e124482e2dbbdaef42820fa3f76098e5cd409f32c8f9",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/features/LONGITUDINAL_REVIEW_MEMORY_v0.92.2.md",
+      "sha256": "d3719804414633a6cfb7c002247c93d8b037d530488848fdc94cdff0ead87baa",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/features/MULTI_PERSPECTIVE_REVIEW_v0.92.2.md",
+      "sha256": "442e3487dc6f07bd4f3f66a7afa27e6fd72ef836ac17b92dac271768fd57ace1",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/features/PORTABLE_ADAPTER_V2_v0.92.2.md",
+      "sha256": "d0b094f91c863358de8848ef79d14de1308d1709f64af7dff3b571831c83c3cf",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/features/PRODUCT_SHELL_AND_OPERATOR_CONTROLS_v0.92.2.md",
+      "sha256": "c7dda4cc6b29883dc670981b180019031835bfcd9123f99c9fc4a67a3ec4c546",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/features/README.md",
+      "sha256": "f769edd671379634bf12c8e90e7fbd1a87d180e1028a7b2c69c40b6b56f83172",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/features/SUPPORTING_PLATFORM_TRACKS_v0.92.2.md",
+      "sha256": "d2447d602b6e01b659f1fcf1004a30c226806da3968686f59e0aa72c7fdbc033",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/validate_atomic_tasks.py",
+      "sha256": "c4e8759bb9fbcd0a53f5664cba66d8c1a059c596c791fb5251d6368b5c0d343f",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/validate_launch_bindings.py",
+      "sha256": "65e37d636ddcc269c0d02af4274e2d587ae28dd2c1c90e6416d61cdb6c169b13",
+      "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/validate_planning.py",
+      "sha256": "42116a694b6d2fac976b77be38ac5e2952ba343f7af462312d230d20dad33451",
+      "classification": "current_contract_or_evidence"
+    }
+  ],
+  "tasks": [
+    {
+      "task": "WP-01",
+      "issue": 864,
+      "evidence_category": "planning_result"
+    },
+    {
+      "task": "CSDLC-MAN",
+      "issue": 861,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "SIM-UMBRELLA",
+      "issue": 866,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "SIM-01",
+      "issue": 867,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "SIM-02",
+      "issue": 868,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "SIM-03",
+      "issue": 869,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "SIM-04",
+      "issue": 870,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "SIM-05",
+      "issue": 871,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "SIM-06",
+      "issue": 872,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "SIM-07",
+      "issue": 873,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "SIM-08",
+      "issue": 874,
+      "evidence_category": "planning_result"
+    },
+    {
+      "task": "SIM-09",
+      "issue": 875,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "ARCH-SPLIT",
+      "issue": 848,
+      "evidence_category": "planning_result"
+    },
+    {
+      "task": "RT-COST",
+      "issue": 854,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "RT-PROVIDER",
+      "issue": 855,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "PLAT-PROVIDER",
+      "issue": 876,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "PLAT-UTS",
+      "issue": 877,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CF-ADAPTER",
+      "issue": 878,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CF-ADAPTER-GITHUB",
+      "issue": 879,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CF-ADAPTER-CI",
+      "issue": 880,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CF-EVIDENCE",
+      "issue": 881,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CF-COG",
+      "issue": 882,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CF-COG-IMPACT",
+      "issue": 883,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CF-COG-RATIONALE",
+      "issue": 884,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CF-MEMORY",
+      "issue": 885,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CF-COG-DRIFT",
+      "issue": 886,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CF-GOV",
+      "issue": 887,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CF-GOV-CI",
+      "issue": 888,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "PLAT-MEMORY",
+      "issue": 889,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CF-REVIEW",
+      "issue": 890,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CF-SHELL",
+      "issue": 891,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CF-SYNTHESIS",
+      "issue": 892,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CF-REMEDIATE",
+      "issue": 893,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CF-TESTPLAN",
+      "issue": 894,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CF-UX",
+      "issue": 895,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CF-RENDER-MD",
+      "issue": 896,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CF-RENDER-HTML",
+      "issue": 897,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CF-RENDER-PDF",
+      "issue": 898,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "QUAL-RUNTIME",
+      "issue": 852,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "QUAL-INVENTORY",
+      "issue": 899,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "QUAL-RESIDENT",
+      "issue": 900,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "QUAL-PROVIDER",
+      "issue": 901,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "QUAL-EVIDENCE",
+      "issue": 902,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "PLAT-MLX",
+      "issue": 903,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "PLAT-PAIR",
+      "issue": 904,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "SPEC-RETEST",
+      "issue": 905,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CSDLC-MERGE",
+      "issue": 849,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CSDLC-DECOMPOSE",
+      "issue": 862,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "PLAT-RUST",
+      "issue": 906,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CSDLC-REMOTE",
+      "issue": 907,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "OBS-LIVE",
+      "issue": 720,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "OPS-AWS",
+      "issue": 908,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "OPS-GCP",
+      "issue": 909,
+      "evidence_category": "planning_result"
+    },
+    {
+      "task": "OBS-S3",
+      "issue": 910,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "ARCH-ADR",
+      "issue": 911,
+      "evidence_category": "planning_result"
+    },
+    {
+      "task": "PUB-MEDIUM",
+      "issue": 912,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "PUB-CSDLC",
+      "issue": 913,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CF-INTEGRATE",
+      "issue": 914,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CF-PROOF",
+      "issue": 915,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "TAIL-01",
+      "issue": 916,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "TAIL-02",
+      "issue": 917,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "TAIL-03",
+      "issue": 918,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "TAIL-04",
+      "issue": 919,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "TAIL-05",
+      "issue": 920,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "TAIL-06",
+      "issue": 921,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "TAIL-07",
+      "issue": 922,
+      "evidence_category": "planning_result"
+    },
+    {
+      "task": "TAIL-08",
+      "issue": 923,
+      "evidence_category": "planning_result"
+    },
+    {
+      "task": "TAIL-09",
+      "issue": 924,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "TAIL-10",
+      "issue": 925,
+      "evidence_category": "non_planning_result"
+    }
+  ],
+  "prerequisites": [
+    720,
+    848,
+    849,
+    852,
+    854,
+    861,
+    862,
+    866,
+    877,
+    899,
+    900,
+    901,
+    902,
+    903,
+    904,
+    905,
+    906,
+    907,
+    908,
+    909,
+    912,
+    913,
+    914,
+    915
+  ],
+  "privacy": "No private manuscript/provider raw data included. Authorized custody required for protected replay.",
+  "pvf": {
+    "lane": "docs_only",
+    "role": "handoff_integrity",
+    "determinism": "local bytes and identities",
+    "resources": "local Python/filesystem; no network",
+    "release_gate": "required document validation; not release authorization"
+  }
+}

@@ -1,6 +1,6 @@
 # v0.92.2 Milestone Checklist
 
-Status: planned.
+Status: release acceptance checklist, intentionally unchecked while #915/#916 acceptance is pending. The [handoff](evidence/issue-917/HANDOFF.md) records observed work without treating closed issues or local test counts as release approval.
 
 ## Opening
 

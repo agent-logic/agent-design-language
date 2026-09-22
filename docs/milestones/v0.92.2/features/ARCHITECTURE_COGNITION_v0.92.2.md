@@ -1,6 +1,6 @@
 # Architecture Cognition
 
-Status: planned. Owners: CF-COG, CF-COG-DRIFT, CF-COG-IMPACT, CF-COG-RATIONALE.
+Status: requirements retained; component evidence is indexed in the [review handoff](../evidence/issue-917/HANDOFF.md), with final Beta 1 qualification pending. Owners: CF-COG, CF-COG-DRIFT, CF-COG-IMPACT, CF-COG-RATIONALE.
 
 CodeFriend must explain dependencies, boundaries, layering, coupling and connascence, architecture drift, blast radius, architectural quanta, and available ADR/rationale signals. Findings connect observed evidence to an explicit inference and surface confidence or unknowns.
 

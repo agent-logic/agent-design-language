@@ -1,6 +1,8 @@
 # v0.92.2 Canonical Document Inventory
 
-Status: planning candidate. Inventory completeness is not execution or release proof.
+Status: documentation handoff audit in progress under #917. Inventory completeness is not execution or release proof.
+
+[Reviewer entry point](evidence/issue-917/HANDOFF.md) and [digest manifest](evidence/issue-917/HANDOFF_MANIFEST.json) identify the exact inspected documents, dependencies and unresolved acceptance boundaries.
 
 | Surface | File |
 |---|---|

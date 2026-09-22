@@ -1,5 +1,9 @@
 # v0.92.2 Sprint Plan
 
+## Current disposition — September 21 review
+
+The original planning/creation observations below are retained history. Podcast #671 and SIM-09 pilot #875 are now assigned to v0.93; any original sidecar or 82-membership statement is not a current membership count. The 69-row core roster remains an immutable identity denominator, with #875 explicitly deferred. [#916 evidence](evidence/issue-916/GAP_ANALYSIS.md) records current observed results; #915 independent qualification and #916 acceptance remain pending. This overlay does not waive acceptance or finish successor planning.
+
 Status: planned; sequence expresses dependencies, not calendar deadlines.
 
 ## Execution sprint assignments
