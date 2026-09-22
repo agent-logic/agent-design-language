@@ -588,9 +588,14 @@ fn semantic_mutation(
                 // its completed semantic identity. Settle only its native receipt;
                 // completed semantic history must never be reopened or reattached.
                 context.fresh_integrity()?;
-                let result = staged
-                    .reconcile_completed_publication(&context.root, process)
-                    .map_err(failure)?;
+                // Legacy PR updates retain no authenticated pre-state, so a
+                // metadata mismatch cannot distinguish absence from a later edit.
+                let reconcile_only = staged
+                    .reconciliation_only()
+                    .ok_or("github_mutation_recovery_ineligible")?;
+                let result =
+                    execute_staged_github_mutation(&context.root, &reconcile_only, true, process)
+                        .map_err(failure)?;
                 staged.verified_outcome(&result).map_err(failure)?;
                 return Ok(json!({
                     "status":"completed", "read_only":false,
