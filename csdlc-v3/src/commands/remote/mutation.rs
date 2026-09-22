@@ -273,11 +273,13 @@ pub fn stage_github_mutation(
         }
         None
     };
+    let mut original_request = request.clone();
+    original_request.recovery = None;
     let request_bytes = serde_json::to_vec(&serde_json::json!({
         "schema":"csdlc.v3.staged_github_mutation.v1",
         "operation_digest":operation_digest,
         "intent_digest":intent_digest,
-        "request":effective_request
+        "request":original_request
     }))
     .map_err(|_| {
         remote_finding(

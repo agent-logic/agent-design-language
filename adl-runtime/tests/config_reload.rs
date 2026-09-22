@@ -226,7 +226,7 @@ async fn file_events_are_debounced() {
     assert_eq!(outcome.reloads_applied, 1);
 }
 
-#[tokio::test]
+#[tokio::test(start_paused = true)]
 async fn reverting_during_debounce_cancels_the_pending_reload() {
     let temp = TempDir::new().expect("temp dir");
     let path = temp.path().join("runtime.toml");
@@ -238,14 +238,43 @@ async fn reverting_during_debounce_cancels_the_pending_reload() {
         .expect("start reload");
     let handle = controller.handle();
 
-    write_config(&path, render("transient", 2, 2)).await;
-    let pending = wait_for_reload_status(&handle, |status| status.pending_candidate()).await;
+    // Keep the debounce clock fixed while the real filesystem read completes.
+    // A runnable task prevents Tokio's paused clock from auto-advancing during
+    // blocking-pool I/O; only the explicit poll advances below move time.
+    let clock_guard = tokio::spawn(async {
+        loop {
+            tokio::task::yield_now().await;
+        }
+    });
+    std::fs::write(&path, render("transient", 2, 2)).expect("write transient");
+    tokio::time::advance(options().poll_interval).await;
+    let deadline = std::time::Instant::now() + Duration::from_secs(5);
+    while !handle.reload_status().pending_candidate() {
+        assert!(
+            std::time::Instant::now() < deadline,
+            "transient candidate not observed: {:?}",
+            handle.reload_status()
+        );
+        tokio::task::yield_now().await;
+    }
+    let pending = handle.reload_status();
     assert_eq!(pending.candidate_observations(), 1);
-    write_config(&path, initial).await;
-    let cancelled = wait_for_reload_status(&handle, |status| {
-        !status.pending_candidate() && status.pending_cancellations() == 1
-    })
-    .await;
+    // Complete the revert before polling the watcher again. Virtual time has
+    // advanced only one poll, strictly less than the pending debounce period.
+    std::fs::write(&path, initial).expect("restore original config");
+    tokio::time::advance(options().poll_interval).await;
+    let deadline = std::time::Instant::now() + Duration::from_secs(5);
+    let cancelled = loop {
+        let status = handle.reload_status();
+        if !status.pending_candidate() && status.pending_cancellations() == 1 {
+            break status;
+        }
+        assert!(
+            std::time::Instant::now() < deadline,
+            "pending candidate not cancelled: {status:?}"
+        );
+        tokio::task::yield_now().await;
+    };
 
     assert_eq!(handle.current().generation(), 0);
     assert_eq!(handle.current().value().name, "initial");
@@ -253,6 +282,8 @@ async fn reverting_during_debounce_cancels_the_pending_reload() {
     let outcome = controller.shutdown().await.expect("shutdown");
     assert_eq!(outcome.reloads_applied, 0);
     assert_eq!(outcome.invalid_updates_rejected, 0);
+    clock_guard.abort();
+    let _ = clock_guard.await;
 }
 
 #[tokio::test]

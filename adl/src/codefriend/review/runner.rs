@@ -23,6 +23,9 @@ use std::{
     path::{Path, PathBuf},
 };
 
+/// Maximum UTF-8 bytes in one canonical assessment prompt, including source annotations.
+pub const MAX_ASSESSMENT_PROMPT_BYTES: usize = 4 * 1024 * 1024;
+
 pub const REVIEW_RUN_SCHEMA: &str = "codefriend.four_perspective_review_run.v1";
 pub const REVIEW_RUN_SCHEMA_V3: &str = "codefriend.four_perspective_review_run.v3";
 pub const LANE_INPUT_SCHEMA_V2: &str = "codefriend.review_lane_input_manifest.v2";
@@ -492,6 +495,13 @@ where
         !options.out.exists(),
         "review_output_directory_already_exists"
     );
+    // Local agents and direct owners must admit every lane before the first effect.
+    // Construct one prompt at a time to avoid retaining four maximum-sized buffers.
+    if assessment_mode {
+        for lane in ReviewLane::ALL {
+            assessment_lane_input_manifest(&options.run_id, lane, &admission)?;
+        }
+    }
     fs::create_dir_all(&options.out)?;
     let lanes_dir = options.out.join("lanes");
     fs::create_dir_all(&lanes_dir)?;
@@ -838,7 +848,7 @@ pub fn assessment_lane_input_manifest(
                     .len()
                     .saturating_add(prefix.len())
                     .saturating_add(line.len())
-                    <= assessments::MAX_REVIEW_BYTES,
+                    <= MAX_ASSESSMENT_PROMPT_BYTES,
                 "assessment_prompt_byte_limit"
             );
             prompt.push_str(&prefix);
@@ -851,7 +861,7 @@ pub fn assessment_lane_input_manifest(
         prompt.push_str("\nPrivacy-filtered source is absent. Do not infer omitted contents or claim complete source coverage.\n");
     }
     ensure!(
-        prompt.len() <= assessments::MAX_REVIEW_BYTES,
+        prompt.len() <= MAX_ASSESSMENT_PROMPT_BYTES,
         "assessment_prompt_byte_limit"
     );
     manifest.input_digest = digest(prompt.as_bytes());
