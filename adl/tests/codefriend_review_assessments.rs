@@ -717,6 +717,62 @@ fn historical_assessment_lane_v2_remains_readable_with_verified_spans() {
     adl::codefriend::review::synthesis::synthesize(&record).unwrap();
 }
 
+// PVF #1144: retained review-record compatibility at the coverage validation
+// boundary, with real admitted assessments and gaps; no historical provider call.
+#[test]
+fn historical_v3_mixed_assessment_coverage_remains_consumable() {
+    use adl::codefriend::{evidence::contracts::Run, review::synthesis};
+    let f = Fixture::new(false);
+    let mut unsupported = f.item(AssessmentKind::DefectCandidate);
+    unsupported.citations[0].quote = "invented code".into();
+    let raw = json(vec![f.item(AssessmentKind::DefectCandidate), unsupported]);
+    let current = f
+        .execute("retained-coverage", |_| raw.clone())
+        .unwrap()
+        .review_record;
+    let coverage = current.run.assessment_coverage.clone().unwrap();
+    for version in [
+        "codefriend.review_lane.v3",
+        "codefriend.review_lane.v4",
+        "codefriend.review_lane.v2",
+    ] {
+        let mut versions = current.run.lane_versions.clone();
+        versions
+            .values_mut()
+            .for_each(|value| *value = version.into());
+        let run = Run::new(
+            &current.admission,
+            versions,
+            current.run.provider_route.clone(),
+            current.run.completion.clone(),
+            current.run.failures.clone(),
+        )
+        .unwrap()
+        .with_assessments(
+            &current.admission,
+            current.run.assessment_set.clone().unwrap(),
+        )
+        .unwrap()
+        .with_assessment_coverage(&current.admission, coverage.clone());
+        if version == "codefriend.review_lane.v2" {
+            assert_eq!(run.unwrap_err().to_string(), "invalid_assessment_coverage");
+            continue;
+        }
+        let mut record = current.clone();
+        record.run = run.unwrap();
+        record.successful_execution().unwrap();
+        assert_eq!(record.run.completion, Completion::Incomplete);
+        assert_eq!(record.run.assessment_coverage.as_ref(), Some(&coverage));
+        let path = f.dir.path().join(format!("{version}.json"));
+        fs::write(&path, serde_json::to_vec(&record).unwrap()).unwrap();
+        synthesis::synthesize_from_file(synthesis::SynthesisOptions {
+            input: path,
+            out: f.dir.path().join(format!("synthesis-{version}")),
+        })
+        .unwrap();
+    }
+}
+
 #[test]
 fn mixed_assessment_gaps_traverse_original_store_planner_and_publication() {
     use adl::codefriend::{actions::test_plan, integration, review::synthesis};

@@ -293,11 +293,12 @@ impl Run {
                         .assessment_set
                         .as_ref()
                         .is_some_and(|set| !set.assessments.is_empty())
-                    && self
-                        .lane_versions
-                        .values()
-                        .all(|v| v
-                            == crate::codefriend::review::lanes::ASSESSMENT_LANE_CONTRACT_VERSION),
+                    && self.lane_versions.values().all(|v| {
+                        matches!(
+                            v.as_str(),
+                            "codefriend.review_lane.v3" | "codefriend.review_lane.v4"
+                        )
+                    }),
                 "invalid_assessment_coverage"
             );
         }
