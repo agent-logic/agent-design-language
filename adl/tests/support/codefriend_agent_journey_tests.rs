@@ -785,7 +785,7 @@ fn cycle_drift_rechecks_two_imported_owners_and_denies_revoked_baseline() {
             cancel_file: None,
         },
         admission.clone(),
-        original.run.provider_route.clone(),
+        report.gateway_lanes[0].route().unwrap(),
         |_, _, _| {
             Ok(LaneExecution {
                 final_status: ProviderInvocationFinalStatusV1::Ok,
