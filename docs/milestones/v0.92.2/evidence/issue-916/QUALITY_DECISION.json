@@ -253,5 +253,18 @@
     },
     "live_verification": "LIVE_VERIFICATION.json",
     "postmerge_verification": "POSTMERGE_VERIFICATION.json"
+  },
+  "sprint10_closeout_refresh": {
+    "observed_at": "2026-09-22T17:48:38.466820+00:00",
+    "evidence": "SPRINT10_CLOSEOUT_REFRESH.json",
+    "integration_issue_state": "CLOSED",
+    "qualification_issue_state": "OPEN",
+    "sprint_issue_state": "OPEN",
+    "repair_issue": 1144,
+    "repair_pr": 1146,
+    "repair_head": "a200a199fc07df1a60b165cf46c4366a20971b6e",
+    "repair_pr_state": "OPEN",
+    "acceptance": "not_proven",
+    "next_gate": "Consume accepted exact repaired candidate and independent #915 qualification; then reconcile source-specific acceptance and sprint closing ancestry."
   }
 }
