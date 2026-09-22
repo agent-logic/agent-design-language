@@ -2723,6 +2723,7 @@ textarea,
   text-transform: uppercase;
 }
 
+.conversation-turn-copy,
 .conversation-turn-cancel {
   margin-left: 0.65rem;
   border: 0;
@@ -2733,6 +2734,7 @@ textarea,
   cursor: pointer;
 }
 
+.conversation-turn-copy:disabled,
 .conversation-turn-cancel:disabled {
   color: var(--muted);
   cursor: default;
