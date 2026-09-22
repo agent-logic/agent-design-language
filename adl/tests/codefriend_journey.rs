@@ -819,7 +819,7 @@ fn journey_responses_server(architecture: bool) -> (String, std::thread::JoinHan
             {
                 format!("```json\n{partial}\n```")
             } else {
-                "{\"findings\":[]}".into()
+                "{\"assessments\":[]}".into()
             };
             let body = serde_json::json!({"output_text":payload}).to_string();
             write!(stream,"HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{}",body.len(),body).unwrap();
@@ -1035,6 +1035,22 @@ fn complete_journey(architecture: bool) {
         "four calls per review and one architecture call when requested"
     );
     let current = publication::read_review(&output.join("review/review-record.json")).unwrap();
+    assert!(baseline_review.run.assessment_generation());
+    assert!(current.run.assessment_generation());
+    assert!(baseline_review
+        .run
+        .assessment_set
+        .as_ref()
+        .unwrap()
+        .assessments
+        .is_empty());
+    assert!(current
+        .run
+        .assessment_set
+        .as_ref()
+        .unwrap()
+        .assessments
+        .is_empty());
     assert_ne!(baseline_graph.record.run.revision, current.run.revision);
     let authority_root = f.dir.path().join("authority");
     journey_authority_fixture::generate(&authority_root).unwrap();

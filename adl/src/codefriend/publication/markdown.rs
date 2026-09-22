@@ -698,9 +698,73 @@ pub(crate) fn render_report(
     list(&mut out, "Claims", &publication.claims)?;
     list(&mut out, "Nonclaims", &publication.nonclaims)?;
 
+    if let Some(set) = &review.run.assessment_set {
+        out.push_str("\n## Review assessments\n\n");
+        let counts = set.counts();
+        field(
+            &mut out,
+            "Defect candidates",
+            &counts.defect_candidates.to_string(),
+        )?;
+        field(
+            &mut out,
+            "Positive observations",
+            &counts.positive_observations.to_string(),
+        )?;
+        field(
+            &mut out,
+            "Unresolved questions",
+            &counts.unresolved_questions.to_string(),
+        )?;
+        out.push_str("\nOnly defect candidates enter repair and test proposals. A completed review with no defect candidates does not establish that the source is defect-free. Exact citations establish source location, not semantic correctness.\n");
+        for assessment in &set.assessments {
+            out.push_str("\n### ");
+            out.push_str(&markdown_text(&assessment.summary)?);
+            out.push_str("\n\n");
+            field(&mut out, "Assessment", &assessment.id)?;
+            field(&mut out, "Classification", match assessment.kind {
+                crate::codefriend::evidence::assessments::AssessmentKind::DefectCandidate => "Defect candidate",
+                crate::codefriend::evidence::assessments::AssessmentKind::PositiveObservation => "Positive observation",
+                crate::codefriend::evidence::assessments::AssessmentKind::UnresolvedQuestion => "Unresolved question",
+            })?;
+            field(&mut out, "Perspective", &assessment.lane)?;
+            field(&mut out, "Explanation", &assessment.explanation)?;
+            if let Some(defect) = &assessment.defect {
+                field(&mut out, "Severity", &format!("{:?}", defect.severity))?;
+                field(&mut out, "Observed behavior", &defect.observed_behavior)?;
+                field(&mut out, "Expected behavior", &defect.expected_behavior)?;
+                field(&mut out, "Concrete trigger", &defect.concrete_trigger)?;
+                field(&mut out, "Impact", &defect.impact)?;
+                field(
+                    &mut out,
+                    "Proposed remedy or verification",
+                    &defect.proposed_remedy_or_verification,
+                )?;
+            }
+            list(&mut out, "Limitations", &assessment.limitations)?;
+            for citation in &assessment.citations {
+                let item = evidence
+                    .get(citation.evidence_id.as_str())
+                    .ok_or_else(|| anyhow::anyhow!("assessment_evidence_missing"))?;
+                field(
+                    &mut out,
+                    "Source location",
+                    &format!(
+                        "{} bytes [{}..{})",
+                        item.path, citation.start_byte, citation.end_byte
+                    ),
+                )?;
+                field(
+                    &mut out,
+                    "Exact source excerpt",
+                    citation.quote(&review.admission)?,
+                )?;
+            }
+        }
+    }
     out.push_str("\n## Findings\n\n");
     if synthesis.synthesized_findings.is_empty() {
-        out.push_str("No findings were reported by the completed four-perspective review.\n");
+        out.push_str(if review.run.assessment_generation() { "No defect candidates were reported. Positive observations, unresolved questions and coverage gaps remain above; this is not a defect-free certification.\n" } else { "No findings were reported by the completed four-perspective review.\n" });
     }
     for finding in &synthesis.synthesized_findings {
         render_finding(

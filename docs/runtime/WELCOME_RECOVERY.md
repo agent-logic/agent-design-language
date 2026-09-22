@@ -38,3 +38,24 @@ correlation ID, attempt count, disposition and static reason. They follow the
 Runtime tracing channel (stderr); HTTP JSON remains in the response body.
 Legacy `legacy_migrated` records remain legacy evidence and are not silently
 resent or relabeled as acknowledged.
+
+## Write login and response failures
+
+Observatory login uses `credentials.observatory_token_path` from the live Runtime
+init file. HTTP agent management uses `credentials.acip_write_token_path`. These
+are distinct credentials; never paste their contents into logs or issue records.
+Observatory reports rejected login visibly and Runtime records an
+`observatory_authentication` event with a static outcome/reason and endpoint,
+without the supplied token or its hash.
+
+Ordinary replies should be plain text. An exact action envelope containing only
+`schema`, a bounded nonempty plain-text `message`, and an empty `action` object is treated as
+an inert reply; it cannot dispatch an action. Malformed actionable envelopes still
+fail validation and emit `provider_response_rejected` with a bounded reason,
+without retaining reply content.
+
+Nested JSON messages are not unwrapped through the empty-action compatibility
+path. Agent continuations use the admitted canonical name and a canonical peer
+name when known; internal provider and routing IDs remain outside that identity
+context. Observatory direct and room messages provide a Copy button for displayed
+message text, with explicit success or failure feedback.

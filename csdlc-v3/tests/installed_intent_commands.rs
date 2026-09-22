@@ -6764,3 +6764,86 @@ fn installed_proof_matches_same_named_binary_and_library_with_cargo_aggregate() 
         "native verification must not rewrite Cargo evidence"
     );
 }
+
+// PVF #1129: required deterministic installed lifecycle regression; local Git,
+// synthetic transport and filesystem only. No live GitHub effects or provider calls.
+#[test]
+fn issue1129_ready_merge_refusal_preserves_pending_edit_then_recover_finishes() {
+    for pending_edit in [false, true] {
+        let (mut fixture, linked) = reviewed_fixture(&format!("issue1129-{pending_edit}"));
+        let primary = fixture.root.clone();
+        success(fixture.run(&linked, &["publish", "505"]));
+        if pending_edit {
+            let edit = fixture.write_json(
+                "edit.json",
+                &json!({
+                    "action":"issue_edit", "title":"Updated issue title", "body":null
+                }),
+            );
+            fixture.remote_flag("drop-issue-edit-readback", true);
+            let failed = fixture.run(
+                &linked,
+                &[
+                    "github-issue",
+                    "505",
+                    "--operation",
+                    edit.to_str().unwrap(),
+                    "--execute",
+                ],
+            );
+            assert!(!failed.status.success(), "{failed:?}");
+            assert_eq!(fixture.remote_effects(), 2);
+            fixture.remote_flag("drop-issue-readback", false);
+            fixture.remote_flag("drop-issue-edit-readback", false);
+        }
+        let before = publication_reservation_inventory(&primary);
+        fixture.remote_flag("merge-on-pr-read", true);
+        let ready = fixture.write_json("ready.json", &json!({"action":"pull_request_ready"}));
+        let refused = fixture.run(
+            &linked,
+            &[
+                "github-pr",
+                "505",
+                "--operation",
+                ready.to_str().unwrap(),
+                "--execute",
+            ],
+        );
+        assert!(!refused.status.success(), "{refused:?}");
+        assert!(
+            String::from_utf8_lossy(&refused.stdout)
+                .contains("intent_publication_remote_identity_mismatch"),
+            "{refused:?}"
+        );
+        assert_same_inventory!(before, publication_reservation_inventory(&primary));
+        assert_eq!(fixture.remote_pr()["merged"], true);
+        let effects = fixture.remote_effects();
+        let preview = success(fixture.run(&primary, &["recover", "505"]));
+        if pending_edit {
+            assert_eq!(preview["action"], "reconcile_retained_remote_effect");
+            let stale = fixture.run(
+                &primary,
+                &["recover", "505", "--execute", "--preview", "stale"],
+            );
+            assert!(!stale.status.success());
+            let recovered = success(fixture.run(
+                &primary,
+                &[
+                    "recover",
+                    "505",
+                    "--execute",
+                    "--preview",
+                    preview["preview_digest"].as_str().unwrap(),
+                ],
+            ));
+            assert_eq!(recovered["semantic"]["outcome"], "success");
+            assert_eq!(recovered["performed_mutation"], false);
+        }
+        success(fixture.run(&linked, &["finish", "505"]));
+        assert_eq!(
+            fixture.remote_effects(),
+            effects,
+            "recovery or finish replayed a remote write"
+        );
+    }
+}

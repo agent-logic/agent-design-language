@@ -311,3 +311,29 @@ assert.match(app, /public Logs surface is derived only from the selected polis/)
 assert.match(app, /polisConnectionGeneration/);
 
 console.log("WP-18C.07c Observatory security/privacy/adversarial proof: PASS");
+
+// PVF: deterministic UI/security contract regression; local only, no new gate.
+const loginError = globalThis.AdlHtmlObservatory.observatoryLoginError;
+assert.match(loginError("authentication_failed"), /Sign-in failed.*Observatory.*ACIP/);
+assert.match(loginError("credential_revoked"), /expired/);
+assert.equal(loginError(adversarial), "Sign in with the Observatory write token to enable writes.");
+assert.match(html, /id="operator-login-error" role="alert"/);
+assert.match(app, /loginError\.textContent = message/);
+assert.match(app, /access\.open = true/);
+
+const makeCopyButton = globalThis.AdlHtmlObservatory.createMessageCopyButton;
+const fakeDocument = { createElement: () => ({ attrs: {}, setAttribute(k, v) { this.attrs[k] = v; }, addEventListener(k, fn) { this[k] = fn; } }) };
+const visibleContent = { ownerDocument: fakeDocument, textContent: "Hello\n<plain text>" };
+let copiedText;
+const copyButton = makeCopyButton(visibleContent, { writeText: async text => { copiedText = text; } });
+await copyButton.click();
+assert.equal(copiedText, visibleContent.textContent);
+assert.equal(copyButton.textContent, "Copied");
+assert.equal(copyButton.disabled, false);
+const deniedButton = makeCopyButton(visibleContent, { writeText: async () => { throw new Error("private error"); } });
+await deniedButton.click();
+assert.match(deniedButton.textContent, /Copy failed/);
+assert.doesNotMatch(deniedButton.textContent, /private error/);
+const unavailableButton = makeCopyButton(visibleContent, null);
+await unavailableButton.click();
+assert.match(unavailableButton.textContent, /Copy failed/);

@@ -29,7 +29,11 @@ adapter's active-work mode: the legacy request `timeout_ms` field does not impos
 a customer-cycle or provider-response deadline. A successful response remains valid
 when it arrives after that configured duration. Connection establishment has a
 separate transport guard; a lost response does not authorize repeating the request.
-Generated prompts are capped at 128 KiB per lane before any model dispatch.
+Assessment prompts use the canonical owner limit of 4 MiB per lane, including
+source annotations. Legacy findings-generation prompts retain the 128 KiB limit.
+Every lane is checked before the first model dispatch in hosted and local-agent
+execution. Inputs are never truncated to fit; byte acceptance does not establish
+provider context-window acceptance. The 4096 output-token cap is unchanged.
 Response bodies are capped at 4 MiB before HTTP decoding or Bedrock SDK Blob
 aggregation, including error replies. Oversized responses fail without a successful
 result; token limits alone are not a byte bound.

@@ -1,3 +1,33 @@
+function createMessageCopyButton(content, clipboard = globalThis.navigator?.clipboard) {
+  const button = content.ownerDocument.createElement("button");
+  button.type = "button";
+  button.className = "conversation-turn-copy";
+  button.textContent = "Copy";
+  button.setAttribute("aria-label", "Copy message");
+  button.setAttribute("aria-live", "polite");
+  button.addEventListener("click", async () => {
+    button.disabled = true;
+    try {
+      if (!clipboard?.writeText) throw new Error("clipboard unavailable");
+      await clipboard.writeText(content.textContent || "");
+      button.textContent = "Copied";
+      button.setAttribute("aria-label", "Message copied");
+    } catch {
+      button.textContent = "Copy failed — select text to copy";
+      button.setAttribute("aria-label", "Copy failed. Select the message text and copy manually.");
+    } finally {
+      button.disabled = false;
+    }
+  });
+  return button;
+}
+
+function observatoryLoginError(reason) {
+  if (reason === "credential_revoked") return "Your write access has expired. Sign in again with the current Observatory token.";
+  if (reason === "authentication_failed") return "Sign-in failed. Check the Observatory write token and try again. The ACIP API token does not work here.";
+  return "Sign in with the Observatory write token to enable writes.";
+}
+
 const FALLBACK_PACKET = {
   schema: "adl.csm_visibility_packet.v1",
   packet_id: "html-observatory-fallback",
@@ -3821,6 +3851,8 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
 
   const setWriteAccess = (enabled, status, detail) => {
     conversationAuthorized = enabled;
+    const loginError = document.getElementById("operator-login-error");
+    if (loginError) loginError.textContent = "";
     if (operatorAuthStatus) {
       operatorAuthStatus.textContent = status;
       operatorAuthStatus.dataset.state = enabled ? "passed" : "open";
@@ -3984,7 +4016,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     const state = document.createElement("span");
     state.className = "conversation-turn-status";
     state.textContent = status;
-    item.append(state);
+    item.append(state, createMessageCopyButton(content));
     roomTranscript.append(item);
     pruneLargePolisDomWindow(roomTranscript, ".conversation-turn", LARGE_POLIS_LIMITS.maxTranscriptTurns);
     roomTranscript.scrollTop = roomTranscript.scrollHeight;
@@ -4028,7 +4060,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     const state = document.createElement("span");
     state.className = "conversation-turn-status";
     state.textContent = status;
-    item.append(state);
+    item.append(state, createMessageCopyButton(content));
     conversationTranscript.append(item);
     pruneLargePolisDomWindow(conversationTranscript, ".conversation-turn", LARGE_POLIS_LIMITS.maxTranscriptTurns);
     conversationTranscript.scrollTop = conversationTranscript.scrollHeight;
@@ -4195,7 +4227,13 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     if (frame.error === "credential_revoked" ||
         frame.error === "authentication_failed" ||
         frame.error === "write_authentication_required") {
-      setWriteAccess(false, "public read", JSON.stringify(frame, null, 2));
+      const message = observatoryLoginError(frame.error);
+      setWriteAccess(false, "Sign-in failed", message);
+      setText("chat-auth-detail", message);
+      const loginError = document.getElementById("operator-login-error");
+      if (loginError) loginError.textContent = message;
+      const access = document.getElementById("chat-access");
+      if (access) access.open = true;
       return;
     }
     if (operatorControlResult) {
@@ -4926,6 +4964,8 @@ if (typeof document !== "undefined") {
 }
 
 globalThis.AdlHtmlObservatory = {
+  createMessageCopyButton,
+  observatoryLoginError,
   FALLBACK_PACKET,
   describeConversationTurn,
   conversationTurnsInOrder,

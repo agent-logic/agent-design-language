@@ -1071,7 +1071,15 @@ fn coherent_rollback_rejected() {
 fn tamper_state(fixture: &Fixture, field: &str) {
     let path = fixture.root.path().join("authority-protocol.json");
     let mut value: serde_json::Value = serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
-    value["payload"]["published"]["tamper"][field][0] = serde_json::json!(99);
+    let byte = &mut value["payload"]["published"]["tamper"][field][0];
+    let original = byte.as_u64().expect("digest byte");
+    assert!(original <= u8::MAX as u64);
+    *byte = serde_json::json!(original ^ 1);
+    assert_ne!(
+        byte.as_u64(),
+        Some(original),
+        "tampering must change the digest"
+    );
     fs::write(path, serde_jcs::to_vec(&value).unwrap()).unwrap();
 }
 
