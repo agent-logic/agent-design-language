@@ -371,6 +371,10 @@ where
     )
 }
 
+#[allow(
+    clippy::too_many_arguments,
+    reason = "Carries the existing explicit reload snapshot and rejection state without changing the reload API"
+)]
 fn start_config_reload_from_snapshot<T>(
     path: PathBuf,
     parser: ConfigParser<T>,
@@ -419,6 +423,10 @@ where
     })
 }
 
+#[allow(
+    clippy::too_many_arguments,
+    reason = "Receives the explicit watcher and recovery state established by reload startup"
+)]
 async fn watch_config<T>(
     path: PathBuf,
     parser: ConfigParser<T>,
