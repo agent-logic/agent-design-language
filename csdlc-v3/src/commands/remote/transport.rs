@@ -691,7 +691,12 @@ pub(super) fn reconcile_github_mutation(
     };
     // A numbered PR endpoint returns one object, never a candidate collection.
     // Do not settle a retained update from ambiguous or malformed readback.
-    if matches!(request.mutation, GithubMutation::PullRequestUpdate { .. }) && !value.is_object() {
+    if matches!(request.mutation, GithubMutation::PullRequestUpdate { .. })
+        && (!value.is_object()
+            || ["items", "comments", "pull_requests"]
+                .iter()
+                .any(|key| value[key].is_array()))
+    {
         return Err(remote_finding(
             "github_mutation_reconciliation_ambiguous",
             "PR update reconciliation requires one authenticated object",

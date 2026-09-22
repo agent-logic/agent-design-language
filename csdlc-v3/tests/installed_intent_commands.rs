@@ -6975,6 +6975,7 @@ fn assert_completed_publication_transport_refuses(change: &str) {
         "changed-body" => remote["body"] = json!("Later author body"),
         "unavailable" => fixture.remote_flag("drop-readback", true),
         "ambiguous" => remote = json!([remote.clone(), remote]),
+        "wrapped-ambiguous" => remote = json!({"items":[remote.clone(), remote]}),
         "missing-target" => {
             fs::remove_file(primary.join(".git/installed-candidate/remote-pr.json")).unwrap();
         }
@@ -7027,4 +7028,9 @@ fn completed_publication_transport_missing_target_fails_closed() {
 #[test]
 fn completed_publication_transport_ambiguous_fails_closed() {
     assert_completed_publication_transport_refuses("ambiguous");
+}
+
+#[test]
+fn completed_publication_transport_wrapped_ambiguity_fails_closed() {
+    assert_completed_publication_transport_refuses("wrapped-ambiguous");
 }
