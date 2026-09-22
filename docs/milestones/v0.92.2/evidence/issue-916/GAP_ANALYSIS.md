@@ -96,3 +96,7 @@ These local tests use controlled inputs/providers. They do not replace #915's re
 ### PAIR operator repair verified
 
 The operator reported PAIR fixed. A fresh read-only check confirms all three previously failing local proxy endpoints now return HTTP 200; model inventory advertises 19 models. **916-G05 is resolved for its observed discovery/availability scope.** [Recheck evidence](PAIR_HEALTH_RECHECK.json) supersedes the earlier proxy failure. This does not claim a new inference, routing, or failover qualification.
+
+### Merge update
+
+#1137 is confirmed merged as `1646f791da0c72850baed16e835922b354170606` at 2026-09-22 04:18:41 UTC. The operator also reported #1138 merged, but two immediate GitHub readbacks still returned OPEN with no merge commit; its merge remains unconfirmed in this checkpoint. #915 remains OPEN. Earlier local test results precede these integrations and do not certify a refreshed post-merge candidate.
