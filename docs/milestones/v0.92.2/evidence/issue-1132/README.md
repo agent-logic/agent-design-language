@@ -35,5 +35,11 @@ cycles remain unavailable; they are not converted into legacy review identities.
 These are component proofs, not deployment, paid-provider execution, or #915's
 original twelve journeys/Q01-Q24 qualification. Native gateway and installed
 agent updates must accompany website rollout; no shared binaries or services
-were replaced. Website publication and dependency/base reconciliation are
-separate from the native companion PR. Merge and deployment are not authorized.
+were replaced. At the operator's request, #1132 is delivered in the ADL PR. The mistakenly
+opened website draft PR #16 was closed. `codefriend-website.patch` retains the
+exact independently reviewed website commit above for application to the
+separate website checkout after its #1126 base is present. The website branch
+also retains that commit; the ADL PR does not move or vendor the website runtime.
+Applying this patch to the website's release branch and deploying both native
+and website components remains a separate integration action, not a completed
+rollout claim. Merge and deployment are not authorized.
