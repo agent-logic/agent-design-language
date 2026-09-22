@@ -720,3 +720,39 @@ pub(super) fn write_private_create_new(
             )
         })
 }
+
+/// Resolve a semantic packet to its original native request. Older packets held
+/// the resolved edit (including preserved fields), whose digest is not the
+/// operation digest. Neither a missing intent nor altered content proves absence.
+pub fn retained_mutation_request(
+    repo_root: &Path,
+    request: &GithubMutationRequest,
+    operation_digest: &str,
+    intent_digest: &str,
+) -> Result<GithubMutationRequest, RemoteRouteFinding> {
+    if operation_digest.len() != 64
+        || !operation_digest
+            .bytes()
+            .all(|byte| byte.is_ascii_hexdigit())
+    {
+        return Err(remote_finding(
+            "github_mutation_intent_mismatch",
+            "invalid retained operation digest",
+        ));
+    }
+    let path = github_mutation_intent_path(repo_root, operation_digest)?;
+    let retained = load_mutation_intent(&path, operation_digest)?;
+    let mut resolved = retained.request.clone();
+    if let Some(edit) = &retained.resolved_edit {
+        resolved.mutation = edit.clone();
+    }
+    if github_mutation_intent_digest(&retained) != intent_digest
+        || (*request != retained.request && *request != resolved)
+    {
+        return Err(remote_finding(
+            "github_mutation_intent_mismatch",
+            "semantic packet differs from the original or resolved native intent",
+        ));
+    }
+    Ok(retained.request)
+}

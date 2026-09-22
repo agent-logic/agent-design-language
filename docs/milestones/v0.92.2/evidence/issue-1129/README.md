@@ -33,6 +33,10 @@ absence never becomes proof that a write did not happen.
 - `cargo test --offline --manifest-path csdlc-v3/Cargo.toml --lib issue1129_`
   proves legacy expanded and original packet identity, and rejects changed
   target, path traversal, wrong intent digest, corrupt bytes and missing intent.
+- `cargo test --offline --manifest-path csdlc-v3/Cargo.toml --test remote_module_decomposition`
+  enforces the remote owner module size and dependency direction contracts.
+  CI caught the initial helper placement exceeding the mutation module limit;
+  the retained-intent lookup now belongs to the storage module.
 - The existing `installed_remote_recover` tests cover retry bounds, receipt
   identity and recovery after native completion or interrupted reservation.
 
