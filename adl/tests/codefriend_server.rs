@@ -2230,7 +2230,7 @@ fn model_generation_is_explicit_and_legacy_submit_bytes_are_preserved() {
 }
 
 /// PVF owner_binary, deterministic CPU/files only: actual admission and canonical
-/// annotated source prompts, including a later lane that fails before dispatch.
+/// verbatim source at the acquisition cap and one-byte-over rejection.
 #[test]
 fn assessment_prompt_maximum_source_and_acquisition_limit() {
     use adl::codefriend::{
