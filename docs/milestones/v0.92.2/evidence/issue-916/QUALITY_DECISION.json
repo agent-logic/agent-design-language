@@ -14,11 +14,11 @@
     {
       "id": "Q01",
       "requirement": "Canonical planning and issue-routing parity",
-      "status": "fail",
+      "status": "pass",
       "evidence": [
-        "planning-validation.json"
+        "planning-validation-reconciled.json"
       ],
-      "limitation": "Two reproduced specification/manifest mismatches."
+      "limitation": "69 work packages and 298 negative fixtures pass after scope-preserving contract reconciliation; independent bounded review passed."
     },
     {
       "id": "Q02",
@@ -131,7 +131,9 @@
         "../../WP_EXECUTION_SPECIFICATIONS_v0.92.2.yaml",
         "../../ATOMIC_TASK_CONTRACTS_v0.92.2.json"
       ],
-      "required_action": "Align the specification with the stronger accepted contract; do not weaken acceptance."
+      "required_action": "Align the specification with the stronger accepted contract; do not weaken acceptance.",
+      "disposition": "resolved_locally_pending_integration",
+      "resolution": "Execution specification now matches the accepted atomic contracts; validator and independent bounded review pass."
     },
     {
       "id": "916-G02",
@@ -155,6 +157,19 @@
         "../../FEATURE_PROOF_COVERAGE_v0.92.2.md"
       ],
       "required_action": "Inspect producer artifacts against their exact acceptance criteria and record accepted, failed, deferred or not-proven per obligation."
+    },
+    {
+      "id": "916-G04",
+      "severity": "P2",
+      "kind": "missing_evidence",
+      "bucket": "durable_proof_gaps",
+      "summary": "Runtime criterion replay admits four rows but cannot reopen the #852 execution archive from the #916 checkout.",
+      "evidence": [
+        "runtime-admission-recheck.json",
+        "../../evidence/qual-evidence-902/qualification-manifest.json"
+      ],
+      "required_action": "Locate and restore or explicitly resolve the retained archive with SHA-256 96cffcc48df892bce6c89835ad2a4c8808bcf8384cd40117ba4ebc23c631fda1; then replay existing admission. Do not regenerate producer success or infer product failure.",
+      "scope": "Declared issue-local path, common evidence roots for #902/#852, registered producer worktrees, and #902 merge tree checked; broader backup stores not yet checked."
     }
   ],
   "stragglers": [
@@ -196,9 +211,21 @@
     "No child after 916 accepted by this audit"
   ],
   "next_actions": [
-    "Reconcile 57 closed producer outputs without rerunning unrelated workloads",
-    "Reconcile the two planning contract mismatches",
-    "Consume #915 independent qualification and reconcile the other owner deliveries already in PR review",
-    "Refresh the exact installed candidate and affected evidence before final quality decision"
-  ]
+    "Reconcile historical producer records with #915 exact final candidate",
+    "Locate retained #852 execution archive and replay fifth Runtime criterion",
+    "Consume #915 independent qualification and reconcile owner deliveries already in PR review"
+  ],
+  "producer_audit": {
+    "evidence_index": "PRODUCER_EVIDENCE_INDEX.json",
+    "codefriend_identities": "CODEFRIEND_PROOF_IDENTITIES.json",
+    "runtime_replay": {
+      "passed_rows": 4,
+      "unavailable_rows": 1,
+      "report": "runtime-admission-recheck.json"
+    },
+    "operator_accepted_drafting_scope": [
+      912,
+      913
+    ]
+  }
 }

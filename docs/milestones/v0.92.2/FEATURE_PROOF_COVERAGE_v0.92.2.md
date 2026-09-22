@@ -1,6 +1,14 @@
 # v0.92.2 Feature and Proof Coverage
 
-Status: planned ownership map.
+Status: ownership map with #916 evidence reconciliation in progress.
+
+[Current quality-gap decision](evidence/issue-916/GAP_ANALYSIS.md),
+[producer evidence index](evidence/issue-916/PRODUCER_EVIDENCE_INDEX.json), and
+[installed-proof identities](evidence/issue-916/CODEFRIEND_PROOF_IDENTITIES.json)
+retain historical evidence separately from final candidate acceptance. Planning
+parity passes; #915 independent qualification remains pending. Four Runtime
+criterion rows replay successfully; one requires its retained execution archive.
+No feature row is promoted to proven solely from closed tracker state.
 
 | Exit-bar surface | Owner | Required proof |
 |---|---|---|

@@ -8,7 +8,7 @@ The operator opened Sprint 11 and authorized this analysis to overlap remaining 
 
 ## Findings
 
-- **916-G01 (P2)** — CF-INTEGRATE and CF-PROOF execution specifications omit accepted website-mode and invitation/isolation evidence present in the atomic contracts. Align the specification with the stronger accepted contract; do not weaken acceptance.
+- **916-G01 (P2, resolved locally)** — CF-INTEGRATE and CF-PROOF execution specifications omit accepted website-mode and invitation/isolation evidence present in the atomic contracts. Execution specifications now match the stronger accepted contract. All 69 work packages and 298 negative fixtures pass; independent bounded review found no actionable findings.
 
 - **916-G02 (P1)** — Independent #915 qualification has not supplied accepted final candidate evidence. Consume the existing independent qualification handoff after remaining integration repairs; do not duplicate its implementation or paid runs.
 
@@ -24,7 +24,7 @@ All **69 canonical tasks** are listed once in [TASK_LEDGER.json](TASK_LEDGER.jso
 
 | Gate | Initial result |
 |---|---|
-| Q01 — Canonical planning and issue-routing parity | fail |
+| Q01 — Canonical planning and issue-routing parity | pass |
 | Q02 — Local/GitHub/CI portable ingestion | not_proven |
 | Q03 — Identity/provenance/redaction/retention | not_proven |
 | Q04 — Explainable architecture | not_proven |
@@ -37,7 +37,7 @@ All **69 canonical tasks** are listed once in [TASK_LEDGER.json](TASK_LEDGER.jso
 | Q11 — Independent ADL and external repository qualification | not_proven |
 | Q12 — Integrated success/failure and no unresolved P1 | not_proven |
 
-Not proven means acceptance has not been established in this audit, not that the feature necessarily fails. The planning failure comes from the existing deterministic validator; other rows await producer-level acceptance.
+Not proven means acceptance has not been established in this audit, not that the feature necessarily fails. The opening planning failure is preserved in the original report; the reconciled validation now passes. Other rows await producer-level acceptance.
 
 ## Evidence and next work
 
@@ -47,3 +47,15 @@ Not proven means acceptance has not been established in this audit, not that the
 - Next, inspect each closed producer output and its acceptance evidence; reconcile planning parity; consume #915 qualification and reconcile acceptance of the other deliveries already in PR review. Preserve exact #916 → #925 order. #910 and #911 retain their explicit final #925 acceptance obligations.
 
 No new product tests, live/provider runs, deployment, release, cleanup or transfer to another task was performed. This is an opening audit checkpoint, not completed #916 delivery.
+
+## Producer evidence reconciliation checkpoint
+
+The [producer evidence index](PRODUCER_EVIDENCE_INDEX.json) discovers evidence from all 57 closed task merge histories, including historical Git objects that no longer appear in the checkout. Every discovered artifact carries a source revision and SHA-256. This is an index, not blanket content acceptance.
+
+The [CodeFriend identity register](CODEFRIEND_PROOF_IDENTITIES.json) records retained installed-proof and proof-inventory identities. Distinct historical binaries are legitimate producer evidence; #915 must supply the final integrated candidate linkage. No scenario was rerun or promoted to release proof.
+
+The existing Runtime criterion consumer was executed against retained protected evidence: **four of five rows passed** (#899 inventory, both #900 resident rows, #901 provider row). **916-G04 (P2, durable proof gap):** the #852 archive required for DRT-C-ac-3 was unavailable at the declared issue-local path. The two relevant common evidence roots, registered producer worktrees and #902 merge tree did not provide it. This does not establish loss from all backup stores or a Runtime implementation failure. Locate the exact retained bytes before accepting this row. See [actual replay result](runtime-admission-recheck.json).
+
+#912 and #913 retain the operator-accepted drafting/review-handoff scope: thirteen article drafts and revision-4 private PDF availability, respectively. Further editorial work and public publication are not acceptance requirements silently added by this audit. Source records: `docs/milestones/v0.92/publication/articles/medium-2026-09/README.md` and `docs/milestones/v0.92.2/cognitive-sdlc/REVISION_4_REVIEW_HANDOFF.md`.
+
+#915 remains the only outstanding implementation/qualification issue. Other deliveries are in PR review. The archive replay gap is audit follow-up, not a newly assigned implementation issue.
