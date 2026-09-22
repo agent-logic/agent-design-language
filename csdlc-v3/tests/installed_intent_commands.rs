@@ -6847,3 +6847,190 @@ fn issue1129_ready_merge_refusal_preserves_pending_edit_then_recover_finishes() 
         );
     }
 }
+
+// PVF #1142: deterministic installed-owner integration, synthetic transport,
+// local-only resources; required focused recovery regression (no live GitHub).
+fn completed_publication_transport_fixture(
+    name: &str,
+) -> (Fixture, std::path::PathBuf, std::path::PathBuf) {
+    let (mut fixture, linked) = reviewed_fixture(name);
+    success(fixture.run(&linked, &["publish", "505"]));
+    let operation = fixture.write_json(
+        "update.json",
+        &json!({
+            "action":"pull_request_update", "title":"Recovered title", "body":"Closes #505"
+        }),
+    );
+    let crash = fixture.run_with_env(
+        &linked,
+        &[
+            "github-pr",
+            "505",
+            "--operation",
+            operation.to_str().unwrap(),
+            "--execute",
+        ],
+        &[(
+            "CSDLC_V3_TEST_CRASH_POINT",
+            "semantic_remote_after_reservation",
+        )],
+    );
+    assert_eq!(crash.status.code(), Some(91));
+    let mut remote = fixture.remote_pr();
+    remote["title"] = json!("Recovered title");
+    let pending = success(fixture.run(&linked, &["status", "505"]));
+    let digest = pending["pending_remote"][0]["operation_digest"]
+        .as_str()
+        .unwrap();
+    remote["body"] = json!(format!(
+        "Closes #505\n\n<!-- csdlc-v3-operation:{digest} -->"
+    ));
+    fixture.set_remote_pr(&remote);
+    let preview = success(fixture.run(&linked, &["recover", "505"]));
+    let completed = success(fixture.run(
+        &linked,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+    ));
+    assert_eq!(completed["semantic"]["outcome"], "success");
+    (fixture, linked, operation)
+}
+
+#[test]
+fn completed_publication_transport_present_reconciles_without_semantic_rewrite() {
+    let (mut fixture, linked, operation) =
+        completed_publication_transport_fixture("completed-publication-transport");
+    let primary = fixture.root.clone();
+    let before = publication_reservation_inventory(&primary);
+    let effects = fixture.remote_effects();
+    let preview = success(fixture.run(&linked, &["recover", "505"]));
+    assert_eq!(preview["pending"]["pending"].as_array().unwrap().len(), 1);
+    let recovered = success(fixture.run(
+        &linked,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+    ));
+    assert_eq!(recovered["result"]["receipt"]["authenticated"], true);
+    assert_eq!(recovered["performed_mutation"], false);
+    assert_same_inventory!(before, publication_reservation_inventory(&primary));
+    assert_eq!(fixture.remote_effects(), effects);
+    let status = success(fixture.run(&linked, &["status", "505"]));
+    assert_eq!(status["pending_remote"], json!([]));
+    let replay = success(fixture.run(
+        &linked,
+        &[
+            "github-pr",
+            "505",
+            "--operation",
+            operation.to_str().unwrap(),
+            "--execute",
+        ],
+    ));
+    assert_eq!(replay["envelope"]["status"], "expected_noop");
+    assert_eq!(fixture.remote_effects(), effects);
+    let ready = fixture.write_json("ready.json", &json!({"action":"pull_request_ready"}));
+    success(fixture.run(
+        &linked,
+        &[
+            "github-pr",
+            "505",
+            "--operation",
+            ready.to_str().unwrap(),
+            "--execute",
+        ],
+    ));
+    fixture.enable_merge_transport(&linked);
+    let merge = fixture.write_json("merge.json", &json!({"action":"pull_request_merge", "base":"main", "method":"merge", "operator_approval":"Synthetic fixture approval"}));
+    success(fixture.run(
+        &linked,
+        &[
+            "github-pr",
+            "505",
+            "--operation",
+            merge.to_str().unwrap(),
+            "--execute",
+        ],
+    ));
+    assert_eq!(fixture.remote_pr()["merged"], true);
+    assert_eq!(fixture.remote_effects(), effects + 2);
+}
+
+fn assert_completed_publication_transport_refuses(change: &str) {
+    let (mut fixture, linked, _) = completed_publication_transport_fixture(change);
+    let primary = fixture.root.clone();
+    let mut remote = fixture.remote_pr();
+    match change {
+        "changed-head" => remote["head"]["sha"] = json!("0".repeat(40)),
+        "changed-title" => remote["title"] = json!("Later author edit"),
+        "changed-body" => remote["body"] = json!("Later author body"),
+        "unavailable" => fixture.remote_flag("drop-readback", true),
+        "ambiguous" => remote = json!([remote.clone(), remote]),
+        "wrapped-ambiguous" => remote = json!({"items":[remote.clone(), remote]}),
+        "missing-target" => {
+            fs::remove_file(primary.join(".git/installed-candidate/remote-pr.json")).unwrap();
+        }
+        _ => unreachable!(),
+    }
+    if change != "missing-target" {
+        fixture.set_remote_pr(&remote);
+    }
+    let before = publication_reservation_inventory(&primary);
+    let effects = fixture.remote_effects();
+    let preview = success(fixture.run(&linked, &["recover", "505"]));
+    let refused = fixture.run(
+        &linked,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+    );
+    assert!(!refused.status.success(), "{change}: {refused:?}");
+    assert_same_inventory!(before, publication_reservation_inventory(&primary));
+    assert_eq!(fixture.remote_effects(), effects);
+    let status = success(fixture.run(&linked, &["status", "505"]));
+    assert_eq!(status["pending_remote"].as_array().unwrap().len(), 1);
+}
+
+#[test]
+fn completed_publication_transport_changed_head_fails_closed() {
+    assert_completed_publication_transport_refuses("changed-head");
+}
+#[test]
+fn completed_publication_transport_changed_title_fails_closed() {
+    assert_completed_publication_transport_refuses("changed-title");
+}
+#[test]
+fn completed_publication_transport_changed_body_fails_closed() {
+    assert_completed_publication_transport_refuses("changed-body");
+}
+#[test]
+fn completed_publication_transport_unavailable_fails_closed() {
+    assert_completed_publication_transport_refuses("unavailable");
+}
+#[test]
+fn completed_publication_transport_missing_target_fails_closed() {
+    assert_completed_publication_transport_refuses("missing-target");
+}
+
+#[test]
+fn completed_publication_transport_ambiguous_fails_closed() {
+    assert_completed_publication_transport_refuses("ambiguous");
+}
+
+#[test]
+fn completed_publication_transport_wrapped_ambiguity_fails_closed() {
+    assert_completed_publication_transport_refuses("wrapped-ambiguous");
+}

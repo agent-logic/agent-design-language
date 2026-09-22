@@ -16,6 +16,15 @@ use super::support::{
 use super::transport::*;
 
 impl StagedGithubMutation {
+    /// Remove retry authority while preserving an existing intent's identity.
+    pub fn reconciliation_only(&self) -> Option<Self> {
+        if !self.preexisting {
+            return None;
+        }
+        let mut staged = self.clone();
+        staged.recovery = None;
+        Some(staged)
+    }
     pub fn retained_receipt_exists(&self, repo_root: &Path) -> Result<bool, RemoteRouteFinding> {
         Ok(github_mutation_receipt_path(repo_root, &self.operation_digest)?.exists())
     }

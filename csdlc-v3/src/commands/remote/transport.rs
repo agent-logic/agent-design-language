@@ -689,6 +689,19 @@ pub(super) fn reconcile_github_mutation(
     } else {
         read_mutation_reconciliation_page(invocation.clone(), process)?
     };
+    // A numbered PR endpoint returns one object, never a candidate collection.
+    // Do not settle a retained update from ambiguous or malformed readback.
+    if matches!(request.mutation, GithubMutation::PullRequestUpdate { .. })
+        && (!value.is_object()
+            || ["items", "comments", "pull_requests"]
+                .iter()
+                .any(|key| value[key].is_array()))
+    {
+        return Err(remote_finding(
+            "github_mutation_reconciliation_ambiguous",
+            "PR update reconciliation requires one authenticated object",
+        ));
+    }
     let (issue, pull_request, remote_object_id) =
         match_reconciled_mutation(request, operation_marker, &value)?;
     let canonical = serde_json::to_string(&value).map_err(|_| {

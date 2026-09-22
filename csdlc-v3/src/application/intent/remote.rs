@@ -574,7 +574,40 @@ fn semantic_mutation(
         {
             transaction::Reservation::Reserved(ticket) => (ticket, false),
             transaction::Reservation::AlreadyPending(ticket) => (ticket, true),
-            transaction::Reservation::AlreadyCompleted(done) => return Ok(semantic_replay(&done)),
+            transaction::Reservation::AlreadyCompleted(done) => {
+                if request.recovery != Some(GithubMutationRecovery::RetryAfterAuthenticatedAbsence)
+                    || done.outcome_kind() != transaction::OutcomeKind::Success
+                    || !matches!(request.mutation, GithubMutation::PullRequestUpdate { .. })
+                    || staged
+                        .retained_receipt_exists(&context.root)
+                        .map_err(failure)?
+                {
+                    return Ok(semantic_replay(&done));
+                }
+                // reserve_effect has authenticated the exact retained request and
+                // its completed semantic identity. Settle only its native receipt;
+                // completed semantic history must never be reopened or reattached.
+                context.fresh_integrity()?;
+                // Legacy PR updates retain no authenticated pre-state, so a
+                // metadata mismatch cannot distinguish absence from a later edit.
+                let reconcile_only = staged
+                    .reconciliation_only()
+                    .ok_or("github_mutation_recovery_ineligible")?;
+                let result =
+                    execute_staged_github_mutation(&context.root, &reconcile_only, true, process)
+                        .map_err(failure)?;
+                staged.verified_outcome(&result).map_err(failure)?;
+                return Ok(json!({
+                    "status":"completed", "read_only":false,
+                    "operational_authority":true, "performed_mutation":false,
+                    "effects_unknown":false,
+                    "result":{"receipt":result.receipt,"reconciliation":result.reconciliation},
+                    "semantic":{"original_version":done.original_version(),
+                        "current_version":done.current_version(),
+                        "operation":done.operation_id().as_str(),
+                        "outcome":done.outcome_kind(),"effect_truth":done.truth()}
+                }));
+            }
         };
     session.admit_before_effect(ticket.id())?;
     #[cfg(debug_assertions)]
