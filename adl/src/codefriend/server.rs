@@ -250,10 +250,14 @@ impl Backend for ProductionBackend {
                     .ok_or_else(|| anyhow::anyhow!("model_output_missing"))?;
                 ensure!(output.len() <= MAX_RESULT, "model_output_too_large");
                 let parsed = if assessments {
-                    super::evidence::assessments::parse_lane(lane.id(), &output, &admission)?;
-                    serde_json::to_value(serde_json::from_str::<
-                        super::evidence::assessments::ProviderAssessmentOutput,
-                    >(&output)?)?
+                    super::evidence::assessments::parse_lane_with_gaps(
+                        lane.id(),
+                        &output,
+                        &admission,
+                    )?;
+                    serde_json::to_value(super::evidence::assessments::decode_provider_output(
+                        &output,
+                    )?)?
                 } else {
                     let parsed = runner::parse_lane_output(lane, &output, &admission)?;
                     for finding in &parsed.findings {

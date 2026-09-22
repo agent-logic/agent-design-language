@@ -1189,7 +1189,13 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
             };
             // #1133: a provider may resolve a requested alias to an observed model.
             // All four lanes of each cycle must finalize the same original bytes.
-            let mut response = json!({"output_text":text.to_string(), "choices":[{"message":{"content":text.to_string()}}]});
+            let output = if index == 24 {
+                format!("```json\n{}\n```", text)
+            } else {
+                text.to_string()
+            };
+            let mut response =
+                json!({"output_text":output, "choices":[{"message":{"content":output}}]});
             if (12..20).contains(&index) {
                 response["model"] = json!("fixture-observed-cycle-model");
             }

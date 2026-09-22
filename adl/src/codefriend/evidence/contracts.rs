@@ -121,6 +121,8 @@ pub struct Run {
     pub coverage: Option<ReviewCoverage>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub assessment_set: Option<super::assessments::AssessmentSet>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub assessment_coverage: Option<super::assessments::AssessmentCoverage>,
 }
 impl Run {
     pub fn new(
@@ -154,6 +156,7 @@ impl Run {
             failures,
             coverage: None,
             assessment_set: None,
+            assessment_coverage: None,
         };
         r.excluded.sort();
         r.excluded.dedup();
@@ -178,6 +181,15 @@ impl Run {
         self.assessment_set = Some(set);
         self.id = self.identity()?;
         self.validate(a)?;
+        Ok(self)
+    }
+    pub fn with_assessment_coverage(
+        mut self,
+        a: &Admission,
+        coverage: super::assessments::AssessmentCoverage,
+    ) -> Result<Self> {
+        self.assessment_coverage = Some(coverage);
+        self.refresh_identity(a)?;
         Ok(self)
     }
     pub fn assessment_generation(&self) -> bool {
@@ -243,9 +255,17 @@ impl Run {
         match (&self.assessment_set, self.schema.as_str()) {
             (Some(set), REVIEW_CONTRACT_V3) => {
                 set.validate(a)?;
-                ensure!(self.lane_versions.len() == 4 && REVIEW_LANES.iter().all(|lane|
-                    self.lane_versions.get(*lane).is_some_and(|v| v == crate::codefriend::review::lanes::ASSESSMENT_LANE_CONTRACT_VERSION)),
-                    "assessment_run_lane_versions");
+                ensure!(
+                    self.lane_versions.len() == 4
+                        && REVIEW_LANES.iter().all(|lane| self
+                            .lane_versions
+                            .get(*lane)
+                            .is_some_and(
+                                |v| crate::codefriend::review::lanes::assessment_contract(v)
+                                    && self.lane_versions.values().all(|other| other == v)
+                            )),
+                    "assessment_run_lane_versions"
+                );
             }
             (None, CONTRACT | REVIEW_CONTRACT_V2) => {}
             _ => anyhow::bail!("assessment_run_version_mismatch"),
@@ -262,6 +282,24 @@ impl Run {
                 );
             }
             _ => anyhow::bail!("review_coverage_version_mismatch"),
+        }
+        if let Some(coverage) = &self.assessment_coverage {
+            coverage.validate()?;
+            ensure!(
+                self.assessment_generation()
+                    && self.completion == Completion::Incomplete
+                    && self.failures.is_empty()
+                    && self
+                        .assessment_set
+                        .as_ref()
+                        .is_some_and(|set| !set.assessments.is_empty())
+                    && self
+                        .lane_versions
+                        .values()
+                        .all(|v| v
+                            == crate::codefriend::review::lanes::ASSESSMENT_LANE_CONTRACT_VERSION),
+                "invalid_assessment_coverage"
+            );
         }
         if self.completion == Completion::Complete {
             ensure!(
@@ -410,17 +448,19 @@ impl ReviewRecord {
                 && self.run.lane_versions.len() == 4
                 && REVIEW_LANES
                     .iter()
-                    .all(|lane| self.run.lane_versions.get(*lane).is_some_and(|v| v
-                        == if self.run.assessment_generation() {
-                            crate::codefriend::review::lanes::ASSESSMENT_LANE_CONTRACT_VERSION
+                    .all(|lane| self.run.lane_versions.get(*lane).is_some_and(|v| {
+                        if self.run.assessment_generation() {
+                            crate::codefriend::review::lanes::assessment_contract(v)
                         } else {
-                            crate::codefriend::review::lanes::LANE_CONTRACT_VERSION
-                        })),
+                            v == crate::codefriend::review::lanes::LANE_CONTRACT_VERSION
+                        }
+                    })),
             "review_requires_successful_four_lanes"
         );
         ensure!(
             self.run.completion == Completion::Complete
-                || (self.run.completion == Completion::Incomplete && self.run.coverage.is_some()),
+                || (self.run.completion == Completion::Incomplete
+                    && (self.run.coverage.is_some() || self.run.assessment_coverage.is_some())),
             "review_execution_incomplete"
         );
         Ok(())

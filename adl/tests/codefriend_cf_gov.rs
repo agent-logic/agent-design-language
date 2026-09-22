@@ -393,9 +393,16 @@ fn cli_rejects_symlink_and_oversized_input() {
 #[test]
 fn bounded_parser_accepts_normal_files_and_denies_recursive_chains() {
     let _isolation = FIXTURE_PROCESSES.lock().unwrap();
-    let source = include_str!("../src/codefriend/review/lanes.rs");
+    // A normal-input fixture must not acquire new macros as product code evolves.
+    let source = include_str!("fixtures/codefriend/fitness/normal-rust.rs");
     let normal = Fixture::new(source);
-    assert_eq!(normal.report().status, Status::Pass);
+    let normal_report = normal.report();
+    assert_eq!(
+        normal_report.status,
+        Status::Pass,
+        "{:?}",
+        normal_report.errors
+    );
     assert_eq!(
         Fixture::new(&" ".repeat(33000)).report().status,
         Status::Pass
@@ -416,4 +423,15 @@ fn bounded_parser_accepts_normal_files_and_denies_recursive_chains() {
             .iter()
             .any(|e| e.starts_with("rust_complexity_limit:")));
     }
+}
+
+#[test]
+fn bounded_parser_preserves_unassessed_macro_refusal() {
+    let _isolation = FIXTURE_PROCESSES.lock().unwrap();
+    let report =
+        Fixture::new("fn accepted(v: &str) -> bool { matches!(v, \"v2\" | \"v3\") }").report();
+    assert_eq!(report.status, Status::Error);
+    assert_eq!(report.errors, vec!["macro_expansion_unassessed:boundary"]);
+    assert!(report.violations.is_empty());
+    assert!(report.record.findings.is_empty());
 }
