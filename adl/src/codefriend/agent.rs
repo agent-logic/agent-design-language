@@ -1632,12 +1632,12 @@ impl Transport {
             "agent_receipt_report_identity"
         );
         let deadline: u64 = serde_json::from_slice(&read(&dir.join("expires.json"), 64)?)?;
-        ensure!(report.expires_at == deadline, "agent_receipt_retention");
+        ensure!(report.expires_at <= deadline, "agent_receipt_retention");
         let authority = RunAuthority {
             pairing: &pairing,
             command: &command,
             consent_path,
-            expires_at: deadline,
+            expires_at: report.expires_at,
         };
         authority.check((self.clock)())?;
         ensure!(!self.control(&pairing, &command)?, "agent_cancelled");

@@ -145,16 +145,11 @@ impl Transport {
                     "agent_cycle_import_bytes_changed"
                 );
             }
-            let clock = self.clock.clone();
-            let store = super::super::evidence::store::Store::open(
+            super::super::evidence::store::Store::verify_cycle_import(
                 &imported.join("evidence"),
-                move || clock(),
+                &cycle.admission,
+                (self.clock)(),
             )?;
-            ensure!(
-                store.get(&cycle.admission.packet.packet_id)? == cycle.admission,
-                "agent_cycle_import_admission_changed"
-            );
-            drop(store);
             // Writes/reads/fsync can outlive any owner. Observe remote authority
             // again, then recheck every original local owner before returning.
             let final_capsule: Capsule =

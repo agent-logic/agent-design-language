@@ -291,6 +291,25 @@ impl Store {
         }
         Ok(())
     }
+    /// Read-only recheck while a native Journey may hold this store's exclusive
+    /// lock. Never bootstraps, recovers or re-admits; exact immutable import only.
+    pub(crate) fn verify_cycle_import(root: &Path, expected: &Admission, now: u64) -> Result<()> {
+        safe_path(root)?;
+        expected.validate()?;
+        ensure!(now < expected.expires_at, "evidence_expired");
+        let id = &expected.packet.packet_id;
+        ensure!(
+            !root.join(format!("{id}.tombstone")).exists(),
+            "evidence_deleted"
+        );
+        let admission: Admission = read(&root.join(format!("{id}.json")))?;
+        let anchor: String = read(&root.join(format!("{id}.anchor")))?;
+        ensure!(
+            admission == *expected && anchor == expected.digest,
+            "cycle_import_admission_changed"
+        );
+        Ok(())
+    }
     pub fn get(&self, id: &str) -> Result<Admission> {
         ensure!(!self.path(id, "tombstone")?.exists(), "evidence_deleted");
         let a: Admission = read(&self.path(id, "json")?)?;
