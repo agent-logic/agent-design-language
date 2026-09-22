@@ -4243,22 +4243,12 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             &dispatch.intent.message_parts,
         )
         .ok_or("agent_result_continuation_invalid")?;
-        let peer_result = serde_json::json!({
-            "schema": "adl.runtime.agent_to_agent_result_context.v1",
-            "recipient_id": initiated.recipient_id,
-            "conversation_id": initiated.conversation_id,
-            "turn_id": initiated.turn_id,
-            "correlation_id": initiated.correlation_id,
-            "work_id": initiated.initiated_work_id,
-            "status": initiated.status,
-            "reply": initiated.reply,
-            "error": initiated.error,
-        });
-        let prompt = crate::assembly::provider_agent_result_continuation_prompt(
+        let prompt = named_agent_result_continuation_prompt(
+            binding,
+            self.agent_name_for_id(&initiated.recipient_id).as_deref(),
             orientation_context,
-            &dispatch.intent.recipient_id,
             &operator_message,
-            &peer_result,
+            initiated,
         )
         .ok_or("agent_result_continuation_too_large")?;
         if dispatch.cancellation.is_cancelled() {
@@ -8326,6 +8316,7 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                         conversation_attachments.clear();
                         let authorized = auth.schema == OBSERVATORY_WS_AUTH_SCHEMA
                             && service.observatory_token_authorized(&auth.bearer_token);
+                        record_observatory_authentication(authorized);
                         bearer_token = authorized.then_some(auth.bearer_token);
                         let result = ObservatoryWsControlResult {
                             schema: OBSERVATORY_WS_CONTROL_RESULT_SCHEMA,
@@ -14390,6 +14381,40 @@ pub(crate) async fn invoke_resident_shepherd_provider(
     }
 }
 
+fn named_agent_result_continuation_prompt(
+    binding: &AgentAdmissionRequest,
+    peer_name: Option<&str>,
+    orientation_context: Option<&str>,
+    operator_message: &str,
+    initiated: &ObservatoryConversationResult,
+) -> Option<String> {
+    let peer_result = serde_json::json!({
+        "schema": "adl.runtime.agent_to_agent_result_context.v1",
+        "recipient_name": peer_name,
+        "status": initiated.status,
+        "reply": initiated.reply,
+        "error": initiated.error,
+    });
+    crate::assembly::provider_agent_result_continuation_prompt(
+        orientation_context,
+        &binding.name,
+        operator_message,
+        &peer_result,
+    )
+}
+
+fn record_observatory_authentication(authorized: bool) {
+    tracing::info!(
+        target: "adl_runtime_kernel",
+        schema = "adl.runtime_v3.authentication.v1",
+        event = "observatory_authentication",
+        endpoint = "/v1/observatory/ws",
+        outcome = if authorized { "accepted" } else { "rejected" },
+        reason = if authorized { "authenticated" } else { "authentication_failed" },
+        "Observatory write authentication completed"
+    );
+}
+
 pub(crate) fn normalize_registered_conversation(
     message: String,
 ) -> Result<ProviderConversationOutput, &'static str> {
@@ -14406,6 +14431,29 @@ pub(crate) fn normalize_registered_conversation(
     {
         return Ok(ProviderConversationOutput {
             message,
+            agent_to_agent: None,
+        });
+    }
+    // An exact empty action carries no capability or target. Treat only this
+    // closed envelope as an inert reply; never salvage malformed real actions.
+    if value
+        .get("action")
+        .is_some_and(|a| a.as_object().is_some_and(|o| o.is_empty()))
+        && value.as_object().is_some_and(|o| o.len() == 3)
+    {
+        let message = value["message"]
+            .as_str()
+            .filter(|m| {
+                !m.trim().is_empty() && m.len() <= AGENT_CONVERSATION_MESSAGE_TOTAL_LIMIT_BYTES
+            })
+            .ok_or("agent_provider_action_invalid")?;
+        // Downstream supports structured response messages. Do not unwrap any
+        // nested JSON into that interpreter through the inert-envelope path.
+        if serde_json::from_str::<serde_json::Value>(message).is_ok() {
+            return Err("agent_provider_action_invalid");
+        }
+        return Ok(ProviderConversationOutput {
+            message: message.to_owned(),
             agent_to_agent: None,
         });
     }
@@ -16788,3 +16836,7 @@ mod acip_replay_tests {
 #[cfg(test)]
 #[path = "control/provider_registry_tests.rs"]
 mod provider_registry_tests;
+
+#[cfg(test)]
+#[path = "control/response_auth_tests.rs"]
+mod response_auth_tests;
