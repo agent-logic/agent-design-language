@@ -91,8 +91,12 @@ impl Transport {
             let deadline = local_deadline
                 .min(capsule.expires_at)
                 .min(report.expires_at);
-            if deadline < local_deadline {
-                save_private(&expiry_path, &deadline)?;
+            let import_expiry = root.join("cycle-import-expires.json");
+            if import_expiry.exists() {
+                let prior: u64 = publication::read(&import_expiry, 64)?;
+                ensure!(prior == deadline, "agent_cycle_import_expiry_changed");
+            } else {
+                save_private(&import_expiry, &deadline)?;
             }
             // This binding is an import receipt, not a fabricated producer receipt.
             let binding = ImportBinding {

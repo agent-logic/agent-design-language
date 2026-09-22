@@ -29,7 +29,7 @@ import under a distinct `imported-cycle` owner with an explicit receipt. It
 preserves the website run ID, gateway run ID, original local admission and
 gateway admission; it does not modify the original report or forwarding receipt.
 Imported evidence is not labelled original local producer output. Importing
-shortens the run cleanup deadline to the earlier of its existing deadline, the
+retains a separate import cleanup deadline, taking the earlier of the run deadline, the
 report deadline and the capsule deadline. This makes ordinary expiry cleanup
 remove imported source even when a later request rejects an expired report
 before reaching the import owner.

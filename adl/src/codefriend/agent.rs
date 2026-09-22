@@ -1796,7 +1796,12 @@ impl Journal {
             if !expiry.is_file() {
                 continue;
             }
-            let deadline: u64 = serde_json::from_slice(&fs::read(expiry)?)?;
+            let mut deadline: u64 = serde_json::from_slice(&fs::read(expiry)?)?;
+            let imported_expiry = path.join("cycle-import-expires.json");
+            if imported_expiry.exists() {
+                let imported_deadline: u64 = publication::read(&imported_expiry, 64)?;
+                deadline = deadline.min(imported_deadline);
+            }
             if deadline > now {
                 continue;
             }
