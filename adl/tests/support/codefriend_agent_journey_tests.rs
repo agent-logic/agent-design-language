@@ -607,7 +607,8 @@ fn install_cycle_version(
         private(&producer.join("run.json"), &run);
         private(&producer.join("review-record.json"), &run.review_record);
         runner::validate_complete_run(&run, &run.run_id, &gateway, &route).unwrap();
-        let mut historical_report = report.clone();
+        let mut historical_report: RunReport =
+            serde_json::from_slice(&serde_json::to_vec(&report).unwrap()).unwrap();
         historical_report.run_id = run.run_id.clone();
         historical_report.expires_at = gateway.expires_at;
         historical_report.result = Some(run.clone());
