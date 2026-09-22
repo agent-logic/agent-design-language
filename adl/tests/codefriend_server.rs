@@ -1184,7 +1184,13 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
             } else {
                 json!({"findings":[{"rule":"correctness.wrong_lane","semantic_anchor":"lib.rs","title":"fixture","severity":"info","rationale":"fixture","confidence":{"state":"known","percent":90},"evidence":["foreign"],"inference":"fixture","limitations":[]}]})
             };
-            let body = json!({"output_text":text.to_string()}).to_string();
+            // #1133: a provider may resolve a requested alias to an observed model.
+            // All four lanes of each cycle must finalize the same original bytes.
+            let mut response = json!({"output_text":text.to_string()});
+            if (12..20).contains(&index) {
+                response["model"] = json!("fixture-observed-cycle-model");
+            }
+            let body = response.to_string();
             write!(stream,"HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{}",body.len(),body).unwrap();
         }
     });
