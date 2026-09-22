@@ -37,9 +37,9 @@
     },
     {
       "name": "pair_proxy_discovery",
-      "status": "fail",
-      "reference": "PAIR_HEALTH.json",
-      "interpretation": "Processes running but IPv6 local PAIR proxy returns503 inventory unavailable /502 no active node; direct IPv4 Ollama is a separate healthy service."
+      "status": "pass_after_operator_repair",
+      "reference": "PAIR_HEALTH_RECHECK.json",
+      "interpretation": "All three proxy discovery/status/version endpoints now HTTP200;19 models advertised. Inference not tested."
     },
     {
       "name": "native_codefriend_additional",

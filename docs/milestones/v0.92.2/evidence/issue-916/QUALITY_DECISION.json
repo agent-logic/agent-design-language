@@ -181,10 +181,13 @@
       "bucket": "routed_work",
       "summary": "Live PAIR processes are running, but the probed local proxy has no available active node/model inventory.",
       "evidence": [
-        "PAIR_HEALTH.json"
+        "PAIR_HEALTH.json",
+        "PAIR_HEALTH_RECHECK.json"
       ],
-      "required_action": "Reconcile the current PAIR engine/node selection and configuration with its owner, then verify actual routing. Preserve the healthy direct Ollama service; no restart or repair attempted by this audit.",
-      "limitation": "Observed local default proxy only. Historical REPAIR decision is separate. Remote unauthenticated403 is not a failure verdict; this is not proof that every possible PAIR route is unusable."
+      "required_action": "No remaining blocker from the observed proxy-discovery failure; preserve inference qualification separately.",
+      "limitation": "Observed local default proxy only. Historical REPAIR decision is separate. Remote unauthenticated403 is not a failure verdict; this is not proof that every possible PAIR route is unusable.",
+      "disposition": "resolved_live_endpoint_recheck",
+      "resolution": "After operator repair, all three previously failing proxy endpoints return HTTP200; inventory reports19 models. No inference was exercised."
     }
   ],
   "stragglers": [

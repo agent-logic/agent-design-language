@@ -92,3 +92,7 @@ All **39 native CodeFriend test targets pass (396 tests, zero failures or ignore
 The first native run failed on control-socket connection readiness. The corrected test waits for a successful connection and uses that connection for its first actual status request, preserving deadlines, unexpected-error failures and drain/resume/shutdown assertions. The intermediate abandoned-probe attempt also failed and remains recorded; it is not counted as passing proof. Independent bounded review of the final test change passed. Production control-server code was not changed.
 
 These local tests use controlled inputs/providers. They do not replace #915's real-provider, invited-user, both-website-mode, platform and rendered-artifact qualification or human acceptance. PAIR's observed default proxy remains unavailable; no live service repair is claimed.
+
+### PAIR operator repair verified
+
+The operator reported PAIR fixed. A fresh read-only check confirms all three previously failing local proxy endpoints now return HTTP 200; model inventory advertises 19 models. **916-G05 is resolved for its observed discovery/availability scope.** [Recheck evidence](PAIR_HEALTH_RECHECK.json) supersedes the earlier proxy failure. This does not claim a new inference, routing, or failover qualification.
