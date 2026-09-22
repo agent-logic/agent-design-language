@@ -26,7 +26,7 @@ Every core issue is assigned exactly once below, including all nine preexisting 
 
 Sprint 1 completes WP-01 readiness before CSDLC-MAN, while the SIM chain retains its own declared entry conditions. Sprint 2 orders RT-COST → PLAT-PROVIDER → RT-PROVIDER. Sprint 5 completes QUAL-RUNTIME and the actual qualification producers before QUAL-EVIDENCE. Sprint 7 completes CSDLC-MERGE and CSDLC-DECOMPOSE before CSDLC-REMOTE. Sprint 8 completes OBS-LIVE before OBS-S3. Sprint 10 runs CF-INTEGRATE → CF-PROOF; Sprint 11 preserves TAIL-01 → TAIL-10 and the final OBS-S3/ARCH-ADR obligations. No dependency points from an earlier execution sprint to a later one.
 
-Podcast #671 is separately scheduled sidecar work outside these eleven core sprint groups and the 69-task startup denominator. It retains its own explicit public-launch/provider-submission approval requirements.
+Podcast #671 is now assigned to v0.93, as is the deferred SIM-09 pilot #875. Both retain their original identities and authorization requirements. The historical 69-task creation roster is preserved for traceability; it is not a live milestone-membership count. The original sidecar admission and 82-membership census are creation-time history, not current scope.
 
 ## Sprint management umbrellas
 
@@ -86,6 +86,6 @@ SIM-UMBRELLA is #866 and SIM-01 through SIM-09 are #867 through #875 respectivel
 
 The operator requires all 69 core-plan issue identities to be created and all creation-batch reviews to pass before any implementation begins, including the independently scheduled SIM sprint. Once that global gate is satisfied, the declared task dependencies, native readiness, bound ownership and issue-level authority still govern execution. Creation batches add no dependency edges and confer no paid/cloud/provider, publication or writer-activation authority.
 
-Existing podcast issue [#671](https://github.com/agent-logic/agent-design-language/issues/671) is a separately admitted v0.92.2 sidecar. It is outside the 69-task atomic plan, core startup denominator and dependency graph. Its own retained public-launch/provider-submission approval gates remain in force; milestone membership does not authorize those effects. The milestone has 82 issue memberships: 69 core-plan identities, this one sidecar, eleven sprint-management umbrellas (#927–#937), and setup issue #926. The management layer is recorded in [SPRINT_MANAGEMENT_v0.92.2.json](SPRINT_MANAGEMENT_v0.92.2.json); it does not change the 69-task implementation/startup denominator.
+Podcast #671 is now assigned to v0.93, as is the deferred SIM-09 pilot #875. Both retain their original identities and authorization requirements. The historical 69-task creation roster is preserved for traceability; it is not a live milestone-membership count. The original sidecar admission and 82-membership census are creation-time history, not current scope.
 
 The [complete reviewed launch map](../../../.csdlc/evidence/864/all-issue-launch.json) binds all 69 core task IDs to verified issue numbers and independent creation reviews. This establishes issue inventory and review truth, not implementation or Beta 1 qualification.

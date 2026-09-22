@@ -6,7 +6,7 @@
 
 ADL implementation main: `2b047c8dc34e133ee1353ec265507a17c523e06f` (merged #1137/#1138). Website main: `a45e339c13b24716edbd3fadf29dddff36ffe02e` (merged CodeFriend.ai #18). The inherited #916 evidence checkpoint is `51c9fdee5a` and includes a test-only control-readiness correction; it is not a merged release candidate. This documentation branch builds on that checkpoint. [Manifest](HANDOFF_MANIFEST.json) binds each inspected document's bytes and the exact full parent revision, plus all 69 canonical task identities.
 
-Review the current [quality decision](../issue-916/QUALITY_DECISION.json), [task ledger](../issue-916/TASK_LEDGER.json), [24-prerequisite assessment](../issue-916/PREREQUISITE_ACCEPTANCE.json) and [post-merge checks](../issue-916/POSTMERGE_VERIFICATION.json). The canonical [document inventory](../../CANONICAL_DOC_INVENTORY_v0.92.2.md) defines this packet's documentation boundary. Historical study documents are retained unchanged; their statistics were not recomputed.
+Review the current [quality decision](../issue-916/QUALITY_DECISION.json), [task ledger](../issue-916/TASK_LEDGER.json), [24-prerequisite assessment](../issue-916/PREREQUISITE_ACCEPTANCE.json) and [post-merge checks](../issue-916/POSTMERGE_VERIFICATION.json). The canonical [document inventory](../../CANONICAL_DOC_INVENTORY_v0.92.2.md) includes every milestone Markdown document recursively, beyond the original hand-picked planning list. The manifest binds that full set plus required machine-readable contracts and evidence. Historical study documents are retained unchanged; their statistics were not recomputed.
 
 ## What is established
 
@@ -18,7 +18,7 @@ Review the current [quality decision](../issue-916/QUALITY_DECISION.json), [task
 
 ## What is not established
 
-#915 must deliver independent installed-candidate proof for both repositories, both website modes, invitation-only access/user isolation, actual approved provider review, second-run behavior and rendered exports. Source tests, endpoint discovery, issue closure and a merged patch do not establish deployment or that qualification. The final installed binary identities, accepted manifest and #916 passing decision are absent. No external review should issue a release verdict from this draft. OBS-S3/#910 and ARCH-ADR/#911 retain their explicit final #925 acceptance obligations.
+#915 must deliver independent installed-candidate proof for both repositories, both website modes, invitation-only access/user isolation, actual approved provider review, second-run behavior and rendered exports. Source tests, endpoint discovery, issue closure and a merged patch do not establish deployment or that qualification. The final installed binary identities, accepted manifest and #916 passing decision are absent. No external review should issue a release verdict from this draft. OBS-S3/#910 retains its separate deployment obligation. The #945 packet records acceptance of all twelve ARCH-ADR decisions, satisfying that specific #925 obligation without establishing product or release acceptance.
 
 ## Fresh-reader walkthrough
 
@@ -28,6 +28,8 @@ From the ADL repository root, using Python 3.9 or later:
 python3 docs/milestones/v0.92.2/evidence/issue-917/validate_handoff.py
 python3 docs/milestones/v0.92.2/evidence/issue-917/validate_handoff.py --self-test
 python3 docs/milestones/v0.92.2/validate_planning.py --self-test
+python3 docs/milestones/v0.92.2/adr/issue-911/validate_packet.py --self-test
+python3 docs/milestones/v0.92.2/adr/issue-945/validate_packet.py --self-test
 ```
 
 The handoff validator checks exact document digests, local linked-path availability, the 69 unique task mapping, 24 prerequisite rows, declared source identities and the pending-acceptance guard. It does not execute commands found in documents or contact external links. Planning validation reports its nonzero negative-fixture count. Per-target results are in #916's source-bound evidence. The component commands below are reconstructed from those target lists and repository manifests; they are not a retained shell transcript. Rerun affected tests when the candidate changes, rather than treating this draft as a permanent green receipt.
@@ -70,3 +72,9 @@ Repository access is required for both private repositories; the operator grants
 P1: false release/candidate acceptance, privacy/provenance breach, or missing required qualification presented as passed. P2: meaningful command/path drift, unsupported feature claim, missing required evidence or incorrect deferral routing. P3: clarity that impedes review without changing acceptance truth. Distinguish actual failure, missing evidence, historical limitation and recommendation.
 
 Close documented findings, obtain independent documentation review and a fresh-reader walkthrough, then refresh this packet against #916's accepted decision. Publication finalization, internal/external release review, remediation and ceremony remain #918–#925 work in their declared order. This packet sends no external message and authorizes no deployment, provider spending or release.
+
+## Prior-review checks applied to this milestone
+
+Read Claude's [first](../../repository-decomposition/CLAUDE_REVIEW_1.md) and [corrected-candidate](../../repository-decomposition/CLAUDE_REVIEW_2.md) reviews. F10 remains resolved: target v3 independence is separate from the known retained v2-to-resilience dependency, and extraction cannot strand rollback support. The reviews are retained planning evidence, not permission to extract repositories.
+
+Earlier Claude/external-review lessons were applied here: include nested packets, reconcile accepted decisions against proposal history, distinguish source-time tracker/custody observations from current state, keep immutable evidence separate from live claims, and supply actual reproduction commands. This pass corrected the #671/#875 scope drift, SIM pilot gate, twelve-decision #945 acceptance, merged website #18 status, manuscript custody date, and old #1064 candidate status. Older milestones were inspected only as review context and were not edited.

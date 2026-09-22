@@ -33,6 +33,7 @@ def check(data):
                 if not x.startswith(('http:', 'https:'))}
     required.discard(PACKET / 'HANDOFF_MANIFEST.json')
     required.update([inventory, PACKET / 'HANDOFF.md', Path(__file__).resolve()])
+    required.update(inventory.parent.rglob('*.md'))
     for name in ['QUALITY_DECISION.json', 'TASK_LEDGER.json',
                  'PREREQUISITE_ACCEPTANCE.json', 'POSTMERGE_VERIFICATION.json',
                  'PAIR_HEALTH_RECHECK.json']:

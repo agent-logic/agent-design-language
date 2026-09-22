@@ -1,5 +1,7 @@
 # Issue 1132: cycle review Journey integration
 
+Current observation for #917: the website patch is now merged through codefriend.ai PR #18 at `a45e339c13b24716edbd3fadf29dddff36ffe02e`; the [post-merge checkpoint](../issue-916/POSTMERGE_VERIFICATION.json) records141 passing website tests. The original patch/publication instructions and139-test result below are source-time history, not outstanding integration work. No deployment or final #915 qualification is inferred.
+
 The native companion delivered by #1133 / PR #1138 selects the successful original review inside a completed
 update cycle. Hosted ownership verifies cycle execution, candidate, request,
 provider, source revision, original admission and retained review artifacts.

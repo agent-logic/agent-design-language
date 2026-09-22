@@ -49,4 +49,4 @@ These are planning corrections authorized by the operator, not execution, ADR ac
 
 ## Creation and sidecar direction
 
-The operator requires all 69 core-plan identities and all creation-batch reviews before any implementation, including SIM. This global startup gate adds no task dependency edges. Existing #671 is separately admitted as a podcast sidecar outside that core gate/graph; its retained public-action approvals remain independent.
+Podcast #671 is now assigned to v0.93, as is the deferred SIM-09 pilot #875. Both retain their original identities and authorization requirements. The historical 69-task creation roster is preserved for traceability; it is not a live milestone-membership count. The original sidecar admission and 82-membership census are creation-time history, not current scope.

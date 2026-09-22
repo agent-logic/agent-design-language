@@ -21,7 +21,7 @@
     },
     {
       "path": "docs/milestones/v0.92.2/ADR_PLAN_v0.92.2.md",
-      "sha256": "2f59bbb08b7fa3221ba06f602e245aeefc213b5469710287e80b018c1ddd943c",
+      "sha256": "ee4d1322cb56e042cbe8a6e7f2676709eabbbb6d943734df69c639605abaa13e",
       "classification": "current_contract_or_evidence"
     },
     {
@@ -31,12 +31,12 @@
     },
     {
       "path": "docs/milestones/v0.92.2/ATOMIC_TASK_CONTRACTS_v0.92.2.md",
-      "sha256": "93c9fc0890cdf71fbd240b35a5ed1af66a3774be7c4dfb8e733eca94bcdb6c59",
+      "sha256": "a87a4d2e6f8cfd3e2d9b379cfe3aeeb26f279e951515e4bfb82bdcdae7fbfd23",
       "classification": "current_contract_or_evidence"
     },
     {
       "path": "docs/milestones/v0.92.2/CANONICAL_DOC_INVENTORY_v0.92.2.md",
-      "sha256": "04baaa55909232dadf6c727b67da386f505540ed95f4dba43b0aea98288beff2",
+      "sha256": "ed1900a829d803ac6c814dd8139ada415a31271a32fd1d783d5c53a00e809716",
       "classification": "current_contract_or_evidence"
     },
     {
@@ -46,7 +46,7 @@
     },
     {
       "path": "docs/milestones/v0.92.2/DECISIONS_v0.92.2.md",
-      "sha256": "7172aea9ca3e320f2d07dea5889f8b2b0665b98e45008be76ee52443ee1623fd",
+      "sha256": "ded3780361b3fd09025807cd02a54b99e5b033e6c4041a55d7da35e34d0ca7f7",
       "classification": "current_contract_or_evidence"
     },
     {
@@ -61,12 +61,12 @@
     },
     {
       "path": "docs/milestones/v0.92.2/EXISTING_ISSUE_RECONCILIATION_v0.92.2.md",
-      "sha256": "b0264c8539addf3d037ffece1b9711a8615a5bb1335125a062f10992f0a376dc",
+      "sha256": "7a279dbe8ff30a608b83be7024ab068b5ab9eb733df9fe3c3285d3b4d52902be",
       "classification": "current_contract_or_evidence"
     },
     {
       "path": "docs/milestones/v0.92.2/FEATURE_PROOF_COVERAGE_v0.92.2.md",
-      "sha256": "40917842367cbce96463295803d22c37af5615b3f036c78da5aeb964de0e5f0e",
+      "sha256": "836a15369bda9ffe55b0e706cebf70d9722e9da460cdfe2a0cddfa1ad3141ad3",
       "classification": "current_contract_or_evidence"
     },
     {
@@ -91,7 +91,7 @@
     },
     {
       "path": "docs/milestones/v0.92.2/QUALITY_GATE_v0.92.2.md",
-      "sha256": "3b4e0722e231fa198603c01292530c5fb8b9657f167fe7b033e9cca0aebe0d42",
+      "sha256": "0fe1aa1b5f19ccc41296752bf178ff0dc2a5d0036356c84a80f3637de741f9e8",
       "classification": "current_contract_or_evidence"
     },
     {
@@ -106,17 +106,17 @@
     },
     {
       "path": "docs/milestones/v0.92.2/RELEASE_PLAN_v0.92.2.md",
-      "sha256": "997887d3a7b204fc16fe8cb7583b19feeb16ea2298eae31384bf74518bab6580",
+      "sha256": "1f3d03857d78c9f0516a0313cd2d98483d4e0ad4a6bb10b69fd9a960e3b13f35",
       "classification": "current_contract_or_evidence"
     },
     {
       "path": "docs/milestones/v0.92.2/SPRINT_v0.92.2.md",
-      "sha256": "3ec4a9ced68fb4f3e9ce5340b25cd51dad019573957293cab62d0e4be5b997ef",
+      "sha256": "7d7ca33674bc816675643e78bced72f96fc168fba9ecc9d266c35d0e91b154e1",
       "classification": "current_contract_or_evidence"
     },
     {
       "path": "docs/milestones/v0.92.2/TBD_SCHEDULING_RECONCILIATION_v0.92.2.md",
-      "sha256": "91624c38ddfa7af8f0cb0fbee1bdb9c57748389d8da98ae3adc692c24e57e308",
+      "sha256": "e96f814928a24d02eec064f6a09566978c038857d39ba706415abf80c65db62a",
       "classification": "current_contract_or_evidence"
     },
     {
@@ -126,7 +126,7 @@
     },
     {
       "path": "docs/milestones/v0.92.2/VISION_v0.92.2.md",
-      "sha256": "774669a5207a571895699a08cbfb05ab0ac77639ca885ce59c5523b4b1e3efb7",
+      "sha256": "dcb42ef4e4e4f6417181946a97dcba0a72d4889fa3165e35dadb1a298d37e746",
       "classification": "current_contract_or_evidence"
     },
     {
@@ -150,9 +150,74 @@
       "classification": "current_contract_or_evidence"
     },
     {
+      "path": "docs/milestones/v0.92.2/adr/issue-911/README.md",
+      "classification": "milestone_markdown_current_or_source_time_as_labeled",
+      "sha256": "d4ce87e374d409746f88928f96609d2375e86cb9aa5b726c6dd3c2572fe6eccf"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/adr/issue-911/decision-dispositions.md",
+      "classification": "milestone_markdown_current_or_source_time_as_labeled",
+      "sha256": "4ccc37ec4d5613b220d93cc07658ceab94d2c56bc0b32c5012e2984bdccd139c"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/adr/issue-911/decision-inventory.md",
+      "classification": "milestone_markdown_current_or_source_time_as_labeled",
+      "sha256": "5a2e399c45fd33a3648f362daf776421e4634f115ad0c6d4c95c3cdc5c74adf6"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/adr/issue-911/inventory-review.md",
+      "classification": "milestone_markdown_current_or_source_time_as_labeled",
+      "sha256": "84397a5d012adb96f4d44a45e2afa76a690c2d96773142ada15f2f63327fc2da"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/adr/issue-911/review.md",
+      "classification": "milestone_markdown_current_or_source_time_as_labeled",
+      "sha256": "ec53310f9ad0fa79a14598c282b6a13df699c8c399d0b26e6caf2d94e42dcabf"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/adr/issue-911/supersession-map.md",
+      "classification": "milestone_markdown_current_or_source_time_as_labeled",
+      "sha256": "e32acaa9f726c49fd5f6449a75ffd28edc31fe814d5bfee72716c06c4d37818a"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/adr/issue-911/validate_packet.py",
+      "classification": "supporting_decision_or_validation_contract",
+      "sha256": "316f964918f885311bc53954a3c3717af9128e99e9c311a77768891839ef45d2"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/adr/issue-945/BETA1_DELIVERY.md",
+      "classification": "milestone_markdown_current_or_source_time_as_labeled",
+      "sha256": "c1ef116a0951e53a66a87532f263053d5c6c1fef0b4d8c341b03ce199b77855f"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/adr/issue-945/README.md",
+      "classification": "milestone_markdown_current_or_source_time_as_labeled",
+      "sha256": "25953bc9d49fbca55600e81b1af7808c21a21df61277c7db08c0dbd3bcf83027"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/adr/issue-945/candidate-content.json",
+      "classification": "supporting_decision_or_validation_contract",
+      "sha256": "517d800b0c2fdc91e4aadd8f5b64597c87211cc70fdf561605d9d361b19510e2"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/adr/issue-945/validate_packet.py",
+      "classification": "supporting_decision_or_validation_contract",
+      "sha256": "7790b5d7b76c66a62255331decd341335232b4fd24f9879b9219b0cb5edd43d2"
+    },
+    {
       "path": "docs/milestones/v0.92.2/cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md",
       "sha256": "0cefde9f9723d6f8b2cf756689a6f571f3f52a33a3f329d5fd3b56ee5dcf7a60",
       "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/cognitive-sdlc/REVISION_4_REVIEW_HANDOFF.md",
+      "classification": "milestone_markdown_current_or_source_time_as_labeled",
+      "sha256": "aede5300b59ded852efe3260f15a674e23da5ac53bb0d2b200e81adb4b423367"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/cognitive-sdlc/issue-1064/REMOVAL_PLAN.md",
+      "classification": "milestone_markdown_current_or_source_time_as_labeled",
+      "sha256": "9c1e09d39cf363f133b2085446848b21030346112f2d4953ae6377b41e8d40a0"
     },
     {
       "path": "docs/milestones/v0.92.2/cognitive-sdlc/source-promotion-manifest.json",
@@ -173,6 +238,46 @@
       "path": "docs/milestones/v0.92.2/cognitive-sdlc/statistical-review-2026-09-08/REPORT.md",
       "sha256": "272def2fbbb686e92b2034a5a4cb12e1667c097e6322a3c5b62871043c9bda09",
       "classification": "retained_historical_study"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/MERGE_LINKAGE_849.md",
+      "classification": "milestone_markdown_current_or_source_time_as_labeled",
+      "sha256": "f981a3558e9342adc4d2e8395da5e4676c2ba8b00fe26827ae9e20b2c6f4cfe4"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/conversion-rehearsal-872/README.md",
+      "classification": "milestone_markdown_current_or_source_time_as_labeled",
+      "sha256": "811d54e646157704a14b3daf948397f49b5cf1283342e28818280e43d585638c"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-1109/README.md",
+      "classification": "milestone_markdown_current_or_source_time_as_labeled",
+      "sha256": "40c4854d978ffcfbf6fed3482722d17e1dbbd8f9a192f18f51600255c5cb545d"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-1129/README.md",
+      "classification": "milestone_markdown_current_or_source_time_as_labeled",
+      "sha256": "2483d75b1ccda9c9b8d7b56fe1eeb1cfc83fe7c8dba1b89a39d0753c919dc6aa"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-1132/README.md",
+      "classification": "milestone_markdown_current_or_source_time_as_labeled",
+      "sha256": "f5b7f6880647146c1f8c7b3fd75dc2d801db0b06f6f04715f14d78f976b8d291"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-523/README.md",
+      "classification": "milestone_markdown_current_or_source_time_as_labeled",
+      "sha256": "57e229fd8f2247f723f6d3fac998701f0e72141f7344ed7251229d545b9c210c"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-523/simplification-addition.md",
+      "classification": "milestone_markdown_current_or_source_time_as_labeled",
+      "sha256": "1aec7dbde885d9c0b75bb2b29ff530b59363dcd413351b5380b1f51de03d1153"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-916/GAP_ANALYSIS.md",
+      "classification": "milestone_markdown_current_or_source_time_as_labeled",
+      "sha256": "dedac08a713a8d4f86798f9eff23b136b7d94213a1f39361e06a012bb97fbf80"
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-916/PAIR_HEALTH_RECHECK.json",
@@ -201,13 +306,38 @@
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-917/HANDOFF.md",
-      "sha256": "87e56a4e3e0cc206a13592534e5b51d3532e4025437ebb08bb2ec2330e1e54f6",
+      "sha256": "a9d3eb44b6f18f8d0961a66bfa1f6085ef77b05c78986fa86856bed67c0e4be1",
       "classification": "current_contract_or_evidence"
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-917/validate_handoff.py",
-      "sha256": "07bb93f310a256c6fd7bdc807c558d015ab4b045a56a68898f9f2623e0736aeb",
+      "sha256": "83f58303530f3c64c4d6cc0e4ab37845323abfe226ccb41cbd15201edfb2922c",
       "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/qual-evidence-902/README.md",
+      "classification": "milestone_markdown_current_or_source_time_as_labeled",
+      "sha256": "1b51333f54447c37d70b0ef6328b167d29617c32f36be72ed3fd18576b10266a"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/qual-inventory-899/README.md",
+      "classification": "milestone_markdown_current_or_source_time_as_labeled",
+      "sha256": "e4dc5908fe8e0d3ea371d570b30405fab99c17a68b3cbda3add85bf585cc01cd"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/qual-provider-901/README.md",
+      "classification": "milestone_markdown_current_or_source_time_as_labeled",
+      "sha256": "8b7bbaf39c613b958b9694139ef79c65c5df6699a139b75de8721b752a6eec8f"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/qual-resident-900/README.md",
+      "classification": "milestone_markdown_current_or_source_time_as_labeled",
+      "sha256": "51daa8c030c3ab34bf0c9a98f91a159b9c823ffbd92ed54ad655d7ff702b7496"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/qual-runtime-852/README.md",
+      "classification": "milestone_markdown_current_or_source_time_as_labeled",
+      "sha256": "f0d4b980f6752c4c3aee326e999204ab424c37c557dac014fcb67174f740b59d"
     },
     {
       "path": "docs/milestones/v0.92.2/features/ARCHITECTURE_COGNITION_v0.92.2.md",
@@ -263,6 +393,46 @@
       "path": "docs/milestones/v0.92.2/features/SUPPORTING_PLATFORM_TRACKS_v0.92.2.md",
       "sha256": "d2447d602b6e01b659f1fcf1004a30c226806da3968686f59e0aa72c7fdbc033",
       "classification": "current_contract_or_evidence"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/repository-decomposition/CLAUDE_REVIEW_1.md",
+      "classification": "milestone_markdown_current_or_source_time_as_labeled",
+      "sha256": "0ae4079249186f32e72ecf5893363cd0d0180adb577ee78e46511a27a496a20c"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/repository-decomposition/CLAUDE_REVIEW_2.md",
+      "classification": "milestone_markdown_current_or_source_time_as_labeled",
+      "sha256": "d8dadc61f5ef2e9737bbb57fcabf6f27c21ce1d4ca918becbc0a502b5ac18654"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/repository-decomposition/FINDINGS.md",
+      "classification": "milestone_markdown_current_or_source_time_as_labeled",
+      "sha256": "dc89c3019fac30552a0e80984356a893e377445545fe6c79a92b4fae27da946f"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/repository-decomposition/GEMINI_REVIEW_1.md",
+      "classification": "milestone_markdown_current_or_source_time_as_labeled",
+      "sha256": "c4d5ebf933e4f304d74b3ebd68eb85e55f544ea588cb865b3802e7a5304eaac2"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/repository-decomposition/PLAN.md",
+      "classification": "milestone_markdown_current_or_source_time_as_labeled",
+      "sha256": "198ac09dc30c30730397f3c8a6a993d0fc9f63c9acfd69dd86cffcc474ece5c4"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/repository-decomposition/REVIEWED_PLAN_848.md",
+      "classification": "milestone_markdown_current_or_source_time_as_labeled",
+      "sha256": "eb7d86d423c5f623ead5593d6ccec9c9383da6223900b32a320b32fd3b320926"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/repository-decomposition/rd01-977/AUDIT.md",
+      "classification": "milestone_markdown_current_or_source_time_as_labeled",
+      "sha256": "f4ad650d4077bd9e240e13ae9560a74703f4340474d585baf4c465a691e238a8"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/repository-decomposition/rd01-977/REVIEW.md",
+      "classification": "milestone_markdown_current_or_source_time_as_labeled",
+      "sha256": "5d4add1369c7d16926e1eb40ba3df86e7134f026cc82bba8edcbcbbc3d17fe59"
     },
     {
       "path": "docs/milestones/v0.92.2/validate_atomic_tasks.py",

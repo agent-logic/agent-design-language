@@ -1,8 +1,8 @@
 # v0.92.2 ADR set — issue #911
 
-Status: **complete proposed candidate packet; formal decision acceptance pending**. Twelve candidate records cover the eight seed topics and four reviewed additions. All 69 core task identities are accounted for. No record is promoted or superseded by this packet.
+Status: **historical proposed candidate packet; all twelve decisions were subsequently accepted through [#945](../issue-945/README.md)**. Twelve candidate records cover the eight seed topics and four reviewed additions. All 69 core task identities are accounted for. No record is promoted or superseded by this packet.
 
-## Candidate records
+## Historical candidate records
 
 | Record | Accountable scope owner | Status |
 |---|---|---|
@@ -41,4 +41,4 @@ The source snapshot is historical to this packet. Before an ADR is accepted or a
 
 ## Current reconciliation
 
-The [issue-945 decision packet](../issue-945/README.md) contains current implementation observations and revised candidate hashes. This issue-911 review and source snapshot remain historical; they do not review or approve later changed bytes. Formal acceptance remains pending.
+The [issue-945 decision packet](../issue-945/README.md) records operator acceptance of all twelve decisions as ADR0076–0087. Eleven bind the original reviewed proposal hashes; CF-09 binds the revised both-mode website decision, not its old CLI-only bytes. The proposed records, table and review above are historical #911 evidence and remain unchanged. The later acceptance satisfies the decision-set obligation for #925; implementation, deployment and final release acceptance remain separate.
