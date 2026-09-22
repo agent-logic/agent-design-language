@@ -19,11 +19,12 @@ mod transport;
 
 pub use authority::canonical_authority_selector_digest;
 pub use delivery::*;
+pub use merge::retained_merge_intent_exists;
 pub use merge_linkage::{merge_linkage_query, merge_state_query};
 pub use model::*;
 pub use mutation::{
-    execute_github_mutation, execute_staged_github_mutation, retained_merge_intent_exists,
-    stage_github_mutation, stage_retained_github_mutation_recovery,
+    execute_github_mutation, execute_staged_github_mutation, stage_github_mutation,
+    stage_retained_github_mutation_recovery,
     stage_retained_github_mutation_recovery_after_rejection,
 };
 pub use publication::{

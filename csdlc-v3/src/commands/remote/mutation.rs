@@ -28,15 +28,6 @@ impl StagedGithubMutation {
     pub fn retained_receipt_exists(&self, repo_root: &Path) -> Result<bool, RemoteRouteFinding> {
         Ok(github_mutation_receipt_path(repo_root, &self.operation_digest)?.exists())
     }
-    pub fn retained_merge_was_never_dispatched(
-        &self,
-        repo_root: &Path,
-    ) -> Result<bool, RemoteRouteFinding> {
-        match &self.merge {
-            Some(merge) => super::merge::retained_attempt_was_never_dispatched(repo_root, merge),
-            None => Ok(false),
-        }
-    }
     pub fn native_identity(&self) -> crate::storage::semantic::protocol::NativeIdentity {
         self.native_identity.clone()
     }
@@ -329,16 +320,6 @@ pub fn stage_github_mutation(
         recovery,
         reuse_rejected_recovery: false,
     })
-}
-
-pub fn retained_merge_intent_exists(
-    repo_root: &Path,
-    request: &GithubMutationRequest,
-) -> Result<bool, RemoteRouteFinding> {
-    if !matches!(request.mutation, GithubMutation::PullRequestMerge { .. }) {
-        return Ok(false);
-    }
-    super::merge::retained_intent_exists(repo_root, request)
 }
 
 /// Reconstruct an already-retained, non-merge mutation for reconciliation.

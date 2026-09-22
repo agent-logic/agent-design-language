@@ -468,7 +468,19 @@ pub(super) fn execute_staged(
     )
 }
 
-pub(super) fn retained_attempt_was_never_dispatched(
+impl StagedGithubMutation {
+    pub fn retained_merge_was_never_dispatched(
+        &self,
+        repo_root: &Path,
+    ) -> Result<bool, RemoteRouteFinding> {
+        match &self.merge {
+            Some(merge) => retained_attempt_was_never_dispatched(repo_root, merge),
+            None => Ok(false),
+        }
+    }
+}
+
+fn retained_attempt_was_never_dispatched(
     root: &Path,
     staged: &StagedMerge,
 ) -> Result<bool, RemoteRouteFinding> {
@@ -490,10 +502,13 @@ fn dispatch_evidence_is_absent(root: &Path, digest: &str) -> Result<bool, Remote
         && !receipt.exists())
 }
 
-pub(super) fn retained_intent_exists(
+pub fn retained_merge_intent_exists(
     root: &Path,
     request: &GithubMutationRequest,
 ) -> Result<bool, RemoteRouteFinding> {
+    if !matches!(request.mutation, GithubMutation::PullRequestMerge { .. }) {
+        return Ok(false);
+    }
     let control = git_control_dir(root).ok_or_else(|| reject("Git receipt directory missing"))?;
     Ok(control
         .join("csdlc-v3/remote/merges")
