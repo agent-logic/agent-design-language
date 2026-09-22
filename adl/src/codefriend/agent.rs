@@ -1,5 +1,6 @@
 //! Installed agent authority. Website commands select locally approved evidence;
 //! they never provide paths, executable commands, or provider credentials.
+mod cycle_bridge;
 pub mod journey;
 pub mod publication;
 
@@ -1631,12 +1632,12 @@ impl Transport {
             "agent_receipt_report_identity"
         );
         let deadline: u64 = serde_json::from_slice(&read(&dir.join("expires.json"), 64)?)?;
-        ensure!(report.expires_at == deadline, "agent_receipt_retention");
+        ensure!(report.expires_at <= deadline, "agent_receipt_retention");
         let authority = RunAuthority {
             pairing: &pairing,
             command: &command,
             consent_path,
-            expires_at: deadline,
+            expires_at: report.expires_at,
         };
         authority.check((self.clock)())?;
         ensure!(!self.control(&pairing, &command)?, "agent_cancelled");
@@ -1739,6 +1740,7 @@ fn scrub_run_payloads(path: &Path) -> Result<()> {
     for name in [
         "work",
         "gateway",
+        "imported-cycle",
         "evidence",
         "journey",
         "relay-delivery",
@@ -1794,7 +1796,12 @@ impl Journal {
             if !expiry.is_file() {
                 continue;
             }
-            let deadline: u64 = serde_json::from_slice(&fs::read(expiry)?)?;
+            let mut deadline: u64 = serde_json::from_slice(&fs::read(expiry)?)?;
+            let imported_expiry = path.join("cycle-import-expires.json");
+            if imported_expiry.exists() {
+                let imported_deadline: u64 = publication::read(&imported_expiry, 64)?;
+                deadline = deadline.min(imported_deadline);
+            }
             if deadline > now {
                 continue;
             }

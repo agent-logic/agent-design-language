@@ -142,10 +142,7 @@ fn snapshot(result: &StageResult, context: &VerificationContext, now: u64) -> Re
         valid_digest(&result.digest) && hash(&unsigned)? == result.digest,
         "agent_journey_verifier_digest"
     );
-    let run = report
-        .result
-        .as_ref()
-        .ok_or_else(|| anyhow::anyhow!("agent_journey_review_missing"))?;
+    let run = report.completed_review()?;
     let admission = &run.review_record.admission;
     let manifest = &result.manifest;
     ensure!(

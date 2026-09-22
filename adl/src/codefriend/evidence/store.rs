@@ -276,6 +276,40 @@ impl Store {
         self.write(id, "json", &candidate)?;
         self.get(id)
     }
+    /// Import already-validated gateway admission without relabelling its producer
+    /// timestamps. Only the cycle bridge uses this in its separate imported store.
+    pub(crate) fn import_cycle_admission(&self, admission: &Admission) -> Result<()> {
+        admission.validate()?;
+        ensure!((self.clock)() < admission.expires_at, "evidence_expired");
+        let id = &admission.packet.packet_id;
+        ensure!(!self.path(id, "tombstone")?.exists(), "evidence_deleted");
+        if self.path(id, "json")?.exists() {
+            ensure!(self.get(id)? == *admission, "immutable_admission_collision");
+        } else {
+            self.write(id, "anchor", &admission.digest)?;
+            self.write(id, "json", admission)?;
+        }
+        Ok(())
+    }
+    /// Read-only recheck while a native Journey may hold this store's exclusive
+    /// lock. Never bootstraps, recovers or re-admits; exact immutable import only.
+    pub(crate) fn verify_cycle_import(root: &Path, expected: &Admission, now: u64) -> Result<()> {
+        safe_path(root)?;
+        expected.validate()?;
+        ensure!(now < expected.expires_at, "evidence_expired");
+        let id = &expected.packet.packet_id;
+        ensure!(
+            !root.join(format!("{id}.tombstone")).exists(),
+            "evidence_deleted"
+        );
+        let admission: Admission = read(&root.join(format!("{id}.json")))?;
+        let anchor: String = read(&root.join(format!("{id}.anchor")))?;
+        ensure!(
+            admission == *expected && anchor == expected.digest,
+            "cycle_import_admission_changed"
+        );
+        Ok(())
+    }
     pub fn get(&self, id: &str) -> Result<Admission> {
         ensure!(!self.path(id, "tombstone")?.exists(), "evidence_deleted");
         let a: Admission = read(&self.path(id, "json")?)?;

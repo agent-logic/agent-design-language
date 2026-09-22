@@ -8,7 +8,6 @@ use crate::codefriend::{
     governance::artifact::PolicyArtifact,
     integration::journey::{self, Continuation, OwnedAdmissionJourneyOptions},
     publication,
-    review::runner::FourPerspectiveReviewRun,
 };
 
 #[derive(Serialize, Deserialize)]
@@ -66,8 +65,7 @@ impl BaselineOwner {
         }
         let dir = service.dir(&credential.subject, operation);
         let work = dir.join("work");
-        let run: FourPerspectiveReviewRun =
-            internal(read_json(&dir.join("result.json"), MAX_RESULT))?;
+        let run = internal(operation_review(service, &credential, &op))?;
         let graph: StructureArtifact =
             internal(read_json(&work.join("journey/structure.json"), MAX_RESULT))?;
         if run.run_id != operation
@@ -201,6 +199,17 @@ fn owned(
             "journey_operation_not_current",
         ));
     }
+    let review = internal(operation_review(service, &credential, &op))?;
+    let retained: crate::codefriend::review::runner::FourPerspectiveReviewRun =
+        internal(read_json(
+            &service
+                .dir(&credential.subject, operation)
+                .join("work/review/run.json"),
+            MAX_RESULT,
+        ))?;
+    if retained != review {
+        return Err(ApiError(StatusCode::CONFLICT, "journey_review_changed"));
+    }
     Ok((credential, op))
 }
 
@@ -232,12 +241,7 @@ pub(super) async fn prepare(
                 "service_draining",
             ));
         }
-        let completed_run: FourPerspectiveReviewRun = internal(read_json(
-            &service
-                .dir(&credential.subject, &operation)
-                .join("result.json"),
-            MAX_RESULT,
-        ))?;
+        let completed_run = internal(operation_review(&service, &credential, &op))?;
         // Reject invalid policies before reserving this operation's journey.
         if matches!(&request.boundary_policy, BoundaryPolicyArtifact::V2(_))
             != matches!(&request.fitness_policy, PolicyArtifact::V2(_))
