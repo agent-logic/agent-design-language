@@ -366,6 +366,7 @@ pub(crate) fn execute_admitted(
             "compiler_artifacts":compiler_artifacts(root,&text),"executed_args":validator.args.iter().cloned().chain(std::iter::once("--message-format=json".to_owned())).collect::<Vec<_>>(),"input_digest":input_digest,"exit_code":execution.exit_code,"tests_passed":tests_passed,"tests_failed":tests_failed,
             "stdout_digest":blake3::hash(&execution.stdout.bytes).to_hex().to_string(),"stderr_digest":blake3::hash(&execution.stderr.bytes).to_hex().to_string(),
             "stdout_evidence":diagnostic_excerpt(root,&execution.stdout.bytes),"stderr_evidence":diagnostic_excerpt(root,&execution.stderr.bytes),
+            "temporary_root":execution.temporary_root,"cargo_target":"target/intent-validation",
             "timed_out":execution.timed_out,"cancelled":execution.cancelled,"cleanup_complete":execution.cleanup_complete,
             "truncated":execution.stdout.truncated||execution.stderr.truncated,"passed":passed,"elapsed_ms":execution.elapsed_ms}));
         if !passed {
@@ -570,6 +571,7 @@ struct ValidatorExecution {
     cancelled: bool,
     cleanup_complete: bool,
     elapsed_ms: u128,
+    temporary_root: PathBuf,
 }
 
 #[cfg(unix)]
@@ -660,6 +662,89 @@ impl Drop for CancellationGuard {
     }
 }
 
+/// Each dispatch gets an exclusively created private directory; existing paths
+/// are never adopted, even if owned by the current OS user. Parent environment
+/// variables cannot redirect this directory outside the admitted worktree.
+#[cfg(unix)]
+struct ValidatorTemporaryRoot {
+    path: PathBuf,
+    device: u64,
+    inode: u64,
+    removed: bool,
+}
+#[cfg(unix)]
+impl ValidatorTemporaryRoot {
+    fn create(root: &Path) -> Result<Self, String> {
+        use std::sync::atomic::{AtomicU64, Ordering};
+        static NEXT: AtomicU64 = AtomicU64::new(0);
+        let name = format!(
+            ".csdlc-validator-tmp-{}-{}",
+            std::process::id(),
+            NEXT.fetch_add(1, Ordering::Relaxed)
+        );
+        Self::create_named(root, &name)
+    }
+    fn create_named(root: &Path, name: &str) -> Result<Self, String> {
+        use std::os::unix::fs::{DirBuilderExt, MetadataExt};
+        unsafe extern "C" {
+            fn geteuid() -> u32;
+        }
+        let canonical = root
+            .canonicalize()
+            .map_err(|_| "intent_validator_temp_root_unavailable")?;
+        if canonical != root
+            || Path::new(name).components().count() != 1
+            || !matches!(
+                Path::new(name).components().next(),
+                Some(std::path::Component::Normal(_))
+            )
+        {
+            return Err("intent_validator_temp_escape".into());
+        }
+        let metadata =
+            fs::symlink_metadata(root).map_err(|_| "intent_validator_temp_root_unavailable")?;
+        if !metadata.is_dir()
+            || metadata.uid() != unsafe { geteuid() }
+            || metadata.mode() & 0o022 != 0
+        {
+            return Err("intent_validator_temp_root_not_owned".into());
+        }
+        let path = root.join(name);
+        fs::DirBuilder::new()
+            .mode(0o700)
+            .create(&path)
+            .map_err(|_| "intent_validator_temp_create_failed")?;
+        let metadata =
+            fs::symlink_metadata(&path).map_err(|_| "intent_validator_temp_metadata_failed")?;
+        Ok(Self {
+            path,
+            device: metadata.dev(),
+            inode: metadata.ino(),
+            removed: false,
+        })
+    }
+    fn cleanup(&mut self) -> bool {
+        use std::os::unix::fs::MetadataExt;
+        if self.removed {
+            return true;
+        }
+        let Ok(metadata) = fs::symlink_metadata(&self.path) else {
+            return false;
+        };
+        if !metadata.is_dir() || metadata.dev() != self.device || metadata.ino() != self.inode {
+            return false;
+        }
+        self.removed = fs::remove_dir_all(&self.path).is_ok();
+        self.removed
+    }
+}
+#[cfg(unix)]
+impl Drop for ValidatorTemporaryRoot {
+    fn drop(&mut self) {
+        self.cleanup();
+    }
+}
+
 #[cfg(unix)]
 fn run_validator(root: &Path, validator: &Validator) -> Result<ValidatorExecution, String> {
     use std::os::{
@@ -668,6 +753,7 @@ fn run_validator(root: &Path, validator: &Validator) -> Result<ValidatorExecutio
     };
     let start = Instant::now();
     let cancellation = CancellationGuard::install()?;
+    let mut temporary = ValidatorTemporaryRoot::create(root)?;
     let (mut stdout, stdout_writer) =
         UnixStream::pair().map_err(|_| "intent_validator_capture_failed")?;
     let (mut stderr, stderr_writer) =
@@ -687,6 +773,9 @@ fn run_validator(root: &Path, validator: &Validator) -> Result<ValidatorExecutio
         .env("PATH", std::env::var_os("PATH").unwrap_or_default())
         .env("HOME", std::env::var_os("HOME").unwrap_or_default())
         .env("CARGO_TARGET_DIR", root.join("target/intent-validation"))
+        .env("TMPDIR", &temporary.path)
+        .env("TMP", &temporary.path)
+        .env("TEMP", &temporary.path)
         .stdin(Stdio::null())
         .stdout(Stdio::from(OwnedFd::from(stdout_writer)))
         .stderr(Stdio::from(OwnedFd::from(stderr_writer)))
@@ -756,6 +845,12 @@ fn run_validator(root: &Path, validator: &Validator) -> Result<ValidatorExecutio
     cancelled |= cancellation.cancelled();
     let cleanup_complete = terminated && status.is_some() && out.eof && err.eof;
     owned.disarmed = cleanup_complete;
+    let temporary_root = temporary
+        .path
+        .strip_prefix(root)
+        .map_err(|_| "intent_validator_temp_escape")?
+        .to_path_buf();
+    let cleanup_complete = temporary.cleanup() && cleanup_complete;
     Ok(ValidatorExecution {
         stdout: out,
         stderr: err,
@@ -765,6 +860,7 @@ fn run_validator(root: &Path, validator: &Validator) -> Result<ValidatorExecutio
         cancelled,
         cleanup_complete,
         elapsed_ms: start.elapsed().as_millis(),
+        temporary_root,
     })
 }
 
@@ -1519,5 +1615,50 @@ mod dependency_record_tests {
         assert!(!positional_filter_admitted("--no-default-features"));
         assert!(!positional_filter_admitted("--workspace"));
         assert!(!positional_filter_admitted("--release"));
+    }
+}
+
+#[cfg(all(test, unix))]
+mod temporary_root_tests {
+    use super::ValidatorTemporaryRoot;
+    use std::{
+        fs,
+        os::unix::fs::{symlink, PermissionsExt},
+    };
+
+    // PVF deterministic local tooling negative proof; no external effects.
+    #[test]
+    fn temporary_root_rejects_escape_symlinks_and_existing_directory() {
+        let root = std::env::temp_dir()
+            .canonicalize()
+            .unwrap()
+            .join(format!("1117-owned-{}", std::process::id()));
+        fs::create_dir(&root).unwrap();
+        let mut owned = ValidatorTemporaryRoot::create_named(&root, "private").unwrap();
+        assert_eq!(
+            fs::metadata(&owned.path).unwrap().permissions().mode() & 0o777,
+            0o700
+        );
+        assert!(ValidatorTemporaryRoot::create_named(&root, "private").is_err());
+        assert!(ValidatorTemporaryRoot::create_named(&root, "../escape").is_err());
+        assert!(ValidatorTemporaryRoot::create_named(&root, "/absolute").is_err());
+        symlink(&owned.path, root.join("link")).unwrap();
+        assert!(ValidatorTemporaryRoot::create_named(&root, "link").is_err());
+        assert!(ValidatorTemporaryRoot::create_named(&root.join("link"), "child").is_err());
+        fs::set_permissions(&root, fs::Permissions::from_mode(0o777)).unwrap();
+        assert!(ValidatorTemporaryRoot::create_named(&root, "unsafe-parent").is_err());
+        fs::set_permissions(&root, fs::Permissions::from_mode(0o700)).unwrap();
+        assert!(owned.cleanup());
+        let mut replaced = ValidatorTemporaryRoot::create_named(&root, "replace-me").unwrap();
+        fs::rename(&replaced.path, root.join("retained-original")).unwrap();
+        symlink(root.join("retained-original"), &replaced.path).unwrap();
+        fs::write(root.join("retained-original/sentinel"), b"preserve").unwrap();
+        assert!(!replaced.cleanup());
+        assert_eq!(
+            fs::read(root.join("retained-original/sentinel")).unwrap(),
+            b"preserve"
+        );
+        drop(replaced);
+        fs::remove_dir_all(root).unwrap();
     }
 }

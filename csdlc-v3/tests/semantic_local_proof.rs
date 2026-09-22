@@ -947,3 +947,70 @@ fn scope_rebind_does_not_advance_when_native_doctor_is_blocked() {
         csdlc_v3::lifecycle::LifecycleState::Bound
     );
 }
+
+// PVF: deterministic installed tooling regression; local CPU/disk; required
+// #1117 acceptance proof. No provider effects or live GitHub transport.
+#[test]
+fn installed_local_proof_contains_descendant_temporary_files() {
+    let mut fixture = Fixture::new("worktree-temporary-files");
+    let primary = fixture.root.clone();
+    fs::write(
+        primary.join("fixture-proof/src/lib.rs"),
+        r#"
+#[test]
+fn descendant_temp_is_owned_by_worktree() {
+    let root = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).parent().unwrap();
+    let temporary = std::env::temp_dir();
+    assert_eq!(temporary.parent(), Some(root));
+    assert_eq!(std::env::var_os("TMPDIR"), Some(temporary.clone().into_os_string()));
+    assert_eq!(std::env::var_os("TMP"), Some(temporary.clone().into_os_string()));
+    assert_eq!(std::env::var_os("TEMP"), Some(temporary.clone().into_os_string()));
+    assert!(std::env::var_os("ADL_TEST_FORBIDDEN_ENV").is_none());
+    let path = temporary.join("actual-validator-temporary-file");
+    std::fs::write(&path, b"contained").unwrap();
+    assert!(path.canonicalize().unwrap().starts_with(root.canonicalize().unwrap()));
+    std::fs::write(root.join(".csdlc/actual-temp-path.txt"), path.to_str().unwrap()).unwrap();
+}
+"#,
+    )
+    .unwrap();
+    fixture::git(&primary, &["add", "fixture-proof/src/lib.rs"]);
+    fixture::git(
+        &primary,
+        &["commit", "-m", "Declare temporary file containment fixture"],
+    );
+    let input = fixture.write_json("temp-plan.json", &plan());
+    success(fixture.run(
+        &primary,
+        &["prepare", "870", "--plan", input.to_str().unwrap()],
+    ));
+    success(fixture.run(&primary, &["bind", "870"]));
+    let linked = snapshot(&primary)
+        .inputs()
+        .binding()
+        .unwrap()
+        .worktree
+        .clone();
+    let external = primary.join("external-parent-temp");
+    fs::create_dir(&external).unwrap();
+    let proof = success(fixture.run_with_env(
+        &linked,
+        &["proof", "870"],
+        &[
+            ("TMPDIR", external.to_str().unwrap()),
+            ("TMP", external.to_str().unwrap()),
+            ("TEMP", external.to_str().unwrap()),
+            ("ADL_TEST_FORBIDDEN_ENV", "must-not-reach-validator"),
+        ],
+    ));
+    assert_eq!(proof["native_effect_truth"], "performed");
+    let path = std::path::PathBuf::from(
+        fs::read_to_string(linked.join(".csdlc/actual-temp-path.txt")).unwrap(),
+    );
+    assert!(path.starts_with(&linked));
+    assert!(
+        !path.parent().unwrap().exists(),
+        "validator temporary root leaked"
+    );
+    assert_eq!(fs::read_dir(external).unwrap().count(), 0);
+}
