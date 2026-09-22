@@ -356,9 +356,11 @@ impl Case {
                 seen.lock().unwrap().push(first.clone());
                 let response = if first.starts_with("GET /v1/operations/") && first.contains("/review-evidence ") {
                     let mut values = run_receipts.lock().unwrap();
-                    let response = values.get("cycle_capsule").cloned().unwrap_or(Value::Null);
+                    let operation = first.split("/v1/operations/").nth(1).unwrap().split('/').next().unwrap();
+                    let key = format!("capsule:{operation}");
+                    let response = values.get(&key).cloned().unwrap_or(Value::Null);
                     if values.remove("expire_after_capsule").is_some() { time.store(now + 60, Ordering::SeqCst); }
-                    if values.remove("revoke_after_capsule").is_some() { values.remove("cycle_capsule"); }
+                    if values.remove("revoke_after_capsule").is_some() { values.remove(&key); }
                     response
                 } else if first.starts_with("GET /v1/agent/publications HTTP") {
                     {

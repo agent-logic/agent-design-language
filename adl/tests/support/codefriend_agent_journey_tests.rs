@@ -493,12 +493,23 @@ fn paired_drift_reopens_both_original_run_owners_and_denies_revoked_baseline() {
 
 // #1133: actual typed cycle/report shape, distinct gateway/local IDs and admissions.
 fn cycle_job() -> (Case, relay::Job, crate::codefriend::cycle_bridge::Capsule) {
+    let (case, job) = prepared_job();
+    let (job, capsule) = install_cycle(&case, job);
+    (case, job, capsule)
+}
+
+fn install_cycle(
+    case: &Case,
+    mut job: relay::Job,
+) -> (relay::Job, crate::codefriend::cycle_bridge::Capsule) {
     use crate::codefriend::{
         activities::{self, Activity, CycleExecutionBinding, UpdateCyclePlan},
         evidence::Retention,
     };
-    let (case, mut job) = prepared_job();
-    let root = case.temp.path().join("state/run-run1");
+    let root = case
+        .temp
+        .path()
+        .join(format!("state/run-{}", job.binding.run_id));
     let mut report: RunReport =
         serde_json::from_slice(&fs::read(root.join("report.json")).unwrap()).unwrap();
     let mut command: Command =
@@ -529,7 +540,10 @@ fn cycle_job() -> (Case, relay::Job, crate::codefriend::cycle_bridge::Capsule) {
     .unwrap();
     let model = report.gateway_lanes[0].model_identity.clone();
     let route = runner::provider_route_identity_from_model(&model);
-    let producer = case.temp.path().join("gateway-producer");
+    let producer = case
+        .temp
+        .path()
+        .join(format!("gateway-producer-{}", report.run_id));
     let run = runner::run_assessments_with_executor(
         ExecutionOptions {
             out: producer.clone(),
@@ -580,13 +594,13 @@ fn cycle_job() -> (Case, relay::Job, crate::codefriend::cycle_bridge::Capsule) {
     fs::remove_dir_all(root.join("work/review")).unwrap();
     job.binding.report_digest = report.digest.clone();
     job.binding.expires_at = report.expires_at;
-    case.extra_receipts.lock().unwrap().insert("run1".into(), json!({"schema":"codefriend.agent_report_receipt.v1","subject":report.subject,"agent_id":report.agent_id,"run_id":report.run_id,"report_digest":report.digest,"received_digest":job.binding.received_digest,"consent_digest":report.consent_digest,"expires_at":report.expires_at}));
+    case.extra_receipts.lock().unwrap().insert(report.run_id.clone(), json!({"schema":"codefriend.agent_report_receipt.v1","subject":report.subject,"agent_id":report.agent_id,"run_id":report.run_id,"report_digest":report.digest,"received_digest":job.binding.received_digest,"consent_digest":report.consent_digest,"expires_at":report.expires_at}));
     case.extra_receipts.lock().unwrap().insert(
-        "cycle_capsule".into(),
+        format!("capsule:{}", capsule.operation_id),
         serde_json::to_value(&capsule).unwrap(),
     );
     *case.journey.lock().unwrap() = serde_json::to_value(&job).unwrap();
-    (case, job, capsule)
+    (job, capsule)
 }
 
 #[test]
@@ -624,7 +638,10 @@ fn cycle_journey_imports_exact_producer_bytes_without_replaying_review() {
         now: crate::codefriend::agent::clock(),
     };
     relay::verification::verify_stage(&result, &context, context.now).unwrap();
-    case.extra_receipts.lock().unwrap().remove("cycle_capsule");
+    case.extra_receipts
+        .lock()
+        .unwrap()
+        .retain(|key, _| !key.starts_with("capsule:"));
     assert!(
         case.poll().is_err(),
         "remote deletion must stop continuation"
@@ -697,7 +714,10 @@ fn cycle_publication_preserves_report_and_requires_live_gateway() {
         .unwrap()
         .iter()
         .all(|line| !line.starts_with("POST /v1/operations")));
-    case.extra_receipts.lock().unwrap().remove("cycle_capsule");
+    case.extra_receipts
+        .lock()
+        .unwrap()
+        .retain(|key, _| !key.starts_with("capsule:"));
     assert!(case.poll().is_err());
     assert!(!root.join("imported-cycle").exists());
 }
@@ -716,5 +736,123 @@ fn cycle_import_rejects_expiry_after_transfer_without_retaining_payload() {
         .join("state/run-run1/imported-cycle")
         .exists());
     assert!(case.journey_results.lock().unwrap().is_empty());
+    assert_eq!(case.posts(), 0);
+}
+
+#[test]
+fn cycle_drift_rechecks_two_imported_owners_and_denies_revoked_baseline() {
+    let (case, mut current, _) = cycle_job();
+    case.poll().unwrap();
+    let now = crate::codefriend::agent::clock();
+    let source_root = case.temp.path().join("state/run-run1");
+    let report: RunReport =
+        serde_json::from_slice(&fs::read(source_root.join("report.json")).unwrap()).unwrap();
+    let mut consent: Consent =
+        serde_json::from_slice(&fs::read(case.temp.path().join("consent.json")).unwrap()).unwrap();
+    consent.expires_at = now + 100;
+    let consent_path = case.temp.path().join("baseline-consent.json");
+    private(&consent_path, &consent);
+    let pairing = case.journal.pairing(now).unwrap();
+    let command = Command {
+        schema: PROTOCOL.into(),
+        agent_id: pairing.agent_id.clone(),
+        subject: pairing.subject.clone(),
+        run_id: "run2".into(),
+        consent_digest: consent.digest().unwrap(),
+        expires_at: now + 80,
+        cycle: None,
+    };
+    let root = case
+        .journal
+        .reserve(&command, &pairing, &consent, now)
+        .unwrap();
+    let store =
+        crate::codefriend::evidence::store::Store::open(&root.join("evidence"), move || now)
+            .unwrap();
+    // A separate original admission and native run, even for a repeated source revision.
+    let original = &report.completed_review().unwrap().review_record;
+    let admission = store
+        .admit(
+            original.admission.packet.clone(),
+            original.admission.retention.clone(),
+        )
+        .unwrap();
+    drop(store);
+    let result = runner::run_with_executor(
+        ExecutionOptions {
+            out: root.join("work/review"),
+            run_id: "run2".into(),
+            cancel_file: None,
+        },
+        admission.clone(),
+        original.run.provider_route.clone(),
+        |_, _, _| {
+            Ok(LaneExecution {
+                final_status: ProviderInvocationFinalStatusV1::Ok,
+                output_text: Some("{\"findings\":[]}".into()),
+            })
+        },
+    )
+    .unwrap();
+    let mut second = RunReport {
+        schema: PROTOCOL.into(),
+        subject: pairing.subject,
+        agent_id: pairing.agent_id,
+        run_id: "run2".into(),
+        consent_digest: command.consent_digest.clone(),
+        execution_location: "local_agent".into(),
+        gateway_lanes: report.gateway_lanes,
+        status: "complete".into(),
+        expires_at: admission.expires_at,
+        result: Some(result),
+        cycle_result: None,
+        digest: String::new(),
+    };
+    second.digest = hash(&second).unwrap();
+    second.validate(now).unwrap();
+    private(&root.join("expires.json"), &second.expires_at);
+    private(&root.join("report.json"), &second);
+    private(
+        &root.join("local-consent.json"),
+        &json!({"path":consent_path.canonicalize().unwrap(),"digest":second.consent_digest}),
+    );
+    case.extra_receipts.lock().unwrap().insert("run2".into(), json!({"schema":"codefriend.agent_report_receipt.v1",
+        "subject":second.subject,"agent_id":second.agent_id,"run_id":"run2","report_digest":second.digest,
+        "received_digest":"e".repeat(64),"consent_digest":second.consent_digest,"expires_at":second.expires_at}));
+    let mut baseline = current.clone();
+    baseline.binding.job_id = "prepare_run2".into();
+    baseline.binding.run_id = "run2".into();
+    baseline.binding.report_digest = second.digest.clone();
+    baseline.binding.consent_digest = second.consent_digest.clone();
+    baseline.binding.received_digest = "e".repeat(64);
+    baseline.binding.expires_at = second.expires_at;
+    let (baseline, baseline_capsule) = install_cycle(&case, baseline);
+    *case.journey.lock().unwrap() = serde_json::to_value(&baseline).unwrap();
+    case.transport
+        .poll_journey(&case.journal, &consent_path)
+        .unwrap();
+    current.binding.job_id = "drift_original_owners".into();
+    current.request = relay::Request::Drift {
+        baseline_run: "run2".into(),
+    };
+    current.binding.request_digest = current.request.digest().unwrap();
+    *case.journey.lock().unwrap() = serde_json::to_value(&current).unwrap();
+    case.poll().unwrap();
+    let drift = case.journey_results.lock().unwrap().last().unwrap().clone();
+    assert_eq!(drift["manifest"]["stages"]["drift"]["status"], "complete");
+    current.binding.job_id = "status_with_saved_baseline".into();
+    current.request = relay::Request::Status;
+    current.binding.request_digest = current.request.digest().unwrap();
+    *case.journey.lock().unwrap() = serde_json::to_value(&current).unwrap();
+    case.poll().unwrap();
+    let count = case.journey_results.lock().unwrap().len();
+    case.extra_receipts
+        .lock()
+        .unwrap()
+        .remove(&format!("capsule:{}", baseline_capsule.operation_id));
+    assert!(case.poll().is_err());
+    assert_eq!(case.journey_results.lock().unwrap().len(), count);
+    assert!(!root.join("imported-cycle").exists());
+    assert!(source_root.join("imported-cycle").exists());
     assert_eq!(case.posts(), 0);
 }

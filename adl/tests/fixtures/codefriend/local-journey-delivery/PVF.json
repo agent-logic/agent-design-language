@@ -20,7 +20,8 @@
     "pre-dispatch reservation remains unresolved without native effect or result acknowledgement",
     "#1133 cycle capsule preserves both IDs/admissions and exact imported producer bytes with no model replay",
     "#1133 swapped lane-file rejection, post-transfer expiry/revocation cleanup and fresh gateway requirement",
-    "#1133 cycle publication reuses nested review with original report/receipt authority"
+    "#1133 cycle publication reuses nested review with original report/receipt authority",
+    "#1133 two-cycle baseline comparison rechecks both locked imported owners and rejects remote baseline revocation"
   ],
   "nonclaims": [
     "complete paired-agent website journey",
