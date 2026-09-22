@@ -22,7 +22,8 @@
     "#1133 swapped lane-file rejection, post-transfer expiry/revocation cleanup and fresh gateway requirement",
     "#1133 cycle publication reuses nested review with original report/receipt authority",
     "#1133 two-cycle baseline comparison rechecks both locked imported owners and rejects remote baseline revocation",
-    "#1133 shorter imported retention deadline drives run cleanup before expired-report rejection"
+    "#1133 shorter imported retention deadline drives run cleanup before expired-report rejection",
+    "historical assessment-v2 exact prompt report/capsule remains importable without replay (#1140)"
   ],
   "nonclaims": [
     "complete paired-agent website journey",

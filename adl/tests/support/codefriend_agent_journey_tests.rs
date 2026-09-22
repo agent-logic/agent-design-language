@@ -500,7 +500,15 @@ fn cycle_job() -> (Case, relay::Job, crate::codefriend::cycle_bridge::Capsule) {
 
 fn install_cycle(
     case: &Case,
+    job: relay::Job,
+) -> (relay::Job, crate::codefriend::cycle_bridge::Capsule) {
+    install_cycle_version(case, job, false)
+}
+
+fn install_cycle_version(
+    case: &Case,
     mut job: relay::Job,
+    historical_v2: bool,
 ) -> (relay::Job, crate::codefriend::cycle_bridge::Capsule) {
     use crate::codefriend::{
         activities::{self, Activity, CycleExecutionBinding, UpdateCyclePlan},
@@ -544,7 +552,7 @@ fn install_cycle(
         .temp
         .path()
         .join(format!("gateway-producer-{}", report.run_id));
-    let run = runner::run_assessments_with_executor(
+    let mut run = runner::run_assessments_with_executor(
         ExecutionOptions {
             out: producer.clone(),
             run_id: gateway_id.clone(),
@@ -560,6 +568,57 @@ fn install_cycle(
         },
     )
     .unwrap();
+    if historical_v2 {
+        // Reconstruct the old producer's exact input contract and all persisted
+        // coupled bytes, rather than merely relabelling a ReviewRecord.
+        for lane in crate::codefriend::review::lanes::ReviewLane::ALL {
+            let (manifest, prompt) = runner::assessment_lane_input_manifest_version(
+                &run.run_id,
+                lane,
+                &gateway,
+                "codefriend.review_lane.v2",
+            )
+            .unwrap();
+            assert!(prompt.contains("zero-based half-open UTF8 byte offsets in ORIGINAL content"));
+            assert!(prompt.contains("\"start_byte\":0"));
+            assert!(!prompt.contains("Do not calculate or return byte offsets"));
+            run.review_record
+                .run
+                .lane_versions
+                .insert(lane.id().into(), "codefriend.review_lane.v2".into());
+            let result = run
+                .lane_results
+                .iter_mut()
+                .find(|r| r.lane == lane.id())
+                .unwrap();
+            result.lane_contract = "codefriend.review_lane.v2".into();
+            result.input_digest = manifest.input_digest.clone();
+            private(
+                &producer.join(format!("lanes/{}/input.json", lane.id())),
+                &manifest,
+            );
+            private(
+                &producer.join(format!("lanes/{}/result.json", lane.id())),
+                result,
+            );
+        }
+        run.review_record.run.refresh_identity(&gateway).unwrap();
+        run.successful_execution().unwrap();
+        private(&producer.join("run.json"), &run);
+        private(&producer.join("review-record.json"), &run.review_record);
+        runner::validate_complete_run(&run, &run.run_id, &gateway, &route).unwrap();
+        let mut historical_report = report.clone();
+        historical_report.run_id = run.run_id.clone();
+        historical_report.expires_at = gateway.expires_at;
+        historical_report.result = Some(run.clone());
+        historical_report.digest.clear();
+        historical_report.digest = hash(&historical_report).unwrap();
+        historical_report.validate(now).unwrap();
+        let bytes = serde_json::to_vec(&historical_report).unwrap();
+        let decoded: RunReport = serde_json::from_slice(&bytes).unwrap();
+        decoded.validate(now).unwrap();
+        assert_eq!(serde_json::to_vec(&decoded).unwrap(), bytes);
+    }
     let mut cycle = activities::run_with_executor(
         plan.clone(),
         gateway,
@@ -883,5 +942,24 @@ fn cycle_import_shortens_cleanup_deadline_before_expired_report_rejection() {
     case.journal.expire(capsule.expires_at).unwrap();
     assert!(!root.join("imported-cycle").exists());
     assert!(!root.join("report.json").exists());
+    assert_eq!(case.posts(), 0);
+}
+
+// PVF #1140: historical assessment-v2 report/capsule and installed Journey.
+#[test]
+fn historical_v2_cycle_capsule_and_report_preserve_original_prompt_contract() {
+    let (case, job) = prepared_job();
+    let (_, capsule) = install_cycle_version(&case, job, true);
+    let root = case.temp.path().join("state/run-run1");
+    let original = fs::read(root.join("report.json")).unwrap();
+    let report: RunReport = serde_json::from_slice(&original).unwrap();
+    let now = crate::codefriend::agent::clock();
+    report.validate(now).unwrap();
+    capsule
+        .validate(report.cycle_result.as_ref().unwrap(), now)
+        .unwrap();
+    case.poll().unwrap();
+    assert!(!case.journey_results.lock().unwrap().is_empty());
+    assert_eq!(fs::read(root.join("report.json")).unwrap(), original);
     assert_eq!(case.posts(), 0);
 }

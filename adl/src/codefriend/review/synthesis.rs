@@ -3,7 +3,7 @@ use crate::codefriend::evidence::{
     contracts::{Finding, ReviewCoverage, ReviewRecord, Severity},
     hash,
 };
-use crate::codefriend::review::lanes::{ASSESSMENT_LANE_CONTRACT_VERSION, LANE_CONTRACT_VERSION};
+use crate::codefriend::review::lanes::LANE_CONTRACT_VERSION;
 use anyhow::{ensure, Context, Result};
 use serde::{Deserialize, Serialize};
 use std::{
@@ -197,7 +197,13 @@ pub fn synthesize(record: &ReviewRecord) -> Result<ReviewSynthesis> {
     record.successful_execution()?;
     let actionable = record.actionable_findings()?;
     let lane_contract = if record.run.assessment_generation() {
-        ASSESSMENT_LANE_CONTRACT_VERSION
+        record
+            .run
+            .lane_versions
+            .values()
+            .next()
+            .map(String::as_str)
+            .ok_or_else(|| anyhow::anyhow!("synthesis_requires_complete_lane_set"))?
     } else {
         LANE_CONTRACT_VERSION
     };

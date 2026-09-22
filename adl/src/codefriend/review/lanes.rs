@@ -1,6 +1,12 @@
 use serde::{Deserialize, Serialize};
 
-pub const ASSESSMENT_LANE_CONTRACT_VERSION: &str = "codefriend.review_lane.v2";
+pub const ASSESSMENT_LANE_CONTRACT_VERSION: &str = "codefriend.review_lane.v3";
+pub fn assessment_contract(version: &str) -> bool {
+    matches!(
+        version,
+        "codefriend.review_lane.v2" | ASSESSMENT_LANE_CONTRACT_VERSION
+    )
+}
 pub const LANE_CONTRACT_VERSION: &str = "codefriend.review_lane.v1";
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord)]

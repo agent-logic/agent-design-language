@@ -504,7 +504,7 @@ impl RunReport {
     pub fn validate(&self, now: u64) -> Result<()> {
         use super::evidence::valid_digest;
         use super::review::{
-            lanes::{ReviewLane, ASSESSMENT_LANE_CONTRACT_VERSION, LANE_CONTRACT_VERSION},
+            lanes::{ReviewLane, LANE_CONTRACT_VERSION},
             runner,
         };
         ensure!(
@@ -582,7 +582,13 @@ impl RunReport {
                 );
                 let assessments = record.run.assessment_generation();
                 let lane_contract = if assessments {
-                    ASSESSMENT_LANE_CONTRACT_VERSION
+                    record
+                        .run
+                        .lane_versions
+                        .values()
+                        .next()
+                        .map(String::as_str)
+                        .ok_or_else(|| anyhow::anyhow!("agent_report_perspectives"))?
                 } else {
                     LANE_CONTRACT_VERSION
                 };
@@ -603,10 +609,11 @@ impl RunReport {
                     ensure!(found.len() == 1, "agent_report_lane");
                     let item = found[0];
                     let (manifest, _) = if assessments {
-                        runner::assessment_lane_input_manifest(
+                        runner::assessment_lane_input_manifest_version(
                             &self.run_id,
                             lane,
                             &record.admission,
+                            lane_contract,
                         )?
                     } else {
                         runner::lane_input_manifest(&self.run_id, lane, &record.admission)?

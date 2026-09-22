@@ -39,6 +39,9 @@ impl Fixture {
         Self::version(privacy, 0)
     }
     fn version(privacy: bool, revision: u8) -> Self {
+        Self::source(privacy, revision, "// café\npub fn guarded() {}\n")
+    }
+    fn source(privacy: bool, revision: u8, content: &str) -> Self {
         let dir = tempfile::tempdir_in(std::env::temp_dir().canonicalize().unwrap()).unwrap();
         let source = dir.path().join("source");
         fs::create_dir(&source).unwrap();
@@ -52,7 +55,7 @@ impl Fixture {
                 "https://example.com/review/source",
             ],
         );
-        fs::write(source.join("a.rs"), "// café\npub fn guarded() {}\n").unwrap();
+        fs::write(source.join("a.rs"), content).unwrap();
         fs::write(
             source.join("b.rs"),
             format!("pub fn other() {{}}\n// version {revision}\n"),
@@ -145,7 +148,7 @@ impl Fixture {
             self.admission.clone(),
             "fixture:no-provider".into(),
             |lane, prompt, _| {
-                assert!(prompt.contains("codefriend.review_lane.v2"));
+                assert!(prompt.contains("codefriend.review_lane.v3"));
                 assert!(prompt.contains("[byte 0]"));
                 assert!(!prompt.contains("TOKEN=private"));
                 Ok(LaneExecution {
@@ -323,7 +326,7 @@ fn citation_utf8_and_actionability_and_aggregate_bounds_fail_closed() {
     assessments::parse_lane("correctness", &json(vec![good.clone()]), &f.admission).unwrap();
     let mut split = good.clone();
     split.citations[0].end_byte = 7;
-    split.citations[0].quote = "// caf".into();
+    split.citations[0].quote = "// invented".into();
     assert!(assessments::parse_lane("correctness", &json(vec![split]), &f.admission).is_err());
     let mut illegal = good.clone();
     illegal.defect = f.item(AssessmentKind::DefectCandidate).defect;
@@ -547,4 +550,154 @@ fn privacy_assessments_traverse_original_store_planner_and_publication() {
         f._store.get(&f.admission.packet.packet_id).unwrap(),
         f.admission
     );
+}
+
+// PVF #1140: deterministic local owner contracts, original-source authority;
+// small CPU/filesystem, no network/provider, required regression proof.
+#[test]
+fn unique_quotes_derive_utf8_crlf_spans_and_ignore_legacy_offsets() {
+    let f = Fixture::source(false, 0, "// préface\r\n// café\r\npub fn guarded() {}\r\n");
+    let item = f.item(AssessmentKind::PositiveObservation);
+    let mut raw: serde_json::Value = serde_json::from_str(&json(vec![item])).unwrap();
+    let quote = &mut raw["assessments"][0]["citations"][0];
+    quote["start_byte"] = serde_json::json!(99999);
+    quote["end_byte"] = serde_json::json!(1);
+    let values = assessments::parse_lane("correctness", &raw.to_string(), &f.admission).unwrap();
+    let c = &values[0].citations[0];
+    assert_eq!(c.start_byte, "// préface\r\n".len() as u64);
+    assert_eq!(c.quote(&f.admission).unwrap(), "// café");
+    let mut tampered = c.clone();
+    tampered.start_byte += 1;
+    assert!(tampered.quote(&f.admission).is_err());
+    tampered = c.clone();
+    tampered.quote_digest = "0".repeat(64);
+    assert!(tampered.quote(&f.admission).is_err());
+    raw["assessments"][0]["citations"][0]
+        .as_object_mut()
+        .unwrap()
+        .remove("start_byte");
+    raw["assessments"][0]["citations"][0]
+        .as_object_mut()
+        .unwrap()
+        .remove("end_byte");
+    assert_eq!(
+        assessments::parse_lane("correctness", &raw.to_string(), &f.admission).unwrap(),
+        values
+    );
+}
+
+#[test]
+fn overlapping_quotes_are_ambiguous_even_with_claimed_offsets() {
+    let f = Fixture::source(false, 0, "aaa");
+    let mut item = f.item(AssessmentKind::PositiveObservation);
+    item.citations[0].quote = "aa".into();
+    let parsed =
+        assessments::parse_lane_with_gaps("correctness", &json(vec![item]), &f.admission).unwrap();
+    assert!(parsed.assessments.is_empty());
+    assert_eq!(parsed.gaps[0].reason, "assessment_quote_ambiguous");
+}
+
+#[test]
+fn mixed_claims_keep_supported_siblings_and_drop_entire_unsupported_assessment() {
+    let f = Fixture::new(false);
+    let good = f.item(AssessmentKind::PositiveObservation);
+    let mut bad = f.item(AssessmentKind::DefectCandidate);
+    let mut missing = bad.citations[0].clone();
+    missing.quote = "invented source".into();
+    bad.citations.push(missing);
+    let raw = json(vec![good, bad]);
+    let parsed = assessments::parse_lane_with_gaps("correctness", &raw, &f.admission).unwrap();
+    assert_eq!(parsed.assessments.len(), 1);
+    assert_eq!(parsed.gaps.len(), 1);
+    assert_eq!(parsed.gaps[0].assessment_index, 1);
+    assert!(AssessmentSet::new(&f.admission, parsed.assessments)
+        .unwrap()
+        .findings(&f.admission)
+        .unwrap()
+        .is_empty());
+    assert!(f.execute("mixed-gaps", |_| raw.clone()).is_err());
+    let run: runner::FourPerspectiveReviewRun =
+        serde_json::from_slice(&fs::read(f.dir.path().join("mixed-gaps/run.json")).unwrap())
+            .unwrap();
+    assert_eq!(run.completion, Completion::Incomplete);
+    assert_eq!(
+        run.review_record
+            .assessment_counts()
+            .unwrap()
+            .positive_observations,
+        4
+    );
+    assert!(run.review_record.findings.is_empty());
+    assert!(run
+        .lane_results
+        .iter()
+        .all(|lane| lane.assessment_gaps.len() == 1 && lane.failure.is_some()));
+    assert!(run.successful_execution().is_err());
+}
+
+#[test]
+fn fenced_json_requires_one_whole_response_payload() {
+    let f = Fixture::new(false);
+    let raw = json(vec![f.item(AssessmentKind::PositiveObservation)]);
+    for fenced in [
+        format!("```json\n{raw}\n```"),
+        format!(" \r\n```\r\n{raw}\r\n``` \n"),
+    ] {
+        assert_eq!(
+            assessments::parse_lane("correctness", &fenced, &f.admission)
+                .unwrap()
+                .len(),
+            1
+        );
+    }
+    for bad in [
+        format!("Here is JSON: {raw}"),
+        format!("```json\n{raw}\n```\ntrailing"),
+        format!("```json\n{raw}\n```\n```json\n{raw}\n```"),
+        format!("```javascript\n{raw}\n```"),
+        format!("```json\n{raw} {raw}\n```"),
+    ] {
+        assert!(assessments::parse_lane("correctness", &bad, &f.admission).is_err());
+    }
+}
+
+#[test]
+fn all_unsupported_is_distinct_from_genuinely_empty_assessments() {
+    let f = Fixture::new(false);
+    let mut bad = f.item(AssessmentKind::DefectCandidate);
+    bad.citations[0].quote = "absent".into();
+    let parsed =
+        assessments::parse_lane_with_gaps("correctness", &json(vec![bad]), &f.admission).unwrap();
+    assert!(parsed.assessments.is_empty());
+    assert_eq!(parsed.gaps.len(), 1);
+    let empty =
+        assessments::parse_lane_with_gaps("correctness", "{\"assessments\":[]}", &f.admission)
+            .unwrap();
+    assert!(empty.assessments.is_empty() && empty.gaps.is_empty());
+}
+
+#[test]
+fn historical_assessment_lane_v2_remains_readable_with_verified_spans() {
+    let f = Fixture::new(false);
+    let raw = json(vec![f.item(AssessmentKind::PositiveObservation)]);
+    let run = f.execute("historical", |_| raw.clone()).unwrap();
+    let mut record = run.review_record;
+    for version in record.run.lane_versions.values_mut() {
+        *version = "codefriend.review_lane.v2".into();
+    }
+    record.run = adl::codefriend::evidence::contracts::Run::new(
+        &record.admission,
+        record.run.lane_versions.clone(),
+        record.run.provider_route.clone(),
+        record.run.completion.clone(),
+        record.run.failures.clone(),
+    )
+    .unwrap()
+    .with_assessments(
+        &record.admission,
+        record.run.assessment_set.clone().unwrap(),
+    )
+    .unwrap();
+    record.successful_execution().unwrap();
+    adl::codefriend::review::synthesis::synthesize(&record).unwrap();
 }

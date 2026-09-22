@@ -78,7 +78,16 @@ impl Capsule {
         ensure!(record == run.review_record, "cycle_capsule_record_changed");
         for lane in ReviewLane::ALL {
             let (expected, _) = if run.review_record.run.assessment_generation() {
-                runner::assessment_lane_input_manifest(&run.run_id, lane, &cycle.admission)?
+                runner::assessment_lane_input_manifest_version(
+                    &run.run_id,
+                    lane,
+                    &cycle.admission,
+                    run.review_record
+                        .run
+                        .lane_versions
+                        .get(lane.id())
+                        .ok_or_else(|| anyhow::anyhow!("cycle_capsule_lane_contract"))?,
+                )?
             } else {
                 runner::lane_input_manifest(&run.run_id, lane, &cycle.admission)?
             };

@@ -243,9 +243,17 @@ impl Run {
         match (&self.assessment_set, self.schema.as_str()) {
             (Some(set), REVIEW_CONTRACT_V3) => {
                 set.validate(a)?;
-                ensure!(self.lane_versions.len() == 4 && REVIEW_LANES.iter().all(|lane|
-                    self.lane_versions.get(*lane).is_some_and(|v| v == crate::codefriend::review::lanes::ASSESSMENT_LANE_CONTRACT_VERSION)),
-                    "assessment_run_lane_versions");
+                ensure!(
+                    self.lane_versions.len() == 4
+                        && REVIEW_LANES.iter().all(|lane| self
+                            .lane_versions
+                            .get(*lane)
+                            .is_some_and(
+                                |v| crate::codefriend::review::lanes::assessment_contract(v)
+                                    && self.lane_versions.values().all(|other| other == v)
+                            )),
+                    "assessment_run_lane_versions"
+                );
             }
             (None, CONTRACT | REVIEW_CONTRACT_V2) => {}
             _ => anyhow::bail!("assessment_run_version_mismatch"),
@@ -410,12 +418,13 @@ impl ReviewRecord {
                 && self.run.lane_versions.len() == 4
                 && REVIEW_LANES
                     .iter()
-                    .all(|lane| self.run.lane_versions.get(*lane).is_some_and(|v| v
-                        == if self.run.assessment_generation() {
-                            crate::codefriend::review::lanes::ASSESSMENT_LANE_CONTRACT_VERSION
+                    .all(|lane| self.run.lane_versions.get(*lane).is_some_and(|v| {
+                        if self.run.assessment_generation() {
+                            crate::codefriend::review::lanes::assessment_contract(v)
                         } else {
-                            crate::codefriend::review::lanes::LANE_CONTRACT_VERSION
-                        })),
+                            v == crate::codefriend::review::lanes::LANE_CONTRACT_VERSION
+                        }
+                    })),
             "review_requires_successful_four_lanes"
         );
         ensure!(
