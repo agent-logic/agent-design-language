@@ -608,4 +608,6 @@ fn cycle_journey_preserves_outer_receipt_and_inner_review_without_dispatch() {
         .delete(&original.packet.packet_id)
         .unwrap();
     assert!(case.poll().is_err());
+    case.journal.expire(report.expires_at).unwrap();
+    assert!(!root.join("cycle-evidence").exists());
 }

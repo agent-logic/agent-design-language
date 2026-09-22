@@ -1520,6 +1520,51 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
             );
         }
         assert_eq!(count.load(Ordering::SeqCst), 20);
+        // #1132: real hosted owner consumes the original assessment-cycle
+        // review. Preparation/replay must not make another provider request.
+        let policy = json!({
+            "boundary_policy":{"schema":"codefriend.structure.v1","crate_root":"lib.rs","manifest_path":null,"layers":{"lib.rs":"core"},"allowed":[],"coupling_threshold":2},
+            "fitness_policy":{"schema":"codefriend.fitness.v1","rules":[{"id":"no-network","kind":"forbidden_declared_use","source_path":"lib.rs","forbidden_prefix":"reqwest"}]}
+        });
+        for id in ["assessment-cycle-hosted"] {
+            for _ in 0..2 {
+                let response = client
+                    .post(format!("{base}/v1/operations/{id}/journey"))
+                    .bearer_auth(ALICE)
+                    .json(&policy)
+                    .send()
+                    .unwrap();
+                let status = response.status();
+                let body: Value = response.json().unwrap();
+                assert_eq!(status.as_u16(), 200, "{body}");
+                assert_eq!(body["stages"]["review"]["status"], "complete");
+            }
+            assert_eq!(
+                client
+                    .get(format!("{base}/v1/operations/{id}/journey/graph"))
+                    .bearer_auth(ALICE)
+                    .send()
+                    .unwrap()
+                    .status()
+                    .as_u16(),
+                200
+            );
+            assert_ne!(
+                client
+                    .get(format!("{base}/v1/operations/{id}/journey"))
+                    .bearer_auth(BOB)
+                    .send()
+                    .unwrap()
+                    .status()
+                    .as_u16(),
+                200
+            );
+        }
+        assert_eq!(
+            count.load(Ordering::SeqCst),
+            20,
+            "Journey cannot dispatch providers"
+        );
 
         for (id, token, mode) in [
             ("oversized-hosted", ALICE, "hosted"),

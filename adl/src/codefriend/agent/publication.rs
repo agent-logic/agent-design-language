@@ -330,6 +330,7 @@ impl Transport {
             .command
             .validate(&pairing, &read_consent(consent_path, now)?, now)?;
         binding.validate_report(&context.report, now)?;
+        context.report.check_original_cycle(&context.root, now)?;
         let expiry: u64 = read(&context.root.join("expires.json"), 64)?;
         ensure!(
             expiry == binding.expires_at && expiry > now,

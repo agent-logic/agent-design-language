@@ -1742,6 +1742,7 @@ fn scrub_run_payloads(path: &Path) -> Result<()> {
         "work",
         "gateway",
         "evidence",
+        "cycle-evidence",
         "journey",
         "relay-delivery",
         "baseline-owners",
