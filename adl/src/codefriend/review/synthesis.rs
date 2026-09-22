@@ -1,8 +1,9 @@
 use crate::codefriend::evidence::{
+    assessments::{Assessment, AssessmentCounts, AssessmentKind},
     contracts::{Finding, ReviewCoverage, ReviewRecord, Severity},
     hash,
 };
-use crate::codefriend::review::lanes::LANE_CONTRACT_VERSION;
+use crate::codefriend::review::lanes::{ASSESSMENT_LANE_CONTRACT_VERSION, LANE_CONTRACT_VERSION};
 use anyhow::{ensure, Context, Result};
 use serde::{Deserialize, Serialize};
 use std::{
@@ -13,6 +14,7 @@ use std::{
 };
 
 pub const SYNTHESIS_SCHEMA: &str = "codefriend.review_synthesis.v1";
+pub const SYNTHESIS_SCHEMA_V3: &str = "codefriend.review_synthesis.v3";
 pub const SYNTHESIS_SCHEMA_V2: &str = "codefriend.review_synthesis.v2";
 pub const SYNTHESIS_MANIFEST_SCHEMA: &str = "codefriend.review_synthesis_manifest.v1";
 
@@ -65,6 +67,10 @@ pub struct ReviewSynthesis {
     pub synthesized_findings: Vec<SynthesizedFinding>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub coverage: Option<ReviewCoverage>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub assessment_counts: Option<AssessmentCounts>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub observations: Option<Vec<Assessment>>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
@@ -77,6 +83,51 @@ pub struct SynthesisManifest {
     pub review_record_digest: String,
     pub synthesized_finding_count: usize,
     pub input_finding_count: usize,
+}
+
+/// Check generation-specific shape; bundle readers additionally reproduce the
+/// complete synthesis from the validated immutable review record.
+pub fn validate_generation(synthesis: &ReviewSynthesis) -> Result<()> {
+    match synthesis.schema.as_str() {
+        SYNTHESIS_SCHEMA | SYNTHESIS_SCHEMA_V2 => {
+            ensure!(
+                synthesis.assessment_counts.is_none()
+                    && synthesis.observations.is_none()
+                    && (synthesis.schema == SYNTHESIS_SCHEMA_V2) == synthesis.coverage.is_some(),
+                "invalid_synthesis_schema"
+            );
+        }
+        SYNTHESIS_SCHEMA_V3 => {
+            let counts = synthesis
+                .assessment_counts
+                .as_ref()
+                .ok_or_else(|| anyhow::anyhow!("missing_assessment_counts"))?;
+            let observations = synthesis
+                .observations
+                .as_ref()
+                .ok_or_else(|| anyhow::anyhow!("missing_assessment_observations"))?;
+            ensure!(
+                counts.defect_candidates == synthesis.input_finding_count
+                    && observations
+                        .iter()
+                        .all(|item| item.kind != AssessmentKind::DefectCandidate
+                            && item.defect.is_none())
+                    && observations
+                        .iter()
+                        .filter(|item| item.kind == AssessmentKind::PositiveObservation)
+                        .count()
+                        == counts.positive_observations
+                    && observations
+                        .iter()
+                        .filter(|item| item.kind == AssessmentKind::UnresolvedQuestion)
+                        .count()
+                        == counts.unresolved_questions,
+                "assessment_synthesis_projection_mismatch"
+            );
+        }
+        _ => anyhow::bail!("invalid_synthesis_schema"),
+    }
+    Ok(())
 }
 
 pub fn synthesize_from_file(options: SynthesisOptions) -> Result<ReviewSynthesis> {
@@ -144,6 +195,12 @@ pub fn read_synthesis_from_file(input: &Path) -> Result<ReviewSynthesis> {
 
 pub fn synthesize(record: &ReviewRecord) -> Result<ReviewSynthesis> {
     record.successful_execution()?;
+    let actionable = record.actionable_findings()?;
+    let lane_contract = if record.run.assessment_generation() {
+        ASSESSMENT_LANE_CONTRACT_VERSION
+    } else {
+        LANE_CONTRACT_VERSION
+    };
     let required = ["adversarial", "constitutional", "correctness", "security"];
     let lanes: BTreeSet<_> = record
         .run
@@ -161,12 +218,12 @@ pub fn synthesize(record: &ReviewRecord) -> Result<ReviewSynthesis> {
                 .run
                 .lane_versions
                 .get(*lane)
-                .is_some_and(|version| version == LANE_CONTRACT_VERSION)
+                .is_some_and(|version| version == lane_contract)
         }),
         "synthesis_requires_supported_lane_contract_version"
     );
     ensure!(
-        record.findings.iter().all(|finding| {
+        actionable.iter().all(|finding| {
             record
                 .run
                 .lane_versions
@@ -176,7 +233,7 @@ pub fn synthesize(record: &ReviewRecord) -> Result<ReviewSynthesis> {
     );
 
     let mut groups: BTreeMap<(String, String), Vec<&Finding>> = BTreeMap::new();
-    for finding in &record.findings {
+    for finding in actionable {
         groups
             .entry((finding.semantic_anchor.clone(), finding.title.clone()))
             .or_default()
@@ -268,7 +325,9 @@ pub fn synthesize(record: &ReviewRecord) -> Result<ReviewSynthesis> {
     }
     synthesized_findings.sort_by(|a, b| a.id.cmp(&b.id));
     Ok(ReviewSynthesis {
-        schema: if record.run.coverage.is_some() {
+        schema: if record.run.assessment_generation() {
+            SYNTHESIS_SCHEMA_V3
+        } else if record.run.coverage.is_some() {
             SYNTHESIS_SCHEMA_V2
         } else {
             SYNTHESIS_SCHEMA
@@ -280,9 +339,17 @@ pub fn synthesize(record: &ReviewRecord) -> Result<ReviewSynthesis> {
         revision: record.run.revision.clone(),
         scope_digest: record.run.scope_digest.clone(),
         lane_count: record.run.lane_versions.len(),
-        input_finding_count: record.findings.len(),
+        input_finding_count: actionable.len(),
         synthesized_findings,
         coverage: record.run.coverage.clone(),
+        assessment_counts: record.assessment_counts(),
+        observations: record.run.assessment_set.as_ref().map(|set| {
+            set.assessments
+                .iter()
+                .filter(|assessment| assessment.kind != AssessmentKind::DefectCandidate)
+                .cloned()
+                .collect()
+        }),
     })
 }
 

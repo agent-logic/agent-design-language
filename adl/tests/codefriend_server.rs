@@ -1093,7 +1093,7 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
     use std::net::TcpListener;
     use std::process::Stdio;
     let mut f = Fixture::new();
-    f.config.max_operations_per_subject = 8;
+    f.config.max_operations_per_subject = 16;
     let provider = TcpListener::bind("127.0.0.1:0").unwrap();
     provider.set_nonblocking(true).unwrap();
     f.config.provider.route.endpoint_ref = Some(format!(
@@ -1144,7 +1144,7 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
                 }
             }
             let index = calls.fetch_add(1, Ordering::SeqCst);
-            if index >= 12 {
+            if index >= 20 {
                 if write!(
                     stream,
                     "HTTP/1.1 200 OK\r\nTransfer-Encoding: chunked\r\nConnection: close\r\n\r\n"
@@ -1165,7 +1165,9 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
                 }
                 continue;
             }
-            let text = if index < 4 || index == 5 {
+            let text = if index < 4 || (12..20).contains(&index) {
+                json!({"assessments":[]})
+            } else if index == 5 {
                 json!({"findings":[]})
             } else if index == 6 {
                 json!({
@@ -1264,6 +1266,30 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
         let result: Value = response.json().unwrap();
         assert_eq!(result["lane_results"].as_array().unwrap().len(), 4);
         assert_eq!(result["completion"], "complete");
+        assert_eq!(
+            result["schema"],
+            "codefriend.four_perspective_review_run.v3"
+        );
+        assert_eq!(
+            result["review_record"]["run"]["schema"],
+            "codefriend.contracts.v3"
+        );
+        assert_eq!(
+            result["review_record"]["run"]["assessment_set"]["schema"],
+            "codefriend.assessment_set.v1"
+        );
+        assert_eq!(
+            result["review_record"]["run"]["assessment_set"]["assessments"],
+            json!([])
+        );
+        assert_eq!(result["review_record"]["findings"], json!([]));
+        for lane in result["lane_results"].as_array().unwrap() {
+            assert_eq!(lane["schema"], "codefriend.review_lane_result.v2");
+            assert_eq!(lane["assessment_ids"], json!([]));
+        }
+        let typed: adl::codefriend::review::runner::FourPerspectiveReviewRun =
+            serde_json::from_value(result).unwrap();
+        typed.successful_execution().unwrap();
         let mut local = f.request("local");
         local["mode"] = json!("local_model");
         local["lane"] = json!("security");
@@ -1313,6 +1339,8 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
             .unwrap()
             .json()
             .unwrap();
+        assert_eq!(result["schema"], "codefriend.local_model_result.v1");
+        assert_eq!(result["output"], json!({"findings":[]}));
         assert_eq!(result["candidate_revision"], build_revision());
         assert_eq!(
             operation["candidate_revision"],
@@ -1443,6 +1471,56 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
         assert_eq!(failed_review_result["activities"][0]["status"], "failed");
         assert_eq!(failed_review_result["failures"][0], "review_failed");
         assert_eq!(count.load(Ordering::SeqCst), 12);
+        for (id, token, mode) in [
+            ("assessment-cycle-hosted", ALICE, "hosted"),
+            ("assessment-cycle-local", AGENT, "local_model"),
+        ] {
+            let mut request = f.request(id);
+            request["mode"] = json!(mode);
+            request["review_generation"] = json!("assessments");
+            request["cycle"] = serde_json::to_value(UpdateCyclePlan {
+                schema: PLAN_SCHEMA.into(),
+                repository: f.packet.repository.clone(),
+                activities: vec![Activity::Review],
+                testing: None,
+            })
+            .unwrap();
+            assert_eq!(
+                client
+                    .post(format!("{base}/v1/operations"))
+                    .bearer_auth(token)
+                    .json(&request)
+                    .send()
+                    .unwrap()
+                    .status()
+                    .as_u16(),
+                202
+            );
+            assert_eq!(terminal(token, id)["status"], "complete");
+            let result: Value = client
+                .get(format!("{base}/v1/operations/{id}/result"))
+                .bearer_auth(token)
+                .send()
+                .unwrap()
+                .json()
+                .unwrap();
+            let cycle = if mode == "hosted" {
+                &result
+            } else {
+                &result["cycle_result"]
+            };
+            assert_eq!(cycle["completion"], "complete");
+            assert_eq!(
+                cycle["review"]["schema"],
+                "codefriend.four_perspective_review_run.v3"
+            );
+            assert_eq!(
+                cycle["review"]["review_record"]["run"]["assessment_set"]["assessments"],
+                json!([])
+            );
+        }
+        assert_eq!(count.load(Ordering::SeqCst), 20);
+
         for (id, token, mode) in [
             ("oversized-hosted", ALICE, "hosted"),
             ("oversized-local", AGENT, "local_model"),
@@ -1939,4 +2017,26 @@ async fn uncertain_provider_effect_is_retained_after_cancel_and_cannot_redispatc
     assert_eq!(backend.0.load(Ordering::SeqCst), 1);
     service.begin_drain().unwrap();
     assert!(!service.drained_without_payloads().unwrap());
+}
+
+// PVF runtime deterministic serialization: legacy request identity is unchanged;
+// explicit assessment generation is authenticated by the existing request digest.
+#[test]
+fn model_generation_is_explicit_and_legacy_submit_bytes_are_preserved() {
+    let f = Fixture::new();
+    let old = json!({"operation_id":"legacy-model", "packet":f.packet,"mode":"local_model","lane":"code"});
+    let mut old = old;
+    old["lane"] = serde_json::to_value(ReviewLane::ALL[0]).unwrap();
+    let legacy: Submit = serde_json::from_value(old.clone()).unwrap();
+    assert!(legacy.review_generation.is_none());
+    assert_eq!(serde_json::to_value(&legacy).unwrap(), old);
+    let mut modern = legacy.clone();
+    modern.review_generation = Some(ReviewGeneration::Assessments);
+    assert_ne!(
+        adl::codefriend::evidence::hash(&modern).unwrap(),
+        adl::codefriend::evidence::hash(&legacy).unwrap()
+    );
+    let mut unknown = serde_json::to_value(modern).unwrap();
+    unknown["review_generation"] = "unknown".into();
+    assert!(serde_json::from_value::<Submit>(unknown).is_err());
 }

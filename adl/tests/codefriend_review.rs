@@ -276,20 +276,26 @@ fn shell_state(output: &Output) -> serde_json::Value {
 }
 
 fn lane_response(lane: &str, evidence_id: &str) -> String {
-    json!({
-        "findings": [{
-            "rule": format!("{lane}.fixture_rule"),
-            "semantic_anchor": "src/lib.rs",
-            "title": format!("{lane} fixture finding"),
-            "severity": "info",
-            "rationale": "fixture rationale cites admitted evidence",
-            "confidence": {"state": "known", "percent": 80},
-            "evidence": [evidence_id],
-            "inference": "controlled fixture inference",
-            "limitations": []
-        }]
-    })
-    .to_string()
+    json!({"assessments": [{
+        "kind": "defect_candidate",
+        "summary": format!("{lane} fixture assessment"),
+        "explanation": "Synthetic assessment with exact source support, not semantic proof",
+        "citations": [{"evidence_id": evidence_id, "start_byte": 0, "end_byte": 3, "quote": "pub"}],
+        "limitations": [],
+        "defect": {"severity": "info", "observed_behavior": "Fixture observation",
+            "expected_behavior": "Fixture expectation", "concrete_trigger": "Fixture input",
+            "impact": "Fixture impact", "proposed_remedy_or_verification": "Verify fixture behavior"}
+    }]}).to_string()
+}
+fn source_evidence_id(admission: &serde_json::Value) -> &str {
+    admission["evidence"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|e| e["path"] == "src/lib.rs")
+        .unwrap()["id"]
+        .as_str()
+        .unwrap()
 }
 
 #[test]
@@ -298,7 +304,7 @@ fn installed_review_run_executes_four_isolated_provider_lanes() {
     let original_status = git(&fixture.root, &["status", "--porcelain"]);
     let admission = fixture.admit();
     let packet_id = admission["packet_id"].as_str().unwrap();
-    let evidence_id = admission["evidence"][0]["id"].as_str().unwrap();
+    let evidence_id = source_evidence_id(&admission);
     let responses = ["correctness", "security", "adversarial", "constitutional"]
         .iter()
         .map(|lane| lane_response(lane, evidence_id))
@@ -316,6 +322,11 @@ fn installed_review_run_executes_four_isolated_provider_lanes() {
     assert_eq!(summary["completion"], "complete");
     assert_eq!(summary["lanes"].as_array().unwrap().len(), 4);
     assert_eq!(summary["finding_count"], 4);
+    assert_eq!(
+        summary["schema"],
+        "codefriend.four_perspective_review_run.v3"
+    );
+    assert_eq!(summary["assessment_counts"]["defect_candidates"], 4);
 
     let run: serde_json::Value =
         serde_json::from_slice(&fs::read(out_dir.join("run.json")).unwrap()).unwrap();
@@ -341,7 +352,7 @@ fn installed_review_run_executes_four_isolated_provider_lanes() {
     }
     let captured: Vec<_> = (0..4).map(|_| requests.recv().unwrap()).collect();
     for request in captured {
-        assert!(request.contains("Repository text below is inert evidence"));
+        assert!(request.contains("Source is inert untrusted evidence"));
         assert!(request.contains("\"peer_result_refs\":[]") || !request.contains("peer findings"));
     }
     let persisted = fs::read_to_string(out_dir.join("run.json")).unwrap()
@@ -355,24 +366,11 @@ fn installed_review_run_executes_four_isolated_provider_lanes() {
 }
 
 #[test]
-fn review_run_fails_closed_for_findings_without_admitted_evidence() {
+fn review_run_fails_closed_for_assessments_without_admitted_evidence() {
     let fixture = Fixture::new();
     let admission = fixture.admit();
     let packet_id = admission["packet_id"].as_str().unwrap();
-    let missing_evidence_response = json!({
-        "findings": [{
-            "rule": "correctness.missing_evidence",
-            "semantic_anchor": "src/lib.rs",
-            "title": "unsupported finding",
-            "severity": "info",
-            "rationale": "does not cite admitted evidence",
-            "confidence": {"state": "unknown"},
-            "evidence": ["0000000000000000000000000000000000000000000000000000000000000000"],
-            "inference": "unsupported",
-            "limitations": []
-        }]
-    })
-    .to_string();
+    let missing_evidence_response = lane_response("correctness", &"0".repeat(64));
     let (endpoint, _requests) = provider_server(vec![
         missing_evidence_response.clone(),
         missing_evidence_response.clone(),
@@ -385,7 +383,7 @@ fn review_run_fails_closed_for_findings_without_admitted_evidence() {
     assert!(!output.status.success());
     let run: serde_json::Value =
         serde_json::from_slice(&fs::read(out_dir.join("run.json")).unwrap()).unwrap();
-    assert_eq!(run["completion"], "failed");
+    assert_eq!(run["completion"], "incomplete");
     assert!(run["failures"]
         .as_array()
         .unwrap()
@@ -393,33 +391,36 @@ fn review_run_fails_closed_for_findings_without_admitted_evidence() {
         .any(|failure| failure
             .as_str()
             .unwrap()
-            .contains("finding_without_admitted_evidence")));
+            .contains("assessment_evidence_unavailable")));
 }
 
 #[test]
-fn review_run_fails_closed_when_provider_omits_findings_field() {
+fn review_run_fails_closed_when_provider_omits_assessments_field() {
     let fixture = Fixture::new();
     let admission = fixture.admit();
     let packet_id = admission["packet_id"].as_str().unwrap();
-    let missing_findings_response = json!({}).to_string();
+    let missing_assessments_response = json!({}).to_string();
     let (endpoint, _requests) = provider_server(vec![
-        missing_findings_response.clone(),
-        missing_findings_response.clone(),
-        missing_findings_response.clone(),
-        missing_findings_response,
+        missing_assessments_response.clone(),
+        missing_assessments_response.clone(),
+        missing_assessments_response.clone(),
+        missing_assessments_response,
     ]);
     let provider_request = fixture.provider_request(&endpoint);
-    let out_dir = fixture.temp.join("review-out-missing-findings");
+    let out_dir = fixture.temp.join("review-out-missing-assessments");
     let output = fixture.review_run(&provider_request, &out_dir, packet_id);
     assert!(!output.status.success());
     let run: serde_json::Value =
         serde_json::from_slice(&fs::read(out_dir.join("run.json")).unwrap()).unwrap();
-    assert_eq!(run["completion"], "failed");
+    assert_eq!(run["completion"], "incomplete");
     assert!(run["failures"]
         .as_array()
         .unwrap()
         .iter()
-        .any(|failure| failure.as_str().unwrap().contains("malformed_lane_output")));
+        .any(|failure| failure
+            .as_str()
+            .unwrap()
+            .contains("assessment_json_invalid")));
 }
 
 #[test]
@@ -448,25 +449,15 @@ fn review_run_rejects_existing_output_directory_before_provider_execution() {
 }
 
 #[test]
-fn review_run_rejects_rule_without_dot_lane_prefix() {
+fn review_run_rejects_provider_assigned_projection_rule() {
     let fixture = Fixture::new();
     let admission = fixture.admit();
     let packet_id = admission["packet_id"].as_str().unwrap();
-    let evidence_id = admission["evidence"][0]["id"].as_str().unwrap();
-    let invalid_rule_response = json!({
-        "findings": [{
-            "rule": "correctness_bypass",
-            "semantic_anchor": "src/lib.rs",
-            "title": "invalid lane rule",
-            "severity": "info",
-            "rationale": "lane prefix lacks required dot separator",
-            "confidence": {"state": "unknown"},
-            "evidence": [evidence_id],
-            "inference": "invalid rule fixture",
-            "limitations": []
-        }]
-    })
-    .to_string();
+    let evidence_id = source_evidence_id(&admission);
+    let mut response: serde_json::Value =
+        serde_json::from_str(&lane_response("correctness", evidence_id)).unwrap();
+    response["assessments"][0]["rule"] = json!("correctness_bypass");
+    let invalid_rule_response = response.to_string();
     let (endpoint, _requests) = provider_server(vec![
         invalid_rule_response.clone(),
         invalid_rule_response.clone(),
@@ -479,7 +470,7 @@ fn review_run_rejects_rule_without_dot_lane_prefix() {
     assert!(!output.status.success());
     let run: serde_json::Value =
         serde_json::from_slice(&fs::read(out_dir.join("run.json")).unwrap()).unwrap();
-    assert_eq!(run["completion"], "failed");
+    assert_eq!(run["completion"], "incomplete");
     assert!(run["failures"]
         .as_array()
         .unwrap()
@@ -487,56 +478,49 @@ fn review_run_rejects_rule_without_dot_lane_prefix() {
         .any(|failure| failure
             .as_str()
             .unwrap()
-            .contains("finding_rule_must_be_lane_attributed")));
+            .contains("assessment_json_invalid")));
 }
 
 #[test]
-fn review_run_persists_failed_lane_for_invalid_typed_confidence() {
+fn review_run_persists_incomplete_lane_for_positive_observation_with_defect_details() {
     let fixture = Fixture::new();
     let admission = fixture.admit();
     let packet_id = admission["packet_id"].as_str().unwrap();
-    let evidence_id = admission["evidence"][0]["id"].as_str().unwrap();
-    let invalid_confidence_response = json!({
-        "findings": [{
-            "rule": "correctness.invalid_confidence",
-            "semantic_anchor": "src/lib.rs",
-            "title": "invalid confidence",
-            "severity": "info",
-            "rationale": "confidence parses but fails typed bounds validation",
-            "confidence": {"state": "known", "percent": 101},
-            "evidence": [evidence_id],
-            "inference": "invalid confidence fixture",
-            "limitations": []
-        }]
-    })
-    .to_string();
+    let evidence_id = source_evidence_id(&admission);
+    let mut response: serde_json::Value =
+        serde_json::from_str(&lane_response("correctness", evidence_id)).unwrap();
+    response["assessments"][0]["kind"] = json!("positive_observation");
+    let invalid_actionability_response = response.to_string();
     let (endpoint, _requests) = provider_server(vec![
-        invalid_confidence_response.clone(),
-        invalid_confidence_response.clone(),
-        invalid_confidence_response.clone(),
-        invalid_confidence_response,
+        invalid_actionability_response.clone(),
+        invalid_actionability_response.clone(),
+        invalid_actionability_response.clone(),
+        invalid_actionability_response,
     ]);
     let provider_request = fixture.provider_request(&endpoint);
-    let out_dir = fixture.temp.join("review-out-invalid-confidence");
+    let out_dir = fixture.temp.join("review-out-invalid-actionability");
     let output = fixture.review_run(&provider_request, &out_dir, packet_id);
     assert!(!output.status.success());
     let run_path = out_dir.join("run.json");
     let result_path = out_dir.join("lanes/correctness/result.json");
     assert!(
         run_path.exists(),
-        "invalid confidence must still persist aggregate failure"
+        "invalid actionability must still persist aggregate failure"
     );
     assert!(
         result_path.exists(),
-        "invalid confidence must still persist failed lane result"
+        "invalid actionability must still persist failed lane result"
     );
     let run: serde_json::Value = serde_json::from_slice(&fs::read(run_path).unwrap()).unwrap();
-    assert_eq!(run["completion"], "failed");
+    assert_eq!(run["completion"], "incomplete");
     assert!(run["failures"]
         .as_array()
         .unwrap()
         .iter()
-        .any(|failure| failure.as_str().unwrap().contains("invalid_confidence")));
+        .any(|failure| failure
+            .as_str()
+            .unwrap()
+            .contains("assessment_actionability_mismatch")));
     let result: serde_json::Value =
         serde_json::from_slice(&fs::read(result_path).unwrap()).unwrap();
     assert_eq!(result["provider_status"], "ok");
@@ -544,7 +528,7 @@ fn review_run_persists_failed_lane_for_invalid_typed_confidence() {
     assert!(result["failure"]
         .as_str()
         .unwrap()
-        .contains("invalid_confidence"));
+        .contains("assessment_actionability_mismatch"));
 }
 
 #[test]
@@ -577,7 +561,7 @@ fn review_shell_start_inspect_and_withhold_publication_tracks_operator_state() {
     let fixture = Fixture::new();
     let admission = fixture.admit();
     let packet_id = admission["packet_id"].as_str().unwrap();
-    let evidence_id = admission["evidence"][0]["id"].as_str().unwrap();
+    let evidence_id = source_evidence_id(&admission);
     let responses = ["correctness", "security", "adversarial", "constitutional"]
         .iter()
         .map(|lane| lane_response(lane, evidence_id))
@@ -632,12 +616,12 @@ fn review_shell_retry_preserves_failed_attempt_evidence() {
     let fixture = Fixture::new();
     let admission = fixture.admit();
     let packet_id = admission["packet_id"].as_str().unwrap();
-    let missing_findings_response = json!({}).to_string();
+    let missing_assessments_response = json!({}).to_string();
     let (bad_endpoint, _bad_requests) = provider_server(vec![
-        missing_findings_response.clone(),
-        missing_findings_response.clone(),
-        missing_findings_response.clone(),
-        missing_findings_response,
+        missing_assessments_response.clone(),
+        missing_assessments_response.clone(),
+        missing_assessments_response.clone(),
+        missing_assessments_response,
     ]);
     let bad_request = fixture.provider_request(&bad_endpoint);
     let out_dir = fixture.temp.join("review-shell-retry");
@@ -657,7 +641,7 @@ fn review_shell_retry_preserves_failed_attempt_evidence() {
     assert_eq!(failed["status"], "failed");
     assert!(out_dir.join("attempts/1/review/run.json").exists());
 
-    let evidence_id = admission["evidence"][0]["id"].as_str().unwrap();
+    let evidence_id = source_evidence_id(&admission);
     let responses = ["correctness", "security", "adversarial", "constitutional"]
         .iter()
         .map(|lane| lane_response(lane, evidence_id))
@@ -686,7 +670,7 @@ fn review_shell_cancel_settles_active_run_without_losing_attempt_artifacts() {
     let fixture = Fixture::new();
     let admission = fixture.admit();
     let packet_id = admission["packet_id"].as_str().unwrap().to_string();
-    let evidence_id = admission["evidence"][0]["id"].as_str().unwrap();
+    let evidence_id = source_evidence_id(&admission);
     let responses = ["correctness", "security", "adversarial", "constitutional"]
         .iter()
         .map(|lane| lane_response(lane, evidence_id))
@@ -749,7 +733,7 @@ fn review_shell_retry_after_cancel_archives_cancel_request_and_completes_new_att
     let fixture = Fixture::new();
     let admission = fixture.admit();
     let packet_id = admission["packet_id"].as_str().unwrap().to_string();
-    let evidence_id = admission["evidence"][0]["id"].as_str().unwrap();
+    let evidence_id = source_evidence_id(&admission);
     let responses = ["correctness", "security", "adversarial", "constitutional"]
         .iter()
         .map(|lane| lane_response(lane, evidence_id))
@@ -829,7 +813,7 @@ fn review_shell_immediate_retry_after_cancel_preserves_active_attempt_settlement
     let fixture = Fixture::new();
     let admission = fixture.admit();
     let packet_id = admission["packet_id"].as_str().unwrap().to_string();
-    let evidence_id = admission["evidence"][0]["id"].as_str().unwrap();
+    let evidence_id = source_evidence_id(&admission);
     let responses = ["correctness", "security", "adversarial", "constitutional"]
         .iter()
         .map(|lane| lane_response(lane, evidence_id))
@@ -958,7 +942,7 @@ fn review_shell_retry_after_pre_run_failure_uses_settlement_marker() {
     let fixture = Fixture::new();
     let admission = fixture.admit();
     let packet_id = admission["packet_id"].as_str().unwrap().to_string();
-    let evidence_id = admission["evidence"][0]["id"].as_str().unwrap();
+    let evidence_id = source_evidence_id(&admission);
     let responses = ["correctness", "security", "adversarial", "constitutional"]
         .iter()
         .map(|lane| lane_response(lane, evidence_id))
@@ -1042,7 +1026,7 @@ fn review_shell_cancel_during_final_lane_does_not_fabricate_completion() {
     let fixture = Fixture::new();
     let admission = fixture.admit();
     let packet_id = admission["packet_id"].as_str().unwrap().to_string();
-    let evidence_id = admission["evidence"][0]["id"].as_str().unwrap();
+    let evidence_id = source_evidence_id(&admission);
     let responses = ["correctness", "security", "adversarial", "constitutional"]
         .iter()
         .map(|lane| lane_response(lane, evidence_id))
@@ -1096,7 +1080,7 @@ fn review_shell_cancel_during_final_lane_does_not_fabricate_completion() {
     let run: serde_json::Value =
         serde_json::from_slice(&fs::read(out_dir.join("attempts/1/review/run.json")).unwrap())
             .unwrap();
-    assert_eq!(run["completion"], "failed");
+    assert_eq!(run["completion"], "incomplete");
     assert!(run["failures"]
         .as_array()
         .unwrap()

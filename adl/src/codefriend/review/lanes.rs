@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
 
+pub const ASSESSMENT_LANE_CONTRACT_VERSION: &str = "codefriend.review_lane.v2";
 pub const LANE_CONTRACT_VERSION: &str = "codefriend.review_lane.v1";
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord)]

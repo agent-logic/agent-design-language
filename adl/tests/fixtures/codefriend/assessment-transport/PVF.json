@@ -1,0 +1,11 @@
+{
+  "schema": "codefriend.test_proof.v1",
+  "issue": 1120,
+  "test_surfaces": ["adl/tests/codefriend_server.rs", "adl/tests/codefriend_agent.rs"],
+  "lane": "runtime",
+  "proof_role": "Explicit assessment gateway generation, legacy request serialization and report compatibility, mixed-generation rejection, retained observation without POST replay and aggregate output bounds",
+  "determinism": "Synthetic loopback gateway and temporary local admission with controlled clock; no model calls",
+  "resource_profile": "Local CPU and filesystem, bounded loopback HTTP, no cloud or source execution",
+  "release_gate": true,
+  "non_claims": ["live provider or deployed service acceptance", "merged installed candidate qualification", "semantic truth of model observations"]
+}
