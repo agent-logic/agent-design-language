@@ -384,14 +384,20 @@ fn review_run_fails_closed_for_assessments_without_admitted_evidence() {
     let run: serde_json::Value =
         serde_json::from_slice(&fs::read(out_dir.join("run.json")).unwrap()).unwrap();
     assert_eq!(run["completion"], "incomplete");
-    assert!(run["failures"]
-        .as_array()
-        .unwrap()
-        .iter()
-        .any(|failure| failure
-            .as_str()
-            .unwrap()
-            .contains("assessment_evidence_unavailable")));
+    assert_eq!(run["failures"], json!(["assessment_no_supported_items"]));
+    for lane in ["correctness", "security", "adversarial", "constitutional"] {
+        let result: serde_json::Value = serde_json::from_slice(
+            &fs::read(out_dir.join(format!("lanes/{lane}/result.json"))).unwrap(),
+        )
+        .unwrap();
+        assert!(result["finding_ids"].as_array().unwrap().is_empty());
+        assert!(result["assessment_ids"].as_array().unwrap().is_empty());
+        assert_eq!(result["assessment_gaps"].as_array().unwrap().len(), 1);
+        assert_eq!(
+            result["assessment_gaps"][0]["reason"],
+            "assessment_evidence_unavailable"
+        );
+    }
 }
 
 #[test]
@@ -513,22 +519,18 @@ fn review_run_persists_incomplete_lane_for_positive_observation_with_defect_deta
     );
     let run: serde_json::Value = serde_json::from_slice(&fs::read(run_path).unwrap()).unwrap();
     assert_eq!(run["completion"], "incomplete");
-    assert!(run["failures"]
-        .as_array()
-        .unwrap()
-        .iter()
-        .any(|failure| failure
-            .as_str()
-            .unwrap()
-            .contains("assessment_actionability_mismatch")));
+    assert_eq!(run["failures"], json!(["assessment_no_supported_items"]));
     let result: serde_json::Value =
         serde_json::from_slice(&fs::read(result_path).unwrap()).unwrap();
     assert_eq!(result["provider_status"], "ok");
     assert_eq!(result["finding_ids"].as_array().unwrap().len(), 0);
-    assert!(result["failure"]
-        .as_str()
-        .unwrap()
-        .contains("assessment_actionability_mismatch"));
+    assert!(result["failure"].is_null());
+    assert!(result["assessment_ids"].as_array().unwrap().is_empty());
+    assert_eq!(result["assessment_gaps"].as_array().unwrap().len(), 1);
+    assert_eq!(
+        result["assessment_gaps"][0]["reason"],
+        "assessment_actionability_mismatch"
+    );
 }
 
 #[test]
