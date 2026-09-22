@@ -611,7 +611,11 @@ fn install_cycle_version(
             serde_json::from_slice(&serde_json::to_vec(&report).unwrap()).unwrap();
         historical_report.run_id = run.run_id.clone();
         historical_report.expires_at = gateway.expires_at;
-        historical_report.result = Some(run.clone());
+        let mut local_review = run.clone();
+        local_review
+            .rebind_provider_route(&historical_report.gateway_lanes[0].route().unwrap())
+            .unwrap();
+        historical_report.result = Some(local_review);
         historical_report.digest.clear();
         historical_report.digest = hash(&historical_report).unwrap();
         historical_report.validate(now).unwrap();
