@@ -6671,3 +6671,96 @@ fn issue_1098_recovery_keeps_unavailable_readback_pending() {
 fn issue_1098_recovery_does_not_treat_changed_pr_as_absent() {
     check_retry_not_absent("changed-pr");
 }
+
+// #1135 PVF: installed tooling regression, genuine offline Cargo compilation;
+// local Git/files/processes only. Source ownership and later status, not model proof.
+#[test]
+fn installed_proof_matches_same_named_binary_and_library_with_cargo_aggregate() {
+    let mut fixture = Fixture::new("compiler-artifact-owner");
+    let primary = fixture.root.clone();
+    fs::create_dir_all(primary.join("other-package/src")).unwrap();
+    fs::write(primary.join("other-package/Cargo.toml"),
+        "[package]\nname='other-package'\nversion='0.1.0'\nedition='2021'\n[lib]\nname='shared_name'\n").unwrap();
+    fs::write(
+        primary.join("other-package/src/lib.rs"),
+        "pub fn answer()->u8 { 42 }\n#[test] fn library_test(){assert_eq!(answer(),42); }\n",
+    )
+    .unwrap();
+    let manifest = primary.join("fixture-proof/Cargo.toml");
+    let mut body = fs::read_to_string(&manifest).unwrap();
+    body.push_str("\n[[bin]]\nname='shared-name'\npath='src/main.rs'\n[dependencies]\nother-package={path='../other-package'}\n");
+    fs::write(&manifest, body).unwrap();
+    fs::write(
+        primary.join("fixture-proof/src/main.rs"),
+        "fn main(){assert_eq!(shared_name::answer(),42); }\n",
+    )
+    .unwrap();
+    // Cargo aggregates these build triggers into debug/shared-name.d; rustc's
+    // genuine source record must remain the authority for compiler inputs.
+    fs::write(
+        primary.join("fixture-proof/build.rs"),
+        "fn main(){println!(\"cargo:rerun-if-changed=src\"); }\n",
+    )
+    .unwrap();
+    for manifest in ["fixture-proof/Cargo.toml", "other-package/Cargo.toml"] {
+        let output = Command::new("cargo")
+            .current_dir(&primary)
+            .args([
+                "generate-lockfile",
+                "--offline",
+                "--manifest-path",
+                manifest,
+            ])
+            .output()
+            .unwrap();
+        assert!(output.status.success(), "{output:?}");
+    }
+    git(&primary, &["add", "fixture-proof", "other-package"]);
+    git(
+        &primary,
+        &["commit", "-qm", "Track real same-name Cargo targets"],
+    );
+    let mut input = plan();
+    input["validators"].as_array_mut().unwrap().push(json!({
+        "id":"other-package", "program":"cargo", "args":["test","--offline","--manifest-path","other-package/Cargo.toml"],
+        "success_marker":"test result: ok.", "timeout_seconds":60
+    }));
+    let input = fixture.write_json("ownership-plan.json", &input);
+    success(fixture.run(
+        &primary,
+        &["prepare", "505", "--plan", input.to_str().unwrap()],
+    ));
+    success(fixture.run(&primary, &["bind", "505"]));
+    let linked = linked_worktree(&primary);
+    let proof = success(fixture.run(&linked, &["proof", "505"]));
+    assert_eq!(proof["proof"]["status"], "passed");
+    assert_eq!(proof["proof"]["validators"][0]["tests_passed"], 1);
+    assert_eq!(proof["proof"]["validators"][1]["tests_passed"], 1);
+    let output = Command::new("cargo")
+        .current_dir(&linked)
+        .env("CARGO_TARGET_DIR", linked.join("target/intent-validation"))
+        .args([
+            "build",
+            "--offline",
+            "--manifest-path",
+            "fixture-proof/Cargo.toml",
+            "--bin",
+            "shared-name",
+        ])
+        .output()
+        .unwrap();
+    assert!(output.status.success(), "{output:?}");
+    let aggregate = linked.join("target/intent-validation/debug/shared-name.d");
+    let aggregate_bytes = fs::read(&aggregate).unwrap();
+    assert!(
+        String::from_utf8_lossy(&aggregate_bytes).contains("fixture-proof/src "),
+        "Cargo aggregate includes directory trigger"
+    );
+    let status = success(fixture.run(&linked, &["status", "505"]));
+    assert_eq!(status["evidence"]["proof_current"], true);
+    assert_eq!(
+        fs::read(aggregate).unwrap(),
+        aggregate_bytes,
+        "native verification must not rewrite Cargo evidence"
+    );
+}
