@@ -6,8 +6,8 @@ Status: ownership map with #916 evidence reconciliation in progress.
 [producer evidence index](evidence/issue-916/PRODUCER_EVIDENCE_INDEX.json), and
 [installed-proof identities](evidence/issue-916/CODEFRIEND_PROOF_IDENTITIES.json)
 retain historical evidence separately from final candidate acceptance. Planning
-parity passes; #915 independent qualification remains pending. Four Runtime
-criterion rows replay successfully; one requires its retained execution archive.
+parity passes; #915 independent qualification remains pending. All five Runtime
+criterion rows replay successfully after locating the exact retained execution archive.
 No feature row is promoted to proven solely from closed tracker state.
 
 | Exit-bar surface | Owner | Required proof |

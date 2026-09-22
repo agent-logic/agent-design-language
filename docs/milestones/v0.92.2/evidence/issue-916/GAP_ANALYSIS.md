@@ -58,4 +58,8 @@ The existing Runtime criterion consumer was executed against retained protected 
 
 #912 and #913 retain the operator-accepted drafting/review-handoff scope: thirteen article drafts and revision-4 private PDF availability, respectively. Further editorial work and public publication are not acceptance requirements silently added by this audit. Source records: `docs/milestones/v0.92/publication/articles/medium-2026-09/README.md` and `docs/milestones/v0.92.2/cognitive-sdlc/REVISION_4_REVIEW_HANDOFF.md`.
 
-#915 remains the only outstanding implementation/qualification issue. Other deliveries are in PR review. The archive replay gap is audit follow-up, not a newly assigned implementation issue.
+#915 remains the only outstanding implementation/qualification issue. Other deliveries are in PR review. The archive replay gap was audit follow-up and is now resolved below; no new implementation issue was assigned.
+
+### Retained Runtime evidence resolved
+
+The exact #852 archive was subsequently found under Git-local `archived-worktree-residue/v0922-closeout-20260916/902`. Its SHA-256 matches the accepted manifest: `96cffcc48df892bce6c89835ad2a4c8808bcf8384cd40117ba4ebc23c631fda1`. A local replay copy was restored without changing the original. The existing admission consumer now passes **all five criteria**, with zero missing/excluded rows. [Successful replay](runtime-admission-recovered.json) supersedes the earlier unavailable-path observation. **916-G04 is resolved; no implementation defect or lost archive was established.** This admits the criterion-specific producer evidence, not a final CodeFriend release candidate.

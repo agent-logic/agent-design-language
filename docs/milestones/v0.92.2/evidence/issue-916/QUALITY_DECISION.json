@@ -166,10 +166,13 @@
       "summary": "Runtime criterion replay admits four rows but cannot reopen the #852 execution archive from the #916 checkout.",
       "evidence": [
         "runtime-admission-recheck.json",
-        "../../evidence/qual-evidence-902/qualification-manifest.json"
+        "../../evidence/qual-evidence-902/qualification-manifest.json",
+        "runtime-admission-recovered.json"
       ],
-      "required_action": "Locate and restore or explicitly resolve the retained archive with SHA-256 96cffcc48df892bce6c89835ad2a4c8808bcf8384cd40117ba4ebc23c631fda1; then replay existing admission. Do not regenerate producer success or infer product failure.",
-      "scope": "Declared issue-local path, common evidence roots for #902/#852, registered producer worktrees, and #902 merge tree checked; broader backup stores not yet checked."
+      "required_action": "Preserve retention reference; no implementation fix required.",
+      "scope": "Declared issue-local path, common evidence roots for #902/#852, registered producer worktrees, and #902 merge tree checked; broader backup stores not yet checked.",
+      "disposition": "resolved_retained_evidence_recovered",
+      "resolution": "Exact SHA-256 archive found under Git-local archived-worktree-residue/v0922-closeout-20260916/902, copied to issue-local replay path without changing original; existing admission now passes all five rows."
     }
   ],
   "stragglers": [
@@ -212,16 +215,16 @@
   ],
   "next_actions": [
     "Reconcile historical producer records with #915 exact final candidate",
-    "Locate retained #852 execution archive and replay fifth Runtime criterion",
     "Consume #915 independent qualification and reconcile owner deliveries already in PR review"
   ],
   "producer_audit": {
     "evidence_index": "PRODUCER_EVIDENCE_INDEX.json",
     "codefriend_identities": "CODEFRIEND_PROOF_IDENTITIES.json",
     "runtime_replay": {
-      "passed_rows": 4,
-      "unavailable_rows": 1,
-      "report": "runtime-admission-recheck.json"
+      "passed_rows": 5,
+      "unavailable_rows": 0,
+      "report": "runtime-admission-recovered.json",
+      "scope": "Five criterion-specific historical producer results admitted; no integrated release-candidate acceptance."
     },
     "operator_accepted_drafting_scope": [
       912,
