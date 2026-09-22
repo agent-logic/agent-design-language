@@ -11,443 +11,475 @@
   "documents": [
     {
       "path": ".csdlc/evidence/864/all-issue-launch.json",
-      "sha256": "79058c4453bfcd0e53678db9de35eef0e9e5722c51ba4f9d751498bf25fb086a",
-      "classification": "current_contract_or_evidence"
+      "sha256": "79058c4453bfcd0e53678db9de35eef0e9e5722c51ba4f9d751498bf25fb086a"
+    },
+    {
+      "path": ".csdlc/prepared/issues/467/terminal-digest-verifier/Cargo.toml",
+      "sha256": "0e70dd533a9798da5fe9a7584d51be1cb22881c5e64a34196f37d5bdb8b2c9f7"
+    },
+    {
+      "path": ".csdlc/prepared/issues/518/audit-cargo-manifests.py",
+      "sha256": "c3bae692ae82d0478cb345a741af51ba7ac50a9c8438d00de11505cae036f107"
+    },
+    {
+      "path": ".csdlc/prepared/issues/522/blake3-file/Cargo.toml",
+      "sha256": "c400f1c73c285dc8e0fd5f386ee685d75fc41ac62f9f0a12554b3a16e8ba7d1c"
+    },
+    {
+      "path": ".csdlc/prepared/issues/5340/source-authority-validator/Cargo.toml",
+      "sha256": "bd1363e1dc52aaf9eae16ca9fe180ed4e5521f44547c79f289faa0b5f6983696"
+    },
+    {
+      "path": ".csdlc/prepared/issues/5347/receipt-verifier/Cargo.toml",
+      "sha256": "f9be55b1ec0e4213343db23f9f36d7fffcf199e33b9277966b33345431838c06"
+    },
+    {
+      "path": "adl/Cargo.toml",
+      "sha256": "c546f8e9f4e5d8568c1c2c64c85d4169a89dd6061e35900458fcd8fde4c7ead4"
+    },
+    {
+      "path": "adl-characterization/Cargo.toml",
+      "sha256": "2f388368476cf4e3f9afafe1cddb2f932139a2bbc365da04e8b315c101c715f8"
+    },
+    {
+      "path": "adl-provider-core/Cargo.toml",
+      "sha256": "6e3c93e19a3d4a31c3b713f316c26e166c874445f70b7b34ca408e83a906e5a5"
+    },
+    {
+      "path": "adl-resilience/Cargo.toml",
+      "sha256": "95de576c2de0bed2b89f48bf8b241a6cfe01d050eff87d447496447133758f7d"
+    },
+    {
+      "path": "adl-runtime/Cargo.toml",
+      "sha256": "d4d8dbc0cb3ff4086add7cec2001999a383fdaa75d342155219f4b41edf0ed04"
+    },
+    {
+      "path": "adl-runtime-kernel/Cargo.toml",
+      "sha256": "5082907993a8c1868414d35ea0357cdbae2029d778e2e4da73c2399c0b023db2"
+    },
+    {
+      "path": "adl-uts/Cargo.toml",
+      "sha256": "c29cc8fea34996ee70ea64c0d1185a8c99efceb8840818f63e436831fa273cac"
+    },
+    {
+      "path": "adl-v2/Cargo.toml",
+      "sha256": "50c77da79b86e11c7bad90245e7674732cf0b4fe8730ad8c46751173543e2ed8"
+    },
+    {
+      "path": "adl-v2/crates/adl-adapters/Cargo.toml",
+      "sha256": "648cd0c878d11de836ef1ca08d2d6d615df8b4355f38f6cc66c15942c7731774"
+    },
+    {
+      "path": "adl-v2/crates/adl-cli/Cargo.toml",
+      "sha256": "678c4a74cbcf36db22dbc61b05c5d2bc6db555a9d222371d68bc65f6666a100a"
+    },
+    {
+      "path": "adl-v2/crates/adl-compiler/Cargo.toml",
+      "sha256": "e49db4c58e3f9557fc672ef2058122cc99fff6c6b0ee0bb70b54d2dd4b7f1c89"
+    },
+    {
+      "path": "adl-v2/crates/adl-engine/Cargo.toml",
+      "sha256": "ae0b75f7f3e3f647707ca741537476ba9942cb71c3d2b90d6c3d60f42d9c207b"
+    },
+    {
+      "path": "adl-v2/crates/adl-language/Cargo.toml",
+      "sha256": "6a5e09bfee391ec7bfc619f36a63c1184da4c88488a538c0b09f5dcae5f9ec24"
+    },
+    {
+      "path": "adl-v2/crates/adl-records/Cargo.toml",
+      "sha256": "a15ac0478479bbd1610df493eb9e291581ed49658b5cb5f592445d7cf859b797"
+    },
+    {
+      "path": "adl-v2/crates/adl-runtime-v3-adapter/Cargo.toml",
+      "sha256": "fe3a5695f9b457ea1e007d52979a824881f0081d9ad27be9c737e21640ddea31"
+    },
+    {
+      "path": "adl-v2/crates/adl-workcell-conductor/Cargo.toml",
+      "sha256": "ab51a0b64d98fc1f133a21140e8089a6b4ce7ee63dfd8310878b9eb8e23a3dbb"
+    },
+    {
+      "path": "adl-v2/crates/adl-workcell-convergence/Cargo.toml",
+      "sha256": "81c7000664dfd1f4fc0ae741150570277e6a518868f8537bdadcb72e80eec990"
+    },
+    {
+      "path": "adl-v2/crates/adl-workcell-task-adapter/Cargo.toml",
+      "sha256": "3b0680e59e40438277e2710e28bdff5801e6bcc2e9bb53a5e0abdf3e2d7dcf44"
+    },
+    {
+      "path": "csdlc-v2/Cargo.toml",
+      "sha256": "a4947407dc0ce43a9ecdbb67ce0faebcba34a467c80be65506af71b5b1eaa73d"
+    },
+    {
+      "path": "csdlc-v3/Cargo.toml",
+      "sha256": "8ab0d39857af75aad2782b9325258964712fc89106c3b0b984468edc9cc48e8d"
+    },
+    {
+      "path": "demos/transpiler_demo/Cargo.toml",
+      "sha256": "93f30c9388cbc2812670e17ef6d2fcc6a89633eef9c3e7d024a2e9afb0dc4e90"
     },
     {
       "path": "docs/milestones/v0.92.2/ADOPTED_DESIGN_CONTRACTS_v0.92.2.md",
-      "sha256": "8cc5ae0a8468abfa59684aac39bacef41cd2f37b1631d757d870821e5e6107e1",
-      "classification": "current_contract_or_evidence"
+      "sha256": "8cc5ae0a8468abfa59684aac39bacef41cd2f37b1631d757d870821e5e6107e1"
     },
     {
       "path": "docs/milestones/v0.92.2/ADR_PLAN_v0.92.2.md",
-      "sha256": "ee4d1322cb56e042cbe8a6e7f2676709eabbbb6d943734df69c639605abaa13e",
-      "classification": "current_contract_or_evidence"
+      "sha256": "ee4d1322cb56e042cbe8a6e7f2676709eabbbb6d943734df69c639605abaa13e"
     },
     {
       "path": "docs/milestones/v0.92.2/ATOMIC_TASK_CONTRACTS_v0.92.2.json",
-      "sha256": "b1b5b751a7b3f7e3a22408d706e68835d29d080818bd818e2d9215c84a6be759",
-      "classification": "current_contract_or_evidence"
+      "sha256": "b1b5b751a7b3f7e3a22408d706e68835d29d080818bd818e2d9215c84a6be759"
     },
     {
       "path": "docs/milestones/v0.92.2/ATOMIC_TASK_CONTRACTS_v0.92.2.md",
-      "sha256": "a87a4d2e6f8cfd3e2d9b379cfe3aeeb26f279e951515e4bfb82bdcdae7fbfd23",
-      "classification": "current_contract_or_evidence"
+      "sha256": "a87a4d2e6f8cfd3e2d9b379cfe3aeeb26f279e951515e4bfb82bdcdae7fbfd23"
     },
     {
       "path": "docs/milestones/v0.92.2/CANONICAL_DOC_INVENTORY_v0.92.2.md",
-      "sha256": "ed1900a829d803ac6c814dd8139ada415a31271a32fd1d783d5c53a00e809716",
-      "classification": "current_contract_or_evidence"
+      "sha256": "a9054152aed4ee0da4a118d7550ed460b2c10115165dee0bcfe2107a0ea978c1"
     },
     {
       "path": "docs/milestones/v0.92.2/CREATION_SELECTIONS_v0.92.2.md",
-      "sha256": "4ae6b38a46534d5fd58b6761a4a747e447fe0057412cd298b6daad2c0d00ff96",
-      "classification": "current_contract_or_evidence"
+      "sha256": "4ae6b38a46534d5fd58b6761a4a747e447fe0057412cd298b6daad2c0d00ff96"
     },
     {
       "path": "docs/milestones/v0.92.2/DECISIONS_v0.92.2.md",
-      "sha256": "ded3780361b3fd09025807cd02a54b99e5b033e6c4041a55d7da35e34d0ca7f7",
-      "classification": "current_contract_or_evidence"
+      "sha256": "ded3780361b3fd09025807cd02a54b99e5b033e6c4041a55d7da35e34d0ca7f7"
     },
     {
       "path": "docs/milestones/v0.92.2/DEMO_MATRIX_v0.92.2.md",
-      "sha256": "5a8277994dbd17e753446ca1300e5d8babf94969e48c145d8e33fe76df643d75",
-      "classification": "current_contract_or_evidence"
+      "sha256": "5a8277994dbd17e753446ca1300e5d8babf94969e48c145d8e33fe76df643d75"
     },
     {
       "path": "docs/milestones/v0.92.2/DESIGN_v0.92.2.md",
-      "sha256": "dbb4bbe97a1bf6e499e34cb81a6cf37f37cd25f791785f46e3374f00aade904a",
-      "classification": "current_contract_or_evidence"
+      "sha256": "dbb4bbe97a1bf6e499e34cb81a6cf37f37cd25f791785f46e3374f00aade904a"
     },
     {
       "path": "docs/milestones/v0.92.2/EXISTING_ISSUE_RECONCILIATION_v0.92.2.md",
-      "sha256": "7a279dbe8ff30a608b83be7024ab068b5ab9eb733df9fe3c3285d3b4d52902be",
-      "classification": "current_contract_or_evidence"
+      "sha256": "7a279dbe8ff30a608b83be7024ab068b5ab9eb733df9fe3c3285d3b4d52902be"
     },
     {
       "path": "docs/milestones/v0.92.2/FEATURE_PROOF_COVERAGE_v0.92.2.md",
-      "sha256": "836a15369bda9ffe55b0e706cebf70d9722e9da460cdfe2a0cddfa1ad3141ad3",
-      "classification": "current_contract_or_evidence"
+      "sha256": "836a15369bda9ffe55b0e706cebf70d9722e9da460cdfe2a0cddfa1ad3141ad3"
     },
     {
       "path": "docs/milestones/v0.92.2/ISSUE_CREATION_BATCHES_v0.92.2.json",
-      "sha256": "5c6f82b2a38b5f803c34dfbfdc047613a2ab4adbd93a3239c9ec89f62b39eb30",
-      "classification": "current_contract_or_evidence"
+      "sha256": "5c6f82b2a38b5f803c34dfbfdc047613a2ab4adbd93a3239c9ec89f62b39eb30"
     },
     {
       "path": "docs/milestones/v0.92.2/MILESTONE_CHECKLIST_v0.92.2.md",
-      "sha256": "cdf03fadcf4fd6e8ee6711682cdc447de2236572ac9a1473e1c82e7eed0eddfb",
-      "classification": "current_contract_or_evidence"
+      "sha256": "cdf03fadcf4fd6e8ee6711682cdc447de2236572ac9a1473e1c82e7eed0eddfb"
     },
     {
       "path": "docs/milestones/v0.92.2/NEXT_MILESTONE_HANDOFF_v0.92.2.md",
-      "sha256": "e58609351c5539dd28b3bf0d796b392bf499340e357b1a5e11adb95f3e8d84a3",
-      "classification": "current_contract_or_evidence"
+      "sha256": "e58609351c5539dd28b3bf0d796b392bf499340e357b1a5e11adb95f3e8d84a3"
     },
     {
       "path": "docs/milestones/v0.92.2/PLANNED_ISSUE_CATALOG_v0.92.2.md",
-      "sha256": "6e49c64b3ef5ed0a0d3684016f6c28051724cda1c6c9302185c8ac639d8a0918",
-      "classification": "current_contract_or_evidence"
+      "sha256": "6e49c64b3ef5ed0a0d3684016f6c28051724cda1c6c9302185c8ac639d8a0918"
     },
     {
       "path": "docs/milestones/v0.92.2/QUALITY_GATE_v0.92.2.md",
-      "sha256": "0fe1aa1b5f19ccc41296752bf178ff0dc2a5d0036356c84a80f3637de741f9e8",
-      "classification": "current_contract_or_evidence"
+      "sha256": "0fe1aa1b5f19ccc41296752bf178ff0dc2a5d0036356c84a80f3637de741f9e8"
     },
     {
       "path": "docs/milestones/v0.92.2/README.md",
-      "sha256": "b902499e05b69bc1c2add7b69c46e5beabf36602d1230f50fdbc7555dd2e5759",
-      "classification": "current_contract_or_evidence"
+      "sha256": "b902499e05b69bc1c2add7b69c46e5beabf36602d1230f50fdbc7555dd2e5759"
     },
     {
       "path": "docs/milestones/v0.92.2/RELEASE_NOTES_v0.92.2.md",
-      "sha256": "3b2d6565351ae2a3200110f67cc1aa71d8c6eaffdead525a295db75ad3cd053a",
-      "classification": "current_contract_or_evidence"
+      "sha256": "3b2d6565351ae2a3200110f67cc1aa71d8c6eaffdead525a295db75ad3cd053a"
     },
     {
       "path": "docs/milestones/v0.92.2/RELEASE_PLAN_v0.92.2.md",
-      "sha256": "1f3d03857d78c9f0516a0313cd2d98483d4e0ad4a6bb10b69fd9a960e3b13f35",
-      "classification": "current_contract_or_evidence"
+      "sha256": "4206adc6dbc15947116537d457728304dad0fbf18b60b61f0f864fc7a8ada2b5"
     },
     {
       "path": "docs/milestones/v0.92.2/SPRINT_v0.92.2.md",
-      "sha256": "7d7ca33674bc816675643e78bced72f96fc168fba9ecc9d266c35d0e91b154e1",
-      "classification": "current_contract_or_evidence"
+      "sha256": "7d7ca33674bc816675643e78bced72f96fc168fba9ecc9d266c35d0e91b154e1"
     },
     {
       "path": "docs/milestones/v0.92.2/TBD_SCHEDULING_RECONCILIATION_v0.92.2.md",
-      "sha256": "e96f814928a24d02eec064f6a09566978c038857d39ba706415abf80c65db62a",
-      "classification": "current_contract_or_evidence"
+      "sha256": "e96f814928a24d02eec064f6a09566978c038857d39ba706415abf80c65db62a"
     },
     {
       "path": "docs/milestones/v0.92.2/TBD_SOURCE_AUDIT_MANIFEST_v0.92.2.txt",
-      "sha256": "a940782ae2104a9d70d170d9af9df920e356b9b0bb8be59be5038f964837844e",
-      "classification": "current_contract_or_evidence"
+      "sha256": "a940782ae2104a9d70d170d9af9df920e356b9b0bb8be59be5038f964837844e"
     },
     {
       "path": "docs/milestones/v0.92.2/VISION_v0.92.2.md",
-      "sha256": "dcb42ef4e4e4f6417181946a97dcba0a72d4889fa3165e35dadb1a298d37e746",
-      "classification": "current_contract_or_evidence"
+      "sha256": "dcb42ef4e4e4f6417181946a97dcba0a72d4889fa3165e35dadb1a298d37e746"
     },
     {
       "path": "docs/milestones/v0.92.2/WBS_v0.92.2.md",
-      "sha256": "9a85f0480867d8055c26507f1518fb0560df2ea649c95a305968750572ccfd65",
-      "classification": "current_contract_or_evidence"
+      "sha256": "9a85f0480867d8055c26507f1518fb0560df2ea649c95a305968750572ccfd65"
     },
     {
       "path": "docs/milestones/v0.92.2/WP_EXECUTION_READINESS_v0.92.2.md",
-      "sha256": "1a3cb5785170df81eb9ee5f870cd867e2682685cd2136a2f58d699d6132baf30",
-      "classification": "current_contract_or_evidence"
+      "sha256": "1a3cb5785170df81eb9ee5f870cd867e2682685cd2136a2f58d699d6132baf30"
     },
     {
       "path": "docs/milestones/v0.92.2/WP_EXECUTION_SPECIFICATIONS_v0.92.2.yaml",
-      "sha256": "46a341cf7d576f02b40696e4360e97e02d8041c475e426991c226e5c17445347",
-      "classification": "current_contract_or_evidence"
+      "sha256": "46a341cf7d576f02b40696e4360e97e02d8041c475e426991c226e5c17445347"
     },
     {
       "path": "docs/milestones/v0.92.2/WP_ISSUE_WAVE_v0.92.2.yaml",
-      "sha256": "56a8c264e14d0e13bfec8d726e529119e8c2e9d6c0999b4e6d542183484b221e",
-      "classification": "current_contract_or_evidence"
+      "sha256": "56a8c264e14d0e13bfec8d726e529119e8c2e9d6c0999b4e6d542183484b221e"
     },
     {
       "path": "docs/milestones/v0.92.2/adr/issue-911/README.md",
-      "classification": "milestone_markdown_current_or_source_time_as_labeled",
       "sha256": "d4ce87e374d409746f88928f96609d2375e86cb9aa5b726c6dd3c2572fe6eccf"
     },
     {
       "path": "docs/milestones/v0.92.2/adr/issue-911/decision-dispositions.md",
-      "classification": "milestone_markdown_current_or_source_time_as_labeled",
       "sha256": "4ccc37ec4d5613b220d93cc07658ceab94d2c56bc0b32c5012e2984bdccd139c"
     },
     {
       "path": "docs/milestones/v0.92.2/adr/issue-911/decision-inventory.md",
-      "classification": "milestone_markdown_current_or_source_time_as_labeled",
       "sha256": "5a2e399c45fd33a3648f362daf776421e4634f115ad0c6d4c95c3cdc5c74adf6"
     },
     {
       "path": "docs/milestones/v0.92.2/adr/issue-911/inventory-review.md",
-      "classification": "milestone_markdown_current_or_source_time_as_labeled",
       "sha256": "84397a5d012adb96f4d44a45e2afa76a690c2d96773142ada15f2f63327fc2da"
     },
     {
       "path": "docs/milestones/v0.92.2/adr/issue-911/review.md",
-      "classification": "milestone_markdown_current_or_source_time_as_labeled",
       "sha256": "ec53310f9ad0fa79a14598c282b6a13df699c8c399d0b26e6caf2d94e42dcabf"
     },
     {
       "path": "docs/milestones/v0.92.2/adr/issue-911/supersession-map.md",
-      "classification": "milestone_markdown_current_or_source_time_as_labeled",
       "sha256": "e32acaa9f726c49fd5f6449a75ffd28edc31fe814d5bfee72716c06c4d37818a"
     },
     {
       "path": "docs/milestones/v0.92.2/adr/issue-911/validate_packet.py",
-      "classification": "supporting_decision_or_validation_contract",
       "sha256": "316f964918f885311bc53954a3c3717af9128e99e9c311a77768891839ef45d2"
     },
     {
       "path": "docs/milestones/v0.92.2/adr/issue-945/BETA1_DELIVERY.md",
-      "classification": "milestone_markdown_current_or_source_time_as_labeled",
       "sha256": "c1ef116a0951e53a66a87532f263053d5c6c1fef0b4d8c341b03ce199b77855f"
     },
     {
       "path": "docs/milestones/v0.92.2/adr/issue-945/README.md",
-      "classification": "milestone_markdown_current_or_source_time_as_labeled",
       "sha256": "25953bc9d49fbca55600e81b1af7808c21a21df61277c7db08c0dbd3bcf83027"
     },
     {
       "path": "docs/milestones/v0.92.2/adr/issue-945/candidate-content.json",
-      "classification": "supporting_decision_or_validation_contract",
       "sha256": "517d800b0c2fdc91e4aadd8f5b64597c87211cc70fdf561605d9d361b19510e2"
     },
     {
       "path": "docs/milestones/v0.92.2/adr/issue-945/validate_packet.py",
-      "classification": "supporting_decision_or_validation_contract",
       "sha256": "7790b5d7b76c66a62255331decd341335232b4fd24f9879b9219b0cb5edd43d2"
     },
     {
       "path": "docs/milestones/v0.92.2/cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md",
-      "sha256": "0cefde9f9723d6f8b2cf756689a6f571f3f52a33a3f329d5fd3b56ee5dcf7a60",
-      "classification": "current_contract_or_evidence"
+      "sha256": "0cefde9f9723d6f8b2cf756689a6f571f3f52a33a3f329d5fd3b56ee5dcf7a60"
     },
     {
       "path": "docs/milestones/v0.92.2/cognitive-sdlc/REVISION_4_REVIEW_HANDOFF.md",
-      "classification": "milestone_markdown_current_or_source_time_as_labeled",
       "sha256": "aede5300b59ded852efe3260f15a674e23da5ac53bb0d2b200e81adb4b423367"
     },
     {
       "path": "docs/milestones/v0.92.2/cognitive-sdlc/issue-1064/REMOVAL_PLAN.md",
-      "classification": "milestone_markdown_current_or_source_time_as_labeled",
       "sha256": "9c1e09d39cf363f133b2085446848b21030346112f2d4953ae6377b41e8d40a0"
     },
     {
       "path": "docs/milestones/v0.92.2/cognitive-sdlc/source-promotion-manifest.json",
-      "sha256": "3fbc0459099c84bbd6406b931725ebaf3f0be7c949a9c1450becb6d08cb533e6",
-      "classification": "current_contract_or_evidence"
+      "sha256": "3fbc0459099c84bbd6406b931725ebaf3f0be7c949a9c1450becb6d08cb533e6"
     },
     {
       "path": "docs/milestones/v0.92.2/cognitive-sdlc/statistical-review-2026-09-08/METHODS.md",
-      "sha256": "4d9992e4b6d59dcc5c3e26e1dcbfaf515990c1620771f0950760a4815116cb6b",
-      "classification": "retained_historical_study"
+      "sha256": "4d9992e4b6d59dcc5c3e26e1dcbfaf515990c1620771f0950760a4815116cb6b"
     },
     {
       "path": "docs/milestones/v0.92.2/cognitive-sdlc/statistical-review-2026-09-08/RECOMMENDATIONS.md",
-      "sha256": "0d96810e0feb84ebae82b444c36d1c78085b9aeb47320be4f4f85e87d6f2cff3",
-      "classification": "retained_historical_study"
+      "sha256": "0d96810e0feb84ebae82b444c36d1c78085b9aeb47320be4f4f85e87d6f2cff3"
     },
     {
       "path": "docs/milestones/v0.92.2/cognitive-sdlc/statistical-review-2026-09-08/REPORT.md",
-      "sha256": "272def2fbbb686e92b2034a5a4cb12e1667c097e6322a3c5b62871043c9bda09",
-      "classification": "retained_historical_study"
+      "sha256": "272def2fbbb686e92b2034a5a4cb12e1667c097e6322a3c5b62871043c9bda09"
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/MERGE_LINKAGE_849.md",
-      "classification": "milestone_markdown_current_or_source_time_as_labeled",
       "sha256": "f981a3558e9342adc4d2e8395da5e4676c2ba8b00fe26827ae9e20b2c6f4cfe4"
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/conversion-rehearsal-872/README.md",
-      "classification": "milestone_markdown_current_or_source_time_as_labeled",
       "sha256": "811d54e646157704a14b3daf948397f49b5cf1283342e28818280e43d585638c"
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-1109/README.md",
-      "classification": "milestone_markdown_current_or_source_time_as_labeled",
       "sha256": "40c4854d978ffcfbf6fed3482722d17e1dbbd8f9a192f18f51600255c5cb545d"
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-1129/README.md",
-      "classification": "milestone_markdown_current_or_source_time_as_labeled",
       "sha256": "2483d75b1ccda9c9b8d7b56fe1eeb1cfc83fe7c8dba1b89a39d0753c919dc6aa"
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-1132/README.md",
-      "classification": "milestone_markdown_current_or_source_time_as_labeled",
       "sha256": "f5b7f6880647146c1f8c7b3fd75dc2d801db0b06f6f04715f14d78f976b8d291"
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-523/README.md",
-      "classification": "milestone_markdown_current_or_source_time_as_labeled",
       "sha256": "57e229fd8f2247f723f6d3fac998701f0e72141f7344ed7251229d545b9c210c"
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-523/simplification-addition.md",
-      "classification": "milestone_markdown_current_or_source_time_as_labeled",
       "sha256": "1aec7dbde885d9c0b75bb2b29ff530b59363dcd413351b5380b1f51de03d1153"
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-916/GAP_ANALYSIS.md",
-      "classification": "milestone_markdown_current_or_source_time_as_labeled",
       "sha256": "dedac08a713a8d4f86798f9eff23b136b7d94213a1f39361e06a012bb97fbf80"
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-916/PAIR_HEALTH_RECHECK.json",
-      "sha256": "16589414ef91095df0cebcf5e745d97245bbd648663f6d60918689d0753a9f31",
-      "classification": "current_contract_or_evidence"
+      "sha256": "16589414ef91095df0cebcf5e745d97245bbd648663f6d60918689d0753a9f31"
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-916/POSTMERGE_VERIFICATION.json",
-      "sha256": "e1b060a7b93908b2ed5b774fa3e8ebde0a971b4140ccb076b2fb99e0e90a76c4",
-      "classification": "current_contract_or_evidence"
+      "sha256": "e1b060a7b93908b2ed5b774fa3e8ebde0a971b4140ccb076b2fb99e0e90a76c4"
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-916/PREREQUISITE_ACCEPTANCE.json",
-      "sha256": "cbbd16ee061067594324917a24597bbcfe75c68448297d7cebb6b947aecc3920",
-      "classification": "current_contract_or_evidence"
+      "sha256": "cbbd16ee061067594324917a24597bbcfe75c68448297d7cebb6b947aecc3920"
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-916/QUALITY_DECISION.json",
-      "sha256": "759fabe3ec528ab0b96f41b009dc0e7f921fa752b15b4236d28fff4dafd8a784",
-      "classification": "current_contract_or_evidence"
+      "sha256": "759fabe3ec528ab0b96f41b009dc0e7f921fa752b15b4236d28fff4dafd8a784"
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-916/TASK_LEDGER.json",
-      "sha256": "d6299f221d39112a02c9d379a935de586aa147106d62006936f620c533f2623d",
-      "classification": "current_contract_or_evidence"
+      "sha256": "d6299f221d39112a02c9d379a935de586aa147106d62006936f620c533f2623d"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-917/CARGO_MANIFEST_AUDIT.json",
+      "sha256": "36c71074b909007969d9f08a4e2390eaa7e5613ea6ac4b0901bf5691ed9ae6d4"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-917/CARGO_MANIFEST_REVIEW.md",
+      "sha256": "57270eb41cd0e6b22c387dc208b26da60b151b67fc9f1182e492639ff7f7f39b"
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-917/HANDOFF.md",
-      "sha256": "a9d3eb44b6f18f8d0961a66bfa1f6085ef77b05c78986fa86856bed67c0e4be1",
-      "classification": "current_contract_or_evidence"
+      "sha256": "34757029413ec65bfb3cdeec9218f666372080a9c5f000dab9b357973a7a33bb"
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-917/validate_handoff.py",
-      "sha256": "83f58303530f3c64c4d6cc0e4ab37845323abfe226ccb41cbd15201edfb2922c",
-      "classification": "current_contract_or_evidence"
+      "sha256": "a93d8c901b8766994c37adadb2ce5afe12fd710d85b46e4bba0050c1c3699ca4"
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/qual-evidence-902/README.md",
-      "classification": "milestone_markdown_current_or_source_time_as_labeled",
       "sha256": "1b51333f54447c37d70b0ef6328b167d29617c32f36be72ed3fd18576b10266a"
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/qual-inventory-899/README.md",
-      "classification": "milestone_markdown_current_or_source_time_as_labeled",
       "sha256": "e4dc5908fe8e0d3ea371d570b30405fab99c17a68b3cbda3add85bf585cc01cd"
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/qual-provider-901/README.md",
-      "classification": "milestone_markdown_current_or_source_time_as_labeled",
       "sha256": "8b7bbaf39c613b958b9694139ef79c65c5df6699a139b75de8721b752a6eec8f"
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/qual-resident-900/README.md",
-      "classification": "milestone_markdown_current_or_source_time_as_labeled",
       "sha256": "51daa8c030c3ab34bf0c9a98f91a159b9c823ffbd92ed54ad655d7ff702b7496"
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/qual-runtime-852/README.md",
-      "classification": "milestone_markdown_current_or_source_time_as_labeled",
       "sha256": "f0d4b980f6752c4c3aee326e999204ab424c37c557dac014fcb67174f740b59d"
     },
     {
       "path": "docs/milestones/v0.92.2/features/ARCHITECTURE_COGNITION_v0.92.2.md",
-      "sha256": "30fce69671a4876b067201d873bf07dcc60c248e4d5c6ee8019e5c0754348ae4",
-      "classification": "current_contract_or_evidence"
+      "sha256": "30fce69671a4876b067201d873bf07dcc60c248e4d5c6ee8019e5c0754348ae4"
     },
     {
       "path": "docs/milestones/v0.92.2/features/BETA1_QUALIFICATION_v0.92.2.md",
-      "sha256": "b62858141b4657d7611339b756133d36ca8c8a4ad434e2868764dd56dcf2c149",
-      "classification": "current_contract_or_evidence"
+      "sha256": "b62858141b4657d7611339b756133d36ca8c8a4ad434e2868764dd56dcf2c149"
     },
     {
       "path": "docs/milestones/v0.92.2/features/EVIDENCE_CORE_v0.92.2.md",
-      "sha256": "2aa7fda7d19c7ecee1c6e7a436c415b2fbde73493f63f5e54732dabeb17ba4f0",
-      "classification": "current_contract_or_evidence"
+      "sha256": "2aa7fda7d19c7ecee1c6e7a436c415b2fbde73493f63f5e54732dabeb17ba4f0"
     },
     {
       "path": "docs/milestones/v0.92.2/features/EXECUTABLE_GOVERNANCE_v0.92.2.md",
-      "sha256": "2b927f0d5f06cd91f101e8cb920e4be9419ce607e5f2ab62f7ce6c4556407f9b",
-      "classification": "current_contract_or_evidence"
+      "sha256": "2b927f0d5f06cd91f101e8cb920e4be9419ce607e5f2ab62f7ce6c4556407f9b"
     },
     {
       "path": "docs/milestones/v0.92.2/features/GOVERNED_PUBLICATION_v0.92.2.md",
-      "sha256": "6ebc6e4f385a43eb9f07e124482e2dbbdaef42820fa3f76098e5cd409f32c8f9",
-      "classification": "current_contract_or_evidence"
+      "sha256": "6ebc6e4f385a43eb9f07e124482e2dbbdaef42820fa3f76098e5cd409f32c8f9"
     },
     {
       "path": "docs/milestones/v0.92.2/features/LONGITUDINAL_REVIEW_MEMORY_v0.92.2.md",
-      "sha256": "d3719804414633a6cfb7c002247c93d8b037d530488848fdc94cdff0ead87baa",
-      "classification": "current_contract_or_evidence"
+      "sha256": "d3719804414633a6cfb7c002247c93d8b037d530488848fdc94cdff0ead87baa"
     },
     {
       "path": "docs/milestones/v0.92.2/features/MULTI_PERSPECTIVE_REVIEW_v0.92.2.md",
-      "sha256": "442e3487dc6f07bd4f3f66a7afa27e6fd72ef836ac17b92dac271768fd57ace1",
-      "classification": "current_contract_or_evidence"
+      "sha256": "442e3487dc6f07bd4f3f66a7afa27e6fd72ef836ac17b92dac271768fd57ace1"
     },
     {
       "path": "docs/milestones/v0.92.2/features/PORTABLE_ADAPTER_V2_v0.92.2.md",
-      "sha256": "d0b094f91c863358de8848ef79d14de1308d1709f64af7dff3b571831c83c3cf",
-      "classification": "current_contract_or_evidence"
+      "sha256": "d0b094f91c863358de8848ef79d14de1308d1709f64af7dff3b571831c83c3cf"
     },
     {
       "path": "docs/milestones/v0.92.2/features/PRODUCT_SHELL_AND_OPERATOR_CONTROLS_v0.92.2.md",
-      "sha256": "c7dda4cc6b29883dc670981b180019031835bfcd9123f99c9fc4a67a3ec4c546",
-      "classification": "current_contract_or_evidence"
+      "sha256": "c7dda4cc6b29883dc670981b180019031835bfcd9123f99c9fc4a67a3ec4c546"
     },
     {
       "path": "docs/milestones/v0.92.2/features/README.md",
-      "sha256": "f769edd671379634bf12c8e90e7fbd1a87d180e1028a7b2c69c40b6b56f83172",
-      "classification": "current_contract_or_evidence"
+      "sha256": "f769edd671379634bf12c8e90e7fbd1a87d180e1028a7b2c69c40b6b56f83172"
     },
     {
       "path": "docs/milestones/v0.92.2/features/SUPPORTING_PLATFORM_TRACKS_v0.92.2.md",
-      "sha256": "d2447d602b6e01b659f1fcf1004a30c226806da3968686f59e0aa72c7fdbc033",
-      "classification": "current_contract_or_evidence"
+      "sha256": "d2447d602b6e01b659f1fcf1004a30c226806da3968686f59e0aa72c7fdbc033"
     },
     {
       "path": "docs/milestones/v0.92.2/repository-decomposition/CLAUDE_REVIEW_1.md",
-      "classification": "milestone_markdown_current_or_source_time_as_labeled",
       "sha256": "0ae4079249186f32e72ecf5893363cd0d0180adb577ee78e46511a27a496a20c"
     },
     {
       "path": "docs/milestones/v0.92.2/repository-decomposition/CLAUDE_REVIEW_2.md",
-      "classification": "milestone_markdown_current_or_source_time_as_labeled",
       "sha256": "d8dadc61f5ef2e9737bbb57fcabf6f27c21ce1d4ca918becbc0a502b5ac18654"
     },
     {
       "path": "docs/milestones/v0.92.2/repository-decomposition/FINDINGS.md",
-      "classification": "milestone_markdown_current_or_source_time_as_labeled",
       "sha256": "dc89c3019fac30552a0e80984356a893e377445545fe6c79a92b4fae27da946f"
     },
     {
       "path": "docs/milestones/v0.92.2/repository-decomposition/GEMINI_REVIEW_1.md",
-      "classification": "milestone_markdown_current_or_source_time_as_labeled",
       "sha256": "c4d5ebf933e4f304d74b3ebd68eb85e55f544ea588cb865b3802e7a5304eaac2"
     },
     {
       "path": "docs/milestones/v0.92.2/repository-decomposition/PLAN.md",
-      "classification": "milestone_markdown_current_or_source_time_as_labeled",
       "sha256": "198ac09dc30c30730397f3c8a6a993d0fc9f63c9acfd69dd86cffcc474ece5c4"
     },
     {
       "path": "docs/milestones/v0.92.2/repository-decomposition/REVIEWED_PLAN_848.md",
-      "classification": "milestone_markdown_current_or_source_time_as_labeled",
       "sha256": "eb7d86d423c5f623ead5593d6ccec9c9383da6223900b32a320b32fd3b320926"
     },
     {
       "path": "docs/milestones/v0.92.2/repository-decomposition/rd01-977/AUDIT.md",
-      "classification": "milestone_markdown_current_or_source_time_as_labeled",
       "sha256": "f4ad650d4077bd9e240e13ae9560a74703f4340474d585baf4c465a691e238a8"
     },
     {
       "path": "docs/milestones/v0.92.2/repository-decomposition/rd01-977/REVIEW.md",
-      "classification": "milestone_markdown_current_or_source_time_as_labeled",
       "sha256": "5d4add1369c7d16926e1eb40ba3df86e7134f026cc82bba8edcbcbbc3d17fe59"
     },
     {
       "path": "docs/milestones/v0.92.2/validate_atomic_tasks.py",
-      "sha256": "c4e8759bb9fbcd0a53f5664cba66d8c1a059c596c791fb5251d6368b5c0d343f",
-      "classification": "current_contract_or_evidence"
+      "sha256": "c4e8759bb9fbcd0a53f5664cba66d8c1a059c596c791fb5251d6368b5c0d343f"
     },
     {
       "path": "docs/milestones/v0.92.2/validate_launch_bindings.py",
-      "sha256": "65e37d636ddcc269c0d02af4274e2d587ae28dd2c1c90e6416d61cdb6c169b13",
-      "classification": "current_contract_or_evidence"
+      "sha256": "65e37d636ddcc269c0d02af4274e2d587ae28dd2c1c90e6416d61cdb6c169b13"
     },
     {
       "path": "docs/milestones/v0.92.2/validate_planning.py",
-      "sha256": "42116a694b6d2fac976b77be38ac5e2952ba343f7af462312d230d20dad33451",
-      "classification": "current_contract_or_evidence"
+      "sha256": "42116a694b6d2fac976b77be38ac5e2952ba343f7af462312d230d20dad33451"
+    },
+    {
+      "path": "tools/aws_remote_validation/Cargo.toml",
+      "sha256": "a99c28520b9ff4bf7e177ffd5b1470b4d51038841380c39214acffe1da7cf8a2"
+    },
+    {
+      "path": "tools/remote_validation/Cargo.toml",
+      "sha256": "c9903f60b2bb4185b4aa400d474f347521936540bbc6d7cf9eded6ed79fa7536"
     }
   ],
   "tasks": [

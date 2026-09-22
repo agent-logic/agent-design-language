@@ -5,6 +5,7 @@ import copy
 import hashlib
 import json
 import re
+import subprocess
 from pathlib import Path
 from urllib.parse import unquote
 
@@ -34,6 +35,8 @@ def check(data):
     required.discard(PACKET / 'HANDOFF_MANIFEST.json')
     required.update([inventory, PACKET / 'HANDOFF.md', Path(__file__).resolve()])
     required.update(inventory.parent.rglob('*.md'))
+    required.update(ROOT / path for path in subprocess.check_output(
+        ['git', 'ls-files', '*Cargo.toml'], cwd=ROOT, text=True).splitlines())
     for name in ['QUALITY_DECISION.json', 'TASK_LEDGER.json',
                  'PREREQUISITE_ACCEPTANCE.json', 'POSTMERGE_VERIFICATION.json',
                  'PAIR_HEALTH_RECHECK.json']:

@@ -64,3 +64,7 @@ OBS-S3 and ARCH-ADR keep their explicit non-dependency status for CF-INTEGRATE a
 Podcast #671 is now assigned to v0.93, as is the deferred SIM-09 pilot #875. Both retain their original identities and authorization requirements. The historical 69-task creation roster is preserved for traceability; it is not a live milestone-membership count. The original sidecar admission and 82-membership census are creation-time history, not current scope.
 
 The [complete reviewed launch map](../../../.csdlc/evidence/864/all-issue-launch.json) binds all 69 core task IDs to verified issue numbers and independent creation reviews. This establishes issue inventory and review truth, not implementation or Beta 1 qualification.
+
+## Cargo release identity
+
+The [complete Cargo audit](evidence/issue-917/CARGO_MANIFEST_REVIEW.md) records 27 manifests. The main package family currently identifies as 0.92.1; independent components retain their own versions. #918 publication finalization must select release artifacts and reconcile versions and lockfiles before freezing the release candidate. #925 release approval consumes that exact identity; a v0.92.2 milestone label alone does not change a binary/package version.

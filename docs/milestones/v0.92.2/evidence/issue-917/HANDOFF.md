@@ -78,3 +78,7 @@ Close documented findings, obtain independent documentation review and a fresh-r
 Read Claude's [first](../../repository-decomposition/CLAUDE_REVIEW_1.md) and [corrected-candidate](../../repository-decomposition/CLAUDE_REVIEW_2.md) reviews. F10 remains resolved: target v3 independence is separate from the known retained v2-to-resilience dependency, and extraction cannot strand rollback support. The reviews are retained planning evidence, not permission to extract repositories.
 
 Earlier Claude/external-review lessons were applied here: include nested packets, reconcile accepted decisions against proposal history, distinguish source-time tracker/custody observations from current state, keep immutable evidence separate from live claims, and supply actual reproduction commands. This pass corrected the #671/#875 scope drift, SIM pilot gate, twelve-decision #945 acceptance, merged website #18 status, manuscript custody date, and old #1064 candidate status. Older milestones were inspected only as review context and were not edited.
+
+## Package metadata coverage
+
+The [Cargo review](CARGO_MANIFEST_REVIEW.md) and [27-manifest audit](CARGO_MANIFEST_AUDIT.json) cover every tracked Cargo.toml, with 23 local dependency references checked. Main package versions remain 0.92.1 and independent components keep their declared versions. Release metadata selection belongs to #918; this handoff does not label existing binaries as a v0.92.2 release.

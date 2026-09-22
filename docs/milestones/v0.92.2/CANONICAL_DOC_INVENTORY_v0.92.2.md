@@ -124,3 +124,7 @@ The tables above describe canonical planning surfaces; they are not the entire d
 - [#945 content manifest](adr/issue-945/candidate-content.json) distinguishes unchanged accepted decision bytes from supporting planning documents refreshed by #917.
 
 Run both validators with `--self-test` from the repository root. A refreshed supporting-document digest is not new ADR acceptance and must not alter accepted records or approval hashes.
+
+## Cargo and package metadata
+
+[Cargo manifest review](evidence/issue-917/CARGO_MANIFEST_REVIEW.md) covers every tracked Cargo.toml, including virtual workspace, components, tools, demos and retained verification helpers. [Per-manifest results](evidence/issue-917/CARGO_MANIFEST_AUDIT.json) bind 27 manifests and 23 local dependency references. The [reused audit implementation](../../../.csdlc/prepared/issues/518/audit-cargo-manifests.py) is read-only when called as documented. The handoff validator derives this manifest denominator from Git, independently of this prose list.
