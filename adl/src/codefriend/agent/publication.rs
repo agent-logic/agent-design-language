@@ -151,7 +151,7 @@ pub struct LocalProvenance {
     pub challenge_digest: String,
     pub publication_binding_digest: String,
 }
-fn private_dirs(path: &Path) -> Result<()> {
+pub(super) fn private_dirs(path: &Path) -> Result<()> {
     use std::os::unix::fs::DirBuilderExt;
     native::manifest::reject_symlink_components(path)?;
     fs::DirBuilder::new()
@@ -254,10 +254,7 @@ impl Binding {
                 && self.consent_digest == report.consent_digest
                 && self.expires_at == report.expires_at
                 && report.status == "complete"
-                && report
-                    .result
-                    .as_ref()
-                    .is_some_and(|r| r.successful_execution().is_ok()),
+                && report.completed_review().is_ok(),
             "publication_report_binding"
         );
         Ok(())
@@ -287,7 +284,7 @@ impl Transport {
         binding.validate_report(&report, now)?;
         let expiry: u64 = read(&root.join("expires.json"), 64)?;
         ensure!(
-            expiry == binding.expires_at
+            expiry >= binding.expires_at
                 && command.run_id == binding.run_id
                 && command.consent_digest == binding.consent_digest
                 && pairing.agent_id == binding.agent_id
@@ -308,6 +305,7 @@ impl Transport {
         );
         command.validate(&current, &read_consent(consent_path, after)?, after)?;
         binding.validate_report(&report, after)?;
+        self.ensure_cycle_owner(journal, consent_path, &pairing, &command, &report, &root)?;
         Ok(LocalContext {
             pairing,
             command,
@@ -334,9 +332,17 @@ impl Transport {
         binding.validate_report(&context.report, now)?;
         let expiry: u64 = read(&context.root.join("expires.json"), 64)?;
         ensure!(
-            expiry == binding.expires_at && expiry > now,
+            expiry >= binding.expires_at && expiry > now,
             "publication_retention_changed"
         );
+        self.ensure_cycle_owner(
+            journal,
+            consent_path,
+            &context.pairing,
+            &context.command,
+            &context.report,
+            &context.root,
+        )?;
         Ok(())
     }
     fn job(&self, pairing: &Pairing, binding: &Binding) -> Result<Job> {
@@ -425,7 +431,7 @@ impl Transport {
         private_dirs(root)?;
         let destination = root.join("exports");
         private_dirs(&destination)?;
-        let review = &context.report.result.as_ref().unwrap().review_record;
+        let review = &context.report.completed_review()?.review_record;
         save_private(&root.join("review-record.json"), review)?;
         let bound = prepare_publication_bundle_for_format_v2(
             &root.join("review-record.json"),
@@ -550,7 +556,7 @@ impl Transport {
             .decision
             .as_ref()
             .ok_or_else(|| anyhow::anyhow!("publication_decision_missing"))?;
-        let review = &context.report.result.as_ref().unwrap().review_record;
+        let review = &context.report.completed_review()?.review_record;
         let bound = native::read_publication(&root.join("bundle/publication.json"))?;
         let authority = LocalDecisionAuthority {
             transport: self,
@@ -822,7 +828,7 @@ impl LocalDecisionAuthority<'_> {
                 .publication_context(self.journal, self.consent_path, self.binding)?;
         ensure!(
             hash(&context.pairing)? == self.pairing_digest
-                && context.report.result.as_ref().unwrap().review_record == *review,
+                && context.report.completed_review()?.review_record == *review,
             "publication_authority_identity"
         );
         let job = self.transport.job(&context.pairing, self.binding)?;
@@ -972,7 +978,7 @@ pub fn verify_stage(stage: &Stage, context: &VerificationContext, now: u64) -> R
                 .all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b)),
         "publication_candidate"
     );
-    let review = &context.report.result.as_ref().unwrap().review_record;
+    let review = &context.report.completed_review()?.review_record;
     match stage.stage.as_str() {
         "prepared" => {
             let prepared: Prepared = serde_json::from_value(stage.payload.clone())?;

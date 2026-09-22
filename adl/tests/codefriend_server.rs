@@ -1531,6 +1531,72 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
                 &result["cycle_result"]
             };
             assert_eq!(cycle["completion"], "complete");
+            // #1133: the native capsule is a GET of retained producer evidence;
+            // Journey/publication reuse this cycle without another model call.
+            let before = count.load(Ordering::SeqCst);
+            let evidence = client
+                .get(format!("{base}/v1/operations/{id}/review-evidence"))
+                .bearer_auth(token)
+                .send()
+                .unwrap();
+            assert!(
+                evidence.status().is_success(),
+                "capsule: {}",
+                evidence.text().unwrap()
+            );
+            let capsule: Value = client
+                .get(format!("{base}/v1/operations/{id}/review-evidence"))
+                .bearer_auth(token)
+                .send()
+                .unwrap()
+                .json()
+                .unwrap();
+            assert_eq!(capsule["schema"], "codefriend.cycle_review_evidence.v1");
+            assert_eq!(capsule["files"].as_object().unwrap().len(), 10);
+            assert_eq!(
+                serde_json::from_str::<Value>(capsule["files"]["run.json"].as_str().unwrap())
+                    .unwrap(),
+                cycle["review"]
+            );
+            assert!(capsule["files"]
+                .as_object()
+                .unwrap()
+                .keys()
+                .all(|name| !name.contains("provider")));
+            assert!(!client
+                .get(format!("{base}/v1/operations/{id}/review-evidence"))
+                .bearer_auth(BOB)
+                .send()
+                .unwrap()
+                .status()
+                .is_success());
+            if mode == "hosted" {
+                let policies = json!({"boundary_policy":{"schema":"codefriend.structure.v1","crate_root":"lib.rs","manifest_path":null,"layers":{"lib.rs":"core"},"allowed":[],"coupling_threshold":2},
+                    "fitness_policy":{"schema":"codefriend.fitness.v1","rules":[{"id":"no_network","kind":"forbidden_declared_use","source_path":"lib.rs","forbidden_prefix":"reqwest"}]}});
+                let prepared = client
+                    .post(format!("{base}/v1/operations/{id}/journey"))
+                    .bearer_auth(token)
+                    .json(&policies)
+                    .send()
+                    .unwrap();
+                let status = prepared.status();
+                let body = prepared.text().unwrap();
+                assert!(status.is_success(), "cycle Journey {status}: {body}");
+                let publication = client
+                    .post(format!("{base}/v1/operations/{id}/publication/challenge"))
+                    .bearer_auth(token)
+                    .json(&json!({"format":"markdown"}))
+                    .send()
+                    .unwrap();
+                let status = publication.status();
+                let body = publication.text().unwrap();
+                assert!(status.is_success(), "cycle publication {status}: {body}");
+            }
+            assert_eq!(
+                count.load(Ordering::SeqCst),
+                before,
+                "continuation cannot replay model work"
+            );
             assert_eq!(
                 cycle["review"]["schema"],
                 "codefriend.four_perspective_review_run.v3"

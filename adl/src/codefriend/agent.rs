@@ -1,5 +1,6 @@
 //! Installed agent authority. Website commands select locally approved evidence;
 //! they never provide paths, executable commands, or provider credentials.
+mod cycle_bridge;
 pub mod journey;
 pub mod publication;
 
@@ -1739,6 +1740,7 @@ fn scrub_run_payloads(path: &Path) -> Result<()> {
     for name in [
         "work",
         "gateway",
+        "imported-cycle",
         "evidence",
         "journey",
         "relay-delivery",

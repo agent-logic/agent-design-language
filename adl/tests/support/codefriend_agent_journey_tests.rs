@@ -490,3 +490,231 @@ fn paired_drift_reopens_both_original_run_owners_and_denies_revoked_baseline() {
     assert_eq!(case.journey_results.lock().unwrap().len(), count);
     assert_eq!(case.posts(), 0);
 }
+
+// #1133: actual typed cycle/report shape, distinct gateway/local IDs and admissions.
+fn cycle_job() -> (Case, relay::Job, crate::codefriend::cycle_bridge::Capsule) {
+    use crate::codefriend::{
+        activities::{self, Activity, CycleExecutionBinding, UpdateCyclePlan},
+        evidence::Retention,
+    };
+    let (case, mut job) = prepared_job();
+    let root = case.temp.path().join("state/run-run1");
+    let mut report: RunReport =
+        serde_json::from_slice(&fs::read(root.join("report.json")).unwrap()).unwrap();
+    let mut command: Command =
+        serde_json::from_slice(&fs::read(root.join("command.json")).unwrap()).unwrap();
+    let local = report
+        .result
+        .as_ref()
+        .unwrap()
+        .review_record
+        .admission
+        .clone();
+    private(&root.join("admission.json"), &local);
+    let now = crate::codefriend::agent::clock();
+    let gateway = Admission::new(local.packet.clone(), Retention { seconds: 50 }, now).unwrap();
+    let plan = UpdateCyclePlan {
+        schema: activities::PLAN_SCHEMA.into(),
+        repository: gateway.packet.repository.clone(),
+        activities: vec![Activity::Review],
+        testing: None,
+    };
+    let gateway_id = hash(&(
+        PROTOCOL,
+        &report.agent_id,
+        &report.run_id,
+        "cycle",
+        hash(&plan).unwrap(),
+    ))
+    .unwrap();
+    let model = report.gateway_lanes[0].model_identity.clone();
+    let route = runner::provider_route_identity_from_model(&model);
+    let producer = case.temp.path().join("gateway-producer");
+    let run = runner::run_assessments_with_executor(
+        ExecutionOptions {
+            out: producer.clone(),
+            run_id: gateway_id.clone(),
+            cancel_file: None,
+        },
+        gateway.clone(),
+        route.clone(),
+        |_, _, _| {
+            Ok(LaneExecution {
+                final_status: ProviderInvocationFinalStatusV1::Ok,
+                output_text: Some("{\"assessments\":[]}".into()),
+            })
+        },
+    )
+    .unwrap();
+    let mut cycle = activities::run_with_executor(
+        plan.clone(),
+        gateway,
+        gateway_id,
+        route,
+        Some(run),
+        |_, _, _| panic!("review-only cycle has no activity dispatch"),
+    )
+    .unwrap();
+    cycle.execution = Some(CycleExecutionBinding {
+        candidate_revision: "c".repeat(40),
+        request_digest: "d".repeat(64),
+        model_identity: model.clone(),
+    });
+    let capsule =
+        crate::codefriend::cycle_bridge::Capsule::capture(&producer, &cycle, now).unwrap();
+    report.result = None;
+    report.expires_at = local.expires_at.min(cycle.admission.expires_at);
+    report.gateway_lanes = vec![GatewayLaneIdentity {
+        lane: "cycle".into(),
+        candidate_revision: "c".repeat(40),
+        request_digest: Some("d".repeat(64)),
+        model_identity: model,
+    }];
+    report.cycle_result = Some(cycle);
+    report.digest.clear();
+    report.digest = hash(&report).unwrap();
+    report.validate(now).unwrap();
+    private(&root.join("report.json"), &report);
+    command.cycle = Some(plan);
+    private(&root.join("command.json"), &command);
+    fs::remove_dir_all(root.join("work/review")).unwrap();
+    job.binding.report_digest = report.digest.clone();
+    job.binding.expires_at = report.expires_at;
+    case.extra_receipts.lock().unwrap().insert("run1".into(), json!({"schema":"codefriend.agent_report_receipt.v1","subject":report.subject,"agent_id":report.agent_id,"run_id":report.run_id,"report_digest":report.digest,"received_digest":job.binding.received_digest,"consent_digest":report.consent_digest,"expires_at":report.expires_at}));
+    case.extra_receipts.lock().unwrap().insert(
+        "cycle_capsule".into(),
+        serde_json::to_value(&capsule).unwrap(),
+    );
+    *case.journey.lock().unwrap() = serde_json::to_value(&job).unwrap();
+    (case, job, capsule)
+}
+
+#[test]
+fn cycle_journey_imports_exact_producer_bytes_without_replaying_review() {
+    let (case, mut job, capsule) = cycle_job();
+    let root = case.temp.path().join("state/run-run1");
+    let original = fs::read(root.join("report.json")).unwrap();
+    case.poll().unwrap();
+    for (name, bytes) in capsule.files {
+        assert_eq!(
+            fs::read(root.join("imported-cycle/review").join(name)).unwrap(),
+            bytes.as_bytes()
+        );
+    }
+    assert!(!root.join("work/review").exists());
+    job.binding.job_id = "cycle-graph".into();
+    job.request = relay::Request::Graph;
+    job.binding.request_digest = job.request.digest().unwrap();
+    *case.journey.lock().unwrap() = serde_json::to_value(&job).unwrap();
+    case.poll().unwrap();
+    assert_eq!(fs::read(root.join("report.json")).unwrap(), original);
+    assert_eq!(case.posts(), 0);
+    let report: RunReport = serde_json::from_slice(&original).unwrap();
+    let result: relay::StageResult =
+        serde_json::from_value(case.journey_results.lock().unwrap().last().unwrap().clone())
+            .unwrap();
+    let receipt =
+        serde_json::from_value(case.extra_receipts.lock().unwrap()["run1"].clone()).unwrap();
+    let context = relay::verification::VerificationContext {
+        schema: "codefriend.agent_journey_verifier_context.v1".into(),
+        job,
+        report,
+        receipt,
+        previous: None,
+        now: crate::codefriend::agent::clock(),
+    };
+    relay::verification::verify_stage(&result, &context, context.now).unwrap();
+    case.extra_receipts.lock().unwrap().remove("cycle_capsule");
+    assert!(
+        case.poll().is_err(),
+        "remote deletion must stop continuation"
+    );
+    assert!(
+        !root.join("imported-cycle").exists(),
+        "failed remote authority scrubs imports"
+    );
+}
+
+#[test]
+fn cycle_capsule_rejects_swapped_lanes_and_post_transfer_revocation() {
+    let (case, _, mut capsule) = cycle_job();
+    let report: RunReport = serde_json::from_slice(
+        &fs::read(case.temp.path().join("state/run-run1/report.json")).unwrap(),
+    )
+    .unwrap();
+    capsule.files.insert(
+        "lanes/correctness/result.json".into(),
+        capsule.files["lanes/security/result.json"].clone(),
+    );
+    capsule.digest.clear();
+    capsule.digest = hash(&capsule).unwrap();
+    assert!(capsule
+        .validate(
+            report.cycle_result.as_ref().unwrap(),
+            crate::codefriend::agent::clock()
+        )
+        .is_err());
+    case.extra_receipts
+        .lock()
+        .unwrap()
+        .insert("revoke_after_capsule".into(), json!(true));
+    assert!(case.poll().is_err());
+    assert!(!case
+        .temp
+        .path()
+        .join("state/run-run1/imported-cycle")
+        .exists());
+    assert!(case.journey_results.lock().unwrap().is_empty());
+    assert_eq!(case.posts(), 0);
+}
+
+#[test]
+fn cycle_publication_preserves_report_and_requires_live_gateway() {
+    let (case, journey, _) = cycle_job();
+    let root = case.temp.path().join("state/run-run1");
+    let original = fs::read(root.join("report.json")).unwrap();
+    fs::remove_dir_all(root.join("work/publications/job1")).unwrap();
+    *case.journey.lock().unwrap() = Value::Null;
+    *case.state.lock().unwrap() = json!({"binding":{
+        "schema":"codefriend.agent_publication.v1","job_id":"job1","subject":journey.binding.subject,
+        "agent_id":journey.binding.agent_id,"run_id":"run1","report_digest":journey.binding.report_digest,
+        "received_digest":journey.binding.received_digest,"consent_digest":journey.binding.consent_digest,
+        "format":"markdown","expires_at":journey.binding.expires_at},
+        "status":"awaiting_agent","decision":null,"prepared_digest":null,"terminal_digest":null,"effect_unresolved":false,
+        "agent_candidate_revision":null,"prepared":null,"terminal":null});
+    case.poll().unwrap();
+    {
+        let mut job = case.state.lock().unwrap();
+        job["decision"] = json!({"challenge_digest":job["prepared"]["challenge_digest"],"binding_digest":job["prepared"]["binding_digest"],"expected_decision_digest":job["prepared"]["expected_decision_digest"],"decision":"approved"});
+        job["status"] = json!("decision_pending");
+    }
+    case.poll().unwrap();
+    assert_eq!(case.state.lock().unwrap()["status"], "complete");
+    assert_eq!(fs::read(root.join("report.json")).unwrap(), original);
+    assert!(case
+        .calls
+        .lock()
+        .unwrap()
+        .iter()
+        .all(|line| !line.starts_with("POST /v1/operations")));
+    case.extra_receipts.lock().unwrap().remove("cycle_capsule");
+    assert!(case.poll().is_err());
+    assert!(!root.join("imported-cycle").exists());
+}
+
+#[test]
+fn cycle_import_rejects_expiry_after_transfer_without_retaining_payload() {
+    let (case, _, _) = cycle_job();
+    case.extra_receipts
+        .lock()
+        .unwrap()
+        .insert("expire_after_capsule".into(), json!(true));
+    assert!(case.poll().is_err());
+    assert!(!case
+        .temp
+        .path()
+        .join("state/run-run1/imported-cycle")
+        .exists());
+    assert!(case.journey_results.lock().unwrap().is_empty());
+    assert_eq!(case.posts(), 0);
+}

@@ -339,7 +339,7 @@ impl Case {
                 let first = header.lines().next().unwrap().to_owned();
                 assert!(header
                     .to_ascii_lowercase()
-                    .contains(&format!("authorization: bearer {}", "a".repeat(64))));
+                    .contains(&format!("authorization: bearer {}", if first.starts_with("GET /v1/operations/") { "b".repeat(64) } else { "a".repeat(64) })));
                 let count = header
                     .lines()
                     .find_map(|l| {
@@ -354,7 +354,13 @@ impl Case {
                     bytes.extend_from_slice(&buf[..n]);
                 }
                 seen.lock().unwrap().push(first.clone());
-                let response = if first.starts_with("GET /v1/agent/publications HTTP") {
+                let response = if first.starts_with("GET /v1/operations/") && first.contains("/review-evidence ") {
+                    let mut values = run_receipts.lock().unwrap();
+                    let response = values.get("cycle_capsule").cloned().unwrap_or(Value::Null);
+                    if values.remove("expire_after_capsule").is_some() { time.store(now + 60, Ordering::SeqCst); }
+                    if values.remove("revoke_after_capsule").is_some() { values.remove("cycle_capsule"); }
+                    response
+                } else if first.starts_with("GET /v1/agent/publications HTTP") {
                     {
                         let current = web.lock().unwrap().clone();
                         json!({"job":if acknowledged && controls == 0 {job.clone()} else {current}})
@@ -376,7 +382,7 @@ impl Case {
                     assert_eq!(count, 0);
                     json!({"schema":PROTOCOL,"agent_id":"agent1","subject":"user1","run_id":"run1","cancelled":false})
                 } else if first.starts_with("GET /v1/agent/runs/run1/receipt ") {
-                    receipt.clone()
+                    run_receipts.lock().unwrap().get("run1").cloned().unwrap_or_else(|| receipt.clone())
                 } else if first.starts_with("GET /v1/agent/runs/") {
                     let path = first.split_whitespace().nth(1).unwrap();
                     let suffix = path.strip_prefix("/v1/agent/runs/").unwrap();

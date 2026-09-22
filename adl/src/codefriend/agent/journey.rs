@@ -289,15 +289,19 @@ impl Transport {
         self.recheck_journey_owner(journal, consent_path, job, &owner)?;
         // Validate the original Store then release its lock before native Journey
         // opens it. Holding this guard across prepare/resume would deadlock.
-        let store_path = owner.root.join("evidence");
+        self.ensure_cycle_owner(
+            journal,
+            consent_path,
+            &owner.pairing,
+            &owner.command,
+            &owner.report,
+            &owner.root,
+        )?;
+        let store_path = owner.report.review_store(&owner.root);
         ensure!(store_path.is_dir(), "agent_journey_original_store_missing");
         let clock = self.clock.clone();
         let store = super::super::evidence::store::Store::open(&store_path, move || clock())?;
-        let review = owner
-            .report
-            .result
-            .as_ref()
-            .ok_or_else(|| anyhow::anyhow!("agent_journey_review_missing"))?;
+        let review = owner.report.completed_review()?;
         ensure!(
             store.get(&review.review_record.admission.packet.packet_id)?
                 == review.review_record.admission,
@@ -347,7 +351,7 @@ impl Transport {
         );
         let expiry: u64 = publication::read(&owner.root.join("expires.json"), 64)?;
         ensure!(
-            expiry == job.binding.expires_at && expiry > now,
+            expiry >= job.binding.expires_at && job.binding.expires_at > now,
             "agent_journey_expired"
         );
         ensure!(
@@ -377,6 +381,14 @@ impl Transport {
         );
         report_after.validate(now)?;
         ensure!(now < expiry_after, "agent_journey_expired");
+        self.ensure_cycle_owner(
+            journal,
+            consent_path,
+            &owner.pairing,
+            &owner.command,
+            &owner.report,
+            &owner.root,
+        )?;
         Ok(())
     }
 }
@@ -399,8 +411,7 @@ impl BaselineOwner {
             review: &self
                 .owner
                 .report
-                .result
-                .as_ref()
+                .completed_review()
                 .expect("validated complete report")
                 .review_record,
             baseline_root: &self.baseline_root,
@@ -454,16 +465,11 @@ impl Transport {
         native::owned_baseline::validate_graph_source(&output, &graph)?;
         ensure!(
             native::owned_baseline::original_review(&output)?
-                == owner
-                    .report
-                    .result
-                    .as_ref()
-                    .expect("validated complete report")
-                    .review_record,
+                == owner.report.completed_review()?.review_record,
             "agent_journey_baseline_review_changed"
         );
         let clock = self.clock.clone();
-        let store = Store::open(&root.join("evidence"), move || clock())?;
+        let store = Store::open(&owner.report.review_store(&root), move || clock())?;
         let baseline = BaselineOwner {
             owner,
             binding,
@@ -668,19 +674,15 @@ impl Transport {
                 fitness_policy,
             } = &job.request
             {
-                let run = owner
-                    .report
-                    .result
-                    .as_ref()
-                    .expect("validated complete report");
+                let run = owner.report.completed_review()?;
                 native::prepare_owned_admission(native::OwnedAdmissionJourneyOptions {
-                    store: owner.root.join("evidence"),
+                    store: owner.report.review_store(&owner.root),
                     output: output.clone(),
                     owner_root: owner.root.clone(),
-                    review_root: owner.root.join("work/review"),
+                    review_root: owner.report.review_root(&owner.root),
                     packet_id: run.review_record.admission.packet.packet_id.clone(),
                     admission_digest: run.review_record.admission.digest.clone(),
-                    operation_id: owner.command.run_id.clone(),
+                    operation_id: run.run_id.clone(),
                     candidate_revision: job.permitted_agent_candidate.clone(),
                     expires_at: owner.report.expires_at,
                     completed_run: run.clone(),
