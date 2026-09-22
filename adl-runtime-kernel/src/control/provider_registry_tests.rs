@@ -858,6 +858,10 @@ fn provider_candidate_cannot_remove_resident_or_persisted_agent_bindings() {
 }
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
+#[allow(
+    clippy::await_holding_lock,
+    reason = "The two-worker fixture deliberately holds the commit gate while the competing admission starts"
+)]
 async fn concurrent_provider_replacement_cannot_commit_a_stale_agent_binding() {
     let root = Path::new(env!("CARGO_MANIFEST_DIR")).join(".adl/issue978");
     fs::create_dir_all(&root).unwrap();

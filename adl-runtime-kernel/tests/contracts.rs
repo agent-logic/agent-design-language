@@ -298,13 +298,17 @@ fn parity_matrix_is_machine_readable_and_routes_every_capability() {
 }
 
 #[test]
-fn runtime_kernel_manifest_has_no_repo_local_path_dependencies() {
+fn runtime_kernel_manifest_only_uses_the_canonical_provider_path_dependency() {
     let manifest: toml::Value = toml::from_str(include_str!("../Cargo.toml")).unwrap();
     let root = manifest.as_table().unwrap();
 
     for table in ["dependencies", "dev-dependencies", "build-dependencies"] {
         if let Some(dependencies) = root.get(table).and_then(toml::Value::as_table) {
-            assert_manifest_dependencies_are_external(dependencies);
+            if table == "dependencies" {
+                assert_runtime_dependencies(dependencies);
+            } else {
+                assert_manifest_dependencies_are_external(dependencies);
+            }
         }
     }
 
@@ -350,6 +354,58 @@ fn parity_baseline_manifest_is_a_captured_inventory_not_a_live_repo_dependency()
     assert!(declared.iter().all(|path| path.ends_with(".rs")));
     assert!(declared.contains("adl-runtime/src/lib.rs"));
     assert!(declared.contains("adl/src/runtime_v2/kernel_loop.rs"));
+}
+
+// #855 extracted this leaf library as the canonical provider owner. All other
+// repository coupling remains forbidden, including aliases and inherited paths.
+fn assert_runtime_dependencies(dependencies: &Table) {
+    let mut external = dependencies.clone();
+    if let Some(provider) = external.remove("adl-provider-core") {
+        assert_eq!(
+            provider.get("path").and_then(toml::Value::as_str),
+            Some("../adl-provider-core"),
+            "canonical provider path required"
+        );
+        assert!(
+            provider.get("package").is_none(),
+            "provider package alias forbidden"
+        );
+        assert!(
+            provider.get("workspace").is_none(),
+            "provider workspace inheritance forbidden"
+        );
+    }
+    assert_manifest_dependencies_are_external(&external);
+}
+
+#[test]
+#[should_panic(expected = "canonical provider path required")]
+fn runtime_dependency_contract_rejects_relocated_provider() {
+    let dependencies: Table = toml::from_str(r#"adl-provider-core = { path = "../adl" }"#).unwrap();
+    assert_runtime_dependencies(&dependencies);
+}
+
+#[test]
+#[should_panic(expected = "provider package alias forbidden")]
+fn runtime_dependency_contract_rejects_provider_package_alias() {
+    let dependencies: Table =
+        toml::from_str(r#"adl-provider-core = { path = "../adl-provider-core", package = "adl" }"#)
+            .unwrap();
+    assert_runtime_dependencies(&dependencies);
+}
+
+#[test]
+#[should_panic(expected = "repo-local path dependency")]
+fn runtime_dependency_contract_rejects_other_local_dependencies() {
+    let dependencies: Table = toml::from_str(r#"adl = { path = "../adl" }"#).unwrap();
+    assert_runtime_dependencies(&dependencies);
+}
+
+#[test]
+#[should_panic(expected = "workspace dependency inheritance")]
+fn runtime_dependency_contract_rejects_workspace_inheritance() {
+    let dependencies: Table = toml::from_str(r#"tokio = { workspace = true }"#).unwrap();
+    assert_runtime_dependencies(&dependencies);
 }
 
 fn assert_manifest_dependencies_are_external(dependencies: &Table) {
