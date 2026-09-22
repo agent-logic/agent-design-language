@@ -1097,6 +1097,9 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
     use std::process::Stdio;
     let mut f = Fixture::new();
     f.config.max_operations_per_subject = 16;
+    // Kimi observes the returned model ID, exercising requested-alias resolution.
+    f.config.provider.route.provider = "kimi".into();
+    f.config.provider.model_identity.provider = "kimi".into();
     let provider = TcpListener::bind("127.0.0.1:0").unwrap();
     provider.set_nonblocking(true).unwrap();
     f.config.provider.route.endpoint_ref = Some(format!(
@@ -1186,7 +1189,7 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
             };
             // #1133: a provider may resolve a requested alias to an observed model.
             // All four lanes of each cycle must finalize the same original bytes.
-            let mut response = json!({"output_text":text.to_string()});
+            let mut response = json!({"output_text":text.to_string(), "choices":[{"message":{"content":text.to_string()}}]});
             if (12..20).contains(&index) {
                 response["model"] = json!("fixture-observed-cycle-model");
             }
@@ -1537,6 +1540,10 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
                 &result["cycle_result"]
             };
             assert_eq!(cycle["completion"], "complete");
+            assert_eq!(
+                cycle["execution"]["model_identity"]["provider_model_id"],
+                "fixture-observed-cycle-model"
+            );
             // #1133: the native capsule is a GET of retained producer evidence;
             // Journey/publication reuse this cycle without another model call.
             let before = count.load(Ordering::SeqCst);
