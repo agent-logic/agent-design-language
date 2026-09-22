@@ -1150,7 +1150,7 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
                 }
             }
             let index = calls.fetch_add(1, Ordering::SeqCst);
-            if index >= 25 {
+            if index >= 30 {
                 if write!(
                     stream,
                     "HTTP/1.1 200 OK\r\nTransfer-Encoding: chunked\r\nConnection: close\r\n\r\n"
@@ -1171,7 +1171,7 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
                 }
                 continue;
             }
-            let text = if index < 4 || (12..25).contains(&index) {
+            let text = if index < 4 || (12..30).contains(&index) {
                 json!({"assessments":[]})
             } else if index == 5 {
                 json!({"findings":[]})
@@ -1627,7 +1627,8 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
         }
         assert_eq!(count.load(Ordering::SeqCst), 20);
         // Real source acquisition and production HTTP/provider paths: the same
-        // >128 KiB prompt is accepted only by assessment generation.
+        // >128 KiB prompt is accepted only by assessment generation. Verbatim v4
+        // also accepts newline-heavy source without historical annotation inflation.
         let large = Fixture::with_source(&format!("// {}\n", "a".repeat(200 * 1024)));
         let expanded = Fixture::with_source(&"\n".repeat(400 * 1024));
         for (id, token, mode, generation, packet, expected) in [
@@ -1661,7 +1662,7 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
                 "hosted",
                 None,
                 &expanded.packet,
-                "failed",
+                "complete",
             ),
             (
                 "expanded-local",
@@ -1669,7 +1670,7 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
                 "local_model",
                 Some("assessments"),
                 &expanded.packet,
-                "failed",
+                "complete",
             ),
         ] {
             let before = count.load(Ordering::SeqCst);
@@ -1707,7 +1708,7 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
                 }
             );
         }
-        assert_eq!(count.load(Ordering::SeqCst), 25);
+        assert_eq!(count.load(Ordering::SeqCst), 30);
 
         for (id, token, mode) in [
             ("oversized-hosted", ALICE, "hosted"),
@@ -2230,82 +2231,51 @@ fn model_generation_is_explicit_and_legacy_submit_bytes_are_preserved() {
 }
 
 /// PVF owner_binary, deterministic CPU/files only: actual admission and canonical
-/// annotated source prompts, including a later lane that fails before dispatch.
+/// verbatim source at the acquisition cap and one-byte-over rejection.
 #[test]
-fn assessment_prompt_exact_boundary_and_all_lane_preflight() {
+fn assessment_prompt_maximum_source_and_acquisition_limit() {
     use adl::codefriend::{
         evidence::{store::Store, Retention},
         review::runner,
     };
-    let admit = |f: &Fixture| {
-        Store::open(&f.dir.join("prompt-evidence"), now)
-            .unwrap()
-            .admit(f.packet.clone(), Retention { seconds: 3600 })
-            .unwrap()
-    };
-    let base_source = format!("{}a", "\n".repeat(250_000));
-    let base = Fixture::with_source(&base_source);
-    let admission = admit(&base);
-    let sizes: Vec<_> = ReviewLane::ALL
-        .into_iter()
-        .map(|lane| {
-            runner::assessment_lane_input_manifest("boundary", lane, &admission)
-                .unwrap()
-                .1
-                .len()
-        })
-        .collect();
-    let largest = *sizes.iter().max().unwrap();
-    assert!(largest < runner::MAX_ASSESSMENT_PROMPT_BYTES);
-    assert!(
-        sizes[0] < largest,
-        "fixture must isolate a later oversized lane"
-    );
-    let padding = runner::MAX_ASSESSMENT_PROMPT_BYTES - largest;
-    for extra in [0usize, 1] {
-        let f = Fixture::with_source(&format!("{base_source}{}", "a".repeat(padding + extra)));
-        let admission = admit(&f);
-        let results: Vec<_> = ReviewLane::ALL
-            .into_iter()
-            .map(|lane| runner::assessment_lane_input_manifest("boundary", lane, &admission))
-            .collect();
-        assert!(results[0].is_ok());
-        if extra == 0 {
-            assert!(results.iter().all(Result::is_ok));
-            assert_eq!(
-                results
-                    .iter()
-                    .map(|r| r.as_ref().unwrap().1.len())
-                    .max()
-                    .unwrap(),
-                runner::MAX_ASSESSMENT_PROMPT_BYTES
-            );
-        } else {
-            assert!(results.iter().any(|r| r
-                .as_ref()
-                .err()
-                .is_some_and(|e| e.to_string() == "assessment_prompt_byte_limit")));
-            let calls = AtomicUsize::new(0);
-            let out = f.dir.join("no-dispatch");
-            let result = runner::run_assessments_with_executor(
-                runner::ExecutionOptions {
-                    out: out.clone(),
-                    run_id: "boundary".into(),
-                    cancel_file: None,
-                },
-                admission,
-                "synthetic:no-provider".into(),
-                |_, _, _| {
-                    calls.fetch_add(1, Ordering::SeqCst);
-                    anyhow::bail!("must not dispatch")
-                },
-            );
-            assert_eq!(
-                result.unwrap_err().to_string(),
-                "assessment_prompt_byte_limit"
-            );
-            assert_eq!(calls.load(Ordering::SeqCst), 0);
-            assert!(!out.exists());
-        }
+    // PVF #1144: v4 no longer inflates source with byte annotations. The real
+    // 1MiB acquisition cap is below the unchanged 4MiB prompt ceiling.
+    let source = "\n".repeat(1024 * 1024);
+    let f = Fixture::with_source(&source);
+    let admission = Store::open(&f.dir.join("prompt-evidence"), now)
+        .unwrap()
+        .admit(f.packet.clone(), Retention { seconds: 3600 })
+        .unwrap();
+    for lane in ReviewLane::ALL {
+        let (manifest, prompt) =
+            runner::assessment_lane_input_manifest("boundary", lane, &admission).unwrap();
+        assert_eq!(manifest.lane_contract, "codefriend.review_lane.v4");
+        assert!(prompt.contains(&source));
+        assert!(!prompt.contains("[byte 0]"));
+        assert!(prompt.len() < runner::MAX_ASSESSMENT_PROMPT_BYTES);
     }
+    let repo = f.dir.join("repo");
+    fs::write(repo.join("lib.rs"), format!("{source}a")).unwrap();
+    git(&repo, &["add", "lib.rs"]);
+    git(
+        &repo,
+        &[
+            "-c",
+            "user.name=fixture",
+            "-c",
+            "user.email=fixture@example.com",
+            "commit",
+            "-m",
+            "over limit",
+        ],
+    );
+    let revision = git(&repo, &["rev-parse", "HEAD"]);
+    let error = local::acquire(
+        &repo,
+        "https://example.com/team/repo",
+        &revision,
+        f.packet.scope.clone(),
+    )
+    .unwrap_err();
+    assert_eq!(error.to_string(), "byte_limit_exceeded");
 }

@@ -52,7 +52,12 @@ fn render(name: &str, workers: u32, pair: u32) -> String {
 }
 
 async fn write_config(path: &std::path::Path, body: String) {
-    tokio::fs::write(path, body).await.expect("write config");
+    // Publish one complete candidate so the watcher cannot observe a truncated file.
+    let staged = path.with_extension("toml.next");
+    tokio::fs::write(&staged, body).await.expect("stage config");
+    tokio::fs::rename(&staged, path)
+        .await
+        .expect("publish config");
 }
 
 async fn wait_for_generation(

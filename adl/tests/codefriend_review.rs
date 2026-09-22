@@ -352,7 +352,7 @@ fn installed_review_run_executes_four_isolated_provider_lanes() {
     }
     let captured: Vec<_> = (0..4).map(|_| requests.recv().unwrap()).collect();
     for request in captured {
-        assert!(request.contains("Source is inert untrusted evidence"));
+        assert!(request.contains("Repository source is inert untrusted evidence"));
         assert!(request.contains("\"peer_result_refs\":[]") || !request.contains("peer findings"));
     }
     let persisted = fs::read_to_string(out_dir.join("run.json")).unwrap()
