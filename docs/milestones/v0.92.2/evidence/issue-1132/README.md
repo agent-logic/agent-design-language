@@ -11,7 +11,7 @@ Publication uses that same selected review and existing exact approval guards.
 No Journey operation repeats model review.
 
 The website implementation is in `agent-logic/codefriend.ai`, branch
-`codex/1132-cycle-review-journey`, commit `f695c18`. It is stacked on the
+`codex/1132-cycle-review-journey`, commit series `f695c18` through `0f7a5ba`. It is stacked on the
 committed #1126 assessment integration (`20f6bf0`). Authenticated routes select
 hosted or paired-agent owners, validate the enclosing cycle, and retain full
 original report shape. Source-free run summaries expose validated eligibility
@@ -20,7 +20,7 @@ cycles remain unavailable; they are not converted into legacy review identities.
 
 ## Validation and review
 
-- Website declared `npm test`: 138 passed, zero failed, Node 24 or newer.
+- Website declared `npm test`: 139 passed, zero failed, Node 24 or newer.
 - Native agent Journey/delivery/verification tests: 14 passed. New cycle
   regression additionally verifies the actual returned snapshot with the
   native verifier, original-evidence deletion and expiry cleanup.
@@ -37,9 +37,21 @@ original twelve journeys/Q01-Q24 qualification. Native gateway and installed
 agent updates must accompany website rollout; no shared binaries or services
 were replaced. At the operator's request, #1132 is delivered in the ADL PR. The mistakenly
 opened website draft PR #16 was closed. `codefriend-website.patch` retains the
-exact independently reviewed website commit above for application to the
+exact independently reviewed website commits above for application to the
 separate website checkout after its #1126 base is present. The website branch
-also retains that commit; the ADL PR does not move or vendor the website runtime.
+also retains those commits; the ADL PR does not move or vendor the website runtime.
 Applying this patch to the website's release branch and deploying both native
 and website components remains a separate integration action, not a completed
 rollout claim. Merge and deployment are not authorized.
+
+## Original review evidence proxy integration
+
+The website patch also forwards #1133's authenticated GET
+`/v1/operations/:id/review-evidence` through the paired model proxy. The original
+cycle operation reservation and agent identity remain required. Evidence reads
+share the result cancellation/status guard, rechecked after the final asynchronous
+credential validation before returning evidence; cancelled, interrupted, expired,
+revoked, wrong-agent, wrong-token and unreserved requests do not reach the
+gateway. The focused HTTP/agent suite passes eight tests; the full website
+suite passes 139. The native #1133 backend must accompany this website change
+before local Journey qualification. No native #1133 contract is reimplemented.
