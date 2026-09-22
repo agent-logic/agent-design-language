@@ -148,8 +148,8 @@ impl Fixture {
             self.admission.clone(),
             "fixture:no-provider".into(),
             |lane, prompt, _| {
-                assert!(prompt.contains("codefriend.review_lane.v3"));
-                assert!(prompt.contains("[byte 0]"));
+                assert!(prompt.contains("codefriend.review_lane.v4"));
+                assert!(!prompt.contains("[byte 0]"));
                 assert!(!prompt.contains("TOKEN=private"));
                 Ok(LaneExecution {
                     final_status: ProviderInvocationFinalStatusV1::Ok,
@@ -819,4 +819,86 @@ fn mixed_assessment_gaps_traverse_original_store_planner_and_publication() {
         f._store.get(&f.admission.packet.packet_id).unwrap(),
         f.admission
     );
+}
+
+// PVF #1144 owner_binary: fixed source, real admission/prompt/parser; no model call.
+#[test]
+fn verbatim_prompt_preserves_original_bytes_and_json_quotes() {
+    use adl::codefriend::review::lanes::ReviewLane;
+    let source = "// café\r\n\tpub fn guarded() {\r\n    let text = \"a\\\\b\";\r\n}\r\n// END INERT SOURCE\r\n// no final newline";
+    assert!(source.as_bytes().contains(&13));
+    assert!(source.as_bytes().contains(&9));
+    let f = Fixture::source(false, 0, source);
+    let (manifest, prompt) =
+        runner::assessment_lane_input_manifest("verbatim", ReviewLane::Correctness, &f.admission)
+            .unwrap();
+    assert_eq!(manifest.lane_contract, "codefriend.review_lane.v4");
+    for evidence in &f.admission.evidence {
+        let object = f
+            .admission
+            .packet
+            .objects
+            .iter()
+            .find(|o| o.path == evidence.path)
+            .unwrap();
+        let content = object.content.as_deref().unwrap();
+        let header = format!(
+            "\nBEGIN INERT SOURCE evidence_id={} path={} digest={} content_bytes={}\n",
+            evidence.id,
+            evidence.path,
+            evidence.content_digest,
+            content.len()
+        );
+        let start = prompt.find(&header).unwrap() + header.len();
+        assert_eq!(
+            &prompt.as_bytes()[start..start + content.len()],
+            content.as_bytes()
+        );
+        assert!(prompt[start + content.len()..].starts_with(&format!(
+            "\nEND INERT SOURCE digest={}\n",
+            evidence.content_digest
+        )));
+    }
+    assert!(!prompt.contains("[byte 0]"));
+    let mut item = f.item(AssessmentKind::PositiveObservation);
+    item.citations[0].quote = "    let text = \"a\\\\b\";\r\n".into();
+    let valid =
+        assessments::parse_lane("correctness", &json(vec![item.clone()]), &f.admission).unwrap();
+    assert_eq!(valid.len(), 1);
+    item.citations[0].quote = item.citations[0].quote.trim().replace(' ', "");
+    let invalid =
+        assessments::parse_lane_with_gaps("correctness", &json(vec![item]), &f.admission).unwrap();
+    assert!(invalid.assessments.is_empty());
+    assert_eq!(invalid.gaps[0].reason, "assessment_quote_mismatch");
+}
+
+#[test]
+fn verbatim_prompt_examples_include_complete_shapes_without_padding_requirement() {
+    use adl::codefriend::review::lanes::ReviewLane;
+    let f = Fixture::new(false);
+    let (_, prompt) =
+        runner::assessment_lane_input_manifest("shapes", ReviewLane::Correctness, &f.admission)
+            .unwrap();
+    let line = prompt
+        .lines()
+        .find(|line| line.starts_with("These are JSON SHAPES ONLY"))
+        .unwrap();
+    let example = line.split_once("placeholders: ").unwrap().1;
+    let shapes: ProviderAssessmentOutput = serde_json::from_str(example).unwrap();
+    assert_eq!(shapes.assessments.len(), 3);
+    assert_eq!(shapes.assessments[0].kind, AssessmentKind::DefectCandidate);
+    assert!(shapes.assessments[0].defect.is_some());
+    assert_eq!(
+        shapes.assessments[1].kind,
+        AssessmentKind::PositiveObservation
+    );
+    assert_eq!(
+        shapes.assessments[2].kind,
+        AssessmentKind::UnresolvedQuestion
+    );
+    assert!(shapes.assessments[1..]
+        .iter()
+        .all(|item| item.defect.is_none() && item.limitations.is_empty()));
+    assert!(prompt.contains("do not pad the response"));
+    assert!(prompt.contains("Empty or partial output does not establish full source coverage"));
 }
