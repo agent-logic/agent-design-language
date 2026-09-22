@@ -595,6 +595,14 @@ fn cycle_journey_preserves_outer_receipt_and_inner_review_without_dispatch() {
         results[0]["manifest"]["stages"]["review"]["status"],
         "complete"
     );
+    let received: relay::StageResult = serde_json::from_value(results[0].clone()).unwrap();
+    let context: relay::verification::VerificationContext = serde_json::from_value(json!({
+        "schema":"codefriend.agent_journey_verifier_context.v1", "job":job,
+        "report":report, "receipt":case.extra_receipts.lock().unwrap()["cycle1"],
+        "previous":null, "now":original.admitted_at
+    }))
+    .unwrap();
+    relay::verification::verify_stage(&received, &context, original.admitted_at).unwrap();
     drop(results);
     assert_eq!(
         fs::read(root.join("work/review/run.json")).unwrap(),
