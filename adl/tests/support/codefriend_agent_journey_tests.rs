@@ -801,7 +801,15 @@ fn cycle_drift_rechecks_two_imported_owners_and_denies_revoked_baseline() {
         run_id: "run2".into(),
         consent_digest: command.consent_digest.clone(),
         execution_location: "local_agent".into(),
-        gateway_lanes: report.gateway_lanes,
+        gateway_lanes: ReviewLane::ALL
+            .iter()
+            .map(|lane| GatewayLaneIdentity {
+                lane: lane.id().into(),
+                candidate_revision: report.gateway_lanes[0].candidate_revision.clone(),
+                request_digest: None,
+                model_identity: report.gateway_lanes[0].model_identity.clone(),
+            })
+            .collect(),
         status: "complete".into(),
         expires_at: admission.expires_at,
         result: Some(result),
