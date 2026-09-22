@@ -122,3 +122,17 @@ See [execution specifications](../WP_EXECUTION_SPECIFICATIONS_v0.93.yaml), [deci
 ## Current Candidate Mapping
 
 GOV-01, GOV-02, GOV-04, GOV-14, GOV-16; owner repositories: agent-logic-runtime. The current execution graph supersedes older sequencing or placement in retained source text.
+
+
+## Inherited feature acceptance — #922 / GOV-01
+
+Installed cognitive-loop and instinct-originated actions traverse bound identity, Freedom Gate and temporal anchoring; guest or stale identity cannot acquire citizen authority.
+
+Required negative scenarios: Instinct bypasses governance; Missing or inconsistent temporal anchor.
+
+
+## Inherited feature acceptance — #922 / GOV-14
+
+The installed obligations consumer evaluates accepted, expired and missed commitments and rejects causally invalid ordering using explicit temporal evidence and reviewable policy disposition.
+
+Required negative scenarios: Expired commitment treated as current; Missed deadline silently satisfied; Causally invalid commitment accepted.

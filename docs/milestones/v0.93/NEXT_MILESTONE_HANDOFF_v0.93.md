@@ -17,3 +17,18 @@ Record rollback retention and retirement authority, artifact registry ownership,
 ## Acceptance
 
 An independent reader can identify every remaining result, its owner and dependency without reconstructing this conversation. TAIL-09 reviews planning; TAIL-10 requires accepted tail predecessors. Preparatory planning may overlap only under explicit authorization and cannot declare future work executed.
+
+
+## Confirmed scope reconciliation — #922
+
+The reconciled graph contains **83 candidate results**, including required
+CT-01–CT-10 branded artifact templates/style guides and CM-01–CM-04 citizen
+reproduction/migration. CT-05 gates CF-05; CM-04 gates INTEGRATE. All remain
+behind the accepted repository split. See [feature coverage](FEATURE_COVERAGE_v0.93.md)
+for all 21 inherited v0.93 feature rows and the two confirmed additions.
+
+#922 drafting is authorized early; accepted final #921 residuals and the final
+v0.92.2 handoff remain pending reconciliation before final planning acceptance.
+This package does not open v0.93, establish implementation proof or approve
+publication. Runtime v4, CodeFriend launch and both additions cannot be silently
+deferred. Existing #875/#671 retain separate identities in the issue ledger.

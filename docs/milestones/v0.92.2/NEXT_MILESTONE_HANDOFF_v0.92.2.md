@@ -30,3 +30,8 @@ Carry forward the final 69-row issue mapping, eight family splits and eleven str
 ## Sidecar handoff
 
 Report existing #671 podcast-sidecar state separately from the 69 core task results. Preserve its explicit future publication/submission approvals and route any remaining work truthfully without claiming that core Beta completion performed those actions.
+
+
+## #922 early successor reconciliation — 2026-09-22
+
+Operator authorized updating the existing v0.93 package before final #921 output. The current draft has 83 logical results: the prior 64 plus nine confirmed-scope results and ten task-boundary splits. Inherited feature obligations are mapped in v0.93/FEATURE_COVERAGE_v0.93.md. This is an in-progress successor package, not final TAIL-07 acceptance. Reconcile final #921 residuals and exact accepted predecessor evidence before handoff to #923/#924. Do not reopen completed AWS Terraform conversion #495/PR #590; retained CloudFormation rollback is separate.

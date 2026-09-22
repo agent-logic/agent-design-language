@@ -1,0 +1,2464 @@
+{
+  "schema": "adl.tbd_source_accounting.v1",
+  "date": "2026-09-22",
+  "count": 307,
+  "scope": "Non-retired Markdown; exclude snapshot/evidence/issue directories, artifacts, vendored libraries and files over 200 KB. Cluster disposition does not imply every source requirement is implemented.",
+  "entries": [
+    {
+      "source": ".adl/docs/TBD/ADL_DOC_CLEANUP_LEDGER.md",
+      "sha256": "73f784efae7af020fbadf7b2d1df5911db32ff0163d0d831d5968a54d3721069",
+      "bytes": 30725,
+      "disposition": "control_or_predecessor",
+      "routing": "Root inventory/runbook/control or existing issue provenance; no implementation admission from a root filename.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/ADL_REPOSITORY_DECOMPOSITION_CANDIDATE_PLAN.md",
+      "sha256": "1792a6d1907c849273311527355fd9f77421acd636e17451c0509215b0be5488",
+      "bytes": 32824,
+      "disposition": "admitted",
+      "routing": "RD-01\u201311",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/AGENT_LOGIC_STYLE_GUIDE.md",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "disposition": "control_or_predecessor",
+      "routing": "Root inventory/runbook/control or existing issue provenance; no implementation admission from a root filename.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/AXUM_CONFIGURATION_HOT_RELOAD_PLAN_v0.92.1.md",
+      "sha256": "7e593d0be3d8e1a0d5c3f81a34b3de92d45bfc3adcf8c2b77f65e8e42e43a3da",
+      "bytes": 5340,
+      "disposition": "control_or_predecessor",
+      "routing": "Root inventory/runbook/control or existing issue provenance; no implementation admission from a root filename.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/CODE_FRIEND_v0.5_BETA.md",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "disposition": "control_or_predecessor",
+      "routing": "Root inventory/runbook/control or existing issue provenance; no implementation admission from a root filename.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/GCP_ACCOUNT_MOVE_IN_PLAN.md",
+      "sha256": "c5cc6af29e6fe6faa036853a8528a5bad86b2f780e9b760c9743fbb2f1e74abc",
+      "bytes": 21782,
+      "disposition": "control_or_predecessor",
+      "routing": "Root inventory/runbook/control or existing issue provenance; no implementation admission from a root filename.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/GEMINI_REVIEW_RUNBOOK.md",
+      "sha256": "1f08abd8366ce46654229c271f8be250364d7ea1dc5f27062f566642d2ced859",
+      "bytes": 4291,
+      "disposition": "control_or_predecessor",
+      "routing": "Root inventory/runbook/control or existing issue provenance; no implementation admission from a root filename.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/ISSUE_122_AWS_INTERIM_SINGLE_NODE_TEMPLATE.md",
+      "sha256": "0edc4559e4a825fba8451899053bf97b9eb4a40be9df2f392b42e6a4590e8640",
+      "bytes": 7676,
+      "disposition": "control_or_predecessor",
+      "routing": "Root inventory/runbook/control or existing issue provenance; no implementation admission from a root filename.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/ISSUE_122_AWS_SHARED_REGIONAL_EDGE_AND_RUNTIME_FLEET_PLAN.md",
+      "sha256": "13e47331b5ce0d9037d588ece9c7b537881185c5f06b04c1053b2de4231a217f",
+      "bytes": 23412,
+      "disposition": "control_or_predecessor",
+      "routing": "Root inventory/runbook/control or existing issue provenance; no implementation admission from a root filename.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/ISSUE_268_GCP_SIX_RESIDENT_QUALIFICATION_PLAN.md",
+      "sha256": "f05e29747966587d15695a2b05715c1343e8f38d83af835457ea0614f95340d7",
+      "bytes": 30389,
+      "disposition": "completed_conversion_with_retained_rollback",
+      "routing": "#495/PR #590 conversion; #496 retains CloudFormation, no live retirement claim",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/MILESTONE_CLOSEOUT_CHECKLIST.md",
+      "sha256": "68260941e53679dcb9f861c9c2ff10cfb95cc11105be7c7dbb084f39fb6672a9",
+      "bytes": 13990,
+      "disposition": "control_or_predecessor",
+      "routing": "Root inventory/runbook/control or existing issue provenance; no implementation admission from a root filename.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/OPUS_REVIEW_RUNBOOK.md",
+      "sha256": "ecd10633e370f71477937c99475e080a014ea64454a70d75dc4688d0baaf1fbb",
+      "bytes": 4457,
+      "disposition": "control_or_predecessor",
+      "routing": "Root inventory/runbook/control or existing issue provenance; no implementation admission from a root filename.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/PROVIDER_INFERENCE_PROFILES_PLAN_v0.92.1.md",
+      "sha256": "5e8595feab45bdb8ffff457264429da457aabfdebbc7c382f1b3832dc289d853",
+      "bytes": 8477,
+      "disposition": "control_or_predecessor",
+      "routing": "Root inventory/runbook/control or existing issue provenance; no implementation admission from a root filename.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/TBD_DOC_STATUS_INVENTORY.md",
+      "sha256": "3a1580f1f0e81d1b18e0e5883d553c2e59d060a2775329b64a0a32413d490e4d",
+      "bytes": 62412,
+      "disposition": "control_or_predecessor",
+      "routing": "Root inventory/runbook/control or existing issue provenance; no implementation admission from a root filename.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/ToM/THEORY_OF_MIND_ARCHITECTURE.md",
+      "sha256": "01c4fa4baa2ab7b40a3bed10549894e709255913a45c705495b3d236062cac7a",
+      "bytes": 7333,
+      "disposition": "admitted",
+      "routing": "GOV-06\u201310",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/ToM/TOM_INTEGRATION_SPEC.md",
+      "sha256": "d1c895cc1f3badd9aedbfc18b315645ebe0888c8b5d0690b31477c9b0126f811",
+      "bytes": 8276,
+      "disposition": "admitted",
+      "routing": "GOV-06\u201310",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/UTS_STANDARDIZATION_PLAN.md",
+      "sha256": "9411854bde8564795eb7820265018414fe5b6279c3ee52904a24690a315ee00f",
+      "bytes": 8827,
+      "disposition": "control_or_predecessor",
+      "routing": "Root inventory/runbook/control or existing issue provenance; no implementation admission from a root filename.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/V0.92.5_CORPORATE_MIGRATION.md",
+      "sha256": "4433ae4d044e5bec25d6d0ecd3b1d5e5e19e827c893d260ed7996401b1050cd4",
+      "bytes": 5453,
+      "disposition": "control_or_predecessor",
+      "routing": "Root inventory/runbook/control or existing issue provenance; no implementation admission from a root filename.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/WP_21_REPOSITORY_REDUCTION_PLAN.md",
+      "sha256": "79e89b776652e5f28dd7d30bc40e9219372e58dea69a8c9cff6bafac13268e40",
+      "bytes": 6024,
+      "disposition": "control_or_predecessor",
+      "routing": "Root inventory/runbook/control or existing issue provenance; no implementation admission from a root filename.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/a2a/ADL_A2A_ADAPTER.md",
+      "sha256": "bbedfacb6a0b1ca95fdbd13e122b809f1b3b29682b88499c9c435ec310e7776b",
+      "bytes": 4567,
+      "disposition": "admitted_or_predecessor",
+      "routing": "Existing transport; GOV-13 and WP-S2 enforce communication authority",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/acip/ACIP_SCHEMA_CATALOG_AND_MESSAGE_ACCESS_RULES_2026-05-20.md",
+      "sha256": "78b350ed2dfa9a09cbd447109b2d8291554b0e1bae4e27ef57feb1c3399d7ceb",
+      "bytes": 8544,
+      "disposition": "admitted_or_predecessor",
+      "routing": "WP-S1\u2013S3 secure existing carrier; new schema/baseline work not inferred",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/acip/AGENT_COMMS_1_0_PLAN.md",
+      "sha256": "cf7b0e385a7babee2ea74de53220d7b5ba9d712bf8d230927315ffc7e6560a26",
+      "bytes": 13136,
+      "disposition": "admitted_or_predecessor",
+      "routing": "WP-S1\u2013S3 secure existing carrier; new schema/baseline work not inferred",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/acip/AGENT_COMMUNICATION_AND_INVOCATION_PROTOCOL.md",
+      "sha256": "831dac3f603f9180dea1459048a4dc3f25965ad0c9a1a23f588148d1e6efcd8c",
+      "bytes": 16432,
+      "disposition": "admitted_or_predecessor",
+      "routing": "WP-S1\u2013S3 secure existing carrier; new schema/baseline work not inferred",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/acip/WEBSOCKET_TRANSPORT_SUPPORT_PLAN_2026-05-20.md",
+      "sha256": "6e2d57194cac6c1a53713ea486738f2146a3a22573cd1ab742115caa49eed491",
+      "bytes": 15462,
+      "disposition": "admitted_or_predecessor",
+      "routing": "WP-S1\u2013S3 secure existing carrier; new schema/baseline work not inferred",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/anrm/ADL_NATIVE_RESONING_MODEL.md",
+      "sha256": "3d6869670dcdf20110b76761b72b8951e236dcd92be281be9b06b95f55fbd91b",
+      "bytes": 8860,
+      "disposition": "existing_milestone_or_deferred",
+      "routing": "v0.95 Shepherd/Gemma evaluation candidate; broader ANRM research not admitted",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/anrm/ANRM_GEMMA_PLACEMENT_PACKAGE.md",
+      "sha256": "32792b3fc3985e78c5e8fb48af65d0a26d2208d6a27b5a30ccf387182aafff95",
+      "bytes": 4373,
+      "disposition": "existing_milestone_or_deferred",
+      "routing": "v0.95 Shepherd/Gemma evaluation candidate; broader ANRM research not admitted",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/anrm/ANRM_PLANNING.md",
+      "sha256": "b2f3d4ccb5967e79e7f75612d5aa0a4c761be39e9924d87f6fb8ceed2efb490d",
+      "bytes": 5211,
+      "disposition": "existing_milestone_or_deferred",
+      "routing": "v0.95 Shepherd/Gemma evaluation candidate; broader ANRM research not admitted",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/anrm/ANRM_TRACE_DATASET_SCHEMA.md",
+      "sha256": "7d8e0dc7df87d0471500be232517074c4b32dcb906c521cb952ac367ab095669",
+      "bytes": 18378,
+      "disposition": "existing_milestone_or_deferred",
+      "routing": "v0.95 Shepherd/Gemma evaluation candidate; broader ANRM research not admitted",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/anrm/README.md",
+      "sha256": "1aa951f6df8e6618eef18066cd41a31280478e5d9de538c3e9880caad45ca775",
+      "bytes": 3636,
+      "disposition": "existing_milestone_or_deferred",
+      "routing": "v0.95 Shepherd/Gemma evaluation candidate; broader ANRM research not admitted",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/anrm/TRACE_EXTRACTOR_SPEC.md",
+      "sha256": "410fab48ac3184b1aaa57a4c16aab52113261be4770c520942c6d5be1478b23a",
+      "bytes": 5987,
+      "disposition": "existing_milestone_or_deferred",
+      "routing": "v0.95 Shepherd/Gemma evaluation candidate; broader ANRM research not admitted",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/anrm/TRACE_TO_DATASET_MAPPING.md",
+      "sha256": "c3e37d1eede98c253c3030b4509b1f4a794697c5bbc4ddac105954ef2c57b19d",
+      "bytes": 7507,
+      "disposition": "existing_milestone_or_deferred",
+      "routing": "v0.95 Shepherd/Gemma evaluation candidate; broader ANRM research not admitted",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/aws_local_ops/ADL_RUNTIME_AWS_ACM_CERTIFICATE_MANAGEMENT_PLAN.md",
+      "sha256": "0bc526d3a4fc950b2aab719400715fd291756723241f567be5610fe52f18f57a",
+      "bytes": 16905,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Existing cloud account/runtime/SCR ownership; no v0.93 cloud mutation automatically admitted",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/aws_local_ops/ADL_STRATEGIC_COGNITIVE_RESERVE.md",
+      "sha256": "acd21ab41d28d8f2ebdb4893cc935b792a4e1fd5824e42ab21d380c4dc9e0a2d",
+      "bytes": 20544,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Existing cloud account/runtime/SCR ownership; no v0.93 cloud mutation automatically admitted",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/aws_local_ops/AGENT_LOGIC_AWS_ACCOUNT_CREATION.md",
+      "sha256": "d149a06916bcd1ad4e63c524afdeb4bf46e08632198e77593b2f7d241bf7abee",
+      "bytes": 8777,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Existing cloud account/runtime/SCR ownership; no v0.93 cloud mutation automatically admitted",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/aws_local_ops/AWS_ACCOUNT_MOVE_IN_AND_NORMALIZATION_PLAN.md",
+      "sha256": "e3bba0b66224b5f292225a1358f4525400a91596435f9cc115e5c7980345389e",
+      "bytes": 23824,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Existing cloud account/runtime/SCR ownership; no v0.93 cloud mutation automatically admitted",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/aws_local_ops/AWS_DYNAMIC_IP.md",
+      "sha256": "3777ebd05185a6bdf429b01efb4d3649f7f6c3429a2a67070a4504d1065ee291",
+      "bytes": 5343,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Existing cloud account/runtime/SCR ownership; no v0.93 cloud mutation automatically admitted",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/aws_local_ops/LOCAL_POLIS_SSM_OPERATIONS_BRIDGE.md",
+      "sha256": "71e03d7a1a9605afbb2a3cfc1c0279e4503fbcd2f1de1c7d331a6391fa62bde2",
+      "bytes": 13542,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Existing cloud account/runtime/SCR ownership; no v0.93 cloud mutation automatically admitted",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/aws_local_ops/README.md",
+      "sha256": "72de5ba7424dbf34bb427d2d2511ee817ed304261700385486a7423e05731cf0",
+      "bytes": 2697,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Existing cloud account/runtime/SCR ownership; no v0.93 cloud mutation automatically admitted",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/capability_testing/ADL_CAPABILITY_TAXONOMY.md",
+      "sha256": "fc7b4ba34e87ad53da64e23c80d92342c3b87979d74ead9687a9aac32c9de336",
+      "bytes": 3627,
+      "disposition": "existing_milestone",
+      "routing": "v0.95 capability evidence consumption; Aptitude Atlas productization post-v0.95",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/capability_testing/APTITUDE_TESTING_FOR_ADL.md",
+      "sha256": "19b83e42048d404ff4531491adeea500e2a394ca595e758d24c14afd46b385da",
+      "bytes": 10165,
+      "disposition": "existing_milestone",
+      "routing": "v0.95 capability evidence consumption; Aptitude Atlas productization post-v0.95",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/capability_testing/BUILD_PLAN.md",
+      "sha256": "42b6d15c751289e8e2234fceb2bd893996a7bf563a9a4bfc08aac486ce2917b8",
+      "bytes": 11856,
+      "disposition": "existing_milestone",
+      "routing": "v0.95 capability evidence consumption; Aptitude Atlas productization post-v0.95",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/capability_testing/BUSINESS_MODEL_AND_GTM.md",
+      "sha256": "189cdfe5cba0f7ec810e23fda73e741aee2acc500be23b441a5c7dd12f4a0c59",
+      "bytes": 4264,
+      "disposition": "existing_milestone",
+      "routing": "v0.95 capability evidence consumption; Aptitude Atlas productization post-v0.95",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/capability_testing/CAPABILITY_AND_APTITUDE_TESTING_PROGRAM.md",
+      "sha256": "2f4a7a99da3e326eff9d18bc783434f953abaadd6f3b5a1e018665054ae15379",
+      "bytes": 5800,
+      "disposition": "existing_milestone",
+      "routing": "v0.95 capability evidence consumption; Aptitude Atlas productization post-v0.95",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/capability_testing/FIRST_TEST_FAMILIES.md",
+      "sha256": "02fd0f3a36ea742182779b5e236c228ebb00d6e177af50d9874bba4d7f747663",
+      "bytes": 9412,
+      "disposition": "existing_milestone",
+      "routing": "v0.95 capability evidence consumption; Aptitude Atlas productization post-v0.95",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/capability_testing/LEADERBOARD_AND_PUBLIC_REPORTING_MODEL.md",
+      "sha256": "242d6486e64e4ca70dc7dec40b3a8c5972f8dbebe60307ed576e03c38fb47bee",
+      "bytes": 4284,
+      "disposition": "existing_milestone",
+      "routing": "v0.95 capability evidence consumption; Aptitude Atlas productization post-v0.95",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/capability_testing/MVP_BUILD_PLAN.md",
+      "sha256": "6f764e57e440a450cba10523d633ec758afd94a54dedeee827bf9d8f3a374280",
+      "bytes": 3286,
+      "disposition": "existing_milestone",
+      "routing": "v0.95 capability evidence consumption; Aptitude Atlas productization post-v0.95",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/capability_testing/NAMING_AND_POSITIONING.md",
+      "sha256": "dac8d418e401a78ec61dd86a4072840eaa43adda4512b994ce4910a345fa7091",
+      "bytes": 3148,
+      "disposition": "existing_milestone",
+      "routing": "v0.95 capability evidence consumption; Aptitude Atlas productization post-v0.95",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/capability_testing/PRODUCT_BRIEF.md",
+      "sha256": "31f317ecbb96b66174a97c94a6909c27bc70b8fb9048ea2b743d2f555092efdf",
+      "bytes": 4009,
+      "disposition": "existing_milestone",
+      "routing": "v0.95 capability evidence consumption; Aptitude Atlas productization post-v0.95",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/capability_testing/README.md",
+      "sha256": "3b0296e029d018ef52b426f250dd6f3fd3c2603ad2c4aaedeca18bf582964622",
+      "bytes": 4238,
+      "disposition": "existing_milestone",
+      "routing": "v0.95 capability evidence consumption; Aptitude Atlas productization post-v0.95",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/capability_testing/REPORT_AND_SCORECARD_SPEC.md",
+      "sha256": "ac05718f349061f8857cd5e91e4b6558aee98ee58a2ceb7bd0b204b912dc0fd4",
+      "bytes": 2424,
+      "disposition": "existing_milestone",
+      "routing": "v0.95 capability evidence consumption; Aptitude Atlas productization post-v0.95",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/citizen_standing/CSM_CITIZENS_AND_COMMUNICATION.md",
+      "sha256": "7878415759165c2f86bd93a0d1531da3fed435140c63aa9f8562643858262864",
+      "bytes": 6653,
+      "disposition": "admitted",
+      "routing": "GOV-01\u201305 and GOV-11\u201313 consume existing primitives",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/citizen_standing/CSM_CITIZENS_AND_STANDING.md",
+      "sha256": "181862e8b31c4b3f7b642889aa75df68a1ccecada50c39f2dda6fef2a5ae7551",
+      "bytes": 5758,
+      "disposition": "admitted",
+      "routing": "GOV-01\u201305 and GOV-11\u201313 consume existing primitives",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/citizen_standing/README.md",
+      "sha256": "17dc2bd896cf11cae3eb97319e24625477aac97a0099d4d507f463d75c089e52",
+      "bytes": 808,
+      "disposition": "admitted",
+      "routing": "GOV-01\u201305 and GOV-11\u201313 consume existing primitives",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/citizen_state/CITIZEN_STATE_SECURITY_AND_FORMAT_PLAN.md",
+      "sha256": "16139ef426d03a5c339067043a567e16e0d24a9f468b6c03a5fcdfe52e274265",
+      "bytes": 28328,
+      "disposition": "admitted_or_predecessor",
+      "routing": "GOV/CM consume existing identity/continuity primitives",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/citizen_state/README.md",
+      "sha256": "9a75361dd73860a03af2f2b35a8cd28ecfde2a579a6b1bce4545ae45e332fdfe",
+      "bytes": 2551,
+      "disposition": "admitted_or_predecessor",
+      "routing": "GOV/CM consume existing identity/continuity primitives",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/citizen_state/V0903_CITIZEN_STATE_SUBSTRATE_PLAN.md",
+      "sha256": "3683e17824476ff0eebb403a00971c74ca93f131322e82064770ac3336c9de4a",
+      "bytes": 17888,
+      "disposition": "admitted_or_predecessor",
+      "routing": "GOV/CM consume existing identity/continuity primitives",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/code_modernization/ADL_MODERNE_INTERACTION_PLAN.md",
+      "sha256": "9b1566c0dbb2a4b03d2e20a5c804a943cda348adb89b805974ff8fd78bec0138",
+      "bytes": 3170,
+      "disposition": "explicit_deferred",
+      "routing": "Optional modernization; no v0.93 admission",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/code_modernization/FIRST_RECIPE_SHORTLIST_2026-05-10.md",
+      "sha256": "29f9151eacef3a82707ca3c57bb1c97dd7a80546a62b0e7ae48e39cd1928c1a6",
+      "bytes": 5564,
+      "disposition": "explicit_deferred",
+      "routing": "Optional modernization; no v0.93 admission",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/code_modernization/PROOF_PACKET_TEMPLATE_2026-05-10.md",
+      "sha256": "dda98cba325e89ffdb41ed1bd87d631adfd72a7cfbf189fcd0f6666aab4eb79e",
+      "bytes": 3561,
+      "disposition": "explicit_deferred",
+      "routing": "Optional modernization; no v0.93 admission",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/code_modernization/README.md",
+      "sha256": "defcb968aacf7b4c933a8bc74dc7708cfb2496cb075e98373102395273ec208c",
+      "bytes": 784,
+      "disposition": "explicit_deferred",
+      "routing": "Optional modernization; no v0.93 admission",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/code_modernization/UTS_ACC_MODERNIZATION_CONTRACT_2026-05-10.md",
+      "sha256": "f73e3e23f0011206811f7d65b66f2dd6d22a6a73e3dae10c2c4277363c3380db",
+      "bytes": 5683,
+      "disposition": "explicit_deferred",
+      "routing": "Optional modernization; no v0.93 admission",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/code_modernization/V0912_MODERNE_DEMO_PLAN_2026-05-10.md",
+      "sha256": "38e3130e79d72e17e6ccaec03793d864c9437e6411919ea38a2eb82b840eaa60",
+      "bytes": 8036,
+      "disposition": "explicit_deferred",
+      "routing": "Optional modernization; no v0.93 admission",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/code_modernization/V0912_MODERNE_DEMO_PREP_PACKET_2026-05-10.md",
+      "sha256": "6e5169996d6992339410b03d09d7df1394e9ce33dbaaf4b36cc0a8dd771cce2c",
+      "bytes": 10023,
+      "disposition": "explicit_deferred",
+      "routing": "Optional modernization; no v0.93 admission",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/codefriend_ai/ADL_MULTIAGENT_INVESTIGATE_ENHANCE.md",
+      "sha256": "a35e426d5267681c21b358dda3e750e6f2bfa88d89481fa9fbc9bc76e06dd40d",
+      "bytes": 11708,
+      "disposition": "admitted_or_predecessor",
+      "routing": "CF-01\u201307 and CT-01\u201305; old review skills/product baselines are predecessor inputs, not new duplicate issues.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/codefriend_ai/BACKLOG.md",
+      "sha256": "777104aada27c8ef74e24358ffcd99633ceaa52a178dab2cb2ed2b7207a58b62",
+      "bytes": 5822,
+      "disposition": "admitted_or_predecessor",
+      "routing": "CF-01\u201307 and CT-01\u201305; old review skills/product baselines are predecessor inputs, not new duplicate issues.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/codefriend_ai/CODEFRIEND_NOTES.md",
+      "sha256": "ed8760bfacd7f3572e49b147219db54327fec1a0f2c2fce57212f16a71d36154",
+      "bytes": 11429,
+      "disposition": "admitted_or_predecessor",
+      "routing": "CF-01\u201307 and CT-01\u201305; old review skills/product baselines are predecessor inputs, not new duplicate issues.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/codefriend_ai/CODEFRIEND_PLANNING.md",
+      "sha256": "f4b60482a2f3951dfa83724af9aafa9582f94d8a3877c8a96288f0e8222971e3",
+      "bytes": 10174,
+      "disposition": "admitted_or_predecessor",
+      "routing": "CF-01\u201307 and CT-01\u201305; old review skills/product baselines are predecessor inputs, not new duplicate issues.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/codefriend_ai/CODEFRIEND_PRODUCT_MILESTONE_PLAN_V0912_TO_V095_2026-05-19.md",
+      "sha256": "ebe881f16b75fe5ed696b7fa4d9de827fcf189a34241519c4ee30d39a6246e4a",
+      "bytes": 8845,
+      "disposition": "admitted_or_predecessor",
+      "routing": "CF-01\u201307 and CT-01\u201305; old review skills/product baselines are predecessor inputs, not new duplicate issues.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/codefriend_ai/CODEFRIEND_SECURITY_MODEL.md",
+      "sha256": "7800c35a6a3b0a67f7b7163f5b306ab9a0d024932a760f572b077d8e0da99208",
+      "bytes": 8253,
+      "disposition": "admitted_or_predecessor",
+      "routing": "CF-01\u201307 and CT-01\u201305; old review skills/product baselines are predecessor inputs, not new duplicate issues.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/codefriend_ai/MVP_BUILD_PLAN.md",
+      "sha256": "67d100180e2b7e5862409261029abe3c84536c992431f990ef6e144d9d52cbdd",
+      "bytes": 4239,
+      "disposition": "admitted_or_predecessor",
+      "routing": "CF-01\u201307 and CT-01\u201305; old review skills/product baselines are predecessor inputs, not new duplicate issues.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/codefriend_ai/POLIS_MUSIC_STUDIO_CONCEPT.md",
+      "sha256": "f45fa6e1b09619cc73d797afaae924c54b7dd20935a62b8f9b4c5f5a0b8e28a1",
+      "bytes": 8532,
+      "disposition": "explicit_deferred",
+      "routing": "Unadmitted music-product concept; no v0.93 commitment",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/codefriend_ai/PORTABLE_ADL_PROJECT_ADAPTER_PLAN.md",
+      "sha256": "189d68802b011d9195f3da5f56d2788c772cc12bcde9b34943b9b5e4c1e67975",
+      "bytes": 13119,
+      "disposition": "admitted_or_predecessor",
+      "routing": "CF-01\u201307 and CT-01\u201305; old review skills/product baselines are predecessor inputs, not new duplicate issues.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/codefriend_ai/PORTABLE_ADL_PROJECT_ADAPTER_V2_PLAN.md",
+      "sha256": "3ced9a601d01da34400636f60cec80cf38590463ae0607592246315a066101f4",
+      "bytes": 8531,
+      "disposition": "admitted_or_predecessor",
+      "routing": "CF-01\u201307 and CT-01\u201305; old review skills/product baselines are predecessor inputs, not new duplicate issues.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/codefriend_ai/PRODUCT_BRIEF.md",
+      "sha256": "abceb439d3926119cf82afda32da89ea0d4820eb6059fa23c07090bd252165d0",
+      "bytes": 3910,
+      "disposition": "admitted_or_predecessor",
+      "routing": "CF-01\u201307 and CT-01\u201305; old review skills/product baselines are predecessor inputs, not new duplicate issues.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/codefriend_ai/README.md",
+      "sha256": "861dc829baad2419b2d688e2efd38b1b853e8af1bc7525e517aa890bbced8df8",
+      "bytes": 5276,
+      "disposition": "admitted_or_predecessor",
+      "routing": "CF-01\u201307 and CT-01\u201305; old review skills/product baselines are predecessor inputs, not new duplicate issues.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/codefriend_ai/REVIEW_PACKET_SPEC.md",
+      "sha256": "291ec2ff4e13a93198b15dc794c7d4d21ffc5aaa9e80e5d5b144e837f9d123bd",
+      "bytes": 2135,
+      "disposition": "admitted_or_predecessor",
+      "routing": "CF-01\u201307 and CT-01\u201305; old review skills/product baselines are predecessor inputs, not new duplicate issues.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/codefriend_ai/REVIEW_TEMPLATE_STANDARD.md",
+      "sha256": "36d4ed1c2f9b6f171b3ad66a9d7e4c1a370ecb08fddd00728f41456e62df3712",
+      "bytes": 6347,
+      "disposition": "admitted_or_predecessor",
+      "routing": "CF-01\u201307 and CT-01\u201305; old review skills/product baselines are predecessor inputs, not new duplicate issues.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/codefriend_ai/SKILL_AND_DEMO_ROADMAP.md",
+      "sha256": "726338c4db01f8bd664cc3adb95469a406efcce7957a16cf4c5dd2f2021c1c68",
+      "bytes": 8632,
+      "disposition": "admitted_or_predecessor",
+      "routing": "CF-01\u201307 and CT-01\u201305; old review skills/product baselines are predecessor inputs, not new duplicate issues.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/codefriend_ai/SKILL_DEVELOPMENT_PLAN.md",
+      "sha256": "d7a759d7ed7225bc708261c8a434d831b6d4109dcc0fe556ff313e1c75775008",
+      "bytes": 11284,
+      "disposition": "admitted_or_predecessor",
+      "routing": "CF-01\u201307 and CT-01\u201305; old review skills/product baselines are predecessor inputs, not new duplicate issues.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/codefriend_ai/TECHNICAL_ARCHITECTURE.md",
+      "sha256": "5bebb5110fc0e3b198cbbafde8cc14cca1eac49723036490f1154950580cd61d",
+      "bytes": 4119,
+      "disposition": "admitted_or_predecessor",
+      "routing": "CF-01\u201307 and CT-01\u201305; old review skills/product baselines are predecessor inputs, not new duplicate issues.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/codefriend_ai/VERSIONED_ARTIFACT_TEMPLATES_AND_STYLE_GUIDES_v0.93.md",
+      "sha256": "340d99ef3f8bab716478e580f65fbc6810e5a9794a47ccd49c9e33ee99f5907c",
+      "bytes": 26589,
+      "disposition": "admitted_or_predecessor",
+      "routing": "CF-01\u201307 and CT-01\u201305; old review skills/product baselines are predecessor inputs, not new duplicate issues.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/cognitive-sdlc/ADL_AND_C_SDLC_PREDICTABILITY.md",
+      "sha256": "6fc79693633ab76355ea46fd7e1a1a7a292a67f5f171f271a52f874850d3afbe",
+      "bytes": 24648,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Completed v3/simplification sources; existing #875 pilot retained. Reviews/statistical evidence are not new features.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/cognitive-sdlc/ADL_COGNITIVE_SDLC.md",
+      "sha256": "de26209ac425667dceac82ecc366c28799e3010f53643a6b4f3892e059c055e4",
+      "bytes": 21789,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Completed v3/simplification sources; existing #875 pilot retained. Reviews/statistical evidence are not new features.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/cognitive-sdlc/CARD_LIFECYCLE_PROCESS_MIGRATION_PLAN_2026-05-14.md",
+      "sha256": "2024bd8052049775bf5d281b8c2048b7b383fbc2938b195c8b56fa931f26d06d",
+      "bytes": 20541,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Completed v3/simplification sources; existing #875 pilot retained. Reviews/statistical evidence are not new features.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/cognitive-sdlc/COGNITIVE_SDLC_METRICS.md",
+      "sha256": "21f20437fa5385b55a8a8a55a4f525fad8b7791219f063e13f10447fd72e1641",
+      "bytes": 13187,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Completed v3/simplification sources; existing #875 pilot retained. Reviews/statistical evidence are not new features.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/cognitive-sdlc/COGNITIVE_SDLC_V1_PLAN.md",
+      "sha256": "0f50228950a8cf62e404663d5e5272f3cb580192e3491f88e74ec026c74d3859",
+      "bytes": 12491,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Completed v3/simplification sources; existing #875 pilot retained. Reviews/statistical evidence are not new features.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/cognitive-sdlc/COGNITIVE_TRANSITION_SCHEMA.md",
+      "sha256": "2077d03580ce451df5676bcbedcdf5d18f00877c0a35587d6d6a51a7a778a39d",
+      "bytes": 18328,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Completed v3/simplification sources; existing #875 pilot retained. Reviews/statistical evidence are not new features.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/cognitive-sdlc/CSDLC_SPRINT_GOAL_STATS_2026-06-25.md",
+      "sha256": "72056da0868ff4d325d2e091dcb5cb9239ff020e22ab828cc94170ed1874a3b3",
+      "bytes": 409,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Completed v3/simplification sources; existing #875 pilot retained. Reviews/statistical evidence are not new features.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/cognitive-sdlc/C_SDLC_AND_LONG_TESTING_TAIL.md",
+      "sha256": "53bb3f46d25b04e38cad236af0acd1d890ed4220a52bdf008c48cd49cb690e0c",
+      "bytes": 9920,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Completed v3/simplification sources; existing #875 pilot retained. Reviews/statistical evidence are not new features.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/cognitive-sdlc/C_SDLC_DEMO_MINI_SPRINT_PLAN.md",
+      "sha256": "103e723b194bbee994a3e6e347f262b328d333ad20bcb4df64560612b3b7c65a",
+      "bytes": 8565,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Completed v3/simplification sources; existing #875 pilot retained. Reviews/statistical evidence are not new features.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/cognitive-sdlc/C_SDLC_ROLE_PROVIDER_PROFILES_AND_REVIEW_PROVIDER_PLAN.md",
+      "sha256": "9a8c8a8343eaf3263acfabb3025aa0f9f3979265806c02cc229217b9b29aa6bd",
+      "bytes": 17819,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Completed v3/simplification sources; existing #875 pilot retained. Reviews/statistical evidence are not new features.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md",
+      "sha256": "58e60a792ef6e9e5c93165905d6c53718bbc31edd781380a51098fc975582cc3",
+      "bytes": 28645,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Completed v3/simplification sources; existing #875 pilot retained. Reviews/statistical evidence are not new features.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN_REVISED_V1.md",
+      "sha256": "687bc4fa0c123da40ec2a4a562e21a76dcac961f964e18cdff1b169fd358123c",
+      "bytes": 33650,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Completed v3/simplification sources; existing #875 pilot retained. Reviews/statistical evidence are not new features.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN_REVISED_V2.md",
+      "sha256": "b4d4d08fd161c7624773b1936186dc8dad82834c177aa7aef413578d498a8dc7",
+      "bytes": 38602,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Completed v3/simplification sources; existing #875 pilot retained. Reviews/statistical evidence are not new features.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN_REVISED_V3.md",
+      "sha256": "4fa7a3f8a80953442e734639a04c436cefece0346c9e315d37d91db8c4ecca66",
+      "bytes": 40225,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Completed v3/simplification sources; existing #875 pilot retained. Reviews/statistical evidence are not new features.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/cognitive-sdlc/FIVE_MINUTE_SPRINT_DEMO.md",
+      "sha256": "e4d9f1aaab6e8412bf7d694acf378da6635779e0653c54cd1a02bd3f2ec2268c",
+      "bytes": 14622,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Completed v3/simplification sources; existing #875 pilot retained. Reviews/statistical evidence are not new features.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/cognitive-sdlc/FIVE_MINUTE_SPRINT_TEST_CYCLE_NOTE_2026-05-22.md",
+      "sha256": "57944ebc35c7a2a61f409ca0e1af5d7d35d3751117584e09511aba80a8c41662",
+      "bytes": 2654,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Completed v3/simplification sources; existing #875 pilot retained. Reviews/statistical evidence are not new features.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/cognitive-sdlc/ISSUE_CARD_SEQUENCE_NOTE_2026-05-14.md",
+      "sha256": "75345cdedf66786d22a33187c3035e82586e7d7b850ac9c918a69dd4063972e9",
+      "bytes": 5473,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Completed v3/simplification sources; existing #875 pilot retained. Reviews/statistical evidence are not new features.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/cognitive-sdlc/SPRINT_AND_ISSUE_SPP_NOTE_2026-05-14.md",
+      "sha256": "ce10b87251102d80b859e75c3cc92a73245c6c4648fd2a29fb10e9b3b01af4d7",
+      "bytes": 7068,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Completed v3/simplification sources; existing #875 pilot retained. Reviews/statistical evidence are not new features.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/cognitive-sdlc/reviews/simplification-claude-fable-5-1-20260908T174657Z/DISPOSITION.md",
+      "sha256": "d2b89750be25c2fc8534bd8f06cd5abc1b0426a31fdc7cf73050dcdd013ba658",
+      "bytes": 5261,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Completed v3/simplification sources; existing #875 pilot retained. Reviews/statistical evidence are not new features.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/cognitive-sdlc/reviews/simplification-claude-fable-5-1-20260908T174657Z/README.md",
+      "sha256": "2cdc82cae9651491145302885afe1f4b2f010e46e26a094f080167f16d00b992",
+      "bytes": 1718,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Completed v3/simplification sources; existing #875 pilot retained. Reviews/statistical evidence are not new features.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/cognitive-sdlc/reviews/simplification-claude-fable-5-1-20260908T174657Z/review-complete.md",
+      "sha256": "8b58564472448650da4fcde70152ea27c63dfe5a70d344af6ef0f6215cae975d",
+      "bytes": 6166,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Completed v3/simplification sources; existing #875 pilot retained. Reviews/statistical evidence are not new features.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/cognitive-sdlc/reviews/simplification-claude-fable-5-1-20260908T174657Z/review-partial.md",
+      "sha256": "9cab92145cc1e5dbb120b33e3cfa7c9f48aba1a599e6302d85b7afe55ed99a00",
+      "bytes": 12289,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Completed v3/simplification sources; existing #875 pilot retained. Reviews/statistical evidence are not new features.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/cognitive-sdlc/reviews/simplification-gemini-3.8-flash-20260908T173313Z/DISPOSITION.md",
+      "sha256": "2cc57a163c3775949479244833f769be1d0260a149f67210de0e62fe86ade1c7",
+      "bytes": 3390,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Completed v3/simplification sources; existing #875 pilot retained. Reviews/statistical evidence are not new features.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/cognitive-sdlc/reviews/simplification-gemini-3.8-flash-20260908T173313Z/README.md",
+      "sha256": "42466f45f03572e2f43c680d6d35e65938aa879624684f91630ce82a3ba9a465",
+      "bytes": 3335,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Completed v3/simplification sources; existing #875 pilot retained. Reviews/statistical evidence are not new features.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/cognitive-sdlc/reviews/simplification-gemini-3.8-flash-20260908T173313Z/review-complete.md",
+      "sha256": "48db24e25ae751e71b6f118c7c7468a528041a5f83c43858aa7868f7421b0852",
+      "bytes": 8762,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Completed v3/simplification sources; existing #875 pilot retained. Reviews/statistical evidence are not new features.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/cognitive-sdlc/reviews/simplification-gemini-3.8-flash-20260908T173313Z/review.md",
+      "sha256": "04153487ba859b5455f0a24c23de9d77ba0536138563d6e26faa42fd2da7808a",
+      "bytes": 1212,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Completed v3/simplification sources; existing #875 pilot retained. Reviews/statistical evidence are not new features.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/cognitive-sdlc/reviews/simplification-revision-20260908T175725Z/README.md",
+      "sha256": "7ff4eb5d05cfc6c555ca4bd0e14d0e9b78098d98146d63f7e4465cc59cff56fc",
+      "bytes": 1547,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Completed v3/simplification sources; existing #875 pilot retained. Reviews/statistical evidence are not new features.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/cognitive-sdlc/reviews/simplification-revision-20260908T175725Z/V1_DISPOSITION.md",
+      "sha256": "17bf92d72e843587e29e6e14083ff604d0ea46deae0915b5454dcfc6d5a19ffc",
+      "bytes": 3600,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Completed v3/simplification sources; existing #875 pilot retained. Reviews/statistical evidence are not new features.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/cognitive-sdlc/reviews/simplification-revision-20260908T175725Z/V2_DISPOSITION.md",
+      "sha256": "f5941649f656cdebb6518486687d9db30b22b4859e5905f7a98818e51b18b977",
+      "bytes": 2963,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Completed v3/simplification sources; existing #875 pilot retained. Reviews/statistical evidence are not new features.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/cognitive-sdlc/reviews/simplification-revision-20260908T175725Z/claude/review.md",
+      "sha256": "aa55dca3efb0df6def7dbc378969520d047adad5b96ffb3aa058892eab0c22f3",
+      "bytes": 4961,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Completed v3/simplification sources; existing #875 pilot retained. Reviews/statistical evidence are not new features.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/cognitive-sdlc/reviews/simplification-revision-20260908T175725Z/gemini/review.md",
+      "sha256": "c3f35df3558a5dfe7bc9e7d901d9d916507b9daadd14a5bca376a82a4dc1064f",
+      "bytes": 6354,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Completed v3/simplification sources; existing #875 pilot retained. Reviews/statistical evidence are not new features.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/cognitive-sdlc/reviews/simplification-revision-20260908T175725Z/v2-verification/claude/review.md",
+      "sha256": "ee66f47782304d4f4420f0cc8b603c0aa751bf8fd99a5d9aa2943498c90eb333",
+      "bytes": 3042,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Completed v3/simplification sources; existing #875 pilot retained. Reviews/statistical evidence are not new features.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/cognitive-sdlc/reviews/simplification-revision-20260908T175725Z/v2-verification/gemini/review.md",
+      "sha256": "55c7829d02a1167a237d6164c5c74ba9034943d37be3bf7631c06a851bed1cb6",
+      "bytes": 4184,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Completed v3/simplification sources; existing #875 pilot retained. Reviews/statistical evidence are not new features.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/cognitive-sdlc/statistical-review-2026-09-08/CONTROL_PLANE_CATALOGUE.md",
+      "sha256": "ac928e1818bc57ec0e56c60450d6132ca02d5dadf4490212ad854018226ea59f",
+      "bytes": 108914,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Completed v3/simplification sources; existing #875 pilot retained. Reviews/statistical evidence are not new features.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/cognitive-sdlc/statistical-review-2026-09-08/METHODS.md",
+      "sha256": "9dfaab1a19a851cb835999e4083a6382a345efb650deff078e584e01512fd0d3",
+      "bytes": 17289,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Completed v3/simplification sources; existing #875 pilot retained. Reviews/statistical evidence are not new features.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/cognitive-sdlc/statistical-review-2026-09-08/README.md",
+      "sha256": "92cda4605c5ebc383c583e4e29e10fe961d699cc22b8f410c20023968272c4ff",
+      "bytes": 3591,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Completed v3/simplification sources; existing #875 pilot retained. Reviews/statistical evidence are not new features.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/cognitive-sdlc/statistical-review-2026-09-08/RECOMMENDATIONS.md",
+      "sha256": "e40f78a388f0ed4d00d7071b85e09c2d3f72e1c7cf66247a920cd7b0610731f6",
+      "bytes": 14160,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Completed v3/simplification sources; existing #875 pilot retained. Reviews/statistical evidence are not new features.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/cognitive-sdlc/statistical-review-2026-09-08/REPORT.md",
+      "sha256": "c864702e97714a829d478044155059c229d6b3c54af5fc086e03f1d70b2c913a",
+      "bytes": 23573,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Completed v3/simplification sources; existing #875 pilot retained. Reviews/statistical evidence are not new features.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/cognitive_scheduler/ADL_COGNITIVE_ECONOMICS.md",
+      "sha256": "58a4652cc5afc94f45e6df52a4c542680b75410c9fc928e0f808e76deb21f6e2",
+      "bytes": 22186,
+      "disposition": "existing_milestone_or_provenance",
+      "routing": "Inherited cognition/temporal acceptance via GOV-01/14; no new scheduler rewrite",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/cognitive_scheduler/ADL_COGNITIVE_SCHEDULER_v1.md",
+      "sha256": "e92c9a2b3b57f83915fc82c6767cc7a88bc188f49216af479d7ddea7dec2e1ed",
+      "bytes": 16332,
+      "disposition": "existing_milestone_or_provenance",
+      "routing": "Inherited cognition/temporal acceptance via GOV-01/14; no new scheduler rewrite",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/cognitive_scheduler/ADL_GOAL_STATE.md",
+      "sha256": "9b88d0306460917b89009791a5d3e626e9e510ff62ef8effca3e6ca235caaa55",
+      "bytes": 5999,
+      "disposition": "existing_milestone_or_provenance",
+      "routing": "Inherited cognition/temporal acceptance via GOV-01/14; no new scheduler rewrite",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/cognitive_scheduler/SCHEDULER_RUNTIME_INTEGRATION_PLAN.md",
+      "sha256": "0def7d097358cbcc9365cfcd1469a2bef331991ba5737bd2bc919daeb8f05c8d",
+      "bytes": 9776,
+      "disposition": "existing_milestone_or_provenance",
+      "routing": "Inherited cognition/temporal acceptance via GOV-01/14; no new scheduler rewrite",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/constructability/AXIOM_OF_CONSTRUCTABILITY.md",
+      "sha256": "3af64dc20ccbc0dd235f45699a5cc26ab0793d6e1e4198feebb634ccaad4d156",
+      "bytes": 9794,
+      "disposition": "completed_provenance",
+      "routing": "Existing gate sources; no new v0.93 subsystem",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/constructability/CONSTRUCTABILITY_GATE_IMPLEMENTATION_PLAN.md",
+      "sha256": "dc0ba5437b052ae435f28df957ff7b8965d9545ed1b8ddd3448480a5184a77e2",
+      "bytes": 7049,
+      "disposition": "completed_provenance",
+      "routing": "Existing gate sources; no new v0.93 subsystem",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/constructability/README.md",
+      "sha256": "b2ef83cbf27d84d3897b798f9f40415e458e5e796e2ccafc3a672678e260d9e8",
+      "bytes": 1157,
+      "disposition": "completed_provenance",
+      "routing": "Existing gate sources; no new v0.93 subsystem",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/csm_observatory/CSM_MANAGEMENT_VISIBILITY_PLATFORM_PLAN.md",
+      "sha256": "4d229b53fb1d386a6c47fd5afae6b2432694d572d57ecffa69a6b67f0fa2c5ee",
+      "bytes": 13766,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Existing #84 backlog and Runtime extraction RD-05; environment/UI notes require residual comparison",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/csm_observatory/OBSERVATORY_ACTIVE_WORK_PLAN.md",
+      "sha256": "f4e5396a2d8c1b158c709ed5f743dab1e66d15082b627e8d73677485592f4568",
+      "bytes": 8099,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Existing #84 backlog and Runtime extraction RD-05; environment/UI notes require residual comparison",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/csm_observatory/OBSERVATORY_UNITY_DESIGN.md",
+      "sha256": "63e00ce323dcfa8339c67fc7971b5248f93c585eed0b0e090a1f5ec1819c0370",
+      "bytes": 12703,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Existing #84 backlog and Runtime extraction RD-05; environment/UI notes require residual comparison",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/csm_observatory/UNITY_OBSERVATORY_DEMO.md",
+      "sha256": "55f526321a0d23cd0fb48102748df42e05c12597bc5b9e9c9037b7fab8fcc122",
+      "bytes": 8874,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Existing #84 backlog and Runtime extraction RD-05; environment/UI notes require residual comparison",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/csm_observatory/V0917_POLIS_RELATIVITY_ENVIRONMENT_CONCEPT.md",
+      "sha256": "f559f7c0fc717a4f3639b481395c84708e1062fee0787b5a3cf4be7da71dc5be",
+      "bytes": 8110,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Existing #84 backlog and Runtime extraction RD-05; environment/UI notes require residual comparison",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/csm_observatory/V0917_UNITY_ENVIRONMENT_ACQUISITION_AND_STAGING_PLAN.md",
+      "sha256": "f35bca6f4c2a31b66e665007cb4471ba3cbc5abcdfe6270cc4bb7623fbf7a1ea",
+      "bytes": 7518,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Existing #84 backlog and Runtime extraction RD-05; environment/UI notes require residual comparison",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/csm_observatory/V0917_UNITY_UI_STACK_PLAN.md",
+      "sha256": "da028c16a885ca7681a24bc71d6062c38b38efd270c53637264e4d4dff4cbe80",
+      "bytes": 5906,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Existing #84 backlog and Runtime extraction RD-05; environment/UI notes require residual comparison",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/curiosity/ADL_AND_CURIOSITY.md",
+      "sha256": "e2e4858e71216d589dd45731ea1ccc746c6925a55314a20b10372fa1e96283fa",
+      "bytes": 15412,
+      "disposition": "completed_provenance",
+      "routing": "Existing bridge sources; no new v0.93 subsystem",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/curiosity/README.md",
+      "sha256": "3716d9d40a6913ddb02fb6f5b6e3d6725df6af5518188f2427b3cc2a79535be2",
+      "bytes": 2580,
+      "disposition": "completed_provenance",
+      "routing": "Existing bridge sources; no new v0.93 subsystem",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/demo_candidates/CHATGPT_CLAUDE_LONG_FORM_DISCUSSION_DEMO_PLAN.md",
+      "sha256": "47be89f89a944e77b0814bd87f1eeb9060ab23f9d6900ca83570c1835a27b717",
+      "bytes": 8313,
+      "disposition": "completed_provenance",
+      "routing": "Historical delivered demo design; residual expansion requires fresh issue",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/demo_candidates/GEMINI_ADL_COMMUNITY_DEMO_PLAN.md",
+      "sha256": "fd0f6382241cce99b9a3297d6b7573c6beac89e24d14cc29eb199ffd6b46a936",
+      "bytes": 9953,
+      "disposition": "completed_provenance",
+      "routing": "Historical delivered demo design; residual expansion requires fresh issue",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/demo_candidates/GEMMA4_OPERATIONAL_SKILLS_DEMO_PLAN.md",
+      "sha256": "db51a16ef3589154e7bcf42a7d970e45a2a595665558f534bc2cf741a8892f8f",
+      "bytes": 7330,
+      "disposition": "completed_provenance",
+      "routing": "Historical delivered demo design; residual expansion requires fresh issue",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/demo_candidates/LOCAL_MODEL_PR_REVIEWER_AGENT_DEMO_PLAN.md",
+      "sha256": "27cb36494685f0ea0795ba60e77b92656a41124c12bac4d61a7ee5d80754b3d6",
+      "bytes": 6921,
+      "disposition": "completed_provenance",
+      "routing": "Historical delivered demo design; residual expansion requires fresh issue",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/demo_candidates/MULTI_AGENT_REPO_CODE_REVIEW_DEMO.md",
+      "sha256": "aa1cf3f990055f3a87b1bc49867db84d778d415d5ac8dc8b4ca3aa1792e98354",
+      "bytes": 11748,
+      "disposition": "completed_provenance",
+      "routing": "Historical delivered demo design; residual expansion requires fresh issue",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/demo_candidates/MULTI_AGENT_REPO_CODE_REVIEW_IMPLEMENTATION_PLAN.md",
+      "sha256": "f45bd18f70ab306a9b0a0a1fe63eb2d8311a0ed15653ebac0cdf22d3d849cd5d",
+      "bytes": 8307,
+      "disposition": "completed_provenance",
+      "routing": "Historical delivered demo design; residual expansion requires fresh issue",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/economics/BID_SCHEMA_v0.md",
+      "sha256": "6b7a131de5647e05f61fd5ae1b14204939fe6c409282c60b86a2b80347ac7f06",
+      "bytes": 6785,
+      "disposition": "completed_provenance_or_deferred",
+      "routing": "Bounded economics baseline retained; payment/ledger expansion excluded by D-06",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/economics/CONTRACT_MARKET_DEMO_v0.md",
+      "sha256": "f46bbd1b8ee78796a900203101ab58647045cd91d8385073fbdca279761b9d9a",
+      "bytes": 10568,
+      "disposition": "completed_provenance_or_deferred",
+      "routing": "Bounded economics baseline retained; payment/ledger expansion excluded by D-06",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/economics/CONTRACT_MARKET_FIXTURE_SET_v0.md",
+      "sha256": "91c153fa8149abf8716f98e8874c76761e7068ee70bea32a19465a6c90c48ea1",
+      "bytes": 8783,
+      "disposition": "completed_provenance_or_deferred",
+      "routing": "Bounded economics baseline retained; payment/ledger expansion excluded by D-06",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/economics/CONTRACT_MARKET_RUNNER.md",
+      "sha256": "cffd2dbeb505cc75d43a7e8c191794e147850dd744ab22869ac291e575da9d83",
+      "bytes": 7715,
+      "disposition": "completed_provenance_or_deferred",
+      "routing": "Bounded economics baseline retained; payment/ledger expansion excluded by D-06",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/economics/CONTRACT_SCHEMA_v0.md",
+      "sha256": "bfe798b7c43abc228d66829e7cb754a136d252fa9184f540379f472330167462",
+      "bytes": 13231,
+      "disposition": "completed_provenance_or_deferred",
+      "routing": "Bounded economics baseline retained; payment/ledger expansion excluded by D-06",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/economics/CSM_CONTRACT_LIFECYCLE_STATE.md",
+      "sha256": "001143480b6d0261a10d39dd441e52d273e371c2a3489bc2da6b99f4c0c042f7",
+      "bytes": 7451,
+      "disposition": "completed_provenance_or_deferred",
+      "routing": "Bounded economics baseline retained; payment/ledger expansion excluded by D-06",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/economics/CSM_EXTERNAL_COUNTERPARTY_MODEL.md",
+      "sha256": "ac9ed6ff13b3789c0daf88a7c12ef870bd36878d4a6d7790ea7916c369fee3ac",
+      "bytes": 7784,
+      "disposition": "completed_provenance_or_deferred",
+      "routing": "Bounded economics baseline retained; payment/ledger expansion excluded by D-06",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/economics/DELEGATION_AND_SUBCONTRACT_MODEL_v0.md",
+      "sha256": "10aac194a6a58cc63cb295185d99c4548e3460b37be3695a0dbf649996ee0d54",
+      "bytes": 4850,
+      "disposition": "completed_provenance_or_deferred",
+      "routing": "Bounded economics baseline retained; payment/ledger expansion excluded by D-06",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/economics/EVALUATION_MODEL_v0.md",
+      "sha256": "47b187a3c4c8ae95f1776ebb72487c14f3b9c8c4fc1f0c5e62b2e123bd23c793",
+      "bytes": 9056,
+      "disposition": "completed_provenance_or_deferred",
+      "routing": "Bounded economics baseline retained; payment/ledger expansion excluded by D-06",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/economics/README.md",
+      "sha256": "1a8487f93e12d6edb044a6fb96c8da0ddb92c69b71c27bf7c1af5e063b7c819c",
+      "bytes": 2867,
+      "disposition": "completed_provenance_or_deferred",
+      "routing": "Bounded economics baseline retained; payment/ledger expansion excluded by D-06",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/economics/REVIEW_SUMMARY_SHAPE_v0.md",
+      "sha256": "242b7768c0e3b186bc08a0293d04b395a548c93290c69ecfc23e46f69a3288db",
+      "bytes": 7311,
+      "disposition": "completed_provenance_or_deferred",
+      "routing": "Bounded economics baseline retained; payment/ledger expansion excluded by D-06",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/economics/TRANSITION_AUTHORITY_MODEL.md",
+      "sha256": "c2e369afff350f4435c464f5ccc647aaa056d2528490df2da8eb8aee279f10b7",
+      "bytes": 3636,
+      "disposition": "completed_provenance_or_deferred",
+      "routing": "Bounded economics baseline retained; payment/ledger expansion excluded by D-06",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/economics/V0904_DOCUMENTATION_ISSUE_BODY.md",
+      "sha256": "eb7a3fb7104f1623c595f4e34fe855c3efe92d864c7d99c1dc6e03975c6242c4",
+      "bytes": 5630,
+      "disposition": "completed_provenance_or_deferred",
+      "routing": "Bounded economics baseline retained; payment/ledger expansion excluded by D-06",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/general-intelligence-paper/A_MATHEMATICAL_THEORY_OF_GENERAL_INTELLIGENCE.md",
+      "sha256": "4ab96ac8a6e653e2a5d8befec2533b82933135f40b584f1ab494a1a65f36911c",
+      "bytes": 18091,
+      "disposition": "existing_milestone_or_provenance",
+      "routing": "Existing publication program; review packets not new product issues",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/general-intelligence-paper/A_MATHEMATICAL_THEORY_OF_GENERAL_INTELLIGENCE_ARXIV_PREFLIGHT_2026-05-07.md",
+      "sha256": "297907c30202fb8f4ba0ed85054efdbfdfd0a8872efa93670e99402d0feadf2f",
+      "bytes": 2414,
+      "disposition": "existing_milestone_or_provenance",
+      "routing": "Existing publication program; review packets not new product issues",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/general-intelligence-paper/A_MATHEMATICAL_THEORY_OF_GENERAL_INTELLIGENCE_ARXIV_REVIEW.md",
+      "sha256": "1666861d5e23dca0468af25243216a8379314df8da546c7d700dce0e79415eb2",
+      "bytes": 7309,
+      "disposition": "existing_milestone_or_provenance",
+      "routing": "Existing publication program; review packets not new product issues",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/general-intelligence-paper/A_MATHEMATICAL_THEORY_OF_GENERAL_INTELLIGENCE_CITATION_AND_CLAIM_PACKET.md",
+      "sha256": "e6638ce48d85b2683e66bba312ba104a059901aa27839a93e8f34833c8778c20",
+      "bytes": 22653,
+      "disposition": "existing_milestone_or_provenance",
+      "routing": "Existing publication program; review packets not new product issues",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/general-intelligence-paper/GENERAL_INTELLIGENCE_PAPER_WORKFLOW.md",
+      "sha256": "d46fafefb3d29b0e3160cfb0e59f59859ae119c56e0b104f7e07fb84143b6d6e",
+      "bytes": 5969,
+      "disposition": "existing_milestone_or_provenance",
+      "routing": "Existing publication program; review packets not new product issues",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/google_workspace_cms/ADL_NATIVE_GOOGLE_WORKSPACE_INTEGRATION_PLAN.md",
+      "sha256": "de6626d13295c04ed99e99d6eb4ba20c95bafcddcdb80ff484cd857df03b4615",
+      "bytes": 5763,
+      "disposition": "explicit_deferred",
+      "routing": "Optional CMS/connectors; no v0.93 admission",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/google_workspace_cms/GOOGLE_DRIVE_DOCS_BRIDGE_ANALYSIS.md",
+      "sha256": "0b56eb5e396453d5a197ce2f0834dc25d27288851125407cebd5c3f0b14401b0",
+      "bytes": 5504,
+      "disposition": "explicit_deferred",
+      "routing": "Optional CMS/connectors; no v0.93 admission",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/google_workspace_cms/GWS_ADL_TO_GWS_MIGRATION_PLAN.md",
+      "sha256": "c271b67bf8bb59bcd54bb8f72e7dd236ded235310a0bc83dda1f2c331da0edb8",
+      "bytes": 5667,
+      "disposition": "explicit_deferred",
+      "routing": "Optional CMS/connectors; no v0.93 admission",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/google_workspace_cms/GWS_CMS_BRIDGE_DEMO_PLAN.md",
+      "sha256": "fcfd26a6d3f37aa43a82f77149d7736e03531de883a977bb65f2701ecf21a607",
+      "bytes": 8520,
+      "disposition": "explicit_deferred",
+      "routing": "Optional CMS/connectors; no v0.93 admission",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/google_workspace_cms/GWS_TOOLING_DEPENDENCY_AND_SEQUENCING.md",
+      "sha256": "48976c046b168ce4d6a4dbe56906df66d13be08463be2c53da547cd96edf483d",
+      "bytes": 4738,
+      "disposition": "explicit_deferred",
+      "routing": "Optional CMS/connectors; no v0.93 admission",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/google_workspace_cms/README.md",
+      "sha256": "92d82d7402dbfa70c92c7913caa85263c8184b5e7a10f9292c21f3ff2eb0e1fa",
+      "bytes": 2117,
+      "disposition": "explicit_deferred",
+      "routing": "Optional CMS/connectors; no v0.93 admission",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/google_workspace_cms/RUST_NATIVE_GWS_ADAPTER_PLAN.md",
+      "sha256": "5b33eb7308447e4805cc938bb3e800a7ee4e563d90a2460a7c6b61ba7ea5230c",
+      "bytes": 5002,
+      "disposition": "explicit_deferred",
+      "routing": "Optional CMS/connectors; no v0.93 admission",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/guilds/ADL_AND_GUILDS.md",
+      "sha256": "8ab2af025ad930003158311ddca27ef36c26d82bac4ae2f37a26ed1c565410a1",
+      "bytes": 8170,
+      "disposition": "admitted",
+      "routing": "GOV-15",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/guilds/README.md",
+      "sha256": "fb84d554ed42bad5338749b32e749452f06d6da46e928673c0639ad569266014",
+      "bytes": 1555,
+      "disposition": "admitted",
+      "routing": "GOV-15",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/hey_jude_demo/FIVE_AGENT_HEY_JUDE_MIDI_DEMO_IMPLEMENTATION_PLAN.md",
+      "sha256": "0b2b62650fc8f6f2ac450c26944aae1a83eb2f2a843962b4d0ad5f0b93b5ce1f",
+      "bytes": 11947,
+      "disposition": "completed_provenance",
+      "routing": "Historical delivered demo design",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/hey_jude_demo/FIVE_AGENT_HEY_JUDE_MIDI_DEMO_PLAN.md",
+      "sha256": "b9856c5a30d79b58554ee6d09148817bab60f977ae749b61bb6c27decd150071",
+      "bytes": 13231,
+      "disposition": "completed_provenance",
+      "routing": "Historical delivered demo design",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/hey_jude_demo/NEXT_MILESTONE_CANDIDATE_FIVE_AGENT_HEY_JUDE_MIDI_DEMO.md",
+      "sha256": "0ba72b7b228d013e945f549a1a8fd18154061472ff3da03d8defd8f7e5afec6a",
+      "bytes": 2405,
+      "disposition": "completed_provenance",
+      "routing": "Historical delivered demo design",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/intelligence/ADL_AND_INTELLIGENCE.md",
+      "sha256": "4f02c6b095560bad307f1859e888704d60901d1267a1cd46f013ac207210ff7b",
+      "bytes": 11211,
+      "disposition": "existing_milestone_or_provenance",
+      "routing": "CCC/intelligence proof baseline and later evaluator/MVP consumption",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/intelligence/ADL_INTELLIGENCE_METRIC.md",
+      "sha256": "ca81a0aa42235502e5c53bc567da0769f859a224cfd5efb865e49346564e255e",
+      "bytes": 11632,
+      "disposition": "existing_milestone_or_provenance",
+      "routing": "CCC/intelligence proof baseline and later evaluator/MVP consumption",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/intelligence/CCC_FIRST_PASS_PLAN.md",
+      "sha256": "4a418242f6f221efca7641786409731522c4229c786713cbcc3fc4e78bf73467",
+      "bytes": 4170,
+      "disposition": "existing_milestone_or_provenance",
+      "routing": "CCC/intelligence proof baseline and later evaluator/MVP consumption",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/intelligence/CCC_METRIC_v0.md",
+      "sha256": "f14d08ff823ea47271a25b7a25b88938aff898ddd3fc48c0c01afb82dd104316",
+      "bytes": 6498,
+      "disposition": "existing_milestone_or_provenance",
+      "routing": "CCC/intelligence proof baseline and later evaluator/MVP consumption",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/intelligence/COGNITIVE_COMPRESSION_COST.md",
+      "sha256": "740a4969b878bc6ff8ef8bea4b914ec6f9bc4a945f9996d4feb7c960f17441c1",
+      "bytes": 15663,
+      "disposition": "existing_milestone_or_provenance",
+      "routing": "CCC/intelligence proof baseline and later evaluator/MVP consumption",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/intelligence/README.md",
+      "sha256": "86644da9db6be57291426854d7cad8244b032661622b566ff0df561d9b6525f0",
+      "bytes": 3150,
+      "disposition": "existing_milestone_or_provenance",
+      "routing": "CCC/intelligence proof baseline and later evaluator/MVP consumption",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/intelligence/SSC_Research.md",
+      "sha256": "a0c152e3b6721bad0c0f8977b6e5c4b4a3d3eddbb50d8f0da7bf32b8a0ae9d86",
+      "bytes": 5364,
+      "disposition": "existing_milestone_or_provenance",
+      "routing": "CCC/intelligence proof baseline and later evaluator/MVP consumption",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/learning_model/ADL_LEARNING_MODEL_v2.md",
+      "sha256": "6a37047a750a6a61ea758ad5e3404399cac695fd4f96b0aa3e6f70a396354eb7",
+      "bytes": 16977,
+      "disposition": "explicit_deferred",
+      "routing": "Further adaptive-policy/learning expansion requires a bounded issue; no v0.93 admission",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/learning_model/README.md",
+      "sha256": "779a697eb80fb27eef89405ebf522e2495b3d4796253148c45ca05bea02710cf",
+      "bytes": 492,
+      "disposition": "explicit_deferred",
+      "routing": "Further adaptive-policy/learning expansion requires a bounded issue; no v0.93 admission",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/long_lived_agents/README.md",
+      "sha256": "ae6b73d424fd1870b05b244627d178c8285555bd2ebd602818b2a6cb26eef75e",
+      "bytes": 995,
+      "disposition": "completed_provenance",
+      "routing": "Existing long-lived runtime foundation",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/memory_identity/ADL_AND_REPRODUCTION.md",
+      "sha256": "5c5b5de913e0d1368b56b7502dcd68c8ebfad8705bb10834263e076ec878775d",
+      "bytes": 7138,
+      "disposition": "admitted_or_predecessor",
+      "routing": "CM-01\u201304 reproduction/migration; other Memory Palace/identity content is predecessor evidence",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/memory_identity/ADL_MEMORY_PALACE_ARCHITECTURE.md",
+      "sha256": "74cfac5c6f2d87875863bf03b2f8332c54aae3605f3a4d19527a75c62f7d32f9",
+      "bytes": 5307,
+      "disposition": "admitted_or_predecessor",
+      "routing": "CM-01\u201304 reproduction/migration; other Memory Palace/identity content is predecessor evidence",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/memory_identity/ADL_MEMORY_PALACE_CONTEXT_PROBLEM.md",
+      "sha256": "e84a81024f71e6dd8d5121d9462ce91589e4eb01fed5cbe423a6c18c56fa463b",
+      "bytes": 18938,
+      "disposition": "admitted_or_predecessor",
+      "routing": "CM-01\u201304 reproduction/migration; other Memory Palace/identity content is predecessor evidence",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/memory_identity/README.md",
+      "sha256": "88959356b39ce2a0acedb24e5a729b3435d8657307c35f500339d0158ded88d0",
+      "bytes": 455,
+      "disposition": "admitted_or_predecessor",
+      "routing": "CM-01\u201304 reproduction/migration; other Memory Palace/identity content is predecessor evidence",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/moral_governance/ADL_AND_ASIMOVS_THREE_LAWS.md",
+      "sha256": "89d5b8639a88e9a4ac0811ec59daf643eac0270823e465f8b3ce327110f0b2fa",
+      "bytes": 8453,
+      "disposition": "admitted_or_predecessor",
+      "routing": "GOV-01\u201305/14/16 consume moral trace; no replay of completed foundation",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/moral_governance/AGENT_KARMA_SCORE.md",
+      "sha256": "f5d64e2ff80cfb6e68f829ef7e92b275867129052fa2ac84b3857f1d8bdecf4f",
+      "bytes": 32635,
+      "disposition": "admitted_or_predecessor",
+      "routing": "GOV-01\u201305/14/16 consume moral trace; no replay of completed foundation",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/moral_governance/ANTI_HARM_CONSTRAINTS.md",
+      "sha256": "0f478308a61226133e1224f9bf801ab070bc1b07a3139346e8187d94a4da4705",
+      "bytes": 5118,
+      "disposition": "admitted_or_predecessor",
+      "routing": "GOV-01\u201305/14/16 consume moral trace; no replay of completed foundation",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/moral_governance/CITIZENSHIP_AND_CONSTITUTIONAL_REVIEW.md",
+      "sha256": "96292b3772d97d0fd492f43cb2085d56bcf985e5b7f90d516cb3e283a07384aa",
+      "bytes": 7648,
+      "disposition": "admitted_or_predecessor",
+      "routing": "GOV-01\u201305/14/16 consume moral trace; no replay of completed foundation",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/moral_governance/FREEDOM_GATE_EVENT_SCHEMA.md",
+      "sha256": "08147251760910e1de6a09de28e2972b3b61f59bdd7458995512412a96135911",
+      "bytes": 15871,
+      "disposition": "admitted_or_predecessor",
+      "routing": "GOV-01\u201305/14/16 consume moral trace; no replay of completed foundation",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/moral_governance/FREEDOM_GATE_EVENT_VALIDATION_RULES.md",
+      "sha256": "aca776f0e1ec6667b84cce0bd935294b2a36b37a497c2fb5ee7212f4ef48f243",
+      "bytes": 5877,
+      "disposition": "admitted_or_predecessor",
+      "routing": "GOV-01\u201305/14/16 consume moral trace; no replay of completed foundation",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/moral_governance/FREEDOM_GATE_MORAL_EVENT_SCHEMA.md",
+      "sha256": "f7b12289ecc41eb2fceb53b32f9a25db3e707e479a003630f445d66f33e6f654",
+      "bytes": 6978,
+      "disposition": "admitted_or_predecessor",
+      "routing": "GOV-01\u201305/14/16 consume moral trace; no replay of completed foundation",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/moral_governance/HARM_PREVENTION_DEMO.md",
+      "sha256": "d478aff96777e28a4c49e8bf2acbb13c047c55588b9b1c32b26f1dd2baa51968",
+      "bytes": 5579,
+      "disposition": "admitted_or_predecessor",
+      "routing": "GOV-01\u201305/14/16 consume moral trace; no replay of completed foundation",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/moral_governance/MORAL_RESOURCES_SUBSTRATE.md",
+      "sha256": "e6134e4cf0ff752558de5c6163d02996558f977cd2d02bc93b602131c51a116b",
+      "bytes": 7770,
+      "disposition": "admitted_or_predecessor",
+      "routing": "GOV-01\u201305/14/16 consume moral trace; no replay of completed foundation",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/moral_governance/MORAL_TRACE_METRICS.md",
+      "sha256": "dc4f704981e369b89ded300141ded94bfd64ae6150bdfe8d3c3f24174a2037c8",
+      "bytes": 11186,
+      "disposition": "admitted_or_predecessor",
+      "routing": "GOV-01\u201305/14/16 consume moral trace; no replay of completed foundation",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/moral_governance/MORAL_TRACE_SCHEMA.md",
+      "sha256": "26af960714de95a53c8effb6a002707e72d77a1e24ccaa8a116c0e198e9ac1e5",
+      "bytes": 6592,
+      "disposition": "admitted_or_predecessor",
+      "routing": "GOV-01\u201305/14/16 consume moral trace; no replay of completed foundation",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/moral_governance/MORAL_TRAJECTORY_REVIEW_PROTOCOL.md",
+      "sha256": "e961533024007f179401667b2cbbbde29570ac005b64fec1e8bbeeafeb90272d",
+      "bytes": 5553,
+      "disposition": "admitted_or_predecessor",
+      "routing": "GOV-01\u201305/14/16 consume moral trace; no replay of completed foundation",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/moral_governance/OUTCOME_LINKAGE_AND_ATTRIBUTION.md",
+      "sha256": "cecf55bd5dab966ce605d4c98f425267f5137b916e3623a59168607e8c9ec6ac",
+      "bytes": 7037,
+      "disposition": "admitted_or_predecessor",
+      "routing": "GOV-01\u201305/14/16 consume moral trace; no replay of completed foundation",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/moral_governance/README.md",
+      "sha256": "82decef935a95da3e2a6606a0121242afa69bb832e5942ca35ca9d9cfa2cdf79",
+      "bytes": 3134,
+      "disposition": "admitted_or_predecessor",
+      "routing": "GOV-01\u201305/14/16 consume moral trace; no replay of completed foundation",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/multiagent_demos/MULTIAGENT_DEMO_BRIEFS.md",
+      "sha256": "654720bab922e662b28a651816b9e7901e3d1bb4fa0fd6ba80cfad8e4e757664",
+      "bytes": 3156,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Existing #671 podcast registration; prior demo/production evidence retained",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/multiagent_demos/MULTIAGENT_DEMO_ISSUE_WAVE.md",
+      "sha256": "13d36ee79380e7e76a9e723218c7a854f47bd5da23abb59adf6984baa4affd73",
+      "bytes": 2643,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Existing #671 podcast registration; prior demo/production evidence retained",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/multiagent_demos/MULTIAGENT_DEMO_PLAN.md",
+      "sha256": "28bbf6222d76bb73435d02f7268adf88e855119b51c511f44ce0e2609f4b99d8",
+      "bytes": 4399,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Existing #671 podcast registration; prior demo/production evidence retained",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/multiagent_demos/MULTIAGENT_PODCAST_CONCEPT.md",
+      "sha256": "96bb6b56d90e8b3d11101e8b21a6a541cc79a95275d5fb722d981d740aa756b7",
+      "bytes": 6001,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Existing #671 podcast registration; prior demo/production evidence retained",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/multiagent_demos/README.md",
+      "sha256": "70287c47fcd1ecf1329aabad5822787b8a35c03a0d4c587efc5c22aa445f07c0",
+      "bytes": 602,
+      "disposition": "existing_issue_or_provenance",
+      "routing": "Existing #671 podcast registration; prior demo/production evidence retained",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/mvp_cleanup/AI_CHARACTER_AUDIT.md",
+      "sha256": "3f45ba8f0764d5cf10d38b3957c24b82c83bbf02562902343cff0f622369b659",
+      "bytes": 5396,
+      "disposition": "existing_milestone",
+      "routing": "v0.95 MVP cleanup",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/mvp_cleanup/README.md",
+      "sha256": "64b0f9ae72ed301370fddce35bbe1ea47b1b34f8b7d37d42d9cf1dd6bee7866d",
+      "bytes": 819,
+      "disposition": "existing_milestone",
+      "routing": "v0.95 MVP cleanup",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/planning/ADL_LOGISTIC_SPLIT.md",
+      "sha256": "c4a0fca5036bc4c6a8b9278b9491a74ab444c9444bb8d2bc3aa8a1e8876498c1",
+      "bytes": 12732,
+      "disposition": "existing_milestone_or_provenance",
+      "routing": "Current milestone contracts supersede dated launch/feature-wave drafts; optional business/grants expansion not admitted",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/planning/ADL_PITCH_DECK.md",
+      "sha256": "f5e0e11daed6a6855fc6d8ef49172b7ee7c402d500e08bb192d6cc46d0be6e43",
+      "bytes": 10007,
+      "disposition": "existing_milestone_or_provenance",
+      "routing": "Current milestone contracts supersede dated launch/feature-wave drafts; optional business/grants expansion not admitted",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/planning/FEATURE_DOC_ISSUE_SPLIT_PLAN_2026-06-15.md",
+      "sha256": "72c11c4d949a847f6d223b2c909d786ab0e4f93747916b79b1961c0f54ee7e74",
+      "bytes": 4933,
+      "disposition": "existing_milestone_or_provenance",
+      "routing": "Current milestone contracts supersede dated launch/feature-wave drafts; optional business/grants expansion not admitted",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/planning/GTM_CHECKLIST_v0.1.md",
+      "sha256": "a737def1ac1a4689251397444e7fe5d2d4c095de7fad360c3f9889f8db41db09",
+      "bytes": 16462,
+      "disposition": "existing_milestone_or_provenance",
+      "routing": "Current milestone contracts supersede dated launch/feature-wave drafts; optional business/grants expansion not admitted",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/planning/GTM_PLAN_FOR_AGENT_LOGIC_v0.1.md",
+      "sha256": "ed6917c1e4bd9d10fc0c08419b73b404ed588dcd52371d9b273316c81ac9ba74",
+      "bytes": 19244,
+      "disposition": "existing_milestone_or_provenance",
+      "routing": "Current milestone contracts supersede dated launch/feature-wave drafts; optional business/grants expansion not admitted",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/planning/LAUNCH_PLAN_JULY_2026.md",
+      "sha256": "2d4884d0a7af38b0b8f61206aea6c55953fc5481aba6a63222620f4ea4b9e824",
+      "bytes": 15322,
+      "disposition": "existing_milestone_or_provenance",
+      "routing": "Current milestone contracts supersede dated launch/feature-wave drafts; optional business/grants expansion not admitted",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/planning/MVP_FEATURE_DOC_PRODUCTION_PLAN_2026-06-15.md",
+      "sha256": "3d9c7924b3a5be88b0491f4b174358b9cbeb4b64dac2a50587e9980d664dfcf0",
+      "bytes": 16871,
+      "disposition": "existing_milestone_or_provenance",
+      "routing": "Current milestone contracts supersede dated launch/feature-wave drafts; optional business/grants expansion not admitted",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/planning/MVP_SCOPE_LOCK_CROSSCHECK_2026-06-15.md",
+      "sha256": "c45bc9c44d05778441e2874ddb556fd755c73a9d9be979fd523e9fbc46531d06",
+      "bytes": 19625,
+      "disposition": "existing_milestone_or_provenance",
+      "routing": "Current milestone contracts supersede dated launch/feature-wave drafts; optional business/grants expansion not admitted",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/planning/NEW_FEATURE_MILESTONE_ASSIGNMENT_PLAN.md",
+      "sha256": "a38c7ffaabcc963703a70916c2062fa80d5daa940fc9a2e694b7fafecc8767b0",
+      "bytes": 27892,
+      "disposition": "existing_milestone_or_provenance",
+      "routing": "Current milestone contracts supersede dated launch/feature-wave drafts; optional business/grants expansion not admitted",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/planning/STARTUP_GRANTS_PLAN_0.1.md",
+      "sha256": "ffa1689c6640e1659f1b938682b2d872c937beb9632d4fa5d374d01b2d887d28",
+      "bytes": 14996,
+      "disposition": "existing_milestone_or_provenance",
+      "routing": "Current milestone contracts supersede dated launch/feature-wave drafts; optional business/grants expansion not admitted",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/planning/TBD_CLEANUP_3635_CLOSEOUT_PREP_2026-06-15.md",
+      "sha256": "acd4f9e595982da3ff13cfcaad9bb45558a85c3f55b0348608421d463469a9af",
+      "bytes": 6871,
+      "disposition": "existing_milestone_or_provenance",
+      "routing": "Current milestone contracts supersede dated launch/feature-wave drafts; optional business/grants expansion not admitted",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/provider_model/ADL_PROFILES_PROVIDERS_V2.MD",
+      "sha256": "fc8d857db90a780f2c00041f5908d57a92e0931bd8cd5e05ed69cc8fe9b61d31",
+      "bytes": 8068,
+      "disposition": "existing_issue_or_deferred",
+      "routing": "Provider/MLX #903 predecessor; OCI and rust-hot-reloader evaluation remain deferred",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/provider_model/LOCAL_MODEL_SUBAGENT_SHADOW_MODE_PLAN.md",
+      "sha256": "fc7b1d4a69e8431b51e32ed297de3e588beeefc6fdf0137fed4091928e746f5c",
+      "bytes": 7387,
+      "disposition": "existing_issue_or_deferred",
+      "routing": "Provider/MLX #903 predecessor; OCI and rust-hot-reloader evaluation remain deferred",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/provider_model/MLX_APPLE_METAL_PROVIDER_PLAN.md",
+      "sha256": "81d08a2f1c1c9f2d789a91d4c89fb6906cb9be4b95c3f9319eba65749b8b3498",
+      "bytes": 13416,
+      "disposition": "existing_issue_or_deferred",
+      "routing": "Provider/MLX #903 predecessor; OCI and rust-hot-reloader evaluation remain deferred",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/provider_model/NVIDIA_PAIR_EXPERIMENT_PLAN_v0.92.2.md",
+      "sha256": "a4c2ce514fab7295e2b5ad406d28b6e5f67c131bb0fa2348e79ef279ce423898",
+      "bytes": 39058,
+      "disposition": "existing_issue_or_deferred",
+      "routing": "Provider/MLX #903 predecessor; OCI and rust-hot-reloader evaluation remain deferred",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/provider_model/OCI_MODEL_PACKAGING_METHOD_PLAN.md",
+      "sha256": "a7484e2e488abb5e86b268285c76bd74e32a0212bb426f4804974f3f8e2eb89d",
+      "bytes": 12164,
+      "disposition": "explicit_deferred",
+      "routing": "No v0.93 admission",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/provider_model/README.md",
+      "sha256": "8a5c77513cc87554d37bca9e8487e55a90ea7e7323a85a8beb8ad189743f260b",
+      "bytes": 1495,
+      "disposition": "existing_issue_or_deferred",
+      "routing": "Provider/MLX #903 predecessor; OCI and rust-hot-reloader evaluation remain deferred",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/provider_model/V0917_LOCAL_MODEL_SHADOW_MODE_EXECUTION_PLAN.md",
+      "sha256": "7bf802c377889a33adb71044c57c8588c9dd107621b7456750c4e0ab0c002fa3",
+      "bytes": 6550,
+      "disposition": "existing_issue_or_deferred",
+      "routing": "Provider/MLX #903 predecessor; OCI and rust-hot-reloader evaluation remain deferred",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/publication/ADL_MEDIUM_ARTICLE_LIST.md",
+      "sha256": "623ac7ca66e483c23da5db9b10f292a206840f3fa744554787119b084a5653fa",
+      "bytes": 5049,
+      "disposition": "existing_milestone_or_deferred",
+      "routing": "Prior #912/#913 preparation retained; #918 publication and v0.94/v0.95 programs own residual decisions",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/publication/ALL_PAPERS_WRITING_PROGRAM_PLAN.md",
+      "sha256": "ecc9ac8028f910a336ac055e03776c224d8df0c10e6bf268054e5906bdd10d3a",
+      "bytes": 13636,
+      "disposition": "existing_milestone_or_deferred",
+      "routing": "Prior #912/#913 preparation retained; #918 publication and v0.94/v0.95 programs own residual decisions",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/publication/ARXIV_AUTHORING_PROCESS_NOTES.md",
+      "sha256": "7b57f4017176ad11f53fbbd8ef20b0475c7c288d0537b4fe07305fc1f2738c10",
+      "bytes": 3218,
+      "disposition": "existing_milestone_or_deferred",
+      "routing": "Prior #912/#913 preparation retained; #918 publication and v0.94/v0.95 programs own residual decisions",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/publication/ARXIV_PAPER_PROGRAM_PLAN.md",
+      "sha256": "702f9de6ed54d05176a7bff27d53d7367bce3878803bd3445d6fe70c0e265f43",
+      "bytes": 13604,
+      "disposition": "existing_milestone_or_deferred",
+      "routing": "Prior #912/#913 preparation retained; #918 publication and v0.94/v0.95 programs own residual decisions",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/publication/ARXIV_PAPER_WRITER_SKILL_BACKLOG.md",
+      "sha256": "0fafe06be25022a570130ea521e8b619e7546effe7b78b04d61701466e4262df",
+      "bytes": 3227,
+      "disposition": "existing_milestone_or_deferred",
+      "routing": "Prior #912/#913 preparation retained; #918 publication and v0.94/v0.95 programs own residual decisions",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/publication/MEDIUM_ARTICLE_SERIES_PLAN.md",
+      "sha256": "3a45d05f64e07fa967de3bfec447f2f2ab121064cfcb609ba332324df6071a1d",
+      "bytes": 12400,
+      "disposition": "existing_milestone_or_deferred",
+      "routing": "Prior #912/#913 preparation retained; #918 publication and v0.94/v0.95 programs own residual decisions",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/publication/SSC_AND_ADL_ARXIV_PAPER_CANDIDATE.md",
+      "sha256": "14a900ebc225181067d16b49a69288f5f916cc033d50f62c60f557e6d92b4292",
+      "bytes": 5591,
+      "disposition": "existing_milestone_or_deferred",
+      "routing": "Prior #912/#913 preparation retained; #918 publication and v0.94/v0.95 programs own residual decisions",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/publication/V095_MEDIUM_ARTICLE_SERIES_REPLAN_2026-05-14.md",
+      "sha256": "bed3fbe9b1e02b34fa2dc637a4d4524baf71df264b3143489387a04c14f7b74f",
+      "bytes": 6744,
+      "disposition": "existing_milestone_or_deferred",
+      "routing": "Prior #912/#913 preparation retained; #918 publication and v0.94/v0.95 programs own residual decisions",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/reasoning_graphs/ADL_LOOP_PROMPTS.md",
+      "sha256": "b5ae56386d5a9cc47a1b78161f42f82384a5af4004dcf5b8de8f6fca37934493",
+      "bytes": 6752,
+      "disposition": "existing_milestone",
+      "routing": "v0.94 reasoning-graph convergence; existing bridge evidence retained",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/reasoning_graphs/ADL_REASONING_PATTERNS_CATALOG.md",
+      "sha256": "f45d71011f87c2d7f01dada2f8e85eaeab23b3f3e7978d686d97e8278096846b",
+      "bytes": 5355,
+      "disposition": "existing_milestone",
+      "routing": "v0.94 reasoning-graph convergence; existing bridge evidence retained",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/reasoning_graphs/ADL_SKILLS_AS_REASONING_GRAPHS.md",
+      "sha256": "7afe6906f1c7e1392738efd02236860062779523869dfe0950b6a0be1359f4d1",
+      "bytes": 11373,
+      "disposition": "existing_milestone",
+      "routing": "v0.94 reasoning-graph convergence; existing bridge evidence retained",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/reasoning_graphs/ADL_SKILL_STANDARD_PLAN.md",
+      "sha256": "27e8bdbf0e7ffbc610556d637c4c677ec09b2a772f9ae42c459488f4002a64ca",
+      "bytes": 4027,
+      "disposition": "existing_milestone",
+      "routing": "v0.94 reasoning-graph convergence; existing bridge evidence retained",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/reasoning_graphs/README.md",
+      "sha256": "0adc441c7410508e1f1cbe30267869d7ade24b95e0cc1ca82a9cfdc49ea3d65c",
+      "bytes": 3689,
+      "disposition": "existing_milestone",
+      "routing": "v0.94 reasoning-graph convergence; existing bridge evidence retained",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/repo_visibility/CANONICAL_SOURCE_MANIFEST.md",
+      "sha256": "58834c54c126a3979ba339b6a9ff1c3d50d0306fcce3d5c28c45e6af1d0c3841",
+      "bytes": 5293,
+      "disposition": "completed_provenance",
+      "routing": "Existing visibility foundation",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/repo_visibility/CODE_DOC_LINKAGE_REPORT.md",
+      "sha256": "37c731fbc40348967172b9ae4795b716345193749e22a7de46beb6f4de78bb13",
+      "bytes": 7543,
+      "disposition": "completed_provenance",
+      "routing": "Existing visibility foundation",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/repo_visibility/REPO_VISIBILITY_LAYER.md",
+      "sha256": "62599a4077b2bc38d01348fa90453ae85308fc5af44c02357badb2105138d041",
+      "bytes": 10106,
+      "disposition": "completed_provenance",
+      "routing": "Existing visibility foundation",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/resilience/ADL_AND_SLEEP.md",
+      "sha256": "600cd02c64f87cbbb376b805046b807468b93a31a623b4125f20ea4add2315d0",
+      "bytes": 7398,
+      "disposition": "completed_provenance_or_admitted",
+      "routing": "Runtime recovery foundations retained; RV/CM consume bounded recovery, no duplicate rewrite",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/resilience/ADL_CITIZEN_PERSISTENCE_ARCHITECTURE.md",
+      "sha256": "dfcb3007c42ef190ef482c0b85187a5cef7639b9593b5e01dde6c0af10bf194b",
+      "bytes": 10618,
+      "disposition": "completed_provenance_or_admitted",
+      "routing": "Runtime recovery foundations retained; RV/CM consume bounded recovery, no duplicate rewrite",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/resilience/ADL_TRANSIENT_FAULT_MANAGEMENT_AND_RESILIENCE.md",
+      "sha256": "96ba8251a6168253a7fc7205901aed2cace9dc5072a8d430353ee92820065de7",
+      "bytes": 15259,
+      "disposition": "completed_provenance_or_admitted",
+      "routing": "Runtime recovery foundations retained; RV/CM consume bounded recovery, no duplicate rewrite",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/resilience/README.md",
+      "sha256": "d7324ef2a6f768db50d65ce651766b70bcf4419f9d8c54f10513fa6a2222c78f",
+      "bytes": 5306,
+      "disposition": "completed_provenance_or_admitted",
+      "routing": "Runtime recovery foundations retained; RV/CM consume bounded recovery, no duplicate rewrite",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/resilience/RUNTIME_V3_GEMINI_ARCHITECTURE_REVIEW.md",
+      "sha256": "5e737a3fd33a3b15fe338f3a6093ffa272e3b56c1cef3b981802d47801f62514",
+      "bytes": 9892,
+      "disposition": "completed_provenance_or_admitted",
+      "routing": "Runtime recovery foundations retained; RV/CM consume bounded recovery, no duplicate rewrite",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/resilience/RUNTIME_V3_GEMINI_RESILIENCE_REVIEW.md",
+      "sha256": "a0e730e371a517ac56dbd018d81a8c87b3e4be347269e2ae9d98bc0a15e320b2",
+      "bytes": 8212,
+      "disposition": "completed_provenance_or_admitted",
+      "routing": "Runtime recovery foundations retained; RV/CM consume bounded recovery, no duplicate rewrite",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/resilience/RUNTIME_V3_GEMINI_REVIEW_SYNTHESIS.md",
+      "sha256": "a245d9a8ff4dae416aefdf431552ebcac9c8dccf3877043fde57d8601f1eefc7",
+      "bytes": 6970,
+      "disposition": "completed_provenance_or_admitted",
+      "routing": "Runtime recovery foundations retained; RV/CM consume bounded recovery, no duplicate rewrite",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/resilience/RUNTIME_V3_GEMINI_SIMPLIFICATION_REVIEW.md",
+      "sha256": "da2b4423dc0abf4ee550d214c1bd8da1ed06aae39d6bcec57c6e3c1c3dc1c3a4",
+      "bytes": 10189,
+      "disposition": "completed_provenance_or_admitted",
+      "routing": "Runtime recovery foundations retained; RV/CM consume bounded recovery, no duplicate rewrite",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/resilience/RUNTIME_V3_LAUNCH_AND_OBSERVATORY_RECOVERY_PLAN.md",
+      "sha256": "0f9b949b92a663ccc4865ab65e84a02bc8fe9255c6054f45c7172564d895caaa",
+      "bytes": 830,
+      "disposition": "completed_provenance_or_admitted",
+      "routing": "Runtime recovery foundations retained; RV/CM consume bounded recovery, no duplicate rewrite",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/resilience/RUNTIME_V3_LONG_LIVED_AGENT_OS_PLAN.md",
+      "sha256": "be284516c07b2b0bd39dc6ec0909cc4e4952c850c31ce27fbd617dc05822cdb8",
+      "bytes": 21968,
+      "disposition": "completed_provenance_or_admitted",
+      "routing": "Runtime recovery foundations retained; RV/CM consume bounded recovery, no duplicate rewrite",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/resilience/diagrams/runtime-v3-component-map/README.md",
+      "sha256": "83fd73580a6eab5b1fcc685c986eeef4327a16c80fe25ed4bf1dbaec131c0d7b",
+      "bytes": 2808,
+      "disposition": "completed_provenance_or_admitted",
+      "routing": "Runtime recovery foundations retained; RV/CM consume bounded recovery, no duplicate rewrite",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/runtime_v2/ADL_RUNTIME_V2_INVARIANTS.md",
+      "sha256": "55931c5aa55a91429909e1db199252081dc33ff5cf9f1f70faa64cb7e544016c",
+      "bytes": 11148,
+      "disposition": "completed_provenance_or_deferred",
+      "routing": "Runtime foundation consumed by RV/GOV/CM; sovereign Linux explicitly post-v0.95",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/runtime_v2/ADL_RUNTIME_v2.md",
+      "sha256": "dfce39cacb2785611696585f0eab3792063c35779a6fa79d2bc1214dad98654a",
+      "bytes": 7878,
+      "disposition": "completed_provenance_or_deferred",
+      "routing": "Runtime foundation consumed by RV/GOV/CM; sovereign Linux explicitly post-v0.95",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/runtime_v2/CITIZEN_LIFECYCLE_AND_STATE_MACHINE.md",
+      "sha256": "ed1e15c6abba4a0112e49598ffbcd3161eb9dd73905c2cd841818397b2a8785d",
+      "bytes": 5629,
+      "disposition": "completed_provenance_or_deferred",
+      "routing": "Runtime foundation consumed by RV/GOV/CM; sovereign Linux explicitly post-v0.95",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/runtime_v2/ECONOMIC_AND_RESOURCE_MODEL.md",
+      "sha256": "69f7c7842d28c7c5422948ff9f8467494088aed6ba3622dd8e5eb06085e9ae74",
+      "bytes": 5291,
+      "disposition": "completed_provenance_or_deferred",
+      "routing": "Runtime foundation consumed by RV/GOV/CM; sovereign Linux explicitly post-v0.95",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/runtime_v2/INTEGRATED_SYSTEM_DYNAMICS.md",
+      "sha256": "b828acd528af55c9205cca6ec3a91c9b6e4b507718ae2d25ca7cd376cc51d4ba",
+      "bytes": 8530,
+      "disposition": "completed_provenance_or_deferred",
+      "routing": "Runtime foundation consumed by RV/GOV/CM; sovereign Linux explicitly post-v0.95",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/runtime_v2/KERNEL_SERVICES_AND_CONTROL_PLANE.md",
+      "sha256": "469c91e72e60a95608dea91e20fdb76a197263b51cea36a12a5e5c09cdbbcde3",
+      "bytes": 5824,
+      "disposition": "completed_provenance_or_deferred",
+      "routing": "Runtime foundation consumed by RV/GOV/CM; sovereign Linux explicitly post-v0.95",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/runtime_v2/MANIFOLD_AND_SNAPSHOT_SPEC.md",
+      "sha256": "21f87bd9f4729dab21d3a28ec6e1c0ff42a47d72881dd96a0e11edc82fd9faee",
+      "bytes": 5485,
+      "disposition": "completed_provenance_or_deferred",
+      "routing": "Runtime foundation consumed by RV/GOV/CM; sovereign Linux explicitly post-v0.95",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/runtime_v2/POLIS_SPEC.md",
+      "sha256": "5494b2e6210a4a736d6a6df746db63ac8634cf0a5f96a93c026f836a46613f26",
+      "bytes": 6646,
+      "disposition": "completed_provenance_or_deferred",
+      "routing": "Runtime foundation consumed by RV/GOV/CM; sovereign Linux explicitly post-v0.95",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/runtime_v2/POST_V095_SOVEREIGN_LINUX_ADL_RUNTIME_PLUMBING.md",
+      "sha256": "5fd1ab487975fd58172cfa41e82f16e851ca08daace64730ee7af8f5e8dd8984",
+      "bytes": 9638,
+      "disposition": "completed_provenance_or_deferred",
+      "routing": "Runtime foundation consumed by RV/GOV/CM; sovereign Linux explicitly post-v0.95",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/runtime_v2/RUNTIME_V2_MINIMAL_PROTOTYPE.md",
+      "sha256": "61f17e1dbf5d0b1aa5704fe15ab19cc988214443f0f94684c4b22d49c15e07b3",
+      "bytes": 8679,
+      "disposition": "completed_provenance_or_deferred",
+      "routing": "Runtime foundation consumed by RV/GOV/CM; sovereign Linux explicitly post-v0.95",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/runtime_v4/RUNTIME_V4_CSM_PLUGIN_SYSTEM_CLAUDE_REVIEW.md",
+      "sha256": "e05ae7f254411dbad2363e0b0cb9088a74f92ad34d7cc9ac0275274fe57affa6",
+      "bytes": 5776,
+      "disposition": "admitted",
+      "routing": "RV-01\u201308; design reviews are inputs, not extra feature issues.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/runtime_v4/RUNTIME_V4_CSM_PLUGIN_SYSTEM_DESIGN.md",
+      "sha256": "667ce716a8cdc808c36c5f77f188a2075394abc518443788a72e49a5e30870e2",
+      "bytes": 15284,
+      "disposition": "admitted",
+      "routing": "RV-01\u201308; design reviews are inputs, not extra feature issues.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/runtime_v4/RUNTIME_V4_CSM_PLUGIN_SYSTEM_GEMINI_REVIEW.md",
+      "sha256": "c5c17e543dbf917615a6d529d19d6fc3da9e33b92f41371075a5ce5aa3225b64",
+      "bytes": 7783,
+      "disposition": "admitted",
+      "routing": "RV-01\u201308; design reviews are inputs, not extra feature issues.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/rust_refactoring/ADL_CODE_SIMPLIFICATION_LIBRARY_OPPORTUNITIES.md",
+      "sha256": "c74ee23dd06520c8ffc917207ae760245b65ba65daa0223003eabf08e589d0cc",
+      "bytes": 17005,
+      "disposition": "existing_milestone_or_provenance",
+      "routing": "PY-01 bounded reduction and v0.95 hardening; completed historical refactors not replayed",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/rust_refactoring/ADL_REPOSITORY_CODE_REDUCTION_PLAN_v0.91.8.md",
+      "sha256": "eac6c159f23bee6aa4b51d6ce848d8c288c15ebb411e2e1fd0e274476f276ec4",
+      "bytes": 19683,
+      "disposition": "existing_milestone_or_provenance",
+      "routing": "PY-01 bounded reduction and v0.95 hardening; completed historical refactors not replayed",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/rust_refactoring/README.md",
+      "sha256": "cd18668acf8374a96cbb3535239942645ec3642b123fef0354749366aebf28dd",
+      "bytes": 1231,
+      "disposition": "existing_milestone_or_provenance",
+      "routing": "PY-01 bounded reduction and v0.95 hardening; completed historical refactors not replayed",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/rust_refactoring/RUSTDOC_GAP_ANALYSIS.md",
+      "sha256": "68929b677e1c640ae06d199375d1dc385ebc12e7052e5c8baace07f0a2f6127a",
+      "bytes": 13029,
+      "disposition": "existing_milestone_or_provenance",
+      "routing": "PY-01 bounded reduction and v0.95 hardening; completed historical refactors not replayed",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/security/ADL_THREAT_MODEL.md",
+      "sha256": "fa2698d49b1a68b17337ff270d6a9fa8c19cb353711d508bba9bde368480615a",
+      "bytes": 10155,
+      "disposition": "admitted",
+      "routing": "WP-S1\u2013S6",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/security/CONTINUOUS_ADVERSARIAL_VERIFICATION.md",
+      "sha256": "050b3e3a8ccabc6aba6c2e34d2453350ce0b970b7e2a322fc3b2ac58ac716b63",
+      "bytes": 10627,
+      "disposition": "admitted",
+      "routing": "WP-S1\u2013S6",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/security/README.md",
+      "sha256": "75d3d72bfaa6d315754f4e51d294f7f775c2866d6ba6bd8805b1702683457b80",
+      "bytes": 3393,
+      "disposition": "admitted",
+      "routing": "WP-S1\u2013S6",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/tools/ADL_TOOL_MECHANISM.md",
+      "sha256": "a33633d2d24541f9108ed438c2f433c8e31c70d83f3b8c1a5f672d339e92ad18",
+      "bytes": 10144,
+      "disposition": "existing_milestone_or_provenance",
+      "routing": "Governed tools consumed by GOV-11/WP-S2; optional benchmark expansion remains deferred",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/tools/README.md",
+      "sha256": "a05b78a004e3243511d40a0f8c204d1cf2ca0e931c87468ed1d42f65b0505ac4",
+      "bytes": 4004,
+      "disposition": "existing_milestone_or_provenance",
+      "routing": "Governed tools consumed by GOV-11/WP-S2; optional benchmark expansion remains deferred",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/tools/RUNTIME_V2_TEST_CYCLE_RECOVERY_PLAN.md",
+      "sha256": "6c7b89958c645ab82f718de21a85e9759e58e7de692ca4cdd7bfe07d3f6e53d7",
+      "bytes": 10088,
+      "disposition": "existing_milestone_or_provenance",
+      "routing": "Governed tools consumed by GOV-11/WP-S2; optional benchmark expansion remains deferred",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/tools/TOOLS_2.0_SPEC.md",
+      "sha256": "c075ba5f42a005b3be32c974c6dbf8fec41c8496cded572a6369798e00ceeb6a",
+      "bytes": 5271,
+      "disposition": "existing_milestone_or_provenance",
+      "routing": "Governed tools consumed by GOV-11/WP-S2; optional benchmark expansion remains deferred",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/tools/UTS_33_TEST_BENCHMARK_MODEL_PANEL.md",
+      "sha256": "b58615eea0542032b17c20c699ab8db824c90d8f36fe48a4f7a041add541f072",
+      "bytes": 3091,
+      "disposition": "existing_milestone_or_provenance",
+      "routing": "Governed tools consumed by GOV-11/WP-S2; optional benchmark expansion remains deferred",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/tools/UTS_33_TEST_BENCHMARK_PLAN.md",
+      "sha256": "9bdb3c29fd9a3a456b4dbac1a880fb4b69499365a07a792ecda50f77bbee0844",
+      "bytes": 9893,
+      "disposition": "existing_milestone_or_provenance",
+      "routing": "Governed tools consumed by GOV-11/WP-S2; optional benchmark expansion remains deferred",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/tools/UTS_33_TEST_BENCHMARK_TASK_PANEL.md",
+      "sha256": "695c8a683759d12b6c6b53886cb9a9541169915d61f25fa9460e29f654d0b3f8",
+      "bytes": 2013,
+      "disposition": "existing_milestone_or_provenance",
+      "routing": "Governed tools consumed by GOV-11/WP-S2; optional benchmark expansion remains deferred",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/tools/UTS_ACC_ADR_SPLIT_PLAN_v0.91.2.md",
+      "sha256": "c31ad0364a7defa537aef552791977a009014eef8937abedb2f18409b3ee3b47",
+      "bytes": 9759,
+      "disposition": "existing_milestone_or_provenance",
+      "routing": "Governed tools consumed by GOV-11/WP-S2; optional benchmark expansion remains deferred",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/tools/UTS_ACC_MULTI_MODEL_BENCHMARK_PLAN.md",
+      "sha256": "1c017737e680c69e1ee81ac93da9849d55b2b297b72fc762e24cdf3a681df24d",
+      "bytes": 15386,
+      "disposition": "existing_milestone_or_provenance",
+      "routing": "Governed tools consumed by GOV-11/WP-S2; optional benchmark expansion remains deferred",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/tools/UTS_TEST_SUITE.md",
+      "sha256": "a21c79ce6b0573498ba0c90223c4d02012dcbd6d5f075c0b5c27d357e9c3f248",
+      "bytes": 15280,
+      "disposition": "existing_milestone_or_provenance",
+      "routing": "Governed tools consumed by GOV-11/WP-S2; optional benchmark expansion remains deferred",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/tools/UTS_V1_1_LOCAL_SMALL_MODEL_TEST_PLAN_2026-05-14.md",
+      "sha256": "f7f0edc5325926d1453dfed39aca83d93a9bba37d32bf06de6a88f834ba1f399",
+      "bytes": 10712,
+      "disposition": "existing_milestone_or_provenance",
+      "routing": "Governed tools consumed by GOV-11/WP-S2; optional benchmark expansion remains deferred",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/tools/VALIDATION_MANAGER_TEST_TAX_RECOVERY_PLAN.md",
+      "sha256": "e75ba793e14289ce579648a102da0970f0efdce6f5ce7031d7c0411b2e41f6ce",
+      "bytes": 12852,
+      "disposition": "existing_milestone_or_provenance",
+      "routing": "Governed tools consumed by GOV-11/WP-S2; optional benchmark expansion remains deferred",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/tools/tool_to_capability_compiler.md",
+      "sha256": "a30778cb6aaffbb9415a9f9b26d520e758ee263065a709dc9ce3c870183292d0",
+      "bytes": 7046,
+      "disposition": "existing_milestone_or_provenance",
+      "routing": "Governed tools consumed by GOV-11/WP-S2; optional benchmark expansion remains deferred",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/upstream_delegation/ADL_AGENT_UPSTREAM_DELEGATION.md",
+      "sha256": "c267306ffd4c4be1c16a57fb05d632d0841e01c828ca5a5f2435885f9adb3390",
+      "bytes": 9581,
+      "disposition": "admitted",
+      "routing": "GOV-11\u201313",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/upstream_delegation/README.md",
+      "sha256": "5a358566e52e68bf21c0aa5027c3191efe45e4463f76821a4e76480627bf3716",
+      "bytes": 2344,
+      "disposition": "admitted",
+      "routing": "GOV-11\u201313",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/workflow_tooling/ADL_EXECUTION_POLICY_FOR_SKILLS_AND_SUBAGENTS.md",
+      "sha256": "01a547dfba2fdf2303cf2278aa05294809934e90af20c1089e42940b5c506aed",
+      "bytes": 7333,
+      "disposition": "existing_issue_or_deferred",
+      "routing": "RD-04 consumes C-SDLC; #875 pilot; PY-01 bounded reduction. Optional dashboard/runner expansions deferred pending scope reconciliation.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/workflow_tooling/ADL_REVIEW_HEURISTICS.md",
+      "sha256": "6179a12852f589c38302494538afbf1ed141f6c18207927518ce9d50051e90bb",
+      "bytes": 10083,
+      "disposition": "existing_issue_or_deferred",
+      "routing": "RD-04 consumes C-SDLC; #875 pilot; PY-01 bounded reduction. Optional dashboard/runner expansions deferred pending scope reconciliation.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/workflow_tooling/CLOSEOUT_AT_MERGE_POLICY_AND_ENFORCEMENT.md",
+      "sha256": "6a9ad8a1c0631fdc207d22704b35e3340732287bbbf0414ed9c6ad7693930856",
+      "bytes": 3801,
+      "disposition": "existing_issue_or_deferred",
+      "routing": "RD-04 consumes C-SDLC; #875 pilot; PY-01 bounded reduction. Optional dashboard/runner expansions deferred pending scope reconciliation.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/workflow_tooling/OPERATIONAL_SKILL_BACKLOG_CANDIDATES.md",
+      "sha256": "ec9508121291d4c5f572c15d3739602d1dea394920548e564aef5e8e32ba8d93",
+      "bytes": 9748,
+      "disposition": "existing_issue_or_deferred",
+      "routing": "RD-04 consumes C-SDLC; #875 pilot; PY-01 bounded reduction. Optional dashboard/runner expansions deferred pending scope reconciliation.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/workflow_tooling/PARALLEL_EXECUTION_LANES_AND_COMPRESSION_MODEL.md",
+      "sha256": "45f3c685f2857e03e5a4aae2eed30cd4bbb7f94e017f16a465b0bb77e7783cf1",
+      "bytes": 3810,
+      "disposition": "existing_issue_or_deferred",
+      "routing": "RD-04 consumes C-SDLC; #875 pilot; PY-01 bounded reduction. Optional dashboard/runner expansions deferred pending scope reconciliation.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/workflow_tooling/README.md",
+      "sha256": "0ef8f21cf7be1f561d915c5f0f72a662ac7894b00e1ec2ba7569f9c516388073",
+      "bytes": 2543,
+      "disposition": "existing_issue_or_deferred",
+      "routing": "RD-04 consumes C-SDLC; #875 pilot; PY-01 bounded reduction. Optional dashboard/runner expansions deferred pending scope reconciliation.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/workflow_tooling/WORKTREE_FIRST_WORKFLOW_GUARDRAILS.md",
+      "sha256": "5581261d3e09f8f15d5447dffd36212c8789714ffca700176096049b57abdd2b",
+      "bytes": 6810,
+      "disposition": "existing_issue_or_deferred",
+      "routing": "RD-04 consumes C-SDLC; #875 pilot; PY-01 bounded reduction. Optional dashboard/runner expansions deferred pending scope reconciliation.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/workflow_tooling/planning/ADL_BUILD_IMPROVEMENTS.md",
+      "sha256": "c734d8d5ae0b5ac3ebe2c586235f21f5452416b9c936aa80ff1c3cd906ee1037",
+      "bytes": 6271,
+      "disposition": "existing_issue_or_deferred",
+      "routing": "RD-04 consumes C-SDLC; #875 pilot; PY-01 bounded reduction. Optional dashboard/runner expansions deferred pending scope reconciliation.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/workflow_tooling/planning/ADL_CLI_DECOMPOSITION_PLAN.md",
+      "sha256": "f767976d3ea79456d86ddb431429eb15d2a12cf9c1a32a8b4d7733f2c73d3eac",
+      "bytes": 43682,
+      "disposition": "existing_issue_or_deferred",
+      "routing": "RD-04 consumes C-SDLC; #875 pilot; PY-01 bounded reduction. Optional dashboard/runner expansions deferred pending scope reconciliation.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/workflow_tooling/planning/ADL_PLANNING_MECHANISM.md",
+      "sha256": "80c5423f12c2ed10830090bf12851124b2c720ee71806de3539c11865fde97f3",
+      "bytes": 4564,
+      "disposition": "existing_issue_or_deferred",
+      "routing": "RD-04 consumes C-SDLC; #875 pilot; PY-01 bounded reduction. Optional dashboard/runner expansions deferred pending scope reconciliation.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/workflow_tooling/planning/CODEX_SUBAGENT_ACCOUNTING_DASHBOARD_PLAN.md",
+      "sha256": "8eb27bdf73e171855f4ac8619267a12698384124f8de2c197683c8478700d211",
+      "bytes": 19041,
+      "disposition": "explicit_deferred",
+      "routing": "Optional dashboard, no selected execution slot",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/workflow_tooling/planning/LOGGING_THEN_TOOLKIT_SIMPLIFICATION_PLAN.md",
+      "sha256": "bb11d1bfb328643c60eaa98dea7908bfdc878a1a9c47bec6eed83e451644660c",
+      "bytes": 10362,
+      "disposition": "existing_issue_or_deferred",
+      "routing": "RD-04 consumes C-SDLC; #875 pilot; PY-01 bounded reduction. Optional dashboard/runner expansions deferred pending scope reconciliation.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/workflow_tooling/planning/REMOTE_BUILD_RUNNER_PILOT_PLAN.md",
+      "sha256": "56eaa61c8ff202d123fd41cce48e67247e3437c1ab3eb55a0aab2f14faada942",
+      "bytes": 6046,
+      "disposition": "existing_issue_or_deferred",
+      "routing": "RD-04 consumes C-SDLC; #875 pilot; PY-01 bounded reduction. Optional dashboard/runner expansions deferred pending scope reconciliation.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/workflow_tooling/planning/SPP_LIVE_PLANNING_STATE_TRANSITION_PLAN_2026-05-19.md",
+      "sha256": "4e344c86ffee79babc05cde892b7b45224c2b9fa5493adf0ed1c5dbead9c96ca",
+      "bytes": 14972,
+      "disposition": "existing_issue_or_deferred",
+      "routing": "RD-04 consumes C-SDLC; #875 pilot; PY-01 bounded reduction. Optional dashboard/runner expansions deferred pending scope reconciliation.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/workflow_tooling/planning/SPRINT_CYCLE_TIME_REDUCTION_PLAN.md",
+      "sha256": "9fbf01d1d2142b926d0a1061da3bdee8a9e8caa849277e57ae67dae27fd5ee71",
+      "bytes": 8422,
+      "disposition": "existing_issue_or_deferred",
+      "routing": "RD-04 consumes C-SDLC; #875 pilot; PY-01 bounded reduction. Optional dashboard/runner expansions deferred pending scope reconciliation.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/workflow_tooling/planning/SRP_STRUCTURED_REVIEW_PROMPT_PLAN.md",
+      "sha256": "00b0a7506e265810db6455417a0e5bc7b2318ea518061f1fb65ee7e8899c40ee",
+      "bytes": 22492,
+      "disposition": "existing_issue_or_deferred",
+      "routing": "RD-04 consumes C-SDLC; #875 pilot; PY-01 bounded reduction. Optional dashboard/runner expansions deferred pending scope reconciliation.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/workflow_tooling/planning/STRUCTURED_PLAN_ARTIFACT_AND_PLAN_REVIEW_FLOW.md",
+      "sha256": "c1de8a8c8ade9cae8dfcc6f848bdaf8c4e9e492c66fa8d6d22f37b2c8dc06c37",
+      "bytes": 12555,
+      "disposition": "existing_issue_or_deferred",
+      "routing": "RD-04 consumes C-SDLC; #875 pilot; PY-01 bounded reduction. Optional dashboard/runner expansions deferred pending scope reconciliation.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/workflow_tooling/planning/STRUCTURED_PLAN_PROMPT_SCHEMA.md",
+      "sha256": "77a722a2a9a20ae8090f3403eabf511782c2fc6907e5618dc54861c2c0c0aa17",
+      "bytes": 2869,
+      "disposition": "existing_issue_or_deferred",
+      "routing": "RD-04 consumes C-SDLC; #875 pilot; PY-01 bounded reduction. Optional dashboard/runner expansions deferred pending scope reconciliation.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/workflow_tooling/planning/V0917_PROMPT_CARD_ENUM_TYPING_PLAN.md",
+      "sha256": "a0e2bcd6c7acefdda7506cec5e11f31b2c57c655d23689d87399f90a58458b66",
+      "bytes": 8801,
+      "disposition": "existing_issue_or_deferred",
+      "routing": "RD-04 consumes C-SDLC; #875 pilot; PY-01 bounded reduction. Optional dashboard/runner expansions deferred pending scope reconciliation.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/workflow_tooling/planning/VALIDATION_MANAGER_AND_FASTCONTEXT_HANDOFF.md",
+      "sha256": "b5e57dcf90e880334ddee4b1a39282b7f2ef5ac18c511441ec65019a360eb391",
+      "bytes": 3996,
+      "disposition": "existing_issue_or_deferred",
+      "routing": "RD-04 consumes C-SDLC; #875 pilot; PY-01 bounded reduction. Optional dashboard/runner expansions deferred pending scope reconciliation.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    },
+    {
+      "source": ".adl/docs/TBD/workflow_tooling/worktrees-cleanup-plan.md",
+      "sha256": "ee969cd12b70bdf4e58163b199eae1a901f270bd4dfa8c56b445970fc53c7304",
+      "bytes": 3739,
+      "disposition": "existing_issue_or_deferred",
+      "routing": "RD-04 consumes C-SDLC; #875 pilot; PY-01 bounded reduction. Optional dashboard/runner expansions deferred pending scope reconciliation.",
+      "evidence_scope": "source accounting; not independent implementation completion proof"
+    }
+  ]
+}

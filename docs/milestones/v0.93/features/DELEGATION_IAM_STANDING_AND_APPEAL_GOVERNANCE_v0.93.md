@@ -128,3 +128,10 @@ See [execution specifications](../WP_EXECUTION_SPECIFICATIONS_v0.93.yaml), [deci
 ## Current Candidate Mapping
 
 GOV-03, GOV-05, GOV-11, GOV-12, GOV-13; owner repositories: agent-logic-runtime. The current execution graph supersedes older sequencing or placement in retained source text.
+
+
+## Inherited feature acceptance — #922 / GOV-11
+
+A bounded remote action accepts a current scoped delegation and rejects refusal, revocation and replay without applying the action twice.
+
+Required negative scenarios: Remote replay duplicates effect; Remote refusal ignored.

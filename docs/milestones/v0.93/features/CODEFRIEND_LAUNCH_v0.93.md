@@ -88,7 +88,7 @@ The source scope and invariants above define the feature contract. Implement the
 - CF-02 follows CF-01, RV-08.
 - CF-03 follows CF-02.
 - CF-04 follows CF-03.
-- CF-05 follows CF-04.
+- CF-05 follows CF-04 and CT-05.
 - CF-06 follows CF-05.
 - CF-07 follows CF-06.
 
@@ -131,3 +131,8 @@ See [execution specifications](../WP_EXECUTION_SPECIFICATIONS_v0.93.yaml), [deci
 ## Current Candidate Mapping
 
 CF-01, CF-02, CF-03, CF-04, CF-05, CF-06, CF-07; owner repositories: codefriend, codefriend.ai. The current execution graph supersedes older sequencing or placement in retained source text.
+
+
+## Branded output launch dependency
+
+CT-01–CT-10 deliver versioned artifact templates and styles. CF-05 consumes CT-05 catalog-wide qualification before CF-07; no optional post-launch deferral.

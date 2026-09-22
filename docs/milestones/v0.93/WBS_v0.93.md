@@ -2,7 +2,7 @@
 
 ## Metadata
 
-Planning template set: 1.1.0. Target: v0.93. Authoring issue: #1047 in v0.92.2. Accountable planning role: milestone owner; named implementation owners are assigned before opening.
+Planning template set: 1.1.0. Target: v0.93. Authoring issue: #1047; current reconciliation: #922 in v0.92.2. Accountable planning role: milestone owner; named implementation owners are assigned before opening.
 
 ## Status
 
@@ -14,7 +14,7 @@ Use logical IDs below for planning; create actual issues only at authorized open
 
 ## WBS Summary
 
-64 candidate results: 1 opening, 11 migration, 8 Runtime v4, 16 governance, 6 security, 7 CodeFriend launch, 1 Python reduction tranche, 4 integration/qualification and 10 release-tail results. Runtime v4 RV-01 through RV-08 are mandatory; capacity planning must preserve their complete release outcome.
+83 candidate results: 1 opening, 13 migration, 11 Runtime v4, 16 governance, 6 security, 7 CodeFriend launch, 10 artifact-template results, 4 citizen continuity/reproduction results, 1 Python reduction tranche, 4 integration/qualification and 10 release-tail results. Runtime v4 RV-01 through RV-11 are mandatory; capacity planning must preserve their complete release outcome.
 
 ## Candidate WP Sequence
 
@@ -23,8 +23,10 @@ Use logical IDs below for planning; create actual issues only at authorized open
 | WP-01 | Open the reviewed v0.93 execution wave | agent-design-language | Opening authorization |
 | RD-01 | Refresh final-head ownership audit | agent-design-language | WP-01 |
 | RD-02 | Accept repository boundaries and cutover contracts | agent-design-language | RD-01 |
-| RD-03 | Distribute portable public ADL contracts | agent-design-language | RD-02 |
-| RD-04 | Extract and qualify C-SDLC | cognitive-sdlc | RD-02 |
+| RD-12 | Bootstrap the approved destination repositories | agent-design-language | RD-02 |
+| RD-13 | Materialize destination issue identities | agent-design-language | RD-12 |
+| RD-03 | Distribute portable public ADL contracts | agent-design-language | RD-13 |
+| RD-04 | Extract and qualify C-SDLC | cognitive-sdlc | RD-13 |
 | RD-05 | Extract and qualify Runtime with Observatory | agent-logic-runtime | RD-03, RD-04 |
 | RD-06 | Extract artifact-consuming infrastructure | agent-logic-infrastructure | RD-05 |
 | RD-09 | Establish enterprise-security producer boundary | agent-logic-enterprise-security | RD-05 |
@@ -35,7 +37,10 @@ Use logical IDs below for planning; create actual issues only at authorized open
 | RV-01 | Resolve plugin lifecycle design findings | agent-logic-runtime | RD-11 |
 | RV-02 | Adapt built-in components to the native plugin contract | agent-logic-runtime | RV-01 |
 | RV-03 | Implement recoverable plugin generation transitions | agent-logic-runtime | RV-02 |
-| RV-04 | Run a governed process plugin | agent-logic-runtime | RV-03 |
+| RV-09 | Migrate versioned plugin state | agent-logic-runtime | RV-03 |
+| RV-10 | Reconfigure a plugin atomically | agent-logic-runtime | RV-09 |
+| RV-11 | Remove a plugin without breaking dependents | agent-logic-runtime | RV-10 |
+| RV-04 | Run a governed process plugin | agent-logic-runtime | RV-11 |
 | RV-05 | Run a bounded WASM component plugin | agent-logic-runtime | RV-04 |
 | RV-06 | Prove cross-adapter module equivalence | agent-logic-runtime | RV-05 |
 | RV-07 | Move provider instances to plugin configuration | agent-logic-runtime | RV-06 |
@@ -44,9 +49,19 @@ Use logical IDs below for planning; create actual issues only at authorized open
 | CF-02 | Deliver a deployable CodeFriend product | codefriend | CF-01, RV-08 |
 | CF-03 | Complete external tester onboarding | codefriend | CF-02 |
 | CF-04 | Qualify launch operations and recovery | codefriend | CF-03 |
-| CF-05 | Qualify the external beta launch candidate | codefriend | CF-04 |
+| CF-05 | Qualify the external beta launch candidate | codefriend | CF-04, CT-05 |
 | CF-06 | Prepare the website to hand off to the qualified product | codefriend.ai | CF-05 |
 | CF-07 | Launch the qualified CodeFriend service | codefriend | CF-06 |
+| CT-01 | Accept the complete artifact template catalog | codefriend | CF-01 |
+| CT-02 | Release the common branded template foundation | codefriend | CT-01 |
+| CT-09 | Release the test template family | codefriend | CT-02 |
+| CT-08 | Release the diagram template family | codefriend | CT-02 |
+| CT-07 | Release the review template family | codefriend | CT-02 |
+| CT-06 | Release the document template family | codefriend | CT-02 |
+| CT-03 | Prepare artifact content through named fields | codefriend | CT-06, CT-07, CT-08, CT-09, CF-02 |
+| CT-10 | Preview and export branded artifacts | codefriend | CT-03 |
+| CT-04 | Preserve artifact compatibility across template upgrades | codefriend | CT-10 |
+| CT-05 | Qualify the complete branded artifact catalog | codefriend | CT-04 |
 | GOV-01 | Enforce citizen and guest actor boundaries | agent-logic-runtime | RV-08 |
 | GOV-02 | Evaluate trace-grounded rights and duties | agent-logic-runtime | GOV-01 |
 | GOV-03 | Apply evidence-backed standing transitions | agent-logic-runtime | GOV-02 |
@@ -69,10 +84,14 @@ Use logical IDs below for planning; create actual issues only at authorized open
 | WP-S4 | Produce tamper-evident incident evidence | agent-logic-enterprise-security | WP-S3, GOV-05 |
 | WP-S5 | Enforce protected data lifecycle and isolation | agent-logic-enterprise-security | WP-S3, GOV-10 |
 | WP-S6 | Operate a replayable security regression drill | agent-logic-enterprise-security | WP-S4, WP-S5 |
+| CM-01 | Accept citizen migration and descendant identity contracts | agent-logic-runtime | RV-08, GOV-01 |
+| CM-02 | Migrate one citizen without conflicting active identity | agent-logic-runtime | CM-01, WP-S3 |
+| CM-03 | Create a governed descendant with distinct identity | agent-logic-runtime | CM-01, GOV-11, WP-S5 |
+| CM-04 | Qualify citizen migration and reproduction recovery | agent-logic-runtime | CM-02, CM-03 |
 | PY-01 | Complete the bounded Python reduction tranche | agent-design-language | RD-11 |
 | DEMO-GOV | Run integrated governance demonstrations | agent-logic-runtime | GOV-16 |
 | DEMO-SEC | Run integrated security demonstrations | agent-logic-enterprise-security | WP-S6 |
-| INTEGRATE | Integrate governance with security and plugin operations | agent-logic-runtime | DEMO-GOV, DEMO-SEC |
+| INTEGRATE | Integrate governance with security and plugin operations | agent-logic-runtime | DEMO-GOV, DEMO-SEC, CM-04 |
 | QUALIFY | Independently qualify the installed milestone | agent-logic-runtime | INTEGRATE, CF-07, PY-01 |
 | TAIL-01 | Quality gate | agent-design-language | QUALIFY |
 | TAIL-02 | Documentation review and external-review handoff | agent-design-language | TAIL-01 |
@@ -104,3 +123,8 @@ Each feature source maps to executable candidate results and negative cases in t
 ## Exit Criteria
 
 Every admitted result has an owner, dependency, completion denominator, proof and non-goal; unresolved scope is decided before issue-wave opening. No implementation closure from docs-only scaffolds.
+
+
+## Single-task rule
+
+Each of the 83 logical issues owns the single result in its task_boundary. RD-02/RD-12/RD-13 separate decisions, repository bootstrap and issue mapping. RV-03/RV-09/RV-10/RV-11 separate the generation engine, state migration, reconfiguration and removal. CT-02/CT-06–CT-09 separate the common package and four artifact families; CT-03/CT-10 separate content preparation from rendering/export. CT-05 and CM-04 qualify existing implementations; fixes go back to result owners. Supporting tests/docs do not become separate administrative issues. No count is a calendar estimate.

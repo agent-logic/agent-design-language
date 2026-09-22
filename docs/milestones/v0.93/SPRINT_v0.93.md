@@ -2,7 +2,7 @@
 
 ## Metadata
 
-Planning template set: 1.1.0. Target: v0.93. Authoring issue: #1047 in v0.92.2. Accountable planning role: milestone owner; named implementation owners are assigned before opening.
+Planning template set: 1.1.0. Target: v0.93. Authoring issue: #1047; current reconciliation: #922 in v0.92.2. Accountable planning role: milestone owner; named implementation owners are assigned before opening.
 
 ## Status
 
@@ -16,11 +16,13 @@ These are ordered planning phases, not calendar commitments or newly created spr
 
 | Phase | Rows | Exit result |
 |---|---|---|
-| Opening | WP-01 | Explicit opening and ADL coordination/audit/decision identities; destination identities follow RD-02 bootstrap |
-| Repository split | RD-01 through RD-11 in dependency order | Independently qualified product lockset and rollback |
+| Opening | WP-01 | Explicit opening and ADL coordination/audit/decision identities; destination identities follow RD-12 bootstrap through RD-13 |
+| Repository split | RD-01 through RD-13 in dependency order | Independently qualified product lockset and rollback |
 | CodeFriend launch | CF-01 through CF-07; installed product depends on RV-08 | Authorized live Beta 1 launch, tester admission, verification and rollback |
-| Runtime foundation | RV-01 through RV-08, mandatory | Accepted plugin lifecycle and native/process/WASM proof |
+| Runtime foundation | RV-01 through RV-11, mandatory | Accepted plugin lifecycle and native/process/WASM proof |
 | Governance and security | GOV-01 through GOV-16; WP-S1 through WP-S6 | Installed evidence-backed behavior in owning repositories |
+| Artifact templates | CT-01–CT-10 | Complete branded artifact catalog accepted before CF-05 |
+| Citizen continuity/reproduction | CM-01–CM-04 | Installed identity, lineage and recovery qualification before INTEGRATE |
 | Qualification | DEMO-GOV, DEMO-SEC, INTEGRATE, QUALIFY | Independent installed milestone qualification |
 | Release tail | TAIL-01 through TAIL-10 | Accepted review/remediation/planning and authorized release |
 
@@ -34,7 +36,7 @@ No source move overlaps v0.92.2 coding or v0.93 feature implementation. Establis
 
 ## Planned Scope
 
-The 64 candidates are a first-pass denominator, not a promise that all fit. Runtime v4 was omitted by the old package despite explicit handoff routing; operator direction now makes all eight Runtime v4 outcomes mandatory for release. CodeFriend launch is included as CF-01 through CF-07; audience, environment and limits are resolved before launch execution. See DECISIONS_v0.93.md.
+The 83 candidates are a first-pass denominator, not a promise that all fit. Runtime v4 was omitted by the old package despite explicit handoff routing; operator direction now makes all eleven Runtime v4 outcomes mandatory for release. CodeFriend launch is included as CF-01 through CF-07; audience, environment and limits are resolved before launch execution. See DECISIONS_v0.93.md.
 
 ## Work Plan
 

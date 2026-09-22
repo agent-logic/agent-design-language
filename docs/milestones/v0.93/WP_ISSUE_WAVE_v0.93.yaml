@@ -9,7 +9,7 @@
       "title": "Open the reviewed v0.93 execution wave",
       "repository": "agent-design-language",
       "depends_on": [],
-      "outcome": "After accepted v0.92.2 closure, the inter-milestone break and explicit opening approval, create only ADL coordination, audit and boundary-decision issue identities; destination issue creation waits for RD-02 repository bootstrap."
+      "outcome": "After accepted v0.92.2 closure, the inter-milestone break and explicit opening approval, create only ADL coordination, audit and boundary-decision issue identities; destination issue creation waits for RD-12 repository bootstrap and RD-13 issue mapping."
     },
     {
       "wp": "RD-01",
@@ -27,14 +27,32 @@
       "depends_on": [
         "RD-01"
       ],
-      "outcome": "Record exact names, owners, licenses, version distribution, history/evidence retention and rollback authorities; settle audit gaps before moves, then create/bootstrap approved destination repositories and materialize their issue identities with immutable cross-repository links before extraction begins."
+      "outcome": "One accepted cutover contract fixes names, accountable owners, licenses, distribution, history/evidence retention and rollback boundaries and resolves the ownership audit findings before repository creation."
+    },
+    {
+      "wp": "RD-12",
+      "title": "Bootstrap the approved destination repositories",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "RD-02"
+      ],
+      "outcome": "Approved destination repositories exist with verified visibility, access, default branches and minimal project configuration matching the accepted cutover contract."
+    },
+    {
+      "wp": "RD-13",
+      "title": "Materialize destination issue identities",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "RD-12"
+      ],
+      "outcome": "One complete immutable cross-repository issue map binds the accepted candidate results to destination issue identities without duplicate creation."
     },
     {
       "wp": "RD-03",
       "title": "Distribute portable public ADL contracts",
       "repository": "agent-design-language",
       "depends_on": [
-        "RD-02"
+        "RD-13"
       ],
       "outcome": "Public portable interfaces and conformance fixtures build and package without private source; consumers resolve pinned distributable versions."
     },
@@ -43,7 +61,7 @@
       "title": "Extract and qualify C-SDLC",
       "repository": "cognitive-sdlc",
       "depends_on": [
-        "RD-02"
+        "RD-13"
       ],
       "outcome": "An independent install completes a shadow issue through review, publication, merge, finish and cleanup, including authentic copied-record interrupted recovery, without Runtime or ADL source."
     },
@@ -138,14 +156,41 @@
       "depends_on": [
         "RV-02"
       ],
-      "outcome": "Staging, bounded quiesce, versioned state/config migration, two-phase reconfiguration, dependency-safe removal, activation and rollback recover to one fenced generation after every interruption; prove a successful migrator and preserve the prior generation when migration/reconfiguration/removal is refused."
+      "outcome": "The durable generation transaction stages, quiesces, activates and rolls back to one fenced generation after interruption; in-flight work and cancellation retain their declared disposition."
+    },
+    {
+      "wp": "RV-09",
+      "title": "Migrate versioned plugin state",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "RV-03"
+      ],
+      "outcome": "An installed plugin migrates declared prior-version state to the selected version and preserves the prior generation when the migrator refuses or fails."
+    },
+    {
+      "wp": "RV-10",
+      "title": "Reconfigure a plugin atomically",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "RV-09"
+      ],
+      "outcome": "Versioned configuration migration and two-phase validation/activation apply one accepted configuration, or preserve the prior version and active configuration on refusal, failure or interruption."
+    },
+    {
+      "wp": "RV-11",
+      "title": "Remove a plugin without breaking dependents",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "RV-10"
+      ],
+      "outcome": "A requested plugin removal checks dependencies and in-flight work, refuses unsafe removal, and completes authorized removal with durable recovery state."
     },
     {
       "wp": "RV-04",
       "title": "Run a governed process plugin",
       "repository": "agent-logic-runtime",
       "depends_on": [
-        "RV-03"
+        "RV-11"
       ],
       "outcome": "One real non-core plugin uses authenticated bounded transport, deadlines and process supervision."
     },
@@ -227,7 +272,8 @@
       "title": "Qualify the external beta launch candidate",
       "repository": "codefriend",
       "depends_on": [
-        "CF-04"
+        "CF-04",
+        "CT-05"
       ],
       "outcome": "An independent external-tester rehearsal repeats ADL, external OSS and PR-review journeys and evaluates evidence, diagrams, meaningful generated tests, documentation, redaction and report quality on exact installed versions."
     },
@@ -248,6 +294,100 @@
         "CF-06"
       ],
       "outcome": "After explicit authorization of the exact candidate, audience, environment and budget, publish the approved product/site entry points, admit the authorized testers, verify the live end-to-end journey and retain a tested rollback. Until launch authorization is granted and live launch is verified, this result remains incomplete and v0.93 cannot close."
+    },
+    {
+      "wp": "CT-01",
+      "title": "Accept the complete artifact template catalog",
+      "repository": "codefriend",
+      "depends_on": [
+        "CF-01"
+      ],
+      "outcome": "Every enabled CodeFriend producer and exporter maps to a stable kind, field contract, owner, formats and common/per-kind style requirements; accepted blank and filled examples cover the catalog."
+    },
+    {
+      "wp": "CT-02",
+      "title": "Release the common branded template foundation",
+      "repository": "codefriend",
+      "depends_on": [
+        "CT-01"
+      ],
+      "outcome": "One immutable common template package provides shared field/schema conventions, manifest/digest rules, REV 01 style tokens and approved font/logo assets for kind-specific template authors."
+    },
+    {
+      "wp": "CT-09",
+      "title": "Release the test template family",
+      "repository": "codefriend",
+      "depends_on": [
+        "CT-02"
+      ],
+      "outcome": "Every supported test-plan, generated-test and test-report kind has a versioned template and guide preserving language/framework rules and distinct generated-versus-executed truth."
+    },
+    {
+      "wp": "CT-08",
+      "title": "Release the diagram template family",
+      "repository": "codefriend",
+      "depends_on": [
+        "CT-02"
+      ],
+      "outcome": "Every supported diagram kind has a versioned template and guide with semantic shapes/edges and accessible alternatives; the full 4+1 package preserves shared IDs and cross-view consistency."
+    },
+    {
+      "wp": "CT-07",
+      "title": "Release the review template family",
+      "repository": "codefriend",
+      "depends_on": [
+        "CT-02"
+      ],
+      "outcome": "Every enabled review kind has a versioned template and guide preserving scope, evidence, findings, severity/confidence and limitations with representative fixtures."
+    },
+    {
+      "wp": "CT-06",
+      "title": "Release the document template family",
+      "repository": "codefriend",
+      "depends_on": [
+        "CT-02"
+      ],
+      "outcome": "Every enabled document kind has a versioned fill-in-the-blank template, per-kind guide, field contract and representative blank/filled fixture inheriting the common package."
+    },
+    {
+      "wp": "CT-03",
+      "title": "Prepare artifact content through named fields",
+      "repository": "codefriend",
+      "depends_on": [
+        "CT-06",
+        "CT-07",
+        "CT-08",
+        "CT-09",
+        "CF-02"
+      ],
+      "outcome": "An installed user selects a kind and fills or edits named fields and repeatable blocks into a validated version-pinned content artifact with explicit unknowns and unfinished-field state."
+    },
+    {
+      "wp": "CT-10",
+      "title": "Preview and export branded artifacts",
+      "repository": "codefriend",
+      "depends_on": [
+        "CT-03"
+      ],
+      "outcome": "Installed renderers consume the validated content artifact and pinned template package to produce human-readable preview and supported branded exports without exposing authoring hints."
+    },
+    {
+      "wp": "CT-04",
+      "title": "Preserve artifact compatibility across template upgrades",
+      "repository": "codefriend",
+      "depends_on": [
+        "CT-10"
+      ],
+      "outcome": "An installed project pins a template release, preserves historical output and explicitly upgrades or rolls back supported schema/render combinations without changing evidence or finding identities."
+    },
+    {
+      "wp": "CT-05",
+      "title": "Qualify the complete branded artifact catalog",
+      "repository": "codefriend",
+      "depends_on": [
+        "CT-04"
+      ],
+      "outcome": "Independent installed qualification covers every enabled kind and supported format with readable representative output, selectable text and accessible diagrams; supported generated tests parse and a bounded behavioral regression fails before its fix and passes afterward."
     },
     {
       "wp": "GOV-01",
@@ -459,6 +599,47 @@
       "outcome": "One bounded red/blue/purple drill replays a seed per control area and produces mitigation, provenance, threat-board and release-risk evidence."
     },
     {
+      "wp": "CM-01",
+      "title": "Accept citizen migration and descendant identity contracts",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "RV-08",
+        "GOV-01"
+      ],
+      "outcome": "A reviewed contract distinguishes same-identity migration and recovery from new-identity descendants, replication and independent clones; it defines authority, lineage, consent, state inheritance, fencing and recovery outcomes."
+    },
+    {
+      "wp": "CM-02",
+      "title": "Migrate one citizen without conflicting active identity",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "CM-01",
+        "WP-S3"
+      ],
+      "outcome": "Two owned Runtime endpoints transfer one authorized citizen checkpoint and scoped continuity evidence; the source is fenced before destination activation and interruption can recover without two active holders or lost lineage."
+    },
+    {
+      "wp": "CM-03",
+      "title": "Create a governed descendant with distinct identity",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "CM-01",
+        "GOV-11",
+        "WP-S5"
+      ],
+      "outcome": "An authorized parent creates one distinctly identified descendant with explicit lineage, selected inherited state and newly scoped authority while preserving the parent and protecting private state."
+    },
+    {
+      "wp": "CM-04",
+      "title": "Qualify citizen migration and reproduction recovery",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "CM-02",
+        "CM-03"
+      ],
+      "outcome": "Independent installed scenarios exercise migration and descendant creation across restart, interruption and retry, verify lineage/privacy/fencing and expose the resulting identity and custody status to the operator."
+    },
+    {
       "wp": "PY-01",
       "title": "Complete the bounded Python reduction tranche",
       "repository": "agent-design-language",
@@ -491,7 +672,8 @@
       "repository": "agent-logic-runtime",
       "depends_on": [
         "DEMO-GOV",
-        "DEMO-SEC"
+        "DEMO-SEC",
+        "CM-04"
       ],
       "outcome": "One installed polis joins citizen action, upstream delegation, private cognition, policy enforcement, appeal and plugin restart without contract drift."
     },

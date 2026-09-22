@@ -44,7 +44,7 @@ v0.93 allocation, but they are not implementation closeout decisions.
 
 ## Metadata
 
-Planning template set: 1.1.0. Target: v0.93. Authoring issue: #1047 in v0.92.2. Accountable planning role: milestone owner; named implementation owners are assigned before opening.
+Planning template set: 1.1.0. Target: v0.93. Authoring issue: #1047; current reconciliation: #922 in v0.92.2. Accountable planning role: milestone owner; named implementation owners are assigned before opening.
 
 ## Purpose
 
@@ -60,13 +60,20 @@ Original D-01 through D-10 remain planning boundaries, not proof of implementati
 |---|---|---|---|
 | D-11 | Repo split opens v0.93 after v0.92.2 acceptance/closure | Operator selected | WP-01/RD-11 |
 | D-12 | One public ADL and six private repositories; CodeFriend software separate from website | Operator boundary; software name proposed | RD-02 confirms exact names and people |
-| D-13 | Runtime v4 belongs in v0.93 | Required by explicit operator direction on 2026-09-16 | RV-01 through RV-08 completed and independently qualified before release |
+| D-13 | Runtime v4 belongs in v0.93 | Required by explicit operator direction on 2026-09-16 | RV-01 through RV-11 completed and independently qualified before release |
 | D-14 | Retain existing governance and six security tracks | First-pass assumption; scope/capacity review pending | Before opening issue wave |
 | D-15 | Customer-scale CodeFriend deployment | Required by explicit operator direction on 2026-09-16; launch audience/environment/limits resolved before execution | CF-01 and #922 final reconciliation; actual publication needs explicit authorization |
 | D-16 | Licenses, registries, supported versions, history/issue migration, evidence retention | Proposed owners in migration plan; named owners and policy unresolved | RD-02 before extraction |
 | D-17 | Runtime v4 review defects | Proposed corrections in feature doc; not accepted implementation design | RV-01 before RV-02 |
 | D-18 | ATE, OCI, economics, optional modernization and cloud/account operations | Retain existing separate routing; no automatic admission | #922 final reconciliation |
 
-Runtime v4 is mandatory in v0.93. RV-01 through RV-08 are required, including native, process and WASM adapters, provider integration and installed recovery qualification. Native generation recovery is an intermediate dependency gate, not a reduced release scope. Design review resolves implementation choices without deferring required outcomes. No calendar estimate is claimed.
+Runtime v4 is mandatory in v0.93. RV-01 through RV-11 are required, including native, process and WASM adapters, provider integration and installed recovery qualification. Native generation recovery is an intermediate dependency gate, not a reduced release scope. Design review resolves implementation choices without deferring required outcomes. No calendar estimate is claimed.
 
 CodeFriend Beta 1 must launch in v0.93. CF-07 is mandatory: an authorized live product, tester admission, end-to-end verification and retained rollback. Planning, a preview or withheld execution authorization cannot satisfy release completion. #1047 prepares this obligation and does not itself launch the service.
+
+
+## Operator-confirmed additions — #922 / 2026-09-22
+
+- D-19: CodeFriend versioned templates and per-kind style guides are required v0.93 scope. CT-01–CT-10 must complete before CF-05 launch qualification; use the supplied REV 01 brand source and full supported artifact catalog.
+- D-20: Citizen reproduction/migration is required v0.93 scope. CM-01–CM-04 provide the bounded identity/lineage/custody outcome and feed INTEGRATE. This replaces the old unresolved placement question.
+- D-21: #922 may draft/update now by operator instruction; final #921 evidence, predecessor acceptance, inter-milestone break and explicit v0.93 opening remain required. No permission for new product implementation or live launch is implied.

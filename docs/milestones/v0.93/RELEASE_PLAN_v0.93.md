@@ -75,11 +75,11 @@ Do not ship v0.93 if:
 
 ## Metadata
 
-Planning template set: 1.1.0. Target: v0.93. Authoring issue: #1047 in v0.92.2. Accountable planning role: milestone owner; named implementation owners are assigned before opening.
+Planning template set: 1.1.0. Target: v0.93. Authoring issue: #1047; current reconciliation: #922 in v0.92.2. Accountable planning role: milestone owner; named implementation owners are assigned before opening.
 
 ## Mandatory Runtime v4 Release Gate
 
-Operator direction on 2026-09-16 requires Runtime v4 completion in v0.93. TAIL-01 and the release ceremony must reject a candidate without completed RV-01 through RV-08 and independent installed proof for native, process and WASM adapters, provider integration, fenced generation recovery and rollback. Native-only implementation or a deferred adapter does not meet this gate.
+Operator direction on 2026-09-16 requires Runtime v4 completion in v0.93. TAIL-01 and the release ceremony must reject a candidate without completed RV-01 through RV-11 and independent installed proof for native, process and WASM adapters, provider integration, fenced generation recovery and rollback. Native-only implementation or a deferred adapter does not meet this gate.
 
 ## CodeFriend launch readiness
 
@@ -129,3 +129,18 @@ Prepare a public summary plus private operator handoffs with the appropriate evi
 ## Exit Criteria
 
 All tail outcomes accepted, releases and install verification match the intended lockset, issue/PR closure reconciled separately, evidence retained, rollback ownership explicit and successor handoff reviewed. Plans, green CI and draft publication alone cannot meet this bar.
+
+
+## Confirmed scope reconciliation — #922
+
+The reconciled graph contains **83 candidate results**, including required
+CT-01–CT-10 branded artifact templates/style guides and CM-01–CM-04 citizen
+reproduction/migration. CT-05 gates CF-05; CM-04 gates INTEGRATE. All remain
+behind the accepted repository split. See [feature coverage](FEATURE_COVERAGE_v0.93.md)
+for all 21 inherited v0.93 feature rows and the two confirmed additions.
+
+#922 drafting is authorized early; accepted final #921 residuals and the final
+v0.92.2 handoff remain pending reconciliation before final planning acceptance.
+This package does not open v0.93, establish implementation proof or approve
+publication. Runtime v4, CodeFriend launch and both additions cannot be silently
+deferred. Existing #875/#671 retain separate identities in the issue ledger.

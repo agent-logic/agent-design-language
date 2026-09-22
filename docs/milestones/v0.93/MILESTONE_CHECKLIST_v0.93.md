@@ -72,7 +72,7 @@ entered active execution.
 
 ## Metadata
 
-Planning template set: 1.1.0. Target: v0.93. Authoring issue: #1047 in v0.92.2. Accountable planning role: milestone owner; named implementation owners are assigned before opening.
+Planning template set: 1.1.0. Target: v0.93. Authoring issue: #1047; current reconciliation: #922 in v0.92.2. Accountable planning role: milestone owner; named implementation owners are assigned before opening.
 
 ## Purpose
 
@@ -83,7 +83,7 @@ Track accepted delivery, not merely planning-file existence.
 - [ ] Accepted v0.92.2 close, break and opening approval recorded.
 - [ ] RD-11 product lockset accepted before features.
 - [ ] Each work item uses its owning repository and native lifecycle.
-- [ ] Runtime v4 RV-01 through RV-08 completed with native, process and WASM adapter proof, provider integration and installed recovery qualification.
+- [ ] Runtime v4 RV-01 through RV-11 completed with native, process and WASM adapter proof, provider integration and installed recovery qualification.
 
 ## Release Packaging
 
@@ -97,3 +97,18 @@ Track accepted delivery, not merely planning-file existence.
 - [ ] Residuals handed off with owners; shared rollback retirement separately authorized.
 
 - [ ] CF-01 through CF-07 qualified against the current Drive Beta 1 plan, including external-tester rehearsal and website handoff; deployment/publication authority recorded separately.
+
+
+## Confirmed scope reconciliation — #922
+
+The reconciled graph contains **83 candidate results**, including required
+CT-01–CT-10 branded artifact templates/style guides and CM-01–CM-04 citizen
+reproduction/migration. CT-05 gates CF-05; CM-04 gates INTEGRATE. All remain
+behind the accepted repository split. See [feature coverage](FEATURE_COVERAGE_v0.93.md)
+for all 21 inherited v0.93 feature rows and the two confirmed additions.
+
+#922 drafting is authorized early; accepted final #921 residuals and the final
+v0.92.2 handoff remain pending reconciliation before final planning acceptance.
+This package does not open v0.93, establish implementation proof or approve
+publication. Runtime v4, CodeFriend launch and both additions cannot be silently
+deferred. Existing #875/#671 retain separate identities in the issue ledger.

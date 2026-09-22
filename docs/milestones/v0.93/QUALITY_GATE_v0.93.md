@@ -4,7 +4,7 @@ Status: first-pass contract, not qualification evidence.
 
 ## Required denominator
 
-The execution graph defines 64 candidate outcomes. At opening, retain the accepted exact denominator, real cross-repository issue mapping and any explicitly approved changes. Runtime v4 RV-01 through RV-08 is mandatory. Launch CF-01 through CF-07 is included in this first pass. A count of closed issues cannot replace result-by-result acceptance.
+The execution graph defines 83 candidate outcomes. At opening, retain the accepted exact denominator, real cross-repository issue mapping and any explicitly approved changes. Runtime v4 RV-01 through RV-11 is mandatory. Launch CF-01 through CF-07, templates CT-01 through CT-10 and citizen migration/reproduction CM-01 through CM-04 are required. A count of closed issues cannot replace result-by-result acceptance.
 
 ## Gate sequence
 
@@ -25,3 +25,8 @@ Missing Runtime v4 outcomes, lost accepted work without declared disposition, st
 ## Resource and approval boundary
 
 Local fixture proof is the default. Real providers, deployment environments and customer repositories need explicit per-issue scope, budget and access. Synthetic security demonstrations do not prove production compliance. Planning issue #1047 runs package validation only; none of the product gates has run as part of this issue.
+
+
+## Added required consumer proof
+
+CT-05 qualifies every enabled artifact kind and supported format before CF-05. CM-04 qualifies migration/reproduction interruption and retry before INTEGRATE. FEATURE_COVERAGE_v0.93.md maps inherited integration scenarios, including commitments/deadlines, to required consumers. Missing any admitted CT/CM outcome blocks release. Pending final #921 handoff blocks final planning acceptance; it is not waived by early drafting.

@@ -7,6 +7,9 @@ WP-01 issue-wave authoring. They are not implementation closeout records.
 
 ## Feature Documents
 
+- [Versioned artifact templates and style guides](CODEFRIEND_ARTIFACT_TEMPLATES_AND_STYLE_GUIDES_v0.93.md)
+- [Citizen reproduction and migration](CITIZEN_REPRODUCTION_AND_MIGRATION_v0.93.md)
+
 - [CodeFriend launch](CODEFRIEND_LAUNCH_v0.93.md)
 - [Runtime v4 plugin system](RUNTIME_V4_PLUGIN_SYSTEM_v0.93.md)
 
