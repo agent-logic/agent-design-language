@@ -100,3 +100,9 @@ The operator reported PAIR fixed. A fresh read-only check confirms all three pre
 ### Merge update
 
 #1137 is confirmed merged as `1646f791da0c72850baed16e835922b354170606` at 2026-09-22 04:18:41 UTC. The operator also reported #1138 merged, but two immediate GitHub readbacks still returned OPEN with no merge commit; its merge remains unconfirmed in this checkpoint. #915 remains OPEN. Earlier local test results precede these integrations and do not certify a refreshed post-merge candidate.
+
+### Post-merge integration verified
+
+Both ADL PRs are now confirmed merged and #1132/#1133 are CLOSED. Website companion CodeFriend.ai #18 is merged as `a45e339c13b24716edbd3fadf29dddff36ffe02e`. The #916 branch incorporates native main `2b047c8dc34e133ee1353ec265507a17c523e06f` at local merge `e240a1b804968f8e96be7ea6e5dbfbc2ac51ea83`; both native merge ancestors were verified.
+
+The affected native rerun passes **154 tests across 11 targets**, with zero failures/ignored. The exact merged website snapshot passes **141 tests**, with zero failures/skips. See [post-merge results](POSTMERGE_VERIFICATION.json). Earlier OPEN/unconfirmed observations are historical and superseded. #915 remains OPEN; these local integration results are not deployment or independent real-provider qualification.

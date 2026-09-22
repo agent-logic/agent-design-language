@@ -200,17 +200,17 @@
     },
     {
       "issue": 1132,
-      "state": "OPEN",
+      "state": "CLOSED",
       "role": "website cycle-to-Journey integration",
-      "delivery_status": "in_pr_review",
-      "status_source": "Operator clarification on September 21: only #915 remains outstanding; others are in PR."
+      "delivery_status": "merged_integration",
+      "status_source": "Authenticated merge readbacks: ADL1137/1138 and CodeFriend.ai18; independent915 qualification separate."
     },
     {
       "issue": 1133,
-      "state": "OPEN",
+      "state": "CLOSED",
       "role": "native cycle-to-Journey/publication integration",
-      "delivery_status": "in_pr_review",
-      "status_source": "Operator clarification on September 21: only #915 remains outstanding; others are in PR."
+      "delivery_status": "merged_integration",
+      "status_source": "Authenticated merge readbacks: ADL1137/1138 and CodeFriend.ai18; independent915 qualification separate."
     }
   ],
   "denominators": {
@@ -229,8 +229,8 @@
     "No child after 916 accepted by this audit"
   ],
   "next_actions": [
-    "Reconcile historical producer records with #915 exact final candidate",
-    "Consume #915 independent qualification and reconcile owner deliveries already in PR review"
+    "Consume #915 independent qualification against merged native and website candidate identities",
+    "Reconcile accepted candidate/manifest digests and final twelve quality-gate results; do not substitute component tests for real-provider qualification"
   ],
   "producer_audit": {
     "evidence_index": "PRODUCER_EVIDENCE_INDEX.json",
@@ -251,6 +251,7 @@
       "historical_record_inspected": 17,
       "operator_accepted_bounded_handoff": 2
     },
-    "live_verification": "LIVE_VERIFICATION.json"
+    "live_verification": "LIVE_VERIFICATION.json",
+    "postmerge_verification": "POSTMERGE_VERIFICATION.json"
   }
 }

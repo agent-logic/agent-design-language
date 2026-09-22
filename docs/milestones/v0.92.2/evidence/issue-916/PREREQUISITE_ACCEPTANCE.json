@@ -632,18 +632,17 @@
   "live_pr_observations": [
     {
       "pr": 1137,
-      "head": "8e2d85e8655cef7e0ae36ddbacc13df3fdc95d8c",
       "state": "MERGED",
+      "head": "8e2d85e8655cef7e0ae36ddbacc13df3fdc95d8c",
       "merge_commit": "1646f791da0c72850baed16e835922b354170606",
       "merged_at": "2026-09-22T04:18:41Z"
     },
     {
       "pr": 1138,
+      "state": "MERGED",
       "head": "5cf0bdedc9bc1236df52550d4d9a27ff794d1266",
-      "state": "OPEN",
-      "merge_commit": null,
-      "operator_report": "merged",
-      "observation_note": "Two immediate authenticated readbacks still report OPEN; merge not yet confirmed."
+      "merge_commit": "2b047c8dc34e133ee1353ec265507a17c523e06f",
+      "merged_at": "2026-09-22T04:23:51Z"
     }
   ],
   "content_audit_counts": {
@@ -651,5 +650,11 @@
     "historical_record_inspected": 17,
     "operator_accepted_bounded_handoff": 2
   },
-  "live_pr_observed_at": "2026-09-22T04:21:58.038208+00:00"
+  "live_pr_observed_at": "2026-09-22T04:27:13.680990+00:00",
+  "website_integration": {
+    "repository": "agent-logic/codefriend.ai",
+    "pr": 18,
+    "state": "MERGED",
+    "merge_commit": "a45e339c13b24716edbd3fadf29dddff36ffe02e"
+  }
 }
