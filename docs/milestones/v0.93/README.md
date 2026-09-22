@@ -208,4 +208,4 @@ deferred. Existing #875/#671 retain separate identities in the issue ledger.
 
 ## Sprint allocation — #922
 
-The [numbered sprint plan](SPRINT_v0.93.md) allocates all 83 core candidates across **16 proposed sprints**. Sprints 1–3 finish and accept the repository split before feature work; CodeFriend Beta 1 launch is allocated to Sprint 10 and the release tail to Sprints 14–16. Existing #875/#671 keep separate identities and gated windows. Sprint numbering creates neither calendar commitments nor execution authority.
+The [numbered sprint plan](SPRINT_v0.93.md) allocates all 83 core candidates across **8 proposed sprints**. Sprint 1 finishes and accept the repository split before feature work; CodeFriend Beta 1 launch is allocated to Sprint 4 and the release tail to Sprint 8. Existing #875/#671 keep separate identities and gated windows. Sprint numbering creates neither calendar commitments nor execution authority.

@@ -215,7 +215,7 @@ fn rejects_missing_duplicate_and_premature_sprint_assignments() {
         .unwrap()
         .push(serde_json::json!("WP-01"));
     assert!(check(&p).is_err());
-    for (id, target) in [("CF-01", 3_u64), ("RV-08", 4)] {
+    for (id, target) in [("CF-01", 1_u64), ("CT-03", 2)] {
         let mut p = read("EXECUTION_PLAN_v0.93.json");
         for sprint in p["sprint_plan"]["sprints"].as_array_mut().unwrap() {
             sprint["work_packages"]

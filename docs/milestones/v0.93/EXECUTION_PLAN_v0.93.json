@@ -251,7 +251,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 2
+      "sprint": 1
     },
     {
       "id": "RD-04",
@@ -285,7 +285,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 2
+      "sprint": 1
     },
     {
       "id": "RD-05",
@@ -319,7 +319,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 2
+      "sprint": 1
     },
     {
       "id": "RD-06",
@@ -351,7 +351,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 3
+      "sprint": 1
     },
     {
       "id": "RD-09",
@@ -383,7 +383,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 3
+      "sprint": 1
     },
     {
       "id": "RD-10",
@@ -417,7 +417,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 3
+      "sprint": 1
     },
     {
       "id": "RD-08",
@@ -452,7 +452,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 3
+      "sprint": 1
     },
     {
       "id": "RD-07",
@@ -485,7 +485,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 3
+      "sprint": 1
     },
     {
       "id": "RD-11",
@@ -518,7 +518,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 3
+      "sprint": 1
     },
     {
       "id": "RV-01",
@@ -550,7 +550,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 4
+      "sprint": 2
     },
     {
       "id": "RV-02",
@@ -581,7 +581,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 4
+      "sprint": 2
     },
     {
       "id": "RV-03",
@@ -614,7 +614,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 4
+      "sprint": 2
     },
     {
       "id": "RV-09",
@@ -647,7 +647,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 5
+      "sprint": 2
     },
     {
       "id": "RV-10",
@@ -682,7 +682,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 5
+      "sprint": 2
     },
     {
       "id": "RV-11",
@@ -715,7 +715,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 5
+      "sprint": 2
     },
     {
       "id": "RV-04",
@@ -748,7 +748,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 6
+      "sprint": 2
     },
     {
       "id": "RV-05",
@@ -780,7 +780,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 6
+      "sprint": 2
     },
     {
       "id": "RV-06",
@@ -812,7 +812,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 6
+      "sprint": 2
     },
     {
       "id": "RV-07",
@@ -844,7 +844,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 6
+      "sprint": 2
     },
     {
       "id": "RV-08",
@@ -877,7 +877,7 @@
         "supporting_work": "Execute and report the declared qualification/demo denominator. Implementation defects return to their owning result or a separately scoped corrective issue; do not absorb implementation into qualification.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 6
+      "sprint": 2
     },
     {
       "id": "CF-01",
@@ -909,7 +909,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 4
+      "sprint": 2
     },
     {
       "id": "CF-02",
@@ -943,7 +943,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 7
+      "sprint": 3
     },
     {
       "id": "CF-03",
@@ -977,7 +977,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 8
+      "sprint": 3
     },
     {
       "id": "CF-04",
@@ -1011,7 +1011,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 8
+      "sprint": 3
     },
     {
       "id": "CF-05",
@@ -1046,7 +1046,7 @@
         "supporting_work": "Execute and report the declared qualification/demo denominator. Implementation defects return to their owning result or a separately scoped corrective issue; do not absorb implementation into qualification.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 10
+      "sprint": 4
     },
     {
       "id": "CF-06",
@@ -1079,7 +1079,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 10
+      "sprint": 4
     },
     {
       "id": "CF-07",
@@ -1113,7 +1113,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 10
+      "sprint": 4
     },
     {
       "id": "CT-01",
@@ -1146,7 +1146,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 4
+      "sprint": 2
     },
     {
       "id": "CT-02",
@@ -1179,7 +1179,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 5
+      "sprint": 2
     },
     {
       "id": "CT-09",
@@ -1212,7 +1212,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 5
+      "sprint": 2
     },
     {
       "id": "CT-08",
@@ -1245,7 +1245,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 5
+      "sprint": 2
     },
     {
       "id": "CT-07",
@@ -1277,7 +1277,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 5
+      "sprint": 2
     },
     {
       "id": "CT-06",
@@ -1309,7 +1309,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 5
+      "sprint": 2
     },
     {
       "id": "CT-03",
@@ -1346,7 +1346,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 8
+      "sprint": 3
     },
     {
       "id": "CT-10",
@@ -1380,7 +1380,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 8
+      "sprint": 3
     },
     {
       "id": "CT-04",
@@ -1414,7 +1414,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 9
+      "sprint": 4
     },
     {
       "id": "CT-05",
@@ -1449,7 +1449,7 @@
         "supporting_work": "Execute and report the declared qualification/demo denominator. Implementation defects return to their owning result or a separately scoped corrective issue; do not absorb implementation into qualification.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 9
+      "sprint": 4
     },
     {
       "id": "GOV-01",
@@ -1483,7 +1483,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 7
+      "sprint": 5
     },
     {
       "id": "GOV-02",
@@ -1514,7 +1514,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 7
+      "sprint": 5
     },
     {
       "id": "GOV-03",
@@ -1546,7 +1546,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 7
+      "sprint": 5
     },
     {
       "id": "GOV-04",
@@ -1578,7 +1578,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 8
+      "sprint": 5
     },
     {
       "id": "GOV-05",
@@ -1610,7 +1610,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 9
+      "sprint": 5
     },
     {
       "id": "GOV-06",
@@ -1642,7 +1642,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 7
+      "sprint": 5
     },
     {
       "id": "GOV-07",
@@ -1674,7 +1674,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 8
+      "sprint": 5
     },
     {
       "id": "GOV-08",
@@ -1705,7 +1705,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 8
+      "sprint": 5
     },
     {
       "id": "GOV-09",
@@ -1739,7 +1739,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 9
+      "sprint": 5
     },
     {
       "id": "GOV-10",
@@ -1771,7 +1771,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 10
+      "sprint": 5
     },
     {
       "id": "GOV-11",
@@ -1806,7 +1806,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 8
+      "sprint": 5
     },
     {
       "id": "GOV-12",
@@ -1839,7 +1839,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 9
+      "sprint": 5
     },
     {
       "id": "GOV-13",
@@ -1870,7 +1870,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 9
+      "sprint": 5
     },
     {
       "id": "GOV-14",
@@ -1907,7 +1907,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 10
+      "sprint": 5
     },
     {
       "id": "GOV-15",
@@ -1940,7 +1940,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 11
+      "sprint": 5
     },
     {
       "id": "GOV-16",
@@ -1972,7 +1972,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 11
+      "sprint": 5
     },
     {
       "id": "WP-S1",
@@ -2005,7 +2005,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 9
+      "sprint": 5
     },
     {
       "id": "WP-S2",
@@ -2038,7 +2038,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 10
+      "sprint": 5
     },
     {
       "id": "WP-S3",
@@ -2071,7 +2071,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 10
+      "sprint": 5
     },
     {
       "id": "WP-S4",
@@ -2104,7 +2104,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 11
+      "sprint": 5
     },
     {
       "id": "WP-S5",
@@ -2138,7 +2138,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 11
+      "sprint": 5
     },
     {
       "id": "WP-S6",
@@ -2172,7 +2172,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 12
+      "sprint": 5
     },
     {
       "id": "CM-01",
@@ -2206,7 +2206,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 7
+      "sprint": 6
     },
     {
       "id": "CM-02",
@@ -2242,7 +2242,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 11
+      "sprint": 6
     },
     {
       "id": "CM-03",
@@ -2278,7 +2278,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 11
+      "sprint": 6
     },
     {
       "id": "CM-04",
@@ -2313,7 +2313,7 @@
         "supporting_work": "Execute and report the declared qualification/demo denominator. Implementation defects return to their owning result or a separately scoped corrective issue; do not absorb implementation into qualification.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 12
+      "sprint": 6
     },
     {
       "id": "PY-01",
@@ -2346,7 +2346,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 4
+      "sprint": 2
     },
     {
       "id": "DEMO-GOV",
@@ -2377,7 +2377,7 @@
         "supporting_work": "Execute and report the declared qualification/demo denominator. Implementation defects return to their owning result or a separately scoped corrective issue; do not absorb implementation into qualification.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 12
+      "sprint": 6
     },
     {
       "id": "DEMO-SEC",
@@ -2408,7 +2408,7 @@
         "supporting_work": "Execute and report the declared qualification/demo denominator. Implementation defects return to their owning result or a separately scoped corrective issue; do not absorb implementation into qualification.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 12
+      "sprint": 6
     },
     {
       "id": "INTEGRATE",
@@ -2442,7 +2442,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 13
+      "sprint": 7
     },
     {
       "id": "QUALIFY",
@@ -2476,7 +2476,7 @@
         "supporting_work": "Execute and report the declared qualification/demo denominator. Implementation defects return to their owning result or a separately scoped corrective issue; do not absorb implementation into qualification.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 13
+      "sprint": 7
     },
     {
       "id": "TAIL-01",
@@ -2508,7 +2508,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 14
+      "sprint": 8
     },
     {
       "id": "TAIL-02",
@@ -2540,7 +2540,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 14
+      "sprint": 8
     },
     {
       "id": "TAIL-03",
@@ -2572,7 +2572,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 14
+      "sprint": 8
     },
     {
       "id": "TAIL-04",
@@ -2604,7 +2604,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 15
+      "sprint": 8
     },
     {
       "id": "TAIL-05",
@@ -2636,7 +2636,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 15
+      "sprint": 8
     },
     {
       "id": "TAIL-06",
@@ -2668,7 +2668,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 15
+      "sprint": 8
     },
     {
       "id": "TAIL-07",
@@ -2700,7 +2700,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 16
+      "sprint": 8
     },
     {
       "id": "TAIL-08",
@@ -2732,7 +2732,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 16
+      "sprint": 8
     },
     {
       "id": "TAIL-09",
@@ -2764,7 +2764,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 16
+      "sprint": 8
     },
     {
       "id": "TAIL-10",
@@ -2796,7 +2796,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 16
+      "sprint": 8
     }
   ],
   "predecessor_reconciliation": {
@@ -2806,36 +2806,22 @@
   },
   "sprint_plan": {
     "status": "draft_allocated_not_open",
-    "sprint_count": 16,
-    "sizing": "Outcome-based delivery waves, not fixed calendar timeboxes. Capacity and named owners are unresolved; split oversized sprints before activation without bundling issues or weakening dependencies.",
-    "execution_rule": "Sprints 1\u20133 contain only opening and repository split. No feature starts before accepted RD-11. Within later sprints, run only ready issues in dependency order; independent lanes may overlap after their own gates pass. Sprint membership does not add dependencies or authorize external actions.",
+    "sprint_count": 8,
+    "sizing": "Eight outcome-based sprints, not fixed calendar timeboxes. Each issue retains one task; named owners and effort estimates are assigned before activation. Grouping does not reduce scope or effort.",
+    "execution_rule": "Sprint 1 contains only opening and repository split. No feature starts before accepted RD-11. Within later sprints, execute only ready issues in dependency order; independent lanes may overlap after their own gates pass. Sprint membership adds no dependency or external-action authority.",
     "sprints": [
       {
         "number": 1,
-        "title": "Repository split: decisions and destinations",
+        "title": "Repository split, qualification and acceptance",
         "work_packages": [
           "WP-01",
           "RD-01",
           "RD-02",
           "RD-12",
-          "RD-13"
-        ],
-        "exit_result": "Approved cutover contract, destination repositories and issue identities."
-      },
-      {
-        "number": 2,
-        "title": "Repository split: foundational extraction",
-        "work_packages": [
+          "RD-13",
           "RD-03",
           "RD-04",
-          "RD-05"
-        ],
-        "exit_result": "Public contracts, C-SDLC and Runtime/Observatory qualified in their owning repositories."
-      },
-      {
-        "number": 3,
-        "title": "Repository split: consumers and acceptance",
-        "work_packages": [
+          "RD-05",
           "RD-06",
           "RD-09",
           "RD-10",
@@ -2843,175 +2829,133 @@
           "RD-07",
           "RD-11"
         ],
-        "exit_result": "All product consumers qualified; superseded source retired; complete split lockset accepted."
+        "exit_result": "Complete split lockset accepted at RD-11 before any feature work."
       },
       {
-        "number": 4,
-        "title": "Runtime transition foundation and product contracts",
+        "number": 2,
+        "title": "Runtime v4 and template foundations",
         "work_packages": [
           "RV-01",
           "RV-02",
           "RV-03",
-          "CF-01",
-          "CT-01",
-          "PY-01"
-        ],
-        "exit_result": "Native generation transitions accepted; launch requirements and artifact catalog agreed; Python tranche disposition recorded."
-      },
-      {
-        "number": 5,
-        "title": "Plugin continuity and template families",
-        "work_packages": [
           "RV-09",
           "RV-10",
           "RV-11",
-          "CT-02",
-          "CT-06",
-          "CT-07",
-          "CT-08",
-          "CT-09"
-        ],
-        "exit_result": "State/configuration migration and safe removal accepted; four template families use the common branded foundation."
-      },
-      {
-        "number": 6,
-        "title": "Runtime v4 installed qualification",
-        "work_packages": [
           "RV-04",
           "RV-05",
           "RV-06",
           "RV-07",
-          "RV-08"
+          "RV-08",
+          "CF-01",
+          "CT-01",
+          "CT-02",
+          "CT-09",
+          "CT-08",
+          "CT-07",
+          "CT-06",
+          "PY-01"
         ],
-        "exit_result": "Native/process/WASM behavior, provider migration and installed recovery qualified."
+        "exit_result": "Installed Runtime v4 qualified; launch requirements, common template foundation and four families accepted; Python tranche disposition recorded."
       },
       {
-        "number": 7,
-        "title": "Deployable CodeFriend and citizen foundations",
+        "number": 3,
+        "title": "CodeFriend product and artifact preparation",
         "work_packages": [
           "CF-02",
-          "GOV-01",
-          "GOV-02",
-          "GOV-03",
-          "GOV-06",
-          "CM-01"
-        ],
-        "exit_result": "Deployable product, actor boundaries, rights/standing and private ToM accepted; citizen continuity contract agreed."
-      },
-      {
-        "number": 8,
-        "title": "Artifact preparation and launch operations",
-        "work_packages": [
           "CF-03",
           "CF-04",
           "CT-03",
-          "CT-10",
-          "GOV-04",
-          "GOV-07",
-          "GOV-08",
-          "GOV-11"
+          "CT-10"
         ],
-        "exit_result": "Tester onboarding, launch recovery, branded exports, constitutional review, ToM continuity and delegation accepted."
+        "exit_result": "Deployable product, tester onboarding, launch recovery and branded artifact preparation/export accepted."
       },
       {
-        "number": 9,
-        "title": "Artifact qualification and governed cognition",
+        "number": 4,
+        "title": "Template qualification and Beta 1 launch",
         "work_packages": [
           "CT-04",
           "CT-05",
-          "GOV-05",
-          "GOV-09",
-          "GOV-12",
-          "GOV-13",
-          "WP-S1"
-        ],
-        "exit_result": "Full artifact catalog qualified; appeals, reputation, upstream cognition, communication and zero-trust boundary accepted."
-      },
-      {
-        "number": 10,
-        "title": "CodeFriend Beta 1 launch and action security",
-        "work_packages": [
           "CF-05",
           "CF-06",
-          "CF-07",
-          "GOV-10",
-          "GOV-14",
-          "WP-S2",
-          "WP-S3"
+          "CF-07"
         ],
-        "exit_result": "Qualified Beta 1 launched under explicit authority; social memory/contracts, action authorization and key lifecycle accepted."
+        "exit_result": "Complete template catalog and external launch candidate qualified; Beta 1 launched under explicit authority."
       },
       {
-        "number": 11,
-        "title": "Citizen migration, reproduction and isolation",
+        "number": 5,
+        "title": "Governance and security",
         "work_packages": [
+          "GOV-01",
+          "GOV-02",
+          "GOV-03",
+          "GOV-04",
+          "GOV-05",
+          "GOV-06",
+          "GOV-07",
+          "GOV-08",
+          "GOV-09",
+          "GOV-10",
+          "GOV-11",
+          "GOV-12",
+          "GOV-13",
+          "GOV-14",
           "GOV-15",
           "GOV-16",
+          "WP-S1",
+          "WP-S2",
+          "WP-S3",
           "WP-S4",
           "WP-S5",
-          "CM-02",
-          "CM-03"
+          "WP-S6"
         ],
-        "exit_result": "Guild/health behavior, incident evidence, protected data, single-identity migration and distinct descendants accepted."
+        "exit_result": "Constitutional/social governance and enterprise security behavior accepted, including replayable security drill."
       },
       {
-        "number": 12,
-        "title": "Recovery and integrated demonstrations",
+        "number": 6,
+        "title": "Citizen migration/reproduction and demonstrations",
         "work_packages": [
-          "WP-S6",
+          "CM-01",
+          "CM-02",
+          "CM-03",
           "CM-04",
           "DEMO-GOV",
           "DEMO-SEC"
         ],
-        "exit_result": "Security drill, citizen recovery and installed governance/security demonstrations complete."
+        "exit_result": "Citizen migration/reproduction recovery and installed governance/security demonstrations accepted."
       },
       {
-        "number": 13,
+        "number": 7,
         "title": "Milestone integration and qualification",
         "work_packages": [
           "INTEGRATE",
           "QUALIFY"
         ],
-        "exit_result": "Independent installed milestone qualification accepts the complete product lockset."
+        "exit_result": "Complete installed product lockset integrated and independently qualified."
       },
       {
-        "number": 14,
-        "title": "Release evidence and documentation",
+        "number": 8,
+        "title": "Release reviews, remediation, successor planning and closeout",
         "work_packages": [
           "TAIL-01",
           "TAIL-02",
-          "TAIL-03"
-        ],
-        "exit_result": "Quality gate, reviewed documentation and publication artifacts finalized."
-      },
-      {
-        "number": 15,
-        "title": "Milestone review and remediation",
-        "work_packages": [
+          "TAIL-03",
           "TAIL-04",
           "TAIL-05",
-          "TAIL-06"
-        ],
-        "exit_result": "Internal and external reviews resolved through accepted remediation or explicit permitted dispositions."
-      },
-      {
-        "number": 16,
-        "title": "Successor planning and release ceremony",
-        "work_packages": [
+          "TAIL-06",
           "TAIL-07",
           "TAIL-08",
           "TAIL-09",
           "TAIL-10"
         ],
-        "exit_result": "Successor planning and closeout plans reviewed; authorized release ceremony completes the milestone."
+        "exit_result": "Canonical TAIL-01\u2013TAIL-10 completed in order, including reviews before accepted remediation and authorized release."
       }
     ],
     "existing_issue_sidecars": [
       {
         "issue": 875,
         "planning_window": [
-          4,
-          12
+          2,
+          6
         ],
         "gate": "After RD-11, refreshed SIM-07/SIM-08 qualification and separately authorized transition window; observe first five consecutive eligible journeys without fabricating or replacing failures. Reconcile actual disposition before QUALIFY.",
         "status": "open_separately_gated_not_in_83_candidates"
@@ -3019,8 +2963,8 @@
       {
         "issue": 671,
         "planning_window": [
-          10,
-          12
+          4,
+          6
         ],
         "gate": "After RD-11, terminal #261/#262/#263/#660 and explicit public launch/provider submission authority. Preserve pending/accepted/live distinctions and report actual disposition before QUALIFY.",
         "status": "open_separately_gated_not_in_83_candidates"

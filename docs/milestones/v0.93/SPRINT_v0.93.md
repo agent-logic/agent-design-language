@@ -10,28 +10,20 @@ Numbered sprint allocation under #922, continuing the #1047 baseline. v0.93 is n
 
 ## How To Use
 
-There are **16 proposed sprints covering 83 single-task candidates**. Sprints 1–3 are exclusively the opening and repository split; all feature work waits for accepted RD-11. These are bounded delivery waves, not fixed-duration promises or created sprint issues. The canonical graph owns membership and dependency order. Named owners and capacity must be resolved before activating each sprint.
+There are **8 proposed sprints covering 83 single-task candidates**. Sprint 1 is exclusively the opening and repository split; all feature work waits for accepted RD-11. These are bounded delivery waves, not fixed-duration promises or created sprint issues. The canonical graph owns membership and dependency order. Named owners and capacity must be resolved before activating each sprint.
 
 ## Sprint Overview
 
 | Sprint | Goal | Tasks | Count | Exit result |
 |---|---|---|---|---|
-| 1 | Repository split: decisions and destinations | WP-01, RD-01, RD-02, RD-12, RD-13 | 5 | Approved cutover contract, destination repositories and issue identities. |
-| 2 | Repository split: foundational extraction | RD-03, RD-04, RD-05 | 3 | Public contracts, C-SDLC and Runtime/Observatory qualified in their owning repositories. |
-| 3 | Repository split: consumers and acceptance | RD-06, RD-09, RD-10, RD-08, RD-07, RD-11 | 6 | All product consumers qualified; superseded source retired; complete split lockset accepted. |
-| 4 | Runtime transition foundation and product contracts | RV-01, RV-02, RV-03, CF-01, CT-01, PY-01 | 6 | Native generation transitions accepted; launch requirements and artifact catalog agreed; Python tranche disposition recorded. |
-| 5 | Plugin continuity and template families | RV-09, RV-10, RV-11, CT-02, CT-06, CT-07, CT-08, CT-09 | 8 | State/configuration migration and safe removal accepted; four template families use the common branded foundation. |
-| 6 | Runtime v4 installed qualification | RV-04, RV-05, RV-06, RV-07, RV-08 | 5 | Native/process/WASM behavior, provider migration and installed recovery qualified. |
-| 7 | Deployable CodeFriend and citizen foundations | CF-02, GOV-01, GOV-02, GOV-03, GOV-06, CM-01 | 6 | Deployable product, actor boundaries, rights/standing and private ToM accepted; citizen continuity contract agreed. |
-| 8 | Artifact preparation and launch operations | CF-03, CF-04, CT-03, CT-10, GOV-04, GOV-07, GOV-08, GOV-11 | 8 | Tester onboarding, launch recovery, branded exports, constitutional review, ToM continuity and delegation accepted. |
-| 9 | Artifact qualification and governed cognition | CT-04, CT-05, GOV-05, GOV-09, GOV-12, GOV-13, WP-S1 | 7 | Full artifact catalog qualified; appeals, reputation, upstream cognition, communication and zero-trust boundary accepted. |
-| 10 | CodeFriend Beta 1 launch and action security | CF-05, CF-06, CF-07, GOV-10, GOV-14, WP-S2, WP-S3 | 7 | Qualified Beta 1 launched under explicit authority; social memory/contracts, action authorization and key lifecycle accepted. |
-| 11 | Citizen migration, reproduction and isolation | GOV-15, GOV-16, WP-S4, WP-S5, CM-02, CM-03 | 6 | Guild/health behavior, incident evidence, protected data, single-identity migration and distinct descendants accepted. |
-| 12 | Recovery and integrated demonstrations | WP-S6, CM-04, DEMO-GOV, DEMO-SEC | 4 | Security drill, citizen recovery and installed governance/security demonstrations complete. |
-| 13 | Milestone integration and qualification | INTEGRATE, QUALIFY | 2 | Independent installed milestone qualification accepts the complete product lockset. |
-| 14 | Release evidence and documentation | TAIL-01, TAIL-02, TAIL-03 | 3 | Quality gate, reviewed documentation and publication artifacts finalized. |
-| 15 | Milestone review and remediation | TAIL-04, TAIL-05, TAIL-06 | 3 | Internal and external reviews resolved through accepted remediation or explicit permitted dispositions. |
-| 16 | Successor planning and release ceremony | TAIL-07, TAIL-08, TAIL-09, TAIL-10 | 4 | Successor planning and closeout plans reviewed; authorized release ceremony completes the milestone. |
+| 1 | Repository split, qualification and acceptance | WP-01, RD-01, RD-02, RD-12, RD-13, RD-03, RD-04, RD-05, RD-06, RD-09, RD-10, RD-08, RD-07, RD-11 | 14 | Complete split lockset accepted at RD-11 before any feature work. |
+| 2 | Runtime v4 and template foundations | RV-01, RV-02, RV-03, RV-09, RV-10, RV-11, RV-04, RV-05, RV-06, RV-07, RV-08, CF-01, CT-01, CT-02, CT-09, CT-08, CT-07, CT-06, PY-01 | 19 | Installed Runtime v4 qualified; launch requirements, common template foundation and four families accepted; Python tranche disposition recorded. |
+| 3 | CodeFriend product and artifact preparation | CF-02, CF-03, CF-04, CT-03, CT-10 | 5 | Deployable product, tester onboarding, launch recovery and branded artifact preparation/export accepted. |
+| 4 | Template qualification and Beta 1 launch | CT-04, CT-05, CF-05, CF-06, CF-07 | 5 | Complete template catalog and external launch candidate qualified; Beta 1 launched under explicit authority. |
+| 5 | Governance and security | GOV-01, GOV-02, GOV-03, GOV-04, GOV-05, GOV-06, GOV-07, GOV-08, GOV-09, GOV-10, GOV-11, GOV-12, GOV-13, GOV-14, GOV-15, GOV-16, WP-S1, WP-S2, WP-S3, WP-S4, WP-S5, WP-S6 | 22 | Constitutional/social governance and enterprise security behavior accepted, including replayable security drill. |
+| 6 | Citizen migration/reproduction and demonstrations | CM-01, CM-02, CM-03, CM-04, DEMO-GOV, DEMO-SEC | 6 | Citizen migration/reproduction recovery and installed governance/security demonstrations accepted. |
+| 7 | Milestone integration and qualification | INTEGRATE, QUALIFY | 2 | Complete installed product lockset integrated and independently qualified. |
+| 8 | Release reviews, remediation, successor planning and closeout | TAIL-01, TAIL-02, TAIL-03, TAIL-04, TAIL-05, TAIL-06, TAIL-07, TAIL-08, TAIL-09, TAIL-10 | 10 | Canonical TAIL-01–TAIL-10 completed in order, including reviews before accepted remediation and authorized release. |
 
 ## Sprint Goals
 
@@ -55,7 +47,7 @@ One accountable repository and writing owner per issue. Cross-repository parent 
 
 ## Cadence Expectations
 
-Each sprint contains 2–8 core tasks. This bounds the issue count, not effort: repository extraction, adapter work and catalog-wide qualification may take longer than other tasks. Measure capacity and build/review time during the split; split an oversized sprint before activation while preserving single-task issues and dependency order. No dates, staffing or fixed duration are promised. Recheck changed contracts before each consumer starts. Report completed behavior, failures and uncertain effects separately.
+The operator accepted eight outcome-based sprints. Counts vary with the coherent outcome: Sprint 5 contains 22 individually scoped governance/security tasks; Sprint 7 contains two qualification tasks. Grouping reduces coordination boundaries, not effort. Assign named owners and estimate capacity before activation; no dates or fixed duration are promised. Recheck changed contracts before each consumer starts. Report completed behavior, failures and uncertain effects separately.
 
 ## Risks / Dependencies
 
@@ -77,9 +69,13 @@ Every admitted candidate has accepted output or explicit operator-approved dispo
 
 These are two existing v0.93 issues in addition to the 83 core candidates; do not recreate them or merge their tasks into sprint issues. Both wait until the split is accepted.
 
-- **#875: proposed observation window, Sprints 4–12.** The live five-journey pilot requires refreshed SIM-07/SIM-08 qualification and separate exact-window transition authorization. The first five eligible consecutive journeys determine completion, including failures and abandonments; sprint placement is not authorization or proof of completion. Reconcile its disposition before Sprint 13 qualification.
-- **#671: proposed window, Sprints 10–12.** Podcast registration retains terminal #261/#262/#263/#660 dependencies and explicit public-launch/provider-submission authority. Provider delays or missing approval remain visible; report actual disposition before Sprint 13 without claiming publication or inventing a core release dependency.
+- **#875: proposed observation window, Sprints 2–6.** The live five-journey pilot requires refreshed SIM-07/SIM-08 qualification and separate exact-window transition authorization. The first five eligible consecutive journeys determine completion, including failures and abandonments; sprint placement is not authorization or proof of completion. Reconcile its disposition before Sprint 7 qualification.
+- **#671: proposed window, Sprints 4–6.** Podcast registration retains terminal #261/#262/#263/#660 dependencies and explicit public-launch/provider-submission authority. Provider delays or missing approval remain visible; report actual disposition before Sprint 7 without claiming publication or inventing a core release dependency.
 
 ## Ownership and sizing at activation
 
 Repository ownership remains the canonical issue row's repository. Before each sprint starts, assign one named writing owner per issue, identify an independent reviewer, check exact prerequisite acceptance, and size the work against available capacity. Those names and effort estimates are unresolved and must not be fabricated. Use existing issue/PR evidence for sprint acceptance; this allocation adds no receipt system or extra review rounds. A sprint coordinator tracks its tasks without absorbing their implementation. Final #921 residuals may require an explicit plan revision before opening; no required scope is silently deferred.
+
+## Consolidation decision
+
+The operator accepted eight sprints in place of sixteen. All 83 task identities, scopes and dependency edges are preserved. Sprint 7 owns integration and qualification; release review remediation stays in Sprint 8 after TAIL-04/TAIL-05, preserving the canonical review-before-remediation order. No new sprint ceremony or review layer is introduced.

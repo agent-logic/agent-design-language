@@ -60,7 +60,7 @@
         "RD-13"
       ],
       "outcome": "Public portable interfaces and conformance fixtures build and package without private source; consumers resolve pinned distributable versions.",
-      "sprint": 2
+      "sprint": 1
     },
     {
       "wp": "RD-04",
@@ -70,7 +70,7 @@
         "RD-13"
       ],
       "outcome": "An independent install completes a shadow issue through review, publication, merge, finish and cleanup, including authentic copied-record interrupted recovery, without Runtime or ADL source.",
-      "sprint": 2
+      "sprint": 1
     },
     {
       "wp": "RD-05",
@@ -81,7 +81,7 @@
         "RD-04"
       ],
       "outcome": "Published Runtime artifacts run a local polis with continuity and Observatory using distributed contracts, with accepted pre-split rollback.",
-      "sprint": 2
+      "sprint": 1
     },
     {
       "wp": "RD-06",
@@ -91,7 +91,7 @@
         "RD-05"
       ],
       "outcome": "Infrastructure validates against pinned application artifacts without copied application source; state and cloud applies remain separately authorized.",
-      "sprint": 3
+      "sprint": 1
     },
     {
       "wp": "RD-09",
@@ -101,7 +101,7 @@
         "RD-05"
       ],
       "outcome": "Private security repository independently validates its versioned Runtime extension boundary; Runtime proves absent, unavailable and verified provider behavior using synthetic policies.",
-      "sprint": 3
+      "sprint": 1
     },
     {
       "wp": "RD-10",
@@ -111,7 +111,7 @@
         "RD-05"
       ],
       "outcome": "Separate software checkout installs and repeats Beta 1 on ADL and an external repository; existing codefriend.ai site, history and deployment continue independently.",
-      "sprint": 3
+      "sprint": 1
     },
     {
       "wp": "RD-08",
@@ -123,7 +123,7 @@
         "RD-10"
       ],
       "outcome": "Every retained demo has one owner and runs against supported product artifacts; Runtime owns Observatory and product moves own their source placement.",
-      "sprint": 3
+      "sprint": 1
     },
     {
       "wp": "RD-07",
@@ -133,7 +133,7 @@
         "RD-08"
       ],
       "outcome": "Each approved removal has preserved history/evidence and qualified replacement; a clean public checkout builds/tests/packages without private access.",
-      "sprint": 3
+      "sprint": 1
     },
     {
       "wp": "RD-11",
@@ -143,7 +143,7 @@
         "RD-07"
       ],
       "outcome": "Accept a sanitized compatibility lockset of independently qualified products and rollback points; no v0.93 feature starts before this gate.",
-      "sprint": 3
+      "sprint": 1
     },
     {
       "wp": "RV-01",
@@ -153,7 +153,7 @@
         "RD-11"
       ],
       "outcome": "An accepted plugin contract defines topology precedence, epochs, durable activation journal, in-flight delivery, cancellation, versioned state/config migration, two-phase reconfiguration, dependency-safe removal and recovery classes.",
-      "sprint": 4
+      "sprint": 2
     },
     {
       "wp": "RV-02",
@@ -163,7 +163,7 @@
         "RV-01"
       ],
       "outcome": "Existing Runtime behavior and identity survive native adapter conversion with no second scheduler.",
-      "sprint": 4
+      "sprint": 2
     },
     {
       "wp": "RV-03",
@@ -173,7 +173,7 @@
         "RV-02"
       ],
       "outcome": "The durable generation transaction stages, quiesces, activates and rolls back to one fenced generation after interruption; in-flight work and cancellation retain their declared disposition.",
-      "sprint": 4
+      "sprint": 2
     },
     {
       "wp": "RV-09",
@@ -183,7 +183,7 @@
         "RV-03"
       ],
       "outcome": "An installed plugin migrates declared prior-version state to the selected version and preserves the prior generation when the migrator refuses or fails.",
-      "sprint": 5
+      "sprint": 2
     },
     {
       "wp": "RV-10",
@@ -193,7 +193,7 @@
         "RV-09"
       ],
       "outcome": "Versioned configuration migration and two-phase validation/activation apply one accepted configuration, or preserve the prior version and active configuration on refusal, failure or interruption.",
-      "sprint": 5
+      "sprint": 2
     },
     {
       "wp": "RV-11",
@@ -203,7 +203,7 @@
         "RV-10"
       ],
       "outcome": "A requested plugin removal checks dependencies and in-flight work, refuses unsafe removal, and completes authorized removal with durable recovery state.",
-      "sprint": 5
+      "sprint": 2
     },
     {
       "wp": "RV-04",
@@ -213,7 +213,7 @@
         "RV-11"
       ],
       "outcome": "One real non-core plugin uses authenticated bounded transport, deadlines and process supervision.",
-      "sprint": 6
+      "sprint": 2
     },
     {
       "wp": "RV-05",
@@ -223,7 +223,7 @@
         "RV-04"
       ],
       "outcome": "The canonical contract drives a default-deny WIT adapter with enforced memory, time and host-call limits.",
-      "sprint": 6
+      "sprint": 2
     },
     {
       "wp": "RV-06",
@@ -233,7 +233,7 @@
         "RV-05"
       ],
       "outcome": "One module has equivalent CSM-visible identity, messages, failure and state behavior across native, process and WASM adapters.",
-      "sprint": 6
+      "sprint": 2
     },
     {
       "wp": "RV-07",
@@ -243,7 +243,7 @@
         "RV-06"
       ],
       "outcome": "Provider instances consume host-owned credentials and versioned configuration through the common inference capability.",
-      "sprint": 6
+      "sprint": 2
     },
     {
       "wp": "RV-08",
@@ -253,7 +253,7 @@
         "RV-07"
       ],
       "outcome": "Installed package signing, checkpoint compatibility, generation recovery and Observatory operations pass with a retained known-good rollback.",
-      "sprint": 6
+      "sprint": 2
     },
     {
       "wp": "CF-01",
@@ -263,7 +263,7 @@
         "RD-11"
       ],
       "outcome": "Map every Drive Beta 1 workstream, demo and external-tester criterion to accepted v0.92.2 evidence, then accept the launch audience, deployment mode, limits and remaining operational gaps. Missing Beta 1 behavior remains a predecessor blocker.",
-      "sprint": 4
+      "sprint": 2
     },
     {
       "wp": "CF-02",
@@ -274,7 +274,7 @@
         "RV-08"
       ],
       "outcome": "A clean target environment installs pinned CodeFriend and Runtime artifacts and completes a real repository review without a development checkout; deployment config identifies the approved environment and resource limits.",
-      "sprint": 7
+      "sprint": 3
     },
     {
       "wp": "CF-03",
@@ -284,7 +284,7 @@
         "CF-02"
       ],
       "outcome": "A non-ADL tester can connect an authorized local or GitHub repository, select scope, run a review and inspect/export its evidence packet with explicit privacy and publication state.",
-      "sprint": 8
+      "sprint": 3
     },
     {
       "wp": "CF-04",
@@ -294,7 +294,7 @@
         "CF-03"
       ],
       "outcome": "The deployed product restores a known-good release and retained project state after interruption, with bounded job cost, cancellation, deletion and operator diagnostics demonstrated.",
-      "sprint": 8
+      "sprint": 3
     },
     {
       "wp": "CF-05",
@@ -305,7 +305,7 @@
         "CT-05"
       ],
       "outcome": "An independent external-tester rehearsal repeats ADL, external OSS and PR-review journeys and evaluates evidence, diagrams, meaningful generated tests, documentation, redaction and report quality on exact installed versions.",
-      "sprint": 10
+      "sprint": 4
     },
     {
       "wp": "CF-06",
@@ -315,7 +315,7 @@
         "CF-05"
       ],
       "outcome": "The existing website launch plan and product entry point agree with qualified capabilities, support/feedback instructions, access limits and rollback; an approved preview is ready for separately authorized publication.",
-      "sprint": 10
+      "sprint": 4
     },
     {
       "wp": "CF-07",
@@ -325,7 +325,7 @@
         "CF-06"
       ],
       "outcome": "After explicit authorization of the exact candidate, audience, environment and budget, publish the approved product/site entry points, admit the authorized testers, verify the live end-to-end journey and retain a tested rollback. Until launch authorization is granted and live launch is verified, this result remains incomplete and v0.93 cannot close.",
-      "sprint": 10
+      "sprint": 4
     },
     {
       "wp": "CT-01",
@@ -335,7 +335,7 @@
         "CF-01"
       ],
       "outcome": "Every enabled CodeFriend producer and exporter maps to a stable kind, field contract, owner, formats and common/per-kind style requirements; accepted blank and filled examples cover the catalog.",
-      "sprint": 4
+      "sprint": 2
     },
     {
       "wp": "CT-02",
@@ -345,7 +345,7 @@
         "CT-01"
       ],
       "outcome": "One immutable common template package provides shared field/schema conventions, manifest/digest rules, REV 01 style tokens and approved font/logo assets for kind-specific template authors.",
-      "sprint": 5
+      "sprint": 2
     },
     {
       "wp": "CT-09",
@@ -355,7 +355,7 @@
         "CT-02"
       ],
       "outcome": "Every supported test-plan, generated-test and test-report kind has a versioned template and guide preserving language/framework rules and distinct generated-versus-executed truth.",
-      "sprint": 5
+      "sprint": 2
     },
     {
       "wp": "CT-08",
@@ -365,7 +365,7 @@
         "CT-02"
       ],
       "outcome": "Every supported diagram kind has a versioned template and guide with semantic shapes/edges and accessible alternatives; the full 4+1 package preserves shared IDs and cross-view consistency.",
-      "sprint": 5
+      "sprint": 2
     },
     {
       "wp": "CT-07",
@@ -375,7 +375,7 @@
         "CT-02"
       ],
       "outcome": "Every enabled review kind has a versioned template and guide preserving scope, evidence, findings, severity/confidence and limitations with representative fixtures.",
-      "sprint": 5
+      "sprint": 2
     },
     {
       "wp": "CT-06",
@@ -385,7 +385,7 @@
         "CT-02"
       ],
       "outcome": "Every enabled document kind has a versioned fill-in-the-blank template, per-kind guide, field contract and representative blank/filled fixture inheriting the common package.",
-      "sprint": 5
+      "sprint": 2
     },
     {
       "wp": "CT-03",
@@ -399,7 +399,7 @@
         "CF-02"
       ],
       "outcome": "An installed user selects a kind and fills or edits named fields and repeatable blocks into a validated version-pinned content artifact with explicit unknowns and unfinished-field state.",
-      "sprint": 8
+      "sprint": 3
     },
     {
       "wp": "CT-10",
@@ -409,7 +409,7 @@
         "CT-03"
       ],
       "outcome": "Installed renderers consume the validated content artifact and pinned template package to produce human-readable preview and supported branded exports without exposing authoring hints.",
-      "sprint": 8
+      "sprint": 3
     },
     {
       "wp": "CT-04",
@@ -419,7 +419,7 @@
         "CT-10"
       ],
       "outcome": "An installed project pins a template release, preserves historical output and explicitly upgrades or rolls back supported schema/render combinations without changing evidence or finding identities.",
-      "sprint": 9
+      "sprint": 4
     },
     {
       "wp": "CT-05",
@@ -429,7 +429,7 @@
         "CT-04"
       ],
       "outcome": "Independent installed qualification covers every enabled kind and supported format with readable representative output, selectable text and accessible diagrams; supported generated tests parse and a bounded behavioral regression fails before its fix and passes afterward.",
-      "sprint": 9
+      "sprint": 4
     },
     {
       "wp": "GOV-01",
@@ -439,7 +439,7 @@
         "RV-08"
       ],
       "outcome": "Runtime admits citizen conduct only through bound identity, Freedom Gate and signed trace; guest/operator action remains distinct.",
-      "sprint": 7
+      "sprint": 5
     },
     {
       "wp": "GOV-02",
@@ -449,7 +449,7 @@
         "GOV-01"
       ],
       "outcome": "A Runtime policy evaluator returns rights/duties decisions with trace evidence for a bounded action.",
-      "sprint": 7
+      "sprint": 5
     },
     {
       "wp": "GOV-03",
@@ -459,7 +459,7 @@
         "GOV-02"
       ],
       "outcome": "Standing maintenance, restriction, restoration and revocation consume existing state primitives and retain reasons and challenge context.",
-      "sprint": 7
+      "sprint": 5
     },
     {
       "wp": "GOV-04",
@@ -469,7 +469,7 @@
         "GOV-03"
       ],
       "outcome": "A review consumer emits findings over trace/outcome/policy evidence without raw private-state access.",
-      "sprint": 8
+      "sprint": 5
     },
     {
       "wp": "GOV-05",
@@ -479,7 +479,7 @@
         "GOV-04"
       ],
       "outcome": "A challenged finding progresses through appeal and recorded disposition without destroying original evidence.",
-      "sprint": 9
+      "sprint": 5
     },
     {
       "wp": "GOV-06",
@@ -489,7 +489,7 @@
         "GOV-01"
       ],
       "outcome": "Signed evidence-backed model updates replay under standing, consent/scope and projection controls.",
-      "sprint": 7
+      "sprint": 5
     },
     {
       "wp": "GOV-07",
@@ -499,7 +499,7 @@
         "GOV-06"
       ],
       "outcome": "Conflicting and stale entries change a bounded consumer decision through explicit uncertainty/decay events.",
-      "sprint": 8
+      "sprint": 5
     },
     {
       "wp": "GOV-08",
@@ -509,7 +509,7 @@
         "GOV-06"
       ],
       "outcome": "Relationship records preserve evidence and permitted scope across restart without becoming standing verdicts.",
-      "sprint": 8
+      "sprint": 5
     },
     {
       "wp": "GOV-09",
@@ -521,7 +521,7 @@
         "GOV-08"
       ],
       "outcome": "Authorized redacted projections can inform review while retaining challenge and source lineage.",
-      "sprint": 9
+      "sprint": 5
     },
     {
       "wp": "GOV-10",
@@ -531,7 +531,7 @@
         "GOV-09"
       ],
       "outcome": "Two governed consumers share evidence projections with preserved uncertainty, access rules and freshness.",
-      "sprint": 10
+      "sprint": 5
     },
     {
       "wp": "GOV-11",
@@ -541,7 +541,7 @@
         "GOV-03"
       ],
       "outcome": "Delegated action binds identity, standing, resource, capability and policy without exceeding the delegator grant.",
-      "sprint": 8
+      "sprint": 5
     },
     {
       "wp": "GOV-12",
@@ -552,7 +552,7 @@
         "GOV-07"
       ],
       "outcome": "A selected/rejected upstream call retains citizen identity, policy, provenance and verification; ToM may inform selection but cannot override authority.",
-      "sprint": 9
+      "sprint": 5
     },
     {
       "wp": "GOV-13",
@@ -562,7 +562,7 @@
         "GOV-11"
       ],
       "outcome": "A governed exchange succeeds while an associated unauthorized private-state/ToM inspection is denied.",
-      "sprint": 9
+      "sprint": 5
     },
     {
       "wp": "GOV-14",
@@ -574,7 +574,7 @@
         "GOV-13"
       ],
       "outcome": "A policy consumer evaluates explicit polis/citizen obligations and emits reviewable evidence.",
-      "sprint": 10
+      "sprint": 5
     },
     {
       "wp": "GOV-15",
@@ -585,7 +585,7 @@
         "GOV-12"
       ],
       "outcome": "Guild identity, membership, scoped resources and delegated actions persist with trace and challenge support.",
-      "sprint": 11
+      "sprint": 5
     },
     {
       "wp": "GOV-16",
@@ -595,7 +595,7 @@
         "GOV-15"
       ],
       "outcome": "The operator receives evidence-linked standing, appeals and social-memory summaries without private-state leaks or scalar moral ranking.",
-      "sprint": 11
+      "sprint": 5
     },
     {
       "wp": "WP-S1",
@@ -606,7 +606,7 @@
         "RD-09"
       ],
       "outcome": "A private policy provider drives Runtime allow/deny decisions over all declared actor/message/data boundaries.",
-      "sprint": 9
+      "sprint": 5
     },
     {
       "wp": "WP-S2",
@@ -617,7 +617,7 @@
         "GOV-12"
       ],
       "outcome": "Enterprise policy narrows Runtime grants for identity, standing, delegation, tools and ACIP messages.",
-      "sprint": 10
+      "sprint": 5
     },
     {
       "wp": "WP-S3",
@@ -627,7 +627,7 @@
         "WP-S2"
       ],
       "outcome": "Current scoped keys work and rotated/revoked keys fail in signed/encrypted message and checkpoint consumers.",
-      "sprint": 10
+      "sprint": 5
     },
     {
       "wp": "WP-S4",
@@ -638,7 +638,7 @@
         "GOV-05"
       ],
       "outcome": "A synthetic incident emits linked audit, control and redacted review evidence accepted by the governance consumer.",
-      "sprint": 11
+      "sprint": 5
     },
     {
       "wp": "WP-S5",
@@ -649,7 +649,7 @@
         "GOV-10"
       ],
       "outcome": "Access, retention, deletion and projection operations enforce tenant/polis/citizen ownership and privacy.",
-      "sprint": 11
+      "sprint": 5
     },
     {
       "wp": "WP-S6",
@@ -660,7 +660,7 @@
         "WP-S5"
       ],
       "outcome": "One bounded red/blue/purple drill replays a seed per control area and produces mitigation, provenance, threat-board and release-risk evidence.",
-      "sprint": 12
+      "sprint": 5
     },
     {
       "wp": "CM-01",
@@ -671,7 +671,7 @@
         "GOV-01"
       ],
       "outcome": "A reviewed contract distinguishes same-identity migration and recovery from new-identity descendants, replication and independent clones; it defines authority, lineage, consent, state inheritance, fencing and recovery outcomes.",
-      "sprint": 7
+      "sprint": 6
     },
     {
       "wp": "CM-02",
@@ -682,7 +682,7 @@
         "WP-S3"
       ],
       "outcome": "Two owned Runtime endpoints transfer one authorized citizen checkpoint and scoped continuity evidence; the source is fenced before destination activation and interruption can recover without two active holders or lost lineage.",
-      "sprint": 11
+      "sprint": 6
     },
     {
       "wp": "CM-03",
@@ -694,7 +694,7 @@
         "WP-S5"
       ],
       "outcome": "An authorized parent creates one distinctly identified descendant with explicit lineage, selected inherited state and newly scoped authority while preserving the parent and protecting private state.",
-      "sprint": 11
+      "sprint": 6
     },
     {
       "wp": "CM-04",
@@ -705,7 +705,7 @@
         "CM-03"
       ],
       "outcome": "Independent installed scenarios exercise migration and descendant creation across restart, interruption and retry, verify lineage/privacy/fencing and expose the resulting identity and custody status to the operator.",
-      "sprint": 12
+      "sprint": 6
     },
     {
       "wp": "PY-01",
@@ -715,7 +715,7 @@
         "RD-11"
       ],
       "outcome": "Record tracked Python file and LOC counts at milestone start and end across the split repository set, separating moves from reductions; remove or replace one coherent remaining public ADL helper family with live-behavior parity, or record an explicit reviewed no-reduction justification if no suitable family remains. Preserve the no-new-Python policy and enable a zero-Python gate only where the measured footprint supports it.",
-      "sprint": 4
+      "sprint": 2
     },
     {
       "wp": "DEMO-GOV",
@@ -725,7 +725,7 @@
         "GOV-16"
       ],
       "outcome": "Execute D1-D8 and guild D13 through installed Runtime consumers with accepted and refused paths.",
-      "sprint": 12
+      "sprint": 6
     },
     {
       "wp": "DEMO-SEC",
@@ -735,7 +735,7 @@
         "WP-S6"
       ],
       "outcome": "Execute D9-D12 plus per-message ACIP cases against the private provider and installed Runtime.",
-      "sprint": 12
+      "sprint": 6
     },
     {
       "wp": "INTEGRATE",
@@ -747,7 +747,7 @@
         "CM-04"
       ],
       "outcome": "One installed polis joins citizen action, upstream delegation, private cognition, policy enforcement, appeal and plugin restart without contract drift.",
-      "sprint": 13
+      "sprint": 7
     },
     {
       "wp": "QUALIFY",
@@ -759,7 +759,7 @@
         "PY-01"
       ],
       "outcome": "Independent reviewer runs the accepted success/failure/recovery denominator on the exact multi-repository lockset.",
-      "sprint": 13
+      "sprint": 7
     },
     {
       "wp": "TAIL-01",
@@ -769,7 +769,7 @@
         "QUALIFY"
       ],
       "outcome": "Deliver the complete quality gate result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
-      "sprint": 14
+      "sprint": 8
     },
     {
       "wp": "TAIL-02",
@@ -779,7 +779,7 @@
         "TAIL-01"
       ],
       "outcome": "Deliver the complete documentation review and external-review handoff result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
-      "sprint": 14
+      "sprint": 8
     },
     {
       "wp": "TAIL-03",
@@ -789,7 +789,7 @@
         "TAIL-02"
       ],
       "outcome": "Deliver the complete publication finalization result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
-      "sprint": 14
+      "sprint": 8
     },
     {
       "wp": "TAIL-04",
@@ -799,7 +799,7 @@
         "TAIL-03"
       ],
       "outcome": "Deliver the complete internal milestone review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
-      "sprint": 15
+      "sprint": 8
     },
     {
       "wp": "TAIL-05",
@@ -809,7 +809,7 @@
         "TAIL-04"
       ],
       "outcome": "Deliver the complete external or third-party review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
-      "sprint": 15
+      "sprint": 8
     },
     {
       "wp": "TAIL-06",
@@ -819,7 +819,7 @@
         "TAIL-05"
       ],
       "outcome": "Deliver the complete accepted-findings remediation or explicit deferral capture result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
-      "sprint": 15
+      "sprint": 8
     },
     {
       "wp": "TAIL-07",
@@ -829,7 +829,7 @@
         "TAIL-06"
       ],
       "outcome": "Deliver the complete next-milestone planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
-      "sprint": 16
+      "sprint": 8
     },
     {
       "wp": "TAIL-08",
@@ -839,7 +839,7 @@
         "TAIL-07"
       ],
       "outcome": "Deliver the complete next-milestone closeout planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
-      "sprint": 16
+      "sprint": 8
     },
     {
       "wp": "TAIL-09",
@@ -849,7 +849,7 @@
         "TAIL-08"
       ],
       "outcome": "Deliver the complete next-milestone planning review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
-      "sprint": 16
+      "sprint": 8
     },
     {
       "wp": "TAIL-10",
@@ -859,41 +859,27 @@
         "TAIL-09"
       ],
       "outcome": "Deliver the complete release ceremony and milestone close result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
-      "sprint": 16
+      "sprint": 8
     }
   ],
   "sprint_plan": {
     "status": "draft_allocated_not_open",
-    "sprint_count": 16,
-    "sizing": "Outcome-based delivery waves, not fixed calendar timeboxes. Capacity and named owners are unresolved; split oversized sprints before activation without bundling issues or weakening dependencies.",
-    "execution_rule": "Sprints 1\u20133 contain only opening and repository split. No feature starts before accepted RD-11. Within later sprints, run only ready issues in dependency order; independent lanes may overlap after their own gates pass. Sprint membership does not add dependencies or authorize external actions.",
+    "sprint_count": 8,
+    "sizing": "Eight outcome-based sprints, not fixed calendar timeboxes. Each issue retains one task; named owners and effort estimates are assigned before activation. Grouping does not reduce scope or effort.",
+    "execution_rule": "Sprint 1 contains only opening and repository split. No feature starts before accepted RD-11. Within later sprints, execute only ready issues in dependency order; independent lanes may overlap after their own gates pass. Sprint membership adds no dependency or external-action authority.",
     "sprints": [
       {
         "number": 1,
-        "title": "Repository split: decisions and destinations",
+        "title": "Repository split, qualification and acceptance",
         "work_packages": [
           "WP-01",
           "RD-01",
           "RD-02",
           "RD-12",
-          "RD-13"
-        ],
-        "exit_result": "Approved cutover contract, destination repositories and issue identities."
-      },
-      {
-        "number": 2,
-        "title": "Repository split: foundational extraction",
-        "work_packages": [
+          "RD-13",
           "RD-03",
           "RD-04",
-          "RD-05"
-        ],
-        "exit_result": "Public contracts, C-SDLC and Runtime/Observatory qualified in their owning repositories."
-      },
-      {
-        "number": 3,
-        "title": "Repository split: consumers and acceptance",
-        "work_packages": [
+          "RD-05",
           "RD-06",
           "RD-09",
           "RD-10",
@@ -901,175 +887,133 @@
           "RD-07",
           "RD-11"
         ],
-        "exit_result": "All product consumers qualified; superseded source retired; complete split lockset accepted."
+        "exit_result": "Complete split lockset accepted at RD-11 before any feature work."
       },
       {
-        "number": 4,
-        "title": "Runtime transition foundation and product contracts",
+        "number": 2,
+        "title": "Runtime v4 and template foundations",
         "work_packages": [
           "RV-01",
           "RV-02",
           "RV-03",
-          "CF-01",
-          "CT-01",
-          "PY-01"
-        ],
-        "exit_result": "Native generation transitions accepted; launch requirements and artifact catalog agreed; Python tranche disposition recorded."
-      },
-      {
-        "number": 5,
-        "title": "Plugin continuity and template families",
-        "work_packages": [
           "RV-09",
           "RV-10",
           "RV-11",
-          "CT-02",
-          "CT-06",
-          "CT-07",
-          "CT-08",
-          "CT-09"
-        ],
-        "exit_result": "State/configuration migration and safe removal accepted; four template families use the common branded foundation."
-      },
-      {
-        "number": 6,
-        "title": "Runtime v4 installed qualification",
-        "work_packages": [
           "RV-04",
           "RV-05",
           "RV-06",
           "RV-07",
-          "RV-08"
+          "RV-08",
+          "CF-01",
+          "CT-01",
+          "CT-02",
+          "CT-09",
+          "CT-08",
+          "CT-07",
+          "CT-06",
+          "PY-01"
         ],
-        "exit_result": "Native/process/WASM behavior, provider migration and installed recovery qualified."
+        "exit_result": "Installed Runtime v4 qualified; launch requirements, common template foundation and four families accepted; Python tranche disposition recorded."
       },
       {
-        "number": 7,
-        "title": "Deployable CodeFriend and citizen foundations",
+        "number": 3,
+        "title": "CodeFriend product and artifact preparation",
         "work_packages": [
           "CF-02",
-          "GOV-01",
-          "GOV-02",
-          "GOV-03",
-          "GOV-06",
-          "CM-01"
-        ],
-        "exit_result": "Deployable product, actor boundaries, rights/standing and private ToM accepted; citizen continuity contract agreed."
-      },
-      {
-        "number": 8,
-        "title": "Artifact preparation and launch operations",
-        "work_packages": [
           "CF-03",
           "CF-04",
           "CT-03",
-          "CT-10",
-          "GOV-04",
-          "GOV-07",
-          "GOV-08",
-          "GOV-11"
+          "CT-10"
         ],
-        "exit_result": "Tester onboarding, launch recovery, branded exports, constitutional review, ToM continuity and delegation accepted."
+        "exit_result": "Deployable product, tester onboarding, launch recovery and branded artifact preparation/export accepted."
       },
       {
-        "number": 9,
-        "title": "Artifact qualification and governed cognition",
+        "number": 4,
+        "title": "Template qualification and Beta 1 launch",
         "work_packages": [
           "CT-04",
           "CT-05",
-          "GOV-05",
-          "GOV-09",
-          "GOV-12",
-          "GOV-13",
-          "WP-S1"
-        ],
-        "exit_result": "Full artifact catalog qualified; appeals, reputation, upstream cognition, communication and zero-trust boundary accepted."
-      },
-      {
-        "number": 10,
-        "title": "CodeFriend Beta 1 launch and action security",
-        "work_packages": [
           "CF-05",
           "CF-06",
-          "CF-07",
-          "GOV-10",
-          "GOV-14",
-          "WP-S2",
-          "WP-S3"
+          "CF-07"
         ],
-        "exit_result": "Qualified Beta 1 launched under explicit authority; social memory/contracts, action authorization and key lifecycle accepted."
+        "exit_result": "Complete template catalog and external launch candidate qualified; Beta 1 launched under explicit authority."
       },
       {
-        "number": 11,
-        "title": "Citizen migration, reproduction and isolation",
+        "number": 5,
+        "title": "Governance and security",
         "work_packages": [
+          "GOV-01",
+          "GOV-02",
+          "GOV-03",
+          "GOV-04",
+          "GOV-05",
+          "GOV-06",
+          "GOV-07",
+          "GOV-08",
+          "GOV-09",
+          "GOV-10",
+          "GOV-11",
+          "GOV-12",
+          "GOV-13",
+          "GOV-14",
           "GOV-15",
           "GOV-16",
+          "WP-S1",
+          "WP-S2",
+          "WP-S3",
           "WP-S4",
           "WP-S5",
-          "CM-02",
-          "CM-03"
+          "WP-S6"
         ],
-        "exit_result": "Guild/health behavior, incident evidence, protected data, single-identity migration and distinct descendants accepted."
+        "exit_result": "Constitutional/social governance and enterprise security behavior accepted, including replayable security drill."
       },
       {
-        "number": 12,
-        "title": "Recovery and integrated demonstrations",
+        "number": 6,
+        "title": "Citizen migration/reproduction and demonstrations",
         "work_packages": [
-          "WP-S6",
+          "CM-01",
+          "CM-02",
+          "CM-03",
           "CM-04",
           "DEMO-GOV",
           "DEMO-SEC"
         ],
-        "exit_result": "Security drill, citizen recovery and installed governance/security demonstrations complete."
+        "exit_result": "Citizen migration/reproduction recovery and installed governance/security demonstrations accepted."
       },
       {
-        "number": 13,
+        "number": 7,
         "title": "Milestone integration and qualification",
         "work_packages": [
           "INTEGRATE",
           "QUALIFY"
         ],
-        "exit_result": "Independent installed milestone qualification accepts the complete product lockset."
+        "exit_result": "Complete installed product lockset integrated and independently qualified."
       },
       {
-        "number": 14,
-        "title": "Release evidence and documentation",
+        "number": 8,
+        "title": "Release reviews, remediation, successor planning and closeout",
         "work_packages": [
           "TAIL-01",
           "TAIL-02",
-          "TAIL-03"
-        ],
-        "exit_result": "Quality gate, reviewed documentation and publication artifacts finalized."
-      },
-      {
-        "number": 15,
-        "title": "Milestone review and remediation",
-        "work_packages": [
+          "TAIL-03",
           "TAIL-04",
           "TAIL-05",
-          "TAIL-06"
-        ],
-        "exit_result": "Internal and external reviews resolved through accepted remediation or explicit permitted dispositions."
-      },
-      {
-        "number": 16,
-        "title": "Successor planning and release ceremony",
-        "work_packages": [
+          "TAIL-06",
           "TAIL-07",
           "TAIL-08",
           "TAIL-09",
           "TAIL-10"
         ],
-        "exit_result": "Successor planning and closeout plans reviewed; authorized release ceremony completes the milestone."
+        "exit_result": "Canonical TAIL-01\u2013TAIL-10 completed in order, including reviews before accepted remediation and authorized release."
       }
     ],
     "existing_issue_sidecars": [
       {
         "issue": 875,
         "planning_window": [
-          4,
-          12
+          2,
+          6
         ],
         "gate": "After RD-11, refreshed SIM-07/SIM-08 qualification and separately authorized transition window; observe first five consecutive eligible journeys without fabricating or replacing failures. Reconcile actual disposition before QUALIFY.",
         "status": "open_separately_gated_not_in_83_candidates"
@@ -1077,8 +1021,8 @@
       {
         "issue": 671,
         "planning_window": [
-          10,
-          12
+          4,
+          6
         ],
         "gate": "After RD-11, terminal #261/#262/#263/#660 and explicit public launch/provider submission authority. Preserve pending/accepted/live distinctions and report actual disposition before QUALIFY.",
         "status": "open_separately_gated_not_in_83_candidates"
