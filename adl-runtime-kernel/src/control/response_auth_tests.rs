@@ -145,3 +145,19 @@ fn response_auth_continuation_preserves_canonical_identity() {
     assert!(missing.contains("\"recipient_name\": null"));
     assert!(!missing.contains("deepseek-v4-flash-openrouter"));
 }
+
+#[test]
+fn response_auth_explicit_help_remains_an_explicit_action() {
+    let response = normalize_registered_conversation(
+        serde_json::json!({
+            "schema":"adl.runtime.provider_agent_action.v1", "message":"Please help",
+            "action":{"request_help":true}
+        })
+        .to_string(),
+    )
+    .unwrap();
+    let help: serde_json::Value = serde_json::from_str(&response.message).unwrap();
+    assert_eq!(help["request_help"], true);
+    assert_eq!(help["schema"], "adl.runtime.agent_conversation_response.v1");
+    assert!(response.agent_to_agent.is_none());
+}
