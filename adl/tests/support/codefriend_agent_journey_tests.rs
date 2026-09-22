@@ -490,3 +490,122 @@ fn paired_drift_reopens_both_original_run_owners_and_denies_revoked_baseline() {
     assert_eq!(case.journey_results.lock().unwrap().len(), count);
     assert_eq!(case.posts(), 0);
 }
+
+// #1132: deterministic native owner proof. No model execution or cloud access.
+#[test]
+fn cycle_journey_preserves_outer_receipt_and_inner_review_without_dispatch() {
+    use crate::codefriend::activities::{self, Activity, CycleExecutionBinding, UpdateCyclePlan};
+    use crate::codefriend::evidence::{store::Store, Retention};
+    let (case, mut job) = prepared_job();
+    let old = case.temp.path().join("state/run-run1");
+    let root = case.temp.path().join("state/run-cycle1");
+    fs::rename(&old, &root).unwrap();
+    let mut report: RunReport =
+        serde_json::from_slice(&fs::read(root.join("report.json")).unwrap()).unwrap();
+    let original = report.result.take().unwrap().review_record.admission;
+    private(&root.join("admission.json"), &original);
+    let plan = UpdateCyclePlan {
+        schema: activities::PLAN_SCHEMA.into(),
+        repository: original.packet.repository.clone(),
+        activities: vec![Activity::Review],
+        testing: None,
+    };
+    report.run_id = "cycle1".into();
+    let inner = hash(&(
+        PROTOCOL,
+        &report.agent_id,
+        &report.run_id,
+        "cycle",
+        hash(&plan).unwrap(),
+    ))
+    .unwrap();
+    let remote = Admission::new(
+        original.packet.clone(),
+        Retention { seconds: 45 },
+        original.admitted_at,
+    )
+    .unwrap();
+    let lane = report.gateway_lanes[0].clone();
+    let route = runner::provider_route_identity_from_model(&lane.model_identity);
+    let review = runner::run_assessments_with_executor(
+        ExecutionOptions {
+            out: root.join("cycle-original"),
+            run_id: inner.clone(),
+            cancel_file: None,
+        },
+        remote.clone(),
+        route.clone(),
+        |_, _, _| {
+            Ok(LaneExecution {
+                final_status: ProviderInvocationFinalStatusV1::Ok,
+                output_text: Some("{\"assessments\":[]}".into()),
+            })
+        },
+    )
+    .unwrap();
+    let mut cycle = activities::run_with_executor(
+        plan.clone(),
+        remote,
+        inner.clone(),
+        route,
+        Some(review),
+        |_, _, _| panic!("review reuse must not execute activities"),
+    )
+    .unwrap();
+    cycle.execution = Some(CycleExecutionBinding {
+        candidate_revision: lane.candidate_revision.clone(),
+        request_digest: "a".repeat(64),
+        model_identity: lane.model_identity.clone(),
+    });
+    fs::remove_dir_all(root.join("work/review")).unwrap();
+    crate::codefriend::agent::cycle_review::retain(&root, &original, &cycle, original.admitted_at)
+        .unwrap();
+    report.gateway_lanes = vec![GatewayLaneIdentity {
+        lane: "cycle".into(),
+        request_digest: Some("a".repeat(64)),
+        ..lane
+    }];
+    report.expires_at = cycle.admission.expires_at;
+    report.cycle_result = Some(cycle);
+    report.digest.clear();
+    report.digest = hash(&report).unwrap();
+    report.validate(original.admitted_at).unwrap();
+    private(&root.join("report.json"), &report);
+    private(&root.join("expires.json"), &report.expires_at);
+    let mut command: Command =
+        serde_json::from_slice(&fs::read(root.join("command.json")).unwrap()).unwrap();
+    command.run_id = report.run_id.clone();
+    command.cycle = Some(plan);
+    private(&root.join("command.json"), &command);
+    let receipt = json!({"schema":"codefriend.agent_report_receipt.v1","subject":report.subject,"agent_id":report.agent_id,"run_id":report.run_id,"report_digest":report.digest,"received_digest":"d".repeat(64),"consent_digest":report.consent_digest,"expires_at":report.expires_at});
+    case.extra_receipts
+        .lock()
+        .unwrap()
+        .insert("cycle1".into(), receipt);
+    job.binding.run_id = report.run_id.clone();
+    job.binding.report_digest = report.digest.clone();
+    job.binding.expires_at = report.expires_at;
+    *case.journey.lock().unwrap() = serde_json::to_value(&job).unwrap();
+    let original_bytes = fs::read(root.join("work/review/run.json")).unwrap();
+    assert_eq!(case.poll().unwrap(), Some("cycle1".into()));
+    assert_eq!(case.poll().unwrap(), Some("cycle1".into()));
+    let results = case.journey_results.lock().unwrap();
+    assert_eq!(results[0], results[1]);
+    assert_eq!(
+        results[0]["manifest"]["stages"]["review"]["status"],
+        "complete"
+    );
+    drop(results);
+    assert_eq!(
+        fs::read(root.join("work/review/run.json")).unwrap(),
+        original_bytes
+    );
+    assert_eq!(case.posts(), 0);
+    // Deleting original local consent evidence denies reuse even though the
+    // remote admission projection and completed Journey still exist.
+    Store::open(&root.join("evidence"), move || original.admitted_at)
+        .unwrap()
+        .delete(&original.packet.packet_id)
+        .unwrap();
+    assert!(case.poll().is_err());
+}

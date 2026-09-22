@@ -1,5 +1,6 @@
 //! Installed agent authority. Website commands select locally approved evidence;
 //! they never provide paths, executable commands, or provider credentials.
+mod cycle_review;
 pub mod journey;
 pub mod publication;
 
@@ -1370,6 +1371,7 @@ impl Transport {
                     &dir.join("gateway/cycle"),
                     assessment_mode,
                 )?;
+                cycle_review::retain(&dir, &admission, &result, (self.clock)())?;
                 gateway_lanes.push(identity);
                 return Ok(AgentRun::Cycle(Box::new(result)));
             }
