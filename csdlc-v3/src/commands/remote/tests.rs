@@ -3217,3 +3217,71 @@ fn legacy_ready_intent_ready_during_resolution_reconciles_without_retry() {
         .exists());
     assert_eq!(fs::read(&path).unwrap(), original);
 }
+
+// PVF #1129: required deterministic local identity guard; no transport or live writes.
+#[test]
+fn issue1129_retained_request_accepts_legacy_resolved_edit_and_rejects_missing_or_altered_evidence()
+{
+    let root = mutation_repo("issue1129-identity", true);
+    let original = mutation_request(
+        &mutation_head(&root),
+        super::GithubMutation::IssueEdit {
+            title: Some("Updated title".into()),
+            body: None,
+            labels: None,
+            assignees: None,
+            milestone: None,
+        },
+    );
+    let path = persist_mutation_intent(&root, &original);
+    let mut intent: super::GithubMutationIntent =
+        serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
+    let mut resolved = original.clone();
+    if let super::GithubMutation::IssueEdit { body, .. } = &mut resolved.mutation {
+        *body = Some("Retained original body".into());
+    }
+    intent.resolved_edit = Some(resolved.mutation.clone());
+    fs::write(&path, serde_json::to_vec(&intent).unwrap()).unwrap();
+    let digest = super::github_mutation_intent_digest(&intent);
+    let operation = super::github_mutation_operation_digest(&original);
+    assert_ne!(
+        operation,
+        super::github_mutation_operation_digest(&resolved)
+    );
+    for packet in [&original, &resolved] {
+        assert_eq!(
+            super::retained_mutation_request(&root, packet, &operation, &digest).unwrap(),
+            original
+        );
+    }
+    let mut altered = resolved.clone();
+    altered.issue = 506;
+    for (packet, op, identity) in [
+        (&altered, operation.as_str(), digest.as_str()),
+        (&resolved, "../../outside", digest.as_str()),
+        (&resolved, operation.as_str(), "different-native-identity"),
+    ] {
+        assert_eq!(
+            super::retained_mutation_request(&root, packet, op, identity)
+                .unwrap_err()
+                .code,
+            "github_mutation_intent_mismatch"
+        );
+    }
+    let bytes = fs::read(&path).unwrap();
+    fs::write(&path, b"corrupt").unwrap();
+    assert_eq!(
+        super::retained_mutation_request(&root, &resolved, &operation, &digest)
+            .unwrap_err()
+            .code,
+        "github_mutation_intent_invalid"
+    );
+    fs::write(&path, bytes).unwrap();
+    fs::rename(&path, path.with_extension("retained")).unwrap();
+    assert_eq!(
+        super::retained_mutation_request(&root, &resolved, &operation, &digest)
+            .unwrap_err()
+            .code,
+        "github_mutation_intent_unreadable"
+    );
+}

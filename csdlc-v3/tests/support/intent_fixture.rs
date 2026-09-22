@@ -477,8 +477,12 @@ case "$method:$url" in
  PATCH:https://api.github.com/repos/agent-logic/agent-design-language/issues/505)
   data=$(cat "$payload" | sed 's/"milestone":7/"milestone":{"number":7}/'); previous=$(cat "$base/remote-issue.json")
   printf '%s,%s' "${previous%\}}" "${data#\{}" > "$base/remote-issue.json"
-  printf 'edit-or-close\n' >> "$base/remote-effects"; cat "$base/remote-issue.json" ;;
- GET:https://api.github.com/repos/agent-logic/agent-design-language/issues/505) cat "$base/remote-issue.json" ;;
+  printf 'edit-or-close\n' >> "$base/remote-effects"
+  if test -f "$base/drop-issue-edit-readback"; then touch "$base/drop-issue-readback"; fi
+  cat "$base/remote-issue.json" ;;
+ GET:https://api.github.com/repos/agent-logic/agent-design-language/issues/505)
+  if test -f "$base/drop-issue-readback"; then exit 9; fi
+  cat "$base/remote-issue.json" ;;
  GET:https://api.github.com/repos/agent-logic/agent-design-language/issues/870) sed 's/"number":505/"number":870/' "$base/remote-issue.json" ;;
  *) exit 9 ;;
 esac
@@ -551,6 +555,12 @@ impl Fixture {
   else printf '[]'; fi ;;
  GET:https://api.github.com/repos/agent-logic/agent-design-language/pulls/639)
   if test -f "$base/drop-readback"; then exit 9; fi
+  if test -f "$base/merge-on-pr-read"; then
+   sed 's/"merged":false/"merged":true/g;s/"state":"open"/"state":"closed"/g' "$base/remote-pr.json" > "$base/remote-pr.next"
+   mv "$base/remote-pr.next" "$base/remote-pr.json"
+   sed 's/"state":"open"/"state":"closed"/g' "$base/remote-issue.json" > "$base/remote-issue.next"
+   mv "$base/remote-issue.next" "$base/remote-issue.json"
+  fi
   cat "$base/remote-pr.json" ;;
  GET:https://api.github.com/repos/agent-logic/agent-design-language/pulls/638)
   if test -f "$base/drop-readback"; then exit 9; fi

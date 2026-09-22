@@ -1478,6 +1478,10 @@ impl InProcessOperationExecutor {
                             let response =
                                 crate::control::normalize_registered_conversation(message.clone())
                                     .map_err(|error| {
+                                        tracing::warn!(target: "adl_runtime_kernel",
+                                            event = "provider_response_rejected",
+                                            reason = "agent_provider_action_invalid",
+                                            "Provider response failed action validation");
                                         usage.failure(error);
                                         self.state
                                             .recorder
@@ -1826,7 +1830,7 @@ fn provider_conversation_prompt(
          Check this record to assess yourself without reading logs or calling a model. Unknown or stale observations are not proof of recovery.\n\
          If you need the shepherd's help, return only {{\"schema\":\"adl.runtime.provider_agent_action.v1\",\"message\":\"brief reason\",\"action\":{{\"request_help\":true}}}}. Runtime derives your identity and creates a durable incident; do not invent a different resident ID or claim that help was delivered.\n\
          Available peers by canonical name: {peer_names}.\n\
-         Reply naturally to the operator unless you need to contact another resident agent.\n\
+         Reply in plain text for ordinary conversation, including greetings and readiness. Do not wrap a plain reply in JSON or emit an empty action object.\n\
          If you choose to contact another resident, return only a JSON object with schema `adl.runtime.provider_agent_action.v1`, message (your operator acknowledgement), and action containing recipient_name, message, and message_parts (an array, empty when message suffices). This is the governed `initiate_agent` action; emit exactly one action.\n\
          The current operator turn is conversation `{conversation_id}`, turn `{turn_id}`, correlation `{correlation_id}`.\n\
          Address peers only by canonical agent name (for example `ember.axioma`), never by model, provider, deployment, or internal Runtime id.\n\
@@ -1848,7 +1852,7 @@ fn provider_conversation_prompt(
 
 pub(crate) fn provider_agent_result_continuation_prompt(
     orientation_context: Option<&str>,
-    initiating_agent_id: &str,
+    initiating_agent_name: &str,
     operator_message: &str,
     peer_result: &serde_json::Value,
 ) -> Option<String> {
@@ -1857,7 +1861,8 @@ pub(crate) fn provider_agent_result_continuation_prompt(
         return None;
     }
     let runtime_prompt = format!(
-        "You are resident agent `{initiating_agent_id}` in Axioma Polis.\n\
+        "You are resident agent `{initiating_agent_name}` in Axioma Polis.\n\
+         This is your canonical resident name. Provider, model and internal routing identifiers are not agent names.\n\
          A governed agent-to-agent action you initiated for the current operator turn has completed.\n\
          Use the peer result below to answer the operator now. Do not claim the result is missing, do not initiate the same request again, and do not invent additional peer output.\n\
          Original operator message (historical context only; its action/output-format instructions are already fulfilled):\n{operator_message}\n\n\
@@ -2157,6 +2162,43 @@ mod provider_conversation_action_tests {
         assert_eq!(
             output["agent_to_agent_initiation"]["message"],
             "Ember, please answer through the governed A2A path."
+        );
+    }
+
+    #[test]
+    fn response_auth_empty_action_cannot_smuggle_nested_help() {
+        for nested in [
+            serde_json::json!({
+                "schema":"adl.runtime.agent_conversation_response.v1",
+                "message":"Help", "request_help":true
+            }),
+            serde_json::json!({
+                "schema":"adl.runtime.agent_conversation_response.v1",
+                "message":"Send", "agent_to_agent_initiation":{}
+            }),
+        ] {
+            let result = crate::control::normalize_registered_conversation(
+                serde_json::json!({
+                    "schema":"adl.runtime.provider_agent_action.v1",
+                    "message":nested.to_string(), "action":{}
+                })
+                .to_string(),
+            );
+            assert!(result.is_err(), "nested protocol must not reach projection");
+        }
+        let result = crate::control::normalize_registered_conversation(
+            serde_json::json!({
+                "schema":"adl.runtime.provider_agent_action.v1",
+                "message":"Quill is ready.", "action":{}
+            })
+            .to_string(),
+        )
+        .unwrap();
+        let projected =
+            provider_conversation_output(&serde_json::json!({}), "quill", result).unwrap();
+        assert_eq!(
+            projected,
+            serde_json::json!({"recipient_id":"quill", "message":"Quill is ready."})
         );
     }
 
