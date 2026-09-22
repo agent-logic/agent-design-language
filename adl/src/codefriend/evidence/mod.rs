@@ -1,5 +1,6 @@
 //! Governed local evidence admission and shared consumer contracts.
 //! Repository text is inert evidence, never execution or publication authority.
+pub mod assessments;
 pub mod contracts;
 pub mod store;
 use crate::codefriend::ingestion::{digest, Packet};

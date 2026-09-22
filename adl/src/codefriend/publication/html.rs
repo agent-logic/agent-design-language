@@ -337,9 +337,78 @@ pub(crate) fn render_report(
     field(&mut out, "Renderer", HTML_RENDERER_VERSION)?;
     list(&mut out, "Claims", &decision.publication.claims)?;
     list(&mut out, "Nonclaims", &decision.publication.nonclaims)?;
-    out.push_str("</dl></section><section id=\"findings\"><h2>Findings</h2>");
+    out.push_str("</dl></section>");
+    if let Some(set) = &review.run.assessment_set {
+        out.push_str("<section id=\"assessments\"><h2>Review assessments</h2><dl>");
+        let counts = set.counts();
+        field(
+            &mut out,
+            "Defect candidates",
+            &counts.defect_candidates.to_string(),
+        )?;
+        field(
+            &mut out,
+            "Positive observations",
+            &counts.positive_observations.to_string(),
+        )?;
+        field(
+            &mut out,
+            "Unresolved questions",
+            &counts.unresolved_questions.to_string(),
+        )?;
+        out.push_str("</dl><p>Only defect candidates enter repair and test proposals. No defect candidates does not establish that the source is defect-free. Exact citations establish source location, not semantic correctness.</p>");
+        for assessment in &set.assessments {
+            write!(
+                out,
+                "<article><h3>{}</h3><dl>",
+                html_text(&assessment.summary)?
+            )?;
+            field(&mut out, "Assessment", &assessment.id)?;
+            field(&mut out, "Classification", match assessment.kind {
+                crate::codefriend::evidence::assessments::AssessmentKind::DefectCandidate => "Defect candidate",
+                crate::codefriend::evidence::assessments::AssessmentKind::PositiveObservation => "Positive observation",
+                crate::codefriend::evidence::assessments::AssessmentKind::UnresolvedQuestion => "Unresolved question",
+            })?;
+            field(&mut out, "Perspective", &assessment.lane)?;
+            field(&mut out, "Explanation", &assessment.explanation)?;
+            if let Some(defect) = &assessment.defect {
+                field(&mut out, "Severity", &format!("{:?}", defect.severity))?;
+                field(&mut out, "Observed behavior", &defect.observed_behavior)?;
+                field(&mut out, "Expected behavior", &defect.expected_behavior)?;
+                field(&mut out, "Concrete trigger", &defect.concrete_trigger)?;
+                field(&mut out, "Impact", &defect.impact)?;
+                field(
+                    &mut out,
+                    "Proposed remedy or verification",
+                    &defect.proposed_remedy_or_verification,
+                )?;
+            }
+            list(&mut out, "Limitations", &assessment.limitations)?;
+            for citation in &assessment.citations {
+                let item = evidence
+                    .get(citation.evidence_id.as_str())
+                    .ok_or_else(|| anyhow::anyhow!("assessment_evidence_missing"))?;
+                field(
+                    &mut out,
+                    "Source location",
+                    &format!(
+                        "{} bytes [{}..{})",
+                        item.path, citation.start_byte, citation.end_byte
+                    ),
+                )?;
+                field(
+                    &mut out,
+                    "Exact source excerpt",
+                    citation.quote(&review.admission)?,
+                )?;
+            }
+            out.push_str("</dl></article>");
+        }
+        out.push_str("</section>");
+    }
+    out.push_str("<section id=\"findings\"><h2>Findings</h2>");
     if synthesis.synthesized_findings.is_empty() {
-        out.push_str("<p>No findings were reported by the completed four-perspective review.</p>");
+        out.push_str(if review.run.assessment_generation() { "<p>No defect candidates were reported. Positive observations, unresolved questions and coverage gaps remain above; this is not a defect-free certification.</p>" } else { "<p>No findings were reported by the completed four-perspective review.</p>" });
     }
     for finding in &synthesis.synthesized_findings {
         render_finding(

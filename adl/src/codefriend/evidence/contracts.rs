@@ -5,6 +5,7 @@ use anyhow::{ensure, Result};
 use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, BTreeSet};
 pub const CONTRACT: &str = "codefriend.contracts.v1";
+pub const REVIEW_CONTRACT_V3: &str = "codefriend.contracts.v3";
 pub const REVIEW_CONTRACT_V2: &str = "codefriend.contracts.v2";
 pub const REVIEW_LANES: [&str; 4] = ["adversarial", "constitutional", "correctness", "security"];
 
@@ -118,6 +119,8 @@ pub struct Run {
     pub failures: Vec<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub coverage: Option<ReviewCoverage>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub assessment_set: Option<super::assessments::AssessmentSet>,
 }
 impl Run {
     pub fn new(
@@ -150,6 +153,7 @@ impl Run {
             completion,
             failures,
             coverage: None,
+            assessment_set: None,
         };
         r.excluded.sort();
         r.excluded.dedup();
@@ -164,6 +168,21 @@ impl Run {
         self.validate(a)?;
         Ok(self)
     }
+    pub fn with_assessments(
+        mut self,
+        a: &Admission,
+        set: super::assessments::AssessmentSet,
+    ) -> Result<Self> {
+        set.validate(a)?;
+        self.schema = REVIEW_CONTRACT_V3.into();
+        self.assessment_set = Some(set);
+        self.id = self.identity()?;
+        self.validate(a)?;
+        Ok(self)
+    }
+    pub fn assessment_generation(&self) -> bool {
+        self.schema == REVIEW_CONTRACT_V3
+    }
     fn identity(&self) -> Result<String> {
         let mut c = self.clone();
         c.id.clear();
@@ -175,8 +194,13 @@ impl Run {
     }
     pub fn validate(&self, a: &Admission) -> Result<()> {
         a.validate()?;
+        if self.schema == REVIEW_CONTRACT_V3 || self.assessment_set.is_some() {
+            super::assessments::bounded(self, super::assessments::MAX_REVIEW_BYTES)?;
+        }
         ensure!(
-            (self.schema == CONTRACT || self.schema == REVIEW_CONTRACT_V2)
+            (self.schema == CONTRACT
+                || self.schema == REVIEW_CONTRACT_V2
+                || self.schema == REVIEW_CONTRACT_V3)
                 && self.id == self.identity()?,
             "invalid_run_identity_or_version"
         );
@@ -216,9 +240,19 @@ impl Run {
         for f in &self.failures {
             text(f)?;
         }
+        match (&self.assessment_set, self.schema.as_str()) {
+            (Some(set), REVIEW_CONTRACT_V3) => {
+                set.validate(a)?;
+                ensure!(self.lane_versions.len() == 4 && REVIEW_LANES.iter().all(|lane|
+                    self.lane_versions.get(*lane).is_some_and(|v| v == crate::codefriend::review::lanes::ASSESSMENT_LANE_CONTRACT_VERSION)),
+                    "assessment_run_lane_versions");
+            }
+            (None, CONTRACT | REVIEW_CONTRACT_V2) => {}
+            _ => anyhow::bail!("assessment_run_version_mismatch"),
+        }
         match (&self.coverage, self.schema.as_str()) {
-            (None, CONTRACT) => {}
-            (Some(coverage), REVIEW_CONTRACT_V2) => {
+            (None, CONTRACT | REVIEW_CONTRACT_V3) => {}
+            (Some(coverage), REVIEW_CONTRACT_V2 | REVIEW_CONTRACT_V3) => {
                 ensure!(
                     self.completion == Completion::Incomplete
                         && self.failures.is_empty()
@@ -342,6 +376,13 @@ pub struct ReviewRecord {
 impl ReviewRecord {
     pub fn validate(&self) -> Result<()> {
         self.run.validate(&self.admission)?;
+        if let Some(set) = &self.run.assessment_set {
+            super::assessments::bounded(self, super::assessments::MAX_REVIEW_BYTES)?;
+            ensure!(
+                set.findings(&self.admission)? == self.findings,
+                "assessment_finding_projection_mismatch"
+            );
+        }
         ensure!(self.findings.len() <= 1000, "too_many_findings");
         let mut seen = BTreeSet::new();
         for f in &self.findings {
@@ -349,6 +390,13 @@ impl ReviewRecord {
             ensure!(seen.insert(&f.id), "finding_identity_collision");
         }
         Ok(())
+    }
+    pub fn actionable_findings(&self) -> Result<&[Finding]> {
+        self.validate()?;
+        Ok(&self.findings)
+    }
+    pub fn assessment_counts(&self) -> Option<super::assessments::AssessmentCounts> {
+        self.run.assessment_set.as_ref().map(|set| set.counts())
     }
     /// Semantic execution claim; the full runner additionally verifies retained lane receipts.
     pub fn successful_execution(&self) -> Result<()> {
@@ -360,11 +408,14 @@ impl ReviewRecord {
         ensure!(
             self.run.failures.is_empty()
                 && self.run.lane_versions.len() == 4
-                && REVIEW_LANES.iter().all(|lane| self
-                    .run
-                    .lane_versions
-                    .get(*lane)
-                    .is_some_and(|v| v == crate::codefriend::review::lanes::LANE_CONTRACT_VERSION)),
+                && REVIEW_LANES
+                    .iter()
+                    .all(|lane| self.run.lane_versions.get(*lane).is_some_and(|v| v
+                        == if self.run.assessment_generation() {
+                            crate::codefriend::review::lanes::ASSESSMENT_LANE_CONTRACT_VERSION
+                        } else {
+                            crate::codefriend::review::lanes::LANE_CONTRACT_VERSION
+                        })),
             "review_requires_successful_four_lanes"
         );
         ensure!(
@@ -414,7 +465,8 @@ impl Comparison {
                 && self.current_version == c.run.schema,
             "comparison_identity_mismatch"
         );
-        let compatible = b.run.repository == c.run.repository
+        let compatible = b.run.schema == c.run.schema
+            && b.run.repository == c.run.repository
             && b.run.scope_digest == c.run.scope_digest
             && b.run.lane_versions == c.run.lane_versions
             && b.run.provider_route == c.run.provider_route

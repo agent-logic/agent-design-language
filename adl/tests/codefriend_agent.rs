@@ -190,7 +190,10 @@ fn journal_rejects_world_readable_or_symlink_store() {
 #[derive(Clone, Copy)]
 enum Scenario {
     Success,
+    MixedGeneration,
     Cycle,
+    CycleAssessmentReview,
+    CycleMixedReview,
     CycleFailure,
     CycleLostResultObservation,
     CycleAdmissionDrift,
@@ -468,12 +471,36 @@ impl WireServer {
                         )
                         .unwrap();
                         let route = "agent-logic-fixture:hosted_api:fixture-model-v1";
+                        let review = if plan
+                            .activities
+                            .contains(&adl::codefriend::activities::Activity::Review)
+                        {
+                            assert_eq!(
+                                r.review_generation,
+                                Some(adl::codefriend::server::ReviewGeneration::Assessments)
+                            );
+                            let assessments = !matches!(scenario, Scenario::CycleMixedReview);
+                            let run = if assessments {
+                                adl::codefriend::review::runner::run_assessments_with_executor
+                            } else {
+                                adl::codefriend::review::runner::run_with_executor
+                            };
+                            Some(run(adl::codefriend::review::runner::ExecutionOptions {
+                                out:consent_path.parent().unwrap().join(format!("cycle-review-{id}")),
+                                run_id:id.into(),cancel_file:None,
+                            },admission.clone(),route.into(),|_: adl::codefriend::review::lanes::ReviewLane, _: String, _: &std::path::Path| Ok(adl::codefriend::review::runner::LaneExecution {
+                                final_status:adl::provider_communication::ProviderInvocationFinalStatusV1::Ok,
+                                output_text:Some(if assessments { "{\"assessments\":[]}" } else { "{\"findings\":[]}" }.into()),
+                            })).unwrap())
+                        } else {
+                            None
+                        };
                         let mut cycle = adl::codefriend::activities::run_with_executor(
                             plan.clone(),
                             admission.clone(),
                             id.into(),
                             route.into(),
-                            None,
+                            review,
                             |activity, _, _| {
                                 let (path, kind, content) = match activity {
                                     adl::codefriend::activities::Activity::Documentation =>
@@ -506,19 +533,37 @@ impl WireServer {
                             });
                         json!({"schema":"codefriend.local_cycle_result.v1","execution_location":"local_agent","model_execution_location":"agent_logic_provider","candidate_revision":"c".repeat(40),"model_identity":model_identity,"admission":admission,"cycle_result":cycle})
                     } else {
-                        let lane = r.lane.unwrap().id();
-                        let findings = if matches!(scenario, Scenario::AggregateLimit) {
-                            let admission = adl::codefriend::evidence::Admission::new(
-                                r.packet.clone(),
-                                adl::codefriend::evidence::Retention { seconds: 60 },
-                                live_now(),
+                        let assessment_mode = r.review_generation.is_some();
+                        let admission = adl::codefriend::evidence::Admission::new(
+                            r.packet.clone(),
+                            adl::codefriend::evidence::Retention { seconds: 60 },
+                            live_now(),
+                        )
+                        .unwrap();
+                        let (manifest, _) = if assessment_mode {
+                            adl::codefriend::review::runner::assessment_lane_input_manifest(
+                                id,
+                                r.lane.unwrap(),
+                                &admission,
                             )
-                            .unwrap();
-                            json!([{"rule":format!("{lane}.aggregate"),"semantic_anchor":"src/lib.rs","title":"x".repeat(700_000),"severity":"info","rationale":"y".repeat(700_000),"confidence":{"state":"known","percent":90},"evidence":[admission.evidence[0].id],"inference":"bounded fixture","limitations":[]}])
                         } else {
-                            json!([])
+                            adl::codefriend::review::runner::lane_input_manifest(
+                                id,
+                                r.lane.unwrap(),
+                                &admission,
+                            )
+                        }
+                        .unwrap();
+                        // Escape-heavy text exercises serialized byte budgets with one
+                        // valid assessment per lane rather than large repeated scans.
+                        let assessments = if matches!(scenario, Scenario::AggregateLimit) {
+                            (0..1).map(|i| json!({"kind":"defect_candidate", "summary":format!("{i}{}", "x".repeat(7900)), "explanation":"y".repeat(7900), "citations":[{"evidence_id":admission.evidence[0].id,"start_byte":0,"end_byte":3,"quote":"pub"}],"limitations":(0..16).map(|n| format!("limitation {n}: {}", "\u{0001}".repeat(7900))).collect::<Vec<_>>(),"defect":{"severity":"medium","observed_behavior":"observed", "expected_behavior":"expected","concrete_trigger":format!("distinct trigger {i}"),"impact":"impact","proposed_remedy_or_verification":"verify"}})).collect::<Vec<_>>()
+                        } else {
+                            vec![]
                         };
-                        json!({"schema":"codefriend.local_model_result.v1","execution_location":"local_agent","model_execution_location":"agent_logic_provider","candidate_revision":"c".repeat(40),"model_identity":{"provider_kind":"openai","provider":"agent-logic-fixture","model_ref":"fixture/exact","provider_model_id":"fixture-model-v1","runtime_surface":"hosted_api","identity_strength":"provider_asserted","observed_at":format!("unix:{}", clock.load(Ordering::SeqCst))},"input_manifest":{"schema":"codefriend.review_lane_input_manifest.v1","run_id":id,"packet_id":r.packet.packet_id,"admission_digest":"a".repeat(64),"lane":lane,"lane_contract":"codefriend.review_lane.v1","prompt_contract":"codefriend.four_perspective_review_prompt.v1","repository":r.packet.repository,"revision":r.packet.revision,"scope_digest":r.packet.scope_digest,"evidence":[],"peer_result_refs":[],"source_mutation_authority":"none","tool_authority":"none","publication_authority":"none","input_digest":"a".repeat(64)},"output":{"findings":findings}})
+                        let wrong_generation = matches!(scenario, Scenario::MixedGeneration)
+                            && count.load(Ordering::SeqCst) == 2;
+                        json!({"schema":if assessment_mode && !wrong_generation {"codefriend.local_model_result.v2"} else {"codefriend.local_model_result.v1"},"execution_location":"local_agent","model_execution_location":"agent_logic_provider","candidate_revision":"c".repeat(40),"model_identity":{"provider_kind":"openai","provider":"agent-logic-fixture","model_ref":"fixture/exact","provider_model_id":"fixture-model-v1","runtime_surface":"hosted_api","identity_strength":"provider_asserted","observed_at":format!("unix:{}", clock.load(Ordering::SeqCst))},"input_manifest":manifest,"output":if assessment_mode {json!({"assessments":assessments})} else {json!({"findings":[]})}})
                     }
                 } else if method == "GET" && path.starts_with("/v1/operations/") {
                     if ((matches!(scenario, Scenario::LostStatusObservation)
@@ -634,6 +679,8 @@ fn journey(scenario: Scenario) -> (u64, Vec<serde_json::Value>) {
     if matches!(
         scenario,
         Scenario::Cycle
+            | Scenario::CycleAssessmentReview
+            | Scenario::CycleMixedReview
             | Scenario::CycleFailure
             | Scenario::CycleLostResultObservation
             | Scenario::CycleAdmissionDrift
@@ -654,6 +701,14 @@ fn journey(scenario: Scenario) -> (u64, Vec<serde_json::Value>) {
                 target: None,
             }),
         });
+    }
+    if matches!(
+        scenario,
+        Scenario::CycleAssessmentReview | Scenario::CycleMixedReview
+    ) {
+        let plan = cmd.cycle.as_mut().unwrap();
+        plan.activities = vec![adl::codefriend::activities::Activity::Review];
+        plan.testing = None;
     }
     cmd.expires_at = live_now()
         + if matches!(scenario, Scenario::ShortDeadline) {
@@ -695,6 +750,86 @@ fn journey(scenario: Scenario) -> (u64, Vec<serde_json::Value>) {
     let first = transport.poll_once(&journal, &consent_path);
     let run_dir = f.0.join("state/run-run-one");
     let saved_admission = fs::read(run_dir.join("admission.json")).ok();
+    if matches!(scenario, Scenario::AggregateLimit) {
+        // Rebuild the precise native record from retained original inputs and
+        // lane results, without dispatching or running the four-lane pipeline twice.
+        use adl::codefriend::{
+            evidence::{
+                assessments,
+                contracts::{Completion, ReviewRecord, Run},
+            },
+            review::{lanes::ReviewLane, runner},
+        };
+        let work = run_dir.join("work/review");
+        let admission = serde_json::from_slice(saved_admission.as_ref().unwrap()).unwrap();
+        let mut values = Vec::new();
+        let mut versions = std::collections::BTreeMap::new();
+        let mut provider_route = None;
+        for lane in ReviewLane::ALL {
+            let result: runner::LaneResult = serde_json::from_slice(
+                &fs::read(work.join("lanes").join(lane.id()).join("result.json")).unwrap(),
+            )
+            .unwrap();
+            assert_eq!(
+                result.provider_status,
+                adl::provider_communication::ProviderInvocationFinalStatusV1::Ok
+            );
+            assert!(result.failure.is_none());
+            let retained: serde_json::Value = serde_json::from_slice(
+                &fs::read(
+                    run_dir
+                        .join("gateway")
+                        .join(lane.id())
+                        .join("gateway-result.json"),
+                )
+                .unwrap(),
+            )
+            .unwrap();
+            let parsed = assessments::parse_lane(
+                lane.id(),
+                &serde_json::to_string(&retained["output"]).unwrap(),
+                &admission,
+            )
+            .unwrap();
+            let mut ids = parsed.iter().map(|a| a.id.clone()).collect::<Vec<_>>();
+            ids.sort();
+            assert_eq!(result.assessment_ids.as_ref().unwrap(), &ids);
+            assert_eq!(ids.len(), 1);
+            assert_eq!(result.finding_ids.len(), 1);
+            if let Some(route) = &provider_route {
+                assert_eq!(route, &result.provider_route);
+            }
+            provider_route = Some(result.provider_route);
+            versions.insert(lane.id().to_owned(), result.lane_contract);
+            values.extend(parsed);
+        }
+        let set = assessments::AssessmentSet::new(&admission, values).unwrap();
+        let findings = set.findings(&admission).unwrap();
+        assert_eq!(findings.len(), 4);
+        let run = Run::new(
+            &admission,
+            versions,
+            provider_route.unwrap(),
+            Completion::Complete,
+            Vec::new(),
+        )
+        .unwrap()
+        .with_assessments(&admission, set)
+        .unwrap();
+        let record = ReviewRecord {
+            admission,
+            run,
+            findings,
+        };
+        let error = record.validate().unwrap_err();
+        assert_eq!(error.to_string(), "assessment_byte_limit", "{error:#}");
+        assert!(assessments::bounded(&record, assessments::MAX_REVIEW_BYTES).is_err());
+        assert!(!work.join("review-record.json").exists());
+        assert!(
+            !work.join("run.json").exists(),
+            "oversized completion must not be persisted"
+        );
+    }
     if let Some(bytes) = &saved_admission {
         let binding: serde_json::Value =
             serde_json::from_slice(&fs::read(run_dir.join("local-consent.json")).unwrap()).unwrap();
@@ -1303,4 +1438,75 @@ fn privacy_omissions_survive_agent_forwarding_without_replay_or_secret_bytes() {
     let report: adl::codefriend::agent::RunReport =
         serde_json::from_value(reports[0].clone()).unwrap();
     report.validate(live_now()).unwrap();
+}
+
+// PVF runtime deterministic transport: mixed result generation fails before forwarding completion.
+#[test]
+fn assessment_gateway_rejects_mixed_generations() {
+    let (calls, reports) = journey(Scenario::MixedGeneration);
+    assert_eq!(calls, 2);
+    assert_eq!(reports[0]["status"], "failed_or_interrupted");
+    assert!(reports[0]["result"].is_null());
+}
+
+// PVF runtime compatibility: genuine legacy runner output remains accepted unchanged.
+#[test]
+fn agent_report_accepts_legacy_and_assessment_runs_with_exact_lane_pairing() {
+    use adl::codefriend::{agent::RunReport, evidence::hash, review::runner};
+    let (_, reports) = journey(Scenario::Success);
+    let mut report: RunReport = serde_json::from_value(reports[0].clone()).unwrap();
+    report.validate(live_now()).unwrap();
+    assert!(report
+        .result
+        .as_ref()
+        .unwrap()
+        .review_record
+        .run
+        .assessment_generation());
+    let temp = Fixture::new();
+    let current = report.result.as_ref().unwrap();
+    let old = runner::run_with_executor(
+        runner::ExecutionOptions {
+            out: temp.0.join("legacy"),
+            run_id: report.run_id.clone(),
+            cancel_file: None,
+        },
+        current.review_record.admission.clone(),
+        current.review_record.run.provider_route.clone(),
+        |_, _, _| {
+            Ok(runner::LaneExecution {
+                final_status: adl::provider_communication::ProviderInvocationFinalStatusV1::Ok,
+                output_text: Some("{\"findings\":[]}".into()),
+            })
+        },
+    )
+    .unwrap();
+    report.result = Some(old);
+    report.digest.clear();
+    report.digest = hash(&report).unwrap();
+    report.validate(live_now()).unwrap();
+    report.result.as_mut().unwrap().lane_results[0].schema = runner::LANE_RESULT_SCHEMA_V2.into();
+    report.digest.clear();
+    report.digest = hash(&report).unwrap();
+    assert!(report.validate(live_now()).is_err());
+}
+
+#[test]
+fn local_cycle_preserves_assessment_review_and_rejects_legacy_substitution() {
+    for (scenario, status) in [
+        (Scenario::CycleAssessmentReview, "complete"),
+        (Scenario::CycleMixedReview, "failed_or_interrupted"),
+    ] {
+        let (calls, reports) = journey(scenario);
+        assert_eq!(calls, 1, "known cycle must never repost on redelivery");
+        assert_eq!(reports[0]["status"], status);
+        if status == "complete" {
+            assert_eq!(
+                reports[0]["cycle_result"]["review"]["schema"],
+                "codefriend.four_perspective_review_run.v3"
+            );
+        } else {
+            assert!(reports[0]["cycle_result"].is_null());
+        }
+    }
 }

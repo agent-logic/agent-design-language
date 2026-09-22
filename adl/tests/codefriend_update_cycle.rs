@@ -666,3 +666,50 @@ fn review_selection_cannot_claim_completion_without_the_bound_review_result() {
     assert_eq!(result.failures, vec!["review_failed"]);
     fs::remove_dir_all(root).unwrap();
 }
+
+#[test]
+fn assessment_cycle_preserves_generation_and_rejects_mixed_lane_contracts() {
+    let (root, admission) = admission();
+    let route = "provider:fixture:model-v1";
+    let review = runner::run_assessments_with_executor(
+        ExecutionOptions {
+            out: root.join("assessment-review"),
+            run_id: "assessment-cycle".into(),
+            cancel_file: None,
+        },
+        admission.clone(),
+        route.into(),
+        |_, _, _| {
+            Ok(LaneExecution {
+                final_status: ProviderInvocationFinalStatusV1::Ok,
+                output_text: Some("{\"assessments\":[]}".into()),
+            })
+        },
+    )
+    .unwrap();
+    let mut result = run_with_executor(
+        plan(vec![Activity::Review], None),
+        admission,
+        "assessment-cycle".into(),
+        route.into(),
+        Some(review),
+        |_, _, _| unreachable!(),
+    )
+    .unwrap();
+    result.validate(route).unwrap();
+    assert_eq!(result.activities[0].status, ActivityStatus::Complete);
+    assert!(result
+        .review
+        .as_ref()
+        .unwrap()
+        .review_record
+        .run
+        .assessment_generation());
+    result.review.as_mut().unwrap().lane_results[0].lane_contract =
+        "codefriend.review_lane.v1".into();
+    // Recomputing the aggregate digest cannot legitimize a mixed-generation lane.
+    result.activities[0].review_result_digest =
+        Some(adl::codefriend::evidence::hash(result.review.as_ref().unwrap()).unwrap());
+    assert!(result.validate(route).is_err());
+    fs::remove_dir_all(root).unwrap();
+}

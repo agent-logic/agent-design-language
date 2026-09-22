@@ -2,7 +2,7 @@
   "schema": "codefriend.update_cycle.pvf.v1",
   "issue": 1101,
   "lane": "runtime",
-  "proof_role": "independent activity selection, prompt-bound citation validation, create/update and unsupported-claim classification, constrained Mermaid grammar plus render-manifest validation, testing-goal retention, retained documentation and review failure envelopes, production gateway admission decoding, and paired-local cancellation/restart/no-replay orchestration",
+  "proof_role": "independent activity selection, prompt-bound citation validation, create/update and unsupported-claim classification, constrained Mermaid grammar plus render-manifest validation, testing-goal retention, retained documentation and review failure envelopes, production gateway admission decoding, and paired-local cancellation/restart/no-replay orchestration; composed assessment-v3 review with update-cycle contracts, explicit transport generation, mixed-generation rejection and unchanged legacy request serialization",
   "determinism": "local Git repositories, bounded filesystem fixtures and loopback HTTP; no external provider",
   "resource_profile": "bounded local CPU, disk and loopback networking; provider spend 0",
   "release_gate": "required component evidence; installed website and real-provider acceptance remain separate",
@@ -11,5 +11,8 @@
     "cargo test --manifest-path adl/Cargo.toml --test codefriend_server",
     "cargo test --manifest-path adl/Cargo.toml --test codefriend_agent"
   ],
-  "limits": "Generated documentation, Mermaid and test files are proposals only. Mermaid syntax and the mmdc SVG render manifest are validated, while successful rendering remains a separate downstream proof. The tests do not execute proposed tests, measure coverage, publish artifacts or prove model quality."
+  "limits": "Generated documentation, Mermaid and test files are proposals only. Mermaid syntax and the mmdc SVG render manifest are validated, while successful rendering remains a separate downstream proof. The tests do not execute proposed tests, measure coverage, publish artifacts or prove model quality.",
+  "additional_issues": [
+    1120
+  ]
 }

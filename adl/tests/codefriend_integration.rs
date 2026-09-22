@@ -310,6 +310,7 @@ async fn website_approval_authenticates_rejects_stale_binding_and_expires_payloa
                         runner::{LaneResult, LANE_RESULT_SCHEMA},
                     };
                     LaneResult {
+                        assessment_ids: None,
                         schema: LANE_RESULT_SCHEMA.into(),
                         run_id: "run1".into(),
                         lane: lane.into(),
