@@ -397,6 +397,19 @@ fn execute_cycle(
     }
     if let Some(review) = &mut result.review {
         review.rebind_provider_route(&observed_route)?;
+        // Publish the same finalized producer bytes used by Journey and capsules.
+        fs::write(work.join("review/run.json"), serde_json::to_vec(review)?)?;
+        fs::write(
+            work.join("review/review-record.json"),
+            serde_json::to_vec(&review.review_record)?,
+        )?;
+        for lane in &review.lane_results {
+            fs::write(
+                work.join(format!("review/lanes/{}/result.json", lane.lane)),
+                serde_json::to_vec(lane)?,
+            )?;
+        }
+
         if let Some(activity) = result
             .activities
             .iter_mut()
@@ -731,6 +744,10 @@ impl Service {
             .route("/v1/operations/:operation/cancel", post(cancel))
             .route("/v1/operations/:operation/result", get(result))
             .route(
+                "/v1/operations/:operation/review-evidence",
+                get(review_evidence),
+            )
+            .route(
                 "/v1/operations/:operation/publication/challenge",
                 post(publication_challenge),
             )
@@ -1035,6 +1052,106 @@ async fn result(
     Ok(Json(internal(read_json(&result_path, MAX_RESULT))?))
 }
 
+/// Select the retained review without rewriting an aggregate or rerunning its producer.
+fn operation_review(
+    service: &Service,
+    credential: &Credential,
+    op: &Operation,
+) -> Result<super::review::runner::FourPerspectiveReviewRun> {
+    let dir = service.dir(&credential.subject, &op.operation_id);
+    let value: Value = read_json(&dir.join("result.json"), MAX_RESULT)?;
+    let run = if dir.join("cycle-operation").exists() {
+        let cycle: activities::UpdateCycleResult =
+            serde_json::from_value(if credential.mode == Mode::LocalModel {
+                value["cycle_result"].clone()
+            } else {
+                value
+            })?;
+        let run = super::cycle_bridge::review(&cycle)?.clone();
+        let execution = cycle
+            .execution
+            .as_ref()
+            .ok_or_else(|| anyhow::anyhow!("cycle_execution_missing"))?;
+        ensure!(
+            execution.candidate_revision == op.candidate_revision
+                && execution.request_digest == op.request_digest
+                && cycle.run_id == op.operation_id
+                && op.model_identity.as_ref() == Some(&execution.model_identity),
+            "cycle_operation_changed"
+        );
+        run
+    } else {
+        serde_json::from_value(value)?
+    };
+    ensure!(
+        run.run_id == op.operation_id
+            && run.review_record.run.packet_id == op.packet_id
+            && run.review_record.run.revision == op.source_revision,
+        "cycle_operation_changed"
+    );
+    run.successful_execution()?;
+    Ok(run)
+}
+
+/// Read only, allowlisted original producer bytes. A digest is not a signature;
+/// the caller also validates the capsule against its authenticated cycle result.
+async fn review_evidence(
+    State(service): State<Service>,
+    headers: HeaderMap,
+    HttpPath(operation): HttpPath<String>,
+) -> ApiResult<Json<super::cycle_bridge::Capsule>> {
+    let _guard = service
+        .0
+        .gate
+        .lock()
+        .map_err(|_| ApiError(StatusCode::INTERNAL_SERVER_ERROR, "service_unavailable"))?;
+    let credential = service.auth(&headers)?;
+    let op = service.operation(&credential, &operation)?;
+    if op.status != Status::Complete
+        || op.expires_at <= now()
+        || op.candidate_revision != build::REVISION
+    {
+        return Err(ApiError(
+            StatusCode::CONFLICT,
+            "review_evidence_unavailable",
+        ));
+    }
+    let dir = service.dir(&credential.subject, &operation);
+    let value: Value = internal(read_json(&dir.join("result.json"), MAX_RESULT))?;
+    let cycle: activities::UpdateCycleResult = internal(
+        serde_json::from_value(if credential.mode == Mode::LocalModel {
+            value["cycle_result"].clone()
+        } else {
+            value
+        })
+        .map_err(Into::into),
+    )?;
+    internal(operation_review(&service, &credential, &op))?;
+    let mut capsule = internal(super::cycle_bridge::Capsule::capture(
+        &dir.join("work/review"),
+        &cycle,
+        now(),
+    ))?;
+    capsule.expires_at = capsule.expires_at.min(op.expires_at);
+    capsule.digest.clear();
+    capsule.digest = internal(super::evidence::hash(&capsule))?;
+    let current = service.auth(&headers)?;
+    let after = service.operation(&current, &operation)?;
+    if current.subject != credential.subject
+        || after.status != Status::Complete
+        || after.expires_at <= now()
+        || after.request_digest != op.request_digest
+        || after.candidate_revision != op.candidate_revision
+    {
+        return Err(ApiError(
+            StatusCode::CONFLICT,
+            "review_evidence_unavailable",
+        ));
+    }
+    internal(capsule.validate(&cycle, now()))?;
+    Ok(Json(capsule))
+}
+
 #[derive(Deserialize, Default)]
 #[serde(deny_unknown_fields)]
 struct PublicationSelection {
@@ -1065,7 +1182,6 @@ async fn publication_challenge(
         evidence::contracts::{Publication, ReviewRecord},
         integration::{prepare_publication_bundle_for_format_v2, PublicationChallenge},
         publication::{read_decision_head, verify_artifacts},
-        review::runner::FourPerspectiveReviewRun,
     };
     let _guard = service
         .0
@@ -1093,7 +1209,7 @@ async fn publication_challenge(
         ));
     }
     let dir = service.dir(&credential.subject, &operation);
-    let run: FourPerspectiveReviewRun = internal(read_json(&dir.join("result.json"), MAX_RESULT))?;
+    let run = internal(operation_review(&service, &credential, &op))?;
     let review_path = dir.join("work/review/review-record.json");
     let review: ReviewRecord = internal(read_json(&review_path, MAX_RESULT))?;
     if run.successful_execution().is_err()

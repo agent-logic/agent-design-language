@@ -16,5 +16,13 @@
   "additional_issues": [
     1077,
     1124
-  ]
+  ],
+  "issue_1133": {
+    "surface": "built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings",
+    "lane_class": "runtime",
+    "proof_role": "supporting native cycle capsule, hosted Journey and publication owner integration",
+    "determinism": "loopback fixture provider, exact typed production storage; zero additional provider calls during continuation",
+    "resources": "local CPU, filesystem and loopback HTTP; no paid provider",
+    "release_gate": "required supporting component proof; not independent qualification"
+  }
 }

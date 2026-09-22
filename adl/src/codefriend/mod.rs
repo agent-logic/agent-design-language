@@ -19,3 +19,5 @@ pub mod agent;
 pub mod language;
 mod rust_parse;
 pub(crate) mod schema;
+
+pub(crate) mod cycle_bridge;
