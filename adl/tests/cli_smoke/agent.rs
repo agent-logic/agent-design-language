@@ -1575,7 +1575,7 @@ fn csm_governed_shutdown_retains_continuity_and_publish_failures_without_false_s
     let continuity_root = unique_test_temp_dir("csm-shutdown-continuity-failure");
     let continuity_spec = write_shutdown_probe_spec(&continuity_root, "continuity-failure-agent");
     let (control_plane_url, _requests, control_plane) = spawn_loopback_control_plane();
-    let mut continuity_child = std::process::Command::new(resolve_csm_exe())
+    let mut continuity_child = runtime_test_command(resolve_csm_exe())
         .args([
             "daemon",
             "--spec",
@@ -1614,7 +1614,7 @@ fn csm_governed_shutdown_retains_continuity_and_publish_failures_without_false_s
 
     let publish_root = unique_test_temp_dir("csm-shutdown-publish-blocked");
     let publish_spec = write_shutdown_probe_spec(&publish_root, "publish-blocked-agent");
-    let mut publish_child = std::process::Command::new(resolve_csm_exe())
+    let mut publish_child = runtime_test_command(resolve_csm_exe())
         .args([
             "daemon",
             "--spec",
