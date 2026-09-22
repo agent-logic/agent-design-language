@@ -1,6 +1,6 @@
 # Issue 1132: cycle review Journey integration
 
-The native companion selects the successful original review inside a completed
+The native companion delivered by #1133 / PR #1138 selects the successful original review inside a completed
 update cycle. Hosted ownership verifies cycle execution, candidate, request,
 provider, source revision, original admission and retained review artifacts.
 The installed agent retains the gateway admission without extending retention,
@@ -9,6 +9,10 @@ verification to the enclosing original agent report and receipt. Original local
 admission deletion still denies reuse; expiry scrubs both admission stores.
 Publication uses that same selected review and existing exact approval guards.
 No Journey operation repeats model review.
+
+The earlier native implementation on this branch was superseded by #1133.
+PR #1137 retains the website delivery only, avoiding two competing native
+bridges. Native source and associated tests are owned by PR #1138.
 
 The website implementation is in `agent-logic/codefriend.ai`, branch
 `codex/1132-cycle-review-journey`, commit series `f695c18` through `0f7a5ba`. It is stacked on the
@@ -19,6 +23,10 @@ for the baseline selector. Unsupported, failed, reviewless and old unbound
 cycles remain unavailable; they are not converted into legacy review identities.
 
 ## Validation and review
+
+Native results below describe the prior component proof; current native fixes
+and proof are retained by #1133. The website series remains independently
+reviewed and tested at the exact commit below.
 
 - Website declared `npm test`: 139 passed, zero failed, Node 24 or newer.
 - Native agent Journey/delivery/verification tests: 14 passed. New cycle

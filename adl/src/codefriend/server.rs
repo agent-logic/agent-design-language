@@ -397,13 +397,6 @@ fn execute_cycle(
     }
     if let Some(review) = &mut result.review {
         review.rebind_provider_route(&observed_route)?;
-        // Finalize original artifacts before publishing the cycle. Journey and
-        // export owners must consume exactly the served, route-bound review.
-        fs::write(work.join("review/run.json"), serde_json::to_vec(review)?)?;
-        fs::write(
-            work.join("review/review-record.json"),
-            serde_json::to_vec(&review.review_record)?,
-        )?;
         if let Some(activity) = result
             .activities
             .iter_mut()

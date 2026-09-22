@@ -1,6 +1,5 @@
 //! Hosted adapter over the common journey owner and existing operation admission.
 use super::*;
-use crate::codefriend::activities::UpdateCycleResult;
 use crate::codefriend::{
     architecture::artifact::{
         BoundaryPolicyArtifact, ChangeSetArtifact, RationaleSelectionArtifact, StructureArtifact,
@@ -67,7 +66,8 @@ impl BaselineOwner {
         }
         let dir = service.dir(&credential.subject, operation);
         let work = dir.join("work");
-        let run = selected_review(service, &credential, &op)?;
+        let run: FourPerspectiveReviewRun =
+            internal(read_json(&dir.join("result.json"), MAX_RESULT))?;
         let graph: StructureArtifact =
             internal(read_json(&work.join("journey/structure.json"), MAX_RESULT))?;
         if run.run_id != operation
@@ -201,7 +201,6 @@ fn owned(
             "journey_operation_not_current",
         ));
     }
-    selected_review(service, &credential, &op)?;
     Ok((credential, op))
 }
 
@@ -233,7 +232,12 @@ pub(super) async fn prepare(
                 "service_draining",
             ));
         }
-        let completed_run = selected_review(&service, &credential, &op)?;
+        let completed_run: FourPerspectiveReviewRun = internal(read_json(
+            &service
+                .dir(&credential.subject, &operation)
+                .join("result.json"),
+            MAX_RESULT,
+        ))?;
         // Reject invalid policies before reserving this operation's journey.
         if matches!(&request.boundary_policy, BoundaryPolicyArtifact::V2(_))
             != matches!(&request.fitness_policy, PolicyArtifact::V2(_))
@@ -436,63 +440,4 @@ fn palace_context(
             .expect("owned Journey has work parent")
             .join("palace"),
     }
-}
-
-// Validate the enclosing cycle before selecting its original review. A selected
-// review cannot replace, bypass, or inherit another operation's execution binding.
-fn selected_review(
-    service: &Service,
-    credential: &Credential,
-    op: &Operation,
-) -> ApiResult<FourPerspectiveReviewRun> {
-    let dir = service.dir(&credential.subject, &op.operation_id);
-    let run = if dir.join("cycle-operation").exists() {
-        let cycle: UpdateCycleResult = internal(read_json(&dir.join("result.json"), MAX_RESULT))?;
-        let execution = cycle.execution.as_ref().ok_or(ApiError(
-            StatusCode::CONFLICT,
-            "journey_cycle_execution_missing",
-        ))?;
-        if execution.candidate_revision != op.candidate_revision
-            || execution.request_digest != op.request_digest
-            || Some(&execution.model_identity) != op.model_identity.as_ref()
-            || cycle.run_id != op.operation_id
-            || cycle.completion != crate::codefriend::evidence::contracts::Completion::Complete
-            || !cycle.failures.is_empty()
-        {
-            return Err(ApiError(
-                StatusCode::CONFLICT,
-                "journey_cycle_identity_changed",
-            ));
-        }
-        internal(cycle.validate(
-            &crate::codefriend::review::runner::provider_route_identity_from_model(
-                &execution.model_identity,
-            ),
-        ))?;
-        cycle.review.ok_or(ApiError(
-            StatusCode::CONFLICT,
-            "journey_cycle_review_missing",
-        ))?
-    } else {
-        internal(read_json(&dir.join("result.json"), MAX_RESULT))?
-    };
-    internal(run.successful_execution())?;
-    if run.run_id != op.operation_id
-        || run.review_record.admission.packet.packet_id != op.packet_id
-        || run.review_record.admission.packet.revision != op.source_revision
-    {
-        return Err(ApiError(
-            StatusCode::CONFLICT,
-            "journey_review_identity_changed",
-        ));
-    }
-    let original: FourPerspectiveReviewRun =
-        internal(read_json(&dir.join("work/review/run.json"), MAX_RESULT))?;
-    if original != run {
-        return Err(ApiError(
-            StatusCode::CONFLICT,
-            "journey_original_review_changed",
-        ));
-    }
-    Ok(run)
 }

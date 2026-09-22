@@ -293,17 +293,14 @@ impl Transport {
         ensure!(store_path.is_dir(), "agent_journey_original_store_missing");
         let clock = self.clock.clone();
         let store = super::super::evidence::store::Store::open(&store_path, move || clock())?;
-        let review = owner.report.selected_review()?;
-        let original = if owner.report.cycle_result.is_some() {
-            publication::read(&owner.root.join("admission.json"), MAX_RESPONSE as usize)?
-        } else {
-            review.review_record.admission.clone()
-        };
+        let review = owner
+            .report
+            .result
+            .as_ref()
+            .ok_or_else(|| anyhow::anyhow!("agent_journey_review_missing"))?;
         ensure!(
-            store.get(&review.review_record.admission.packet.packet_id)? == original
-                && original.packet == review.review_record.admission.packet
-                && (owner.report.cycle_result.is_some()
-                    || original == review.review_record.admission),
+            store.get(&review.review_record.admission.packet.packet_id)?
+                == review.review_record.admission,
             "agent_journey_original_admission_changed"
         );
         drop(store);
@@ -379,7 +376,6 @@ impl Transport {
             "agent_journey_authority_changed"
         );
         report_after.validate(now)?;
-        report_after.check_original_cycle(&owner.root, now)?;
         ensure!(now < expiry_after, "agent_journey_expired");
         Ok(())
     }
@@ -403,7 +399,8 @@ impl BaselineOwner {
             review: &self
                 .owner
                 .report
-                .selected_review()
+                .result
+                .as_ref()
                 .expect("validated complete report")
                 .review_record,
             baseline_root: &self.baseline_root,
@@ -459,13 +456,14 @@ impl Transport {
             native::owned_baseline::original_review(&output)?
                 == owner
                     .report
-                    .selected_review()
+                    .result
+                    .as_ref()
                     .expect("validated complete report")
                     .review_record,
             "agent_journey_baseline_review_changed"
         );
         let clock = self.clock.clone();
-        let store = Store::open(&owner.report.review_store(&root), move || clock())?;
+        let store = Store::open(&root.join("evidence"), move || clock())?;
         let baseline = BaselineOwner {
             owner,
             binding,
@@ -672,16 +670,17 @@ impl Transport {
             {
                 let run = owner
                     .report
-                    .selected_review()
+                    .result
+                    .as_ref()
                     .expect("validated complete report");
                 native::prepare_owned_admission(native::OwnedAdmissionJourneyOptions {
-                    store: owner.report.review_store(&owner.root),
+                    store: owner.root.join("evidence"),
                     output: output.clone(),
                     owner_root: owner.root.clone(),
                     review_root: owner.root.join("work/review"),
                     packet_id: run.review_record.admission.packet.packet_id.clone(),
                     admission_digest: run.review_record.admission.digest.clone(),
-                    operation_id: run.run_id.clone(),
+                    operation_id: owner.command.run_id.clone(),
                     candidate_revision: job.permitted_agent_candidate.clone(),
                     expires_at: owner.report.expires_at,
                     completed_run: run.clone(),
