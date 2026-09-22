@@ -50,7 +50,12 @@
           "merge_ancestor_of_audit_baseline": true
         }
       ],
-      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof.",
+      "content_audit": {
+        "status": "historical_record_inspected",
+        "reference": "PREREQUISITE_ACCEPTANCE.json",
+        "observation": "Manual proof reports 30 installed pages, 26 root-help commands and 207 request fields; macOS/Linux fixture installation is not live owner activation."
+      }
     },
     {
       "task": "SIM-UMBRELLA",
@@ -65,7 +70,12 @@
       "disposition": "closed_pending_acceptance_audit",
       "acceptance": "not_proven",
       "closing_pull_requests": [],
-      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof.",
+      "content_audit": {
+        "status": "historical_record_inspected",
+        "reference": "PREREQUISITE_ACCEPTANCE.json",
+        "observation": "Live issue body contains coordination-only completion metadata for eight children. #875 is explicitly deferred to v0.93; no 30-journey pilot proof is inferred."
+      }
     },
     {
       "task": "SIM-01",
@@ -304,7 +314,12 @@
           "merge_ancestor_of_audit_baseline": true
         }
       ],
-      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof.",
+      "content_audit": {
+        "status": "historical_record_inspected",
+        "reference": "PREREQUISITE_ACCEPTANCE.json",
+        "observation": "Planning review dispositions resolve the rollback-support boundary and retain incomplete first review without inferring approval. Planning acceptance does not establish extracted independent builds."
+      }
     },
     {
       "task": "RT-COST",
@@ -328,7 +343,12 @@
           "merge_ancestor_of_audit_baseline": true
         }
       ],
-      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof.",
+      "content_audit": {
+        "status": "historical_record_inspected",
+        "reference": "PREREQUISITE_ACCEPTANCE.json",
+        "observation": "Monitoring documentation describes counting-fixture proof: one startup inference, no calls over 100 polling rounds / 400 virtual seconds, then failure/recovery and another idle window. These are fixture observations, not billing readbacks."
+      }
     },
     {
       "task": "RT-PROVIDER",
@@ -400,7 +420,12 @@
           "merge_ancestor_of_audit_baseline": true
         }
       ],
-      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof.",
+      "content_audit": {
+        "status": "historical_record_inspected",
+        "reference": "PREREQUISITE_ACCEPTANCE.json",
+        "observation": "Retained install receipt binds adl-uts 0.1.0 and isolated extracted-artifact consumption. Runtime dispatch acceptance remains a separate proof obligation."
+      }
     },
     {
       "task": "CF-ADAPTER",
@@ -940,7 +965,7 @@
       "is_916_prerequisite": true,
       "issue_state": "CLOSED",
       "closed_at": "2026-09-12T07:25:26Z",
-      "disposition": "closed_pending_acceptance_audit",
+      "disposition": "closed_with_criterion_evidence_admitted",
       "acceptance": "not_proven",
       "closing_pull_requests": [
         {
@@ -952,7 +977,12 @@
           "merge_ancestor_of_audit_baseline": true
         }
       ],
-      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof.",
+      "content_audit": {
+        "status": "criterion_evidence_admitted",
+        "reference": "PREREQUISITE_ACCEPTANCE.json",
+        "observation": "Existing criterion consumer reopened and admitted protected producer artifacts; see successful five-row replay."
+      }
     },
     {
       "task": "QUAL-INVENTORY",
@@ -964,7 +994,7 @@
       "is_916_prerequisite": true,
       "issue_state": "CLOSED",
       "closed_at": "2026-09-12T06:46:18Z",
-      "disposition": "closed_pending_acceptance_audit",
+      "disposition": "closed_with_criterion_evidence_admitted",
       "acceptance": "not_proven",
       "closing_pull_requests": [
         {
@@ -976,7 +1006,12 @@
           "merge_ancestor_of_audit_baseline": true
         }
       ],
-      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof.",
+      "content_audit": {
+        "status": "criterion_evidence_admitted",
+        "reference": "PREREQUISITE_ACCEPTANCE.json",
+        "observation": "Existing criterion consumer reopened and admitted protected producer artifacts; see successful five-row replay."
+      }
     },
     {
       "task": "QUAL-RESIDENT",
@@ -988,7 +1023,7 @@
       "is_916_prerequisite": true,
       "issue_state": "CLOSED",
       "closed_at": "2026-09-15T16:18:42Z",
-      "disposition": "closed_pending_acceptance_audit",
+      "disposition": "closed_with_criterion_evidence_admitted",
       "acceptance": "not_proven",
       "closing_pull_requests": [
         {
@@ -1000,7 +1035,12 @@
           "merge_ancestor_of_audit_baseline": true
         }
       ],
-      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof.",
+      "content_audit": {
+        "status": "criterion_evidence_admitted",
+        "reference": "PREREQUISITE_ACCEPTANCE.json",
+        "observation": "Existing criterion consumer reopened and admitted protected producer artifacts; see successful five-row replay."
+      }
     },
     {
       "task": "QUAL-PROVIDER",
@@ -1012,7 +1052,7 @@
       "is_916_prerequisite": true,
       "issue_state": "CLOSED",
       "closed_at": "2026-09-15T16:19:11Z",
-      "disposition": "closed_pending_acceptance_audit",
+      "disposition": "closed_with_criterion_evidence_admitted",
       "acceptance": "not_proven",
       "closing_pull_requests": [
         {
@@ -1024,7 +1064,12 @@
           "merge_ancestor_of_audit_baseline": true
         }
       ],
-      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof.",
+      "content_audit": {
+        "status": "criterion_evidence_admitted",
+        "reference": "PREREQUISITE_ACCEPTANCE.json",
+        "observation": "Existing criterion consumer reopened and admitted protected producer artifacts; see successful five-row replay."
+      }
     },
     {
       "task": "QUAL-EVIDENCE",
@@ -1036,7 +1081,7 @@
       "is_916_prerequisite": true,
       "issue_state": "CLOSED",
       "closed_at": "2026-09-15T19:32:02Z",
-      "disposition": "closed_pending_acceptance_audit",
+      "disposition": "closed_with_criterion_evidence_admitted",
       "acceptance": "not_proven",
       "closing_pull_requests": [
         {
@@ -1048,7 +1093,12 @@
           "merge_ancestor_of_audit_baseline": true
         }
       ],
-      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof.",
+      "content_audit": {
+        "status": "criterion_evidence_admitted",
+        "reference": "PREREQUISITE_ACCEPTANCE.json",
+        "observation": "Existing criterion consumer reopened and admitted protected producer artifacts; see successful five-row replay."
+      }
     },
     {
       "task": "PLAT-MLX",
@@ -1072,7 +1122,12 @@
           "merge_ancestor_of_audit_baseline": true
         }
       ],
-      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof.",
+      "content_audit": {
+        "status": "historical_record_inspected",
+        "reference": "PREREQUISITE_ACCEPTANCE.json",
+        "observation": "Actual-hardware receipt reports one passing canonical Runtime MLX smoke. Successful matched review comparison and review-speed advantage remain unproved; comparison is supplemental, not adapter completion."
+      }
     },
     {
       "task": "PLAT-PAIR",
@@ -1096,7 +1151,12 @@
           "merge_ancestor_of_audit_baseline": true
         }
       ],
-      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof.",
+      "content_audit": {
+        "status": "historical_record_inspected",
+        "reference": "PREREQUISITE_ACCEPTANCE.json",
+        "observation": "PAIR delivered a REPAIR decision. Report records 72 correct requests across baseline/raw/Runtime and node loss; production readiness, pooled VRAM and isolated router speedup are not claimed."
+      }
     },
     {
       "task": "SPEC-RETEST",
@@ -1120,7 +1180,12 @@
           "merge_ancestor_of_audit_baseline": true
         }
       ],
-      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof.",
+      "content_audit": {
+        "status": "historical_record_inspected",
+        "reference": "PREREQUISITE_ACCEPTANCE.json",
+        "observation": "Eight output-equivalent paired conversations do not establish performance benefit: three of four end-to-end blocks lost. repair_inconclusive is a completed decision, not successful acceleration."
+      }
     },
     {
       "task": "CSDLC-MERGE",
@@ -1144,7 +1209,12 @@
           "merge_ancestor_of_audit_baseline": true
         }
       ],
-      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof.",
+      "content_audit": {
+        "status": "historical_record_inspected",
+        "reference": "PREREQUISITE_ACCEPTANCE.json",
+        "observation": "Retained validation reports 16 focused merge tests and independent bounded review. Full all-target suite failed on then-existing release inventory omission; diagnostic 253-test run explicitly skipped that test. Preserve partial status; do not infer current failure from historical evidence."
+      }
     },
     {
       "task": "CSDLC-DECOMPOSE",
@@ -1168,7 +1238,12 @@
           "merge_ancestor_of_audit_baseline": true
         }
       ],
-      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof.",
+      "content_audit": {
+        "status": "historical_record_inspected",
+        "reference": "PREREQUISITE_ACCEPTANCE.json",
+        "observation": "Source inventory records 152 passing focused regressions; broader lane stopped at the then-existing 1.0.3/1.0.5 template mismatch. Do not label the broad lane passed."
+      }
     },
     {
       "task": "PLAT-RUST",
@@ -1192,7 +1267,12 @@
           "merge_ancestor_of_audit_baseline": true
         }
       ],
-      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof.",
+      "content_audit": {
+        "status": "historical_record_inspected",
+        "reference": "PREREQUISITE_ACCEPTANCE.json",
+        "observation": "Recursive inventory records 482 to 651 total lines and 431 to 462 production lines while the parent owner shrinks. Simplification is typed ownership/branch reduction, not total source reduction."
+      }
     },
     {
       "task": "CSDLC-REMOTE",
@@ -1216,7 +1296,12 @@
           "merge_ancestor_of_audit_baseline": true
         }
       ],
-      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof.",
+      "content_audit": {
+        "status": "historical_record_inspected",
+        "reference": "PREREQUISITE_ACCEPTANCE.json",
+        "observation": "Remote inventory records retained test files, explicit module boundaries and focused parity counts; broad current-candidate parity is not re-executed here."
+      }
     },
     {
       "task": "OBS-LIVE",
@@ -1240,7 +1325,12 @@
           "merge_ancestor_of_audit_baseline": true
         }
       ],
-      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof.",
+      "content_audit": {
+        "status": "historical_record_inspected",
+        "reference": "PREREQUISITE_ACCEPTANCE.json",
+        "observation": "Live-only UI proof uses intercepted browser networking. Local behavior regression is not deployed HTTPS/WSS connectivity."
+      }
     },
     {
       "task": "OPS-AWS",
@@ -1264,7 +1354,12 @@
           "merge_ancestor_of_audit_baseline": true
         }
       ],
-      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof.",
+      "content_audit": {
+        "status": "historical_record_inspected",
+        "reference": "PREREQUISITE_ACCEPTANCE.json",
+        "observation": "Retained inventory validation and independent review report 13 passing checks and unchanged historical baselines. This is historical inventory acceptance, not a fresh cloud readback."
+      }
     },
     {
       "task": "OPS-GCP",
@@ -1288,7 +1383,12 @@
           "merge_ancestor_of_audit_baseline": true
         }
       ],
-      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof.",
+      "content_audit": {
+        "status": "historical_record_inspected",
+        "reference": "PREREQUISITE_ACCEPTANCE.json",
+        "observation": "Planning packet reports source hashes, 20 policy readbacks, final review pass and planning_complete=true; apply_ready=false and no cloud mutation remain explicit."
+      }
     },
     {
       "task": "OBS-S3",
@@ -1348,7 +1448,7 @@
       "is_916_prerequisite": true,
       "issue_state": "CLOSED",
       "closed_at": "2026-09-20T23:54:22Z",
-      "disposition": "closed_pending_acceptance_audit",
+      "disposition": "closed_operator_accepted_bounded_handoff",
       "acceptance": "not_proven",
       "closing_pull_requests": [
         {
@@ -1360,7 +1460,12 @@
           "merge_ancestor_of_audit_baseline": true
         }
       ],
-      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof.",
+      "content_audit": {
+        "status": "operator_accepted_bounded_handoff",
+        "reference": "PREREQUISITE_ACCEPTANCE.json",
+        "observation": "Operator accepted thirteen article drafts and deferred further editing/publication; repository README records matching review copies."
+      }
     },
     {
       "task": "PUB-CSDLC",
@@ -1372,7 +1477,7 @@
       "is_916_prerequisite": true,
       "issue_state": "CLOSED",
       "closed_at": "2026-09-21T00:32:25Z",
-      "disposition": "closed_pending_acceptance_audit",
+      "disposition": "closed_operator_accepted_bounded_handoff",
       "acceptance": "not_proven",
       "closing_pull_requests": [
         {
@@ -1384,7 +1489,12 @@
           "merge_ancestor_of_audit_baseline": true
         }
       ],
-      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof.",
+      "content_audit": {
+        "status": "operator_accepted_bounded_handoff",
+        "reference": "PREREQUISITE_ACCEPTANCE.json",
+        "observation": "Operator accepted revision-4 PDF review handoff. Sanitized record binds 22 pages, 396563 bytes and PDF SHA-256; further editing/citation review remains deferred."
+      }
     },
     {
       "task": "CF-INTEGRATE",
@@ -1408,7 +1518,12 @@
           "merge_ancestor_of_audit_baseline": true
         }
       ],
-      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof.",
+      "content_audit": {
+        "status": "historical_record_inspected",
+        "reference": "PREREQUISITE_ACCEPTANCE.json",
+        "observation": "Merged integration implementation is not sufficient for final acceptance while follow-up deliveries remain in PR and #915 independent exact-candidate qualification is pending."
+      }
     },
     {
       "task": "CF-PROOF",
@@ -1423,7 +1538,12 @@
       "disposition": "pending_qualification",
       "acceptance": "not_proven",
       "closing_pull_requests": [],
-      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof."
+      "limitation": "Tracker and merge ancestry observations are not source-specific acceptance or installed proof.",
+      "content_audit": {
+        "status": "historical_record_inspected",
+        "reference": "PREREQUISITE_ACCEPTANCE.json",
+        "observation": "Only outstanding independent qualification issue; live tracker remains OPEN with no new comments at this observation."
+      }
     },
     {
       "task": "TAIL-01",

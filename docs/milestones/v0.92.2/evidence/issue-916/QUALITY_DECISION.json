@@ -229,6 +229,12 @@
     "operator_accepted_drafting_scope": [
       912,
       913
-    ]
+    ],
+    "prerequisite_acceptance": "PREREQUISITE_ACCEPTANCE.json",
+    "prerequisite_audit_counts": {
+      "criterion_evidence_admitted": 5,
+      "historical_record_inspected": 17,
+      "operator_accepted_bounded_handoff": 2
+    }
   }
 }

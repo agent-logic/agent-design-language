@@ -63,3 +63,18 @@ The existing Runtime criterion consumer was executed against retained protected 
 ### Retained Runtime evidence resolved
 
 The exact #852 archive was subsequently found under Git-local `archived-worktree-residue/v0922-closeout-20260916/902`. Its SHA-256 matches the accepted manifest: `96cffcc48df892bce6c89835ad2a4c8808bcf8384cd40117ba4ebc23c631fda1`. A local replay copy was restored without changing the original. The existing admission consumer now passes **all five criteria**, with zero missing/excluded rows. [Successful replay](runtime-admission-recovered.json) supersedes the earlier unavailable-path observation. **916-G04 is resolved; no implementation defect or lost archive was established.** This admits the criterion-specific producer evidence, not a final CodeFriend release candidate.
+
+## Prerequisite content audit
+
+[The 24-row acceptance matrix](PREREQUISITE_ACCEPTANCE.json) now separates reopened criterion proof, operator-accepted handoffs, inspected historical reports and pending content audit. It retains candidate evidence pointers without treating every pointer as reviewed.
+
+- **#903 MLX:** the bounded canonical adapter smoke passed. The supplemental matched-review comparison did not establish a review-speed advantage.
+- **#904 PAIR:** the completed experiment decision is REPAIR, with routing/failover observations and production limitations retained.
+- **#905 speculative decoding:** the completed decision is repair/inconclusive. Equivalent outputs and a positive aggregate do not override three losing blocks or the failed robustness gate.
+- **#906 Rust simplification:** the parent shrank, but recursive production source grew from 431 to 462 lines. Acceptance rests on typed responsibility extraction and preserved behavior, not a false total-size reduction claim.
+- **#720 Observatory:** intercepted-network browser tests establish local UI behavior, not current deployed connectivity.
+- **#909 GCP:** planning completion is recorded separately from apply readiness; this audit performs no cloud mutation.
+
+These are claim boundaries, not newly assigned implementation defects. #915 is still OPEN. PR #1137 is OPEN/CLEAN at `8e2d85e8655cef7e0ae36ddbacc13df3fdc95d8c`; #1138 is OPEN/BLOCKED at `5cf0bdedc9bc1236df52550d4d9a27ff794d1266`. Merge-state observations are not independent review verdicts or final candidate acceptance.
+
+All 24 prerequisite rows now have an initial source disposition: five producer issues admitted by criterion replay, two operator-accepted bounded handoffs, and seventeen historical/status inspections (including pending #915). This is not 24 accepted current-candidate results. #849 and #862 explicitly retain historical broad-suite failures/partial runs; a later green check cannot silently rewrite those records. Their current relevance must be reconciled against final-candidate coverage rather than rerunning every historical workload.
