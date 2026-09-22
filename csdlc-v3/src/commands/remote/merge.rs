@@ -463,9 +463,45 @@ pub(super) fn execute_staged(
         &staged.request,
         process,
         &staged.intent.selector_digest,
-        !reconciliation_only && !staged.preexisting,
+        !reconciliation_only,
         Some(&staged.intent_digest),
     )
+}
+
+pub(super) fn retained_attempt_was_never_dispatched(
+    root: &Path,
+    staged: &StagedMerge,
+) -> Result<bool, RemoteRouteFinding> {
+    if !staged.preexisting {
+        return Ok(false);
+    }
+    dispatch_evidence_is_absent(root, &staged.operation_digest)
+}
+
+fn dispatch_evidence_is_absent(root: &Path, digest: &str) -> Result<bool, RemoteRouteFinding> {
+    let control = git_control_dir(root).ok_or_else(|| reject("Git receipt directory missing"))?;
+    let dir = control.join("csdlc-v3/remote/merges");
+    let receipt = github_mutation_receipt_path(root, digest)?;
+    Ok(!dir
+        .join(format!("{digest}.dispatch-prestate.json"))
+        .exists()
+        && !dir.join(format!("{digest}.response.json")).exists()
+        && !dir.join(format!("{digest}.reconciliation.json")).exists()
+        && !receipt.exists())
+}
+
+pub(super) fn retained_intent_exists(
+    root: &Path,
+    request: &GithubMutationRequest,
+) -> Result<bool, RemoteRouteFinding> {
+    let control = git_control_dir(root).ok_or_else(|| reject("Git receipt directory missing"))?;
+    Ok(control
+        .join("csdlc-v3/remote/merges")
+        .join(format!(
+            "{}.intent.json",
+            github_mutation_operation_digest(request)
+        ))
+        .exists())
 }
 
 pub(super) fn execute(
@@ -482,7 +518,7 @@ fn execute_inner(
     request: &GithubMutationRequest,
     process: &mut impl ProcessAdapter,
     selector_digest: &str,
-    dispatch_staged: bool,
+    dispatch_authorized: bool,
     expected_intent_digest: Option<&str>,
 ) -> Result<GithubMutationResult, RemoteRouteFinding> {
     let GithubMutation::PullRequestMerge {
@@ -637,6 +673,12 @@ fn execute_inner(
     )?;
     let response_path = dir.join(format!("{digest}.response.json"));
     let has_retained_success_response = response_path.exists();
+    // This decision is made while holding the per-PR merge lock, after the
+    // retained intent and authenticated observation have been re-read. A
+    // preexisting intent may make its first dispatch only when no durable
+    // dispatch or result evidence exists at this exact point.
+    let dispatch_staged =
+        dispatch_authorized && (!replay || dispatch_evidence_is_absent(root, &digest)?);
     let mut response_digest = None;
     let mut response_sha = None;
     let identity = if (replay && !dispatch_staged) || pr["merged"] == true {
