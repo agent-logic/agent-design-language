@@ -1,0 +1,130 @@
+{
+  "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+  "status": "completed_assigned_code_scope_two_actionable_findings",
+  "findings": [
+    {
+      "id": "CODE-001",
+      "severity": "P2",
+      "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+      "title": "Preserve source whitespace in exact citation exports",
+      "path": "adl/src/codefriend/publication/markdown.rs",
+      "line": 978,
+      "related_locations": [
+        {
+          "path": "adl/src/codefriend/publication/markdown.rs",
+          "line": 772
+        },
+        {
+          "path": "adl/src/codefriend/publication/html.rs",
+          "line": 613
+        },
+        {
+          "path": "adl/src/codefriend/publication/html.rs",
+          "line": 414
+        },
+        {
+          "path": "adl/src/codefriend/publication/pdf.rs",
+          "line": 532
+        }
+      ],
+      "trigger": "A valid verified assessment citation contains line breaks, CRLF, tabs or indentation-sensitive code.",
+      "impact": "The fields explicitly labeled Exact source excerpt replace newline/CR/tab with spaces in Markdown and HTML. PDF derives from that Markdown and further collapses spaces. Consumers cannot copy or inspect the verified excerpt faithfully; Python/block and string-literal semantics can change while source byte offsets still name the original bytes.",
+      "evidence": "Exact extracted production text helpers reproduced with benign Python quote: if authorized:\\n\\tdelete_records()\\nreturn ok -> one-line excerpt. Source call sites pass VerifiedCitation::quote through field/markdown_text and field/html_text.",
+      "reproduction": {
+        "status": "reproduced_helper_logic",
+        "source": "lanes/code-excerpt-repro.rs",
+        "limitation": "Standalone Rust harness extracts production helper bodies; privacy guard stubbed false for benign fixture. Does not run full renderer, approval chain or live service."
+      },
+      "remediation": "Use a dedicated escaped verbatim source block for citations in Markdown/HTML and preserve line structure in PDF; verify exported multiline/tabs/CRLF quotes against the original admitted bytes or an explicitly documented visible encoding.",
+      "owner": "#921 CodeFriend renderer owner",
+      "acceptance": [
+        "CF-RENDER-MD-A03",
+        "CF-RENDER-MD-A04",
+        "CF-RENDER-HTML-A02",
+        "CF-RENDER-HTML-A04",
+        "CF-RENDER-PDF-A02",
+        "CF-RENDER-PDF-A04"
+      ],
+      "lane": "code",
+      "disposition": "open"
+    },
+    {
+      "id": "CODE-002",
+      "severity": "P2",
+      "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+      "title": "Reject retry while the original shell attempt is still running",
+      "path": "adl/src/codefriend/operator/mod.rs",
+      "line": 235,
+      "related_locations": [
+        {
+          "path": "adl/src/codefriend/operator/mod.rs",
+          "line": 155
+        },
+        {
+          "path": "adl/src/codefriend/operator/mod.rs",
+          "line": 167
+        },
+        {
+          "path": "adl/src/codefriend/operator/mod.rs",
+          "line": 117
+        }
+      ],
+      "trigger": "Invoke review shell retry from another terminal while shell start has persisted Incomplete and is still waiting for a provider response; do not cancel first.",
+      "impact": "active_attempt_settled treats Incomplete as settled, allowing active_attempt to advance. The original evidence Store lock makes the new attempt fail store_busy; shell now points at failed attempt 2 while attempt 1 continues. A subsequent cancel writes attempts/2/cancel-request.json, not attempt 1's watched path. Original completion also cannot repair overall status because run_attempt only updates it when active_attempt equals its own attempt.",
+      "evidence": "Exact extracted settlement predicate returns true for Incomplete with neither run.json nor settlement.json. Followed retry, run_from_store Store lifetime, cancel_review and late run_attempt completion paths. Existing tests cover immediate retry after Cancelled but not directly during Incomplete.",
+      "reproduction": {
+        "status": "reproduced_guard_with_source_traced_consequence",
+        "source": "lanes/code-retry-repro.rs",
+        "limitation": "No provider calls, no full concurrent installed CLI execution; harness invokes extracted predicate over lightweight matching state types."
+      },
+      "remediation": "Require a terminal, retained settlement before changing active_attempt; serialize/recheck shell state across retry/cancel/completion. Regression should hold first provider call, request retry directly, reject it, then verify cancellation still targets attempt 1.",
+      "owner": "#921 CodeFriend operator shell owner",
+      "acceptance": [
+        "CF-SHELL-A02",
+        "CF-SHELL-A04",
+        "CF-SHELL-A07"
+      ],
+      "lane": "code",
+      "disposition": "open"
+    }
+  ],
+  "retracted_candidates": [
+    {
+      "id": "CODE-003",
+      "severity": "P2",
+      "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+      "title": "Restore a finite response deadline for GitHub acquisition",
+      "path": "adl/src/codefriend/ingestion/github.rs",
+      "line": 84,
+      "related_locations": [
+        {
+          "path": "adl/src/codefriend/ingestion/github.rs",
+          "line": 107
+        },
+        {
+          "path": "adl/src/codefriend/ingestion/github.rs",
+          "line": 142
+        }
+      ],
+      "trigger": "GitHub accepts TCP/TLS but stalls response headers or stops sending the declared body. CLI GitHub acquisition calls the blocking transport directly.",
+      "impact": "The acquisition can wait indefinitely and never produce its controlled failure or partial-state outcome. Request-count and byte bounds only advance as requests/bytes arrive; the connection timeout does not cover an already-connected stalled HTTP response.",
+      "evidence": [
+        "Client builder explicitly sets timeout(None), leaving only connect_timeout(5 seconds). send() and read_to_end() have no enclosing deadline or cancellation.",
+        "git log -L 81,85:adl/src/codefriend/ingestion/github.rs confirms cb95ba8738 (#1102) replaced timeout(Duration::from_secs(20)) with timeout(None)."
+      ],
+      "reproduction": {
+        "status": "source_confirmed",
+        "limitation": "No live or loopback network reproduction executed. Exact configuration and blocking call path inspected; existing prior finite timeout removal verified from commit diff."
+      },
+      "remediation": "Restore a finite total request deadline covering headers and body; add a controlled stalled-header and stalled-body fixture regression with a bounded elapsed-time assertion.",
+      "owner": "#879 GitHub ingestion / #1102 regression owner",
+      "acceptance": [
+        "CF-ADAPTER-GITHUB-A04",
+        "CF-ADAPTER-GITHUB-A05"
+      ],
+      "lane": "CODE",
+      "disposition": "retracted_documented_intent",
+      "reason": "GITHUB_INGESTION.md explicitly documents no total capture/request-duration cutoff under #1102. No separate required inactivity/cancellation contract established. Original remediation would contradict intended behavior; retain only as optional design question, not actionable defect."
+    }
+  ]
+}

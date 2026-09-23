@@ -1,0 +1,89 @@
+{
+  "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+  "findings": [
+    {
+      "id": "DOC-001",
+      "severity": "P2",
+      "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+      "path": "docs/milestones/v0.92.2/README.md",
+      "line": 3,
+      "title": "Route pending qualification to its approved v0.93 successors",
+      "trigger": "A reviewer/operator follows current milestone status and acceptance ownership for incomplete Beta1 qualification.",
+      "impact": "Current status headers still describe #915 as pending, while retained SPRINT10_DEFERRAL records it CLOSED/NOT_PLANNED and routes remaining qualification to #1148/#1149/#1150 in v0.93. Current overlays and feature acceptance still send readers to the closed predecessor and imply its completion blocks this milestone rather than preserving the approved deferral and prelaunch gate.",
+      "evidence": [
+        "README.md:3",
+        "DEMO_MATRIX_v0.92.2.md:3",
+        "FEATURE_PROOF_COVERAGE_v0.92.2.md:8",
+        "RELEASE_PLAN_v0.92.2.md:3",
+        "NEXT_MILESTONE_HANDOFF_v0.92.2.md:5",
+        "evidence/issue-916/SPRINT10_DEFERRAL.json: operator_authorized_deferral and follow_on_issues",
+        "evidence/issue-917/HANDOFF.md: Current qualification handoff"
+      ],
+      "remediation": "Update current status/owner overlays consistently to incomplete and deferred, preserving original #915 historical requirements and the #1150 pre-Beta1-launch qualification gate. Do not relabel as PASS or rewrite historical evidence.",
+      "owner": "#921 / milestone documentation and #917 handoff owner",
+      "validation": "Independent static source comparison; no live tracker query. Frozen candidate contains both contradictory claims.",
+      "acceptance_relevance": "Accurate current release gate and successor routing.",
+      "disposition": "open"
+    },
+    {
+      "id": "DOC-002",
+      "severity": "P2",
+      "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+      "path": "docs/csdlc-v3/NO_PR_CLOSEOUT.md",
+      "line": 16,
+      "title": "Remove native-only timestamps from the semantic disposition example",
+      "trigger": "Operator follows the current documented command and JSON construction procedure.",
+      "impact": "The documented finish ISSUE --disposition JSON includes two timestamp fields rejected by the strict semantic Disposition parser, so copying the sole example produces intent_finish_disposition_invalid instead of terminal reconciliation.",
+      "evidence": [
+        "application/intent/terminal.rs:1162-1171 deny_unknown_fields permits four fields",
+        "application/intent/terminal.rs:1196-1197 derives authenticated timestamps",
+        "docs/csdlc-v3/INTENT_COMMANDS.md Explicit no-PR terminal disposition"
+      ],
+      "remediation": "Remove caller timestamps and explain they are authenticated internally; validate the exact documented object against the semantic parser.",
+      "owner": "#921 / C-SDLC operator documentation owner",
+      "validation": "Static exact parser/schema comparison; no lifecycle command executed. Generated roff parity passed for all34 pages.",
+      "acceptance_relevance": "Executable operator and closeout instructions.",
+      "disposition": "open"
+    },
+    {
+      "id": "DOC-003",
+      "severity": "P2",
+      "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+      "path": "docs/csdlc-v3/man/manual.json",
+      "line": 1700,
+      "title": "Use semantic plan and change schemas in the operator walkthrough",
+      "trigger": "Operator follows the current documented command and JSON construction procedure.",
+      "impact": "The installed workflow shows prepare --plan and edit --changes but immediately directs the operator to construct LocalPreparationRequest and design-edit.card_updates with expected_lifecycle_digest. These are retired/native-owner shapes; semantic commands require intent_plan and strict intent_changes with cards/amendment. Following the fresh-user walkthrough cannot initialize/edit the issue as described.",
+      "evidence": [
+        "manual.json:1699-1701",
+        "application/intent/local.rs:175-200 Changes deny_unknown_fields",
+        "docs/csdlc-v3/INTENT_COMMANDS.md Plan and edit content"
+      ],
+      "remediation": "Rewrite workflow step1 around current semantic plan/changes examples; retain native request details only under clearly separate compatibility reference. Regenerate roff and check executable schema parity.",
+      "owner": "#921 / C-SDLC operator documentation owner",
+      "validation": "Static exact parser/schema comparison; no lifecycle command executed. Generated roff parity passed for all34 pages.",
+      "acceptance_relevance": "Executable operator and closeout instructions.",
+      "disposition": "open"
+    },
+    {
+      "id": "DOC-004",
+      "severity": "P2",
+      "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+      "path": "docs/csdlc-v3/intent-request.schema.json",
+      "line": 289,
+      "title": "Include validator replacement in the published intent schema",
+      "trigger": "A schema-driven client validates the documented semantic edit containing validators, or prepares a supported python3/git/manual-review declaration.",
+      "impact": "The changes definition rejects validators as an unknown property and its oneOf only permits cards or publication. The plan definition additionally requires program=cargo. Supported requests accepted by native source and documented in INTENT_COMMANDS are therefore rejected by the published machine-readable contract.",
+      "evidence": [
+        "csdlc-v3/src/application/intent/local.rs:175-210 accepts validators as exactly one edit surface",
+        "docs/csdlc-v3/INTENT_COMMANDS.md:123-127 supported declarations;331 replacement validators",
+        "intent-request.schema.json:224 cargo const;289 additionalProperties=false"
+      ],
+      "remediation": "Bring the schema into parity with every supported intent content variant; add positive parity checks for validator replacement and admitted non-cargo declarations alongside negative guards.",
+      "owner": "#921 / C-SDLC contract owner",
+      "validation": "Static comparison of exact candidate schema, native deserializer and current guide; no lifecycle execution.",
+      "acceptance_relevance": "Machine-readable operator contract and amendment recovery.",
+      "disposition": "open"
+    }
+  ]
+}

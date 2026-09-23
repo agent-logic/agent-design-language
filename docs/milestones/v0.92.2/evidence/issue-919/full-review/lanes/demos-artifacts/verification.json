@@ -1,0 +1,80 @@
+[
+  {
+    "path": ".csdlc/evidence/896/installed-markdown-render/report.md",
+    "sha256": "f4afe6871b1c8427fd2fcbce48c21fbe640d4f1a585926cad64c90bc4f8ab349",
+    "digest_matches": true,
+    "expected_blake3": "38abef828a33b37f5b89ed257953e824fcbde46d3ff72377933339f6e96a7b15",
+    "blake3": "38abef828a33b37f5b89ed257953e824fcbde46d3ff72377933339f6e96a7b15"
+  },
+  {
+    "path": ".csdlc/evidence/896/installed-markdown-render-r2/report.md",
+    "sha256": "518e23144709cbec39b54f78721a2d101d18c24e67391cf892dc2c992e8ae926",
+    "digest_matches": true,
+    "expected_blake3": "b9af969342e2108d3d827e69c68e73a5b3f07d6fca9d8c862c3efc3b5541da88",
+    "blake3": "b9af969342e2108d3d827e69c68e73a5b3f07d6fca9d8c862c3efc3b5541da88"
+  },
+  {
+    "path": ".csdlc/evidence/896/installed-markdown-render-r3/report.md",
+    "sha256": "d952435a0f834a8dcff2d01031bb9998c80bf95caa2372ff79b70c0b8746f4ee",
+    "digest_matches": true,
+    "expected_blake3": "800ef2bba83879093386f2727a1d23aa5c5ea05c55ccc4c3aa594da322c9cf11",
+    "blake3": "800ef2bba83879093386f2727a1d23aa5c5ea05c55ccc4c3aa594da322c9cf11"
+  },
+  {
+    "path": ".csdlc/evidence/897/installed-html-render/report.html",
+    "sha256": "245c2bcb6054e13e630f415ce2bf5d14e01aba37c3061b998d06c732a72dd3ea",
+    "digest_matches": true,
+    "expected_blake3": "eb96e874d69a477aa90027a040c962fc7012bb535337de1803afb4e7229f2c17",
+    "blake3": "eb96e874d69a477aa90027a040c962fc7012bb535337de1803afb4e7229f2c17"
+  },
+  {
+    "path": ".csdlc/evidence/898/pdf-qualification/report.pdf",
+    "sha256": "b4a9aefec537e47c2aa47abc85e226cc3ad880f9f0423ca7ad90d9874a0e4b8c",
+    "digest_matches": true,
+    "extraction_exit": 0,
+    "extracted_matches_retained": false,
+    "pdfinfo": "Title:           CodeFriend approved review\nSubject:         \nKeywords:        \nAuthor:          \nCreator:         \nProducer:        \nCreationDate:    Wed Dec 31 16:00:00 1969 PST\nModDate:         Wed Dec 31 16:00:00 1969 PST\nCustom Metadata: yes\nMetadata Stream: no\nTagged:          no\nUserProperties:  no\nSuspects:        no\nForm:            none\nJavaScript:      no\nPages:           5\nEncrypted:       no\nPage size:       595.276 x 841.89 pts (A4)\nPage rot:        0\nFile size:       439386 bytes\nOptimized:       no\nPDF version:     1.3\nPDF subtype:    \n    Title:         ISO 15930 - Electronic document file format for prepress digital data exchange (PDF/X)\n    Abbreviation:  PDF/X\n    Subtitle:      Part 9\n    Standard:      ISO 15930-9\n",
+    "expected_pages": 5,
+    "render_exit": 0,
+    "fresh_page_count": 5,
+    "retained_page_matches": [
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    "expected_blake3": "bd057911d36d71a090e5a43a236d2c09b29a77f181e9149686bc692984121d21",
+    "blake3": "bd057911d36d71a090e5a43a236d2c09b29a77f181e9149686bc692984121d21",
+    "extracted_whitespace_normalized_matches": true
+  },
+  {
+    "path": ".csdlc/evidence/898/pdf-qualification-markdown-semantics/report.pdf",
+    "sha256": "b5e3b0d70c89b7570e636e269bc922f0049e2369d7a3dd0234a8ef4619ab42b2",
+    "digest_matches": true,
+    "extraction_exit": 0,
+    "extracted_matches_retained": false,
+    "pdfinfo": "Title:           CodeFriend approved review\nSubject:         \nKeywords:        \nAuthor:          \nCreator:         \nProducer:        \nCreationDate:    Wed Dec 31 16:00:00 1969 PST\nModDate:         Wed Dec 31 16:00:00 1969 PST\nCustom Metadata: yes\nMetadata Stream: no\nTagged:          no\nUserProperties:  no\nSuspects:        no\nForm:            none\nJavaScript:      no\nPages:           5\nEncrypted:       no\nPage size:       595.276 x 841.89 pts (A4)\nPage rot:        0\nFile size:       438870 bytes\nOptimized:       no\nPDF version:     1.3\nPDF subtype:    \n    Title:         ISO 15930 - Electronic document file format for prepress digital data exchange (PDF/X)\n    Abbreviation:  PDF/X\n    Subtitle:      Part 9\n    Standard:      ISO 15930-9\n",
+    "expected_pages": 5,
+    "render_exit": 0,
+    "fresh_page_count": 5,
+    "retained_page_matches": [
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "expected_blake3": "695f10a283c3f0921adbf4f0db72bc89cf9acf2f3cb5dd6aa042a58d93caf470",
+    "blake3": "695f10a283c3f0921adbf4f0db72bc89cf9acf2f3cb5dd6aa042a58d93caf470",
+    "extracted_whitespace_normalized_matches": true,
+    "retained_page_matches_at_120dpi": [
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    "retained_render_scale_dpi": 120
+  }
+]

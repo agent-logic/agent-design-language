@@ -1,0 +1,12 @@
+{
+  "schema": "review919.reference_resolution.v1",
+  "rules": [
+    "References in root inventories first resolve relative to packet root.",
+    "References in nested coverage/lanes records first resolve relative to their containing directory, then packet root, then packet lanes directory.",
+    "Repo-relative adl/, csdlc-v3/, docs/, .csdlc/ and other source references resolve against frozen ADL candidate5c4a6149771c637f3c805985b86231077965eab4.",
+    "Website app/, infra/ and workflow references explicitly attributed to agent-logic/codefriend.ai resolve against a45e339c13b24716edbd3fadf29dddff36ffe02e.",
+    "external-skills/ is separately SHA256-identified operator skill source, not ADL commit content.",
+    "retained-local-review/ denotes local-only raw evidence, not an included publication artifact; findings must also carry included or candidate-source evidence."
+  ],
+  "qualification_pass": false
+}

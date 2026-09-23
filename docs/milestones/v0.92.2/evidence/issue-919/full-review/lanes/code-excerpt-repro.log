@@ -1,0 +1,5 @@
+original="if authorized:\n\tdelete_records()\nreturn ok"
+markdown="if authorized:  delete\\_records\\(\\) return ok"
+html="if authorized:  delete_records() return ok"
+REPRODUCED: both exact-source-excerpt renderers erase line breaks and indentation
+exit_code=0

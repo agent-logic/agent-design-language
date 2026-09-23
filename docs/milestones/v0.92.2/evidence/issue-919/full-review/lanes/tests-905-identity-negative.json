@@ -1,0 +1,43 @@
+{
+  "source": "adl/tools/issue905_runtime_speculative_retest.py",
+  "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+  "proof": "AST-extracted unmodified model_identity with mocked metadata; no provider/network execution",
+  "base": {
+    "name": "base",
+    "manifest_digest": "base-different-digest",
+    "base_blob_sha256": null,
+    "size_bytes": 100,
+    "details": {
+      "family": "qwen"
+    },
+    "model_info_sha256": "364752e7f953d032db9bf47d0154014ad56cb0ed2494abd6f721d5e12dcdd28e",
+    "tokenizer_info_sha256": "364752e7f953d032db9bf47d0154014ad56cb0ed2494abd6f721d5e12dcdd28e",
+    "tokenizer_info_keys": 1,
+    "template_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "system_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "mtp_tensor_count": 1,
+    "parameters": {
+      "draft_num_predict": "0"
+    }
+  },
+  "speculative": {
+    "name": "spec",
+    "manifest_digest": "spec-different-digest",
+    "base_blob_sha256": null,
+    "size_bytes": 100,
+    "details": {
+      "family": "qwen"
+    },
+    "model_info_sha256": "364752e7f953d032db9bf47d0154014ad56cb0ed2494abd6f721d5e12dcdd28e",
+    "tokenizer_info_sha256": "364752e7f953d032db9bf47d0154014ad56cb0ed2494abd6f721d5e12dcdd28e",
+    "tokenizer_info_keys": 1,
+    "template_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "system_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "mtp_tensor_count": 1,
+    "parameters": {
+      "draft_num_predict": "4"
+    }
+  },
+  "identity_guard_accepts": true,
+  "unknown_blob_accepted_as_equal": true
+}

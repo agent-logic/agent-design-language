@@ -1,0 +1,111 @@
+[
+  {
+    "id": "DEP-001",
+    "severity": "P2",
+    "lane": "dependencies",
+    "reviewer": "lead",
+    "repository": "agent-logic/codefriend.ai",
+    "candidate": "a45e339c13b24716edbd3fadf29dddff36ffe02e",
+    "adl_candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+    "title": "Privileged website deployment executes mutable action tags",
+    "path": ".github/workflows/deploy-site.yml",
+    "line_start": 30,
+    "line_end": 33,
+    "trigger": "A new main deployment or manual dispatch after an upstream v4 tag moves",
+    "impact": "The same reviewed website revision can execute different third-party code with OIDC ability to assume the site deploy role. IAM grants object writes/deletes and CloudFront invalidation, so mutable action identity can bypass source review for a privileged deployment. No upstream compromise is alleged.",
+    "evidence": [
+      "website-source/.github/workflows/deploy-site.yml",
+      "website-source/infra/terraform/iam_oidc.tf"
+    ],
+    "reproduction_status": "static configuration and IAM trust-path inspection",
+    "remediation": "Pin checkout and AWS credential action to reviewed immutable commit SHAs; update them by reviewed changes. Restrict id-token permission to the deploy job.",
+    "owner": "#921 coordinating codefriend.ai deployment owner",
+    "acceptance_refs": [
+      "CF-INTEGRATE",
+      "TAIL-03"
+    ],
+    "disposition": "open",
+    "scope_note": "Existing integration-snapshot weakness; not asserted newly introduced by ADL diff."
+  },
+  {
+    "id": "DEP-002",
+    "severity": "P1",
+    "lane": "dependencies",
+    "reviewer": "lead",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+    "title": "Builder reconstruction still resolves mutable and unverified executable inputs",
+    "path": "adl/docker/adl-builder/Dockerfile",
+    "line_start": 1,
+    "trigger": "Rebuild the canonical builder from the same committed Dockerfile at a later date",
+    "impact": "Ubuntu tag, Rust stable/rustup and unchecked AWSCLI/sccache/llvm-cov downloads may change outside reviewed source identity. Resolving a built image digest protects consumption, not reconstruction provenance. This is historical SYN-005 verified still present in current source.",
+    "remediation": "Pin base/toolchain and verify direct downloads; retain resolved build input identities.",
+    "prior_finding": {
+      "review": "v0.92 #313",
+      "id": "SYN-005",
+      "severity": "P1"
+    },
+    "reproduction_status": "current source callpath inspection; no executable download or cloud operation",
+    "owner": "#921 coordinating dependency/build tooling owner",
+    "acceptance_refs": [
+      "PLAT-RUST",
+      "OPS-AWS",
+      "TAIL-04"
+    ],
+    "disposition": "open",
+    "kind": "retained_product_defect"
+  },
+  {
+    "id": "DEP-003",
+    "severity": "P1",
+    "lane": "dependencies",
+    "reviewer": "lead",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+    "title": "Raw-host remote validation still installs unverified tool archives",
+    "path": "tools/aws_remote_validation/scripts/remote_validation_runner.sh",
+    "line_start": 230,
+    "trigger": "Run raw-host remote validation with a missing tool so prebuilt fallback paths are reached",
+    "impact": "Latest release URL or mutable S3/tarball bytes are extracted and installed without independent checksum/signature/version identity. Version output does not establish approved bytes. Containerized routes may avoid this branch; no live exploitation or cloud execution was attempted.",
+    "remediation": "Require exact approved version, digest and S3 VersionId where used; verify before extraction/execution.",
+    "prior_finding": {
+      "review": "v0.92 #313",
+      "id": "SYN-004",
+      "severity": "P1"
+    },
+    "reproduction_status": "current source callpath inspection; no executable download or cloud operation",
+    "owner": "#921 coordinating dependency/build tooling owner",
+    "acceptance_refs": [
+      "PLAT-RUST",
+      "OPS-AWS",
+      "TAIL-04"
+    ],
+    "disposition": "open",
+    "kind": "retained_product_defect"
+  },
+  {
+    "id": "DEP-004",
+    "severity": "P2",
+    "lane": "dependencies",
+    "reviewer": "lead",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+    "title": "Dependency scaffold fills its bounded map with lifecycle locks",
+    "path": "external-skills/repo-dependency-review/scripts/prepare_dependency_review.py",
+    "line_start": 1,
+    "trigger": "Generate dependency scaffold from the frozen complete repository packet",
+    "impact": "The generated map contains80 lifecycle lock paths and no Cargo manifest/lock. Trusting this as coverage would omit actual dependencies. The current review replaced it with explicit manifest/lock inventory; generic tooling defect remains.",
+    "remediation": "Use ecosystem-aware dependency classifiers, explicit lane assignments and reject empty material dependency denominators.",
+    "prior_finding": {
+      "review": "v0.92 #313",
+      "id": "SYN-007",
+      "severity": "P2"
+    },
+    "reproduction_status": "executed scaffold generation",
+    "owner": "#921 coordinating dependency/build tooling owner",
+    "acceptance_refs": [
+      "PLAT-RUST",
+      "OPS-AWS",
+      "TAIL-04"
+    ],
+    "disposition": "open",
+    "kind": "review_infrastructure"
+  }
+]
