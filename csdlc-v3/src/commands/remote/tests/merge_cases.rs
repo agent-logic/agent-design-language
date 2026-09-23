@@ -1040,3 +1040,190 @@ fn merge_linkage_url_part_of_directives_reject_before_intent_and_dispatch() {
         }
     }
 }
+
+// PVF: required deterministic native retirement guard regressions; local Git and
+// synthetic readback only, small filesystem/CPU, no credentials or live writes.
+#[test]
+fn issue1171_retirement_preserves_evidence_and_fences_old_dispatch() {
+    let root = mutation_repo("issue1171-retirement-fence", true);
+    let r = request(&root);
+    let mut p = adapter(&root, &r, vec![out(state(&r, false)), out(rules())]);
+    let staged = super::super::stage_github_mutation(&root, &r, &mut p).unwrap();
+    let op = super::super::github_mutation_operation_digest(&r);
+    let dir = root.join(".git/csdlc-v3/remote/merges");
+    let intent = dir.join(format!("{op}.intent.json"));
+    let target = fs::read_dir(&dir)
+        .unwrap()
+        .map(|e| e.unwrap().path())
+        .find(|p| p.to_string_lossy().ends_with(".target.json"))
+        .unwrap();
+    let original = (fs::read(&intent).unwrap(), fs::read(&target).unwrap());
+    let mut dirty = state(&r, false);
+    dirty["data"]["repository"]["pullRequest"]["headRefOid"] = json!("a".repeat(40));
+    dirty["data"]["repository"]["pullRequest"]["mergeStateStatus"] = json!("DIRTY");
+    let mut p = adapter(&root, &r, vec![out(dirty)]);
+    let saved = super::super::merge_retirement::retire_never_dispatched_merge(
+        &root,
+        &r,
+        &staged.intent_digest,
+        "semantic-operation",
+        "preview",
+        "superseded candidate",
+        &mut p,
+    )
+    .unwrap();
+    assert_eq!(put_count(&p), 0);
+    assert_eq!(
+        original,
+        (fs::read(&intent).unwrap(), fs::read(&target).unwrap())
+    );
+    let mut replay = adapter(&root, &r, vec![]);
+    let again = super::super::merge_retirement::retire_never_dispatched_merge(
+        &root,
+        &r,
+        &staged.intent_digest,
+        "semantic-operation",
+        "preview",
+        "superseded candidate",
+        &mut replay,
+    )
+    .unwrap();
+    assert_eq!(saved, again);
+    assert!(replay.invocations.is_empty());
+    for (semantic, reason) in [
+        ("different-operation", "superseded candidate"),
+        ("semantic-operation", "different rationale"),
+    ] {
+        assert!(
+            super::super::merge_retirement::retire_never_dispatched_merge(
+                &root,
+                &r,
+                &staged.intent_digest,
+                semantic,
+                "preview",
+                reason,
+                &mut replay
+            )
+            .is_err()
+        );
+    }
+    let mut denied = adapter(&root, &r, vec![]);
+    assert!(super::super::stage_github_mutation(&root, &r, &mut denied).is_err());
+    assert!(
+        super::super::execute_staged_github_mutation(&root, &staged, false, &mut denied).is_err()
+    );
+    assert_eq!(put_count(&denied), 0);
+    assert_eq!(
+        original,
+        (fs::read(&intent).unwrap(), fs::read(&target).unwrap())
+    );
+    fs::remove_dir_all(root).unwrap();
+}
+
+#[test]
+fn issue1171_any_dispatch_artifact_blocks_retirement() {
+    for suffix in [
+        "dispatch-prestate",
+        "input",
+        "response",
+        "reconciliation",
+        "receipt",
+    ] {
+        for kind in ["file", "directory", "dangling-symlink"] {
+            #[cfg(not(unix))]
+            if kind == "dangling-symlink" {
+                continue;
+            }
+            let root = mutation_repo(&format!("issue1171-{suffix}-{kind}"), true);
+            let r = request(&root);
+            let mut stage = adapter(&root, &r, vec![out(state(&r, false)), out(rules())]);
+            let staged = super::super::stage_github_mutation(&root, &r, &mut stage).unwrap();
+            let op = super::super::github_mutation_operation_digest(&r);
+            let path = if suffix == "receipt" {
+                root.join(format!(".git/csdlc-v3/remote/mutations/{op}.json"))
+            } else {
+                root.join(format!(".git/csdlc-v3/remote/merges/{op}.{suffix}.json"))
+            };
+            fs::create_dir_all(path.parent().unwrap()).unwrap();
+            match kind {
+                "file" => fs::write(&path, b"ambiguous evidence").unwrap(),
+                "directory" => fs::create_dir(&path).unwrap(),
+                "dangling-symlink" => {
+                    #[cfg(unix)]
+                    std::os::unix::fs::symlink(root.join("absent-target"), &path).unwrap();
+                }
+                _ => unreachable!(),
+            }
+            let mut p = adapter(&root, &r, vec![]);
+            assert!(
+                super::super::merge_retirement::retire_never_dispatched_merge(
+                    &root,
+                    &r,
+                    &staged.intent_digest,
+                    "semantic-operation",
+                    "preview",
+                    "retire",
+                    &mut p
+                )
+                .is_err(),
+                "{suffix}/{kind}"
+            );
+            assert!(p.invocations.is_empty());
+            assert!(fs::symlink_metadata(&path).is_ok());
+            assert!(!root
+                .join(format!(".git/csdlc-v3/remote/merges/{op}.retirement.json"))
+                .exists());
+            fs::remove_dir_all(root).unwrap();
+        }
+    }
+}
+
+#[test]
+fn issue1171_retirement_rejects_tampered_identity_and_merged_readback() {
+    for case in ["intent", "target", "merged", "wrong-repo", "wrong-pr"] {
+        let root = mutation_repo(&format!("issue1171-retirement-{case}"), true);
+        let r = request(&root);
+        let mut p = adapter(&root, &r, vec![out(state(&r, false)), out(rules())]);
+        let staged = super::super::stage_github_mutation(&root, &r, &mut p).unwrap();
+        let op = super::super::github_mutation_operation_digest(&r);
+        let dir = root.join(".git/csdlc-v3/remote/merges");
+        if case == "intent" || case == "target" {
+            let path = fs::read_dir(&dir)
+                .unwrap()
+                .map(|e| e.unwrap().path())
+                .find(|p| p.to_string_lossy().ends_with(&format!(".{case}.json")))
+                .unwrap();
+            let mut v: Value = serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
+            if case == "intent" {
+                v["request"]["issue"] = json!(999);
+            } else {
+                v["repository"] = json!("wrong/repository");
+            }
+            fs::write(path, serde_json::to_vec(&v).unwrap()).unwrap();
+        }
+        let mut observed = state(&r, case == "merged");
+        if case == "wrong-repo" {
+            observed["data"]["repository"]["nameWithOwner"] = json!("wrong/repository");
+        }
+        if case == "wrong-pr" {
+            observed["data"]["repository"]["pullRequest"]["number"] = json!(845);
+        }
+        let mut p = adapter(&root, &r, vec![out(observed)]);
+        assert!(
+            super::super::merge_retirement::retire_never_dispatched_merge(
+                &root,
+                &r,
+                &staged.intent_digest,
+                "semantic-operation",
+                "preview",
+                "retire",
+                &mut p
+            )
+            .is_err(),
+            "{case}"
+        );
+        assert_eq!(put_count(&p), 0);
+        assert!(!dir.join(format!("{op}.retirement.json")).exists());
+        fs::remove_dir_all(root).unwrap();
+    }
+}

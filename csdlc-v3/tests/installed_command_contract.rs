@@ -112,6 +112,12 @@ fn installed_bad_requests_in_primary_and_real_linked_checkout_never_fall_back() 
     let linked = install.root.join("linked");
     fs::create_dir_all(&primary).unwrap();
     git(&primary, &["init", "-b", "main"]);
+    // Keep fixture Git writes synchronous for strict metadata inventories.
+    git(
+        &primary,
+        &["config", "--local", "maintenance.auto", "false"],
+    );
+    git(&primary, &["config", "--local", "gc.auto", "0"]);
     git(
         &primary,
         &[
@@ -299,6 +305,12 @@ fn installed_valid_local_input_rejects_stale_authority_but_explicit_inspection_i
     let linked = install.root.join("linked");
     fs::create_dir_all(primary.join("csdlc-v3/operator")).unwrap();
     git(&primary, &["init", "-b", "main"]);
+    // Keep fixture Git writes synchronous for strict metadata inventories.
+    git(
+        &primary,
+        &["config", "--local", "maintenance.auto", "false"],
+    );
+    git(&primary, &["config", "--local", "gc.auto", "0"]);
     let source = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("operator");
     for name in ["authority-selector.json", "native-authority-receipt.json"] {
         fs::copy(

@@ -2,11 +2,29 @@
 
 **Not a release or Beta1 launch approval.** This #918 packet consumes the accepted #916 assessment ([PR #1151](https://github.com/agent-logic/agent-design-language/pull/1151), `374ecc2a1237094e031ecb5f6d82853ea72ab819`) and #917 documentation handoff ([PR #1152](https://github.com/agent-logic/agent-design-language/pull/1152), `c72c8cc1bf255ae2e26bb85b631ce0550fd886fc`). Their integration does not change the `not_proven` product qualification decision. #919's internal review is retained at PR #1153 merge `52756b5bc7b02e3ebf6886170ee59b55f8dc10d1`; external review and release approval remain separate and incomplete.
 
+## Current qualification disposition
+
+Issue #915 is closed as `NOT_PLANNED`: its retained independent qualification is
+incomplete and explicitly deferred, not a qualification pass. Under the approved
+#922 successor split, producer repairs #1148 and #1149 precede independent
+qualification #1150 in v0.93.1, before Beta 1 launch. Runtime v4 belongs to
+v0.93.2. The original demonstration requirements and historical evidence below
+remain intact; release acceptance is not established by issue closure or this
+documentation correction.
+
+Current routing is grounded in #916 commit
+`36ec0814683d0c8cc136bc9af27a0163ed506460` and #922 commit
+`fc6a80c362d6c1e63766bef263cd2dccacd2dc0b`. Those owner fixes are credited;
+this overlay does not rewrite their historical review packets.
+
+Status: evidence-reconciled review draft; not approved release notes.
+
 ## Delivered scope and evidence limits
 
 The [69-task ledger](evidence/issue-916/TASK_LEDGER.json) preserves every planned identity, its implementation or planning category, closing PR observations and acceptance status. Closed issues are not automatically accepted capabilities. The seven planning results remain design deliverables; they are not implemented behavior. The [quality decision](evidence/issue-916/QUALITY_DECISION.json) and [producer audit](evidence/issue-916/PRODUCER_SCOPE_AUDIT.md) qualify the evidence below.
 
 - Native and website CodeFriend integration landed through ADL PRs #1137/#1138 and CodeFriend.ai PR #18. The inherited [post-merge checks](evidence/issue-916/POSTMERGE_VERIFICATION.json) record 154 affected native tests and 141 website tests at their declared historical source identities. This is component/integration evidence, not independent installed-product qualification; those tests were not rerun for #918.
+- The earlier 396-test native census retains its original source identity and is not added to the later 154-test denominator. MLX smoke does not establish review-speed superiority; speculative decoding remains repair/inconclusive.
 - Five historical Runtime criterion results were admitted from retained evidence. The [replay report](evidence/issue-916/runtime-admission-recovered.json) does not qualify a new integrated release candidate. PAIR endpoint discovery recovered, but discovery is not inference proof or an overturned historical REPAIR verdict.
 - The [#917 document handoff](evidence/issue-917/HANDOFF.md) binds 129 documents, 69 task identities and 24 prerequisites at its own source revision. #918 preserves that checkpoint and records its changed release-note bytes separately. Refer to the [publication manifest](evidence/issue-918/PUBLICATION_MANIFEST.json) for exact inputs and artifact hashes.
 - Article #912 and manuscript #913 reached operator-accepted draft handoffs. The manuscript remains private revision 4 with further editing required. These are editorial handoffs, not published works.

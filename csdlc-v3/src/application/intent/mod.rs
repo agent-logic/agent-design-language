@@ -296,7 +296,13 @@ pub fn run(command: &str, args: &[String]) -> Result<Value, String> {
                 .content
                 .get("schema")
                 .and_then(serde_json::Value::as_str)
-                == Some("csdlc.v3.semantic_review_recovery_disposition.v1")
+                .is_some_and(|schema| {
+                    matches!(
+                        schema,
+                        "csdlc.v3.semantic_review_recovery_disposition.v1"
+                            | "csdlc.v3.semantic_merge_retirement_disposition.v1"
+                    )
+                })
             {
                 remote::recover(&context, &request)?
                     .ok_or("intent_recovery_disposition_not_applicable")?

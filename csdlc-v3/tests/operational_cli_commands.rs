@@ -104,6 +104,9 @@ fn operational_fixture(name: &str) -> OperationalFixture {
     let root = fixture(name);
     fs::remove_dir_all(root.join(".git")).expect("replace git marker");
     git(&root, &["init", "--quiet"]);
+    // Keep fixture Git writes synchronous for strict metadata inventories.
+    git(&root, &["config", "--local", "maintenance.auto", "false"]);
+    git(&root, &["config", "--local", "gc.auto", "0"]);
     fs::write(root.join("tracked"), "fixture\n").unwrap();
     git(&root, &["add", "tracked"]);
     git(&root, &["commit", "--quiet", "-m", "fixture"]);

@@ -25,6 +25,8 @@ csdlc\-recover \- preview and execute recovery of one retained native operation
 .PP
 \&Preserve native journals, intents and receipts. A changed token or request is not permission to bypass a guard. Source implementation requires focused installed proof and does not imply active binary replacement.
 .PP
+\&For a pending RecordMerge that must be replaced after integration, an explicit csdlc.v3.semantic_merge_retirement_disposition.v1 selects action retire_never_dispatched_merge, exact operation_id and nonempty rationale. Preview with \-\-disposition, then execute the same disposition with \-\-execute \-\-preview DIGEST. Retirement requires authenticated open/unmerged PR identity and no dispatch\-prestate, input, response, reconciliation or receipt object under the PR lock. Any uncertainty refuses retirement. A durable fence precedes semantic Failure/NotPerformed; original intent and target remain immutable. Fresh successor proof/review/publication/ready and an append\-only single\-successor guard are required. Retired operations never dispatch again. See INTENT_COMMANDS.md for the object and continuation.
+.PP
 \&The generated wrapper emitted by \-\-emit\-request can be passed directly to \-\-intent\-request; the inner request is also accepted.
 .SH OUTPUT
 \&Machine JSON uses the common command\-result envelope. Interpret status, authority, effects and findings independently. An emitted request is a snapshot, not execution. Foreign\-platform snapshot rejection is not non\-Unix execution proof.
