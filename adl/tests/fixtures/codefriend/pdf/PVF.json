@@ -1,5 +1,6 @@
 {
   "issue": 898,
+  "repair_issue": 1162,
   "lane": "owner_binary",
   "proof_role": "installed approved-review PDF rendering, governed semantic parity, exact manifest binding, Unicode and long-content layout, extracted-text qualification, and fail-closed local export",
   "determinism": "fixed local predecessor review, generated canonical local bundles, controlled approval time, operator-selected local font bytes bound by digest, no provider or network",
@@ -22,6 +23,9 @@
     "invalid font",
     "missing glyph coverage",
     "renderer warning or empty output"
+    ,"resealed parseable PDF substitution with recomputed transport and manifest digests"
+    ,"active or external PDF content"
+    ,"extracted semantic mismatch against independently reconstructed approved semantics"
   ],
   "nonclaims": [
     "provider execution",

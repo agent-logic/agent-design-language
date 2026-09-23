@@ -15,6 +15,7 @@ use adl::codefriend::{
     },
 };
 use adl::provider_communication::ProviderInvocationFinalStatusV1;
+use base64::{engine::general_purpose::STANDARD, Engine};
 use serde_json::json;
 use sha2::{Digest, Sha256};
 use std::fs;
@@ -453,6 +454,34 @@ mod transport_tests {
                 now: 100,
             };
             verify_stage(&stage, &context, 100).unwrap();
+            if format == PublicationFormat::Pdf && decision == "approved" {
+                let mut changed = stage.clone();
+                let original = STANDARD.decode(&changed.exports[0].bytes_base64).unwrap();
+                let mut document = lopdf::Document::load_mem(&original).unwrap();
+                let first_page = *document.get_pages().values().next().unwrap();
+                document
+                    .change_page_content(first_page, Vec::new())
+                    .unwrap();
+                let mut substituted = Vec::new();
+                document.save_to(&mut substituted).unwrap();
+                let report_digest = adl::codefriend::ingestion::digest(&substituted);
+                changed.exports[0].bytes_base64 = STANDARD.encode(&substituted);
+                changed.exports[0].digest = report_digest.clone();
+                changed.payload["native"]["manifest"]["report_digest"] =
+                    json!(report_digest.clone());
+                changed.payload["native"]["manifest"]["semantic_digest"] =
+                    json!(adl::codefriend::ingestion::digest(b"substituted"));
+                changed.payload["native"]["render"]["report_digest"] = json!(report_digest);
+                changed.payload["native"]["render"]["manifest_digest"] =
+                    json!(adl::codefriend::ingestion::digest(
+                        &serde_json::to_vec_pretty(&changed.payload["native"]["manifest"]).unwrap()
+                    ));
+                seal(&mut changed);
+                assert!(
+                    verify_stage(&changed, &context, 100).is_err(),
+                    "resealed substituted PDF must not satisfy approved semantics"
+                );
+            }
             assert_eq!(
                 stage.payload["native"]["decision"]["schema"],
                 "codefriend.publication_decision.v3"

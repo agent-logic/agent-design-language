@@ -6,6 +6,7 @@ use super::{
 };
 use crate::codefriend::{evidence::hash, ingestion::digest};
 use anyhow::{ensure, Context, Result};
+use lopdf::{Document as LopdfDocument, Object as LopdfObject};
 use printpdf::{
     Mm, Op, ParsedFont, PdfDocument, PdfFontHandle, PdfPage, PdfSaveOptions, Point, Pt, TextItem,
 };
@@ -454,6 +455,94 @@ fn markdown_semantic_text(source: &str) -> Result<String> {
     Ok(normalized)
 }
 
+pub(crate) fn semantic_text(source: &str) -> Result<String> {
+    markdown_semantic_text(source)
+}
+
+pub(crate) fn validate_rendered_content(
+    bytes: &[u8],
+    expected_semantic: &str,
+    expected_page_count: usize,
+) -> Result<()> {
+    ensure!(
+        bytes.starts_with(b"%PDF-") && bytes.len() as u64 <= MAX_PDF_BYTES,
+        "pdf_content_invalid_or_oversized"
+    );
+    let document = LopdfDocument::load_mem(bytes).context("pdf_content_parse_failed")?;
+    ensure!(
+        !document.trailer.has(b"Encrypt"),
+        "pdf_content_encryption_forbidden"
+    );
+    ensure!(
+        document
+            .objects
+            .values()
+            .all(|object| !pdf_object_has_active_content(object)),
+        "pdf_content_active_or_external_resource_forbidden"
+    );
+    let pages = document.get_pages().into_keys().collect::<Vec<_>>();
+    ensure!(
+        pages.len() == expected_page_count,
+        "pdf_content_page_count_mismatch"
+    );
+    let extracted = document
+        .extract_text(&pages)
+        .context("pdf_content_text_extraction_failed")?;
+    ensure!(
+        normalized_pdf_semantics(&extracted) == normalized_pdf_semantics(expected_semantic),
+        "pdf_content_semantic_mismatch"
+    );
+    Ok(())
+}
+
+fn normalized_pdf_semantics(value: &str) -> String {
+    value
+        .chars()
+        .filter(|character| !character.is_whitespace())
+        .collect()
+}
+
+fn pdf_object_has_active_content(object: &LopdfObject) -> bool {
+    match object {
+        LopdfObject::Name(name) => matches!(
+            name.as_slice(),
+            b"JavaScript"
+                | b"Launch"
+                | b"SubmitForm"
+                | b"ImportData"
+                | b"GoToR"
+                | b"URI"
+                | b"RichMedia"
+        ),
+        LopdfObject::Array(values) => values.iter().any(pdf_object_has_active_content),
+        LopdfObject::Dictionary(dictionary) => dictionary
+            .iter()
+            .any(|(key, value)| pdf_key_is_active(key) || pdf_object_has_active_content(value)),
+        LopdfObject::Stream(stream) => stream
+            .dict
+            .iter()
+            .any(|(key, value)| pdf_key_is_active(key) || pdf_object_has_active_content(value)),
+        _ => false,
+    }
+}
+
+fn pdf_key_is_active(key: &[u8]) -> bool {
+    matches!(
+        key,
+        b"AA"
+            | b"OpenAction"
+            | b"AcroForm"
+            | b"JavaScript"
+            | b"JS"
+            | b"URI"
+            | b"Launch"
+            | b"SubmitForm"
+            | b"EmbeddedFiles"
+            | b"RichMedia"
+            | b"XFA"
+    )
+}
+
 fn append_semantic_node(node: &markdown::mdast::Node, output: &mut String) {
     use markdown::mdast::Node;
 
@@ -580,6 +669,8 @@ pub(crate) fn validate_manifest(
             && manifest.scope_digest == prepared.review.run.scope_digest
             && manifest.target == prepared.publication.target
             && manifest.report_path == "report.pdf"
+            && manifest.semantic_digest
+                == digest(markdown_semantic_text(&prepared.text)?.as_bytes())
             && manifest.page_count > 0
             && manifest.line_count > 0
             && manifest.printable_width_micrometers
@@ -606,6 +697,18 @@ pub(crate) fn validate_manifest(
 #[cfg(test)]
 mod tests {
     use super::{markdown_semantic_text, wrap_text_with_width};
+
+    #[test]
+    fn semantic_text_keeps_preformatted_excerpt_line_and_tab_boundaries() {
+        let text = markdown_semantic_text(
+            "- **Exact source excerpt:**\n\n```\nif authorized:\r\n\tdelete_records()\r\nreturn ok\n```\n",
+        )
+        .unwrap();
+        assert!(
+            text.contains("if authorized:\n\tdelete_records()\nreturn ok"),
+            "{text:?}"
+        );
+    }
 
     #[test]
     fn semantic_text_decodes_markdown_escapes_but_preserves_real_backslashes() {

@@ -228,11 +228,22 @@ fn active_attempt_settled(out: &Path, state: &OperatorReviewState) -> bool {
         return true;
     };
     match active.status {
+        OperatorReviewStatus::Incomplete => false,
         OperatorReviewStatus::Cancelled | OperatorReviewStatus::Failed => {
-            out.join(&active.review_out).join("run.json").exists()
-                || out.join(attempt_settlement_ref(active.attempt)).exists()
+            let path = out.join(attempt_settlement_ref(active.attempt));
+            let Ok(bytes) = fs::read(path) else {
+                return false;
+            };
+            let Ok(settlement) = serde_json::from_slice::<AttemptSettlement>(&bytes) else {
+                return false;
+            };
+            settlement.schema == "codefriend.operator_attempt_settlement.v1"
+                && settlement.attempt == active.attempt
+                && settlement.run_id == active.run_id
+                && settlement.status == active.status
+                && settlement.review_out == active.review_out
         }
-        _ => true,
+        OperatorReviewStatus::Complete | OperatorReviewStatus::WithheldPublication => true,
     }
 }
 
@@ -467,14 +478,14 @@ fn sanitize_failure(message: &str) -> String {
         .collect()
 }
 
-#[derive(Debug, Clone, Serialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 struct CancelRequest {
     schema: String,
     reason: String,
 }
 
-#[derive(Debug, Clone, Serialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 struct AttemptSettlement {
     schema: String,

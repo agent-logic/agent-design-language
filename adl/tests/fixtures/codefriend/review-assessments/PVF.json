@@ -1,6 +1,7 @@
 {
   "schema": "codefriend.test_proof.v1",
   "issue": 1120,
+  "interoperability_repair_issue": 1162,
   "test_surface": [
     "codefriend_review_assessments",
     "codefriend_review",
@@ -41,5 +42,12 @@
     "historical v3 exact 4MiB prompt boundary",
     "current v4 1MiB source accepted across all lanes and one-byte-over acquisition rejected",
     "retained v3 mixed assessment coverage survives validation and synthesis; v2 coverage remains rejected"
+  ],
+  "native_v4_website_fixture_regressions": [
+    "actual FourPerspectiveReviewRun complete result",
+    "valid privacy-partial result with four successful lanes",
+    "valid assessment-gap result with lane gaps and run-level assessment coverage",
+    "repo-local deterministic generator scratch and zero external provider calls",
+    "post-commit generator provenance and SHA-256 binding for every exported fixture"
   ]
 }
