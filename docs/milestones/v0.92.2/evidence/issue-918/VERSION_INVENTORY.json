@@ -1,0 +1,132 @@
+{
+  "milestone": "v0.92.2",
+  "policy": "preserve_declared_versions_no_binary_relabeling",
+  "source_revision": "c72c8cc1bf255ae2e26bb85b631ce0550fd886fc",
+  "audit_scope": "27 inherited package manifests; metadata validation only",
+  "packages": [
+    {
+      "manifest": ".csdlc/prepared/issues/467/terminal-digest-verifier/Cargo.toml",
+      "version": "0.1.0"
+    },
+    {
+      "manifest": ".csdlc/prepared/issues/522/blake3-file/Cargo.toml",
+      "version": "0.1.0"
+    },
+    {
+      "manifest": ".csdlc/prepared/issues/5340/source-authority-validator/Cargo.toml",
+      "version": "0.1.0"
+    },
+    {
+      "manifest": ".csdlc/prepared/issues/5347/receipt-verifier/Cargo.toml",
+      "version": "0.1.0"
+    },
+    {
+      "manifest": "adl-characterization/Cargo.toml",
+      "version": "0.92.1"
+    },
+    {
+      "manifest": "adl-provider-core/Cargo.toml",
+      "version": "0.1.0"
+    },
+    {
+      "manifest": "adl-resilience/Cargo.toml",
+      "version": "0.92.1"
+    },
+    {
+      "manifest": "adl-runtime-kernel/Cargo.toml",
+      "version": "0.92.1"
+    },
+    {
+      "manifest": "adl-runtime/Cargo.toml",
+      "version": "0.92.1"
+    },
+    {
+      "manifest": "adl-uts/Cargo.toml",
+      "version": "0.1.0"
+    },
+    {
+      "manifest": "adl-v2/Cargo.toml",
+      "version": null
+    },
+    {
+      "manifest": "adl-v2/crates/adl-adapters/Cargo.toml",
+      "version": "0.92.1"
+    },
+    {
+      "manifest": "adl-v2/crates/adl-cli/Cargo.toml",
+      "version": "0.92.1"
+    },
+    {
+      "manifest": "adl-v2/crates/adl-compiler/Cargo.toml",
+      "version": "0.92.1"
+    },
+    {
+      "manifest": "adl-v2/crates/adl-engine/Cargo.toml",
+      "version": "0.92.1"
+    },
+    {
+      "manifest": "adl-v2/crates/adl-language/Cargo.toml",
+      "version": "0.92.1"
+    },
+    {
+      "manifest": "adl-v2/crates/adl-records/Cargo.toml",
+      "version": "0.92.1"
+    },
+    {
+      "manifest": "adl-v2/crates/adl-runtime-v3-adapter/Cargo.toml",
+      "version": "0.92.1"
+    },
+    {
+      "manifest": "adl-v2/crates/adl-workcell-conductor/Cargo.toml",
+      "version": "0.92.1"
+    },
+    {
+      "manifest": "adl-v2/crates/adl-workcell-convergence/Cargo.toml",
+      "version": "0.92.1"
+    },
+    {
+      "manifest": "adl-v2/crates/adl-workcell-task-adapter/Cargo.toml",
+      "version": "0.92.1"
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "version": "0.92.1"
+    },
+    {
+      "manifest": "csdlc-v2/Cargo.toml",
+      "version": "0.92.1"
+    },
+    {
+      "manifest": "csdlc-v3/Cargo.toml",
+      "version": "0.1.0"
+    },
+    {
+      "manifest": "demos/transpiler_demo/Cargo.toml",
+      "version": "0.8.0"
+    },
+    {
+      "manifest": "tools/aws_remote_validation/Cargo.toml",
+      "version": "0.91.8"
+    },
+    {
+      "manifest": "tools/remote_validation/Cargo.toml",
+      "version": "0.92.1"
+    }
+  ],
+  "additional_validation_helpers": [
+    {
+      "manifest": "docs/milestones/v0.92.2/evidence/issue-916/validation/Cargo.toml",
+      "role": "quality document proof adapter"
+    },
+    {
+      "manifest": "docs/milestones/v0.92.2/evidence/issue-917/validation/Cargo.toml",
+      "role": "handoff document proof adapter"
+    },
+    {
+      "manifest": "docs/milestones/v0.92.2/evidence/issue-918/validation/Cargo.toml",
+      "role": "publication document proof adapter"
+    }
+  ],
+  "installed_release_candidate": "not_selected",
+  "release_freeze": "pending"
+}

@@ -1,4 +1,6 @@
-# v0.92.2 Release Notes — Draft
+# v0.92.2 release notes — external-review draft
+
+**Not a release or Beta1 launch approval.** This #918 packet consumes the accepted #916 assessment ([PR #1151](https://github.com/agent-logic/agent-design-language/pull/1151), `374ecc2a1237094e031ecb5f6d82853ea72ab819`) and #917 documentation handoff ([PR #1152](https://github.com/agent-logic/agent-design-language/pull/1152), `c72c8cc1bf255ae2e26bb85b631ce0550fd886fc`). Their integration does not change the `not_proven` product qualification decision. #919's internal review is retained at PR #1153 merge `52756b5bc7b02e3ebf6886170ee59b55f8dc10d1`; external review and release approval remain separate and incomplete.
 
 ## Current qualification disposition
 
@@ -17,39 +19,32 @@ this overlay does not rewrite their historical review packets.
 
 Status: evidence-reconciled review draft; not approved release notes.
 
-## Landed implementation and verification
+## Delivered scope and evidence limits
 
-ADL #1137/#1138 and CodeFriend.ai #18 are merged. The [post-merge verification](evidence/issue-916/POSTMERGE_VERIFICATION.json) records 154 affected native tests and 141 website tests passing at their stated revisions. The earlier 396-test native census remains tied to its earlier source. These are local component/integration results, not deployment or independent real-provider qualification. #915 qualification is incomplete and explicitly deferred, so the intended capabilities below are not a release-success announcement.
+The [69-task ledger](evidence/issue-916/TASK_LEDGER.json) preserves every planned identity, its implementation or planning category, closing PR observations and acceptance status. Closed issues are not automatically accepted capabilities. The seven planning results remain design deliverables; they are not implemented behavior. The [quality decision](evidence/issue-916/QUALITY_DECISION.json) and [producer audit](evidence/issue-916/PRODUCER_SCOPE_AUDIT.md) qualify the evidence below.
 
-The MLX smoke does not establish review-speed superiority; PAIR delivered a REPAIR experiment decision and later passed its repaired discovery-endpoint recheck; speculative decoding remains repair/inconclusive. Publication drafts #912/#913 reached the operator-accepted draft/PDF handoff scope; further editing remains deferred. See the [claim and evidence audit](evidence/issue-916/GAP_ANALYSIS.md).
+- Native and website CodeFriend integration landed through ADL PRs #1137/#1138 and CodeFriend.ai PR #18. The inherited [post-merge checks](evidence/issue-916/POSTMERGE_VERIFICATION.json) record 154 affected native tests and 141 website tests at their declared historical source identities. This is component/integration evidence, not independent installed-product qualification; those tests were not rerun for #918.
+- The earlier 396-test native census retains its original source identity and is not added to the later 154-test denominator. MLX smoke does not establish review-speed superiority; speculative decoding remains repair/inconclusive.
+- Five historical Runtime criterion results were admitted from retained evidence. The [replay report](evidence/issue-916/runtime-admission-recovered.json) does not qualify a new integrated release candidate. PAIR endpoint discovery recovered, but discovery is not inference proof or an overturned historical REPAIR verdict.
+- The [#917 document handoff](evidence/issue-917/HANDOFF.md) binds 129 documents, 69 task identities and 24 prerequisites at its own source revision. #918 preserves that checkpoint and records its changed release-note bytes separately. Refer to the [publication manifest](evidence/issue-918/PUBLICATION_MANIFEST.json) for exact inputs and artifact hashes.
+- Article #912 and manuscript #913 reached operator-accepted draft handoffs. The manuscript remains private revision 4 with further editing required. These are editorial handoffs, not published works.
 
-## Intended Headline
+## Explicit deferrals and launch gate
 
-CodeFriend Beta 1 provides a governed repository-review product with portable ingestion, evidence-backed architecture and multi-perspective review, executable fitness functions, longitudinal comparison, and human-controlled Markdown, HTML, and PDF publication.
+[The approved Sprint 10 disposition](evidence/issue-916/SPRINT10_DEFERRAL.json) records original #915 qualification as **incomplete: zero of twelve journey cells accepted**, with 24 obligation rows. Follow-on #1148 owns citation-grounded correctness; #1149 owns interrupted-request recovery; #1150 owns independent qualification after both. Their accepted results are required in v0.93.1 before CodeFriend Beta1 launch. Deferral and administrative closure do not constitute qualification PASS. Preserve unknown second-run outcomes and reserved spend; no replay to bypass uncertainty.
 
-## Intended Capabilities
+Podcast #671 and pilot #875 are explicitly deferred to v0.93. Observatory #910 retains its separate deployment obligation. Accepted ARCH-ADR decisions are architecture evidence, not product acceptance. See the [review handoff](evidence/issue-917/HANDOFF.md) for the source-specific dispositions.
 
-- guided setup, onboarding, and operator controls
-- local, GitHub, and CI repository ingestion
-- stable evidence identity, provenance, redaction, and retention
-- explainable architecture and change-risk analysis
-- correctness, security, adversarial, and constitutional review perspectives
-- synthesis, remediation, and test planning
-- architecture fitness functions and CI gates
-- second-run comparison
-- manifests, claims/non-claims, privacy/legal checks, and governed publication
-- documentation, examples, fixtures, ADL self-review, and external OSS proof
+## Versions, formats and approvals
 
-## Not Included
+The milestone label is v0.92.2. The principal ADL/Runtime package declarations remain 0.92.1; independently versioned components retain their own versions. This PR changes no product version or lockfile and labels no existing binary as v0.92.2. The [version inventory](evidence/issue-918/VERSION_INVENTORY.json) preserves the inherited audit and identifies the newly added validation-only helper separately. Final installed binary identities and a coordinated release freeze remain unresolved.
 
-The release is not planned to include Jira, Linear, Slack, broad Workspace integration, autonomous source mutation, public customer-scale or multi-tenant hosting, security tournaments, ATE, OCI model packaging, optional general modernization, or Runtime v4. MLX/Metal support is bounded to the admitted provider-platform track and does not imply broad platform coverage. The admitted Observatory hosting work is one static edge sidecar based on #679/PR #685; it does not expand the product into a hosted customer platform. Required milestone ADRs are generated and reconciled through ARCH-ADR, with acceptance remaining explicit.
+The review packet includes Markdown and JSON evidence. Actual approved CodeFriend Markdown/HTML/PDF exports have not been selected or copied into it; three-format visual/content parity is **not proven**. The [destination inventory](evidence/issue-918/DESTINATIONS.json) retains private custody and pending artifact-specific approvals. No public upload, registry publication, release tag or deployment is authorized by this packet.
 
-## Evidence Note
+## Excluded scope
 
-No capability above should remain in final release notes unless the release packet cites its merged implementation and current proving evidence.
+No Jira, Linear, Slack or broad Workspace integration; autonomous source mutation; customer-scale multi-tenant hosting; ATE; OCI model packaging; security tournaments; or Runtime v4 is claimed. MLX/Metal and Observatory sidecar evidence remain bounded to their admitted scope. See [the review guide](evidence/issue-918/REVIEW_GUIDE.md) for acceptance gaps and the external-review procedure.
 
-## Evidence granularity
+## Integrated review repairs
 
-Final notes must map each claim to the separate implementation owners in the [atomic task contracts](ATOMIC_TASK_CONTRACTS_v0.92.2.md): three ingestion routes; structure, drift, impact and rationale analysis; local and CI fitness execution; review, synthesis and the two action planners; publication approval and three renderers; provider configuration and lifecycle. Runtime repair/qualification and local/remote C-SDLC refactors retain separate evidence. All seven planning tasks remain required, but their completed documents must not be presented as implemented product capabilities. The eleven tightened completion criteria apply before any corresponding capability is claimed.
-
-Planning state: all 69 core issues are assigned and independently reviewed in the [complete reviewed launch map](../../../.csdlc/evidence/864/all-issue-launch.json). Podcast #671 is now assigned to v0.93 and retains its own publication approval gates. Neither issue creation nor its review establishes delivery of the intended capabilities above.
+The [repair reconciliation](evidence/issue-918/INTEGRATION_RECONCILIATION.json) records merged Groups A–D and the separate #1172 follow-on. The frozen internal review retains its accepted 27-finding denominator. Repair integration is not external-review completion or release approval.
