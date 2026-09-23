@@ -35,6 +35,8 @@ def check(data):
     required.discard(PACKET / 'HANDOFF_MANIFEST.json')
     required.update([inventory, PACKET / 'HANDOFF.md', Path(__file__).resolve()])
     required.update(inventory.parent.rglob('*.md'))
+    required.update(PACKET / 'validation' / name for name in
+                    ['Cargo.toml', 'Cargo.lock', 'src/lib.rs', 'check.py', 'PVF.json'])
     required.update(ROOT / path for path in subprocess.check_output(
         ['git', 'ls-files', '*Cargo.toml'], cwd=ROOT, text=True).splitlines())
     for name in ['QUALITY_DECISION.json', 'TASK_LEDGER.json',

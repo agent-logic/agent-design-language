@@ -375,11 +375,31 @@
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-917/HANDOFF.md",
-      "sha256": "ed68e4723bad2ceef31b2ff8492ecc65d7b62e53be4bc942538b0d53c1b3a7c0"
+      "sha256": "d4c804a52488a3e4e01b369dfe37b92ae31302398dbd332081140986f794d5dc"
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-917/validate_handoff.py",
-      "sha256": "05f350bc1a9bdd5eeb94598f2fe6902d42183b8536789c899b672bbc25665fb6"
+      "sha256": "26c22f60405e3282ea3fb816b8fb18a433c71126d6f9d4169ed6e1c2e1730889"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-917/validation/Cargo.lock",
+      "sha256": "9481b46cf19e07bfa7e04e95a59e4e6cb9910ae35583a59ac37735f4ab8969bb"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-917/validation/Cargo.toml",
+      "sha256": "4b2ef6d6e73d9aa633701741dd7de9d9cd8cb49a51607b22d44c184d04f2a4aa"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-917/validation/PVF.json",
+      "sha256": "b87b6666a69310f2b3580dc608a8c6d1a5daa83c98b75d8c9ad8ce0447c2b0b7"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-917/validation/check.py",
+      "sha256": "9ea442ae262c84d1b749c84f1a0eff08a9f06bed2a9ffe011f84a041f8474755"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-917/validation/src/lib.rs",
+      "sha256": "360de819de55df66184572752ed289590d22541620bc2a89a92af200c801feba"
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/qual-evidence-902/README.md",
