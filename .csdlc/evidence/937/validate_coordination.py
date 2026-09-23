@@ -31,11 +31,26 @@ for section in required_sections:
 
 wave = packet.split("## Child Issue Wave", 1)[1].split("## Dependency Graph", 1)[0]
 observed = []
+wave_owners = {}
 for line in wave.splitlines():
     if not line.startswith("| #"):
         continue
-    observed.append(int(line.split("#", 1)[1].split(" ", 1)[0]))
+    columns = [column.strip() for column in line.strip("|").split("|")]
+    issue = int(columns[0].removeprefix("#"))
+    observed.append(issue)
+    wave_owners[issue] = columns[6]
 assert observed == ORDERED, f"unexpected child wave: {observed}"
+assert "- Owner: `Planning #5` for umbrella coordination" in packet
+assert wave_owners[916] == "Planning #11; Worker #9 read-only audit"
+assert wave_owners[917] == "Planning #4.5"
+assert wave_owners[918] == "Worker #10"
+assert wave_owners[922] == "Planning #11"
+assert "Sprint 10 qualification did not pass" in packet
+assert (
+    "This packet does not authorize v0.93 execution, Beta 1 launch, release, "
+    "provider calls, product repair, deployment, publication, or merge."
+) in packet
+assert "release, or public launch" in packet
 
 state = load_json(EVIDENCE / "sprint-state.json")
 assert state["sprint_issue_number"] == 937
@@ -50,6 +65,7 @@ events = [
 assert events, "activity log is empty"
 assert all(event["sprint_issue"] == 937 for event in events)
 by_kind = {event["event"]: event for event in events}
+assert by_kind["coordination_wave_recorded"]["actor"] == "Planning #5"
 wave_event = by_kind["coordination_wave_recorded"]["details"]
 assert wave_event["active_decision_owner"] == {
     "issue": 916,
