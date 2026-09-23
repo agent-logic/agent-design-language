@@ -38,6 +38,25 @@
       "C": 1159,
       "D": 1160
     },
+    "repair_progress_observed": {
+      "candidate_integration_complete": false,
+      "B": {
+        "status": "partially_integrated",
+        "website_pull_request": 20,
+        "website_merge_commit": "8b0c5fd12423494c7fed27059321b217d7dff430",
+        "adl_pull_request": 1170,
+        "adl_reviewed_head": "cdb48f4fea83218ddf7feb545da3b7be7fb7d345",
+        "adl_merged": false
+      },
+      "C": {
+        "status": "merged_and_closed",
+        "pull_request": 1163,
+        "reviewed_head": "de8574324b087366423d6d60911ab63e274ad280",
+        "merge_commit": "02c0aa707f17ed013cbf872222615411a78b4166",
+        "finding_map_sha256": "a921df9a2c20f128067cbf1a816d96c8d85b2c0b1c7a1c6c88b25f1d930758e5",
+        "candidate_inclusion_verified": false
+      }
+    },
     "disposition": "repairs_and_independent_rereviews_pending"
   }
 }

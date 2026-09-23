@@ -119,6 +119,69 @@
       "C": 1159,
       "D": 1160
     },
+    "repair_progress_observed": {
+      "as_of": "2026-09-23T20:05:00Z",
+      "candidate_integration_complete": false,
+      "A": {
+        "issue": 1161,
+        "status": "pending_integration"
+      },
+      "B": {
+        "issue": 1162,
+        "finding_ids": [
+          "INTEGRATION-001",
+          "CODE-001",
+          "CODE-002",
+          "SEC-003",
+          "SEC-004",
+          "DEP-001",
+          "DEMOS-001"
+        ],
+        "status": "partially_integrated",
+        "adl_component": {
+          "pull_request": 1170,
+          "reviewed_head": "cdb48f4fea83218ddf7feb545da3b7be7fb7d345",
+          "state": "open_draft",
+          "merged": false,
+          "finding_map_path": ".csdlc/evidence/1162/FINDING_DISPOSITIONS.md",
+          "finding_map_sha256": "c563d5f8131f35028258da24850d7c3650422d06335d0c29f96af3cad63c613a"
+        },
+        "website_component": {
+          "repository": "agent-logic/codefriend.ai",
+          "pull_request": 20,
+          "reviewed_head": "8f7d28e7f6254a95721bfa8b15cd95770382607b",
+          "merge_commit": "8b0c5fd12423494c7fed27059321b217d7dff430",
+          "merged_at": "2026-09-23T20:00:24Z",
+          "state": "merged"
+        },
+        "candidate_inclusion_verified": false,
+        "note": "The CodeFriend website component is merged. The ADL component and proof that both components belong to the final external-review candidate remain pending. The bound finding map predates the website merge and is retained as source mapping rather than current integration status."
+      },
+      "C": {
+        "issue": 1159,
+        "finding_ids": [
+          "PRV-001",
+          "PRV-002",
+          "TESTS-001",
+          "TESTS-002",
+          "TESTS-003"
+        ],
+        "status": "merged_and_closed",
+        "pull_request": 1163,
+        "reviewed_head": "de8574324b087366423d6d60911ab63e274ad280",
+        "merge_commit": "02c0aa707f17ed013cbf872222615411a78b4166",
+        "merged_at": "2026-09-23T20:04:59Z",
+        "issue_closed_at": "2026-09-23T20:05:00Z",
+        "finding_map_path": "docs/validation/issue1159/FINDING_FIX_PROOF.json",
+        "finding_map_sha256": "a921df9a2c20f128067cbf1a816d96c8d85b2c0b1c7a1c6c88b25f1d930758e5",
+        "candidate_inclusion_verified": false,
+        "note": "The repair PR is merged and its issue is closed. Final-candidate ancestry and the retained independent re-review record must still be bound when the external-review candidate is selected."
+      },
+      "D": {
+        "issue": 1160,
+        "status": "pending_integration"
+      }
+    },
     "repair_state": "in_progress",
     "independent_rereview_state": "pending",
     "source_records": {
