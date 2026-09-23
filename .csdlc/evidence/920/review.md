@@ -154,7 +154,13 @@ accepted external finding to #921 without editing the original assessment.
 Copy the received assessment into immutable issue-local evidence, then populate
 `findings.json` without changing the reviewer's meaning. The reviewed revision
 and manifest digest must equal the activated manifest. Preserve negative
-results and limitations. Any substantive candidate or claim change invalidates
-the assessment and requires a fresh review under the release plan.
+results and limitations. The retained assessment must use
+`adl.external_review_assessment.v1`, and the intake must reproduce its verdict,
+findings, verified non-findings, validation performed, limitations and internal
+finding dispositions exactly. A completed `fail` or `not_proven` result must
+retain non-empty findings and limitations. Its disposition list must contain
+exactly one evidence-backed entry for every one of the 27 accepted #919 finding
+IDs. Any substantive candidate or claim change invalidates the assessment and
+requires a fresh review under the release plan.
 
 The current truthful verdict is `not_proven`.

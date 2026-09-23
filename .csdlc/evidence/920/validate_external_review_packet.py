@@ -164,6 +164,70 @@ def accepted_internal_findings_contract(value: dict | None, candidate: dict) -> 
     )
 
 
+def assessment_to_intake_contract(
+    assessment: dict | None, findings: dict, internal_findings: dict | None
+) -> list[str]:
+    """Require lossless typed intake and one disposition for every #919 finding."""
+    errors: list[str] = []
+    if (
+        not assessment
+        or assessment.get("schema") != "adl.external_review_assessment.v1"
+        or assessment.get("issue") != 920
+    ):
+        return ["typed external assessment"]
+
+    faithful_fields = (
+        "reviewed_revision",
+        "reviewed_manifest_sha256",
+        "reviewer_identity",
+        "verdict",
+        "findings",
+        "verified_non_findings",
+        "validation_performed",
+        "limitations",
+        "internal_finding_dispositions",
+    )
+    if any(findings.get(field) != assessment.get(field) for field in faithful_fields):
+        errors.append("findings intake does not faithfully retain assessment")
+
+    verdict = assessment.get("verdict")
+    if verdict in {"fail", "not_proven"} and not assessment.get("findings"):
+        errors.append(f"{verdict} review has no findings")
+    if verdict in {"fail", "not_proven"} and not assessment.get("limitations"):
+        errors.append(f"{verdict} review has no limitations")
+
+    source_findings = internal_findings.get("findings") if internal_findings else None
+    source_ids = (
+        [item.get("id") for item in source_findings if isinstance(item, dict)]
+        if isinstance(source_findings, list)
+        else []
+    )
+    dispositions = assessment.get("internal_finding_dispositions")
+    if not isinstance(dispositions, list):
+        dispositions = []
+    disposition_ids = [
+        item.get("finding_id") for item in dispositions if isinstance(item, dict)
+    ]
+    dispositions_well_formed = all(
+        isinstance(item, dict)
+        and nonempty(item.get("finding_id"))
+        and nonempty(item.get("disposition"))
+        and nonempty(item.get("evidence"))
+        for item in dispositions
+    )
+    if (
+        len(source_ids) != 27
+        or len(set(source_ids)) != 27
+        or len(dispositions) != 27
+        or len(disposition_ids) != 27
+        or len(set(disposition_ids)) != 27
+        or set(disposition_ids) != set(source_ids)
+        or not dispositions_well_formed
+    ):
+        errors.append("internal finding dispositions must cover all 27 findings exactly once")
+    return errors
+
+
 def validate(manifest: dict, findings: dict, review_text: str) -> list[str]:
     errors: list[str] = []
     if manifest.get("schema") != "adl.external_review_manifest.v1":
@@ -392,6 +456,9 @@ def validate(manifest: dict, findings: dict, review_text: str) -> list[str]:
             errors.append("complete review result")
         if not retained_file(review.get("assessment_path"), review.get("assessment_sha256")):
             errors.append("retained external assessment")
+        assessment = retained_json(
+            review.get("assessment_path"), review.get("assessment_sha256")
+        )
         if review.get("reviewed_revision") != candidate.get("revision"):
             errors.append("reviewed revision mismatch")
         if review.get("reviewed_manifest_sha256") != candidate.get("artifact_manifest_sha256"):
@@ -412,8 +479,7 @@ def validate(manifest: dict, findings: dict, review_text: str) -> list[str]:
             errors.append("findings assessment mismatch")
         if not findings.get("validation_performed"):
             errors.append("review methods and validation missing")
-        if review.get("verdict") == "fail" and not findings.get("findings"):
-            errors.append("failed review has no findings")
+        errors.extend(assessment_to_intake_contract(assessment, findings, internal_findings))
         for index, finding in enumerate(findings.get("findings", [])):
             if not isinstance(finding, dict) or finding.get("severity") not in {"P0", "P1", "P2", "P3"} or not all(
                 nonempty(finding.get(field)) for field in ("id", "title", "evidence", "impact")
@@ -529,6 +595,8 @@ def main() -> int:
         assessment_sha256="5" * 64,
         verdict="fail",
         findings=[],
+        limitations=[],
+        internal_finding_dispositions=[],
         validation_performed=[],
     )
     completed_text = review_text.replace(
@@ -541,7 +609,7 @@ def main() -> int:
         "fabricated_manifest_bytes": "candidate artifact manifest is not bound to candidate revision",
         "missing_internal_review_identity": "accepted internal-review contract",
         "missing_immutable_assessment": "retained external assessment",
-        "empty_fail_findings": "failed review has no findings",
+        "untyped_external_assessment": "typed external assessment",
         "missing_review_validation": "review methods and validation missing",
     }
     for name, expected_error in required_rejections.items():
@@ -551,6 +619,70 @@ def main() -> int:
     if "stale preparation disclosure" in fabricated_errors:
         errors.append("truthful completed disclosure rejected")
     negative_fixtures.append("truthful_completed_disclosure")
+
+    # These fixtures exercise the completed-result intake contract directly.
+    # They do not need a valid retained packet because each mutation must still
+    # produce its own narrow rejection alongside other fabricated-state errors.
+    assessment_base = {
+        "schema": "adl.external_review_assessment.v1",
+        "issue": 920,
+        "reviewed_revision": "0" * 40,
+        "reviewed_manifest_sha256": "0" * 64,
+        "reviewer_identity": "external-reviewer",
+        "verdict": "not_proven",
+        "findings": [{"id": "EXT-001"}],
+        "verified_non_findings": [],
+        "validation_performed": ["bounded review"],
+        "limitations": ["candidate behavior could not be fully exercised"],
+        "internal_finding_dispositions": [
+            {"finding_id": f"F-{index:02d}", "disposition": "not_proven", "evidence": "assessment"}
+            for index in range(27)
+        ],
+    }
+    internal_base = {
+        "findings": [{"id": f"F-{index:02d}"} for index in range(27)]
+    }
+    intake_base = copy.deepcopy(assessment_base)
+    for name, mutate, expected_error in (
+        (
+            "empty_not_proven_findings",
+            lambda value: value.update(findings=[]),
+            "not_proven review has no findings",
+        ),
+        (
+            "missing_limitations",
+            lambda value: value.update(limitations=[]),
+            "not_proven review has no limitations",
+        ),
+        (
+            "missing_disposition",
+            lambda value: value["internal_finding_dispositions"].pop(),
+            "internal finding dispositions must cover all 27 findings exactly once",
+        ),
+        (
+            "duplicate_disposition",
+            lambda value: value["internal_finding_dispositions"].__setitem__(
+                -1, copy.deepcopy(value["internal_finding_dispositions"][0])
+            ),
+            "internal finding dispositions must cover all 27 findings exactly once",
+        ),
+    ):
+        assessment_fixture = copy.deepcopy(assessment_base)
+        mutate(assessment_fixture)
+        fixture_errors = assessment_to_intake_contract(
+            assessment_fixture, assessment_fixture, internal_base
+        )
+        if expected_error not in fixture_errors:
+            errors.append(f"negative fixture admitted: {name}")
+        negative_fixtures.append(name)
+
+    altered_intake = copy.deepcopy(intake_base)
+    altered_intake["limitations"] = ["intake dropped the reviewer's limitation"]
+    if "findings intake does not faithfully retain assessment" not in assessment_to_intake_contract(
+        assessment_base, altered_intake, internal_base
+    ):
+        errors.append("negative fixture admitted: altered_assessment_intake")
+    negative_fixtures.append("altered_assessment_intake")
 
     reuse = copy.deepcopy(fabricated)
     reuse_findings = copy.deepcopy(fabricated_findings)

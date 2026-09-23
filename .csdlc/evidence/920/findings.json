@@ -11,6 +11,7 @@
   "findings": [],
   "verified_non_findings": [],
   "validation_performed": [],
+  "internal_finding_dispositions": [],
   "limitations": [
     "This is an empty external-review intake structure, not an external review result.",
     "The referenced 27 findings are immutable #919 internal-review inputs and are not duplicated as external findings.",
