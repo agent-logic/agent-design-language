@@ -1,0 +1,85 @@
+{
+  "schema": "adl.external_review_manifest.v1",
+  "issue": 920,
+  "milestone": "v0.92.2",
+  "tail_stage": "TAIL-05",
+  "status": "preparation_only",
+  "prepared_at": "2026-09-23T02:23:33Z",
+  "preparation_revision": "6d78c1da473f95c4db4e0fa29f4fc2bd1d290106",
+  "predecessors": {
+    "documentation_handoff": {
+      "issue": 917,
+      "branch": "codex/917-v0922-docs-review-handoff",
+      "observed_draft_revision": "c10757270098aea35e36453c91054ea8b4f947db",
+      "accepted": false,
+      "refresh_required": true,
+      "note": "Observed preparation input only. Replace with the accepted TAIL-02 identity before any external handoff."
+    },
+    "publication_finalization": {
+      "issue": 918,
+      "accepted": false,
+      "revision": null,
+      "artifact_manifest_sha256": null,
+      "refresh_required": true,
+      "note": "TAIL-03 has no accepted publication identity in this preparation."
+    },
+    "internal_review": {
+      "issue": 919,
+      "branch": "codex/919-v0922-internal-milestone-review",
+      "observed_draft_revision": "6d78c1da473f95c4db4e0fa29f4fc2bd1d290106",
+      "accepted": false,
+      "review_revision": null,
+      "findings_digest_sha256": null,
+      "refresh_required": true,
+      "note": "Accepted TAIL-04 output is a hard execution prerequisite."
+    }
+  },
+  "candidate": {
+    "repository": "agent-logic/agent-design-language",
+    "revision": null,
+    "artifact_manifest_path": null,
+    "artifact_manifest_sha256": null,
+    "exact_binding_complete": false
+  },
+  "authorization": {
+    "external_contact_authorized": false,
+    "disclosure_scope_approved": false,
+    "authorization_reference": null
+  },
+  "reviewer": {
+    "identity": null,
+    "organization_or_service": null,
+    "independent_of_implementation": false,
+    "independent_of_internal_review": false,
+    "independence_basis": null
+  },
+  "review": {
+    "state": "not_started",
+    "method": null,
+    "started_at": null,
+    "completed_at": null,
+    "reviewed_revision": null,
+    "reviewed_manifest_sha256": null,
+    "verdict": "not_proven",
+    "limitations": [
+      "TAIL-04 is not accepted.",
+      "The exact release candidate and artifact-manifest digest are unresolved.",
+      "No reviewer has been contacted or assigned under external-review authority."
+    ]
+  },
+  "artifacts": {
+    "review_request": ".csdlc/evidence/920/review.md",
+    "findings": ".csdlc/evidence/920/findings.json"
+  },
+  "refresh_triggers": [
+    "TAIL-02 accepted identity changes",
+    "TAIL-03 accepted candidate or artifact-manifest identity becomes available or changes",
+    "TAIL-04 accepted review revision or findings digest becomes available or changes",
+    "candidate bytes or artifact manifest change",
+    "reviewer identity, independence basis, authorization, method, result or limitations change"
+  ],
+  "downstream": {
+    "findings_owner_issue": 921,
+    "release_authorized": false
+  }
+}

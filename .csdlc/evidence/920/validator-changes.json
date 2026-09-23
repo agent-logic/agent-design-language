@@ -1,0 +1,24 @@
+{
+  "schema": "csdlc.v3.intent_changes.v1",
+  "validators": [
+    {
+      "id": "external-review-packet-preparation",
+      "program": "python3",
+      "args": [
+        ".csdlc/evidence/920/validate_external_review_packet.py"
+      ],
+      "success_marker": "\"status\": \"pass\"",
+      "timeout_seconds": 60
+    },
+    {
+      "id": "diff-hygiene",
+      "program": "git",
+      "args": [
+        "diff",
+        "--check"
+      ],
+      "success_marker": "",
+      "timeout_seconds": 60
+    }
+  ]
+}
