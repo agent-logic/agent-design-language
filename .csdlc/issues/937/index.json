@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.v3.local_state.v1",
+  "issue": 937,
+  "phase": "bound",
+  "generation": 2,
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/937-v0922-sprint11-release-tail",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-937-v0922-sprint11-release-tail",
+  "template_registry_version": "1.0.5",
+  "operational_authority": true,
+  "digest": "8b8db34701c3525674fee1dbad5800259e94e5f98437c8e7bc17656d837882c2"
+}

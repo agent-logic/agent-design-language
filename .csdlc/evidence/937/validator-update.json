@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.v3.intent_changes.v1",
+  "validators": [
+    {
+      "id": "sprint-coordination-evidence",
+      "program": "python3",
+      "args": [
+        ".csdlc/evidence/937/validate_coordination.py"
+      ],
+      "success_marker": "sprint coordination validation: ok",
+      "timeout_seconds": 60
+    }
+  ]
+}
