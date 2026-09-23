@@ -17,6 +17,8 @@ All of the following must be true before review begins:
 
 Authorization and reviewer independence must be retained as separate typed JSON evidence. The candidate manifest, documentation handoff manifest, internal findings, authorization, independence evidence, and returned assessment must each use a distinct retained file; one artifact cannot stand in for multiple roles.
 
+Every accepted predecessor must also be retained at a canonical repository-relative path and match the exact Git blob at its declared revision. The validator parses those exact bytes and requires the #917 documentation contract to record accepted handoff status, the #918 publication contract to record final acceptance and the same candidate identity, and the #919 manifest and findings contracts to record an accepted completed review of that candidate. A real commit identifier paired with unrelated retained bytes is invalid.
+
 If any gate is absent or changes, stop and refresh the packet. A sent request is not a completed review.
 
 ## Review scope

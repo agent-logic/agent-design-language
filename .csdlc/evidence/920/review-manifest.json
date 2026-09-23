@@ -22,6 +22,8 @@
       "issue": 918,
       "accepted": false,
       "revision": null,
+      "publication_manifest_path": null,
+      "publication_manifest_sha256": null,
       "artifact_manifest_sha256": null,
       "refresh_required": true,
       "note": "TAIL-03 has no accepted publication identity in this preparation."
@@ -33,6 +35,8 @@
       "accepted": false,
       "review_revision": null,
       "reviewed_candidate_revision": null,
+      "review_manifest_path": null,
+      "review_manifest_sha256": null,
       "findings_path": null,
       "findings_digest_sha256": null,
       "refresh_required": true,

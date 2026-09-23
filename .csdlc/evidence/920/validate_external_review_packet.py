@@ -7,7 +7,7 @@ import json
 import re
 import subprocess
 import sys
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 
 ROOT = Path(__file__).resolve().parents[3]
 EVIDENCE = ROOT / ".csdlc" / "evidence" / "920"
@@ -27,13 +27,27 @@ def valid_sha(value: object, pattern: re.Pattern[str]) -> bool:
     return isinstance(value, str) and bool(pattern.fullmatch(value))
 
 
+def canonical_repo_path(path_value: object) -> str | None:
+    if not nonempty(path_value):
+        return None
+    value = str(path_value)
+    relative = PurePosixPath(value)
+    if (
+        relative.is_absolute()
+        or ".." in relative.parts
+        or "." in relative.parts
+        or "//" in value
+        or relative.as_posix() != value
+    ):
+        return None
+    return value
+
+
 def retained_file(path_value: object, digest_value: object) -> bool:
-    if not nonempty(path_value) or not valid_sha(digest_value, SHA256):
+    relative = canonical_repo_path(path_value)
+    if relative is None or not valid_sha(digest_value, SHA256):
         return False
-    relative = Path(str(path_value))
-    if relative.is_absolute() or ".." in relative.parts:
-        return False
-    path = ROOT / relative
+    path = ROOT / Path(relative)
     return path.is_file() and hashlib.sha256(path.read_bytes()).hexdigest() == digest_value
 
 
@@ -56,6 +70,85 @@ def git_commit_exists(revision: object) -> bool:
         capture_output=True,
         check=False,
     ).returncode == 0
+
+
+def git_blob(revision: object, path_value: object) -> bytes | None:
+    relative = canonical_repo_path(path_value)
+    if not git_commit_exists(revision) or relative is None:
+        return None
+    result = subprocess.run(
+        ["git", "show", f"{revision}:{relative}"],
+        cwd=ROOT,
+        capture_output=True,
+        check=False,
+    )
+    return result.stdout if result.returncode == 0 else None
+
+
+def retained_git_json(path_value: object, digest_value: object, revision: object) -> dict | None:
+    """Load JSON only when retained bytes equal the exact blob declared by revision."""
+    relative = canonical_repo_path(path_value)
+    if relative is None or not retained_file(relative, digest_value):
+        return None
+    retained = (ROOT / Path(relative)).read_bytes()
+    source = git_blob(revision, relative)
+    if source is None or source != retained or hashlib.sha256(source).hexdigest() != digest_value:
+        return None
+    try:
+        value = json.loads(retained)
+    except (UnicodeDecodeError, json.JSONDecodeError):
+        return None
+    return value if isinstance(value, dict) else None
+
+
+def accepted_documentation_contract(value: dict | None) -> bool:
+    return bool(
+        value
+        and value.get("schema") == "adl.v0922.documentation_handoff.v1"
+        and value.get("issue") == 917
+        and value.get("acceptance") == "accepted"
+        and isinstance(value.get("documents"), list)
+        and value.get("documents")
+    )
+
+
+def accepted_publication_contract(value: dict | None, candidate: dict) -> bool:
+    accepted_candidate = value.get("candidate", {}) if value else {}
+    return bool(
+        value
+        and value.get("schema") == "adl.v0922.publication_packet.v1"
+        and value.get("issue") == 918
+        and value.get("final_acceptance") == "accepted"
+        and accepted_candidate.get("revision") == candidate.get("revision")
+        and accepted_candidate.get("artifact_manifest_path") == candidate.get("artifact_manifest_path")
+        and accepted_candidate.get("artifact_manifest_sha256") == candidate.get("artifact_manifest_sha256")
+    )
+
+
+def accepted_internal_review_contract(value: dict | None, candidate: dict) -> bool:
+    observations = value.get("observations", {}) if value else {}
+    return bool(
+        value
+        and value.get("schema") == "adl.v0922.internal_review_manifest.v1"
+        and value.get("issue") == 919
+        and value.get("status") == "accepted"
+        and observations.get("accepted_release_candidate") == candidate.get("revision")
+        and observations.get("accepted_artifact_manifest_digest")
+        == candidate.get("artifact_manifest_sha256")
+        and observations.get("full_review_plan", {}).get("full_review_complete") is True
+    )
+
+
+def accepted_internal_findings_contract(value: dict | None, candidate: dict) -> bool:
+    return bool(
+        value
+        and value.get("schema") == "adl.v0922.internal_review_findings.v1"
+        and value.get("issue") == 919
+        and value.get("status") == "accepted"
+        and value.get("reviewed_candidate_revision") == candidate.get("revision")
+        and value.get("reviewed_artifact_manifest_sha256")
+        == candidate.get("artifact_manifest_sha256")
+    )
 
 
 def validate(manifest: dict, findings: dict, review_text: str) -> list[str]:
@@ -111,8 +204,13 @@ def validate(manifest: dict, findings: dict, review_text: str) -> list[str]:
             errors.append("complete review identity fields")
         if not git_commit_exists(candidate.get("revision")):
             errors.append("candidate revision is not an existing exact commit")
-        if not retained_file(candidate.get("artifact_manifest_path"), candidate.get("artifact_manifest_sha256")):
-            errors.append("candidate artifact manifest bytes")
+        candidate_manifest = retained_git_json(
+            candidate.get("artifact_manifest_path"),
+            candidate.get("artifact_manifest_sha256"),
+            candidate.get("revision"),
+        )
+        if candidate_manifest is None:
+            errors.append("candidate artifact manifest is not bound to candidate revision")
         if not candidate.get("exact_binding_complete"):
             errors.append("exact candidate binding")
         if not all(predecessors.get(key, {}).get("accepted") for key in
@@ -121,20 +219,38 @@ def validate(manifest: dict, findings: dict, review_text: str) -> list[str]:
         documentation = predecessors.get("documentation_handoff", {})
         publication = predecessors.get("publication_finalization", {})
         internal = predecessors.get("internal_review", {})
-        if not git_commit_exists(documentation.get("accepted_revision")) or not retained_file(
-            documentation.get("handoff_manifest_path"), documentation.get("handoff_manifest_sha256")
-        ):
-            errors.append("accepted documentation handoff identity")
-        if not git_commit_exists(publication.get("revision")) or publication.get(
-            "artifact_manifest_sha256"
-        ) != candidate.get("artifact_manifest_sha256"):
-            errors.append("accepted publication identity")
-        if not git_commit_exists(internal.get("review_revision")) or internal.get(
-            "reviewed_candidate_revision"
-        ) != candidate.get("revision") or not retained_file(
-            internal.get("findings_path"), internal.get("findings_digest_sha256")
-        ):
-            errors.append("accepted internal-review identity")
+        documentation_manifest = retained_git_json(
+            documentation.get("handoff_manifest_path"),
+            documentation.get("handoff_manifest_sha256"),
+            documentation.get("accepted_revision"),
+        )
+        if not accepted_documentation_contract(documentation_manifest):
+            errors.append("accepted documentation handoff contract")
+        publication_manifest = retained_git_json(
+            publication.get("publication_manifest_path"),
+            publication.get("publication_manifest_sha256"),
+            publication.get("revision"),
+        )
+        if not accepted_publication_contract(publication_manifest, candidate):
+            errors.append("accepted publication contract")
+        if publication.get("artifact_manifest_sha256") != candidate.get("artifact_manifest_sha256"):
+            errors.append("publication candidate manifest mismatch")
+        internal_manifest = retained_git_json(
+            internal.get("review_manifest_path"),
+            internal.get("review_manifest_sha256"),
+            internal.get("review_revision"),
+        )
+        internal_findings = retained_git_json(
+            internal.get("findings_path"),
+            internal.get("findings_digest_sha256"),
+            internal.get("review_revision"),
+        )
+        if internal.get("reviewed_candidate_revision") != candidate.get("revision"):
+            errors.append("internal review candidate mismatch")
+        if not accepted_internal_review_contract(internal_manifest, candidate):
+            errors.append("accepted internal-review contract")
+        if not accepted_internal_findings_contract(internal_findings, candidate):
+            errors.append("accepted internal findings contract")
         if not reviewer.get("independent_of_implementation") or not reviewer.get("independent_of_internal_review"):
             errors.append("reviewer independence")
         if not retained_file(
@@ -201,6 +317,8 @@ def validate(manifest: dict, findings: dict, review_text: str) -> list[str]:
         evidence_paths = [
             candidate.get("artifact_manifest_path"),
             documentation.get("handoff_manifest_path"),
+            publication.get("publication_manifest_path"),
+            internal.get("review_manifest_path"),
             internal.get("findings_path"),
             authorization.get("authorization_evidence_path"),
             reviewer.get("independence_evidence_path"),
@@ -272,11 +390,15 @@ def main() -> int:
     )
     fabricated["predecessors"]["publication_finalization"].update(
         revision="4" * 40,
+        publication_manifest_path=".csdlc/evidence/920/nonexistent-publication.json",
+        publication_manifest_sha256="4" * 64,
         artifact_manifest_sha256="0" * 64,
     )
     fabricated["predecessors"]["internal_review"].update(
         review_revision=None,
         reviewed_candidate_revision=None,
+        review_manifest_path=None,
+        review_manifest_sha256=None,
         findings_path=None,
         findings_digest_sha256=None,
     )
@@ -308,8 +430,8 @@ def main() -> int:
     fabricated_errors = validate(fabricated, fabricated_findings, completed_text)
     required_rejections = {
         "fabricated_candidate_identity": "candidate revision is not an existing exact commit",
-        "fabricated_manifest_bytes": "candidate artifact manifest bytes",
-        "missing_internal_review_identity": "accepted internal-review identity",
+        "fabricated_manifest_bytes": "candidate artifact manifest is not bound to candidate revision",
+        "missing_internal_review_identity": "accepted internal-review contract",
         "missing_immutable_assessment": "retained external assessment",
         "empty_fail_findings": "failed review has no findings",
         "missing_review_validation": "review methods and validation missing",
@@ -341,11 +463,15 @@ def main() -> int:
     )
     reuse["predecessors"]["publication_finalization"].update(
         revision=current_head,
+        publication_manifest_path=".csdlc/evidence//920/review.md",
+        publication_manifest_sha256=retained_digest,
         artifact_manifest_sha256=retained_digest,
     )
     reuse["predecessors"]["internal_review"].update(
         review_revision=current_head,
         reviewed_candidate_revision=current_head,
+        review_manifest_path="./.csdlc/evidence/920/review.md",
+        review_manifest_sha256=retained_digest,
         findings_path=".csdlc/evidence/920/./review.md",
         findings_digest_sha256=retained_digest,
     )
@@ -374,10 +500,24 @@ def main() -> int:
         "reused_evidence_roles": "evidence roles require distinct retained files",
         "untyped_authorization": "typed external review authorization",
         "untyped_independence": "typed reviewer independence evidence",
+        "untyped_documentation_predecessor": "accepted documentation handoff contract",
+        "untyped_publication_predecessor": "accepted publication contract",
+        "untyped_internal_review_predecessor": "accepted internal-review contract",
+        "untyped_internal_findings_predecessor": "accepted internal findings contract",
     }.items():
         if expected_error not in reuse_errors:
             errors.append(f"negative fixture admitted: {name}")
         negative_fixtures.append(name)
+
+    # An otherwise real retained file must not be accepted against a different
+    # real commit. This is the exact failure mode that allowed a stale or plain
+    # text predecessor to be paired with an unrelated Git identity.
+    unbound_revision = "648d4b96592a6ee13c089cd02d39a9259359fed6"
+    manifest_path = ".csdlc/evidence/920/review-manifest.json"
+    manifest_digest = hashlib.sha256((ROOT / manifest_path).read_bytes()).hexdigest()
+    if retained_git_json(manifest_path, manifest_digest, unbound_revision) is not None:
+        errors.append("negative fixture admitted: retained_bytes_unbound_from_declared_commit")
+    negative_fixtures.append("retained_bytes_unbound_from_declared_commit")
     result = {
         "schema": "adl.external_review_packet_validation.v1",
         "status": "pass" if not errors else "fail",
