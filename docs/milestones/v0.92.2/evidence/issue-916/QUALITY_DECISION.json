@@ -289,7 +289,7 @@
     "evidence": "SPRINT10_DEFERRAL.json",
     "status": "operator_authorized_deferral",
     "original_qualification": "incomplete",
-    "follow_on_routing": "pending_numeric_ids",
+    "follow_on_routing": "v0.93 issues #1148, #1149, #1150",
     "final_quality_decision": "not_proven"
   }
 }

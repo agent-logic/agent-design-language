@@ -138,3 +138,8 @@ The operator approved the concrete proposal to move on with **incomplete/deferre
 916-G02 now has an explicit operator-authorized deferral for v0.92.2 closeout and remains a launch-blocking obligation for v0.93. Three separate follow-on tasks are requested from the existing #915 owner: citation-grounded assessment correctness, uncertain second-run reconciliation/recovery, and final independent qualification. Numeric issue mappings and native #915/#936 closure are pending readback. No issue closure or test-resource shutdown is claimed here.
 
 Retain six successful private exports and owner-reported PDF/HTML inspection separately from the zero accepted qualification cells. Preserve the failed/unknown ADL second-run and its reservation; no blind replay. Q11/Q12 remain unproven under the original contract. The overall #916 decision stays not_proven until remaining producer acceptance, scope reconciliation and final independent review are complete. This is a scope disposition, not public release or launch approval.
+
+
+### Successor mapping and resource stop
+
+The three single-task v0.93 successors are [#1148](https://github.com/agent-logic/agent-design-language/issues/1148) citation-grounded assessment correctness, [#1149](https://github.com/agent-logic/agent-design-language/issues/1149) interrupted-request reconciliation and safe recovery, and [#1150](https://github.com/agent-logic/agent-design-language/issues/1150) independent installed Beta 1 qualification. #1150 depends on accepted #1148/#1149 results. All three creations have authenticated native reconciliation. Planning #7.3 confirms test resources are stopped with no new provider calls. Native #915/#936 closure remains pending; no original qualification PASS is claimed.
