@@ -85,6 +85,19 @@ def git_blob(revision: object, path_value: object) -> bytes | None:
     return result.stdout if result.returncode == 0 else None
 
 
+def git_json(revision: object, path_value: object, digest_value: object) -> object | None:
+    """Load JSON from an exact Git blob after checking its declared digest."""
+    source = git_blob(revision, path_value)
+    if source is None or not valid_sha(digest_value, SHA256):
+        return None
+    if hashlib.sha256(source).hexdigest() != digest_value:
+        return None
+    try:
+        return json.loads(source)
+    except (UnicodeDecodeError, json.JSONDecodeError):
+        return None
+
+
 def retained_git_json(path_value: object, digest_value: object, revision: object) -> dict | None:
     """Load JSON only when retained bytes equal the exact blob declared by revision."""
     relative = canonical_repo_path(path_value)
@@ -179,6 +192,98 @@ def validate(manifest: dict, findings: dict, review_text: str) -> list[str]:
             errors.append("preparation findings state")
         if any((candidate.get("revision"), candidate.get("artifact_manifest_sha256"))):
             errors.append("preparation must not invent candidate identity")
+
+        baseline = manifest.get("internal_review_baseline", {})
+        internal = predecessors.get("internal_review", {})
+        expected_counts = {"P1": 4, "P2": 20, "P3": 3}
+        expected_repairs = {"A": 1161, "B": 1162, "C": 1159, "D": 1160}
+        if baseline.get("candidate_revision") != "5c4a6149771c637f3c805985b86231077965eab4":
+            errors.append("internal-review baseline candidate")
+        if baseline.get("publication_manifest_sha256") != "b4f031ae10b3c7a5216523680dfca5b1cd94cdc5d35d3206c852932d37f246c6":
+            errors.append("internal-review baseline manifest")
+        if baseline.get("review_revision") != "6fc19987dcb9aaa347e61e6185f4ae1718e5ec6c":
+            errors.append("internal-review report revision")
+        if baseline.get("finding_counts") != expected_counts:
+            errors.append("internal-review finding denominator")
+        if baseline.get("repair_issues") != expected_repairs:
+            errors.append("internal-review repair routing")
+        if baseline.get("repair_state") != "in_progress" or baseline.get("independent_rereview_state") != "pending":
+            errors.append("internal-review disposition state")
+
+        publication_bytes = git_blob(
+            baseline.get("candidate_revision"), baseline.get("publication_manifest_path")
+        )
+        if publication_bytes is None or hashlib.sha256(publication_bytes).hexdigest() != baseline.get(
+            "publication_manifest_sha256"
+        ):
+            errors.append("internal-review publication manifest binding")
+        else:
+            try:
+                publication_manifest = json.loads(publication_bytes)
+            except (UnicodeDecodeError, json.JSONDecodeError):
+                publication_manifest = None
+            if not isinstance(publication_manifest, dict) or publication_manifest.get(
+                "schema"
+            ) != "adl.v0922.publication_packet.v1" or publication_manifest.get("issue") != 918:
+                errors.append("internal-review publication manifest contract")
+
+        source_records = baseline.get("source_records", {})
+        run_record = source_records.get("run_manifest", {})
+        findings_record = source_records.get("findings", {})
+        remediation_record = source_records.get("remediation_groups", {})
+        report_record = source_records.get("final_report", {})
+        report_revision = baseline.get("review_revision")
+        run_manifest = git_json(report_revision, run_record.get("path"), run_record.get("sha256"))
+        internal_findings = git_json(
+            report_revision, findings_record.get("path"), findings_record.get("sha256")
+        )
+        remediation_groups = git_json(
+            report_revision, remediation_record.get("path"), remediation_record.get("sha256")
+        )
+        report_bytes = git_blob(report_revision, report_record.get("path"))
+        if not isinstance(run_manifest, dict) or run_manifest.get("status") != "review_complete_changes_required":
+            errors.append("internal-review run manifest")
+        elif run_manifest.get("repo_ref") != baseline.get("candidate_revision") or run_manifest.get(
+            "finding_counts"
+        ) != expected_counts:
+            errors.append("internal-review run identity")
+        if not isinstance(internal_findings, list) or len(internal_findings) != 27:
+            errors.append("internal-review findings record")
+        elif {severity: sum(item.get("severity") == severity for item in internal_findings) for severity in expected_counts} != expected_counts:
+            errors.append("internal-review findings severity counts")
+        if not isinstance(remediation_groups, dict):
+            errors.append("internal-review remediation record")
+        else:
+            observed_repairs = {
+                group.get("group"): group.get("issue") for group in remediation_groups.get("groups", [])
+            }
+            mapped_ids = [
+                finding_id
+                for group in remediation_groups.get("groups", [])
+                for finding_id in group.get("finding_ids", [])
+            ]
+            source_ids = [item.get("id") for item in internal_findings] if isinstance(internal_findings, list) else []
+            if (
+                observed_repairs != expected_repairs
+                or len(mapped_ids) != 27
+                or len(set(mapped_ids)) != 27
+                or len(source_ids) != 27
+                or len(set(source_ids)) != 27
+                or set(mapped_ids) != set(source_ids)
+            ):
+                errors.append("internal-review remediation mapping")
+        if report_bytes is None or hashlib.sha256(report_bytes).hexdigest() != report_record.get("sha256"):
+            errors.append("internal-review final report")
+
+        context = findings.get("internal_review_context", {})
+        if context.get("review_revision") != baseline.get("review_revision") or context.get(
+            "candidate_revision"
+        ) != baseline.get("candidate_revision") or context.get("finding_counts") != expected_counts:
+            errors.append("findings internal-review context")
+        if context.get("repair_issues") != expected_repairs or context.get("disposition") != "repairs_and_independent_rereviews_pending":
+            errors.append("findings repair disposition")
+        if internal.get("native_reconciliation_state") != "published_reconciled" or internal.get("native_reconciliation_digest") != "b3cebe78a61e8d55d7763799ba11a398f6d5e3df67c2f463a75f0a2f3c03cf18" or internal.get("accepted"):
+            errors.append("internal-review reconciliation truth")
         if authorization.get("external_contact_authorized") or authorization.get("disclosure_scope_approved"):
             errors.append("preparation must not claim authorization")
         if reviewer.get("identity") is not None:
@@ -349,6 +454,9 @@ def main() -> int:
             ("invented_contact_authority", lambda value: value["authorization"].update(external_contact_authorized=True)),
             ("invented_reviewer", lambda value: value["reviewer"].update(identity="unverified-reviewer")),
             ("premature_predecessor_acceptance", lambda value: value["predecessors"]["internal_review"].update(accepted=True)),
+            ("substituted_internal_report", lambda value: value["internal_review_baseline"].update(review_revision="0" * 40)),
+            ("changed_finding_denominator", lambda value: value["internal_review_baseline"].update(finding_counts={"P1": 4, "P2": 19, "P3": 3})),
+            ("changed_repair_routing", lambda value: value["internal_review_baseline"]["repair_issues"].update(B=921)),
         ):
             fixture = copy.deepcopy(manifest)
             mutate(fixture)

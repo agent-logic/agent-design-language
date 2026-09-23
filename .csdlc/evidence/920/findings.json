@@ -12,10 +12,31 @@
   "verified_non_findings": [],
   "validation_performed": [],
   "limitations": [
-    "This is an empty intake structure, not an external review result."
+    "This is an empty external-review intake structure, not an external review result.",
+    "The referenced 27 findings are immutable #919 internal-review inputs and are not duplicated as external findings.",
+    "Repair completion and independent re-review are pending."
   ],
   "routing": {
     "accepted_findings_issue": 921,
     "original_review_immutable_after_intake": true
+  },
+  "internal_review_context": {
+    "review_revision": "6fc19987dcb9aaa347e61e6185f4ae1718e5ec6c",
+    "candidate_revision": "5c4a6149771c637f3c805985b86231077965eab4",
+    "publication_manifest_sha256": "b4f031ae10b3c7a5216523680dfca5b1cd94cdc5d35d3206c852932d37f246c6",
+    "source_findings_path": "docs/milestones/v0.92.2/evidence/issue-919/full-review/findings.json",
+    "source_findings_sha256": "111229fa08f16699282a9c3365cb285f88389d20ef94d37934ba0c93bcd826d4",
+    "finding_counts": {
+      "P1": 4,
+      "P2": 20,
+      "P3": 3
+    },
+    "repair_issues": {
+      "A": 1161,
+      "B": 1162,
+      "C": 1159,
+      "D": 1160
+    },
+    "disposition": "repairs_and_independent_rereviews_pending"
   }
 }
