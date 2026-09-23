@@ -29,11 +29,11 @@ source_refs:
   - kind: "issue"
     ref: "https://github.com/agent-logic/agent-design-language/issues/1162"
   - kind: "stp"
-    ref: ".csdlc/issues/1161/cards/stp.md"
+    ref: ".csdlc/issues/1162/cards/stp.md"
   - kind: "sip"
-    ref: ".csdlc/issues/1161/cards/sip.md"
+    ref: ".csdlc/issues/1162/cards/sip.md"
   - kind: "spp"
-    ref: ".csdlc/issues/1161/cards/spp.md"
+    ref: ".csdlc/issues/1162/cards/spp.md"
 selected_lanes:
   - "tooling; owner_binary"
 parallel_groups:

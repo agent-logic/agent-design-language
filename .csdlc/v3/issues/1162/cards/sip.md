@@ -61,7 +61,7 @@ inputs:
     - notes_risks
     - instructions_to_agent
 outputs:
-  output_card: .csdlc/issues/1161/cards/sor.md
+  output_card: .csdlc/issues/1162/cards/sor.md
   summary_style: concise_structured
 constraints:
   include_system_invariants: true

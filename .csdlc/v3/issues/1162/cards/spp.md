@@ -10,8 +10,8 @@ title: "[v0.92.2][TAIL-06][P1] Repair CodeFriend result integrity and website in
 branch: "codex/1162-codefriend-result-integrity"
 generated_at: "2026-09-23T17:29:32.826544+00:00"
 card_status: "ready"
-status: "planned"
-activation_state: "prepared_not_bound"
+status: "in_progress"
+activation_state: "bound"
 plan_revision: 1
 initial_pvf_lane: "tooling"
 planned_pvf_lane: "tooling"
@@ -33,9 +33,9 @@ source_refs:
   - kind: "source_issue_prompt"
     ref: "https://github.com/agent-logic/agent-design-language/issues/1162"
   - kind: "stp"
-    ref: ".csdlc/issues/1161/cards/stp.md"
+    ref: ".csdlc/issues/1162/cards/stp.md"
   - kind: "sip"
-    ref: ".csdlc/issues/1161/cards/sip.md"
+    ref: ".csdlc/issues/1162/cards/sip.md"
 scope:
   files:
     - "adl/src/codefriend/publication/{markdown.rs,html.rs,pdf.rs,relay.rs}; adl/src/codefriend/operator/mod.rs; focused adl/tests/codefriend_* regressions and coupled PVF records; docs/codefriend/PDF_EXPORT.md; CodeFriend website app/review-assessments.mjs, app/http.mjs, deploy workflow, tests, actual native-v4 fixtures, and PVF inventory."
@@ -48,17 +48,17 @@ constraints:
   - "runtime_execution_must_update_spp_if_plan_changes"
   - "no_hidden_scope_expansion"
 confidence: "medium"
-plan_summary: "Repair the seven Group B CodeFriend result-integrity and website-interoperability findings from #919 as one aggregate issue under #921, while preserving #918 and #919."
+plan_summary: "Both repository components are implemented and locally validated. The website component is independently reviewed and published as draft PR #20. The ADL component includes the remediated PDF and retry-concurrency findings and now awaits final exact-head review, native proof, and draft publication. No merge or deployment is authorized or claimed."
 assumptions:
   - "The linked source issue prompt, STP, and SIP remain the canonical design-time inputs."
 proposed_steps:
   - id: "step-1"
     description: "Confirm dependency readiness and starting state: Aggregate issue #1162 is a Group B child of #921. #919 and #918 remain independently owned and read-only. The website fixture step depends on the repaired native producer; other disjoint repairs may proceed in parallel."
-    expected_output: ".csdlc/issues/1161/cards/sip.md"
+    expected_output: ".csdlc/issues/1162/cards/sip.md"
     allowed_mode: "design_review_then_execution"
   - id: "step-2"
     description: "Review repo inputs and scoped surfaces before editing: AGENTS.md; active prompt registry and 1.0.5 schemas; #1162; #921; immutable #919 finding artifacts; frozen ADL candidate 5c4a6149771c637f3c805985b86231077965eab4; frozen website candidate a45e339c13b24716edbd3fadf29dddff36ffe02e; current source in both repositories."
-    expected_output: ".csdlc/issues/1161/cards/stp.md"
+    expected_output: ".csdlc/issues/1162/cards/stp.md"
     allowed_mode: "design_review_then_execution"
   - id: "step-3"
     description: "Implement only the bounded deliverables: ADL publication, operator-attempt, PDF verification, focused regression, PVF, and proof-wording repairs; a separate CodeFriend website component PR for v4 compatibility, asynchronous authorization, pinned workflow actions, and actual native-emitted v4 fixtures; one retained finding-to-fix-to-test disposition map for all seven findings."
@@ -74,15 +74,15 @@ proposed_steps:
     allowed_mode: "execution_after_approval"
 codex_plan:
   - step: "Confirm dependencies and starting state from the source issue prompt."
-    status: "pending"
+    status: "completed"
   - step: "Inspect repo inputs and target surfaces before editing."
-    status: "pending"
+    status: "completed"
   - step: "Implement the bounded deliverables only."
-    status: "pending"
+    status: "completed"
   - step: "Run focused validation and proof gates."
-    status: "pending"
+    status: "completed"
   - step: "Record issue-specific SRP findings and VPP/SOR outcome truth."
-    status: "pending"
+    status: "in_progress"
 affected_areas:
   - "codefriend-result-integrity"
 invariants_to_preserve:
@@ -115,7 +115,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
 
 Design-time operative plan for `[v0.92.2][TAIL-06][P1] Repair CodeFriend result integrity and website interoperability`.
 
-Repair the seven Group B CodeFriend result-integrity and website-interoperability findings from #919 as one aggregate issue under #921, while preserving #918 and #919.
+Both repository components are implemented and locally validated. The website component is independently reviewed and published as draft PR #20. The ADL component includes the remediated PDF and retry-concurrency findings and now awaits final exact-head review, native proof, and draft publication. No merge or deployment is authorized or claimed.
 
 ## PVF Lane Plan
 
@@ -142,11 +142,11 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 ## Codex Plan
 
-1. [pending] Confirm dependencies and starting state from the source issue prompt.
-2. [pending] Inspect repo inputs and target surfaces before editing.
-3. [pending] Implement the bounded deliverables only.
-4. [pending] Run focused validation and proof gates.
-5. [pending] Record issue-specific SRP findings and VPP/SOR outcome truth.
+1. [completed] Confirm dependencies and starting state from the source issue prompt.
+2. [completed] Inspect repo inputs and target surfaces before editing.
+3. [completed] Implement the bounded deliverables only.
+4. [completed] Run focused validation and proof gates.
+5. [in_progress] Record issue-specific SRP findings and VPP/SOR outcome truth.
 
 ## Assumptions
 
