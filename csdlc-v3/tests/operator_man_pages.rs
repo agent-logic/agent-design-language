@@ -530,3 +530,124 @@ fn primary_cleanup_requires_primary_durable_receipt_location() {
     git(&["worktree", "remove", worktree.to_str().unwrap()]);
     fs::remove_dir_all(fixture).unwrap();
 }
+
+#[allow(dead_code)]
+#[path = "support/intent_fixture.rs"]
+mod group_a_intent_fixture;
+
+// #1161 DOC-002/003/004 PVF: required deterministic tooling/owner-binary
+// regression; isolated Git/files/processes and synthetic remote only, no cloud.
+#[test]
+fn semantic_walkthrough_and_no_pr_example_execute_through_installed_owner() {
+    let mut fixture = group_a_intent_fixture::Fixture::new("manual-semantic-content");
+    fixture.enable_issue_transport();
+    let primary = fixture.root.clone();
+    let plan = fixture.write_json("manual-plan.json", &json!({
+        "schema":"csdlc.v3.intent_plan.v1", "slug":"manual-semantic-content",
+        "cards":{"sip":{},"stp":{},"spp":{
+            "dependencies_inline":"Fixture prerequisites", "repo_inputs_inline":"Fixture repository",
+            "target_files_surfaces_inline":"Operator contracts", "deliverables_inline":"Executable examples",
+            "validation_plan_inline":"Installed isolated commands", "acceptance_criteria_inline":"Documented requests accepted",
+            "notes_risks_inline":"Synthetic credentials only"},"vpp":{},"srp":{},"sor":{}},
+        "validators":[{"id":"proof","program":"cargo","args":["test","--manifest-path","fixture-proof/Cargo.toml","--offline"],"success_marker":"test result: ok."}],
+        "publication":{"base":"main","title":"Manual proof","body":"Closes #870","draft":true}
+    }));
+    let prepared = fixture.run(
+        &primary,
+        &["prepare", "870", "--plan", plan.to_str().unwrap()],
+    );
+    assert!(prepared.status.success(), "{prepared:?}");
+    let manual = json_file("manual.json");
+    let section = &manual["pages"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|p| p["name"] == "csdlc-workflow")
+        .unwrap()["sections"]["1 PREPARE"];
+    let edit: Value = section
+        .as_array()
+        .unwrap()
+        .iter()
+        .filter_map(|p| p["code"].as_str())
+        .find_map(|code| serde_json::from_str(code).ok())
+        .unwrap();
+    let changes = fixture.write_json("manual-changes.json", &edit);
+    let bound = fixture.run(&primary, &["bind", "870"]);
+    assert!(bound.status.success(), "{bound:?}");
+    let binding: Value = serde_json::from_slice(
+        &fs::read(primary.join(".git/csdlc-v3/local/bindings/870.json")).unwrap(),
+    )
+    .unwrap();
+    let linked = PathBuf::from(binding["worktree"].as_str().unwrap());
+    let edited = fixture.run(
+        &linked,
+        &["edit", "870", "--changes", changes.to_str().unwrap()],
+    );
+    assert!(edited.status.success(), "{edited:?}");
+    let schema: Value = serde_json::from_slice(
+        &fs::read(root().join("docs/csdlc-v3/intent-request.schema.json")).unwrap(),
+    )
+    .unwrap();
+    assert_eq!(
+        schema["$defs"]["plan"]["properties"]["validators"]["$ref"],
+        "#/$defs/validators"
+    );
+    assert_eq!(
+        schema["$defs"]["changes"]["properties"]["validators"]["$ref"],
+        "#/$defs/validators"
+    );
+    assert_eq!(
+        schema["$defs"]["validator"]["properties"]["program"]["enum"],
+        json!(["cargo", "python3", "git", "manual-review"])
+    );
+    let replacement = fixture.write_json("manual-validator-changes.json", &json!({
+        "schema":"csdlc.v3.intent_changes.v1",
+        "validators":[{"id":"manual","program":"manual-review","args":["operator-contracts"],"success_marker":"accepted"}]
+    }));
+    let result = fixture.run(
+        &linked,
+        &["edit", "870", "--changes", replacement.to_str().unwrap()],
+    );
+    assert!(result.status.success(), "{result:?}");
+    let doc = fs::read_to_string(root().join("docs/csdlc-v3/NO_PR_CLOSEOUT.md")).unwrap();
+    let disposition: Value = serde_json::from_str(
+        doc.split_once("```json\n")
+            .unwrap()
+            .1
+            .split_once("```")
+            .unwrap()
+            .0,
+    )
+    .unwrap();
+    let mut remote = fixture.remote_issue();
+    remote["state"] = json!("closed");
+    remote["updated_at"] = json!("2026-09-11T12:00:00Z");
+    remote["closed_at"] = json!("2026-09-11T12:00:00Z");
+    fs::write(
+        primary.join(".git/installed-candidate/remote-issue.json"),
+        serde_json::to_vec(&remote).unwrap(),
+    )
+    .unwrap();
+    for key in ["expected_issue_updated_at", "expected_issue_closed_at"] {
+        let mut invalid = disposition.clone();
+        invalid[key] = json!("2026-09-11T12:00:00Z");
+        let path = fixture.write_json("invalid-disposition.json", &invalid);
+        let before = group_a_intent_fixture::inventory(&primary);
+        let result = fixture.run(
+            &linked,
+            &["finish", "870", "--disposition", path.to_str().unwrap()],
+        );
+        assert!(!result.status.success());
+        assert!(
+            String::from_utf8_lossy(&result.stdout).contains("intent_finish_disposition_invalid"),
+            "{result:?}"
+        );
+        assert_eq!(before, group_a_intent_fixture::inventory(&primary));
+    }
+    let path = fixture.write_json("manual-disposition.json", &disposition);
+    let result = fixture.run(
+        &linked,
+        &["finish", "870", "--disposition", path.to_str().unwrap()],
+    );
+    assert!(result.status.success(), "{result:?}");
+}

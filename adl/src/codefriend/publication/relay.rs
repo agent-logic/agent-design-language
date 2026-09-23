@@ -246,7 +246,7 @@ pub(crate) fn verify_rendered(
                     && valid_digest(&m.semantic_digest),
                 "relay_pdf_result"
             );
-            let prepared = markdown::PreparedReport {
+            let mut prepared = markdown::PreparedReport {
                 review: review.clone(),
                 publication: publication.clone(),
                 decision: decision.clone(),
@@ -256,7 +256,19 @@ pub(crate) fn verify_rendered(
                 text: String::new(),
                 architecture: Default::default(),
             };
+            let expected_markdown = markdown::render_report(
+                &prepared.review,
+                &prepared.synthesis,
+                &prepared.remediation,
+                &prepared.tests,
+                &prepared.decision,
+                PDF_RENDERER_VERSION,
+                "This is the canonical local PDF rendering of the approved review. It does not claim HTML, Markdown, remote, or customer publication.",
+            )?;
+            prepared.text = expected_markdown;
             pdf::validate_manifest(&m, &prepared)?;
+            let expected_semantic = pdf::semantic_text(&prepared.text)?;
+            pdf::validate_rendered_content(bytes, &expected_semantic, m.page_count)?;
             common(&r, &m, bytes, decision)?;
         }
     }

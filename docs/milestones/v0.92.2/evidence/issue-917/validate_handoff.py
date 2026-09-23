@@ -17,8 +17,17 @@ def check(data):
     failures = []
     if data.get('schema') != 'adl.v0922.documentation_handoff.v1':
         failures.append('schema_invalid')
-    if data.get('acceptance') != 'pending_916':
+    if data.get('acceptance') != 'assessment_handoff':
         failures.append('unsupported_acceptance')
+    assessment = data.get('assessment_acceptance', {})
+    if (assessment.get('issue') != 916 or assessment.get('pull_request') != 1151
+            or assessment.get('merge_commit') != data.get('sources', {}).get('inherited_916_checkpoint')
+            or assessment.get('quality_decision') != 'not_proven'
+            or assessment.get('release_authorized') is not False):
+        failures.append('assessment_boundary')
+    quality = json.loads((PACKET.parent / 'issue-916/QUALITY_DECISION.json').read_text())
+    if quality.get('decision') != 'not_proven' or quality.get('accepted_release_candidate') is not None:
+        failures.append('quality_boundary')
     tasks = data.get('tasks', [])
     if len(tasks) != 69 or len({x['issue'] for x in tasks}) != 69 or len({x['task'] for x in tasks}) != 69:
         failures.append('task_denominator')
@@ -83,7 +92,9 @@ def main():
                      lambda x: x['tasks'].append(x['tasks'][0]),
                      lambda x: x['prerequisites'].pop(),
                      lambda x: x.update(acceptance='accepted'),
-                     lambda x: x['documents'].pop()]
+                     lambda x: x['documents'].pop(),
+                     lambda x: x['assessment_acceptance'].update(release_authorized=True),
+                     lambda x: x['assessment_acceptance'].update(quality_decision='pass')]
         for mutation in mutations:
             broken = copy.deepcopy(data)
             mutation(broken)
@@ -95,7 +106,7 @@ def main():
                       'documents': len(data['documents']), 'tasks': len(data['tasks']),
                       'prerequisites': len(data['prerequisites']),
                       'negative_fixtures': rejected, 'failures': failures,
-                      'handoff_accepted': False, 'release_authorized': False,
+                      'handoff_accepted': not failures, 'release_authorized': False,
                       'scope': 'Local path/digest/identity checks; external URLs, fragments, private raw replay and human review not established.'}, indent=2))
     raise SystemExit(bool(failures))
 

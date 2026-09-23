@@ -143,6 +143,57 @@ fn truncate_provider_body(text: &str) -> String {
     trimmed[..end].to_string()
 }
 
+// Match the existing Bedrock response ceiling before aggregating successful HTTP bodies.
+const MAX_PROVIDER_RESPONSE_BYTES: usize = 4 * 1024 * 1024;
+
+fn bounded_provider_response(
+    provider_label: &str,
+    resp: reqwest::blocking::Response,
+) -> Result<Vec<u8>> {
+    let too_large = || {
+        runtime_error_non_retryable(
+            provider_label,
+            "kind=response_too_large provider response exceeds 4 MiB limit",
+        )
+    };
+    if resp
+        .content_length()
+        .is_some_and(|size| size > MAX_PROVIDER_RESPONSE_BYTES as u64)
+    {
+        return Err(too_large());
+    }
+    let mut bytes = Vec::new();
+    resp.take((MAX_PROVIDER_RESPONSE_BYTES + 1) as u64)
+        .read_to_end(&mut bytes)
+        .map_err(|err| {
+            let mut cause: Option<&(dyn std::error::Error + 'static)> = err
+                .get_ref()
+                .map(|error| error as &(dyn std::error::Error + 'static));
+            let mut timed_out = err.kind() == std::io::ErrorKind::TimedOut;
+            while let Some(error) = cause {
+                timed_out |= error
+                    .downcast_ref::<reqwest::Error>()
+                    .is_some_and(|error| error.is_timeout());
+                cause = error.source();
+            }
+            if timed_out {
+                timeout_error(
+                    provider_label,
+                    "kind=timeout native provider response body timed out",
+                )
+            } else {
+                runtime_error(
+                    provider_label,
+                    "native provider response body could not be read",
+                )
+            }
+        })?;
+    if bytes.len() > MAX_PROVIDER_RESPONSE_BYTES {
+        return Err(too_large());
+    }
+    Ok(bytes)
+}
+
 fn provider_http_json(
     provider_label: &str,
     req: reqwest::blocking::RequestBuilder,
@@ -150,8 +201,8 @@ fn provider_http_json(
     let resp = provider_http_response(provider_label, req)?;
 
     let http_status = resp.status().as_u16();
-    let json = resp
-        .json()
+    let bytes = bounded_provider_response(provider_label, resp)?;
+    let json = serde_json::from_slice(&bytes)
         .context("native provider response was not valid JSON")
         .map_err(|err| runtime_error_non_retryable(provider_label, err.to_string()))?;
     Ok((json, http_status))
@@ -163,10 +214,8 @@ fn provider_http_text(
 ) -> Result<(String, u16)> {
     let resp = provider_http_response(provider_label, req)?;
     let http_status = resp.status().as_u16();
-    let text = resp
-        .text()
-        .context("native provider response body could not be read")
-        .map_err(|err| runtime_error(provider_label, err.to_string()))?;
+    let bytes = bounded_provider_response(provider_label, resp)?;
+    let text = String::from_utf8_lossy(&bytes).into_owned();
     Ok((text, http_status))
 }
 
@@ -2591,8 +2640,8 @@ impl Provider for HttpProvider {
             return Err(http_status_error("http", resp.status()));
         }
 
-        let json: serde_json::Value = resp
-            .json()
+        let bytes = bounded_provider_response("http", resp)?;
+        let json: serde_json::Value = serde_json::from_slice(&bytes)
             .context("http provider response was not valid JSON")
             .map_err(|err| runtime_error_non_retryable("http", err.to_string()))?;
         let out = json

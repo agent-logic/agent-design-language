@@ -11,7 +11,9 @@ csdlc\-recover \- preview and execute recovery of one retained native operation
 .SH DESCRIPTION
 \&Semantic issue intent forms are the current operational contract. Direct issue\-writer \-\-request forms are retired and remain available only through \-\-help and \-\-describe for migration discovery. Observation and administrative request forms retain their documented contracts. See docs/csdlc\-v3/INTENT_COMMANDS.md for strict content and effect boundaries.
 .PP
-\&Preview the retained native local transaction or original remote mutation and return preview_digest without creating a token file or dispatching a mutation. No additional operation or receipt inputs are required.
+\&Preview retained issue journals, pending Finish/FinishWithoutPr, native local transactions or original remote mutations and return preview_digest without token files or mutation. Ordinary issue recovery needs no extra operation input; repository\-scoped creation journal activation requires explicit \-\-disposition selection.
+.PP
+\&For a creation journal, \-\-disposition contains only schema csdlc.v3.creation_journal_recovery_disposition.v1 and operation_id from the retained semantic operation. Preview with this selection, then repeat it with \-\-execute \-\-preview DIGEST. Authentication binds retained effective authority and checkout head, including any prior authenticated recovery adoption; unadopted changes, corrupt bytes or stale preview fail closed. Only the retained commit is activated; no business effect is replayed. See INTENT_COMMANDS.md for the exact object and follow\-up reconciliation.
 .PP
 \&Execution requires the exact current preview token. Local recovery holds the native issue lock and compares its current transaction identity. Remote recovery binds the issue snapshot and complete retained native intent bytes, then reconciles the original request without recomputing its operation.
 .PP

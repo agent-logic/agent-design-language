@@ -1,0 +1,188 @@
+{
+  "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+  "reviewer": "/root/review919_security",
+  "skill": "repo-review-tests",
+  "status": "assigned_full_source_static_review_complete",
+  "path": "csdlc-v3/tests/installed_intent_commands.rs",
+  "sha256": "7566aeb4f0541714cf51c25b2054aa3f15710f29cdbee3372f49838956355889",
+  "line_count": 7178,
+  "test_entrypoints": 114,
+  "reviewed_ranges": [
+    [
+      1,
+      420
+    ],
+    [
+      421,
+      1050
+    ],
+    [
+      1051,
+      1700
+    ],
+    [
+      1701,
+      2350
+    ],
+    [
+      2351,
+      3000
+    ],
+    [
+      3001,
+      3650
+    ],
+    [
+      3651,
+      4300
+    ],
+    [
+      4301,
+      4950
+    ],
+    [
+      4951,
+      5600
+    ],
+    [
+      5601,
+      6250
+    ],
+    [
+      6251,
+      6870
+    ],
+    [
+      6871,
+      7178
+    ]
+  ],
+  "observations": [
+    {
+      "range": [
+        1,
+        420
+      ],
+      "observation": "Fixture helpers, real Cargo declarations, noncargo declaration refusal and authentic retained-record adoption; mutation inventories guard rejection."
+    },
+    {
+      "range": [
+        421,
+        1050
+      ],
+      "observation": "Legacy bound adoption, conflicting identity and PR targets, changed HEAD, fencing and two-caller coordination; positive and negative outcomes retained."
+    },
+    {
+      "range": [
+        1051,
+        1700
+      ],
+      "observation": "Malformed retained cards, linked-checkout routing, six-card rebuild and semantic preservation, stale snapshots, observational diagnostics."
+    },
+    {
+      "range": [
+        1701,
+        2350
+      ],
+      "observation": "Fresh recovery tokens, absent bind target, actual Cargo denominator, zero tests, validator correction, custom harness/workspace selection negatives."
+    },
+    {
+      "range": [
+        2351,
+        3000
+      ],
+      "observation": "Repeated test selection, exact remote mutation metadata, creation crash recovery, review identity/proof binding, dropped publication/ready readback and exact effect counts."
+    },
+    {
+      "range": [
+        3001,
+        3650
+      ],
+      "observation": "Merge/finish/archive/clean, dirty and staged residue safety, absent target reconciliation, no-PR finish and timestamp readback, explicit human decisions."
+    },
+    {
+      "range": [
+        3651,
+        4300
+      ],
+      "observation": "Remote reservation/native receipt crash boundaries, one-shot retry admission, changed or absent remote state, historical target and tampered receipt reconciliation."
+    },
+    {
+      "range": [
+        4301,
+        4950
+      ],
+      "observation": "Wrong-phase merge nonpoisoning, first-dispatch recovery, ignored/config/compiler inputs, actual failing-test diagnostics and source-mutation proof invalidation."
+    },
+    {
+      "range": [
+        4951,
+        5600
+      ],
+      "observation": "Publication metadata amendments preserve proof only for presentation; topology/phase/stale request guards, legacy review layout and external terminal identity."
+    },
+    {
+      "range": [
+        5601,
+        6250
+      ],
+      "observation": "Checkpoint-to-closing reconciliation, compact review, current acceptance invalidation, complete synthetic delivery and explicitly ignored matched baseline comparison, conversion helper."
+    },
+    {
+      "range": [
+        6251,
+        6870
+      ],
+      "observation": "Authentic prepared complete journey, later converted role continuation, projection repair/noop distinction, staged evidence preservation, successful retry not absent."
+    },
+    {
+      "range": [
+        6871,
+        7178
+      ],
+      "observation": "Real compiler artifact owner status, pending edit recovery after remote merge, completed publication transport exact readback and seven drift/unavailability variants."
+    }
+  ],
+  "supporting_source": [
+    {
+      "path": "csdlc-v3/tests/support/intent_fixture.rs",
+      "ranges": [
+        [
+          1,
+          125
+        ],
+        [
+          210,
+          258
+        ],
+        [
+          321,
+          447
+        ]
+      ],
+      "observation": "Candidate copied byte-for-byte from test-built executable; local fake transport overrides; fixture inventory includes directories and symlinks plus file hashes; attempts/redaction retained outside root. Not a claim to remaining helper source."
+    }
+  ],
+  "cross_findings": [
+    {
+      "id": "ARCH-001",
+      "missing_proof": "No installed crash/recover test between durable semantic commit/intent and current.json activation; existing after-reservation hooks start after that storage window."
+    },
+    {
+      "id": "ARCH-002",
+      "missing_proof": "Bind test interrupts after reservation with absent target; no test interrupts recursive native staging copy after creating a partial destination before copy completion."
+    },
+    {
+      "id": "ARCH-003",
+      "missing_proof": "Finish tests cover healthy completion, replay and missing terminal state after completed legacy receipt, but not reserved Finish/FinishWithoutPr before receipt or state/receipt split."
+    }
+  ],
+  "new_findings": [],
+  "validation": "Static source inspection only; no test run, fixture mutation, lifecycle commands, network, provider or cloud calls. Existing tests do not negate cross-referenced implementation findings.",
+  "residuals": [
+    "114 lexical test entrypoints is source inventory, not executed test count.",
+    "Matched baseline comparison explicitly ignored without externally built baseline; source inspection is not renewed performance proof.",
+    "Synthetic independent review principal values test admission contracts, not actual independent review quality.",
+    "Inventories prove fixture bytes/topology within declared roots, not external system effects or filesystem permissions."
+  ]
+}

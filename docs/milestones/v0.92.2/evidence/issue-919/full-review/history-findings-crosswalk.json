@@ -1,0 +1,241 @@
+[
+  {
+    "historical_id": "D520-RET-001",
+    "historical_severity": "P1",
+    "title": "The retained-proof denominator still contains 198 unproved required rows",
+    "source": "docs/milestones/v0.92.1/evidence/release/tail-04/findings.json",
+    "status": "superseded_partition_with_residuals",
+    "observation": "Final #522 ledger accounts for the original 198-row partition: 143 authorized requirement removals are not behavioral passes. Remaining #849/#852 criteria and five cloud/two execution proof gaps retain separate current qualification ownership. Do not reopen the original denominator wholesale.",
+    "route": "#921 for unresolved relevance/repair; no blanket closure"
+  },
+  {
+    "historical_id": "D520-V3F-001",
+    "historical_severity": "P1",
+    "title": "V3-F exact-head proof is stale at the frozen release candidate",
+    "source": "docs/milestones/v0.92.1/evidence/release/tail-04/findings.json",
+    "status": "not_applicable_with_reason",
+    "observation": "Old pre-cutover candidate freshness is not current authority; v3 operational cutover #505/PR591 has replaced that gate. No reuse of its old PASS.",
+    "route": "#921 for unresolved relevance/repair; no blanket closure"
+  },
+  {
+    "historical_id": "D520-REL-001",
+    "historical_severity": "P1",
+    "title": "The canonical current release-status projection is stale and invalid",
+    "source": "docs/milestones/v0.92.1/evidence/release/tail-04/findings.json",
+    "status": "historical_projection_superseded",
+    "observation": "Current v0.92.1 release-note header explicitly freezes the older blocked projection and points to final #522 ledger. Legacy835 projector --check rejects that later header; this is not evidence that the old frozen projection is current release authority.",
+    "route": "#921 for unresolved relevance/repair; no blanket closure"
+  },
+  {
+    "historical_id": "D520-DOC-003",
+    "historical_severity": "P2",
+    "title": "Issue 519 lifecycle cards contradict its completed publication state",
+    "source": "docs/milestones/v0.92.1/evidence/release/tail-04/findings.json",
+    "status": "not_applicable_with_reason",
+    "observation": "Issue519 historical cards are immutable records, not present issue authority. Current terminal/GitHub checks are independent.",
+    "route": "#921 for unresolved relevance/repair; no blanket closure"
+  },
+  {
+    "historical_id": "D520-DOC-004",
+    "historical_severity": "P2",
+    "title": "Feature-proof coverage contains fourteen corrupted ownership-link suffixes",
+    "source": "docs/milestones/v0.92.1/evidence/release/tail-04/findings.json",
+    "status": "addressed_current_document_inspection",
+    "observation": "Current feature-proof coverage no longer contains the fourteen corrupted ownership-link suffixes. Final ledger retains #817 correction; this is a document repair, not qualification proof.",
+    "route": "#921 for unresolved relevance/repair; no blanket closure"
+  },
+  {
+    "historical_id": "D520-EVID-001",
+    "historical_severity": "P3",
+    "title": "Eighteen GCP-E JSON readbacks are emitted as YAML",
+    "source": "docs/milestones/v0.92.1/evidence/release/tail-04/findings.json",
+    "status": "addressed_format_check",
+    "observation": "Current GCP-E retained JSON parses (34 files), and producer selects JSON output. Format repair does not establish cloud execution or authorization correctness.",
+    "route": "#921 for unresolved relevance/repair; no blanket closure"
+  },
+  {
+    "historical_id": "D520-EVID-002",
+    "historical_severity": "P3",
+    "title": "Four retained cloud failure artifacts are zero-byte files named JSON",
+    "source": "docs/milestones/v0.92.1/evidence/release/tail-04/findings.json",
+    "status": "addressed_format_and_failure_semantics",
+    "observation": "All seven issue730 JSON files parse. Former empty preapply bucket result is now adl.retained_command_failure.v1: failed/not_found, exit1, stdout_empty true and stderr hash. It explicitly represents expected absence, not successful resource readback.",
+    "route": "#921 for unresolved relevance/repair; no blanket closure"
+  },
+  {
+    "historical_id": "D520-RUNTIME-001",
+    "historical_severity": "P1",
+    "title": "Max-attempt greeting recovery exceeds its retry bound and can poison the durable store",
+    "source": "docs/milestones/v0.92.1/evidence/release/tail-04/findings.json",
+    "status": "addressed_current_source_not_fresh_execution",
+    "observation": "Provider report rechecks exhausted-claim guard control.rs2685 and tests10444 onward preserving final attempt terminality. No fresh Runtime regression execution claimed.",
+    "route": "#921 for unresolved relevance/repair; no blanket closure"
+  },
+  {
+    "historical_id": "D520-RUNTIME-002",
+    "historical_severity": "P2",
+    "title": "Greeting retries replace the stable ledger work identity with attempt-specific IDs",
+    "source": "docs/milestones/v0.92.1/evidence/release/tail-04/findings.json",
+    "status": "addressed_current_source_not_fresh_execution",
+    "observation": "Provider report rechecks regression through control.rs10656 preserving stable work/conversation identity and separate attempt IDs. No fresh Runtime regression execution claimed.",
+    "route": "#921 for unresolved relevance/repair; no blanket closure"
+  },
+  {
+    "historical_id": "D520-SEC-001",
+    "historical_severity": "P1",
+    "title": "GCP mutation approval is self-asserted by the local mutation principal",
+    "source": "docs/milestones/v0.92.1/evidence/release/tail-04/findings.json",
+    "status": "historical_remediation_retained_current_assurance_unverified",
+    "observation": "Final #522 ledger records #815 repair; authenticated exact plan-byte cloud authorization was not revalidated in this review. Retain explicit assurance limitation; no fresh cloud clearance or assertion the old vulnerability persists.",
+    "route": "#921 for unresolved relevance/repair; no blanket closure"
+  },
+  {
+    "historical_id": "D520-SEC-002",
+    "historical_severity": "P2",
+    "title": "AWS authorization is not cryptographically bound to the saved Terraform plan",
+    "source": "docs/milestones/v0.92.1/evidence/release/tail-04/findings.json",
+    "status": "historical_remediation_retained_current_assurance_unverified",
+    "observation": "Final #522 ledger records #815 repair; authenticated exact plan-byte cloud authorization was not revalidated in this review. Retain explicit assurance limitation; no fresh cloud clearance or assertion the old vulnerability persists.",
+    "route": "#921 for unresolved relevance/repair; no blanket closure"
+  },
+  {
+    "historical_id": "D520-SEC-003",
+    "historical_severity": "P2",
+    "title": "The OBS-B redaction validation lane is vacuous",
+    "source": "docs/milestones/v0.92.1/evidence/release/tail-04/findings.json",
+    "status": "addressed_structure_and_focused_checker_proof_full_projection_run_not_repeated",
+    "observation": "Full script read. Calls production project_v1 test and requires emitted nonempty projection, validates schema and privacy, enumerates exact declared UI/evidence manifest, checks clean sensitive fields and11 negative cases. Current manifest independently passed29 paths; clean fixture passed; four fresh hostile cases rejected. distributed_projection.rs469-610 inspected including real projection and nonempty nodes/placements plus identifier redaction. This is no longer a grep of planning bootstrap. Do not infer universal secret safety.",
+    "route": "#921 for unresolved relevance/repair; no blanket closure"
+  },
+  {
+    "historical_id": "D520-SEC-004",
+    "historical_severity": "P2",
+    "title": "The real-local Shepherd proof accepts off-host Ollama URLs",
+    "source": "docs/milestones/v0.92.1/evidence/release/tail-04/findings.json",
+    "status": "addressed_fresh_offline_regressions_passed",
+    "observation": "Full source read. Structural loopback HTTP authority validation before real-model configuration rejects userinfo and remote hosts; Python runner rejects redirects. Exact helper/runner and two standalone offline tests extracted without behavioral changes, compiled rustc --test,2passed0failed. Real GPU/model smoke not run; no installed model claim.",
+    "route": "#921 for unresolved relevance/repair; no blanket closure"
+  },
+  {
+    "historical_id": "D520-TEST-001",
+    "historical_severity": "P2",
+    "title": "Hot-reload cancellation tests can pass without observing a pending reload",
+    "source": "docs/milestones/v0.92.1/evidence/release/tail-04/findings.json",
+    "status": "addressed_in_current_source_not_freshly_executed",
+    "observation": "Both cancellation tests synchronize on production pending_candidate and one observation, then require pending_cancellations=1. Production status emitted at actual pending/take transitions in adl-runtime-kernel/src/config_reload.rs465-490. Revert test controls virtual time; unreadable test waits actual watcher status. Current test no longer passes if transient never observed.",
+    "route": "#921 for unresolved relevance/repair; no blanket closure"
+  },
+  {
+    "historical_id": "SYN-004",
+    "historical_severity": "P1",
+    "source": "docs/reviews/v0.92/internal-review-5846/FINDINGS_REGISTER.md",
+    "status": "unresolved",
+    "current_finding": "DEP-003",
+    "observation": "Current source rechecked; no historical completion credit. See current dependency/test authored lane evidence.",
+    "route": "#921"
+  },
+  {
+    "historical_id": "SYN-005",
+    "historical_severity": "P1",
+    "source": "docs/reviews/v0.92/internal-review-5846/FINDINGS_REGISTER.md",
+    "status": "unresolved",
+    "current_finding": "DEP-002",
+    "observation": "Current source rechecked; no historical completion credit. See current dependency/test authored lane evidence.",
+    "route": "#921"
+  },
+  {
+    "historical_id": "SYN-006",
+    "historical_severity": "P1",
+    "source": "docs/reviews/v0.92/internal-review-5846/FINDINGS_REGISTER.md",
+    "status": "unresolved",
+    "current_finding": "SYN-006",
+    "observation": "Current source rechecked; no historical completion credit. See current dependency/test authored lane evidence.",
+    "route": "#921"
+  },
+  {
+    "historical_id": "SYN-007",
+    "historical_severity": "P2",
+    "source": "docs/reviews/v0.92/internal-review-5846/FINDINGS_REGISTER.md",
+    "status": "unresolved",
+    "current_finding": "DEP-004",
+    "observation": "Current source rechecked; no historical completion credit. See current dependency/test authored lane evidence.",
+    "route": "#921"
+  },
+  {
+    "historical_id": "TPR-001",
+    "source": "docs/milestones/v0.92.1/evidence/release/tail-06/FINAL_FINDING_DISPOSITION_LEDGER.md",
+    "status": "historical_disposition_read_not_reexecuted",
+    "observation": "Executable #833 follow-up retained without recasting failed historical review as PASS.",
+    "route": "Preserve historical evidence; current behavior covered separately or explicitly unverified."
+  },
+  {
+    "historical_id": "TPR-002",
+    "source": "docs/milestones/v0.92.1/evidence/release/tail-06/FINAL_FINDING_DISPOSITION_LEDGER.md",
+    "status": "historical_disposition_read_not_reexecuted",
+    "observation": "Predecessor revalidation retained at historical candidate; no current candidate execution claim.",
+    "route": "Preserve historical evidence; current behavior covered separately or explicitly unverified."
+  },
+  {
+    "historical_id": "TPR-003",
+    "source": "docs/milestones/v0.92.1/evidence/release/tail-06/FINAL_FINDING_DISPOSITION_LEDGER.md",
+    "status": "historical_disposition_read_not_reexecuted",
+    "observation": "Later terminal projection distinguished from frozen proposal.",
+    "route": "Preserve historical evidence; current behavior covered separately or explicitly unverified."
+  },
+  {
+    "historical_id": "TPR-004",
+    "source": "docs/milestones/v0.92.1/evidence/release/tail-06/FINAL_FINDING_DISPOSITION_LEDGER.md",
+    "status": "historical_disposition_read_not_reexecuted",
+    "observation": "Recursive Rust measurement and negatives retained; present dependency/test lane separately covers current roots.",
+    "route": "Preserve historical evidence; current behavior covered separately or explicitly unverified."
+  },
+  {
+    "historical_id": "TPR-005",
+    "source": "docs/milestones/v0.92.1/evidence/release/tail-06/FINAL_FINDING_DISPOSITION_LEDGER.md",
+    "status": "historical_disposition_read_not_reexecuted",
+    "observation": "Retired boot paths documented; present native authority evaluated independently.",
+    "route": "Preserve historical evidence; current behavior covered separately or explicitly unverified."
+  },
+  {
+    "historical_id": "D833-REPORT-001",
+    "source": "docs/milestones/v0.92.1/evidence/release/tail-06/FINAL_FINDING_DISPOSITION_LEDGER.md",
+    "status": "historical_disposition_read_not_reexecuted",
+    "observation": "Chat-only report remains non-proving; executable follow-up supplies historical lane ledger.",
+    "route": "Preserve historical evidence; current behavior covered separately or explicitly unverified."
+  },
+  {
+    "historical_id": "D833-REPORT-002",
+    "source": "docs/milestones/v0.92.1/evidence/release/tail-06/FINAL_FINDING_DISPOSITION_LEDGER.md",
+    "status": "historical_disposition_read_not_reexecuted",
+    "observation": "Historical #834 revalidation retained unchanged.",
+    "route": "Preserve historical evidence; current behavior covered separately or explicitly unverified."
+  },
+  {
+    "historical_id": "D833-REPORT-003",
+    "source": "docs/milestones/v0.92.1/evidence/release/tail-06/FINAL_FINDING_DISPOSITION_LEDGER.md",
+    "status": "historical_disposition_read_not_reexecuted",
+    "observation": "Historical proposal fields explicitly not current release state.",
+    "route": "Preserve historical evidence; current behavior covered separately or explicitly unverified."
+  },
+  {
+    "historical_id": "D833-EXEC-001",
+    "source": "docs/milestones/v0.92.1/evidence/release/tail-06/FINAL_FINDING_DISPOSITION_LEDGER.md",
+    "status": "historical_disposition_read_not_reexecuted",
+    "observation": "Only exact #818 17-row scope superseded; no wider release claim.",
+    "route": "Preserve historical evidence; current behavior covered separately or explicitly unverified."
+  },
+  {
+    "historical_id": "D833-EXEC-002",
+    "source": "docs/milestones/v0.92.1/evidence/release/tail-06/FINAL_FINDING_DISPOSITION_LEDGER.md",
+    "status": "historical_disposition_read_not_reexecuted",
+    "observation": "Ledger records #856/PR858 version repair and later reconciliation; no current release preflight inferred.",
+    "route": "Preserve historical evidence; current behavior covered separately or explicitly unverified."
+  },
+  {
+    "historical_id": "D833-EXEC-003",
+    "source": "docs/milestones/v0.92.1/evidence/release/tail-06/FINAL_FINDING_DISPOSITION_LEDGER.md",
+    "status": "historical_disposition_read_not_reexecuted",
+    "observation": "Ancestral evidence distinguished from exact candidate proof.",
+    "route": "Preserve historical evidence; current behavior covered separately or explicitly unverified."
+  }
+]

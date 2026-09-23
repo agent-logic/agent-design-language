@@ -1,0 +1,75 @@
+[
+  {
+    "argv": [
+      "python3",
+      "docs/milestones/v0.92.2/evidence/issue-918/validate_packet.py",
+      "--self-test"
+    ],
+    "exit": 0,
+    "stdout": "{\n  \"status\": \"pass\",\n  \"failures\": [],\n  \"artifacts\": 12,\n  \"negative_fixtures\": 25,\n  \"release_approved\": false,\n  \"publication_authorized\": false,\n  \"final_acceptance\": \"pending\"\n}\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "ruby",
+      "adl/tools/codefriend/test_ci_contract.rb"
+    ],
+    "exit": 0,
+    "stdout": "PASS: 12 aggregate outcomes, 5 path selections, required installed/upload wiring\nPASS: 12 fitness aggregate outcomes, 7 fitness path selections, callable workflow wiring\nPASS: 12 host aggregate outcomes, 6 host path selections, callable workflow wiring\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "python3",
+      "adl/tools/test_codefriend_fitness_ci_artifacts.py"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.190s\n\nOK\n"
+  },
+  {
+    "argv": [
+      "bash",
+      "adl/tools/test_html_observatory.sh"
+    ],
+    "exit": 0,
+    "stdout": "PASS: HTML Observatory Runtime v3, signed command, and roster projection contract\n\u2714 Live UI has no historical telemetry routes, mode switches or polling (1.155167ms)\n\u2714 initial live model is empty and cannot inherit historical citizens (0.752292ms)\n\u2139 tests 2\n\u2139 suites 0\n\u2139 pass 2\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 80.856958\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "node",
+      "demos/html-observatory/tests/accessibility_responsive.test.mjs"
+    ],
+    "exit": 0,
+    "stdout": "WP-18C.07a Observatory accessibility/responsive proof: PASS\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "node",
+      "demos/html-observatory/tests/system_clock_cache.test.mjs"
+    ],
+    "exit": 0,
+    "stdout": "Observatory advancing System Time and cache generation proof: PASS\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "node",
+      "demos/html-observatory/tests/agent_continuity.test.mjs"
+    ],
+    "exit": 0,
+    "stdout": "agent continuity observatory projection: PASS\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "node",
+      "demos/html-observatory/tests/security_privacy_adversarial.test.mjs"
+    ],
+    "exit": 0,
+    "stdout": "WP-18C.07c Observatory security/privacy/adversarial proof: PASS\n",
+    "stderr": ""
+  }
+]

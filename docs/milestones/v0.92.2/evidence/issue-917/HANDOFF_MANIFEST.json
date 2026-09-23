@@ -1,12 +1,12 @@
 {
   "schema": "adl.v0922.documentation_handoff.v1",
   "issue": 917,
-  "acceptance": "pending_916",
+  "acceptance": "assessment_handoff",
   "operator_authority": "Work on917 now; bounded documentation work overlaps pending916 acceptance without waiving it.",
   "sources": {
     "native_main": "2b047c8dc34e133ee1353ec265507a17c523e06f",
     "website_main": "a45e339c13b24716edbd3fadf29dddff36ffe02e",
-    "inherited_916_checkpoint": "e119223cd13ebbb6a07c0349ba6772f8ee2ecece"
+    "inherited_916_checkpoint": "374ecc2a1237094e031ecb5f6d82853ea72ab819"
   },
   "documents": [
     {
@@ -355,7 +355,7 @@
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-916/QUALITY_DECISION.json",
-      "sha256": "c783325e2e3dbe9f513dce67a1d5874a53193c9549c137c467581ae19426b1e0"
+      "sha256": "15f63116d4aae5e4449ab0c06870f2b78bd3145306184b551f15f6e09dcb8b99"
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-916/SPRINT10_CLOSEOUT_REFRESH.json",
@@ -383,11 +383,11 @@
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-917/HANDOFF.md",
-      "sha256": "edc9b762698131dbc650cc19b069d57d05de1233883eec3ada4d0d72f5e9b604"
+      "sha256": "d67bfd8aa35571ebeddf529cd41c03512cd1b0642a8dcc520d866db6f50b207b"
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-917/validate_handoff.py",
-      "sha256": "26c22f60405e3282ea3fb816b8fb18a433c71126d6f9d4169ed6e1c2e1730889"
+      "sha256": "75bf524b358326d7b89bc9e6677b379d714f1e8d08152245cbdf50d43534fcf8"
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-917/validation/Cargo.lock",
@@ -399,11 +399,11 @@
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-917/validation/PVF.json",
-      "sha256": "b87b6666a69310f2b3580dc608a8c6d1a5daa83c98b75d8c9ad8ce0447c2b0b7"
+      "sha256": "e10dc9eafe019474156e8c630e4efad763c545bf6f5ab77a6194dfcd8cbbbcab"
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-917/validation/check.py",
-      "sha256": "9ea442ae262c84d1b749c84f1a0eff08a9f06bed2a9ffe011f84a041f8474755"
+      "sha256": "6db86e57c523d7a751a13df75ebb47e1f8516affa4c37da100d64b9fce8e5daf"
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-917/validation/src/lib.rs",
@@ -906,5 +906,27 @@
     "determinism": "local bytes and identities",
     "resources": "local Python/filesystem; no network",
     "release_gate": "required document validation; not release authorization"
+  },
+  "routing_observation": {
+    "date": "2026-09-23",
+    "predecessor_revision": "be804668a896cff4b770c38b8224c9d31ec7850c",
+    "predecessor_pr": 1151,
+    "predecessor_accepted": false,
+    "successor_milestone": "v0.93.1",
+    "successor_issues": [
+      1148,
+      1149,
+      1150
+    ],
+    "scope": "Authenticated live issue/PR observation and exact upstream quality decision; retained inherited evidence is unchanged."
+  },
+  "assessment_acceptance": {
+    "issue": 916,
+    "pull_request": 1151,
+    "merge_commit": "374ecc2a1237094e031ecb5f6d82853ea72ab819",
+    "scope": "quality assessment accepted for external-review handoff",
+    "quality_decision": "not_proven",
+    "release_authorized": false,
+    "operator_authority": "User authorized integration through external review; Planning11 delegated exact PR1152 and1153 merge authorization and confirmed adverse-assessment acceptance."
   }
 }

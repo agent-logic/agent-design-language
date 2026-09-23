@@ -69,6 +69,106 @@ fn semantic_for(
     }
 }
 
+/// Reconcile the original terminal reservation without creating another operation.
+pub(super) fn recover_pending_finish(
+    context: &Context,
+    request: &IntentRequest,
+) -> Result<Option<Value>, String> {
+    let (root, key) = context.semantic_root_key()?;
+    let snapshot = match DurableTransactionStore::observe_issue(&root, &key)
+        .map_err(semantic_error)?
+    {
+        semantic::Observation::Current(s) | semantic::Observation::ProjectionRepairRequired(s) => s,
+        _ => return Ok(None),
+    };
+    let Some(pending) = snapshot.pending().filter(|p| {
+        matches!(
+            p.command(),
+            SemanticCommand::Finish | SemanticCommand::FinishWithoutPr
+        )
+    }) else {
+        return Ok(None);
+    };
+    let semantic = context.semantic_recovery_context(pending.id())?;
+    context.semantic_origin(&snapshot)?;
+    let inspection = DurableTransactionStore::inspect_effect(&root, &key, pending.id())
+        .map_err(semantic_error)?;
+    let operation = inspection.request();
+    let mut native: TerminalRouteRequest =
+        serde_json::from_slice(&operation.canonical_content().map_err(semantic_error)?)
+            .map_err(|_| "intent_finish_retained_request_invalid")?;
+    if native.repository != context.repository
+        || native.issue != context.issue
+        || native.terminal_state.is_some()
+        || native.no_pr_closeout.is_some()
+            != (pending.command() == SemanticCommand::FinishWithoutPr)
+    {
+        return Err("intent_finish_retained_identity_mismatch".into());
+    }
+    let preview = DurableTransactionStore::describe_effect_recovery(&root, &key)
+        .map_err(semantic_error)?
+        .ok_or("intent_finish_pending_missing")?;
+    let output_root = state_root(context)?;
+    let state_path = output_root.join(format!("v3/issues/{}/terminal.json", context.issue));
+    let receipt_path =
+        output_root.join(format!("evidence/{}/terminal-receipt.json", context.issue));
+    // Bind approval to the actual local preimage as well as the retained operation.
+    let token = blake3::hash(&encode(&json!({"pending":preview.digest().as_str(),
+        "state":file_digest(&state_path)?,"receipt":file_digest(&receipt_path)?}))?)
+    .to_hex()
+    .to_string();
+    let mut process = RealProcessAdapter::new(EnvironmentCredentialResolver);
+    let staged = prepare_terminal_finish_with_github_observation(&native, &mut process)
+        .map_err(|e| e.code)?;
+    if staged.status != TerminalRouteStatus::Ready {
+        return Err("intent_finish_recovery_remote_changed".into());
+    }
+    if !request.execute {
+        return Ok(Some(
+            json!({"status":"recovery_required","read_only":true,"performed_mutation":false,
+            "action":"reconcile_native_finish","preview_digest":token,"operation_id":pending.id().as_str()}),
+        ));
+    }
+    if request.preview.as_deref() != Some(token.as_str()) {
+        return Err("intent_finish_recovery_preview_stale".into());
+    }
+    let ticket = inspection
+        .ticket()
+        .ok_or("intent_finish_pending_ticket_missing")?
+        .clone();
+    semantic.admit_before_effect(ticket.id())?;
+    native.terminal_state = Some(TerminalStateWriteRequest {
+        repository_root: context.primary.clone(),
+        reconciliation_checkout: Some(context.root.clone()),
+        state_path,
+        receipt_path,
+        expected_state_digest: None,
+    });
+    // None refuses any conflicting state; it permits only absent or exact bytes.
+    let result = prepare_terminal_finish_with_github_observation(&native, &mut process)
+        .map_err(|e| e.code)?;
+    if result.status != TerminalRouteStatus::Ready {
+        return Err("intent_finish_recovery_remote_changed".into());
+    }
+    effect_result(
+        context,
+        &semantic,
+        ticket,
+        operation,
+        Ok(
+            json!({"status":"completed","read_only":false,"performed_mutation":true,
+            "historical_effect_truth":"performed","effects_unknown":false,"result":result}),
+        ),
+        Facts {
+            terminal: true,
+            merged: native.no_pr_closeout.is_none(),
+            no_pr_disposition: native.no_pr_closeout.is_some(),
+            ..Default::default()
+        },
+    )
+    .map(Some)
+}
+
 fn resume_pending_cleanup(
     context: &Context,
     request: &IntentRequest,
@@ -1377,34 +1477,25 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
                     )
                 }
                 Reservation::AlreadyPending(ticket) => {
-                    // Reconcile retained terminal bytes; never repeat the writer blindly.
-                    let bytes = fs::read(&receipt_path)
-                        .map_err(|_| "intent_terminal_pending_readback_required")?;
-                    let receipt: DurableTerminalReceipt = serde_json::from_slice(&bytes)
-                        .map_err(|_| "intent_terminal_receipt_invalid")?;
-                    if receipt.repository != context.repository
-                        || receipt.issue != context.issue
-                        || receipt.head_sha != context.head
-                        || receipt.disposition != "closed_out"
-                        || receipt.no_pr_closeout != native.no_pr_closeout
-                        || receipt.state_digest.is_none()
-                        || receipt.state_digest != file_digest(&state_path)?
-                    {
-                        return Err("intent_terminal_pending_readback_mismatch".into());
-                    }
-                    return effect_result(
-                        context,
-                        &semantic,
-                        ticket,
-                        &operation,
-                        Ok(
-                            json!({"status":"expected_noop","read_only":false,"performed_mutation":false,"historical_effect_truth":"performed","retained_receipt":receipt}),
-                        ),
-                        facts,
-                    );
+                    let _ = ticket;
+                    let mut recovery = request.clone();
+                    recovery.execute = false;
+                    recovery.preview = None;
+                    let preview = recover_pending_finish(context, &recovery)?
+                        .ok_or("intent_finish_pending_missing")?;
+                    recovery.execute = true;
+                    recovery.preview = preview["preview_digest"].as_str().map(str::to_owned);
+                    return recover_pending_finish(context, &recovery)?
+                        .ok_or("intent_finish_pending_missing".into());
                 }
                 Reservation::Reserved(ticket) => ticket,
             };
+            #[cfg(debug_assertions)]
+            if std::env::var("CSDLC_V3_TEST_CRASH_POINT").as_deref()
+                == Ok("finish_after_reservation")
+            {
+                std::process::exit(91);
+            }
             semantic.admit_before_effect(ticket.id())?;
             native.terminal_state = Some(TerminalStateWriteRequest {
                 repository_root: context.primary.clone(),

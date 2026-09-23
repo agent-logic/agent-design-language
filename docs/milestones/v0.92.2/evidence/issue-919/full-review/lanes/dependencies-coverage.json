@@ -1,0 +1,167 @@
+{
+  "lane": "dependencies",
+  "status": "complete_bounded_dependency_review",
+  "author_independence": "Lead authored917 bridge; it is inspected only for dependency shape, independent docs/tests reviewers own correctness. Other covered dependency surfaces not authored by reviewer.",
+  "changed_manifest_lock_rows": [
+    {
+      "id": "F04687",
+      "status": "A",
+      "path": "adl-provider-core/Cargo.lock",
+      "inspection": "structural_lock_census",
+      "observation": "Registry-only checksum-bearing locked dependencies and local path identity; see metadata and lock census."
+    },
+    {
+      "id": "F04688",
+      "status": "A",
+      "path": "adl-provider-core/Cargo.toml",
+      "inspection": "full_manifest",
+      "observation": "Inspected declarations and local dependency boundaries. No independent behavioral approval of917 bridge."
+    },
+    {
+      "id": "F04706",
+      "status": "M",
+      "path": "adl-runtime-kernel/Cargo.lock",
+      "inspection": "structural_lock_census",
+      "observation": "Registry-only checksum-bearing locked dependencies and local path identity; see metadata and lock census."
+    },
+    {
+      "id": "F04707",
+      "status": "M",
+      "path": "adl-runtime-kernel/Cargo.toml",
+      "inspection": "full_manifest",
+      "observation": "Inspected declarations and local dependency boundaries. No independent behavioral approval of917 bridge."
+    },
+    {
+      "id": "F04736",
+      "status": "M",
+      "path": "adl-runtime/Cargo.lock",
+      "inspection": "structural_lock_census",
+      "observation": "Registry-only checksum-bearing locked dependencies and local path identity; see metadata and lock census."
+    },
+    {
+      "id": "F04737",
+      "status": "M",
+      "path": "adl-runtime/Cargo.toml",
+      "inspection": "full_manifest",
+      "observation": "Inspected declarations and local dependency boundaries. No independent behavioral approval of917 bridge."
+    },
+    {
+      "id": "F04743",
+      "status": "A",
+      "path": "adl-uts/Cargo.lock",
+      "inspection": "structural_lock_census",
+      "observation": "Registry-only checksum-bearing locked dependencies and local path identity; see metadata and lock census."
+    },
+    {
+      "id": "F04744",
+      "status": "A",
+      "path": "adl-uts/Cargo.toml",
+      "inspection": "full_manifest",
+      "observation": "Inspected declarations and local dependency boundaries. No independent behavioral approval of917 bridge."
+    },
+    {
+      "id": "F04754",
+      "status": "M",
+      "path": "adl-v2/Cargo.lock",
+      "inspection": "structural_lock_census",
+      "observation": "Registry-only checksum-bearing locked dependencies and local path identity; see metadata and lock census."
+    },
+    {
+      "id": "F04756",
+      "status": "M",
+      "path": "adl/Cargo.lock",
+      "inspection": "structural_lock_census",
+      "observation": "Registry-only checksum-bearing locked dependencies and local path identity; see metadata and lock census."
+    },
+    {
+      "id": "F04757",
+      "status": "M",
+      "path": "adl/Cargo.toml",
+      "inspection": "full_manifest",
+      "observation": "Inspected declarations and local dependency boundaries. No independent behavioral approval of917 bridge."
+    },
+    {
+      "id": "F05057",
+      "status": "M",
+      "path": "csdlc-v3/Cargo.toml",
+      "inspection": "full_manifest",
+      "observation": "Inspected declarations and local dependency boundaries. No independent behavioral approval of917 bridge."
+    },
+    {
+      "id": "F06004",
+      "status": "A",
+      "path": "docs/milestones/v0.92.2/evidence/issue-916/validation/Cargo.lock",
+      "inspection": "structural_lock_census",
+      "observation": "Registry-only checksum-bearing locked dependencies and local path identity; see metadata and lock census."
+    },
+    {
+      "id": "F06005",
+      "status": "A",
+      "path": "docs/milestones/v0.92.2/evidence/issue-916/validation/Cargo.toml",
+      "inspection": "full_manifest",
+      "observation": "Inspected declarations and local dependency boundaries. No independent behavioral approval of917 bridge."
+    },
+    {
+      "id": "F06014",
+      "status": "A",
+      "path": "docs/milestones/v0.92.2/evidence/issue-917/validation/Cargo.lock",
+      "inspection": "structural_lock_census",
+      "observation": "Registry-only checksum-bearing locked dependencies and local path identity; see metadata and lock census."
+    },
+    {
+      "id": "F06015",
+      "status": "A",
+      "path": "docs/milestones/v0.92.2/evidence/issue-917/validation/Cargo.toml",
+      "inspection": "full_manifest",
+      "observation": "Inspected declarations and local dependency boundaries. No independent behavioral approval of917 bridge."
+    },
+    {
+      "id": "F06024",
+      "status": "A",
+      "path": "docs/milestones/v0.92.2/evidence/issue-918/validation/Cargo.lock",
+      "inspection": "structural_lock_census",
+      "observation": "Registry-only checksum-bearing locked dependencies and local path identity; see metadata and lock census."
+    },
+    {
+      "id": "F06025",
+      "status": "A",
+      "path": "docs/milestones/v0.92.2/evidence/issue-918/validation/Cargo.toml",
+      "inspection": "full_manifest",
+      "observation": "Inspected declarations and local dependency boundaries. No independent behavioral approval of917 bridge."
+    },
+    {
+      "id": "F06189",
+      "status": "A",
+      "path": "tools/codefriend_host/terraform/.terraform.lock.hcl",
+      "inspection": "full_manifest",
+      "observation": "Inspected declarations and local dependency boundaries. No independent behavioral approval of917 bridge."
+    }
+  ],
+  "supporting_sources": [
+    ".github/workflows/ci.yaml dependency setup sections",
+    ".github/workflows/codefriend-fitness.yml",
+    ".github/workflows/codefriend-host-candidate.yml",
+    "adl/docker/adl-builder/Dockerfile",
+    "adl/tools/setup_required_coverage_toolchain.sh",
+    "adl/tools/install_vector_component.sh",
+    "tools/codefriend_host/release/assemble.py",
+    "tools/codefriend_host/ci/manifest.py",
+    "tools/codefriend_host/terraform/main.tf",
+    "tools/codefriend_host/terraform/variables.tf"
+  ],
+  "website_sources": [
+    "package.json",
+    "package-lock.json",
+    ".github/workflows/beta-tests.yml",
+    ".github/workflows/deploy-site.yml",
+    "infra/terraform/versions.tf",
+    "infra/terraform/.terraform.lock.hcl",
+    "infra/terraform/iam_oidc.tf"
+  ],
+  "limitations": [
+    "No vulnerability advisory scan or legal license determination",
+    "No install, upgrade, rebuild, Terraform apply, or live deployment",
+    "Metadata checks do not prove transitive compilation/MSRV",
+    "Unchanged builder inputs retain floating Ubuntu/stable and unverified AWSCLI/sccache/llvm-cov downloads; bounded residual supply-chain exposure, not a newly introduced defect"
+  ]
+}

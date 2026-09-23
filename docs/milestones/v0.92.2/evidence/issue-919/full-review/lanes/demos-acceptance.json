@@ -1,0 +1,505 @@
+[
+  {
+    "id": "CF-UX-A01",
+    "task": "CF-UX",
+    "issue": 895,
+    "criterion": "approval_binding",
+    "disposition": "source_component_support_human_acceptance_not_executed",
+    "evidence": [
+      "adl/tests/codefriend_ux.rs",
+      "adl/tests/codefriend_integration.rs"
+    ],
+    "observation": "Approval, withholding and format-specific bindings have meaningful negative source assertions. Retained fixture approval is not human acceptance."
+  },
+  {
+    "id": "CF-UX-A02",
+    "task": "CF-UX",
+    "issue": 895,
+    "criterion": "withheld_state",
+    "disposition": "source_component_support_human_acceptance_not_executed",
+    "evidence": [
+      "adl/tests/codefriend_ux.rs",
+      "adl/tests/codefriend_integration.rs"
+    ],
+    "observation": "Approval, withholding and format-specific bindings have meaningful negative source assertions. Retained fixture approval is not human acceptance."
+  },
+  {
+    "id": "CF-UX-A03",
+    "task": "CF-UX",
+    "issue": 895,
+    "criterion": "manifest_complete",
+    "disposition": "source_component_support_human_acceptance_not_executed",
+    "evidence": [
+      "adl/tests/codefriend_ux.rs",
+      "adl/tests/codefriend_integration.rs"
+    ],
+    "observation": "Approval, withholding and format-specific bindings have meaningful negative source assertions. Retained fixture approval is not human acceptance."
+  },
+  {
+    "id": "CF-UX-A04",
+    "task": "CF-UX",
+    "issue": 895,
+    "criterion": "human_approval_required",
+    "disposition": "source_component_support_human_acceptance_not_executed",
+    "evidence": [
+      "adl/tests/codefriend_ux.rs",
+      "adl/tests/codefriend_integration.rs"
+    ],
+    "observation": "Approval, withholding and format-specific bindings have meaningful negative source assertions. Retained fixture approval is not human acceptance."
+  },
+  {
+    "id": "CF-UX-A05",
+    "task": "CF-UX",
+    "issue": 895,
+    "criterion": "withheld_state_supported",
+    "disposition": "source_component_support_human_acceptance_not_executed",
+    "evidence": [
+      "adl/tests/codefriend_ux.rs",
+      "adl/tests/codefriend_integration.rs"
+    ],
+    "observation": "Approval, withholding and format-specific bindings have meaningful negative source assertions. Retained fixture approval is not human acceptance."
+  },
+  {
+    "id": "CF-RENDER-MD-A01",
+    "task": "CF-RENDER-MD",
+    "issue": 896,
+    "criterion": "markdown_report_rendered",
+    "disposition": "retained_component_support_current_candidate_acceptance_not_established",
+    "evidence": [
+      "demos-artifacts/verification.json",
+      "tests-coverage.json"
+    ],
+    "observation": "Actual retained outputs/manifest bindings inspected, source renderer tests inspected; synthetic HTML/PDF approval and earlier candidates remain explicit."
+  },
+  {
+    "id": "CF-RENDER-MD-A02",
+    "task": "CF-RENDER-MD",
+    "issue": 896,
+    "criterion": "manifest_binding",
+    "disposition": "retained_component_support_current_candidate_acceptance_not_established",
+    "evidence": [
+      "demos-artifacts/verification.json",
+      "tests-coverage.json"
+    ],
+    "observation": "Actual retained outputs/manifest bindings inspected, source renderer tests inspected; synthetic HTML/PDF approval and earlier candidates remain explicit."
+  },
+  {
+    "id": "CF-RENDER-MD-A03",
+    "task": "CF-RENDER-MD",
+    "issue": 896,
+    "criterion": "claim_parity",
+    "disposition": "retained_component_support_current_candidate_acceptance_not_established",
+    "evidence": [
+      "demos-artifacts/verification.json",
+      "tests-coverage.json"
+    ],
+    "observation": "Actual retained outputs/manifest bindings inspected, source renderer tests inspected; synthetic HTML/PDF approval and earlier candidates remain explicit."
+  },
+  {
+    "id": "CF-RENDER-MD-A04",
+    "task": "CF-RENDER-MD",
+    "issue": 896,
+    "criterion": "output_parity",
+    "disposition": "retained_component_support_current_candidate_acceptance_not_established",
+    "evidence": [
+      "demos-artifacts/verification.json",
+      "tests-coverage.json"
+    ],
+    "observation": "Actual retained outputs/manifest bindings inspected, source renderer tests inspected; synthetic HTML/PDF approval and earlier candidates remain explicit."
+  },
+  {
+    "id": "CF-RENDER-HTML-A01",
+    "task": "CF-RENDER-HTML",
+    "issue": 897,
+    "criterion": "html_report_opened",
+    "disposition": "retained_component_support_current_candidate_acceptance_not_established",
+    "evidence": [
+      "demos-artifacts/verification.json",
+      "tests-coverage.json"
+    ],
+    "observation": "Actual retained outputs/manifest bindings inspected, source renderer tests inspected; synthetic HTML/PDF approval and earlier candidates remain explicit."
+  },
+  {
+    "id": "CF-RENDER-HTML-A02",
+    "task": "CF-RENDER-HTML",
+    "issue": 897,
+    "criterion": "markdown_claim_parity",
+    "disposition": "retained_component_support_current_candidate_acceptance_not_established",
+    "evidence": [
+      "demos-artifacts/verification.json",
+      "tests-coverage.json"
+    ],
+    "observation": "Actual retained outputs/manifest bindings inspected, source renderer tests inspected; synthetic HTML/PDF approval and earlier candidates remain explicit."
+  },
+  {
+    "id": "CF-RENDER-HTML-A03",
+    "task": "CF-RENDER-HTML",
+    "issue": 897,
+    "criterion": "manifest_binding",
+    "disposition": "retained_component_support_current_candidate_acceptance_not_established",
+    "evidence": [
+      "demos-artifacts/verification.json",
+      "tests-coverage.json"
+    ],
+    "observation": "Actual retained outputs/manifest bindings inspected, source renderer tests inspected; synthetic HTML/PDF approval and earlier candidates remain explicit."
+  },
+  {
+    "id": "CF-RENDER-HTML-A04",
+    "task": "CF-RENDER-HTML",
+    "issue": 897,
+    "criterion": "output_parity",
+    "disposition": "retained_component_support_current_candidate_acceptance_not_established",
+    "evidence": [
+      "demos-artifacts/verification.json",
+      "tests-coverage.json"
+    ],
+    "observation": "Actual retained outputs/manifest bindings inspected, source renderer tests inspected; synthetic HTML/PDF approval and earlier candidates remain explicit."
+  },
+  {
+    "id": "CF-RENDER-PDF-A01",
+    "task": "CF-RENDER-PDF",
+    "issue": 898,
+    "criterion": "pdf_rendered_and_inspected",
+    "disposition": "retained_component_support_current_candidate_acceptance_not_established",
+    "evidence": [
+      "demos-artifacts/verification.json",
+      "tests-coverage.json"
+    ],
+    "observation": "Actual retained outputs/manifest bindings inspected, source renderer tests inspected; synthetic HTML/PDF approval and earlier candidates remain explicit."
+  },
+  {
+    "id": "CF-RENDER-PDF-A02",
+    "task": "CF-RENDER-PDF",
+    "issue": 898,
+    "criterion": "markdown_claim_parity",
+    "disposition": "retained_component_support_current_candidate_acceptance_not_established",
+    "evidence": [
+      "demos-artifacts/verification.json",
+      "tests-coverage.json"
+    ],
+    "observation": "Actual retained outputs/manifest bindings inspected, source renderer tests inspected; synthetic HTML/PDF approval and earlier candidates remain explicit."
+  },
+  {
+    "id": "CF-RENDER-PDF-A03",
+    "task": "CF-RENDER-PDF",
+    "issue": 898,
+    "criterion": "manifest_binding",
+    "disposition": "retained_component_support_current_candidate_acceptance_not_established",
+    "evidence": [
+      "demos-artifacts/verification.json",
+      "tests-coverage.json"
+    ],
+    "observation": "Actual retained outputs/manifest bindings inspected, source renderer tests inspected; synthetic HTML/PDF approval and earlier candidates remain explicit."
+  },
+  {
+    "id": "CF-RENDER-PDF-A04",
+    "task": "CF-RENDER-PDF",
+    "issue": 898,
+    "criterion": "output_parity",
+    "disposition": "retained_component_support_current_candidate_acceptance_not_established",
+    "evidence": [
+      "demos-artifacts/verification.json",
+      "tests-coverage.json"
+    ],
+    "observation": "Actual retained outputs/manifest bindings inspected, source renderer tests inspected; synthetic HTML/PDF approval and earlier candidates remain explicit."
+  },
+  {
+    "id": "CF-PROOF-A01",
+    "task": "CF-PROOF",
+    "issue": 915,
+    "criterion": "fresh_operator_success",
+    "disposition": "explicit_pending_independent_or_final_installed_acceptance",
+    "evidence": [
+      "docs/milestones/v0.92.2/DEMO_MATRIX_v0.92.2.md",
+      "docs/milestones/v0.92.2/evidence/issue-916/POSTMERGE_VERIFICATION.json",
+      "docs/milestones/v0.92.2/evidence/issue-918/PUBLICATION_MANIFEST.json"
+    ],
+    "observation": "Supporting source/component and historical tests do not complete independent915 or final installed914 product journey. Declared pending state is preserved, not escalated as a newly found product defect."
+  },
+  {
+    "id": "CF-PROOF-A02",
+    "task": "CF-PROOF",
+    "issue": 915,
+    "criterion": "reproducible_fixtures",
+    "disposition": "explicit_pending_independent_or_final_installed_acceptance",
+    "evidence": [
+      "docs/milestones/v0.92.2/DEMO_MATRIX_v0.92.2.md",
+      "docs/milestones/v0.92.2/evidence/issue-916/POSTMERGE_VERIFICATION.json",
+      "docs/milestones/v0.92.2/evidence/issue-918/PUBLICATION_MANIFEST.json"
+    ],
+    "observation": "Supporting source/component and historical tests do not complete independent915 or final installed914 product journey. Declared pending state is preserved, not escalated as a newly found product defect."
+  },
+  {
+    "id": "CF-PROOF-A03",
+    "task": "CF-PROOF",
+    "issue": 915,
+    "criterion": "bounded_external_scope",
+    "disposition": "explicit_pending_independent_or_final_installed_acceptance",
+    "evidence": [
+      "docs/milestones/v0.92.2/DEMO_MATRIX_v0.92.2.md",
+      "docs/milestones/v0.92.2/evidence/issue-916/POSTMERGE_VERIFICATION.json",
+      "docs/milestones/v0.92.2/evidence/issue-918/PUBLICATION_MANIFEST.json"
+    ],
+    "observation": "Supporting source/component and historical tests do not complete independent915 or final installed914 product journey. Declared pending state is preserved, not escalated as a newly found product defect."
+  },
+  {
+    "id": "CF-PROOF-A04",
+    "task": "CF-PROOF",
+    "issue": 915,
+    "criterion": "explicit_nonclaims",
+    "disposition": "explicit_pending_independent_or_final_installed_acceptance",
+    "evidence": [
+      "docs/milestones/v0.92.2/DEMO_MATRIX_v0.92.2.md",
+      "docs/milestones/v0.92.2/evidence/issue-916/POSTMERGE_VERIFICATION.json",
+      "docs/milestones/v0.92.2/evidence/issue-918/PUBLICATION_MANIFEST.json"
+    ],
+    "observation": "Supporting source/component and historical tests do not complete independent915 or final installed914 product journey. Declared pending state is preserved, not escalated as a newly found product defect."
+  },
+  {
+    "id": "CF-PROOF-A05",
+    "task": "CF-PROOF",
+    "issue": 915,
+    "criterion": "adl_actual_product_run",
+    "disposition": "explicit_pending_independent_or_final_installed_acceptance",
+    "evidence": [
+      "docs/milestones/v0.92.2/DEMO_MATRIX_v0.92.2.md",
+      "docs/milestones/v0.92.2/evidence/issue-916/POSTMERGE_VERIFICATION.json",
+      "docs/milestones/v0.92.2/evidence/issue-918/PUBLICATION_MANIFEST.json"
+    ],
+    "observation": "Supporting source/component and historical tests do not complete independent915 or final installed914 product journey. Declared pending state is preserved, not escalated as a newly found product defect."
+  },
+  {
+    "id": "CF-PROOF-A06",
+    "task": "CF-PROOF",
+    "issue": 915,
+    "criterion": "external_actual_product_run",
+    "disposition": "explicit_pending_independent_or_final_installed_acceptance",
+    "evidence": [
+      "docs/milestones/v0.92.2/DEMO_MATRIX_v0.92.2.md",
+      "docs/milestones/v0.92.2/evidence/issue-916/POSTMERGE_VERIFICATION.json",
+      "docs/milestones/v0.92.2/evidence/issue-918/PUBLICATION_MANIFEST.json"
+    ],
+    "observation": "Supporting source/component and historical tests do not complete independent915 or final installed914 product journey. Declared pending state is preserved, not escalated as a newly found product defect."
+  },
+  {
+    "id": "CF-PROOF-A07",
+    "task": "CF-PROOF",
+    "issue": 915,
+    "criterion": "fresh_operator_walkthrough",
+    "disposition": "explicit_pending_independent_or_final_installed_acceptance",
+    "evidence": [
+      "docs/milestones/v0.92.2/DEMO_MATRIX_v0.92.2.md",
+      "docs/milestones/v0.92.2/evidence/issue-916/POSTMERGE_VERIFICATION.json",
+      "docs/milestones/v0.92.2/evidence/issue-918/PUBLICATION_MANIFEST.json"
+    ],
+    "observation": "Supporting source/component and historical tests do not complete independent915 or final installed914 product journey. Declared pending state is preserved, not escalated as a newly found product defect."
+  },
+  {
+    "id": "CF-PROOF-A08",
+    "task": "CF-PROOF",
+    "issue": 915,
+    "criterion": "exports_and_second_run",
+    "disposition": "explicit_pending_independent_or_final_installed_acceptance",
+    "evidence": [
+      "docs/milestones/v0.92.2/DEMO_MATRIX_v0.92.2.md",
+      "docs/milestones/v0.92.2/evidence/issue-916/POSTMERGE_VERIFICATION.json",
+      "docs/milestones/v0.92.2/evidence/issue-918/PUBLICATION_MANIFEST.json"
+    ],
+    "observation": "Supporting source/component and historical tests do not complete independent915 or final installed914 product journey. Declared pending state is preserved, not escalated as a newly found product defect."
+  },
+  {
+    "id": "CF-PROOF-A09",
+    "task": "CF-PROOF",
+    "issue": 915,
+    "criterion": "website_server_hosted_journey",
+    "disposition": "explicit_pending_independent_or_final_installed_acceptance",
+    "evidence": [
+      "docs/milestones/v0.92.2/DEMO_MATRIX_v0.92.2.md",
+      "docs/milestones/v0.92.2/evidence/issue-916/POSTMERGE_VERIFICATION.json",
+      "docs/milestones/v0.92.2/evidence/issue-918/PUBLICATION_MANIFEST.json"
+    ],
+    "observation": "Supporting source/component and historical tests do not complete independent915 or final installed914 product journey. Declared pending state is preserved, not escalated as a newly found product defect."
+  },
+  {
+    "id": "CF-PROOF-A10",
+    "task": "CF-PROOF",
+    "issue": 915,
+    "criterion": "website_installed_local_agent_journey",
+    "disposition": "explicit_pending_independent_or_final_installed_acceptance",
+    "evidence": [
+      "docs/milestones/v0.92.2/DEMO_MATRIX_v0.92.2.md",
+      "docs/milestones/v0.92.2/evidence/issue-916/POSTMERGE_VERIFICATION.json",
+      "docs/milestones/v0.92.2/evidence/issue-918/PUBLICATION_MANIFEST.json"
+    ],
+    "observation": "Supporting source/component and historical tests do not complete independent915 or final installed914 product journey. Declared pending state is preserved, not escalated as a newly found product defect."
+  },
+  {
+    "id": "CF-PROOF-A11",
+    "task": "CF-PROOF",
+    "issue": 915,
+    "criterion": "invited_github_access_and_user_isolation",
+    "disposition": "explicit_pending_independent_or_final_installed_acceptance",
+    "evidence": [
+      "docs/milestones/v0.92.2/DEMO_MATRIX_v0.92.2.md",
+      "docs/milestones/v0.92.2/evidence/issue-916/POSTMERGE_VERIFICATION.json",
+      "docs/milestones/v0.92.2/evidence/issue-918/PUBLICATION_MANIFEST.json"
+    ],
+    "observation": "Supporting source/component and historical tests do not complete independent915 or final installed914 product journey. Declared pending state is preserved, not escalated as a newly found product defect."
+  },
+  {
+    "id": "CF-PROOF-A12",
+    "task": "CF-PROOF",
+    "issue": 915,
+    "criterion": "cli_support",
+    "disposition": "explicit_pending_independent_or_final_installed_acceptance",
+    "evidence": [
+      "docs/milestones/v0.92.2/DEMO_MATRIX_v0.92.2.md",
+      "docs/milestones/v0.92.2/evidence/issue-916/POSTMERGE_VERIFICATION.json",
+      "docs/milestones/v0.92.2/evidence/issue-918/PUBLICATION_MANIFEST.json"
+    ],
+    "observation": "Supporting source/component and historical tests do not complete independent915 or final installed914 product journey. Declared pending state is preserved, not escalated as a newly found product defect."
+  },
+  {
+    "id": "CF-INTEGRATE-A01",
+    "task": "CF-INTEGRATE",
+    "issue": 914,
+    "criterion": "all_exit_bar_items_mapped",
+    "disposition": "explicit_pending_independent_or_final_installed_acceptance",
+    "evidence": [
+      "docs/milestones/v0.92.2/DEMO_MATRIX_v0.92.2.md",
+      "docs/milestones/v0.92.2/evidence/issue-916/POSTMERGE_VERIFICATION.json",
+      "docs/milestones/v0.92.2/evidence/issue-918/PUBLICATION_MANIFEST.json"
+    ],
+    "observation": "Supporting source/component and historical tests do not complete independent915 or final installed914 product journey. Declared pending state is preserved, not escalated as a newly found product defect."
+  },
+  {
+    "id": "CF-INTEGRATE-A02",
+    "task": "CF-INTEGRATE",
+    "issue": 914,
+    "criterion": "end_to_end_success",
+    "disposition": "explicit_pending_independent_or_final_installed_acceptance",
+    "evidence": [
+      "docs/milestones/v0.92.2/DEMO_MATRIX_v0.92.2.md",
+      "docs/milestones/v0.92.2/evidence/issue-916/POSTMERGE_VERIFICATION.json",
+      "docs/milestones/v0.92.2/evidence/issue-918/PUBLICATION_MANIFEST.json"
+    ],
+    "observation": "Supporting source/component and historical tests do not complete independent915 or final installed914 product journey. Declared pending state is preserved, not escalated as a newly found product defect."
+  },
+  {
+    "id": "CF-INTEGRATE-A03",
+    "task": "CF-INTEGRATE",
+    "issue": 914,
+    "criterion": "end_to_end_failure",
+    "disposition": "explicit_pending_independent_or_final_installed_acceptance",
+    "evidence": [
+      "docs/milestones/v0.92.2/DEMO_MATRIX_v0.92.2.md",
+      "docs/milestones/v0.92.2/evidence/issue-916/POSTMERGE_VERIFICATION.json",
+      "docs/milestones/v0.92.2/evidence/issue-918/PUBLICATION_MANIFEST.json"
+    ],
+    "observation": "Supporting source/component and historical tests do not complete independent915 or final installed914 product journey. Declared pending state is preserved, not escalated as a newly found product defect."
+  },
+  {
+    "id": "CF-INTEGRATE-A04",
+    "task": "CF-INTEGRATE",
+    "issue": 914,
+    "criterion": "residual_risks_recorded",
+    "disposition": "explicit_pending_independent_or_final_installed_acceptance",
+    "evidence": [
+      "docs/milestones/v0.92.2/DEMO_MATRIX_v0.92.2.md",
+      "docs/milestones/v0.92.2/evidence/issue-916/POSTMERGE_VERIFICATION.json",
+      "docs/milestones/v0.92.2/evidence/issue-918/PUBLICATION_MANIFEST.json"
+    ],
+    "observation": "Supporting source/component and historical tests do not complete independent915 or final installed914 product journey. Declared pending state is preserved, not escalated as a newly found product defect."
+  },
+  {
+    "id": "CF-INTEGRATE-A05",
+    "task": "CF-INTEGRATE",
+    "issue": 914,
+    "criterion": "all_exit_bar_items_executed",
+    "disposition": "explicit_pending_independent_or_final_installed_acceptance",
+    "evidence": [
+      "docs/milestones/v0.92.2/DEMO_MATRIX_v0.92.2.md",
+      "docs/milestones/v0.92.2/evidence/issue-916/POSTMERGE_VERIFICATION.json",
+      "docs/milestones/v0.92.2/evidence/issue-918/PUBLICATION_MANIFEST.json"
+    ],
+    "observation": "Supporting source/component and historical tests do not complete independent915 or final installed914 product journey. Declared pending state is preserved, not escalated as a newly found product defect."
+  },
+  {
+    "id": "CF-INTEGRATE-A06",
+    "task": "CF-INTEGRATE",
+    "issue": 914,
+    "criterion": "exact_candidate_manifest",
+    "disposition": "explicit_pending_independent_or_final_installed_acceptance",
+    "evidence": [
+      "docs/milestones/v0.92.2/DEMO_MATRIX_v0.92.2.md",
+      "docs/milestones/v0.92.2/evidence/issue-916/POSTMERGE_VERIFICATION.json",
+      "docs/milestones/v0.92.2/evidence/issue-918/PUBLICATION_MANIFEST.json"
+    ],
+    "observation": "Supporting source/component and historical tests do not complete independent915 or final installed914 product journey. Declared pending state is preserved, not escalated as a newly found product defect."
+  },
+  {
+    "id": "CF-INTEGRATE-A07",
+    "task": "CF-INTEGRATE",
+    "issue": 914,
+    "criterion": "complete_operator_journey",
+    "disposition": "explicit_pending_independent_or_final_installed_acceptance",
+    "evidence": [
+      "docs/milestones/v0.92.2/DEMO_MATRIX_v0.92.2.md",
+      "docs/milestones/v0.92.2/evidence/issue-916/POSTMERGE_VERIFICATION.json",
+      "docs/milestones/v0.92.2/evidence/issue-918/PUBLICATION_MANIFEST.json"
+    ],
+    "observation": "Supporting source/component and historical tests do not complete independent915 or final installed914 product journey. Declared pending state is preserved, not escalated as a newly found product defect."
+  },
+  {
+    "id": "CF-INTEGRATE-A08",
+    "task": "CF-INTEGRATE",
+    "issue": 914,
+    "criterion": "website_server_hosted_journey",
+    "disposition": "explicit_pending_independent_or_final_installed_acceptance",
+    "evidence": [
+      "docs/milestones/v0.92.2/DEMO_MATRIX_v0.92.2.md",
+      "docs/milestones/v0.92.2/evidence/issue-916/POSTMERGE_VERIFICATION.json",
+      "docs/milestones/v0.92.2/evidence/issue-918/PUBLICATION_MANIFEST.json"
+    ],
+    "observation": "Supporting source/component and historical tests do not complete independent915 or final installed914 product journey. Declared pending state is preserved, not escalated as a newly found product defect."
+  },
+  {
+    "id": "CF-INTEGRATE-A09",
+    "task": "CF-INTEGRATE",
+    "issue": 914,
+    "criterion": "website_installed_local_agent_journey",
+    "disposition": "explicit_pending_independent_or_final_installed_acceptance",
+    "evidence": [
+      "docs/milestones/v0.92.2/DEMO_MATRIX_v0.92.2.md",
+      "docs/milestones/v0.92.2/evidence/issue-916/POSTMERGE_VERIFICATION.json",
+      "docs/milestones/v0.92.2/evidence/issue-918/PUBLICATION_MANIFEST.json"
+    ],
+    "observation": "Supporting source/component and historical tests do not complete independent915 or final installed914 product journey. Declared pending state is preserved, not escalated as a newly found product defect."
+  },
+  {
+    "id": "CF-INTEGRATE-A10",
+    "task": "CF-INTEGRATE",
+    "issue": 914,
+    "criterion": "invited_github_access_and_user_isolation",
+    "disposition": "explicit_pending_independent_or_final_installed_acceptance",
+    "evidence": [
+      "docs/milestones/v0.92.2/DEMO_MATRIX_v0.92.2.md",
+      "docs/milestones/v0.92.2/evidence/issue-916/POSTMERGE_VERIFICATION.json",
+      "docs/milestones/v0.92.2/evidence/issue-918/PUBLICATION_MANIFEST.json"
+    ],
+    "observation": "Supporting source/component and historical tests do not complete independent915 or final installed914 product journey. Declared pending state is preserved, not escalated as a newly found product defect."
+  },
+  {
+    "id": "CF-INTEGRATE-A11",
+    "task": "CF-INTEGRATE",
+    "issue": 914,
+    "criterion": "cli_support",
+    "disposition": "explicit_pending_independent_or_final_installed_acceptance",
+    "evidence": [
+      "docs/milestones/v0.92.2/DEMO_MATRIX_v0.92.2.md",
+      "docs/milestones/v0.92.2/evidence/issue-916/POSTMERGE_VERIFICATION.json",
+      "docs/milestones/v0.92.2/evidence/issue-918/PUBLICATION_MANIFEST.json"
+    ],
+    "observation": "Supporting source/component and historical tests do not complete independent915 or final installed914 product journey. Declared pending state is preserved, not escalated as a newly found product defect."
+  }
+]

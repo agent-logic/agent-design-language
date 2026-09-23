@@ -1,5 +1,6 @@
 {
   "issue": 897,
+  "repair_issue": 1162,
   "lane": "owner_binary",
   "proof_role": "installed approved-review HTML rendering, complete governed semantic parity, same-document navigation, exact manifest binding, hostile-markup escaping, and anchored create-only export",
   "determinism": "fixed local predecessor review, generated canonical local bundles, controlled approval time, isolated filesystem output, no provider or network",
@@ -20,6 +21,7 @@
     "existing output target",
     "hostile HTML and script-like repository text",
     "remote-link activation"
+    ,"exact citation CRLF, line-break, tab, and escaped-metacharacter preservation in preformatted HTML"
   ],
   "nonclaims": [
     "provider execution",

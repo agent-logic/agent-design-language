@@ -1101,6 +1101,17 @@ if [ -n "$SUMMARY" ] && [ -s "$SUMMARY" ]; then
     if file_is_live_runtime_boundary_surface "$path"; then
       continue
     fi
+    # Test-only changes still run their selected tests and coverage producer.
+    # Only exact existing cfg(test) module-body diffs avoid a production-file
+    # percentage gate; unavailable/unknown/mixed changes keep the full gate.
+    if [ "$_status" = M ]; then
+      test_only_args=(--root "$ROOT" --base "$BASE" --head "$HEAD" --path "$path")
+      if [ "$INCLUDE_WORKTREE" = true ]; then test_only_args+=(--working-tree); fi
+      if python3 "$ROOT/adl/tools/coverage_test_only.py" "${test_only_args[@]}"; then
+        echo "coverage-impact: production bytes unchanged; cfg(test)-only edit in ${path}"
+        continue
+      fi
+    fi
     row="$(jq -r --arg path "$path" '
       [
         .data[].files[]
