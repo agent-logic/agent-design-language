@@ -278,6 +278,7 @@ def validate(manifest: dict, findings: dict, review_text: str) -> list[str]:
         group_a = progress.get("A", {})
         group_b = progress.get("B", {})
         group_c = progress.get("C", {})
+        group_d = progress.get("D", {})
         expected_a_ids = [
             "ARCH-001",
             "ARCH-002",
@@ -299,10 +300,10 @@ def validate(manifest: dict, findings: dict, review_text: str) -> list[str]:
             "DEMOS-001",
         ]
         expected_c_ids = ["PRV-001", "PRV-002", "TESTS-001", "TESTS-002", "TESTS-003"]
+        expected_d_ids = ["DEP-002", "DEP-003", "DEP-004", "SYN-006", "DOC-001", "DOC-SUP-001"]
         if (
             progress.get("candidate_integration_complete") is not False
-            or progress.get("as_of") != "2026-09-23T20:28:20Z"
-            or progress.get("D", {}).get("status") != "pending_integration"
+            or progress.get("as_of") != "2026-09-23T23:19:11Z"
         ):
             errors.append("repair progress must preserve incomplete candidate truth")
 
@@ -375,6 +376,43 @@ def validate(manifest: dict, findings: dict, review_text: str) -> list[str]:
             != expected_c_ids
         ):
             errors.append("Group C finding map binding")
+
+        if (
+            group_d.get("issue") != 1160
+            or group_d.get("finding_ids") != expected_d_ids
+            or group_d.get("status") != "merged_and_closed"
+            or group_d.get("pull_request") != 1164
+            or group_d.get("reviewed_head") != "8a409c7c327f6203e45b810c9566c9c70e6c0b50"
+            or group_d.get("merge_commit") != "78f57f97c2b9e5e90301e132434d98ba2fcbc2e6"
+            or group_d.get("merged_at") != "2026-09-23T23:19:10Z"
+            or group_d.get("issue_closed_at") != "2026-09-23T23:19:11Z"
+            or group_d.get("finding_map_path") != "tools/groupd_validation/README.md"
+            or group_d.get("finding_map_sha256")
+            != "19f9d79c58f7f0f7511ff5f81a794dcb4080518d5ab12a8e49825fa898f40b7c"
+            or group_d.get("candidate_inclusion_verified") is not False
+        ):
+            errors.append("Group D observed integration state")
+        group_d_map = git_blob(
+            group_d.get("reviewed_head"), group_d.get("finding_map_path")
+        )
+        if (
+            group_d_map is None
+            or hashlib.sha256(group_d_map).hexdigest() != group_d.get("finding_map_sha256")
+            or any(finding_id.encode() not in group_d_map for finding_id in expected_d_ids)
+        ):
+            errors.append("Group D finding map binding")
+
+        follow_on = baseline.get("integration_tooling_follow_on", {})
+        expected_follow_on = {
+            "issue": 1171,
+            "pull_request": 1172,
+            "reviewed_head": "52b8e12177a74f036c044124c55867c1893e0628",
+            "merge_commit": "ee90f97a3d9fe31e08c3ba53af6b4d706a560788",
+            "status": "merged_and_closed",
+            "outside_frozen_finding_denominator": True,
+        }
+        if any(follow_on.get(key) != value for key, value in expected_follow_on.items()):
+            errors.append("integration-tooling follow-on identity")
 
         publication_bytes = git_blob(
             baseline.get("candidate_revision"), baseline.get("publication_manifest_path")
@@ -477,9 +515,20 @@ def validate(manifest: dict, findings: dict, review_text: str) -> list[str]:
                 "finding_map_sha256": group_c.get("finding_map_sha256"),
                 "candidate_inclusion_verified": group_c.get("candidate_inclusion_verified"),
             },
+            "D": {
+                "status": group_d.get("status"),
+                "pull_request": group_d.get("pull_request"),
+                "reviewed_head": group_d.get("reviewed_head"),
+                "merge_commit": group_d.get("merge_commit"),
+                "finding_map_sha256": group_d.get("finding_map_sha256"),
+                "candidate_inclusion_verified": group_d.get("candidate_inclusion_verified"),
+            },
         }
         if context_progress != expected_context_progress:
             errors.append("findings repair progress")
+        context_follow_on = context.get("integration_tooling_follow_on", {})
+        if any(context_follow_on.get(key) != value for key, value in expected_follow_on.items()):
+            errors.append("findings integration-tooling follow-on")
         if internal.get("native_reconciliation_state") != "published_reconciled" or internal.get("native_reconciliation_digest") != "b3cebe78a61e8d55d7763799ba11a398f6d5e3df67c2f463a75f0a2f3c03cf18" or internal.get("accepted"):
             errors.append("internal-review reconciliation truth")
         if authorization.get("external_contact_authorized") or authorization.get("disclosure_scope_approved"):
@@ -662,6 +711,12 @@ def main() -> int:
             ("changed_group_b_website_merge", lambda value: value["internal_review_baseline"]["repair_progress_observed"]["B"]["website_component"].update(merge_commit="0" * 40)),
             ("changed_group_b_adl_merge", lambda value: value["internal_review_baseline"]["repair_progress_observed"]["B"]["adl_component"].update(merge_commit="0" * 40)),
             ("changed_group_c_merge", lambda value: value["internal_review_baseline"]["repair_progress_observed"]["C"].update(merge_commit="0" * 40)),
+            ("changed_group_d_merge", lambda value: value["internal_review_baseline"]["repair_progress_observed"]["D"].update(merge_commit="0" * 40)),
+            ("changed_group_d_issue", lambda value: value["internal_review_baseline"]["repair_progress_observed"]["D"].update(issue=999)),
+            ("changed_group_d_closed_at", lambda value: value["internal_review_baseline"]["repair_progress_observed"]["D"].update(issue_closed_at="2099-01-01T00:00:00Z")),
+            ("changed_group_d_map_path", lambda value: value["internal_review_baseline"]["repair_progress_observed"]["D"].update(finding_map_path="docs/milestones/v0.92.2/evidence/issue-919/full-review/final_report.md")),
+            ("changed_group_d_map_digest", lambda value: value["internal_review_baseline"]["repair_progress_observed"]["D"].update(finding_map_sha256="0" * 64)),
+            ("changed_follow_on_identity", lambda value: value["internal_review_baseline"]["integration_tooling_follow_on"].update(reviewed_head="0" * 40)),
         ):
             fixture = copy.deepcopy(manifest)
             mutate(fixture)
@@ -673,6 +728,8 @@ def main() -> int:
             ("changed_findings_group_a_identity", lambda value: value["internal_review_context"]["repair_progress_observed"]["A"].update(reviewed_head="0" * 40)),
             ("changed_findings_group_b_head", lambda value: value["internal_review_context"]["repair_progress_observed"]["B"].update(adl_reviewed_head="0" * 40)),
             ("changed_findings_group_c_identity", lambda value: value["internal_review_context"]["repair_progress_observed"]["C"].update(pull_request=999, status="pending")),
+            ("changed_findings_group_d_identity", lambda value: value["internal_review_context"]["repair_progress_observed"]["D"].update(pull_request=999, status="pending")),
+            ("changed_findings_follow_on", lambda value: value["internal_review_context"]["integration_tooling_follow_on"].update(merge_commit="0" * 40)),
         ):
             fixture_findings = copy.deepcopy(findings)
             mutate(fixture_findings)

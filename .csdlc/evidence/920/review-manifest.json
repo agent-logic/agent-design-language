@@ -81,7 +81,7 @@
     "verdict": "not_proven",
     "limitations": [
       "The substantive #919 review found 27 issues and requires changes.",
-      "Group D remains unintegrated; final-candidate ancestry and retained re-review evidence across all groups are not yet assembled.",
+      "All four repair groups are merged and closed; final-candidate ancestry and retained re-review evidence across all groups are not yet assembled.",
       "The post-remediation external-review candidate is not yet selected.",
       "No reviewer has been contacted or assigned under external-review authority."
     ]
@@ -120,7 +120,7 @@
       "D": 1160
     },
     "repair_progress_observed": {
-      "as_of": "2026-09-23T20:28:20Z",
+      "as_of": "2026-09-23T23:19:11Z",
       "candidate_integration_complete": false,
       "A": {
         "issue": 1161,
@@ -202,8 +202,34 @@
       },
       "D": {
         "issue": 1160,
-        "status": "pending_integration"
+        "finding_ids": [
+          "DEP-002",
+          "DEP-003",
+          "DEP-004",
+          "SYN-006",
+          "DOC-001",
+          "DOC-SUP-001"
+        ],
+        "status": "merged_and_closed",
+        "pull_request": 1164,
+        "reviewed_head": "8a409c7c327f6203e45b810c9566c9c70e6c0b50",
+        "merge_commit": "78f57f97c2b9e5e90301e132434d98ba2fcbc2e6",
+        "merged_at": "2026-09-23T23:19:10Z",
+        "issue_closed_at": "2026-09-23T23:19:11Z",
+        "finding_map_path": "tools/groupd_validation/README.md",
+        "finding_map_sha256": "19f9d79c58f7f0f7511ff5f81a794dcb4080518d5ab12a8e49825fa898f40b7c",
+        "candidate_inclusion_verified": false,
+        "note": "The repair PR is merged and its issue is closed. Final-candidate ancestry and the retained independent re-review record must still be bound when the external-review candidate is selected. CI-1160-001 is retained as a subsequent finding outside the frozen #919 denominator."
       }
+    },
+    "integration_tooling_follow_on": {
+      "issue": 1171,
+      "pull_request": 1172,
+      "reviewed_head": "52b8e12177a74f036c044124c55867c1893e0628",
+      "merge_commit": "ee90f97a3d9fe31e08c3ba53af6b4d706a560788",
+      "status": "merged_and_closed",
+      "outside_frozen_finding_denominator": true,
+      "note": "Required integration-tooling repair for safe retirement of never-dispatched merge attempts. It is relevant to the integration sequence but is not a #919 finding and does not change the frozen denominator of 27."
     },
     "repair_state": "in_progress",
     "independent_rereview_state": "pending",

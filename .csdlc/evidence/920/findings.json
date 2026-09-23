@@ -15,7 +15,7 @@
   "limitations": [
     "This is an empty external-review intake structure, not an external review result.",
     "The referenced 27 findings are immutable #919 internal-review inputs and are not duplicated as external findings.",
-    "Group D integration and final-candidate re-review evidence assembly are pending."
+    "All four repair groups are merged and closed; final-candidate ancestry and re-review evidence assembly remain pending."
   ],
   "routing": {
     "accepted_findings_issue": 921,
@@ -65,7 +65,23 @@
         "merge_commit": "02c0aa707f17ed013cbf872222615411a78b4166",
         "finding_map_sha256": "a921df9a2c20f128067cbf1a816d96c8d85b2c0b1c7a1c6c88b25f1d930758e5",
         "candidate_inclusion_verified": false
+      },
+      "D": {
+        "status": "merged_and_closed",
+        "pull_request": 1164,
+        "reviewed_head": "8a409c7c327f6203e45b810c9566c9c70e6c0b50",
+        "merge_commit": "78f57f97c2b9e5e90301e132434d98ba2fcbc2e6",
+        "finding_map_sha256": "19f9d79c58f7f0f7511ff5f81a794dcb4080518d5ab12a8e49825fa898f40b7c",
+        "candidate_inclusion_verified": false
       }
+    },
+    "integration_tooling_follow_on": {
+      "issue": 1171,
+      "pull_request": 1172,
+      "reviewed_head": "52b8e12177a74f036c044124c55867c1893e0628",
+      "merge_commit": "ee90f97a3d9fe31e08c3ba53af6b4d706a560788",
+      "status": "merged_and_closed",
+      "outside_frozen_finding_denominator": true
     },
     "disposition": "repairs_and_independent_rereviews_pending"
   }
