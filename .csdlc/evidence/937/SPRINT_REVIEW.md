@@ -5,12 +5,22 @@
 This review covers the active coordination truth for Sprint 11 umbrella #937.
 It does not review or accept the final implementation outcomes of #916-#925.
 
-## Reviewed candidate
+## Historical coordination review
 
-- Reviewed revision: `aeb73734f39687ae224754ff115663ce7867c5f3`
+- Historical reviewed revision: `aeb73734f39687ae224754ff115663ce7867c5f3`
 - Reviewer: independent subagent `/root/review_937_exact_head`
-- Final verdict: `PASS`
+- Historical verdict: `PASS`
+
+That review established the original coordination packet. It is retained as
+history and does not cover the later native-proof validator repair.
+
+## Current source-head review
+
+- Reviewed source revision: `3d8fddfdee51dc816564d30c66ce6f99bf46d280`
+- Reviewer: independent subagent `/root/review_937_native_proof`
+- Verdict: `PASS`
 - Actionable findings remaining: none
+- Record-finalization revision: pending record-only exact-head review
 
 ## Findings and dispositions
 
@@ -23,6 +33,15 @@ It does not review or accept the final implementation outcomes of #916-#925.
    Execution Packet to drift from the structured evidence. Fixed by enforcing
    the packet's umbrella owner, active owners, no-PASS statement, and
    no-authority boundary.
+4. `P2` — The first Rust proof checked fewer structured invariants than the
+   Python validator. Fixed by enforcing the exact owner maps, exact
+   three-element preparation list, Sprint 10 issue and owner identities, both
+   closed states, both `NOT_PLANNED` dispositions, successors, and the
+   incomplete-not-pass claim.
+5. `P2` — The tracked review record mixed the historical `aeb73734f3` review
+   identity with later native-proof claims. Fixed by preserving that review as
+   historical and recording the independently reviewed source head
+   `3d8fddfdee51dc816564d30c66ce6f99bf46d280` separately.
 
 The reviewer confirmed that mutations of each corrected surface fail while an
 unrelated future append-only event remains valid.
