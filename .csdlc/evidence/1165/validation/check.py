@@ -8,6 +8,8 @@ spec = importlib.util.spec_from_file_location("podcast_validator", root / "adl/t
 validator = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(validator)
 validator.validate_feed(root / "demos/podcast")
+package = root / "demos/podcast/episodes/001-meet-the-ai-coworkers"
+validator.validate_storage_manifest(root / "demos/podcast", package, json.loads((package / "episode.json").read_text()))
 channel = ET.parse(root / "demos/podcast/feed.xml").getroot().find("channel")
 item = channel.find("item")
 metadata = json.loads((root / "demos/podcast/episodes/001-meet-the-ai-coworkers/episode.json").read_text())
