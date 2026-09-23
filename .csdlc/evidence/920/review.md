@@ -3,19 +3,23 @@
 Status: **preparation only; external review has not started**.
 
 This is the reviewer entry document for TAIL-05/#920. The full internal source
-review is available, but it returned **changes required**. Its 27 findings are
-being repaired through four aggregate issues and still require independent
-re-review. The #919 report is published and native-reconciled at that revision; PR #1153
-and issue #919 remain open.
+review is available, but it returned **changes required**. Its 27 findings were
+routed through four aggregate issues. Groups A, B and C are now integrated;
+Group D and final candidate evidence assembly remain pending. The #919 report
+is published and native-reconciled at that revision; PR #1153 and issue #919
+remain open.
 No external reviewer has been contacted, no disclosure has been authorized,
 and no post-remediation external-review candidate has been selected.
 
-Two later integration facts are retained without changing that boundary. The
-CodeFriend website component of Group B merged as CodeFriend PR #20 at
-`8b0c5fd12423494c7fed27059321b217d7dff430`. Group C merged as ADL PR #1163 at
-`02c0aa707f17ed013cbf872222615411a78b4166`, and issue #1159 is closed. These
-facts do not select the final candidate or prove that all repair and re-review
-evidence has been assembled for external dispatch.
+Later integration facts are retained without changing that boundary. Group A
+merged as ADL PR #1168 at `c8f646dc8c90d139332315c507adbc57b0c222e2`.
+The CodeFriend website and ADL components of Group B merged as CodeFriend PR
+#20 at `8b0c5fd12423494c7fed27059321b217d7dff430` and ADL PR #1170 at
+`81a2f13503ffa67e6e14d238bff6567b5320dfc1`. Group C merged as ADL PR #1163
+at `02c0aa707f17ed013cbf872222615411a78b4166`. Their repair issues are closed.
+These facts do not select the final candidate or prove that all repair and
+re-review evidence has been assembled for external dispatch. Group D remains
+pending.
 
 ## Frozen internal-review baseline
 
@@ -64,8 +68,8 @@ for repair, without merging or weakening individual finding identities:
 
 | Group | Issue | Scope | Findings | Current disposition |
 | --- | ---: | --- | ---: | --- |
-| A | #1161 | C-SDLC recovery and operator contracts | 9 | integration and final packet binding pending |
-| B | #1162 | CodeFriend and website interoperability/integrity | 7 | website PR #20 merged; ADL PR #1170 and final candidate binding pending |
+| A | #1161 | C-SDLC recovery and operator contracts | 9 | PR #1168 merged and issue closed; final candidate ancestry and re-review evidence binding pending |
+| B | #1162 | CodeFriend and website interoperability/integrity | 7 | website PR #20 and ADL PR #1170 merged; issue closed; final candidate ancestry and re-review evidence binding pending |
 | C | #1159 | Runtime/provider health and regression proof | 5 | PR #1163 merged and issue closed; final candidate ancestry and re-review evidence binding pending |
 | D | #1160 | Reproducible validation and release evidence | 6 | integration and final packet binding pending |
 
@@ -75,14 +79,23 @@ focused proof, independent exact-head re-review and any accepted residual risk.
 
 ### Observed repair evidence
 
+- Group A source map: `docs/csdlc-v3/evidence/issue-1161/REMEDIATION.md` at
+  `fdc968548458d6eb448ce01a99fa4c4d9a02101d`, SHA-256
+  `34f11ce273c03d7227982f76cf8d2163f0d9e40461c4cd2be31ac30cfabe6e21`.
+  ADL PR #1168 merged at `c8f646dc8c90d139332315c507adbc57b0c222e2`
+  on 2026-09-23T20:21:25Z; issue #1161 closed one second later.
 - Group B source map: `.csdlc/evidence/1162/FINDING_DISPOSITIONS.md` at ADL
   `cdb48f4fea83218ddf7feb545da3b7be7fb7d345`, SHA-256
   `c563d5f8131f35028258da24850d7c3650422d06335d0c29f96af3cad63c613a`.
-  That map predates the website merge and remains a source mapping, not a
+  That map predates both component merges and remains a source mapping, not a
   current integration-status record.
 - Group B website component: CodeFriend PR #20, reviewed head
   `8f7d28e7f6254a95721bfa8b15cd95770382607b`, merged at
   `8b0c5fd12423494c7fed27059321b217d7dff430` on 2026-09-23T20:00:24Z.
+- Group B ADL component: PR #1170, reviewed head
+  `cdb48f4fea83218ddf7feb545da3b7be7fb7d345`, merged at
+  `81a2f13503ffa67e6e14d238bff6567b5320dfc1` on 2026-09-23T20:28:19Z;
+  issue #1162 closed one second later.
 - Group C source map: `docs/validation/issue1159/FINDING_FIX_PROOF.json` at
   `de8574324b087366423d6d60911ab63e274ad280`, SHA-256
   `a921df9a2c20f128067cbf1a816d96c8d85b2c0b1c7a1c6c88b25f1d930758e5`.

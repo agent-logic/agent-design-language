@@ -15,7 +15,7 @@
   "limitations": [
     "This is an empty external-review intake structure, not an external review result.",
     "The referenced 27 findings are immutable #919 internal-review inputs and are not duplicated as external findings.",
-    "Repair completion and independent re-review are pending."
+    "Group D integration and final-candidate re-review evidence assembly are pending."
   ],
   "routing": {
     "accepted_findings_issue": 921,
@@ -40,13 +40,23 @@
     },
     "repair_progress_observed": {
       "candidate_integration_complete": false,
+      "A": {
+        "status": "merged_and_closed",
+        "pull_request": 1168,
+        "reviewed_head": "fdc968548458d6eb448ce01a99fa4c4d9a02101d",
+        "merge_commit": "c8f646dc8c90d139332315c507adbc57b0c222e2",
+        "finding_map_sha256": "34f11ce273c03d7227982f76cf8d2163f0d9e40461c4cd2be31ac30cfabe6e21",
+        "candidate_inclusion_verified": false
+      },
       "B": {
-        "status": "partially_integrated",
+        "status": "merged_and_closed",
         "website_pull_request": 20,
         "website_merge_commit": "8b0c5fd12423494c7fed27059321b217d7dff430",
         "adl_pull_request": 1170,
         "adl_reviewed_head": "cdb48f4fea83218ddf7feb545da3b7be7fb7d345",
-        "adl_merged": false
+        "adl_merge_commit": "81a2f13503ffa67e6e14d238bff6567b5320dfc1",
+        "adl_merged": true,
+        "candidate_inclusion_verified": false
       },
       "C": {
         "status": "merged_and_closed",

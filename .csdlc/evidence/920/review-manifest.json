@@ -81,7 +81,7 @@
     "verdict": "not_proven",
     "limitations": [
       "The substantive #919 review found 27 issues and requires changes.",
-      "Repair issues #1161, #1162, #1159 and #1160 and their independent re-reviews are incomplete.",
+      "Group D remains unintegrated; final-candidate ancestry and retained re-review evidence across all groups are not yet assembled.",
       "The post-remediation external-review candidate is not yet selected.",
       "No reviewer has been contacted or assigned under external-review authority."
     ]
@@ -120,11 +120,31 @@
       "D": 1160
     },
     "repair_progress_observed": {
-      "as_of": "2026-09-23T20:05:00Z",
+      "as_of": "2026-09-23T20:28:20Z",
       "candidate_integration_complete": false,
       "A": {
         "issue": 1161,
-        "status": "pending_integration"
+        "finding_ids": [
+          "ARCH-001",
+          "ARCH-002",
+          "ARCH-003",
+          "SEC-001",
+          "SEC-002",
+          "DOC-002",
+          "DOC-003",
+          "DOC-004",
+          "TEST-TRANS-001"
+        ],
+        "status": "merged_and_closed",
+        "pull_request": 1168,
+        "reviewed_head": "fdc968548458d6eb448ce01a99fa4c4d9a02101d",
+        "merge_commit": "c8f646dc8c90d139332315c507adbc57b0c222e2",
+        "merged_at": "2026-09-23T20:21:25Z",
+        "issue_closed_at": "2026-09-23T20:21:26Z",
+        "finding_map_path": "docs/csdlc-v3/evidence/issue-1161/REMEDIATION.md",
+        "finding_map_sha256": "34f11ce273c03d7227982f76cf8d2163f0d9e40461c4cd2be31ac30cfabe6e21",
+        "candidate_inclusion_verified": false,
+        "note": "The repair PR is merged and its issue is closed. Final-candidate ancestry and the retained independent re-review record must still be bound when the external-review candidate is selected."
       },
       "B": {
         "issue": 1162,
@@ -137,12 +157,15 @@
           "DEP-001",
           "DEMOS-001"
         ],
-        "status": "partially_integrated",
+        "status": "merged_and_closed",
         "adl_component": {
           "pull_request": 1170,
           "reviewed_head": "cdb48f4fea83218ddf7feb545da3b7be7fb7d345",
-          "state": "open_draft",
-          "merged": false,
+          "state": "merged",
+          "merged": true,
+          "merge_commit": "81a2f13503ffa67e6e14d238bff6567b5320dfc1",
+          "merged_at": "2026-09-23T20:28:19Z",
+          "issue_closed_at": "2026-09-23T20:28:20Z",
           "finding_map_path": ".csdlc/evidence/1162/FINDING_DISPOSITIONS.md",
           "finding_map_sha256": "c563d5f8131f35028258da24850d7c3650422d06335d0c29f96af3cad63c613a"
         },
@@ -155,7 +178,7 @@
           "state": "merged"
         },
         "candidate_inclusion_verified": false,
-        "note": "The CodeFriend website component is merged. The ADL component and proof that both components belong to the final external-review candidate remain pending. The bound finding map predates the website merge and is retained as source mapping rather than current integration status."
+        "note": "Both repository components are merged and the ADL issue is closed. Proof that both components belong to the final external-review candidate remains pending. The bound finding map predates both merges and is retained as source mapping rather than current integration status."
       },
       "C": {
         "issue": 1159,

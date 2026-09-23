@@ -275,8 +275,20 @@ def validate(manifest: dict, findings: dict, review_text: str) -> list[str]:
             errors.append("internal-review disposition state")
 
         progress = baseline.get("repair_progress_observed", {})
+        group_a = progress.get("A", {})
         group_b = progress.get("B", {})
         group_c = progress.get("C", {})
+        expected_a_ids = [
+            "ARCH-001",
+            "ARCH-002",
+            "ARCH-003",
+            "SEC-001",
+            "SEC-002",
+            "DOC-002",
+            "DOC-003",
+            "DOC-004",
+            "TEST-TRANS-001",
+        ]
         expected_b_ids = [
             "INTEGRATION-001",
             "CODE-001",
@@ -289,21 +301,41 @@ def validate(manifest: dict, findings: dict, review_text: str) -> list[str]:
         expected_c_ids = ["PRV-001", "PRV-002", "TESTS-001", "TESTS-002", "TESTS-003"]
         if (
             progress.get("candidate_integration_complete") is not False
-            or progress.get("A", {}).get("status") != "pending_integration"
+            or progress.get("as_of") != "2026-09-23T20:28:20Z"
             or progress.get("D", {}).get("status") != "pending_integration"
         ):
             errors.append("repair progress must preserve incomplete candidate truth")
+
+        if (
+            group_a.get("finding_ids") != expected_a_ids
+            or group_a.get("status") != "merged_and_closed"
+            or group_a.get("pull_request") != 1168
+            or group_a.get("reviewed_head") != "fdc968548458d6eb448ce01a99fa4c4d9a02101d"
+            or group_a.get("merge_commit") != "c8f646dc8c90d139332315c507adbc57b0c222e2"
+            or group_a.get("candidate_inclusion_verified") is not False
+        ):
+            errors.append("Group A observed integration state")
+        group_a_map = git_blob(
+            group_a.get("reviewed_head"), group_a.get("finding_map_path")
+        )
+        if (
+            group_a_map is None
+            or hashlib.sha256(group_a_map).hexdigest() != group_a.get("finding_map_sha256")
+            or any(finding_id.encode() not in group_a_map for finding_id in expected_a_ids)
+        ):
+            errors.append("Group A finding map binding")
 
         group_b_adl = group_b.get("adl_component", {})
         group_b_website = group_b.get("website_component", {})
         if (
             group_b.get("finding_ids") != expected_b_ids
-            or group_b.get("status") != "partially_integrated"
+            or group_b.get("status") != "merged_and_closed"
             or group_b.get("candidate_inclusion_verified") is not False
             or group_b_adl.get("pull_request") != 1170
             or group_b_adl.get("reviewed_head") != "cdb48f4fea83218ddf7feb545da3b7be7fb7d345"
-            or group_b_adl.get("state") != "open_draft"
-            or group_b_adl.get("merged") is not False
+            or group_b_adl.get("state") != "merged"
+            or group_b_adl.get("merged") is not True
+            or group_b_adl.get("merge_commit") != "81a2f13503ffa67e6e14d238bff6567b5320dfc1"
             or group_b_website.get("repository") != "agent-logic/codefriend.ai"
             or group_b_website.get("pull_request") != 20
             or group_b_website.get("reviewed_head") != "8f7d28e7f6254a95721bfa8b15cd95770382607b"
@@ -417,16 +449,36 @@ def validate(manifest: dict, findings: dict, review_text: str) -> list[str]:
         if context.get("repair_issues") != expected_repairs or context.get("disposition") != "repairs_and_independent_rereviews_pending":
             errors.append("findings repair disposition")
         context_progress = context.get("repair_progress_observed", {})
-        if (
-            context_progress.get("candidate_integration_complete") is not False
-            or context_progress.get("B", {}).get("website_merge_commit")
-            != group_b_website.get("merge_commit")
-            or context_progress.get("B", {}).get("adl_merged") is not False
-            or context_progress.get("C", {}).get("merge_commit") != group_c.get("merge_commit")
-            or context_progress.get("C", {}).get("finding_map_sha256")
-            != group_c.get("finding_map_sha256")
-            or context_progress.get("C", {}).get("candidate_inclusion_verified") is not False
-        ):
+        expected_context_progress = {
+            "candidate_integration_complete": progress.get("candidate_integration_complete"),
+            "A": {
+                "status": group_a.get("status"),
+                "pull_request": group_a.get("pull_request"),
+                "reviewed_head": group_a.get("reviewed_head"),
+                "merge_commit": group_a.get("merge_commit"),
+                "finding_map_sha256": group_a.get("finding_map_sha256"),
+                "candidate_inclusion_verified": group_a.get("candidate_inclusion_verified"),
+            },
+            "B": {
+                "status": group_b.get("status"),
+                "website_pull_request": group_b_website.get("pull_request"),
+                "website_merge_commit": group_b_website.get("merge_commit"),
+                "adl_pull_request": group_b_adl.get("pull_request"),
+                "adl_reviewed_head": group_b_adl.get("reviewed_head"),
+                "adl_merge_commit": group_b_adl.get("merge_commit"),
+                "adl_merged": group_b_adl.get("merged"),
+                "candidate_inclusion_verified": group_b.get("candidate_inclusion_verified"),
+            },
+            "C": {
+                "status": group_c.get("status"),
+                "pull_request": group_c.get("pull_request"),
+                "reviewed_head": group_c.get("reviewed_head"),
+                "merge_commit": group_c.get("merge_commit"),
+                "finding_map_sha256": group_c.get("finding_map_sha256"),
+                "candidate_inclusion_verified": group_c.get("candidate_inclusion_verified"),
+            },
+        }
+        if context_progress != expected_context_progress:
             errors.append("findings repair progress")
         if internal.get("native_reconciliation_state") != "published_reconciled" or internal.get("native_reconciliation_digest") != "b3cebe78a61e8d55d7763799ba11a398f6d5e3df67c2f463a75f0a2f3c03cf18" or internal.get("accepted"):
             errors.append("internal-review reconciliation truth")
@@ -606,12 +658,25 @@ def main() -> int:
             ("changed_finding_denominator", lambda value: value["internal_review_baseline"].update(finding_counts={"P1": 4, "P2": 19, "P3": 3})),
             ("changed_repair_routing", lambda value: value["internal_review_baseline"]["repair_issues"].update(B=921)),
             ("premature_candidate_integration", lambda value: value["internal_review_baseline"]["repair_progress_observed"].update(candidate_integration_complete=True)),
+            ("changed_group_a_merge", lambda value: value["internal_review_baseline"]["repair_progress_observed"]["A"].update(merge_commit="0" * 40)),
             ("changed_group_b_website_merge", lambda value: value["internal_review_baseline"]["repair_progress_observed"]["B"]["website_component"].update(merge_commit="0" * 40)),
+            ("changed_group_b_adl_merge", lambda value: value["internal_review_baseline"]["repair_progress_observed"]["B"]["adl_component"].update(merge_commit="0" * 40)),
             ("changed_group_c_merge", lambda value: value["internal_review_baseline"]["repair_progress_observed"]["C"].update(merge_commit="0" * 40)),
         ):
             fixture = copy.deepcopy(manifest)
             mutate(fixture)
             if not validate(fixture, findings, review_text):
+                errors.append(f"negative fixture admitted: {name}")
+            negative_fixtures.append(name)
+
+        for name, mutate in (
+            ("changed_findings_group_a_identity", lambda value: value["internal_review_context"]["repair_progress_observed"]["A"].update(reviewed_head="0" * 40)),
+            ("changed_findings_group_b_head", lambda value: value["internal_review_context"]["repair_progress_observed"]["B"].update(adl_reviewed_head="0" * 40)),
+            ("changed_findings_group_c_identity", lambda value: value["internal_review_context"]["repair_progress_observed"]["C"].update(pull_request=999, status="pending")),
+        ):
+            fixture_findings = copy.deepcopy(findings)
+            mutate(fixture_findings)
+            if not validate(manifest, fixture_findings, review_text):
                 errors.append(f"negative fixture admitted: {name}")
             negative_fixtures.append(name)
 
