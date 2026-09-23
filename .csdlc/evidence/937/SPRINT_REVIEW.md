@@ -31,20 +31,25 @@ unrelated future append-only event remains valid.
 
 - `.csdlc/evidence/937/validate_coordination.py`: passed; exact ten-child
   roster and coordination evidence verified.
+- `csdlc-v3/tests/sprint_937_coordination_evidence.rs`: passed one focused
+  test over the same roster, owner, disposition, gate, and non-claim surfaces;
+  this is the native proof validator rather than an unrelated library test.
 - Native `csdlc validate 937`: passed lifecycle digest and six-card validation.
+- Native `csdlc proof 937`: passed the one focused Rust coordination test with
+  a nonzero test count and unchanged proof inputs.
 - `git diff --check`: passed.
 - Live GitHub readback confirmed #915 and #936 closed as `NOT_PLANNED` at the
   recorded timestamps and confirmed the reconciled #937 issue update.
 - Primary checkout: clean on `main`; all tracked #937 work stayed in the bound
   FastWork worktree.
 
-## Tooling limitations retained as truth
+## Tooling limitation and bounded repair
 
-- Native proof refuses the tracked Python preparation validator with
-  `intent_validator_execution_unsupported`. The native contract documents that
-  non-Cargo validators are preparation checks and must not be replaced by an
-  unrelated passing Rust test. Native proof, readiness, review, and publication
-  therefore remain incomplete.
+- Native proof correctly refused the original tracked Python declaration with
+  `intent_validator_execution_unsupported`. The Python validator remains a
+  direct preparation check. A focused Rust test now validates the same #937
+  artifacts and invariants, giving the native proof owner a truthful bounded
+  Cargo target without substituting unrelated product tests.
 - The sprint-conductor readiness helper searches for retired local task-bundle
   paths rather than the native-v3 child records. Its live truth helper also
   calls the removed `adl/tools/pr.sh`. Those helper failures are retained as

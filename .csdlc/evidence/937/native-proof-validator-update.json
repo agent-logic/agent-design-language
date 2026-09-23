@@ -1,0 +1,19 @@
+{
+  "schema": "csdlc.v3.intent_changes.v1",
+  "validators": [
+    {
+      "id": "sprint-coordination-evidence",
+      "program": "cargo",
+      "args": [
+        "test",
+        "--offline",
+        "--manifest-path",
+        "csdlc-v3/Cargo.toml",
+        "--test",
+        "sprint_937_coordination_evidence"
+      ],
+      "success_marker": "test result: ok.",
+      "timeout_seconds": 300
+    }
+  ]
+}

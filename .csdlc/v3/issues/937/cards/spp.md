@@ -38,7 +38,7 @@ source_refs:
     ref: "<sip_card>"
 scope:
   files:
-    - ".csdlc/evidence/937/SPRINT_EXECUTION_PACKET.md; .csdlc/evidence/937/activity.jsonl; .csdlc/evidence/937/sprint-state.json; native #937 cards and transaction evidence; #937 issue coordination comment."
+    - ".csdlc/evidence/937/SPRINT_EXECUTION_PACKET.md; .csdlc/evidence/937/activity.jsonl; .csdlc/evidence/937/sprint-state.json; .csdlc/evidence/937/validate_coordination.py; csdlc-v3/tests/sprint_937_coordination_evidence.rs; native #937 cards and transaction evidence; #937 issue coordination comment."
   components:
     - "<slug>"
   out_of_scope:
@@ -91,7 +91,7 @@ invariants_to_preserve:
 risks_and_edge_cases:
   - "The largest risk is confusing useful downstream preparation with accepted predecessor output. Other risks are overwriting another owner's evidence, overstating the incomplete qualification, or treating closed issue state as source-specific acceptance."
 test_strategy:
-  - "Check the packet's required sections, exact ten-child roster, dependency order, JSON/JSONL validity, current native state, live GitHub issue truth, and independent exact-head review. Treat the conductor's legacy task-bundle probe as incompatible with native-v3 child storage rather than duplicating child records."
+  - "Run the focused Python coordination validator and the focused Rust coordination-evidence test over the same roster, owner, disposition, gate, and non-claim surfaces; run native six-card validation and native proof; retain independent exact-head review. Treat the conductor's legacy task-bundle probe as incompatible with native-v3 child storage rather than duplicating child records."
 execution_handoff: "Use this SPP as the design-time plan-of-record, then hand validation-planning specifics into VPP and update both cards whenever the real execution path diverges."
 required_permissions:
   - "workspace-write after execution approval"
@@ -175,7 +175,7 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 ## Test Strategy
 
-- Check the packet's required sections, exact ten-child roster, dependency order, JSON/JSONL validity, current native state, live GitHub issue truth, and independent exact-head review. Treat the conductor's legacy task-bundle probe as incompatible with native-v3 child storage rather than duplicating child records.
+- Run the focused Python coordination validator and the focused Rust coordination-evidence test over the same roster, owner, disposition, gate, and non-claim surfaces; run native six-card validation and native proof; retain independent exact-head review. Treat the conductor's legacy task-bundle probe as incompatible with native-v3 child storage rather than duplicating child records.
 
 ## Execution Handoff
 
