@@ -63,6 +63,12 @@ impl Fixture {
             ));
         fs::create_dir_all(&root).unwrap();
         git(&root, &["init", "--quiet", "--initial-branch=main"]);
+        // These repositories are short-lived deterministic fixtures.  Do not
+        // let a Git command detach automatic maintenance after its caller has
+        // returned: the resulting maintenance.lock is transient process state,
+        // not part of the fixture's durable mutation surface.
+        git(&root, &["config", "maintenance.auto", "false"]);
+        git(&root, &["config", "gc.auto", "0"]);
         git(
             &root,
             &[
@@ -421,6 +427,12 @@ impl Drop for Fixture {
 
 pub fn inventory(root: &Path) -> std::collections::BTreeMap<PathBuf, String> {
     fn visit(root: &Path, path: &Path, entries: &mut std::collections::BTreeMap<PathBuf, String>) {
+        // Git may create and remove this exact lock asynchronously.  Excluding
+        // only the proven ephemeral lock keeps every durable object and all
+        // C-SDLC state covered by byte-for-byte inventory comparisons.
+        if path.strip_prefix(root).ok() == Some(Path::new(".git/objects/maintenance.lock")) {
+            return;
+        }
         let metadata = fs::symlink_metadata(path).unwrap();
         let value = if metadata.file_type().is_symlink() {
             format!("link:{:?}", fs::read_link(path).unwrap())
