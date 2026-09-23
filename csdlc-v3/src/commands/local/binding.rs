@@ -11,8 +11,8 @@ use super::lifecycle::inspect_lifecycle_issue_root;
 use super::results::operational_result;
 use super::storage::{persist_index, read_index_value};
 use super::transactions::{
-    begin_local_transaction, commit_pending_local_transaction, local_request_digest,
-    prepare_local_transaction_stage,
+    begin_local_transaction, bind_image_digest, commit_pending_local_transaction,
+    local_request_digest, prepare_local_transaction_stage,
 };
 use super::worktree::{
     canonical_existing_ancestor_local, ensure_bind_registration, git_worktree_registration,
@@ -126,6 +126,7 @@ pub(super) fn bind_operational_issue(
             result: result.clone(),
             bind_branch: Some(request.branch.clone()),
             bind_worktree: Some(target.clone()),
+            bind_image_digest: Some(bind_image_digest(&stage)?),
         },
     )?;
     ensure_bind_registration(
