@@ -1,11 +1,11 @@
-//! Native-proof bridge for the issue #920 preparation validator.
+//! Native-proof bridge for the issue #920 handoff validator.
 
 #[cfg(test)]
 mod tests {
     use std::{path::Path, process::Command};
 
     #[test]
-    fn preparation_packet_is_truthful_and_not_a_completed_external_review() {
+    fn handoff_packet_is_ready_and_not_a_completed_external_review() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../../..");
         let result = Command::new("python3")
             .current_dir(root)
@@ -20,7 +20,8 @@ mod tests {
         );
         let stdout = String::from_utf8(result.stdout).expect("validator stdout is UTF-8");
         assert!(stdout.contains("\"status\": \"pass\""));
-        assert!(stdout.contains("\"packet_status\": \"preparation_only\""));
+        assert!(stdout.contains("\"packet_status\": \"handoff_ready\""));
+        assert!(stdout.contains("\"handoff_ready\": true"));
         assert!(stdout.contains("\"external_review_complete\": false"));
         assert!(stdout.contains("\"negative_fixtures\": ["));
     }

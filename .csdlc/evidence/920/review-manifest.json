@@ -3,30 +3,42 @@
   "issue": 920,
   "milestone": "v0.92.2",
   "tail_stage": "TAIL-05",
-  "status": "preparation_only",
+  "status": "handoff_ready",
   "prepared_at": "2026-09-23T18:00:00Z",
   "preparation_revision": "6d78c1da473f95c4db4e0fa29f4fc2bd1d290106",
   "predecessors": {
     "documentation_handoff": {
       "issue": 917,
       "branch": "codex/917-v0922-docs-review-handoff",
-      "observed_draft_revision": "c10757270098aea35e36453c91054ea8b4f947db",
       "accepted": false,
-      "accepted_revision": null,
-      "handoff_manifest_path": null,
-      "handoff_manifest_sha256": null,
-      "refresh_required": true,
-      "note": "Observed preparation input only. Replace with the accepted TAIL-02 identity before any external handoff."
+      "accepted_for_external_review_preparation": true,
+      "accepted_revision": "c72c8cc1bf255ae2e26bb85b631ce0550fd886fc",
+      "merge_commit": "c72c8cc1bf255ae2e26bb85b631ce0550fd886fc",
+      "reviewed_revision": "e94ab771f9d3cfee5142aee584d57345a3ac6c29",
+      "handoff_manifest_path": "docs/milestones/v0.92.2/evidence/issue-917/HANDOFF_MANIFEST.json",
+      "handoff_manifest_sha256": "8fc4efc4bc5b0e9309d5fe638926d1a161f70ed3830c90ce60deb5bbf8ae2b72",
+      "acceptance_scope": "assessment_handoff_for_external_review_preparation",
+      "refresh_required": false,
+      "note": "Merged TAIL-02 assessment handoff. Its 129 hashes describe reviewed source e94ab771; merge-tree drift remains disclosed and this is not release acceptance."
     },
     "publication_finalization": {
       "issue": 918,
       "accepted": false,
-      "revision": "5c4a6149771c637f3c805985b86231077965eab4",
+      "accepted_for_external_review_preparation": true,
+      "revision": "d4575d1b34df78b80e71233e5d72cca9bc4339c2",
+      "merge_commit": "ea0df924447e77e1c34ebc54c8da92ac5749c40e",
+      "merged_at": "2026-09-23T23:41:05Z",
+      "issue_closed_at": "2026-09-23T23:41:07Z",
       "publication_manifest_path": "docs/milestones/v0.92.2/evidence/issue-918/PUBLICATION_MANIFEST.json",
-      "publication_manifest_sha256": "b4f031ae10b3c7a5216523680dfca5b1cd94cdc5d35d3206c852932d37f246c6",
-      "artifact_manifest_sha256": "b4f031ae10b3c7a5216523680dfca5b1cd94cdc5d35d3206c852932d37f246c6",
-      "refresh_required": true,
-      "note": "Exact draft reviewed by #919. Final acceptance and any post-remediation replacement candidate remain pending."
+      "publication_manifest_sha256": "6872e631b0160b676953b55d3f55796768ee2493ce727774bc76a05d61fa7d97",
+      "artifact_manifest_sha256": "6872e631b0160b676953b55d3f55796768ee2493ce727774bc76a05d61fa7d97",
+      "integration_manifest_path": "docs/milestones/v0.92.2/evidence/issue-918/INTEGRATION_RECONCILIATION.json",
+      "integration_manifest_sha256": "a1e3f2d284709da7eeae13b46eb532888b57447b7e2635dd570adbad185544a2",
+      "native_reconciliation_digest": "d02e28bceaf5391cdc626d2ceff27ea11de132cbae305e91016fc01e00fa9377",
+      "acceptance_scope": "accepted_for_external_review_preparation",
+      "release_acceptance": "pending",
+      "refresh_required": false,
+      "note": "Merged integrated evidence packet accepted only for external-review preparation. External review, release acceptance and publication authorization remain pending."
     },
     "internal_review": {
       "issue": 919,
@@ -39,19 +51,21 @@
       "review_manifest_sha256": "4ac9913d8abaf25563f80e10902edcbe790fe6c6804c86a8a51c2f8b66d957ab",
       "findings_path": "docs/milestones/v0.92.2/evidence/issue-919/full-review/findings.json",
       "findings_digest_sha256": "111229fa08f16699282a9c3365cb285f88389d20ef94d37934ba0c93bcd826d4",
-      "refresh_required": true,
-      "note": "The nine-lane source review is published and native-reconciled at the exact report revision. PR #1153 and issue #919 remain open; grouped repairs and independent re-reviews are pending.",
+      "refresh_required": false,
+      "note": "Immutable nine-lane #919 review merged with changes required. Its 27 findings remain the frozen denominator; integrated repair evidence is supplied by #918 without rewriting the historical review.",
       "native_reconciliation_state": "published_reconciled",
       "substantive_review_state": "complete_changes_required",
-      "native_reconciliation_digest": "b3cebe78a61e8d55d7763799ba11a398f6d5e3df67c2f463a75f0a2f3c03cf18"
+      "native_reconciliation_digest": "b3cebe78a61e8d55d7763799ba11a398f6d5e3df67c2f463a75f0a2f3c03cf18",
+      "accepted_for_external_review_preparation": true,
+      "merge_commit": "52756b5bc7b02e3ebf6886170ee59b55f8dc10d1"
     }
   },
   "candidate": {
     "repository": "agent-logic/agent-design-language",
-    "revision": null,
-    "artifact_manifest_path": null,
-    "artifact_manifest_sha256": null,
-    "exact_binding_complete": false
+    "revision": "d4575d1b34df78b80e71233e5d72cca9bc4339c2",
+    "artifact_manifest_path": "docs/milestones/v0.92.2/evidence/issue-918/PUBLICATION_MANIFEST.json",
+    "artifact_manifest_sha256": "6872e631b0160b676953b55d3f55796768ee2493ce727774bc76a05d61fa7d97",
+    "exact_binding_complete": true
   },
   "authorization": {
     "external_contact_authorized": false,
@@ -80,10 +94,9 @@
     "assessment_sha256": null,
     "verdict": "not_proven",
     "limitations": [
-      "The substantive #919 review found 27 issues and requires changes.",
-      "All four repair groups are merged and closed; final-candidate ancestry and retained re-review evidence across all groups are not yet assembled.",
-      "The post-remediation external-review candidate is not yet selected.",
-      "No reviewer has been contacted or assigned under external-review authority."
+      "The external review has not started and no reviewer has been contacted or assigned.",
+      "The #918 packet is accepted only as the integrated external-review preparation candidate; its release acceptance, qualification and publication authorization remain pending.",
+      "The immutable #919 review found 27 issues; the integrated #918 packet retains the four repair groups and the separate #1171/#1172 tooling follow-on without changing that denominator."
     ]
   },
   "artifacts": {
@@ -120,8 +133,8 @@
       "D": 1160
     },
     "repair_progress_observed": {
-      "as_of": "2026-09-23T23:19:11Z",
-      "candidate_integration_complete": false,
+      "as_of": "2026-09-23T23:41:07Z",
+      "candidate_integration_complete": true,
       "A": {
         "issue": 1161,
         "finding_ids": [
@@ -143,8 +156,8 @@
         "issue_closed_at": "2026-09-23T20:21:26Z",
         "finding_map_path": "docs/csdlc-v3/evidence/issue-1161/REMEDIATION.md",
         "finding_map_sha256": "34f11ce273c03d7227982f76cf8d2163f0d9e40461c4cd2be31ac30cfabe6e21",
-        "candidate_inclusion_verified": false,
-        "note": "The repair PR is merged and its issue is closed. Final-candidate ancestry and the retained independent re-review record must still be bound when the external-review candidate is selected."
+        "candidate_inclusion_verified": true,
+        "note": "The repair PR is merged, the issue is closed, and the merge is an ancestor of the bound #918 candidate."
       },
       "B": {
         "issue": 1162,
@@ -177,8 +190,8 @@
           "merged_at": "2026-09-23T20:00:24Z",
           "state": "merged"
         },
-        "candidate_inclusion_verified": false,
-        "note": "Both repository components are merged and the ADL issue is closed. Proof that both components belong to the final external-review candidate remains pending. The bound finding map predates both merges and is retained as source mapping rather than current integration status."
+        "candidate_inclusion_verified": true,
+        "note": "Both repository components are merged. The ADL merge is an ancestor of the bound #918 candidate; the exact CodeFriend merge identity is retained as cross-repository integration evidence. The source map predates both merges and remains source mapping rather than current status."
       },
       "C": {
         "issue": 1159,
@@ -197,8 +210,8 @@
         "issue_closed_at": "2026-09-23T20:05:00Z",
         "finding_map_path": "docs/validation/issue1159/FINDING_FIX_PROOF.json",
         "finding_map_sha256": "a921df9a2c20f128067cbf1a816d96c8d85b2c0b1c7a1c6c88b25f1d930758e5",
-        "candidate_inclusion_verified": false,
-        "note": "The repair PR is merged and its issue is closed. Final-candidate ancestry and the retained independent re-review record must still be bound when the external-review candidate is selected."
+        "candidate_inclusion_verified": true,
+        "note": "The repair PR is merged, the issue is closed, and the merge is an ancestor of the bound #918 candidate."
       },
       "D": {
         "issue": 1160,
@@ -218,8 +231,8 @@
         "issue_closed_at": "2026-09-23T23:19:11Z",
         "finding_map_path": "tools/groupd_validation/README.md",
         "finding_map_sha256": "19f9d79c58f7f0f7511ff5f81a794dcb4080518d5ab12a8e49825fa898f40b7c",
-        "candidate_inclusion_verified": false,
-        "note": "The repair PR is merged and its issue is closed. Final-candidate ancestry and the retained independent re-review record must still be bound when the external-review candidate is selected. CI-1160-001 is retained as a subsequent finding outside the frozen #919 denominator."
+        "candidate_inclusion_verified": true,
+        "note": "The repair PR is merged, the issue is closed, and the merge is an ancestor of the bound #918 candidate. CI-1160-001 remains a subsequent finding outside the frozen #919 denominator."
       }
     },
     "integration_tooling_follow_on": {
@@ -231,8 +244,8 @@
       "outside_frozen_finding_denominator": true,
       "note": "Required integration-tooling repair for safe retirement of never-dispatched merge attempts. It is relevant to the integration sequence but is not a #919 finding and does not change the frozen denominator of 27."
     },
-    "repair_state": "in_progress",
-    "independent_rereview_state": "pending",
+    "repair_state": "integrated_for_external_review_preparation",
+    "independent_rereview_state": "integrated_packet_reviewed",
     "source_records": {
       "run_manifest": {
         "path": "docs/milestones/v0.92.2/evidence/issue-919/full-review/run_manifest.json",

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate TAIL-05 preparation or completed external-review packet truth."""
+"""Validate TAIL-05 preparation, handoff-ready, or completed packet truth."""
 
 import hashlib
 import copy
@@ -66,6 +66,17 @@ def git_commit_exists(revision: object) -> bool:
         return False
     return subprocess.run(
         ["git", "cat-file", "-e", f"{revision}^{{commit}}"],
+        cwd=ROOT,
+        capture_output=True,
+        check=False,
+    ).returncode == 0
+
+
+def git_is_ancestor(ancestor: object, descendant: object) -> bool:
+    if not git_commit_exists(ancestor) or not git_commit_exists(descendant):
+        return False
+    return subprocess.run(
+        ["git", "merge-base", "--is-ancestor", str(ancestor), str(descendant)],
         cwd=ROOT,
         capture_output=True,
         check=False,
@@ -538,8 +549,358 @@ def validate(manifest: dict, findings: dict, review_text: str) -> list[str]:
         for key in ("documentation_handoff", "publication_finalization", "internal_review"):
             if predecessors.get(key, {}).get("accepted"):
                 errors.append(f"preparation must not accept {key}")
+    elif status == "handoff_ready":
+        if "handoff ready; external review has not started" not in review_text:
+            errors.append("handoff-ready disclosure")
+        if review.get("state") != "not_started" or review.get("verdict") != "not_proven":
+            errors.append("handoff-ready review state")
+        if findings.get("status") != "not_started" or findings.get("findings"):
+            errors.append("handoff-ready findings state")
+        if authorization.get("external_contact_authorized") or authorization.get(
+            "disclosure_scope_approved"
+        ):
+            errors.append("handoff-ready packet must not claim authorization")
+        if reviewer.get("identity") is not None:
+            errors.append("handoff-ready packet must not assign reviewer")
+
+        required_candidate = (
+            candidate.get("revision"),
+            candidate.get("artifact_manifest_path"),
+            candidate.get("artifact_manifest_sha256"),
+        )
+        if not all(nonempty(value) for value in required_candidate):
+            errors.append("handoff-ready candidate identity")
+        if candidate.get("revision") != "d4575d1b34df78b80e71233e5d72cca9bc4339c2":
+            errors.append("handoff-ready exact candidate revision")
+        if not candidate.get("exact_binding_complete"):
+            errors.append("handoff-ready exact candidate binding")
+        candidate_manifest = git_json(
+            candidate.get("revision"),
+            candidate.get("artifact_manifest_path"),
+            candidate.get("artifact_manifest_sha256"),
+        )
+        if not isinstance(candidate_manifest, dict):
+            errors.append("handoff-ready candidate manifest binding")
+        elif (
+            candidate_manifest.get("schema") != "adl.v0922.publication_packet.v1"
+            or candidate_manifest.get("issue") != 918
+            or candidate_manifest.get("status") != "draft_for_external_review"
+            or candidate_manifest.get("final_acceptance") != "pending"
+            or candidate_manifest.get("release_approved") is not False
+            or candidate_manifest.get("publication_authorized") is not False
+        ):
+            errors.append("handoff-ready candidate manifest contract")
+
+        documentation = predecessors.get("documentation_handoff", {})
+        publication = predecessors.get("publication_finalization", {})
+        internal = predecessors.get("internal_review", {})
+        if any(
+            predecessors.get(key, {}).get("accepted")
+            for key in ("documentation_handoff", "publication_finalization", "internal_review")
+        ):
+            errors.append("handoff-ready packet must not claim broad predecessor acceptance")
+        if not all(
+            predecessors.get(key, {}).get("accepted_for_external_review_preparation") is True
+            for key in ("documentation_handoff", "publication_finalization", "internal_review")
+        ):
+            errors.append("handoff-ready scoped predecessor acceptance")
+
+        documentation_manifest = git_json(
+            documentation.get("accepted_revision"),
+            documentation.get("handoff_manifest_path"),
+            documentation.get("handoff_manifest_sha256"),
+        )
+        if (
+            documentation.get("issue") != 917
+            or documentation.get("accepted_revision")
+            != "c72c8cc1bf255ae2e26bb85b631ce0550fd886fc"
+            or documentation.get("merge_commit") != "c72c8cc1bf255ae2e26bb85b631ce0550fd886fc"
+            or documentation.get("reviewed_revision")
+            != "e94ab771f9d3cfee5142aee584d57345a3ac6c29"
+            or not isinstance(documentation_manifest, dict)
+            or documentation_manifest.get("schema")
+            != "adl.v0922.documentation_handoff.v1"
+            or documentation_manifest.get("issue") != 917
+            or documentation_manifest.get("acceptance") != "assessment_handoff"
+        ):
+            errors.append("handoff-ready documentation predecessor")
+
+        publication_manifest = git_json(
+            publication.get("revision"),
+            publication.get("publication_manifest_path"),
+            publication.get("publication_manifest_sha256"),
+        )
+        integration_manifest = git_json(
+            publication.get("revision"),
+            publication.get("integration_manifest_path"),
+            publication.get("integration_manifest_sha256"),
+        )
+        if (
+            publication.get("issue") != 918
+            or publication.get("revision")
+            != "d4575d1b34df78b80e71233e5d72cca9bc4339c2"
+            or publication.get("merge_commit")
+            != "ea0df924447e77e1c34ebc54c8da92ac5749c40e"
+            or publication.get("merged_at") != "2026-09-23T23:41:05Z"
+            or publication.get("issue_closed_at") != "2026-09-23T23:41:07Z"
+            or publication.get("native_reconciliation_digest")
+            != "d02e28bceaf5391cdc626d2ceff27ea11de132cbae305e91016fc01e00fa9377"
+            or publication.get("revision") != candidate.get("revision")
+            or publication.get("publication_manifest_path")
+            != candidate.get("artifact_manifest_path")
+            or publication.get("publication_manifest_sha256")
+            != candidate.get("artifact_manifest_sha256")
+            or publication.get("acceptance_scope")
+            != "accepted_for_external_review_preparation"
+            or publication.get("release_acceptance") != "pending"
+            or publication_manifest != candidate_manifest
+            or not isinstance(integration_manifest, dict)
+            or integration_manifest.get("schema")
+            != "adl.v0922.publication_integration.v1"
+            or integration_manifest.get("external_review") != "not_completed"
+            or integration_manifest.get("release_approved") is not False
+            or integration_manifest.get("follow_on_in_frozen_denominator") is not False
+        ):
+            errors.append("handoff-ready publication predecessor")
+        publication_merge = publication.get("merge_commit")
+        if not git_is_ancestor(candidate.get("revision"), publication_merge):
+            errors.append("handoff-ready publication merge ancestry")
+
+        internal_manifest = git_json(
+            internal.get("review_revision"),
+            internal.get("review_manifest_path"),
+            internal.get("review_manifest_sha256"),
+        )
+        internal_findings = git_json(
+            internal.get("review_revision"),
+            internal.get("findings_path"),
+            internal.get("findings_digest_sha256"),
+        )
+        if (
+            internal.get("issue") != 919
+            or internal.get("review_revision")
+            != "6fc19987dcb9aaa347e61e6185f4ae1718e5ec6c"
+            or internal.get("merge_commit")
+            != "52756b5bc7b02e3ebf6886170ee59b55f8dc10d1"
+            or internal.get("reviewed_candidate_revision")
+            != "5c4a6149771c637f3c805985b86231077965eab4"
+            or internal.get("substantive_review_state") != "complete_changes_required"
+            or not isinstance(internal_manifest, dict)
+            or internal_manifest.get("status") != "review_complete_changes_required"
+            or internal_manifest.get("finding_counts") != {"P1": 4, "P2": 20, "P3": 3}
+            or not isinstance(internal_findings, list)
+            or len(internal_findings) != 27
+        ):
+            errors.append("handoff-ready internal-review predecessor")
+
+        integrated_ancestors = {
+            "documentation handoff": "c72c8cc1bf255ae2e26bb85b631ce0550fd886fc",
+            "internal review": "52756b5bc7b02e3ebf6886170ee59b55f8dc10d1",
+            "Group A": "c8f646dc8c90d139332315c507adbc57b0c222e2",
+            "Group B": "81a2f13503ffa67e6e14d238bff6567b5320dfc1",
+            "Group C": "02c0aa707f17ed013cbf872222615411a78b4166",
+            "Group D": "78f57f97c2b9e5e90301e132434d98ba2fcbc2e6",
+            "integration tooling follow-on": "ee90f97a3d9fe31e08c3ba53af6b4d706a560788",
+        }
+        for label, revision in integrated_ancestors.items():
+            if not git_is_ancestor(revision, candidate.get("revision")):
+                errors.append(f"handoff-ready candidate missing {label} ancestry")
+
+        baseline = manifest.get("internal_review_baseline", {})
+        progress = baseline.get("repair_progress_observed", {})
+        expected_repair_issues = {"A": 1161, "B": 1162, "C": 1159, "D": 1160}
+        expected_ids = {
+            "A": [
+                "ARCH-001", "ARCH-002", "ARCH-003", "SEC-001", "SEC-002",
+                "DOC-002", "DOC-003", "DOC-004", "TEST-TRANS-001",
+            ],
+            "B": [
+                "INTEGRATION-001", "CODE-001", "CODE-002", "SEC-003",
+                "SEC-004", "DEP-001", "DEMOS-001",
+            ],
+            "C": ["PRV-001", "PRV-002", "TESTS-001", "TESTS-002", "TESTS-003"],
+            "D": ["DEP-002", "DEP-003", "DEP-004", "SYN-006", "DOC-001", "DOC-SUP-001"],
+        }
+        if (
+            progress.get("candidate_integration_complete") is not True
+            or any(progress.get(group, {}).get("candidate_inclusion_verified") is not True for group in "ABCD")
+            or baseline.get("repair_state") != "integrated_for_external_review_preparation"
+            or baseline.get("finding_counts") != {"P1": 4, "P2": 20, "P3": 3}
+            or baseline.get("repair_issues") != expected_repair_issues
+            or progress.get("as_of") != "2026-09-23T23:41:07Z"
+            or baseline.get("integration_tooling_follow_on", {}).get(
+                "outside_frozen_finding_denominator"
+            )
+            is not True
+        ):
+            errors.append("handoff-ready integrated repair truth")
+
+        group_a = progress.get("A", {})
+        if (
+            group_a.get("issue") != 1161
+            or group_a.get("finding_ids") != expected_ids["A"]
+            or group_a.get("status") != "merged_and_closed"
+            or group_a.get("pull_request") != 1168
+            or group_a.get("reviewed_head") != "fdc968548458d6eb448ce01a99fa4c4d9a02101d"
+            or group_a.get("merge_commit") != "c8f646dc8c90d139332315c507adbc57b0c222e2"
+            or group_a.get("finding_map_path")
+            != "docs/csdlc-v3/evidence/issue-1161/REMEDIATION.md"
+            or group_a.get("finding_map_sha256")
+            != "34f11ce273c03d7227982f76cf8d2163f0d9e40461c4cd2be31ac30cfabe6e21"
+        ):
+            errors.append("handoff-ready Group A repair identity")
+        group_a_map = git_blob(group_a.get("reviewed_head"), group_a.get("finding_map_path"))
+        if (
+            group_a_map is None
+            or hashlib.sha256(group_a_map).hexdigest() != group_a.get("finding_map_sha256")
+            or any(finding_id.encode() not in group_a_map for finding_id in expected_ids["A"])
+        ):
+            errors.append("handoff-ready Group A finding map")
+
+        group_b = progress.get("B", {})
+        group_b_adl = group_b.get("adl_component", {})
+        group_b_website = group_b.get("website_component", {})
+        if (
+            group_b.get("issue") != 1162
+            or group_b.get("finding_ids") != expected_ids["B"]
+            or group_b.get("status") != "merged_and_closed"
+            or group_b_adl.get("pull_request") != 1170
+            or group_b_adl.get("reviewed_head") != "cdb48f4fea83218ddf7feb545da3b7be7fb7d345"
+            or group_b_adl.get("merge_commit") != "81a2f13503ffa67e6e14d238bff6567b5320dfc1"
+            or group_b_adl.get("finding_map_path") != ".csdlc/evidence/1162/FINDING_DISPOSITIONS.md"
+            or group_b_adl.get("finding_map_sha256")
+            != "c563d5f8131f35028258da24850d7c3650422d06335d0c29f96af3cad63c613a"
+            or group_b_website.get("repository") != "agent-logic/codefriend.ai"
+            or group_b_website.get("pull_request") != 20
+            or group_b_website.get("reviewed_head") != "8f7d28e7f6254a95721bfa8b15cd95770382607b"
+            or group_b_website.get("merge_commit") != "8b0c5fd12423494c7fed27059321b217d7dff430"
+        ):
+            errors.append("handoff-ready Group B repair identity")
+        group_b_map = git_blob(
+            group_b_adl.get("reviewed_head"), group_b_adl.get("finding_map_path")
+        )
+        if (
+            group_b_map is None
+            or hashlib.sha256(group_b_map).hexdigest() != group_b_adl.get("finding_map_sha256")
+            or any(finding_id.encode() not in group_b_map for finding_id in expected_ids["B"])
+        ):
+            errors.append("handoff-ready Group B finding map")
+
+        group_c = progress.get("C", {})
+        if (
+            group_c.get("issue") != 1159
+            or group_c.get("finding_ids") != expected_ids["C"]
+            or group_c.get("status") != "merged_and_closed"
+            or group_c.get("pull_request") != 1163
+            or group_c.get("reviewed_head") != "de8574324b087366423d6d60911ab63e274ad280"
+            or group_c.get("merge_commit") != "02c0aa707f17ed013cbf872222615411a78b4166"
+            or group_c.get("finding_map_path") != "docs/validation/issue1159/FINDING_FIX_PROOF.json"
+            or group_c.get("finding_map_sha256")
+            != "a921df9a2c20f128067cbf1a816d96c8d85b2c0b1c7a1c6c88b25f1d930758e5"
+        ):
+            errors.append("handoff-ready Group C repair identity")
+        group_c_map = git_json(
+            group_c.get("reviewed_head"),
+            group_c.get("finding_map_path"),
+            group_c.get("finding_map_sha256"),
+        )
+        if (
+            not isinstance(group_c_map, dict)
+            or [item.get("finding") for item in group_c_map.get("findings", [])]
+            != expected_ids["C"]
+        ):
+            errors.append("handoff-ready Group C finding map")
+
+        group_d = progress.get("D", {})
+        if (
+            group_d.get("issue") != 1160
+            or group_d.get("finding_ids") != expected_ids["D"]
+            or group_d.get("status") != "merged_and_closed"
+            or group_d.get("pull_request") != 1164
+            or group_d.get("reviewed_head") != "8a409c7c327f6203e45b810c9566c9c70e6c0b50"
+            or group_d.get("merge_commit") != "78f57f97c2b9e5e90301e132434d98ba2fcbc2e6"
+            or group_d.get("finding_map_path") != "tools/groupd_validation/README.md"
+            or group_d.get("finding_map_sha256")
+            != "19f9d79c58f7f0f7511ff5f81a794dcb4080518d5ab12a8e49825fa898f40b7c"
+        ):
+            errors.append("handoff-ready Group D repair identity")
+        group_d_map = git_blob(group_d.get("reviewed_head"), group_d.get("finding_map_path"))
+        if (
+            group_d_map is None
+            or hashlib.sha256(group_d_map).hexdigest() != group_d.get("finding_map_sha256")
+            or any(finding_id.encode() not in group_d_map for finding_id in expected_ids["D"])
+        ):
+            errors.append("handoff-ready Group D finding map")
+
+        follow_on = baseline.get("integration_tooling_follow_on", {})
+        expected_follow_on_baseline = {
+            "issue": 1171,
+            "pull_request": 1172,
+            "reviewed_head": "52b8e12177a74f036c044124c55867c1893e0628",
+            "merge_commit": "ee90f97a3d9fe31e08c3ba53af6b4d706a560788",
+            "status": "merged_and_closed",
+            "outside_frozen_finding_denominator": True,
+        }
+        if any(follow_on.get(key) != value for key, value in expected_follow_on_baseline.items()):
+            errors.append("handoff-ready integration-tooling follow-on")
+        context_progress = findings.get("internal_review_context", {}).get(
+            "repair_progress_observed", {}
+        )
+        if (
+            context_progress.get("candidate_integration_complete") is not True
+            or any(
+                context_progress.get(group, {}).get("candidate_inclusion_verified") is not True
+                for group in "ABCD"
+            )
+            or findings.get("internal_review_context", {}).get("disposition")
+            != "repairs_integrated_external_review_not_started"
+        ):
+            errors.append("handoff-ready findings integration truth")
+        context = findings.get("internal_review_context", {})
+        expected_context_identities = {
+            "A": {
+                "reviewed_head": "fdc968548458d6eb448ce01a99fa4c4d9a02101d",
+                "merge_commit": "c8f646dc8c90d139332315c507adbc57b0c222e2",
+            },
+            "B": {
+                "adl_reviewed_head": "cdb48f4fea83218ddf7feb545da3b7be7fb7d345",
+                "adl_merge_commit": "81a2f13503ffa67e6e14d238bff6567b5320dfc1",
+                "website_merge_commit": "8b0c5fd12423494c7fed27059321b217d7dff430",
+            },
+            "C": {
+                "pull_request": 1163,
+                "status": "merged_and_closed",
+                "reviewed_head": "de8574324b087366423d6d60911ab63e274ad280",
+                "merge_commit": "02c0aa707f17ed013cbf872222615411a78b4166",
+            },
+            "D": {
+                "pull_request": 1164,
+                "status": "merged_and_closed",
+                "reviewed_head": "8a409c7c327f6203e45b810c9566c9c70e6c0b50",
+                "merge_commit": "78f57f97c2b9e5e90301e132434d98ba2fcbc2e6",
+            },
+        }
+        if any(
+            any(context_progress.get(group, {}).get(key) != expected for key, expected in values.items())
+            for group, values in expected_context_identities.items()
+        ):
+            errors.append("handoff-ready findings repair identities")
+        expected_follow_on = {
+            "issue": 1171,
+            "pull_request": 1172,
+            "reviewed_head": "52b8e12177a74f036c044124c55867c1893e0628",
+            "merge_commit": "ee90f97a3d9fe31e08c3ba53af6b4d706a560788",
+            "status": "merged_and_closed",
+            "outside_frozen_finding_denominator": True,
+        }
+        context_follow_on = context.get("integration_tooling_follow_on", {})
+        if any(context_follow_on.get(key) != value for key, value in expected_follow_on.items()):
+            errors.append("handoff-ready findings follow-on identity")
     elif status == "complete":
-        if "external review has not started" in review_text:
+        if (
+            "Status: **preparation only; external review has not started**." in review_text
+            or "Status: **handoff ready; external review has not started**." in review_text
+        ):
             errors.append("stale preparation disclosure")
         required_strings = [
             candidate.get("revision"),
@@ -724,6 +1085,44 @@ def main() -> int:
                 errors.append(f"negative fixture admitted: {name}")
             negative_fixtures.append(name)
 
+    if manifest.get("status") == "handoff_ready":
+        for name, mutate in (
+            ("handoff_invented_contact_authority", lambda value: value["authorization"].update(external_contact_authorized=True)),
+            ("handoff_invented_reviewer", lambda value: value["reviewer"].update(identity="unverified-reviewer")),
+            ("handoff_substituted_candidate", lambda value: value["candidate"].update(revision="0" * 40)),
+            ("handoff_reachable_candidate_substitution", lambda value: (value["candidate"].update(revision="ea0df924447e77e1c34ebc54c8da92ac5749c40e"), value["predecessors"]["publication_finalization"].update(revision="ea0df924447e77e1c34ebc54c8da92ac5749c40e"))),
+            ("handoff_substituted_manifest", lambda value: value["candidate"].update(artifact_manifest_sha256="0" * 64)),
+            ("handoff_changed_publication_merge", lambda value: value["predecessors"]["publication_finalization"].update(merge_commit="0" * 40)),
+            ("handoff_real_publication_merge_substitution", lambda value: value["predecessors"]["publication_finalization"].update(merge_commit="d4575d1b34df78b80e71233e5d72cca9bc4339c2")),
+            ("handoff_changed_native_reconciliation", lambda value: value["predecessors"]["publication_finalization"].update(native_reconciliation_digest="0" * 64)),
+            ("handoff_changed_publication_timestamp", lambda value: value["predecessors"]["publication_finalization"].update(merged_at="2099-01-01T00:00:00Z")),
+            ("handoff_changed_documentation_manifest", lambda value: value["predecessors"]["documentation_handoff"].update(handoff_manifest_sha256="0" * 64)),
+            ("handoff_reachable_documentation_revision_substitution", lambda value: value["predecessors"]["documentation_handoff"].update(accepted_revision="d4575d1b34df78b80e71233e5d72cca9bc4339c2")),
+            ("handoff_changed_internal_merge", lambda value: value["predecessors"]["internal_review"].update(merge_commit="0" * 40)),
+            ("handoff_reachable_internal_revision_substitution", lambda value: value["predecessors"]["internal_review"].update(review_revision="52756b5bc7b02e3ebf6886170ee59b55f8dc10d1")),
+            ("handoff_removed_candidate_integration", lambda value: value["internal_review_baseline"]["repair_progress_observed"].update(candidate_integration_complete=False)),
+            ("handoff_removed_group_inclusion", lambda value: value["internal_review_baseline"]["repair_progress_observed"]["D"].update(candidate_inclusion_verified=False)),
+            ("handoff_removed_group_a_finding", lambda value: value["internal_review_baseline"]["repair_progress_observed"]["A"]["finding_ids"].pop()),
+            ("handoff_duplicated_group_d_findings", lambda value: value["internal_review_baseline"]["repair_progress_observed"]["D"].update(finding_ids=["DEP-002"] * 6)),
+            ("handoff_changed_group_a_map", lambda value: value["internal_review_baseline"]["repair_progress_observed"]["A"].update(finding_map_sha256="0" * 64)),
+            ("handoff_changed_group_d_head", lambda value: value["internal_review_baseline"]["repair_progress_observed"]["D"].update(reviewed_head="0" * 40)),
+            ("handoff_changed_follow_on_identity", lambda value: value["internal_review_baseline"]["integration_tooling_follow_on"].update(merge_commit="0" * 40)),
+            ("handoff_changed_finding_denominator", lambda value: value["internal_review_baseline"].update(finding_counts={"P1": 4, "P2": 19, "P3": 3})),
+        ):
+            fixture = copy.deepcopy(manifest)
+            mutate(fixture)
+            if not validate(fixture, findings, review_text):
+                errors.append(f"negative fixture admitted: {name}")
+            negative_fixtures.append(name)
+
+        fixture_findings = copy.deepcopy(findings)
+        fixture_findings["internal_review_context"]["repair_progress_observed"]["A"].update(
+            candidate_inclusion_verified=False
+        )
+        if not validate(manifest, fixture_findings, review_text):
+            errors.append("negative fixture admitted: handoff_findings_removed_group_inclusion")
+        negative_fixtures.append("handoff_findings_removed_group_inclusion")
+
         for name, mutate in (
             ("changed_findings_group_a_identity", lambda value: value["internal_review_context"]["repair_progress_observed"]["A"].update(reviewed_head="0" * 40)),
             ("changed_findings_group_b_head", lambda value: value["internal_review_context"]["repair_progress_observed"]["B"].update(adl_reviewed_head="0" * 40)),
@@ -808,6 +1207,9 @@ def main() -> int:
     )
     completed_text = review_text.replace(
         "Status: **preparation only; external review has not started**.",
+        "Status: **external review complete**.",
+    ).replace(
+        "Status: **handoff ready; external review has not started**.",
         "Status: **external review complete**.",
     )
     fabricated_errors = validate(fabricated, fabricated_findings, completed_text)
@@ -969,7 +1371,8 @@ def main() -> int:
         "schema": "adl.external_review_packet_validation.v1",
         "status": "pass" if not errors else "fail",
         "packet_status": manifest.get("status"),
-        "packet_structurally_complete": manifest.get("status") == "complete" and not errors,
+        "packet_structurally_complete": manifest.get("status") in {"handoff_ready", "complete"} and not errors,
+        "handoff_ready": manifest.get("status") == "handoff_ready" and not errors,
         "external_review_complete": False,
         "errors": errors,
         "negative_fixtures": negative_fixtures,

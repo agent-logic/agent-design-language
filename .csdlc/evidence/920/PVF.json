@@ -1,10 +1,10 @@
 {
   "issue": 920,
   "lane": "docs_only",
-  "proof_role": "Execute the focused packet validator through native Cargo proof admission; validate preparation truth and fail closed when completed-state candidate or predecessor bytes are not bound to their declared Git revisions and accepted typed semantics, or when authorization, independence or findings intake is absent",
+  "proof_role": "Execute the focused packet validator through native Cargo proof admission; validate the scoped handoff-ready state and fail closed when candidate, merge ancestry, predecessor bytes or frozen finding identities drift, while rejecting invented authorization, reviewer identity or external completion",
   "determinism": "local deterministic JSON and Markdown contract checks",
   "resources": "local CPU, files, Python3 and Cargo; no network, reviewer, provider or external effects",
-  "release_gate": "Preparation proof only; does not establish external review completion, #919 acceptance or release authorization",
+  "release_gate": "External-review handoff proof only; does not establish external review completion, contact or disclosure authorization, qualification, release acceptance or publication authorization",
   "validator": ".csdlc/evidence/920/validate_external_review_packet.py",
   "native_bridge": ".csdlc/evidence/920/validation/Cargo.toml"
 }

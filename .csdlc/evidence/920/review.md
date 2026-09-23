@@ -1,15 +1,24 @@
 # v0.92.2 external-review handoff
 
-Status: **preparation only; external review has not started**.
+Status: **handoff ready; external review has not started**.
 
 This is the reviewer entry document for TAIL-05/#920. The full internal source
 review is available, but it returned **changes required**. Its 27 findings were
-routed through four aggregate issues. Groups A, B, C and D are now merged and
-closed; final candidate evidence assembly remains pending. The #919 report
-is published and native-reconciled at that revision; PR #1153 and issue #919
-remain open.
-No external reviewer has been contacted, no disclosure has been authorized,
-and no post-remediation external-review candidate has been selected.
+routed through four aggregate issues. Groups A, B, C and D are merged, closed,
+and integrated into the exact #918 candidate. The #919 report remains immutable
+changes-required evidence, while #918 supplies the post-remediation integration
+record. No external reviewer has been contacted, no disclosure has been
+authorized, and the external review has not started.
+
+The handoff candidate is `d4575d1b34df78b80e71233e5d72cca9bc4339c2`.
+Its publication manifest is
+`docs/milestones/v0.92.2/evidence/issue-918/PUBLICATION_MANIFEST.json`, SHA-256
+`6872e631b0160b676953b55d3f55796768ee2493ce727774bc76a05d61fa7d97`.
+PR #1154 merged that reviewed head at
+`ea0df924447e77e1c34ebc54c8da92ac5749c40e`. This is acceptance for
+external-review preparation only. Qualification, release acceptance,
+publication authorization, disclosure authorization and external-review results
+remain pending.
 
 Later integration facts are retained without changing that boundary. Group A
 merged as ADL PR #1168 at `c8f646dc8c90d139332315c507adbc57b0c222e2`.
@@ -18,8 +27,9 @@ The CodeFriend website and ADL components of Group B merged as CodeFriend PR
 `81a2f13503ffa67e6e14d238bff6567b5320dfc1`. Group C merged as ADL PR #1163
 at `02c0aa707f17ed013cbf872222615411a78b4166`. Group D merged as ADL PR #1164
 at `78f57f97c2b9e5e90301e132434d98ba2fcbc2e6`. All four repair issues are
-closed. These facts do not select the final candidate or prove that all repair
-and re-review evidence has been assembled for external dispatch.
+closed. These facts are bound by the integrated #918 candidate and its
+reconciliation record. They establish a reviewable handoff packet; they do not
+authorize external dispatch or establish release readiness.
 
 ## Frozen internal-review baseline
 
@@ -33,9 +43,8 @@ The internal review is immutable evidence about this exact baseline:
 - report result: `changes_required`
 - finding denominator: 27 total (4 P1, 20 P2, 3 P3)
 
-The baseline is not automatically the external-review target. After repairs
-and independent re-review, update `review-manifest.json` with the exact
-post-remediation candidate and accepted predecessor identities. Do not silently
+The baseline is not the external-review target. The post-remediation candidate
+is bound separately above and in `review-manifest.json`. Do not silently
 reinterpret the frozen findings against changed bytes.
 
 ## Packet access and identity checks
@@ -68,10 +77,10 @@ for repair, without merging or weakening individual finding identities:
 
 | Group | Issue | Scope | Findings | Current disposition |
 | --- | ---: | --- | ---: | --- |
-| A | #1161 | C-SDLC recovery and operator contracts | 9 | PR #1168 merged and issue closed; final candidate ancestry and re-review evidence binding pending |
-| B | #1162 | CodeFriend and website interoperability/integrity | 7 | website PR #20 and ADL PR #1170 merged; issue closed; final candidate ancestry and re-review evidence binding pending |
-| C | #1159 | Runtime/provider health and regression proof | 5 | PR #1163 merged and issue closed; final candidate ancestry and re-review evidence binding pending |
-| D | #1160 | Reproducible validation and release evidence | 6 | PR #1164 merged and issue closed; final candidate ancestry and re-review evidence binding pending |
+| A | #1161 | C-SDLC recovery and operator contracts | 9 | PR #1168 merged and issue closed; merge is an ancestor of the bound candidate |
+| B | #1162 | CodeFriend and website interoperability/integrity | 7 | website PR #20 and ADL PR #1170 merged; exact cross-repository identity retained and ADL merge is an ancestor of the bound candidate |
+| C | #1159 | Runtime/provider health and regression proof | 5 | PR #1163 merged and issue closed; merge is an ancestor of the bound candidate |
+| D | #1160 | Reproducible validation and release evidence | 6 | PR #1164 merged and issue closed; merge is an ancestor of the bound candidate |
 
 All 27 findings map exactly once. Issue creation and work in progress do not
 establish a fix. Before external dispatch, record each finding's repair commit,
@@ -116,9 +125,9 @@ never-dispatched merge attempt safely. Reviewed head
 the integration sequence but is not a #919 finding and does not change the
 frozen denominator of 27.
 
-The activated packet must replace this progress snapshot with exact evidence
-from the integrated candidate. It must prove candidate ancestry and retain each
-group's independent exact-head re-review before external contact.
+The packet now binds exact evidence from the integrated candidate and proves
+the ADL repair and follow-on merge ancestry. External contact still requires a
+separately authorized reviewer and disclosure scope.
 
 ## Reproduction guide
 
@@ -158,8 +167,8 @@ and refresh the packet.
 
 ## External review scope
 
-Review the exact post-remediation candidate and artifact manifest eventually
-recorded in `review-manifest.json`. Assess whether the v0.92.2 Beta 1 claims are
+Review the exact post-remediation candidate and artifact manifest recorded in
+`review-manifest.json`. Assess whether the v0.92.2 Beta 1 claims are
 supported by the provided source and retained evidence, with particular
 attention to:
 
@@ -177,9 +186,9 @@ validators or green CI alone.
 
 ## Required source set
 
-The activated packet must add exact accepted #917 and #918 identities, the
-post-remediation candidate and the completed repair/re-review disposition
-records to the #919 sources above. It must also include:
+The packet includes exact scoped #917 and #918 preparation identities, the
+post-remediation candidate and integrated repair records alongside the #919
+sources above. The external reviewer must also receive:
 
 - `docs/milestones/v0.92.2/RELEASE_PLAN_v0.92.2.md`;
 - `docs/milestones/v0.92.2/QUALITY_GATE_v0.92.2.md`;
