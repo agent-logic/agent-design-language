@@ -53,7 +53,7 @@ assumptions:
   - "The linked source issue prompt, STP, and SIP remain the canonical design-time inputs."
 proposed_steps:
   - id: "step-1"
-    description: "Confirm dependency readiness and starting state: #912, #913, and #914 are closed. #915 has an operator-approved incomplete/deferred disposition in progress under Planning #7.3, with Sprint 10 accounting closeout in #936 under Planning #11. #916 remains not_proven and must decide the quality gate truthfully. Final acceptance remains strictly serial from #916 through #925; #925 additionally requires accepted #910 and #911 outputs plus exact human release authority."
+    description: "Confirm dependency readiness and starting state: #912, #913, and #914 are closed. #915 and #936 are now closed as NOT_PLANNED under the operator-approved incomplete/deferred Sprint 10 disposition; #1148, #1149, and #1150 retain the unmet work and no PASS is claimed. #916 remains not_proven and must decide the quality gate truthfully. Final acceptance remains strictly serial from #916 through #925; #925 additionally requires accepted #910 and #911 outputs plus exact human release authority."
     expected_output: "<sip_card>"
     allowed_mode: "design_review_then_execution"
   - id: "step-2"
@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "Planning #11 owns #916, #922, and #936; Planning #4.5 owns #917 preparation; Worker #10 owns #918 preparation; Worker #9 supplies read-only #916 audit support; Planning #7.3 owns #915 incomplete/deferred closeout. Main-checkout .csdlc/evidence/918 residue belongs to Worker #10 and must remain untouched."
+notes: "Planning #11 owns #916 and #922; Planning #4.5 owns #917 preparation; Worker #10 owns #918 preparation; Worker #9 supplies read-only #916 audit support. #915/#936 closeout is complete as NOT_PLANNED with unmet work routed to #1148-#1150. Main-checkout .csdlc/evidence/918 residue belongs to Worker #10 and must remain untouched."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -154,7 +154,7 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 ## Proposed Steps
 
-1. Confirm dependency readiness and starting state: #912, #913, and #914 are closed. #915 has an operator-approved incomplete/deferred disposition in progress under Planning #7.3, with Sprint 10 accounting closeout in #936 under Planning #11. #916 remains not_proven and must decide the quality gate truthfully. Final acceptance remains strictly serial from #916 through #925; #925 additionally requires accepted #910 and #911 outputs plus exact human release authority.
+1. Confirm dependency readiness and starting state: #912, #913, and #914 are closed. #915 and #936 are now closed as NOT_PLANNED under the operator-approved incomplete/deferred Sprint 10 disposition; #1148, #1149, and #1150 retain the unmet work and no PASS is claimed. #916 remains not_proven and must decide the quality gate truthfully. Final acceptance remains strictly serial from #916 through #925; #925 additionally requires accepted #910 and #911 outputs plus exact human release authority.
 2. Review repo inputs and scoped surfaces before editing: Canonical Sprint 11 roster and gates in docs/milestones/v0.92.2/SPRINT_MANAGEMENT_v0.92.2.json, SPRINT_v0.92.2.md, WP_ISSUE_WAVE_v0.92.2.yaml, and WP_EXECUTION_SPECIFICATIONS_v0.92.2.yaml; live native states for #915-#925, #936, and #937; current v0.93 successors #1148, #1149, and #1150; issue-local Sprint Execution Packet and activity log.
 3. Implement only the bounded deliverables: A current Sprint Execution Packet, append-only activity record, native umbrella planning truth, and live issue update that name the active owners and preparation lanes while retaining every acceptance gate and non-claim.
 4. Run focused proof gates for acceptance: The #916-#925 roster appears exactly once; active owners and preparation-only lanes match current coordination authority; #916 remains not_proven until its evidence supports another decision; #917, #918, and #922 preparation does not become early acceptance; #1148-#1150 remain v0.93 follow-ons; no product repair, provider call, deployment, publication, merge, release, or public launch is authorized.
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-Planning #11 owns #916, #922, and #936; Planning #4.5 owns #917 preparation; Worker #10 owns #918 preparation; Worker #9 supplies read-only #916 audit support; Planning #7.3 owns #915 incomplete/deferred closeout. Main-checkout .csdlc/evidence/918 residue belongs to Worker #10 and must remain untouched.
+Planning #11 owns #916 and #922; Planning #4.5 owns #917 preparation; Worker #10 owns #918 preparation; Worker #9 supplies read-only #916 audit support. #915/#936 closeout is complete as NOT_PLANNED with unmet work routed to #1148-#1150. Main-checkout .csdlc/evidence/918 residue belongs to Worker #10 and must remain untouched.

@@ -48,7 +48,7 @@ Out of scope:
 
 ```mermaid
 flowchart LR
-  S10["#915 / #936 incomplete-deferred disposition"] --> Q["#916 TAIL-01"]
+  S10["#915 / #936 CLOSED · NOT_PLANNED · deferred"] --> Q["#916 TAIL-01"]
   Q --> D["#917 TAIL-02"] --> P["#918 TAIL-03"] --> I["#919 TAIL-04"]
   I --> E["#920 TAIL-05"] --> R["#921 TAIL-06"] --> N["#922 TAIL-07"]
   N --> C["#923 TAIL-08"] --> V["#924 TAIL-09"] --> X["#925 TAIL-10"]
@@ -60,7 +60,7 @@ flowchart LR
 
 ## Recommended Execution Order
 
-1. Planning #7.3 finishes #915 with the operator-approved incomplete/deferred disposition; Planning #11 reconciles #936 closeout truth.
+1. #915 and #936 are closed as `NOT_PLANNED`, with incomplete qualification work routed to #1148-#1150 and no PASS claim.
 2. Planning #11 completes #916 as a truthful quality decision, preserving `not_proven` wherever evidence remains missing or deferred.
 3. Accept #917 through #925 only in canonical numeric order. Preparation may overlap only in the lanes declared below.
 
@@ -89,8 +89,8 @@ flowchart LR
 
 | Issue | Watcher | Current focus | Next terminal state |
 |---|---|---|---|
-| #915 | Planning #7.3 | native incomplete/deferred closeout | deferred with exact v0.93 routing |
-| #936 | Planning #11 | Sprint 10 accounting closeout | closed only with unmet claims preserved |
+| #915 | Planning #7.3 | closed `NOT_PLANNED` | unmet work routed to #1148-#1150 without PASS |
+| #936 | Planning #11 | closed `NOT_PLANNED` | Sprint 10 accounting preserves the incomplete result |
 | #916 | Planning #11; Worker #9 read-only support | producer acceptance and quality decision | reviewed `pass`, `fail`, or `not_proven` decision |
 | #917 | Planning #4.5 | docs handoff preparation | waiting for accepted #916 |
 | #918 | Worker #10 | publication-package preparation | waiting for accepted #917 and final identity |
@@ -127,7 +127,7 @@ flowchart LR
 
 | Gate | Blocks | Exit condition | Owner |
 |---|---|---|---|
-| sprint10-disposition | final #916 decision | #915 and #936 truthfully closed as incomplete/deferred with #1148-#1150 retained | Planning #7.3 / Planning #11 |
+| sprint10-disposition | satisfied for #916 input | #915 and #936 are closed `NOT_PLANNED`; #1148-#1150 retain the unmet work | Planning #7.3 / Planning #11 |
 | quality-decision | #917 acceptance | reviewed #916 output with missing proof preserved | Planning #11 |
 | docs-handoff | #918 acceptance | reviewed and accepted #917 handoff | Planning #4.5 |
 | publication-package | #919-#921 | reviewed and accepted #918 package at final identity | Worker #10 |
@@ -182,7 +182,7 @@ flowchart LR
 
 ## Cross-Sprint Dependencies
 
-- Upstream dependencies: #915/#936 disposition; all declared #916 producer prerequisites.
+- Upstream dependencies: completed #915/#936 incomplete/deferred disposition; all other declared #916 producer prerequisites.
 - Downstream consumers: #917-#925 and v0.93 mapping in #922.
 - Collision risks: shared milestone docs, final candidate identity, and another owner's main-checkout evidence.
 - Routing rule: preserve other owners' worktrees and serialize shared-file changes through the owning issue.

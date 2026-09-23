@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.v3.intent_changes.v1",
+  "amendment": {
+    "class": "plan",
+    "transition_approved": true
+  },
+  "cards": {
+    "spp": {
+      "dependencies_inline": "#912, #913, and #914 are closed. #915 and #936 are now closed as NOT_PLANNED under the operator-approved incomplete/deferred Sprint 10 disposition; #1148, #1149, and #1150 retain the unmet work and no PASS is claimed. #916 remains not_proven and must decide the quality gate truthfully. Final acceptance remains strictly serial from #916 through #925; #925 additionally requires accepted #910 and #911 outputs plus exact human release authority.",
+      "notes_risks_inline": "Planning #11 owns #916 and #922; Planning #4.5 owns #917 preparation; Worker #10 owns #918 preparation; Worker #9 supplies read-only #916 audit support. #915/#936 closeout is complete as NOT_PLANNED with unmet work routed to #1148-#1150. Main-checkout .csdlc/evidence/918 residue belongs to Worker #10 and must remain untouched."
+    }
+  }
+}
