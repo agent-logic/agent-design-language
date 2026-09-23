@@ -77,3 +77,12 @@ CodeFriend Beta 1 must launch in v0.93. CF-07 is mandatory: an authorized live p
 - D-19: CodeFriend versioned templates and per-kind style guides are required v0.93 scope. CT-01–CT-10 must complete before CF-05 launch qualification; use the supplied REV 01 brand source and full supported artifact catalog.
 - D-20: Citizen reproduction/migration is required v0.93 scope. CM-01–CM-04 provide the bounded identity/lineage/custody outcome and feed INTEGRATE. This replaces the old unresolved placement question.
 - D-21: #922 may draft/update now by operator instruction; final #921 evidence, predecessor acceptance, inter-milestone break and explicit v0.93 opening remain required. No permission for new product implementation or live launch is implied.
+
+
+## Proposed v0.93.1 / v0.93.2 scope split — 2026-09-22
+
+The operator proposes v0.93.1 for the repository split and all work necessary to launch CodeFriend Beta 1, drawing from the current Sprints 1, 3 and 4; the remaining platform work belongs to v0.93.2. This is successor planning, not milestone opening or issue migration.
+
+**Approved allocation:** Bring the complete CodeFriend template work (CT-01 through CT-10), including the foundations currently in Sprint 2, into v0.93.1. Retain the versioned document, review, diagram and test families, branded preparation/export and independent artifact qualification.
+
+**Dependency under review:** The existing CF-02 -> RV-08 edge makes the launch depend on all eleven Runtime v4 tasks. Its recorded rationale is the combined original v0.93 requirement to complete Runtime v4 and launch CodeFriend. The Beta 1 delivery contract in `../v0.92.2/adr/issue-945/BETA1_DELIVERY.md` does not name a Runtime v4-only feature. This is not yet evidence that the existing Runtime passes launch qualification, but the plan has not established a technical reason to require the entire v4 program before launch. Proposed replacement: require a pinned, compatible Runtime artifact with the actual CodeFriend launch/recovery/qualification behavior; allocate Runtime v4 to v0.93.2 if accepted. Final graph and milestone migration remain pending that decision.
