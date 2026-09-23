@@ -1,0 +1,71 @@
+{
+  "path": "csdlc-v3/src/commands/remote/delivery.rs",
+  "baseline_path": "csdlc-v3/src/commands/remote/mod.rs",
+  "exact_moved_blocks": [
+    {
+      "baseline_start": 7,
+      "candidate_start": 3,
+      "count": 9
+    },
+    {
+      "baseline_start": 2874,
+      "candidate_start": 14,
+      "count": 19
+    },
+    {
+      "baseline_start": 2902,
+      "candidate_start": 42,
+      "count": 18
+    },
+    {
+      "baseline_start": 2921,
+      "candidate_start": 61,
+      "count": 22
+    },
+    {
+      "baseline_start": 2949,
+      "candidate_start": 89,
+      "count": 110
+    },
+    {
+      "baseline_start": 3060,
+      "candidate_start": 200,
+      "count": 74
+    },
+    {
+      "baseline_start": 3151,
+      "candidate_start": 274,
+      "count": 100
+    }
+  ],
+  "unmatched_lines": [
+    1,
+    2,
+    12,
+    13,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    60,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    199,
+    374,
+    375,
+    376,
+    377,
+    378,
+    379,
+    380
+  ]
+}

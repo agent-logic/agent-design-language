@@ -1,0 +1,52 @@
+{
+  "candidate": "a45e339c13b24716edbd3fadf29dddff36ffe02e",
+  "rows": [
+    {
+      "path": "app/cycle-plan.mjs",
+      "inspection": "full_source",
+      "observation": "Repository identity casefolding, packet spelling, declared activities/testing goals and bounded repository portfolio inspected."
+    },
+    {
+      "path": "app/cycle-result.mjs",
+      "inspection": "full_source",
+      "observation": "Plan/admission/evidence hashes, typed activity outputs, exact model route and gateway candidate binding inspected; execution omission is denied by downstream selectedReview."
+    },
+    {
+      "path": "app/journey-policy-v2.mjs",
+      "inspection": "full_source",
+      "observation": "Bounded language roots, rule forms, files/layers, known manifest scope and canonical allowed pairs inspected."
+    },
+    {
+      "path": "app/review-admission.mjs",
+      "inspection": "full_source",
+      "observation": "UTF8 bytes and Git blob identity, immutable packet/evidence and before-retention privacy classification inspected. No semantic truth inferred from hashes."
+    },
+    {
+      "path": "app/review-assessments.mjs",
+      "inspection": "full_source",
+      "observation": "Exact byte citation validation, lane digest and assessment projection inspected. Empty assessments valid, absent source remains incomplete."
+    },
+    {
+      "path": "app/review-coverage.mjs",
+      "inspection": "full_source",
+      "observation": "Partial privacy review retains omitted paths and separate execution/source completion; four lanes required."
+    },
+    {
+      "path": "app/review-result.mjs",
+      "inspection": "full_source",
+      "observation": "Identity, failure and lane checks inspected; v3 delegates stricter assessment validation."
+    },
+    {
+      "path": "app/review-wire.mjs",
+      "inspection": "full_source",
+      "observation": "Native ordering helper only applied to validated review objects, preserving confidence variants."
+    },
+    {
+      "path": "app/selected-review.mjs",
+      "inspection": "full_source",
+      "observation": "Requires complete enclosing cycle with bound execution and native review, does not fabricate legacy top-level review identity."
+    }
+  ],
+  "tests": "website-test-proof.json",
+  "limits": "Browser UI and per-test manual review are separate; full suite executed, not every test manually reviewed."
+}

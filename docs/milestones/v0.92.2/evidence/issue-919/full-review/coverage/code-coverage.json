@@ -1,0 +1,2546 @@
+{
+  "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+  "status": "codefriend_77_production_plus_12_cli_paths_complete_complementary_scope_explicit",
+  "scope": "All changed Rust src paths enumerated, with no implicit coverage for unread paths. Production reviewed includes source inspection, not test execution.",
+  "paths": [
+    {
+      "id": "F04690",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl-provider-core/src/candidate.rs",
+      "line_count": 388,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04691",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl-provider-core/src/deepgram.rs",
+      "line_count": 891,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04692",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl-provider-core/src/http_family.rs",
+      "line_count": 2627,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04693",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl-provider-core/src/http_family/config.rs",
+      "line_count": 518,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04694",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl-provider-core/src/http_family/tests.rs",
+      "line_count": 2668,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04695",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl-provider-core/src/lib.rs",
+      "line_count": 13,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04696",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl-provider-core/src/local.rs",
+      "line_count": 682,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04697",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl-provider-core/src/model_identity.rs",
+      "line_count": 222,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04698",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl-provider-core/src/profiles.rs",
+      "line_count": 1155,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04699",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl-provider-core/src/provider.rs",
+      "line_count": 1275,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04700",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl-provider-core/src/provider/mlx.rs",
+      "line_count": 189,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04701",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl-provider-core/src/provider/mlx/tests.rs",
+      "line_count": 242,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04702",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl-provider-core/src/provider_substrate.rs",
+      "line_count": 2188,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04703",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl-provider-core/src/registry.rs",
+      "line_count": 995,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04704",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl-provider-core/src/runtime_limits.rs",
+      "line_count": 181,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04705",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl-provider-core/src/spec.rs",
+      "line_count": 33,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04708",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl-runtime-kernel/src/agent_roster.rs",
+      "line_count": 640,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04709",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl-runtime-kernel/src/assembly.rs",
+      "line_count": 2320,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04710",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "line_count": 2166,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04711",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl-runtime-kernel/src/config.rs",
+      "line_count": 2174,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04712",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl-runtime-kernel/src/config_reload.rs",
+      "line_count": 843,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04713",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl-runtime-kernel/src/control.rs",
+      "line_count": 16844,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04714",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl-runtime-kernel/src/control/feeds.rs",
+      "line_count": 626,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04715",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl-runtime-kernel/src/control/provider_registry_tests.rs",
+      "line_count": 908,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04716",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl-runtime-kernel/src/control/response_auth_tests.rs",
+      "line_count": 163,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04717",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl-runtime-kernel/src/conversation_sessions_tests.rs",
+      "line_count": 1405,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04718",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl-runtime-kernel/src/ingress.rs",
+      "line_count": 952,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04719",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl-runtime-kernel/src/lib.rs",
+      "line_count": 127,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04720",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl-runtime-kernel/src/memory_palace_authority.rs",
+      "line_count": 354,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04721",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl-runtime-kernel/src/observability.rs",
+      "line_count": 1084,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04722",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl-runtime-kernel/src/observability/master_log.rs",
+      "line_count": 642,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04723",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl-runtime-kernel/src/private_state.rs",
+      "line_count": 294,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04724",
+      "status": "production_reviewed",
+      "path": "adl-runtime-kernel/src/provider_registry.rs",
+      "line_count": 88,
+      "reviewed_ranges": [
+        [
+          1,
+          88
+        ]
+      ],
+      "observation": "Semaphore/cancellation lifetime inspected; provider lane retains primary ownership."
+    },
+    {
+      "id": "F04725",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl-runtime-kernel/src/provider_usage.rs",
+      "line_count": 648,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04726",
+      "status": "production_reviewed",
+      "path": "adl-runtime-kernel/src/resident_health.rs",
+      "line_count": 740,
+      "reviewed_ranges": [
+        [
+          1,
+          740
+        ]
+      ],
+      "observation": "Incident states, recovery bindings, durable alerts and unit tests inspected; provider lane retains primary ownership."
+    },
+    {
+      "id": "F04727",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl-runtime-kernel/src/resident_shepherd.rs",
+      "line_count": 600,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04728",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl-runtime-kernel/src/telemetry.rs",
+      "line_count": 584,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04738",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs",
+      "line_count": 4856,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04739",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl-runtime/src/distributed/authority_protocol_contract_tests.rs",
+      "line_count": 1313,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04740",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl-runtime/src/memory_palace.rs",
+      "line_count": 1163,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04751",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl-uts/src/lib.rs",
+      "line_count": 1332,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04762",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl/src/adl/types.rs",
+      "line_count": 689,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04763",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl/src/adl/validation.rs",
+      "line_count": 366,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04764",
+      "status": "full_source_reviewed",
+      "path": "adl/src/bin/codefriend_agent.rs",
+      "line_count": 356,
+      "reviewed_ranges": [
+        [
+          1,
+          356
+        ]
+      ],
+      "observation": "Full CLI entrypoint source including embedded tests read: dispatch/argument validation, original evidence ownership, bounded private input/output, exit and stdout/stderr mapping, publication and journey continuation. Relevant delegated production owners reviewed in 77-path CF scope. No additional actionable finding."
+    },
+    {
+      "id": "F04765",
+      "status": "full_source_reviewed",
+      "path": "adl/src/bin/codefriend_server.rs",
+      "line_count": 77,
+      "reviewed_ranges": [
+        [
+          1,
+          77
+        ]
+      ],
+      "observation": "Full CLI entrypoint source including embedded tests read: dispatch/argument validation, original evidence ownership, bounded private input/output, exit and stdout/stderr mapping, publication and journey continuation. Relevant delegated production owners reviewed in 77-path CF scope. No additional actionable finding."
+    },
+    {
+      "id": "F04766",
+      "status": "full_source_reviewed",
+      "path": "adl/src/cli/codefriend_ci_cmd.rs",
+      "line_count": 64,
+      "reviewed_ranges": [
+        [
+          1,
+          64
+        ]
+      ],
+      "observation": "Full CLI entrypoint source including embedded tests read: dispatch/argument validation, original evidence ownership, bounded private input/output, exit and stdout/stderr mapping, publication and journey continuation. Relevant delegated production owners reviewed in 77-path CF scope. No additional actionable finding."
+    },
+    {
+      "id": "F04767",
+      "status": "full_source_reviewed",
+      "path": "adl/src/cli/codefriend_cmd.rs",
+      "line_count": 653,
+      "reviewed_ranges": [
+        [
+          1,
+          653
+        ]
+      ],
+      "observation": "Full CLI entrypoint source including embedded tests read: dispatch/argument validation, original evidence ownership, bounded private input/output, exit and stdout/stderr mapping, publication and journey continuation. Relevant delegated production owners reviewed in 77-path CF scope. No additional actionable finding."
+    },
+    {
+      "id": "F04768",
+      "status": "full_source_reviewed",
+      "path": "adl/src/cli/codefriend_evidence_cmd.rs",
+      "line_count": 84,
+      "reviewed_ranges": [
+        [
+          1,
+          84
+        ]
+      ],
+      "observation": "Full CLI entrypoint source including embedded tests read: dispatch/argument validation, original evidence ownership, bounded private input/output, exit and stdout/stderr mapping, publication and journey continuation. Relevant delegated production owners reviewed in 77-path CF scope. No additional actionable finding."
+    },
+    {
+      "id": "F04769",
+      "status": "full_source_reviewed",
+      "path": "adl/src/cli/codefriend_fitness_ci_cmd.rs",
+      "line_count": 198,
+      "reviewed_ranges": [
+        [
+          1,
+          198
+        ]
+      ],
+      "observation": "Full CLI entrypoint source including embedded tests read: dispatch/argument validation, original evidence ownership, bounded private input/output, exit and stdout/stderr mapping, publication and journey continuation. Relevant delegated production owners reviewed in 77-path CF scope. No additional actionable finding."
+    },
+    {
+      "id": "F04770",
+      "status": "full_source_reviewed",
+      "path": "adl/src/cli/codefriend_fitness_ci_v2_cmd.rs",
+      "line_count": 350,
+      "reviewed_ranges": [
+        [
+          1,
+          350
+        ]
+      ],
+      "observation": "Full CLI entrypoint source including embedded tests read: dispatch/argument validation, original evidence ownership, bounded private input/output, exit and stdout/stderr mapping, publication and journey continuation. Relevant delegated production owners reviewed in 77-path CF scope. No additional actionable finding."
+    },
+    {
+      "id": "F04771",
+      "status": "full_source_reviewed",
+      "path": "adl/src/cli/codefriend_fitness_cmd.rs",
+      "line_count": 255,
+      "reviewed_ranges": [
+        [
+          1,
+          255
+        ]
+      ],
+      "observation": "Full CLI entrypoint source including embedded tests read: dispatch/argument validation, original evidence ownership, bounded private input/output, exit and stdout/stderr mapping, publication and journey continuation. Relevant delegated production owners reviewed in 77-path CF scope. No additional actionable finding."
+    },
+    {
+      "id": "F04772",
+      "status": "full_source_reviewed",
+      "path": "adl/src/cli/codefriend_github_cmd.rs",
+      "line_count": 72,
+      "reviewed_ranges": [
+        [
+          1,
+          72
+        ]
+      ],
+      "observation": "Full CLI entrypoint source including embedded tests read: dispatch/argument validation, original evidence ownership, bounded private input/output, exit and stdout/stderr mapping, publication and journey continuation. Relevant delegated production owners reviewed in 77-path CF scope. No additional actionable finding."
+    },
+    {
+      "id": "F04773",
+      "status": "full_source_reviewed",
+      "path": "adl/src/cli/codefriend_memory_cmd.rs",
+      "line_count": 152,
+      "reviewed_ranges": [
+        [
+          1,
+          152
+        ]
+      ],
+      "observation": "Full CLI entrypoint source including embedded tests read: dispatch/argument validation, original evidence ownership, bounded private input/output, exit and stdout/stderr mapping, publication and journey continuation. Relevant delegated production owners reviewed in 77-path CF scope. No additional actionable finding."
+    },
+    {
+      "id": "F04774",
+      "status": "full_source_reviewed",
+      "path": "adl/src/cli/codefriend_publication_cmd.rs",
+      "line_count": 169,
+      "reviewed_ranges": [
+        [
+          1,
+          169
+        ]
+      ],
+      "observation": "Full CLI entrypoint source including embedded tests read: dispatch/argument validation, original evidence ownership, bounded private input/output, exit and stdout/stderr mapping, publication and journey continuation. Relevant delegated production owners reviewed in 77-path CF scope. No additional actionable finding."
+    },
+    {
+      "id": "F04775",
+      "status": "full_source_reviewed",
+      "path": "adl/src/cli/codefriend_structure_cmd.rs",
+      "line_count": 222,
+      "reviewed_ranges": [
+        [
+          1,
+          222
+        ]
+      ],
+      "observation": "Full CLI entrypoint source including embedded tests read: dispatch/argument validation, original evidence ownership, bounded private input/output, exit and stdout/stderr mapping, publication and journey continuation. Relevant delegated production owners reviewed in 77-path CF scope. No additional actionable finding."
+    },
+    {
+      "id": "F04776",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl/src/cli/csm_runtime_v3_cmd.rs",
+      "line_count": 2641,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04777",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl/src/cli/csmctl_cmd.rs",
+      "line_count": 1671,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04778",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl/src/cli/mod.rs",
+      "line_count": 743,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04779",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl/src/cli/observability.rs",
+      "line_count": 1763,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04780",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl/src/cli/process_cmd.rs",
+      "line_count": 338,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04781",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl/src/cli/process_cmd/args.rs",
+      "line_count": 313,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04782",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl/src/cli/usage.rs",
+      "line_count": 198,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04783",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/actions/mod.rs",
+      "line_count": 3,
+      "reviewed_ranges": [
+        [
+          1,
+          3
+        ]
+      ],
+      "observation": "Full production source inspected: bounded typed dispatch, source identity and explicit unknown coverage; no additional confirmed finding."
+    },
+    {
+      "id": "F04784",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/actions/remediation.rs",
+      "line_count": 695,
+      "reviewed_ranges": [
+        [
+          1,
+          695
+        ]
+      ],
+      "observation": "Full production read: canonical recomputation, version preservation, explicit uncertainty and bounded outputs checked. No additional confirmed defect."
+    },
+    {
+      "id": "F04785",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/actions/test_plan.rs",
+      "line_count": 889,
+      "reviewed_ranges": [
+        [
+          1,
+          889
+        ]
+      ],
+      "observation": "Full production read: canonical recomputation, version preservation, explicit uncertainty and bounded outputs checked. No additional confirmed defect."
+    },
+    {
+      "id": "F04786",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/activities.rs",
+      "line_count": 958,
+      "reviewed_ranges": [
+        [
+          1,
+          958
+        ]
+      ],
+      "observation": "Read entire proposal contract, selected input inventory, bounded prompt construction, Mermaid allowlist, artifact validation and per-activity failure aggregation. Proposal-only authority maintained."
+    },
+    {
+      "id": "F04787",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/agent.rs",
+      "line_count": 1819,
+      "reviewed_ranges": [
+        [
+          1,
+          1819
+        ]
+      ],
+      "observation": "Original operation journals, model effect reservations, acknowledged-operation recovery, quota and fixed-origin bounded transport inspected."
+    },
+    {
+      "id": "F04788",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/agent/cycle_bridge.rs",
+      "line_count": 213,
+      "reviewed_ranges": [
+        [
+          1,
+          213
+        ]
+      ],
+      "observation": "Read production implementation and checked source identity, error/unknown paths, bounds and deterministic behavior; no additional confirmed defect."
+    },
+    {
+      "id": "F04789",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/agent/journey.rs",
+      "line_count": 835,
+      "reviewed_ranges": [
+        [
+          1,
+          835
+        ]
+      ],
+      "observation": "Native owner recheck, no-replay reservation and authenticated delivery paths reviewed; drain/new-export candidate passed to synthesis for cross-lane evaluation."
+    },
+    {
+      "id": "F04790",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/agent/journey/delivery.rs",
+      "line_count": 411,
+      "reviewed_ranges": [
+        [
+          1,
+          411
+        ]
+      ],
+      "observation": "Native owner recheck, no-replay reservation and authenticated delivery paths reviewed; drain/new-export candidate passed to synthesis for cross-lane evaluation."
+    },
+    {
+      "id": "F04791",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/agent/journey/verification.rs",
+      "line_count": 413,
+      "reviewed_ranges": [
+        [
+          1,
+          413
+        ]
+      ],
+      "observation": "Native owner recheck, no-replay reservation and authenticated delivery paths reviewed; drain/new-export candidate passed to synthesis for cross-lane evaluation."
+    },
+    {
+      "id": "F04792",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/agent/publication.rs",
+      "line_count": 1116,
+      "reviewed_ranges": [
+        [
+          1,
+          1116
+        ]
+      ],
+      "observation": "Read all paired publication preparation, context rechecks, exact saved-stage upload, decision and render reservation/recovery, historic decision verification, stage verifier and export bounds. No additional confirmed defect."
+    },
+    {
+      "id": "F04793",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/architecture/artifact.rs",
+      "line_count": 515,
+      "reviewed_ranges": [
+        [
+          1,
+          515
+        ]
+      ],
+      "observation": "Full production source read: version dispatch, original store/owner/retention and exact export bindings, bounded output; no additional confirmed defect."
+    },
+    {
+      "id": "F04794",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/architecture/drift.rs",
+      "line_count": 281,
+      "reviewed_ranges": [
+        [
+          1,
+          281
+        ]
+      ],
+      "observation": "Full production read: canonical recomputation, version preservation, explicit uncertainty and bounded outputs checked. No additional confirmed defect."
+    },
+    {
+      "id": "F04795",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/architecture/drift_v2.rs",
+      "line_count": 319,
+      "reviewed_ranges": [
+        [
+          1,
+          319
+        ]
+      ],
+      "observation": "Read production implementation and checked source identity, error/unknown paths, bounds and deterministic behavior; no additional confirmed defect."
+    },
+    {
+      "id": "F04796",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/architecture/four_plus_one.rs",
+      "line_count": 439,
+      "reviewed_ranges": [
+        [
+          1,
+          439
+        ]
+      ],
+      "observation": "Read entire citation/source-span contract, bounded entity/view/scenario graph validation, completeness computation and structure-derived incomplete package generation."
+    },
+    {
+      "id": "F04797",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/architecture/four_plus_one/generation.rs",
+      "line_count": 264,
+      "reviewed_ranges": [
+        [
+          1,
+          264
+        ]
+      ],
+      "observation": "Read all prompt/response acceptance, duplicate JSON protection, inferred membership completion, single-attempt provider dispatch, before/after admission checks and exact retained response reconstruction."
+    },
+    {
+      "id": "F04798",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/architecture/four_plus_one/render.rs",
+      "line_count": 277,
+      "reviewed_ranges": [
+        [
+          1,
+          277
+        ]
+      ],
+      "observation": "Read deterministic Markdown/Mermaid/SVG artifacts, escaping, wrapped graph labels, validated endpoints, output count/byte bounds and private create-only output."
+    },
+    {
+      "id": "F04799",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/architecture/impact.rs",
+      "line_count": 308,
+      "reviewed_ranges": [
+        [
+          1,
+          308
+        ]
+      ],
+      "observation": "Full production read: canonical recomputation, version preservation, explicit uncertainty and bounded outputs checked. No additional confirmed defect."
+    },
+    {
+      "id": "F04800",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/architecture/impact_v2.rs",
+      "line_count": 343,
+      "reviewed_ranges": [
+        [
+          1,
+          343
+        ]
+      ],
+      "observation": "Read production implementation and checked source identity, error/unknown paths, bounds and deterministic behavior; no additional confirmed defect."
+    },
+    {
+      "id": "F04801",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/architecture/mod.rs",
+      "line_count": 15,
+      "reviewed_ranges": [
+        [
+          1,
+          15
+        ]
+      ],
+      "observation": "Full production source inspected: bounded typed dispatch, source identity and explicit unknown coverage; no additional confirmed finding."
+    },
+    {
+      "id": "F04802",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/architecture/rationale.rs",
+      "line_count": 413,
+      "reviewed_ranges": [
+        [
+          1,
+          413
+        ]
+      ],
+      "observation": "Full production read: canonical recomputation, version preservation, explicit uncertainty and bounded outputs checked. No additional confirmed defect."
+    },
+    {
+      "id": "F04803",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/architecture/rationale_v2.rs",
+      "line_count": 436,
+      "reviewed_ranges": [
+        [
+          1,
+          436
+        ]
+      ],
+      "observation": "Full production read: canonical recomputation, version preservation, explicit uncertainty and bounded outputs checked. No additional confirmed defect."
+    },
+    {
+      "id": "F04804",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/architecture/structure.rs",
+      "line_count": 628,
+      "reviewed_ranges": [
+        [
+          1,
+          628
+        ]
+      ],
+      "observation": "Full production read: canonical recomputation, version preservation, explicit uncertainty and bounded outputs checked. No additional confirmed defect."
+    },
+    {
+      "id": "F04805",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/architecture/structure_v2.rs",
+      "line_count": 498,
+      "reviewed_ranges": [
+        [
+          1,
+          498
+        ]
+      ],
+      "observation": "Read production implementation and checked source identity, error/unknown paths, bounds and deterministic behavior; no additional confirmed defect."
+    },
+    {
+      "id": "F04806",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/architecture/syntax.rs",
+      "line_count": 139,
+      "reviewed_ranges": [
+        [
+          1,
+          139
+        ]
+      ],
+      "observation": "Full production source inspected: bounded typed dispatch, source identity and explicit unknown coverage; no additional confirmed finding."
+    },
+    {
+      "id": "F04807",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/cycle_bridge.rs",
+      "line_count": 178,
+      "reviewed_ranges": [
+        [
+          1,
+          178
+        ]
+      ],
+      "observation": "Read production implementation and checked source identity, error/unknown paths, bounds and deterministic behavior; no additional confirmed defect."
+    },
+    {
+      "id": "F04808",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/evidence/assessments.rs",
+      "line_count": 602,
+      "reviewed_ranges": [
+        [
+          1,
+          602
+        ]
+      ],
+      "observation": "Read production implementation and checked source identity, error/unknown paths, bounds and deterministic behavior; no additional confirmed defect."
+    },
+    {
+      "id": "F04809",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/evidence/contracts.rs",
+      "line_count": 672,
+      "reviewed_ranges": [
+        [
+          1,
+          672
+        ]
+      ],
+      "observation": "Production source reviewed, including error/recovery and identity boundaries; no additional confirmed defect. No test execution implied."
+    },
+    {
+      "id": "F04810",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/evidence/mod.rs",
+      "line_count": 128,
+      "reviewed_ranges": [
+        [
+          1,
+          128
+        ]
+      ],
+      "observation": "Full production source inspected: bounded typed dispatch, source identity and explicit unknown coverage; no additional confirmed finding."
+    },
+    {
+      "id": "F04811",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/evidence/store.rs",
+      "line_count": 351,
+      "reviewed_ranges": [
+        [
+          1,
+          351
+        ]
+      ],
+      "observation": "Production source reviewed, including error/recovery and identity boundaries; no additional confirmed defect. No test execution implied."
+    },
+    {
+      "id": "F04812",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/governance/artifact.rs",
+      "line_count": 160,
+      "reviewed_ranges": [
+        [
+          1,
+          160
+        ]
+      ],
+      "observation": "Full production source inspected: bounded typed dispatch, source identity and explicit unknown coverage; no additional confirmed finding."
+    },
+    {
+      "id": "F04813",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/governance/ci.rs",
+      "line_count": 101,
+      "reviewed_ranges": [
+        [
+          1,
+          101
+        ]
+      ],
+      "observation": "Full production source read: version dispatch, original store/owner/retention and exact export bindings, bounded output; no additional confirmed defect."
+    },
+    {
+      "id": "F04814",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/governance/ci_v2.rs",
+      "line_count": 83,
+      "reviewed_ranges": [
+        [
+          1,
+          83
+        ]
+      ],
+      "observation": "Full production source inspected: bounded typed dispatch, source identity and explicit unknown coverage; no additional confirmed finding."
+    },
+    {
+      "id": "F04815",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/governance/language.rs",
+      "line_count": 589,
+      "reviewed_ranges": [
+        [
+          1,
+          589
+        ]
+      ],
+      "observation": "Read production implementation and checked source identity, error/unknown paths, bounds and deterministic behavior; no additional confirmed defect."
+    },
+    {
+      "id": "F04816",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/governance/local.rs",
+      "line_count": 287,
+      "reviewed_ranges": [
+        [
+          1,
+          287
+        ]
+      ],
+      "observation": "Full production source read: version dispatch, original store/owner/retention and exact export bindings, bounded output; no additional confirmed defect."
+    },
+    {
+      "id": "F04817",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/governance/mod.rs",
+      "line_count": 6,
+      "reviewed_ranges": [
+        [
+          1,
+          6
+        ]
+      ],
+      "observation": "Full production source inspected: bounded typed dispatch, source identity and explicit unknown coverage; no additional confirmed finding."
+    },
+    {
+      "id": "F04818",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/ingestion/ci.rs",
+      "line_count": 117,
+      "reviewed_ranges": [
+        [
+          1,
+          117
+        ]
+      ],
+      "observation": "Read production implementation and checked source identity, error/unknown paths, bounds and deterministic behavior; no additional confirmed defect."
+    },
+    {
+      "id": "F04819",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/ingestion/github.rs",
+      "line_count": 538,
+      "reviewed_ranges": [
+        [
+          1,
+          538
+        ]
+      ],
+      "observation": "Full production read: canonical recomputation, version preservation, explicit uncertainty and bounded outputs checked. CODE-003 confirms removed response timeout."
+    },
+    {
+      "id": "F04820",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/ingestion/javascript_runtime.rs",
+      "line_count": 119,
+      "reviewed_ranges": [
+        [
+          1,
+          119
+        ]
+      ],
+      "observation": "Read production implementation and checked source identity, error/unknown paths, bounds and deterministic behavior; no additional confirmed defect."
+    },
+    {
+      "id": "F04821",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/ingestion/local.rs",
+      "line_count": 318,
+      "reviewed_ranges": [
+        [
+          1,
+          318
+        ]
+      ],
+      "observation": "Read production implementation and checked source identity, error/unknown paths, bounds and deterministic behavior; no additional confirmed defect."
+    },
+    {
+      "id": "F04822",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/ingestion/mod.rs",
+      "line_count": 517,
+      "reviewed_ranges": [
+        [
+          1,
+          517
+        ]
+      ],
+      "observation": "Full production source inspected: bounded typed dispatch, source identity and explicit unknown coverage; no additional confirmed finding."
+    },
+    {
+      "id": "F04823",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/integration.rs",
+      "line_count": 522,
+      "reviewed_ranges": [
+        [
+          1,
+          522
+        ]
+      ],
+      "observation": "Production source reviewed, including error/recovery and identity boundaries; no additional confirmed defect. No test execution implied."
+    },
+    {
+      "id": "F04824",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/integration/journey.rs",
+      "line_count": 2061,
+      "reviewed_ranges": [
+        [
+          1,
+          2061
+        ]
+      ],
+      "observation": "Production source reviewed, including error/recovery and identity boundaries; no additional confirmed defect. No test execution implied."
+    },
+    {
+      "id": "F04825",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/integration/journey/local_publication_attachment.rs",
+      "line_count": 305,
+      "reviewed_ranges": [
+        [
+          1,
+          305
+        ]
+      ],
+      "observation": "Full production source read: version dispatch, original store/owner/retention and exact export bindings, bounded output; no additional confirmed defect."
+    },
+    {
+      "id": "F04826",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/integration/journey/owned_baseline.rs",
+      "line_count": 490,
+      "reviewed_ranges": [
+        [
+          1,
+          490
+        ]
+      ],
+      "observation": "Full production source read: version dispatch, original store/owner/retention and exact export bindings, bounded output; no additional confirmed defect."
+    },
+    {
+      "id": "F04827",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/integration/journey/owned_palace.rs",
+      "line_count": 298,
+      "reviewed_ranges": [
+        [
+          1,
+          298
+        ]
+      ],
+      "observation": "Full production source read: version dispatch, original store/owner/retention and exact export bindings, bounded output; no additional confirmed defect."
+    },
+    {
+      "id": "F04828",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/integration/journey/publication_attachment.rs",
+      "line_count": 235,
+      "reviewed_ranges": [
+        [
+          1,
+          235
+        ]
+      ],
+      "observation": "Full production source read: version dispatch, original store/owner/retention and exact export bindings, bounded output; no additional confirmed defect."
+    },
+    {
+      "id": "F04829",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/language/imports.rs",
+      "line_count": 808,
+      "reviewed_ranges": [
+        [
+          1,
+          808
+        ]
+      ],
+      "observation": "Production source reviewed, including error/recovery and identity boundaries; no additional confirmed defect. No test execution implied."
+    },
+    {
+      "id": "F04830",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/language/mod.rs",
+      "line_count": 443,
+      "reviewed_ranges": [
+        [
+          1,
+          443
+        ]
+      ],
+      "observation": "Full production source inspected: bounded typed dispatch, source identity and explicit unknown coverage; no additional confirmed finding."
+    },
+    {
+      "id": "F04831",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/language/owner.rs",
+      "line_count": 42,
+      "reviewed_ranges": [
+        [
+          1,
+          42
+        ]
+      ],
+      "observation": "Full production source inspected: bounded typed dispatch, source identity and explicit unknown coverage; no additional confirmed finding."
+    },
+    {
+      "id": "F04832",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/language/parser.rs",
+      "line_count": 387,
+      "reviewed_ranges": [
+        [
+          1,
+          387
+        ]
+      ],
+      "observation": "Full production source inspected: bounded typed dispatch, source identity and explicit unknown coverage; no additional confirmed finding."
+    },
+    {
+      "id": "F04833",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/language/resolver.rs",
+      "line_count": 717,
+      "reviewed_ranges": [
+        [
+          1,
+          717
+        ]
+      ],
+      "observation": "Read production implementation and checked source identity, error/unknown paths, bounds and deterministic behavior; no additional confirmed defect."
+    },
+    {
+      "id": "F04834",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/memory/baseline.rs",
+      "line_count": 337,
+      "reviewed_ranges": [
+        [
+          1,
+          337
+        ]
+      ],
+      "observation": "Read production implementation and checked source identity, error/unknown paths, bounds and deterministic behavior; no additional confirmed defect."
+    },
+    {
+      "id": "F04835",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/memory/comparison.rs",
+      "line_count": 164,
+      "reviewed_ranges": [
+        [
+          1,
+          164
+        ]
+      ],
+      "observation": "Read production implementation and checked source identity, error/unknown paths, bounds and deterministic behavior; no additional confirmed defect."
+    },
+    {
+      "id": "F04836",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/memory/mod.rs",
+      "line_count": 5,
+      "reviewed_ranges": [
+        [
+          1,
+          5
+        ]
+      ],
+      "observation": "Full production source inspected: bounded typed dispatch, source identity and explicit unknown coverage; no additional confirmed finding."
+    },
+    {
+      "id": "F04837",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/memory/palace.rs",
+      "line_count": 356,
+      "reviewed_ranges": [
+        [
+          1,
+          356
+        ]
+      ],
+      "observation": "Read production implementation and checked source identity, error/unknown paths, bounds and deterministic behavior; no additional confirmed defect."
+    },
+    {
+      "id": "F04838",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/memory/palace_authority.rs",
+      "line_count": 182,
+      "reviewed_ranges": [
+        [
+          1,
+          182
+        ]
+      ],
+      "observation": "Read production implementation and checked source identity, error/unknown paths, bounds and deterministic behavior; no additional confirmed defect."
+    },
+    {
+      "id": "F04839",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/mod.rs",
+      "line_count": 23,
+      "reviewed_ranges": [
+        [
+          1,
+          23
+        ]
+      ],
+      "observation": "Full production source inspected: bounded typed dispatch, source identity and explicit unknown coverage; no additional confirmed finding."
+    },
+    {
+      "id": "F04840",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/operator/mod.rs",
+      "line_count": 487,
+      "reviewed_ranges": [
+        [
+          1,
+          487
+        ]
+      ],
+      "observation": "CODE-002: retry settlement admits live Incomplete attempt; source traced store lock and active_attempt cancellation consequences."
+    },
+    {
+      "id": "F04841",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/publication/approval.rs",
+      "line_count": 1383,
+      "reviewed_ranges": [
+        [
+          1,
+          1058
+        ]
+      ],
+      "observation": "All production approval chain, external anchor, compare-and-append, live writer capability and local publication logic read; embedded test subset read1059-1150, remaining tests not inspected."
+    },
+    {
+      "id": "F04842",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/publication/architecture.rs",
+      "line_count": 128,
+      "reviewed_ranges": [
+        [
+          1,
+          128
+        ]
+      ],
+      "observation": "Full production source inspected: bounded typed dispatch, source identity and explicit unknown coverage; no additional confirmed finding."
+    },
+    {
+      "id": "F04843",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/publication/html.rs",
+      "line_count": 669,
+      "reviewed_ranges": [
+        [
+          1,
+          669
+        ]
+      ],
+      "observation": "CODE-001: exact citation quote flattened; escaped fields, manifest binding, snapshot publication and links reviewed."
+    },
+    {
+      "id": "F04844",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/publication/manifest.rs",
+      "line_count": 302,
+      "reviewed_ranges": [
+        [
+          1,
+          302
+        ]
+      ],
+      "observation": "Full production source inspected: bounded typed dispatch, source identity and explicit unknown coverage; no additional confirmed finding."
+    },
+    {
+      "id": "F04845",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/publication/markdown.rs",
+      "line_count": 1475,
+      "reviewed_ranges": [
+        [
+          1,
+          1475
+        ]
+      ],
+      "observation": "CODE-001: exact citation quote flattened by shared prose escaping; source/approval/parity and anchored create-only export reviewed."
+    },
+    {
+      "id": "F04846",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/publication/mod.rs",
+      "line_count": 26,
+      "reviewed_ranges": [
+        [
+          1,
+          26
+        ]
+      ],
+      "observation": "Full production source inspected: bounded typed dispatch, source identity and explicit unknown coverage; no additional confirmed finding."
+    },
+    {
+      "id": "F04847",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/publication/pdf.rs",
+      "line_count": 633,
+      "reviewed_ranges": [
+        [
+          1,
+          633
+        ]
+      ],
+      "observation": "CODE-001 inherited Markdown normalization; bounded glyphs, widths, pages, manifests and unit assertions inspected."
+    },
+    {
+      "id": "F04848",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/publication/relay.rs",
+      "line_count": 314,
+      "reviewed_ranges": [
+        [
+          1,
+          314
+        ]
+      ],
+      "observation": "Read production implementation and checked source identity, error/unknown paths, bounds and deterministic behavior; no additional confirmed defect."
+    },
+    {
+      "id": "F04849",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/review/lanes.rs",
+      "line_count": 56,
+      "reviewed_ranges": [
+        [
+          1,
+          56
+        ]
+      ],
+      "observation": "Full production source inspected: bounded typed dispatch, source identity and explicit unknown coverage; no additional confirmed finding."
+    },
+    {
+      "id": "F04850",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/review/mod.rs",
+      "line_count": 9,
+      "reviewed_ranges": [
+        [
+          1,
+          9
+        ]
+      ],
+      "observation": "Full production source inspected: bounded typed dispatch, source identity and explicit unknown coverage; no additional confirmed finding."
+    },
+    {
+      "id": "F04851",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/review/runner.rs",
+      "line_count": 1321,
+      "reviewed_ranges": [
+        [
+          1,
+          1321
+        ]
+      ],
+      "observation": "Production source reviewed, including error/recovery and identity boundaries; no additional confirmed defect. No test execution implied."
+    },
+    {
+      "id": "F04852",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/review/synthesis.rs",
+      "line_count": 428,
+      "reviewed_ranges": [
+        [
+          1,
+          428
+        ]
+      ],
+      "observation": "Read production implementation and checked source identity, error/unknown paths, bounds and deterministic behavior; no additional confirmed defect."
+    },
+    {
+      "id": "F04853",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/rust_parse.rs",
+      "line_count": 347,
+      "reviewed_ranges": [
+        [
+          1,
+          347
+        ]
+      ],
+      "observation": "Full production source inspected: bounded typed dispatch, source identity and explicit unknown coverage; no additional confirmed finding."
+    },
+    {
+      "id": "F04854",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/schema.rs",
+      "line_count": 122,
+      "reviewed_ranges": [
+        [
+          1,
+          122
+        ]
+      ],
+      "observation": "Full production source inspected: bounded typed dispatch, source identity and explicit unknown coverage; no additional confirmed finding."
+    },
+    {
+      "id": "F04855",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/server.rs",
+      "line_count": 1522,
+      "reviewed_ranges": [
+        [
+          1,
+          1522
+        ]
+      ],
+      "observation": "Production source reviewed, including error/recovery and identity boundaries; no additional confirmed defect. No test execution implied."
+    },
+    {
+      "id": "F04856",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/server/control.rs",
+      "line_count": 166,
+      "reviewed_ranges": [
+        [
+          1,
+          166
+        ]
+      ],
+      "observation": "Read production implementation and checked source identity, error/unknown paths, bounds and deterministic behavior; no additional confirmed defect."
+    },
+    {
+      "id": "F04857",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/server/journey.rs",
+      "line_count": 447,
+      "reviewed_ranges": [
+        [
+          1,
+          447
+        ]
+      ],
+      "observation": "Production source reviewed, including error/recovery and identity boundaries; no additional confirmed defect. No test execution implied."
+    },
+    {
+      "id": "F04858",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/server/journey_publication.rs",
+      "line_count": 83,
+      "reviewed_ranges": [
+        [
+          1,
+          83
+        ]
+      ],
+      "observation": "Native owner recheck, no-replay reservation and authenticated delivery paths reviewed; drain/new-export candidate passed to synthesis for cross-lane evaluation."
+    },
+    {
+      "id": "F04859",
+      "status": "production_reviewed",
+      "path": "adl/src/codefriend/server/publication_export.rs",
+      "line_count": 343,
+      "reviewed_ranges": [
+        [
+          1,
+          343
+        ]
+      ],
+      "observation": "Native owner recheck, no-replay reservation and authenticated delivery paths reviewed; drain/new-export candidate passed to synthesis for cross-lane evaluation."
+    },
+    {
+      "id": "F04860",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl/src/execute/tests.rs",
+      "line_count": 2693,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04861",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl/src/execute/tests/provider_definitions.rs",
+      "line_count": 226,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04862",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl/src/lib.rs",
+      "line_count": 114,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04863",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl/src/long_lived_agent.rs",
+      "line_count": 6151,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04864",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl/src/long_lived_agent/tests.rs",
+      "line_count": 3459,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04865",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl/src/memory_palace.rs",
+      "line_count": 918,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04866",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl/src/model_identity.rs",
+      "line_count": 2,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04867",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl/src/provider/deepgram.rs",
+      "line_count": 0,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04868",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl/src/provider/http_family.rs",
+      "line_count": 0,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04869",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl/src/provider/http_family/config.rs",
+      "line_count": 0,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04870",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl/src/provider/http_family/tests.rs",
+      "line_count": 0,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04871",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl/src/provider/local.rs",
+      "line_count": 0,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04872",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl/src/provider/mod.rs",
+      "line_count": 660,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04873",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl/src/provider/profiles.rs",
+      "line_count": 37,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04874",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl/src/provider/reload.rs",
+      "line_count": 704,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04875",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl/src/provider_adapter.rs",
+      "line_count": 4144,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04876",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl/src/provider_substrate.rs",
+      "line_count": 78,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04877",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl/src/resident_shepherd_spot_continuity.rs",
+      "line_count": 1352,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04878",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl/src/resident_tool_execution.rs",
+      "line_count": 911,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04879",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl/src/tool_registry.rs",
+      "line_count": 838,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F04880",
+      "status": "unreviewed_by_code_lane",
+      "path": "adl/src/uts.rs",
+      "line_count": 3,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F05059",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/adapters/mod.rs",
+      "line_count": 1703,
+      "reviewed_ranges": [],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05060",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/application/intent/administrative.rs",
+      "line_count": 428,
+      "reviewed_ranges": [
+        [
+          1,
+          428
+        ]
+      ],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05061",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/application/intent/context.rs",
+      "line_count": 1095,
+      "reviewed_ranges": [
+        [
+          1,
+          1095
+        ]
+      ],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05062",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/application/intent/install.rs",
+      "line_count": 325,
+      "reviewed_ranges": [
+        [
+          1,
+          325
+        ]
+      ],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05063",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/application/intent/local.rs",
+      "line_count": 2600,
+      "reviewed_ranges": [
+        [
+          1,
+          2600
+        ]
+      ],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05064",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/application/intent/mod.rs",
+      "line_count": 364,
+      "reviewed_ranges": [
+        [
+          1,
+          364
+        ]
+      ],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05065",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/application/intent/remote.rs",
+      "line_count": 1519,
+      "reviewed_ranges": [
+        [
+          1,
+          1519
+        ]
+      ],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05066",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/application/intent/terminal.rs",
+      "line_count": 1689,
+      "reviewed_ranges": [
+        [
+          1,
+          1689
+        ]
+      ],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05067",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/application/mod.rs",
+      "line_count": 741,
+      "reviewed_ranges": [],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05068",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/authority.rs",
+      "line_count": 434,
+      "reviewed_ranges": [],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05069",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/bin/csdlc_conversion_rehearsal.rs",
+      "line_count": 87,
+      "reviewed_ranges": [
+        [
+          1,
+          87
+        ]
+      ],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05070",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/bin/csdlc_transition.rs",
+      "line_count": 55,
+      "reviewed_ranges": [
+        [
+          1,
+          55
+        ]
+      ],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05071",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/commands/contract.rs",
+      "line_count": 137,
+      "reviewed_ranges": [
+        [
+          1,
+          137
+        ]
+      ],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05072",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/commands/local/binding.rs",
+      "line_count": 141,
+      "reviewed_ranges": [
+        [
+          1,
+          141
+        ]
+      ],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05073",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/commands/local/cards.rs",
+      "line_count": 372,
+      "reviewed_ranges": [
+        [
+          1,
+          372
+        ]
+      ],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05074",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/commands/local/context.rs",
+      "line_count": 463,
+      "reviewed_ranges": [
+        [
+          1,
+          463
+        ]
+      ],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05075",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/commands/local/failpoints.rs",
+      "line_count": 8,
+      "reviewed_ranges": [
+        [
+          1,
+          8
+        ]
+      ],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05076",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/commands/local/filesystem.rs",
+      "line_count": 71,
+      "reviewed_ranges": [
+        [
+          1,
+          71
+        ]
+      ],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05077",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/commands/local/intent.rs",
+      "line_count": 1053,
+      "reviewed_ranges": [
+        [
+          1,
+          1053
+        ]
+      ],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05078",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/commands/local/issue.rs",
+      "line_count": 101,
+      "reviewed_ranges": [
+        [
+          1,
+          101
+        ]
+      ],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05079",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/commands/local/lifecycle.rs",
+      "line_count": 275,
+      "reviewed_ranges": [
+        [
+          1,
+          275
+        ]
+      ],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05080",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/commands/local/mod.rs",
+      "line_count": 344,
+      "reviewed_ranges": [
+        [
+          1,
+          344
+        ]
+      ],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05081",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/commands/local/planning.rs",
+      "line_count": 594,
+      "reviewed_ranges": [
+        [
+          1,
+          594
+        ]
+      ],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05082",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/commands/local/results.rs",
+      "line_count": 27,
+      "reviewed_ranges": [
+        [
+          1,
+          27
+        ]
+      ],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05083",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/commands/local/routing.rs",
+      "line_count": 247,
+      "reviewed_ranges": [
+        [
+          1,
+          247
+        ]
+      ],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05084",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/commands/local/storage.rs",
+      "line_count": 80,
+      "reviewed_ranges": [
+        [
+          1,
+          80
+        ]
+      ],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05085",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/commands/local/transactions.rs",
+      "line_count": 607,
+      "reviewed_ranges": [
+        [
+          1,
+          607
+        ]
+      ],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05086",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/commands/local/worktree.rs",
+      "line_count": 190,
+      "reviewed_ranges": [
+        [
+          1,
+          190
+        ]
+      ],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05087",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/commands/mod.rs",
+      "line_count": 12,
+      "reviewed_ranges": [],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05088",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/commands/proof.rs",
+      "line_count": 2719,
+      "reviewed_ranges": [],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05089",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/commands/proof/intent.rs",
+      "line_count": 1830,
+      "reviewed_ranges": [
+        [
+          1,
+          1830
+        ]
+      ],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05090",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/commands/release.rs",
+      "line_count": 344,
+      "reviewed_ranges": [],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05091",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/commands/remote/authority.rs",
+      "line_count": 119,
+      "reviewed_ranges": [],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05092",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/commands/remote/coordination.rs",
+      "line_count": 299,
+      "reviewed_ranges": [
+        [
+          1,
+          299
+        ]
+      ],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05093",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/commands/remote/coordination/tests.rs",
+      "line_count": 458,
+      "reviewed_ranges": [
+        [
+          1,
+          458
+        ]
+      ],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05094",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/commands/remote/delivery.rs",
+      "line_count": 380,
+      "reviewed_ranges": [],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05095",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/commands/remote/intent.rs",
+      "line_count": 960,
+      "reviewed_ranges": [
+        [
+          1,
+          960
+        ]
+      ],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05096",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/commands/remote/merge.rs",
+      "line_count": 951,
+      "reviewed_ranges": [],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05097",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/commands/remote/merge_linkage.rs",
+      "line_count": 242,
+      "reviewed_ranges": [
+        [
+          1,
+          242
+        ]
+      ],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05098",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/commands/remote/mod.rs",
+      "line_count": 58,
+      "reviewed_ranges": [
+        [
+          1,
+          58
+        ]
+      ],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05099",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/commands/remote/model.rs",
+      "line_count": 602,
+      "reviewed_ranges": [],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05100",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/commands/remote/mutation.rs",
+      "line_count": 999,
+      "reviewed_ranges": [
+        [
+          1,
+          999
+        ]
+      ],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05101",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/commands/remote/publication.rs",
+      "line_count": 915,
+      "reviewed_ranges": [],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05102",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/commands/remote/routing.rs",
+      "line_count": 91,
+      "reviewed_ranges": [],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05103",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/commands/remote/storage.rs",
+      "line_count": 758,
+      "reviewed_ranges": [
+        [
+          1,
+          758
+        ]
+      ],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05104",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/commands/remote/support.rs",
+      "line_count": 159,
+      "reviewed_ranges": [],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05105",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/commands/remote/target.rs",
+      "line_count": 252,
+      "reviewed_ranges": [
+        [
+          1,
+          252
+        ]
+      ],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05106",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/commands/remote/tests.rs",
+      "line_count": 3298,
+      "reviewed_ranges": [],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05107",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/commands/remote/tests/merge_cases.rs",
+      "line_count": 1042,
+      "reviewed_ranges": [],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05108",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/commands/remote/transport.rs",
+      "line_count": 999,
+      "reviewed_ranges": [],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05109",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/commands/result.rs",
+      "line_count": 268,
+      "reviewed_ranges": [
+        [
+          1,
+          268
+        ]
+      ],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05110",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/commands/terminal.rs",
+      "line_count": 3169,
+      "reviewed_ranges": [],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05111",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/commands/terminal/intent_archive.rs",
+      "line_count": 943,
+      "reviewed_ranges": [
+        [
+          1,
+          943
+        ]
+      ],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05112",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/conversion.rs",
+      "line_count": 3005,
+      "reviewed_ranges": [
+        [
+          1,
+          3005
+        ]
+      ],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05113",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/lib.rs",
+      "line_count": 220,
+      "reviewed_ranges": [],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05114",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/lifecycle/mod.rs",
+      "line_count": 354,
+      "reviewed_ranges": [],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05115",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/lifecycle/semantic.rs",
+      "line_count": 946,
+      "reviewed_ranges": [
+        [
+          1,
+          607
+        ]
+      ],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05116",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/main.rs",
+      "line_count": 1255,
+      "reviewed_ranges": [],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05117",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/storage/codec.rs",
+      "line_count": 81,
+      "reviewed_ranges": [
+        [
+          1,
+          81
+        ]
+      ],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05118",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/storage/mod.rs",
+      "line_count": 911,
+      "reviewed_ranges": [],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05119",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/storage/semantic.rs",
+      "line_count": 2961,
+      "reviewed_ranges": [
+        [
+          1,
+          2841
+        ]
+      ],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05120",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/storage/semantic/journal_recovery.rs",
+      "line_count": 308,
+      "reviewed_ranges": [
+        [
+          1,
+          308
+        ]
+      ],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05121",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/storage/semantic/protocol.rs",
+      "line_count": 2446,
+      "reviewed_ranges": [
+        [
+          1,
+          1320
+        ]
+      ],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05122",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/storage/semantic/protocol/creation.rs",
+      "line_count": 1187,
+      "reviewed_ranges": [
+        [
+          1,
+          895
+        ]
+      ],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05123",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/transition.rs",
+      "line_count": 2445,
+      "reviewed_ranges": [
+        [
+          1,
+          1776
+        ]
+      ],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05124",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/transition/history.rs",
+      "line_count": 1131,
+      "reviewed_ranges": [
+        [
+          1,
+          745
+        ]
+      ],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F05125",
+      "status": "cross_credited_architecture_source_review",
+      "path": "csdlc-v3/src/transition/history/legacy.rs",
+      "line_count": 400,
+      "reviewed_ranges": [
+        [
+          1,
+          400
+        ]
+      ],
+      "observation": "Same specialist architecture lens; see architecture-coverage.json exact observation/status. This is cross-credit, not independent second review."
+    },
+    {
+      "id": "F06008",
+      "status": "unreviewed_by_code_lane",
+      "path": "docs/milestones/v0.92.2/evidence/issue-916/validation/src/lib.rs",
+      "line_count": 11,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F06018",
+      "status": "unreviewed_by_code_lane",
+      "path": "docs/milestones/v0.92.2/evidence/issue-917/validation/src/lib.rs",
+      "line_count": 26,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    },
+    {
+      "id": "F06028",
+      "status": "unreviewed_by_code_lane",
+      "path": "docs/milestones/v0.92.2/evidence/issue-918/validation/src/lib.rs",
+      "line_count": 22,
+      "reviewed_ranges": [],
+      "observation": "Requires assigned complementary specialist or follow-up source review; no pass implied."
+    }
+  ],
+  "tests_inspected": [
+    "adl/tests/codefriend_review.rs retry/cancel cases (search plus focused source context)",
+    "adl/tests/codefriend_render_pdf.rs semantic whitespace-normalized assertions",
+    "Embedded resolver, resident_health, agent journal, Markdown anchored export and PDF tests"
+  ],
+  "executed_reproductions": [
+    "code-excerpt-repro.rs",
+    "code-retry-repro.rs"
+  ],
+  "unperformed": [
+    "Full CLI concurrent retry reproduction",
+    "Full approved renderer pipeline regression",
+    "Paid/provider/cloud/network tests"
+  ]
+}
