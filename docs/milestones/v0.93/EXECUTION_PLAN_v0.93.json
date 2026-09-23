@@ -2972,5 +2972,11 @@
         "status": "open_separately_gated_not_in_83_candidates"
       }
     ]
-  }
+  },
+  "superseded_by": [
+    "v0.93.1",
+    "v0.93.2"
+  ],
+  "activation_allowed": false,
+  "retention_note": "Historical combined package; internal status fields describe its original draft. Use MILESTONE_SPLIT_v0.93.json and successor plans for current routing."
 }

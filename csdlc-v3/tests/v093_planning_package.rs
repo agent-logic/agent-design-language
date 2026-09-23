@@ -4,6 +4,28 @@ use serde_json::Value;
 use std::collections::{BTreeMap, BTreeSet};
 use std::path::PathBuf;
 
+// PVF: planning-contract lane, deterministic local document/graph validation;
+// bounded Python subprocess and repository reads, no network or product claims.
+#[test]
+fn approved_release_split_preserves_scope_and_rejects_invalid_plans() {
+    let output = std::process::Command::new("python3")
+        .env("PYTHONDONTWRITEBYTECODE", "1")
+        .arg(root().join("validate_split.py"))
+        .output()
+        .expect("Python 3 is required for the release-split planning validator");
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    let report: Value = serde_json::from_slice(&output.stdout).expect("validator JSON report");
+    assert_eq!(report["status"], "pass");
+    assert_eq!(report["source_tasks"], 83);
+    assert_eq!(report["successor_tasks"], serde_json::json!([43, 53]));
+    assert_eq!(report["negative_fixtures"], 12);
+    assert_eq!(report["execution_opened"], false);
+}
+
 fn root() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR"))
         .parent()
