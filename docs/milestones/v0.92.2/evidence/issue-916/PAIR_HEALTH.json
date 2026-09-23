@@ -1,0 +1,43 @@
+{
+  "observed_at": "2026-09-22T03:59:44.872716+00:00",
+  "observations": [
+    {
+      "service": "direct_ollama",
+      "endpoint": "/api/tags",
+      "http_status": 200,
+      "models": 45,
+      "version": null
+    },
+    {
+      "service": "direct_ollama",
+      "endpoint": "/api/ps",
+      "http_status": 200,
+      "models": 1,
+      "version": null
+    },
+    {
+      "service": "direct_ollama",
+      "endpoint": "/api/version",
+      "http_status": 200,
+      "models": 0,
+      "version": "0.32.14"
+    },
+    {
+      "service": "pair_proxy",
+      "endpoint": "/api/tags",
+      "http_status": 503
+    },
+    {
+      "service": "pair_proxy",
+      "endpoint": "/api/ps",
+      "http_status": 502
+    },
+    {
+      "service": "pair_proxy",
+      "endpoint": "/api/version",
+      "http_status": 502
+    }
+  ],
+  "interpretation": "PAIR process is up; its local proxy is not healthy for model discovery. Direct Ollama is separate and responds. No inference, restart or configuration change performed.",
+  "remote_observation": "Nessus TCP SSH/node-info/proxy ports reachable; unauthenticated proxy GET returns403; not classified as failure."
+}

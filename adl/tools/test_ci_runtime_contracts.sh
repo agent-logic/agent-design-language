@@ -5,6 +5,7 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 WORKFLOW="$ROOT_DIR/.github/workflows/ci.yaml"
 
 ruby "$ROOT_DIR/adl/tools/validate_ci_workflow_policy.rb" >/dev/null
+ruby "$ROOT_DIR/adl/tools/test_workspace_coverage_deadline.rb"
 
 mkdir -p "$ROOT_DIR/.adl/tmp"
 POLICY_FIXTURE_ROOT="$(mktemp -d "$ROOT_DIR/.adl/tmp/ci-policy.XXXXXX")"

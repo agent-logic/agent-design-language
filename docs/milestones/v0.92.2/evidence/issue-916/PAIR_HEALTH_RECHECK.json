@@ -1,0 +1,49 @@
+{
+  "observed_at": "2026-09-22T04:20:06.217500+00:00",
+  "operator_update": "PAIR fixed",
+  "observations": [
+    {
+      "service": "direct_ollama",
+      "endpoint": "/api/tags",
+      "http_status": 200,
+      "models": 45,
+      "version": null
+    },
+    {
+      "service": "direct_ollama",
+      "endpoint": "/api/ps",
+      "http_status": 200,
+      "models": 1,
+      "version": null
+    },
+    {
+      "service": "direct_ollama",
+      "endpoint": "/api/version",
+      "http_status": 200,
+      "models": 0,
+      "version": "0.32.14"
+    },
+    {
+      "service": "pair_proxy",
+      "endpoint": "/api/tags",
+      "http_status": 200,
+      "models": 19,
+      "version": null
+    },
+    {
+      "service": "pair_proxy",
+      "endpoint": "/api/ps",
+      "http_status": 200,
+      "models": 0,
+      "version": null
+    },
+    {
+      "service": "pair_proxy",
+      "endpoint": "/api/version",
+      "http_status": 200,
+      "models": 0,
+      "version": "0.34.2"
+    }
+  ],
+  "scope": "Read-only model discovery and version/loaded-model endpoints; no inference or restart."
+}
