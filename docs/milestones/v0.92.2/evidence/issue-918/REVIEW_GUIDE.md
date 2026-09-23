@@ -4,7 +4,7 @@ Status: reviewable draft; final acceptance pending. The user explicitly authoriz
 
 ## Exact inputs and ancestry
 
-#916 draft PR #1151: `e119223cd13ebbb6a07c0349ba6772f8ee2ecece`. #917 draft PR #1152: `c10757270098aea35e36453c91054ea8b4f947db`. Both are draft inputs with acceptance pending. This branch includes their ancestry against main so reviewers must distinguish inherited changes from #918 changes. The #918 delta starts after its merge of #917; compare against the declared #917 commit to inspect only finalization work. Integrate predecessors first and refresh source identities, affected hashes and independent review after any substantive upstream change.
+#916 draft PR #1151: `e119223cd13ebbb6a07c0349ba6772f8ee2ecece`. #917 draft PR #1152: `c10757270098aea35e36453c91054ea8b4f947db`. Both are draft inputs with acceptance pending. This branch includes their ancestry against main so reviewers must distinguish inherited changes from #918 changes. The #918 delta starts after its merge of #917; compare against drafting base `3c6ebcb1e42ee993a1bc9152857c3008be655181` to inspect only finalization work. That merge also incorporates the newer main baseline; a direct comparison to #917 includes those unrelated already-landed differences. Integrate predecessors first and refresh source identities, affected hashes and independent review after any substantive upstream change.
 
 PUBLICATION_MANIFEST.json binds exact byte identities, format, role, custody, version policy, proposed destination and pending approval for included documents. For new #918 files, source_revision denotes the drafting base, while SHA-256 denotes their actual candidate bytes; the PR head supplies final Git identity. No circular self-hash or invented final candidate identity is used.
 

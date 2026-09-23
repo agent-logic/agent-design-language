@@ -34,8 +34,8 @@
     {
       "id": "review_guide",
       "path": "docs/milestones/v0.92.2/evidence/issue-918/REVIEW_GUIDE.md",
-      "sha256": "2f84bb9daac328bec8ee29407f3e012635212d154eccb39a13208e89d43dd099",
-      "bytes": 3459,
+      "sha256": "338431607c064539d955b76d808fc8e7fb96fd8955cfac8ce3a798c002509768",
+      "bytes": 3626,
       "format": "md",
       "role": "review_guide",
       "source_revision": "3c6ebcb1e42ee993a1bc9152857c3008be655181",
