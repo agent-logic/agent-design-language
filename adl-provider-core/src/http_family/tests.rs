@@ -2666,3 +2666,128 @@ fn operator_ca_errors_are_bounded_and_redacted() {
         .build()
         .is_ok());
 }
+
+// PVF: deterministic loopback transport regressions; bounded memory (4 MiB + 1),
+// no credentials or provider inference; integration proof, not a live release gate.
+fn bounded_body_server(
+    body: Vec<u8>,
+    declared_length: Option<usize>,
+) -> (String, thread::JoinHandle<()>) {
+    let server = Server::http("127.0.0.1:0").expect("bind response-bound fixture");
+    let endpoint = format!("http://{}", server.server_addr());
+    let handle = thread::spawn(move || {
+        let mut request = server.recv().expect("receive fixture request");
+        let _ = std::io::copy(request.as_reader(), &mut std::io::sink());
+        // No declared length makes tiny_http emit chunked transfer encoding.
+        let response = Response::new(
+            tiny_http::StatusCode(200),
+            Vec::new(),
+            std::io::Cursor::new(body),
+            declared_length,
+            None,
+        )
+        .with_chunked_threshold(if declared_length.is_some() {
+            usize::MAX
+        } else {
+            1
+        });
+        let _ = request.respond(response);
+    });
+    (endpoint, handle)
+}
+
+#[test]
+fn provider_response_bound_rejects_declared_and_chunked_oversize_for_all_consumers() {
+    for chunked in [false, true] {
+        for consumer in ["json", "text", "generic"] {
+            // A tiny extracted result must not hide an oversized unused field.
+            let mut body = br#"{"output":"ok","unused":""#.to_vec();
+            body.resize(MAX_PROVIDER_RESPONSE_BYTES, b'x');
+            body.extend_from_slice(br#""}"#);
+            let declared = if chunked { None } else { Some(body.len()) };
+            let (endpoint, handle) = bounded_body_server(body, declared);
+            let client = provider_http_client_builder_with_ca(true, None)
+                .unwrap()
+                .timeout(Duration::from_secs(5))
+                .build()
+                .unwrap();
+            let error = match consumer {
+                "json" => provider_http_json("fixture", client.get(&endpoint)).unwrap_err(),
+                "text" => provider_http_text("fixture", client.get(&endpoint)).unwrap_err(),
+                _ => {
+                    let spec = provider_spec("http", &endpoint, None, &[]);
+                    let target = provider_target("http", endpoint, "fixture");
+                    HttpProvider::from_target(&spec, &target)
+                        .unwrap()
+                        .complete("hello")
+                        .unwrap_err()
+                }
+            };
+            assert!(
+                error.to_string().contains("kind=response_too_large"),
+                "{consumer}, chunked={chunked}: {error}"
+            );
+            assert!(!is_retryable_error(&error));
+            handle.join().unwrap();
+        }
+    }
+}
+
+#[test]
+fn provider_response_bound_preserves_valid_json_text_and_exact_limit() {
+    let (endpoint, handle) = bounded_body_server(br#"{"output":"ok"}"#.to_vec(), None);
+    let (json, status) = provider_http_json(
+        "fixture",
+        provider_http_client_builder_with_ca(true, None)
+            .unwrap()
+            .build()
+            .unwrap()
+            .get(endpoint),
+    )
+    .unwrap();
+    assert_eq!(json["output"], "ok");
+    assert_eq!(status, 200);
+    handle.join().unwrap();
+    let body = vec![b'x'; MAX_PROVIDER_RESPONSE_BYTES];
+    let (endpoint, handle) = bounded_body_server(body, None);
+    let (text, status) = provider_http_text(
+        "fixture",
+        provider_http_client_builder_with_ca(true, None)
+            .unwrap()
+            .build()
+            .unwrap()
+            .get(endpoint),
+    )
+    .unwrap();
+    assert_eq!(text.len(), MAX_PROVIDER_RESPONSE_BYTES);
+    assert!(text.bytes().all(|byte| byte == b'x'));
+    assert_eq!(status, 200);
+    handle.join().unwrap();
+}
+
+#[test]
+fn provider_response_bound_preserves_body_timeout_classification() {
+    use std::io::{Read, Write};
+    let server = std::net::TcpListener::bind("127.0.0.1:0").unwrap();
+    let endpoint = format!("http://{}", server.local_addr().unwrap());
+    let (release, wait) = std::sync::mpsc::channel();
+    let handle = thread::spawn(move || {
+        let (mut stream, _) = server.accept().unwrap();
+        let mut request = [0u8; 4096];
+        assert!(stream.read(&mut request).unwrap() > 0);
+        stream
+            .write_all(b"HTTP/1.1 200 OK\r\nContent-Length: 20\r\n\r\n{")
+            .unwrap();
+        let _ = wait.recv_timeout(Duration::from_secs(5));
+    });
+    let client = provider_http_client_builder_with_ca(true, None)
+        .unwrap()
+        .timeout(Duration::from_millis(100))
+        .build()
+        .unwrap();
+    let error = provider_http_json("fixture", client.get(endpoint)).unwrap_err();
+    release.send(()).unwrap();
+    handle.join().unwrap();
+    assert!(error.to_string().contains("kind=timeout"), "{error}");
+    assert!(is_retryable_error(&error));
+}
