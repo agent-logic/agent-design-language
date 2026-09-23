@@ -525,3 +525,40 @@ native authenticated terminal readback still checks exact head, closing linkage
 and closed issue. A conflicting native or retained terminal target is refused.
 This does not manufacture a publication mutation receipt or merge the PR.
 The flag and `--disposition` are mutually exclusive.
+
+### Retire a never-dispatched merge before integration
+
+A retained merge intent binds its reviewed head, base and policy. When integration
+requires a new candidate, do not delete the intent, target guard or semantic
+journal, and do not reinterpret a still-open PR as proof of non-dispatch.
+Use an explicit disposition after inspecting the pending semantic operation:
+
+```json
+{
+  "schema": "csdlc.v3.semantic_merge_retirement_disposition.v1",
+  "action": "retire_never_dispatched_merge",
+  "operation_id": "semantic-operation-v1:<64 hexadecimal characters>",
+  "rationale": "Operator-approved retirement to resolve integration conflicts"
+}
+```
+
+Run `csdlc recover ISSUE --disposition retirement.json` for its preview, then
+`csdlc recover ISSUE --disposition retirement.json --execute --preview DIGEST`.
+This route performs authenticated observation, not a remote merge. Under the PR
+lock it verifies the exact original intent and target and refuses retirement if
+any dispatch-prestate, private input, response, reconciliation or receipt object
+exists. Unreadable evidence and dangling symlinks fail closed. An immutable
+retirement fence is written before semantic `Failure / NotPerformed` completion.
+The original request can never dispatch after that fence, including after a crash.
+
+After retirement, resolve integration, declare the implementation amendment,
+then obtain fresh proof, independent review, publication and ready admission.
+The new merge is a distinct reviewed candidate. Native staging validates the
+retired predecessor's full intent and canonical semantic completion, and writes
+one create-only successor link while preserving the original target as history.
+A competing successor is rejected. A crash between the successor link and intent
+creation resumes only that exact successor. Changed operator prose alone does
+not create a new merge identity; the original retired operation stays retired.
+
+After any dispatch evidence, only authenticated reconciliation remains supported.
+Retirement does not claim a merge, close an issue, relax policy, or permit replay.

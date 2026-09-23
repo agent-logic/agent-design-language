@@ -157,3 +157,30 @@ pub(super) fn github_mutation_reconciliation_digest(
         },
     ])
 }
+
+pub(super) fn json_string_array_contains_all(
+    value: &serde_json::Value,
+    expected: &[String],
+) -> bool {
+    expected.iter().all(|expected| {
+        github_readback_candidates(value)
+            .into_iter()
+            .any(|candidate| {
+                candidate.as_str() == Some(expected.as_str())
+                    || candidate["name"].as_str() == Some(expected.as_str())
+                    || candidate["login"].as_str() == Some(expected.as_str())
+            })
+    })
+}
+
+pub(super) fn github_readback_candidates(value: &serde_json::Value) -> Vec<&serde_json::Value> {
+    if let Some(values) = value.as_array() {
+        return values.iter().collect();
+    }
+    for key in ["items", "comments", "pull_requests"] {
+        if let Some(values) = value[key].as_array() {
+            return values.iter().collect();
+        }
+    }
+    vec![value]
+}

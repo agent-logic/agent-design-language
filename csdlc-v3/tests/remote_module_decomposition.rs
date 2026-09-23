@@ -1,6 +1,6 @@
 use std::collections::BTreeMap;
 
-const MODULES: [(&str, &str); 14] = [
+const MODULES: [(&str, &str); 15] = [
     (
         "authority",
         include_str!("../src/commands/remote/authority.rs"),
@@ -18,6 +18,10 @@ const MODULES: [(&str, &str); 14] = [
     (
         "merge_linkage",
         include_str!("../src/commands/remote/merge_linkage.rs"),
+    ),
+    (
+        "merge_retirement",
+        include_str!("../src/commands/remote/merge_retirement.rs"),
     ),
     ("model", include_str!("../src/commands/remote/model.rs")),
     (
@@ -88,7 +92,16 @@ fn direct_sibling_dependencies<'a>(source: &str, modules: &'a [&str]) -> Vec<&'a
     modules
         .iter()
         .copied()
-        .filter(|dependency| compact_source.contains(&format!("super::{dependency}")))
+        .filter(|dependency| {
+            compact_source
+                .match_indices(&format!("super::{dependency}"))
+                .any(|(start, matched)| {
+                    compact_source[start + matched.len()..]
+                        .chars()
+                        .next()
+                        .is_none_or(|next| !next.is_ascii_alphanumeric() && next != '_')
+                })
+        })
         .collect()
 }
 
@@ -111,12 +124,36 @@ fn remote_owner_remains_a_thin_acyclic_module_graph() {
         ("publication", 3),
         ("transport", 3),
         ("coordination", 4),
-        ("merge", 4),
-        ("mutation", 5),
-        ("routing", 6),
-        ("intent", 7),
+        ("merge_retirement", 4),
+        ("merge", 5),
+        ("mutation", 6),
+        ("routing", 7),
+        ("intent", 8),
     ]);
     let module_names = ranks.keys().copied().collect::<Vec<_>>();
+    let declared = facade
+        .lines()
+        .filter_map(|line| {
+            let line = line.trim().strip_prefix("pub ").unwrap_or(line.trim());
+            line.strip_prefix("mod ")?.strip_suffix(';')
+        })
+        .filter(|name| *name != "tests")
+        .collect::<std::collections::BTreeSet<_>>();
+    let inventoried = MODULES
+        .iter()
+        .map(|(name, _)| *name)
+        .collect::<std::collections::BTreeSet<_>>();
+    assert_eq!(
+        declared, inventoried,
+        "all production modules must be inventoried"
+    );
+    assert_eq!(
+        module_names
+            .iter()
+            .copied()
+            .collect::<std::collections::BTreeSet<_>>(),
+        inventoried
+    );
 
     for (module, source) in MODULES {
         assert!(
@@ -212,4 +249,36 @@ fn remote_responsibilities_have_one_production_owner() {
             "{symbol} must have exactly one cohesive production owner"
         );
     }
+}
+
+// PVF: deterministic architecture contract regression; local strings only,
+// required owner guard, negligible resources, no external effects.
+#[test]
+fn sibling_dependencies_match_complete_identifiers() {
+    let modules = ["merge", "merge_linkage", "merge_retirement"];
+    for source in [
+        "use super::merge_retirement::*;",
+        "super::merge_retirement::present(path)",
+    ] {
+        assert_eq!(
+            direct_sibling_dependencies(source, &modules),
+            vec!["merge_retirement"]
+        );
+    }
+    assert_eq!(
+        direct_sibling_dependencies("use super::merge_linkage::query;", &modules),
+        vec!["merge_linkage"]
+    );
+    assert!(direct_sibling_dependencies(
+        "super::merge_retirement_extra::run(); super::merge2::run();",
+        &modules
+    )
+    .is_empty());
+    assert_eq!(
+        direct_sibling_dependencies(
+            "use super::merge::*; super::merge_retirement::run();",
+            &modules
+        ),
+        vec!["merge", "merge_retirement"]
+    );
 }

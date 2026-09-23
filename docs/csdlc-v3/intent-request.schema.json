@@ -750,6 +750,32 @@
         "rationale",
         "evidence_refs"
       ]
+    },
+    "merge_retirement_disposition": {
+      "type": "object",
+      "properties": {
+        "schema": {
+          "const": "csdlc.v3.semantic_merge_retirement_disposition.v1"
+        },
+        "action": {
+          "const": "retire_never_dispatched_merge"
+        },
+        "operation_id": {
+          "type": "string",
+          "pattern": "^semantic-operation-v1:[0-9a-f]{64}$"
+        },
+        "rationale": {
+          "type": "string",
+          "pattern": "\\S"
+        }
+      },
+      "required": [
+        "schema",
+        "action",
+        "operation_id",
+        "rationale"
+      ],
+      "additionalProperties": false
     }
   },
   "allOf": [
@@ -921,6 +947,9 @@
               },
               {
                 "$ref": "#/$defs/review_recovery_disposition"
+              },
+              {
+                "$ref": "#/$defs/merge_retirement_disposition"
               },
               {
                 "$ref": "#/$defs/cleanup_absence_recovery_disposition"
