@@ -44,3 +44,7 @@ The review packet includes Markdown and JSON evidence. Actual approved CodeFrien
 ## Excluded scope
 
 No Jira, Linear, Slack or broad Workspace integration; autonomous source mutation; customer-scale multi-tenant hosting; ATE; OCI model packaging; security tournaments; or Runtime v4 is claimed. MLX/Metal and Observatory sidecar evidence remain bounded to their admitted scope. See [the review guide](evidence/issue-918/REVIEW_GUIDE.md) for acceptance gaps and the external-review procedure.
+
+## Integrated review repairs
+
+The [repair reconciliation](evidence/issue-918/INTEGRATION_RECONCILIATION.json) records merged Groups A–D and the separate #1172 follow-on. The frozen internal review retains its accepted 27-finding denominator. Repair integration is not external-review completion or release approval.

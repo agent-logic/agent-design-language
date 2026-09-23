@@ -1,9 +1,14 @@
 {
   "issue": 918,
   "lane": "docs_only",
-  "proof_role": "Validate private draft artifact integrity, candidate identity and pending approval gates",
+  "proof_role": "Validate private packet integrity, reviewed-source versus integrated-candidate identity, repair ancestry, frozen27finding denominator and pending approval gates",
   "determinism": "Deterministic local files and retained Git objects; negative cases mutate in-memory manifests only",
   "resources": "Local CPU, Python3, Git and dependency-free Cargo; no network, provider or deployment effects",
   "release_gate": "Required documentation proof only; does not establish predecessor acceptance, qualification PASS or publication authorization",
-  "tests": ["publication_packet_contract", "publication_packet_negative_fixtures"]
+  "tests": [
+    "publication_packet_contract",
+    "publication_packet_negative_fixtures"
+  ],
+  "negative_cases": 35,
+  "integration_scope": "MergedGroupsA-D;1172separatefromfrozen919denominator; noexternalreview/releaseclaim"
 }
