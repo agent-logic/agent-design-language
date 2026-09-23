@@ -122,3 +122,11 @@ The remaining qualification repair is #1144 / [PR #1146](https://github.com/agen
 Q02–Q12 are not promoted by repair CI or historical controlled-provider tests; Q11 and Q12 remain blocked by missing final independent qualification. 916-G03 remains the distinct producer acceptance/freshness reconciliation obligation. Earlier resolved G04 Runtime-archive and G05 PAIR-discovery observations remain resolved within their recorded scope; neither is rerun or broadened here.
 
 [Current authenticated observations](SPRINT10_CLOSEOUT_REFRESH.json) retain this checkpoint separately from prior evidence. This update performs no provider runs, deployment, product repair, cleanup or final release acceptance. The 69-task ledger and 24-prerequisite census retain their earlier timestamps; this bounded refresh does not claim a new full census.
+
+## Continued Sprint 11 audit — 2026-09-23T01:10:42.609439+00:00
+
+All **84 evidence references across the 24-prerequisite matrix resolve and match their recorded SHA-256**, with zero mismatches or missing objects. Historical references were read at their declared Git revisions; unversioned references were read from this bound audit worktree. [Artifact-by-artifact results](PRODUCER_HASH_RECHECK.json) narrow 916-G03: these indexed bytes are available and unchanged. They do not prove completeness of the index, criterion satisfaction, or freshness on the eventual installed release candidate. No new archive-loss finding is warranted.
+
+[PR #1146](https://github.com/agent-logic/agent-design-language/pull/1146) is now **MERGED**, merged at `2026-09-22T20:12:17Z` as `6d78c1da473f95c4db4e0fa29f4fc2bd1d290106`. This supersedes the earlier OPEN repair observation, not its historical snapshot. #915 remains **OPEN**. The next gate is accepted independent qualification consuming the exact repaired candidate; deployment/install consumption and a passing qualification matrix are not inferred from merge. [Authenticated merge readback](QUALIFICATION_REPAIR_MERGE.json).
+
+916-G02 remains release-blocking. G03 now requires content/acceptance and final-candidate linkage reconciliation, rather than another repeat of the completed indexed-byte availability check. Q02–Q12 remain not proven. The following tail tasks retain their exact dependency order; this audit does not accept #916 or open downstream finalization.

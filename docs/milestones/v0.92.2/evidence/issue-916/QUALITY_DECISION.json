@@ -266,5 +266,20 @@
     "repair_pr_state": "OPEN",
     "acceptance": "not_proven",
     "next_gate": "Consume accepted exact repaired candidate and independent #915 qualification; then reconcile source-specific acceptance and sprint closing ancestry."
+  },
+  "producer_hash_recheck": {
+    "evidence": "PRODUCER_HASH_RECHECK.json",
+    "prerequisites": 24,
+    "artifacts": 84,
+    "matches": 84,
+    "mismatches": 0,
+    "unavailable": 0,
+    "claim": "Retained byte identity only; not final installed-candidate acceptance."
+  },
+  "qualification_repair_merge": {
+    "evidence": "QUALIFICATION_REPAIR_MERGE.json",
+    "repair_pr_state": "MERGED",
+    "qualification_issue_state": "OPEN",
+    "decision": "not_proven"
   }
 }
