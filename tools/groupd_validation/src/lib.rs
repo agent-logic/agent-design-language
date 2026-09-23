@@ -12,6 +12,11 @@ mod tests {
         let result = Command::new(program)
             .arg(script)
             .current_dir(root)
+            .env("PYTHONDONTWRITEBYTECODE", "1")
+            .env(
+                "ADL_BUILD_ACTION_LOG_DIR",
+                root.join(".csdlc/evidence/1160/adapter-build-actions"),
+            )
             .output()
             .unwrap();
         assert!(
