@@ -1357,8 +1357,13 @@ async fn resident_shepherd_shutdown_interrupts_pending_probe() {
         .await;
     });
     tokio::task::yield_now().await;
+    let cancelled_at = tokio::time::Instant::now();
     shutdown.cancel();
     task.await.unwrap();
+    assert!(
+        cancelled_at.elapsed() < Duration::from_secs(1),
+        "cancellation must not wait for the 600-second probe timeout"
+    );
 }
 
 // PVF: deterministic virtual-clock concurrency regression, production recovery

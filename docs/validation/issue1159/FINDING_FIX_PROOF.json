@@ -1,0 +1,112 @@
+{
+  "schema": "adl.issue1159.finding_fix_proof.v1",
+  "issue": 1159,
+  "source_review_issue": 919,
+  "review_candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+  "implementation_base": "6d78c1da473f95c4db4e0fa29f4fc2bd1d290106",
+  "source_reconciliation": "All five reported patterns also existed at implementation_base. No invalidated findings. SYN-006 is owned by a separate repair group.",
+  "findings": [
+    {
+      "finding": "PRV-001",
+      "classification": "production_defect",
+      "status": "fixed",
+      "paths": [
+        "adl-runtime-kernel/src/control.rs",
+        "adl-runtime-kernel/src/control/provider_registry_tests.rs"
+      ],
+      "proof": "resident_health_alias_recovers_same_incident_across_roster_refresh: wrong native-ID success stays unverified; declared alias success recovers the same incident before and after dynamic roster refresh; no extra inference from polling."
+    },
+    {
+      "finding": "PRV-002",
+      "classification": "production_defect",
+      "status": "fixed",
+      "paths": [
+        "adl-provider-core/src/http_family.rs",
+        "adl-provider-core/src/http_family/tests.rs"
+      ],
+      "proof": "provider_response_bound_*: JSON/text/generic consumers reject both declared and chunked valid JSON with tiny output and oversized unused field; valid JSON and exact-4-MiB text pass; incomplete body timeout remains retryable."
+    },
+    {
+      "finding": "TESTS-001",
+      "classification": "deficient_regression_proof_not_present_ui_failure",
+      "status": "fixed",
+      "paths": [
+        "demos/html-observatory/tests/accessibility_responsive.test.mjs"
+      ],
+      "proof": "Current markup passes; each transcript independently loses aria-live and is rejected even though other live regions remain."
+    },
+    {
+      "finding": "TESTS-002",
+      "classification": "deficient_regression_proof_not_present_production_delay",
+      "status": "fixed",
+      "paths": [
+        "adl-runtime-kernel/tests/shepherd.rs"
+      ],
+      "proof": "Cancellation completes in less than one virtual second; removing the actual production pending-probe cancellation select arm fails the same test at the timing assertion. Source restored byte-identically."
+    },
+    {
+      "finding": "TESTS-003",
+      "classification": "fail_open_experiment_identity_proof_not_retained_weight_mismatch",
+      "status": "fixed",
+      "paths": [
+        "adl/tools/issue905_runtime_speculative_retest.py",
+        "adl/tools/test_issue905_runtime_speculative_retest.py"
+      ],
+      "proof": "Unknown/malformed digests and unsupported FROM metadata are non-proving; matching digests pass and unequal digests fail. Full harness failure writes failed report and launches no Runtime process for unknown identity."
+    }
+  ],
+  "validation": {
+    "provider_core_lib": {
+      "passed": 138,
+      "failed": 0
+    },
+    "runtime_resident_health": {
+      "passed": 16,
+      "failed": 0
+    },
+    "shepherd_cancellation": {
+      "passed": 1,
+      "failed": 0
+    },
+    "offline_model_identity": {
+      "passed": 11,
+      "failed": 0
+    },
+    "observatory_accessibility": {
+      "status": "pass",
+      "independent_negative_fixtures": 2
+    },
+    "production_cancellation_mutant": {
+      "mutation": "Remove pending-probe cancellation select arm from actual production recovery function",
+      "test": "resident_shepherd_shutdown_interrupts_pending_probe",
+      "exit_code": 101,
+      "rejected_by_timing_assertion": true,
+      "source_restored": true,
+      "original_sha256": "b9c9c2f46ed616314cb34ac73f553aae39f9cc113b0678d1c77b4bf47b2aad7a",
+      "mutant_sha256": "576295c977e9bb522bec37780e115177619fcd827c61017e5315031ed990c9fb"
+    }
+  },
+  "pvf": {
+    "lane": "owner_binary",
+    "role": "bounded production provider/health regression and correction of offline proof oracles",
+    "determinism": "Local deterministic fixtures; virtual Tokio time for cancellation; bounded loopback HTTP for provider transport/timeouts",
+    "resource_profile": "Local CPU, files and loopback sockets; maximum provider payload fixture approximately 4 MiB; no real model/provider/cloud usage",
+    "release_gate": "Required #1159 regression proof; does not establish installed Beta 1 qualification or release approval"
+  },
+  "changed_source_sha256": {
+    "adl-provider-core/src/http_family.rs": "4f7a120060ac409ee996d26c03acbe1cd029e9f0b099e4aff3aa2770065c3786",
+    "adl-provider-core/src/http_family/tests.rs": "aa1f4d26b1cd01dba6ad8c7a9f4f1d89c6e06fa3714b2658273d833093b01274",
+    "adl-runtime-kernel/src/control.rs": "48caf628e872d3105beaecbc6db0f20706c9c18a454f27b12be237b35eeb8781",
+    "adl-runtime-kernel/src/control/provider_registry_tests.rs": "00055e8274a070a34386e3f79cb8ff379ed1c32f3dcd3009a54775a2462c75aa",
+    "adl-runtime-kernel/tests/shepherd.rs": "24c1be20f15a0c8973fd3bb1a46ff1a13cf19c879424b7436e197f5e0adf7511",
+    "adl/tools/issue905_runtime_speculative_retest.py": "d18c8947cc145380b61b5d51e02dbb1ce57f0e7d18ecc3ed2d5c2abc58683a08",
+    "adl/tools/test_issue905_runtime_speculative_retest.py": "94ba30ebfe6a52c0fb0442bf3d912ff2f17a0b52179b4dcca2b1a0aef3c06ca0",
+    "demos/html-observatory/tests/accessibility_responsive.test.mjs": "d5ce8c46ca03749c4f4a53f8d565474b4c42c4e40b8b64a8a6d45fc1b07948b4"
+  },
+  "limitations": [
+    "No production Runtime restarted, residents changed, live provider calls, deployment, merge or retained experiment rewriting.",
+    "Existing successful bounded #905 run is not reclassified as differing model weights.",
+    "Initial health test compile failed on an incorrect enum import; corrected and rerun to the recorded 16-test success.",
+    "Native exact-head proof/review and CI remain separate records; counts here record the same source bytes tested locally."
+  ]
+}
