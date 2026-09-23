@@ -4,7 +4,7 @@
 
 ## Candidate and scope
 
-Historical tested ADL implementation snapshot: `2b047c8dc34e133ee1353ec265507a17c523e06f` (merged #1137/#1138). Historical tested website snapshot: `a45e339c13b24716edbd3fadf29dddff36ffe02e` (merged CodeFriend.ai #18). The inherited #916 evidence checkpoint is `d71d8a9b93`, merged into this documentation branch. It includes the earlier test-only control-readiness correction and subsequent quality-evidence updates; it is not an accepted installed release candidate. The source revisions below remain the historical test baselines, not a claim about current main. [Manifest](HANDOFF_MANIFEST.json) binds each inspected document's bytes and the exact full parent revision, plus all 69 canonical task identities.
+Historical tested ADL implementation snapshot: `2b047c8dc34e133ee1353ec265507a17c523e06f` (merged #1137/#1138). Historical tested website snapshot: `a45e339c13b24716edbd3fadf29dddff36ffe02e` (merged CodeFriend.ai #18). The inherited #916 evidence checkpoint is `e119223cd1`, merged into this documentation branch. It includes the earlier test-only control-readiness correction and subsequent quality-evidence updates; it is not an accepted installed release candidate. The source revisions below remain the historical test baselines, not a claim about current main. [Manifest](HANDOFF_MANIFEST.json) binds each inspected document's bytes and the exact full parent revision, plus all 69 canonical task identities.
 
 Review the current [quality decision](../issue-916/QUALITY_DECISION.json), [task ledger](../issue-916/TASK_LEDGER.json), [24-prerequisite assessment](../issue-916/PREREQUISITE_ACCEPTANCE.json) and [post-merge checks](../issue-916/POSTMERGE_VERIFICATION.json). The canonical [document inventory](../../CANONICAL_DOC_INVENTORY_v0.92.2.md) includes every milestone Markdown document recursively, beyond the original hand-picked planning list. The manifest binds that full set plus required machine-readable contracts and evidence, including the latest Sprint 10 checkpoint, repaired-candidate merge readback and 84-artifact producer hash audit. Historical study documents are retained unchanged; their statistics were not recomputed.
 
@@ -94,3 +94,7 @@ PR #1146 is merged as recorded in [the authenticated repair readback](../issue-9
 ## Native documentation proof adapter
 
 The issue-local `validation/Cargo.toml` runs the existing handoff and planning Python validators unchanged for the native Cargo proof route. It requires their successful nonzero fixture counts and original 69-task/24-prerequisite contract; the document count is read from the current manifest. The earlier 27-manifest audit is historical and excludes this subsequently added validation-only crate. This adapter changes no product or owner binary and grants no qualification or release acceptance.
+
+## Draft predecessor checkpoint
+
+This draft includes unmerged #916 ancestry for review. The [producer scope audit](../issue-916/PRODUCER_SCOPE_AUDIT.md) retains G03 evidence and contract gaps; neither this checkpoint nor its publication establishes passing release quality. #915 and Sprint 10/#936 are closed by explicit incomplete/deferred disposition, as recorded in the [deferral record](../issue-916/SPRINT10_DEFERRAL.json). Original qualification remains incomplete. No auto-merge or downstream final acceptance is authorized.

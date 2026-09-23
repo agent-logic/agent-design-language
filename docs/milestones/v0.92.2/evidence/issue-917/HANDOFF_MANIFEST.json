@@ -6,7 +6,7 @@
   "sources": {
     "native_main": "2b047c8dc34e133ee1353ec265507a17c523e06f",
     "website_main": "a45e339c13b24716edbd3fadf29dddff36ffe02e",
-    "inherited_916_checkpoint": "d71d8a9b9338b2b84db0692834e5810174c21d46"
+    "inherited_916_checkpoint": "e119223cd13ebbb6a07c0349ba6772f8ee2ecece"
   },
   "documents": [
     {
@@ -327,7 +327,7 @@
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-916/GAP_ANALYSIS.md",
-      "sha256": "642eca22c4e58ca9881f7d49a822315b222a8451053b2c432ea92c837a7e0a13"
+      "sha256": "17fecf9abb02eefb578a2b571febbba36776a35ddecf99edeba877ff05bb129c"
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-916/PAIR_HEALTH_RECHECK.json",
@@ -346,12 +346,16 @@
       "sha256": "4ab04f646b818a7a0fd3b4ba69c7df67e3ecb1688d773dcfeb92068d3a2e0b0f"
     },
     {
+      "path": "docs/milestones/v0.92.2/evidence/issue-916/PRODUCER_SCOPE_AUDIT.md",
+      "sha256": "a6b625f2b659bfc78a0dc26419e1320120b5855282a275d9156751db88abdd98"
+    },
+    {
       "path": "docs/milestones/v0.92.2/evidence/issue-916/QUALIFICATION_REPAIR_MERGE.json",
       "sha256": "d164b5c0533ada7fd45ed509a41708385aa5ff3e30f1e44946e5e4be612d27f7"
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-916/QUALITY_DECISION.json",
-      "sha256": "be34278427180591b4a0012e8a82b8272b4b7e91beb3b16c0bf865af6e33c104"
+      "sha256": "c783325e2e3dbe9f513dce67a1d5874a53193c9549c137c467581ae19426b1e0"
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-916/SPRINT10_CLOSEOUT_REFRESH.json",
@@ -359,11 +363,15 @@
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-916/SPRINT10_DEFERRAL.json",
-      "sha256": "3bd723f1778496ab3f9f2dc25afe768c2631686e3bca633f483d552d8bb38398"
+      "sha256": "58fb5bc937fcc2ee8975ec9a52a55a3597730b5d5edc80266227747a40784a51"
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-916/TASK_LEDGER.json",
       "sha256": "d6299f221d39112a02c9d379a935de586aa147106d62006936f620c533f2623d"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-916/validation/Cargo.toml",
+      "sha256": "4f9f9abfeac8d8bcd18d663cfb3ddaced6cb4e6fd1a1321391d5debf8644b61d"
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-917/CARGO_MANIFEST_AUDIT.json",
@@ -375,7 +383,7 @@
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-917/HANDOFF.md",
-      "sha256": "d4c804a52488a3e4e01b369dfe37b92ae31302398dbd332081140986f794d5dc"
+      "sha256": "edc9b762698131dbc650cc19b069d57d05de1233883eec3ada4d0d72f5e9b604"
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-917/validate_handoff.py",
