@@ -56,6 +56,9 @@ jobs:
       validation_profile_escalation_lanes: ${{ steps.path-policy.outputs.validation_profile_escalation_lanes }}
       runtime_v3_fast_required: ${{ steps.path-policy.outputs.runtime_v3_fast_required }}
       csdlc_v2_standalone_required: ${{ steps.path-policy.outputs.csdlc_v2_standalone_required }}
+      adl_characterization_standalone_required: ${{ steps.path-policy.outputs.adl_characterization_standalone_required }}
+      adl_resilience_standalone_required: ${{ steps.path-policy.outputs.adl_resilience_standalone_required }}
+      remote_validation_standalone_required: ${{ steps.path-policy.outputs.remote_validation_standalone_required }}
       csdlc_v3_standalone_required: ${{ steps.path-policy.outputs.csdlc_v3_standalone_required }}
       adl_v2_standalone_required: ${{ steps.path-policy.outputs.adl_v2_standalone_required }}
       heavy_ci_backend: ${{ steps.path-policy.outputs.heavy_ci_backend }}
@@ -189,6 +192,105 @@ jobs:
 
       - name: C-SDLC v2 strict Clippy
         run: bash adl/tools/run_cargo_validation.sh cargo clippy --locked --manifest-path csdlc-v2/Cargo.toml --all-targets -- -D warnings
+
+  adl_characterization_standalone:
+    name: adl-characterization-standalone
+    needs: adl_path_policy
+    if: needs.adl_path_policy.outputs.adl_characterization_standalone_required == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          fetch-depth: 0
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@631a55b12751854ce901bb631d5902ceb48146f7 # 1.92.0
+        with:
+          toolchain: 1.92.0
+          components: rustfmt, clippy
+
+      - name: Prepare external Cargo build root
+        run: |
+          build_root="$RUNNER_TEMP/adl-adl-characterization"
+          mkdir -p "$build_root"
+          echo "ADL_CARGO_BUILD_ROOT=$build_root" >> "$GITHUB_ENV"
+
+      - name: adl-characterization tests
+        run: bash adl/tools/run_cargo_validation.sh cargo test --locked --manifest-path adl-characterization/Cargo.toml
+
+      - name: adl-characterization format
+        run: bash adl/tools/run_cargo_validation.sh cargo fmt --manifest-path adl-characterization/Cargo.toml --all -- --check
+
+      - name: adl-characterization strict Clippy
+        run: bash adl/tools/run_cargo_validation.sh cargo clippy --locked --manifest-path adl-characterization/Cargo.toml --all-targets -- -D warnings
+
+  adl_resilience_standalone:
+    name: adl-resilience-standalone
+    needs: adl_path_policy
+    if: needs.adl_path_policy.outputs.adl_resilience_standalone_required == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          fetch-depth: 0
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@631a55b12751854ce901bb631d5902ceb48146f7 # 1.92.0
+        with:
+          toolchain: 1.92.0
+          components: rustfmt, clippy
+
+      - name: Prepare external Cargo build root
+        run: |
+          build_root="$RUNNER_TEMP/adl-adl-resilience"
+          mkdir -p "$build_root"
+          echo "ADL_CARGO_BUILD_ROOT=$build_root" >> "$GITHUB_ENV"
+
+      - name: adl-resilience tests
+        run: bash adl/tools/run_cargo_validation.sh cargo test --locked --manifest-path adl-resilience/Cargo.toml
+
+      - name: adl-resilience format
+        run: bash adl/tools/run_cargo_validation.sh cargo fmt --manifest-path adl-resilience/Cargo.toml --all -- --check
+
+      - name: adl-resilience strict Clippy
+        run: bash adl/tools/run_cargo_validation.sh cargo clippy --locked --manifest-path adl-resilience/Cargo.toml --all-targets -- -D warnings
+
+  remote_validation_standalone:
+    name: tools-remote_validation-standalone
+    needs: adl_path_policy
+    if: needs.adl_path_policy.outputs.remote_validation_standalone_required == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          fetch-depth: 0
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@631a55b12751854ce901bb631d5902ceb48146f7 # 1.92.0
+        with:
+          toolchain: 1.92.0
+          components: rustfmt, clippy
+
+      - name: Prepare external Cargo build root
+        run: |
+          build_root="$RUNNER_TEMP/adl-tools-remote_validation"
+          mkdir -p "$build_root"
+          echo "ADL_CARGO_BUILD_ROOT=$build_root" >> "$GITHUB_ENV"
+
+      - name: tools/remote_validation tests
+        run: bash adl/tools/run_cargo_validation.sh cargo test --locked --manifest-path tools/remote_validation/Cargo.toml
+
+      - name: tools/remote_validation format
+        run: bash adl/tools/run_cargo_validation.sh cargo fmt --manifest-path tools/remote_validation/Cargo.toml --all -- --check
+
+      - name: tools/remote_validation strict Clippy
+        run: bash adl/tools/run_cargo_validation.sh cargo clippy --locked --manifest-path tools/remote_validation/Cargo.toml --all-targets -- -D warnings
 
   csdlc_v3_standalone:
     name: csdlc-v3-standalone
@@ -797,6 +899,9 @@ jobs:
       - adl_path_policy
       - csdlc_v2_standalone
       - csdlc_v3_standalone
+      - adl_characterization_standalone
+      - adl_resilience_standalone
+      - remote_validation_standalone
       - adl_v2_standalone
       - adl_tooling_contracts
       - adl_runtime_v3_fast
@@ -828,6 +933,12 @@ jobs:
           RUST_TESTS_REQUIRED: ${{ needs.adl_path_policy.outputs.rust_required == 'true' }}
           CSDLC_V2_STANDALONE_REQUIRED: ${{ needs.adl_path_policy.outputs.csdlc_v2_standalone_required }}
           CSDLC_V2_STANDALONE_RESULT: ${{ needs.csdlc_v2_standalone.result }}
+          ADL_CHARACTERIZATION_STANDALONE_REQUIRED: ${{ needs.adl_path_policy.outputs.adl_characterization_standalone_required }}
+          ADL_CHARACTERIZATION_STANDALONE_RESULT: ${{ needs.adl_characterization_standalone.result }}
+          ADL_RESILIENCE_STANDALONE_REQUIRED: ${{ needs.adl_path_policy.outputs.adl_resilience_standalone_required }}
+          ADL_RESILIENCE_STANDALONE_RESULT: ${{ needs.adl_resilience_standalone.result }}
+          REMOTE_VALIDATION_STANDALONE_REQUIRED: ${{ needs.adl_path_policy.outputs.remote_validation_standalone_required }}
+          REMOTE_VALIDATION_STANDALONE_RESULT: ${{ needs.remote_validation_standalone.result }}
           CSDLC_V3_STANDALONE_REQUIRED: ${{ needs.adl_path_policy.outputs.csdlc_v3_standalone_required }}
           CSDLC_V3_STANDALONE_RESULT: ${{ needs.csdlc_v3_standalone.result }}
           ADL_V2_STANDALONE_REQUIRED: ${{ needs.adl_path_policy.outputs.adl_v2_standalone_required }}
@@ -870,6 +981,20 @@ jobs:
           else
             [ "$UTS_PACKAGE_RESULT" = skipped ] || { echo "::error::unselected UTS package lane was not skipped"; exit 1; }
           fi
+          # BEGIN independent Cargo roots aggregate contract
+          case "$ADL_CHARACTERIZATION_STANDALONE_REQUIRED:$ADL_CHARACTERIZATION_STANDALONE_RESULT" in
+            true:success|false:skipped) ;;
+            *) echo "::error::adl_characterization_standalone selection/result mismatch"; exit 1 ;;
+          esac
+          case "$ADL_RESILIENCE_STANDALONE_REQUIRED:$ADL_RESILIENCE_STANDALONE_RESULT" in
+            true:success|false:skipped) ;;
+            *) echo "::error::adl_resilience_standalone selection/result mismatch"; exit 1 ;;
+          esac
+          case "$REMOTE_VALIDATION_STANDALONE_REQUIRED:$REMOTE_VALIDATION_STANDALONE_RESULT" in
+            true:success|false:skipped) ;;
+            *) echo "::error::remote_validation_standalone selection/result mismatch"; exit 1 ;;
+          esac
+          # END independent Cargo roots aggregate contract
           case "$CSDLC_V2_STANDALONE_REQUIRED" in
             true)
               if [ "$CSDLC_V2_STANDALONE_RESULT" != success ]; then
@@ -945,6 +1070,9 @@ jobs:
             "adl_path_policy:${{ needs.adl_path_policy.result }}" \
             "csdlc_v2_standalone:${{ needs.csdlc_v2_standalone.result }}" \
             "csdlc_v3_standalone:${{ needs.csdlc_v3_standalone.result }}" \
+            "adl_characterization_standalone:${{ needs.adl_characterization_standalone.result }}" \
+            "adl_resilience_standalone:${{ needs.adl_resilience_standalone.result }}" \
+            "remote_validation_standalone:${{ needs.remote_validation_standalone.result }}" \
             "adl_v2_standalone:${{ needs.adl_v2_standalone.result }}" \
             "adl_tooling_contracts:${{ needs.adl_tooling_contracts.result }}" \
             "adl_runtime_v3_fast:${{ needs.adl_runtime_v3_fast.result }}" \

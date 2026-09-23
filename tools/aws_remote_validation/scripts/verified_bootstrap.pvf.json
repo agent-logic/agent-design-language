@@ -1,0 +1,12 @@
+{
+  "schema": "adl.pvf.local-test-surface.v1",
+  "issue": 1160,
+  "finding": "DEP-003",
+  "surface": "tools/aws_remote_validation/scripts/test_verified_bootstrap.py",
+  "lane_class": "local_contract",
+  "proof_role": "artifact_identity_and_negative_bootstrap_regression",
+  "determinism": "synthetic_archives_and_mocked_transport_no_network",
+  "resource_profile": "python_standard_library_small_local_files_no_cloud_no_install",
+  "release_gate": true,
+  "command": "python3 tools/aws_remote_validation/scripts/test_verified_bootstrap.py"
+}
