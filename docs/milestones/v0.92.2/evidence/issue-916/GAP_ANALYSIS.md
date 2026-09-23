@@ -106,3 +106,27 @@ The operator reported PAIR fixed. A fresh read-only check confirms all three pre
 Both ADL PRs are now confirmed merged and #1132/#1133 are CLOSED. Website companion CodeFriend.ai #18 is merged as `a45e339c13b24716edbd3fadf29dddff36ffe02e`. The #916 branch incorporates native main `2b047c8dc34e133ee1353ec265507a17c523e06f` at local merge `e240a1b804968f8e96be7ea6e5dbfbc2ac51ea83`; both native merge ancestors were verified.
 
 The affected native rerun passes **154 tests across 11 targets**, with zero failures/ignored. The exact merged website snapshot passes **141 tests**, with zero failures/skips. See [post-merge results](POSTMERGE_VERIFICATION.json). Earlier OPEN/unconfirmed observations are historical and superseded. #915 remains OPEN; these local integration results are not deployment or independent real-provider qualification.
+
+## Sprint 10 closeout refresh — 2026-09-22T17:48:38.466820+00:00
+
+**916-G02 remains P1 / release-blocking; the quality decision remains not proven.** #914 is CLOSED and its PR #1084 merged as `2e65d16e1a44bc75cbfdbe256e0390d75f803dde`. #915 remains OPEN, and Sprint 10 #936 remains OPEN. The [closeout checklist](https://github.com/agent-logic/agent-design-language/issues/936#issuecomment-5781237846) accounts for both sprint children without adding cleanup prerequisites.
+
+The remaining qualification repair is #1144 / [PR #1146](https://github.com/agent-logic/agent-design-language/pull/1146), observed OPEN at `a200a199fc07df1a60b165cf46c4366a20971b6e`. Its current repair addresses verbatim source presentation for quote-only reviews after independent qualification found unsupported citations. Provider transport success is not accepted review quality. The earlier local zero-scenario preparation gate is historical and must not be reported as a census of later provider runs.
+
+### Remaining acceptance sequence
+
+1. Accept and integrate the reviewed repair, then record the exact source, website, installed binary and environment identities consumed by #915.
+2. Consume #915's independent fresh qualification for both website modes and CLI, ADL and pinned external scope, selected platforms, real provider results, second runs, recovery/negative cases and approved Markdown/HTML/PDF observations. Preserve every failed or not-proven cell.
+3. Reconcile the accepted qualification delivery, merge ancestry and source-specific producer evidence at the closing candidate. Complete the combined Sprint 10 review before accepting its handoff into #916.
+
+Q02–Q12 are not promoted by repair CI or historical controlled-provider tests; Q11 and Q12 remain blocked by missing final independent qualification. 916-G03 remains the distinct producer acceptance/freshness reconciliation obligation. Earlier resolved G04 Runtime-archive and G05 PAIR-discovery observations remain resolved within their recorded scope; neither is rerun or broadened here.
+
+[Current authenticated observations](SPRINT10_CLOSEOUT_REFRESH.json) retain this checkpoint separately from prior evidence. This update performs no provider runs, deployment, product repair, cleanup or final release acceptance. The 69-task ledger and 24-prerequisite census retain their earlier timestamps; this bounded refresh does not claim a new full census.
+
+## Continued Sprint 11 audit — 2026-09-23T01:10:42.609439+00:00
+
+All **84 evidence references across the 24-prerequisite matrix resolve and match their recorded SHA-256**, with zero mismatches or missing objects. Historical references were read at their declared Git revisions; unversioned references were read from this bound audit worktree. [Artifact-by-artifact results](PRODUCER_HASH_RECHECK.json) narrow 916-G03: these indexed bytes are available and unchanged. They do not prove completeness of the index, criterion satisfaction, or freshness on the eventual installed release candidate. No new archive-loss finding is warranted.
+
+[PR #1146](https://github.com/agent-logic/agent-design-language/pull/1146) is now **MERGED**, merged at `2026-09-22T20:12:17Z` as `6d78c1da473f95c4db4e0fa29f4fc2bd1d290106`. This supersedes the earlier OPEN repair observation, not its historical snapshot. #915 remains **OPEN**. The next gate is accepted independent qualification consuming the exact repaired candidate; deployment/install consumption and a passing qualification matrix are not inferred from merge. [Authenticated merge readback](QUALIFICATION_REPAIR_MERGE.json).
+
+916-G02 remains release-blocking. G03 now requires content/acceptance and final-candidate linkage reconciliation, rather than another repeat of the completed indexed-byte availability check. Q02–Q12 remain not proven. The following tail tasks retain their exact dependency order; this audit does not accept #916 or open downstream finalization.
