@@ -1,7 +1,7 @@
 {
   "milestone": "v0.92.2",
   "policy": "preserve_declared_versions_no_binary_relabeling",
-  "source_revision": "c10757270098aea35e36453c91054ea8b4f947db",
+  "source_revision": "c72c8cc1bf255ae2e26bb85b631ce0550fd886fc",
   "audit_scope": "27 inherited package manifests; metadata validation only",
   "packages": [
     {

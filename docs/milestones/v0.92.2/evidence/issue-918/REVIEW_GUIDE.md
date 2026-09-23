@@ -1,10 +1,12 @@
 # #918 external-review publication packet
 
-Status: reviewable draft; final acceptance pending. The user explicitly authorized a draft PR before #916/#917 integration. No reviewer should treat a passing integrity check as release approval or full #918 acceptance.
+Status: reviewable draft; final acceptance pending. The original draft preceded #916/#917 integration; the current packet consumes their accepted assessment and documentation handoff. No reviewer should treat a passing integrity check as release approval or full #918 acceptance.
 
 ## Exact inputs and ancestry
 
-#916 draft PR #1151: `e119223cd13ebbb6a07c0349ba6772f8ee2ecece`. #917 draft PR #1152: `c10757270098aea35e36453c91054ea8b4f947db`. Both are draft inputs with acceptance pending. This branch includes their ancestry against main so reviewers must distinguish inherited changes from #918 changes. The #918 delta starts after its merge of #917; compare against drafting base `3c6ebcb1e42ee993a1bc9152857c3008be655181` to inspect only finalization work. That merge also incorporates the newer main baseline; a direct comparison to #917 includes those unrelated already-landed differences. Integrate predecessors first and refresh source identities, affected hashes and independent review after any substantive upstream change.
+#916 assessment PR #1151 is merged at `374ecc2a1237094e031ecb5f6d82853ea72ab819` and retains the `not_proven` qualification decision. #917 documentation handoff PR #1152 is merged at `c72c8cc1bf255ae2e26bb85b631ce0550fd886fc`; its acceptance is `assessment_handoff`, not product qualification. #919 internal review PR #1153 is merged at `52756b5bc7b02e3ebf6886170ee59b55f8dc10d1`; its frozen review records remain unchanged. No external review is claimed.
+
+The historical #918 draft remains available at `5c4a6149771c637f3c805985b86231077965eab4`. This refresh starts from integrated drafting base `f07038275d93cbf96f769d60e71119610cf7642f` and preserves original source-specific test identities. The predecessor manifest is checked at its reviewed source `e94ab771f9d3cfee5142aee584d57345a3ac6c29`, which must be the second parent of the recorded #1152 merge. At that merge, `adl/Cargo.toml` changed through integrated main: its historical manifest SHA-256 is `c546f8e9f4e5d8568c1c2c64c85d4169a89dd6061e35900458fcd8fde4c7ead4`, while merged bytes are `1db9bc6cb1e830648f2eb5ca491262784003dce082ae016308c807dea7e21d54`. The other 128 manifest documents match. Preserve the original manifest as source-time evidence; it is not a claim that every merged-tree byte was reviewed at that checkpoint.
 
 PUBLICATION_MANIFEST.json binds exact byte identities, format, role, custody, version policy, proposed destination and pending approval for included documents. For new #918 files, source_revision denotes the drafting base, while SHA-256 denotes their actual candidate bytes; the PR head supplies final Git identity. No circular self-hash or invented final candidate identity is used.
 
@@ -18,7 +20,7 @@ PUBLICATION_MANIFEST.json binds exact byte identities, format, role, custody, ve
 
 ## Outstanding acceptance
 
-Accepted #916 decision and #917 handoff; exact final installed candidate and artifact set; complete format inspection/parity; privacy/legal approval and destination access; required quality and external review; #1150 qualification after #1148/#1149 before Beta1 launch. These remain explicit gaps, not silent omissions or completed tests. #919 may inspect this draft but cannot infer release acceptance from it.
+Exact final installed candidate and artifact set; complete format inspection/parity; privacy/legal approval and destination access; required quality and external review; #1150 qualification after #1148/#1149 before Beta1 launch. These remain explicit gaps, not silent omissions or completed tests. #919 may inspect this draft but cannot infer release acceptance from it.
 
 ## Verification limits
 

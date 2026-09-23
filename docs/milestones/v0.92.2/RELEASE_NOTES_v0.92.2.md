@@ -1,6 +1,6 @@
 # v0.92.2 release notes — external-review draft
 
-**Not a release or Beta1 launch approval.** This #918 packet consumes draft #916/[PR #1151](https://github.com/agent-logic/agent-design-language/pull/1151) and #917/[PR #1152](https://github.com/agent-logic/agent-design-language/pull/1152). Final acceptance remains pending. The operator authorized draft review before predecessor integration, without changing the incomplete qualification result.
+**Not a release or Beta1 launch approval.** This #918 packet consumes the accepted #916 assessment ([PR #1151](https://github.com/agent-logic/agent-design-language/pull/1151), `374ecc2a1237094e031ecb5f6d82853ea72ab819`) and #917 documentation handoff ([PR #1152](https://github.com/agent-logic/agent-design-language/pull/1152), `c72c8cc1bf255ae2e26bb85b631ce0550fd886fc`). Their integration does not change the `not_proven` product qualification decision. #919's internal review is retained at PR #1153 merge `52756b5bc7b02e3ebf6886170ee59b55f8dc10d1`; external review and release approval remain separate and incomplete.
 
 ## Delivered scope and evidence limits
 
@@ -13,7 +13,7 @@ The [69-task ledger](evidence/issue-916/TASK_LEDGER.json) preserves every planne
 
 ## Explicit deferrals and launch gate
 
-[The approved Sprint 10 disposition](evidence/issue-916/SPRINT10_DEFERRAL.json) records original #915 qualification as **incomplete: zero of twelve journey cells accepted**, with 24 obligation rows. Follow-on #1148 owns citation-grounded correctness; #1149 owns interrupted-request recovery; #1150 owns independent qualification after both. Their accepted results are required in v0.93 before CodeFriend Beta1 launch. Deferral and administrative closure do not constitute qualification PASS. Preserve unknown second-run outcomes and reserved spend; no replay to bypass uncertainty.
+[The approved Sprint 10 disposition](evidence/issue-916/SPRINT10_DEFERRAL.json) records original #915 qualification as **incomplete: zero of twelve journey cells accepted**, with 24 obligation rows. Follow-on #1148 owns citation-grounded correctness; #1149 owns interrupted-request recovery; #1150 owns independent qualification after both. Their accepted results are required in v0.93.1 before CodeFriend Beta1 launch. Deferral and administrative closure do not constitute qualification PASS. Preserve unknown second-run outcomes and reserved spend; no replay to bypass uncertainty.
 
 Podcast #671 and pilot #875 are explicitly deferred to v0.93. Observatory #910 retains its separate deployment obligation. Accepted ARCH-ADR decisions are architecture evidence, not product acceptance. See the [review handoff](evidence/issue-917/HANDOFF.md) for the source-specific dispositions.
 

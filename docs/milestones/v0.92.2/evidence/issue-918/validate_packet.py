@@ -12,11 +12,12 @@ from pathlib import Path, PurePosixPath
 ROOT = Path(__file__).resolve().parents[5]
 PACKET = Path(__file__).resolve().parent
 INPUTS = {
-    'issue917': ('c10757270098aea35e36453c91054ea8b4f947db', 1152),
-    'issue916': ('e119223cd13ebbb6a07c0349ba6772f8ee2ecece', 1151),
+    'issue917': ('c72c8cc1bf255ae2e26bb85b631ce0550fd886fc', 1152),
+    'issue916': ('374ecc2a1237094e031ecb5f6d82853ea72ab819', 1151),
 }
 
-DRAFT_BASE = "3c6ebcb1e42ee993a1bc9152857c3008be655181"
+DRAFT_BASE = "f07038275d93cbf96f769d60e71119610cf7642f"
+REVIEWED_917 = "e94ab771f9d3cfee5142aee584d57345a3ac6c29"
 DRAFT_IDS = {"release_notes", "review_guide", "destination_inventory", "version_inventory"}
 ARTIFACT_PATHS = {'article_inventory': 'docs/milestones/v0.92/publication/articles/medium-2026-09/README.md',
  'cargo_audit': 'docs/milestones/v0.92.2/evidence/issue-917/CARGO_MANIFEST_AUDIT.json',
@@ -51,9 +52,17 @@ def check(data, root=ROOT):
         if row.get('revision') != revision or row.get('pr') != pr:
             failures.append('wrong_candidate_' + key)
         revisions.add(revision)
-        field, value = ('acceptance', 'pending') if key == 'issue917' else ('decision', 'not_proven')
+        field, value = ('acceptance', 'assessment_handoff') if key == 'issue917' else ('decision', 'not_proven')
         if row.get(field) != value:
             failures.append('invalid_' + key + '_' + field)
+    reviewed_input = inputs.get('issue917') if isinstance(inputs, dict) else None
+    if not isinstance(reviewed_input, dict) or reviewed_input.get('reviewed_revision') != REVIEWED_917:
+        failures.append('wrong_reviewed_issue917')
+    if not isinstance(reviewed_input, dict) or reviewed_input.get('manifest_scope') != 'reviewed_source_checkpoint; merge-tree changes recorded separately':
+        failures.append('upstream_manifest_scope_invalid')
+    parents = subprocess.run(['git', 'show', '-s', '--format=%P', INPUTS['issue917'][0]], cwd=root, capture_output=True, text=True)
+    if parents.returncode or len(parents.stdout.split()) != 2 or parents.stdout.split()[1] != REVIEWED_917:
+        failures.append('upstream_merge_parent_mismatch')
     qualification = data.get('deferred_qualification', {})
     if not isinstance(qualification, dict) or any([
         qualification.get('status') != 'incomplete',
@@ -151,7 +160,7 @@ def git_blob(root, revision, path):
 @lru_cache(maxsize=1)
 def check_upstream(root):
     # Check immutable predecessor bytes at its reviewed revision, not changed draft files.
-    revision = INPUTS['issue917'][0]
+    revision = REVIEWED_917
     def blob(path):
         return subprocess.check_output(['git', 'show', revision + ':' + path], cwd=root, stderr=subprocess.DEVNULL)
     try:
@@ -176,6 +185,10 @@ def self_test(data):
         mutate(candidate)
         actual = check(candidate)
         cases.append((name, expected in actual))
+    case('false_current_candidate_coverage', lambda d: d['inputs']['issue917'].update(manifest_scope='all_129_hashes_cover_current_candidate'), 'upstream_manifest_scope_invalid')
+    case('malformed_inputs', lambda d: d.update(inputs=[]), 'wrong_reviewed_issue917')
+    case('null_predecessor', lambda d: d['inputs'].update(issue917=None), 'wrong_reviewed_issue917')
+    case('wrong_reviewed_predecessor', lambda d: d['inputs']['issue917'].update(reviewed_revision=INPUTS['issue916'][0]), 'wrong_reviewed_issue917')
     case('missing_artifact', lambda d: d['artifacts'][0].update(path='docs/issue918-does-not-exist'), 'artifact_missing')
     case('tampered_hash', lambda d: d['artifacts'][0].update(sha256='0' * 64), 'artifact_hash_mismatch')
     case('wrong_size', lambda d: d['artifacts'][0].update(bytes=-1), 'artifact_size_mismatch')
@@ -183,7 +196,7 @@ def self_test(data):
     case('release_approval', lambda d: d.update(release_approved=True), 'invalid_release_approved')
     case('publication_approval', lambda d: d.update(publication_authorized=True), 'invalid_publication_authorized')
     case('artifact_approval', lambda d: d['artifacts'][0].update(approval='approved'), 'artifact_approval_invalid')
-    case('accepted_predecessor', lambda d: d['inputs']['issue917'].update(acceptance='accepted'), 'invalid_issue917_acceptance')
+    case('false_product_acceptance', lambda d: d['inputs']['issue917'].update(acceptance='product_qualified'), 'invalid_issue917_acceptance')
     case('path_traversal', lambda d: d['artifacts'][0].update(path='../outside'), 'artifact_path_invalid')
     case('absolute_path', lambda d: d['artifacts'][0].update(path=str(ROOT / 'README.md')), 'artifact_path_invalid')
     case('duplicate_inventory', lambda d: d['artifacts'].append(copy.deepcopy(d['artifacts'][0])), 'artifact_identity_invalid')
