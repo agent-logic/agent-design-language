@@ -7181,7 +7181,7 @@ fn completed_publication_transport_wrapped_ambiguity_fails_closed() {
 // local filesystem and synthetic authenticated GitHub, no live provider or merge.
 fn issue1171_inventory_settled(fixture: &mut Fixture, linked: &std::path::Path) {
     let status = success(fixture.run(linked, &["status", "505"]));
-    assert!(status["pending_remote"].is_null(), "{status}");
+    assert_eq!(status["pending_remote"], json!([]), "{status}");
     assert_ne!(status["allowed_next"], json!(["recover"]), "{status}");
     let recovery = success(fixture.run(linked, &["recover", "505"]));
     assert_ne!(recovery["status"], "recovery_required", "{recovery}");
