@@ -5,6 +5,8 @@
   "reviewed_revision": null,
   "reviewed_manifest_sha256": null,
   "reviewer_identity": null,
+  "assessment_path": null,
+  "assessment_sha256": null,
   "verdict": "not_proven",
   "findings": [],
   "verified_non_findings": [],

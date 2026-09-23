@@ -4,15 +4,48 @@
 import hashlib
 import copy
 import json
+import re
+import subprocess
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
 EVIDENCE = ROOT / ".csdlc" / "evidence" / "920"
+SHA1 = re.compile(r"^[0-9a-f]{40}$")
+SHA256 = re.compile(r"^[0-9a-f]{64}$")
 
 
 def load(name: str) -> dict:
     return json.loads((EVIDENCE / name).read_text(encoding="utf-8"))
+
+
+def nonempty(value: object) -> bool:
+    return isinstance(value, str) and bool(value.strip())
+
+
+def valid_sha(value: object, pattern: re.Pattern[str]) -> bool:
+    return isinstance(value, str) and bool(pattern.fullmatch(value))
+
+
+def retained_file(path_value: object, digest_value: object) -> bool:
+    if not nonempty(path_value) or not valid_sha(digest_value, SHA256):
+        return False
+    relative = Path(str(path_value))
+    if relative.is_absolute() or ".." in relative.parts:
+        return False
+    path = ROOT / relative
+    return path.is_file() and hashlib.sha256(path.read_bytes()).hexdigest() == digest_value
+
+
+def git_commit_exists(revision: object) -> bool:
+    if not valid_sha(revision, SHA1):
+        return False
+    return subprocess.run(
+        ["git", "cat-file", "-e", f"{revision}^{{commit}}"],
+        cwd=ROOT,
+        capture_output=True,
+        check=False,
+    ).returncode == 0
 
 
 def validate(manifest: dict, findings: dict, review_text: str) -> list[str]:
@@ -27,9 +60,6 @@ def validate(manifest: dict, findings: dict, review_text: str) -> list[str]:
         errors.append("TAIL-06 routing")
     if findings.get("routing", {}).get("accepted_findings_issue") != 921:
         errors.append("findings routing")
-    if "external review has not started" not in review_text:
-        errors.append("preparation disclosure")
-
     status = manifest.get("status")
     review = manifest.get("review", {})
     candidate = manifest.get("candidate", {})
@@ -38,6 +68,8 @@ def validate(manifest: dict, findings: dict, review_text: str) -> list[str]:
     authorization = manifest.get("authorization", {})
 
     if status == "preparation_only":
+        if "external review has not started" not in review_text:
+            errors.append("preparation disclosure")
         if review.get("state") != "not_started" or review.get("verdict") != "not_proven":
             errors.append("preparation review state")
         if findings.get("status") != "not_started" or findings.get("findings"):
@@ -52,11 +84,14 @@ def validate(manifest: dict, findings: dict, review_text: str) -> list[str]:
             if predecessors.get(key, {}).get("accepted"):
                 errors.append(f"preparation must not accept {key}")
     elif status == "complete":
+        if "external review has not started" in review_text:
+            errors.append("stale preparation disclosure")
         required_strings = [
             candidate.get("revision"),
             candidate.get("artifact_manifest_path"),
             candidate.get("artifact_manifest_sha256"),
             reviewer.get("identity"),
+            reviewer.get("organization_or_service"),
             reviewer.get("independence_basis"),
             authorization.get("authorization_reference"),
             review.get("method"),
@@ -64,17 +99,48 @@ def validate(manifest: dict, findings: dict, review_text: str) -> list[str]:
         ]
         if not all(isinstance(value, str) and value.strip() for value in required_strings):
             errors.append("complete review identity fields")
+        if not git_commit_exists(candidate.get("revision")):
+            errors.append("candidate revision is not an existing exact commit")
+        if not retained_file(candidate.get("artifact_manifest_path"), candidate.get("artifact_manifest_sha256")):
+            errors.append("candidate artifact manifest bytes")
         if not candidate.get("exact_binding_complete"):
             errors.append("exact candidate binding")
         if not all(predecessors.get(key, {}).get("accepted") for key in
                    ("documentation_handoff", "publication_finalization", "internal_review")):
             errors.append("accepted predecessors")
+        documentation = predecessors.get("documentation_handoff", {})
+        publication = predecessors.get("publication_finalization", {})
+        internal = predecessors.get("internal_review", {})
+        if not git_commit_exists(documentation.get("accepted_revision")) or not retained_file(
+            documentation.get("handoff_manifest_path"), documentation.get("handoff_manifest_sha256")
+        ):
+            errors.append("accepted documentation handoff identity")
+        if not git_commit_exists(publication.get("revision")) or publication.get(
+            "artifact_manifest_sha256"
+        ) != candidate.get("artifact_manifest_sha256"):
+            errors.append("accepted publication identity")
+        if not git_commit_exists(internal.get("review_revision")) or internal.get(
+            "reviewed_candidate_revision"
+        ) != candidate.get("revision") or not retained_file(
+            internal.get("findings_path"), internal.get("findings_digest_sha256")
+        ):
+            errors.append("accepted internal-review identity")
         if not reviewer.get("independent_of_implementation") or not reviewer.get("independent_of_internal_review"):
             errors.append("reviewer independence")
+        if not retained_file(
+            reviewer.get("independence_evidence_path"), reviewer.get("independence_evidence_sha256")
+        ):
+            errors.append("reviewer independence evidence")
         if not authorization.get("external_contact_authorized") or not authorization.get("disclosure_scope_approved"):
             errors.append("contact and disclosure authorization")
+        if not retained_file(
+            authorization.get("authorization_evidence_path"), authorization.get("authorization_evidence_sha256")
+        ):
+            errors.append("authorization evidence")
         if review.get("state") != "complete" or review.get("verdict") not in {"pass", "fail", "not_proven"}:
             errors.append("complete review result")
+        if not retained_file(review.get("assessment_path"), review.get("assessment_sha256")):
+            errors.append("retained external assessment")
         if review.get("reviewed_revision") != candidate.get("revision"):
             errors.append("reviewed revision mismatch")
         if review.get("reviewed_manifest_sha256") != candidate.get("artifact_manifest_sha256"):
@@ -89,6 +155,19 @@ def validate(manifest: dict, findings: dict, review_text: str) -> list[str]:
             errors.append("findings reviewer mismatch")
         if findings.get("verdict") != review.get("verdict"):
             errors.append("findings verdict mismatch")
+        if findings.get("assessment_path") != review.get("assessment_path") or findings.get(
+            "assessment_sha256"
+        ) != review.get("assessment_sha256"):
+            errors.append("findings assessment mismatch")
+        if not findings.get("validation_performed"):
+            errors.append("review methods and validation missing")
+        if review.get("verdict") == "fail" and not findings.get("findings"):
+            errors.append("failed review has no findings")
+        for index, finding in enumerate(findings.get("findings", [])):
+            if not isinstance(finding, dict) or finding.get("severity") not in {"P0", "P1", "P2", "P3"} or not all(
+                nonempty(finding.get(field)) for field in ("id", "title", "evidence", "impact")
+            ):
+                errors.append(f"finding {index} structure")
     else:
         errors.append("manifest status")
 
@@ -112,11 +191,96 @@ def main() -> int:
         if not validate(fixture, findings, review_text):
             errors.append(f"negative fixture admitted: {name}")
         negative_fixtures.append(name)
+
+    fabricated = copy.deepcopy(manifest)
+    fabricated_findings = copy.deepcopy(findings)
+    fabricated.update(status="complete")
+    fabricated["candidate"].update(
+        revision="0" * 40,
+        artifact_manifest_path=".csdlc/evidence/920/nonexistent-manifest.json",
+        artifact_manifest_sha256="0" * 64,
+        exact_binding_complete=True,
+    )
+    fabricated["authorization"].update(
+        external_contact_authorized=True,
+        disclosure_scope_approved=True,
+        authorization_reference="self-asserted",
+        authorization_evidence_path=".csdlc/evidence/920/nonexistent-authorization.json",
+        authorization_evidence_sha256="1" * 64,
+    )
+    fabricated["reviewer"].update(
+        identity="self-asserted-reviewer",
+        organization_or_service="self-asserted-organization",
+        independent_of_implementation=True,
+        independent_of_internal_review=True,
+        independence_basis="self-asserted",
+        independence_evidence_path=".csdlc/evidence/920/nonexistent-independence.json",
+        independence_evidence_sha256="2" * 64,
+    )
+    for predecessor in fabricated["predecessors"].values():
+        predecessor["accepted"] = True
+    fabricated["predecessors"]["documentation_handoff"].update(
+        accepted_revision="3" * 40,
+        handoff_manifest_path=".csdlc/evidence/920/nonexistent-handoff.json",
+        handoff_manifest_sha256="3" * 64,
+    )
+    fabricated["predecessors"]["publication_finalization"].update(
+        revision="4" * 40,
+        artifact_manifest_sha256="0" * 64,
+    )
+    fabricated["predecessors"]["internal_review"].update(
+        review_revision=None,
+        reviewed_candidate_revision=None,
+        findings_path=None,
+        findings_digest_sha256=None,
+    )
+    fabricated["review"].update(
+        state="complete",
+        method="self-asserted",
+        completed_at="2026-09-23T00:00:00Z",
+        reviewed_revision="0" * 40,
+        reviewed_manifest_sha256="0" * 64,
+        assessment_path=".csdlc/evidence/920/nonexistent-assessment.md",
+        assessment_sha256="5" * 64,
+        verdict="fail",
+    )
+    fabricated_findings.update(
+        status="complete",
+        reviewed_revision="0" * 40,
+        reviewed_manifest_sha256="0" * 64,
+        reviewer_identity="self-asserted-reviewer",
+        assessment_path=".csdlc/evidence/920/nonexistent-assessment.md",
+        assessment_sha256="5" * 64,
+        verdict="fail",
+        findings=[],
+        validation_performed=[],
+    )
+    completed_text = review_text.replace(
+        "Status: **preparation only; external review has not started**.",
+        "Status: **external review complete**.",
+    )
+    fabricated_errors = validate(fabricated, fabricated_findings, completed_text)
+    required_rejections = {
+        "fabricated_candidate_identity": "candidate revision is not an existing exact commit",
+        "fabricated_manifest_bytes": "candidate artifact manifest bytes",
+        "missing_internal_review_identity": "accepted internal-review identity",
+        "missing_immutable_assessment": "retained external assessment",
+        "empty_fail_findings": "failed review has no findings",
+        "missing_review_validation": "review methods and validation missing",
+    }
+    for name, expected_error in required_rejections.items():
+        if expected_error not in fabricated_errors:
+            errors.append(f"negative fixture admitted: {name}")
+        negative_fixtures.append(name)
+    if "stale preparation disclosure" in fabricated_errors:
+        errors.append("truthful completed disclosure rejected")
+    negative_fixtures.append("truthful_completed_disclosure")
     result = {
         "schema": "adl.external_review_packet_validation.v1",
         "status": "pass" if not errors else "fail",
         "packet_status": manifest.get("status"),
-        "external_review_complete": manifest.get("status") == "complete" and not errors,
+        "packet_structurally_complete": manifest.get("status") == "complete" and not errors,
+        "external_review_complete": False,
         "errors": errors,
         "negative_fixtures": negative_fixtures,
         "manifest_sha256": hashlib.sha256(
