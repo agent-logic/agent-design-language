@@ -1,8 +1,10 @@
 # v0.92.2 internal milestone review — draft-input checkpoint
 
-Status: **provisional / not accepted**  
-Issue: [#919](https://github.com/agent-logic/agent-design-language/issues/919)  
-Observed at: 2026-09-23 02:28 UTC
+Status: **provisional / not accepted**
+
+Issue: [#919](https://github.com/agent-logic/agent-design-language/issues/919)
+
+Observed at: 2026-09-23 02:34 UTC
 
 This packet starts the internal review while the release-tail inputs are still
 drafts. It does not satisfy `exact_candidate_review`: #918 has no accepted
@@ -28,7 +30,7 @@ reviewed packet is published at an exact revision.
 
 ### P2 — The quality decision contains contradictory current-state routing
 
-Context: #916 at `e119223cd1d9ccfe43093deea44ab9d43ba7194a` records #915 and
+Context: #916 at `e119223cd13ebbb6a07c0349ba6772f8ee2ecece` records #915 and
 #936 as closed by incomplete/deferred disposition and routes remaining work to
 #1148, #1149, and #1150. In the same `QUALITY_DECISION.json`, `stragglers`
 still reports #915 OPEN and `next_actions` says to consume #915 qualification.
@@ -52,7 +54,7 @@ routed v0.93-before-Beta1 obligations. Disposition: `open_gate`.
 
 ### P2 — The documentation handoff is current only as a draft
 
-Context: #917 at `c1075727004c58a6d1e7839ab702df92b61ce104`
+Context: #917 at `c10757270098aea35e36453c91054ea8b4f947db`
 successfully validates 129 documents, 69 task identities, 24 prerequisites, and
 six negative fixtures. Its manifest still records `acceptance: pending_916`,
 `handoff_accepted: false`, and `release_authorized: false`.
@@ -67,8 +69,10 @@ ancestry.
 - Scope type: release tail, preparatory review checkpoint.
 - Reviewed issues: #916, #917, #918, and the #919 source contract.
 - PRs reviewed: draft [#1151](https://github.com/agent-logic/agent-design-language/pull/1151)
-  at `e119223cd1d9ccfe43093deea44ab9d43ba7194a`; no draft PR existed for
-  #917 or #918 at observation time.
+  at `e119223cd13ebbb6a07c0349ba6772f8ee2ecece` and draft
+  [#1152](https://github.com/agent-logic/agent-design-language/pull/1152) at
+  `c10757270098aea35e36453c91054ea8b4f947db`; no draft PR existed for
+  #918 at observation time.
 - Reviewed surfaces: the current tracked #916 quality decision, twelve-gate
   matrix, prerequisite and task ledgers, Sprint 10 deferral; the current tracked
   #917 handoff and manifest; live issue/PR state; #918 preparation status.
@@ -96,8 +100,8 @@ ancestry.
 ## Lifecycle And Closeout Truth
 
 - #916, #917, #918, and #919 are open.
-- #916 has draft PR #1151 at the exact reviewed head. #917 has a bound working
-  branch but no PR at the observation time.
+- #916 has draft PR #1151 and #917 has draft PR #1152 at the exact reviewed
+  heads.
 - #918 has no issue-bound execution worktree or PR. Its preparation does not
   satisfy #917 acceptance or #918 finalization.
 - #919 is bound only to prepare this review checkpoint. Its predecessor gate is
@@ -119,7 +123,8 @@ ancestry.
 - `git diff --check` passed on the current #916 and #917 branches.
 - The #919 validator checks packet schema, exact draft identities, unique and
   dispositioned findings, required gate findings, and fail-closed admission.
-  It does not replace substantive independent review or product reproduction.
+  It also rejects substituted input revisions and PR identities. It does not
+  replace substantive independent review or product reproduction.
 
 ## Residual Risk
 

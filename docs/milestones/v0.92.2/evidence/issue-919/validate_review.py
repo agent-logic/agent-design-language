@@ -25,6 +25,21 @@ def validate(manifest, findings, review_text):
     if [item.get("issue") for item in inputs] != [916, 917, 918]:
         failures.append("input_order_or_denominator")
     by_issue = {item.get("issue"): item for item in inputs}
+    expected_inputs = {
+        916: {
+            "revision": "e119223cd13ebbb6a07c0349ba6772f8ee2ecece",
+            "pr": "https://github.com/agent-logic/agent-design-language/pull/1151",
+        },
+        917: {
+            "revision": "c10757270098aea35e36453c91054ea8b4f947db",
+            "pr": "https://github.com/agent-logic/agent-design-language/pull/1152",
+        },
+        918: {"revision": None, "pr": None},
+    }
+    for issue, expected in expected_inputs.items():
+        for key, value in expected.items():
+            if by_issue.get(issue, {}).get(key) != value:
+                failures.append(f"input_identity:{issue}:{key}")
     if any(by_issue.get(n, {}).get("accepted") is not False for n in (916, 917, 918)):
         failures.append("unaccepted_input_promoted")
     if by_issue.get(918, {}).get("revision") is not None:
@@ -90,6 +105,18 @@ def run_self_test(manifest, findings, review_text):
     changed_findings["nonclaims"] = []
     cases.append(("missing_nonclaims", manifest, changed_findings, review_text))
     cases.append(("missing_heading", manifest, findings, review_text.replace("## Findings", "## Results")))
+    changed = copy.deepcopy(manifest)
+    changed["inputs"][0]["revision"] = "f" * 40
+    cases.append(("substituted_916_revision", changed, findings, review_text))
+    changed = copy.deepcopy(manifest)
+    changed["inputs"][1]["revision"] = "e" * 40
+    cases.append(("substituted_917_revision", changed, findings, review_text))
+    changed = copy.deepcopy(manifest)
+    changed["inputs"][0]["pr"] = "https://github.com/agent-logic/agent-design-language/pull/9999"
+    cases.append(("substituted_916_pr", changed, findings, review_text))
+    changed = copy.deepcopy(manifest)
+    changed["inputs"][1]["pr"] = None
+    cases.append(("missing_917_pr", changed, findings, review_text))
     failed = [name for name, m, f, text in cases if not validate(m, f, text)]
     return len(cases), failed
 

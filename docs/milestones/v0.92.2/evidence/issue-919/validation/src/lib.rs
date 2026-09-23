@@ -22,7 +22,7 @@ mod tests {
         );
         let stdout = String::from_utf8_lossy(&result.stdout);
         assert!(stdout.contains("\"status\": \"pass\""));
-        assert!(stdout.contains("\"negative_fixtures\": 6"));
+        assert!(stdout.contains("\"negative_fixtures\": 10"));
         assert!(stdout.contains("\"accepted_inputs\": 0"));
     }
 }

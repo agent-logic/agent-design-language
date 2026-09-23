@@ -2,13 +2,13 @@
   "schema": "adl.v0922.internal_review_manifest.v1",
   "issue": 919,
   "status": "provisional_not_accepted",
-  "observed_at": "2026-09-23T02:28:00Z",
+  "observed_at": "2026-09-23T02:34:00Z",
   "scope": "release_tail_draft_input_checkpoint",
   "inputs": [
     {
       "issue": 916,
       "role": "quality_decision",
-      "revision": "e119223cd1d9ccfe43093deea44ab9d43ba7194a",
+      "revision": "e119223cd13ebbb6a07c0349ba6772f8ee2ecece",
       "pr": "https://github.com/agent-logic/agent-design-language/pull/1151",
       "issue_state": "OPEN",
       "accepted": false,
@@ -17,8 +17,8 @@
     {
       "issue": 917,
       "role": "documentation_handoff",
-      "revision": "c1075727004c58a6d1e7839ab702df92b61ce104",
-      "pr": null,
+      "revision": "c10757270098aea35e36453c91054ea8b4f947db",
+      "pr": "https://github.com/agent-logic/agent-design-language/pull/1152",
       "issue_state": "OPEN",
       "accepted": false,
       "decision": "pending_916"
