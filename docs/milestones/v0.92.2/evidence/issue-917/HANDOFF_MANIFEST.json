@@ -6,7 +6,7 @@
   "sources": {
     "native_main": "2b047c8dc34e133ee1353ec265507a17c523e06f",
     "website_main": "a45e339c13b24716edbd3fadf29dddff36ffe02e",
-    "inherited_916_checkpoint": "51c9fdee5aabe2c934b1caffa4d1f0eb3a0198c2"
+    "inherited_916_checkpoint": "c41120a6629b6840ba70d6b30bd4baae76d7ccd6"
   },
   "documents": [
     {
@@ -34,10 +34,6 @@
       "sha256": "f9be55b1ec0e4213343db23f9f36d7fffcf199e33b9277966b33345431838c06"
     },
     {
-      "path": "adl/Cargo.toml",
-      "sha256": "c546f8e9f4e5d8568c1c2c64c85d4169a89dd6061e35900458fcd8fde4c7ead4"
-    },
-    {
       "path": "adl-characterization/Cargo.toml",
       "sha256": "2f388368476cf4e3f9afafe1cddb2f932139a2bbc365da04e8b315c101c715f8"
     },
@@ -50,12 +46,12 @@
       "sha256": "95de576c2de0bed2b89f48bf8b241a6cfe01d050eff87d447496447133758f7d"
     },
     {
-      "path": "adl-runtime/Cargo.toml",
-      "sha256": "d4d8dbc0cb3ff4086add7cec2001999a383fdaa75d342155219f4b41edf0ed04"
-    },
-    {
       "path": "adl-runtime-kernel/Cargo.toml",
       "sha256": "5082907993a8c1868414d35ea0357cdbae2029d778e2e4da73c2399c0b023db2"
+    },
+    {
+      "path": "adl-runtime/Cargo.toml",
+      "sha256": "d4d8dbc0cb3ff4086add7cec2001999a383fdaa75d342155219f4b41edf0ed04"
     },
     {
       "path": "adl-uts/Cargo.toml",
@@ -104,6 +100,10 @@
     {
       "path": "adl-v2/crates/adl-workcell-task-adapter/Cargo.toml",
       "sha256": "3b0680e59e40438277e2710e28bdff5801e6bcc2e9bb53a5e0abdf3e2d7dcf44"
+    },
+    {
+      "path": "adl/Cargo.toml",
+      "sha256": "c546f8e9f4e5d8568c1c2c64c85d4169a89dd6061e35900458fcd8fde4c7ead4"
     },
     {
       "path": "csdlc-v2/Cargo.toml",
@@ -327,7 +327,7 @@
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-916/GAP_ANALYSIS.md",
-      "sha256": "dedac08a713a8d4f86798f9eff23b136b7d94213a1f39361e06a012bb97fbf80"
+      "sha256": "85289246a06947d686d14f694a95f90de6b1522f7899a4ba6205eb22fc42d86f"
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-916/PAIR_HEALTH_RECHECK.json",
@@ -342,8 +342,20 @@
       "sha256": "cbbd16ee061067594324917a24597bbcfe75c68448297d7cebb6b947aecc3920"
     },
     {
+      "path": "docs/milestones/v0.92.2/evidence/issue-916/PRODUCER_HASH_RECHECK.json",
+      "sha256": "4ab04f646b818a7a0fd3b4ba69c7df67e3ecb1688d773dcfeb92068d3a2e0b0f"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-916/QUALIFICATION_REPAIR_MERGE.json",
+      "sha256": "d164b5c0533ada7fd45ed509a41708385aa5ff3e30f1e44946e5e4be612d27f7"
+    },
+    {
       "path": "docs/milestones/v0.92.2/evidence/issue-916/QUALITY_DECISION.json",
-      "sha256": "759fabe3ec528ab0b96f41b009dc0e7f921fa752b15b4236d28fff4dafd8a784"
+      "sha256": "ef2091b41c754e61f88d9d052bdf42a9c7b1d1813db3ff8f1468118e23075998"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-916/SPRINT10_CLOSEOUT_REFRESH.json",
+      "sha256": "c3ca6737b808648c0b8eb53a5ca9c90d8f89d6b9a5d261405f584679f3c44e51"
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-916/TASK_LEDGER.json",
@@ -359,11 +371,11 @@
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-917/HANDOFF.md",
-      "sha256": "34757029413ec65bfb3cdeec9218f666372080a9c5f000dab9b357973a7a33bb"
+      "sha256": "2b3ce0b953224d0120c5b3daf898f4ae71af693bc048115521779757fe816485"
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-917/validate_handoff.py",
-      "sha256": "a93d8c901b8766994c37adadb2ce5afe12fd710d85b46e4bba0050c1c3699ca4"
+      "sha256": "f77519b27de2910c770c40f6c8dc6ba127b355b450c1de0e1beaed5427d21390"
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/qual-evidence-902/README.md",

@@ -4,9 +4,9 @@
 
 ## Candidate and scope
 
-ADL implementation main: `2b047c8dc34e133ee1353ec265507a17c523e06f` (merged #1137/#1138). Website main: `a45e339c13b24716edbd3fadf29dddff36ffe02e` (merged CodeFriend.ai #18). The inherited #916 evidence checkpoint is `51c9fdee5a` and includes a test-only control-readiness correction; it is not a merged release candidate. This documentation branch builds on that checkpoint. [Manifest](HANDOFF_MANIFEST.json) binds each inspected document's bytes and the exact full parent revision, plus all 69 canonical task identities.
+Historical tested ADL implementation snapshot: `2b047c8dc34e133ee1353ec265507a17c523e06f` (merged #1137/#1138). Historical tested website snapshot: `a45e339c13b24716edbd3fadf29dddff36ffe02e` (merged CodeFriend.ai #18). The inherited #916 evidence checkpoint is `c41120a662`, merged into this documentation branch. It includes the earlier test-only control-readiness correction and subsequent quality-evidence updates; it is not an accepted installed release candidate. The source revisions below remain the historical test baselines, not a claim about current main. [Manifest](HANDOFF_MANIFEST.json) binds each inspected document's bytes and the exact full parent revision, plus all 69 canonical task identities.
 
-Review the current [quality decision](../issue-916/QUALITY_DECISION.json), [task ledger](../issue-916/TASK_LEDGER.json), [24-prerequisite assessment](../issue-916/PREREQUISITE_ACCEPTANCE.json) and [post-merge checks](../issue-916/POSTMERGE_VERIFICATION.json). The canonical [document inventory](../../CANONICAL_DOC_INVENTORY_v0.92.2.md) includes every milestone Markdown document recursively, beyond the original hand-picked planning list. The manifest binds that full set plus required machine-readable contracts and evidence. Historical study documents are retained unchanged; their statistics were not recomputed.
+Review the current [quality decision](../issue-916/QUALITY_DECISION.json), [task ledger](../issue-916/TASK_LEDGER.json), [24-prerequisite assessment](../issue-916/PREREQUISITE_ACCEPTANCE.json) and [post-merge checks](../issue-916/POSTMERGE_VERIFICATION.json). The canonical [document inventory](../../CANONICAL_DOC_INVENTORY_v0.92.2.md) includes every milestone Markdown document recursively, beyond the original hand-picked planning list. The manifest binds that full set plus required machine-readable contracts and evidence, including the latest Sprint 10 checkpoint, repaired-candidate merge readback and 84-artifact producer hash audit. Historical study documents are retained unchanged; their statistics were not recomputed.
 
 ## What is established
 
@@ -15,6 +15,8 @@ Review the current [quality decision](../issue-916/QUALITY_DECISION.json), [task
 - The repaired PAIR discovery endpoints answer successfully. No new inference or failover run is claimed. The historical PAIR experiment decision remains REPAIR; MLX has bounded smoke proof without review-speed superiority; speculative decoding remains repair/inconclusive.
 - #912 and #913 satisfied the operator-accepted article-draft and revision-4 private PDF handoffs. Further editing and publication are separate work.
 - Podcast #671 and live pilot #875 are now v0.93. Preserve all 69 original identities; distinguish explicit deferral from execution failure or completed pilot proof.
+
+- All 84 indexed prerequisite evidence artifacts resolve at their declared revisions/paths and match retained SHA-256 values. This proves indexed-byte availability only, not source-specific acceptance or final candidate freshness.
 
 ## What is not established
 
@@ -82,3 +84,9 @@ Earlier Claude/external-review lessons were applied here: include nested packets
 ## Package metadata coverage
 
 The [Cargo review](CARGO_MANIFEST_REVIEW.md) and [27-manifest audit](CARGO_MANIFEST_AUDIT.json) cover every tracked Cargo.toml, with 23 local dependency references checked. Main package versions remain 0.92.1 and independent components keep their declared versions. Release metadata selection belongs to #918; this handoff does not label existing binaries as a v0.92.2 release.
+
+## Current qualification handoff
+
+PR #1146 is merged as recorded in [the authenticated repair readback](../issue-916/QUALIFICATION_REPAIR_MERGE.json). The prior [Sprint 10 checkpoint](../issue-916/SPRINT10_CLOSEOUT_REFRESH.json) observed it OPEN and remains immutable historical evidence. The repaired source must be consumed by #915's independent installed qualification before #916 can accept the final candidate. Current G02 and G03 obligations are described in [the gap analysis](../issue-916/GAP_ANALYSIS.md).
+
+[Producer byte verification](../issue-916/PRODUCER_HASH_RECHECK.json) checks 84 references across 24 prerequisite rows. A reader can verify the retained hashes but must still distinguish historical producer results from final qualification. This refresh executes no product/provider tests and makes no claim about current deployed software. Once #916 passes, refresh the accepted source/binary/artifact identities, affected document hashes and fresh-reader review before final handoff.
