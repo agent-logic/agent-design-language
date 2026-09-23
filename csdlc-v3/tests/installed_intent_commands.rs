@@ -51,6 +51,31 @@ fn publication_reservation_inventory(
         .collect()
 }
 
+#[test]
+fn fixture_inventory_excludes_only_transient_git_maintenance_lock() {
+    let fixture = Fixture::new("maintenance-lock-inventory");
+    let before = intent_fixture::inventory(&fixture.root);
+    let maintenance_lock = fixture.root.join(".git/objects/maintenance.lock");
+    fs::write(&maintenance_lock, "transient maintenance state\n").unwrap();
+    assert_same_inventory!(before, intent_fixture::inventory(&fixture.root));
+
+    fs::write(
+        fixture.root.join(".git/objects/durable-fixture-state"),
+        "durable git state\n",
+    )
+    .unwrap();
+    let after_durable_change = intent_fixture::inventory(&fixture.root);
+    assert_ne!(
+        before, after_durable_change,
+        "durable Git state was incorrectly excluded from fixture inventory"
+    );
+    assert_eq!(
+        git(&fixture.root, &["config", "--bool", "maintenance.auto"]),
+        "false"
+    );
+    assert_eq!(git(&fixture.root, &["config", "--int", "gc.auto"]), "0");
+}
+
 fn plan() -> Value {
     json!({"schema":"csdlc.v3.intent_plan.v1", "slug":"installed-intent-fixture",
       "cards":{"sip":{},"stp":{},"spp":{"dependencies_inline":"Fixture dependencies ready","repo_inputs_inline":"Tracked fixture inputs","target_files_surfaces_inline":"installed intent commands","deliverables_inline":"Run installed lifecycle commands","validation_plan_inline":"Declared Cargo validator","acceptance_criteria_inline":"Installed command behavior is proven","notes_risks_inline":"Synthetic transport and isolated repository"},"vpp":{},"srp":{},"sor":{}},
