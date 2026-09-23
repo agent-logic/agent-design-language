@@ -1,6 +1,6 @@
 # v0.92.2 decision inventory
 
-The complete candidate text is indexed in [README](README.md). All twelve records remain Proposed; no architecture implementation or acceptance is inferred.
+The historical candidate text is indexed in [README](README.md). These original proposal identities remain Proposed; current accepted successors ADR0076–0087 are recorded in [#945](../issue-945/README.md), including revised CF-09. This inventory preserves the original task mapping and does not claim implementation.
 
 | Candidate | Decision question | Accountable scope owner |
 |---|---|---|

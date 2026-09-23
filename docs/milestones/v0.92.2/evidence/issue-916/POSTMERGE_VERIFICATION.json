@@ -1,0 +1,108 @@
+{
+  "issue": 916,
+  "observed_at": "2026-09-22T04:27:13.681646+00:00",
+  "native_source_head": "e240a1b804968f8e96be7ea6e5dbfbc2ac51ea83",
+  "native_main_baseline": "2b047c8dc34e133ee1353ec265507a17c523e06f",
+  "native_merge_ancestry_verified": true,
+  "website_source_head": "a45e339c13b24716edbd3fadf29dddff36ffe02e",
+  "website": {
+    "status": "pass",
+    "tests": 141,
+    "failures": 0,
+    "skipped": 0,
+    "log_sha256": "f085b232c7fe6063033dd6dc04675f3e9e0a0925918905cf2b8e9b9fb8c383e4"
+  },
+  "native": {
+    "status": "pass",
+    "targets": [
+      {
+        "target": "codefriend_agent",
+        "status": "ok",
+        "passed": 47,
+        "failed": 0,
+        "ignored": 0
+      },
+      {
+        "target": "codefriend_agent_publication",
+        "status": "ok",
+        "passed": 8,
+        "failed": 0,
+        "ignored": 0
+      },
+      {
+        "target": "codefriend_agent_receipt",
+        "status": "ok",
+        "passed": 9,
+        "failed": 0,
+        "ignored": 0
+      },
+      {
+        "target": "codefriend_baseline_repeat",
+        "status": "ok",
+        "passed": 1,
+        "failed": 0,
+        "ignored": 0
+      },
+      {
+        "target": "codefriend_evidence",
+        "status": "ok",
+        "passed": 11,
+        "failed": 0,
+        "ignored": 0
+      },
+      {
+        "target": "codefriend_integration",
+        "status": "ok",
+        "passed": 7,
+        "failed": 0,
+        "ignored": 0
+      },
+      {
+        "target": "codefriend_journey",
+        "status": "ok",
+        "passed": 21,
+        "failed": 0,
+        "ignored": 0
+      },
+      {
+        "target": "codefriend_journey_v2",
+        "status": "ok",
+        "passed": 4,
+        "failed": 0,
+        "ignored": 0
+      },
+      {
+        "target": "codefriend_review_assessments",
+        "status": "ok",
+        "passed": 9,
+        "failed": 0,
+        "ignored": 0
+      },
+      {
+        "target": "codefriend_server",
+        "status": "ok",
+        "passed": 25,
+        "failed": 0,
+        "ignored": 0
+      },
+      {
+        "target": "codefriend_update_cycle",
+        "status": "ok",
+        "passed": 12,
+        "failed": 0,
+        "ignored": 0
+      }
+    ],
+    "target_count": 11,
+    "passed": 154,
+    "failed": 0,
+    "ignored": 0,
+    "log_sha256": "394fea6449822bc55073fe22f7854501529ba1965e812090650b06e23c5f7b1c"
+  },
+  "qualification_915": "pending",
+  "nonclaims": [
+    "No deployment or shared-binary refresh",
+    "No paid/provider qualification or human acceptance",
+    "Earlier396-test census remains tied to its earlier source; this run covers affected merged surfaces"
+  ]
+}

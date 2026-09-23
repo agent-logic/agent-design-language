@@ -1,6 +1,14 @@
 # v0.92.2 Feature and Proof Coverage
 
-Status: planned ownership map.
+Status: ownership map with #916 evidence reconciliation in progress.
+
+[Current quality-gap decision](evidence/issue-916/GAP_ANALYSIS.md),
+[producer evidence index](evidence/issue-916/PRODUCER_EVIDENCE_INDEX.json), and
+[installed-proof identities](evidence/issue-916/CODEFRIEND_PROOF_IDENTITIES.json)
+retain historical evidence separately from final candidate acceptance. Planning
+parity passes; #915 independent qualification remains pending. All five Runtime
+criterion rows replay successfully after locating the exact retained execution archive.
+No feature row is promoted to proven solely from closed tracker state.
 
 | Exit-bar surface | Owner | Required proof |
 |---|---|---|
@@ -53,7 +61,7 @@ No row may be marked proven from a planned demo, a zero-test invocation, or gree
 
 ## C-SDLC simplification sprint
 
-SIM-01 through SIM-09 own the installed journey, strict observation, finite recovery, immutable evidence, unified semantic state, projection integrity, conversion, qualification, transition operations, and authorized-pilot proofs in the [plan](cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md). SIM-UMBRELLA aggregates the scorecard and closes after all packages; TAIL-01 consumes its result. The #523 native correctness repairs are baseline inputs, not SIM acceptance.
+The original SIM-01–SIM-09 proof contract remains in the [plan](cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md). Current disposition: SIM-01–SIM-08 and umbrella #866 are closed; SIM-09/#875 is explicitly deferred to v0.93. Retain its identity without claiming pilot execution or treating it as an unresolved v0.92.2 gate. TAIL-01 evaluates the bounded completed results and deferral; creation and closure alone do not prove installed behavior.
 
 ## Complete-task acceptance
 

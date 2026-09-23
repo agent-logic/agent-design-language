@@ -1,6 +1,6 @@
 # Product Shell and Operator Controls
 
-Status: planned. Owner: CF-SHELL.
+Status: requirements retained; component evidence is indexed in the [review handoff](../evidence/issue-917/HANDOFF.md), with final Beta 1 qualification pending. Owner: CF-SHELL.
 
 Beta 1 must guide setup and onboarding, expose run configuration and status, make artifacts inspectable, and require explicit operator action for publication. Failure and partial states must be visible and recoverable without implying review success.
 

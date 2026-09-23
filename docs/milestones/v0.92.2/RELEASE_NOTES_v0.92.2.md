@@ -1,6 +1,12 @@
 # v0.92.2 Release Notes — Draft
 
-Status: planned draft; rewrite from actual landed evidence before release.
+Status: evidence-reconciled review draft; not approved release notes.
+
+## Landed implementation and verification
+
+ADL #1137/#1138 and CodeFriend.ai #18 are merged. The [post-merge verification](evidence/issue-916/POSTMERGE_VERIFICATION.json) records 154 affected native tests and 141 website tests passing at their stated revisions. The earlier 396-test native census remains tied to its earlier source. These are local component/integration results, not deployment or independent real-provider qualification. #915 remains pending, so the intended capabilities below are not a release-success announcement.
+
+The MLX smoke does not establish review-speed superiority; PAIR delivered a REPAIR experiment decision and later passed its repaired discovery-endpoint recheck; speculative decoding remains repair/inconclusive. Publication drafts #912/#913 reached the operator-accepted draft/PDF handoff scope; further editing remains deferred. See the [claim and evidence audit](evidence/issue-916/GAP_ANALYSIS.md).
 
 ## Intended Headline
 
@@ -31,4 +37,4 @@ No capability above should remain in final release notes unless the release pack
 
 Final notes must map each claim to the separate implementation owners in the [atomic task contracts](ATOMIC_TASK_CONTRACTS_v0.92.2.md): three ingestion routes; structure, drift, impact and rationale analysis; local and CI fitness execution; review, synthesis and the two action planners; publication approval and three renderers; provider configuration and lifecycle. Runtime repair/qualification and local/remote C-SDLC refactors retain separate evidence. All seven planning tasks remain required, but their completed documents must not be presented as implemented product capabilities. The eleven tightened completion criteria apply before any corresponding capability is claimed.
 
-Planning state: all 69 core issues are assigned and independently reviewed in the [complete reviewed launch map](../../../.csdlc/evidence/864/all-issue-launch.json). The separate #671 podcast sidecar is outside the core plan and retains its own publication approval gates. Neither issue creation nor its review establishes delivery of the intended capabilities above.
+Planning state: all 69 core issues are assigned and independently reviewed in the [complete reviewed launch map](../../../.csdlc/evidence/864/all-issue-launch.json). Podcast #671 is now assigned to v0.93 and retains its own publication approval gates. Neither issue creation nor its review establishes delivery of the intended capabilities above.
