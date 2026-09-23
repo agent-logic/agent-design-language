@@ -1,0 +1,19 @@
+{
+  "schema": "adl.external_review_findings.v1",
+  "issue": 920,
+  "status": "not_started",
+  "reviewed_revision": null,
+  "reviewed_manifest_sha256": null,
+  "reviewer_identity": null,
+  "verdict": "not_proven",
+  "findings": [],
+  "verified_non_findings": [],
+  "validation_performed": [],
+  "limitations": [
+    "This is an empty intake structure, not an external review result."
+  ],
+  "routing": {
+    "accepted_findings_issue": 921,
+    "original_review_immutable_after_intake": true
+  }
+}

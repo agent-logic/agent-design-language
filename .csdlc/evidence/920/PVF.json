@@ -1,0 +1,9 @@
+{
+  "issue": 920,
+  "lane": "docs_only",
+  "proof_role": "Validate preparation truth and fail closed when a completed external review lacks exact identity, accepted predecessors, authorization, independence or findings intake",
+  "determinism": "local deterministic JSON and Markdown contract checks",
+  "resources": "local CPU, files and Python3; no network, reviewer, provider or external effects",
+  "release_gate": "Preparation proof only; does not establish external review completion, #919 acceptance or release authorization",
+  "validator": ".csdlc/evidence/920/validate_external_review_packet.py"
+}
