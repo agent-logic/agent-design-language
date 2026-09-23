@@ -206,7 +206,12 @@ def validate(manifest: dict, findings: dict, review_text: str) -> list[str]:
             reviewer.get("independence_evidence_path"),
             review.get("assessment_path"),
         ]
-        if not all(nonempty(path) for path in evidence_paths) or len(set(evidence_paths)) != len(evidence_paths):
+        resolved_evidence_paths = [
+            (ROOT / Path(str(path))).resolve() for path in evidence_paths if nonempty(path)
+        ]
+        if len(resolved_evidence_paths) != len(evidence_paths) or len(set(resolved_evidence_paths)) != len(
+            resolved_evidence_paths
+        ):
             errors.append("evidence roles require distinct retained files")
     else:
         errors.append("manifest status")
@@ -331,7 +336,7 @@ def main() -> int:
     )
     reuse["predecessors"]["documentation_handoff"].update(
         accepted_revision=current_head,
-        handoff_manifest_path=retained_path,
+        handoff_manifest_path="./.csdlc/evidence/920/review.md",
         handoff_manifest_sha256=retained_digest,
     )
     reuse["predecessors"]["publication_finalization"].update(
@@ -341,27 +346,27 @@ def main() -> int:
     reuse["predecessors"]["internal_review"].update(
         review_revision=current_head,
         reviewed_candidate_revision=current_head,
-        findings_path=retained_path,
+        findings_path=".csdlc/evidence/920/./review.md",
         findings_digest_sha256=retained_digest,
     )
     reuse["authorization"].update(
-        authorization_evidence_path=retained_path,
+        authorization_evidence_path=".csdlc//evidence/920/review.md",
         authorization_evidence_sha256=retained_digest,
     )
     reuse["reviewer"].update(
-        independence_evidence_path=retained_path,
+        independence_evidence_path="./.csdlc/evidence/920/./review.md",
         independence_evidence_sha256=retained_digest,
     )
     reuse["review"].update(
         reviewed_revision=current_head,
         reviewed_manifest_sha256=retained_digest,
-        assessment_path=retained_path,
+        assessment_path=".csdlc/evidence//920/review.md",
         assessment_sha256=retained_digest,
     )
     reuse_findings.update(
         reviewed_revision=current_head,
         reviewed_manifest_sha256=retained_digest,
-        assessment_path=retained_path,
+        assessment_path=".csdlc/evidence//920/review.md",
         assessment_sha256=retained_digest,
     )
     reuse_errors = validate(reuse, reuse_findings, completed_text)
