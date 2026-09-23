@@ -15,7 +15,6 @@ use adl::codefriend::{
     },
 };
 use adl::provider_communication::ProviderInvocationFinalStatusV1;
-use base64::{engine::general_purpose::STANDARD, Engine};
 use serde_json::json;
 use sha2::{Digest, Sha256};
 use std::fs;
@@ -368,6 +367,7 @@ fn assert_original_owner_bytes(v2: bool) {
 
 mod transport_tests {
     use super::{verify_stage, VerificationContext};
+    use base64::{engine::general_purpose::STANDARD, Engine};
     include!("support/codefriend_local_publication_case.rs");
     #[test]
     fn publication_job_observation_rechecks_local_authority_before_upload_and_ack() {
