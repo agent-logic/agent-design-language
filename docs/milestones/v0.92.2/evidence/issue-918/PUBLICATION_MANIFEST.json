@@ -1,0 +1,214 @@
+{
+  "schema": "adl.v0922.publication_packet.v1",
+  "issue": 918,
+  "status": "draft_for_external_review",
+  "release_approved": false,
+  "publication_authorized": false,
+  "final_acceptance": "pending",
+  "inputs": {
+    "issue917": {
+      "revision": "c10757270098aea35e36453c91054ea8b4f947db",
+      "pr": 1152,
+      "acceptance": "pending"
+    },
+    "issue916": {
+      "revision": "e119223cd13ebbb6a07c0349ba6772f8ee2ecece",
+      "pr": 1151,
+      "decision": "not_proven"
+    }
+  },
+  "artifacts": [
+    {
+      "id": "release_notes",
+      "path": "docs/milestones/v0.92.2/RELEASE_NOTES_v0.92.2.md",
+      "sha256": "510b0e75d1169da632e295efb5a70b776f28ae5864a3c47a40e0f4fa3747f7dd",
+      "bytes": 4568,
+      "format": "md",
+      "role": "release_notes",
+      "source_revision": "3c6ebcb1e42ee993a1bc9152857c3008be655181",
+      "provenance_basis": "drafting base plus exact candidate SHA256",
+      "approval": "pending",
+      "confidentiality": "repository_private",
+      "destination": "private_repository_review"
+    },
+    {
+      "id": "review_guide",
+      "path": "docs/milestones/v0.92.2/evidence/issue-918/REVIEW_GUIDE.md",
+      "sha256": "2f84bb9daac328bec8ee29407f3e012635212d154eccb39a13208e89d43dd099",
+      "bytes": 3459,
+      "format": "md",
+      "role": "review_guide",
+      "source_revision": "3c6ebcb1e42ee993a1bc9152857c3008be655181",
+      "provenance_basis": "drafting base plus exact candidate SHA256",
+      "approval": "pending",
+      "confidentiality": "repository_private",
+      "destination": "private_repository_review"
+    },
+    {
+      "id": "destination_inventory",
+      "path": "docs/milestones/v0.92.2/evidence/issue-918/DESTINATIONS.json",
+      "sha256": "d95c5448da7e9faf1576b1c618b6a287a0e4c3f1c299767b794359cd0cff021c",
+      "bytes": 1337,
+      "format": "json",
+      "role": "destination_inventory",
+      "source_revision": "3c6ebcb1e42ee993a1bc9152857c3008be655181",
+      "provenance_basis": "drafting base plus exact candidate SHA256",
+      "approval": "pending",
+      "confidentiality": "repository_private",
+      "destination": "private_repository_review"
+    },
+    {
+      "id": "version_inventory",
+      "path": "docs/milestones/v0.92.2/evidence/issue-918/VERSION_INVENTORY.json",
+      "sha256": "0084cde55ac58ac338d7925a711a90b17eb74012cee2594c1a7c5b62d68430d5",
+      "bytes": 3416,
+      "format": "json",
+      "role": "version_inventory",
+      "source_revision": "3c6ebcb1e42ee993a1bc9152857c3008be655181",
+      "provenance_basis": "drafting base plus exact candidate SHA256",
+      "approval": "pending",
+      "confidentiality": "repository_private",
+      "destination": "private_repository_review"
+    },
+    {
+      "id": "task_ledger",
+      "path": "docs/milestones/v0.92.2/evidence/issue-916/TASK_LEDGER.json",
+      "sha256": "d6299f221d39112a02c9d379a935de586aa147106d62006936f620c533f2623d",
+      "bytes": 74996,
+      "format": "json",
+      "role": "task_ledger",
+      "source_revision": "c10757270098aea35e36453c91054ea8b4f947db",
+      "provenance_basis": "inherited source checkpoint",
+      "approval": "pending",
+      "confidentiality": "repository_private",
+      "destination": "private_repository_review"
+    },
+    {
+      "id": "quality_decision",
+      "path": "docs/milestones/v0.92.2/evidence/issue-916/QUALITY_DECISION.json",
+      "sha256": "c783325e2e3dbe9f513dce67a1d5874a53193c9549c137c467581ae19426b1e0",
+      "bytes": 12149,
+      "format": "json",
+      "role": "quality_decision",
+      "source_revision": "c10757270098aea35e36453c91054ea8b4f947db",
+      "provenance_basis": "inherited source checkpoint",
+      "approval": "pending",
+      "confidentiality": "repository_private",
+      "destination": "private_repository_review"
+    },
+    {
+      "id": "deferral",
+      "path": "docs/milestones/v0.92.2/evidence/issue-916/SPRINT10_DEFERRAL.json",
+      "sha256": "58fb5bc937fcc2ee8975ec9a52a55a3597730b5d5edc80266227747a40784a51",
+      "bytes": 2360,
+      "format": "json",
+      "role": "deferral",
+      "source_revision": "c10757270098aea35e36453c91054ea8b4f947db",
+      "provenance_basis": "inherited source checkpoint",
+      "approval": "pending",
+      "confidentiality": "repository_private",
+      "destination": "private_repository_review"
+    },
+    {
+      "id": "upstream_handoff",
+      "path": "docs/milestones/v0.92.2/evidence/issue-917/HANDOFF.md",
+      "sha256": "edc9b762698131dbc650cc19b069d57d05de1233883eec3ada4d0d72f5e9b604",
+      "bytes": 13998,
+      "format": "md",
+      "role": "upstream_handoff",
+      "source_revision": "c10757270098aea35e36453c91054ea8b4f947db",
+      "provenance_basis": "inherited source checkpoint",
+      "approval": "pending",
+      "confidentiality": "repository_private",
+      "destination": "private_repository_review"
+    },
+    {
+      "id": "upstream_manifest",
+      "path": "docs/milestones/v0.92.2/evidence/issue-917/HANDOFF_MANIFEST.json",
+      "sha256": "b15dd065e88f6128a935a025f9e528cbc1ac90068e865a5b2d950dd3bdf1a9a4",
+      "bytes": 30323,
+      "format": "json",
+      "role": "upstream_manifest",
+      "source_revision": "c10757270098aea35e36453c91054ea8b4f947db",
+      "provenance_basis": "inherited source checkpoint",
+      "approval": "pending",
+      "confidentiality": "repository_private",
+      "destination": "private_repository_review"
+    },
+    {
+      "id": "cargo_audit",
+      "path": "docs/milestones/v0.92.2/evidence/issue-917/CARGO_MANIFEST_AUDIT.json",
+      "sha256": "36c71074b909007969d9f08a4e2390eaa7e5613ea6ac4b0901bf5691ed9ae6d4",
+      "bytes": 25316,
+      "format": "json",
+      "role": "cargo_audit",
+      "source_revision": "c10757270098aea35e36453c91054ea8b4f947db",
+      "provenance_basis": "inherited source checkpoint",
+      "approval": "pending",
+      "confidentiality": "repository_private",
+      "destination": "private_repository_review"
+    },
+    {
+      "id": "manuscript_custody",
+      "path": "docs/milestones/v0.92.2/cognitive-sdlc/REVISION_4_REVIEW_HANDOFF.md",
+      "sha256": "aede5300b59ded852efe3260f15a674e23da5ac53bb0d2b200e81adb4b423367",
+      "bytes": 2217,
+      "format": "md",
+      "role": "manuscript_custody",
+      "source_revision": "c10757270098aea35e36453c91054ea8b4f947db",
+      "provenance_basis": "inherited source checkpoint",
+      "approval": "pending",
+      "confidentiality": "repository_private",
+      "destination": "private_repository_review"
+    },
+    {
+      "id": "article_inventory",
+      "path": "docs/milestones/v0.92/publication/articles/medium-2026-09/README.md",
+      "sha256": "64e614e215ddb9866a27424eda468c1157ab62c4f75874a334a7c9e5a2aea67e",
+      "bytes": 3672,
+      "format": "md",
+      "role": "article_inventory",
+      "source_revision": "c10757270098aea35e36453c91054ea8b4f947db",
+      "provenance_basis": "inherited source checkpoint",
+      "approval": "pending",
+      "confidentiality": "repository_private",
+      "destination": "private_repository_review"
+    }
+  ],
+  "deferred_qualification": {
+    "status": "incomplete",
+    "successors": [
+      1148,
+      1149,
+      1150
+    ],
+    "depends_on": {
+      "1150": [
+        1148,
+        1149
+      ]
+    },
+    "gate": "before_beta1_launch"
+  },
+  "exclusions": [
+    {
+      "id": "codefriend_export_md_html_pdf",
+      "reason": "Accepted exact-candidate output set not supplied; privacy, visual parity and content checks not performed",
+      "status": "not_proven"
+    },
+    {
+      "id": "private_manuscript",
+      "reason": "Original remains in private custody; only sanitized reference included",
+      "status": "not_copied"
+    },
+    {
+      "id": "installed_binaries",
+      "reason": "No final installed release candidate selected or relabeled",
+      "status": "not_proven"
+    }
+  ],
+  "versions": {
+    "milestone": "v0.92.2",
+    "package_policy": "preserve_declared_versions_no_binary_relabeling"
+  }
+}
