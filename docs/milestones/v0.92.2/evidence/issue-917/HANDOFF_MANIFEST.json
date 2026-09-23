@@ -383,7 +383,7 @@
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-917/HANDOFF.md",
-      "sha256": "edc9b762698131dbc650cc19b069d57d05de1233883eec3ada4d0d72f5e9b604"
+      "sha256": "672c47e66f1d375cfe4a7e97f5ee55fc1f66def1def7311c29f3d4a9e0136e09"
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-917/validate_handoff.py",
@@ -906,5 +906,18 @@
     "determinism": "local bytes and identities",
     "resources": "local Python/filesystem; no network",
     "release_gate": "required document validation; not release authorization"
+  },
+  "routing_observation": {
+    "date": "2026-09-23",
+    "predecessor_revision": "be804668a896cff4b770c38b8224c9d31ec7850c",
+    "predecessor_pr": 1151,
+    "predecessor_accepted": false,
+    "successor_milestone": "v0.93.1",
+    "successor_issues": [
+      1148,
+      1149,
+      1150
+    ],
+    "scope": "Authenticated live issue/PR observation and exact upstream quality decision; retained inherited evidence is unchanged."
   }
 }
