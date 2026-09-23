@@ -2,16 +2,19 @@
   "schema": "adl.v0922.internal_review_findings.v1",
   "issue": 919,
   "status": "provisional_not_accepted",
-  "reviewed_at": "2026-09-23T02:34:00Z",
+  "reviewed_at": "2026-09-23T03:24:00Z",
   "findings": [
     {
       "id": "919-F01",
       "priority": "P1",
-      "title": "Exact finalized candidate and publication manifest absent",
+      "title": "Draft publication packet exists but exact finalized candidate acceptance is absent",
       "context_issue": 918,
-      "trigger": "Treating preparation or local inventory as accepted TAIL-03 output",
+      "trigger": "Treating draft PR #1154 or its passing integrity checks as accepted TAIL-03 output",
       "impact": "No truthful internal release verdict or exact-candidate review is possible",
-      "evidence": ["https://github.com/agent-logic/agent-design-language/issues/918"],
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/pull/1154",
+        "docs/milestones/v0.92.2/evidence/issue-918/PUBLICATION_MANIFEST.json"
+      ],
       "owner_issue": 918,
       "disposition": "open_blocker"
     },
@@ -50,6 +53,20 @@
       "evidence": ["docs/milestones/v0.92.2/evidence/issue-917/HANDOFF_MANIFEST.json"],
       "owner_issue": 917,
       "disposition": "open_upstream"
+    },
+    {
+      "id": "919-F05",
+      "priority": "P1",
+      "title": "Prepared nine-lane internal review has not been executed",
+      "context_issue": 919,
+      "trigger": "Treating the independently reviewed checkpoint packet as the full milestone review",
+      "impact": "Product source, security, architecture, dependencies, provider/cloud behavior, installed journeys, renderers, and complete retained-evidence coverage remain unreviewed",
+      "evidence": [
+        ".git/csdlc-v3/local/invocations/919-review-planning/INTERNAL_REVIEW_PLAN.md",
+        "docs/milestones/v0.92.2/evidence/issue-919/REVIEW.md"
+      ],
+      "owner_issue": 919,
+      "disposition": "open_review_gate"
     }
   ],
   "nonclaims": [

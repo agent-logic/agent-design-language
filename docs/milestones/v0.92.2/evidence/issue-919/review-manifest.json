@@ -2,7 +2,7 @@
   "schema": "adl.v0922.internal_review_manifest.v1",
   "issue": 919,
   "status": "provisional_not_accepted",
-  "observed_at": "2026-09-23T02:34:00Z",
+  "observed_at": "2026-09-23T03:24:00Z",
   "scope": "release_tail_draft_input_checkpoint",
   "inputs": [
     {
@@ -26,11 +26,11 @@
     {
       "issue": 918,
       "role": "publication_finalization",
-      "revision": null,
-      "pr": null,
+      "revision": "5c4a6149771c637f3c805985b86231077965eab4",
+      "pr": "https://github.com/agent-logic/agent-design-language/pull/1154",
       "issue_state": "OPEN",
       "accepted": false,
-      "decision": "preparation_only_no_exact_candidate"
+      "decision": "draft_for_external_review_final_acceptance_pending"
     }
   ],
   "observations": {
@@ -43,7 +43,27 @@
     "handoff_prerequisites": 24,
     "handoff_negative_fixtures": 6,
     "handoff_accepted": false,
-    "release_authorized": false
+    "release_authorized": false,
+    "publication_packet_status": "draft_for_external_review",
+    "publication_manifest_sha256": "b4f031ae10b3c7a5216523680dfca5b1cd94cdc5d35d3206c852932d37f246c6",
+    "publication_artifacts": 12,
+    "publication_negative_fixtures": 25,
+    "publication_final_acceptance": "pending",
+    "publication_release_approved": false,
+    "publication_authorized": false,
+    "publication_unproven_outputs": [
+      "codefriend_export_md_html_pdf",
+      "installed_binaries"
+    ],
+    "full_review_plan": {
+      "locator": ".git/csdlc-v3/local/invocations/919-review-planning/INTERNAL_REVIEW_PLAN.md",
+      "sha256": "354ad4197d5ab4cb77dbb7f060f30d271e804da2c9bfc6d3a408179cde78c554",
+      "prepared_by": "Planning #4.5",
+      "status": "planned_not_started",
+      "planned_lanes": 9,
+      "specialists_dispatched": false,
+      "full_review_complete": false
+    }
   },
   "refresh_required_when": [
     "any input PR appears or changes head",
@@ -53,5 +73,5 @@
     "publication candidate, manifest, outputs, review, or approval becomes available"
   ],
   "artifacts": ["REVIEW.md", "findings.json", "validate_review.py", "PVF.json"],
-  "nonclaim": "Draft-input review checkpoint only; exact-candidate internal review remains pending accepted #918"
+  "nonclaim": "Draft-input review checkpoint only; the prepared nine-lane internal review has not run and exact-candidate acceptance remains pending accepted #918"
 }

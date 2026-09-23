@@ -34,7 +34,10 @@ def validate(manifest, findings, review_text):
             "revision": "c10757270098aea35e36453c91054ea8b4f947db",
             "pr": "https://github.com/agent-logic/agent-design-language/pull/1152",
         },
-        918: {"revision": None, "pr": None},
+        918: {
+            "revision": "5c4a6149771c637f3c805985b86231077965eab4",
+            "pr": "https://github.com/agent-logic/agent-design-language/pull/1154",
+        },
     }
     for issue, expected in expected_inputs.items():
         for key, value in expected.items():
@@ -42,8 +45,6 @@ def validate(manifest, findings, review_text):
                 failures.append(f"input_identity:{issue}:{key}")
     if any(by_issue.get(n, {}).get("accepted") is not False for n in (916, 917, 918)):
         failures.append("unaccepted_input_promoted")
-    if by_issue.get(918, {}).get("revision") is not None:
-        failures.append("unaccepted_918_revision_claimed")
     observations = manifest.get("observations", {})
     if observations.get("quality_gates") != {"pass": 1, "not_proven": 11}:
         failures.append("quality_gate_denominator")
@@ -51,9 +52,28 @@ def validate(manifest, findings, review_text):
         failures.append("handoff_acceptance")
     if observations.get("release_authorized") is not False:
         failures.append("release_authority")
+    if observations.get("publication_packet_status") != "draft_for_external_review":
+        failures.append("publication_packet_status")
+    if observations.get("publication_manifest_sha256") != "b4f031ae10b3c7a5216523680dfca5b1cd94cdc5d35d3206c852932d37f246c6":
+        failures.append("publication_manifest_identity")
+    if observations.get("publication_artifacts") != 12:
+        failures.append("publication_artifact_denominator")
+    if observations.get("publication_final_acceptance") != "pending":
+        failures.append("publication_acceptance")
+    full_review = observations.get("full_review_plan", {})
+    if full_review.get("sha256") != "354ad4197d5ab4cb77dbb7f060f30d271e804da2c9bfc6d3a408179cde78c554":
+        failures.append("full_review_plan_identity")
+    if full_review.get("status") != "planned_not_started":
+        failures.append("full_review_plan_status")
+    if full_review.get("planned_lanes") != 9:
+        failures.append("full_review_lane_denominator")
+    if full_review.get("specialists_dispatched") is not False:
+        failures.append("specialist_dispatch_claim")
+    if full_review.get("full_review_complete") is not False:
+        failures.append("full_review_completion_claim")
     rows = findings.get("findings", [])
     ids = [row.get("id") for row in rows]
-    if len(ids) != len(set(ids)) or set(ids) != {"919-F01", "919-F02", "919-F03", "919-F04"}:
+    if len(ids) != len(set(ids)) or set(ids) != {"919-F01", "919-F02", "919-F03", "919-F04", "919-F05"}:
         failures.append("finding_identity")
     for row in rows:
         if row.get("priority") not in {"P0", "P1", "P2", "P3"}:
@@ -94,7 +114,7 @@ def run_self_test(manifest, findings, review_text):
     cases.append(("acceptance_promotion", changed, findings, review_text))
     changed = copy.deepcopy(manifest)
     changed["inputs"][2]["revision"] = "0" * 40
-    cases.append(("invented_918_revision", changed, findings, review_text))
+    cases.append(("substituted_918_revision", changed, findings, review_text))
     changed_findings = copy.deepcopy(findings)
     changed_findings["findings"][0]["disposition"] = ""
     cases.append(("blank_disposition", manifest, changed_findings, review_text))
@@ -117,6 +137,18 @@ def run_self_test(manifest, findings, review_text):
     changed = copy.deepcopy(manifest)
     changed["inputs"][1]["pr"] = None
     cases.append(("missing_917_pr", changed, findings, review_text))
+    changed = copy.deepcopy(manifest)
+    changed["inputs"][2]["pr"] = None
+    cases.append(("missing_918_pr", changed, findings, review_text))
+    changed = copy.deepcopy(manifest)
+    changed["observations"]["publication_manifest_sha256"] = "0" * 64
+    cases.append(("substituted_publication_manifest", changed, findings, review_text))
+    changed = copy.deepcopy(manifest)
+    changed["observations"]["full_review_plan"]["full_review_complete"] = True
+    cases.append(("fabricated_full_review_completion", changed, findings, review_text))
+    changed = copy.deepcopy(manifest)
+    changed["observations"]["full_review_plan"]["status"] = "completed"
+    cases.append(("fabricated_full_review_status", changed, findings, review_text))
     failed = [name for name, m, f, text in cases if not validate(m, f, text)]
     return len(cases), failed
 

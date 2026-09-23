@@ -4,6 +4,6 @@
   "proof_role": "Execute the unchanged review packet validator through native Cargo proof admission",
   "determinism": "local deterministic contract checks",
   "resources": "local CPU, files, Python3 and Cargo; no network/provider effects",
-  "release_gate": "Required #919 draft preparation proof only; does not establish #918 acceptance or release authorization",
+  "release_gate": "Required #919 draft preparation proof only; does not execute the prepared nine-lane review or establish #918 acceptance or release authorization",
   "tests": ["review_contract_and_negative_fixtures"]
 }

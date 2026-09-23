@@ -6,5 +6,5 @@
   "determinism": "deterministic local JSON and Markdown checks",
   "resources": "bounded local CPU and files; no network required",
   "release_gate": "required preparation proof but insufficient for internal review acceptance",
-  "nonclaim": "Does not inspect product behavior, execute providers, or establish release readiness"
+  "nonclaim": "Does not execute the prepared nine-lane review, inspect product behavior, execute providers, or establish release readiness"
 }
