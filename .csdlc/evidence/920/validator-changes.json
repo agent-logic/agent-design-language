@@ -3,12 +3,15 @@
   "validators": [
     {
       "id": "external-review-packet-preparation",
-      "program": "python3",
+      "program": "cargo",
       "args": [
-        ".csdlc/evidence/920/validate_external_review_packet.py"
+        "test",
+        "--offline",
+        "--manifest-path",
+        ".csdlc/evidence/920/validation/Cargo.toml"
       ],
-      "success_marker": "\"status\": \"pass\"",
-      "timeout_seconds": 60
+      "success_marker": "test result: ok.",
+      "timeout_seconds": 120
     }
   ]
 }
