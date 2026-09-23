@@ -1,0 +1,8 @@
+{
+  "lane": "docs_only",
+  "role": "existing planning contract and negative fixture bridge",
+  "determinism": "deterministic local tracked inputs",
+  "resource_profile": "local CPU, no network or providers",
+  "release_gate": false,
+  "nonclaim": "Does not establish product qualification or pass the #916 quality decision."
+}

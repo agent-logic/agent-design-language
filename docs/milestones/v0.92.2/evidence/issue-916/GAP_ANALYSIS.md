@@ -143,3 +143,8 @@ Retain six successful private exports and owner-reported PDF/HTML inspection sep
 ### Successor mapping and resource stop
 
 The three single-task v0.93 successors are [#1148](https://github.com/agent-logic/agent-design-language/issues/1148) citation-grounded assessment correctness, [#1149](https://github.com/agent-logic/agent-design-language/issues/1149) interrupted-request reconciliation and safe recovery, and [#1150](https://github.com/agent-logic/agent-design-language/issues/1150) independent installed Beta 1 qualification. #1150 depends on accepted #1148/#1149 results. All three creations have authenticated native reconciliation. Planning #7.3 confirms test resources are stopped with no new provider calls. Native #915/#936 closure remains pending; no original qualification PASS is claimed.
+
+
+### Verified Sprint 10 closure and remaining quality decision
+
+#915 and #936 are now authenticated CLOSED/NOT_PLANNED, with native superseded closeout completed. This supersedes the earlier pending-closure snapshots. Original qualification remains incomplete. See [producer scope audit](PRODUCER_SCOPE_AUDIT.md) for the narrowed G03 evidence and contract gaps. This checkpoint is ready for draft review; the quality gate remains not proven and #916 stays open.

@@ -290,6 +290,8 @@
     "status": "operator_authorized_deferral",
     "original_qualification": "incomplete",
     "follow_on_routing": "v0.93 issues #1148, #1149, #1150",
-    "final_quality_decision": "not_proven"
-  }
+    "final_quality_decision": "not_proven",
+    "closure": "#915 and #936 CLOSED/NOT_PLANNED; native superseded closeout succeeded"
+  },
+  "producer_scope_audit": "PRODUCER_SCOPE_AUDIT.md"
 }
