@@ -136,3 +136,7 @@ CF-01, CF-02, CF-03, CF-04, CF-05, CF-06, CF-07; owner repositories: codefriend,
 ## Branded output launch dependency
 
 CT-01–CT-10 deliver versioned artifact templates and styles. CF-05 consumes CT-05 catalog-wide qualification before CF-07; no optional post-launch deferral.
+
+## Deferred Sprint 10 qualification
+
+The operator authorized v0.92.2 Sprint10 closeout with #915 qualification explicitly incomplete/deferred. This does not qualify Beta1 for launch. CF-01 must map the three single-task successor obligations to exact issues once the current #915 owner creates/reuses them: source-grounded citation correctness, unknown second-run reconciliation/recovery, and the remaining independent12-cell24-obligation qualification. Their numeric mapping is pending; do not create duplicates or treat them as already complete. CF-05 must consume their accepted results before CF-07 launch. Existing six-format export observations are retained partial proof, not a passing qualification. The eight-sprint/83-core-candidate allocation remains unchanged pending exact cross-repository successor mapping; report these inherited obligations separately.

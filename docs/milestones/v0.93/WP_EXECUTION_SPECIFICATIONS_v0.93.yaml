@@ -833,7 +833,8 @@
       "result": "Map every Drive Beta 1 workstream, demo and external-tester criterion to accepted v0.92.2 evidence, then accept the launch audience, deployment mode, limits and remaining operational gaps. Missing Beta 1 behavior remains a predecessor blocker.",
       "acceptance": [
         "Map every Drive Beta 1 workstream, demo and external-tester criterion to accepted v0.92.2 evidence, then accept the launch audience, deployment mode, limits and remaining operational gaps. Missing Beta 1 behavior remains a predecessor blocker.",
-        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings.",
+        "Map the operator-deferred v0.92.2 #915 obligations to exact successor issues: citation-grounded assessment correctness, uncertain second-run recovery and remaining independent12-cell24-obligation qualification. Preserve original failed/incomplete evidence; do not count historical exports as qualification pass."
       ],
       "negative_cases": [
         "Unproved Beta behavior deferred",
@@ -968,7 +969,8 @@
       "result": "An independent external-tester rehearsal repeats ADL, external OSS and PR-review journeys and evaluates evidence, diagrams, meaningful generated tests, documentation, redaction and report quality on exact installed versions.",
       "acceptance": [
         "An independent external-tester rehearsal repeats ADL, external OSS and PR-review journeys and evaluates evidence, diagrams, meaningful generated tests, documentation, redaction and report quality on exact installed versions.",
-        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings.",
+        "Before accepting launch qualification, consume accepted closure of every mapped #915 successor obligation, including citation accuracy, safe repeat/comparison and the complete independent platform/website/CLI matrix. A v0.92.2 administrative deferral is not a waiver of the Beta1 launch gate."
       ],
       "negative_cases": [
         "Weak review passes quality gate",
