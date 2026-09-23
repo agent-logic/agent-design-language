@@ -105,14 +105,31 @@ fn sprint_937_coordination_packet_preserves_roster_owners_and_gates() {
     let wave_event = event("coordination_wave_recorded");
     assert_eq!(wave_event["actor"], "Planning #5");
     let details = &wave_event["details"];
-    assert_eq!(details["active_decision_owner"]["issue"], 916);
-    assert_eq!(details["active_decision_owner"]["owner"], "Planning #11");
-    assert_eq!(details["read_only_support"]["owner"], "Worker #9");
-    assert_eq!(details["preparation_lanes"][0]["issue"], 917);
-    assert_eq!(details["preparation_lanes"][1]["issue"], 918);
-    assert_eq!(details["preparation_lanes"][2]["issue"], 922);
-    assert_eq!(details["sprint10_disposition"]["owner"], "Planning #7.3");
-    assert_eq!(details["sprint10_closeout"]["issue"], 936);
+    assert_eq!(
+        details["active_decision_owner"],
+        serde_json::json!({"issue": 916, "owner": "Planning #11"})
+    );
+    assert_eq!(
+        details["read_only_support"],
+        serde_json::json!({"issue": 916, "owner": "Worker #9"})
+    );
+    assert_eq!(
+        details["preparation_lanes"],
+        serde_json::json!([
+            {"issue": 917, "owner": "Planning #4.5"},
+            {"issue": 918, "owner": "Worker #10"},
+            {"issue": 922, "owner": "Planning #11"}
+        ])
+    );
+    assert_eq!(details["sprint10_disposition"]["issue"], 915);
+    assert_eq!(
+        details["sprint10_disposition"]["owner"],
+        "Planning #7.3"
+    );
+    assert_eq!(
+        details["sprint10_closeout"],
+        serde_json::json!({"issue": 936, "owner": "Planning #11"})
+    );
     assert_eq!(details["successors"], serde_json::json!([1148, 1149, 1150]));
     assert!(details["acceptance_rule"]
         .as_str()
@@ -120,7 +137,9 @@ fn sprint_937_coordination_packet_preserves_roster_owners_and_gates() {
         .contains("preparation overlap grants no early acceptance"));
 
     let closed = &event("sprint10_disposition_closed")["details"];
+    assert_eq!(closed["issue_915"]["state"], "closed");
     assert_eq!(closed["issue_915"]["disposition"], "NOT_PLANNED");
+    assert_eq!(closed["issue_936"]["state"], "closed");
     assert_eq!(closed["issue_936"]["disposition"], "NOT_PLANNED");
     assert_eq!(closed["successors"], serde_json::json!([1148, 1149, 1150]));
     assert_eq!(closed["qualification_claim"], "incomplete_deferred_not_pass");
