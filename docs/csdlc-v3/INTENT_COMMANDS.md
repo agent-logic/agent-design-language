@@ -420,11 +420,34 @@ unsupported mutation retries remain reconciliation-only. Multiple pending
 operations or simultaneous local and remote uncertainty are refused explicitly.
 With no pending operation the owner reports the appropriate no-op outcome.
 
-Native issue creation uses target issue zero and does not retain its coordinating
-issue. These unattributable operations are excluded from `recover ISSUE` and
-issue-local pending status. Reconcile an uncertain creation by explicitly
-repeating its identical `github-issue ISSUE --operation FILE --execute` request;
-shared checkout HEAD identity is not sufficient to assign it to an issue.
+Retained issue journals are activated before business-effect recovery through this
+same preview/execute protocol. Activation authenticates retained authority and
+checkout identity and never redispatches the business effect. A pending
+`Finish` or `FinishWithoutPr` can reconcile a missing terminal state or receipt
+after fresh authenticated terminal observation, using the exact original decision.
+
+Repository-scoped creation journals require explicit operation selection; the
+anchor issue supplies authenticated repository context, not ownership of every
+creation. Supply this strict `--disposition` object using the retained operation ID:
+
+```json
+{
+  "schema": "csdlc.v3.creation_journal_recovery_disposition.v1",
+  "operation_id": "semantic-operation-v1:0000000000000000000000000000000000000000000000000000000000000000"
+}
+```
+
+The zero digest above is a shape example, not a usable operation. Run
+`csdlc recover ISSUE --disposition creation-recovery.json` for read-only preview,
+then the identical selection with `--execute --preview DIGEST` using its returned
+`preview_digest`. Only the fully retained creation commit is activated. Admission checks its retained
+effective authority/head, including any prior authenticated recovery adoption;
+unadopted authority/head changes, tampered retained bytes and stale previews refuse. Activation
+never sends another creation request. After activation, reconcile the original
+creation through its identical `github-issue ISSUE --operation FILE --execute`
+request when required. Without explicit selection, unattributable creations stay
+excluded from issue-local recovery and status; shared checkout HEAD alone does
+not assign them to an issue.
 
 `clean ISSUE` returns `preview_token`. Execute with
 `clean ISSUE --execute --preview TOKEN`. The token binds the current issue

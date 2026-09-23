@@ -128,6 +128,7 @@ pub(super) fn edit_operational_cards(
             result: result.clone(),
             bind_branch: None,
             bind_worktree: None,
+            bind_image_digest: None,
         },
     ) {
         append_directory_rollback_finding(&stage, &mut findings);

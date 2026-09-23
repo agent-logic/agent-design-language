@@ -28,14 +28,27 @@ csdlc\-workflow \- prepare, execute, publish and reconcile one issue
 \&git status \-\-short \-\-branch
 \&git worktree list \-\-porcelain
 \&csdlc prepare ISSUE \-\-plan plan.json
-\&csdlc edit ISSUE \-\-changes design\-edit.json
 \&csdlc validate ISSUE
 \&csdlc doctor \-\-request current.json \-\-registry docs/templates/prompts/current.json \-\-registrations registrations.json
 .fi
 .PP
-\&Store invocation files under the resolved primary Git metadata csdlc\-v3/local/invocations/ISSUE, not untracked primary artifacts. prepare.json uses LocalPreparationRequest from csdlc\-requests(1), the existing issue identity and proposed approved branch/worktree, registry version from current.json, full required commands and no initial expected digest.
+\&Store invocation files under resolved primary Git metadata csdlc\-v3/local/invocations/ISSUE. plan.json uses schema csdlc.v3.intent_plan.v1 with slug, all six cards (sip, stp, spp, vpp, srp, sor), validators and publication. Supply issue\-specific values from the active template registry. The owner derives issue identity and approved branch/worktree from current authenticated context; do not author LocalPreparationRequest for prepare \-\-plan.
 .PP
-\&Native issue creates six template\-based cards. Set design\-edit.json.card_updates to issue\-specific values from the active template field schemas using the relevant card\-editor skills. Preserve SIP/STP/SPP design truth, select proportional VPP lane, and leave review/output completion unclaimed. Before each following command refresh expected_lifecycle_digest from actual LOCAL_ROOT/issues/ISSUE/index.json.digest. Readiness dimensions must reflect observed prerequisites, path ownership and budget.
+\&After binding, design\-edit.json uses schema csdlc.v3.intent_changes.v1, cards keyed by card name, and amendment with class and transition_approved. Replace validator declarations with validators instead of cards; change publication metadata with publication alone. Select exactly one edit surface. Do not send card_updates or expected_lifecycle_digest: those belong to the native compatibility request, not this semantic command. Preserve SIP/STP/SPP design truth, select a proportional VPP lane, and leave review/output completion unclaimed. See docs/csdlc\-v3/INTENT_COMMANDS.md for full values and admission constraints; \-\-emit\-request captures a current immutable snapshot when explicit replay is needed.
+.nf
+\&{
+\&  \(dqschema\(dq: \(dqcsdlc.v3.intent_changes.v1\(dq,
+\&  \(dqcards\(dq: {
+\&    \(dqspp\(dq: {
+\&      \(dqnotes_risks_inline\(dq: \(dqReviewed issue\-local plan; implementation and proof remain pending.\(dq
+\&    }
+\&  },
+\&  \(dqamendment\(dq: {
+\&    \(dqclass\(dq: \(dqplan\(dq,
+\&    \(dqtransition_approved\(dq: true
+\&  }
+\&}
+.fi
 .PP
 \&Generate registrations.json from actual Git topology using the optional registrations helper. Read every returned finding. A schema\-valid generic template is not an accepted design.
 .PP
@@ -44,6 +57,8 @@ csdlc\-workflow \- prepare, execute, publish and reconcile one issue
 .nf
 \&csdlc bind ISSUE
 \&cd /absolute/approved/issue\-worktree
+\&csdlc edit ISSUE \-\-changes design\-edit.json
+\&csdlc validate ISSUE
 \&csdlc doctor \-\-request current.json \-\-registry docs/templates/prompts/current.json \-\-registrations registrations.json
 .fi
 .PP

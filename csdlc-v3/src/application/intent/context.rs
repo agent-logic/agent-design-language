@@ -486,7 +486,10 @@ impl Context {
         Ok(SemanticDigest::authority(&bytes))
     }
 
-    fn semantic_origin(&self, snapshot: &SemanticSnapshot) -> Result<EffectOrigin, String> {
+    pub(crate) fn semantic_origin(
+        &self,
+        snapshot: &SemanticSnapshot,
+    ) -> Result<EffectOrigin, String> {
         if let Some(binding) = snapshot.inputs().binding() {
             if binding.branch != self.branch
                 || binding.head != self.head
