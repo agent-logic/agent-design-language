@@ -142,9 +142,12 @@
       "bucket": "release_blockers",
       "summary": "Independent #915 qualification has not supplied accepted final candidate evidence.",
       "evidence": [
-        "https://github.com/agent-logic/agent-design-language/issues/915"
+        "https://github.com/agent-logic/agent-design-language/issues/915",
+        "SPRINT10_DEFERRAL.json"
       ],
-      "required_action": "Consume the existing independent qualification handoff after remaining integration repairs; do not duplicate its implementation or paid runs."
+      "required_action": "Record exact follow-on issue identities and native closeout evidence from #915/#936. Preserve incomplete qualification; enforce accepted remaining qualification before v0.93 Beta1 launch.",
+      "disposition": "operator_authorized_defer_to_v093_before_beta1_launch",
+      "release_scope_note": "Original qualification blocker is explicitly deferred for v0.92.2 closeout; remains a Beta1 launch blocker. Disposition is not product proof or an automatic Q11/Q12 pass."
     },
     {
       "id": "916-G03",
@@ -281,5 +284,12 @@
     "repair_pr_state": "MERGED",
     "qualification_issue_state": "OPEN",
     "decision": "not_proven"
+  },
+  "sprint10_scope_disposition": {
+    "evidence": "SPRINT10_DEFERRAL.json",
+    "status": "operator_authorized_deferral",
+    "original_qualification": "incomplete",
+    "follow_on_routing": "pending_numeric_ids",
+    "final_quality_decision": "not_proven"
   }
 }

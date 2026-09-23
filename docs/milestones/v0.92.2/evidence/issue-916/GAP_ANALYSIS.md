@@ -130,3 +130,11 @@ All **84 evidence references across the 24-prerequisite matrix resolve and match
 [PR #1146](https://github.com/agent-logic/agent-design-language/pull/1146) is now **MERGED**, merged at `2026-09-22T20:12:17Z` as `6d78c1da473f95c4db4e0fa29f4fc2bd1d290106`. This supersedes the earlier OPEN repair observation, not its historical snapshot. #915 remains **OPEN**. The next gate is accepted independent qualification consuming the exact repaired candidate; deployment/install consumption and a passing qualification matrix are not inferred from merge. [Authenticated merge readback](QUALIFICATION_REPAIR_MERGE.json).
 
 916-G02 remains release-blocking. G03 now requires content/acceptance and final-candidate linkage reconciliation, rather than another repeat of the completed indexed-byte availability check. Q02–Q12 remain not proven. The following tail tasks retain their exact dependency order; this audit does not accept #916 or open downstream finalization.
+
+## Operator-approved Sprint 10 disposition
+
+The operator approved the concrete proposal to move on with **incomplete/deferred qualification**, preserving observed failures and moving the remaining work to v0.93 **before Beta1 launch**. See [the scope decision](SPRINT10_DEFERRAL.json). This supersedes the requirement to continue the current repair loop; it does not turn #915 into a passing qualification.
+
+916-G02 now has an explicit operator-authorized deferral for v0.92.2 closeout and remains a launch-blocking obligation for v0.93. Three separate follow-on tasks are requested from the existing #915 owner: citation-grounded assessment correctness, uncertain second-run reconciliation/recovery, and final independent qualification. Numeric issue mappings and native #915/#936 closure are pending readback. No issue closure or test-resource shutdown is claimed here.
+
+Retain six successful private exports and owner-reported PDF/HTML inspection separately from the zero accepted qualification cells. Preserve the failed/unknown ADL second-run and its reservation; no blind replay. Q11/Q12 remain unproven under the original contract. The overall #916 decision stays not_proven until remaining producer acceptance, scope reconciliation and final independent review are complete. This is a scope disposition, not public release or launch approval.
