@@ -37,7 +37,10 @@ fn sprint_937_coordination_packet_preserves_roster_owners_and_gates() {
         "## Sprint Closeout Rollup Expectations",
         "## Non-Claims",
     ] {
-        assert!(packet.contains(section), "missing packet section: {section}");
+        assert!(
+            packet.contains(section),
+            "missing packet section: {section}"
+        );
     }
 
     let wave = packet
@@ -122,10 +125,7 @@ fn sprint_937_coordination_packet_preserves_roster_owners_and_gates() {
         ])
     );
     assert_eq!(details["sprint10_disposition"]["issue"], 915);
-    assert_eq!(
-        details["sprint10_disposition"]["owner"],
-        "Planning #7.3"
-    );
+    assert_eq!(details["sprint10_disposition"]["owner"], "Planning #7.3");
     assert_eq!(
         details["sprint10_closeout"],
         serde_json::json!({"issue": 936, "owner": "Planning #11"})
@@ -142,7 +142,10 @@ fn sprint_937_coordination_packet_preserves_roster_owners_and_gates() {
     assert_eq!(closed["issue_936"]["state"], "closed");
     assert_eq!(closed["issue_936"]["disposition"], "NOT_PLANNED");
     assert_eq!(closed["successors"], serde_json::json!([1148, 1149, 1150]));
-    assert_eq!(closed["qualification_claim"], "incomplete_deferred_not_pass");
+    assert_eq!(
+        closed["qualification_claim"],
+        "incomplete_deferred_not_pass"
+    );
 
     let spp = json(&root.join(".csdlc/v3/issues/937/cards/spp.values.json"));
     let dependencies = spp["dependencies_inline"]
@@ -154,7 +157,10 @@ fn sprint_937_coordination_packet_preserves_roster_owners_and_gates() {
         "#910 and #911",
         "Final acceptance remains strictly serial",
     ] {
-        assert!(dependencies.contains(phrase), "missing dependency gate: {phrase}");
+        assert!(
+            dependencies.contains(phrase),
+            "missing dependency gate: {phrase}"
+        );
     }
     assert_eq!(spp["step_3_status"], "in_progress");
     assert_eq!(spp["step_4_status"], "pending");
@@ -172,6 +178,9 @@ fn sprint_937_coordination_packet_preserves_roster_owners_and_gates() {
         "release",
         "public launch",
     ] {
-        assert!(acceptance.contains(phrase), "missing acceptance boundary: {phrase}");
+        assert!(
+            acceptance.contains(phrase),
+            "missing acceptance boundary: {phrase}"
+        );
     }
 }
