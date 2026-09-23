@@ -6,13 +6,14 @@ use super::{
 };
 use crate::codefriend::{evidence::hash, ingestion::digest};
 use anyhow::{ensure, Context, Result};
+use lopdf::{Document as LopdfDocument, Object as LopdfObject};
 use printpdf::{
     Mm, Op, ParsedFont, PdfDocument, PdfFontHandle, PdfPage, PdfSaveOptions, Point, Pt, TextItem,
 };
 use serde::{Deserialize, Serialize};
 use std::{fs, io::Read, path::PathBuf};
 
-pub const PDF_RENDERER_VERSION: &str = "v1-printpdf-0.12.8";
+pub const PDF_RENDERER_VERSION: &str = "v2-printpdf-0.12.8";
 pub const PDF_MANIFEST_SCHEMA: &str = "codefriend.pdf_report_manifest.v1";
 pub const PDF_RESULT_SCHEMA: &str = "codefriend.pdf_render_result.v1";
 const MAX_FONT_BYTES: u64 = 32 * 1024 * 1024;
@@ -23,6 +24,15 @@ const FONT_SIZE_PT: f32 = 9.5;
 const PAGE_WIDTH_MM: f32 = 210.0;
 const HORIZONTAL_MARGIN_MM: f32 = 18.0;
 const PRINTABLE_WIDTH_MM: f32 = PAGE_WIDTH_MM - (2.0 * HORIZONTAL_MARGIN_MM);
+const PDF_LINE_WRAP_TAG: &str = "ADLVisualWrap";
+const PDF_LINE_END_TAG: &str = "ADLLogicalEnd";
+const PDF_EMPTY_LINE_TAG: &str = "ADLLogicalEmpty";
+
+#[derive(Debug, Clone)]
+struct PdfLayoutLine {
+    text: String,
+    tag: &'static str,
+}
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct PdfRenderOptions {
@@ -148,11 +158,11 @@ pub fn render_pdf(options: PdfRenderOptions) -> Result<PdfRenderResult> {
         );
     }
 
-    let lines = wrap_text(&semantic_text, &font, PRINTABLE_WIDTH_MM)?;
+    let lines = layout_text(&semantic_text, &font, PRINTABLE_WIDTH_MM)?;
     ensure!(!lines.is_empty(), "pdf_empty_semantic_report");
     let maximum_line_width_mm = lines
         .iter()
-        .map(|line| text_width_mm(line, &font))
+        .map(|line| text_width_mm(&line.text, &font))
         .collect::<Result<Vec<_>>>()?
         .into_iter()
         .fold(0.0_f32, f32::max);
@@ -188,7 +198,7 @@ pub fn render_pdf(options: PdfRenderOptions) -> Result<PdfRenderResult> {
     let manifest = PdfManifest {
         schema: PDF_MANIFEST_SCHEMA.to_string(),
         renderer_version: PDF_RENDERER_VERSION.to_string(),
-        renderer_engine: "printpdf@0.12.8; layout=codefriend-pdf-v1".to_string(),
+        renderer_engine: "printpdf@0.12.8; layout=codefriend-pdf-v2".to_string(),
         font_digest,
         review_record_digest: hash(&prepared.review)?,
         run_digest: hash(&prepared.review.run)?,
@@ -256,7 +266,7 @@ pub fn render_pdf(options: PdfRenderOptions) -> Result<PdfRenderResult> {
 }
 
 fn build_pdf(
-    lines: &[String],
+    lines: &[PdfLayoutLine],
     font: ParsedFont,
     architecture: &std::collections::BTreeMap<String, Vec<u8>>,
 ) -> Result<Vec<u8>> {
@@ -280,13 +290,17 @@ fn build_pdf(
                 if index > 0 {
                     operations.push(Op::AddLineBreak);
                 }
+                operations.push(Op::BeginMarkedContent {
+                    tag: line.tag.to_string(),
+                });
                 operations.push(Op::ShowText {
-                    items: vec![TextItem::Text(if line.is_empty() {
+                    items: vec![TextItem::Text(if line.text.is_empty() {
                         " ".to_string()
                     } else {
-                        line.clone()
+                        line.text.clone()
                     })],
                 });
+                operations.push(Op::EndMarkedContent);
             }
             operations.push(Op::EndTextSection);
             PdfPage::new(Mm(210.0), Mm(297.0), operations)
@@ -440,6 +454,28 @@ fn wrap_text(text: &str, font: &ParsedFont, max_width_mm: f32) -> Result<Vec<Str
     wrap_text_with_width(text, max_width_mm, |value| text_width_mm(value, font))
 }
 
+fn layout_text(text: &str, font: &ParsedFont, max_width_mm: f32) -> Result<Vec<PdfLayoutLine>> {
+    let mut layout = Vec::new();
+    for logical in expected_logical_lines(text) {
+        let physical =
+            wrap_text_with_width(&logical, max_width_mm, |value| text_width_mm(value, font))?;
+        let last = physical.len().saturating_sub(1);
+        for (index, line) in physical.into_iter().enumerate() {
+            layout.push(PdfLayoutLine {
+                tag: if line.is_empty() {
+                    PDF_EMPTY_LINE_TAG
+                } else if index == last {
+                    PDF_LINE_END_TAG
+                } else {
+                    PDF_LINE_WRAP_TAG
+                },
+                text: line,
+            });
+        }
+    }
+    Ok(layout)
+}
+
 fn markdown_semantic_text(source: &str) -> Result<String> {
     let tree = markdown::to_mdast(source, &markdown::ParseOptions::default())
         .map_err(|error| anyhow::anyhow!("pdf_markdown_parse_failed: {error}"))?;
@@ -452,6 +488,194 @@ fn markdown_semantic_text(source: &str) -> Result<String> {
         .join("\n");
     ensure!(!normalized.trim().is_empty(), "pdf_empty_semantic_report");
     Ok(normalized)
+}
+
+pub(crate) fn semantic_text(source: &str) -> Result<String> {
+    markdown_semantic_text(source)
+}
+
+pub(crate) fn validate_rendered_content(
+    bytes: &[u8],
+    expected_semantic: &str,
+    expected_page_count: usize,
+) -> Result<()> {
+    ensure!(
+        bytes.starts_with(b"%PDF-") && bytes.len() as u64 <= MAX_PDF_BYTES,
+        "pdf_content_invalid_or_oversized"
+    );
+    let document = LopdfDocument::load_mem(bytes).context("pdf_content_parse_failed")?;
+    ensure!(
+        !document.trailer.has(b"Encrypt"),
+        "pdf_content_encryption_forbidden"
+    );
+    ensure!(
+        document
+            .objects
+            .values()
+            .all(|object| !pdf_object_has_active_content(object)),
+        "pdf_content_active_or_external_resource_forbidden"
+    );
+    ensure!(
+        !pdf_object_has_active_content(&LopdfObject::Dictionary(document.trailer.clone())),
+        "pdf_content_active_or_external_resource_forbidden"
+    );
+    let pages = document.get_pages().into_keys().collect::<Vec<_>>();
+    ensure!(
+        pages.len() == expected_page_count,
+        "pdf_content_page_count_mismatch"
+    );
+    ensure!(
+        extracted_logical_lines(&document, &pages)? == expected_logical_lines(expected_semantic),
+        "pdf_content_semantic_mismatch"
+    );
+    Ok(())
+}
+
+fn expected_logical_lines(value: &str) -> Vec<String> {
+    value
+        .lines()
+        .map(|line| line.replace('\t', "    "))
+        .collect()
+}
+
+fn extracted_logical_lines(document: &LopdfDocument, pages: &[u32]) -> Result<Vec<String>> {
+    let page_objects = document.get_pages();
+    let mut logical = Vec::new();
+    let mut current = String::new();
+    for page_number in pages {
+        let page_id = page_objects
+            .get(page_number)
+            .ok_or_else(|| anyhow::anyhow!("pdf_content_page_object_missing"))?;
+        let content = lopdf::content::Content::decode(
+            &document
+                .get_page_content_with_limit(*page_id, MAX_PDF_BYTES as usize)
+                .context("pdf_content_stream_decode_failed")?,
+        )
+        .context("pdf_content_operations_invalid")?;
+        let tags = content
+            .operations
+            .iter()
+            .filter_map(|operation| {
+                if operation.operator != "BMC" {
+                    return None;
+                }
+                match operation.operands.first() {
+                    Some(LopdfObject::Name(tag))
+                        if matches!(
+                            tag.as_slice(),
+                            b"ADLVisualWrap" | b"ADLLogicalEnd" | b"ADLLogicalEmpty"
+                        ) =>
+                    {
+                        Some(tag.as_slice())
+                    }
+                    _ => None,
+                }
+            })
+            .collect::<Vec<_>>();
+        if tags.is_empty() {
+            continue;
+        }
+        let extracted = document
+            .extract_text(&[*page_number])
+            .context("pdf_content_text_extraction_failed")?;
+        let physical = extracted.lines().collect::<Vec<_>>();
+        ensure!(
+            physical.len() == tags.len(),
+            "pdf_content_line_structure_mismatch"
+        );
+        for (line, tag) in physical.into_iter().zip(tags) {
+            match tag {
+                b"ADLVisualWrap" => current.push_str(line),
+                b"ADLLogicalEnd" => {
+                    current.push_str(line);
+                    logical.push(std::mem::take(&mut current));
+                }
+                b"ADLLogicalEmpty" => {
+                    ensure!(line == " ", "pdf_content_empty_line_marker_mismatch");
+                    ensure!(current.is_empty(), "pdf_content_line_structure_mismatch");
+                    logical.push(String::new());
+                }
+                _ => unreachable!(),
+            }
+        }
+    }
+    ensure!(current.is_empty(), "pdf_content_unterminated_logical_line");
+    Ok(logical)
+}
+
+fn pdf_object_has_active_content(object: &LopdfObject) -> bool {
+    pdf_object_has_active_content_at(object, None)
+}
+
+fn pdf_object_has_active_content_at(object: &LopdfObject, parent_key: Option<&[u8]>) -> bool {
+    match object {
+        LopdfObject::Name(name) => matches!(
+            name.as_slice(),
+            b"Action"
+                | b"JavaScript"
+                | b"Launch"
+                | b"SubmitForm"
+                | b"ImportData"
+                | b"GoToE"
+                | b"GoToR"
+                | b"URI"
+                | b"Filespec"
+                | b"EmbeddedFile"
+                | b"RichMedia"
+                | b"Movie"
+                | b"Sound"
+                | b"Rendition"
+        ),
+        LopdfObject::Array(values) => values
+            .iter()
+            .any(|value| pdf_object_has_active_content_at(value, parent_key)),
+        LopdfObject::Dictionary(dictionary) => dictionary.iter().any(|(key, value)| {
+            // printpdf uses /F as an internal font-resource handle. Everywhere
+            // else /F is an external file selector and is forbidden.
+            (key == b"F" && parent_key != Some(b"Font"))
+                || (key == b"Annots"
+                    && !matches!(value, LopdfObject::Array(values) if values.is_empty()))
+                || pdf_key_is_active(key)
+                || pdf_object_has_active_content_at(value, Some(key))
+        }),
+        LopdfObject::Stream(stream) => stream.dict.iter().any(|(key, value)| {
+            key == b"F"
+                || pdf_key_is_active(key)
+                || pdf_object_has_active_content_at(value, Some(key))
+        }),
+        _ => false,
+    }
+}
+
+fn pdf_key_is_active(key: &[u8]) -> bool {
+    matches!(
+        key,
+        b"A" | b"AA"
+            | b"OpenAction"
+            | b"AcroForm"
+            | b"JavaScript"
+            | b"JS"
+            | b"URI"
+            | b"Launch"
+            | b"SubmitForm"
+            | b"ImportData"
+            | b"GoToE"
+            | b"GoToR"
+            | b"AF"
+            | b"EF"
+            | b"RF"
+            | b"FS"
+            | b"UF"
+            | b"DOS"
+            | b"Mac"
+            | b"Unix"
+            | b"FFilter"
+            | b"FDecodeParms"
+            | b"EmbeddedFiles"
+            | b"EmbeddedFile"
+            | b"RichMedia"
+            | b"XFA"
+    )
 }
 
 fn append_semantic_node(node: &markdown::mdast::Node, output: &mut String) {
@@ -519,38 +743,25 @@ fn wrap_text_with_width(
     ensure!(max_width > 0.0, "pdf_printable_width_invalid");
     let mut lines = Vec::new();
     for source_line in text.lines() {
+        let source_line = source_line.replace('\t', "    ");
         if source_line.is_empty() {
             lines.push(String::new());
             continue;
         }
         let mut current = String::new();
-        for word in source_line.split_whitespace() {
-            let candidate = if current.is_empty() {
-                word.to_string()
-            } else {
-                format!("{current} {word}")
-            };
-            if measure(&candidate)? <= max_width {
-                current = candidate;
-                continue;
-            }
-            if !current.is_empty() {
+        for character in source_line.chars() {
+            let mut candidate = current.clone();
+            candidate.push(character);
+            if !current.is_empty() && measure(&candidate)? > max_width {
                 lines.push(std::mem::take(&mut current));
+                candidate = character.to_string();
             }
-            for character in word.chars() {
-                let mut candidate = current.clone();
-                candidate.push(character);
-                if !current.is_empty() && measure(&candidate)? > max_width {
-                    lines.push(std::mem::take(&mut current));
-                    candidate = character.to_string();
-                }
-                ensure!(
-                    measure(&candidate)? <= max_width,
-                    "pdf_glyph_exceeds_printable_width_u{:04x}",
-                    character as u32
-                );
-                current = candidate;
-            }
+            ensure!(
+                measure(&candidate)? <= max_width,
+                "pdf_glyph_exceeds_printable_width_u{:04x}",
+                character as u32
+            );
+            current = candidate;
         }
         if !current.is_empty() {
             lines.push(current);
@@ -566,7 +777,7 @@ pub(crate) fn validate_manifest(
     ensure!(
         manifest.schema == PDF_MANIFEST_SCHEMA
             && manifest.renderer_version == PDF_RENDERER_VERSION
-            && manifest.renderer_engine == "printpdf@0.12.8; layout=codefriend-pdf-v1"
+            && manifest.renderer_engine == "printpdf@0.12.8; layout=codefriend-pdf-v2"
             && manifest.review_record_digest == hash(&prepared.review)?
             && manifest.run_digest == hash(&prepared.review.run)?
             && manifest.finding_set_digest == prepared.review.finding_digest()?
@@ -580,6 +791,8 @@ pub(crate) fn validate_manifest(
             && manifest.scope_digest == prepared.review.run.scope_digest
             && manifest.target == prepared.publication.target
             && manifest.report_path == "report.pdf"
+            && manifest.semantic_digest
+                == digest(markdown_semantic_text(&prepared.text)?.as_bytes())
             && manifest.page_count > 0
             && manifest.line_count > 0
             && manifest.printable_width_micrometers
@@ -605,7 +818,173 @@ pub(crate) fn validate_manifest(
 
 #[cfg(test)]
 mod tests {
-    use super::{markdown_semantic_text, wrap_text_with_width};
+    use super::{
+        build_pdf, layout_text, markdown_semantic_text, validate_rendered_content,
+        wrap_text_with_width, PRINTABLE_WIDTH_MM,
+    };
+    use printpdf::ParsedFont;
+
+    fn qualification_font() -> Vec<u8> {
+        [
+            "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+            "/System/Library/Fonts/Supplemental/Arial.ttf",
+            "/System/Library/Fonts/Supplemental/Arial Unicode.ttf",
+            "/Library/Fonts/Arial Unicode.ttf",
+        ]
+        .into_iter()
+        .find_map(|path| std::fs::read(path).ok())
+        .expect("PDF qualification requires an installed Unicode TrueType font")
+    }
+
+    #[test]
+    fn semantic_text_keeps_preformatted_excerpt_line_and_tab_boundaries() {
+        let text = markdown_semantic_text(
+            "- **Exact source excerpt:**\n\n```\nif authorized:\r\n\tdelete_records()\r\nreturn ok\n```\n",
+        )
+        .unwrap();
+        assert!(
+            text.contains("if authorized:\n\tdelete_records()\nreturn ok"),
+            "{text:?}"
+        );
+    }
+
+    #[test]
+    fn rendered_pdf_extraction_keeps_code_block_indentation_and_double_spaces() {
+        let semantic = markdown_semantic_text(
+            "```\nif ready:\n    let  result = verify();\n    publish(result);\n```\n",
+        )
+        .unwrap();
+        let mut warnings = Vec::new();
+        let font = ParsedFont::from_bytes(&qualification_font(), 0, &mut warnings).unwrap();
+        assert!(warnings.is_empty());
+        let lines = layout_text(&semantic, &font, PRINTABLE_WIDTH_MM).unwrap();
+        let bytes = build_pdf(&lines, font, &Default::default()).unwrap();
+        let document = lopdf::Document::load_mem(&bytes).unwrap();
+        let pages = document.get_pages().into_keys().collect::<Vec<_>>();
+        let extracted = document.extract_text(&pages).unwrap();
+        assert!(
+            extracted.contains("if ready:\n    let  result = verify();\n    publish(result);"),
+            "rendered extraction lost significant code whitespace: {extracted:?}"
+        );
+        validate_rendered_content(&bytes, &semantic, 1).unwrap();
+    }
+
+    #[test]
+    fn verifier_rejects_whitespace_moved_across_a_logical_newline() {
+        let semantic = "alpha\n beta";
+        let mut warnings = Vec::new();
+        let font = ParsedFont::from_bytes(&qualification_font(), 0, &mut warnings).unwrap();
+        assert!(warnings.is_empty());
+        let lines = layout_text(semantic, &font, PRINTABLE_WIDTH_MM).unwrap();
+        let original = build_pdf(&lines, font, &Default::default()).unwrap();
+        validate_rendered_content(&original, semantic, 1).unwrap();
+
+        let mut document = lopdf::Document::load_mem(&original).unwrap();
+        let first_page = *document.get_pages().values().next().unwrap();
+        let mut content =
+            lopdf::content::Content::decode(&document.get_page_content(first_page)).unwrap();
+        let boundary = content
+            .operations
+            .iter_mut()
+            .find(|operation| {
+                operation.operator == "BMC"
+                    && matches!(
+                        operation.operands.first(),
+                        Some(lopdf::Object::Name(tag)) if tag == b"ADLLogicalEnd"
+                    )
+            })
+            .expect("rendered PDF must expose its first logical boundary");
+        boundary.operands[0] = lopdf::Object::Name(b"ADLVisualWrap".to_vec());
+        document
+            .change_page_content(first_page, content.encode().unwrap())
+            .unwrap();
+        let original_text = lopdf::Document::load_mem(&original)
+            .unwrap()
+            .extract_text(&[1])
+            .unwrap();
+        assert_eq!(document.extract_text(&[1]).unwrap(), original_text);
+        let mut substituted = Vec::new();
+        document.save_to(&mut substituted).unwrap();
+        let error = validate_rendered_content(&substituted, semantic, 1).unwrap_err();
+        assert!(error.to_string().contains("pdf_content_semantic_mismatch"));
+    }
+
+    #[test]
+    fn verifier_rejects_active_and_external_pdf_structures_with_same_text() {
+        let semantic = "approved report text";
+        let mut warnings = Vec::new();
+        let font = ParsedFont::from_bytes(&qualification_font(), 0, &mut warnings).unwrap();
+        assert!(warnings.is_empty());
+        let lines = layout_text(semantic, &font, PRINTABLE_WIDTH_MM).unwrap();
+        let original = build_pdf(&lines, font, &Default::default()).unwrap();
+        validate_rendered_content(&original, semantic, 1).unwrap();
+
+        let mut file_spec = lopdf::Dictionary::new();
+        file_spec.set("Type", lopdf::Object::Name(b"Filespec".to_vec()));
+        file_spec.set("F", lopdf::Object::string_literal("external.bin"));
+
+        let reject = |mut document: lopdf::Document| {
+            assert_eq!(
+                document.extract_text(&[1]).unwrap(),
+                lopdf::Document::load_mem(&original)
+                    .unwrap()
+                    .extract_text(&[1])
+                    .unwrap()
+            );
+            let mut substituted = Vec::new();
+            document.save_to(&mut substituted).unwrap();
+            let error = validate_rendered_content(&substituted, semantic, 1).unwrap_err();
+            assert!(error
+                .to_string()
+                .contains("pdf_content_active_or_external_resource_forbidden"));
+        };
+
+        let mut document = lopdf::Document::load_mem(&original).unwrap();
+        let first_page = *document.get_pages().values().next().unwrap();
+        let mut action = lopdf::Dictionary::new();
+        action.set("S", lopdf::Object::Name(b"GoToE".to_vec()));
+        action.set("F", lopdf::Object::Dictionary(file_spec.clone()));
+        document
+            .get_object_mut(first_page)
+            .unwrap()
+            .as_dict_mut()
+            .unwrap()
+            .set("A", lopdf::Object::Dictionary(action));
+        reject(document);
+
+        let mut document = lopdf::Document::load_mem(&original).unwrap();
+        let first_page = *document.get_pages().values().next().unwrap();
+        document
+            .get_object_mut(first_page)
+            .unwrap()
+            .as_dict_mut()
+            .unwrap()
+            .set(
+                "Annots",
+                lopdf::Object::Array(vec![lopdf::Object::Dictionary(lopdf::Dictionary::new())]),
+            );
+        reject(document);
+
+        let mut document = lopdf::Document::load_mem(&original).unwrap();
+        let first_page = *document.get_pages().values().next().unwrap();
+        document
+            .get_object_mut(first_page)
+            .unwrap()
+            .as_dict_mut()
+            .unwrap()
+            .set(
+                "AF",
+                lopdf::Object::Array(vec![lopdf::Object::Dictionary(file_spec)]),
+            );
+        reject(document);
+
+        let mut document = lopdf::Document::load_mem(&original).unwrap();
+        let mut external_stream = lopdf::Dictionary::new();
+        external_stream.set("Type", lopdf::Object::Name(b"EmbeddedFile".to_vec()));
+        external_stream.set("F", lopdf::Object::string_literal("external.bin"));
+        document.add_object(lopdf::Stream::new(external_stream, Vec::new()));
+        reject(document);
+    }
 
     #[test]
     fn semantic_text_decodes_markdown_escapes_but_preserves_real_backslashes() {
