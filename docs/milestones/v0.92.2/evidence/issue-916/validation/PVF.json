@@ -4,5 +4,16 @@
   "determinism": "deterministic local tracked inputs",
   "resource_profile": "local CPU, no network or providers",
   "release_gate": false,
-  "nonclaim": "Does not establish product qualification or pass the #916 quality decision."
+  "nonclaim": "Does not establish product qualification or pass the #916 quality decision.",
+  "additional_contracts": [
+    {
+      "test": "workspace_coverage_deadline_contract",
+      "lane": "tooling_contract",
+      "role": "Reject custom job and step deadlines on the full workspace coverage producer",
+      "determinism": "seven deterministic local YAML policy fixtures",
+      "resource_profile": "local Ruby subprocesses, temporary files, no network or clock waits",
+      "release_gate": false,
+      "prepublication_gate": true
+    }
+  ]
 }
