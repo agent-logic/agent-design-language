@@ -19,6 +19,7 @@ mod transport;
 
 pub use authority::canonical_authority_selector_digest;
 pub use delivery::*;
+pub use merge::retained_merge_intent_exists;
 pub use merge_linkage::{merge_linkage_query, merge_state_query};
 pub use model::*;
 pub use mutation::{

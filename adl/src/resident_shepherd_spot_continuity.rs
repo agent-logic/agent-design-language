@@ -1127,192 +1127,226 @@ mod tests {
         fs::remove_dir_all(base).unwrap();
     }
 
-    #[tokio::test]
-    async fn signed_restore_validates_exact_models_before_admission() {
-        std::env::set_var(
-            "ADL_ISSUE414_SIGNING_KEY_HEX",
-            "9999999999999999999999999999999999999999999999999999999999999999",
-        );
-        let custody_private_key = "CQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQk=";
-        let key_bytes = base64::engine::general_purpose::STANDARD
-            .decode(custody_private_key)
-            .unwrap();
-        let signing = p256::ecdsa::SigningKey::from_slice(&key_bytes).unwrap();
-        let custody_public_key = base64::engine::general_purpose::STANDARD
-            .encode(signing.verifying_key().to_encoded_point(false).as_bytes());
-        std::env::set_var(
-            "ADL_CSM_CUSTODY_P256_SIGNING_PRIVATE_KEY_B64",
-            custody_private_key,
-        );
-        std::env::set_var("ADL_CSM_CUSTODY_SIGNING_KEY_ID", "issue414-test-key");
-        std::env::set_var(
-            "ADL_CSM_CUSTODY_TRUSTED_P256_PUBLIC_KEY_B64",
-            custody_public_key,
-        );
-        let id = NEXT_TEST.fetch_add(1, Ordering::Relaxed);
-        let base = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-            .join("target")
-            .join(format!("issue414-continuity-test-{id}"));
-        let _ = fs::remove_dir_all(&base);
-        let runtime_root = base.join("retained-runtime");
-        let build_root = base.join("build-cache");
-        let legacy_root = base.join("legacy-runtime");
-        let mut legacy = live_continuity(&legacy_root, 0).unwrap();
-        legacy
-            .checkpoint(&RuntimeRecorder::new(32), Duration::from_secs(1))
-            .await
-            .unwrap();
-        let legacy_input = DehydrationInput {
-            residents: vec![binding("a"), binding("legacy-b")],
-            existing_agent_specs: vec![
-                existing_agent(&base, "a"),
-                existing_agent(&base, "legacy-b"),
-            ],
-            retained_runtime_root: legacy_root,
-            build_cache_root: base.join("legacy-build-cache"),
-            runtime_volume_identity_sha256: digest("test-volume"),
-            source_host: "test".to_string(),
-            target_host: "local".to_string(),
-            spot_notice: None,
-        };
-        let legacy_error = dehydrate(&legacy_input, Duration::from_secs(1))
-            .await
-            .unwrap_err();
-        assert!(
-            format!("{legacy_error:#}").contains("lacks resident population"),
-            "unexpected legacy error: {legacy_error:#}"
-        );
-        let input = DehydrationInput {
-            residents: vec![binding("a"), binding("b")],
-            existing_agent_specs: vec![existing_agent(&base, "a"), existing_agent(&base, "b")],
-            retained_runtime_root: runtime_root.clone(),
-            build_cache_root: build_root.clone(),
-            runtime_volume_identity_sha256: digest("test-volume"),
-            source_host: "test".to_string(),
-            target_host: "local".to_string(),
-            spot_notice: None,
-        };
-        let dehydrated = dehydrate(&input, Duration::from_secs(2)).await.unwrap();
-        assert!(!dehydrated.admission_open);
-        assert_eq!(dehydrated.resident_count, 2);
-        assert_eq!(dehydrated.capsule_count, 2);
-        assert!(restore_and_admit(
-            &runtime_root,
-            &RestoreInput {
-                residents: input.residents.clone(),
-                retained_runtime_root: runtime_root.clone(),
-                build_cache_root: base.join("substituted-build-cache"),
-                runtime_volume_identity_sha256: digest("test-volume"),
-            },
-        )
-        .await
-        .is_err());
-        let restored = restore_and_admit(
-            &runtime_root,
-            &RestoreInput {
-                residents: input.residents.clone(),
-                retained_runtime_root: runtime_root.clone(),
-                build_cache_root: build_root.clone(),
-                runtime_volume_identity_sha256: digest("test-volume"),
-            },
-        )
-        .await
-        .unwrap();
-        assert!(restored.admission_open);
-        assert_eq!(restored.resident_count, 2);
-        assert_eq!(restored.capsule_count, 2);
-        assert!(runtime_root
-            .join("restored-populations/generation-1")
-            .is_dir());
-        assert!(runtime_root.join("active-population.json").is_file());
-        let continuation = ContinuationInput {
-            residents: input
-                .residents
-                .iter()
-                .map(|resident| ContinuationResident {
-                    agent_id: resident.agent_id.clone(),
-                    provider_id: resident.provider_id.clone(),
-                    model: resident.model.clone(),
-                    artifact_sha256: resident.artifact_sha256.clone(),
-                    quantization: resident.quantization.clone(),
-                    configuration_sha256: resident.configuration_sha256.clone(),
-                    completed_task_sha256: resident.completed_task_sha256.clone(),
-                    continuation_request_sha256: resident.continuation_request_sha256.clone(),
-                    next_task_sha256: digest(format!("next-{}", resident.agent_id)),
-                })
+    #[test]
+    fn signed_restore_validates_exact_models_before_admission() {
+        // PVF #1144: deterministic small-checkpoint fixture; production reserve unchanged.
+        let _disk_lock = crate::observability::test_env_lock();
+        struct DiskFixture(Vec<(&'static str, Option<std::ffi::OsString>)>);
+        impl Drop for DiskFixture {
+            fn drop(&mut self) {
+                for (key, value) in &self.0 {
+                    match value {
+                        Some(value) => std::env::set_var(key, value),
+                        None => std::env::remove_var(key),
+                    }
+                }
+            }
+        }
+        let _disk = DiskFixture(
+            ["ADL_CSM_DISK_FLOOR_BYTES", "ADL_CSM_TEST_AVAILABLE_BYTES"]
+                .into_iter()
+                .map(|key| (key, std::env::var_os(key)))
                 .collect(),
-        };
-        assert!(
-            validate_completed_continuation(&runtime_root, &continuation)
-                .await
-                .unwrap()
-                .continuation_verified
         );
+        std::env::set_var("ADL_CSM_DISK_FLOOR_BYTES", "1048576");
+        std::env::set_var("ADL_CSM_TEST_AVAILABLE_BYTES", "67108864");
+        tokio::runtime::Builder::new_current_thread()
+            .enable_all()
+            .build()
+            .unwrap()
+            .block_on(async {
+                std::env::set_var(
+                    "ADL_ISSUE414_SIGNING_KEY_HEX",
+                    "9999999999999999999999999999999999999999999999999999999999999999",
+                );
+                let custody_private_key = "CQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQk=";
+                let key_bytes = base64::engine::general_purpose::STANDARD
+                    .decode(custody_private_key)
+                    .unwrap();
+                let signing = p256::ecdsa::SigningKey::from_slice(&key_bytes).unwrap();
+                let custody_public_key = base64::engine::general_purpose::STANDARD
+                    .encode(signing.verifying_key().to_encoded_point(false).as_bytes());
+                std::env::set_var(
+                    "ADL_CSM_CUSTODY_P256_SIGNING_PRIVATE_KEY_B64",
+                    custody_private_key,
+                );
+                std::env::set_var("ADL_CSM_CUSTODY_SIGNING_KEY_ID", "issue414-test-key");
+                std::env::set_var(
+                    "ADL_CSM_CUSTODY_TRUSTED_P256_PUBLIC_KEY_B64",
+                    custody_public_key,
+                );
+                let id = NEXT_TEST.fetch_add(1, Ordering::Relaxed);
+                let base = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+                    .join("target")
+                    .join(format!("issue414-continuity-test-{id}"));
+                let _ = fs::remove_dir_all(&base);
+                let runtime_root = base.join("retained-runtime");
+                let build_root = base.join("build-cache");
+                let legacy_root = base.join("legacy-runtime");
+                let mut legacy = live_continuity(&legacy_root, 0).unwrap();
+                legacy
+                    .checkpoint(&RuntimeRecorder::new(32), Duration::from_secs(1))
+                    .await
+                    .unwrap();
+                let legacy_input = DehydrationInput {
+                    residents: vec![binding("a"), binding("legacy-b")],
+                    existing_agent_specs: vec![
+                        existing_agent(&base, "a"),
+                        existing_agent(&base, "legacy-b"),
+                    ],
+                    retained_runtime_root: legacy_root,
+                    build_cache_root: base.join("legacy-build-cache"),
+                    runtime_volume_identity_sha256: digest("test-volume"),
+                    source_host: "test".to_string(),
+                    target_host: "local".to_string(),
+                    spot_notice: None,
+                };
+                let legacy_error = dehydrate(&legacy_input, Duration::from_secs(1))
+                    .await
+                    .unwrap_err();
+                assert!(
+                    format!("{legacy_error:#}").contains("lacks resident population"),
+                    "unexpected legacy error: {legacy_error:#}"
+                );
+                let input = DehydrationInput {
+                    residents: vec![binding("a"), binding("b")],
+                    existing_agent_specs: vec![
+                        existing_agent(&base, "a"),
+                        existing_agent(&base, "b"),
+                    ],
+                    retained_runtime_root: runtime_root.clone(),
+                    build_cache_root: build_root.clone(),
+                    runtime_volume_identity_sha256: digest("test-volume"),
+                    source_host: "test".to_string(),
+                    target_host: "local".to_string(),
+                    spot_notice: None,
+                };
+                let dehydrated = dehydrate(&input, Duration::from_secs(2)).await.unwrap();
+                assert!(!dehydrated.admission_open);
+                assert_eq!(dehydrated.resident_count, 2);
+                assert_eq!(dehydrated.capsule_count, 2);
+                assert!(restore_and_admit(
+                    &runtime_root,
+                    &RestoreInput {
+                        residents: input.residents.clone(),
+                        retained_runtime_root: runtime_root.clone(),
+                        build_cache_root: base.join("substituted-build-cache"),
+                        runtime_volume_identity_sha256: digest("test-volume"),
+                    },
+                )
+                .await
+                .is_err());
+                let restored = restore_and_admit(
+                    &runtime_root,
+                    &RestoreInput {
+                        residents: input.residents.clone(),
+                        retained_runtime_root: runtime_root.clone(),
+                        build_cache_root: build_root.clone(),
+                        runtime_volume_identity_sha256: digest("test-volume"),
+                    },
+                )
+                .await
+                .unwrap();
+                assert!(restored.admission_open);
+                assert_eq!(restored.resident_count, 2);
+                assert_eq!(restored.capsule_count, 2);
+                assert!(runtime_root
+                    .join("restored-populations/generation-1")
+                    .is_dir());
+                assert!(runtime_root.join("active-population.json").is_file());
+                let continuation = ContinuationInput {
+                    residents: input
+                        .residents
+                        .iter()
+                        .map(|resident| ContinuationResident {
+                            agent_id: resident.agent_id.clone(),
+                            provider_id: resident.provider_id.clone(),
+                            model: resident.model.clone(),
+                            artifact_sha256: resident.artifact_sha256.clone(),
+                            quantization: resident.quantization.clone(),
+                            configuration_sha256: resident.configuration_sha256.clone(),
+                            completed_task_sha256: resident.completed_task_sha256.clone(),
+                            continuation_request_sha256: resident
+                                .continuation_request_sha256
+                                .clone(),
+                            next_task_sha256: digest(format!("next-{}", resident.agent_id)),
+                        })
+                        .collect(),
+                };
+                assert!(
+                    validate_completed_continuation(&runtime_root, &continuation)
+                        .await
+                        .unwrap()
+                        .continuation_verified
+                );
 
-        let second_dehydration = dehydrate(&input, Duration::from_secs(2)).await.unwrap();
-        assert_eq!(second_dehydration.generation, 2);
-        assert!(!second_dehydration.admission_open);
-        let dehydration_receipt_path = runtime_root.join("dehydration-receipt.json");
-        let mut stale_receipt: serde_json::Value = read_json(&dehydration_receipt_path).unwrap();
-        stale_receipt["generation"] = serde_json::json!(1);
-        write_atomic_json(&dehydration_receipt_path, &stale_receipt).unwrap();
-        let stale_error = restore_and_admit(
-            &runtime_root,
-            &RestoreInput {
-                residents: input.residents.clone(),
-                retained_runtime_root: runtime_root.clone(),
-                build_cache_root: build_root.clone(),
-                runtime_volume_identity_sha256: digest("test-volume"),
-            },
-        )
-        .await
-        .unwrap_err();
-        assert!(
-            format!("{stale_error:#}").contains("differs from dehydration receipt generation"),
-            "unexpected stale-generation error: {stale_error:#}"
-        );
-        assert!(!runtime_root
-            .join("restored-populations/generation-2")
-            .exists());
-        assert_eq!(
-            read_json::<serde_json::Value>(&runtime_root.join("active-population.json")).unwrap()
-                ["admission_open"],
-            false
-        );
-        write_atomic_json(&dehydration_receipt_path, &second_dehydration).unwrap();
-        assert!(
-            validate_completed_continuation(&runtime_root, &continuation)
+                let second_dehydration = dehydrate(&input, Duration::from_secs(2)).await.unwrap();
+                assert_eq!(second_dehydration.generation, 2);
+                assert!(!second_dehydration.admission_open);
+                let dehydration_receipt_path = runtime_root.join("dehydration-receipt.json");
+                let mut stale_receipt: serde_json::Value =
+                    read_json(&dehydration_receipt_path).unwrap();
+                stale_receipt["generation"] = serde_json::json!(1);
+                write_atomic_json(&dehydration_receipt_path, &stale_receipt).unwrap();
+                let stale_error = restore_and_admit(
+                    &runtime_root,
+                    &RestoreInput {
+                        residents: input.residents.clone(),
+                        retained_runtime_root: runtime_root.clone(),
+                        build_cache_root: build_root.clone(),
+                        runtime_volume_identity_sha256: digest("test-volume"),
+                    },
+                )
                 .await
-                .is_err()
-        );
-        let second_restore = restore_and_admit(
-            &runtime_root,
-            &RestoreInput {
-                residents: input.residents.clone(),
-                retained_runtime_root: runtime_root.clone(),
-                build_cache_root: build_root.clone(),
-                runtime_volume_identity_sha256: digest("test-volume"),
-            },
-        )
-        .await
-        .unwrap();
-        assert_eq!(second_restore.generation, 2);
-        assert!(runtime_root
-            .join("restored-populations/generation-2")
-            .is_dir());
-        let mut substituted = input.residents.clone();
-        substituted[0].artifact_sha256 = digest("substituted");
-        assert!(restore_and_admit(
-            &runtime_root,
-            &RestoreInput {
-                residents: substituted,
-                retained_runtime_root: runtime_root.clone(),
-                build_cache_root: build_root,
-                runtime_volume_identity_sha256: digest("test-volume"),
-            },
-        )
-        .await
-        .is_err());
-        fs::remove_dir_all(base).unwrap();
+                .unwrap_err();
+                assert!(
+                    format!("{stale_error:#}")
+                        .contains("differs from dehydration receipt generation"),
+                    "unexpected stale-generation error: {stale_error:#}"
+                );
+                assert!(!runtime_root
+                    .join("restored-populations/generation-2")
+                    .exists());
+                assert_eq!(
+                    read_json::<serde_json::Value>(&runtime_root.join("active-population.json"))
+                        .unwrap()["admission_open"],
+                    false
+                );
+                write_atomic_json(&dehydration_receipt_path, &second_dehydration).unwrap();
+                assert!(
+                    validate_completed_continuation(&runtime_root, &continuation)
+                        .await
+                        .is_err()
+                );
+                let second_restore = restore_and_admit(
+                    &runtime_root,
+                    &RestoreInput {
+                        residents: input.residents.clone(),
+                        retained_runtime_root: runtime_root.clone(),
+                        build_cache_root: build_root.clone(),
+                        runtime_volume_identity_sha256: digest("test-volume"),
+                    },
+                )
+                .await
+                .unwrap();
+                assert_eq!(second_restore.generation, 2);
+                assert!(runtime_root
+                    .join("restored-populations/generation-2")
+                    .is_dir());
+                let mut substituted = input.residents.clone();
+                substituted[0].artifact_sha256 = digest("substituted");
+                assert!(restore_and_admit(
+                    &runtime_root,
+                    &RestoreInput {
+                        residents: substituted,
+                        retained_runtime_root: runtime_root.clone(),
+                        build_cache_root: build_root,
+                        runtime_volume_identity_sha256: digest("test-volume"),
+                    },
+                )
+                .await
+                .is_err());
+                fs::remove_dir_all(base).unwrap();
+            });
     }
 }

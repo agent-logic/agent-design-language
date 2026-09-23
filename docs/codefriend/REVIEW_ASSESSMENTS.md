@@ -19,19 +19,36 @@ neither becomes a repair task merely because it discusses important behavior.
 Four valid lanes may complete with no defect candidates. That is successful
 execution, not proof that the repository is defect-free. Malformed assessments
 or invalid source support produce an explicit incomplete result, preserving
-valid evidence from other lanes. They must not become a successful empty review.
+valid evidence from other lanes and independently supported siblings within the
+same lane. `assessment_gaps` retains the original item index, safely bounded
+summary, and rejection reason. Every citation required by an assessment must
+validate; one matching citation cannot rescue its unsupported siblings. A gap
+keeps assessment coverage incomplete. A run with independently supported items
+may continue through Journey, synthesis, plans and report/export, with gaps
+bound to its identity and displayed as unverified. All-unusable assessment
+output and operational or structural failures remain blocked. Activity execution
+may finish while the nested review remains explicitly incomplete; that does not
+certify a clean or complete review. They must not become a successful empty review.
 
 ## Source citations
 
-Provider citations identify an admitted `evidence_id`, `start_byte`, `end_byte`,
-and an exact `quote`. Offsets are zero-based UTF-8 bytes in the original admitted
-content, with a half-open range `[start_byte, end_byte)`. Both boundaries must be
-valid UTF-8 boundaries and the quote must equal those exact source bytes.
+Provider lane contract `codefriend.review_lane.v3` requires an admitted
+`evidence_id` and an exact `quote`. Models do not calculate byte offsets. The
+owner requires exactly one occurrence in the claimed immutable source object,
+including overlapping occurrences. It derives zero-based half-open UTF-8 byte
+spans internally and revalidates the source and quote digests. Legacy provider
+offset fields may be decoded but never select or disambiguate a match.
 
-The owner resolves the evidence ID against the original admission and derives
-the source path and digests. It does not trust provider-supplied paths or reopen
-the current checkout. Prompt annotations give each source line's original byte
-offset; those annotations are not part of the cited source.
+No trimming, normalization, fuzzy search, cross-file matching, or arbitrary first
+match is allowed. Invented, ambiguous, unavailable, or wrong-file quotes become
+explicit unverified gaps, never findings. Retained `VerifiedCitation` spans and
+digests still undergo the original strict validation. Historical lane-v2 input
+prompt bytes and supported records remain readable without rewriting evidence.
+
+Provider JSON may be bare, or wrapped in exactly one whole-response plain or
+`json` Markdown fence with outer whitespace. Prose, multiple blocks, trailing
+content, malformed JSON, and unknown fields remain rejected. Raw provider
+responses are retained unchanged. Line annotations are never cited source bytes.
 
 Support is bounded to four citations per assessment and 2 KiB per quote, with
 64 KiB of quote bytes per lane and 256 KiB per review. There are at most 100

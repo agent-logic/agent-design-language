@@ -65,7 +65,10 @@ fn defect_inference(defect: &DefectDetails) -> String {
 #[serde(deny_unknown_fields)]
 pub struct ProviderCitation {
     pub evidence_id: String,
+    /// Legacy provider offsets are decoded for compatibility, never trusted.
+    #[serde(default, skip_serializing)]
     pub start_byte: u64,
+    #[serde(default, skip_serializing)]
     pub end_byte: u64,
     pub quote: String,
 }
@@ -359,71 +362,241 @@ impl AssessmentSet {
         counts
     }
 }
-/// Validate the bounded provider response against original source before retaining locators.
+/// A provider claim that could not establish all required support. Never a finding.
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+pub struct AssessmentGap {
+    pub assessment_index: usize,
+    pub summary: String,
+    pub reason: String,
+}
+/// Incomplete assessment support, bound to the actual four lane result receipts.
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+pub struct AssessmentCoverage {
+    pub gaps: std::collections::BTreeMap<String, Vec<AssessmentGap>>,
+    pub lane_result_digests: std::collections::BTreeMap<String, String>,
+}
+impl AssessmentCoverage {
+    pub fn validate(&self) -> Result<()> {
+        ensure!(
+            !self.gaps.is_empty() && self.gaps.len() <= 4,
+            "assessment_gap_lanes"
+        );
+        ensure!(
+            self.lane_result_digests.len() == 4
+                && REVIEW_LANES.iter().all(|lane| self
+                    .lane_result_digests
+                    .get(*lane)
+                    .is_some_and(|d| valid_digest(d))),
+            "assessment_gap_receipts"
+        );
+        for (lane, gaps) in &self.gaps {
+            ensure!(
+                REVIEW_LANES.contains(&lane.as_str()) && !gaps.is_empty() && gaps.len() <= 100,
+                "assessment_gap_lanes"
+            );
+            let mut previous = None;
+            for gap in gaps {
+                ensure!(
+                    gap.assessment_index < 100 && previous.is_none_or(|i| i < gap.assessment_index),
+                    "assessment_gap_order"
+                );
+                text(&gap.summary)?;
+                text(&gap.reason)?;
+                previous = Some(gap.assessment_index);
+            }
+        }
+        bounded(self, MAX_REVIEW_BYTES)
+    }
+    pub fn descriptions(&self) -> Vec<String> {
+        self.gaps
+            .iter()
+            .flat_map(|(lane, gaps)| {
+                gaps.iter().map(move |gap| {
+                    format!(
+                        "Unverified {lane} assessment {}: {} ({})",
+                        gap.assessment_index + 1,
+                        gap.summary,
+                        gap.reason
+                    )
+                })
+            })
+            .collect()
+    }
+}
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct ParsedAssessments {
+    pub assessments: Vec<Assessment>,
+    pub gaps: Vec<AssessmentGap>,
+}
+
+fn provider_json(raw: &str) -> Result<&str> {
+    let raw = raw.trim();
+    if !raw.starts_with("```") {
+        return Ok(raw);
+    }
+    let (opening, rest) = raw
+        .split_once('\n')
+        .ok_or_else(|| anyhow::anyhow!("assessment_json_invalid"))?;
+    ensure!(
+        matches!(opening.trim_end_matches('\r'), "```" | "```json"),
+        "assessment_json_invalid"
+    );
+    let (body, closing) = rest
+        .rsplit_once('\n')
+        .ok_or_else(|| anyhow::anyhow!("assessment_json_invalid"))?;
+    ensure!(closing == "```", "assessment_json_invalid");
+    Ok(body)
+}
+
+/// Bounded wire decoding only; callers must verify support against admission.
+pub fn decode_provider_output(raw: &str) -> Result<ProviderAssessmentOutput> {
+    ensure!(raw.len() <= MAX_LANE_BYTES, "assessment_lane_byte_limit");
+    let output: ProviderAssessmentOutput = serde_json::from_str(provider_json(raw)?)
+        .map_err(|_| anyhow::anyhow!("assessment_json_invalid"))?;
+    ensure!(output.assessments.len() <= 100, "assessment_lane_count");
+    Ok(output)
+}
+
+fn resolve_quote(c: &ProviderCitation, admission: &Admission) -> Result<VerifiedCitation> {
+    let mut evidence = admission.evidence.iter().filter(|e| e.id == c.evidence_id);
+    let e = evidence
+        .next()
+        .ok_or_else(|| anyhow::anyhow!("assessment_evidence_unavailable"))?;
+    ensure!(evidence.next().is_none(), "assessment_evidence_ambiguous");
+    let object = admission
+        .packet
+        .objects
+        .iter()
+        .find(|o| o.path == e.path)
+        .ok_or_else(|| anyhow::anyhow!("assessment_evidence_unavailable"))?;
+    let content = object
+        .content
+        .as_deref()
+        .ok_or_else(|| anyhow::anyhow!("assessment_evidence_unavailable"))?;
+    ensure!(
+        object.content_digest.as_deref() == Some(e.content_digest.as_str())
+            && digest(content.as_bytes()) == e.content_digest,
+        "assessment_source_digest"
+    );
+    // Byte windows include overlapping occurrences. Neither offsets nor another
+    // file can disambiguate provider evidence; exact source bytes are authority.
+    let mut matches = content
+        .as_bytes()
+        .windows(c.quote.len())
+        .enumerate()
+        .filter(|(_, bytes)| *bytes == c.quote.as_bytes())
+        .map(|(i, _)| i);
+    let start = matches
+        .next()
+        .ok_or_else(|| anyhow::anyhow!("assessment_quote_mismatch"))?;
+    ensure!(matches.next().is_none(), "assessment_quote_ambiguous");
+    let citation = VerifiedCitation {
+        evidence_id: c.evidence_id.clone(),
+        start_byte: start as u64,
+        end_byte: (start + c.quote.len()) as u64,
+        quote_digest: digest(c.quote.as_bytes()),
+    };
+    ensure!(
+        citation.quote(admission)? == c.quote,
+        "assessment_quote_mismatch"
+    );
+    Ok(citation)
+}
+
+/// Strict caller compatibility: gaps cannot masquerade as a complete lane.
 pub fn parse_lane(lane: &str, raw: &str, admission: &Admission) -> Result<Vec<Assessment>> {
+    let parsed = parse_lane_with_gaps(lane, raw, admission)?;
+    if let Some(gap) = parsed.gaps.first() {
+        anyhow::bail!("{}", gap.reason);
+    }
+    Ok(parsed.assessments)
+}
+
+/// Preserve independently supported siblings, and explicit gaps for rejected claims.
+pub fn parse_lane_with_gaps(
+    lane: &str,
+    raw: &str,
+    admission: &Admission,
+) -> Result<ParsedAssessments> {
     ensure!(raw.len() <= MAX_LANE_BYTES, "assessment_lane_byte_limit");
     admission.validate()?;
-    let output: ProviderAssessmentOutput =
-        serde_json::from_str(raw).map_err(|_| anyhow::anyhow!("assessment_json_invalid"))?;
+    let output = decode_provider_output(raw)?;
     ensure!(output.assessments.len() <= 100, "assessment_lane_count");
+    // Enforce aggregate bounds even on quotes in rejected assessments.
+    let quoted: usize = output
+        .assessments
+        .iter()
+        .flat_map(|a| &a.citations)
+        .map(|c| c.quote.len())
+        .sum();
+    ensure!(quoted <= MAX_LANE_QUOTES, "assessment_lane_quote_limit");
     let mut result = Vec::new();
-    let mut quoted = 0usize;
-    for input in output.assessments {
-        ensure!(
-            !input.citations.is_empty() && input.citations.len() <= 4,
-            "assessment_citation_count"
-        );
-        let mut citations = Vec::new();
-        let mut seen = BTreeSet::new();
-        for c in input.citations {
-            ensure!(
-                !c.quote.is_empty() && c.quote.len() <= MAX_QUOTE,
-                "assessment_quote_bounds"
-            );
-            quoted += c.quote.len();
-            ensure!(quoted <= MAX_LANE_QUOTES, "assessment_lane_quote_limit");
-            let citation = VerifiedCitation {
-                evidence_id: c.evidence_id,
-                start_byte: c.start_byte,
-                end_byte: c.end_byte,
-                quote_digest: digest(c.quote.as_bytes()),
-            };
-            ensure!(
-                citation.quote(admission)? == c.quote,
-                "assessment_quote_mismatch"
-            );
-            ensure!(
-                seen.insert((
-                    citation.evidence_id.clone(),
-                    citation.start_byte,
-                    citation.end_byte
-                )),
-                "assessment_duplicate_citation"
-            );
-            citations.push(citation);
-        }
-        citations.sort_by(|a, b| {
-            (&a.evidence_id, a.start_byte, a.end_byte).cmp(&(
-                &b.evidence_id,
-                b.start_byte,
-                b.end_byte,
-            ))
-        });
-        let mut assessment = Assessment {
-            id: String::new(),
-            lane: lane.into(),
-            kind: input.kind,
-            summary: input.summary,
-            explanation: input.explanation,
-            citations,
-            limitations: input.limitations,
-            defect: input.defect,
+    let mut gaps = Vec::new();
+    for (assessment_index, input) in output.assessments.into_iter().enumerate() {
+        let summary = if text(&input.summary).is_ok() {
+            input.summary.clone()
+        } else {
+            "Unverified assessment".into()
         };
-        assessment.id = assessment.identity(admission)?;
-        assessment.validate(admission)?;
-        result.push(assessment);
+        let parsed: Result<Assessment> = (|| {
+            ensure!(
+                !input.citations.is_empty() && input.citations.len() <= 4,
+                "assessment_citation_count"
+            );
+            let mut citations = Vec::new();
+            let mut seen = BTreeSet::new();
+            for c in input.citations {
+                ensure!(
+                    !c.quote.is_empty() && c.quote.len() <= MAX_QUOTE,
+                    "assessment_quote_bounds"
+                );
+
+                let citation = resolve_quote(&c, admission)?;
+                ensure!(
+                    seen.insert((
+                        citation.evidence_id.clone(),
+                        citation.start_byte,
+                        citation.end_byte
+                    )),
+                    "assessment_duplicate_citation"
+                );
+                citations.push(citation);
+            }
+            citations.sort_by(|a, b| {
+                (&a.evidence_id, a.start_byte, a.end_byte).cmp(&(
+                    &b.evidence_id,
+                    b.start_byte,
+                    b.end_byte,
+                ))
+            });
+            let mut assessment = Assessment {
+                id: String::new(),
+                lane: lane.into(),
+                kind: input.kind,
+                summary: input.summary,
+                explanation: input.explanation,
+                citations,
+                limitations: input.limitations,
+                defect: input.defect,
+            };
+            assessment.id = assessment.identity(admission)?;
+            assessment.validate(admission)?;
+            Ok(assessment)
+        })();
+        match parsed {
+            Ok(assessment) => result.push(assessment),
+            Err(error) => gaps.push(AssessmentGap {
+                assessment_index,
+                summary,
+                reason: error.to_string(),
+            }),
+        }
     }
-    // Reject duplicate assessment identities within a lane before producing receipt IDs.
     AssessmentSet::new(admission, result.clone())?;
-    Ok(result)
+    Ok(ParsedAssessments {
+        assessments: result,
+        gaps,
+    })
 }

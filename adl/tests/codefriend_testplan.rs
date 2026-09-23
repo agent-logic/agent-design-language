@@ -102,6 +102,7 @@ fn synthesis() -> ReviewSynthesis {
     ReviewSynthesis {
         schema: SYNTHESIS_SCHEMA.to_string(),
         coverage: None,
+        assessment_coverage: None,
         assessment_counts: None,
         observations: None,
         review_record_digest: "review-digest".to_string(),

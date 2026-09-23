@@ -21,5 +21,25 @@
     "Synthetic responses establish live model quality",
     "Zero defect candidates proves a defect-free repository",
     "Focused tests complete the twelve Sprint 10 qualification journeys"
+  ],
+  "repair_issue": 1140,
+  "quote_resolution_regressions": [
+    "unique UTF8/CRLF source quote without trusted offsets",
+    "overlapping duplicate ambiguity",
+    "wrong-file and invented support gaps",
+    "valid siblings retained; invalid assessment wholly rejected",
+    "all-invalid incomplete versus genuine empty",
+    "single complete JSON fence and strict rejection",
+    "retained span/digest validation and historical v2"
+  ],
+  "source_presentation_repair_issue": 1144,
+  "source_presentation_regressions": [
+    "original UTF8/CRLF/tab source byte preservation",
+    "JSON quote roundtrip and strict normalized-quote rejection",
+    "complete response item shapes without padding or empty coverage claims",
+    "historical v2/v3 prompt digest reconstruction",
+    "historical v3 exact 4MiB prompt boundary",
+    "current v4 1MiB source accepted across all lanes and one-byte-over acquisition rejected",
+    "retained v3 mixed assessment coverage survives validation and synthesis; v2 coverage remains rejected"
   ]
 }

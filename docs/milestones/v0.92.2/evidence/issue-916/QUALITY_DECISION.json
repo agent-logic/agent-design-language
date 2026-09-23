@@ -196,10 +196,17 @@
   "stragglers": [
     {
       "issue": 915,
-      "state": "OPEN",
+      "state": "CLOSED",
       "role": "independent product qualification",
-      "delivery_status": "outstanding_qualification",
-      "status_source": "Operator clarification on September 21: only #915 remains outstanding; others are in PR."
+      "delivery_status": "qualification_incomplete_deferred",
+      "status_source": "SPRINT10_DEFERRAL.json authenticated closure; #922 approved split routes successors to v0.93.1.",
+      "state_reason": "NOT_PLANNED",
+      "successor_issues": [
+        1148,
+        1149,
+        1150
+      ],
+      "destination_milestone": "v0.93.1"
     },
     {
       "issue": 1132,
@@ -232,7 +239,7 @@
     "No child after 916 accepted by this audit"
   ],
   "next_actions": [
-    "Consume #915 independent qualification against merged native and website candidate identities",
+    "Carry incomplete #915 qualification through #1148 and #1149 producer corrections and #1150 independent qualification in v0.93.1 before Beta1 launch; do not wait for a new #915 result or claim qualification PASS.",
     "Reconcile accepted candidate/manifest digests and final twelve quality-gate results; do not substitute component tests for real-provider qualification"
   ],
   "producer_audit": {
@@ -289,7 +296,7 @@
     "evidence": "SPRINT10_DEFERRAL.json",
     "status": "operator_authorized_deferral",
     "original_qualification": "incomplete",
-    "follow_on_routing": "v0.93 issues #1148, #1149, #1150",
+    "follow_on_routing": "v0.93.1 issues #1148, #1149, #1150",
     "final_quality_decision": "not_proven",
     "closure": "#915 and #936 CLOSED/NOT_PLANNED; native superseded closeout succeeded"
   },

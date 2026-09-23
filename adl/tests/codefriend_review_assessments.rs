@@ -39,6 +39,9 @@ impl Fixture {
         Self::version(privacy, 0)
     }
     fn version(privacy: bool, revision: u8) -> Self {
+        Self::source(privacy, revision, "// café\npub fn guarded() {}\n")
+    }
+    fn source(privacy: bool, revision: u8, content: &str) -> Self {
         let dir = tempfile::tempdir_in(std::env::temp_dir().canonicalize().unwrap()).unwrap();
         let source = dir.path().join("source");
         fs::create_dir(&source).unwrap();
@@ -52,7 +55,7 @@ impl Fixture {
                 "https://example.com/review/source",
             ],
         );
-        fs::write(source.join("a.rs"), "// café\npub fn guarded() {}\n").unwrap();
+        fs::write(source.join("a.rs"), content).unwrap();
         fs::write(
             source.join("b.rs"),
             format!("pub fn other() {{}}\n// version {revision}\n"),
@@ -145,8 +148,8 @@ impl Fixture {
             self.admission.clone(),
             "fixture:no-provider".into(),
             |lane, prompt, _| {
-                assert!(prompt.contains("codefriend.review_lane.v2"));
-                assert!(prompt.contains("[byte 0]"));
+                assert!(prompt.contains("codefriend.review_lane.v4"));
+                assert!(!prompt.contains("[byte 0]"));
                 assert!(!prompt.contains("TOKEN=private"));
                 Ok(LaneExecution {
                     final_status: ProviderInvocationFinalStatusV1::Ok,
@@ -296,17 +299,28 @@ fn wrong_file_support_retains_incomplete_run_not_empty_success() {
         .id
         .clone();
     let bad = json(vec![wrong]);
-    assert!(f
-        .execute("bad", |lane| if lane == "adversarial" {
+    f.execute("bad", |lane| {
+        if lane == "adversarial" {
             bad.clone()
         } else {
             good.clone()
-        })
-        .is_err());
+        }
+    })
+    .unwrap();
     let run: runner::FourPerspectiveReviewRun =
         serde_json::from_slice(&fs::read(f.dir.path().join("bad/run.json")).unwrap()).unwrap();
     assert_eq!(run.completion, Completion::Incomplete);
-    assert_eq!(run.failures.len(), 1);
+    assert!(run.failures.is_empty());
+    assert_eq!(
+        run.review_record
+            .run
+            .assessment_coverage
+            .as_ref()
+            .unwrap()
+            .gaps
+            .len(),
+        1
+    );
     assert_eq!(
         run.review_record
             .assessment_counts()
@@ -314,7 +328,7 @@ fn wrong_file_support_retains_incomplete_run_not_empty_success() {
             .positive_observations,
         3
     );
-    assert!(run.successful_execution().is_err());
+    run.successful_execution().unwrap();
 }
 #[test]
 fn citation_utf8_and_actionability_and_aggregate_bounds_fail_closed() {
@@ -323,7 +337,7 @@ fn citation_utf8_and_actionability_and_aggregate_bounds_fail_closed() {
     assessments::parse_lane("correctness", &json(vec![good.clone()]), &f.admission).unwrap();
     let mut split = good.clone();
     split.citations[0].end_byte = 7;
-    split.citations[0].quote = "// caf".into();
+    split.citations[0].quote = "// invented".into();
     assert!(assessments::parse_lane("correctness", &json(vec![split]), &f.admission).is_err());
     let mut illegal = good.clone();
     illegal.defect = f.item(AssessmentKind::DefectCandidate).defect;
@@ -547,4 +561,400 @@ fn privacy_assessments_traverse_original_store_planner_and_publication() {
         f._store.get(&f.admission.packet.packet_id).unwrap(),
         f.admission
     );
+}
+
+// PVF #1140: deterministic local owner contracts, original-source authority;
+// small CPU/filesystem, no network/provider, required regression proof.
+#[test]
+fn unique_quotes_derive_utf8_crlf_spans_and_ignore_legacy_offsets() {
+    let f = Fixture::source(false, 0, "// préface\r\n// café\r\npub fn guarded() {}\r\n");
+    let item = f.item(AssessmentKind::PositiveObservation);
+    let mut raw: serde_json::Value = serde_json::from_str(&json(vec![item])).unwrap();
+    let quote = &mut raw["assessments"][0]["citations"][0];
+    quote["start_byte"] = serde_json::json!(99999);
+    quote["end_byte"] = serde_json::json!(1);
+    let values = assessments::parse_lane("correctness", &raw.to_string(), &f.admission).unwrap();
+    let c = &values[0].citations[0];
+    assert_eq!(c.start_byte, "// préface\r\n".len() as u64);
+    assert_eq!(c.quote(&f.admission).unwrap(), "// café");
+    let mut tampered = c.clone();
+    tampered.start_byte += 1;
+    assert!(tampered.quote(&f.admission).is_err());
+    tampered = c.clone();
+    tampered.quote_digest = "0".repeat(64);
+    assert!(tampered.quote(&f.admission).is_err());
+    raw["assessments"][0]["citations"][0]
+        .as_object_mut()
+        .unwrap()
+        .remove("start_byte");
+    raw["assessments"][0]["citations"][0]
+        .as_object_mut()
+        .unwrap()
+        .remove("end_byte");
+    assert_eq!(
+        assessments::parse_lane("correctness", &raw.to_string(), &f.admission).unwrap(),
+        values
+    );
+}
+
+#[test]
+fn overlapping_quotes_are_ambiguous_even_with_claimed_offsets() {
+    let f = Fixture::source(false, 0, "aaa");
+    let mut item = f.item(AssessmentKind::PositiveObservation);
+    item.citations[0].quote = "aa".into();
+    let parsed =
+        assessments::parse_lane_with_gaps("correctness", &json(vec![item]), &f.admission).unwrap();
+    assert!(parsed.assessments.is_empty());
+    assert_eq!(parsed.gaps[0].reason, "assessment_quote_ambiguous");
+}
+
+#[test]
+fn mixed_claims_keep_supported_siblings_and_drop_entire_unsupported_assessment() {
+    let f = Fixture::new(false);
+    let good = f.item(AssessmentKind::PositiveObservation);
+    let mut bad = f.item(AssessmentKind::DefectCandidate);
+    let mut missing = bad.citations[0].clone();
+    missing.quote = "invented source".into();
+    bad.citations.push(missing);
+    let raw = json(vec![good, bad]);
+    let parsed = assessments::parse_lane_with_gaps("correctness", &raw, &f.admission).unwrap();
+    assert_eq!(parsed.assessments.len(), 1);
+    assert_eq!(parsed.gaps.len(), 1);
+    assert_eq!(parsed.gaps[0].assessment_index, 1);
+    assert!(AssessmentSet::new(&f.admission, parsed.assessments)
+        .unwrap()
+        .findings(&f.admission)
+        .unwrap()
+        .is_empty());
+    let run = f.execute("mixed-gaps", |_| raw.clone()).unwrap();
+    assert!(run.review_record.run.assessment_coverage.is_some());
+    let run: runner::FourPerspectiveReviewRun =
+        serde_json::from_slice(&fs::read(f.dir.path().join("mixed-gaps/run.json")).unwrap())
+            .unwrap();
+    assert_eq!(run.completion, Completion::Incomplete);
+    assert_eq!(
+        run.review_record
+            .assessment_counts()
+            .unwrap()
+            .positive_observations,
+        4
+    );
+    assert!(run.review_record.findings.is_empty());
+    assert!(run
+        .lane_results
+        .iter()
+        .all(|lane| lane.assessment_gaps.len() == 1 && lane.failure.is_none()));
+    run.successful_execution().unwrap();
+    let mut tampered = run.clone();
+    tampered.lane_results[0].assessment_gaps.clear();
+    assert!(tampered.successful_execution().is_err());
+}
+
+#[test]
+fn fenced_json_requires_one_whole_response_payload() {
+    let f = Fixture::new(false);
+    let raw = json(vec![f.item(AssessmentKind::PositiveObservation)]);
+    for fenced in [
+        format!("```json\n{raw}\n```"),
+        format!(" \r\n```\r\n{raw}\r\n``` \n"),
+    ] {
+        assert_eq!(
+            assessments::parse_lane("correctness", &fenced, &f.admission)
+                .unwrap()
+                .len(),
+            1
+        );
+    }
+    for bad in [
+        format!("Here is JSON: {raw}"),
+        format!("```json\n{raw}\n```\ntrailing"),
+        format!("```json\n{raw}\n```\n```json\n{raw}\n```"),
+        format!("```javascript\n{raw}\n```"),
+        format!("```json\n{raw} {raw}\n```"),
+    ] {
+        assert!(assessments::parse_lane("correctness", &bad, &f.admission).is_err());
+    }
+}
+
+#[test]
+fn all_unsupported_is_distinct_from_genuinely_empty_assessments() {
+    let f = Fixture::new(false);
+    let mut bad = f.item(AssessmentKind::DefectCandidate);
+    bad.citations[0].quote = "absent".into();
+    let parsed =
+        assessments::parse_lane_with_gaps("correctness", &json(vec![bad]), &f.admission).unwrap();
+    assert!(parsed.assessments.is_empty());
+    assert_eq!(parsed.gaps.len(), 1);
+    let empty =
+        assessments::parse_lane_with_gaps("correctness", "{\"assessments\":[]}", &f.admission)
+            .unwrap();
+    assert!(empty.assessments.is_empty() && empty.gaps.is_empty());
+}
+
+#[test]
+fn historical_assessment_lane_v2_remains_readable_with_verified_spans() {
+    let f = Fixture::new(false);
+    let raw = json(vec![f.item(AssessmentKind::PositiveObservation)]);
+    let run = f.execute("historical", |_| raw.clone()).unwrap();
+    let mut record = run.review_record;
+    for version in record.run.lane_versions.values_mut() {
+        *version = "codefriend.review_lane.v2".into();
+    }
+    record.run = adl::codefriend::evidence::contracts::Run::new(
+        &record.admission,
+        record.run.lane_versions.clone(),
+        record.run.provider_route.clone(),
+        record.run.completion.clone(),
+        record.run.failures.clone(),
+    )
+    .unwrap()
+    .with_assessments(
+        &record.admission,
+        record.run.assessment_set.clone().unwrap(),
+    )
+    .unwrap();
+    record.successful_execution().unwrap();
+    adl::codefriend::review::synthesis::synthesize(&record).unwrap();
+}
+
+// PVF #1144: retained review-record compatibility at the coverage validation
+// boundary, with real admitted assessments and gaps; no historical provider call.
+#[test]
+fn historical_v3_mixed_assessment_coverage_remains_consumable() {
+    use adl::codefriend::{evidence::contracts::Run, review::synthesis};
+    let f = Fixture::new(false);
+    let mut unsupported = f.item(AssessmentKind::DefectCandidate);
+    unsupported.citations[0].quote = "invented code".into();
+    let raw = json(vec![f.item(AssessmentKind::DefectCandidate), unsupported]);
+    let current = f
+        .execute("retained-coverage", |_| raw.clone())
+        .unwrap()
+        .review_record;
+    let coverage = current.run.assessment_coverage.clone().unwrap();
+    for version in [
+        "codefriend.review_lane.v3",
+        "codefriend.review_lane.v4",
+        "codefriend.review_lane.v2",
+    ] {
+        let mut versions = current.run.lane_versions.clone();
+        versions
+            .values_mut()
+            .for_each(|value| *value = version.into());
+        let run = Run::new(
+            &current.admission,
+            versions,
+            current.run.provider_route.clone(),
+            current.run.completion.clone(),
+            current.run.failures.clone(),
+        )
+        .unwrap()
+        .with_assessments(
+            &current.admission,
+            current.run.assessment_set.clone().unwrap(),
+        )
+        .unwrap()
+        .with_assessment_coverage(&current.admission, coverage.clone());
+        if version == "codefriend.review_lane.v2" {
+            assert_eq!(run.unwrap_err().to_string(), "invalid_assessment_coverage");
+            continue;
+        }
+        let mut record = current.clone();
+        record.run = run.unwrap();
+        record.successful_execution().unwrap();
+        assert_eq!(record.run.completion, Completion::Incomplete);
+        assert_eq!(record.run.assessment_coverage.as_ref(), Some(&coverage));
+        let path = f.dir.path().join(format!("{version}.json"));
+        fs::write(&path, serde_json::to_vec(&record).unwrap()).unwrap();
+        synthesis::synthesize_from_file(synthesis::SynthesisOptions {
+            input: path,
+            out: f.dir.path().join(format!("synthesis-{version}")),
+        })
+        .unwrap();
+    }
+}
+
+#[test]
+fn mixed_assessment_gaps_traverse_original_store_planner_and_publication() {
+    use adl::codefriend::{actions::test_plan, integration, review::synthesis};
+    let f = Fixture::new(false);
+    let mut unsupported = f.item(AssessmentKind::DefectCandidate);
+    unsupported.summary = "Potential unverified problem".into();
+    unsupported.citations[0].quote = "invented code".into();
+    let raw = json(vec![f.item(AssessmentKind::DefectCandidate), unsupported]);
+    let run = f.execute("privacy-planning", |_| raw.clone()).unwrap();
+    run.successful_execution().unwrap();
+    let review_path = f.dir.path().join("privacy-review.json");
+    fs::write(
+        &review_path,
+        serde_json::to_vec(&run.review_record).unwrap(),
+    )
+    .unwrap();
+    let synthesis_dir = f.dir.path().join("privacy-synthesis");
+    synthesis::synthesize_from_file(synthesis::SynthesisOptions {
+        input: review_path.clone(),
+        out: synthesis_dir.clone(),
+    })
+    .unwrap();
+    let plan_dir = f.dir.path().join("privacy-plan");
+    let plan = test_plan::plan_from_store(
+        test_plan::TestPlanOptions {
+            input: synthesis_dir.join("synthesis.json"),
+            out: plan_dir.clone(),
+        },
+        &f._store,
+    )
+    .unwrap();
+    assert_eq!(plan.coverage, run.review_record.run.coverage);
+    assert!(plan.coverage.is_none());
+    assert_eq!(
+        plan.assessment_coverage,
+        run.review_record.run.assessment_coverage
+    );
+    assert!(plan.assessment_coverage.is_some());
+    assert_eq!(run.completion, Completion::Incomplete);
+    assert_eq!(
+        plan,
+        test_plan::read_plan_from_store(&plan_dir.join("test-plan.json"), &f._store).unwrap()
+    );
+    assert!(!plan.test_cases.is_empty());
+    assert!(test_plan::read_plan_from_file(&plan_dir.join("test-plan.json")).is_err());
+    let destination = f.dir.path().join("destination");
+    fs::create_dir(&destination).unwrap();
+    let bundle = integration::prepare_publication_bundle_for_format_v2(
+        &review_path,
+        &f.dir.path().join("privacy-publication"),
+        &destination,
+        integration::PublicationFormat::Markdown,
+    )
+    .unwrap();
+    let publication = f.dir.path().join("privacy-publication");
+    use adl::codefriend::publication::{
+        append_decision, render_markdown, DecisionKind, MarkdownRenderOptions,
+    };
+    let approval_store = f.dir.path().join("approvals");
+    append_decision(
+        &approval_store,
+        &run.review_record,
+        &bundle,
+        DecisionKind::Approved,
+        "fixture",
+        "Approve incomplete report with explicit unverified gaps",
+        1_700_000_000,
+    )
+    .unwrap();
+    render_markdown(MarkdownRenderOptions {
+        review_record: review_path,
+        publication: publication.join("publication.json"),
+        approval_store,
+        artifact_root: publication.join("artifacts"),
+        synthesis: "synthesis/synthesis.json".into(),
+        remediation_plan: "remediation/remediation-plan.json".into(),
+        test_plan: "tests/test-plan.json".into(),
+        destination_root: destination.clone(),
+        out: destination.join(&bundle.target),
+    })
+    .unwrap();
+
+    fn report_bytes(path: &Path) -> String {
+        let mut text = String::new();
+        for entry in fs::read_dir(path).unwrap() {
+            let p = entry.unwrap().path();
+            if p.is_dir() {
+                text.push_str(&report_bytes(&p));
+            } else if p.extension().is_some_and(|e| e == "md") {
+                text.push_str(&fs::read_to_string(p).unwrap());
+            }
+        }
+        text
+    }
+    let rendered = report_bytes(&destination);
+    assert!(rendered.contains("Unverified assessment gaps"));
+    assert!(rendered.contains("Potential unverified problem"));
+    assert!(rendered.contains("incomplete"));
+    assert_eq!(
+        f._store.get(&f.admission.packet.packet_id).unwrap(),
+        f.admission
+    );
+}
+
+// PVF #1144 owner_binary: fixed source, real admission/prompt/parser; no model call.
+#[test]
+fn verbatim_prompt_preserves_original_bytes_and_json_quotes() {
+    use adl::codefriend::review::lanes::ReviewLane;
+    let source = "// café\r\n\tpub fn guarded() {\r\n    let text = \"a\\\\b\";\r\n}\r\n// END INERT SOURCE\r\n// no final newline";
+    assert!(source.as_bytes().contains(&13));
+    assert!(source.as_bytes().contains(&9));
+    let f = Fixture::source(false, 0, source);
+    let (manifest, prompt) =
+        runner::assessment_lane_input_manifest("verbatim", ReviewLane::Correctness, &f.admission)
+            .unwrap();
+    assert_eq!(manifest.lane_contract, "codefriend.review_lane.v4");
+    for evidence in &f.admission.evidence {
+        let object = f
+            .admission
+            .packet
+            .objects
+            .iter()
+            .find(|o| o.path == evidence.path)
+            .unwrap();
+        let content = object.content.as_deref().unwrap();
+        let header = format!(
+            "\nBEGIN INERT SOURCE evidence_id={} path={} digest={} content_bytes={}\n",
+            evidence.id,
+            evidence.path,
+            evidence.content_digest,
+            content.len()
+        );
+        let start = prompt.find(&header).unwrap() + header.len();
+        assert_eq!(
+            &prompt.as_bytes()[start..start + content.len()],
+            content.as_bytes()
+        );
+        assert!(prompt[start + content.len()..].starts_with(&format!(
+            "\nEND INERT SOURCE digest={}\n",
+            evidence.content_digest
+        )));
+    }
+    assert!(!prompt.contains("[byte 0]"));
+    let mut item = f.item(AssessmentKind::PositiveObservation);
+    item.citations[0].quote = "    let text = \"a\\\\b\";\r\n".into();
+    let valid =
+        assessments::parse_lane("correctness", &json(vec![item.clone()]), &f.admission).unwrap();
+    assert_eq!(valid.len(), 1);
+    item.citations[0].quote = item.citations[0].quote.trim().replace(' ', "");
+    let invalid =
+        assessments::parse_lane_with_gaps("correctness", &json(vec![item]), &f.admission).unwrap();
+    assert!(invalid.assessments.is_empty());
+    assert_eq!(invalid.gaps[0].reason, "assessment_quote_mismatch");
+}
+
+#[test]
+fn verbatim_prompt_examples_include_complete_shapes_without_padding_requirement() {
+    use adl::codefriend::review::lanes::ReviewLane;
+    let f = Fixture::new(false);
+    let (_, prompt) =
+        runner::assessment_lane_input_manifest("shapes", ReviewLane::Correctness, &f.admission)
+            .unwrap();
+    let line = prompt
+        .lines()
+        .find(|line| line.starts_with("These are JSON SHAPES ONLY"))
+        .unwrap();
+    let example = line.split_once("placeholders: ").unwrap().1;
+    let shapes: ProviderAssessmentOutput = serde_json::from_str(example).unwrap();
+    assert_eq!(shapes.assessments.len(), 3);
+    assert_eq!(shapes.assessments[0].kind, AssessmentKind::DefectCandidate);
+    assert!(shapes.assessments[0].defect.is_some());
+    assert_eq!(
+        shapes.assessments[1].kind,
+        AssessmentKind::PositiveObservation
+    );
+    assert_eq!(
+        shapes.assessments[2].kind,
+        AssessmentKind::UnresolvedQuestion
+    );
+    assert!(shapes.assessments[1..]
+        .iter()
+        .all(|item| item.defect.is_none() && item.limitations.is_empty()));
+    assert!(prompt.contains("do not pad the response"));
+    assert!(prompt.contains("Empty or partial output does not establish full source coverage"));
 }
