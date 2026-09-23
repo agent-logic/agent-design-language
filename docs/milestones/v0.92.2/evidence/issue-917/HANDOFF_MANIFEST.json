@@ -6,7 +6,7 @@
   "sources": {
     "native_main": "2b047c8dc34e133ee1353ec265507a17c523e06f",
     "website_main": "a45e339c13b24716edbd3fadf29dddff36ffe02e",
-    "inherited_916_checkpoint": "7a8bb553b1f8ad50e59ca056bb1cb10048e19823"
+    "inherited_916_checkpoint": "d71d8a9b9338b2b84db0692834e5810174c21d46"
   },
   "documents": [
     {
@@ -327,7 +327,7 @@
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-916/GAP_ANALYSIS.md",
-      "sha256": "1a87d313b9648ca82212b3ddb8ecbb3fcaf614adce09c34966696f8be45a2986"
+      "sha256": "642eca22c4e58ca9881f7d49a822315b222a8451053b2c432ea92c837a7e0a13"
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-916/PAIR_HEALTH_RECHECK.json",
@@ -351,7 +351,7 @@
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-916/QUALITY_DECISION.json",
-      "sha256": "37efe6cbf74e37f7e3f72abf3c00f5664595220800beda3b855dd28685e3f16f"
+      "sha256": "be34278427180591b4a0012e8a82b8272b4b7e91beb3b16c0bf865af6e33c104"
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-916/SPRINT10_CLOSEOUT_REFRESH.json",
@@ -359,7 +359,7 @@
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-916/SPRINT10_DEFERRAL.json",
-      "sha256": "c48216b45bd122b1258d75aa15ef1b3ecf1229540ed19ed4047cc9aba7db194e"
+      "sha256": "3bd723f1778496ab3f9f2dc25afe768c2631686e3bca633f483d552d8bb38398"
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-916/TASK_LEDGER.json",
@@ -375,7 +375,7 @@
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-917/HANDOFF.md",
-      "sha256": "964a6e157c1d696e16279a374ffd258a5518e4cf5a4816111c9d7b6b954778b9"
+      "sha256": "ed68e4723bad2ceef31b2ff8492ecc65d7b62e53be4bc942538b0d53c1b3a7c0"
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-917/validate_handoff.py",
