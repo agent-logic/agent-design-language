@@ -29,16 +29,27 @@
     1149,
     1150
   ],
-  "routing_status": "All three successor issues created and authenticated native reconciliation completed; #1150 depends on #1148 and #1149. Native #915/#936 closeout pending.",
+  "routing_status": "Successors #1148/#1149/#1150 created; #915 and #936 authenticated CLOSED/NOT_PLANNED with native no_pr_closed_out superseded receipts.",
   "unknown_effect_boundary": "Preserve interrupted ADL second-run evidence and reserved unknown spend; no replay or changed identity to bypass uncertainty.",
   "nonclaims": [
     "No passing original qualification",
     "No passing #916 quality gate from this disposition alone",
-    "No public launch or release authorization",
-    "No native issue closure or resource shutdown claimed before readback"
+    "No public launch or release authorization"
   ],
   "resource_status": {
     "status": "stopped",
     "source": "Planning #7.3 owner confirmation 2026-09-22; zero new provider calls"
+  },
+  "closure": {
+    "915": {
+      "state": "CLOSED",
+      "state_reason": "NOT_PLANNED",
+      "closed_at": "2026-09-23T01:56:45Z"
+    },
+    "936": {
+      "state": "CLOSED",
+      "state_reason": "NOT_PLANNED",
+      "closed_at": "2026-09-23T02:01:30Z"
+    }
   }
 }
