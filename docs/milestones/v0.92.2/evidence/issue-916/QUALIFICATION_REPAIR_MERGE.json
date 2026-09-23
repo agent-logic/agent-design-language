@@ -1,0 +1,16 @@
+{
+  "observed_at": "2026-09-23T01:10:42.609439+00:00",
+  "repair_pr": {
+    "headRefOid": "5d133c402d8afacb2cf09c21b4bd2651303fd4c8",
+    "mergeCommit": {
+      "oid": "6d78c1da473f95c4db4e0fa29f4fc2bd1d290106"
+    },
+    "mergedAt": "2026-09-22T20:12:17Z",
+    "state": "MERGED",
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1146"
+  },
+  "qualification_issue": {
+    "state": "OPEN",
+    "url": "https://github.com/agent-logic/agent-design-language/issues/915"
+  }
+}

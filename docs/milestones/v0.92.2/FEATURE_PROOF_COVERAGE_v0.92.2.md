@@ -15,7 +15,16 @@ Current routing is grounded in #916 commit
 `fc6a80c362d6c1e63766bef263cd2dccacd2dc0b`. Those owner fixes are credited;
 this overlay does not rewrite their historical review packets.
 
-Status: planned ownership map.
+Status: ownership map with #916 evidence reconciliation in progress.
+
+[Current quality-gap decision](evidence/issue-916/GAP_ANALYSIS.md),
+[producer evidence index](evidence/issue-916/PRODUCER_EVIDENCE_INDEX.json), and
+[installed-proof identities](evidence/issue-916/CODEFRIEND_PROOF_IDENTITIES.json)
+retain historical evidence separately from final candidate acceptance. Planning
+parity passes; #915 independent qualification remains incomplete and deferred
+to its successors as described above. All five Runtime
+criterion rows replay successfully after locating the exact retained execution archive.
+No feature row is promoted to proven solely from closed tracker state.
 
 | Exit-bar surface | Owner | Required proof |
 |---|---|---|

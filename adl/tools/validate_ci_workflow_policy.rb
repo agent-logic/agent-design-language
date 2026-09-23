@@ -3,6 +3,7 @@
 
 require "json"
 require "pathname"
+require "yaml"
 
 root = Pathname.new(ARGV[0] || Pathname.new(__dir__).join("../..")).cleanpath
 workflow_dir = root.join(".github/workflows")
@@ -63,6 +64,17 @@ workflow_paths.each do |path|
 end
 
 ci = ci_path.read
+# #916: a 35-minute wall deadline cancelled a successful 1,499-test run during
+# profile processing. Keep full producer execution without a shorter job/step cap.
+begin
+  parsed_ci = YAML.safe_load(ci, permitted_classes: [], permitted_symbols: [], aliases: true)
+  workspace_coverage = parsed_ci.fetch("jobs").fetch("adl_coverage_workspace_hosted")
+  if workspace_coverage.key?("timeout-minutes") || workspace_coverage.fetch("steps").any? { |step| step.key?("timeout-minutes") }
+    errors << "ci.yaml adl_coverage_workspace_hosted: custom job/step deadline can cancel successful coverage production"
+  end
+rescue Psych::Exception, KeyError, NoMethodError => error
+  errors << "ci.yaml: workspace coverage deadline policy cannot inspect workflow (#{error.class})"
+end
 ci_events = top_level_events(ci)
 errors << ".github/workflows/ci.yaml: pull_request entrypoint is missing" unless ci_events.include?("pull_request")
 errors << ".github/workflows/ci.yaml: explicit full validation is missing" unless ci_events.include?("workflow_dispatch")

@@ -1,6 +1,8 @@
 # v0.92.2 Quality Gate
 
-Status: planned release gate.
+Status: evaluation started under #916; current decision **not proven**.
+
+Sprint 11 opened for analysis on September 21 while remaining producer work completes. See the [current gap analysis](evidence/issue-916/GAP_ANALYSIS.md), [69-task ledger](evidence/issue-916/TASK_LEDGER.json), and [machine-readable quality decision](evidence/issue-916/QUALITY_DECISION.json). These are an opening checkpoint, not acceptance of the installed candidate or authorization to finalize publication.
 
 Beta 1 cannot enter publication finalization until all required rows below have current, retained evidence against the integrated candidate.
 

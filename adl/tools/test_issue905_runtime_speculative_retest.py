@@ -34,6 +34,33 @@ else:
 
 
 class RuntimeRetestSafetyTests(unittest.TestCase):
+    def test_unknown_and_malformed_base_blob_cannot_prove_same_weights(self):
+        for digest in (None, "", "sha256-" + "a" * 64, "g" * 64, "a" * 63):
+            for baseline, speculative in ((digest, digest), ("a" * 64, digest), (digest, "a" * 64)):
+                with self.subTest(baseline=baseline, speculative=speculative), self.assertRaisesRegex(
+                    AssertionError, "same-model comparison is not proven"
+                ):
+                    retest.validate_base_blob_identity(
+                        {"base_blob_sha256": baseline}, {"base_blob_sha256": speculative})
+        retest.validate_base_blob_identity({"base_blob_sha256": "a" * 64}, {"base_blob_sha256": "a" * 64})
+        with self.assertRaisesRegex(AssertionError, "differs at base_blob_sha256"):
+            retest.validate_base_blob_identity({"base_blob_sha256": "a" * 64}, {"base_blob_sha256": "b" * 64})
+
+    def test_model_metadata_without_supported_from_is_non_proving(self):
+        for modelfile in (None, "FROM alias-a", "FROM C:\\models\\sha256-" + "a" * 64,
+                          "FROM /models/sha256-invalid"):
+            shown = {} if modelfile is None else {"modelfile": modelfile}
+            with self.subTest(modelfile=modelfile), patch.object(retest, "ollama_json", side_effect=[
+                shown, {"models": [{"name": "fixture:latest", "digest": "manifest", "size": 1}]}]):
+                identity = retest.model_identity("fixture:latest")
+            with self.assertRaisesRegex(AssertionError, "same-model comparison is not proven"):
+                retest.validate_base_blob_identity(identity, identity)
+        with patch.object(retest, "ollama_json", side_effect=[
+            {"modelfile": "FROM /models/sha256-" + "a" * 64},
+            {"models": [{"name": "fixture:latest", "digest": "manifest", "size": 1}]}]):
+            identity = retest.model_identity("fixture:latest")
+        retest.validate_base_blob_identity(identity, identity)
+
     def argv(self, root: Path, *, source: str = "Qwen3.5:9b", baseline: str = "adl-905-arm-a:latest", speculative: str = "adl-905-arm-b:latest", repeats: int = 2) -> list[str]:
         binaries = []
         for name in ("csm", "csmctl", "guardian", "kernel", "vector"):
@@ -140,6 +167,23 @@ class RuntimeRetestSafetyTests(unittest.TestCase):
                 removed,
             )
             self.assertTrue(all(item["removed"] for item in report["cleanup"]["models"]))
+
+    def test_unknown_base_blob_fails_run_before_runtime_start(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            with patch("sys.argv", self.argv(root)), \
+                    patch.object(retest, "installed_model_names", return_value={"qwen3.5:9b"}), \
+                    patch.object(retest, "create_model", side_effect=lambda _name, _file, allow_failure=False:
+                                 (1, "expected invalid") if allow_failure else (0, "")), \
+                    patch.object(retest, "model_identity", return_value={"base_blob_sha256": None}), \
+                    patch.object(retest.subprocess, "run", return_value=SimpleNamespace(returncode=0)), \
+                    patch.object(retest.subprocess, "Popen") as launch:
+                with self.assertRaisesRegex(AssertionError, "same-model comparison is not proven"):
+                    retest.main()
+            launch.assert_not_called()
+            report = json.loads((root / "run/report.json").read_text())
+            self.assertEqual(report["result"], "failed")
+            self.assertNotIn("same_base_blob", json.dumps(report))
 
     def test_guardian_kill_error_is_recorded_without_escaping_cleanup(self):
         guardian = SimpleNamespace(pid=905)

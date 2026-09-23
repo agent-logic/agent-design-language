@@ -6706,10 +6706,17 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         samples
             .iter()
             .map(|sample| {
+                // Inference accounting keeps the declared reference, while live
+                // admission may project a different provider-native model ID.
+                let model = sample
+                    .provider_binding
+                    .as_ref()
+                    .map(|binding| binding.model_ref.as_str())
+                    .or(sample.model.as_deref());
                 let evidence = signals.iter().find(|s| {
                     (s.agent == sample.id || s.agent == sample.name)
                         && sample.provider.as_ref() == Some(&s.provider)
-                        && sample.model.as_ref() == Some(&s.model)
+                        && model == Some(s.model.as_str())
                 });
                 let stale = sample.freshness_deadline_unix_millis > 0
                     && now > sample.freshness_deadline_unix_millis;
@@ -6739,7 +6746,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                         self.runtime_incarnation_id,
                         self.recorder.provider_usage.binding_epoch(&sample.id),
                         sample.provider.as_deref().unwrap_or(""),
-                        sample.model.as_deref().unwrap_or("")
+                        model.unwrap_or("")
                     ),
                     unhealthy,
                     reason,
