@@ -2,6 +2,7 @@
 """Validate TAIL-05 preparation or completed external-review packet truth."""
 
 import hashlib
+import copy
 import json
 import sys
 from pathlib import Path
@@ -99,12 +100,25 @@ def main() -> int:
     findings = load("findings.json")
     review_text = (EVIDENCE / "review.md").read_text(encoding="utf-8")
     errors = validate(manifest, findings, review_text)
+    negative_fixtures = []
+    for name, mutate in (
+        ("unsubstantiated_complete", lambda value: value.update(status="complete")),
+        ("invented_contact_authority", lambda value: value["authorization"].update(external_contact_authorized=True)),
+        ("invented_reviewer", lambda value: value["reviewer"].update(identity="unverified-reviewer")),
+        ("premature_predecessor_acceptance", lambda value: value["predecessors"]["internal_review"].update(accepted=True)),
+    ):
+        fixture = copy.deepcopy(manifest)
+        mutate(fixture)
+        if not validate(fixture, findings, review_text):
+            errors.append(f"negative fixture admitted: {name}")
+        negative_fixtures.append(name)
     result = {
         "schema": "adl.external_review_packet_validation.v1",
         "status": "pass" if not errors else "fail",
         "packet_status": manifest.get("status"),
         "external_review_complete": manifest.get("status") == "complete" and not errors,
         "errors": errors,
+        "negative_fixtures": negative_fixtures,
         "manifest_sha256": hashlib.sha256(
             (EVIDENCE / "review-manifest.json").read_bytes()
         ).hexdigest(),

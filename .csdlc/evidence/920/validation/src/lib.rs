@@ -22,5 +22,6 @@ mod tests {
         assert!(stdout.contains("\"status\": \"pass\""));
         assert!(stdout.contains("\"packet_status\": \"preparation_only\""));
         assert!(stdout.contains("\"external_review_complete\": false"));
+        assert!(stdout.contains("\"negative_fixtures\": ["));
     }
 }
