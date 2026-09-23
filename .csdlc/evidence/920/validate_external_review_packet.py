@@ -37,6 +37,16 @@ def retained_file(path_value: object, digest_value: object) -> bool:
     return path.is_file() and hashlib.sha256(path.read_bytes()).hexdigest() == digest_value
 
 
+def retained_json(path_value: object, digest_value: object) -> dict | None:
+    if not retained_file(path_value, digest_value):
+        return None
+    try:
+        value = json.loads((ROOT / Path(str(path_value))).read_text(encoding="utf-8"))
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError):
+        return None
+    return value if isinstance(value, dict) else None
+
+
 def git_commit_exists(revision: object) -> bool:
     if not valid_sha(revision, SHA1):
         return False
@@ -131,12 +141,32 @@ def validate(manifest: dict, findings: dict, review_text: str) -> list[str]:
             reviewer.get("independence_evidence_path"), reviewer.get("independence_evidence_sha256")
         ):
             errors.append("reviewer independence evidence")
+        independence_evidence = retained_json(
+            reviewer.get("independence_evidence_path"), reviewer.get("independence_evidence_sha256")
+        )
+        if not independence_evidence or independence_evidence.get("schema") != "adl.external_reviewer_independence.v1" or independence_evidence.get(
+            "issue"
+        ) != 920 or independence_evidence.get("reviewer_identity") != reviewer.get("identity") or independence_evidence.get(
+            "independent_of_implementation"
+        ) is not True or independence_evidence.get("independent_of_internal_review") is not True or independence_evidence.get(
+            "independence_basis"
+        ) != reviewer.get("independence_basis"):
+            errors.append("typed reviewer independence evidence")
         if not authorization.get("external_contact_authorized") or not authorization.get("disclosure_scope_approved"):
             errors.append("contact and disclosure authorization")
         if not retained_file(
             authorization.get("authorization_evidence_path"), authorization.get("authorization_evidence_sha256")
         ):
             errors.append("authorization evidence")
+        authorization_evidence = retained_json(
+            authorization.get("authorization_evidence_path"), authorization.get("authorization_evidence_sha256")
+        )
+        if not authorization_evidence or authorization_evidence.get("schema") != "adl.external_review_authorization.v1" or authorization_evidence.get(
+            "issue"
+        ) != 920 or authorization_evidence.get("external_contact_authorized") is not True or authorization_evidence.get(
+            "disclosure_scope_approved"
+        ) is not True or authorization_evidence.get("authorization_reference") != authorization.get("authorization_reference"):
+            errors.append("typed external review authorization")
         if review.get("state") != "complete" or review.get("verdict") not in {"pass", "fail", "not_proven"}:
             errors.append("complete review result")
         if not retained_file(review.get("assessment_path"), review.get("assessment_sha256")):
@@ -168,6 +198,16 @@ def validate(manifest: dict, findings: dict, review_text: str) -> list[str]:
                 nonempty(finding.get(field)) for field in ("id", "title", "evidence", "impact")
             ):
                 errors.append(f"finding {index} structure")
+        evidence_paths = [
+            candidate.get("artifact_manifest_path"),
+            documentation.get("handoff_manifest_path"),
+            internal.get("findings_path"),
+            authorization.get("authorization_evidence_path"),
+            reviewer.get("independence_evidence_path"),
+            review.get("assessment_path"),
+        ]
+        if not all(nonempty(path) for path in evidence_paths) or len(set(evidence_paths)) != len(evidence_paths):
+            errors.append("evidence roles require distinct retained files")
     else:
         errors.append("manifest status")
 
@@ -180,17 +220,18 @@ def main() -> int:
     review_text = (EVIDENCE / "review.md").read_text(encoding="utf-8")
     errors = validate(manifest, findings, review_text)
     negative_fixtures = []
-    for name, mutate in (
-        ("unsubstantiated_complete", lambda value: value.update(status="complete")),
-        ("invented_contact_authority", lambda value: value["authorization"].update(external_contact_authorized=True)),
-        ("invented_reviewer", lambda value: value["reviewer"].update(identity="unverified-reviewer")),
-        ("premature_predecessor_acceptance", lambda value: value["predecessors"]["internal_review"].update(accepted=True)),
-    ):
-        fixture = copy.deepcopy(manifest)
-        mutate(fixture)
-        if not validate(fixture, findings, review_text):
-            errors.append(f"negative fixture admitted: {name}")
-        negative_fixtures.append(name)
+    if manifest.get("status") == "preparation_only":
+        for name, mutate in (
+            ("unsubstantiated_complete", lambda value: value.update(status="complete")),
+            ("invented_contact_authority", lambda value: value["authorization"].update(external_contact_authorized=True)),
+            ("invented_reviewer", lambda value: value["reviewer"].update(identity="unverified-reviewer")),
+            ("premature_predecessor_acceptance", lambda value: value["predecessors"]["internal_review"].update(accepted=True)),
+        ):
+            fixture = copy.deepcopy(manifest)
+            mutate(fixture)
+            if not validate(fixture, findings, review_text):
+                errors.append(f"negative fixture admitted: {name}")
+            negative_fixtures.append(name)
 
     fabricated = copy.deepcopy(manifest)
     fabricated_findings = copy.deepcopy(findings)
@@ -275,6 +316,63 @@ def main() -> int:
     if "stale preparation disclosure" in fabricated_errors:
         errors.append("truthful completed disclosure rejected")
     negative_fixtures.append("truthful_completed_disclosure")
+
+    reuse = copy.deepcopy(fabricated)
+    reuse_findings = copy.deepcopy(fabricated_findings)
+    retained_path = ".csdlc/evidence/920/review.md"
+    retained_digest = hashlib.sha256((ROOT / retained_path).read_bytes()).hexdigest()
+    current_head = subprocess.run(
+        ["git", "rev-parse", "HEAD"], cwd=ROOT, capture_output=True, check=True, text=True
+    ).stdout.strip()
+    reuse["candidate"].update(
+        revision=current_head,
+        artifact_manifest_path=retained_path,
+        artifact_manifest_sha256=retained_digest,
+    )
+    reuse["predecessors"]["documentation_handoff"].update(
+        accepted_revision=current_head,
+        handoff_manifest_path=retained_path,
+        handoff_manifest_sha256=retained_digest,
+    )
+    reuse["predecessors"]["publication_finalization"].update(
+        revision=current_head,
+        artifact_manifest_sha256=retained_digest,
+    )
+    reuse["predecessors"]["internal_review"].update(
+        review_revision=current_head,
+        reviewed_candidate_revision=current_head,
+        findings_path=retained_path,
+        findings_digest_sha256=retained_digest,
+    )
+    reuse["authorization"].update(
+        authorization_evidence_path=retained_path,
+        authorization_evidence_sha256=retained_digest,
+    )
+    reuse["reviewer"].update(
+        independence_evidence_path=retained_path,
+        independence_evidence_sha256=retained_digest,
+    )
+    reuse["review"].update(
+        reviewed_revision=current_head,
+        reviewed_manifest_sha256=retained_digest,
+        assessment_path=retained_path,
+        assessment_sha256=retained_digest,
+    )
+    reuse_findings.update(
+        reviewed_revision=current_head,
+        reviewed_manifest_sha256=retained_digest,
+        assessment_path=retained_path,
+        assessment_sha256=retained_digest,
+    )
+    reuse_errors = validate(reuse, reuse_findings, completed_text)
+    for name, expected_error in {
+        "reused_evidence_roles": "evidence roles require distinct retained files",
+        "untyped_authorization": "typed external review authorization",
+        "untyped_independence": "typed reviewer independence evidence",
+    }.items():
+        if expected_error not in reuse_errors:
+            errors.append(f"negative fixture admitted: {name}")
+        negative_fixtures.append(name)
     result = {
         "schema": "adl.external_review_packet_validation.v1",
         "status": "pass" if not errors else "fail",

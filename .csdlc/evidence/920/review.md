@@ -15,6 +15,8 @@ All of the following must be true before review begins:
 5. External contact and the exact disclosure scope have explicit authorization.
 6. Every required source is accessible to the reviewer without exposing private or machine-local material outside the approved scope.
 
+Authorization and reviewer independence must be retained as separate typed JSON evidence. The candidate manifest, documentation handoff manifest, internal findings, authorization, independence evidence, and returned assessment must each use a distinct retained file; one artifact cannot stand in for multiple roles.
+
 If any gate is absent or changes, stop and refresh the packet. A sent request is not a completed review.
 
 ## Review scope
