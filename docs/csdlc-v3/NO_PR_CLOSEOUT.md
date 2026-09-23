@@ -12,9 +12,7 @@ file contains:
   "disposition": "retired_without_execution",
   "operator": "authorized operator identity",
   "rationale": "Issue retired before execution; scope is retained by its successor.",
-  "evidence_refs": ["https://github.com/owner/repo/issues/123#issuecomment-456"],
-  "expected_issue_updated_at": "2026-09-09T00:00:00Z",
-  "expected_issue_closed_at": "2026-09-08T00:00:00Z"
+  "evidence_refs": ["https://github.com/owner/repo/issues/123#issuecomment-456"]
 }
 ```
 
@@ -27,7 +25,9 @@ issue alone is insufficient to author the rationale.
 
 The semantic intent derives the repository, issue, exact checkout identity,
 credential selection, and canonical terminal paths from current native state.
-Fresh authenticated GitHub observation must match the approved timestamps. Open
+The owner derives closure timestamps from authenticated GitHub observation and
+checks them again before persistence; do not supply timestamps in this semantic
+disposition object. Open
 issues, PR objects, missing rationale/evidence/operator, mixed PR/no-PR state,
 and stale snapshots fail closed. Repeated identical reconciliation is
 idempotent; conflicting receipts preserve existing state and require explicit

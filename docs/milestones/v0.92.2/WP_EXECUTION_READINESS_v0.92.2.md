@@ -1,6 +1,6 @@
 # v0.92.2 Execution Readiness
 
-Status: the new execution wave remains gated. Existing admitted issue #720 retains its own typed readiness after the global core startup gate. Closed merged #717 and #718 are predecessor inputs rather than new-wave rows.
+Status: historical creation/readiness requirements retained; Sprint 11 is active under operator direction. #917 documentation work overlaps pending #915/#916 acceptance by explicit instruction. This does not mark those dependencies accepted or authorize downstream release.
 
 ## Opening Gates
 
@@ -37,4 +37,4 @@ TAIL-10 waits for TAIL-09, OBS-S3 and ARCH-ADR. Final acceptance separately veri
 
 The operator requires all 69 core-plan issue identities to be created and all creation-batch reviews to pass before any implementation begins, including the independently scheduled SIM sprint. Once that global gate is satisfied, the declared task dependencies, native readiness, bound ownership and issue-level authority still govern execution. Creation batches add no dependency edges and confer no paid/cloud/provider, publication or writer-activation authority.
 
-Existing podcast issue [#671](https://github.com/agent-logic/agent-design-language/issues/671) is a separately admitted v0.92.2 sidecar. It is outside the 69-task atomic plan, core startup denominator and dependency graph. Its own retained public-launch/provider-submission approval gates remain in force; milestone membership does not authorize those effects. The milestone has 82 issue memberships: 69 core-plan identities, this one sidecar, eleven sprint-management umbrellas (#927–#937), and setup issue #926. The management layer is recorded in [SPRINT_MANAGEMENT_v0.92.2.json](SPRINT_MANAGEMENT_v0.92.2.json); it does not change the 69-task implementation/startup denominator.
+Podcast [#671](https://github.com/agent-logic/agent-design-language/issues/671) is now assigned to v0.93, as is the explicitly deferred SIM-09 pilot #875. The historical 69-row creation roster remains intact for traceability; it is not the current open-work or milestone-membership count. Public-launch/provider-submission authority remains separate.

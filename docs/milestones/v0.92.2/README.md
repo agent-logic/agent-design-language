@@ -15,7 +15,9 @@ Current routing is grounded in #916 commit
 `fc6a80c362d6c1e63766bef263cd2dccacd2dc0b`. Those owner fixes are credited;
 this overlay does not rewrite their historical review packets.
 
-Status: planned; not yet execution- or release-approved.
+Status: Sprint 11 documentation assessment accepted for handoff; #915 qualification remains incomplete and explicitly deferred. The #916 assessment is accepted as a truthful handoff, with product qualification still `not_proven`. Release approval remains pending.
+
+Start with the [review handoff](evidence/issue-917/HANDOFF.md) and [current quality decision](evidence/issue-916/QUALITY_DECISION.json). Merged implementation, local component tests, installed qualification, deployment and release approval are separate claims.
 
 v0.92.2 is the complete CodeFriend Beta 1 build milestone. It consumes the governed provider, Runtime, C-SDLC, Observatory, and corporate-authority foundations prepared before it and turns them into one bounded product: repository ingestion, evidence-backed review, architecture cognition, executable governance, longitudinal comparison, and human-controlled publication.
 
@@ -68,10 +70,12 @@ The eight task families are split into independently usable ingestion routes, ar
 
 The operator requires all 69 core-plan issue identities to be created and all creation-batch reviews to pass before any implementation begins, including the independently scheduled SIM sprint. Once that global gate is satisfied, the declared task dependencies, native readiness, bound ownership and issue-level authority still govern execution. Creation batches add no dependency edges and confer no paid/cloud/provider, publication or writer-activation authority.
 
-Existing podcast issue [#671](https://github.com/agent-logic/agent-design-language/issues/671) is a separately admitted v0.92.2 sidecar. It is outside the 69-task atomic plan, core startup denominator and dependency graph. Its own retained public-launch/provider-submission approval gates remain in force; milestone membership does not authorize those effects. The milestone has 82 issue memberships: 69 core-plan identities, this one sidecar, eleven sprint-management umbrellas (#927–#937), and setup issue #926. The management layer is recorded in [SPRINT_MANAGEMENT_v0.92.2.json](SPRINT_MANAGEMENT_v0.92.2.json); it does not change the 69-task implementation/startup denominator.
+Podcast [#671](https://github.com/agent-logic/agent-design-language/issues/671) is now assigned to v0.93, as is the explicitly deferred SIM-09 pilot #875. The historical 69-row creation roster remains intact for traceability; it is not the current open-work or milestone-membership count. Public-launch/provider-submission authority remains separate.
 
 The [complete reviewed launch map](../../../.csdlc/evidence/864/all-issue-launch.json) binds all 69 core task IDs to verified issue numbers and independent creation reviews. This establishes issue inventory and review truth, not implementation or Beta 1 qualification.
 
 The milestone description retains its original separate-creation-authorization boundary. The operator supplied that authorization for all eleven batches; the verified launch map records the resulting identities. That retained description is not a claim that tasks remain uncreated.
 
-The [execution sprint assignments](SPRINT_v0.92.2.md#execution-sprint-assignments) place all 69 core issues, including every preexisting issue, in eleven explicit scheduling groups. The creation-batch evidence remains unchanged; #671 is separately scheduled sidecar work.
+The [execution sprint assignments](SPRINT_v0.92.2.md#execution-sprint-assignments) place all 69 core issues, including every preexisting issue, in eleven explicit scheduling groups. The creation-batch evidence remains unchanged; #671 is now scheduled in v0.93.
+
+The original SIM-01 through SIM-09 sequence below is historical planning. SIM-09/#875 was deferred to v0.93 by operator decision; no completed live-pilot denominator is claimed.

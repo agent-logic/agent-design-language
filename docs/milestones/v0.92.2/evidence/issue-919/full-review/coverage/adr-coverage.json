@@ -1,0 +1,567 @@
+{
+  "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+  "reviewer": "review919_tests",
+  "lane": "ADR and decomposition documentation supplemental review",
+  "rows": [
+    {
+      "id": "F05782",
+      "path": "docs/adr/0004-provider-profiles.md",
+      "status": "changed_hunks_inspected",
+      "method": "Complete changed hunks and adjoining status/refinement context.",
+      "lines": 112,
+      "sha256": "51ccadcddc437fe02c3e5e93a295c5946a32801bf04c8f8f07552659cbf93745"
+    },
+    {
+      "id": "F05783",
+      "path": "docs/adr/0025-codefriend-review-packet-product-boundary.md",
+      "status": "changed_hunks_inspected",
+      "method": "Complete changed hunks and adjoining status/refinement context.",
+      "lines": 96,
+      "sha256": "9cbc1c8bfe21e84d3395766b73e105ec9825a59da0930c4d971f0688c78d5df7"
+    },
+    {
+      "id": "F05784",
+      "path": "docs/adr/0041-provider-model-suitability-boundary-v2.md",
+      "status": "changed_hunks_inspected",
+      "method": "Complete changed hunks and adjoining status/refinement context.",
+      "lines": 96,
+      "sha256": "f928b9b6d1656908843a86d6ff98f21bcdca9eabd81bd4fb4bd8fb1f695fed6d"
+    },
+    {
+      "id": "F05785",
+      "path": "docs/adr/0058-memory-palace-context-handoff-architecture.md",
+      "status": "changed_hunks_inspected",
+      "method": "Complete changed hunks and adjoining status/refinement context.",
+      "lines": 131,
+      "sha256": "66fce790c0f2de187953520c9001fac3df8ccc6f92ad6b8a3382636b022c50d7"
+    },
+    {
+      "id": "F05786",
+      "path": "docs/adr/0076-cf-01.md",
+      "status": "source_inspected",
+      "method": "Complete file read; source and acceptance boundaries assessed.",
+      "lines": 71,
+      "sha256": "ead0c855f306d2d04653aed97f578b09bbc4780f4730d74ddd99fcb76ba8cfb2"
+    },
+    {
+      "id": "F05787",
+      "path": "docs/adr/0077-cf-02.md",
+      "status": "source_inspected",
+      "method": "Complete file read; source and acceptance boundaries assessed.",
+      "lines": 70,
+      "sha256": "9a506882eb207b0895acaa5df6ee8a2d9a0ca8f89133c11d3194280c4e9c7a98"
+    },
+    {
+      "id": "F05788",
+      "path": "docs/adr/0078-cf-03.md",
+      "status": "source_inspected",
+      "method": "Complete file read; source and acceptance boundaries assessed.",
+      "lines": 71,
+      "sha256": "f3fe421448db77216dc1c07c82276ee4e59c7611c5579fb0e72aa2dcbbeddbb7"
+    },
+    {
+      "id": "F05789",
+      "path": "docs/adr/0079-cf-04.md",
+      "status": "source_inspected",
+      "method": "Complete file read; source and acceptance boundaries assessed.",
+      "lines": 70,
+      "sha256": "c3a2d59540756b78a8926facda3029abe5bdac4e14376edbaef3df965fd0e455"
+    },
+    {
+      "id": "F05790",
+      "path": "docs/adr/0080-cf-05.md",
+      "status": "source_inspected",
+      "method": "Complete file read; source and acceptance boundaries assessed.",
+      "lines": 68,
+      "sha256": "ff22b4c9e2dbf80aadcdf47077450a95b878f58f85fcf1caa5963425303970a3"
+    },
+    {
+      "id": "F05791",
+      "path": "docs/adr/0081-cf-06.md",
+      "status": "source_inspected",
+      "method": "Complete file read; source and acceptance boundaries assessed.",
+      "lines": 72,
+      "sha256": "c030d31d41c2d6566434b587c37b3c01ba111d6a95dcb49e8b392b4a181aa1ed"
+    },
+    {
+      "id": "F05792",
+      "path": "docs/adr/0082-cf-07.md",
+      "status": "source_inspected",
+      "method": "Complete file read; source and acceptance boundaries assessed.",
+      "lines": 70,
+      "sha256": "04132a9fdba275d6002dcce01cc5c1d4e3d8e83ee70679e3b645dbf4fca58723"
+    },
+    {
+      "id": "F05793",
+      "path": "docs/adr/0083-cf-08.md",
+      "status": "source_inspected",
+      "method": "Complete file read; source and acceptance boundaries assessed.",
+      "lines": 70,
+      "sha256": "805e88b6cc65a3862c7d49a10a8003729f49a577b2ea52240b0515901957061f"
+    },
+    {
+      "id": "F05794",
+      "path": "docs/adr/0084-cf-09.md",
+      "status": "cross_lane_inspected",
+      "method": "Parent-confirmed docs lane full source review; not repeated here.",
+      "lines": 60,
+      "sha256": "fb83bc5258b92a01fce4a4bc6c4adba598632f9d46a02305432d0d8d19caed31"
+    },
+    {
+      "id": "F05795",
+      "path": "docs/adr/0085-plat-01.md",
+      "status": "source_inspected",
+      "method": "Complete file read; source and acceptance boundaries assessed.",
+      "lines": 74,
+      "sha256": "0e071a43845e2dd84b75e7f878df6387ab11ff09e6b4ef89012e2e89228b5423"
+    },
+    {
+      "id": "F05796",
+      "path": "docs/adr/0086-csdlc-01.md",
+      "status": "source_inspected",
+      "method": "Complete file read; source and acceptance boundaries assessed.",
+      "lines": 73,
+      "sha256": "2cce4a392cfa232244a3865c7e56e47c2b47f06bf87835119528776f3bfd4096"
+    },
+    {
+      "id": "F05797",
+      "path": "docs/adr/0087-csdlc-02.md",
+      "status": "source_inspected",
+      "method": "Complete file read; source and acceptance boundaries assessed.",
+      "lines": 73,
+      "sha256": "fff38afe14071a6522be5aeccf16d50d5240d901b74d597f921ac5d0fdafc1c5"
+    },
+    {
+      "id": "F05798",
+      "path": "docs/adr/README.md",
+      "status": "changed_hunks_inspected",
+      "method": "Complete changed hunks and adjoining status/refinement context.",
+      "lines": 97,
+      "sha256": "74b853b06f7fc715235759d12538fa03328c34a1106127bd7fb18b23dd51d0e5"
+    },
+    {
+      "id": "F05800",
+      "path": "docs/architecture/adr/0072-csdlc-v3-native-authority.md",
+      "status": "changed_hunks_inspected",
+      "method": "Complete changed hunks and adjoining status/refinement context.",
+      "lines": 51,
+      "sha256": "8494f438ad047e0574579be05955cc697e2994477f526b700d1cf08178c4c397"
+    },
+    {
+      "id": "F05801",
+      "path": "docs/architecture/adr/0075-provider-profile-and-shadow-authority.md",
+      "status": "changed_hunks_inspected",
+      "method": "Complete changed hunks and adjoining status/refinement context.",
+      "lines": 51,
+      "sha256": "46b90accd10c85dd2071a68ecddd7a4e966f659de6639e98801b8ec0f16cfc76"
+    },
+    {
+      "id": "F05802",
+      "path": "docs/architecture/adr/README.md",
+      "status": "changed_hunks_inspected",
+      "method": "Complete changed hunks and adjoining status/refinement context.",
+      "lines": 66,
+      "sha256": "330e09aed1800287ab2dc4944365665749aeebd368ce011464796a8818a519b5"
+    },
+    {
+      "id": "F05803",
+      "path": "docs/architecture/adr/issue-911/README.md",
+      "status": "source_inspected",
+      "method": "Complete file read; source and acceptance boundaries assessed.",
+      "lines": 22,
+      "sha256": "4996f2327411581e5b13ed8ab54c1b67ef2397ff80367b9273baa832688981a6"
+    },
+    {
+      "id": "F05804",
+      "path": "docs/architecture/adr/issue-911/adr-cf-01.md",
+      "status": "source_inspected",
+      "method": "Complete diff against fully read accepted successor, with all shared paragraphs credited to successor read; links/status/history deltas inspected.",
+      "lines": 71,
+      "sha256": "2d17c267aefaa5108e389601b0a1aef3027e585f4e71b6a7e4c67e7ed1296a51"
+    },
+    {
+      "id": "F05805",
+      "path": "docs/architecture/adr/issue-911/adr-cf-02.md",
+      "status": "source_inspected",
+      "method": "Complete diff against fully read accepted successor, with all shared paragraphs credited to successor read; links/status/history deltas inspected.",
+      "lines": 70,
+      "sha256": "f406df43149daacc4bb71de0e6a65ca0344af04bd5aa2aff65f642dbba18f035"
+    },
+    {
+      "id": "F05806",
+      "path": "docs/architecture/adr/issue-911/adr-cf-03.md",
+      "status": "source_inspected",
+      "method": "Complete diff against fully read accepted successor, with all shared paragraphs credited to successor read; links/status/history deltas inspected.",
+      "lines": 71,
+      "sha256": "cb1e5e78fba434716e1cd0dec1a8fe910b4a0c5f5197f3b4bf2803c6fc745442"
+    },
+    {
+      "id": "F05807",
+      "path": "docs/architecture/adr/issue-911/adr-cf-04.md",
+      "status": "source_inspected",
+      "method": "Complete diff against fully read accepted successor, with all shared paragraphs credited to successor read; links/status/history deltas inspected.",
+      "lines": 70,
+      "sha256": "687af7d8ca2a474c880d7b91265c6fee2aa182985a8bbc4c27ccf98304f76214"
+    },
+    {
+      "id": "F05808",
+      "path": "docs/architecture/adr/issue-911/adr-cf-05.md",
+      "status": "source_inspected",
+      "method": "Complete file read; source and acceptance boundaries assessed.",
+      "lines": 68,
+      "sha256": "75cd500749dc3a174035f530d969486d13227b4d8dcc43ba1d9e6cdf42154370"
+    },
+    {
+      "id": "F05809",
+      "path": "docs/architecture/adr/issue-911/adr-cf-06.md",
+      "status": "source_inspected",
+      "method": "Complete file read; source and acceptance boundaries assessed.",
+      "lines": 72,
+      "sha256": "4178f60d2d74c130d816d6c720309c8108cce73df70f5295f269cb9dac99d3ed"
+    },
+    {
+      "id": "F05810",
+      "path": "docs/architecture/adr/issue-911/adr-cf-07.md",
+      "status": "source_inspected",
+      "method": "Complete file read; source and acceptance boundaries assessed.",
+      "lines": 70,
+      "sha256": "915303ef0bdf34688a6173783d3c8bb7d411feded5ef30bb1b91e2e9c2bff155"
+    },
+    {
+      "id": "F05811",
+      "path": "docs/architecture/adr/issue-911/adr-cf-08.md",
+      "status": "source_inspected",
+      "method": "Complete file read; source and acceptance boundaries assessed.",
+      "lines": 70,
+      "sha256": "60d3b6d8d845f73ce7ebcc99d4ff81918e2c15d0ec8ba7f39ab69bbe24c4064d"
+    },
+    {
+      "id": "F05812",
+      "path": "docs/architecture/adr/issue-911/adr-cf-09.md",
+      "status": "source_inspected",
+      "method": "Complete file read; source and acceptance boundaries assessed.",
+      "lines": 76,
+      "sha256": "3031cef4cae59111c82ed736e0205a6015e64b592c46bc1b7e748d2020f7ea42"
+    },
+    {
+      "id": "F05813",
+      "path": "docs/architecture/adr/issue-911/adr-csdlc-01.md",
+      "status": "source_inspected",
+      "method": "Complete diff against fully read accepted successor, with all shared paragraphs credited to successor read; links/status/history deltas inspected.",
+      "lines": 73,
+      "sha256": "07076319ad55c63f05f44cd2b6a1d7dfde84ae3e780fc03040ce5e0a5d17fad6"
+    },
+    {
+      "id": "F05814",
+      "path": "docs/architecture/adr/issue-911/adr-csdlc-02.md",
+      "status": "source_inspected",
+      "method": "Complete diff against fully read accepted successor, with all shared paragraphs credited to successor read; links/status/history deltas inspected.",
+      "lines": 73,
+      "sha256": "5ee8bd8cc0df21a71883c6d4c404658da771da0dc672be1e402f0b87439c7c41"
+    },
+    {
+      "id": "F05815",
+      "path": "docs/architecture/adr/issue-911/adr-plat-01.md",
+      "status": "source_inspected",
+      "method": "Complete diff against fully read accepted successor, with all shared paragraphs credited to successor read; links/status/history deltas inspected.",
+      "lines": 74,
+      "sha256": "006afab22024f4983718489bafceef38203d926b7180dead0f4b65fa092aa925"
+    },
+    {
+      "id": "F05926",
+      "path": "docs/milestones/v0.92.2/ADR_PLAN_v0.92.2.md",
+      "status": "cross_lane_inspected",
+      "method": "Parent-confirmed docs lane full source review; not repeated here.",
+      "lines": 32,
+      "sha256": "ee4d1322cb56e042cbe8a6e7f2676709eabbbb6d943734df69c639605abaa13e"
+    },
+    {
+      "id": "F05952",
+      "path": "docs/milestones/v0.92.2/adr/issue-911/README.md",
+      "status": "source_inspected",
+      "method": "Complete file read; source and acceptance boundaries assessed.",
+      "lines": 44,
+      "sha256": "d4ce87e374d409746f88928f96609d2375e86cb9aa5b726c6dd3c2572fe6eccf"
+    },
+    {
+      "id": "F05953",
+      "path": "docs/milestones/v0.92.2/adr/issue-911/decision-dispositions.md",
+      "status": "source_inspected",
+      "method": "Complete file read; source and acceptance boundaries assessed.",
+      "lines": 23,
+      "sha256": "4ccc37ec4d5613b220d93cc07658ceab94d2c56bc0b32c5012e2984bdccd139c"
+    },
+    {
+      "id": "F05954",
+      "path": "docs/milestones/v0.92.2/adr/issue-911/decision-inventory.json",
+      "status": "structured_artifact_inspected",
+      "method": "Authored content/status/identity/cohort inspection plus validator structural and hash checks where applicable; retained observation, not fresh behavior execution.",
+      "lines": 784,
+      "sha256": "33fb393515b73c20c412df493e0c89126573e8ec7d17583290f73390f1018eeb"
+    },
+    {
+      "id": "F05955",
+      "path": "docs/milestones/v0.92.2/adr/issue-911/decision-inventory.md",
+      "status": "source_inspected",
+      "method": "Complete file read; source and acceptance boundaries assessed.",
+      "lines": 94,
+      "sha256": "5a2e399c45fd33a3648f362daf776421e4634f115ad0c6d4c95c3cdc5c74adf6"
+    },
+    {
+      "id": "F05956",
+      "path": "docs/milestones/v0.92.2/adr/issue-911/external-state.json",
+      "status": "structured_artifact_inspected",
+      "method": "Authored content/status/identity/cohort inspection plus validator structural and hash checks where applicable; retained observation, not fresh behavior execution.",
+      "lines": 23,
+      "sha256": "8f3462c9decaf1573465c22a0598f8a9f92ae00a9fa663e3a74c68f3e3e38870"
+    },
+    {
+      "id": "F05957",
+      "path": "docs/milestones/v0.92.2/adr/issue-911/inventory-review.md",
+      "status": "source_inspected",
+      "method": "Complete file read; source and acceptance boundaries assessed.",
+      "lines": 7,
+      "sha256": "84397a5d012adb96f4d44a45e2afa76a690c2d96773142ada15f2f63327fc2da"
+    },
+    {
+      "id": "F05958",
+      "path": "docs/milestones/v0.92.2/adr/issue-911/relationships.json",
+      "status": "structured_artifact_inspected",
+      "method": "Authored content/status/identity/cohort inspection plus validator structural and hash checks where applicable; retained observation, not fresh behavior execution.",
+      "lines": 126,
+      "sha256": "5f072887470b89b4c3cd147476ccf60c00ff05056e802d196cd7ab2a1ce9a857"
+    },
+    {
+      "id": "F05959",
+      "path": "docs/milestones/v0.92.2/adr/issue-911/review.md",
+      "status": "source_inspected",
+      "method": "Complete file read; source and acceptance boundaries assessed.",
+      "lines": 18,
+      "sha256": "ec53310f9ad0fa79a14598c282b6a13df699c8c399d0b26e6caf2d94e42dcabf"
+    },
+    {
+      "id": "F05960",
+      "path": "docs/milestones/v0.92.2/adr/issue-911/reviewed-content.json",
+      "status": "structured_artifact_inspected",
+      "method": "Authored content/status/identity/cohort inspection plus validator structural and hash checks where applicable; retained observation, not fresh behavior execution.",
+      "lines": 85,
+      "sha256": "1012ed19518238b45282f0fc9dc627df3e2d6f7e30dae0d2f0251a87f36a0753"
+    },
+    {
+      "id": "F05961",
+      "path": "docs/milestones/v0.92.2/adr/issue-911/source-manifest.json",
+      "status": "structured_artifact_inspected",
+      "method": "Authored content/status/identity/cohort inspection plus validator structural and hash checks where applicable; retained observation, not fresh behavior execution.",
+      "lines": 111,
+      "sha256": "13b0bb922273838f8f72018352df66a79e4b1a7255b22e4aa9417f090077e0e6"
+    },
+    {
+      "id": "F05962",
+      "path": "docs/milestones/v0.92.2/adr/issue-911/supersession-map.md",
+      "status": "source_inspected",
+      "method": "Complete file read; source and acceptance boundaries assessed.",
+      "lines": 20,
+      "sha256": "e32acaa9f726c49fd5f6449a75ffd28edc31fe814d5bfee72716c06c4d37818a"
+    },
+    {
+      "id": "F05963",
+      "path": "docs/milestones/v0.92.2/adr/issue-911/validate_packet.py",
+      "status": "source_inspected",
+      "method": "Complete file read; source and acceptance boundaries assessed.",
+      "lines": 165,
+      "sha256": "316f964918f885311bc53954a3c3717af9128e99e9c311a77768891839ef45d2"
+    },
+    {
+      "id": "F05964",
+      "path": "docs/milestones/v0.92.2/adr/issue-945/BETA1_DELIVERY.md",
+      "status": "cross_lane_inspected",
+      "method": "Parent-confirmed docs lane full source review; not repeated here.",
+      "lines": 29,
+      "sha256": "c1ef116a0951e53a66a87532f263053d5c6c1fef0b4d8c341b03ce199b77855f"
+    },
+    {
+      "id": "F05965",
+      "path": "docs/milestones/v0.92.2/adr/issue-945/README.md",
+      "status": "cross_lane_inspected",
+      "method": "Parent-confirmed docs lane full source review; not repeated here.",
+      "lines": 36,
+      "sha256": "25953bc9d49fbca55600e81b1af7808c21a21df61277c7db08c0dbd3bcf83027"
+    },
+    {
+      "id": "F05966",
+      "path": "docs/milestones/v0.92.2/adr/issue-945/candidate-content.json",
+      "status": "structured_artifact_inspected",
+      "method": "Authored content/status/identity/cohort inspection plus validator structural and hash checks where applicable; retained observation, not fresh behavior execution.",
+      "lines": 148,
+      "sha256": "517d800b0c2fdc91e4aadd8f5b64597c87211cc70fdf561605d9d361b19510e2"
+    },
+    {
+      "id": "F05967",
+      "path": "docs/milestones/v0.92.2/adr/issue-945/decisions.json",
+      "status": "structured_artifact_inspected",
+      "method": "Authored content/status/identity/cohort inspection plus validator structural and hash checks where applicable; retained observation, not fresh behavior execution.",
+      "lines": 844,
+      "sha256": "3c904897770443e92830fb52693e96f80b76c85dff7640e40467784736f9bee6"
+    },
+    {
+      "id": "F05968",
+      "path": "docs/milestones/v0.92.2/adr/issue-945/external-state.json",
+      "status": "structured_artifact_inspected",
+      "method": "Authored content/status/identity/cohort inspection plus validator structural and hash checks where applicable; retained observation, not fresh behavior execution.",
+      "lines": 356,
+      "sha256": "6bf402117eea7f0cf4cc77922390831fbe9cb45457ce5aaabbcc3b2031ac80b6"
+    },
+    {
+      "id": "F05969",
+      "path": "docs/milestones/v0.92.2/adr/issue-945/operator-decisions.json",
+      "status": "structured_artifact_inspected",
+      "method": "Authored content/status/identity/cohort inspection plus validator structural and hash checks where applicable; retained observation, not fresh behavior execution.",
+      "lines": 198,
+      "sha256": "4a6065b823f32903a348afddbf82de0a769ba9a976efb628a2e24bb551bfce89"
+    },
+    {
+      "id": "F05970",
+      "path": "docs/milestones/v0.92.2/adr/issue-945/relationships.json",
+      "status": "structured_artifact_inspected",
+      "method": "Authored content/status/identity/cohort inspection plus validator structural and hash checks where applicable; retained observation, not fresh behavior execution.",
+      "lines": 156,
+      "sha256": "c5ccd5b69a28cbffd661c219ac47db39a8d68a449784e591d273becc5a0730c9"
+    },
+    {
+      "id": "F05971",
+      "path": "docs/milestones/v0.92.2/adr/issue-945/source-manifest.json",
+      "status": "structured_artifact_inspected",
+      "method": "Authored content/status/identity/cohort inspection plus validator structural and hash checks where applicable; retained observation, not fresh behavior execution.",
+      "lines": 226,
+      "sha256": "032b6458980f0e20e2f418b02d245f0e3e3d566c042095e154aa883dda5e3040"
+    },
+    {
+      "id": "F05972",
+      "path": "docs/milestones/v0.92.2/adr/issue-945/validate_packet.py",
+      "status": "source_inspected",
+      "method": "Complete file read; source and acceptance boundaries assessed.",
+      "lines": 137,
+      "sha256": "7790b5d7b76c66a62255331decd341335232b4fd24f9879b9219b0cb5edd43d2"
+    },
+    {
+      "id": "F06063",
+      "path": "docs/milestones/v0.92.2/repository-decomposition/CLAUDE_REVIEW_1.md",
+      "status": "source_inspected",
+      "method": "Complete file read; source and acceptance boundaries assessed.",
+      "lines": 27,
+      "sha256": "0ae4079249186f32e72ecf5893363cd0d0180adb577ee78e46511a27a496a20c"
+    },
+    {
+      "id": "F06064",
+      "path": "docs/milestones/v0.92.2/repository-decomposition/CLAUDE_REVIEW_2.md",
+      "status": "source_inspected",
+      "method": "Complete file read; source and acceptance boundaries assessed.",
+      "lines": 30,
+      "sha256": "d8dadc61f5ef2e9737bbb57fcabf6f27c21ce1d4ca918becbc0a502b5ac18654"
+    },
+    {
+      "id": "F06065",
+      "path": "docs/milestones/v0.92.2/repository-decomposition/FINDINGS.md",
+      "status": "source_inspected",
+      "method": "Complete file read; source and acceptance boundaries assessed.",
+      "lines": 13,
+      "sha256": "dc89c3019fac30552a0e80984356a893e377445545fe6c79a92b4fae27da946f"
+    },
+    {
+      "id": "F06066",
+      "path": "docs/milestones/v0.92.2/repository-decomposition/GEMINI_REVIEW_1.md",
+      "status": "source_inspected",
+      "method": "Complete file read; source and acceptance boundaries assessed.",
+      "lines": 83,
+      "sha256": "c4d5ebf933e4f304d74b3ebd68eb85e55f544ea588cb865b3802e7a5304eaac2"
+    },
+    {
+      "id": "F06067",
+      "path": "docs/milestones/v0.92.2/repository-decomposition/PLAN.md",
+      "status": "source_inspected",
+      "method": "Complete file read; source and acceptance boundaries assessed.",
+      "lines": 171,
+      "sha256": "198ac09dc30c30730397f3c8a6a993d0fc9f63c9acfd69dd86cffcc474ece5c4"
+    },
+    {
+      "id": "F06068",
+      "path": "docs/milestones/v0.92.2/repository-decomposition/REVIEWED_PLAN_848.md",
+      "status": "source_inspected",
+      "method": "Complete file read; source and acceptance boundaries assessed.",
+      "lines": 544,
+      "sha256": "eb7d86d423c5f623ead5593d6ccec9c9383da6223900b32a320b32fd3b320926"
+    },
+    {
+      "id": "F06069",
+      "path": "docs/milestones/v0.92.2/repository-decomposition/REVIEW_INPUTS.json",
+      "status": "structured_artifact_inspected",
+      "method": "Authored content/status/identity/cohort inspection plus validator structural and hash checks where applicable; retained observation, not fresh behavior execution.",
+      "lines": 10,
+      "sha256": "60892843dcdd00726df168e3f302fb3ff49bff2397771d7a3a82abc85d38a89f"
+    },
+    {
+      "id": "F06070",
+      "path": "docs/milestones/v0.92.2/repository-decomposition/rd01-977/AUDIT.md",
+      "status": "source_inspected",
+      "method": "Complete file read; source and acceptance boundaries assessed.",
+      "lines": 197,
+      "sha256": "f4ad650d4077bd9e240e13ae9560a74703f4340474d585baf4c465a691e238a8"
+    },
+    {
+      "id": "F06071",
+      "path": "docs/milestones/v0.92.2/repository-decomposition/rd01-977/REVIEW.md",
+      "status": "source_inspected",
+      "method": "Complete file read; source and acceptance boundaries assessed.",
+      "lines": 28,
+      "sha256": "5d4add1369c7d16926e1eb40ba3df86e7134f026cc82bba8edcbcbbc3d17fe59"
+    },
+    {
+      "id": "F06072",
+      "path": "docs/milestones/v0.92.2/repository-decomposition/rd01-977/probe-results.json",
+      "status": "structured_artifact_inspected",
+      "method": "Authored content/status/identity/cohort inspection plus validator structural and hash checks where applicable; retained observation, not fresh behavior execution.",
+      "lines": 509,
+      "sha256": "16dfa4bb3980247ee065cedaf8c2b1ee284269013da8be4492da00683a9563e2"
+    },
+    {
+      "id": "F06073",
+      "path": "docs/milestones/v0.92.2/repository-decomposition/rd01-977/run_probes.py",
+      "status": "source_inspected",
+      "method": "Complete file read; source and acceptance boundaries assessed.",
+      "lines": 56,
+      "sha256": "77fce127b18bd2e317c9275cf72726544c0abb7a4a5c6996fa5070643fc2d14a"
+    },
+    {
+      "id": "F06074",
+      "path": "docs/milestones/v0.92.2/repository-decomposition/source-inventory.json",
+      "status": "structured_artifact_inspected",
+      "method": "Authored content/status/identity/cohort inspection plus validator structural and hash checks where applicable; retained observation, not fresh behavior execution.",
+      "lines": 148,
+      "sha256": "52cd9afe91fe849a69da38cc3d43a284326ad10e37eeff87694308cc351ef7dc"
+    }
+  ],
+  "independence": "Reviewer did not author candidate ADR/decomposition documents. Prior test/demo review and other lane source evidence were available; not blind independent implementation review.",
+  "limits": [
+    "Retained external reviews and tracker snapshots not rerun live.",
+    "RD-01 build/package simulations not rerun; original failures and isolation limits retained.",
+    "No extraction readiness or complete product qualification claimed."
+  ],
+  "validation": [
+    {
+      "command": "python3 docs/milestones/v0.92.2/adr/issue-911/validate_packet.py --self-test",
+      "exit_code": 0,
+      "candidates": 12,
+      "task_identities": 69,
+      "pinned_sources": 21,
+      "negative_fixtures": 10
+    },
+    {
+      "command": "python3 docs/milestones/v0.92.2/adr/issue-945/validate_packet.py --self-test",
+      "exit_code": 0,
+      "candidates": 12,
+      "task_dispositions": 69,
+      "sources": 44,
+      "negative_fixtures": 14
+    }
+  ]
+}

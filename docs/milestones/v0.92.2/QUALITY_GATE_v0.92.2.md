@@ -2,7 +2,7 @@
 
 Status: evaluation started under #916; current decision **not proven**.
 
-Sprint 11 opened for analysis on September 21 while remaining producer work completes. See the [current gap analysis](evidence/issue-916/GAP_ANALYSIS.md), [69-task ledger](evidence/issue-916/TASK_LEDGER.json), and [machine-readable quality decision](evidence/issue-916/QUALITY_DECISION.json). These are an opening checkpoint, not acceptance of the installed candidate or authorization to finalize publication.
+Sprint 11 opened for analysis on September 21 while remaining producer work completes. See the [current gap analysis](evidence/issue-916/GAP_ANALYSIS.md), [69-task ledger](evidence/issue-916/TASK_LEDGER.json), and [machine-readable quality decision](evidence/issue-916/QUALITY_DECISION.json). These are evolving evidence checkpoints, not acceptance of the installed candidate or authorization to finalize publication.
 
 Beta 1 cannot enter publication finalization until all required rows below have current, retained evidence against the integrated candidate.
 
@@ -18,7 +18,7 @@ Beta 1 cannot enter publication finalization until all required rows below have 
 8. Second-run comparison classifies added, resolved, and changed findings correctly.
 9. Publication requires human approval and Markdown/HTML/PDF outputs preserve claim parity.
 10. Privacy/legal checks and artifact manifests pass.
-11. ADL self-review and the bounded external OSS proof are retained and independently reviewable.
+11. ADL self-review and the bounded external OSS proof are retained and independently reviewable in both server-hosted and website-controlled installed-local-agent modes, with CLI support, invited-user GitHub sign-in and cross-user isolation. CLI-only or fixture-only proof cannot satisfy #915.
 12. Integrated success and failure-path demonstrations pass with no unresolved P1 finding.
 
 ## PVF Posture

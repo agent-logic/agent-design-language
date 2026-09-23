@@ -1,5 +1,9 @@
 # v0.92.2 C-SDLC v3 Simplification Plan
 
+## Current disposition — September 21 review
+
+The original SIM-01→SIM-09 program and statistical rationale below are historical. The eight SIM-01 through SIM-08 issues and coordination umbrella are closed; the operator deferred SIM-09/#875 to v0.93. No 30-journey live-pilot result is claimed. The original requirement to await SIM-09 is not the current v0.92.2 execution gate. [Current audit](../evidence/issue-916/GAP_ANALYSIS.md) preserves this exception while #915/#916 acceptance remains pending.
+
 Status: tracked program promoted through #523 / PR #743; first sprint issues #866–#875 are now created through #864. Issue creation does not establish execution readiness or authorize cutover.
 
 Authoring context: Planning #5, 2026-09-08; revised by Planning #6 on 2026-09-08 following the statistical review and operator direction.

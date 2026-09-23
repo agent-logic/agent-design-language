@@ -2788,6 +2788,8 @@ mod semantic_gate_a {
         std::thread::scope(|scope| {
             let root = &fixture.root;
             let key = &fixture.key;
+            let (ready_tx, ready_rx) = std::sync::mpsc::sync_channel(0);
+            let (read_tx, read_rx) = std::sync::mpsc::sync_channel(0);
             let writer = scope.spawn(move || {
                 for index in 0..12 {
                     loop {
@@ -2809,9 +2811,24 @@ mod semantic_gate_a {
                             other => panic!("{other:?}"),
                         }
                     }
+                    if index == 0 {
+                        ready_tx.send(()).unwrap();
+                        read_rx.recv().unwrap();
+                    }
                 }
             });
-            let mut observed = 0;
+            // Deliberately let the writer commit first, then park it until the
+            // reader verifies that committed generation. Later reads race the
+            // remaining writes without requiring scheduler fairness.
+            ready_rx.recv().unwrap();
+            let initial = fixture.current();
+            assert_eq!(initial.version().generation(), 2);
+            assert_eq!(
+                Snapshot::from_bytes(&initial.canonical_bytes().unwrap()).unwrap(),
+                initial
+            );
+            let mut observed = 1;
+            read_tx.send(()).unwrap();
             while !writer.is_finished() {
                 match DurableTransactionStore::observe_issue(root, key) {
                     Ok(Observation::Current(s)) => {

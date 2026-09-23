@@ -1,6 +1,6 @@
 # Executable Governance
 
-Status: planned. Owners: CF-GOV and CF-GOV-CI.
+Status: requirements retained; component evidence is indexed in the [review handoff](../evidence/issue-917/HANDOFF.md), with final Beta 1 qualification pending. Owners: CF-GOV and CF-GOV-CI.
 
 Beta 1 will express bounded architecture fitness functions as reviewable contracts and run them locally and in CI. Machine-checkable invariants remain separate from human architectural judgment; routing policy stays in manifests and runners rather than ordinary tests.
 

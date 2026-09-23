@@ -1,0 +1,21 @@
+{
+  "candidate": "a45e339c13b24716edbd3fadf29dddff36ffe02e",
+  "command": "npm test",
+  "exit_status": 0,
+  "tests": 141,
+  "passed": 141,
+  "failed": 0,
+  "skipped": 0,
+  "cancelled": 0,
+  "node": "26.0.0",
+  "npm": "11.12.1",
+  "dependency_install": "npm ci --ignore-scripts --no-audit --no-fund; locked22packages; initialofflineattemptENOTCACHED",
+  "source_files_verified": 150,
+  "changed_source_paths": [],
+  "log": "lanes/website-tests.log",
+  "log_sha256": "7bc4c85c55fa18378a0dcead38394c5048d61c84faa5c1316c4f5f10638fa9b4",
+  "limits": [
+    "Loopback/mock integrations, not deployed website or live model qualification",
+    "Test passage does not invalidate SEC-004 missing regression"
+  ]
+}

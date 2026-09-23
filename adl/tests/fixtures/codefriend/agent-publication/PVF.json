@@ -1,5 +1,6 @@
 {
   "issue": 914,
+  "repair_issue": 1162,
   "lane_class": "runtime",
   "proof_role": "supporting local publication protocol integration",
   "determinism": "controlled native outputs, synthetic provider lane responses, loopback transport",
@@ -24,5 +25,6 @@
     "exact shared artifact bytes against existing native owners",
     "consent, pairing, and retention changes during publication observation",
     "public prepare, explicit decision, native Markdown/HTML/PDF render, stage upload and receiver verification"
+    ,"resealed substituted PDF rejection after recomputed export, manifest, render, and stage digests"
   ]
 }

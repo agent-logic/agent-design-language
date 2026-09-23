@@ -1,0 +1,30 @@
+{
+  "artifact_root": "full-review",
+  "audience": "public_candidate",
+  "completed_at": "2026-09-23T17:35:11Z",
+  "counts": {
+    "blocker": 1,
+    "info": 0,
+    "warning": 0
+  },
+  "files_scanned": 143,
+  "findings": [
+    {
+      "category": "private_host_path",
+      "line": 1,
+      "message": "Private host path appears in an artifact intended to be portable.",
+      "path": "lanes/tests-history/path.json",
+      "recommendation": "Replace host-specific paths with repo-relative paths or placeholders.",
+      "sample": "{\"safe\":\"/Users/example/config\"}",
+      "severity": "blocker"
+    }
+  ],
+  "notes": [
+    "Audit is deterministic and read-only.",
+    "Findings are bounded to text-like artifacts under the audited root."
+  ],
+  "publication_recommendation": "block_publication",
+  "schema": "codebuddy.redaction_audit.v1",
+  "started_at": "2026-09-23T17:35:10Z",
+  "status": "fail"
+}

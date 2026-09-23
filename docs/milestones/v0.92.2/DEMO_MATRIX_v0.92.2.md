@@ -15,7 +15,7 @@ Current routing is grounded in #916 commit
 `fc6a80c362d6c1e63766bef263cd2dccacd2dc0b`. Those owner fixes are credited;
 this overlay does not rewrite their historical review packets.
 
-Status: planned demonstrations; none are yet claimed as passing.
+Status: demonstration acceptance matrix. Local component checks are recorded in [post-merge verification](evidence/issue-916/POSTMERGE_VERIFICATION.json); this matrix does not relabel them as executed independent demonstrations. D9/D10 and the full #915 qualification remain incomplete and explicitly deferred to the v0.93.1 successor sequence above.
 
 | Demo | User-visible proof | Primary WP | Non-claim |
 |---|---|---|---|

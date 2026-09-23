@@ -77,7 +77,7 @@ No row may be marked proven from a planned demo, a zero-test invocation, or gree
 
 ## C-SDLC simplification sprint
 
-SIM-01 through SIM-09 own the installed journey, strict observation, finite recovery, immutable evidence, unified semantic state, projection integrity, conversion, qualification, transition operations, and authorized-pilot proofs in the [plan](cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md). SIM-UMBRELLA aggregates the scorecard and closes after all packages; TAIL-01 consumes its result. The #523 native correctness repairs are baseline inputs, not SIM acceptance.
+The original SIM-01–SIM-09 proof contract remains in the [plan](cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md). Current disposition: SIM-01–SIM-08 and umbrella #866 are closed; SIM-09/#875 is explicitly deferred to v0.93. Retain its identity without claiming pilot execution or treating it as an unresolved v0.92.2 gate. TAIL-01 evaluates the bounded completed results and deferral; creation and closure alone do not prove installed behavior.
 
 ## Complete-task acceptance
 

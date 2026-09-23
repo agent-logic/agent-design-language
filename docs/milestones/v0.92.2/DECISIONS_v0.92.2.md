@@ -1,5 +1,9 @@
 # v0.92.2 Planning Decisions
 
+## Current disposition — September 21 review
+
+The original planning/creation observations below are retained history. Podcast #671 and SIM-09 pilot #875 are now assigned to v0.93; any original sidecar or 82-membership statement is not a current membership count. The 69-row core roster remains an immutable identity denominator, with #875 explicitly deferred. [#916 evidence](evidence/issue-916/GAP_ANALYSIS.md) records current observed results; #915 independent qualification and #916 acceptance remain pending. This overlay does not waive acceptance or finish successor planning.
+
 Status: proposed decisions for milestone execution.
 
 | ID | Decision | Consequence |
@@ -45,4 +49,4 @@ These are planning corrections authorized by the operator, not execution, ADR ac
 
 ## Creation and sidecar direction
 
-The operator requires all 69 core-plan identities and all creation-batch reviews before any implementation, including SIM. This global startup gate adds no task dependency edges. Existing #671 is separately admitted as a podcast sidecar outside that core gate/graph; its retained public-action approvals remain independent.
+Podcast #671 is now assigned to v0.93, as is the deferred SIM-09 pilot #875. Both retain their original identities and authorization requirements. The historical 69-task creation roster is preserved for traceability; it is not a live milestone-membership count. The original sidecar admission and 82-membership census are creation-time history, not current scope.

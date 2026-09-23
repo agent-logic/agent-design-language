@@ -15,6 +15,10 @@ Current routing is grounded in #916 commit
 `fc6a80c362d6c1e63766bef263cd2dccacd2dc0b`. Those owner fixes are credited;
 this overlay does not rewrite their historical review packets.
 
+## Retained planning disposition and current successor routing
+
+The original planning/creation observations below are retained history. Podcast #671 and SIM-09 pilot #875 were moved out of v0.92.2; any original sidecar or 82-membership statement is not a current membership count. The 69-row core roster remains an immutable identity denominator, with #875 explicitly deferred. [#916 evidence](evidence/issue-916/GAP_ANALYSIS.md) records current observed results; #915 independent qualification is incomplete and explicitly deferred; the #916 assessment is accepted for handoff with product qualification still `not_proven`. This overlay does not waive acceptance or finish successor planning.
+
 Status: handoff contract with approved successors v0.93.1 and v0.93.2; final accepted release evidence remains pending.
 
 ## Required Handoff

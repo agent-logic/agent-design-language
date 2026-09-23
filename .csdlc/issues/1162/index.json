@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.v3.local_state.v1",
+  "issue": 1162,
+  "phase": "bound",
+  "generation": 2,
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/1162-codefriend-result-integrity",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-1162-codefriend-result-integrity",
+  "template_registry_version": "1.0.5",
+  "operational_authority": true,
+  "digest": "51b71671274b2c569a4fd2ff73038180ccaeb63e7a24f67c7cb3123cd7177dbf"
+}

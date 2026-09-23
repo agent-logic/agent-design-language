@@ -1656,7 +1656,7 @@ pub(crate) fn recover_semantic_bind(
             _ => return Err("intent_bind_semantic_state_unavailable".into()),
         };
     let projected = semantic.complete_projection(&current)?;
-    semantic_rebuild(context, &context.registry()?)?;
+    semantic_rebuild(&observed_context, &observed_context.registry()?)?;
     Ok(Some(json!({"status":"completed",
         "read_only":false,"performed_mutation":false,"operation_id":completed.operation_id().as_str(),
         "semantic_outcome":kind,

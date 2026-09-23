@@ -1,0 +1,20 @@
+[
+  {
+    "root": "adl-characterization",
+    "exit_code": 0,
+    "stdout": "{\n  \"aggregate_status\": \"skipped\",\n  \"changed_paths\": [\n    \"adl-characterization/src/lib.rs\"\n  ],\n  \"lanes\": {},\n  \"manifest_path\": \"adl/config/validation_lane_selector.v0.91.6.json\",\n  \"pr_publication_sufficient\": false,\n  \"schema_version\": \"adl.validation_lane_plan.v1\"\n}\n",
+    "stderr": ""
+  },
+  {
+    "root": "adl-resilience",
+    "exit_code": 0,
+    "stdout": "{\n  \"aggregate_status\": \"skipped\",\n  \"changed_paths\": [\n    \"adl-resilience/src/lib.rs\"\n  ],\n  \"lanes\": {},\n  \"manifest_path\": \"adl/config/validation_lane_selector.v0.91.6.json\",\n  \"pr_publication_sufficient\": false,\n  \"schema_version\": \"adl.validation_lane_plan.v1\"\n}\n",
+    "stderr": ""
+  },
+  {
+    "root": "tools/remote_validation",
+    "exit_code": 0,
+    "stdout": "{\n  \"aggregate_status\": \"skipped\",\n  \"changed_paths\": [\n    \"tools/remote_validation/src/lib.rs\"\n  ],\n  \"lanes\": {},\n  \"manifest_path\": \"adl/config/validation_lane_selector.v0.91.6.json\",\n  \"pr_publication_sufficient\": false,\n  \"schema_version\": \"adl.validation_lane_plan.v1\"\n}\n",
+    "stderr": ""
+  }
+]
