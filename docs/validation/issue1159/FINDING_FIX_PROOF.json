@@ -84,6 +84,14 @@
       "source_restored": true,
       "original_sha256": "b9c9c2f46ed616314cb34ac73f553aae39f9cc113b0678d1c77b4bf47b2aad7a",
       "mutant_sha256": "576295c977e9bb522bec37780e115177619fcd827c61017e5315031ed990c9fb"
+    },
+    "isolated_response_bound_tests": {
+      "passed": 3,
+      "failed": 0
+    },
+    "provider_clippy_all_targets": {
+      "status": "pass",
+      "warnings_denied": true
     }
   },
   "pvf": {
@@ -95,7 +103,7 @@
   },
   "changed_source_sha256": {
     "adl-provider-core/src/http_family.rs": "4f7a120060ac409ee996d26c03acbe1cd029e9f0b099e4aff3aa2770065c3786",
-    "adl-provider-core/src/http_family/tests.rs": "aa1f4d26b1cd01dba6ad8c7a9f4f1d89c6e06fa3714b2658273d833093b01274",
+    "adl-provider-core/src/http_family/tests.rs": "99e5f831322aa390f01c5e6994d67fe1216d2d76c99f7123e16db5ea352287c6",
     "adl-runtime-kernel/src/control.rs": "48caf628e872d3105beaecbc6db0f20706c9c18a454f27b12be237b35eeb8781",
     "adl-runtime-kernel/src/control/provider_registry_tests.rs": "00055e8274a070a34386e3f79cb8ff379ed1c32f3dcd3009a54775a2462c75aa",
     "adl-runtime-kernel/tests/shepherd.rs": "24c1be20f15a0c8973fd3bb1a46ff1a13cf19c879424b7436e197f5e0adf7511",
@@ -107,6 +115,8 @@
     "No production Runtime restarted, residents changed, live provider calls, deployment, merge or retained experiment rewriting.",
     "Existing successful bounded #905 run is not reclassified as differing model weights.",
     "Initial health test compile failed on an incorrect enum import; corrected and rerun to the recorded 16-test success.",
-    "Native exact-head proof/review and CI remain separate records; counts here record the same source bytes tested locally."
+    "Native exact-head proof/review and CI remain separate records; counts here record the same source bytes tested locally.",
+    "Initial PR CI passed 138 provider tests but failed clippy::unused_io_amount in the timeout fixture; the read now explicitly asserts that request bytes arrived. The failed CI run was canceled before another candidate was published.",
+    "The isolated three-test response-bound run exposed missing TLS-provider initialization masked by the full suite; these fixtures now use the existing provider client builder with an explicit absent owner CA. All three pass in isolation."
   ]
 }

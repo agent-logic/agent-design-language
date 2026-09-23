@@ -2706,7 +2706,8 @@ fn provider_response_bound_rejects_declared_and_chunked_oversize_for_all_consume
             body.extend_from_slice(br#""}"#);
             let declared = if chunked { None } else { Some(body.len()) };
             let (endpoint, handle) = bounded_body_server(body, declared);
-            let client = reqwest::blocking::Client::builder()
+            let client = provider_http_client_builder_with_ca(true, None)
+                .unwrap()
                 .timeout(Duration::from_secs(5))
                 .build()
                 .unwrap();
@@ -2735,15 +2736,29 @@ fn provider_response_bound_rejects_declared_and_chunked_oversize_for_all_consume
 #[test]
 fn provider_response_bound_preserves_valid_json_text_and_exact_limit() {
     let (endpoint, handle) = bounded_body_server(br#"{"output":"ok"}"#.to_vec(), None);
-    let (json, status) =
-        provider_http_json("fixture", reqwest::blocking::Client::new().get(endpoint)).unwrap();
+    let (json, status) = provider_http_json(
+        "fixture",
+        provider_http_client_builder_with_ca(true, None)
+            .unwrap()
+            .build()
+            .unwrap()
+            .get(endpoint),
+    )
+    .unwrap();
     assert_eq!(json["output"], "ok");
     assert_eq!(status, 200);
     handle.join().unwrap();
     let body = vec![b'x'; MAX_PROVIDER_RESPONSE_BYTES];
     let (endpoint, handle) = bounded_body_server(body, None);
-    let (text, status) =
-        provider_http_text("fixture", reqwest::blocking::Client::new().get(endpoint)).unwrap();
+    let (text, status) = provider_http_text(
+        "fixture",
+        provider_http_client_builder_with_ca(true, None)
+            .unwrap()
+            .build()
+            .unwrap()
+            .get(endpoint),
+    )
+    .unwrap();
     assert_eq!(text.len(), MAX_PROVIDER_RESPONSE_BYTES);
     assert!(text.bytes().all(|byte| byte == b'x'));
     assert_eq!(status, 200);
@@ -2759,13 +2774,14 @@ fn provider_response_bound_preserves_body_timeout_classification() {
     let handle = thread::spawn(move || {
         let (mut stream, _) = server.accept().unwrap();
         let mut request = [0u8; 4096];
-        stream.read(&mut request).unwrap();
+        assert!(stream.read(&mut request).unwrap() > 0);
         stream
             .write_all(b"HTTP/1.1 200 OK\r\nContent-Length: 20\r\n\r\n{")
             .unwrap();
         let _ = wait.recv_timeout(Duration::from_secs(5));
     });
-    let client = reqwest::blocking::Client::builder()
+    let client = provider_http_client_builder_with_ca(true, None)
+        .unwrap()
         .timeout(Duration::from_millis(100))
         .build()
         .unwrap();
