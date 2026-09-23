@@ -58,3 +58,13 @@ the schema; final review evidence must cover the corrected complete envelope.
 No shared operational binary is replaced by these tests. Main remains unchanged.
 PR checks, exact-head independent review, and native proof/review/publication
 remain distinct evidence. No merge or deployment is authorized by this packet.
+
+The direct complete installed-command suite passed111 tests with1existing
+explicitly ignored baseline-comparison test, zero failures (364.40seconds).
+The original native full-suite run exceeded its300second bound while progressing.
+Required native proof therefore uses explicit substring batches retaining all111
+enabled tests; overlap is not counted twice. The baseline-comparison test remains
+explicitly non-proving because its separate isolated baseline was not supplied.
+An intermediate batch run was deliberately cancelled with confirmed cleanup to
+correct fixture-only unused-helper warnings; neither incomplete run is a PASS.
+Clippy all-targets with warnings denied passed after the scoped fixture annotation.

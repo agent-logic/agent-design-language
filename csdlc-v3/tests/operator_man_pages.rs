@@ -531,6 +531,7 @@ fn primary_cleanup_requires_primary_durable_receipt_location() {
     fs::remove_dir_all(fixture).unwrap();
 }
 
+#[allow(dead_code)]
 #[path = "support/intent_fixture.rs"]
 mod group_a_intent_fixture;
 
