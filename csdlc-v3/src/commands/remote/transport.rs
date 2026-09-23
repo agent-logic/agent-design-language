@@ -10,8 +10,9 @@ use crate::adapters::{CommandInvocation, ProcessAdapter, ProcessStatus};
 use super::model::*;
 use super::storage::*;
 use super::support::{
-    exact_issue_names, git_control_dir, remote_finding, same_names, stable_digest,
-    GITHUB_OPERATIONAL_ADAPTER, GITHUB_READ_ONLY_ADAPTER,
+    exact_issue_names, git_control_dir, github_readback_candidates, json_string_array_contains_all,
+    remote_finding, same_names, stable_digest, GITHUB_OPERATIONAL_ADAPTER,
+    GITHUB_READ_ONLY_ADAPTER,
 };
 
 pub(super) fn mutation_credential_name(
@@ -971,29 +972,29 @@ pub(super) fn match_reconciled_mutation(
     ))
 }
 
-pub(super) fn json_string_array_contains_all(
-    value: &serde_json::Value,
-    expected: &[String],
-) -> bool {
-    expected.iter().all(|expected| {
-        github_readback_candidates(value)
-            .into_iter()
-            .any(|candidate| {
-                candidate.as_str() == Some(expected.as_str())
-                    || candidate["name"].as_str() == Some(expected.as_str())
-                    || candidate["login"].as_str() == Some(expected.as_str())
-            })
-    })
-}
-
-pub(super) fn github_readback_candidates(value: &serde_json::Value) -> Vec<&serde_json::Value> {
-    if let Some(values) = value.as_array() {
-        return values.iter().collect();
+pub(super) fn observe(
+    request: &GithubMutationRequest,
+    operation: &str,
+    target: String,
+    process: &mut impl ProcessAdapter,
+) -> Result<(serde_json::Value, CommandInvocation), RemoteRouteFinding> {
+    let invocation = CommandInvocation::new(
+        GITHUB_READ_ONLY_ADAPTER,
+        [operation.into(), request.repository.clone(), target],
+    )
+    .and_then(|i| i.with_child_credential(mutation_credential_name(request).unwrap_or_default()))
+    .map_err(|_| {
+        remote_finding(
+            "github_merge_ineligible",
+            "invalid authenticated observation",
+        )
+    })?;
+    let value = read_mutation_reconciliation_page(invocation.clone(), process)?;
+    if value.get("errors").is_some() {
+        return Err(remote_finding(
+            "github_merge_ineligible",
+            "GraphQL partial errors",
+        ));
     }
-    for key in ["items", "comments", "pull_requests"] {
-        if let Some(values) = value[key].as_array() {
-            return values.iter().collect();
-        }
-    }
-    vec![value]
+    Ok((value, invocation))
 }

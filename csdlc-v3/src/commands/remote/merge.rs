@@ -46,22 +46,6 @@ fn complete_nodes(value: &Value) -> Result<&Vec<Value>, RemoteRouteFinding> {
         .as_array()
         .ok_or_else(|| reject("observation nodes missing"))
 }
-pub(super) fn observe(
-    request: &GithubMutationRequest,
-    operation: &str,
-    target: String,
-    process: &mut impl ProcessAdapter,
-) -> Result<(Value, CommandInvocation), RemoteRouteFinding> {
-    let invocation = CommandInvocation::new(
-        GITHUB_READ_ONLY_ADAPTER,
-        [operation.into(), request.repository.clone(), target],
-    )
-    .and_then(|i| i.with_child_credential(mutation_credential_name(request).unwrap_or_default()))
-    .map_err(|_| reject("invalid authenticated observation"))?;
-    let value = read_mutation_reconciliation_page(invocation.clone(), process)?;
-    ensure(value.get("errors").is_none(), "GraphQL partial errors")?;
-    Ok((value, invocation))
-}
 fn identity<'a>(
     value: &'a Value,
     request: &GithubMutationRequest,
@@ -489,27 +473,6 @@ fn retained_attempt_was_never_dispatched(
         return Ok(false);
     }
     dispatch_evidence_is_absent(root, &staged.operation_digest)
-}
-
-pub(super) fn dispatch_evidence_is_absent(
-    root: &Path,
-    digest: &str,
-) -> Result<bool, RemoteRouteFinding> {
-    let control = git_control_dir(root).ok_or_else(|| reject("Git receipt directory missing"))?;
-    let dir = control.join("csdlc-v3/remote/merges");
-    let receipt = github_mutation_receipt_path(root, digest)?;
-    for path in [
-        dir.join(format!("{digest}.dispatch-prestate.json")),
-        dir.join(format!("{digest}.input.json")),
-        dir.join(format!("{digest}.response.json")),
-        dir.join(format!("{digest}.reconciliation.json")),
-        receipt,
-    ] {
-        if super::merge_retirement::present(&path)? {
-            return Ok(false);
-        }
-    }
-    Ok(true)
 }
 
 pub fn retained_merge_intent_exists(

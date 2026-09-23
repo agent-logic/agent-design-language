@@ -1,8 +1,8 @@
 //! Explicit retirement is local no-dispatch proof, never permission to retry a write.
-use super::merge::*;
 use super::model::*;
 use super::storage::*;
 use super::support::*;
+use super::transport::observe;
 use crate::adapters::ProcessAdapter;
 use crate::storage::{
     semantic::{
@@ -25,13 +25,6 @@ fn directory(root: &Path) -> Result<PathBuf, RemoteRouteFinding> {
     Ok(git_control_dir(root)
         .ok_or_else(|| reject("Git control directory missing"))?
         .join("csdlc-v3/remote/merges"))
-}
-pub(super) fn present(path: &Path) -> Result<bool, RemoteRouteFinding> {
-    match fs::symlink_metadata(path) {
-        Ok(_) => Ok(true),
-        Err(e) if e.kind() == std::io::ErrorKind::NotFound => Ok(false),
-        Err(_) => Err(reject("evidence presence is uncertain")),
-    }
 }
 fn read(path: &Path) -> Result<Value, RemoteRouteFinding> {
     if !fs::symlink_metadata(path)
