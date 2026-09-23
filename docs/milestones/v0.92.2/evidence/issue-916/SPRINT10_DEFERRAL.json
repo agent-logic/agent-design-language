@@ -24,13 +24,21 @@
   ],
   "destination_milestone": "v0.93",
   "destination_gate": "Must be accepted before CodeFriend Beta1 launch; v0.93 planning must map exact follow-on IDs once created.",
-  "follow_on_issues": [],
-  "routing_status": "Requested from existing #915 owner Planning7.3; numeric issues and native closeout pending verified readback.",
+  "follow_on_issues": [
+    1148,
+    1149,
+    1150
+  ],
+  "routing_status": "All three successor issues created and authenticated native reconciliation completed; #1150 depends on #1148 and #1149. Native #915/#936 closeout pending.",
   "unknown_effect_boundary": "Preserve interrupted ADL second-run evidence and reserved unknown spend; no replay or changed identity to bypass uncertainty.",
   "nonclaims": [
     "No passing original qualification",
     "No passing #916 quality gate from this disposition alone",
     "No public launch or release authorization",
     "No native issue closure or resource shutdown claimed before readback"
-  ]
+  ],
+  "resource_status": {
+    "status": "stopped",
+    "source": "Planning #7.3 owner confirmation 2026-09-22; zero new provider calls"
+  }
 }
