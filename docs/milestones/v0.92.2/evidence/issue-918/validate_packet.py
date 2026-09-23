@@ -16,6 +16,21 @@ INPUTS = {
     'issue916': ('e119223cd13ebbb6a07c0349ba6772f8ee2ecece', 1151),
 }
 
+DRAFT_BASE = "3c6ebcb1e42ee993a1bc9152857c3008be655181"
+DRAFT_IDS = {"release_notes", "review_guide", "destination_inventory", "version_inventory"}
+ARTIFACT_PATHS = {'article_inventory': 'docs/milestones/v0.92/publication/articles/medium-2026-09/README.md',
+ 'cargo_audit': 'docs/milestones/v0.92.2/evidence/issue-917/CARGO_MANIFEST_AUDIT.json',
+ 'deferral': 'docs/milestones/v0.92.2/evidence/issue-916/SPRINT10_DEFERRAL.json',
+ 'destination_inventory': 'docs/milestones/v0.92.2/evidence/issue-918/DESTINATIONS.json',
+ 'manuscript_custody': 'docs/milestones/v0.92.2/cognitive-sdlc/REVISION_4_REVIEW_HANDOFF.md',
+ 'quality_decision': 'docs/milestones/v0.92.2/evidence/issue-916/QUALITY_DECISION.json',
+ 'release_notes': 'docs/milestones/v0.92.2/RELEASE_NOTES_v0.92.2.md',
+ 'review_guide': 'docs/milestones/v0.92.2/evidence/issue-918/REVIEW_GUIDE.md',
+ 'task_ledger': 'docs/milestones/v0.92.2/evidence/issue-916/TASK_LEDGER.json',
+ 'upstream_handoff': 'docs/milestones/v0.92.2/evidence/issue-917/HANDOFF.md',
+ 'upstream_manifest': 'docs/milestones/v0.92.2/evidence/issue-917/HANDOFF_MANIFEST.json',
+ 'version_inventory': 'docs/milestones/v0.92.2/evidence/issue-918/VERSION_INVENTORY.json'}
+
 
 def check(data, root=ROOT):
     failures = []
@@ -71,6 +86,10 @@ def check(data, root=ROOT):
         if not isinstance(name, str) or not name or '\\' in name or PurePosixPath(name).is_absolute() or '..' in PurePosixPath(name).parts:
             failures.append('artifact_path_invalid')
             continue
+        if identity not in ARTIFACT_PATHS or ARTIFACT_PATHS.get(identity) != name or row.get('role') != identity:
+            failures.append('artifact_mapping_invalid')
+        if row.get('format') != PurePosixPath(name).suffix.lstrip('.'):
+            failures.append('artifact_format_invalid')
         path = (root / name).resolve()
         if not path.is_relative_to(root.resolve()):
             failures.append('artifact_path_escape')
@@ -97,10 +116,23 @@ def check(data, root=ROOT):
             failures.append('artifact_source_revision_invalid')
         else:
             revisions.add(revision)
-    required_ids = {'release_notes', 'review_guide', 'destination_inventory', 'version_inventory',
-                    'task_ledger', 'quality_decision', 'deferral', 'upstream_handoff',
-                    'upstream_manifest', 'cargo_audit'}
-    if not required_ids.issubset(ids):
+        if identity in DRAFT_IDS:
+            if revision != DRAFT_BASE:
+                failures.append('draft_source_revision_invalid')
+            if row.get('provenance_basis') != 'drafting base plus exact candidate SHA256':
+                failures.append('draft_provenance_invalid')
+        else:
+            if revision != INPUTS['issue917'][0]:
+                failures.append('inherited_source_revision_invalid')
+            if row.get('provenance_basis') != 'inherited source checkpoint':
+                failures.append('inherited_provenance_invalid')
+            if isinstance(revision, str) and re.fullmatch('[0-9a-f]{40}', revision):
+                source = git_blob(root, revision, name)
+                if source is None:
+                    failures.append('inherited_source_blob_missing')
+                elif row.get('sha256') != hashlib.sha256(source).hexdigest() or row.get('bytes') != len(source):
+                    failures.append('inherited_source_bytes_mismatch')
+    if ids != set(ARTIFACT_PATHS):
         failures.append('required_artifacts_missing')
     for revision in sorted(revisions):
         result = subprocess.run(['git', 'cat-file', '-t', revision], cwd=root, capture_output=True, text=True)
@@ -108,6 +140,12 @@ def check(data, root=ROOT):
             failures.append('source_commit_unavailable')
     failures.extend(check_upstream(root))
     return failures
+
+
+@lru_cache(maxsize=256)
+def git_blob(root, revision, path):
+    result = subprocess.run(['git', 'show', revision + ':' + path], cwd=root, capture_output=True)
+    return result.stdout if result.returncode == 0 else None
 
 
 @lru_cache(maxsize=1)
@@ -154,6 +192,21 @@ def self_test(data):
     case('public_destination', lambda d: d['artifacts'][0].update(destination='public'), 'artifact_destination_invalid')
     case('unknown_source', lambda d: d['artifacts'][0].update(source_revision='0' * 40), 'source_commit_unavailable')
     case('required_artifact_removed', lambda d: d.update(artifacts=[row for row in d['artifacts'] if row['id'] != 'release_notes']), 'required_artifacts_missing')
+    def inherited(d):
+        return next(row for row in d['artifacts'] if row['id'] == 'upstream_manifest')
+    case('wrong_inherited_source', lambda d: inherited(d).update(source_revision=INPUTS['issue916'][0]), 'inherited_source_revision_invalid')
+    case('missing_inherited_blob', lambda d: inherited(d).update(path='docs/issue918-missing-source.json'), 'inherited_source_blob_missing')
+    case('inherited_bytes', lambda d: inherited(d).update(sha256='0' * 64), 'inherited_source_bytes_mismatch')
+    case('wrong_draft_base', lambda d: d['artifacts'][0].update(source_revision=INPUTS['issue917'][0]), 'draft_source_revision_invalid')
+    case('draft_provenance', lambda d: d['artifacts'][0].update(provenance_basis='inherited source checkpoint'), 'draft_provenance_invalid')
+    case('inherited_provenance', lambda d: inherited(d).update(provenance_basis='drafting base plus exact candidate SHA256'), 'inherited_provenance_invalid')
+    def swap_identity(d):
+        left = next(row for row in d['artifacts'] if row['id'] == 'release_notes')
+        right = next(row for row in d['artifacts'] if row['id'] == 'review_guide')
+        left['id'], right['id'] = right['id'], left['id']
+        left['role'], right['role'] = right['role'], left['role']
+    case('swapped_identity', swap_identity, 'artifact_mapping_invalid')
+    case('wrong_role', lambda d: d['artifacts'][0].update(role='review_guide'), 'artifact_mapping_invalid')
     case('empty_inventory', lambda d: d.update(artifacts=[]), 'artifacts_required')
     return cases
 
