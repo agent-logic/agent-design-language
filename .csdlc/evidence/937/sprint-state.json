@@ -1663,7 +1663,6 @@
       "Review and repair all child issue structured cards before starting issue execution.",
       "execution packet present: .csdlc/evidence/937/SPRINT_EXECUTION_PACKET.md",
       "review path(s) declared",
-      "review path declared but not created yet: .csdlc/evidence/937/SPRINT_REVIEW.md",
       "activity log path(s) declared"
     ],
     "ordered_issue_numbers": [
@@ -1679,12 +1678,9 @@
       925
     ],
     "review_paths": {
-      "missing_paths": [
-        ".csdlc/evidence/937/SPRINT_REVIEW.md"
-      ],
+      "missing_paths": [],
       "notes": [
-        "review path(s) declared",
-        "review path declared but not created yet: .csdlc/evidence/937/SPRINT_REVIEW.md"
+        "review path(s) declared"
       ],
       "paths": [
         ".csdlc/evidence/937/SPRINT_REVIEW.md"
