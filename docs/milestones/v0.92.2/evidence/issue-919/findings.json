@@ -1,0 +1,63 @@
+{
+  "schema": "adl.v0922.internal_review_findings.v1",
+  "issue": 919,
+  "status": "provisional_not_accepted",
+  "reviewed_at": "2026-09-23T02:28:00Z",
+  "findings": [
+    {
+      "id": "919-F01",
+      "priority": "P1",
+      "title": "Exact finalized candidate and publication manifest absent",
+      "context_issue": 918,
+      "trigger": "Treating preparation or local inventory as accepted TAIL-03 output",
+      "impact": "No truthful internal release verdict or exact-candidate review is possible",
+      "evidence": ["https://github.com/agent-logic/agent-design-language/issues/918"],
+      "owner_issue": 918,
+      "disposition": "open_blocker"
+    },
+    {
+      "id": "919-F02",
+      "priority": "P2",
+      "title": "Quality decision retains contradictory #915 state and next action",
+      "context_issue": 916,
+      "trigger": "Reading QUALITY_DECISION.json after the recorded Sprint 10 deferral",
+      "impact": "A downstream stage can follow obsolete predecessor routing",
+      "evidence": [
+        "docs/milestones/v0.92.2/evidence/issue-916/QUALITY_DECISION.json",
+        "docs/milestones/v0.92.2/evidence/issue-916/SPRINT10_DEFERRAL.json"
+      ],
+      "owner_issue": 916,
+      "disposition": "open_upstream"
+    },
+    {
+      "id": "919-F03",
+      "priority": "P2",
+      "title": "Eleven quality gates and all final candidate identities remain not proven",
+      "context_issue": 916,
+      "trigger": "Attempting release acceptance from structural checks or deferred qualification",
+      "impact": "v0.92.2 release acceptance and Beta1 launch remain unavailable",
+      "evidence": ["docs/milestones/v0.92.2/evidence/issue-916/QUALITY_DECISION.json"],
+      "owner_issue": 916,
+      "disposition": "open_gate"
+    },
+    {
+      "id": "919-F04",
+      "priority": "P2",
+      "title": "Documentation handoff is validated but remains pending #916",
+      "context_issue": 917,
+      "trigger": "Using the current handoff as accepted TAIL-02 input",
+      "impact": "The draft cannot establish the final #918 source set",
+      "evidence": ["docs/milestones/v0.92.2/evidence/issue-917/HANDOFF_MANIFEST.json"],
+      "owner_issue": 917,
+      "disposition": "open_upstream"
+    }
+  ],
+  "nonclaims": [
+    "no merge approval",
+    "no sprint closure approval",
+    "no release approval",
+    "no remediation completion",
+    "no external review",
+    "no provider or deployment execution"
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "schema": "adl.pvf.classification.v1",
+  "issue": 919,
+  "lane": "docs_only",
+  "proof_role": "review packet structural and fail-closed admission check",
+  "determinism": "deterministic local JSON and Markdown checks",
+  "resources": "bounded local CPU and files; no network required",
+  "release_gate": "required preparation proof but insufficient for internal review acceptance",
+  "nonclaim": "Does not inspect product behavior, execute providers, or establish release readiness"
+}
