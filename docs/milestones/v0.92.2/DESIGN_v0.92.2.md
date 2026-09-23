@@ -1,6 +1,8 @@
 # v0.92.2 Design — CodeFriend Beta 1
 
-Status: planning candidate.
+Status: retained design contract with merged implementation evidence; final Beta 1 acceptance remains pending #915/#916.
+
+The [review handoff](evidence/issue-917/HANDOFF.md) binds the inspected source and evidence. Both hosted website and installed-local-agent website modes, invitation-only GitHub access and CLI support are required. [Cycle continuation](../../codefriend/CYCLE_REVIEW_BRIDGE.md) describes the merged native owner; website integration is separately merged in CodeFriend.ai #18. Component tests do not prove deployed operation.
 
 ## Product Flow
 

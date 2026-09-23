@@ -1,6 +1,6 @@
 # Portable Adapter v2
 
-Status: planned. Owners: CF-ADAPTER, CF-ADAPTER-GITHUB, CF-ADAPTER-CI.
+Status: requirements retained; component evidence is indexed in the [review handoff](../evidence/issue-917/HANDOFF.md), with final Beta 1 qualification pending. Owners: CF-ADAPTER, CF-ADAPTER-GITHUB, CF-ADAPTER-CI.
 
 Adapter v2 normalizes local checkout, GitHub, and CI inputs into one repository-packet contract. Packets use stable repo-relative identities, bounded content, declared omissions, and provenance without machine-local paths or captured credentials.
 

@@ -1,6 +1,6 @@
 # Evidence Core
 
-Status: planned. Owner: CF-EVIDENCE.
+Status: requirements retained; component evidence is indexed in the [review handoff](../evidence/issue-917/HANDOFF.md), with final Beta 1 qualification pending. Owner: CF-EVIDENCE.
 
 The evidence core assigns stable artifact identity, binds provenance, applies redaction before retention or model use, and enforces an explicit retention policy. Review findings cite evidence objects rather than mutable display text.
 

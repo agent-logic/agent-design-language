@@ -1,6 +1,6 @@
 # v0.92.2 Feature Index
 
-Status: feature implementation remains planned; every owner below has a reviewed canonical issue.
+Status: feature requirements with merged implementation evidence; independent Beta 1 qualification remains pending. See the [review handoff](../evidence/issue-917/HANDOFF.md) for current identities and proof limits.
 
 | Track | Feature document | Assigned owner |
 |---|---|---|

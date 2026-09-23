@@ -57,11 +57,11 @@
     },
     {
       "path": "docs/milestones/v0.92.2/ADOPTED_DESIGN_CONTRACTS_v0.92.2.md",
-      "sha256": "e9c0cbf9f80396cfda6ef1091fca577e29f2fac6655ff5d5be2bcca43f59a548"
+      "sha256": "8cc5ae0a8468abfa59684aac39bacef41cd2f37b1631d757d870821e5e6107e1"
     },
     {
       "path": "docs/milestones/v0.92.2/CREATION_SELECTIONS_v0.92.2.md",
-      "sha256": "fc3d78d2087bb2cc8df5ffe7f53fb3f8ccef837345db42de6c0917187dfec266"
+      "sha256": "4ae6b38a46534d5fd58b6761a4a747e447fe0057412cd298b6daad2c0d00ff96"
     },
     {
       "path": "docs/milestones/v0.92.2/ATOMIC_TASK_CONTRACTS_v0.92.2.json",
@@ -129,5 +129,20 @@
       "path": "docs/adr/0087-csdlc-02.md",
       "sha256": "fff38afe14071a6522be5aeccf16d50d5240d901b74d597f921ac5d0fdafc1c5"
     }
-  ]
+  ],
+  "supporting_refresh_917": {
+    "reason": "Current milestone documentation reconciliation; accepted ADR and operator approval bytes unchanged",
+    "files": [
+      {
+        "path": "docs/milestones/v0.92.2/ADOPTED_DESIGN_CONTRACTS_v0.92.2.md",
+        "previous_sha256": "e9c0cbf9f80396cfda6ef1091fca577e29f2fac6655ff5d5be2bcca43f59a548",
+        "current_sha256": "8cc5ae0a8468abfa59684aac39bacef41cd2f37b1631d757d870821e5e6107e1"
+      },
+      {
+        "path": "docs/milestones/v0.92.2/CREATION_SELECTIONS_v0.92.2.md",
+        "previous_sha256": "fc3d78d2087bb2cc8df5ffe7f53fb3f8ccef837345db42de6c0917187dfec266",
+        "current_sha256": "4ae6b38a46534d5fd58b6761a4a747e447fe0057412cd298b6daad2c0d00ff96"
+      }
+    ]
+  }
 }

@@ -1,5 +1,7 @@
 # C-SDLC removal plan — #1064
 
+Historical candidate/removal plan: publication and qualification statements below describe the #1064 checkpoint, not the current release frontier. Current bounded SIM completion and deferred SIM-09/#875 are recorded in the [milestone evidence](../../evidence/issue-916/GAP_ANALYSIS.md); retain these original design and proof limits without treating them as current open work.
+
 Proposed September 17, 2026. Work stays in this session. The isolated implementation is under qualification; PR publication is pending. No shared binary activation has occurred in this work.
 
 ## Target
