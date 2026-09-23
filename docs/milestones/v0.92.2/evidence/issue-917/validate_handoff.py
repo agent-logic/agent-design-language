@@ -40,7 +40,8 @@ def check(data):
     for name in ['QUALITY_DECISION.json', 'TASK_LEDGER.json',
                  'PREREQUISITE_ACCEPTANCE.json', 'POSTMERGE_VERIFICATION.json',
                  'PAIR_HEALTH_RECHECK.json', 'SPRINT10_CLOSEOUT_REFRESH.json',
-                 'PRODUCER_HASH_RECHECK.json', 'QUALIFICATION_REPAIR_MERGE.json']:
+                 'PRODUCER_HASH_RECHECK.json', 'QUALIFICATION_REPAIR_MERGE.json',
+                 'SPRINT10_DEFERRAL.json']:
         required.add(PACKET.parent / 'issue-916' / name)
     documents = data.get('documents', [])
     if not documents or len({x['path'] for x in documents}) != len(documents):

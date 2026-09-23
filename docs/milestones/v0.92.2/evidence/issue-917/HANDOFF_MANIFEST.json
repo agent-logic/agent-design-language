@@ -6,7 +6,7 @@
   "sources": {
     "native_main": "2b047c8dc34e133ee1353ec265507a17c523e06f",
     "website_main": "a45e339c13b24716edbd3fadf29dddff36ffe02e",
-    "inherited_916_checkpoint": "c41120a6629b6840ba70d6b30bd4baae76d7ccd6"
+    "inherited_916_checkpoint": "7a8bb553b1f8ad50e59ca056bb1cb10048e19823"
   },
   "documents": [
     {
@@ -327,7 +327,7 @@
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-916/GAP_ANALYSIS.md",
-      "sha256": "85289246a06947d686d14f694a95f90de6b1522f7899a4ba6205eb22fc42d86f"
+      "sha256": "1a87d313b9648ca82212b3ddb8ecbb3fcaf614adce09c34966696f8be45a2986"
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-916/PAIR_HEALTH_RECHECK.json",
@@ -351,11 +351,15 @@
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-916/QUALITY_DECISION.json",
-      "sha256": "ef2091b41c754e61f88d9d052bdf42a9c7b1d1813db3ff8f1468118e23075998"
+      "sha256": "37efe6cbf74e37f7e3f72abf3c00f5664595220800beda3b855dd28685e3f16f"
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-916/SPRINT10_CLOSEOUT_REFRESH.json",
       "sha256": "c3ca6737b808648c0b8eb53a5ca9c90d8f89d6b9a5d261405f584679f3c44e51"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-916/SPRINT10_DEFERRAL.json",
+      "sha256": "c48216b45bd122b1258d75aa15ef1b3ecf1229540ed19ed4047cc9aba7db194e"
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-916/TASK_LEDGER.json",
@@ -371,11 +375,11 @@
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-917/HANDOFF.md",
-      "sha256": "2b3ce0b953224d0120c5b3daf898f4ae71af693bc048115521779757fe816485"
+      "sha256": "964a6e157c1d696e16279a374ffd258a5518e4cf5a4816111c9d7b6b954778b9"
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/issue-917/validate_handoff.py",
-      "sha256": "f77519b27de2910c770c40f6c8dc6ba127b355b450c1de0e1beaed5427d21390"
+      "sha256": "05f350bc1a9bdd5eeb94598f2fe6902d42183b8536789c899b672bbc25665fb6"
     },
     {
       "path": "docs/milestones/v0.92.2/evidence/qual-evidence-902/README.md",
