@@ -1108,6 +1108,93 @@ fn review_shell_retry_after_pre_run_failure_uses_settlement_marker() {
 }
 
 #[test]
+fn review_shell_serializes_concurrent_retries_before_provider_dispatch() {
+    let fixture = Fixture::new();
+    let admission = fixture.admit();
+    let packet_id = admission["packet_id"].as_str().unwrap().to_string();
+    let invalid = json!({}).to_string();
+    let (bad_endpoint, _bad_requests) = provider_server(vec![invalid.clone(); 4]);
+    let bad_request = fixture.provider_request(&bad_endpoint);
+    let out_dir = fixture.temp.join("review-shell-concurrent-retry");
+    let failed = shell_state(&codefriend_review_shell(&[
+        "start",
+        "--store",
+        fixture.store.to_str().unwrap(),
+        "--packet-id",
+        &packet_id,
+        "--provider-request",
+        bad_request.to_str().unwrap(),
+        "--out",
+        out_dir.to_str().unwrap(),
+        "--run-id",
+        "concurrent-retry-failed",
+    ]));
+    assert_eq!(failed["status"], "failed");
+
+    let evidence_id = source_evidence_id(&admission);
+    let responses = ["correctness", "security", "adversarial", "constitutional"]
+        .iter()
+        .map(|lane| lane_response(lane, evidence_id))
+        .collect();
+    let (endpoint, requests) = provider_server_with_delay(responses, Duration::from_millis(500));
+    let provider_request = fixture.provider_request(&endpoint);
+    let spawn_retry = |run_id: &str| {
+        Command::new(env!("CARGO_BIN_EXE_adl"))
+            .args(["codefriend", "review", "shell", "retry", "--out"])
+            .arg(&out_dir)
+            .arg("--provider-request")
+            .arg(&provider_request)
+            .args(["--run-id", run_id])
+            .env("ADL_CODEFRIEND_REVIEW_FIXTURE_KEY", "fixture-key")
+            .env("ADL_OBSERVABILITY_OTEL", "0")
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped())
+            .spawn()
+            .unwrap()
+    };
+    let first = spawn_retry("concurrent-retry-a");
+    let second = spawn_retry("concurrent-retry-b");
+    let first = first.wait_with_output().unwrap();
+    let second = second.wait_with_output().unwrap();
+    assert_eq!(
+        [first.status.success(), second.status.success()]
+            .into_iter()
+            .filter(|success| *success)
+            .count(),
+        1,
+        "exactly one retry must reserve and dispatch: first stderr={:?}, second stderr={:?}",
+        String::from_utf8_lossy(&first.stderr),
+        String::from_utf8_lossy(&second.stderr)
+    );
+    let rejected = if first.status.success() {
+        &second
+    } else {
+        &first
+    };
+    assert!(
+        String::from_utf8_lossy(&rejected.stderr).contains("retry_requires_settled_active_attempt")
+            || String::from_utf8_lossy(&rejected.stderr).contains("retry_requires_noncomplete_run")
+    );
+    for _ in 0..4 {
+        requests
+            .recv_timeout(Duration::from_secs(5))
+            .expect("winning retry must execute exactly four provider lanes");
+    }
+    assert!(
+        requests.try_recv().is_err(),
+        "the rejected retry must not dispatch another provider request"
+    );
+    let state = shell_state(&codefriend_review_shell(&[
+        "inspect",
+        "--out",
+        out_dir.to_str().unwrap(),
+    ]));
+    assert_eq!(state["status"], "complete");
+    assert_eq!(state["active_attempt"], 2);
+    assert_eq!(state["attempts"].as_array().unwrap().len(), 2);
+}
+
+#[test]
 fn review_shell_cancel_during_final_lane_does_not_fabricate_completion() {
     let fixture = Fixture::new();
     let admission = fixture.admit();

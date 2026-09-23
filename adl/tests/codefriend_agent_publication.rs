@@ -369,6 +369,95 @@ mod transport_tests {
     use super::{verify_stage, VerificationContext};
     use base64::{engine::general_purpose::STANDARD, Engine};
     include!("support/codefriend_local_publication_case.rs");
+
+    fn reseal_pdf_export(stage: &Stage, substituted: &[u8]) -> Stage {
+        let mut changed = stage.clone();
+        let report_digest = adl::codefriend::ingestion::digest(substituted);
+        changed.exports[0].bytes_base64 = STANDARD.encode(substituted);
+        changed.exports[0].digest = report_digest.clone();
+        changed.payload["native"]["manifest"]["report_digest"] = json!(report_digest.clone());
+        changed.payload["native"]["render"]["report_digest"] = json!(report_digest);
+        changed.payload["native"]["render"]["manifest_digest"] =
+            json!(adl::codefriend::ingestion::digest(
+                &serde_json::to_vec_pretty(&changed.payload["native"]["manifest"]).unwrap()
+            ));
+        seal(&mut changed);
+        changed
+    }
+
+    fn pdf_with_duplicated_extracted_space(original: &[u8]) -> Vec<u8> {
+        let document = lopdf::Document::load_mem(original).unwrap();
+        let pages = document.get_pages();
+        let page_ids = pages.keys().copied().collect::<Vec<_>>();
+        let original_text = document.extract_text(&page_ids).unwrap();
+        let first_page = *pages.values().next().unwrap();
+        let content =
+            lopdf::content::Content::decode(&document.get_page_content(first_page)).unwrap();
+
+        for (operation_index, operation) in content.operations.iter().enumerate() {
+            if operation.operator != "Tj" {
+                continue;
+            }
+            let Some(lopdf::Object::String(bytes, _)) = operation.operands.first() else {
+                continue;
+            };
+            for offset in (0..bytes.len().saturating_sub(1)).step_by(2) {
+                let mut candidate_content = content.clone();
+                let lopdf::Object::String(candidate_bytes, _) =
+                    &mut candidate_content.operations[operation_index].operands[0]
+                else {
+                    unreachable!()
+                };
+                candidate_bytes.splice(offset..offset, bytes[offset..offset + 2].iter().copied());
+                let mut candidate = document.clone();
+                candidate
+                    .change_page_content(first_page, candidate_content.encode().unwrap())
+                    .unwrap();
+                let candidate_text = candidate.extract_text(&page_ids).unwrap();
+                let non_whitespace = |value: &str| {
+                    value
+                        .chars()
+                        .filter(|character| !character.is_whitespace())
+                        .collect::<String>()
+                };
+                let whitespace = |value: &str| {
+                    value
+                        .chars()
+                        .filter(|character| character.is_whitespace())
+                        .collect::<String>()
+                };
+                if non_whitespace(&candidate_text) == non_whitespace(&original_text)
+                    && whitespace(&candidate_text) != whitespace(&original_text)
+                {
+                    let mut substituted = Vec::new();
+                    candidate.save_to(&mut substituted).unwrap();
+                    return substituted;
+                }
+            }
+        }
+        panic!("rendered PDF did not expose a duplicable encoded space")
+    }
+
+    fn pdf_with_external_action(original: &[u8]) -> Vec<u8> {
+        let mut document = lopdf::Document::load_mem(original).unwrap();
+        let first_page = *document.get_pages().values().next().unwrap();
+        let mut action = lopdf::Dictionary::new();
+        action.set("S", lopdf::Object::Name(b"URI".to_vec()));
+        action.set(
+            "URI",
+            lopdf::Object::string_literal("https://example.invalid/external"),
+        );
+        document
+            .get_object_mut(first_page)
+            .unwrap()
+            .as_dict_mut()
+            .unwrap()
+            .set("A", lopdf::Object::Dictionary(action));
+        let mut substituted = Vec::new();
+        document.save_to(&mut substituted).unwrap();
+        substituted
+    }
+
     #[test]
     fn publication_job_observation_rechecks_local_authority_before_upload_and_ack() {
         assert_eq!(env!("CODEFRIEND_BUILD_CLEAN"),"true","This public-path regression requires a committed clean candidate; no dirty guard bypass");
@@ -455,8 +544,34 @@ mod transport_tests {
             };
             verify_stage(&stage, &context, 100).unwrap();
             if format == PublicationFormat::Pdf && decision == "approved" {
-                let mut changed = stage.clone();
-                let original = STANDARD.decode(&changed.exports[0].bytes_base64).unwrap();
+                let original = STANDARD.decode(&stage.exports[0].bytes_base64).unwrap();
+
+                let whitespace_substitution = pdf_with_duplicated_extracted_space(&original);
+                let changed = reseal_pdf_export(&stage, &whitespace_substitution);
+                assert!(
+                    verify_stage(&changed, &context, 100).is_err(),
+                    "resealed whitespace-only PDF substitution must not satisfy approved semantics"
+                );
+
+                let external_action = pdf_with_external_action(&original);
+                let original_document = lopdf::Document::load_mem(&original).unwrap();
+                let changed_document = lopdf::Document::load_mem(&external_action).unwrap();
+                let page_numbers = original_document
+                    .get_pages()
+                    .keys()
+                    .copied()
+                    .collect::<Vec<_>>();
+                assert_eq!(
+                    original_document.extract_text(&page_numbers).unwrap(),
+                    changed_document.extract_text(&page_numbers).unwrap(),
+                    "external-action regression must retain the exact rendered text"
+                );
+                let changed = reseal_pdf_export(&stage, &external_action);
+                assert!(
+                    verify_stage(&changed, &context, 100).is_err(),
+                    "resealed same-text PDF external action must be rejected"
+                );
+
                 let mut document = lopdf::Document::load_mem(&original).unwrap();
                 let first_page = *document.get_pages().values().next().unwrap();
                 document
@@ -464,14 +579,9 @@ mod transport_tests {
                     .unwrap();
                 let mut substituted = Vec::new();
                 document.save_to(&mut substituted).unwrap();
-                let report_digest = adl::codefriend::ingestion::digest(&substituted);
-                changed.exports[0].bytes_base64 = STANDARD.encode(&substituted);
-                changed.exports[0].digest = report_digest.clone();
-                changed.payload["native"]["manifest"]["report_digest"] =
-                    json!(report_digest.clone());
+                let mut changed = reseal_pdf_export(&stage, &substituted);
                 changed.payload["native"]["manifest"]["semantic_digest"] =
                     json!(adl::codefriend::ingestion::digest(b"substituted"));
-                changed.payload["native"]["render"]["report_digest"] = json!(report_digest);
                 changed.payload["native"]["render"]["manifest_digest"] =
                     json!(adl::codefriend::ingestion::digest(
                         &serde_json::to_vec_pretty(&changed.payload["native"]["manifest"]).unwrap()

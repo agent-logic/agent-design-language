@@ -11,9 +11,10 @@ use crate::{
     provider_communication::ProviderInvocationRequestV1,
 };
 use anyhow::{ensure, Context, Result};
+use fs2::FileExt;
 use serde::{Deserialize, Serialize};
 use std::{
-    fs::{self, File},
+    fs::{self, File, OpenOptions},
     io::{Read, Write},
     path::{Path, PathBuf},
 };
@@ -106,6 +107,7 @@ pub fn inspect_review(out: &Path) -> Result<OperatorReviewState> {
 
 pub fn cancel_review(out: &Path, reason: &str) -> Result<OperatorReviewState> {
     ensure!(!reason.trim().is_empty(), "cancel_reason_required");
+    let _lock = OperatorStateLock::acquire(out)?;
     let mut state = read_state(out)?;
     let cancel = CancelRequest {
         schema: "codefriend.operator_cancel_request.v1".to_string(),
@@ -146,37 +148,45 @@ pub fn retry_review(
             .all(|b| b.is_ascii_alphanumeric() || b"._-".contains(&b)),
         "invalid_review_run_id"
     );
-    let mut state = read_state(out)?;
-    ensure!(
-        state.status != OperatorReviewStatus::Complete,
-        "retry_requires_noncomplete_run"
-    );
-    ensure!(
-        active_attempt_settled(out, &state),
-        "retry_requires_settled_active_attempt"
-    );
-    archive_cancel_request_for_retry(out, &state)?;
-    let attempt = state
-        .attempts
-        .iter()
-        .map(|attempt| attempt.attempt)
-        .max()
-        .unwrap_or(0)
-        + 1;
-    state.status = OperatorReviewStatus::Incomplete;
-    state.active_attempt = attempt;
-    state.cancel_request_ref = None;
-    state.publication_withheld_reason = None;
-    state.message = "retry in progress".to_string();
-    state.attempts.push(OperatorAttempt {
-        attempt,
-        run_id: run_id.to_string(),
-        review_out: attempt_review_ref(attempt),
-        status: OperatorReviewStatus::Incomplete,
-        summary_ref: None,
-        failure: None,
-    });
-    write_state(out, &state)?;
+    let (mut state, attempt) = {
+        // Reserve the next attempt while holding the same lock used by cancel
+        // and terminal settlement. The lock is released before provider work so
+        // cancellation remains responsive, but the incomplete reservation is
+        // already durable and makes every concurrent retry fail closed.
+        let _lock = OperatorStateLock::acquire(out)?;
+        let mut state = read_state(out)?;
+        ensure!(
+            state.status != OperatorReviewStatus::Complete,
+            "retry_requires_noncomplete_run"
+        );
+        ensure!(
+            active_attempt_settled(out, &state),
+            "retry_requires_settled_active_attempt"
+        );
+        archive_cancel_request_for_retry(out, &state)?;
+        let attempt = state
+            .attempts
+            .iter()
+            .map(|attempt| attempt.attempt)
+            .max()
+            .unwrap_or(0)
+            + 1;
+        state.status = OperatorReviewStatus::Incomplete;
+        state.active_attempt = attempt;
+        state.cancel_request_ref = None;
+        state.publication_withheld_reason = None;
+        state.message = "retry in progress".to_string();
+        state.attempts.push(OperatorAttempt {
+            attempt,
+            run_id: run_id.to_string(),
+            review_out: attempt_review_ref(attempt),
+            status: OperatorReviewStatus::Incomplete,
+            summary_ref: None,
+            failure: None,
+        });
+        write_state(out, &state)?;
+        (state, attempt)
+    };
     run_attempt(
         out,
         &mut state,
@@ -249,6 +259,7 @@ fn active_attempt_settled(out: &Path, state: &OperatorReviewState) -> bool {
 
 pub fn withhold_publication(out: &Path, reason: &str) -> Result<OperatorReviewState> {
     ensure!(!reason.trim().is_empty(), "withhold_reason_required");
+    let _lock = OperatorStateLock::acquire(out)?;
     let mut state = read_state(out)?;
     ensure!(
         state.status == OperatorReviewStatus::Complete,
@@ -347,6 +358,7 @@ fn run_attempt(
                 (status.clone(), summary_ref, Some(failure), status, message)
             }
         };
+    let _lock = OperatorStateLock::acquire(out)?;
     let mut persisted = read_state(out).unwrap_or_else(|_| state.clone());
     set_attempt(
         &mut persisted,
@@ -407,6 +419,32 @@ fn provider_route_identity(request: &ProviderInvocationRequestV1) -> String {
 
 fn state_path(out: &Path) -> PathBuf {
     out.join("operator-state.json")
+}
+
+struct OperatorStateLock {
+    file: File,
+}
+
+impl OperatorStateLock {
+    fn acquire(out: &Path) -> Result<Self> {
+        let mut options = OpenOptions::new();
+        options.read(true).write(true).create(true).truncate(false);
+        #[cfg(unix)]
+        {
+            use std::os::unix::fs::OpenOptionsExt;
+            options.mode(0o600);
+        }
+        let file = options.open(out.join("operator-state.lock"))?;
+        file.lock_exclusive()
+            .map_err(|_| anyhow::anyhow!("operator_state_lock_failed"))?;
+        Ok(Self { file })
+    }
+}
+
+impl Drop for OperatorStateLock {
+    fn drop(&mut self) {
+        let _ = FileExt::unlock(&self.file);
+    }
 }
 
 fn read_state(out: &Path) -> Result<OperatorReviewState> {
