@@ -58,8 +58,19 @@ def validate(manifest, findings, review_text):
         failures.append("publication_manifest_identity")
     if observations.get("publication_artifacts") != 12:
         failures.append("publication_artifact_denominator")
+    if observations.get("publication_negative_fixtures") != 25:
+        failures.append("publication_negative_fixture_denominator")
     if observations.get("publication_final_acceptance") != "pending":
         failures.append("publication_acceptance")
+    if observations.get("publication_release_approved") is not False:
+        failures.append("publication_release_approval")
+    if observations.get("publication_authorized") is not False:
+        failures.append("publication_authority")
+    if observations.get("publication_unproven_outputs") != [
+        "codefriend_export_md_html_pdf",
+        "installed_binaries",
+    ]:
+        failures.append("publication_unproven_outputs")
     full_review = observations.get("full_review_plan", {})
     if full_review.get("sha256") != "354ad4197d5ab4cb77dbb7f060f30d271e804da2c9bfc6d3a408179cde78c554":
         failures.append("full_review_plan_identity")
@@ -81,6 +92,15 @@ def validate(manifest, findings, review_text):
         for key in ("title", "trigger", "impact", "evidence", "owner_issue", "disposition"):
             if not row.get(key):
                 failures.append(f"finding_field:{row.get('id')}:{key}")
+    rows_by_id = {row.get("id"): row for row in rows}
+    required_open_findings = {
+        "919-F01": ("P1", "open_blocker"),
+        "919-F05": ("P1", "open_review_gate"),
+    }
+    for finding_id, (priority, disposition) in required_open_findings.items():
+        row = rows_by_id.get(finding_id, {})
+        if row.get("priority") != priority or row.get("disposition") != disposition:
+            failures.append(f"required_open_finding:{finding_id}")
     required_nonclaims = {
         "no merge approval",
         "no sprint closure approval",
@@ -149,6 +169,24 @@ def run_self_test(manifest, findings, review_text):
     changed = copy.deepcopy(manifest)
     changed["observations"]["full_review_plan"]["status"] = "completed"
     cases.append(("fabricated_full_review_status", changed, findings, review_text))
+    changed = copy.deepcopy(manifest)
+    changed["observations"]["publication_release_approved"] = True
+    cases.append(("fabricated_publication_release_approval", changed, findings, review_text))
+    changed = copy.deepcopy(manifest)
+    changed["observations"]["publication_authorized"] = True
+    cases.append(("fabricated_publication_authority", changed, findings, review_text))
+    changed = copy.deepcopy(manifest)
+    changed["observations"]["publication_negative_fixtures"] = 0
+    cases.append(("lost_publication_negative_fixture_denominator", changed, findings, review_text))
+    changed = copy.deepcopy(manifest)
+    changed["observations"]["publication_unproven_outputs"] = []
+    cases.append(("cleared_publication_unproven_outputs", changed, findings, review_text))
+    changed_findings = copy.deepcopy(findings)
+    changed_findings["findings"][0]["disposition"] = "resolved"
+    cases.append(("premature_publication_finding_resolution", manifest, changed_findings, review_text))
+    changed_findings = copy.deepcopy(findings)
+    changed_findings["findings"][4]["disposition"] = "complete"
+    cases.append(("premature_full_review_finding_resolution", manifest, changed_findings, review_text))
     failed = [name for name, m, f, text in cases if not validate(m, f, text)]
     return len(cases), failed
 
