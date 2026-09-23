@@ -1,10 +1,25 @@
 # v0.92.2 Release Notes — Draft
 
+## Current qualification disposition
+
+Issue #915 is closed as `NOT_PLANNED`: its retained independent qualification is
+incomplete and explicitly deferred, not a qualification pass. Under the approved
+#922 successor split, producer repairs #1148 and #1149 precede independent
+qualification #1150 in v0.93.1, before Beta 1 launch. Runtime v4 belongs to
+v0.93.2. The original demonstration requirements and historical evidence below
+remain intact; release acceptance is not established by issue closure or this
+documentation correction.
+
+Current routing is grounded in #916 commit
+`36ec0814683d0c8cc136bc9af27a0163ed506460` and #922 commit
+`fc6a80c362d6c1e63766bef263cd2dccacd2dc0b`. Those owner fixes are credited;
+this overlay does not rewrite their historical review packets.
+
 Status: evidence-reconciled review draft; not approved release notes.
 
 ## Landed implementation and verification
 
-ADL #1137/#1138 and CodeFriend.ai #18 are merged. The [post-merge verification](evidence/issue-916/POSTMERGE_VERIFICATION.json) records 154 affected native tests and 141 website tests passing at their stated revisions. The earlier 396-test native census remains tied to its earlier source. These are local component/integration results, not deployment or independent real-provider qualification. #915 remains pending, so the intended capabilities below are not a release-success announcement.
+ADL #1137/#1138 and CodeFriend.ai #18 are merged. The [post-merge verification](evidence/issue-916/POSTMERGE_VERIFICATION.json) records 154 affected native tests and 141 website tests passing at their stated revisions. The earlier 396-test native census remains tied to its earlier source. These are local component/integration results, not deployment or independent real-provider qualification. #915 qualification is incomplete and explicitly deferred, so the intended capabilities below are not a release-success announcement.
 
 The MLX smoke does not establish review-speed superiority; PAIR delivered a REPAIR experiment decision and later passed its repaired discovery-endpoint recheck; speculative decoding remains repair/inconclusive. Publication drafts #912/#913 reached the operator-accepted draft/PDF handoff scope; further editing remains deferred. See the [claim and evidence audit](evidence/issue-916/GAP_ANALYSIS.md).
 

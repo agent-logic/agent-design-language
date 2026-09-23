@@ -1,6 +1,21 @@
 # v0.92.2 Demo Matrix
 
-Status: demonstration acceptance matrix. Local component checks are recorded in [post-merge verification](evidence/issue-916/POSTMERGE_VERIFICATION.json); this matrix does not relabel them as executed independent demonstrations. D9/D10 and the full #915 qualification remain pending.
+## Current qualification disposition
+
+Issue #915 is closed as `NOT_PLANNED`: its retained independent qualification is
+incomplete and explicitly deferred, not a qualification pass. Under the approved
+#922 successor split, producer repairs #1148 and #1149 precede independent
+qualification #1150 in v0.93.1, before Beta 1 launch. Runtime v4 belongs to
+v0.93.2. The original demonstration requirements and historical evidence below
+remain intact; release acceptance is not established by issue closure or this
+documentation correction.
+
+Current routing is grounded in #916 commit
+`36ec0814683d0c8cc136bc9af27a0163ed506460` and #922 commit
+`fc6a80c362d6c1e63766bef263cd2dccacd2dc0b`. Those owner fixes are credited;
+this overlay does not rewrite their historical review packets.
+
+Status: demonstration acceptance matrix. Local component checks are recorded in [post-merge verification](evidence/issue-916/POSTMERGE_VERIFICATION.json); this matrix does not relabel them as executed independent demonstrations. D9/D10 and the full #915 qualification remain incomplete and explicitly deferred to the v0.93.1 successor sequence above.
 
 | Demo | User-visible proof | Primary WP | Non-claim |
 |---|---|---|---|

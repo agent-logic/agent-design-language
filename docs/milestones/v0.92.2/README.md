@@ -1,6 +1,21 @@
 # ADL v0.92.2 — CodeFriend Beta 1
 
-Status: Sprint 11 documentation review in progress; independent #915 qualification and #916 final acceptance remain pending.
+## Current qualification disposition
+
+Issue #915 is closed as `NOT_PLANNED`: its retained independent qualification is
+incomplete and explicitly deferred, not a qualification pass. Under the approved
+#922 successor split, producer repairs #1148 and #1149 precede independent
+qualification #1150 in v0.93.1, before Beta 1 launch. Runtime v4 belongs to
+v0.93.2. The original demonstration requirements and historical evidence below
+remain intact; release acceptance is not established by issue closure or this
+documentation correction.
+
+Current routing is grounded in #916 commit
+`36ec0814683d0c8cc136bc9af27a0163ed506460` and #922 commit
+`fc6a80c362d6c1e63766bef263cd2dccacd2dc0b`. Those owner fixes are credited;
+this overlay does not rewrite their historical review packets.
+
+Status: Sprint 11 documentation assessment accepted for handoff; #915 qualification remains incomplete and explicitly deferred. The #916 assessment is accepted as a truthful handoff, with product qualification still `not_proven`. Release approval remains pending.
 
 Start with the [review handoff](evidence/issue-917/HANDOFF.md) and [current quality decision](evidence/issue-916/QUALITY_DECISION.json). Merged implementation, local component tests, installed qualification, deployment and release approval are separate claims.
 
