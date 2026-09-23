@@ -18,8 +18,8 @@ if kind == "handoff":
     assert data["documents"] == len(manifest["documents"]) > 0
     assert data["tasks"] == len(manifest["tasks"]) == 69
     assert data["prerequisites"] == len(manifest["prerequisites"]) == 24
-    assert data["negative_fixtures"] == 6
-    assert data["handoff_accepted"] is False and data["release_authorized"] is False
+    assert data["negative_fixtures"] == 8
+    assert data["handoff_accepted"] is True and data["release_authorized"] is False
 else:
     assert kind == "planning"
     assert data["work_packages"] == 69

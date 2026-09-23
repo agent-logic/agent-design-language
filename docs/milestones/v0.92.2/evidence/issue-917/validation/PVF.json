@@ -1,7 +1,7 @@
 {
   "issue": 917,
   "lane": "docs_only",
-  "proof_role": "Execute unchanged handoff and planning validators through native Cargo proof admission",
+  "proof_role": "Validate assessment-handoff identity and deferred-qualification boundary; eight handoff negative fixtures plus planning negatives",
   "determinism": "local deterministic contract checks",
   "resources": "local CPU, files, Python3 and Cargo; no network/provider effects",
   "release_gate": "Required917 documentation proof only; does not establish916 acceptance or release authorization",
