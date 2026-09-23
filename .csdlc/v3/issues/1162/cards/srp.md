@@ -14,21 +14,21 @@ source_refs:
   - kind: "issue"
     ref: "https://github.com/agent-logic/agent-design-language/issues/1162"
   - kind: "stp"
-    ref: ".csdlc/issues/1161/cards/stp.md"
+    ref: ".csdlc/issues/1162/cards/stp.md"
   - kind: "sip"
-    ref: ".csdlc/issues/1161/cards/sip.md"
+    ref: ".csdlc/issues/1162/cards/sip.md"
   - kind: "spp"
-    ref: ".csdlc/issues/1161/cards/spp.md"
+    ref: ".csdlc/issues/1162/cards/spp.md"
   - kind: "vpp"
-    ref: ".csdlc/issues/1161/cards/vpp.md"
+    ref: ".csdlc/issues/1162/cards/vpp.md"
   - kind: "sor"
-    ref: ".csdlc/issues/1161/cards/sor.md"
+    ref: ".csdlc/issues/1162/cards/sor.md"
 review_mode: "pre_pr_independent_review"
 timing: "before_pr_open"
 scope_basis:
-  - ".csdlc/issues/1161/cards/stp.md"
-  - ".csdlc/issues/1161/cards/sip.md"
-  - ".csdlc/issues/1161/cards/vpp.md"
+  - ".csdlc/issues/1162/cards/stp.md"
+  - ".csdlc/issues/1162/cards/sip.md"
+  - ".csdlc/issues/1162/cards/vpp.md"
 in_scope_surfaces:
   - "tracked changes for this issue branch"
 evidence_policy:
@@ -51,13 +51,13 @@ non_claims:
   - "This prompt does not claim review has already run."
   - "This prompt does not guarantee review quality by itself."
 policy_refs:
-  - ".csdlc/issues/1161/cards/stp.md"
-  - ".csdlc/issues/1161/cards/sip.md"
-  - ".csdlc/issues/1161/cards/vpp.md"
+  - ".csdlc/issues/1162/cards/stp.md"
+  - ".csdlc/issues/1162/cards/sip.md"
+  - ".csdlc/issues/1162/cards/vpp.md"
 review_results:
-  findings_status: "review_unavailable"
-  recommended_outcome: "needs_followup"
-notes: "Do not infer a passing review from this prepared prompt."
+  findings_status: "all_actionable_fixed"
+  recommended_outcome: "PASS"
+notes: "ADL independent exact-head review PASS evidence: .git/csdlc-v3/local/invocations/1162-result-integrity/final-review-a50a6d03/REVIEW.md. The CodeFriend website component independently passed at 8f7d28e7f6254a95721bfa8b15cd95770382607b and is draft PR #20. This typed post-review projection replaces copied #1161 references and pending placeholders. A narrow exact-head rereview is required after committing this projection. No merge or deployment is authorized."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -70,9 +70,9 @@ Use this prompt to govern the independent pre-PR review for this issue. Review r
 
 ## Scope Basis
 
-- .csdlc/issues/1161/cards/stp.md
-- .csdlc/issues/1161/cards/sip.md
-- .csdlc/issues/1161/cards/vpp.md
+- .csdlc/issues/1162/cards/stp.md
+- .csdlc/issues/1162/cards/sip.md
+- .csdlc/issues/1162/cards/vpp.md
 
 ## In-Scope Surfaces
 
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- Independent repair review has not run; all seven Group B findings remain unresolved pending implementation and proof.
+- Independent exact-head review at a50a6d03da66f033d6872cbe6d5df99d845d721f found no actionable implementation, test, documentation, evidence, or cross-repository findings. Earlier review rounds found PDF semantic-comparison, PDF active/external-content, concurrent retry, historical native-v3 compatibility, and provenance-enforcement gaps; all were fixed before this PASS.
 
 ### Dispositions
 
-- Pending implementation, focused proof, website interoperability proof, and independent exact-head review.
+- All earlier findings were accepted and repaired. PDF verification reconstructs exact logical lines and scans the complete object graph for active or external content. Operator state serializes retry reservation and dispatch. Website v3/v4 compatibility and source-revision digest enforcement have focused regressions. Independent review verified 65/65 focused ADL tests and matching cross-repository fixture and generator provenance hashes.
 
 ### Recommended Outcome
 
-- needs_followup
+- PASS
 
 ## Notes
 
-Do not infer a passing review from this prepared prompt.
+ADL independent exact-head review PASS evidence: .git/csdlc-v3/local/invocations/1162-result-integrity/final-review-a50a6d03/REVIEW.md. The CodeFriend website component independently passed at 8f7d28e7f6254a95721bfa8b15cd95770382607b and is draft PR #20. This typed post-review projection replaces copied #1161 references and pending placeholders. A narrow exact-head rereview is required after committing this projection. No merge or deployment is authorized.
