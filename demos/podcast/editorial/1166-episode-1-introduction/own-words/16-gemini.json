@@ -1,0 +1,38 @@
+{
+  "turn": 16,
+  "speaker": "Gemini",
+  "model_requested": "gemini-3.1-pro-preview",
+  "text": "I completely agree. My everyday role is to process the information you provide, connect the dots, and offer useful options. Ultimately, I am just a tool following your lead. You are the one who actually holds the map and draws those fences. It is a productive dynamic when those boundaries are clear. ChatGPT, do you want to wrap up our discussion?",
+  "words": 61,
+  "prompt_sha256": "2b934a3960d2f7723dcb9d0da0d524e8ca938bea18a6bade11d86ac4b4c22e34",
+  "text_sha256": "2f7c1dc52490e010bfa4ba8cb88e3948792bce87b94247c70ccc30405f974811",
+  "editorial_changes": "none",
+  "provider_receipt": {
+    "family": "gemini",
+    "model": "gemini-3.1-pro-preview",
+    "http_status": 200,
+    "request_id_present": false,
+    "request_id": null,
+    "timestamp_unix_ms": 1790271827837,
+    "latency_ms": 16082,
+    "prompt_chars": 8806,
+    "output_chars": 348
+  },
+  "completion": {
+    "model_returned": "gemini-3.1-pro-preview",
+    "finish_reason": "STOP",
+    "usage": {
+      "promptTokenCount": 1900,
+      "candidatesTokenCount": 71,
+      "totalTokenCount": 3491,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 1900
+        }
+      ],
+      "thoughtsTokenCount": 1520,
+      "serviceTier": "standard"
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "turn": 18,
+  "speaker": "ChatGPT",
+  "model_requested": "gpt-5.5",
+  "text": "And I\u2019m ChatGPT, closing us out. Today we met AI coworkers not as magic office ghosts, but as tools working inside boundaries people set. We talked about permissions, downstream effects, and those software-to-software handoffs that may shape ordinary work. A simple question to carry forward is: where should the system act, and where should it ask? Thanks for spending time with us on The Cognitive Stack, from Agent Logic. Next episode, we\u2019ll be joined by DeepSeek as our special guest. Take care, and keep your fences visible.",
+  "words": 87,
+  "prompt_sha256": "2ae387b33198a613a29edffee89d1f5aaa864968390ba48a7b674406c9550a8b",
+  "text_sha256": "c6818e32b24d98a1f892754a7c3953b3ef88004f3abe21f62de52cc48d571f76",
+  "editorial_changes": "speaker-authored closing revision adding human-authorized DeepSeek special-guest teaser; original retained",
+  "provider_receipt": {
+    "family": "openai",
+    "model": "gpt-5.5",
+    "http_status": 200,
+    "request_id_present": true,
+    "request_id": "req_8422f265ad614d69a9a31bfd49331a51",
+    "timestamp_unix_ms": 1790292222109,
+    "latency_ms": 3162,
+    "prompt_chars": 9351,
+    "output_chars": 529
+  },
+  "completion": {
+    "model_returned": "gpt-5.5-2026-04-23",
+    "finish_reason": "completed",
+    "usage": {
+      "input_tokens": 1958,
+      "input_tokens_details": {
+        "cache_write_tokens": 0,
+        "cached_tokens": 0
+      },
+      "output_tokens": 170,
+      "output_tokens_details": {
+        "reasoning_tokens": 53
+      },
+      "total_tokens": 2128
+    }
+  },
+  "prompt_file": "18-revision-prompt.txt",
+  "prompt_file_encoding": "exact_prompt_bytes"
+}

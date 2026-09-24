@@ -1,0 +1,69 @@
+{
+  "storage": "local review candidate; no public upload",
+  "files": {
+    "chapters.json": {
+      "bytes": 443,
+      "sha256": "a5d0df95851b76de71575ae50d79e8c55e550a5a2ec636a39b8762f37f74d1a3"
+    },
+    "episode.json": {
+      "bytes": 2371,
+      "sha256": "3c646749f77da676b501aa3368b2902b3f020c0e5391453b508317ff09ed6bbd"
+    },
+    "episode.mp3": {
+      "bytes": 11313243,
+      "sha256": "7c77fa81f1b6d528fbc66ef8224535e4dca4207b86d215dfcee4a24dd13e7846"
+    },
+    "episode.wav": {
+      "bytes": 26400196,
+      "sha256": "ffc7e9bc34f8bdd680ee4920f90eb46132f2f3c45d00506bf11e1c1813611e45"
+    },
+    "loudness-final.json": {
+      "bytes": 264,
+      "sha256": "e81b64251d949b14766cf9dd4c46900e71e27a3939300c640ef396d46fbfd77e"
+    },
+    "loudness-input.json": {
+      "bytes": 263,
+      "sha256": "41e12eec5cd681dc34cd092a122c59db35c346fca396281bc6cef8d651ea9ad6"
+    },
+    "production.json": {
+      "bytes": 11632,
+      "sha256": "fbeaa5f685d1a6619665f7f1e5ead80d765c5c03761d5165b8a598b0bbe184fb"
+    },
+    "qa-report.md": {
+      "bytes": 2014,
+      "sha256": "0ca7c05db7ea159dbbe26fac816f7a0d2a4cdd3b52dd032b711bf0b40f5d94ca"
+    },
+    "review.md": {
+      "bytes": 784,
+      "sha256": "db2e2361bf76df5beb0bcb8d8d4d760ab69cc13dab61b12b6755234a56af9a4f"
+    },
+    "rss-enclosure.json": {
+      "bytes": 512,
+      "sha256": "e074b900a5c99654d89d0e9b6a70f4cb326fc4d6537ae5198cbb1815bc69c59b"
+    },
+    "show-notes.md": {
+      "bytes": 930,
+      "sha256": "b466271868e6bd0c90760330c98d96ca031c8d3b9c9aadfe868bd512a10d8908"
+    },
+    "transcript-comparison.json": {
+      "bytes": 2060,
+      "sha256": "ce7549f603906ae82f41000f42874a597a0985fb1bf7b16e3589d62e0d6113c3"
+    },
+    "transcript.md": {
+      "bytes": 9135,
+      "sha256": "4b15adddb356be184d32186497ce325d0a5dfb8613e767a772567c109640937f"
+    },
+    "transcription-observed.txt": {
+      "bytes": 8299,
+      "sha256": "d5b2a152e9c41649c1e2740a875eda9866482aecae582c243c7cb4f0696fbc04"
+    },
+    "transcription-response.json": {
+      "bytes": 359412,
+      "sha256": "752d618df58b0db9c00b336320ae517ef0186735fac5977740ef7bd877952a32"
+    },
+    "turn11-second-transcription.json": {
+      "bytes": 730,
+      "sha256": "75fccb940600ef6453ed6a97397e909ac074a1d05be56bd75a59825354b9590e"
+    }
+  }
+}

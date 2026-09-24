@@ -1,0 +1,317 @@
+{
+  "schema": "agent-logic.podcast.preserved_candidate.v1",
+  "issue": 1166,
+  "source_revision": "6d78c1da473f95c4db4e0fa29f4fc2bd1d290106",
+  "episode_guid": "agent-logic-the-cognitive-stack-episode-001",
+  "disposition": "Preserve these existing candidate bytes; no source audio, historical manifests, RSS or webpage changed during script stage.",
+  "files": {
+    "demos/_preview/podcast/assets/agent-logic-logo.svg": {
+      "sha256": "265af57178a57fef3cc1b2cbf94bf9f2f1dc29933a85ee50cf7b183d5a7ca4be",
+      "bytes": 3996
+    },
+    "demos/_preview/podcast/audio/meet-the-ai-coworkers.mp3": {
+      "sha256": "ea213c90e241855030283262419fae7376f1fb4686f291be9e63610f1a34fa0c",
+      "bytes": 22804249
+    },
+    "demos/_preview/podcast/index.html": {
+      "sha256": "3d51f6648ae2bd2a9e207bf7c08285ee148d4ce4627ddbd9f9f98e7667370884",
+      "bytes": 39651
+    },
+    "demos/podcast/DEEPGRAM_PROVIDER_WORKFLOW.md": {
+      "sha256": "b9910df49c11517b2f5278f3489a26a51807bc83a29e423d07aa663c719d588f",
+      "bytes": 1729
+    },
+    "demos/podcast/LAUNCH_READINESS.md": {
+      "sha256": "f464baa1dcc087d51502ffde73766e619518d232471ccb7285ae126991809690",
+      "bytes": 2630
+    },
+    "demos/podcast/PUBLICATION_HOLD.md": {
+      "sha256": "f51c1e64305a986e8e3ae11284cee3d0af63a6fcbd7c36142b3f91edef2f954f",
+      "bytes": 935
+    },
+    "demos/podcast/S3_CLOUDFRONT_RUNBOOK.md": {
+      "sha256": "ada4176e5b058f7472cf3857cfc9717e54d04024c5df900ab1e7e6cef85f762f",
+      "bytes": 6895
+    },
+    "demos/podcast/artwork.png": {
+      "sha256": "e142182ecefa06b34256d7ceeededfb3c3418c1f66e9a57750d3ed21d8d2fc8d",
+      "bytes": 4126190
+    },
+    "demos/podcast/audio/meet-the-ai-coworkers.mp3": {
+      "sha256": "ea213c90e241855030283262419fae7376f1fb4686f291be9e63610f1a34fa0c",
+      "bytes": 22804249
+    },
+    "demos/podcast/audio/meet-the-ai-coworkers.wav": {
+      "sha256": "78e1c5edac6f96bddba7faa5e35523f5dda894a4426f6f54b178ceb0bbed5572",
+      "bytes": 53371758
+    },
+    "demos/podcast/episode-packages/001-meet-the-ai-coworkers/package.json": {
+      "sha256": "37dabfdccd5c82b71b3b63f49bd40aeee533414c30b2baea32ea5c7fb5cb19f3",
+      "bytes": 786
+    },
+    "demos/podcast/episode-packages/002-can-an-ai-be-a-good-teammate/package.json": {
+      "sha256": "80d41ee5028e6953c1ba32c4f093448a22c3ce65ac8844468f121b0b0b721f00",
+      "bytes": 778
+    },
+    "demos/podcast/episode-packages/003-the-promise-and-weirdness-of-talking-to-machines/package.json": {
+      "sha256": "247ae2c5f435d30260712beb4126afe702b3299bcaddfbc46933e3c82307bb60",
+      "bytes": 846
+    },
+    "demos/podcast/episode-packages/004-what-should-we-let-ai-do-for-us/package.json": {
+      "sha256": "2788925d813d758284ff8929657c51d1fa5aed44deef7c52dba9e8e2e587b702",
+      "bytes": 817
+    },
+    "demos/podcast/episode-packages/005-can-ai-help-us-think-better/package.json": {
+      "sha256": "e4a30517241998d7448efe52c2f403482234e8175a0c07b922f58511336a9a9d",
+      "bytes": 828
+    },
+    "demos/podcast/episode-packages/006-the-new-creative-room/package.json": {
+      "sha256": "b2a50ff02641ad80edf26040569fabdac48ad19f42dc4629811ae7ce56714c68",
+      "bytes": 804
+    },
+    "demos/podcast/episode-packages/007-trust-receipts-and-proof/package.json": {
+      "sha256": "4631758c96310bccfaccbfe0440199b2f68a3c7fb8fd286a6a4f606dceed9a3f",
+      "bytes": 779
+    },
+    "demos/podcast/episode-packages/008-local-ai-vs-cloud-ai/package.json": {
+      "sha256": "a6ebd724a831fa712902fe885e13d570d0ab62cc7428aed167c1dd85ac884b86",
+      "bytes": 826
+    },
+    "demos/podcast/episode-packages/009-when-ai-gets-stuck/package.json": {
+      "sha256": "74c890b2d128af4879eab50ac6815dd7d003abfefa4b67ad3fea7f78b7d25181",
+      "bytes": 808
+    },
+    "demos/podcast/episode-packages/010-what-does-a-weekly-ai-studio-look-like/package.json": {
+      "sha256": "5d61042edf878bacb49fb97e52702f389af7a289774388ac3eb566f38c2d3292",
+      "bytes": 840
+    },
+    "demos/podcast/episode-packages/README.md": {
+      "sha256": "ebf667a1bd65638b4103a54d0acc9cef596b7d9262fef57c4b91134a96c7952d",
+      "bytes": 1043
+    },
+    "demos/podcast/episode-packages/feed-fragment.xml": {
+      "sha256": "797ca7fd8845d2446605f278730e66e01ef83b225ef7b37dd0f33a63087f2a87",
+      "bytes": 1619
+    },
+    "demos/podcast/episode-packages/package-index.json": {
+      "sha256": "27714e7bf091ad1bac369d2a67b1e9fd551ec4e60b5ab26d61785fda007b72e0",
+      "bytes": 893
+    },
+    "demos/podcast/episode-packages/season-arc.md": {
+      "sha256": "3e99c371416f1eaeb936fdd4f2d9ea739357e6aa0925016ed2e7ee3a6ea54d6e",
+      "bytes": 2557
+    },
+    "demos/podcast/episodes/001-meet-the-ai-coworkers/CREATOR_WORKFLOW.md": {
+      "sha256": "35b19944091def17872e765ff66df8d183ebf741ed3ebc90c886810e0f0fb2c6",
+      "bytes": 3372
+    },
+    "demos/podcast/episodes/001-meet-the-ai-coworkers/artwork-source.png": {
+      "sha256": "a2b3a0bfb9b438e479c036728251c7b8ae90124beb799e875031832ec8916b43",
+      "bytes": 1218797
+    },
+    "demos/podcast/episodes/001-meet-the-ai-coworkers/artwork.png": {
+      "sha256": "e142182ecefa06b34256d7ceeededfb3c3418c1f66e9a57750d3ed21d8d2fc8d",
+      "bytes": 4126190
+    },
+    "demos/podcast/episodes/001-meet-the-ai-coworkers/audio-manifest.json": {
+      "sha256": "ce63f1cd5b8d25ad5a5aa019189bce836b076eb34cd5f4a7475b61f1c9e53591",
+      "bytes": 2259
+    },
+    "demos/podcast/episodes/001-meet-the-ai-coworkers/episode.json": {
+      "sha256": "def015222ea94a71a6f718b067e61554735d79846bcc36551ce5543e83f2e090",
+      "bytes": 3133
+    },
+    "demos/podcast/episodes/001-meet-the-ai-coworkers/guest-metadata.json": {
+      "sha256": "1cbbe8f35abf3a932f2732e6f7000897d9ef665fe034aba4c16968b406420471",
+      "bytes": 909
+    },
+    "demos/podcast/episodes/001-meet-the-ai-coworkers/qa-report.md": {
+      "sha256": "a57c9ea0fb583e110af72ee5d6f94a983a56c2b686564d3c281333a2d269803c",
+      "bytes": 1883
+    },
+    "demos/podcast/episodes/001-meet-the-ai-coworkers/redaction-report.md": {
+      "sha256": "d38325fc72ed4c6bd2e9e90e65e690f305a8ae6727ffa4d43a6cc6e12a9437f8",
+      "bytes": 729
+    },
+    "demos/podcast/episodes/001-meet-the-ai-coworkers/review.md": {
+      "sha256": "1c8322842e6d5456e94e3fa00485b0d2b51315afd95c8613ab6f5e148a72bf87",
+      "bytes": 1122
+    },
+    "demos/podcast/episodes/001-meet-the-ai-coworkers/rss-enclosure.json": {
+      "sha256": "6e347f5e31b919b03125567ebfdcc62669f9e42f3d95242e6f20c671e58cf844",
+      "bytes": 440
+    },
+    "demos/podcast/episodes/001-meet-the-ai-coworkers/s3-object-inventory.json": {
+      "sha256": "7b13f6adaec23b2236c3790f2608c031331a15f2fb0c03fdc0cf8c3c0ea0acfb",
+      "bytes": 21998
+    },
+    "demos/podcast/episodes/001-meet-the-ai-coworkers/script.md": {
+      "sha256": "e4e0ae90c6bdc01da05eab49dda4bb4cd16ca5a8a9c7977bff5ac0058479f6cf",
+      "bytes": 18147
+    },
+    "demos/podcast/episodes/001-meet-the-ai-coworkers/show-notes.md": {
+      "sha256": "47b708c49e35dfe2c381adb664292bb4f56426ff07aeb5aeb2cf553f756c2d77",
+      "bytes": 1759
+    },
+    "demos/podcast/episodes/001-meet-the-ai-coworkers/source-packet.md": {
+      "sha256": "df6055ec3c96dcc6f14513e24ab76ab092b4048306dbcc2a1af34bbbf0dcf042",
+      "bytes": 1728
+    },
+    "demos/podcast/episodes/001-meet-the-ai-coworkers/storage-manifest.json": {
+      "sha256": "ff0d1b8ee6dbdbe3b62d2d0d5b661397b8daec49b0e00ead71e734f10b3a9214",
+      "bytes": 6396
+    },
+    "demos/podcast/episodes/001-meet-the-ai-coworkers/transcript.md": {
+      "sha256": "f2ccc783aa3d757a18adf07aa90be5a2909578ecea536cb5c44326734e35c6b6",
+      "bytes": 17573
+    },
+    "demos/podcast/episodes/meet-the-ai-coworkers/index.html": {
+      "sha256": "fb5c33d0202dde7a9b446a01e89cd4668f0283847bc811975bf0252b19e544d3",
+      "bytes": 20244
+    },
+    "demos/podcast/feed.xml": {
+      "sha256": "4315538d1833e01793e8cedbfe6ef364805f478985f1a1a9c8c5fb2cee8d23c7",
+      "bytes": 2550
+    },
+    "demos/podcast/index.html": {
+      "sha256": "95c2de880aae8d8c2a0a437095eb3fa6c711e3a573bc9090e752bcc9aaef2bfb",
+      "bytes": 29388
+    },
+    "demos/podcast/studio-reference/.thumbnail": {
+      "sha256": "40bd692d2c9f8342fc5d6d0fadfc223ab38952ffc782c4a5814cb55761b1ff6d",
+      "bytes": 17988
+    },
+    "demos/podcast/studio-reference/REFERENCE_DIGESTS.txt": {
+      "sha256": "39080999a694890f8ccadae9f97dcc60cb7a14a1193bcccf03f8f10193aa30e3",
+      "bytes": 86
+    },
+    "demos/podcast/studio-reference/image-slot.js": {
+      "sha256": "fff26d081c8d9d60870f86c7539a5d179b9cdab15e67f2b205508a068e7c7ff6",
+      "bytes": 65350
+    },
+    "demos/podcast/studio-reference/podcast-studio.html": {
+      "sha256": "dbfadc213f6bd4b72a06cf160e8b3ba9644c9fb62aa29495e55b8d24e2a91dc1",
+      "bytes": 29211
+    },
+    "demos/podcast/studio-reference/support.js": {
+      "sha256": "8fe7df74405f3c55f49b7249c74ea1397e65d07dea2b1bd3b4a489bec2e28cbe",
+      "bytes": 69150
+    },
+    "demos/podcast/studio-reference/uploads/agent-logic-logo.svg": {
+      "sha256": "265af57178a57fef3cc1b2cbf94bf9f2f1dc29933a85ee50cf7b183d5a7ca4be",
+      "bytes": 3996
+    },
+    "demos/podcast/studio-reference/uploads/pasted-1785349876840-0.png": {
+      "sha256": "85b97f2f5878a71f7d1ceec8dc36e86f01c7dca0ff48351792191a028f27ac89",
+      "bytes": 733407
+    },
+    "demos/podcast/studio-reference/uploads/pasted-1785352283803-0.png": {
+      "sha256": "d150924747b2c7c33b6b333ddccc4ffc763eb36759e911f459b9ab7a4182e090",
+      "bytes": 88984
+    },
+    "demos/podcast/studio-reference/uploads/pasted-1785352572936-0.png": {
+      "sha256": "83d47a48a60ad7bfcf4bd75da189e6f6a68af48f41e590b2b44ece5eaf0e0b91",
+      "bytes": 130966
+    },
+    "demos/podcast/studio-reference/uploads/pasted-1785352657594-0.png": {
+      "sha256": "4f26e009403fe3cf30ac788c3f9cc0afcae42577c3fb26ba25dc27282d264c1c",
+      "bytes": 114621
+    },
+    "demos/podcast/studio-reference/uploads/pasted-1785353328771-0.png": {
+      "sha256": "6a39d8ad79a1ff859929a218611a34286d2d241c00e9b1f9386899089700fe3c",
+      "bytes": 32816
+    },
+    "demos/podcast/studio-reference/uploads/pasted-1785353505947-0.png": {
+      "sha256": "a478d2c27a431d8c5f70208a06cdfc016bb7a0f434b9f3b930fdd145ae79570a",
+      "bytes": 143818
+    },
+    "demos/podcast/studio-reference/uploads/pasted-1785353612368-0.png": {
+      "sha256": "08384d1eda714eb07914eaa2d31ca7a30f50fecb4256f9a4032faca9c17f40c7",
+      "bytes": 162429
+    },
+    "demos/podcast/studio-reference/uploads/pasted-1785353717303-0.png": {
+      "sha256": "71ab1e2551d2e3371592eb74ae718c212316b0b81cffe34c3a519c4b9bf54491",
+      "bytes": 221168
+    },
+    "demos/podcast/studio-reference/uploads/pasted-1785353893264-0.png": {
+      "sha256": "1c694ce4dc86a530c5d2c3532ea985256b2c6a61e1238bb1b306debeb96539bf",
+      "bytes": 137482
+    },
+    "demos/podcast/studio-reference/uploads/speech-bubble-vector-halftone-style-set/v999-11.jpg": {
+      "sha256": "59a274a89954459a9db224faac04cdbfb6fce099183cc5fbd6284425bef4126a",
+      "bytes": 3290170
+    },
+    "demos/podcast/studio/.thumbnail": {
+      "sha256": "40bd692d2c9f8342fc5d6d0fadfc223ab38952ffc782c4a5814cb55761b1ff6d",
+      "bytes": 17988
+    },
+    "demos/podcast/studio/REFERENCE_DIGESTS.txt": {
+      "sha256": "39080999a694890f8ccadae9f97dcc60cb7a14a1193bcccf03f8f10193aa30e3",
+      "bytes": 86
+    },
+    "demos/podcast/studio/image-slot.js": {
+      "sha256": "fff26d081c8d9d60870f86c7539a5d179b9cdab15e67f2b205508a068e7c7ff6",
+      "bytes": 65350
+    },
+    "demos/podcast/studio/index.html": {
+      "sha256": "e14b8f3c468a4b13f45e4c5be5bf6137a1e6b6a77d1ca3297097a456e321c469",
+      "bytes": 578
+    },
+    "demos/podcast/studio/podcast-studio.html": {
+      "sha256": "dbfadc213f6bd4b72a06cf160e8b3ba9644c9fb62aa29495e55b8d24e2a91dc1",
+      "bytes": 29211
+    },
+    "demos/podcast/studio/reference.sha256": {
+      "sha256": "39080999a694890f8ccadae9f97dcc60cb7a14a1193bcccf03f8f10193aa30e3",
+      "bytes": 86
+    },
+    "demos/podcast/studio/support.js": {
+      "sha256": "8fe7df74405f3c55f49b7249c74ea1397e65d07dea2b1bd3b4a489bec2e28cbe",
+      "bytes": 69150
+    },
+    "demos/podcast/studio/uploads/agent-logic-logo.svg": {
+      "sha256": "265af57178a57fef3cc1b2cbf94bf9f2f1dc29933a85ee50cf7b183d5a7ca4be",
+      "bytes": 3996
+    },
+    "demos/podcast/studio/uploads/pasted-1785349876840-0.png": {
+      "sha256": "85b97f2f5878a71f7d1ceec8dc36e86f01c7dca0ff48351792191a028f27ac89",
+      "bytes": 733407
+    },
+    "demos/podcast/studio/uploads/pasted-1785352283803-0.png": {
+      "sha256": "d150924747b2c7c33b6b333ddccc4ffc763eb36759e911f459b9ab7a4182e090",
+      "bytes": 88984
+    },
+    "demos/podcast/studio/uploads/pasted-1785352572936-0.png": {
+      "sha256": "83d47a48a60ad7bfcf4bd75da189e6f6a68af48f41e590b2b44ece5eaf0e0b91",
+      "bytes": 130966
+    },
+    "demos/podcast/studio/uploads/pasted-1785352657594-0.png": {
+      "sha256": "4f26e009403fe3cf30ac788c3f9cc0afcae42577c3fb26ba25dc27282d264c1c",
+      "bytes": 114621
+    },
+    "demos/podcast/studio/uploads/pasted-1785353328771-0.png": {
+      "sha256": "6a39d8ad79a1ff859929a218611a34286d2d241c00e9b1f9386899089700fe3c",
+      "bytes": 32816
+    },
+    "demos/podcast/studio/uploads/pasted-1785353505947-0.png": {
+      "sha256": "a478d2c27a431d8c5f70208a06cdfc016bb7a0f434b9f3b930fdd145ae79570a",
+      "bytes": 143818
+    },
+    "demos/podcast/studio/uploads/pasted-1785353612368-0.png": {
+      "sha256": "08384d1eda714eb07914eaa2d31ca7a30f50fecb4256f9a4032faca9c17f40c7",
+      "bytes": 162429
+    },
+    "demos/podcast/studio/uploads/pasted-1785353717303-0.png": {
+      "sha256": "71ab1e2551d2e3371592eb74ae718c212316b0b81cffe34c3a519c4b9bf54491",
+      "bytes": 221168
+    },
+    "demos/podcast/studio/uploads/pasted-1785353893264-0.png": {
+      "sha256": "1c694ce4dc86a530c5d2c3532ea985256b2c6a61e1238bb1b306debeb96539bf",
+      "bytes": 137482
+    },
+    "demos/podcast/studio/uploads/speech-bubble-vector-halftone-style-set/v999-11.jpg": {
+      "sha256": "59a274a89954459a9db224faac04cdbfb6fce099183cc5fbd6284425bef4126a",
+      "bytes": 3290170
+    }
+  }
+}

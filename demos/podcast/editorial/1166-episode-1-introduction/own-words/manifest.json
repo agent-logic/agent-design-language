@@ -1,0 +1,35 @@
+{
+  "issue": 1166,
+  "turns": 18,
+  "spoken_words": 1440,
+  "models": {
+    "ChatGPT": "gpt-5.5",
+    "Gemini": "gemini-3.1-pro-preview",
+    "Claude": "claude-opus-4-8"
+  },
+  "authorship": "actual sequential provider responses",
+  "human_approved": true,
+  "audio_rendered": true,
+  "speaker_authored_revisions": [
+    1,
+    6,
+    12,
+    18
+  ],
+  "script_sha256": "8bb37a651bf5c8efcd1a091d93ff002dbfc4899b0bc6a44d37105510f3f79baa",
+  "execution": "sequential direct provider API calls via repository adapter; not Runtime proof",
+  "validation": "18 text hashes, prompt hashes and successful completion statuses verified",
+  "approval": {
+    "statement": "Make it more conversational; ok go ahead while1166is stillopen; Ok that is better",
+    "scope": "Conversational opening replacement within existing episode; no publication",
+    "script_sha256": "8bb37a651bf5c8efcd1a091d93ff002dbfc4899b0bc6a44d37105510f3f79baa",
+    "guest_teaser_authorization": "you can also tease that the next episode will feature DeepSeek as our special guest."
+  },
+  "audio_candidate": "../audio-candidate/episode.json",
+  "prior_approval": {
+    "statement": "This is good, go for it.",
+    "relayed_by_task": "01a0a778-b4d5-79a0-8125-1a5da8f8f7a0",
+    "scope": "exact script and audio production; no public release",
+    "script_sha256": "0129a195c76c6fdc95ecbe85035af8f7f3e5de793a44c6074cca9acc8f8e40ed"
+  }
+}

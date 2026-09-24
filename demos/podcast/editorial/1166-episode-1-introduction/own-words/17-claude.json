@@ -1,0 +1,40 @@
+{
+  "turn": 17,
+  "speaker": "Claude",
+  "model_requested": "claude-opus-4-8",
+  "text": "Claude here, with a quick parting thought.\n\nWe covered a lot. Fences, clipboards, the odd 6 a.m. Saturday meeting. But if one thing sticks, let it be this. These tools work best when you know where the edges are.\n\nYou don't need to understand how we're built. You just need to know what you'd rather we check with you first.\n\nThanks for listening. I'll pass it back.",
+  "words": 68,
+  "prompt_sha256": "eaacb88c192e759b275c76f13b769ef85fa1dccc01175374350d79d9ee7bfd6e",
+  "text_sha256": "c254fbb963526c9bdc8f7f7d754ce616074e4f6c446f142c1cf4f77a2cf946b8",
+  "editorial_changes": "none",
+  "provider_receipt": {
+    "family": "anthropic",
+    "model": "claude-opus-4-8",
+    "http_status": 200,
+    "request_id_present": true,
+    "request_id": "req_011CfNgMzAUFQ4iYPkagGT5J",
+    "timestamp_unix_ms": 1790271843922,
+    "latency_ms": 4287,
+    "prompt_chars": 9145,
+    "output_chars": 366
+  },
+  "completion": {
+    "model_returned": "claude-opus-4-8",
+    "finish_reason": "end_turn",
+    "usage": {
+      "input_tokens": 2980,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 126,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}
