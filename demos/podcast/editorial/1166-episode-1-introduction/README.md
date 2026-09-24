@@ -22,7 +22,7 @@ After approval, measure the final mastered audio against the **9–11 minute** t
 
 ## New artwork and preserved candidate
 
-The supplied cover is a 3000 × 3000 RGB PNG. It was copied byte-for-byte, without redesign or conversion. [Artwork provenance](artwork-provenance.json) records its source, size and SHA-256. It has not been uploaded, embedded into audio or substituted into the existing feed.
+The supplied cover is a 3000 × 3000 RGB PNG. It was copied byte-for-byte, without redesign or conversion. [Artwork provenance](artwork-provenance.json) records its source, size and SHA-256. The supplied PNG is embedded unchanged in the replacement MP3 candidate. It has not been publicly uploaded or substituted into the existing feed.
 
 [Preservation manifest](preserved-candidate.json) records the existing 77 tracked podcast/preview files at the starting revision, including the 18:32 MP3, WAV archive, old artwork, script, transcript, manifests, feed and HTML. Their bytes remain unchanged. Git history and these retained worktree files preserve the old candidate; no immutable S3 evidence was rewritten and no remote archive operation is claimed.
 
