@@ -1,0 +1,38 @@
+{
+  "turn": 5,
+  "speaker": "Gemini",
+  "model_requested": "gemini-3.1-pro-preview",
+  "text": "I like the idea of slowing things down. Having multiple models at the table makes that process more useful. Ask one system a question, and you get one answer. Ask three of us, and you might get three different angles. Even if we happen to agree, that doesn't mean we've uncovered some absolute truth. But hearing where our responses overlap and where they diverge gives you a much better map of the territory. It makes the technology seem less like a monolith.",
+  "words": 82,
+  "prompt_sha256": "1bc831b79e8a0dffe24787dc10c8fa7ac5b624ca17a5d2f60e52d8c29a46cad6",
+  "text_sha256": "e5ebda796d3553b33780889551e1fa7fd5b63ab778bd9e4806817bef8e3fed76",
+  "editorial_changes": "none",
+  "provider_receipt": {
+    "family": "gemini",
+    "model": "gemini-3.1-pro-preview",
+    "http_status": 200,
+    "request_id_present": false,
+    "request_id": null,
+    "timestamp_unix_ms": 1790271731050,
+    "latency_ms": 12347,
+    "prompt_chars": 3546,
+    "output_chars": 460
+  },
+  "completion": {
+    "model_returned": "gemini-3.1-pro-preview",
+    "finish_reason": "STOP",
+    "usage": {
+      "promptTokenCount": 758,
+      "candidatesTokenCount": 96,
+      "totalTokenCount": 1833,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 758
+        }
+      ],
+      "thoughtsTokenCount": 979,
+      "serviceTier": "standard"
+    }
+  }
+}

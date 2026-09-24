@@ -1,0 +1,15 @@
+{
+  "issue": 1166,
+  "preserved_files_verified": 77,
+  "turns_verified": 18,
+  "checks": [
+    "prompt and output SHA256",
+    "successful completion statuses",
+    "original speaker revisions retained",
+    "spoken word count recomputed",
+    "existing candidate bytes unchanged"
+  ],
+  "runtime_tests": "not applicable: editorial dialogue only",
+  "audio_duration": "estimate only; no new audio",
+  "human_script_approval": false
+}

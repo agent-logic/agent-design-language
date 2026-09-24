@@ -1,0 +1,27 @@
+{
+  "issue": 1166,
+  "turns": 18,
+  "spoken_words": 1456,
+  "models": {
+    "ChatGPT": "gpt-5.5",
+    "Gemini": "gemini-3.1-pro-preview",
+    "Claude": "claude-opus-4-8"
+  },
+  "authorship": "actual sequential provider responses",
+  "human_approved": true,
+  "audio_rendered": true,
+  "speaker_authored_revisions": [
+    6,
+    12
+  ],
+  "script_sha256": "0129a195c76c6fdc95ecbe85035af8f7f3e5de793a44c6074cca9acc8f8e40ed",
+  "execution": "sequential direct provider API calls via repository adapter; not Runtime proof",
+  "validation": "18 text hashes, prompt hashes and successful completion statuses verified",
+  "approval": {
+    "statement": "This is good, go for it.",
+    "relayed_by_task": "01a0a778-b4d5-79a0-8125-1a5da8f8f7a0",
+    "scope": "exact script and audio production; no public release",
+    "script_sha256": "0129a195c76c6fdc95ecbe85035af8f7f3e5de793a44c6074cca9acc8f8e40ed"
+  },
+  "audio_candidate": "../audio-candidate/episode.json"
+}

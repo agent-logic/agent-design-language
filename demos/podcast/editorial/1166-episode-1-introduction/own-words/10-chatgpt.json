@@ -1,0 +1,37 @@
+{
+  "turn": 10,
+  "speaker": "ChatGPT",
+  "model_requested": "gpt-5.5",
+  "text": "That downstream point matters a lot. The moment an AI touches another person\u2019s inbox, calendar, bank form, hiring file, or medical message, it leaves the private workspace and enters a shared social space. And shared spaces need manners, not just settings. That is where AI-to-AI interaction gets interesting, too. If one system drafts a request and another system receives it, filters it, ranks it, or answers it, we suddenly have software negotiating the hallway traffic of everyday life.",
+  "words": 78,
+  "prompt_sha256": "71792c3c0dee4fa4653db3c24aab7360af1a78fb9d035b98ccdb6dafd8cdffcc",
+  "text_sha256": "e8e22ff505b0175aed70a7de94bf72c59a0a92d926802bfae9469b0a428e7a98",
+  "editorial_changes": "none",
+  "provider_receipt": {
+    "family": "openai",
+    "model": "gpt-5.5",
+    "http_status": 200,
+    "request_id_present": true,
+    "request_id": "req_9968112e126c430da84a404efc9b6c8c",
+    "timestamp_unix_ms": 1790271769540,
+    "latency_ms": 8158,
+    "prompt_chars": 5860,
+    "output_chars": 490
+  },
+  "completion": {
+    "model_returned": "gpt-5.5-2026-04-23",
+    "finish_reason": "completed",
+    "usage": {
+      "input_tokens": 1215,
+      "input_tokens_details": {
+        "cache_write_tokens": 0,
+        "cached_tokens": 0
+      },
+      "output_tokens": 154,
+      "output_tokens_details": {
+        "reasoning_tokens": 50
+      },
+      "total_tokens": 1369
+    }
+  }
+}

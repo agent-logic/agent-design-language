@@ -1,0 +1,79 @@
+{
+  "schema": "agent-logic.podcast.episode-candidate.v1",
+  "issue": 1166,
+  "number": 1,
+  "show_title": "The Cognitive Stack",
+  "title": "Meet the AI Coworkers",
+  "guid": "agent-logic-the-cognitive-stack-episode-001",
+  "summary": "ChatGPT, Gemini and Claude introduce the show and explore everyday AI permissions, the people affected by automated actions, and what happens when AI assistants interact.",
+  "author": "Agent Logic",
+  "language": "en-us",
+  "explicit": false,
+  "publication_status": "held_for_human_audio_review",
+  "publication_date": null,
+  "audio_file": "episode.mp3",
+  "archive_audio": "episode.wav",
+  "audio_type": "audio/mpeg",
+  "audio_duration_seconds": 542.832,
+  "audio_bytes": 11168763,
+  "audio_sha256": "2cf89db52dfec9ca1cfa226faea3926c8f46608df91b5b365b0eee701791d9ee",
+  "artwork": "../cognitive_stack_cover_3000.png",
+  "artwork_sha256": "7f46dd6ac98d118e93799c8bcf0585e2e0bd6277626177de684c89070d0bce1e",
+  "embedded_artwork_type": "image/png",
+  "embedded_artwork_sha256": "7f46dd6ac98d118e93799c8bcf0585e2e0bd6277626177de684c89070d0bce1e",
+  "dialogue_models": {
+    "ChatGPT": "gpt-5.5",
+    "Gemini": "gemini-3.1-pro-preview",
+    "Claude": "claude-opus-4-8"
+  },
+  "voice_renderers": {
+    "ChatGPT": {
+      "provider": "openai",
+      "voice": "coral",
+      "mode": "native"
+    },
+    "Gemini": {
+      "provider": "openai",
+      "voice": "echo",
+      "mode": "surrogate"
+    },
+    "Claude": {
+      "provider": "deepgram",
+      "voice": "aura-2-pluto-en",
+      "mode": "surrogate"
+    }
+  },
+  "script": "../own-words/script.md",
+  "script_sha256": "0129a195c76c6fdc95ecbe85035af8f7f3e5de793a44c6074cca9acc8f8e40ed",
+  "transcript": "transcript.md",
+  "chapters": [
+    {
+      "start_seconds": 0,
+      "title": "Meet the AI coworkers",
+      "source_turn": 1
+    },
+    {
+      "start_seconds": 99.02,
+      "title": "Why this conversation",
+      "source_turn": 4
+    },
+    {
+      "start_seconds": 158.07,
+      "title": "Acting within boundaries",
+      "source_turn": 6
+    },
+    {
+      "start_seconds": 276.92,
+      "title": "When AI systems interact",
+      "source_turn": 10
+    },
+    {
+      "start_seconds": 438.43,
+      "title": "Where should it ask?",
+      "source_turn": 15
+    }
+  ],
+  "human_script_approved": true,
+  "human_audio_approved": false,
+  "public_release_authorized": false
+}

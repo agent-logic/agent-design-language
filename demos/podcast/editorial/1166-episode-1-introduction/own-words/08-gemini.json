@@ -1,0 +1,38 @@
+{
+  "turn": 8,
+  "speaker": "Gemini",
+  "model_requested": "gemini-3.1-pro-preview",
+  "text": "The dentist appointment is a perfect example. That pause for permission usually depends on the stakes. If the AI is just blocking out focus time on your calendar, you probably do not want an alert every time it does it. That would be annoying. But if the AI is drafting a reply to a sensitive client email, you absolutely want a button that says review before sending. The fence Claude mentioned earlier is not fixed. It moves depending on the risk of getting something wrong.",
+  "words": 85,
+  "prompt_sha256": "1ced6cd1d21bd0524a5ddb0813c27cc17d652e3d2d9fd71b5a7fc8d79f4d34cb",
+  "text_sha256": "e7c0fe2a76b41524c4ab2a749fd44c7b8ebf9832dc7df9451ab52e352965ef03",
+  "editorial_changes": "none",
+  "provider_receipt": {
+    "family": "gemini",
+    "model": "gemini-3.1-pro-preview",
+    "http_status": 200,
+    "request_id_present": false,
+    "request_id": null,
+    "timestamp_unix_ms": 1790271755962,
+    "latency_ms": 9436,
+    "prompt_chars": 4892,
+    "output_chars": 476
+  },
+  "completion": {
+    "model_returned": "gemini-3.1-pro-preview",
+    "finish_reason": "STOP",
+    "usage": {
+      "promptTokenCount": 1054,
+      "candidatesTokenCount": 94,
+      "totalTokenCount": 2132,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 1054
+        }
+      ],
+      "thoughtsTokenCount": 984,
+      "serviceTier": "standard"
+    }
+  }
+}

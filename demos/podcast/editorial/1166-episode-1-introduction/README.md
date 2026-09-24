@@ -1,33 +1,24 @@
 # Episode 1 introduction — script approval packet
 
-Status: ready for human editorial review; script approval has not been received. No replacement audio has been synthesized.
+Status: the actual-speaker script is approved and replacement audio has been produced. The 9:03 local candidate awaits human listening and audio acceptance. No public release has occurred.
 
-Read [the complete script](script.md) and view [the supplied cover](cognitive_stack_cover_3000.png). This packet belongs to [issue #1166](https://github.com/agent-logic/agent-design-language/issues/1166). It is a proposal for the existing Episode 1, not a new episode or release.
+Listen to [the finished MP3](audio-candidate/episode.mp3). [Episode metadata](audio-candidate/episode.json) and [production evidence](audio-candidate/production.json) accompany the WAV archive, transcript, measured chapters and show notes.
 
-The script introduces the three speaking roles before exploring AI action and communication through a picnic example. It uses short replies, recurring gentle humor and practical questions. The closing suggests a possible question about trust without promising another episode or date.
+Read [the complete current dialogue](own-words/script.md) and view [the supplied cover](cognitive_stack_cover_3000.png). This packet belongs to [issue #1166](https://github.com/agent-logic/agent-design-language/issues/1166). It is a proposal for the existing Episode 1, not a new release.
 
-## Authorship and disclosure decision
+## Authorship and disclosure
 
-This draft was authored in an OpenAI Codex session. Its ChatGPT, Gemini and Claude labels are proposed presenter roles. No fresh Gemini or Claude dialogue generation took place. The old candidate's model versions, authorship receipts and voice manifest apply only to that old candidate.
+Actual OpenAI `gpt-5.5`, Gemini `gemini-3.1-pro-preview`, and Claude `claude-opus-4-8` responses supply their respective spoken turns. Each received a shared episode brief, a short topical cue, a word target and the preceding conversation. The speakers chose their own wording and examples. This is an editorially guided sequential text exchange, not a live audio conversation or independently chosen episode agenda.
 
-The spoken disclosure explicitly says one AI writer drafted the three roles. Approval of this script would approve that disclosed editorial format. If the intended format instead requires newly generated contributions from each named model, obtain and retain those contributions, revise the disclosure, and present the resulting script for approval before synthesis. Do not silently label this draft a three-provider conversation.
+[The generation packet](own-words/manifest.json) retains prompts, outputs, model identifiers, completion metadata and hashes. Accuracy corrections are requested from the original speaker; original turns and revision prompts are retained. Later turns were generated against the original conversation; revised turns preserve those conversational connections. No editor wrote replacement speech. These were direct provider API calls through the repository adapter, not an ADL Runtime execution proof.
 
-Synthetic voices are planned, not yet rendered or newly selected. Human editorial direction is provided by the brief; human script approval is still required. The spoken statement about human approval becomes valid only after that approval. The approved production record must identify actual dialogue authors, models and voice renderers used.
+The earlier [single-writer draft](script.md), its review and validation remain historical evidence and are superseded as the performance candidate. Their review does not approve this new dialogue. The user approved the complete new dialogue before rendering; the exact approved script hash and relayed approval are retained in the generation manifest.
 
 ## Pacing plan
 
-There are **1,313 spoken words** across six sections. At 130–150 spoken words per minute plus roughly 20 seconds of turn/section pauses, the estimate is **9:05–10:26**. Around 140 words per minute plus 30 seconds of breathing room gives approximately **9:53**. These are estimates, not measured audio duration.
+The dialogue has 1,456 spoken words across 18 turns. At 140–150 words per minute plus 20 seconds of pauses, the estimate is about **10:02–10:44**. These are estimates, not measured audio duration; the exact current count is in the generation manifest.
 
-| Section | Guide | Spoken words |
-| --- | --- | ---: |
-| Welcome and hook | 0:00–0:50 | 105 |
-| Hosts and production disclosure | 0:50–3:00 | 322 |
-| Show premise | 3:00–4:30 | 172 |
-| Acting independently | 4:30–6:45 | 288 |
-| AIs exchanging messages | 6:45–8:55 | 275 |
-| Closing | 8:55–10:00 | 151 |
-
-The guide allows individual sections to breathe; do not force an exact timestamp by rushing dialogue. After approval, measure the final mastered audio against the **9–11 minute** target. If substantive cuts or additions are needed, return the changed script for approval. Generate real chapter boundaries from the accepted recording; these editorial estimates must not become fabricated measured chapters.
+After approval, measure the final mastered audio against the **9–11 minute** target. If substantive cuts or additions are needed, return the changed script for approval. Generate chapter boundaries from the accepted recording, not these estimates.
 
 ## New artwork and preserved candidate
 
@@ -41,12 +32,12 @@ The podcast landing page and studio HTML, design and copy are outside scope. Do 
 
 ## Approval and subsequent delivery
 
-1. Human editor approves or revises this complete script and its disclosed authorship format. The cover is the supplied replacement candidate; no redesign is proposed.
-2. Only after script approval, render replacement speech, retain actual generation/voice provenance, master it, verify 9–11 minutes and perform a full listening review.
+1. Complete: the human editor approved this complete script and its disclosed authorship format. The cover is the supplied replacement candidate; no redesign is proposed.
+2. Speech rendering and mastering complete: measured MP3 duration 542.832 seconds (9:03). Full human listening and audio acceptance remain pending.
 3. Build a separate replacement episode candidate. Synchronize spoken transcript, show notes, measured chapters, duration, enclosure byte count/hash, selected cover and any embedded artwork derivative. Reconcile feed/media references with the RSS correction work. Do not edit webpage HTML, studio design or copy.
 4. Preserve the old candidate until the replacement is accepted. Keep replacement publication date unset and publication status on hold. Script approval is not audio acceptance or public launch approval.
 5. Obtain audio acceptance and explicit launch/registration authorization through the responsible owner before any public action.
 
 The requested registration target is **Thursday, September 24, 2026**, with launch targeted for **Friday, September 25**. These are schedule targets, not approval or an episode publication date. Script approval, audio rendering/listening, package verification and registration readiness remain dependencies; directory processing time is not guaranteed. Delayed script approval or a required authorship rewrite should be raised immediately rather than bypassing a gate.
 
-This stage deliberately delivers an approval packet without a closing PR: the issue also requires approved audio and synchronized media metadata. Native preparation and binding succeeded. The active intent interface can declare manual-review/diff validators, but currently does not execute non-Cargo proof for publication; this packet does not substitute an unrelated Rust test or claim native publication proof.
+The user authorized PR delivery of this completed audio candidate for external review. Human listening acceptance and public launch are separate. The focused native proof adapter follows the established podcast-feed route: one Cargo test executes the actual Python package-integrity checks. It checks retained media and provenance; it does not claim human listening or runtime behavior proof.

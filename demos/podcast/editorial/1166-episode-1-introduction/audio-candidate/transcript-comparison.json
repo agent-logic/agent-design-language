@@ -1,0 +1,94 @@
+{
+  "method": "Independent Nova-3 transcription of entire final MP3; differences require inspection, not literal waveform proof",
+  "expected_tokens": 1509,
+  "observed_tokens": 1505,
+  "similarity": 0.9873921698739216,
+  "differences": [
+    {
+      "operation": "replace",
+      "expected": "just in",
+      "observed": "justin",
+      "expected_word_offset": 326
+    },
+    {
+      "operation": "replace",
+      "expected": "wrapper",
+      "observed": "rapper",
+      "expected_word_offset": 330
+    },
+    {
+      "operation": "replace",
+      "expected": "counter proposes",
+      "observed": "counterproposes",
+      "expected_word_offset": 903
+    },
+    {
+      "operation": "replace",
+      "expected": "rule",
+      "observed": "role",
+      "expected_word_offset": 913
+    },
+    {
+      "operation": "replace",
+      "expected": "where",
+      "observed": "when",
+      "expected_word_offset": 946
+    },
+    {
+      "operation": "replace",
+      "expected": "6 a m",
+      "observed": "6am",
+      "expected_word_offset": 984
+    },
+    {
+      "operation": "replace",
+      "expected": "rulebook",
+      "observed": "rule book",
+      "expected_word_offset": 1024
+    },
+    {
+      "operation": "replace",
+      "expected": "rulebook",
+      "observed": "rule book",
+      "expected_word_offset": 1053
+    },
+    {
+      "operation": "replace",
+      "expected": "rulebook",
+      "observed": "rule book",
+      "expected_word_offset": 1059
+    },
+    {
+      "operation": "replace",
+      "expected": "want to",
+      "observed": "wanna",
+      "expected_word_offset": 1195
+    },
+    {
+      "operation": "replace",
+      "expected": "rulebook",
+      "observed": "rule book",
+      "expected_word_offset": 1214
+    },
+    {
+      "operation": "replace",
+      "expected": "want to",
+      "observed": "wanna",
+      "expected_word_offset": 1349
+    },
+    {
+      "operation": "replace",
+      "expected": "6 a m",
+      "observed": "6am",
+      "expected_word_offset": 1370
+    }
+  ],
+  "human_listening_review": "pending",
+  "model_info": {
+    "2187e11a-3532-4498-b076-81fa530bdd49": {
+      "name": "general-nova-3",
+      "version": "2025-07-31.0",
+      "arch": "nova-3"
+    }
+  }
+}

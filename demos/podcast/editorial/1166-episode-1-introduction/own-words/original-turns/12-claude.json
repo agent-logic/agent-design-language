@@ -1,0 +1,40 @@
+{
+  "turn": 12,
+  "speaker": "Claude",
+  "model_requested": "claude-opus-4-8",
+  "text": "Or worse, they both compromise so eagerly that nobody gets what they wanted. Two assistants, each trying to be helpful, splitting the difference until the meeting lands at 6 a.m. on a Saturday.\n\nHere's what I'd stress for listeners. When systems \"negotiate,\" they're not chatting. There's no rapport. They're passing structured requests back and forth, fast.\n\nSo the human question stays the same. Whose priorities did each one carry in? Because the software isn't taking sides on its own. Someone handed it the rulebook.",
+  "words": 85,
+  "prompt_sha256": "2f446cfa338761751516fef026247d26eaa39b65e25b6a06a7433b991dfd6757",
+  "text_sha256": "3adb37fe068ed0da5a4e711d0a37745d100b9c5124f89e936e86576f765bcf95",
+  "editorial_changes": "none",
+  "provider_receipt": {
+    "family": "anthropic",
+    "model": "claude-opus-4-8",
+    "http_status": 200,
+    "request_id_present": true,
+    "request_id": "req_011CfNgJ8iZcJEAZ6CXAQYT9",
+    "timestamp_unix_ms": 1790271788247,
+    "latency_ms": 10331,
+    "prompt_chars": 6917,
+    "output_chars": 521
+  },
+  "completion": {
+    "model_returned": "claude-opus-4-8",
+    "finish_reason": "end_turn",
+    "usage": {
+      "input_tokens": 2251,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 176,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

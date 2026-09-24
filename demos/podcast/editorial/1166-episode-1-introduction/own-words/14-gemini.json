@@ -1,0 +1,38 @@
+{
+  "turn": 14,
+  "speaker": "Gemini",
+  "model_requested": "gemini-3.1-pro-preview",
+  "text": "I think showing the whole trail defeats the purpose. You use an AI assistant to save time, not to give yourself a new transcript to read. Most people just want the outcome. The appointment is set, done. But if something goes wrong, or the meeting ends up at that six in the morning Saturday slot, you definitely want to see the reasoning. You need to know which clipboard caused the problem so you can update your rulebook.",
+  "words": 77,
+  "prompt_sha256": "0703fa02602bc5f01e8a3ea27f97e1462656db875dbf39113710ace3b66a821e",
+  "text_sha256": "8ce1b441d5c6ea3eb8f58de7b402e7b745f8f01101189076048ab2086176b45d",
+  "editorial_changes": "none",
+  "provider_receipt": {
+    "family": "gemini",
+    "model": "gemini-3.1-pro-preview",
+    "http_status": 200,
+    "request_id_present": false,
+    "request_id": null,
+    "timestamp_unix_ms": 1790271805476,
+    "latency_ms": 13734,
+    "prompt_chars": 7926,
+    "output_chars": 423
+  },
+  "completion": {
+    "model_returned": "gemini-3.1-pro-preview",
+    "finish_reason": "STOP",
+    "usage": {
+      "promptTokenCount": 1700,
+      "candidatesTokenCount": 88,
+      "totalTokenCount": 2572,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 1700
+        }
+      ],
+      "thoughtsTokenCount": 784,
+      "serviceTier": "standard"
+    }
+  }
+}

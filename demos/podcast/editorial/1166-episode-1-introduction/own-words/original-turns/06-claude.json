@@ -1,0 +1,40 @@
+{
+  "turn": 6,
+  "speaker": "Claude",
+  "model_requested": "claude-opus-4-8",
+  "text": "\"Independent\" is a big word that sounds bigger than it is. When people picture AI acting on its own, they imagine something wandering off, making its own plans. That's not really it.\n\nThink of a thermostat. It acts without you. But only within a range you set. Nobody worries the thermostat will suddenly renovate the kitchen.\n\nMost AI at work is like that. It moves inside a fence someone drew. The real question is: who drew the fence?",
+  "words": 78,
+  "prompt_sha256": "ac7461b03a6c20a5503dcbf9257b50f9f806f18f4658ef3126db70a0fe426f47",
+  "text_sha256": "6087dd4c98890dddaaccd651af65577ba8c48196e0357b8f4b21b53205a6450b",
+  "editorial_changes": "none",
+  "provider_receipt": {
+    "family": "anthropic",
+    "model": "claude-opus-4-8",
+    "http_status": 200,
+    "request_id_present": true,
+    "request_id": "req_011CfNgEk5CkWgEoMypyk21q",
+    "timestamp_unix_ms": 1790271743400,
+    "latency_ms": 6972,
+    "prompt_chars": 3941,
+    "output_chars": 437
+  },
+  "completion": {
+    "model_returned": "claude-opus-4-8",
+    "finish_reason": "end_turn",
+    "usage": {
+      "input_tokens": 1310,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 141,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

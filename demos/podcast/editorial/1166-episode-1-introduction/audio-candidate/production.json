@@ -1,0 +1,358 @@
+{
+  "issue": 1166,
+  "script_sha256": "0129a195c76c6fdc95ecbe85035af8f7f3e5de793a44c6074cca9acc8f8e40ed",
+  "natural_render_seconds": 542.78,
+  "tempo_factor": 1.0,
+  "duration_seconds": 542.832,
+  "files": {
+    "episode.wav": {
+      "bytes": 26053518,
+      "sha256": "73d37a6b23e01cd650b9062fb8458436f88721718055335ab939edd2a18e9094"
+    },
+    "episode.mp3": {
+      "bytes": 11168763,
+      "sha256": "2cf89db52dfec9ca1cfa226faea3926c8f46608df91b5b365b0eee701791d9ee"
+    }
+  },
+  "voice_renderers": {
+    "ChatGPT": {
+      "provider": "openai",
+      "voice": "coral",
+      "mode": "native"
+    },
+    "Gemini": {
+      "provider": "openai",
+      "voice": "echo",
+      "mode": "surrogate"
+    },
+    "Claude": {
+      "provider": "deepgram",
+      "voice": "aura-2-pluto-en",
+      "mode": "surrogate"
+    }
+  },
+  "speech_models": {
+    "openai": "gpt-4o-mini-tts",
+    "deepgram": "aura-2-pluto-en"
+  },
+  "segments": [
+    {
+      "speaker": "ChatGPT",
+      "role": "host / synthesizer",
+      "source_text_file": "script.md#turn-01",
+      "audio_file": "01-chatgpt.wav",
+      "provider": "openai",
+      "voice": "coral",
+      "surrogate_render": false,
+      "segment_metrics": {
+        "rms": 3438.8,
+        "peak": 19444
+      },
+      "start_seconds": 0,
+      "duration_seconds": 37.55,
+      "gap_after_seconds": 0.32,
+      "source_text_sha256": "57a976fc158ac5a1234fa151c8b636386b63a9ad089b2bd7630751065f47e1cd"
+    },
+    {
+      "speaker": "Gemini",
+      "role": "challenger / systems analyst",
+      "source_text_file": "script.md#turn-02",
+      "audio_file": "02-gemini.wav",
+      "provider": "openai",
+      "voice": "echo",
+      "surrogate_render": true,
+      "segment_metrics": {
+        "rms": 3288.4,
+        "peak": 19444
+      },
+      "start_seconds": 37.87,
+      "duration_seconds": 30.65,
+      "gap_after_seconds": 0.28,
+      "source_text_sha256": "79435f4231d8926bad7c43b277ace0a8752c361e6e10ef205d6687f679441d0b"
+    },
+    {
+      "speaker": "Claude",
+      "role": "refiner / moral stylist",
+      "source_text_file": "script.md#turn-03",
+      "audio_file": "03-claude.wav",
+      "provider": "deepgram",
+      "voice": "aura-2-pluto-en",
+      "surrogate_render": true,
+      "segment_metrics": {
+        "rms": 3451.0,
+        "peak": 17260
+      },
+      "start_seconds": 68.8,
+      "duration_seconds": 29.96,
+      "gap_after_seconds": 0.26,
+      "source_text_sha256": "8719f182b1b06f73bb727bd9fd2fe3d13fac4203d588a4ff8b1169bc025bc496"
+    },
+    {
+      "speaker": "ChatGPT",
+      "role": "host / synthesizer",
+      "source_text_file": "script.md#turn-04",
+      "audio_file": "04-chatgpt.wav",
+      "provider": "openai",
+      "voice": "coral",
+      "surrogate_render": false,
+      "segment_metrics": {
+        "rms": 3653.0,
+        "peak": 19444
+      },
+      "start_seconds": 99.02,
+      "duration_seconds": 29.15,
+      "gap_after_seconds": 0.22,
+      "source_text_sha256": "1c22b3864fb931fde69c6f72fd2470463b77bb745019da04f8830bc838714b1d"
+    },
+    {
+      "speaker": "Gemini",
+      "role": "challenger / systems analyst",
+      "source_text_file": "script.md#turn-05",
+      "audio_file": "05-gemini.wav",
+      "provider": "openai",
+      "voice": "echo",
+      "surrogate_render": true,
+      "segment_metrics": {
+        "rms": 3272.1,
+        "peak": 19444
+      },
+      "start_seconds": 128.39,
+      "duration_seconds": 29.4,
+      "gap_after_seconds": 0.28,
+      "source_text_sha256": "e5ebda796d3553b33780889551e1fa7fd5b63ab778bd9e4806817bef8e3fed76"
+    },
+    {
+      "speaker": "Claude",
+      "role": "refiner / moral stylist",
+      "source_text_file": "script.md#turn-06",
+      "audio_file": "06-claude.wav",
+      "provider": "deepgram",
+      "voice": "aura-2-pluto-en",
+      "surrogate_render": true,
+      "segment_metrics": {
+        "rms": 3442.8,
+        "peak": 18019
+      },
+      "start_seconds": 158.07,
+      "duration_seconds": 31.8,
+      "gap_after_seconds": 0.26,
+      "source_text_sha256": "24cdee4267004f86961daefafbb833f0db774c74899f0aae4a3a26d7160926a1"
+    },
+    {
+      "speaker": "ChatGPT",
+      "role": "host / synthesizer",
+      "source_text_file": "script.md#turn-07",
+      "audio_file": "07-chatgpt.wav",
+      "provider": "openai",
+      "voice": "coral",
+      "surrogate_render": false,
+      "segment_metrics": {
+        "rms": 2836.3,
+        "peak": 19444
+      },
+      "start_seconds": 190.13,
+      "duration_seconds": 30.7,
+      "gap_after_seconds": 0.22,
+      "source_text_sha256": "06f51eab114395caeaf721b44e92cc04c6c829168c2111cc96f0b2917fdb2171"
+    },
+    {
+      "speaker": "Gemini",
+      "role": "challenger / systems analyst",
+      "source_text_file": "script.md#turn-08",
+      "audio_file": "08-gemini.wav",
+      "provider": "openai",
+      "voice": "echo",
+      "surrogate_render": true,
+      "segment_metrics": {
+        "rms": 3463.6,
+        "peak": 19385
+      },
+      "start_seconds": 221.05,
+      "duration_seconds": 28.05,
+      "gap_after_seconds": 0.28,
+      "source_text_sha256": "e7c0fe2a76b41524c4ab2a749fd44c7b8ebf9832dc7df9451ab52e352965ef03"
+    },
+    {
+      "speaker": "Claude",
+      "role": "refiner / moral stylist",
+      "source_text_file": "script.md#turn-09",
+      "audio_file": "09-claude.wav",
+      "provider": "deepgram",
+      "voice": "aura-2-pluto-en",
+      "surrogate_render": true,
+      "segment_metrics": {
+        "rms": 3433.1,
+        "peak": 19060
+      },
+      "start_seconds": 249.38,
+      "duration_seconds": 27.28,
+      "gap_after_seconds": 0.26,
+      "source_text_sha256": "0021c8701c588cfe9f965098878e29b99de1b6151595f179515934f88c71204a"
+    },
+    {
+      "speaker": "ChatGPT",
+      "role": "host / synthesizer",
+      "source_text_file": "script.md#turn-10",
+      "audio_file": "10-chatgpt.wav",
+      "provider": "openai",
+      "voice": "coral",
+      "surrogate_render": false,
+      "segment_metrics": {
+        "rms": 3216.5,
+        "peak": 19444
+      },
+      "start_seconds": 276.92,
+      "duration_seconds": 33.35,
+      "gap_after_seconds": 0.22,
+      "source_text_sha256": "e8e22ff505b0175aed70a7de94bf72c59a0a92d926802bfae9469b0a428e7a98"
+    },
+    {
+      "speaker": "Gemini",
+      "role": "challenger / systems analyst",
+      "source_text_file": "script.md#turn-11",
+      "audio_file": "11-gemini.wav",
+      "provider": "openai",
+      "voice": "echo",
+      "surrogate_render": true,
+      "segment_metrics": {
+        "rms": 3413.2,
+        "peak": 19444
+      },
+      "start_seconds": 310.49,
+      "duration_seconds": 31.95,
+      "gap_after_seconds": 0.28,
+      "source_text_sha256": "96e1068e56b660604506b5822ecb9dba4efedefb102e1a5bacfc1e18c1ccafd1"
+    },
+    {
+      "speaker": "Claude",
+      "role": "refiner / moral stylist",
+      "source_text_file": "script.md#turn-12",
+      "audio_file": "12-claude.wav",
+      "provider": "deepgram",
+      "voice": "aura-2-pluto-en",
+      "surrogate_render": true,
+      "segment_metrics": {
+        "rms": 3440.0,
+        "peak": 17622
+      },
+      "start_seconds": 342.72,
+      "duration_seconds": 40.8,
+      "gap_after_seconds": 0.26,
+      "source_text_sha256": "c8243c94d6cb1e8d6627a0f823b93c071cbdd672e69333d081d56fe299857e2c"
+    },
+    {
+      "speaker": "ChatGPT",
+      "role": "host / synthesizer",
+      "source_text_file": "script.md#turn-13",
+      "audio_file": "13-chatgpt.wav",
+      "provider": "openai",
+      "voice": "coral",
+      "surrogate_render": false,
+      "segment_metrics": {
+        "rms": 2383.4,
+        "peak": 19444
+      },
+      "start_seconds": 383.78,
+      "duration_seconds": 30.5,
+      "gap_after_seconds": 0.22,
+      "source_text_sha256": "c8a9c89e5cce5ebbaf8215ac0b8f35875e675d1d42d1c716e453ba9d670ed1b0"
+    },
+    {
+      "speaker": "Gemini",
+      "role": "challenger / systems analyst",
+      "source_text_file": "script.md#turn-14",
+      "audio_file": "14-gemini.wav",
+      "provider": "openai",
+      "voice": "echo",
+      "surrogate_render": true,
+      "segment_metrics": {
+        "rms": 3485.0,
+        "peak": 18964
+      },
+      "start_seconds": 414.5,
+      "duration_seconds": 23.65,
+      "gap_after_seconds": 0.28,
+      "source_text_sha256": "8ce1b441d5c6ea3eb8f58de7b402e7b745f8f01101189076048ab2086176b45d"
+    },
+    {
+      "speaker": "Claude",
+      "role": "refiner / moral stylist",
+      "source_text_file": "script.md#turn-15",
+      "audio_file": "15-claude.wav",
+      "provider": "deepgram",
+      "voice": "aura-2-pluto-en",
+      "surrogate_render": true,
+      "segment_metrics": {
+        "rms": 3464.1,
+        "peak": 16904
+      },
+      "start_seconds": 438.43,
+      "duration_seconds": 25.48,
+      "gap_after_seconds": 0.25,
+      "source_text_sha256": "8da84d7d37fb1cc87a50a0695bf12e49e5fbec94836abb58e96eafc0bdb00e40"
+    },
+    {
+      "speaker": "Gemini",
+      "role": "challenger / systems analyst",
+      "source_text_file": "script.md#turn-16",
+      "audio_file": "16-gemini.wav",
+      "provider": "openai",
+      "voice": "echo",
+      "surrogate_render": true,
+      "segment_metrics": {
+        "rms": 3114.7,
+        "peak": 19444
+      },
+      "start_seconds": 464.16,
+      "duration_seconds": 21.85,
+      "gap_after_seconds": 0.28,
+      "source_text_sha256": "2f7c1dc52490e010bfa4ba8cb88e3948792bce87b94247c70ccc30405f974811"
+    },
+    {
+      "speaker": "Claude",
+      "role": "refiner / moral stylist",
+      "source_text_file": "script.md#turn-17",
+      "audio_file": "17-claude.wav",
+      "provider": "deepgram",
+      "voice": "aura-2-pluto-en",
+      "surrogate_render": true,
+      "segment_metrics": {
+        "rms": 3469.6,
+        "peak": 17800
+      },
+      "start_seconds": 486.29,
+      "duration_seconds": 23.52,
+      "gap_after_seconds": 0.42,
+      "source_text_sha256": "c254fbb963526c9bdc8f7f7d754ce616074e4f6c446f142c1cf4f77a2cf946b8"
+    },
+    {
+      "speaker": "ChatGPT",
+      "role": "host / synthesizer",
+      "source_text_file": "script.md#turn-18",
+      "audio_file": "18-chatgpt.wav",
+      "provider": "openai",
+      "voice": "coral",
+      "surrogate_render": false,
+      "segment_metrics": {
+        "rms": 3321.9,
+        "peak": 19444
+      },
+      "start_seconds": 510.23,
+      "duration_seconds": 32.55,
+      "gap_after_seconds": 0,
+      "source_text_sha256": "e67afad80a36c48bc01d05951c6cac2937450fbc5d024d20dea577e41dd63e0a"
+    }
+  ],
+  "mastering": "Two-pass -16 LUFS, -1.5 dBTP ceiling; 24kHz mono WAV and 160kbps MP3; full supplied PNG embedded",
+  "renderer_source": "adl/tools/demo_v0911_multiagent_podcast_audio.sh",
+  "renderer_adjustment": "Worktree-local copy disables automatic name insertion to preserve approved script; root resolved explicitly",
+  "renderer_sha256": "2ac341dcefa96c8e9260019f8af4a8c9b47e1867948a7071b448fef22c612344",
+  "public_release": false,
+  "human_audio_approved": false,
+  "renderer_source_revision": "6f6fd6b00f846c0779d935bef3688a57ed82c53b",
+  "render_settings": {
+    "ADL_PODCAST_GEMINI_AUDIO_PROVIDER": "openai",
+    "ADL_PODCAST_CHATGPT_INSTRUCTIONS": "Speak warmly and naturally as a podcast host, at an unhurried pace around 145 words per minute. Read the supplied words exactly.",
+    "ADL_PODCAST_GEMINI_INSTRUCTIONS": "Speak brightly and clearly with crisp articulation, at an unhurried pace around 145 words per minute. Read the supplied words exactly."
+  }
+}

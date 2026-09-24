@@ -1,0 +1,25 @@
+{
+  "version": "1.2.0",
+  "chapters": [
+    {
+      "startTime": 0,
+      "title": "Meet the AI coworkers"
+    },
+    {
+      "startTime": 99.02,
+      "title": "Why this conversation"
+    },
+    {
+      "startTime": 158.07,
+      "title": "Acting within boundaries"
+    },
+    {
+      "startTime": 276.92,
+      "title": "When AI systems interact"
+    },
+    {
+      "startTime": 438.43,
+      "title": "Where should it ask?"
+    }
+  ]
+}
