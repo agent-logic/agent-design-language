@@ -1,6 +1,6 @@
 # Episode 1 introduction — script approval packet
 
-Status: the actual-speaker script is approved and replacement audio has been produced. The 9:03 local candidate awaits human listening and audio acceptance. No public release has occurred.
+Status: the actual-speaker script is approved and replacement audio has been produced. The 9:10 local candidate awaits human listening and audio acceptance. No public release has occurred.
 
 Listen to [the finished MP3](audio-candidate/episode.mp3). [Episode metadata](audio-candidate/episode.json) and [production evidence](audio-candidate/production.json) accompany the WAV archive, transcript, measured chapters and show notes.
 
@@ -16,9 +16,7 @@ The earlier [single-writer draft](script.md), its review and validation remain h
 
 ## Pacing plan
 
-The dialogue has 1,456 spoken words across 18 turns. At 140–150 words per minute plus 20 seconds of pauses, the estimate is about **10:02–10:44**. These are estimates, not measured audio duration; the exact current count is in the generation manifest.
-
-After approval, measure the final mastered audio against the **9–11 minute** target. If substantive cuts or additions are needed, return the changed script for approval. Generate chapter boundaries from the accepted recording, not these estimates.
+The current dialogue contains **1,440 spoken words** across 18 turns. After the approved conversational-opening revision, the mastered MP3 measures **550.056 seconds (9:10)**, within the 9–11 minute target. The opening and closing were revised at the user’s request, including a DeepSeek special-guest teaser. The other sixteen retained segments were reused. A pitch-preserving tempo factor of 0.978564 was applied during mastering to maintain the requested episode length. Chapter starts are derived from the measured segments and that pacing factor.
 
 ## New artwork and preserved candidate
 
@@ -33,7 +31,7 @@ The podcast landing page and studio HTML, design and copy are outside scope. Do 
 ## Approval and subsequent delivery
 
 1. Complete: the human editor approved this complete script and its disclosed authorship format. The cover is the supplied replacement candidate; no redesign is proposed.
-2. Speech rendering and mastering complete: measured MP3 duration 542.832 seconds (9:03). Full human listening and audio acceptance remain pending.
+2. Speech rendering and mastering complete: measured MP3 duration 550.056 seconds (9:10). Full human listening and audio acceptance remain pending.
 3. Build a separate replacement episode candidate. Synchronize spoken transcript, show notes, measured chapters, duration, enclosure byte count/hash, selected cover and any embedded artwork derivative. Reconcile feed/media references with the RSS correction work. Do not edit webpage HTML, studio design or copy.
 4. Preserve the old candidate until the replacement is accepted. Keep replacement publication date unset and publication status on hold. Script approval is not audio acceptance or public launch approval.
 5. Obtain audio acceptance and explicit launch/registration authorization through the responsible owner before any public action.

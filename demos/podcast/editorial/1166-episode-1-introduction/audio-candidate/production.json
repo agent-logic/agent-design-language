@@ -1,17 +1,17 @@
 {
   "issue": 1166,
-  "script_sha256": "0129a195c76c6fdc95ecbe85035af8f7f3e5de793a44c6074cca9acc8f8e40ed",
-  "natural_render_seconds": 542.78,
-  "tempo_factor": 1.0,
-  "duration_seconds": 542.832,
+  "script_sha256": "8bb37a651bf5c8efcd1a091d93ff002dbfc4899b0bc6a44d37105510f3f79baa",
+  "natural_render_seconds": 538.21,
+  "tempo_factor": 0.9785636363636364,
+  "duration_seconds": 550.056,
   "files": {
     "episode.wav": {
-      "bytes": 26053518,
-      "sha256": "73d37a6b23e01cd650b9062fb8458436f88721718055335ab939edd2a18e9094"
+      "bytes": 26400196,
+      "sha256": "ffc7e9bc34f8bdd680ee4920f90eb46132f2f3c45d00506bf11e1c1813611e45"
     },
     "episode.mp3": {
-      "bytes": 11168763,
-      "sha256": "2cf89db52dfec9ca1cfa226faea3926c8f46608df91b5b365b0eee701791d9ee"
+      "bytes": 11313243,
+      "sha256": "7c77fa81f1b6d528fbc66ef8224535e4dca4207b86d215dfcee4a24dd13e7846"
     }
   },
   "voice_renderers": {
@@ -45,13 +45,13 @@
       "voice": "coral",
       "surrogate_render": false,
       "segment_metrics": {
-        "rms": 3438.8,
-        "peak": 19444
+        "rms": 3977.1,
+        "peak": 17842
       },
       "start_seconds": 0,
-      "duration_seconds": 37.55,
-      "gap_after_seconds": 0.32,
-      "source_text_sha256": "57a976fc158ac5a1234fa151c8b636386b63a9ad089b2bd7630751065f47e1cd"
+      "duration_seconds": 30.075,
+      "gap_after_seconds": 0.327,
+      "source_text_sha256": "ddd60766243f068acb59d2740312055b6d04933a6f235b0aa762347825cf8e69"
     },
     {
       "speaker": "Gemini",
@@ -65,9 +65,9 @@
         "rms": 3288.4,
         "peak": 19444
       },
-      "start_seconds": 37.87,
-      "duration_seconds": 30.65,
-      "gap_after_seconds": 0.28,
+      "start_seconds": 30.402,
+      "duration_seconds": 31.321,
+      "gap_after_seconds": 0.286,
       "source_text_sha256": "79435f4231d8926bad7c43b277ace0a8752c361e6e10ef205d6687f679441d0b"
     },
     {
@@ -82,9 +82,9 @@
         "rms": 3451.0,
         "peak": 17260
       },
-      "start_seconds": 68.8,
-      "duration_seconds": 29.96,
-      "gap_after_seconds": 0.26,
+      "start_seconds": 62.009,
+      "duration_seconds": 30.616,
+      "gap_after_seconds": 0.266,
       "source_text_sha256": "8719f182b1b06f73bb727bd9fd2fe3d13fac4203d588a4ff8b1169bc025bc496"
     },
     {
@@ -99,9 +99,9 @@
         "rms": 3653.0,
         "peak": 19444
       },
-      "start_seconds": 99.02,
-      "duration_seconds": 29.15,
-      "gap_after_seconds": 0.22,
+      "start_seconds": 92.891,
+      "duration_seconds": 29.789,
+      "gap_after_seconds": 0.225,
       "source_text_sha256": "1c22b3864fb931fde69c6f72fd2470463b77bb745019da04f8830bc838714b1d"
     },
     {
@@ -116,9 +116,9 @@
         "rms": 3272.1,
         "peak": 19444
       },
-      "start_seconds": 128.39,
-      "duration_seconds": 29.4,
-      "gap_after_seconds": 0.28,
+      "start_seconds": 122.905,
+      "duration_seconds": 30.044,
+      "gap_after_seconds": 0.286,
       "source_text_sha256": "e5ebda796d3553b33780889551e1fa7fd5b63ab778bd9e4806817bef8e3fed76"
     },
     {
@@ -133,9 +133,9 @@
         "rms": 3442.8,
         "peak": 18019
       },
-      "start_seconds": 158.07,
-      "duration_seconds": 31.8,
-      "gap_after_seconds": 0.26,
+      "start_seconds": 153.235,
+      "duration_seconds": 32.497,
+      "gap_after_seconds": 0.266,
       "source_text_sha256": "24cdee4267004f86961daefafbb833f0db774c74899f0aae4a3a26d7160926a1"
     },
     {
@@ -150,9 +150,9 @@
         "rms": 2836.3,
         "peak": 19444
       },
-      "start_seconds": 190.13,
-      "duration_seconds": 30.7,
-      "gap_after_seconds": 0.22,
+      "start_seconds": 185.997,
+      "duration_seconds": 31.373,
+      "gap_after_seconds": 0.225,
       "source_text_sha256": "06f51eab114395caeaf721b44e92cc04c6c829168c2111cc96f0b2917fdb2171"
     },
     {
@@ -167,9 +167,9 @@
         "rms": 3463.6,
         "peak": 19385
       },
-      "start_seconds": 221.05,
-      "duration_seconds": 28.05,
-      "gap_after_seconds": 0.28,
+      "start_seconds": 217.594,
+      "duration_seconds": 28.664,
+      "gap_after_seconds": 0.286,
       "source_text_sha256": "e7c0fe2a76b41524c4ab2a749fd44c7b8ebf9832dc7df9451ab52e352965ef03"
     },
     {
@@ -184,9 +184,9 @@
         "rms": 3433.1,
         "peak": 19060
       },
-      "start_seconds": 249.38,
-      "duration_seconds": 27.28,
-      "gap_after_seconds": 0.26,
+      "start_seconds": 246.545,
+      "duration_seconds": 27.878,
+      "gap_after_seconds": 0.266,
       "source_text_sha256": "0021c8701c588cfe9f965098878e29b99de1b6151595f179515934f88c71204a"
     },
     {
@@ -201,9 +201,9 @@
         "rms": 3216.5,
         "peak": 19444
       },
-      "start_seconds": 276.92,
-      "duration_seconds": 33.35,
-      "gap_after_seconds": 0.22,
+      "start_seconds": 274.688,
+      "duration_seconds": 34.081,
+      "gap_after_seconds": 0.225,
       "source_text_sha256": "e8e22ff505b0175aed70a7de94bf72c59a0a92d926802bfae9469b0a428e7a98"
     },
     {
@@ -218,9 +218,9 @@
         "rms": 3413.2,
         "peak": 19444
       },
-      "start_seconds": 310.49,
-      "duration_seconds": 31.95,
-      "gap_after_seconds": 0.28,
+      "start_seconds": 308.994,
+      "duration_seconds": 32.65,
+      "gap_after_seconds": 0.286,
       "source_text_sha256": "96e1068e56b660604506b5822ecb9dba4efedefb102e1a5bacfc1e18c1ccafd1"
     },
     {
@@ -235,9 +235,9 @@
         "rms": 3440.0,
         "peak": 17622
       },
-      "start_seconds": 342.72,
-      "duration_seconds": 40.8,
-      "gap_after_seconds": 0.26,
+      "start_seconds": 341.93,
+      "duration_seconds": 41.694,
+      "gap_after_seconds": 0.266,
       "source_text_sha256": "c8243c94d6cb1e8d6627a0f823b93c071cbdd672e69333d081d56fe299857e2c"
     },
     {
@@ -252,9 +252,9 @@
         "rms": 2383.4,
         "peak": 19444
       },
-      "start_seconds": 383.78,
-      "duration_seconds": 30.5,
-      "gap_after_seconds": 0.22,
+      "start_seconds": 383.889,
+      "duration_seconds": 31.168,
+      "gap_after_seconds": 0.225,
       "source_text_sha256": "c8a9c89e5cce5ebbaf8215ac0b8f35875e675d1d42d1c716e453ba9d670ed1b0"
     },
     {
@@ -269,9 +269,9 @@
         "rms": 3485.0,
         "peak": 18964
       },
-      "start_seconds": 414.5,
-      "duration_seconds": 23.65,
-      "gap_after_seconds": 0.28,
+      "start_seconds": 415.282,
+      "duration_seconds": 24.168,
+      "gap_after_seconds": 0.286,
       "source_text_sha256": "8ce1b441d5c6ea3eb8f58de7b402e7b745f8f01101189076048ab2086176b45d"
     },
     {
@@ -286,9 +286,9 @@
         "rms": 3464.1,
         "peak": 16904
       },
-      "start_seconds": 438.43,
-      "duration_seconds": 25.48,
-      "gap_after_seconds": 0.25,
+      "start_seconds": 439.736,
+      "duration_seconds": 26.038,
+      "gap_after_seconds": 0.255,
       "source_text_sha256": "8da84d7d37fb1cc87a50a0695bf12e49e5fbec94836abb58e96eafc0bdb00e40"
     },
     {
@@ -303,9 +303,9 @@
         "rms": 3114.7,
         "peak": 19444
       },
-      "start_seconds": 464.16,
-      "duration_seconds": 21.85,
-      "gap_after_seconds": 0.28,
+      "start_seconds": 466.03,
+      "duration_seconds": 22.329,
+      "gap_after_seconds": 0.286,
       "source_text_sha256": "2f7c1dc52490e010bfa4ba8cb88e3948792bce87b94247c70ccc30405f974811"
     },
     {
@@ -320,9 +320,9 @@
         "rms": 3469.6,
         "peak": 17800
       },
-      "start_seconds": 486.29,
-      "duration_seconds": 23.52,
-      "gap_after_seconds": 0.42,
+      "start_seconds": 488.645,
+      "duration_seconds": 24.035,
+      "gap_after_seconds": 0.429,
       "source_text_sha256": "c254fbb963526c9bdc8f7f7d754ce616074e4f6c446f142c1cf4f77a2cf946b8"
     },
     {
@@ -334,13 +334,13 @@
       "voice": "coral",
       "surrogate_render": false,
       "segment_metrics": {
-        "rms": 3321.9,
+        "rms": 2822.4,
         "peak": 19444
       },
-      "start_seconds": 510.23,
-      "duration_seconds": 32.55,
+      "start_seconds": 513.109,
+      "duration_seconds": 36.891,
       "gap_after_seconds": 0,
-      "source_text_sha256": "e67afad80a36c48bc01d05951c6cac2937450fbc5d024d20dea577e41dd63e0a"
+      "source_text_sha256": "c6818e32b24d98a1f892754a7c3953b3ef88004f3abe21f62de52cc48d571f76"
     }
   ],
   "mastering": "Two-pass -16 LUFS, -1.5 dBTP ceiling; 24kHz mono WAV and 160kbps MP3; full supplied PNG embedded",
@@ -349,10 +349,32 @@
   "renderer_sha256": "2ac341dcefa96c8e9260019f8af4a8c9b47e1867948a7071b448fef22c612344",
   "public_release": false,
   "human_audio_approved": false,
-  "renderer_source_revision": "6f6fd6b00f846c0779d935bef3688a57ed82c53b",
-  "render_settings": {
-    "ADL_PODCAST_GEMINI_AUDIO_PROVIDER": "openai",
-    "ADL_PODCAST_CHATGPT_INSTRUCTIONS": "Speak warmly and naturally as a podcast host, at an unhurried pace around 145 words per minute. Read the supplied words exactly.",
-    "ADL_PODCAST_GEMINI_INSTRUCTIONS": "Speak brightly and clearly with crisp articulation, at an unhurried pace around 145 words per minute. Read the supplied words exactly."
+  "editorial_revisions": {
+    "resynthesized_turns": [
+      1,
+      18
+    ],
+    "reused_turns": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17
+    ],
+    "opening": "Human requested conversational wording without group-email analogy. A final sentence omitted by TTS was rendered separately and joined with180ms pause.",
+    "closing": "Human authorized DeepSeek next-episode special-guest teaser.",
+    "renderer_source_revision": "9e313365604fde4af2dd3f8c9d4055f35d5647f1",
+    "assembly_script_sha256": "efef76a334c8143e4ce4ea733e5497b3e1b092638910003dc5b8db54d476f426"
   }
 }

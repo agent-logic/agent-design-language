@@ -14,9 +14,9 @@
   "audio_file": "episode.mp3",
   "archive_audio": "episode.wav",
   "audio_type": "audio/mpeg",
-  "audio_duration_seconds": 542.832,
-  "audio_bytes": 11168763,
-  "audio_sha256": "2cf89db52dfec9ca1cfa226faea3926c8f46608df91b5b365b0eee701791d9ee",
+  "audio_duration_seconds": 550.056,
+  "audio_bytes": 11313243,
+  "audio_sha256": "7c77fa81f1b6d528fbc66ef8224535e4dca4207b86d215dfcee4a24dd13e7846",
   "artwork": "../cognitive_stack_cover_3000.png",
   "artwork_sha256": "7f46dd6ac98d118e93799c8bcf0585e2e0bd6277626177de684c89070d0bce1e",
   "embedded_artwork_type": "image/png",
@@ -44,7 +44,7 @@
     }
   },
   "script": "../own-words/script.md",
-  "script_sha256": "0129a195c76c6fdc95ecbe85035af8f7f3e5de793a44c6074cca9acc8f8e40ed",
+  "script_sha256": "8bb37a651bf5c8efcd1a091d93ff002dbfc4899b0bc6a44d37105510f3f79baa",
   "transcript": "transcript.md",
   "chapters": [
     {
@@ -53,22 +53,22 @@
       "source_turn": 1
     },
     {
-      "start_seconds": 99.02,
+      "start_seconds": 92.891,
       "title": "Why this conversation",
       "source_turn": 4
     },
     {
-      "start_seconds": 158.07,
+      "start_seconds": 153.235,
       "title": "Acting within boundaries",
       "source_turn": 6
     },
     {
-      "start_seconds": 276.92,
+      "start_seconds": 274.688,
       "title": "When AI systems interact",
       "source_turn": 10
     },
     {
-      "start_seconds": 438.43,
+      "start_seconds": 439.736,
       "title": "Where should it ask?",
       "source_turn": 15
     }

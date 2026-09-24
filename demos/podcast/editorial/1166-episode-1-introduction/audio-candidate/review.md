@@ -7,3 +7,5 @@ Technical checks passed: MP3/WAV duration and hashes, artwork identity, approved
 One finding: transcript wrapper still claimed approval/rendering were pending. Corrected the wrapper without modifying approved source script bytes.
 
 Automated transcription differences were inspected with an additional independent turn-11 transcription. Human subjective listening remains pending; this is not a release-readiness approval.
+
+The subsequent conversational opening/DeepSeek closing revision has updated media and awaits current-head independent review. The earlier media review applies only to its retained hashes.

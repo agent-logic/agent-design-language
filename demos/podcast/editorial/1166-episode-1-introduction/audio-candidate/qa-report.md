@@ -2,11 +2,11 @@
 
 Status: ready for human listening; not publication-approved.
 
-- MP3 duration: 542.832 seconds (9:02.832), inside the 9–11 minute requirement. WAV duration: 542.780 seconds. No tempo adjustment was applied.
-- Final encoded MP3 measured loudness: -16.47 LUFS integrated, -1.90 dBTP true peak, 3.70 LU loudness range. These are the final analysis input measurements, not its hypothetical output values.
-- All 18 turns rendered using established Coral/Echo/Pluto casting. The local renderer copy disables automatic name insertion, preserving the approved speech inputs. Text authors and speech providers are recorded separately.
-- Full MP3 transcription through Deepgram Nova-3: 98.74% token-sequence similarity before normalization. No substantial omission identified. Differences mostly concern spelling, compounds and contractions.
-- Targeted independent Whisper transcription of turn 11 supports “rule” rather than Nova-3's “role.” Both recognize “when” where the approved input says “where.” The listener-facing transcript records this non-substantive rendering variation; the approved original remains immutable. Subjective pronunciation remains for listening review.
+- MP3 duration: 550.056 seconds (9:10), inside the 9–11 minute requirement. Pitch-preserving tempo factor: 0.978563636; measured raw duration: 538.210 seconds.
+- Final encoded MP3 measured loudness: -16.46 LUFS integrated, -1.62 dBTP true peak, 4.00 LU loudness range. These are final analysis input measurements.
+- Human-directed, ChatGPT-authored revisions remove the group-email analogy from turn1 and add DeepSeek as next episode's special guest in turn18. Sixteen other segments are reused. All actual text/model and voice identities remain distinct.
+- Opening TTS initially omitted the final sentence. That sentence was synthesized separately and joined with180ms pause. The final whole-recording Nova-3 transcription contains the restored sentence and complete DeepSeek teaser; no substantial omission remains.
+- Full final MP3 transcription:98.79% raw token-sequence similarity. Differences concern compounds, contractions, homophones and turn11's previously retained where/when variation. The original unchanged turn11 Whisper evidence supports when; the new whole-audio recognizer renders why. Subjective pronunciation remains for human listening.
 - MP3 and WAV hashes/byte counts, embedded original PNG bytes, approved script identity, eighteen segment bindings and measured chapter starts verified independently.
 - All 77 original podcast/preview files retain their recorded hashes. No webpage, feed, remote media, registration or deployment changed.
 - Human listening for voice quality, pronunciation, pacing and audible artifacts remains pending. Automated transcription and measurements are not a claim of subjective listening.

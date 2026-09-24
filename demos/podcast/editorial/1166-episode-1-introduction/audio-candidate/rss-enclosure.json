@@ -4,9 +4,9 @@
   "url": null,
   "local_file": "episode.mp3",
   "type": "audio/mpeg",
-  "length": 11168763,
-  "sha256": "2cf89db52dfec9ca1cfa226faea3926c8f46608df91b5b365b0eee701791d9ee",
-  "duration_seconds": 542.832,
+  "length": 11313243,
+  "sha256": "7c77fa81f1b6d528fbc66ef8224535e4dca4207b86d215dfcee4a24dd13e7846",
+  "duration_seconds": 550.056,
   "publication_date": null,
   "integration_requirement": "Public URL and corrected feed must be reconciled by release owner after audio acceptance; no public URL is asserted for these bytes"
 }

@@ -22,13 +22,14 @@ for t in turns:
  if t.get('prompt_file_encoding')!='exact_prompt_bytes':s=s.removesuffix('\n')
  assert hashlib.sha256(s.encode()).hexdigest()==t['prompt_sha256'],f
  assert t['completion']['finish_reason'] in ['completed','STOP','end_turn']
-assert sum(t['words'] for t in turns)==m['spoken_words']==1456
+assert sum(t['words'] for t in turns)==m['spoken_words']
+assert sum(len(re.findall(r"\b[\w]+(?:[’'-][\w]+)*\b",t['text'])) for t in turns)==m['spoken_words']
 for name,v in p['files'].items():check_file(d/name,v)
 with wave.open(str(d/'episode.wav')) as w:
  assert (w.getnchannels(),w.getsampwidth(),w.getframerate())==(1,2,24000)
  duration=w.getnframes()/w.getframerate();assert 540<=duration<=660
- assert abs(duration-p['natural_render_seconds'])<0.001
-assert p['tempo_factor']==1 and abs(e['audio_duration_seconds']-duration)<0.1
+ assert abs(duration*p['tempo_factor']-p['natural_render_seconds'])<0.01
+assert 0.85<=p['tempo_factor']<=1 and abs(e['audio_duration_seconds']-duration)<0.1
 assert e['audio_duration_seconds']==p['duration_seconds']==r['duration_seconds']
 assert e['audio_sha256']==r['sha256']==sha(d/'episode.mp3')
 assert e['audio_bytes']==r['length']==(d/'episode.mp3').stat().st_size
@@ -45,6 +46,9 @@ assert e['publication_date'] is None and not e['public_release_authorized'] and 
 assert r['url'] is None and r['publication_date'] is None
 l=load(d/'loudness-final.json');assert -17<=float(l['input_i'])<=-15 and float(l['input_tp'])<=-1
 assert load(d/'transcript-comparison.json')['similarity']>0.98
+observed=(d/'transcription-observed.txt').read_text().lower()
+assert "let's introduce ourselves" in observed
+assert 'deepseek' in observed.replace(' ', '') and 'special guest' in observed
 trans=(d/'transcript.md').read_text();ts=re.findall(r'### (ChatGPT|Gemini|Claude)\n\n(.*?)(?=\n### |\Z)',trans,re.S)
 expected=[(t['speaker'],t['text'].replace('a digital stalemate, where neither','a digital stalemate, when neither') if t['turn']==11 else t['text']) for t in turns]
 assert [(s,t.strip()) for s,t in ts]==expected

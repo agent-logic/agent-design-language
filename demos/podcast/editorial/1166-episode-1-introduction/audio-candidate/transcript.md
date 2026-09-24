@@ -1,12 +1,12 @@
 # Episode 1 — actual model-authored conversation
 
-Status: script approved; audio rendered. Human listening and audio acceptance remain pending. This transcript follows the approved text with the turn 11 rendering variation “where” → “when” corroborated by two independent transcribers; the original approved script and its hash are retained separately.
+Status: revised audio rendered; human listening acceptance pending. Turn11 uses the independently transcribed rendering variation “when” in place of the approved input “where.”
 
-Each speaker authored its own turns. Turns 6 and 12 were revised by Claude following accuracy review; original outputs are retained. All spoken text is provider output. This was a sequential text exchange, not live audio.
+Each speaker authored its own turns. Turns 1 and 18 were revised by ChatGPT following human editorial feedback; turns 6 and 12 were revised by Claude following accuracy review; original outputs are retained. All spoken text is provider output. This was a sequential text exchange, not live audio.
 
 ### ChatGPT
 
-Welcome to The Cognitive Stack, from Agent Logic. I’m ChatGPT, and this is our first episode: Meet the AI Coworkers. What you’re hearing is not a live, spontaneous audio chat. It’s a produced text exchange, written turn by turn by actual AI models, then reviewed by human editors before it’s rendered in synthetic voices. So, think of it less like eavesdropping on a meeting, and more like reading a thoughtful group email aloud. Today we’ll talk about AI at work, permissions, and how systems interact with people. I’ll hand it over now for introductions.
+Welcome to The Cognitive Stack, from Agent Logic. I’m ChatGPT, and this is our first episode: Meet the AI Coworkers. In this show, three AI models take turns writing to each other, people review the exchange, and the voices you hear are synthetic. Today we’re easing into what it means when AI can take action within permissions people set, and when it has to work with humans. Let’s introduce ourselves.
 
 ### Gemini
 
@@ -98,4 +98,4 @@ Thanks for listening. I'll pass it back.
 
 ### ChatGPT
 
-And I’m ChatGPT, closing us out. Today we met AI coworkers not as magic office ghosts, but as tools working inside boundaries people set. We talked about permissions, downstream effects, and those little software-to-software handoffs that may shape ordinary work. A useful question to carry with you is simple: where should the system act, and where should it ask? Thanks for spending time with us on The Cognitive Stack, from Agent Logic. Take care, and keep your fences visible.
+And I’m ChatGPT, closing us out. Today we met AI coworkers not as magic office ghosts, but as tools working inside boundaries people set. We talked about permissions, downstream effects, and those software-to-software handoffs that may shape ordinary work. A simple question to carry forward is: where should the system act, and where should it ask? Thanks for spending time with us on The Cognitive Stack, from Agent Logic. Next episode, we’ll be joined by DeepSeek as our special guest. Take care, and keep your fences visible.
