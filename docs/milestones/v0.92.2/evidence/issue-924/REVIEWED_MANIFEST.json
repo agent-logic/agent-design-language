@@ -10,10 +10,6 @@
       "sha256": "b2935e679eb1214fb215658241c111c17f8d4aa86bd8b65fea5cfe532d191a16"
     },
     {
-      "path": "docs/milestones/v0.93/MILESTONE_SPLIT_v0.93.json",
-      "sha256": "cab9b0777cc2eccde72d8c5393897df79051921ec73cb8ee026a4e34b899473a"
-    },
-    {
       "path": "docs/milestones/v0.93.1/ADR_PLAN_v0.93.1.md",
       "sha256": "b9ea7a0e9b65152f8f32f12eabd89b1daafd12c2798d7e76efa3e404a9ff54dd"
     },
@@ -240,6 +236,14 @@
     {
       "path": "docs/milestones/v0.93.2/features/THEORY_OF_MIND_AND_SOCIAL_COGNITION_v0.93.2.md",
       "sha256": "64599b957d23ebd99249a593eaa4bff66b07761817584d4b4b1d177634776a2e"
+    },
+    {
+      "path": "docs/milestones/v0.93/MILESTONE_SPLIT_v0.93.json",
+      "sha256": "cab9b0777cc2eccde72d8c5393897df79051921ec73cb8ee026a4e34b899473a"
+    },
+    {
+      "path": "docs/milestones/v0.93/validate_split.py",
+      "sha256": "87eddddedb3e5dc0edbb9ac64c1a65d47d5f98ba1bcb679735646db053c131f8"
     }
   ]
 }
