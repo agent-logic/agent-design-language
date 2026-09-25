@@ -1,0 +1,19 @@
+{
+  "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+  "scope": "Evidence classification and lifecycle truth; no blanket per-artifact semantic acceptance",
+  "artifacts": 4778,
+  "criteria": 366,
+  "history_primary_read": 51,
+  "history_support_indexed_only": 219,
+  "history_unavailable": 20,
+  "crosswalk_findings": 29,
+  "report": "../lanes/evidence-report.md",
+  "ledgers": [
+    "../retained-artifact-census.json",
+    "../acceptance-inventory.json",
+    "../history-inventory.json",
+    "../history-findings-crosswalk.json",
+    "../pr-ancestry-review.json"
+  ],
+  "qualification_pass": false
+}

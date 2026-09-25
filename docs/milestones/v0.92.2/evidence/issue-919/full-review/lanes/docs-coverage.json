@@ -1,0 +1,2659 @@
+{
+  "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+  "rows": [
+    {
+      "id": "F04686",
+      "status": "M",
+      "path": "AGENTS.md",
+      "primary_lane": "docs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks and immediate context inspected for operational guidance/current routing, source paths and scope. No historical statement promoted into new execution proof."
+    },
+    {
+      "id": "F04746",
+      "status": "A",
+      "path": "adl-uts/README.md",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full source read (manual JSON repeated identical paragraphs deduplicated for reading). Operational schema, scope, source/proof separation checked; DOC-002/003 capture executable migration drift."
+    },
+    {
+      "id": "F04997",
+      "status": "M",
+      "path": "adl/tools/README.md",
+      "primary_lane": "docs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks and immediate context inspected for operational guidance/current routing, source paths and scope. No historical statement promoted into new execution proof."
+    },
+    {
+      "id": "F05034",
+      "status": "M",
+      "path": "adl/tools/skills/docs/OPERATIONAL_SKILLS_GUIDE.md",
+      "primary_lane": "docs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks and immediate context inspected for operational guidance/current routing, source paths and scope. No historical statement promoted into new execution proof."
+    },
+    {
+      "id": "F05056",
+      "status": "M",
+      "path": "csdlc-v3/AGENTS.md",
+      "primary_lane": "docs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks and immediate context inspected for operational guidance/current routing, source paths and scope. No historical statement promoted into new execution proof."
+    },
+    {
+      "id": "F05781",
+      "status": "M",
+      "path": "docs/GLOSSARY.md",
+      "primary_lane": "docs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks and immediate context inspected for operational guidance/current routing, source paths and scope. No historical statement promoted into new execution proof."
+    },
+    {
+      "id": "F05782",
+      "status": "M",
+      "path": "docs/adr/0004-provider-profiles.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05783",
+      "status": "M",
+      "path": "docs/adr/0025-codefriend-review-packet-product-boundary.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05784",
+      "status": "M",
+      "path": "docs/adr/0041-provider-model-suitability-boundary-v2.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05785",
+      "status": "M",
+      "path": "docs/adr/0058-memory-palace-context-handoff-architecture.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05786",
+      "status": "A",
+      "path": "docs/adr/0076-cf-01.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05787",
+      "status": "A",
+      "path": "docs/adr/0077-cf-02.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05788",
+      "status": "A",
+      "path": "docs/adr/0078-cf-03.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05789",
+      "status": "A",
+      "path": "docs/adr/0079-cf-04.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05790",
+      "status": "A",
+      "path": "docs/adr/0080-cf-05.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05791",
+      "status": "A",
+      "path": "docs/adr/0081-cf-06.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05792",
+      "status": "A",
+      "path": "docs/adr/0082-cf-07.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05793",
+      "status": "A",
+      "path": "docs/adr/0083-cf-08.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05794",
+      "status": "A",
+      "path": "docs/adr/0084-cf-09.md",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full document inspected: current versus retained historical status, declared source/proof boundaries and operator contract. Schema disagreement retained as DOC-004; no live or cloud claim made."
+    },
+    {
+      "id": "F05795",
+      "status": "A",
+      "path": "docs/adr/0085-plat-01.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05796",
+      "status": "A",
+      "path": "docs/adr/0086-csdlc-01.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05797",
+      "status": "A",
+      "path": "docs/adr/0087-csdlc-02.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05798",
+      "status": "M",
+      "path": "docs/adr/README.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05799",
+      "status": "M",
+      "path": "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "primary_lane": "docs",
+      "review_status": "complete_semantic_diff_static",
+      "observation": "Every base-to-candidate JSON semantic change inspected (ignoring formatting) against previously reviewed Runtime admission/provider projection and requested-agent-action callpaths. No current live endpoint or full generated-client validation."
+    },
+    {
+      "id": "F05800",
+      "status": "M",
+      "path": "docs/architecture/adr/0072-csdlc-v3-native-authority.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05801",
+      "status": "M",
+      "path": "docs/architecture/adr/0075-provider-profile-and-shadow-authority.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05802",
+      "status": "M",
+      "path": "docs/architecture/adr/README.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05803",
+      "status": "A",
+      "path": "docs/architecture/adr/issue-911/README.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05804",
+      "status": "A",
+      "path": "docs/architecture/adr/issue-911/adr-cf-01.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05805",
+      "status": "A",
+      "path": "docs/architecture/adr/issue-911/adr-cf-02.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05806",
+      "status": "A",
+      "path": "docs/architecture/adr/issue-911/adr-cf-03.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05807",
+      "status": "A",
+      "path": "docs/architecture/adr/issue-911/adr-cf-04.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05808",
+      "status": "A",
+      "path": "docs/architecture/adr/issue-911/adr-cf-05.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05809",
+      "status": "A",
+      "path": "docs/architecture/adr/issue-911/adr-cf-06.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05810",
+      "status": "A",
+      "path": "docs/architecture/adr/issue-911/adr-cf-07.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05811",
+      "status": "A",
+      "path": "docs/architecture/adr/issue-911/adr-cf-08.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05812",
+      "status": "A",
+      "path": "docs/architecture/adr/issue-911/adr-cf-09.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05813",
+      "status": "A",
+      "path": "docs/architecture/adr/issue-911/adr-csdlc-01.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05814",
+      "status": "A",
+      "path": "docs/architecture/adr/issue-911/adr-csdlc-02.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05815",
+      "status": "A",
+      "path": "docs/architecture/adr/issue-911/adr-plat-01.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05816",
+      "status": "A",
+      "path": "docs/codefriend-ci-ingestion.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_lead_docs",
+      "observation": "Lead owns remaining CodeFriend operator/website docs; demos-coverage.json authored_documentation_scope owns 13 PROOF JSON and three export guides. No duplicate source review claimed here."
+    },
+    {
+      "id": "F05817",
+      "status": "A",
+      "path": "docs/codefriend/ARCHITECTURE.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Only parser-bound paragraphs independently checked here; parent owns full-guide coverage. DOC-SUP-001 confirms stale current instructions against rust_parse.rs and RUST_PARSER_BOUNDS.md.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F05818",
+      "status": "A",
+      "path": "docs/codefriend/ARCHITECTURE_DRIFT.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Reviewed entire guide against prior frozen CodeFriend production/CLI inspection; commands, limitations and proof boundaries checked.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F05819",
+      "status": "A",
+      "path": "docs/codefriend/ARCHITECTURE_INSTALLED_PROOF.json",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Read semantic proof/inventory claims and limitations; object/evidence arrays classified mechanically for relative paths, digest/source identity shape and untrusted provenance (72 records across six proof packets). Historical execution not rerun and external source bytes not rehashed.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F05820",
+      "status": "A",
+      "path": "docs/codefriend/ARCHITECTURE_PROOF_INVENTORY.json",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Read semantic proof/inventory claims and limitations; object/evidence arrays classified mechanically for relative paths, digest/source identity shape and untrusted provenance (72 records across six proof packets). Historical execution not rerun and external source bytes not rehashed.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F05821",
+      "status": "A",
+      "path": "docs/codefriend/ARCHITECTURE_RATIONALE.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Reviewed entire guide against prior frozen CodeFriend production/CLI inspection; commands, limitations and proof boundaries checked.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F05822",
+      "status": "A",
+      "path": "docs/codefriend/CHANGE_IMPACT.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Reviewed entire guide against prior frozen CodeFriend production/CLI inspection; commands, limitations and proof boundaries checked.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F05823",
+      "status": "A",
+      "path": "docs/codefriend/CYCLE_REVIEW_BRIDGE.md",
+      "primary_lane": "docs",
+      "review_status": "lead_full_document_review",
+      "observation": "Reviewed cycle contract/generation bridge; native/website mismatch separately INTEGRATION-001.",
+      "reviewer": "lead"
+    },
+    {
+      "id": "F05824",
+      "status": "A",
+      "path": "docs/codefriend/EVIDENCE_BOOTSTRAP_PROOF.json",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Read semantic proof/inventory claims and limitations; object/evidence arrays classified mechanically for relative paths, digest/source identity shape and untrusted provenance (72 records across six proof packets). Historical execution not rerun and external source bytes not rehashed.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F05825",
+      "status": "A",
+      "path": "docs/codefriend/EVIDENCE_CORE.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Reviewed entire guide against prior frozen CodeFriend production/CLI inspection; commands, limitations and proof boundaries checked.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F05826",
+      "status": "A",
+      "path": "docs/codefriend/EVIDENCE_INSTALLED_PROOF.json",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Read semantic proof/inventory claims and limitations; object/evidence arrays classified mechanically for relative paths, digest/source identity shape and untrusted provenance (72 records across six proof packets). Historical execution not rerun and external source bytes not rehashed.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F05827",
+      "status": "A",
+      "path": "docs/codefriend/EVIDENCE_PROOF_INVENTORY.json",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Read semantic proof/inventory claims and limitations; object/evidence arrays classified mechanically for relative paths, digest/source identity shape and untrusted provenance (72 records across six proof packets). Historical execution not rerun and external source bytes not rehashed.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F05828",
+      "status": "A",
+      "path": "docs/codefriend/FITNESS_CI.md",
+      "primary_lane": "docs",
+      "review_status": "lead_full_document_review",
+      "observation": "Reviewed deterministic local/CI exit and no hidden provider invocation boundaries.",
+      "reviewer": "lead"
+    },
+    {
+      "id": "F05829",
+      "status": "A",
+      "path": "docs/codefriend/GITHUB_INGESTION.md",
+      "primary_lane": "docs",
+      "review_status": "lead_full_document_review",
+      "observation": "Reviewed revision pinning, URL/admission, credentials and intentionally unbounded request duration; withdrew CODE-003.",
+      "reviewer": "lead"
+    },
+    {
+      "id": "F05830",
+      "status": "A",
+      "path": "docs/codefriend/HOSTING.md",
+      "primary_lane": "docs",
+      "review_status": "lead_full_document_review",
+      "observation": "Reviewed hosted/local agent contract and deployment scope; no deployed availability inferred.",
+      "reviewer": "lead"
+    },
+    {
+      "id": "F05831",
+      "status": "A",
+      "path": "docs/codefriend/HTML_EXPORT.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Reviewed entire guide against prior frozen CodeFriend production/CLI inspection; commands, limitations and proof boundaries checked.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F05832",
+      "status": "A",
+      "path": "docs/codefriend/LOCAL_AGENT.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Reviewed entire guide against prior frozen CodeFriend production/CLI inspection; commands, limitations and proof boundaries checked.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F05833",
+      "status": "A",
+      "path": "docs/codefriend/LOCAL_FITNESS.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Only parser-bound paragraphs independently checked here; parent owns full-guide coverage. DOC-SUP-001 confirms stale current instructions against rust_parse.rs and RUST_PARSER_BOUNDS.md.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F05834",
+      "status": "A",
+      "path": "docs/codefriend/LOCAL_FITNESS_INSTALLED_PROOF.json",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Read semantic proof/inventory claims and limitations; object/evidence arrays classified mechanically for relative paths, digest/source identity shape and untrusted provenance (72 records across six proof packets). Historical execution not rerun and external source bytes not rehashed.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F05835",
+      "status": "A",
+      "path": "docs/codefriend/LOCAL_FITNESS_PROOF_INVENTORY.json",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Read semantic proof/inventory claims and limitations; object/evidence arrays classified mechanically for relative paths, digest/source identity shape and untrusted provenance (72 records across six proof packets). Historical execution not rerun and external source bytes not rehashed.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F05836",
+      "status": "A",
+      "path": "docs/codefriend/LOCAL_INGESTION.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Reviewed entire guide against prior frozen CodeFriend production/CLI inspection; commands, limitations and proof boundaries checked.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F05837",
+      "status": "A",
+      "path": "docs/codefriend/LOCAL_INGESTION_PROOF.json",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Read semantic proof/inventory claims and limitations; object/evidence arrays classified mechanically for relative paths, digest/source identity shape and untrusted provenance (72 records across six proof packets). Historical execution not rerun and external source bytes not rehashed.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F05838",
+      "status": "A",
+      "path": "docs/codefriend/LOCAL_INGESTION_REPAIR_PROOF.json",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Read semantic proof/inventory claims and limitations; object/evidence arrays classified mechanically for relative paths, digest/source identity shape and untrusted provenance (72 records across six proof packets). Historical execution not rerun and external source bytes not rehashed.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F05839",
+      "status": "A",
+      "path": "docs/codefriend/LOCAL_INGESTION_STREAMING_PROOF.json",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Read semantic proof/inventory claims and limitations; object/evidence arrays classified mechanically for relative paths, digest/source identity shape and untrusted provenance (72 records across six proof packets). Historical execution not rerun and external source bytes not rehashed.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F05840",
+      "status": "A",
+      "path": "docs/codefriend/LOCAL_INGESTION_TOML_PROOF.json",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Read semantic proof/inventory claims and limitations; object/evidence arrays classified mechanically for relative paths, digest/source identity shape and untrusted provenance (72 records across six proof packets). Historical execution not rerun and external source bytes not rehashed.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F05841",
+      "status": "A",
+      "path": "docs/codefriend/MARKDOWN_EXPORT.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Reviewed entire guide against prior frozen CodeFriend production/CLI inspection; commands, limitations and proof boundaries checked.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F05842",
+      "status": "A",
+      "path": "docs/codefriend/MEMORY_COMPARISON.md",
+      "primary_lane": "docs",
+      "review_status": "lead_full_document_review",
+      "observation": "Reviewed stable matching, baseline compatibility and partial/unknown semantics.",
+      "reviewer": "lead"
+    },
+    {
+      "id": "F05843",
+      "status": "A",
+      "path": "docs/codefriend/MEMORY_COMPARISON_PROOF_INVENTORY.json",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Read semantic proof/inventory claims and limitations; object/evidence arrays classified mechanically for relative paths, digest/source identity shape and untrusted provenance (72 records across six proof packets). Historical execution not rerun and external source bytes not rehashed.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F05844",
+      "status": "A",
+      "path": "docs/codefriend/MEMORY_INSTALLED_PROOF.json",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Read semantic proof/inventory claims and limitations; object/evidence arrays classified mechanically for relative paths, digest/source identity shape and untrusted provenance (72 records across six proof packets). Historical execution not rerun and external source bytes not rehashed.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F05845",
+      "status": "A",
+      "path": "docs/codefriend/MEMORY_PALACE.md",
+      "primary_lane": "docs",
+      "review_status": "lead_full_document_review",
+      "observation": "Reviewed immutable storage/retrieval and deletion/redaction boundaries.",
+      "reviewer": "lead"
+    },
+    {
+      "id": "F05846",
+      "status": "A",
+      "path": "docs/codefriend/PDF_EXPORT.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Reviewed entire guide against prior frozen CodeFriend production/CLI inspection; commands, limitations and proof boundaries checked.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F05847",
+      "status": "A",
+      "path": "docs/codefriend/REVIEW_ASSESSMENTS.md",
+      "primary_lane": "docs",
+      "review_status": "lead_full_document_review",
+      "observation": "Reviewed current generation/coverage/finding contract; independently source-confirmed website v2 versus nativev4 mismatch.",
+      "reviewer": "lead"
+    },
+    {
+      "id": "F05848",
+      "status": "A",
+      "path": "docs/codefriend/RUST_PARSER_BOUNDS.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Reviewed entire guide against prior frozen CodeFriend production/CLI inspection; commands, limitations and proof boundaries checked.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F05849",
+      "status": "A",
+      "path": "docs/codefriend/SERVER.md",
+      "primary_lane": "docs",
+      "review_status": "lead_full_document_review",
+      "observation": "Reviewed API session/run/isolation and hosted startup semantics; no live server qualification claimed.",
+      "reviewer": "lead"
+    },
+    {
+      "id": "F05850",
+      "status": "A",
+      "path": "docs/codefriend/TEST_PLANNING.md",
+      "primary_lane": "docs",
+      "review_status": "lead_full_document_review",
+      "observation": "Reviewed evidence-to-behavior planning and nonexecution boundary.",
+      "reviewer": "lead"
+    },
+    {
+      "id": "F05851",
+      "status": "A",
+      "path": "docs/codefriend/fixtures/vector-scope.json",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Read semantic proof/inventory claims and limitations; object/evidence arrays classified mechanically for relative paths, digest/source identity shape and untrusted provenance (72 records across six proof packets). Historical execution not rerun and external source bytes not rehashed.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F05852",
+      "status": "M",
+      "path": "docs/csdlc-v3/CONTRACT.md",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full source read (manual JSON repeated identical paragraphs deduplicated for reading). Operational schema, scope, source/proof separation checked; DOC-002/003 capture executable migration drift."
+    },
+    {
+      "id": "F05853",
+      "status": "A",
+      "path": "docs/csdlc-v3/COORDINATION_COMPLETION.md",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full source read (manual JSON repeated identical paragraphs deduplicated for reading). Operational schema, scope, source/proof separation checked; DOC-002/003 capture executable migration drift."
+    },
+    {
+      "id": "F05854",
+      "status": "M",
+      "path": "docs/csdlc-v3/CURRENT_AUTHORITY.md",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full source read (manual JSON repeated identical paragraphs deduplicated for reading). Operational schema, scope, source/proof separation checked; DOC-002/003 capture executable migration drift."
+    },
+    {
+      "id": "F05855",
+      "status": "A",
+      "path": "docs/csdlc-v3/HISTORICAL_COPY_RECONCILIATION.md",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full source read (manual JSON repeated identical paragraphs deduplicated for reading). Operational schema, scope, source/proof separation checked; DOC-002/003 capture executable migration drift."
+    },
+    {
+      "id": "F05856",
+      "status": "A",
+      "path": "docs/csdlc-v3/INTENT_COMMANDS.md",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full source read (manual JSON repeated identical paragraphs deduplicated for reading). Operational schema, scope, source/proof separation checked; DOC-002/003 capture executable migration drift."
+    },
+    {
+      "id": "F05857",
+      "status": "M",
+      "path": "docs/csdlc-v3/NO_PR_CLOSEOUT.md",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full source read (manual JSON repeated identical paragraphs deduplicated for reading). Operational schema, scope, source/proof separation checked; DOC-002/003 capture executable migration drift."
+    },
+    {
+      "id": "F05858",
+      "status": "M",
+      "path": "docs/csdlc-v3/PROOF_WORKTREE_BINDING.md",
+      "primary_lane": "docs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks and immediate context inspected for operational guidance/current routing, source paths and scope. No historical statement promoted into new execution proof."
+    },
+    {
+      "id": "F05859",
+      "status": "M",
+      "path": "docs/csdlc-v3/PULL_REQUEST_MERGE.md",
+      "primary_lane": "docs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks and immediate context inspected for operational guidance/current routing, source paths and scope. No historical statement promoted into new execution proof."
+    },
+    {
+      "id": "F05860",
+      "status": "A",
+      "path": "docs/csdlc-v3/command-result.schema.json",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full document inspected: current versus retained historical status, declared source/proof boundaries and operator contract. Schema disagreement retained as DOC-004; no live or cloud claim made."
+    },
+    {
+      "id": "F05861",
+      "status": "A",
+      "path": "docs/csdlc-v3/intent-request.schema.json",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full document inspected: current versus retained historical status, declared source/proof boundaries and operator contract. Schema disagreement retained as DOC-004; no live or cloud claim made."
+    },
+    {
+      "id": "F05862",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/README.md",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full source read (manual JSON repeated identical paragraphs deduplicated for reading). Operational schema, scope, source/proof separation checked; DOC-002/003 capture executable migration drift."
+    },
+    {
+      "id": "F05863",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/examples/clean.json",
+      "primary_lane": "docs",
+      "review_status": "reference_fixture_not_semantically_executed",
+      "observation": "Referenced legacy/native JSON fixture supports generated manual parity only. Exact example bytes not run against lifecycle owner; current walkthrough mismatches captured by DOC-002/003."
+    },
+    {
+      "id": "F05864",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/examples/cutover.json",
+      "primary_lane": "docs",
+      "review_status": "reference_fixture_not_semantically_executed",
+      "observation": "Referenced legacy/native JSON fixture supports generated manual parity only. Exact example bytes not run against lifecycle owner; current walkthrough mismatches captured by DOC-002/003."
+    },
+    {
+      "id": "F05865",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/examples/finish-primary.json",
+      "primary_lane": "docs",
+      "review_status": "reference_fixture_not_semantically_executed",
+      "observation": "Referenced legacy/native JSON fixture supports generated manual parity only. Exact example bytes not run against lifecycle owner; current walkthrough mismatches captured by DOC-002/003."
+    },
+    {
+      "id": "F05866",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/examples/finish.json",
+      "primary_lane": "docs",
+      "review_status": "reference_fixture_not_semantically_executed",
+      "observation": "Referenced legacy/native JSON fixture supports generated manual parity only. Exact example bytes not run against lifecycle owner; current walkthrough mismatches captured by DOC-002/003."
+    },
+    {
+      "id": "F05867",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/examples/install.json",
+      "primary_lane": "docs",
+      "review_status": "reference_fixture_not_semantically_executed",
+      "observation": "Referenced legacy/native JSON fixture supports generated manual parity only. Exact example bytes not run against lifecycle owner; current walkthrough mismatches captured by DOC-002/003."
+    },
+    {
+      "id": "F05868",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/examples/local.json",
+      "primary_lane": "docs",
+      "review_status": "reference_fixture_not_semantically_executed",
+      "observation": "Referenced legacy/native JSON fixture supports generated manual parity only. Exact example bytes not run against lifecycle owner; current walkthrough mismatches captured by DOC-002/003."
+    },
+    {
+      "id": "F05869",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/examples/merge.json",
+      "primary_lane": "docs",
+      "review_status": "reference_fixture_not_semantically_executed",
+      "observation": "Referenced legacy/native JSON fixture supports generated manual parity only. Exact example bytes not run against lifecycle owner; current walkthrough mismatches captured by DOC-002/003."
+    },
+    {
+      "id": "F05870",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/examples/mutation.json",
+      "primary_lane": "docs",
+      "review_status": "reference_fixture_not_semantically_executed",
+      "observation": "Referenced legacy/native JSON fixture supports generated manual parity only. Exact example bytes not run against lifecycle owner; current walkthrough mismatches captured by DOC-002/003."
+    },
+    {
+      "id": "F05871",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/examples/pr-create.json",
+      "primary_lane": "docs",
+      "review_status": "reference_fixture_not_semantically_executed",
+      "observation": "Referenced legacy/native JSON fixture supports generated manual parity only. Exact example bytes not run against lifecycle owner; current walkthrough mismatches captured by DOC-002/003."
+    },
+    {
+      "id": "F05872",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/examples/proof.json",
+      "primary_lane": "docs",
+      "review_status": "reference_fixture_not_semantically_executed",
+      "observation": "Referenced legacy/native JSON fixture supports generated manual parity only. Exact example bytes not run against lifecycle owner; current walkthrough mismatches captured by DOC-002/003."
+    },
+    {
+      "id": "F05873",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/examples/release.json",
+      "primary_lane": "docs",
+      "review_status": "reference_fixture_not_semantically_executed",
+      "observation": "Referenced legacy/native JSON fixture supports generated manual parity only. Exact example bytes not run against lifecycle owner; current walkthrough mismatches captured by DOC-002/003."
+    },
+    {
+      "id": "F05874",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/examples/remote.json",
+      "primary_lane": "docs",
+      "review_status": "reference_fixture_not_semantically_executed",
+      "observation": "Referenced legacy/native JSON fixture supports generated manual parity only. Exact example bytes not run against lifecycle owner; current walkthrough mismatches captured by DOC-002/003."
+    },
+    {
+      "id": "F05875",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/examples/review.json",
+      "primary_lane": "docs",
+      "review_status": "reference_fixture_not_semantically_executed",
+      "observation": "Referenced legacy/native JSON fixture supports generated manual parity only. Exact example bytes not run against lifecycle owner; current walkthrough mismatches captured by DOC-002/003."
+    },
+    {
+      "id": "F05876",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/examples/rollback.json",
+      "primary_lane": "docs",
+      "review_status": "reference_fixture_not_semantically_executed",
+      "observation": "Referenced legacy/native JSON fixture supports generated manual parity only. Exact example bytes not run against lifecycle owner; current walkthrough mismatches captured by DOC-002/003."
+    },
+    {
+      "id": "F05877",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/examples/shadow.json",
+      "primary_lane": "docs",
+      "review_status": "reference_fixture_not_semantically_executed",
+      "observation": "Referenced legacy/native JSON fixture supports generated manual parity only. Exact example bytes not run against lifecycle owner; current walkthrough mismatches captured by DOC-002/003."
+    },
+    {
+      "id": "F05878",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/examples/soak.json",
+      "primary_lane": "docs",
+      "review_status": "reference_fixture_not_semantically_executed",
+      "observation": "Referenced legacy/native JSON fixture supports generated manual parity only. Exact example bytes not run against lifecycle owner; current walkthrough mismatches captured by DOC-002/003."
+    },
+    {
+      "id": "F05879",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/examples/sprint.json",
+      "primary_lane": "docs",
+      "review_status": "reference_fixture_not_semantically_executed",
+      "observation": "Referenced legacy/native JSON fixture supports generated manual parity only. Exact example bytes not run against lifecycle owner; current walkthrough mismatches captured by DOC-002/003."
+    },
+    {
+      "id": "F05880",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/examples/typed-review.json",
+      "primary_lane": "docs",
+      "review_status": "reference_fixture_not_semantically_executed",
+      "observation": "Referenced legacy/native JSON fixture supports generated manual parity only. Exact example bytes not run against lifecycle owner; current walkthrough mismatches captured by DOC-002/003."
+    },
+    {
+      "id": "F05881",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/inventory.json",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "All command rows, request-type fields and coverage denominators inspected. Native-versus-semantic distinction checked against current manual; no generated parity implies semantic correctness."
+    },
+    {
+      "id": "F05882",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/man1/csdlc-bind.1",
+      "primary_lane": "docs",
+      "review_status": "generated_parity_checked",
+      "observation": "Reviewed all unique source paragraphs in manual.json; render.py --check confirms this generated roff exactly matches source. Not separate rendered typography proof; DOC-003 applies to generated workflow."
+    },
+    {
+      "id": "F05883",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/man1/csdlc-clean.1",
+      "primary_lane": "docs",
+      "review_status": "generated_parity_checked",
+      "observation": "Reviewed all unique source paragraphs in manual.json; render.py --check confirms this generated roff exactly matches source. Not separate rendered typography proof; DOC-003 applies to generated workflow."
+    },
+    {
+      "id": "F05884",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/man1/csdlc-cutover.1",
+      "primary_lane": "docs",
+      "review_status": "generated_parity_checked",
+      "observation": "Reviewed all unique source paragraphs in manual.json; render.py --check confirms this generated roff exactly matches source. Not separate rendered typography proof; DOC-003 applies to generated workflow."
+    },
+    {
+      "id": "F05885",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/man1/csdlc-doctor.1",
+      "primary_lane": "docs",
+      "review_status": "generated_parity_checked",
+      "observation": "Reviewed all unique source paragraphs in manual.json; render.py --check confirms this generated roff exactly matches source. Not separate rendered typography proof; DOC-003 applies to generated workflow."
+    },
+    {
+      "id": "F05886",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/man1/csdlc-edit.1",
+      "primary_lane": "docs",
+      "review_status": "generated_parity_checked",
+      "observation": "Reviewed all unique source paragraphs in manual.json; render.py --check confirms this generated roff exactly matches source. Not separate rendered typography proof; DOC-003 applies to generated workflow."
+    },
+    {
+      "id": "F05887",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/man1/csdlc-eligibility.1",
+      "primary_lane": "docs",
+      "review_status": "generated_parity_checked",
+      "observation": "Reviewed all unique source paragraphs in manual.json; render.py --check confirms this generated roff exactly matches source. Not separate rendered typography proof; DOC-003 applies to generated workflow."
+    },
+    {
+      "id": "F05888",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/man1/csdlc-finish.1",
+      "primary_lane": "docs",
+      "review_status": "generated_parity_checked",
+      "observation": "Reviewed all unique source paragraphs in manual.json; render.py --check confirms this generated roff exactly matches source. Not separate rendered typography proof; DOC-003 applies to generated workflow."
+    },
+    {
+      "id": "F05889",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/man1/csdlc-foundation.1",
+      "primary_lane": "docs",
+      "review_status": "generated_parity_checked",
+      "observation": "Reviewed all unique source paragraphs in manual.json; render.py --check confirms this generated roff exactly matches source. Not separate rendered typography proof; DOC-003 applies to generated workflow."
+    },
+    {
+      "id": "F05890",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/man1/csdlc-github-issue.1",
+      "primary_lane": "docs",
+      "review_status": "generated_parity_checked",
+      "observation": "Reviewed all unique source paragraphs in manual.json; render.py --check confirms this generated roff exactly matches source. Not separate rendered typography proof; DOC-003 applies to generated workflow."
+    },
+    {
+      "id": "F05891",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/man1/csdlc-github-pr.1",
+      "primary_lane": "docs",
+      "review_status": "generated_parity_checked",
+      "observation": "Reviewed all unique source paragraphs in manual.json; render.py --check confirms this generated roff exactly matches source. Not separate rendered typography proof; DOC-003 applies to generated workflow."
+    },
+    {
+      "id": "F05892",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/man1/csdlc-github.1",
+      "primary_lane": "docs",
+      "review_status": "generated_parity_checked",
+      "observation": "Reviewed all unique source paragraphs in manual.json; render.py --check confirms this generated roff exactly matches source. Not separate rendered typography proof; DOC-003 applies to generated workflow."
+    },
+    {
+      "id": "F05893",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/man1/csdlc-install.1",
+      "primary_lane": "docs",
+      "review_status": "generated_parity_checked",
+      "observation": "Reviewed all unique source paragraphs in manual.json; render.py --check confirms this generated roff exactly matches source. Not separate rendered typography proof; DOC-003 applies to generated workflow."
+    },
+    {
+      "id": "F05894",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/man1/csdlc-issue.1",
+      "primary_lane": "docs",
+      "review_status": "generated_parity_checked",
+      "observation": "Reviewed all unique source paragraphs in manual.json; render.py --check confirms this generated roff exactly matches source. Not separate rendered typography proof; DOC-003 applies to generated workflow."
+    },
+    {
+      "id": "F05895",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/man1/csdlc-local.1",
+      "primary_lane": "docs",
+      "review_status": "generated_parity_checked",
+      "observation": "Reviewed all unique source paragraphs in manual.json; render.py --check confirms this generated roff exactly matches source. Not separate rendered typography proof; DOC-003 applies to generated workflow."
+    },
+    {
+      "id": "F05896",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/man1/csdlc-pr-state.1",
+      "primary_lane": "docs",
+      "review_status": "generated_parity_checked",
+      "observation": "Reviewed all unique source paragraphs in manual.json; render.py --check confirms this generated roff exactly matches source. Not separate rendered typography proof; DOC-003 applies to generated workflow."
+    },
+    {
+      "id": "F05897",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/man1/csdlc-prepare.1",
+      "primary_lane": "docs",
+      "review_status": "generated_parity_checked",
+      "observation": "Reviewed all unique source paragraphs in manual.json; render.py --check confirms this generated roff exactly matches source. Not separate rendered typography proof; DOC-003 applies to generated workflow."
+    },
+    {
+      "id": "F05898",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/man1/csdlc-proof.1",
+      "primary_lane": "docs",
+      "review_status": "generated_parity_checked",
+      "observation": "Reviewed all unique source paragraphs in manual.json; render.py --check confirms this generated roff exactly matches source. Not separate rendered typography proof; DOC-003 applies to generated workflow."
+    },
+    {
+      "id": "F05899",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/man1/csdlc-publish.1",
+      "primary_lane": "docs",
+      "review_status": "generated_parity_checked",
+      "observation": "Reviewed all unique source paragraphs in manual.json; render.py --check confirms this generated roff exactly matches source. Not separate rendered typography proof; DOC-003 applies to generated workflow."
+    },
+    {
+      "id": "F05900",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/man1/csdlc-rebuild.1",
+      "primary_lane": "docs",
+      "review_status": "generated_parity_checked",
+      "observation": "Reviewed all unique source paragraphs in manual.json; render.py --check confirms this generated roff exactly matches source. Not separate rendered typography proof; DOC-003 applies to generated workflow."
+    },
+    {
+      "id": "F05901",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/man1/csdlc-recover.1",
+      "primary_lane": "docs",
+      "review_status": "generated_parity_checked",
+      "observation": "Reviewed all unique source paragraphs in manual.json; render.py --check confirms this generated roff exactly matches source. Not separate rendered typography proof; DOC-003 applies to generated workflow."
+    },
+    {
+      "id": "F05902",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/man1/csdlc-release-preflight.1",
+      "primary_lane": "docs",
+      "review_status": "generated_parity_checked",
+      "observation": "Reviewed all unique source paragraphs in manual.json; render.py --check confirms this generated roff exactly matches source. Not separate rendered typography proof; DOC-003 applies to generated workflow."
+    },
+    {
+      "id": "F05903",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/man1/csdlc-remote.1",
+      "primary_lane": "docs",
+      "review_status": "generated_parity_checked",
+      "observation": "Reviewed all unique source paragraphs in manual.json; render.py --check confirms this generated roff exactly matches source. Not separate rendered typography proof; DOC-003 applies to generated workflow."
+    },
+    {
+      "id": "F05904",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/man1/csdlc-requests.1",
+      "primary_lane": "docs",
+      "review_status": "generated_parity_checked",
+      "observation": "Reviewed all unique source paragraphs in manual.json; render.py --check confirms this generated roff exactly matches source. Not separate rendered typography proof; DOC-003 applies to generated workflow."
+    },
+    {
+      "id": "F05905",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/man1/csdlc-review.1",
+      "primary_lane": "docs",
+      "review_status": "generated_parity_checked",
+      "observation": "Reviewed all unique source paragraphs in manual.json; render.py --check confirms this generated roff exactly matches source. Not separate rendered typography proof; DOC-003 applies to generated workflow."
+    },
+    {
+      "id": "F05906",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/man1/csdlc-rollback.1",
+      "primary_lane": "docs",
+      "review_status": "generated_parity_checked",
+      "observation": "Reviewed all unique source paragraphs in manual.json; render.py --check confirms this generated roff exactly matches source. Not separate rendered typography proof; DOC-003 applies to generated workflow."
+    },
+    {
+      "id": "F05907",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/man1/csdlc-schedule.1",
+      "primary_lane": "docs",
+      "review_status": "generated_parity_checked",
+      "observation": "Reviewed all unique source paragraphs in manual.json; render.py --check confirms this generated roff exactly matches source. Not separate rendered typography proof; DOC-003 applies to generated workflow."
+    },
+    {
+      "id": "F05908",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/man1/csdlc-shadow.1",
+      "primary_lane": "docs",
+      "review_status": "generated_parity_checked",
+      "observation": "Reviewed all unique source paragraphs in manual.json; render.py --check confirms this generated roff exactly matches source. Not separate rendered typography proof; DOC-003 applies to generated workflow."
+    },
+    {
+      "id": "F05909",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/man1/csdlc-shepherd.1",
+      "primary_lane": "docs",
+      "review_status": "generated_parity_checked",
+      "observation": "Reviewed all unique source paragraphs in manual.json; render.py --check confirms this generated roff exactly matches source. Not separate rendered typography proof; DOC-003 applies to generated workflow."
+    },
+    {
+      "id": "F05910",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/man1/csdlc-soak.1",
+      "primary_lane": "docs",
+      "review_status": "generated_parity_checked",
+      "observation": "Reviewed all unique source paragraphs in manual.json; render.py --check confirms this generated roff exactly matches source. Not separate rendered typography proof; DOC-003 applies to generated workflow."
+    },
+    {
+      "id": "F05911",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/man1/csdlc-sprint.1",
+      "primary_lane": "docs",
+      "review_status": "generated_parity_checked",
+      "observation": "Reviewed all unique source paragraphs in manual.json; render.py --check confirms this generated roff exactly matches source. Not separate rendered typography proof; DOC-003 applies to generated workflow."
+    },
+    {
+      "id": "F05912",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/man1/csdlc-status.1",
+      "primary_lane": "docs",
+      "review_status": "generated_parity_checked",
+      "observation": "Reviewed all unique source paragraphs in manual.json; render.py --check confirms this generated roff exactly matches source. Not separate rendered typography proof; DOC-003 applies to generated workflow."
+    },
+    {
+      "id": "F05913",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/man1/csdlc-validate.1",
+      "primary_lane": "docs",
+      "review_status": "generated_parity_checked",
+      "observation": "Reviewed all unique source paragraphs in manual.json; render.py --check confirms this generated roff exactly matches source. Not separate rendered typography proof; DOC-003 applies to generated workflow."
+    },
+    {
+      "id": "F05914",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/man1/csdlc-workflow.1",
+      "primary_lane": "docs",
+      "review_status": "generated_parity_checked",
+      "observation": "Reviewed all unique source paragraphs in manual.json; render.py --check confirms this generated roff exactly matches source. Not separate rendered typography proof; DOC-003 applies to generated workflow."
+    },
+    {
+      "id": "F05915",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/man1/csdlc.1",
+      "primary_lane": "docs",
+      "review_status": "generated_parity_checked",
+      "observation": "Reviewed all unique source paragraphs in manual.json; render.py --check confirms this generated roff exactly matches source. Not separate rendered typography proof; DOC-003 applies to generated workflow."
+    },
+    {
+      "id": "F05916",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/manual.json",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full source read (manual JSON repeated identical paragraphs deduplicated for reading). Operational schema, scope, source/proof separation checked; DOC-002/003 capture executable migration drift."
+    },
+    {
+      "id": "F05917",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/pvf.json",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full document inspected: current versus retained historical status, declared source/proof boundaries and operator contract. Schema disagreement retained as DOC-004; no live or cloud claim made."
+    },
+    {
+      "id": "F05918",
+      "status": "A",
+      "path": "docs/csdlc-v3/man/render.py",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full source read (manual JSON repeated identical paragraphs deduplicated for reading). Operational schema, scope, source/proof separation checked; DOC-002/003 capture executable migration drift."
+    },
+    {
+      "id": "F05920",
+      "status": "A",
+      "path": "docs/csdlc-v3/manual-discovery-950/README.md",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full document inspected: current versus retained historical status, declared source/proof boundaries and operator contract. Schema disagreement retained as DOC-004; no live or cloud claim made."
+    },
+    {
+      "id": "F05921",
+      "status": "A",
+      "path": "docs/csdlc-v3/manual-discovery-950/notification.md",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full document inspected: current versus retained historical status, declared source/proof boundaries and operator contract. Schema disagreement retained as DOC-004; no live or cloud claim made."
+    },
+    {
+      "id": "F05922",
+      "status": "A",
+      "path": "docs/csdlc-v3/manual-discovery-950/validation.json",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full document inspected: current versus retained historical status, declared source/proof boundaries and operator contract. Schema disagreement retained as DOC-004; no live or cloud claim made."
+    },
+    {
+      "id": "F05923",
+      "status": "M",
+      "path": "docs/csdlc-v3/v3-command-manifest.json",
+      "primary_lane": "docs",
+      "review_status": "complete_command_rows_static",
+      "observation": "All command descriptor rows inspected including input variants, historical versus ordinary routes and semantic-schema references; schema authority remains native guards."
+    },
+    {
+      "id": "F05924",
+      "status": "M",
+      "path": "docs/explainers/CSM.md",
+      "primary_lane": "docs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks and immediate context inspected for operational guidance/current routing, source paths and scope. No historical statement promoted into new execution proof."
+    },
+    {
+      "id": "F05925",
+      "status": "M",
+      "path": "docs/milestones/v0.92.2/ADOPTED_DESIGN_CONTRACTS_v0.92.2.md",
+      "primary_lane": "docs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks and context inspected: split owners/69 historical identities, explicit scope boundaries, deferrals and product handoff. DOC-001 current qualification routing drift; retained historical selection not implementation proof."
+    },
+    {
+      "id": "F05926",
+      "status": "M",
+      "path": "docs/milestones/v0.92.2/ADR_PLAN_v0.92.2.md",
+      "primary_lane": "docs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks and context inspected: split owners/69 historical identities, explicit scope boundaries, deferrals and product handoff. DOC-001 current qualification routing drift; retained historical selection not implementation proof."
+    },
+    {
+      "id": "F05927",
+      "status": "A",
+      "path": "docs/milestones/v0.92.2/ATOMIC_TASK_CONTRACTS_v0.92.2.json",
+      "primary_lane": "docs",
+      "review_status": "complete_unique_content_static_and_duplicate_contract_parity",
+      "observation": "All non-completion sections inspected including baseline obligation owners; all 37 completion objects matched full-read YAML definitions using atomic_failures; no hidden sampled contracts.44 atomic negative cases pass."
+    },
+    {
+      "id": "F05928",
+      "status": "A",
+      "path": "docs/milestones/v0.92.2/ATOMIC_TASK_CONTRACTS_v0.92.2.md",
+      "primary_lane": "docs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks and context inspected: split owners/69 historical identities, explicit scope boundaries, deferrals and product handoff. DOC-001 current qualification routing drift; retained historical selection not implementation proof."
+    },
+    {
+      "id": "F05929",
+      "status": "M",
+      "path": "docs/milestones/v0.92.2/CANONICAL_DOC_INVENTORY_v0.92.2.md",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full document inspected for current/historical scope, executable instructions and consistency with provider/security source review. DOC-001 collects stale qualification owner overlays; no product execution inferred."
+    },
+    {
+      "id": "F05930",
+      "status": "A",
+      "path": "docs/milestones/v0.92.2/CREATION_SELECTIONS_v0.92.2.md",
+      "primary_lane": "docs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks and context inspected: split owners/69 historical identities, explicit scope boundaries, deferrals and product handoff. DOC-001 current qualification routing drift; retained historical selection not implementation proof."
+    },
+    {
+      "id": "F05931",
+      "status": "M",
+      "path": "docs/milestones/v0.92.2/DECISIONS_v0.92.2.md",
+      "primary_lane": "docs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks and context inspected: split owners/69 historical identities, explicit scope boundaries, deferrals and product handoff. DOC-001 current qualification routing drift; retained historical selection not implementation proof."
+    },
+    {
+      "id": "F05932",
+      "status": "M",
+      "path": "docs/milestones/v0.92.2/DEMO_MATRIX_v0.92.2.md",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full document inspected for current/historical scope, executable instructions and consistency with provider/security source review. DOC-001 collects stale qualification owner overlays; no product execution inferred."
+    },
+    {
+      "id": "F05933",
+      "status": "M",
+      "path": "docs/milestones/v0.92.2/DESIGN_v0.92.2.md",
+      "primary_lane": "docs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks and context inspected: split owners/69 historical identities, explicit scope boundaries, deferrals and product handoff. DOC-001 current qualification routing drift; retained historical selection not implementation proof."
+    },
+    {
+      "id": "F05934",
+      "status": "M",
+      "path": "docs/milestones/v0.92.2/EXISTING_ISSUE_RECONCILIATION_v0.92.2.md",
+      "primary_lane": "docs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks and context inspected: split owners/69 historical identities, explicit scope boundaries, deferrals and product handoff. DOC-001 current qualification routing drift; retained historical selection not implementation proof."
+    },
+    {
+      "id": "F05935",
+      "status": "M",
+      "path": "docs/milestones/v0.92.2/FEATURE_PROOF_COVERAGE_v0.92.2.md",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full document inspected for current/historical scope, executable instructions and consistency with provider/security source review. DOC-001 collects stale qualification owner overlays; no product execution inferred."
+    },
+    {
+      "id": "F05936",
+      "status": "A",
+      "path": "docs/milestones/v0.92.2/ISSUE_CREATION_BATCHES_v0.92.2.json",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full machine-readable planning contract or Python validator source inspected.69 issue identities,11 sprint ownership, explicit creation-versus-proof separation and historical exceptions preserved; no fresh live readbacks.28 pure sprint negatives pass."
+    },
+    {
+      "id": "F05937",
+      "status": "M",
+      "path": "docs/milestones/v0.92.2/MILESTONE_CHECKLIST_v0.92.2.md",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full document inspected for current/historical scope, executable instructions and consistency with provider/security source review. DOC-001 collects stale qualification owner overlays; no product execution inferred."
+    },
+    {
+      "id": "F05938",
+      "status": "M",
+      "path": "docs/milestones/v0.92.2/NEXT_MILESTONE_HANDOFF_v0.92.2.md",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full document inspected for current/historical scope, executable instructions and consistency with provider/security source review. DOC-001 collects stale qualification owner overlays; no product execution inferred."
+    },
+    {
+      "id": "F05939",
+      "status": "M",
+      "path": "docs/milestones/v0.92.2/PLANNED_ISSUE_CATALOG_v0.92.2.md",
+      "primary_lane": "docs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks and immediate context inspected for operational guidance/current routing, source paths and scope. No historical statement promoted into new execution proof."
+    },
+    {
+      "id": "F05940",
+      "status": "M",
+      "path": "docs/milestones/v0.92.2/QUALITY_GATE_v0.92.2.md",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full document inspected for current/historical scope, executable instructions and consistency with provider/security source review. DOC-001 collects stale qualification owner overlays; no product execution inferred."
+    },
+    {
+      "id": "F05941",
+      "status": "M",
+      "path": "docs/milestones/v0.92.2/README.md",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full document inspected for current/historical scope, executable instructions and consistency with provider/security source review. DOC-001 collects stale qualification owner overlays; no product execution inferred."
+    },
+    {
+      "id": "F05942",
+      "status": "M",
+      "path": "docs/milestones/v0.92.2/RELEASE_NOTES_v0.92.2.md",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full document inspected for current/historical scope, executable instructions and consistency with provider/security source review. DOC-001 collects stale qualification owner overlays; no product execution inferred."
+    },
+    {
+      "id": "F05943",
+      "status": "M",
+      "path": "docs/milestones/v0.92.2/RELEASE_PLAN_v0.92.2.md",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full document inspected for current/historical scope, executable instructions and consistency with provider/security source review. DOC-001 collects stale qualification owner overlays; no product execution inferred."
+    },
+    {
+      "id": "F05944",
+      "status": "A",
+      "path": "docs/milestones/v0.92.2/SPRINT_MANAGEMENT_v0.92.2.json",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full machine-readable planning contract or Python validator source inspected.69 issue identities,11 sprint ownership, explicit creation-versus-proof separation and historical exceptions preserved; no fresh live readbacks.28 pure sprint negatives pass."
+    },
+    {
+      "id": "F05945",
+      "status": "M",
+      "path": "docs/milestones/v0.92.2/SPRINT_v0.92.2.md",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full source read (manual JSON repeated identical paragraphs deduplicated for reading). Operational schema, scope, source/proof separation checked; DOC-002/003 capture executable migration drift."
+    },
+    {
+      "id": "F05946",
+      "status": "M",
+      "path": "docs/milestones/v0.92.2/TBD_SCHEDULING_RECONCILIATION_v0.92.2.md",
+      "primary_lane": "docs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks and context inspected: split owners/69 historical identities, explicit scope boundaries, deferrals and product handoff. DOC-001 current qualification routing drift; retained historical selection not implementation proof."
+    },
+    {
+      "id": "F05947",
+      "status": "M",
+      "path": "docs/milestones/v0.92.2/VISION_v0.92.2.md",
+      "primary_lane": "docs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks and context inspected: split owners/69 historical identities, explicit scope boundaries, deferrals and product handoff. DOC-001 current qualification routing drift; retained historical selection not implementation proof."
+    },
+    {
+      "id": "F05948",
+      "status": "M",
+      "path": "docs/milestones/v0.92.2/WBS_v0.92.2.md",
+      "primary_lane": "docs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks and immediate context inspected for operational guidance/current routing, source paths and scope. No historical statement promoted into new execution proof."
+    },
+    {
+      "id": "F05949",
+      "status": "M",
+      "path": "docs/milestones/v0.92.2/WP_EXECUTION_READINESS_v0.92.2.md",
+      "primary_lane": "docs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks and context inspected: split owners/69 historical identities, explicit scope boundaries, deferrals and product handoff. DOC-001 current qualification routing drift; retained historical selection not implementation proof."
+    },
+    {
+      "id": "F05950",
+      "status": "M",
+      "path": "docs/milestones/v0.92.2/WP_EXECUTION_SPECIFICATIONS_v0.92.2.yaml",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full machine-readable planning contract or Python validator source inspected.69 issue identities,11 sprint ownership, explicit creation-versus-proof separation and historical exceptions preserved; no fresh live readbacks.28 pure sprint negatives pass."
+    },
+    {
+      "id": "F05951",
+      "status": "M",
+      "path": "docs/milestones/v0.92.2/WP_ISSUE_WAVE_v0.92.2.yaml",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full machine-readable planning contract or Python validator source inspected.69 issue identities,11 sprint ownership, explicit creation-versus-proof separation and historical exceptions preserved; no fresh live readbacks.28 pure sprint negatives pass."
+    },
+    {
+      "id": "F05952",
+      "status": "A",
+      "path": "docs/milestones/v0.92.2/adr/issue-911/README.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05953",
+      "status": "A",
+      "path": "docs/milestones/v0.92.2/adr/issue-911/decision-dispositions.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05954",
+      "status": "A",
+      "path": "docs/milestones/v0.92.2/adr/issue-911/decision-inventory.json",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05955",
+      "status": "A",
+      "path": "docs/milestones/v0.92.2/adr/issue-911/decision-inventory.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05956",
+      "status": "A",
+      "path": "docs/milestones/v0.92.2/adr/issue-911/external-state.json",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05957",
+      "status": "A",
+      "path": "docs/milestones/v0.92.2/adr/issue-911/inventory-review.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05958",
+      "status": "A",
+      "path": "docs/milestones/v0.92.2/adr/issue-911/relationships.json",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05959",
+      "status": "A",
+      "path": "docs/milestones/v0.92.2/adr/issue-911/review.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05960",
+      "status": "A",
+      "path": "docs/milestones/v0.92.2/adr/issue-911/reviewed-content.json",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05961",
+      "status": "A",
+      "path": "docs/milestones/v0.92.2/adr/issue-911/source-manifest.json",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05962",
+      "status": "A",
+      "path": "docs/milestones/v0.92.2/adr/issue-911/supersession-map.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05963",
+      "status": "A",
+      "path": "docs/milestones/v0.92.2/adr/issue-911/validate_packet.py",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05964",
+      "status": "A",
+      "path": "docs/milestones/v0.92.2/adr/issue-945/BETA1_DELIVERY.md",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full document inspected: current versus retained historical status, declared source/proof boundaries and operator contract. Schema disagreement retained as DOC-004; no live or cloud claim made."
+    },
+    {
+      "id": "F05965",
+      "status": "A",
+      "path": "docs/milestones/v0.92.2/adr/issue-945/README.md",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full document inspected: current versus retained historical status, declared source/proof boundaries and operator contract. Schema disagreement retained as DOC-004; no live or cloud claim made."
+    },
+    {
+      "id": "F05966",
+      "status": "A",
+      "path": "docs/milestones/v0.92.2/adr/issue-945/candidate-content.json",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05967",
+      "status": "A",
+      "path": "docs/milestones/v0.92.2/adr/issue-945/decisions.json",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05968",
+      "status": "A",
+      "path": "docs/milestones/v0.92.2/adr/issue-945/external-state.json",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05969",
+      "status": "A",
+      "path": "docs/milestones/v0.92.2/adr/issue-945/operator-decisions.json",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05970",
+      "status": "A",
+      "path": "docs/milestones/v0.92.2/adr/issue-945/relationships.json",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05971",
+      "status": "A",
+      "path": "docs/milestones/v0.92.2/adr/issue-945/source-manifest.json",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05972",
+      "status": "A",
+      "path": "docs/milestones/v0.92.2/adr/issue-945/validate_packet.py",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F05973",
+      "status": "M",
+      "path": "docs/milestones/v0.92.2/cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full document inspected: current versus retained historical status, declared source/proof boundaries and operator contract. Schema disagreement retained as DOC-004; no live or cloud claim made."
+    },
+    {
+      "id": "F05974",
+      "status": "A",
+      "path": "docs/milestones/v0.92.2/cognitive-sdlc/REVISION_4_REVIEW_HANDOFF.md",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full document inspected: current versus retained historical status, declared source/proof boundaries and operator contract. Schema disagreement retained as DOC-004; no live or cloud claim made."
+    },
+    {
+      "id": "F05975",
+      "status": "A",
+      "path": "docs/milestones/v0.92.2/cognitive-sdlc/issue-1064/JOURNEY_COMPARISON.json",
+      "primary_lane": "docs",
+      "review_status": "retained_evidence_boundary_fields_inspected",
+      "observation": "JSON shape and source/status/non-claim boundary fields inspected; historical local/hosted/draft distinctions preserved. Individual measurements and all hashes not replayed or independently requalified."
+    },
+    {
+      "id": "F05976",
+      "status": "A",
+      "path": "docs/milestones/v0.92.2/cognitive-sdlc/issue-1064/REMOVAL_PLAN.md",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full document inspected: current versus retained historical status, declared source/proof boundaries and operator contract. Schema disagreement retained as DOC-004; no live or cloud claim made."
+    },
+    {
+      "id": "F06052",
+      "status": "M",
+      "path": "docs/milestones/v0.92.2/features/ARCHITECTURE_COGNITION_v0.92.2.md",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full document inspected for current/historical scope, executable instructions and consistency with provider/security source review. DOC-001 collects stale qualification owner overlays; no product execution inferred."
+    },
+    {
+      "id": "F06053",
+      "status": "M",
+      "path": "docs/milestones/v0.92.2/features/BETA1_QUALIFICATION_v0.92.2.md",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full document inspected for current/historical scope, executable instructions and consistency with provider/security source review. DOC-001 collects stale qualification owner overlays; no product execution inferred."
+    },
+    {
+      "id": "F06054",
+      "status": "M",
+      "path": "docs/milestones/v0.92.2/features/EVIDENCE_CORE_v0.92.2.md",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full document inspected for current/historical scope, executable instructions and consistency with provider/security source review. DOC-001 collects stale qualification owner overlays; no product execution inferred."
+    },
+    {
+      "id": "F06055",
+      "status": "M",
+      "path": "docs/milestones/v0.92.2/features/EXECUTABLE_GOVERNANCE_v0.92.2.md",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full document inspected for current/historical scope, executable instructions and consistency with provider/security source review. DOC-001 collects stale qualification owner overlays; no product execution inferred."
+    },
+    {
+      "id": "F06056",
+      "status": "M",
+      "path": "docs/milestones/v0.92.2/features/GOVERNED_PUBLICATION_v0.92.2.md",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full document inspected for current/historical scope, executable instructions and consistency with provider/security source review. DOC-001 collects stale qualification owner overlays; no product execution inferred."
+    },
+    {
+      "id": "F06057",
+      "status": "M",
+      "path": "docs/milestones/v0.92.2/features/LONGITUDINAL_REVIEW_MEMORY_v0.92.2.md",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full document inspected for current/historical scope, executable instructions and consistency with provider/security source review. DOC-001 collects stale qualification owner overlays; no product execution inferred."
+    },
+    {
+      "id": "F06058",
+      "status": "M",
+      "path": "docs/milestones/v0.92.2/features/MULTI_PERSPECTIVE_REVIEW_v0.92.2.md",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full document inspected for current/historical scope, executable instructions and consistency with provider/security source review. DOC-001 collects stale qualification owner overlays; no product execution inferred."
+    },
+    {
+      "id": "F06059",
+      "status": "M",
+      "path": "docs/milestones/v0.92.2/features/PORTABLE_ADAPTER_V2_v0.92.2.md",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full document inspected for current/historical scope, executable instructions and consistency with provider/security source review. DOC-001 collects stale qualification owner overlays; no product execution inferred."
+    },
+    {
+      "id": "F06060",
+      "status": "M",
+      "path": "docs/milestones/v0.92.2/features/PRODUCT_SHELL_AND_OPERATOR_CONTROLS_v0.92.2.md",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full document inspected for current/historical scope, executable instructions and consistency with provider/security source review. DOC-001 collects stale qualification owner overlays; no product execution inferred."
+    },
+    {
+      "id": "F06061",
+      "status": "M",
+      "path": "docs/milestones/v0.92.2/features/README.md",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full document inspected for current/historical scope, executable instructions and consistency with provider/security source review. DOC-001 collects stale qualification owner overlays; no product execution inferred."
+    },
+    {
+      "id": "F06062",
+      "status": "M",
+      "path": "docs/milestones/v0.92.2/features/SUPPORTING_PLATFORM_TRACKS_v0.92.2.md",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full document inspected for current/historical scope, executable instructions and consistency with provider/security source review. DOC-001 collects stale qualification owner overlays; no product execution inferred."
+    },
+    {
+      "id": "F06063",
+      "status": "A",
+      "path": "docs/milestones/v0.92.2/repository-decomposition/CLAUDE_REVIEW_1.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F06064",
+      "status": "A",
+      "path": "docs/milestones/v0.92.2/repository-decomposition/CLAUDE_REVIEW_2.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F06065",
+      "status": "A",
+      "path": "docs/milestones/v0.92.2/repository-decomposition/FINDINGS.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F06066",
+      "status": "A",
+      "path": "docs/milestones/v0.92.2/repository-decomposition/GEMINI_REVIEW_1.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F06067",
+      "status": "A",
+      "path": "docs/milestones/v0.92.2/repository-decomposition/PLAN.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F06068",
+      "status": "A",
+      "path": "docs/milestones/v0.92.2/repository-decomposition/REVIEWED_PLAN_848.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F06069",
+      "status": "A",
+      "path": "docs/milestones/v0.92.2/repository-decomposition/REVIEW_INPUTS.json",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F06070",
+      "status": "A",
+      "path": "docs/milestones/v0.92.2/repository-decomposition/rd01-977/AUDIT.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F06071",
+      "status": "A",
+      "path": "docs/milestones/v0.92.2/repository-decomposition/rd01-977/REVIEW.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F06072",
+      "status": "A",
+      "path": "docs/milestones/v0.92.2/repository-decomposition/rd01-977/probe-results.json",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F06073",
+      "status": "A",
+      "path": "docs/milestones/v0.92.2/repository-decomposition/rd01-977/run_probes.py",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F06074",
+      "status": "A",
+      "path": "docs/milestones/v0.92.2/repository-decomposition/source-inventory.json",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_adr_authored_coverage",
+      "observation": "Complementary reviewer authored exact-path scope in adr-coverage.json (67 paths); full versus historical metadata inspection recorded there; no self-review attributed here."
+    },
+    {
+      "id": "F06075",
+      "status": "A",
+      "path": "docs/milestones/v0.92.2/validate_atomic_tasks.py",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full machine-readable planning contract or Python validator source inspected.69 issue identities,11 sprint ownership, explicit creation-versus-proof separation and historical exceptions preserved; no fresh live readbacks.28 pure sprint negatives pass."
+    },
+    {
+      "id": "F06076",
+      "status": "A",
+      "path": "docs/milestones/v0.92.2/validate_launch_bindings.py",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full machine-readable planning contract or Python validator source inspected.69 issue identities,11 sprint ownership, explicit creation-versus-proof separation and historical exceptions preserved; no fresh live readbacks.28 pure sprint negatives pass."
+    },
+    {
+      "id": "F06077",
+      "status": "M",
+      "path": "docs/milestones/v0.92.2/validate_planning.py",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full machine-readable planning contract or Python validator source inspected.69 issue identities,11 sprint ownership, explicit creation-versus-proof separation and historical exceptions preserved; no fresh live readbacks.28 pure sprint negatives pass."
+    },
+    {
+      "id": "F06078",
+      "status": "M",
+      "path": "docs/milestones/v0.92/publication/articles/README.md",
+      "primary_lane": "docs",
+      "review_status": "historical_publication_cohort_not_requalified",
+      "observation": "Prior v0.92 publication draft/article cohort, outside current v0.92.2 canonical 917 release gates. Authored prose and SVG not substantively re-reviewed for publication accuracy; not accepted as current product qualification."
+    },
+    {
+      "id": "F06079",
+      "status": "A",
+      "path": "docs/milestones/v0.92/publication/articles/medium-2026-09/01-what-is-adl.md",
+      "primary_lane": "docs",
+      "review_status": "historical_publication_cohort_not_requalified",
+      "observation": "Prior v0.92 publication draft/article cohort, outside current v0.92.2 canonical 917 release gates. Authored prose and SVG not substantively re-reviewed for publication accuracy; not accepted as current product qualification."
+    },
+    {
+      "id": "F06080",
+      "status": "A",
+      "path": "docs/milestones/v0.92/publication/articles/medium-2026-09/02-adl-runtime-and-csm.md",
+      "primary_lane": "docs",
+      "review_status": "historical_publication_cohort_not_requalified",
+      "observation": "Prior v0.92 publication draft/article cohort, outside current v0.92.2 canonical 917 release gates. Authored prose and SVG not substantively re-reviewed for publication accuracy; not accepted as current product qualification."
+    },
+    {
+      "id": "F06081",
+      "status": "A",
+      "path": "docs/milestones/v0.92/publication/articles/medium-2026-09/03-uts-and-acc.md",
+      "primary_lane": "docs",
+      "review_status": "historical_publication_cohort_not_requalified",
+      "observation": "Prior v0.92 publication draft/article cohort, outside current v0.92.2 canonical 917 release gates. Authored prose and SVG not substantively re-reviewed for publication accuracy; not accepted as current product qualification."
+    },
+    {
+      "id": "F06082",
+      "status": "A",
+      "path": "docs/milestones/v0.92/publication/articles/medium-2026-09/04-the-freedom-gate.md",
+      "primary_lane": "docs",
+      "review_status": "historical_publication_cohort_not_requalified",
+      "observation": "Prior v0.92 publication draft/article cohort, outside current v0.92.2 canonical 917 release gates. Authored prose and SVG not substantively re-reviewed for publication accuracy; not accepted as current product qualification."
+    },
+    {
+      "id": "F06083",
+      "status": "A",
+      "path": "docs/milestones/v0.92/publication/articles/medium-2026-09/05-the-cognitive-sdlc.md",
+      "primary_lane": "docs",
+      "review_status": "historical_publication_cohort_not_requalified",
+      "observation": "Prior v0.92 publication draft/article cohort, outside current v0.92.2 canonical 917 release gates. Authored prose and SVG not substantively re-reviewed for publication accuracy; not accepted as current product qualification."
+    },
+    {
+      "id": "F06084",
+      "status": "A",
+      "path": "docs/milestones/v0.92/publication/articles/medium-2026-09/06-codefriend.md",
+      "primary_lane": "docs",
+      "review_status": "historical_publication_cohort_not_requalified",
+      "observation": "Prior v0.92 publication draft/article cohort, outside current v0.92.2 canonical 917 release gates. Authored prose and SVG not substantively re-reviewed for publication accuracy; not accepted as current product qualification."
+    },
+    {
+      "id": "F06085",
+      "status": "A",
+      "path": "docs/milestones/v0.92/publication/articles/medium-2026-09/07-continuous-adversarial-verification.md",
+      "primary_lane": "docs",
+      "review_status": "historical_publication_cohort_not_requalified",
+      "observation": "Prior v0.92 publication draft/article cohort, outside current v0.92.2 canonical 917 release gates. Authored prose and SVG not substantively re-reviewed for publication accuracy; not accepted as current product qualification."
+    },
+    {
+      "id": "F06086",
+      "status": "A",
+      "path": "docs/milestones/v0.92/publication/articles/medium-2026-09/08-cost-and-resource-governance.md",
+      "primary_lane": "docs",
+      "review_status": "historical_publication_cohort_not_requalified",
+      "observation": "Prior v0.92 publication draft/article cohort, outside current v0.92.2 canonical 917 release gates. Authored prose and SVG not substantively re-reviewed for publication accuracy; not accepted as current product qualification."
+    },
+    {
+      "id": "F06087",
+      "status": "A",
+      "path": "docs/milestones/v0.92/publication/articles/medium-2026-09/09-routing-cheapest-capable.md",
+      "primary_lane": "docs",
+      "review_status": "historical_publication_cohort_not_requalified",
+      "observation": "Prior v0.92 publication draft/article cohort, outside current v0.92.2 canonical 917 release gates. Authored prose and SVG not substantively re-reviewed for publication accuracy; not accepted as current product qualification."
+    },
+    {
+      "id": "F06088",
+      "status": "A",
+      "path": "docs/milestones/v0.92/publication/articles/medium-2026-09/10-godel-agents-and-ghb.md",
+      "primary_lane": "docs",
+      "review_status": "historical_publication_cohort_not_requalified",
+      "observation": "Prior v0.92 publication draft/article cohort, outside current v0.92.2 canonical 917 release gates. Authored prose and SVG not substantively re-reviewed for publication accuracy; not accepted as current product qualification."
+    },
+    {
+      "id": "F06089",
+      "status": "A",
+      "path": "docs/milestones/v0.92/publication/articles/medium-2026-09/11-cognitive-spacetime-manifold.md",
+      "primary_lane": "docs",
+      "review_status": "historical_publication_cohort_not_requalified",
+      "observation": "Prior v0.92 publication draft/article cohort, outside current v0.92.2 canonical 917 release gates. Authored prose and SVG not substantively re-reviewed for publication accuracy; not accepted as current product qualification."
+    },
+    {
+      "id": "F06090",
+      "status": "A",
+      "path": "docs/milestones/v0.92/publication/articles/medium-2026-09/12-social-intelligence.md",
+      "primary_lane": "docs",
+      "review_status": "historical_publication_cohort_not_requalified",
+      "observation": "Prior v0.92 publication draft/article cohort, outside current v0.92.2 canonical 917 release gates. Authored prose and SVG not substantively re-reviewed for publication accuracy; not accepted as current product qualification."
+    },
+    {
+      "id": "F06091",
+      "status": "A",
+      "path": "docs/milestones/v0.92/publication/articles/medium-2026-09/13-whats-next-for-adl.md",
+      "primary_lane": "docs",
+      "review_status": "historical_publication_cohort_not_requalified",
+      "observation": "Prior v0.92 publication draft/article cohort, outside current v0.92.2 canonical 917 release gates. Authored prose and SVG not substantively re-reviewed for publication accuracy; not accepted as current product qualification."
+    },
+    {
+      "id": "F06092",
+      "status": "A",
+      "path": "docs/milestones/v0.92/publication/articles/medium-2026-09/README.md",
+      "primary_lane": "docs",
+      "review_status": "historical_publication_cohort_not_requalified",
+      "observation": "Prior v0.92 publication draft/article cohort, outside current v0.92.2 canonical 917 release gates. Authored prose and SVG not substantively re-reviewed for publication accuracy; not accepted as current product qualification."
+    },
+    {
+      "id": "F06093",
+      "status": "A",
+      "path": "docs/milestones/v0.92/publication/articles/medium-2026-09/platform-overview.svg",
+      "primary_lane": "docs",
+      "review_status": "historical_publication_cohort_not_requalified",
+      "observation": "Prior v0.92 publication draft/article cohort, outside current v0.92.2 canonical 917 release gates. Authored prose and SVG not substantively re-reviewed for publication accuracy; not accepted as current product qualification."
+    },
+    {
+      "id": "F06094",
+      "status": "M",
+      "path": "docs/milestones/v0.93/CONSTITUTIONAL_CITIZENSHIP_AND_POLIS_GOVERNANCE_PLAN_v0.93.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F06095",
+      "status": "M",
+      "path": "docs/milestones/v0.93/DECISIONS_v0.93.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F06096",
+      "status": "M",
+      "path": "docs/milestones/v0.93/DEMO_MATRIX_v0.93.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F06097",
+      "status": "M",
+      "path": "docs/milestones/v0.93/DESIGN_v0.93.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F06098",
+      "status": "A",
+      "path": "docs/milestones/v0.93/EXECUTION_PLAN_v0.93.json",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Parsed all records and reviewed unique semantic fields; graph/spec/wave 64-WP parity and acyclic dependency identities checked. Historical planning-review records classified as retained claims, not fresh execution; template-validation 24 nested results internally consistent.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F06099",
+      "status": "M",
+      "path": "docs/milestones/v0.93/MILESTONE_CHECKLIST_v0.93.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F06100",
+      "status": "A",
+      "path": "docs/milestones/v0.93/NEXT_MILESTONE_HANDOFF_v0.93.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F06101",
+      "status": "A",
+      "path": "docs/milestones/v0.93/PLANNED_ISSUE_CATALOG_v0.93.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F06102",
+      "status": "A",
+      "path": "docs/milestones/v0.93/QUALITY_GATE_v0.93.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F06103",
+      "status": "M",
+      "path": "docs/milestones/v0.93/README.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F06104",
+      "status": "M",
+      "path": "docs/milestones/v0.93/RELEASE_NOTES_v0.93.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F06105",
+      "status": "M",
+      "path": "docs/milestones/v0.93/RELEASE_PLAN_v0.93.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F06106",
+      "status": "A",
+      "path": "docs/milestones/v0.93/REPOSITORY_MIGRATION_v0.93.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F06107",
+      "status": "M",
+      "path": "docs/milestones/v0.93/SPRINT_v0.93.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F06108",
+      "status": "A",
+      "path": "docs/milestones/v0.93/TBD_SCHEDULING_RECONCILIATION_v0.93.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F06109",
+      "status": "M",
+      "path": "docs/milestones/v0.93/VISION_v0.93.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F06110",
+      "status": "M",
+      "path": "docs/milestones/v0.93/WBS_v0.93.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F06111",
+      "status": "A",
+      "path": "docs/milestones/v0.93/WP_EXECUTION_READINESS_v0.93.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F06112",
+      "status": "A",
+      "path": "docs/milestones/v0.93/WP_EXECUTION_SPECIFICATIONS_v0.93.yaml",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Parsed all records and reviewed unique semantic fields; graph/spec/wave 64-WP parity and acyclic dependency identities checked. Historical planning-review records classified as retained claims, not fresh execution; template-validation 24 nested results internally consistent.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F06113",
+      "status": "M",
+      "path": "docs/milestones/v0.93/WP_ISSUE_WAVE_v0.93.yaml",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Parsed all records and reviewed unique semantic fields; graph/spec/wave 64-WP parity and acyclic dependency identities checked. Historical planning-review records classified as retained claims, not fresh execution; template-validation 24 nested results internally consistent.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F06114",
+      "status": "M",
+      "path": "docs/milestones/v0.93/features/CITIZENSHIP_RIGHTS_DUTIES_AND_SOCIAL_CONTRACT_v0.93.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F06115",
+      "status": "A",
+      "path": "docs/milestones/v0.93/features/CODEFRIEND_LAUNCH_v0.93.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F06116",
+      "status": "M",
+      "path": "docs/milestones/v0.93/features/DELEGATION_IAM_STANDING_AND_APPEAL_GOVERNANCE_v0.93.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F06117",
+      "status": "M",
+      "path": "docs/milestones/v0.93/features/ENTERPRISE_SECURITY_v0.93.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F06118",
+      "status": "M",
+      "path": "docs/milestones/v0.93/features/GUILDS_AND_COLLECTIVE_ORGANIZATION_v0.93.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F06119",
+      "status": "M",
+      "path": "docs/milestones/v0.93/features/README.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F06120",
+      "status": "A",
+      "path": "docs/milestones/v0.93/features/RUNTIME_V4_PLUGIN_SYSTEM_v0.93.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F06121",
+      "status": "M",
+      "path": "docs/milestones/v0.93/features/SECURITY_WP_S1_ZERO_TRUST_ARCHITECTURE_v0.93.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F06122",
+      "status": "M",
+      "path": "docs/milestones/v0.93/features/SECURITY_WP_S2_POLICY_ENFORCEMENT_AUTHORIZATION_v0.93.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F06123",
+      "status": "M",
+      "path": "docs/milestones/v0.93/features/SECURITY_WP_S3_SECRETS_KEYS_CRYPTOGRAPHIC_TRUST_v0.93.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F06124",
+      "status": "M",
+      "path": "docs/milestones/v0.93/features/SECURITY_WP_S4_AUDIT_COMPLIANCE_INCIDENT_EVIDENCE_v0.93.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F06125",
+      "status": "M",
+      "path": "docs/milestones/v0.93/features/SECURITY_WP_S5_ISOLATION_DATA_GOVERNANCE_PRIVACY_v0.93.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F06126",
+      "status": "M",
+      "path": "docs/milestones/v0.93/features/SECURITY_WP_S6_SECURITY_OPERATIONS_ADVERSARIAL_PROVENANCE_v0.93.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F06127",
+      "status": "M",
+      "path": "docs/milestones/v0.93/features/SOCIAL_RELATIONSHIP_REPUTATION_AND_SHARED_MEMORY_v0.93.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F06128",
+      "status": "M",
+      "path": "docs/milestones/v0.93/features/THEORY_OF_MIND_AND_SOCIAL_COGNITION_v0.93.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F06129",
+      "status": "A",
+      "path": "docs/milestones/v0.93/planning-review/REVIEW.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F06130",
+      "status": "A",
+      "path": "docs/milestones/v0.93/planning-review/SOURCE_INVENTORY.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F06131",
+      "status": "A",
+      "path": "docs/milestones/v0.93/planning-review/baseline-inventory.json",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Parsed all records and reviewed unique semantic fields; graph/spec/wave 64-WP parity and acyclic dependency identities checked. Historical planning-review records classified as retained claims, not fresh execution; template-validation 24 nested results internally consistent.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F06132",
+      "status": "A",
+      "path": "docs/milestones/v0.93/planning-review/tbd-allocation-inventory.json",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Parsed all records and reviewed unique semantic fields; graph/spec/wave 64-WP parity and acyclic dependency identities checked. Historical planning-review records classified as retained claims, not fresh execution; template-validation 24 nested results internally consistent.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F06133",
+      "status": "A",
+      "path": "docs/milestones/v0.93/planning-review/template-validation.json",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_reviewed",
+      "observation": "Parsed all records and reviewed unique semantic fields; graph/spec/wave 64-WP parity and acyclic dependency identities checked. Historical planning-review records classified as retained claims, not fresh execution; template-validation 24 nested results internally consistent.",
+      "coverage_ref": "lead-docs-supplement-coverage.json"
+    },
+    {
+      "id": "F06134",
+      "status": "A",
+      "path": "docs/operations/CODEX_SESSION_BACKUP_1085.md",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full document inspected: current versus retained historical status, declared source/proof boundaries and operator contract. Schema disagreement retained as DOC-004; no live or cloud claim made."
+    },
+    {
+      "id": "F06135",
+      "status": "A",
+      "path": "docs/operations/cloud/aws/dns/COMPANY_HOSTED_ZONES.md",
+      "primary_lane": "docs",
+      "review_status": "not_reviewed_restricted_cloud_scope",
+      "observation": "Cloud assurance remained outside allowed continuation after earlier tool-side restriction; no live verification or cloud operations attempted."
+    },
+    {
+      "id": "F06136",
+      "status": "A",
+      "path": "docs/operations/cloud/aws/dns/COMPANY_HOSTED_ZONES_VERIFICATION.json",
+      "primary_lane": "docs",
+      "review_status": "not_reviewed_restricted_cloud_scope",
+      "observation": "Cloud assurance remained outside allowed continuation after earlier tool-side restriction; no live verification or cloud operations attempted."
+    },
+    {
+      "id": "F06137",
+      "status": "A",
+      "path": "docs/operations/cloud/aws/inventory/README.md",
+      "primary_lane": "docs",
+      "review_status": "not_reviewed_restricted_cloud_scope",
+      "observation": "Cloud assurance remained outside allowed continuation after earlier tool-side restriction; no live verification or cloud operations attempted."
+    },
+    {
+      "id": "F06138",
+      "status": "M",
+      "path": "docs/planning/ADL_FEATURE_LIST.md",
+      "primary_lane": "docs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "All changed hunks inspected for v0.93 successor routing and supersession; historical roadmap body not re-reviewed as current implementation."
+    },
+    {
+      "id": "F06139",
+      "status": "M",
+      "path": "docs/planning/ADL_LOGISTIC_SPLIT.md",
+      "primary_lane": "docs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "All changed hunks inspected for v0.93 successor routing and supersession; historical roadmap body not re-reviewed as current implementation."
+    },
+    {
+      "id": "F06140",
+      "status": "M",
+      "path": "docs/planning/POST_V095_ADL_CSM_LOGISTIC_SPLIT_PLAN.md",
+      "primary_lane": "docs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "All changed hunks inspected for v0.93 successor routing and supersession; historical roadmap body not re-reviewed as current implementation."
+    },
+    {
+      "id": "F06141",
+      "status": "M",
+      "path": "docs/provider/inference-profiles.md",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full document inspected for current/historical scope, executable instructions and consistency with provider/security source review. DOC-001 collects stale qualification owner overlays; no product execution inferred."
+    },
+    {
+      "id": "F06142",
+      "status": "M",
+      "path": "docs/providers/provider-profile-hot-loading.md",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full document inspected for current/historical scope, executable instructions and consistency with provider/security source review. DOC-001 collects stale qualification owner overlays; no product execution inferred."
+    },
+    {
+      "id": "F06143",
+      "status": "A",
+      "path": "docs/runtime-v3/PROVIDER_NEUTRAL_LIFECYCLE.md",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full document inspected for current/historical scope, executable instructions and consistency with provider/security source review. DOC-001 collects stale qualification owner overlays; no product execution inferred."
+    },
+    {
+      "id": "F06144",
+      "status": "A",
+      "path": "docs/runtime-v3/fixtures/issue855/HOSTED_LIVE02_FAILED.json",
+      "primary_lane": "docs",
+      "review_status": "retained_evidence_boundary_fields_inspected",
+      "observation": "JSON shape and source/status/non-claim boundary fields inspected; historical local/hosted/draft distinctions preserved. Individual measurements and all hashes not replayed or independently requalified."
+    },
+    {
+      "id": "F06145",
+      "status": "A",
+      "path": "docs/runtime-v3/fixtures/issue855/INSTALLED_PROOF_DRAFT_RUN08.json",
+      "primary_lane": "docs",
+      "review_status": "retained_evidence_boundary_fields_inspected",
+      "observation": "JSON shape and source/status/non-claim boundary fields inspected; historical local/hosted/draft distinctions preserved. Individual measurements and all hashes not replayed or independently requalified."
+    },
+    {
+      "id": "F06146",
+      "status": "A",
+      "path": "docs/runtime-v3/fixtures/issue855/INSTALLED_PROOF_RUN09.json",
+      "primary_lane": "docs",
+      "review_status": "retained_evidence_boundary_fields_inspected",
+      "observation": "JSON shape and source/status/non-claim boundary fields inspected; historical local/hosted/draft distinctions preserved. Individual measurements and all hashes not replayed or independently requalified."
+    },
+    {
+      "id": "F06147",
+      "status": "A",
+      "path": "docs/runtime-v3/fixtures/issue855/INSTALLED_PROOF_RUN10.json",
+      "primary_lane": "docs",
+      "review_status": "retained_evidence_boundary_fields_inspected",
+      "observation": "JSON shape and source/status/non-claim boundary fields inspected; historical local/hosted/draft distinctions preserved. Individual measurements and all hashes not replayed or independently requalified."
+    },
+    {
+      "id": "F06148",
+      "status": "A",
+      "path": "docs/runtime-v3/fixtures/issue967/EXACT_HEAD_HOSTED_ACCEPTANCE_PROOF.json",
+      "primary_lane": "docs",
+      "review_status": "retained_evidence_boundary_fields_inspected",
+      "observation": "JSON shape and source/status/non-claim boundary fields inspected; historical local/hosted/draft distinctions preserved. Individual measurements and all hashes not replayed or independently requalified."
+    },
+    {
+      "id": "F06149",
+      "status": "A",
+      "path": "docs/runtime-v3/fixtures/issue967/EXACT_HEAD_ZERO_PAID_PROOF.json",
+      "primary_lane": "docs",
+      "review_status": "retained_evidence_boundary_fields_inspected",
+      "observation": "JSON shape and source/status/non-claim boundary fields inspected; historical local/hosted/draft distinctions preserved. Individual measurements and all hashes not replayed or independently requalified."
+    },
+    {
+      "id": "F06150",
+      "status": "A",
+      "path": "docs/runtime-v3/fixtures/issue990/MANAGED_RESTART_PROOF.json",
+      "primary_lane": "docs",
+      "review_status": "retained_evidence_boundary_fields_inspected",
+      "observation": "JSON shape and source/status/non-claim boundary fields inspected; historical local/hosted/draft distinctions preserved. Individual measurements and all hashes not replayed or independently requalified."
+    },
+    {
+      "id": "F06151",
+      "status": "M",
+      "path": "docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full document inspected: current versus retained historical status, declared source/proof boundaries and operator contract. Schema disagreement retained as DOC-004; no live or cloud claim made."
+    },
+    {
+      "id": "F06152",
+      "status": "A",
+      "path": "docs/runtime/LIVE_RESIDENT_MANAGEMENT.md",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full document inspected for current/historical scope, executable instructions and consistency with provider/security source review. DOC-001 collects stale qualification owner overlays; no product execution inferred."
+    },
+    {
+      "id": "F06153",
+      "status": "A",
+      "path": "docs/runtime/RESIDENT_HEALTH_SUPERVISION.md",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full document inspected for current/historical scope, executable instructions and consistency with provider/security source review. DOC-001 collects stale qualification owner overlays; no product execution inferred."
+    },
+    {
+      "id": "F06154",
+      "status": "A",
+      "path": "docs/runtime/RESIDENT_PROVIDER_MONITORING.md",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full document inspected for current/historical scope, executable instructions and consistency with provider/security source review. DOC-001 collects stale qualification owner overlays; no product execution inferred."
+    },
+    {
+      "id": "F06155",
+      "status": "A",
+      "path": "docs/runtime/WELCOME_RECOVERY.md",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full document inspected for current/historical scope, executable instructions and consistency with provider/security source review. DOC-001 collects stale qualification owner overlays; no product execution inferred."
+    },
+    {
+      "id": "F06156",
+      "status": "A",
+      "path": "docs/specs/uts/PACKAGE.md",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full source read (manual JSON repeated identical paragraphs deduplicated for reading). Operational schema, scope, source/proof separation checked; DOC-002/003 capture executable migration drift."
+    },
+    {
+      "id": "F06157",
+      "status": "M",
+      "path": "docs/specs/uts/README.md",
+      "primary_lane": "docs",
+      "review_status": "complete_document_static",
+      "observation": "Full source read (manual JSON repeated identical paragraphs deduplicated for reading). Operational schema, scope, source/proof separation checked; DOC-002/003 capture executable migration drift."
+    },
+    {
+      "id": "F06158",
+      "status": "M",
+      "path": "docs/specs/uts/UTS_V1.0_SCHEMA.md",
+      "primary_lane": "docs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks and immediate context inspected for operational guidance/current routing, source paths and scope. No historical statement promoted into new execution proof."
+    },
+    {
+      "id": "F06159",
+      "status": "M",
+      "path": "docs/specs/uts/UTS_V1.1_SCHEMA.md",
+      "primary_lane": "docs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks and immediate context inspected for operational guidance/current routing, source paths and scope. No historical statement promoted into new execution proof."
+    },
+    {
+      "id": "F06160",
+      "status": "M",
+      "path": "docs/tooling/editor/command_adapter.md",
+      "primary_lane": "docs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks and immediate context inspected for operational guidance/current routing, source paths and scope. No historical statement promoted into new execution proof."
+    },
+    {
+      "id": "F06161",
+      "status": "M",
+      "path": "docs/tooling/editor/current_skill_wiring_demo.md",
+      "primary_lane": "docs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks and immediate context inspected for operational guidance/current routing, source paths and scope. No historical statement promoted into new execution proof."
+    },
+    {
+      "id": "F06162",
+      "status": "A",
+      "path": "docs/tooling/recovery/COMPLETED_PUBLICATION_TRANSPORT.md",
+      "primary_lane": "docs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks and immediate context inspected for operational guidance/current routing, source paths and scope. No historical statement promoted into new execution proof."
+    },
+    {
+      "id": "F06163",
+      "status": "M",
+      "path": "docs/tooling/worktree_governance.md",
+      "primary_lane": "docs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks and immediate context inspected for operational guidance/current routing, source paths and scope. No historical statement promoted into new execution proof."
+    },
+    {
+      "id": "F06164",
+      "status": "A",
+      "path": "docs/validation/issue877_uts_package.json",
+      "primary_lane": "docs",
+      "review_status": "retained_evidence_boundary_fields_inspected",
+      "observation": "JSON shape and source/status/non-claim boundary fields inspected; historical local/hosted/draft distinctions preserved. Individual measurements and all hashes not replayed or independently requalified."
+    },
+    {
+      "id": "F06167",
+      "status": "A",
+      "path": "tools/codefriend_host/README.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_lead_docs",
+      "observation": "Lead owns remaining CodeFriend operator/website docs; demos-coverage.json authored_documentation_scope owns 13 PROOF JSON and three export guides. No duplicate source review claimed here."
+    },
+    {
+      "id": "F06168",
+      "status": "A",
+      "path": "tools/codefriend_host/ci/README.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_lead_docs",
+      "observation": "Lead owns remaining CodeFriend operator/website docs; demos-coverage.json authored_documentation_scope owns 13 PROOF JSON and three export guides. No duplicate source review claimed here."
+    },
+    {
+      "id": "F06177",
+      "status": "A",
+      "path": "tools/codefriend_host/proxy/README.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_lead_docs",
+      "observation": "Lead owns remaining CodeFriend operator/website docs; demos-coverage.json authored_documentation_scope owns 13 PROOF JSON and three export guides. No duplicate source review claimed here."
+    },
+    {
+      "id": "F06179",
+      "status": "A",
+      "path": "tools/codefriend_host/release/README.md",
+      "primary_lane": "docs",
+      "review_status": "cross_lane_lead_docs",
+      "observation": "Lead owns remaining CodeFriend operator/website docs; demos-coverage.json authored_documentation_scope owns 13 PROOF JSON and three export guides. No duplicate source review claimed here."
+    }
+  ],
+  "supplemental_documents": [
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-917/HANDOFF.md",
+      "review_status": "complete_document_static"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-917/CARGO_MANIFEST_REVIEW.md",
+      "review_status": "complete_document_static"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-917/validate_handoff.py",
+      "review_status": "complete_document_static"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-918/REVIEW_GUIDE.md",
+      "review_status": "complete_document_static"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-916/SPRINT10_DEFERRAL.json",
+      "review_status": "complete_document_static"
+    }
+  ],
+  "counts": {
+    "complete_changed_hunks_static": 29,
+    "complete_document_static": 62,
+    "cross_lane_adr_authored_coverage": 63,
+    "complete_semantic_diff_static": 1,
+    "cross_lane_lead_docs": 5,
+    "cross_lane_reviewed": 66,
+    "lead_full_document_review": 9,
+    "reference_fixture_not_semantically_executed": 18,
+    "generated_parity_checked": 34,
+    "complete_command_rows_static": 1,
+    "complete_unique_content_static_and_duplicate_contract_parity": 1,
+    "retained_evidence_boundary_fields_inspected": 9,
+    "historical_publication_cohort_not_requalified": 16,
+    "not_reviewed_restricted_cloud_scope": 3
+  },
+  "status": "all_assigned_rows_reviewed_or_explicitly_classified",
+  "limitations": [
+    "No live services, paid providers, credentials or cloud operations.",
+    "Historical/generated cohort classification is not substantive rereview of every original document."
+  ]
+}

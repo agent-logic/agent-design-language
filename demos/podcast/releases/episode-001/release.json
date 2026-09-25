@@ -1,0 +1,51 @@
+{
+  "schema": "agent-logic.podcast.release-preparation.v1",
+  "issue": 1169,
+  "status": "published",
+  "title": "Meet the AI Coworkers",
+  "guid": "agent-logic-the-cognitive-stack-episode-001",
+  "duration_seconds": 550.056,
+  "human_audio_approved": true,
+  "approval_source": "Operator approved private-path listening test and explicitly authorized moving the page, feed and assets to public URLs before directory registration.",
+  "planned_launch_date": "2026-09-25",
+  "timezone": "America/Los_Angeles",
+  "publication_time": "Fri, 25 Sep 2026 00:40:26 GMT",
+  "feed": "demos/podcast/feed.xml",
+  "assets": [
+    {
+      "source": "demos/podcast/audio/the-cognitive-stack-episode-001-meet-the-ai-coworkers.mp3",
+      "approved_source": "demos/podcast/editorial/1166-episode-1-introduction/audio-candidate/episode.mp3",
+      "sha256": "7c77fa81f1b6d528fbc66ef8224535e4dca4207b86d215dfcee4a24dd13e7846",
+      "bytes": 11313243,
+      "content_type": "audio/mpeg",
+      "public_urls": [
+        "https://agent-logic.ai/podcast/audio/the-cognitive-stack-episode-001-meet-the-ai-coworkers.mp3",
+        "https://agent-logic.ai/podcast/audio/meet-the-ai-coworkers.mp3"
+      ]
+    },
+    {
+      "source": "demos/podcast/transcripts/the-cognitive-stack-episode-001-meet-the-ai-coworkers-transcript.md",
+      "approved_source": "demos/podcast/editorial/1166-episode-1-introduction/audio-candidate/transcript.md",
+      "sha256": "637b8df3a75bbfd46bc0e1c2380864d8a8bd44a58e5ed107765024cb93031947",
+      "bytes": 8840,
+      "content_type": "text/markdown; charset=utf-8",
+      "public_urls": [
+        "https://agent-logic.ai/podcast/transcripts/the-cognitive-stack-episode-001-meet-the-ai-coworkers-transcript.md"
+      ],
+      "derivation": "Public heading and publication status updated; all speaker turns match approved_source exactly."
+    },
+    {
+      "source": "demos/podcast/artwork/the-cognitive-stack-cover-3000.png",
+      "approved_source": "demos/podcast/editorial/1166-episode-1-introduction/cognitive_stack_cover_3000.png",
+      "sha256": "7f46dd6ac98d118e93799c8bcf0585e2e0bd6277626177de684c89070d0bce1e",
+      "bytes": 311478,
+      "content_type": "image/png",
+      "public_urls": [
+        "https://agent-logic.ai/podcast/artwork.png"
+      ]
+    }
+  ],
+  "archive_audio": "demos/podcast/editorial/1166-episode-1-introduction/audio-candidate/episode.wav",
+  "public_availability_date": "2026-09-24",
+  "season": 1
+}

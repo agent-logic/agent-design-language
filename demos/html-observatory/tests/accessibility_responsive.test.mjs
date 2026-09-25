@@ -48,8 +48,27 @@ assert.match(html, /<main[\s\S]*class=["']observatory["']/, "primary Observatory
 assert.match(html, /<header class=["']topbar["'] aria-label=["']Observatory status["']/, "topbar must retain an accessible label");
 assert.match(html, /<aside class=["']dashboard-rail["'] aria-label=["']Observatory navigation["']/, "dashboard rail must retain navigation label");
 assert.match(html, /<nav class=["']surface-nav["'] aria-label=["']Observatory navigation["']/, "surface nav must retain navigation label");
-assert.match(html, /aria-live=["']polite["'][\s\S]*id=["']agent-conversation-transcript["']|id=["']agent-conversation-transcript["'][\s\S]*aria-live=["']polite["']/, "agent transcript must announce updates");
-assert.match(html, /aria-live=["']polite["'][\s\S]*id=["']governed-room-transcript["']|id=["']governed-room-transcript["'][\s\S]*aria-live=["']polite["']/, "room transcript must announce updates");
+// PVF #1159: deterministic static accessibility regression and independent
+// missing-attribute negatives; local CPU only, required for this proof repair.
+function transcriptTag(source, id) {
+  const tags = source.match(/<[a-z][^>]*>/gi) ?? [];
+  const matches = tags.filter(tag => new RegExp(`\\sid=["']${id}["']`).test(tag));
+  assert.equal(matches.length, 1, `${id} must identify one transcript element`);
+  return matches[0];
+}
+function assertTranscriptAnnouncements(source) {
+  for (const id of ["agent-conversation-transcript", "governed-room-transcript"]) {
+    assert.match(transcriptTag(source, id), /\saria-live=["']polite["']/,
+      `${id} must announce updates on the transcript element itself`);
+  }
+}
+assertTranscriptAnnouncements(html);
+for (const id of ["agent-conversation-transcript", "governed-room-transcript"]) {
+  const tag = transcriptTag(html, id);
+  const withoutAnnouncement = html.replace(tag, tag.replace(/\saria-live=["']polite["']/, ""));
+  assert.throws(() => assertTranscriptAnnouncements(withoutAnnouncement),
+    { name: "AssertionError" }, `${id}: other live regions must not mask a missing attribute`);
+}
 assert.match(html, /id=["']governed-room-recipients["'][^>]*aria-describedby=["']governed-room-help["']/, "multi-select room recipients must point to explicit recipient constraints");
 assert.match(html, /aria-describedby=["']claim-boundary["']/, "status grid must expose the proof boundary");
 assert.match(html, /aria-labelledby=["']hero-ready-label hero-ready-state["']/, "runtime readiness stat must expose label and state");

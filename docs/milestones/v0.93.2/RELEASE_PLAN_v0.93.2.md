@@ -18,7 +18,7 @@ TAIL-01 quality decision → TAIL-02 docs/review handoff → TAIL-03 publication
 
 ## 1. Release Readiness
 
-Require accepted installed lockset, all 53 result dispositions, independent qualification and explicit #875/#671 accounting.
+Require accepted installed lockset, all 53 result dispositions, independent qualification and explicit #875 accounting.
 
 ## 2. Branch And Tag Preparation
 

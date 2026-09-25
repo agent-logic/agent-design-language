@@ -1,0 +1,8 @@
+{
+  "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+  "atomic_negative_cases": 44,
+  "sprint_negative_cases": 28,
+  "completion_contract_rows": 37,
+  "failures": [],
+  "scope": "pure local reviewed functions only; no birth proof subprocesses or live operations"
+}

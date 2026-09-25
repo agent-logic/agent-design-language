@@ -1,0 +1,8 @@
+[package]
+name="review919-virtual-time-negative"
+version="0.0.0"
+edition="2021"
+[dependencies]
+tokio={version="=1.49.0",features=["macros","rt","time","test-util"]}
+tokio-util={version="=0.7.18",features=["rt"]}
+[workspace]

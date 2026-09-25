@@ -11,35 +11,24 @@ Run from the issue's bound worktree at the exact reviewed head, after explicit
 operator authorization to merge this repository and numeric PR:
 
 ```sh
-.adl/bin/native-v3/csdlc github-pr --execute --request merge-request.json
+.adl/bin/native-v3/csdlc github-pr ISSUE --operation merge.json --execute
 ```
 
-The JSON shape is:
+Use the actual bound issue number in place of `ISSUE`. The operation file is:
 
 ```json
 {
-  "expected_lifecycle_digest": "<canonical authority-selector digest>",
-  "exact_review_sha": "<40-character reviewed HEAD>",
-  "operation": {
-    "kind": "github_mutation",
-    "request": {
-      "repository": "agent-logic/agent-design-language",
-      "issue": 844,
-      "pull_request": 1234,
-      "expected_head_sha": "<same reviewed HEAD>",
-      "operator_approval": "<explicit authorization reference for this PR merge>",
-      "credential_names": ["GITHUB_TOKEN"],
-      "mutation": {
-        "action": "pull_request_merge",
-        "base": "main",
-        "method": "merge",
-        "review_receipt_path": ".csdlc/evidence/844/typed-review.json",
-        "review_receipt_digest": "<typed review receipt payload digest>"
-      }
-    }
-  }
+  "action": "pull_request_merge",
+  "base": "main",
+  "method": "merge",
+  "operator_approval": "<explicit authorization reference for this PR merge>"
 }
 ```
+
+The semantic adapter derives the request, exact revision, publication target,
+and retained review linkage from the bound issue. Do not construct or replay a
+legacy `--request` writer envelope. The transport details below explain internal
+admission and retained evidence; they are not a second operator entrypoint.
 
 The PR number is illustrative, not an authorized target. Resolve the actual
 number, head, base and authorization before execution. The review is the existing
@@ -149,10 +138,10 @@ No PR body/comment marker mutation is needed to identify a merge.
 ## Finish and validation
 
 After successful authenticated merge reconciliation, run the existing native
-`finish --request finish-request.json --observe-github`. Finish must independently
+`csdlc finish ISSUE --pull-request PR`. Finish must independently
 observe the merged PR, matching head and relation, and closed issue for terminal
-Closing completion (or the open parent for a PartOf checkpoint); a merge
-receipt alone does not manufacture terminal truth. Cleanup remains a separate
+Closing completion. A PartOf merge is a nonterminal checkpoint and cannot
+use ordinary closing finish; a merge receipt alone does not manufacture terminal truth. Cleanup remains a separate
 native `clean` operation for the registered worktree. No terminal schema or
 second remote mutation is added by this change.
 

@@ -766,11 +766,7 @@ pub(crate) fn render_report(
                         item.path, citation.start_byte, citation.end_byte
                     ),
                 )?;
-                field(
-                    &mut out,
-                    "Exact source excerpt",
-                    citation.quote(&review.admission)?,
-                )?;
+                exact_source_excerpt(&mut out, citation.quote(&review.admission)?)?;
             }
         }
     }
@@ -936,6 +932,39 @@ fn field(out: &mut String, label: &str, value: &str) -> Result<()> {
     out.push_str(label);
     out.push_str(":** ");
     out.push_str(&markdown_text(value)?);
+    out.push('\n');
+    Ok(())
+}
+
+fn exact_source_excerpt(out: &mut String, value: &str) -> Result<()> {
+    ensure!(
+        !value.is_empty() && value.len() <= 64 * 1024,
+        "markdown_exact_excerpt_empty_or_too_large"
+    );
+    ensure!(
+        !unsafe_content("", value),
+        "markdown_exact_excerpt_failed_redaction_recheck"
+    );
+    ensure!(
+        value
+            .chars()
+            .all(|character| !character.is_control() || matches!(character, '\n' | '\r' | '\t')),
+        "markdown_exact_excerpt_contains_control_character"
+    );
+    let longest_run = value
+        .split(|character| character != '`')
+        .map(str::len)
+        .max()
+        .unwrap_or(0);
+    let fence = "`".repeat((longest_run + 1).max(3));
+    out.push_str("- **Exact source excerpt:**\n\n");
+    out.push_str(&fence);
+    out.push('\n');
+    out.push_str(value);
+    if !value.ends_with('\n') && !value.ends_with('\r') {
+        out.push('\n');
+    }
+    out.push_str(&fence);
     out.push('\n');
     Ok(())
 }
@@ -1384,6 +1413,16 @@ fn io_not_found(error: &anyhow::Error) -> bool {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn exact_source_excerpt_preserves_line_endings_tabs_and_markdown_metacharacters() {
+        let value = "if authorized:\r\n\tdelete_*records*()`\r\nreturn ok";
+        let mut rendered = String::new();
+        exact_source_excerpt(&mut rendered, value).unwrap();
+        assert!(rendered.contains(value), "{rendered:?}");
+        assert!(rendered.starts_with("- **Exact source excerpt:**\n\n"));
+        assert!(!rendered.contains("if authorized:  delete"));
+    }
 
     #[test]
     fn code_spans_keep_backtick_paths_non_clickable() {

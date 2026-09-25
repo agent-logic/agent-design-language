@@ -1,7 +1,11 @@
 # ADL Feature List
 
 Current accounting: merged #517 follow-up PR #752 reconciles all 245 historical non-proving rows and five exception groups. Accounting is complete; historical gate results are preserved and release authorization remains separate.
-Current v0.92.1 review status is recorded in [the TAIL-02 packet](../milestones/v0.92.1/evidence/release/tail-02/README.md). Requirements below do not establish delivered acceptance; #517 merged its quality evaluation with release acceptance blocked; the documentation handoff preserves that finding. #84 Unity and #251 TLS are explicitly deferred backlog, not accepted milestone features.
+Historical v0.92.1 review status is recorded in [the TAIL-02 packet](../milestones/v0.92.1/evidence/release/tail-02/README.md). Requirements below do not establish delivered acceptance; #517 merged its quality evaluation with release acceptance blocked; the documentation handoff preserves that finding. #84 Unity and #251 TLS are explicitly deferred backlog, not accepted milestone features.
+
+Current review context: [v0.92.2](../milestones/v0.92.2/README.md). Its accepted #916 handoff preserves product qualification as `not_proven`; #922 allocates Beta 1 launch and the repository split to v0.93.1, with Runtime v4 in v0.93.2.
+
+The approved successor split is retained in [PR #1156](https://github.com/agent-logic/agent-design-language/pull/1156), which remains open at this reconciliation. Local `docs/milestones/v0.93/` paths below preserve the original planning package; they do not override the approved allocation. The split package is not yet integrated into this candidate.
 
 ## Purpose
 
@@ -735,11 +739,9 @@ The birthday is the special center of gravity for this milestone. It should be
 reviewable as an event, not asserted as ceremony or inferred from ordinary
 runtime lifecycle mechanics.
 
-### v0.93 - Repository Split, Runtime v4, CodeFriend Launch and Governance
+### Approved v0.93.1 / v0.93.2 split — successor planning
 
-Required additions confirmed under #922: versioned branded CodeFriend artifact templates/style guides (CT-01–CT-10), and citizen reproduction/migration (CM-01–CM-04). The [feature crosswalk](../milestones/v0.93/FEATURE_COVERAGE_v0.93.md) maps inherited completion promises to explicit consumers and scenarios.
-
-The operator selected the repository split as the opening phase of `v0.93`, after accepted `v0.92.2` closure and before new feature development. Runtime v4 must be completed in this milestone. The operator also requires CodeFriend Beta 1 launch in v0.93, with explicit launch authorization required at execution time. See [the v0.93 plan](../milestones/v0.93/README.md) and its candidate catalog; the milestone is not opened by this planning update.
+The approved #922 split starts v0.93.1 with repository extraction, followed by CodeFriend Beta 1 qualification and launch, including versioned templates and style guides. Runtime v4 and the remaining platform/governance scope move to v0.93.2. [PR #1156](https://github.com/agent-logic/agent-design-language/pull/1156) contains the split package. The [local v0.93 plan](../milestones/v0.93/README.md) is the retained original allocation. Neither this reconciliation nor the planning PR opens a milestone or authorizes live launch.
 
 The retained governance scope turns identity substrate into accountable governance:
 - IAM
@@ -796,7 +798,7 @@ around the v0.95 path without distorting the core Runtime v2 milestone path:
 
 - CodeFriend: repo-wide code and architecture review, diagrams, tests,
   remediation plans, and product-grade reports powered by ADL review skills.
-  v0.92.2 owns the complete Beta 1 product, including onboarding, repository intake and report experience. The current [Drive Beta 1 plan](https://docs.google.com/document/d/1_CDM8QydW8_Lmue82j5tTHRJpi-hWzOo2u3y6M312b0/edit) defines the working product and external-tester criteria. The v0.93 first pass includes launch through CF-01–CF-07; v0.95 consumes accepted product evidence for MVP convergence. Billing and broader portfolio/product expansion remain separately scoped, rather than silently deferring required Beta 1 UX.
+  v0.92.2 originally targeted the complete Beta 1 product, including onboarding, repository intake and report experience; remaining qualification and launch now belong to approved v0.93.1. The current [Drive Beta 1 plan](https://docs.google.com/document/d/1_CDM8QydW8_Lmue82j5tTHRJpi-hWzOo2u3y6M312b0/edit) defines the working product and external-tester criteria. The approved v0.93.1 allocation includes launch through CF-01–CF-07; v0.95 consumes accepted product evidence for MVP convergence. Billing and broader portfolio/product expansion remain separately scoped, rather than silently deferring required Beta 1 UX.
 - Aptitude Atlas: model capability and aptitude assessment with leaderboard-
   style public reporting, deeper than one-off benchmark scores. v0.95 consumes
   capability-testing evidence only; Aptitude Atlas productization and baseline
@@ -825,7 +827,7 @@ transfer, C-SDLC v3, distributed multi-agent Runtime qualification, Podcast and
 Studio, Axum configuration hot reload, and Observatory redesign—plus explicit
 Runtime v2/v3 decoupling, provider inference profiles, and a portable GCP
 qualification sidecar. Repository authority cleanup is the shared prerequisite.
-Runtime v4 is outside this historical v0.92.1 scope and is now mandatory in v0.93 under explicit operator direction.
+Runtime v4 is outside this historical v0.92.1 scope and is mandatory in v0.93.2 under the approved #922 split.
 
 ### `v0.92.2` — CodeFriend Beta 1
 
@@ -834,8 +836,7 @@ remediation, and reporting capabilities into a usable integrated product with a
 shell and onboarding, portable Adapter v2, governed evidence, architecture
 cognition, executable fitness functions, multi-perspective review, human
 publication controls, longitudinal comparison, exports, documentation, and
-bounded proof on ADL plus one external repository. v0.92.2 completes Beta 1;
-v0.95 consumes and hardens it toward MVP convergence.
+bounded proof on ADL plus one external repository. v0.92.2 retains implementation and review evidence, with independent qualification incomplete. The approved v0.93.1 plan owns remaining Beta 1 launch work; v0.95 remains later MVP convergence.
 
 ADL already has a substantial platform:
 - deterministic execution
@@ -868,4 +869,4 @@ deliberate convergence path:
 
 ### v0.92.2 existing-issue reconciliation — issue #523
 
-CodeFriend Beta 1 remains the v0.92.2 product outcome and feeds v0.95 MVP integration. #717 capability orientation and #718 canonical-name A2A were promoted into v0.92.1 on 2026-09-09; v0.92.2 consumes their merged results as predecessor Runtime capabilities. Reuse admitted #720 for live Observatory retained-mode hazards. Other backlog is not admitted. See `docs/milestones/v0.92.2/EXISTING_ISSUE_RECONCILIATION_v0.92.2.md`.
+CodeFriend Beta 1 was the original v0.92.2 product target. Qualification remains incomplete and is deferred to v0.93.1 through #1148/#1149/#1150 before launch. #717 capability orientation and #718 canonical-name A2A were promoted into v0.92.1 on 2026-09-09; v0.92.2 consumes their merged results as predecessor Runtime capabilities. Reuse admitted #720 for live Observatory retained-mode hazards. Other backlog is not admitted. See `docs/milestones/v0.92.2/EXISTING_ISSUE_RECONCILIATION_v0.92.2.md`.

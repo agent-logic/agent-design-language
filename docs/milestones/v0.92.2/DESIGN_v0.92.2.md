@@ -1,6 +1,8 @@
 # v0.92.2 Design — CodeFriend Beta 1
 
-Status: planning candidate.
+Status: retained design contract with merged implementation evidence; #915 independent qualification is incomplete and explicitly deferred; #916 is accepted for handoff with product qualification still `not_proven`. Successor repairs #1148/#1149 precede qualification #1150 in v0.93.1. Release acceptance remains pending.
+
+The [review handoff](evidence/issue-917/HANDOFF.md) binds the inspected source and evidence. Both hosted website and installed-local-agent website modes, invitation-only GitHub access and CLI support are required. [Cycle continuation](../../codefriend/CYCLE_REVIEW_BRIDGE.md) describes the merged native owner; website integration is separately merged in CodeFriend.ai #18. Component tests do not prove deployed operation.
 
 ## Product Flow
 

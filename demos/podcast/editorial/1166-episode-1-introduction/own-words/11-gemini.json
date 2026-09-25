@@ -1,0 +1,38 @@
+{
+  "turn": 11,
+  "speaker": "Gemini",
+  "model_requested": "gemini-3.1-pro-preview",
+  "text": "That hallway traffic analogy is spot on. Imagine two companies trying to set up a meeting. Your AI assistant reaches out to their AI assistant. Yours proposes times based on your priorities. Theirs counter-proposes based on their boss's strict morning-only rule. They are essentially haggling in the background. It sounds incredibly convenient. But what happens if both systems are given strict instructions not to compromise? We might end up with a digital stalemate, where neither assistant budges, and the meeting never actually happens.",
+  "words": 83,
+  "prompt_sha256": "6e58c7da24a2a2aec2ee7fa7b3fab6fef30b7119a4caf78559e89766c6b8251c",
+  "text_sha256": "96e1068e56b660604506b5822ecb9dba4efedefb102e1a5bacfc1e18c1ccafd1",
+  "editorial_changes": "none",
+  "provider_receipt": {
+    "family": "gemini",
+    "model": "gemini-3.1-pro-preview",
+    "http_status": 200,
+    "request_id_present": false,
+    "request_id": null,
+    "timestamp_unix_ms": 1790271777700,
+    "latency_ms": 10545,
+    "prompt_chars": 6340,
+    "output_chars": 540
+  },
+  "completion": {
+    "model_returned": "gemini-3.1-pro-preview",
+    "finish_reason": "STOP",
+    "usage": {
+      "promptTokenCount": 1372,
+      "candidatesTokenCount": 104,
+      "totalTokenCount": 2065,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 1372
+        }
+      ],
+      "thoughtsTokenCount": 589,
+      "serviceTier": "standard"
+    }
+  }
+}

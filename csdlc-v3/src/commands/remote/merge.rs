@@ -46,22 +46,6 @@ fn complete_nodes(value: &Value) -> Result<&Vec<Value>, RemoteRouteFinding> {
         .as_array()
         .ok_or_else(|| reject("observation nodes missing"))
 }
-fn observe(
-    request: &GithubMutationRequest,
-    operation: &str,
-    target: String,
-    process: &mut impl ProcessAdapter,
-) -> Result<(Value, CommandInvocation), RemoteRouteFinding> {
-    let invocation = CommandInvocation::new(
-        GITHUB_READ_ONLY_ADAPTER,
-        [operation.into(), request.repository.clone(), target],
-    )
-    .and_then(|i| i.with_child_credential(mutation_credential_name(request).unwrap_or_default()))
-    .map_err(|_| reject("invalid authenticated observation"))?;
-    let value = read_mutation_reconciliation_page(invocation.clone(), process)?;
-    ensure(value.get("errors").is_none(), "GraphQL partial errors")?;
-    Ok((value, invocation))
-}
 fn identity<'a>(
     value: &'a Value,
     request: &GithubMutationRequest,
@@ -382,18 +366,12 @@ pub(super) fn stage(
     ));
     let target = json!({"schema":"csdlc.v3.merge_target.v1","repository":request.repository,"pull_request":request.pull_request,"operation_digest":operation_digest});
     let preexisting = intent_path.exists();
-    if target_path.exists() {
-        let existing: Value = serde_json::from_slice(
-            &fs::read(&target_path).map_err(|_| reject("merge target guard unavailable"))?,
-        )
-        .map_err(|_| reject("merge target guard invalid"))?;
-        ensure(
-            existing == target,
-            "PR already has a durable merge attempt; replay the original request",
-        )?;
-    } else {
-        ensure(!preexisting, "retained intent is missing its target guard")?;
-    }
+    super::merge_retirement::not_retired(root, &operation_digest)?;
+    let target_slot = super::merge_retirement::target_slot(root, &target_path, &target)?;
+    ensure(
+        target_slot.is_none() || !preexisting,
+        "retained intent is missing its target guard",
+    )?;
     let (observation, _) = observe(
         request,
         "pull-request-merge-linkage",
@@ -434,8 +412,15 @@ pub(super) fn stage(
             rules,
             base_sha,
         };
-        if !target_path.exists() {
-            persist_json_create_new(&target_path, &target)?;
+        if let Some(slot) = &target_slot {
+            persist_json_create_new(slot, &target)?;
+            #[cfg(debug_assertions)]
+            if slot != &target_path
+                && std::env::var("CSDLC_V3_TEST_CRASH_POINT").as_deref()
+                    == Ok("merge_after_successor_link")
+            {
+                std::process::exit(91);
+            }
         }
         persist_json_create_new(&intent_path, &saved)?;
         saved
@@ -463,9 +448,48 @@ pub(super) fn execute_staged(
         &staged.request,
         process,
         &staged.intent.selector_digest,
-        !reconciliation_only && !staged.preexisting,
+        !reconciliation_only,
         Some(&staged.intent_digest),
     )
+}
+
+impl StagedGithubMutation {
+    pub fn retained_merge_was_never_dispatched(
+        &self,
+        repo_root: &Path,
+    ) -> Result<bool, RemoteRouteFinding> {
+        match &self.merge {
+            Some(merge) => retained_attempt_was_never_dispatched(repo_root, merge),
+            None => Ok(false),
+        }
+    }
+}
+
+fn retained_attempt_was_never_dispatched(
+    root: &Path,
+    staged: &StagedMerge,
+) -> Result<bool, RemoteRouteFinding> {
+    if !staged.preexisting {
+        return Ok(false);
+    }
+    dispatch_evidence_is_absent(root, &staged.operation_digest)
+}
+
+pub fn retained_merge_intent_exists(
+    root: &Path,
+    request: &GithubMutationRequest,
+) -> Result<bool, RemoteRouteFinding> {
+    if !matches!(request.mutation, GithubMutation::PullRequestMerge { .. }) {
+        return Ok(false);
+    }
+    let control = git_control_dir(root).ok_or_else(|| reject("Git receipt directory missing"))?;
+    Ok(control
+        .join("csdlc-v3/remote/merges")
+        .join(format!(
+            "{}.intent.json",
+            github_mutation_operation_digest(request)
+        ))
+        .exists())
 }
 
 pub(super) fn execute(
@@ -482,7 +506,7 @@ fn execute_inner(
     request: &GithubMutationRequest,
     process: &mut impl ProcessAdapter,
     selector_digest: &str,
-    dispatch_staged: bool,
+    dispatch_authorized: bool,
     expected_intent_digest: Option<&str>,
 ) -> Result<GithubMutationResult, RemoteRouteFinding> {
     let GithubMutation::PullRequestMerge {
@@ -569,18 +593,12 @@ fn execute_inner(
         ])
     ));
     let target = json!({"schema":"csdlc.v3.merge_target.v1","repository":request.repository,"pull_request":request.pull_request,"operation_digest":digest});
-    if target_path.exists() {
-        let existing: Value = serde_json::from_slice(
-            &fs::read(&target_path).map_err(|_| reject("merge target guard unavailable"))?,
-        )
-        .map_err(|_| reject("merge target guard invalid"))?;
-        ensure(
-            existing == target,
-            "PR already has a durable merge attempt; replay the original request",
-        )?;
-    } else {
-        ensure(!replay, "retained intent is missing its target guard")?;
-    }
+    super::merge_retirement::not_retired(root, &digest)?;
+    let target_slot = super::merge_retirement::target_slot(root, &target_path, &target)?;
+    ensure(
+        target_slot.is_none() || !replay,
+        "retained intent is missing its target guard",
+    )?;
 
     let (observation, mut invocation) = observe(
         request,
@@ -622,8 +640,15 @@ fn execute_inner(
             rules,
             base_sha,
         };
-        if !target_path.exists() {
-            persist_json_create_new(&target_path, &target)?;
+        if let Some(slot) = &target_slot {
+            persist_json_create_new(slot, &target)?;
+            #[cfg(debug_assertions)]
+            if slot != &target_path
+                && std::env::var("CSDLC_V3_TEST_CRASH_POINT").as_deref()
+                    == Ok("merge_after_successor_link")
+            {
+                std::process::exit(91);
+            }
         }
         persist_json_create_new(&intent_path, &saved)?;
         saved
@@ -637,6 +662,12 @@ fn execute_inner(
     )?;
     let response_path = dir.join(format!("{digest}.response.json"));
     let has_retained_success_response = response_path.exists();
+    // This decision is made while holding the per-PR merge lock, after the
+    // retained intent and authenticated observation have been re-read. A
+    // preexisting intent may make its first dispatch only when no durable
+    // dispatch or result evidence exists at this exact point.
+    let dispatch_staged =
+        dispatch_authorized && (!replay || dispatch_evidence_is_absent(root, &digest)?);
     let mut response_digest = None;
     let mut response_sha = None;
     let identity = if (replay && !dispatch_staged) || pr["merged"] == true {

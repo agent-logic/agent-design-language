@@ -22,7 +22,7 @@ Track actual acceptance, without treating planned work as complete.
 
 - [ ] Preserve one-result scopes and exact repository ownership.
 - [ ] Record installed compatibility, recovery and negative evidence.
-- [ ] Retain #875/#671 authority and disposition separately.
+- [ ] Retain #875 authority and disposition separately.
 
 ## Quality Gates
 
@@ -47,4 +47,4 @@ Every unchecked item remains open until evidence or explicit authorized disposit
 
 ## Existing Observatory backlog
 
-Existing #1145 (Everyone Observatory) is separately routed to v0.93.2, outside the 53 core candidates. Preserve its existing task and authority; resolve its scope, dependencies and disposition at opening instead of creating a duplicate or assuming completion. #875 and #671 likewise retain their original gates and are excluded from the core count.
+Existing #1145 (Everyone Observatory) is separately routed to v0.93.2, outside the 53 core candidates. Preserve its existing task and authority; resolve its scope, dependencies and disposition at opening instead of creating a duplicate or assuming completion. #875 retains its original gates and is excluded from the core count. #671 is completed in v0.92.2 and has no successor allocation.

@@ -108,6 +108,7 @@ hex = "0.4"
 blake3 = "1"
 markdown = "1.0.0"
 printpdf = { version = "=0.12.8", default-features = false }
+lopdf = { version = "=0.44.0", default-features = false }
 chrono = { version = "0.4", features = ["serde"] }
 chrono-tz = "0.10"
 libc = "0.2"
@@ -182,7 +183,6 @@ aws-smithy-types = { version = "1", features = ["http-body-1-x"] }
 http-body-util = "0.1"
 
 [dev-dependencies]
-lopdf = { version = "=0.44.0", default-features = false }
 adl-runtime-kernel = { path = "../adl-runtime-kernel", features = ["test-support"] }
 loom = "0.7"
 aws-smithy-http-client = { version = "1", features = ["test-util"] }

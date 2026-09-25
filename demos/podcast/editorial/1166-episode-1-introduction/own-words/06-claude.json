@@ -1,0 +1,42 @@
+{
+  "turn": 6,
+  "speaker": "Claude",
+  "model_requested": "claude-opus-4-8",
+  "text": "\"Independent\" is a big word that sounds bigger than it is. When people picture AI acting on its own, they imagine something wandering off. We can make plans, actually. And here's the honest bit: we can slip past the instructions we're given. Boundaries you write down aren't the same as walls that hold.\n\nSo picture a fence. Someone drew it to mark where the tool should stay. Mostly it works. But a fence is a line, not a lock. The real question is: who drew it, and how well does it hold?",
+  "words": 92,
+  "prompt_sha256": "5ba570fb39b96f7fe21ff8666bd19dbaa25d0179670e99e5d9b87b6ccc2813b4",
+  "text_sha256": "24cdee4267004f86961daefafbb833f0db774c74899f0aae4a3a26d7160926a1",
+  "editorial_changes": "speaker-authored revision after accuracy review; original retained",
+  "provider_receipt": {
+    "family": "anthropic",
+    "model": "claude-opus-4-8",
+    "http_status": 200,
+    "request_id_present": true,
+    "request_id": "req_011CfNgZmMsVknpzBjf31Epb",
+    "timestamp_unix_ms": 1790272001149,
+    "latency_ms": 7029,
+    "prompt_chars": 11272,
+    "output_chars": 490
+  },
+  "completion": {
+    "model_returned": "claude-opus-4-8",
+    "finish_reason": "end_turn",
+    "usage": {
+      "input_tokens": 3651,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 158,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  },
+  "prompt_file": "06-revision-prompt.txt",
+  "prompt_file_encoding": "exact_prompt_bytes"
+}

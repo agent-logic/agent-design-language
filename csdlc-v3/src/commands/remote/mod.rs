@@ -8,6 +8,7 @@ mod delivery;
 pub mod intent;
 mod merge;
 mod merge_linkage;
+mod merge_retirement;
 mod model;
 mod mutation;
 mod publication;
@@ -19,7 +20,9 @@ mod transport;
 
 pub use authority::canonical_authority_selector_digest;
 pub use delivery::*;
+pub use merge::retained_merge_intent_exists;
 pub use merge_linkage::{merge_linkage_query, merge_state_query};
+pub(crate) use merge_retirement::retire_never_dispatched_merge;
 pub use model::*;
 pub use mutation::{
     execute_github_mutation, execute_staged_github_mutation, stage_github_mutation,

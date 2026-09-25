@@ -76,6 +76,69 @@
   },
   "lanes": [
     {
+      "id": "adl_characterization_standalone",
+      "lane_class": "rust_unit",
+      "default_surface": "tooling",
+      "owner": "adl-characterization",
+      "proof_role": "standalone_regression",
+      "resource_class": "small",
+      "determinism_posture": "deterministic",
+      "requirement_ids": [
+        "adl_characterization_standalone"
+      ],
+      "path_selectors": [
+        "adl-characterization/**"
+      ],
+      "path_hints": [
+        "adl-characterization/**"
+      ],
+      "command": "bash adl/tools/run_cargo_validation.sh cargo test --locked --manifest-path adl-characterization/Cargo.toml && bash adl/tools/run_cargo_validation.sh cargo fmt --manifest-path adl-characterization/Cargo.toml --all -- --check && bash adl/tools/run_cargo_validation.sh cargo clippy --locked --manifest-path adl-characterization/Cargo.toml --all-targets -- -D warnings",
+      "run_command": "bash adl/tools/run_cargo_validation.sh cargo test --locked --manifest-path adl-characterization/Cargo.toml && bash adl/tools/run_cargo_validation.sh cargo fmt --manifest-path adl-characterization/Cargo.toml --all -- --check && bash adl/tools/run_cargo_validation.sh cargo clippy --locked --manifest-path adl-characterization/Cargo.toml --all-targets -- -D warnings",
+      "reason": "independent_cargo_root_requires_locked_focused_suite"
+    },
+    {
+      "id": "adl_resilience_standalone",
+      "lane_class": "rust_unit",
+      "default_surface": "tooling",
+      "owner": "adl-resilience",
+      "proof_role": "standalone_regression",
+      "resource_class": "small",
+      "determinism_posture": "deterministic",
+      "requirement_ids": [
+        "adl_resilience_standalone"
+      ],
+      "path_selectors": [
+        "adl-resilience/**"
+      ],
+      "path_hints": [
+        "adl-resilience/**"
+      ],
+      "command": "bash adl/tools/run_cargo_validation.sh cargo test --locked --manifest-path adl-resilience/Cargo.toml && bash adl/tools/run_cargo_validation.sh cargo fmt --manifest-path adl-resilience/Cargo.toml --all -- --check && bash adl/tools/run_cargo_validation.sh cargo clippy --locked --manifest-path adl-resilience/Cargo.toml --all-targets -- -D warnings",
+      "run_command": "bash adl/tools/run_cargo_validation.sh cargo test --locked --manifest-path adl-resilience/Cargo.toml && bash adl/tools/run_cargo_validation.sh cargo fmt --manifest-path adl-resilience/Cargo.toml --all -- --check && bash adl/tools/run_cargo_validation.sh cargo clippy --locked --manifest-path adl-resilience/Cargo.toml --all-targets -- -D warnings",
+      "reason": "independent_cargo_root_requires_locked_focused_suite"
+    },
+    {
+      "id": "remote_validation_standalone",
+      "lane_class": "rust_unit",
+      "default_surface": "tooling",
+      "owner": "tools/remote_validation",
+      "proof_role": "standalone_regression",
+      "resource_class": "small",
+      "determinism_posture": "deterministic",
+      "requirement_ids": [
+        "remote_validation_standalone"
+      ],
+      "path_selectors": [
+        "tools/remote_validation/**"
+      ],
+      "path_hints": [
+        "tools/remote_validation/**"
+      ],
+      "command": "bash adl/tools/run_cargo_validation.sh cargo test --locked --manifest-path tools/remote_validation/Cargo.toml && bash adl/tools/run_cargo_validation.sh cargo fmt --manifest-path tools/remote_validation/Cargo.toml --all -- --check && bash adl/tools/run_cargo_validation.sh cargo clippy --locked --manifest-path tools/remote_validation/Cargo.toml --all-targets -- -D warnings",
+      "run_command": "bash adl/tools/run_cargo_validation.sh cargo test --locked --manifest-path tools/remote_validation/Cargo.toml && bash adl/tools/run_cargo_validation.sh cargo fmt --manifest-path tools/remote_validation/Cargo.toml --all -- --check && bash adl/tools/run_cargo_validation.sh cargo clippy --locked --manifest-path tools/remote_validation/Cargo.toml --all-targets -- -D warnings",
+      "reason": "independent_cargo_root_requires_locked_focused_suite"
+    },
+    {
       "id": "csdlc_v2_standalone",
       "lane_class": "rust_unit",
       "default_surface": "tooling",

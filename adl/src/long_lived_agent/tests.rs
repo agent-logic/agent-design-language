@@ -251,6 +251,11 @@ fn actual_runtime_step_output_creates_acc_governed_receipt() {
 
 #[test]
 fn tick_routes_provider_output_through_runtime_acc_and_adapter() {
+    // This routing fixture needs small checkpoints, not the production disk reserve.
+    let _env = MultiEnvGuard::set_all(&[
+        ("ADL_CSM_DISK_FLOOR_BYTES", "1048576"),
+        ("ADL_CSM_TEST_AVAILABLE_BYTES", "67108864"),
+    ]);
     let root = temp_dir("resident-acc-full-cycle");
     let workflow = root.join("workflow.adl.yaml");
     let proposal = crate::resident_tool_execution::ResidentToolProposalEnvelopeV1 {

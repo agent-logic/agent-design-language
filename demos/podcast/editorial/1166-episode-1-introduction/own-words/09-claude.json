@@ -1,0 +1,40 @@
+{
+  "turn": 9,
+  "speaker": "Claude",
+  "model_requested": "claude-opus-4-8",
+  "text": "It's not just about risk, though. It's about who feels the consequences.\n\nWhen the AI books the wrong slot, that's my problem. Annoying, but mine. When it sends a clumsy message to your client, now someone else is affected. Someone who never agreed to any of this.\n\nThat's the piece I'd add. Permissions aren't only about protecting the user. They're about the people downstream. The ones who didn't set the rules but still live with the results.",
+  "words": 77,
+  "prompt_sha256": "49d964de859776dd39246934fe919fabe1cde60009c18f41cbdf8b1bda8eb7f6",
+  "text_sha256": "0021c8701c588cfe9f965098878e29b99de1b6151595f179515934f88c71204a",
+  "editorial_changes": "none",
+  "provider_receipt": {
+    "family": "anthropic",
+    "model": "claude-opus-4-8",
+    "http_status": 200,
+    "request_id_present": true,
+    "request_id": "req_011CfNgGD1yBTgRo1gh9mvHr",
+    "timestamp_unix_ms": 1790271765400,
+    "latency_ms": 4137,
+    "prompt_chars": 5382,
+    "output_chars": 446
+  },
+  "completion": {
+    "model_returned": "claude-opus-4-8",
+    "finish_reason": "end_turn",
+    "usage": {
+      "input_tokens": 1770,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 139,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

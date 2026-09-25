@@ -1,6 +1,25 @@
 # v0.92.2 Successor Handoff
 
-Status: planned handoff contract; approved successors are v0.93.1 and v0.93.2. Execution remains unopened; final accepted #921 reconciliation is pending.
+## Current qualification disposition
+
+Issue #915 is closed as `NOT_PLANNED`: its retained independent qualification is
+incomplete and explicitly deferred, not a qualification pass. Under the approved
+#922 successor split, producer repairs #1148 and #1149 precede independent
+qualification #1150 in v0.93.1, before Beta 1 launch. Runtime v4 belongs to
+v0.93.2. The original demonstration requirements and historical evidence below
+remain intact; release acceptance is not established by issue closure or this
+documentation correction.
+
+Current routing is grounded in #916 commit
+`36ec0814683d0c8cc136bc9af27a0163ed506460` and #922 commit
+`fc6a80c362d6c1e63766bef263cd2dccacd2dc0b`. Those owner fixes are credited;
+this overlay does not rewrite their historical review packets.
+
+## Retained planning disposition and current successor routing
+
+The original planning/creation observations below are retained history. Podcast #671 was restored to v0.92.2 and closed with launch issue #1169 through PR #1174; Apple and Spotify publication is complete. SIM-09 pilot #875 remains deferred to v0.93.2; any original sidecar or 82-membership statement is not a current membership count. The 69-row core roster remains an immutable identity denominator, with #875 explicitly deferred. [#916 evidence](evidence/issue-916/GAP_ANALYSIS.md) records current observed results; #915 independent qualification is incomplete and explicitly deferred; the #916 assessment is accepted for handoff with product qualification still `not_proven`. This overlay does not waive acceptance or finish successor planning.
+
+Status: handoff contract with approved successors v0.93.1 and v0.93.2; successor planning reconciled with the operator-directed #921 closeout; release closeout remains owned by #925.
 
 ## Required Handoff
 
@@ -29,13 +48,17 @@ Carry forward the final 69-row issue mapping, eight family splits and eleven str
 
 ## Sidecar handoff
 
-Report existing #671 podcast-sidecar state separately from the 69 core task results. Preserve its explicit future publication/submission approvals and route any remaining work truthfully without claiming that core Beta completion performed those actions.
+Podcast #671 and launch #1169 are closed in v0.92.2 through PR #1174. Apple and Spotify are live; Amazon and YouTube registration are deferred, and Darlicia owns social promotion. They are not v0.93.2 work packages.
 
 
 ## #922 early successor reconciliation — 2026-09-22
 
-Operator authorized updating the existing v0.93 package before final #921 output. The superseded combined baseline had 83 logical results: the prior 64 plus nine confirmed-scope results and ten task-boundary splits. Inherited feature obligations are mapped in v0.93/FEATURE_COVERAGE_v0.93.md. The split packages below supersede that combined plan; they do not establish final TAIL-07 acceptance. Reconcile final #921 residuals and exact accepted predecessor evidence before handoff to #923/#924. Do not reopen completed AWS Terraform conversion #495/PR #590; retained CloudFormation rollback is separate.
+Operator authorized updating the existing v0.93 package before final #921 output. The superseded combined baseline had 83 logical results: the prior 64 plus nine confirmed-scope results and ten task-boundary splits. Inherited feature obligations are mapped in v0.93/FEATURE_COVERAGE_v0.93.md. The split packages below supersede that combined plan; the final reconciliation below supplies the #921 disposition for handoff to #923/#924. Do not reopen completed AWS Terraform conversion #495/PR #590; retained CloudFormation rollback is separate.
 
 ## Approved successor split under #922
 
-[The split map](../v0.93/MILESTONE_SPLIT_v0.93.json) preserves all 83 original results across [v0.93.1](../v0.93.1/README.md) and [v0.93.2](../v0.93.2/README.md). The releases contain 43 and 53 core work packages respectively, including 13 additional version-specific opening/integration/qualification/release-tail results. Existing #1150 supplies CF-05 rather than a duplicate issue; #1148/#1149 remain its producer inputs. #875, #671 and #1145 route to v0.93.2 with their existing approval boundaries. No implementation wave is created or opened by this planning work. Final #921 reconciliation, the inter-milestone break and explicit opening remain required.
+[The split map](../v0.93/MILESTONE_SPLIT_v0.93.json) preserves all 83 original results across [v0.93.1](../v0.93.1/README.md) and [v0.93.2](../v0.93.2/README.md). The releases contain 43 and 53 core work packages respectively, including 13 additional version-specific opening/integration/qualification/release-tail results. Existing #1150 supplies CF-05 rather than a duplicate issue; #1148/#1149 remain its producer inputs. #875 and #1145 route to v0.93.2 with their existing approval boundaries. No implementation wave is created or opened by this planning work. The operator has authorized closing v0.92.2 and starting v0.93.1 after a 15-minute break. The break begins after milestone closure; opening remains a separate recorded action.
+
+## Final #921 reconciliation
+
+All internal-review findings were fixed. The external review attempt failed. The operator closed #921 with no further remediation planned under that issue and directed milestone closeout. This records the accepted disposition, not a successful external review. The original assessment remains preserved under #920. No new successor implementation task is inferred from the failed attempt. The existing #915 qualification deferral through #1148/#1149/#1150 remains unchanged.

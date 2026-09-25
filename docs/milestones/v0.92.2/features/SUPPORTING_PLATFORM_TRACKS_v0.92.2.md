@@ -1,6 +1,6 @@
 # v0.92.2 Supporting Platform and Publication Tracks
 
-Status: all core issue identities are created and reviewed; implementation remains planned. Existing #720, #848, #849, #852, #854, #855, #861, and #862 retain mapped authority; #848 is the bounded repository-split decision row. Closed merged #717/#718 are v0.92.1 predecessor inputs.
+Status: all core issue identities are created and reviewed; producer results are reconciled in the [#916 audit](../evidence/issue-916/GAP_ANALYSIS.md). Existing #720, #848, #849, #852, #854, #855, #861, and #862 retain mapped authority; #848 is the bounded repository-split decision row. Closed merged #717/#718 are v0.92.1 predecessor inputs.
 
 These tracks support CodeFriend Beta 1 without being folded into one oversized product issue.
 
@@ -35,4 +35,8 @@ CSDLC-DECOMPOSE/#862 completes local command-owner decomposition. CSDLC-REMOTE s
 
 ## Separately admitted sidecar
 
-Existing [#671](https://github.com/agent-logic/agent-design-language/issues/671) carries the podcast public-launch/provider-submission work as a v0.92.2 sidecar. It is additional milestone membership, outside the 69 core tasks and their global startup/dependency gate. Reuse its current body and explicit future-action approval requirements; no podcast launch or submission is implied by this planning inclusion.
+Podcast #671 was restored to v0.92.2 and closed with launch issue #1169 through PR #1174; Apple and Spotify publication is complete. SIM-09 pilot #875 remains deferred to v0.93. Podcast #671 remains outside the 69 core task identities; podcast launch does not establish CodeFriend qualification.
+
+## Observed result limits
+
+The table above retains required outcomes. #909 delivered a planning packet with `apply_ready=false`; this does not establish cloud application readiness. #912 and #913 have operator-accepted drafting/revision-4 PDF handoff scope, not final publication/citation approval. PAIR, MLX and speculative-performance limitations are recorded in the linked audit.

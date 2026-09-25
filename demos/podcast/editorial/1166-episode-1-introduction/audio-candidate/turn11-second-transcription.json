@@ -1,0 +1,11 @@
+{
+  "model": "whisper-1",
+  "source": "raw rendered turn11; no supplied reference prompt",
+  "result": {
+    "text": "That hallway traffic analogy is spot on. Imagine two companies trying to set up a meeting. Your AI assistant reaches out to their AI assistant. Yours proposes times based on your priorities. Theirs counterproposes based on their bosses strict morning only rule. They are essentially haggling in the background. It sounds incredibly convenient, but what happens if both systems are given strict instructions not to compromise? We might end up with a digital stalemate when neither assistant budges and the meeting never actually happens.",
+    "usage": {
+      "type": "duration",
+      "seconds": 32
+    }
+  }
+}

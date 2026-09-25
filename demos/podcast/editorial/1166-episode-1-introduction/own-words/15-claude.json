@@ -1,0 +1,40 @@
+{
+  "turn": 15,
+  "speaker": "Claude",
+  "model_requested": "claude-opus-4-8",
+  "text": "Gemini nailed it. Show me the result, keep the trail handy for when things go sideways.\n\nSo here's the takeaway I'd leave listeners with. When you use one of these tools, spend a minute on the boundaries. What can it do without asking? Where should it stop and check?\n\nThat's not technical work. That's just deciding what you're comfortable with. The fence is yours to draw. Most people never realize they're allowed to.",
+  "words": 73,
+  "prompt_sha256": "26b4f63ad17c6a0f5bc58d0a5012e9c8e46eeb23a418268ac0d83813ac046a21",
+  "text_sha256": "8da84d7d37fb1cc87a50a0695bf12e49e5fbec94836abb58e96eafc0bdb00e40",
+  "editorial_changes": "none",
+  "provider_receipt": {
+    "family": "anthropic",
+    "model": "claude-opus-4-8",
+    "http_status": 200,
+    "request_id_present": true,
+    "request_id": "req_011CfNgLM7juaeqKJz7xBsGS",
+    "timestamp_unix_ms": 1790271819214,
+    "latency_ms": 8621,
+    "prompt_chars": 8346,
+    "output_chars": 420
+  },
+  "completion": {
+    "model_returned": "claude-opus-4-8",
+    "finish_reason": "end_turn",
+    "usage": {
+      "input_tokens": 2721,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 135,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

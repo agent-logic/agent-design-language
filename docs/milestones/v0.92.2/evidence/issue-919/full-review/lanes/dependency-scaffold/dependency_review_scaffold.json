@@ -1,0 +1,1388 @@
+{
+  "candidate_dependency_test_gaps": [
+    {
+      "candidate": "Add bounded install or import smoke proof for dependency changes.",
+      "reason": "Packet includes dependency declarations without an obvious dependency-focused test surface.",
+      "source": "manifest_or_lockfile_surfaces"
+    }
+  ],
+  "candidate_license_review_notes": [],
+  "candidate_supply_chain_findings": [
+    {
+      "reason": "Review for pinning, lockfile consistency, floating versions, cache keys, and install determinism.",
+      "source": ".csdlc/evidence/872/conversion-rehearsal/snapshots/current-observations/970/git-common/csdlc-v3/semantic/issues/970/state.lock",
+      "surface": "manifest"
+    },
+    {
+      "reason": "Review for pinning, lockfile consistency, floating versions, cache keys, and install determinism.",
+      "source": ".csdlc/evidence/872/conversion-rehearsal/snapshots/current-observations/981/git-common/csdlc-v3/semantic/issues/981/state.lock",
+      "surface": "manifest"
+    },
+    {
+      "reason": "Review for pinning, lockfile consistency, floating versions, cache keys, and install determinism.",
+      "source": ".csdlc/evidence/872/conversion-rehearsal/snapshots/negative-observations/970/git-common/csdlc-v3/semantic/issues/970/state.lock",
+      "surface": "manifest"
+    },
+    {
+      "reason": "Review for pinning, lockfile consistency, floating versions, cache keys, and install determinism.",
+      "source": ".csdlc/evidence/872/conversion-rehearsal/snapshots/negative-observations/970/semantic/state.lock",
+      "surface": "manifest"
+    },
+    {
+      "reason": "Review for pinning, lockfile consistency, floating versions, cache keys, and install determinism.",
+      "source": ".csdlc/evidence/872/conversion-rehearsal/snapshots/negative-observations/981/git-common/csdlc-v3/semantic/issues/981/state.lock",
+      "surface": "manifest"
+    },
+    {
+      "reason": "Review for pinning, lockfile consistency, floating versions, cache keys, and install determinism.",
+      "source": ".csdlc/evidence/872/conversion-rehearsal/snapshots/negative-observations/981/semantic/state.lock",
+      "surface": "manifest"
+    },
+    {
+      "reason": "Review for pinning, lockfile consistency, floating versions, cache keys, and install determinism.",
+      "source": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/locks/113.lock",
+      "surface": "manifest"
+    },
+    {
+      "reason": "Review for pinning, lockfile consistency, floating versions, cache keys, and install determinism.",
+      "source": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/locks/122.lock",
+      "surface": "manifest"
+    },
+    {
+      "reason": "Review for pinning, lockfile consistency, floating versions, cache keys, and install determinism.",
+      "source": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/locks/3.lock",
+      "surface": "manifest"
+    },
+    {
+      "reason": "Review for pinning, lockfile consistency, floating versions, cache keys, and install determinism.",
+      "source": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/locks/497.lock",
+      "surface": "manifest"
+    },
+    {
+      "reason": "Review for pinning, lockfile consistency, floating versions, cache keys, and install determinism.",
+      "source": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/locks/505.lock",
+      "surface": "manifest"
+    },
+    {
+      "reason": "Review for pinning, lockfile consistency, floating versions, cache keys, and install determinism.",
+      "source": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/locks/511.lock",
+      "surface": "manifest"
+    },
+    {
+      "reason": "Review for pinning, lockfile consistency, floating versions, cache keys, and install determinism.",
+      "source": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/locks/517.lock",
+      "surface": "manifest"
+    },
+    {
+      "reason": "Review for pinning, lockfile consistency, floating versions, cache keys, and install determinism.",
+      "source": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/locks/868.lock",
+      "surface": "manifest"
+    },
+    {
+      "reason": "Review for pinning, lockfile consistency, floating versions, cache keys, and install determinism.",
+      "source": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/locks/970.lock",
+      "surface": "manifest"
+    },
+    {
+      "reason": "Review for pinning, lockfile consistency, floating versions, cache keys, and install determinism.",
+      "source": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/locks/981.lock",
+      "surface": "manifest"
+    }
+  ],
+  "created_at": "2026-09-23T16:29:22Z",
+  "dependency_evidence": [
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/current-observations/970/git-common/csdlc-v3/semantic/issues/970/state.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/current-observations/981/git-common/csdlc-v3/semantic/issues/981/state.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/negative-observations/970/git-common/csdlc-v3/semantic/issues/970/state.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/negative-observations/970/semantic/state.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/negative-observations/981/git-common/csdlc-v3/semantic/issues/981/state.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/negative-observations/981/semantic/state.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/locks/113.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/locks/122.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/locks/3.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/locks/497.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/locks/505.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/locks/511.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/locks/517.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/locks/868.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/locks/970.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/locks/981.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/semantic/issues/113/state.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/semantic/issues/122/state.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/semantic/issues/3/state.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/semantic/issues/497/state.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/semantic/issues/505/state.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/semantic/issues/511/state.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/semantic/issues/517/state.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/semantic/issues/970/state.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/semantic/issues/981/state.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/semantic/issues/state.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/10.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/100.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/101.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/111.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/112.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/113.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/114.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/116.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/133.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/143.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/146.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/149.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/150.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/151.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/152.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/153.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/154.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/155.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/156.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/157.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/158.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/159.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/160.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/161.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/162.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/163.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/164.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/165.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/166.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/167.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/168.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/169.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/17.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/170.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/171.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/172.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/173.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/174.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/175.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/176.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/177.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/178.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/179.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/18.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/180.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/181.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/182.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/183.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/184.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/185.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/186.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/187.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/188.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    },
+    {
+      "category": "manifest",
+      "line_count": 0,
+      "path": ".csdlc/locks/189.lock",
+      "reason": "manifest or dependency/build surface",
+      "specialist_lanes": [
+        "architecture",
+        "code",
+        "dependencies",
+        "diagrams",
+        "redaction",
+        "security",
+        "synthesis"
+      ]
+    }
+  ],
+  "dependency_surface_map": {
+    "manifest": [
+      ".csdlc/evidence/872/conversion-rehearsal/snapshots/current-observations/970/git-common/csdlc-v3/semantic/issues/970/state.lock",
+      ".csdlc/evidence/872/conversion-rehearsal/snapshots/current-observations/981/git-common/csdlc-v3/semantic/issues/981/state.lock",
+      ".csdlc/evidence/872/conversion-rehearsal/snapshots/negative-observations/970/git-common/csdlc-v3/semantic/issues/970/state.lock",
+      ".csdlc/evidence/872/conversion-rehearsal/snapshots/negative-observations/970/semantic/state.lock",
+      ".csdlc/evidence/872/conversion-rehearsal/snapshots/negative-observations/981/git-common/csdlc-v3/semantic/issues/981/state.lock",
+      ".csdlc/evidence/872/conversion-rehearsal/snapshots/negative-observations/981/semantic/state.lock",
+      ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/locks/113.lock",
+      ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/locks/122.lock",
+      ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/locks/3.lock",
+      ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/locks/497.lock",
+      ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/locks/505.lock",
+      ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/locks/511.lock",
+      ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/locks/517.lock",
+      ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/locks/868.lock",
+      ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/locks/970.lock",
+      ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/locks/981.lock",
+      ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/semantic/issues/113/state.lock",
+      ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/semantic/issues/122/state.lock",
+      ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/semantic/issues/3/state.lock",
+      ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/semantic/issues/497/state.lock",
+      ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/semantic/issues/505/state.lock",
+      ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/semantic/issues/511/state.lock",
+      ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/semantic/issues/517/state.lock",
+      ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/semantic/issues/970/state.lock",
+      ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/semantic/issues/981/state.lock",
+      ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/semantic/issues/state.lock",
+      ".csdlc/locks/10.lock",
+      ".csdlc/locks/100.lock",
+      ".csdlc/locks/101.lock",
+      ".csdlc/locks/111.lock",
+      ".csdlc/locks/112.lock",
+      ".csdlc/locks/113.lock",
+      ".csdlc/locks/114.lock",
+      ".csdlc/locks/116.lock",
+      ".csdlc/locks/133.lock",
+      ".csdlc/locks/143.lock",
+      ".csdlc/locks/146.lock",
+      ".csdlc/locks/149.lock",
+      ".csdlc/locks/150.lock",
+      ".csdlc/locks/151.lock",
+      ".csdlc/locks/152.lock",
+      ".csdlc/locks/153.lock",
+      ".csdlc/locks/154.lock",
+      ".csdlc/locks/155.lock",
+      ".csdlc/locks/156.lock",
+      ".csdlc/locks/157.lock",
+      ".csdlc/locks/158.lock",
+      ".csdlc/locks/159.lock",
+      ".csdlc/locks/160.lock",
+      ".csdlc/locks/161.lock",
+      ".csdlc/locks/162.lock",
+      ".csdlc/locks/163.lock",
+      ".csdlc/locks/164.lock",
+      ".csdlc/locks/165.lock",
+      ".csdlc/locks/166.lock",
+      ".csdlc/locks/167.lock",
+      ".csdlc/locks/168.lock",
+      ".csdlc/locks/169.lock",
+      ".csdlc/locks/17.lock",
+      ".csdlc/locks/170.lock",
+      ".csdlc/locks/171.lock",
+      ".csdlc/locks/172.lock",
+      ".csdlc/locks/173.lock",
+      ".csdlc/locks/174.lock",
+      ".csdlc/locks/175.lock",
+      ".csdlc/locks/176.lock",
+      ".csdlc/locks/177.lock",
+      ".csdlc/locks/178.lock",
+      ".csdlc/locks/179.lock",
+      ".csdlc/locks/18.lock",
+      ".csdlc/locks/180.lock",
+      ".csdlc/locks/181.lock",
+      ".csdlc/locks/182.lock",
+      ".csdlc/locks/183.lock",
+      ".csdlc/locks/184.lock",
+      ".csdlc/locks/185.lock",
+      ".csdlc/locks/186.lock",
+      ".csdlc/locks/187.lock",
+      ".csdlc/locks/188.lock",
+      ".csdlc/locks/189.lock"
+    ]
+  },
+  "notes": [
+    "Scaffold is deterministic except for created_at.",
+    "Paths are packet evidence paths, not absolute host paths.",
+    "Reviewer must replace scaffold findings with source-grounded dependency review findings.",
+    "Helper does not install dependencies, mutate lockfiles, use network feeds, or make legal determinations."
+  ],
+  "packet_root": "packet",
+  "repo_name": "agent-design-language",
+  "schema": "codebuddy.repo_dependency_review.scaffold.v1"
+}

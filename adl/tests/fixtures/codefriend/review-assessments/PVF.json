@@ -1,6 +1,7 @@
 {
   "schema": "codefriend.test_proof.v1",
   "issue": 1120,
+  "interoperability_repair_issue": 1162,
   "test_surface": [
     "codefriend_review_assessments",
     "codefriend_review",
@@ -31,5 +32,27 @@
     "all-invalid incomplete versus genuine empty",
     "single complete JSON fence and strict rejection",
     "retained span/digest validation and historical v2"
+  ],
+  "source_presentation_repair_issue": 1144,
+  "source_presentation_regressions": [
+    "original UTF8/CRLF/tab source byte preservation",
+    "JSON quote roundtrip and strict normalized-quote rejection",
+    "complete response item shapes without padding or empty coverage claims",
+    "historical v2/v3 prompt digest reconstruction",
+    "historical v3 exact 4MiB prompt boundary",
+    "current v4 1MiB source accepted across all lanes and one-byte-over acquisition rejected",
+    "retained v3 mixed assessment coverage survives validation and synthesis; v2 coverage remains rejected"
+  ],
+  "native_v4_website_fixture_regressions": [
+    "actual FourPerspectiveReviewRun complete result",
+    "valid privacy-partial result with four successful lanes",
+    "valid assessment-gap result with lane gaps and run-level assessment coverage",
+    "repo-local deterministic generator scratch and zero external provider calls",
+    "post-commit generator provenance and SHA-256 binding for every exported fixture"
+  ],
+  "operator_attempt_regressions": [
+    "incomplete active attempt rejects retry",
+    "failed or cancelled attempt requires a matching typed settlement",
+    "concurrent retries serialize durable reservation before provider dispatch"
   ]
 }

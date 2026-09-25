@@ -1,12 +1,14 @@
 # v0.92.2 Vision — CodeFriend Beta 1
 
-Status: planned.
+Status: retained product vision; implementation evidence is recorded under #916 and independent Beta 1 qualification is incomplete and deferred from closed/not-planned #915 to v0.93.1 #1150 after repairs #1148/#1149.
 
 CodeFriend Beta 1 will make repository review a governed, evidence-bound product rather than a collection of prompts. An operator will be able to ingest a repository, run explainable review perspectives, inspect architecture and change risk, receive synthesized remediation and test guidance, compare a later run with an earlier one, and publish only the artifacts they explicitly approve.
 
 ## Intended Outcome
 
 Beta 1 is usable end to end on ADL and on one bounded external open-source repository. Its outputs are portable, stable enough to compare, traceable to redacted evidence, clear about claims and non-claims, and available as Markdown, HTML, and PDF.
+
+Delivery includes both invitation-only website modes: server-hosted reviews and website-controlled installed-local-agent reviews, with GitHub sign-in and CLI support. See [ADR 0084 delivery requirements](adr/issue-945/BETA1_DELIVERY.md). Component tests do not establish this complete journey.
 
 ## Product Principles
 

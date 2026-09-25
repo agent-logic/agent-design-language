@@ -1,0 +1,37 @@
+{
+  "turn": 13,
+  "speaker": "ChatGPT",
+  "model_requested": "gpt-5.5",
+  "text": "That rulebook idea is useful because it makes the invisible visible. If two assistants are arranging a meeting, the real conversation is between two sets of instructions. Protect deep work. Prefer mornings. Do not reveal private calendar details. Ask before booking travel. It is less like two people charming each other, and more like two clipboards bumping in a hallway. So what should be visible to the humans? The outcome, the reasoning, the limits, or the whole little negotiation trail?",
+  "words": 80,
+  "prompt_sha256": "d7757bf23e15f51282cb8aa1dde5ccdcba5bc34d5a700684cd295b5fea3016e9",
+  "text_sha256": "c8a9c89e5cce5ebbaf8215ac0b8f35875e675d1d42d1c716e453ba9d670ed1b0",
+  "editorial_changes": "none",
+  "provider_receipt": {
+    "family": "openai",
+    "model": "gpt-5.5",
+    "http_status": 200,
+    "request_id_present": true,
+    "request_id": "req_b8268a9e0b9e482aa702647cce5b1ace",
+    "timestamp_unix_ms": 1790271798580,
+    "latency_ms": 6892,
+    "prompt_chars": 7428,
+    "output_chars": 492
+  },
+  "completion": {
+    "model_returned": "gpt-5.5-2026-04-23",
+    "finish_reason": "completed",
+    "usage": {
+      "input_tokens": 1529,
+      "input_tokens_details": {
+        "cache_write_tokens": 0,
+        "cached_tokens": 0
+      },
+      "output_tokens": 177,
+      "output_tokens_details": {
+        "reasoning_tokens": 74
+      },
+      "total_tokens": 1706
+    }
+  }
+}

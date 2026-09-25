@@ -1,0 +1,55 @@
+{
+  "schema": "adl.qualification_scope_disposition.v1",
+  "recorded_at": "2026-09-23T01:38:58.946421+00:00",
+  "source_issue": 915,
+  "sprint_issue": 936,
+  "operator_decision": "Approve explicit deferral of remaining Sprint10 qualification to v0.93 before CodeFriend Beta1 launch; close by incomplete/deferred disposition, never qualification PASS.",
+  "authorization_context": "Planning11 presented the concrete deferral and requested approval; operator replied carry on after owner and independent read-only findings confirmed the limitation.",
+  "disposition": "operator_authorized_deferral",
+  "qualification_status": "incomplete",
+  "accepted_cells": 0,
+  "denominator": {
+    "cells": 12,
+    "obligations": 24
+  },
+  "retained_partial_results": [
+    "Merged integrated implementation #914",
+    "Six private exports with gap summaries and incomplete warnings",
+    "Owner reports PDF visual and HTML desktop/navigation checks passed"
+  ],
+  "remaining_tasks": [
+    "Source-grounded assessment correctness with strict evidence validation",
+    "Unknown second-run outcome reconciliation and safe repeat/comparison recovery",
+    "Independent remaining12-cell24-obligation qualification after accepted producer corrections"
+  ],
+  "destination_milestone": "v0.93",
+  "destination_gate": "Must be accepted before CodeFriend Beta1 launch; v0.93 planning must map exact follow-on IDs once created.",
+  "follow_on_issues": [
+    1148,
+    1149,
+    1150
+  ],
+  "routing_status": "Successors #1148/#1149/#1150 created; #915 and #936 authenticated CLOSED/NOT_PLANNED with native no_pr_closed_out superseded receipts.",
+  "unknown_effect_boundary": "Preserve interrupted ADL second-run evidence and reserved unknown spend; no replay or changed identity to bypass uncertainty.",
+  "nonclaims": [
+    "No passing original qualification",
+    "No passing #916 quality gate from this disposition alone",
+    "No public launch or release authorization"
+  ],
+  "resource_status": {
+    "status": "stopped",
+    "source": "Planning #7.3 owner confirmation 2026-09-22; zero new provider calls"
+  },
+  "closure": {
+    "915": {
+      "state": "CLOSED",
+      "state_reason": "NOT_PLANNED",
+      "closed_at": "2026-09-23T01:56:45Z"
+    },
+    "936": {
+      "state": "CLOSED",
+      "state_reason": "NOT_PLANNED",
+      "closed_at": "2026-09-23T02:01:30Z"
+    }
+  }
+}

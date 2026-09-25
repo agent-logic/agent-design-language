@@ -26,4 +26,4 @@ No successor opening, provider run or publication follows automatically from han
 
 ## Existing Observatory backlog
 
-Existing #1145 (Everyone Observatory) is separately routed to v0.93.2, outside the 53 core candidates. Preserve its existing task and authority; resolve its scope, dependencies and disposition at opening instead of creating a duplicate or assuming completion. #875 and #671 likewise retain their original gates and are excluded from the core count.
+Existing #1145 (Everyone Observatory) is separately routed to v0.93.2, outside the 53 core candidates. Preserve its existing task and authority; resolve its scope, dependencies and disposition at opening instead of creating a duplicate or assuming completion. #875 retains its original gates and is excluded from the core count. #671 is completed in v0.92.2 and has no successor allocation.

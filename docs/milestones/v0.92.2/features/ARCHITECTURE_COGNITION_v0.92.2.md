@@ -1,6 +1,6 @@
 # Architecture Cognition
 
-Status: planned. Owners: CF-COG, CF-COG-DRIFT, CF-COG-IMPACT, CF-COG-RATIONALE.
+Status: requirements retained; component evidence is indexed in the [review handoff](../evidence/issue-917/HANDOFF.md), with final Beta 1 qualification pending. Owners: CF-COG, CF-COG-DRIFT, CF-COG-IMPACT, CF-COG-RATIONALE.
 
 CodeFriend must explain dependencies, boundaries, layering, coupling and connascence, architecture drift, blast radius, architectural quanta, and available ADR/rationale signals. Findings connect observed evidence to an explicit inference and surface confidence or unknowns.
 
@@ -19,5 +19,6 @@ consistent across views; conflicts and missing evidence must remain explicit.
 A populated sufficient-evidence fixture, truthful partial/conflict fixtures, installed
 ADL and bounded external-repository generation, and HTML/PDF readability checks are
 required before this outcome is complete. A schema, hand-written sample, source-only
-test or empty view does not qualify. #915 retains independent Beta 1 qualification;
-this requirement does not reassign that work or declare it complete.
+test or empty view does not qualify. Independent Beta 1 qualification remains incomplete: closed/not-planned #915
+is succeeded by v0.93.1 #1150 after repairs #1148/#1149. This requirement
+does not declare qualification complete.

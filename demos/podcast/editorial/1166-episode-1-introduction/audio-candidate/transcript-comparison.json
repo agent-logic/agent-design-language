@@ -1,0 +1,88 @@
+{
+  "method": "Independent Nova-3 transcription of entire final MP3; differences require inspection, not literal waveform proof",
+  "expected_tokens": 1491,
+  "observed_tokens": 1489,
+  "similarity": 0.9879194630872483,
+  "differences": [
+    {
+      "operation": "replace",
+      "expected": "chatgpt",
+      "observed": "chat gpt",
+      "expected_word_offset": 10
+    },
+    {
+      "operation": "replace",
+      "expected": "just in",
+      "observed": "justin",
+      "expected_word_offset": 299
+    },
+    {
+      "operation": "replace",
+      "expected": "wrapper",
+      "observed": "rapper",
+      "expected_word_offset": 303
+    },
+    {
+      "operation": "replace",
+      "expected": "where",
+      "observed": "why",
+      "expected_word_offset": 919
+    },
+    {
+      "operation": "replace",
+      "expected": "6 a m",
+      "observed": "6am",
+      "expected_word_offset": 957
+    },
+    {
+      "operation": "replace",
+      "expected": "rulebook",
+      "observed": "rule book",
+      "expected_word_offset": 997
+    },
+    {
+      "operation": "replace",
+      "expected": "rulebook",
+      "observed": "rule book",
+      "expected_word_offset": 1026
+    },
+    {
+      "operation": "replace",
+      "expected": "rulebook",
+      "observed": "rule book",
+      "expected_word_offset": 1032
+    },
+    {
+      "operation": "replace",
+      "expected": "want to",
+      "observed": "wanna",
+      "expected_word_offset": 1168
+    },
+    {
+      "operation": "replace",
+      "expected": "rulebook",
+      "observed": "rule book",
+      "expected_word_offset": 1187
+    },
+    {
+      "operation": "replace",
+      "expected": "want to",
+      "observed": "wanna",
+      "expected_word_offset": 1322
+    },
+    {
+      "operation": "replace",
+      "expected": "6 a m",
+      "observed": "6am",
+      "expected_word_offset": 1343
+    }
+  ],
+  "human_listening_review": "pending",
+  "model_info": {
+    "2187e11a-3532-4498-b076-81fa530bdd49": {
+      "name": "general-nova-3",
+      "version": "2025-07-31.0",
+      "arch": "nova-3"
+    }
+  }
+}

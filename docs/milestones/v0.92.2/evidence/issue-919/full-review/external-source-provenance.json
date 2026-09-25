@@ -1,0 +1,10 @@
+{
+  "DEP-004": {
+    "source_kind": "operator-installed skill outside ADL repository",
+    "portable_path": "external-skills/repo-dependency-review/scripts/prepare_dependency_review.py",
+    "sha256": "5ff313a890e5c9a66d8a828766d7f1f9f3ae4918d322a7a26b3e0e5ee9209bee",
+    "adl_commit_binding": false,
+    "reproduction": "lanes/dependencies-scaffold-negative.json",
+    "limitation": "External source identified by bytes, not attributed to frozen ADL commit."
+  }
+}

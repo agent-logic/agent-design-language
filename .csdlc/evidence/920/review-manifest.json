@@ -1,0 +1,268 @@
+{
+  "schema": "adl.external_review_manifest.v1",
+  "issue": 920,
+  "milestone": "v0.92.2",
+  "tail_stage": "TAIL-05",
+  "status": "handoff_ready",
+  "prepared_at": "2026-09-23T18:00:00Z",
+  "preparation_revision": "6d78c1da473f95c4db4e0fa29f4fc2bd1d290106",
+  "predecessors": {
+    "documentation_handoff": {
+      "issue": 917,
+      "branch": "codex/917-v0922-docs-review-handoff",
+      "accepted": false,
+      "accepted_for_external_review_preparation": true,
+      "accepted_revision": "c72c8cc1bf255ae2e26bb85b631ce0550fd886fc",
+      "merge_commit": "c72c8cc1bf255ae2e26bb85b631ce0550fd886fc",
+      "reviewed_revision": "e94ab771f9d3cfee5142aee584d57345a3ac6c29",
+      "handoff_manifest_path": "docs/milestones/v0.92.2/evidence/issue-917/HANDOFF_MANIFEST.json",
+      "handoff_manifest_sha256": "8fc4efc4bc5b0e9309d5fe638926d1a161f70ed3830c90ce60deb5bbf8ae2b72",
+      "acceptance_scope": "assessment_handoff_for_external_review_preparation",
+      "refresh_required": false,
+      "note": "Merged TAIL-02 assessment handoff. Its 129 hashes describe reviewed source e94ab771; merge-tree drift remains disclosed and this is not release acceptance."
+    },
+    "publication_finalization": {
+      "issue": 918,
+      "accepted": false,
+      "accepted_for_external_review_preparation": true,
+      "revision": "d4575d1b34df78b80e71233e5d72cca9bc4339c2",
+      "merge_commit": "ea0df924447e77e1c34ebc54c8da92ac5749c40e",
+      "merged_at": "2026-09-23T23:41:05Z",
+      "issue_closed_at": "2026-09-23T23:41:07Z",
+      "publication_manifest_path": "docs/milestones/v0.92.2/evidence/issue-918/PUBLICATION_MANIFEST.json",
+      "publication_manifest_sha256": "6872e631b0160b676953b55d3f55796768ee2493ce727774bc76a05d61fa7d97",
+      "artifact_manifest_sha256": "6872e631b0160b676953b55d3f55796768ee2493ce727774bc76a05d61fa7d97",
+      "integration_manifest_path": "docs/milestones/v0.92.2/evidence/issue-918/INTEGRATION_RECONCILIATION.json",
+      "integration_manifest_sha256": "a1e3f2d284709da7eeae13b46eb532888b57447b7e2635dd570adbad185544a2",
+      "native_reconciliation_digest": "d02e28bceaf5391cdc626d2ceff27ea11de132cbae305e91016fc01e00fa9377",
+      "acceptance_scope": "accepted_for_external_review_preparation",
+      "release_acceptance": "pending",
+      "refresh_required": false,
+      "note": "Merged integrated evidence packet accepted only for external-review preparation. External review, release acceptance and publication authorization remain pending."
+    },
+    "internal_review": {
+      "issue": 919,
+      "branch": "codex/919-v0922-internal-milestone-review",
+      "observed_draft_revision": "6fc19987dcb9aaa347e61e6185f4ae1718e5ec6c",
+      "accepted": false,
+      "review_revision": "6fc19987dcb9aaa347e61e6185f4ae1718e5ec6c",
+      "reviewed_candidate_revision": "5c4a6149771c637f3c805985b86231077965eab4",
+      "review_manifest_path": "docs/milestones/v0.92.2/evidence/issue-919/full-review/run_manifest.json",
+      "review_manifest_sha256": "4ac9913d8abaf25563f80e10902edcbe790fe6c6804c86a8a51c2f8b66d957ab",
+      "findings_path": "docs/milestones/v0.92.2/evidence/issue-919/full-review/findings.json",
+      "findings_digest_sha256": "111229fa08f16699282a9c3365cb285f88389d20ef94d37934ba0c93bcd826d4",
+      "refresh_required": false,
+      "note": "Immutable nine-lane #919 review merged with changes required. Its 27 findings remain the frozen denominator; integrated repair evidence is supplied by #918 without rewriting the historical review.",
+      "native_reconciliation_state": "published_reconciled",
+      "substantive_review_state": "complete_changes_required",
+      "native_reconciliation_digest": "b3cebe78a61e8d55d7763799ba11a398f6d5e3df67c2f463a75f0a2f3c03cf18",
+      "accepted_for_external_review_preparation": true,
+      "merge_commit": "52756b5bc7b02e3ebf6886170ee59b55f8dc10d1"
+    }
+  },
+  "candidate": {
+    "repository": "agent-logic/agent-design-language",
+    "revision": "d4575d1b34df78b80e71233e5d72cca9bc4339c2",
+    "artifact_manifest_path": "docs/milestones/v0.92.2/evidence/issue-918/PUBLICATION_MANIFEST.json",
+    "artifact_manifest_sha256": "6872e631b0160b676953b55d3f55796768ee2493ce727774bc76a05d61fa7d97",
+    "exact_binding_complete": true
+  },
+  "authorization": {
+    "external_contact_authorized": false,
+    "disclosure_scope_approved": false,
+    "authorization_reference": null,
+    "authorization_evidence_path": null,
+    "authorization_evidence_sha256": null
+  },
+  "reviewer": {
+    "identity": null,
+    "organization_or_service": null,
+    "independent_of_implementation": false,
+    "independent_of_internal_review": false,
+    "independence_basis": null,
+    "independence_evidence_path": null,
+    "independence_evidence_sha256": null
+  },
+  "review": {
+    "state": "not_started",
+    "method": null,
+    "started_at": null,
+    "completed_at": null,
+    "reviewed_revision": null,
+    "reviewed_manifest_sha256": null,
+    "assessment_path": null,
+    "assessment_sha256": null,
+    "verdict": "not_proven",
+    "limitations": [
+      "The external review has not started and no reviewer has been contacted or assigned.",
+      "The #918 packet is accepted only as the integrated external-review preparation candidate; its release acceptance, qualification and publication authorization remain pending.",
+      "The immutable #919 review found 27 issues; the integrated #918 packet retains the four repair groups and the separate #1171/#1172 tooling follow-on without changing that denominator."
+    ]
+  },
+  "artifacts": {
+    "review_request": ".csdlc/evidence/920/review.md",
+    "findings": ".csdlc/evidence/920/findings.json"
+  },
+  "refresh_triggers": [
+    "TAIL-02 accepted identity changes",
+    "TAIL-03 candidate or publication-manifest identity changes",
+    "TAIL-04 native reconciliation or accepted identity changes",
+    "any grouped repair or independent re-review disposition changes",
+    "post-remediation candidate bytes or artifact manifest becomes available or changes",
+    "reviewer identity, independence basis, authorization, method, result or limitations change"
+  ],
+  "downstream": {
+    "findings_owner_issue": 921,
+    "release_authorized": false
+  },
+  "internal_review_baseline": {
+    "candidate_revision": "5c4a6149771c637f3c805985b86231077965eab4",
+    "publication_manifest_path": "docs/milestones/v0.92.2/evidence/issue-918/PUBLICATION_MANIFEST.json",
+    "publication_manifest_sha256": "b4f031ae10b3c7a5216523680dfca5b1cd94cdc5d35d3206c852932d37f246c6",
+    "review_revision": "6fc19987dcb9aaa347e61e6185f4ae1718e5ec6c",
+    "review_result": "changes_required",
+    "finding_counts": {
+      "P1": 4,
+      "P2": 20,
+      "P3": 3
+    },
+    "repair_issues": {
+      "A": 1161,
+      "B": 1162,
+      "C": 1159,
+      "D": 1160
+    },
+    "repair_progress_observed": {
+      "as_of": "2026-09-23T23:41:07Z",
+      "candidate_integration_complete": true,
+      "A": {
+        "issue": 1161,
+        "finding_ids": [
+          "ARCH-001",
+          "ARCH-002",
+          "ARCH-003",
+          "SEC-001",
+          "SEC-002",
+          "DOC-002",
+          "DOC-003",
+          "DOC-004",
+          "TEST-TRANS-001"
+        ],
+        "status": "merged_and_closed",
+        "pull_request": 1168,
+        "reviewed_head": "fdc968548458d6eb448ce01a99fa4c4d9a02101d",
+        "merge_commit": "c8f646dc8c90d139332315c507adbc57b0c222e2",
+        "merged_at": "2026-09-23T20:21:25Z",
+        "issue_closed_at": "2026-09-23T20:21:26Z",
+        "finding_map_path": "docs/csdlc-v3/evidence/issue-1161/REMEDIATION.md",
+        "finding_map_sha256": "34f11ce273c03d7227982f76cf8d2163f0d9e40461c4cd2be31ac30cfabe6e21",
+        "candidate_inclusion_verified": true,
+        "note": "The repair PR is merged, the issue is closed, and the merge is an ancestor of the bound #918 candidate."
+      },
+      "B": {
+        "issue": 1162,
+        "finding_ids": [
+          "INTEGRATION-001",
+          "CODE-001",
+          "CODE-002",
+          "SEC-003",
+          "SEC-004",
+          "DEP-001",
+          "DEMOS-001"
+        ],
+        "status": "merged_and_closed",
+        "adl_component": {
+          "pull_request": 1170,
+          "reviewed_head": "cdb48f4fea83218ddf7feb545da3b7be7fb7d345",
+          "state": "merged",
+          "merged": true,
+          "merge_commit": "81a2f13503ffa67e6e14d238bff6567b5320dfc1",
+          "merged_at": "2026-09-23T20:28:19Z",
+          "issue_closed_at": "2026-09-23T20:28:20Z",
+          "finding_map_path": ".csdlc/evidence/1162/FINDING_DISPOSITIONS.md",
+          "finding_map_sha256": "c563d5f8131f35028258da24850d7c3650422d06335d0c29f96af3cad63c613a"
+        },
+        "website_component": {
+          "repository": "agent-logic/codefriend.ai",
+          "pull_request": 20,
+          "reviewed_head": "8f7d28e7f6254a95721bfa8b15cd95770382607b",
+          "merge_commit": "8b0c5fd12423494c7fed27059321b217d7dff430",
+          "merged_at": "2026-09-23T20:00:24Z",
+          "state": "merged"
+        },
+        "candidate_inclusion_verified": true,
+        "note": "Both repository components are merged. The ADL merge is an ancestor of the bound #918 candidate; the exact CodeFriend merge identity is retained as cross-repository integration evidence. The source map predates both merges and remains source mapping rather than current status."
+      },
+      "C": {
+        "issue": 1159,
+        "finding_ids": [
+          "PRV-001",
+          "PRV-002",
+          "TESTS-001",
+          "TESTS-002",
+          "TESTS-003"
+        ],
+        "status": "merged_and_closed",
+        "pull_request": 1163,
+        "reviewed_head": "de8574324b087366423d6d60911ab63e274ad280",
+        "merge_commit": "02c0aa707f17ed013cbf872222615411a78b4166",
+        "merged_at": "2026-09-23T20:04:59Z",
+        "issue_closed_at": "2026-09-23T20:05:00Z",
+        "finding_map_path": "docs/validation/issue1159/FINDING_FIX_PROOF.json",
+        "finding_map_sha256": "a921df9a2c20f128067cbf1a816d96c8d85b2c0b1c7a1c6c88b25f1d930758e5",
+        "candidate_inclusion_verified": true,
+        "note": "The repair PR is merged, the issue is closed, and the merge is an ancestor of the bound #918 candidate."
+      },
+      "D": {
+        "issue": 1160,
+        "finding_ids": [
+          "DEP-002",
+          "DEP-003",
+          "DEP-004",
+          "SYN-006",
+          "DOC-001",
+          "DOC-SUP-001"
+        ],
+        "status": "merged_and_closed",
+        "pull_request": 1164,
+        "reviewed_head": "8a409c7c327f6203e45b810c9566c9c70e6c0b50",
+        "merge_commit": "78f57f97c2b9e5e90301e132434d98ba2fcbc2e6",
+        "merged_at": "2026-09-23T23:19:10Z",
+        "issue_closed_at": "2026-09-23T23:19:11Z",
+        "finding_map_path": "tools/groupd_validation/README.md",
+        "finding_map_sha256": "19f9d79c58f7f0f7511ff5f81a794dcb4080518d5ab12a8e49825fa898f40b7c",
+        "candidate_inclusion_verified": true,
+        "note": "The repair PR is merged, the issue is closed, and the merge is an ancestor of the bound #918 candidate. CI-1160-001 remains a subsequent finding outside the frozen #919 denominator."
+      }
+    },
+    "integration_tooling_follow_on": {
+      "issue": 1171,
+      "pull_request": 1172,
+      "reviewed_head": "52b8e12177a74f036c044124c55867c1893e0628",
+      "merge_commit": "ee90f97a3d9fe31e08c3ba53af6b4d706a560788",
+      "status": "merged_and_closed",
+      "outside_frozen_finding_denominator": true,
+      "note": "Required integration-tooling repair for safe retirement of never-dispatched merge attempts. It is relevant to the integration sequence but is not a #919 finding and does not change the frozen denominator of 27."
+    },
+    "repair_state": "integrated_for_external_review_preparation",
+    "independent_rereview_state": "integrated_packet_reviewed",
+    "source_records": {
+      "run_manifest": {
+        "path": "docs/milestones/v0.92.2/evidence/issue-919/full-review/run_manifest.json",
+        "sha256": "4ac9913d8abaf25563f80e10902edcbe790fe6c6804c86a8a51c2f8b66d957ab"
+      },
+      "final_report": {
+        "path": "docs/milestones/v0.92.2/evidence/issue-919/full-review/final_report.md",
+        "sha256": "229257434d4c36db81b5189d0c4207e9dab8b5ea30f62769a6b6a01f1046414b"
+      },
+      "findings": {
+        "path": "docs/milestones/v0.92.2/evidence/issue-919/full-review/findings.json",
+        "sha256": "111229fa08f16699282a9c3365cb285f88389d20ef94d37934ba0c93bcd826d4"
+      },
+      "remediation_groups": {
+        "path": "docs/milestones/v0.92.2/evidence/issue-919/full-review/remediation-groups.json",
+        "sha256": "9de23100406f890ef9602bf53f58df745f80e2e95ff9bb52beae54f9772a0f54"
+      }
+    }
+  }
+}

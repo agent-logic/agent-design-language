@@ -20,7 +20,7 @@ Planned and unopened. The operator approved the scope split; this package does n
 
 ## Boundaries
 
-Template/catalog and Beta 1 launch acceptance are owned by v0.93.1. This milestone consumes their accepted versions and proves ongoing compatibility. Sidecar #875/#671 proof remains separate.
+Template/catalog and Beta 1 launch acceptance are owned by v0.93.1. This milestone consumes their accepted versions and proves ongoing compatibility. Sidecar #875 proof remains separate.
 
 ## Acceptance
 
@@ -28,4 +28,4 @@ Retain a result-to-source-to-installed-consumer map with positive, negative and 
 
 ## Existing Observatory backlog
 
-Existing #1145 (Everyone Observatory) is separately routed to v0.93.2, outside the 53 core candidates. Preserve its existing task and authority; resolve its scope, dependencies and disposition at opening instead of creating a duplicate or assuming completion. #875 and #671 likewise retain their original gates and are excluded from the core count.
+Existing #1145 (Everyone Observatory) is separately routed to v0.93.2, outside the 53 core candidates. Preserve its existing task and authority; resolve its scope, dependencies and disposition at opening instead of creating a duplicate or assuming completion. #875 retains its original gates and is excluded from the core count. #671 is completed in v0.92.2 and has no successor allocation.

@@ -171,6 +171,8 @@ struct LocalMutationJournal {
     bind_branch: Option<String>,
     #[serde(default)]
     bind_worktree: Option<PathBuf>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    bind_image_digest: Option<String>,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

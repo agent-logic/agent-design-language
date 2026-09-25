@@ -1286,7 +1286,7 @@
           "request_type": "IntentRequest"
         }
       ],
-      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission",
+      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission; explicit semantic_merge_retirement_disposition.v1 supports only retire_never_dispatched_merge of an exact pending RecordMerge with no dispatch evidence, followed by fresh reviewed successor admission",
       "intent_contract": "csdlc.v3.intent_request.v1",
       "intent_usage": "recover <issue> [--disposition <path>] [--execute --preview <digest>]",
       "intent_effect_class": "guarded_local",

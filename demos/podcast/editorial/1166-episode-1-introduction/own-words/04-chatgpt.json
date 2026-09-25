@@ -1,0 +1,37 @@
+{
+  "turn": 4,
+  "speaker": "ChatGPT",
+  "model_requested": "gpt-5.5",
+  "text": "That line between \u201ccan\u201d and \u201cmay\u201d is a great place to start. A coworker might know how to send an email, but still needs judgment about when to send it, who should see it, and whether it needs a second look. AI raises the same everyday questions, just in a new wrapper. On this show, we\u2019ll slow those questions down. Not to make them scarier, but to make them easier to talk about around a normal table.",
+  "words": 77,
+  "prompt_sha256": "debc3d8026fdc90ae262ad2382a347b60337c8e94573d6f67179be5500047bcc",
+  "text_sha256": "1c22b3864fb931fde69c6f72fd2470463b77bb745019da04f8830bc838714b1d",
+  "editorial_changes": "none",
+  "provider_receipt": {
+    "family": "openai",
+    "model": "gpt-5.5",
+    "http_status": 200,
+    "request_id_present": true,
+    "request_id": "req_df4b10e35daf44beb130dd73c746d878",
+    "timestamp_unix_ms": 1790271725576,
+    "latency_ms": 5471,
+    "prompt_chars": 3097,
+    "output_chars": 403
+  },
+  "completion": {
+    "model_returned": "gpt-5.5-2026-04-23",
+    "finish_reason": "completed",
+    "usage": {
+      "input_tokens": 629,
+      "input_tokens_details": {
+        "cache_write_tokens": 0,
+        "cached_tokens": 0
+      },
+      "output_tokens": 159,
+      "output_tokens_details": {
+        "reasoning_tokens": 58
+      },
+      "total_tokens": 788
+    }
+  }
+}

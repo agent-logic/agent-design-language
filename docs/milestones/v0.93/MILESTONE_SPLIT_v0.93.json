@@ -482,12 +482,17 @@
     ],
     "v0.93.2": [
       875,
-      671,
       1145
     ]
   },
   "canonical_plans": [
     "../v0.93.1/EXECUTION_PLAN_v0.93.1.json",
     "../v0.93.2/EXECUTION_PLAN_v0.93.2.json"
-  ]
+  ],
+  "completed_predecessor_issues": {
+    "v0.92.2": [
+      671,
+      1169
+    ]
+  }
 }

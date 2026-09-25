@@ -1,0 +1,63 @@
+{
+  "status": "prior_packet_findings_fixed_targeted_recheck_pass",
+  "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+  "reviewed_packet": "docs/milestones/v0.92.2/evidence/issue-919/full-review",
+  "independence": "Reviewer authored code,architecture,docs supplement; those findings not independently reapproved here. Focus: lead synthesis, other-lane claim consistency, omission and portability.",
+  "findings": [
+    {
+      "id": "PACKET-IND-001",
+      "severity": "P2",
+      "title": "Make retained review evidence references resolvable in the published packet",
+      "path": "findings.json",
+      "evidence": "All26 source_artifact references use lanes/*, absent from full-review. Acceptance evidence_refs likewise point to absent lanes/*. Reports cite omitted security-probes, tests-history, demos-artifacts and website-tests.log. coverage/evidence-coverage.json names ../retained-artifact-census.json but actual published filename is retained-artifacts.json. DEP-004 exposes an absolute reviewer skill path instead of a portable external-tool identity.",
+      "impact": "A fresh checkout reader cannot follow the decisive counterexamples or source reports supporting the published findings and acceptance classifications. This is packet portability, not invalidation of locally observed defects.",
+      "fix": "Include sanitized proving artifacts with exact hashes and packet-relative references, or explicitly identify a local-only/nonportable artifact with its unavailable publication status; map source lane reports/findings into published paths. Give external tooling version/hash or portable identifier without personal absolute path.",
+      "disposition": "fixed_verified"
+    },
+    {
+      "id": "PACKET-IND-002",
+      "severity": "P3",
+      "title": "Separate unavailable historical entries from indexed support",
+      "path": "specialist_reviews/evidence.md",
+      "evidence": "history-inventory.json partitions290 entries as51 primary_report_or_contract_read,219 indexed_supporting_source_not_individually_reviewed,20 unavailable_at_candidate. Report and coverage/evidence-coverage.json instead state239 indexed-only support.",
+      "impact": "The historical coverage tally incorrectly credits20 unavailable documents as indexed supporting coverage.",
+      "fix": "Use51/219/20 mutually exclusive counts, or explicitly label239 combined nonprimary entries with219 indexed and20 unavailable.",
+      "disposition": "fixed_verified"
+    }
+  ],
+  "checks": {
+    "finding_count": 26,
+    "severity_counts": {
+      "P1": 4,
+      "P2": 20,
+      "P3": 2
+    },
+    "all_lane_actionable_findings_present": true,
+    "acceptance_rows": 366,
+    "retained_artifacts": 4778,
+    "history_crosswalk_rows": 29,
+    "ancestry_rows": 116,
+    "ancestral": 108,
+    "no_merge_record": 8
+  },
+  "limitations": [
+    "No source/product edits or live operations.",
+    "This is a packet review, not independent reproduction of every product finding.",
+    "Final source-coverage reconciliation explicitly still pending in reviewed snapshot; cannot approve full completion yet."
+  ],
+  "targeted_recheck": {
+    "finding_count": 27,
+    "severity_counts": {
+      "P1": 4,
+      "P2": 20,
+      "P3": 3
+    },
+    "all_finding_source_artifacts_resolve": true,
+    "historical_partition_corrected": true,
+    "bounded_proof_directories_published": true,
+    "external_skill_provenance_present": true,
+    "remaining": null,
+    "reference_contract": "reference-resolution.json verified; two acceptance refs normalized and evidence coverage report relative path exists"
+  },
+  "non_claim": "Targeted packet correction approval only; no release, remediation approval, or exact-commit final review."
+}

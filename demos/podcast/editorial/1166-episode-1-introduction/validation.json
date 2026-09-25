@@ -1,0 +1,35 @@
+{
+  "schema": "agent-logic.podcast.script_validation.v1",
+  "issue": 1166,
+  "scope": "script/artwork approval packet only",
+  "script_sha256": "cca870f64f374425cf73813fc724451428c96dd7ebad5e63232cb07e0269871a",
+  "spoken_word_count": 1313,
+  "word_count_method": "Count only lines after ### speaker headings until next ## section; regex word tokens with internal apostrophes/hyphens",
+  "section_words": {
+    "1. Welcome \u2014 approximately 0:00\u20130:50": 105,
+    "2. Meet the hosts \u2014 approximately 0:50\u20133:00": 322,
+    "3. What\u2019s the show for? \u2014 approximately 3:00\u20134:30": 172,
+    "4. What does \u201cacting independently\u201d mean? \u2014 approximately 4:30\u20136:45": 288,
+    "5. What happens when AIs talk to each other? \u2014 approximately 6:45\u20138:55": 275,
+    "6. Closing \u2014 approximately 8:55\u201310:00": 151
+  },
+  "estimated_duration_seconds": {
+    "at_150_wpm_plus_20_seconds": 545.2,
+    "at_130_wpm_plus_20_seconds": 626.0,
+    "at_140_wpm_plus_30_seconds": 592.7142857142857
+  },
+  "measured_audio_duration": null,
+  "preserved_candidate_files_checked": 77,
+  "preservation_mismatches": [],
+  "artwork_sha256_verified": "7f46dd6ac98d118e93799c8bcf0585e2e0bd6277626177de684c89070d0bce1e",
+  "review": {
+    "reviewer": "independent-subagent-review1166-script",
+    "result": "PASS",
+    "findings": [],
+    "scope": "script, original preservation hashes, cover provenance, README consistency and timing/approval disclosure"
+  },
+  "no_audio_synthesized": true,
+  "no_provider_calls": true,
+  "webpage_files_changed": false,
+  "publication_authorized": false
+}

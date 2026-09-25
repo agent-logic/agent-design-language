@@ -14,7 +14,7 @@ Use version-qualified IDs. The execution graph owns exact dependencies and speci
 
 ## WBS Summary
 
-53 planned candidates: 40 inherited implementation/demo tasks plus 13 version-specific opening, integration, qualification and release-tail tasks. Existing #875 and #671 remain separately gated sidecars and are not counted in 53.
+53 planned candidates: 40 inherited implementation/demo tasks plus 13 version-specific opening, integration, qualification and release-tail tasks. Existing #875 remains a separately gated sidecar and is not counted in 53. Podcast #671 is completed in v0.92.2 (PR #1174).
 
 ## Candidate WP Sequence
 

@@ -774,6 +774,7 @@ struct SequencedProcessAdapter {
     intent_path: Option<PathBuf>,
     credential_available: bool,
     recovery_path: Option<PathBuf>,
+    marker_before_return: Option<PathBuf>,
 }
 
 impl SequencedProcessAdapter {
@@ -784,6 +785,7 @@ impl SequencedProcessAdapter {
             intent_path: None,
             credential_available: true,
             recovery_path: None,
+            marker_before_return: None,
         }
     }
 
@@ -794,6 +796,11 @@ impl SequencedProcessAdapter {
 
     fn without_credential(mut self) -> Self {
         self.credential_available = false;
+        self
+    }
+
+    fn writing_marker_before_first_return(mut self, path: PathBuf) -> Self {
+        self.marker_before_return = Some(path);
         self
     }
 }
@@ -836,6 +843,10 @@ impl crate::adapters::ProcessAdapter for SequencedProcessAdapter {
                 );
                 assert_eq!(receipt["resolved_ready_target"]["draft"], true);
             }
+        }
+        if let Some(path) = self.marker_before_return.take() {
+            super::persist_json_create_new(&path, &serde_json::json!({"late":"dispatch-marker"}))
+                .unwrap();
         }
         self.invocations.push(invocation);
         self.outputs.pop_front().expect("scripted process output")

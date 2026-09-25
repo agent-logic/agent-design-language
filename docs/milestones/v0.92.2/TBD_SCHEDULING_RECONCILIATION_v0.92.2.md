@@ -1,6 +1,6 @@
 # v0.92.2 TBD Scheduling Reconciliation
 
-Status: reviewed planning input candidate; this file records the relevant-source audit and does not open the milestone or create issues.
+Status: retained source-audit and creation history. Current delivery evidence is in [#916](evidence/issue-916/GAP_ANALYSIS.md); Podcast #671 was restored to v0.92.2 and closed with launch issue #1169 through PR #1174; Apple and Spotify publication is complete. SIM-09 pilot #875 remains deferred to v0.93. Original source-time selections below do not override those dispositions.
 
 The ignored `.adl/docs/TBD/` corpus was audited read-only in the primary checkout for #620. It contained 690 files at audit time. Because ignored local files are not available in a clean issue worktree, the exact relevant source paths and their dispositions are retained here as tracked planning evidence. `TBD_DOC_STATUS_INVENTORY.md`, `LOCAL_BACKLOG.md`, and the tracked allocation map supplied the control denominator; active sources relevant to v0.92.2 or to an explicit operator disposition are enumerated below. Generated review artifacts, superseded drafts, archived snapshots, and unrelated product programs are excluded by that classification rather than silently treated as missing.
 
@@ -60,6 +60,6 @@ The ten already-admitted SIM rows are now created as umbrella #866 and SIM-01 th
 
 ## Additional existing sidecar
 
-The operator separately admitted existing #671 podcast public launch/provider submission as a v0.92.2 sidecar. This is not a new atomic task, a changed core startup denominator or a new dependency edge. Retain the original sidecar action approvals and independent status accounting; no source audit or milestone assignment authorizes public effects.
+Podcast #671 was restored to v0.92.2 and closed with launch issue #1169 through PR #1174; Apple and Spotify publication is complete. SIM-09 pilot #875 remains deferred to v0.93. Both retain their original identities and authorization requirements. The historical 69-task creation roster is preserved for traceability; it is not a live milestone-membership count. The original sidecar admission and 82-membership census are creation-time history, not current scope.
 
 The [complete reviewed launch map](../../../.csdlc/evidence/864/all-issue-launch.json) binds all 69 core task IDs to verified issue numbers and independent creation reviews. This establishes issue inventory and review truth, not implementation or Beta 1 qualification.

@@ -1283,6 +1283,10 @@ fn persist_terminal_finish(
         }
     }
     write_staged(&state_path, &state_bytes)?;
+    #[cfg(debug_assertions)]
+    if std::env::var("CSDLC_V3_TEST_CRASH_POINT").as_deref() == Ok("finish_after_state_write") {
+        std::process::exit(91);
+    }
     if receipt_exists {
         Ok(())
     } else {

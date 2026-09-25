@@ -74,6 +74,22 @@ assert_has "$TMP/docs.out" "aggregate_status=selected"
 assert_has "$TMP/docs.out" "docs_diff_check status=selected"
 assert_not_has "$TMP/docs.out" "rust_pr_fast"
 
+# PVF: deterministic small CLI regression; required PR CI contract, no provider access.
+for root in adl-characterization adl-resilience tools/remote_validation; do
+  case "$root" in
+    adl-characterization) lane=adl_characterization_standalone ;;
+    adl-resilience) lane=adl_resilience_standalone ;;
+    *) lane=remote_validation_standalone ;;
+  esac
+  for suffix in src/lib.rs Cargo.toml Cargo.lock tests/contract.rs; do
+    printf 'M\t%s/%s\n' "$root" "$suffix" > "$TMP/independent-root.paths"
+    bash "$SCRIPT" --changed-files "$TMP/independent-root.paths" > "$TMP/independent-root.out"
+    assert_has "$TMP/independent-root.out" "$lane status=selected"
+    assert_not_has "$TMP/independent-root.out" "rust_pr_fast status=selected"
+  done
+  assert_not_has "$TMP/docs.out" "$lane status=selected"
+done
+
 csdlc_metadata="$TMP/csdlc-metadata.txt"
 printf 'M\t.csdlc/issues/5615/index.json\n' >"$csdlc_metadata"
 bash "$SCRIPT" --changed-files "$csdlc_metadata" >"$TMP/csdlc-metadata.out"

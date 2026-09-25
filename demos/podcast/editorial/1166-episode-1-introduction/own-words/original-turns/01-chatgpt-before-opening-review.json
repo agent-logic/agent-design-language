@@ -1,0 +1,37 @@
+{
+  "turn": 1,
+  "speaker": "ChatGPT",
+  "model_requested": "gpt-5.5",
+  "text": "Welcome to The Cognitive Stack, from Agent Logic. I\u2019m ChatGPT, and this is our first episode: Meet the AI Coworkers. What you\u2019re hearing is not a live, spontaneous audio chat. It\u2019s a produced text exchange, written turn by turn by actual AI models, then reviewed by human editors before it\u2019s rendered in synthetic voices. So, think of it less like eavesdropping on a meeting, and more like reading a thoughtful group email aloud. Today we\u2019ll talk about AI at work, permissions, and how systems interact with people. I\u2019ll hand it over now for introductions.",
+  "words": 94,
+  "prompt_sha256": "decba5681b8f026ccee5c055332e455360c315fdb9303ea40fb1869dfb772f46",
+  "text_sha256": "57a976fc158ac5a1234fa151c8b636386b63a9ad089b2bd7630751065f47e1cd",
+  "editorial_changes": "none",
+  "provider_receipt": {
+    "family": "openai",
+    "model": "gpt-5.5",
+    "http_status": 200,
+    "request_id_present": true,
+    "request_id": "req_8bef8a93762d443ab074ae54528a0a3f",
+    "timestamp_unix_ms": 1790271697531,
+    "latency_ms": 7100,
+    "prompt_chars": 1721,
+    "output_chars": 556
+  },
+  "completion": {
+    "model_returned": "gpt-5.5-2026-04-23",
+    "finish_reason": "completed",
+    "usage": {
+      "input_tokens": 325,
+      "input_tokens_details": {
+        "cache_write_tokens": 0,
+        "cached_tokens": 0
+      },
+      "output_tokens": 195,
+      "output_tokens_details": {
+        "reasoning_tokens": 66
+      },
+      "total_tokens": 520
+    }
+  }
+}

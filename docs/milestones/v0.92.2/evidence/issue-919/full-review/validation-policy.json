@@ -1,0 +1,10 @@
+{
+  "lane": "docs_only",
+  "proof_role": "review_packet_structure_and_identity",
+  "determinism": "offline deterministic file/schema checks",
+  "resources": "small local CPU/files; no cloud/network/model",
+  "release_gate": false,
+  "internal_review_packet_gate": true,
+  "command": "python3 docs/milestones/v0.92.2/evidence/issue-919/validate_full_review.py --self-test",
+  "limits": "Does not replace authored review or execute product acceptance."
+}

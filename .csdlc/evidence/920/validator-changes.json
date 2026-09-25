@@ -1,0 +1,17 @@
+{
+  "schema": "csdlc.v3.intent_changes.v1",
+  "validators": [
+    {
+      "id": "external-review-packet-preparation",
+      "program": "cargo",
+      "args": [
+        "test",
+        "--offline",
+        "--manifest-path",
+        ".csdlc/evidence/920/validation/Cargo.toml"
+      ],
+      "success_marker": "test result: ok.",
+      "timeout_seconds": 120
+    }
+  ]
+}
