@@ -151,6 +151,16 @@ def model_identity(name: str) -> dict:
     }
 
 
+def validate_base_blob_identity(baseline: dict, speculative: dict) -> None:
+    """Missing weight identity cannot establish a controlled comparison."""
+    digests = [identity.get("base_blob_sha256") for identity in (baseline, speculative)]
+    require(
+        all(isinstance(digest, str) and re.fullmatch(r"[0-9a-f]{64}", digest) for digest in digests),
+        "base blob identity unavailable or malformed; same-model comparison is not proven",
+    )
+    require(digests[0] == digests[1], "baseline/speculative model identity differs at base_blob_sha256")
+
+
 def create_model(name: str, modelfile: Path, allow_failure: bool = False) -> tuple[int, str]:
     completed = subprocess.run(
         ["ollama", "create", name, "-f", str(modelfile)],
@@ -340,6 +350,7 @@ def execute(args: argparse.Namespace, root: Path, report: dict, owned_models: li
 
     baseline_identity = model_identity(args.baseline_model)
     speculative_identity = model_identity(args.speculative_model)
+    validate_base_blob_identity(baseline_identity, speculative_identity)
     require(baseline_identity["mtp_tensor_count"] > 0, "baseline model has no embedded MTP tensors")
     require(speculative_identity["mtp_tensor_count"] == baseline_identity["mtp_tensor_count"], "MTP tensor mismatch")
     require(baseline_identity["parameters"].get("draft_num_predict") == "0", "baseline drafting is not disabled")

@@ -83,6 +83,9 @@ pub fn write_cutover_fixture(root: &Path, _binary_marker: &[u8]) -> String {
     }
     fs::create_dir_all(root).expect("fixture root");
     git(root, &["init", "-b", "main"]);
+    // Installed predecessor checks inventory all Git metadata after setup.
+    git(root, &["config", "--local", "maintenance.auto", "false"]);
+    git(root, &["config", "--local", "gc.auto", "0"]);
     git(root, &["config", "user.email", "test@example.invalid"]);
     git(root, &["config", "user.name", "C-SDLC Test"]);
     fs::create_dir_all(root.join("fixture-worktrees")).expect("fixture worktree parent");

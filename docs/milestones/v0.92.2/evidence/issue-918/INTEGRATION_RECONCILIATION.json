@@ -1,0 +1,64 @@
+{
+  "schema": "adl.v0922.publication_integration.v1",
+  "integrated_base": "6af420a3cd0872cbafff612c6bbb918900ef97cf",
+  "main_base": "78f57f97c2b9e5e90301e132434d98ba2fcbc2e6",
+  "frozen_review": {
+    "issue": 919,
+    "merge": "52756b5bc7b02e3ebf6886170ee59b55f8dc10d1",
+    "findings": 27,
+    "scope": "Original accepted denominator; historical review bytes unchanged"
+  },
+  "repair_groups": {
+    "A": {
+      "headRefOid": "fdc968548458d6eb448ce01a99fa4c4d9a02101d",
+      "mergeCommit": {
+        "oid": "c8f646dc8c90d139332315c507adbc57b0c222e2"
+      },
+      "number": 1168,
+      "state": "MERGED",
+      "url": "https://github.com/agent-logic/agent-design-language/pull/1168"
+    },
+    "B": {
+      "headRefOid": "cdb48f4fea83218ddf7feb545da3b7be7fb7d345",
+      "mergeCommit": {
+        "oid": "81a2f13503ffa67e6e14d238bff6567b5320dfc1"
+      },
+      "number": 1170,
+      "state": "MERGED",
+      "url": "https://github.com/agent-logic/agent-design-language/pull/1170"
+    },
+    "C": {
+      "headRefOid": "de8574324b087366423d6d60911ab63e274ad280",
+      "mergeCommit": {
+        "oid": "02c0aa707f17ed013cbf872222615411a78b4166"
+      },
+      "number": 1163,
+      "state": "MERGED",
+      "url": "https://github.com/agent-logic/agent-design-language/pull/1163"
+    },
+    "D": {
+      "headRefOid": "8a409c7c327f6203e45b810c9566c9c70e6c0b50",
+      "mergeCommit": {
+        "oid": "78f57f97c2b9e5e90301e132434d98ba2fcbc2e6"
+      },
+      "number": 1164,
+      "state": "MERGED",
+      "url": "https://github.com/agent-logic/agent-design-language/pull/1164"
+    }
+  },
+  "separate_follow_on": {
+    "headRefOid": "52b8e12177a74f036c044124c55867c1893e0628",
+    "mergeCommit": {
+      "oid": "ee90f97a3d9fe31e08c3ba53af6b4d706a560788"
+    },
+    "number": 1172,
+    "state": "MERGED",
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1172"
+  },
+  "follow_on_in_frozen_denominator": false,
+  "qualification": "not_proven",
+  "external_review": "not_completed",
+  "release_approved": false,
+  "approval_scope": "Integrated evidence packet for external-review preparation only; no external contact or release",
+  "historical_917_manifest": "129 hashes describe reviewed source e94ab771f9d3cfee5142aee584d57345a3ac6c29, not current candidate; one Cargo.toml merge drift disclosed in REVIEW_GUIDE.md"
+}

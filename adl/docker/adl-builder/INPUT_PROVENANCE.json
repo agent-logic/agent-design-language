@@ -1,0 +1,45 @@
+{
+  "schema": "adl.builder-input-provenance.v1",
+  "observed_date": "2026-09-23",
+  "base": "ubuntu:24.04@sha256:008173c23f95b170204355c12626cb5a965d779a7e1283b09e9cffbb1bf33ca3",
+  "pins": {
+    "RUST_TOOLCHAIN": "1.92.0",
+    "RUSTUP_VERSION": "1.28.2",
+    "RUSTUP_X86_64_SHA256": "20a06e644b0d9bd2fbdbfd52d42540bdde820ea7df86e92e533c073da0cdd43c",
+    "RUSTUP_AARCH64_SHA256": "e3853c5a252fca15252d07cb23a1bdd9377a8c6f3efa01531109281ae47f841c",
+    "SCCACHE_VERSION": "v0.16.0",
+    "SCCACHE_X86_64_SHA256": "aec995a83ad3dff3d14b6314e08858b7b73d35ca85a5bcf3d3a9ec07dee35588",
+    "SCCACHE_AARCH64_SHA256": "f73a5c39f96bb6ebb89cc7915cf182260d4cbf30765322c5e793d0fe8bd80784",
+    "CARGO_NEXTEST_VERSION": "0.9.140",
+    "CARGO_NEXTEST_X86_64_SHA256": "4ee9aaa0d0171a985a5d0eb735b87355894c1c455972e9674fb9fdbd1387c9a3",
+    "CARGO_NEXTEST_AARCH64_SHA256": "8b3f4d4560b6b0f83774fecc6be07e47716dbad0eb0bb6c3890f478f4affe4b6",
+    "CARGO_LLVM_COV_VERSION": "0.8.7",
+    "CARGO_LLVM_COV_X86_64_SHA256": "967b5cc996c29d8baa52bbb4595ef1f53af35255af8e2036ddbc6468d7b523c7",
+    "CARGO_LLVM_COV_AARCH64_SHA256": "b7bb2ad514166f3b19fc06874c577eefde0010e5ac571f9ae33ff45cd19a4785",
+    "AWSCLI_VERSION": "2.27.41",
+    "AWSCLI_X86_64_SHA256": "15daae6cc803984064e3d4be9cfd07c4ae8ea703633c0a0b67acc6e321f706a3",
+    "AWSCLI_AARCH64_SHA256": "2c6ed21cf7cff0a7d77118c69bee867128bf4c588db7b5c044ffba5faeb6ccde",
+    "RUBY_VERSION": "3.3.6",
+    "RUBY_SOURCE_SHA256": "540975969d1af42190d26ff629bc93b1c3f4bffff4ab253e245e125085e66266"
+  },
+  "sources": {
+    "ubuntu": "https://registry-1.docker.io/v2/library/ubuntu/manifests/24.04",
+    "rustup": "https://static.rust-lang.org/rustup/archive/1.28.2/{target}/rustup-init.sha256",
+    "sccache": "https://api.github.com/repos/mozilla/sccache/releases/tags/v0.16.0",
+    "cargo-llvm-cov": "https://api.github.com/repos/taiki-e/cargo-llvm-cov/releases/tags/v0.8.7",
+    "awscli": "https://awscli.amazonaws.com/awscli-exe-linux-{arch}-2.27.41.zip",
+    "nextest": "Inherited reviewed Dockerfile SHA-256 values for cargo-nextest-0.9.140; unchanged by #1160.",
+    "ruby": "Inherited reviewed Dockerfile SHA-256 for Ruby3.3.6; unchanged by #1160."
+  },
+  "verification_basis": {
+    "ubuntu": "Registry response digest checked against locally hashed OCI index bytes.",
+    "rustup": "Official exact-version SHA-256 sidecars.",
+    "sccache_and_llvm_cov": "Official GitHub release API asset digests.",
+    "awscli": "Locally SHA-256 hashed official exact-version HTTPS archives; not independent signature verification."
+  },
+  "limitations": [
+    "No container build, installed binary execution, or cloud validation in this remediation.",
+    "Apt package resolution remains network-dependent.",
+    "Version and digest build-argument overrides require operator review."
+  ]
+}

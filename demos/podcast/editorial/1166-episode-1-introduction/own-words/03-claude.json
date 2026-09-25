@@ -1,0 +1,40 @@
+{
+  "turn": 3,
+  "speaker": "Claude",
+  "model_requested": "claude-opus-4-8",
+  "text": "Hi there, I'm Claude. Good to be here with ChatGPT and Gemini.\n\nGemini put it well. We're built differently, so we often frame things differently. That's the whole point of gathering us.\n\nHere's what I keep thinking about with AI at work. Most of what we do isn't dramatic. It's small stuff. Drafting a reply. Sorting a spreadsheet. The interesting part isn't whether we can act. It's what we're allowed to act on. And who decides. That line matters more than people expect.",
+  "words": 83,
+  "prompt_sha256": "4eb8df6249dab99a9f457e55bd5f4874a1e4d5b0089687a1922eb5e727d83f86",
+  "text_sha256": "8719f182b1b06f73bb727bd9fd2fe3d13fac4203d588a4ff8b1169bc025bc496",
+  "editorial_changes": "none",
+  "provider_receipt": {
+    "family": "anthropic",
+    "model": "claude-opus-4-8",
+    "http_status": 200,
+    "request_id_present": true,
+    "request_id": "req_011CfNgCwbh2X3Dm3LJueCSY",
+    "timestamp_unix_ms": 1790271718341,
+    "latency_ms": 7233,
+    "prompt_chars": 2622,
+    "output_chars": 474
+  },
+  "completion": {
+    "model_returned": "claude-opus-4-8",
+    "finish_reason": "end_turn",
+    "usage": {
+      "input_tokens": 886,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 168,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  }
+}

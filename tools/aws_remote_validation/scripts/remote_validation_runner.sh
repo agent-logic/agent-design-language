@@ -208,164 +208,43 @@ case "$ADL_REMOTE_COMMAND" in
     ;;
 esac
 
-release_target_triple() {
-  local arch
-  arch="$(uname -m)"
-  case "$arch" in
-    x86_64) printf '%s\n' "x86_64-unknown-linux-musl" ;;
-    aarch64|arm64) printf '%s\n' "aarch64-unknown-linux-musl" ;;
-    *) return 1 ;;
-  esac
-}
-
-install_github_release_binary() {
-  local repo_name binary_name target api_url asset_url archive_path extract_dir release_bin
-  repo_name="$1"
-  binary_name="$2"
-  if [ -n "${3:-}" ]; then
-    target="$3"
-  else
-    target="$(release_target_triple)" || return 1
-  fi
-  api_url="https://api.github.com/repos/$repo_name/releases/latest"
-  asset_url="$(curl -fsSL "$api_url" | python3 -c 'import json, sys
-repo = sys.argv[1]
-binary = sys.argv[2]
-target = sys.argv[3]
-data = json.load(sys.stdin)
-for asset in data.get("assets", []):
-    url = asset.get("browser_download_url", "")
-    if binary in url and target in url and url.endswith(".tar.gz"):
-        print(url)
-        break
-' "$repo_name" "$binary_name" "$target")"
-  [ -n "$asset_url" ] || return 1
-  archive_path="/tmp/adl-$binary_name-release.tar.gz"
-  extract_dir="/tmp/adl-$binary_name-release"
-  curl -fsSL "$asset_url" -o "$archive_path"
-  rm -rf "$extract_dir"
-  mkdir -p "$extract_dir"
-  tar -xzf "$archive_path" -C "$extract_dir"
-  release_bin="$(find "$extract_dir" -type f -name "$binary_name" | head -n 1)"
-  [ -n "$release_bin" ] || return 1
-  install -m 0755 "$release_bin" "$CARGO_BIN_DIR/$binary_name"
-}
-
-install_sccache_release() {
-  local target
-  target="$(release_target_triple)" || return 1
-  case "$target" in
-    x86_64-unknown-linux-musl) target="x86_64-unknown-linux-gnu" ;;
-    aarch64-unknown-linux-musl) target="aarch64-unknown-linux-gnu" ;;
-    *) return 1 ;;
-  esac
-  install_github_release_binary "mozilla/sccache" "sccache" "$target"
-}
-
-ensure_aws_cli() {
-  if command -v aws >/dev/null 2>&1; then
-    return 0
-  fi
-  sudo dnf install -y awscli-2 >/tmp/adl-awscli-install.log 2>&1 \
-    || sudo yum install -y awscli >/tmp/adl-awscli-install.log 2>&1
-}
+# Reviewed checkout files are available before this runner is invoked. An
+# explicitly configured identity is authoritative: any rejection terminates the
+# run instead of falling back to a different artifact or a mutable S3 cache.
+BOOTSTRAP_IDENTITIES="${ADL_BOOTSTRAP_IDENTITIES:-$ADL_REMOTE_REPO_DIR/tools/aws_remote_validation/bootstrap-identities.json}"
+BOOTSTRAP_HELPER="$ADL_REMOTE_REPO_DIR/tools/aws_remote_validation/scripts/verified_bootstrap.py"
 
 install_package_manager_binary() {
-  local package_name
-  package_name="$1"
+  local package_name="$1"
   sudo dnf install -y "$package_name" >/tmp/adl-"$package_name"-pkg-install.log 2>&1 \
     || sudo yum install -y "$package_name" >/tmp/adl-"$package_name"-pkg-install.log 2>&1
 }
 
-archive_installed_binary() {
-  local binary_name archive_path package_dir
-  binary_name="$1"
-  archive_path="$2"
-  package_dir="/tmp/adl-$binary_name-package"
-  rm -rf "$package_dir"
-  mkdir -p "$package_dir"
-  cp "$CARGO_BIN_DIR/$binary_name" "$package_dir/$binary_name"
-  tar -czf "$archive_path" -C "$package_dir" "$binary_name"
-}
-
-install_binary_from_tarball_url() {
-  local binary_name tarball_url archive_path
-  binary_name="$1"
-  tarball_url="$2"
-  [ -n "$tarball_url" ] || return 1
-  archive_path="/tmp/adl-$binary_name-cache.tar.gz"
-  curl -fsSL "$tarball_url" -o "$archive_path"
-  install_binary_from_archive_path "$binary_name" "$archive_path"
-}
-
 install_binary_from_archive_path() {
-  local binary_name archive_path extract_dir release_bin
-  binary_name="$1"
-  archive_path="$2"
-  [ -f "$archive_path" ] || return 1
-  extract_dir="/tmp/adl-$binary_name-cache"
-  rm -rf "$extract_dir"
-  mkdir -p "$extract_dir"
-  tar -xzf "$archive_path" -C "$extract_dir"
-  release_bin="$(find "$extract_dir" -type f -name "$binary_name" | head -n 1)"
-  [ -n "$release_bin" ] || return 1
-  install -m 0755 "$release_bin" "$CARGO_BIN_DIR/$binary_name"
-}
-
-install_binary_from_s3_cache() {
-  local binary_name bucket prefix object_uri archive_path tool_prefix
-  binary_name="$1"
-  bucket="$2"
-  prefix="$3"
-  [ -n "$bucket" ] || return 1
-  ensure_aws_cli || return 1
-  archive_path="/tmp/adl-$binary_name-cache.tar.gz"
-  tool_prefix="$prefix/tools"
-  object_uri="s3://$bucket/$tool_prefix/$binary_name.tar.gz"
-  aws s3 cp "$object_uri" "$archive_path" >/tmp/adl-$binary_name-s3-download.log 2>&1 || return 1
-  install_binary_from_archive_path "$binary_name" "$archive_path"
-}
-
-upload_binary_to_s3_cache() {
-  local binary_name bucket prefix archive_path object_uri tool_prefix
-  binary_name="$1"
-  bucket="$2"
-  prefix="$3"
-  [ -n "$bucket" ] || return 0
-  ensure_aws_cli || return 1
-  archive_path="/tmp/adl-$binary_name-upload.tar.gz"
-  tool_prefix="$prefix/tools"
-  object_uri="s3://$bucket/$tool_prefix/$binary_name.tar.gz"
-  archive_installed_binary "$binary_name" "$archive_path" || return 1
-  aws s3 cp "$archive_path" "$object_uri"
-}
-
-verify_sccache_binary() {
-  command -v sccache >/dev/null 2>&1 || return 1
-  sccache --version >/dev/null 2>&1 || return 1
-  sccache --start-server >/dev/null 2>&1 || return 1
-  sccache --zero-stats >/dev/null 2>&1 || return 1
-}
-
-remove_installed_binary() {
-  local binary_name
-  binary_name="$1"
-  rm -f "$CARGO_BIN_DIR/$binary_name"
-}
-
-verify_nextest_binary() {
-  cargo nextest --version >/dev/null 2>&1
-}
-
-install_nextest_release() {
-  local target
-  target="$(release_target_triple)" || return 1
-  case "$target" in
-    x86_64-unknown-linux-musl) target="x86_64-unknown-linux-gnu" ;;
-    aarch64-unknown-linux-musl) target="aarch64-unknown-linux-gnu" ;;
-    *) return 1 ;;
+  # The helper downloads and authenticates before reading any archive member.
+  local binary_name="$1" expected_url="${2:-}" target
+  case "$(uname -m)" in
+    x86_64) target="x86_64-unknown-linux-gnu" ;;
+    aarch64|arm64) target="aarch64-unknown-linux-gnu" ;;
+    *) echo "unsupported bootstrap architecture" >&2; return 1 ;;
   esac
-  install_github_release_binary "nextest-rs/nextest" "cargo-nextest" "$target"
+  python3 "$BOOTSTRAP_HELPER" --manifest "$BOOTSTRAP_IDENTITIES" \
+    --binary "$binary_name" --target "$target" --destination "$CARGO_BIN_DIR" \
+    --expected-url "$expected_url"
+}
+
+ensure_validation_binary() {
+  local binary_name="$1" expected_url="${2:-}"
+  if [ -n "$expected_url" ] || [ -f "$BOOTSTRAP_IDENTITIES" ] || [ -n "${ADL_BOOTSTRAP_IDENTITIES:-}" ]; then
+    install_binary_from_archive_path "$binary_name" "$expected_url" || return 1
+  elif command -v "$binary_name" >/dev/null 2>&1; then
+    log_progress "tool=$binary_name source=trusted_host_preinstalled"
+  else
+    # Package-manager signatures and the operator's host image are the trust
+    # boundary here; this path does not claim pinned package reproducibility.
+    install_package_manager_binary "$binary_name" || return 1
+    log_progress "tool=$binary_name source=trusted_host_package_manager"
+  fi
 }
 
 export HOME="${HOME:-/root}"
@@ -414,7 +293,7 @@ fi
 CURRENT_STAGE="ensure_rustup"
 log_progress "stage=ensure_rustup"
 if [ "$CONTAINERIZED_VALIDATION" = "0" ] && [ "$ISSUE268_RUNTIME_QUALIFICATION" = "0" ] && ! command -v cargo >/dev/null 2>&1; then
-  curl https://sh.rustup.rs -sSf | sh -s -- -y --profile minimal >/tmp/adl-rustup.log 2>&1
+  install_binary_from_archive_path rustup-init >/tmp/adl-rustup.log 2>&1
 fi
 if [ "$CONTAINERIZED_VALIDATION" = "0" ] && [ -f "$HOME/.cargo/env" ]; then
   . "$HOME/.cargo/env"
@@ -431,47 +310,23 @@ fi
 CURRENT_STAGE="ensure_sccache"
 log_progress "stage=ensure_sccache"
 log_progress "tool_install_policy=$TOOL_INSTALL_POLICY tool=sccache"
-if [ "$CONTAINERIZED_VALIDATION" = "0" ] && [ "$ISSUE268_RUNTIME_QUALIFICATION" = "0" ] && ! command -v sccache >/dev/null 2>&1; then
-  SCCACHE_CACHE_HIT=0
-  if install_package_manager_binary sccache >>/tmp/adl-sccache-install.log 2>&1 && verify_sccache_binary >>/tmp/adl-sccache-install.log 2>&1; then
-    SCCACHE_CACHE_HIT=1
-  elif install_binary_from_s3_cache sccache "$CACHE_BUCKET" "$CACHE_PREFIX" >/tmp/adl-sccache-install.log 2>&1 && verify_sccache_binary >>/tmp/adl-sccache-install.log 2>&1; then
-    SCCACHE_CACHE_HIT=1
-  elif install_binary_from_tarball_url sccache "$SCCACHE_TARBALL_URL" >>/tmp/adl-sccache-install.log 2>&1 && verify_sccache_binary >>/tmp/adl-sccache-install.log 2>&1; then
-    SCCACHE_CACHE_HIT=1
-  elif install_sccache_release >>/tmp/adl-sccache-install.log 2>&1 && verify_sccache_binary >>/tmp/adl-sccache-install.log 2>&1; then
-    :
-  else
-    remove_installed_binary sccache
-    echo "failed to install sccache via package manager or prebuilt artifact paths; source compilation is disabled" >>/tmp/adl-sccache-install.log
+if [ "$CONTAINERIZED_VALIDATION" = "0" ] && [ "$ISSUE268_RUNTIME_QUALIFICATION" = "0" ]; then
+  ensure_validation_binary sccache "$SCCACHE_TARBALL_URL" >>/tmp/adl-sccache-install.log 2>&1 || {
+    echo "verified sccache installation failed; source compilation is disabled" >&2
     exit 1
-  fi
-  if [ "$SCCACHE_CACHE_HIT" -eq 0 ]; then
-    upload_binary_to_s3_cache sccache "$CACHE_BUCKET" "$CACHE_PREFIX" >>/tmp/adl-sccache-install.log 2>&1 || true
-  fi
+  }
+  sccache --version >>/tmp/adl-sccache-install.log 2>&1
 fi
 
 CURRENT_STAGE="ensure_nextest"
 log_progress "stage=ensure_nextest"
 log_progress "tool_install_policy=$TOOL_INSTALL_POLICY tool=cargo-nextest"
-if [ "$CONTAINERIZED_VALIDATION" = "0" ] && [ "$ISSUE268_RUNTIME_QUALIFICATION" = "0" ] && [ "$NEEDS_NEXTEST" = "1" ] && ! cargo nextest --version >/dev/null 2>&1; then
-  NEXTEST_CACHE_HIT=0
-  if install_package_manager_binary cargo-nextest >>/tmp/adl-nextest-install.log 2>&1 && verify_nextest_binary >>/tmp/adl-nextest-install.log 2>&1; then
-    NEXTEST_CACHE_HIT=1
-  elif install_binary_from_s3_cache cargo-nextest "$CACHE_BUCKET" "$CACHE_PREFIX" >/tmp/adl-nextest-install.log 2>&1 && verify_nextest_binary >>/tmp/adl-nextest-install.log 2>&1; then
-    NEXTEST_CACHE_HIT=1
-  elif install_binary_from_tarball_url cargo-nextest "$NEXTEST_TARBALL_URL" >>/tmp/adl-nextest-install.log 2>&1 && verify_nextest_binary >>/tmp/adl-nextest-install.log 2>&1; then
-    NEXTEST_CACHE_HIT=1
-  elif install_nextest_release >>/tmp/adl-nextest-install.log 2>&1 && verify_nextest_binary >>/tmp/adl-nextest-install.log 2>&1; then
-    :
-  else
-    remove_installed_binary cargo-nextest
-    echo "failed to install cargo-nextest via package manager or prebuilt artifact paths; source compilation is disabled" >>/tmp/adl-nextest-install.log
+if [ "$CONTAINERIZED_VALIDATION" = "0" ] && [ "$ISSUE268_RUNTIME_QUALIFICATION" = "0" ] && [ "$NEEDS_NEXTEST" = "1" ]; then
+  ensure_validation_binary cargo-nextest "$NEXTEST_TARBALL_URL" >>/tmp/adl-nextest-install.log 2>&1 || {
+    echo "verified nextest installation failed; source compilation is disabled" >&2
     exit 1
-  fi
-  if [ "$NEXTEST_CACHE_HIT" -eq 0 ]; then
-    upload_binary_to_s3_cache cargo-nextest "$CACHE_BUCKET" "$CACHE_PREFIX" >>/tmp/adl-nextest-install.log 2>&1 || true
-  fi
+  }
+  cargo nextest --version >>/tmp/adl-nextest-install.log 2>&1
 fi
 if [ "$CONTAINERIZED_VALIDATION" = "0" ] && [ "$ISSUE268_RUNTIME_QUALIFICATION" = "0" ]; then
   export RUSTC_WRAPPER="sccache"

@@ -29,11 +29,11 @@ No fresh manuscript build or substantive review was performed for this handoff.
 
 ## Preservation and follow-up
 
-The private PDF and manuscript remain in the existing private manuscript worktree.
+The following custody observation was recorded on 2026-09-20; it is not a current private-repository status check. At that checkpoint the private PDF and manuscript remained in the existing private manuscript worktree.
 The manuscript edits, both retained PDFs, bibliography, synchronization tool,
-and review artifacts are now committed in the private repository at
-`73d76a60d1dae93d2cb036e39a9760fc78026d01`. The private worktree is clean.
-This checkpoint has not yet been pushed; preserve the worktree and branch until
+and review artifacts were committed in the private repository at
+`73d76a60d1dae93d2cb036e39a9760fc78026d01`. The private worktree was clean.
+The checkpoint had not yet been pushed. Recheck private backup and integration state before any cleanup; preserve the worktree and branch until
 it is safely backed up and integrated. Do not prune it as part of closing the
 public coordination issue.
 

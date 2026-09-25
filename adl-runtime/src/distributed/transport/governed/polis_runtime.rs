@@ -4939,8 +4939,11 @@ mod authority_consensus_tests {
                     serde_json::json!(true);
             }
             SnapshotCase::BadSignature => {
-                value["application"]["finalized_authority"][first]["proposal"]["endorsements"][0]
-                    ["signature"][0] = serde_json::json!(255);
+                let byte = &mut value["application"]["finalized_authority"][first]["proposal"]
+                    ["endorsements"][0]["signature"][0];
+                let original = byte.as_u64().expect("signature byte");
+                *byte = serde_json::json!(original ^ 1);
+                assert_ne!(byte.as_u64().unwrap(), original);
             }
             SnapshotCase::StaleCertificate => {
                 value["application"]["finalized_authority"][first]["proposal"]["endorsements"][0]

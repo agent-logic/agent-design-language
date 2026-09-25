@@ -408,11 +408,7 @@ pub(crate) fn render_report(
                         item.path, citation.start_byte, citation.end_byte
                     ),
                 )?;
-                field(
-                    &mut out,
-                    "Exact source excerpt",
-                    citation.quote(&review.admission)?,
-                )?;
+                exact_source_excerpt(&mut out, citation.quote(&review.admission)?)?;
             }
             out.push_str("</dl></article>");
         }
@@ -574,6 +570,44 @@ fn field(out: &mut String, label: &str, value: &str) -> Result<()> {
     Ok(())
 }
 
+fn exact_source_excerpt(out: &mut String, value: &str) -> Result<()> {
+    ensure!(
+        !value.is_empty() && value.len() <= 64 * 1024,
+        "html_exact_excerpt_empty_or_too_large"
+    );
+    ensure!(
+        !unsafe_content("", value),
+        "html_exact_excerpt_failed_redaction_recheck"
+    );
+    ensure!(
+        value
+            .chars()
+            .all(|character| !character.is_control() || matches!(character, '\n' | '\r' | '\t')),
+        "html_exact_excerpt_contains_control_character"
+    );
+    write!(
+        out,
+        "<dt>Exact source excerpt</dt><dd><pre><code>{}</code></pre></dd>",
+        html_preserved_text(value)?
+    )?;
+    Ok(())
+}
+
+fn html_preserved_text(value: &str) -> Result<String> {
+    let mut output = String::with_capacity(value.len());
+    for character in value.chars() {
+        match character {
+            '&' => output.push_str("&amp;"),
+            '<' => output.push_str("&lt;"),
+            '>' => output.push_str("&gt;"),
+            '"' => output.push_str("&quot;"),
+            '\'' => output.push_str("&#39;"),
+            _ => output.push(character),
+        }
+    }
+    Ok(output)
+}
+
 fn list(out: &mut String, label: &str, values: &[String]) -> Result<()> {
     write!(out, "<dt>{}</dt><dd>", html_text(label)?)?;
     if values.is_empty() {
@@ -667,3 +701,18 @@ pub(crate) fn validate_manifest(
 }
 
 use std::fmt::Write as _;
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn exact_source_excerpt_preserves_whitespace_inside_preformatted_html() {
+        let value = "if authorized:\r\n\tdelete_<records>()\r\nreturn ok";
+        let mut rendered = String::new();
+        exact_source_excerpt(&mut rendered, value).unwrap();
+        assert!(rendered.contains("<pre><code>"));
+        assert!(rendered.contains("if authorized:\r\n\tdelete_&lt;records&gt;()\r\nreturn ok"));
+        assert!(!rendered.contains("if authorized:  delete"));
+    }
+}

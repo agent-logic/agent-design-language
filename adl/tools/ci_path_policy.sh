@@ -139,6 +139,9 @@ runtime_v3_fast_required="$bool_false"
 csdlc_v2_standalone_required="$bool_false"
 csdlc_v3_standalone_required="$bool_false"
 adl_v2_standalone_required="$bool_false"
+adl_characterization_standalone_required="$bool_false"
+adl_resilience_standalone_required="$bool_false"
+remote_validation_standalone_required="$bool_false"
 large_file_lines="${COVERAGE_IMPACT_LARGE_FILE_LINES:-200}"
 large_file_delta="${COVERAGE_IMPACT_LARGE_FILE_DELTA:-80}"
 pvf_slow_proof_policy_change=false
@@ -1403,6 +1406,14 @@ apply_validation_manager_routing() {
   fi
   if [ "$validation_profile_status" = "ready_to_run" ] \
     && [ "$validation_profile_escalation_required" = "false" ]; then
+    if validation_profile_lanes_subset_of "docs_diff_check,adl_characterization_standalone,adl_resilience_standalone,remote_validation_standalone" \
+      && { [ "$adl_characterization_standalone_required" = true ] || [ "$adl_resilience_standalone_required" = true ] || [ "$remote_validation_standalone_required" = true ]; }; then
+      coverage_lane="skip"
+      coverage_authority="not_required"
+      coverage_execution_state="skipped_by_path_policy"
+      reason="independent_cargo_roots_require_locked_focused_suites"
+      return 0
+    fi
     selected_csdlc_v2=false
     selected_csdlc_v3=false
     selected_adl_v2=false
@@ -1701,6 +1712,15 @@ else
         adl-v2/*)
           adl_v2_standalone_required=true
           ;;
+        adl-characterization/*)
+          adl_characterization_standalone_required=true
+          ;;
+        adl-resilience/*)
+          adl_resilience_standalone_required=true
+          ;;
+        tools/remote_validation/*)
+          remote_validation_standalone_required=true
+          ;;
       esac
     done <<EOF
 $changed_files
@@ -1960,6 +1980,9 @@ classify_changed_path() {
     .csdlc/*)
       printf '%s\n' "lifecycle_metadata"
       ;;
+    tools/remote_validation/*)
+      printf '%s\n' "ordinary_product_source"
+      ;;
     .github/workflows/*|adl/tools/*|tools/*)
       printf '%s\n' "workflow_tooling"
       ;;
@@ -1969,7 +1992,7 @@ classify_changed_path() {
     adl-runtime/*|adl-runtime-kernel/*|infra/runtime-v3/*|adl/src/csm*|adl/src/long_lived*)
       printf '%s\n' "runtime_critical_source"
       ;;
-    adl/src/*|adl/tests/*|adl/Cargo.toml|adl/Cargo.lock|adl/build.rs|adl-v2/*|csdlc-v2/*|csdlc-v3/*)
+    adl/src/*|adl/tests/*|adl/Cargo.toml|adl/Cargo.lock|adl/build.rs|adl-v2/*|csdlc-v2/*|csdlc-v3/*|adl-characterization/*|adl-resilience/*|tools/remote_validation/*)
       printf '%s\n' "ordinary_product_source"
       ;;
     *)
@@ -2015,7 +2038,7 @@ EOF
   elif [ "$rust_required" = true ]; then
     pvf_lane="focused_rust"
     release_gate_role="source_required"
-  elif [ "$csdlc_v2_standalone_required" = true ] || [ "$csdlc_v3_standalone_required" = true ] || [ "$adl_v2_standalone_required" = true ]; then
+  elif [ "$csdlc_v2_standalone_required" = true ] || [ "$csdlc_v3_standalone_required" = true ] || [ "$adl_v2_standalone_required" = true ] || [ "$adl_characterization_standalone_required" = true ] || [ "$adl_resilience_standalone_required" = true ] || [ "$remote_validation_standalone_required" = true ]; then
     pvf_lane="standalone_focused"
     release_gate_role="source_required"
   elif [ "$ci_contracts_required" = true ]; then
@@ -2026,6 +2049,12 @@ EOF
     release_gate_role="docs_guardrail"
   fi
 }
+
+if [ "$fail_closed" = true ] || [ "$event_name" = workflow_dispatch ]; then
+  adl_characterization_standalone_required=true
+  adl_resilience_standalone_required=true
+  remote_validation_standalone_required=true
+fi
 
 derive_normalized_policy_summary
 
@@ -2053,6 +2082,9 @@ emit "runtime_v3_fast_required" "$runtime_v3_fast_required"
 emit "csdlc_v2_standalone_required" "$csdlc_v2_standalone_required"
 emit "csdlc_v3_standalone_required" "$csdlc_v3_standalone_required"
 emit "adl_v2_standalone_required" "$adl_v2_standalone_required"
+emit "adl_characterization_standalone_required" "$adl_characterization_standalone_required"
+emit "adl_resilience_standalone_required" "$adl_resilience_standalone_required"
+emit "remote_validation_standalone_required" "$remote_validation_standalone_required"
 emit "fail_closed" "$fail_closed"
 emit "coverage_lane" "$coverage_lane"
 emit "coverage_authority" "$coverage_authority"

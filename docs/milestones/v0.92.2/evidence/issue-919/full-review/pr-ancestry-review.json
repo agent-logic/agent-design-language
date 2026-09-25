@@ -1,0 +1,1842 @@
+[
+  {
+    "number": 865,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/865",
+    "state": "MERGED",
+    "headRefOid": "155d1822db941e7139cb2caa6795e3f58236a2cb",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-11T23:50:21Z",
+    "mergeCommit": {
+      "oid": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32"
+    },
+    "issues": [
+      864
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 947,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/947",
+    "state": "MERGED",
+    "headRefOid": "4e816f87d61d11f48c950ededae75c6ca84f6258",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-12T01:43:44Z",
+    "mergeCommit": {
+      "oid": "dd3464513f38a884e8f720eea6a8d56abddd49d8"
+    },
+    "issues": [
+      861
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 948,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/948",
+    "state": "MERGED",
+    "headRefOid": "1c3836c7a612e96836d8c88807ae70f78ce4319c",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-12T04:39:37Z",
+    "mergeCommit": {
+      "oid": "5fa19bda03ee44c76b2b17fbdcf9bf208586c8f5"
+    },
+    "issues": [
+      867
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 958,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/958",
+    "state": "MERGED",
+    "headRefOid": "6425ba9bbce4cc1f46789c2e3ac019adf86238b8",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-12T05:42:42Z",
+    "mergeCommit": {
+      "oid": "be159210e0a87fdaca246b932d77af28770689a1"
+    },
+    "issues": [
+      868
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 966,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/966",
+    "state": "MERGED",
+    "headRefOid": "bd169d5ca7713f3fd4caa7c527aef64683d13bf1",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-12T18:13:44Z",
+    "mergeCommit": {
+      "oid": "bf198d2d7609626c7dc4a9ff8cbfaa3f08229b11"
+    },
+    "issues": [
+      869
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 969,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/969",
+    "state": "MERGED",
+    "headRefOid": "25b84230e8acdabc7affebcd372f0f8cbfd687e8",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-15T16:18:22Z",
+    "mergeCommit": {
+      "oid": "41f6132aa0bff2ec264a00276d237b936bc5006d"
+    },
+    "issues": [
+      870
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 986,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/986",
+    "state": "MERGED",
+    "headRefOid": "468c034731b80048db51b6ca68a8262a28a2745b",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-15T18:40:46Z",
+    "mergeCommit": {
+      "oid": "88a074b0109fddffc0562f6028300e2dbbd3cd07"
+    },
+    "issues": [
+      871
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1002,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1002",
+    "state": "MERGED",
+    "headRefOid": "6918bd019a687c85c49953d272baae31098f306c",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-16T02:44:08Z",
+    "mergeCommit": {
+      "oid": "40b756aeea5eaac10b5dc4940614ded13ae21275"
+    },
+    "issues": [
+      872
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1008,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1008",
+    "state": "MERGED",
+    "headRefOid": "496fac10713af226d67a8c0367a5b1907870392a",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-16T06:01:00Z",
+    "mergeCommit": {
+      "oid": "a4da940a200189ffaa7ed831a5a965a767f57bab"
+    },
+    "issues": [
+      872
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1060,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1060",
+    "state": "MERGED",
+    "headRefOid": "9dab7cf91ab1726a894b8bedcaa1c10162dadcde",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-17T11:44:47Z",
+    "mergeCommit": {
+      "oid": "e9d2429bd20eedf33b5efacf1d0c0c5128993e3e"
+    },
+    "issues": [
+      873
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1062,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1062",
+    "state": "MERGED",
+    "headRefOid": "e4ac154e2253cf7596710ad606d0ac2814523792",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-18T18:39:03Z",
+    "mergeCommit": {
+      "oid": "904f650644217004fb3e16ac31586064f5e7b78f"
+    },
+    "issues": [
+      874
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 943,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/943",
+    "state": "MERGED",
+    "headRefOid": "38299a26703d07650bb75c1b3b7707b353c61b58",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-12T01:22:41Z",
+    "mergeCommit": {
+      "oid": "b5219c8bb742ba5c42ff2c2def299cd03bacd76f"
+    },
+    "issues": [
+      848
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 941,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/941",
+    "state": "MERGED",
+    "headRefOid": "224c61a84f715ee4e65898277e0e04efb44d636f",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-12T01:47:02Z",
+    "mergeCommit": {
+      "oid": "57a82b08bf687afd0b1573fd8d78f4b2b2268dba"
+    },
+    "issues": [
+      854
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 964,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/964",
+    "state": "MERGED",
+    "headRefOid": "9c471d41a5606a5b2dd564f486d92dd819f19624",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-12T08:16:31Z",
+    "mergeCommit": {
+      "oid": "cfd865bda539529372ca6e9954102b158410d6dc"
+    },
+    "issues": [
+      855
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 953,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/953",
+    "state": "MERGED",
+    "headRefOid": "c5cf2ca3de32a5f242fb938a7355aab06d6b15d8",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-12T05:30:26Z",
+    "mergeCommit": {
+      "oid": "b6d110c84e11253b392d0bb078f2fb33a36b9a0c"
+    },
+    "issues": [
+      876
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 946,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/946",
+    "state": "MERGED",
+    "headRefOid": "6eda895616aeb814734b997cc904512483d99f72",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-12T01:40:11Z",
+    "mergeCommit": {
+      "oid": "15c476fe497ad975cabe4c73f729930d20a302d9"
+    },
+    "issues": [
+      877
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 944,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/944",
+    "state": "MERGED",
+    "headRefOid": "3fa601a888a8ba90541fd2d092802a9291b78ae9",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-12T04:38:17Z",
+    "mergeCommit": {
+      "oid": "b9b16707f0bf3b95138fd4019f208734c7522ec6"
+    },
+    "issues": [
+      878
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 955,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/955",
+    "state": "MERGED",
+    "headRefOid": "d3202466dbb3d775c42ceddb4d036fd85fdcebf6",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-12T06:16:46Z",
+    "mergeCommit": {
+      "oid": "79325e981a446c7967bbf9b1ee9b320292c0904a"
+    },
+    "issues": [
+      879
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 957,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/957",
+    "state": "MERGED",
+    "headRefOid": "884f18c47c88d2a3e0bbc34eb0b1b462cd281e15",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-12T07:27:42Z",
+    "mergeCommit": {
+      "oid": "7e07eade5c2f4f5807cd4a0fd6d2339f68a30b09"
+    },
+    "issues": [
+      880
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 956,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/956",
+    "state": "MERGED",
+    "headRefOid": "067bc4316030cbdfe3e95bdfb254ada3016d339e",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-12T05:33:18Z",
+    "mergeCommit": {
+      "oid": "41aa503e80a31250ce8d1df05c46d16d99c843bf"
+    },
+    "issues": [
+      881
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 982,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/982",
+    "state": "MERGED",
+    "headRefOid": "d8156d94029c8c722bc91961a5c1d93e42ccdc61",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-15T19:31:32Z",
+    "mergeCommit": {
+      "oid": "1e839cad09df3a4b45fa53fa39539b911a78e3d4"
+    },
+    "issues": [
+      882
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 991,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/991",
+    "state": "MERGED",
+    "headRefOid": "44ceec0c80639d7fea5bdd6ac61633d6b9535c4b",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-15T22:13:15Z",
+    "mergeCommit": {
+      "oid": "2301d1d8e4537a615be6c0900e061a2ec2fe4f3a"
+    },
+    "issues": [
+      883
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 992,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/992",
+    "state": "MERGED",
+    "headRefOid": "2c085d9d0f1f5dab1e7d2375f516ae50e3cfeadf",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-15T22:57:12Z",
+    "mergeCommit": {
+      "oid": "61e83cf425b26299466ff21916c266d3864c8d82"
+    },
+    "issues": [
+      884
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 987,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/987",
+    "state": "MERGED",
+    "headRefOid": "3a0d138fcb00d78c8c23927335077ffd789f3892",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-15T21:42:49Z",
+    "mergeCommit": {
+      "oid": "7e586a34d6a6ee7e2103ca8d004bc0848a839e31"
+    },
+    "issues": [
+      885
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 996,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/996",
+    "state": "MERGED",
+    "headRefOid": "2e99348bf0b571827de5a745724bec2a5b66bbfd",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-15T23:42:08Z",
+    "mergeCommit": {
+      "oid": "85727e1046da975cf0c650ab7ab0728efd32d569"
+    },
+    "issues": [
+      886
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 989,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/989",
+    "state": "MERGED",
+    "headRefOid": "ffd0ae08e9c3d1a0ef54f5cc368908ae1c6855ad",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-15T23:42:45Z",
+    "mergeCommit": {
+      "oid": "49ca9f2fcf785a2f8e6b75676279db4f0936f925"
+    },
+    "issues": [
+      887
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1000,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1000",
+    "state": "MERGED",
+    "headRefOid": "429b806ce9518bb4af9f086f039b97e6539fd4dd",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-16T01:40:32Z",
+    "mergeCommit": {
+      "oid": "05719245014b84d548657a868b98aed3db0b662e"
+    },
+    "issues": [
+      888
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 997,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/997",
+    "state": "MERGED",
+    "headRefOid": "16fb7f3aca157578acafb21e712e0be93450a8e7",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-16T00:07:22Z",
+    "mergeCommit": {
+      "oid": "e59590b51229addb6d4cddcf6d6f731005dee7ec"
+    },
+    "issues": [
+      889
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 993,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/993",
+    "state": "MERGED",
+    "headRefOid": "e2f5c09319019fd9709c5a8394baa054cbb569a0",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-15T22:58:39Z",
+    "mergeCommit": {
+      "oid": "53e2f5524359c1704d508fc22a871625d14b8816"
+    },
+    "issues": [
+      890
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 999,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/999",
+    "state": "MERGED",
+    "headRefOid": "e2d173017eaa7413d5095cd3b0eb178e96eae0ae",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-16T01:29:25Z",
+    "mergeCommit": {
+      "oid": "e9b188f81c5087e9e0c9480d7df49c87d4b6341a"
+    },
+    "issues": [
+      891
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1009,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1009",
+    "state": "MERGED",
+    "headRefOid": "933035a1e179b5fd4b47c9006fb32bbc1feb8767",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-16T06:03:40Z",
+    "mergeCommit": {
+      "oid": "21f13c8a9921028ebb140eba069dd37681573fc8"
+    },
+    "issues": [
+      891
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1001,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1001",
+    "state": "MERGED",
+    "headRefOid": "1b88cfdfd8e5d6f743f0ef1474aeb9a291eea742",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-16T02:41:27Z",
+    "mergeCommit": {
+      "oid": "ced79b611d319bf93392985ff0ec3b790314795e"
+    },
+    "issues": [
+      892
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1012,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1012",
+    "state": "MERGED",
+    "headRefOid": "3d2dc0e008535107841cc299ce153f7fdcf92d84",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-16T07:57:25Z",
+    "mergeCommit": {
+      "oid": "e24e0438e40d1f716bd0653ea369d06450827230"
+    },
+    "issues": [
+      893
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1024,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1024",
+    "state": "MERGED",
+    "headRefOid": "6d404a0da7e51c021903b6bdb0e6f500398ffc76",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-16T14:38:18Z",
+    "mergeCommit": {
+      "oid": "75f6d600f3c474d2135f7928951a7ff79220187e"
+    },
+    "issues": [
+      893
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1027,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1027",
+    "state": "MERGED",
+    "headRefOid": "b47e47a4f71306d8c60a68d61b9b34c74c09a658",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-16T15:35:49Z",
+    "mergeCommit": {
+      "oid": "870e4d14f3c74547cf3523f6807a4d3e338c873f"
+    },
+    "issues": [
+      893
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1026,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1026",
+    "state": "MERGED",
+    "headRefOid": "1e4a287dfdbe19908ebbd4cc5f1c732545e1aa91",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-16T14:38:17Z",
+    "mergeCommit": {
+      "oid": "75f6d600f3c474d2135f7928951a7ff79220187e"
+    },
+    "issues": [
+      894
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1025,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1025",
+    "state": "MERGED",
+    "headRefOid": "7f2bf5003abb76af0d1a552f063bc4d521ecd33b",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-16T13:44:36Z",
+    "mergeCommit": {
+      "oid": "559e9493732258b49c6d62276b6a65339f48c5da"
+    },
+    "issues": [
+      895
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1032,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1032",
+    "state": "MERGED",
+    "headRefOid": "eacc3d65b48be722c3c27f48e8b228b8c372723b",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-16T18:36:17Z",
+    "mergeCommit": {
+      "oid": "7c09a6526714e562ef8a458652b289ad0e7b63b2"
+    },
+    "issues": [
+      896
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1038,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1038",
+    "state": "MERGED",
+    "headRefOid": "e30eb5c327c9f2d50c5977aab678989a4335e2a4",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-17T00:52:26Z",
+    "mergeCommit": {
+      "oid": "485f95cfbe7808caabe8fd4e4bef37128e555c95"
+    },
+    "issues": [
+      897
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1055,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1055",
+    "state": "MERGED",
+    "headRefOid": "b0d8265b82c4a61b2ad0c4c76590ce20e928fa16",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-17T11:22:49Z",
+    "mergeCommit": {
+      "oid": "034ccc2b9068c21833483931c4b3d71b257d85d3"
+    },
+    "issues": [
+      898
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 963,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/963",
+    "state": "MERGED",
+    "headRefOid": "a00a3d2286afe5b4b315517874a8b0b9939ed0c9",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-12T07:25:25Z",
+    "mergeCommit": {
+      "oid": "ee8635aea3b1de928ea397be246320c696b57095"
+    },
+    "issues": [
+      852
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 961,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/961",
+    "state": "MERGED",
+    "headRefOid": "713776d7dd481b8f7ea06a1a20478be9ef3ae278",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-12T06:46:17Z",
+    "mergeCommit": {
+      "oid": "b124cfbd79de94103bc1e2f895ceb973273a7079"
+    },
+    "issues": [
+      899
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 973,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/973",
+    "state": "MERGED",
+    "headRefOid": "2e406b75fbefd4a825dc2700bf5ae4dd668d1f77",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-15T16:18:41Z",
+    "mergeCommit": {
+      "oid": "b13069dd71d1ccd70083c4018c777f8e56daafd6"
+    },
+    "issues": [
+      900
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 974,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/974",
+    "state": "MERGED",
+    "headRefOid": "3fb8606a438dcc6e7c112eaaaad01cb1fa6012cc",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-15T16:19:09Z",
+    "mergeCommit": {
+      "oid": "f69019c24a9b61511e912c93f95442f96fa66d92"
+    },
+    "issues": [
+      901
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 983,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/983",
+    "state": "MERGED",
+    "headRefOid": "12a3d37758a222c17f65223cdbb90093560007fc",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-15T19:32:00Z",
+    "mergeCommit": {
+      "oid": "551a7b6e2790c512bd316b917d134570f297e3ed"
+    },
+    "issues": [
+      902
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 965,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/965",
+    "state": "MERGED",
+    "headRefOid": "dd5040549b960c83921d96713223af15b62c333a",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-12T18:13:00Z",
+    "mergeCommit": {
+      "oid": "6aaf316996d68726d38a20ae5f3cef4f81ce1412"
+    },
+    "issues": [
+      903
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 972,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/972",
+    "state": "MERGED",
+    "headRefOid": "85b6d24eb14129451851c12df53b5a679a12a34c",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-14T17:20:15Z",
+    "mergeCommit": {
+      "oid": "b7cbd784e5ed2dd750a09f1656de611f13d4ca86"
+    },
+    "issues": [
+      904
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1004,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1004",
+    "state": "MERGED",
+    "headRefOid": "0906d81d3c848bd69d89a32ba011ca27ba6cd036",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-16T03:48:01Z",
+    "mergeCommit": {
+      "oid": "8a6fdb694f0e49bf72062d01830eb66ffa15d8e2"
+    },
+    "issues": [
+      905
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 952,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/952",
+    "state": "MERGED",
+    "headRefOid": "f5f07aa9a15286b945dabb2e1bf42e1ae8d24dd2",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-12T05:34:33Z",
+    "mergeCommit": {
+      "oid": "b70ea9b9a12f642b46c71284f8df744ebaca2e7f"
+    },
+    "issues": [
+      849
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1007,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1007",
+    "state": "MERGED",
+    "headRefOid": "e35feb750f4ec8b410ddaf40b8891b50f0ed8ac1",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-16T02:39:34Z",
+    "mergeCommit": {
+      "oid": "0b27711fb2678aa4ed59eddd42360122f45b6780"
+    },
+    "issues": [
+      862
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1022,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1022",
+    "state": "MERGED",
+    "headRefOid": "28fa6251cb32a394d8b7a07cf307a5cc86e7a146",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-16T17:10:50Z",
+    "mergeCommit": {
+      "oid": "364f5ad264ef22217707fbb126a8a4a3549dfd6c"
+    },
+    "issues": [
+      906
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1015,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1015",
+    "state": "MERGED",
+    "headRefOid": "6e3a70fc00192558055dbf47ace7f2e4ad49abd2",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-16T07:33:17Z",
+    "mergeCommit": {
+      "oid": "b054a2510c13f39e7d869534087d58a9b94d204d"
+    },
+    "issues": [
+      907
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 939,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/939",
+    "state": "MERGED",
+    "headRefOid": "9b469bdf5efb9d4786b612897696c78d0b9fb7bb",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-12T01:22:09Z",
+    "mergeCommit": {
+      "oid": "9c583cec78d396527798e592082595f316c67ce2"
+    },
+    "issues": [
+      720
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 940,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/940",
+    "state": "MERGED",
+    "headRefOid": "8108b9b42260c0ccc2470ff4327796370d366349",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-12T00:29:57Z",
+    "mergeCommit": {
+      "oid": "2c09eca135808fb6385a6613f7317088b01ffeab"
+    },
+    "issues": [
+      908
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 949,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/949",
+    "state": "MERGED",
+    "headRefOid": "fd734c660b8a687fcc93aa6867f3ef801923e503",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-12T01:49:17Z",
+    "mergeCommit": {
+      "oid": "52027fe7b6a5b84379f338378aaed4e658cfa7ea"
+    },
+    "issues": [
+      909
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 954,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/954",
+    "state": "MERGED",
+    "headRefOid": "35dd2078617c69c8b60a6ce008c6c5c27433b565",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-12T05:10:05Z",
+    "mergeCommit": {
+      "oid": "7ba22ac49359d621dcf704db0874aa54c0207796"
+    },
+    "issues": [
+      910
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 942,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/942",
+    "state": "MERGED",
+    "headRefOid": "3593d6726652b155b20998667a22880a2ca6c65c",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-12T01:01:09Z",
+    "mergeCommit": {
+      "oid": "35a22b49113f688cac412ae469270ae10812d33a"
+    },
+    "issues": [
+      911
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1104,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1104",
+    "state": "MERGED",
+    "headRefOid": "d1a5f87d4c389bb2ceeaf1483e62eddf4e42b41d",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-21T00:16:38Z",
+    "mergeCommit": {
+      "oid": "2c3663f6a59190fcd5f2f42a193d371f7e2bcb55"
+    },
+    "issues": [
+      912
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1107,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1107",
+    "state": "MERGED",
+    "headRefOid": "323fd834ecd5133e4ea3ab6dcb2ee9211c3b8bdf",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-21T00:34:48Z",
+    "mergeCommit": {
+      "oid": "584d0093425f7098493d3a2243b8bb9f4cdf5b6c"
+    },
+    "issues": [
+      913
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1084,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1084",
+    "state": "MERGED",
+    "headRefOid": "6caee1822ed3aab75ac2ee146a97d57c882cbc51",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-20T22:30:52Z",
+    "mergeCommit": {
+      "oid": "2e65d16e1a44bc75cbfdbe256e0390d75f803dde"
+    },
+    "issues": [
+      914
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1151,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1151",
+    "state": "OPEN",
+    "headRefOid": "e119223cd13ebbb6a07c0349ba6772f8ee2ecece",
+    "baseRefName": "main",
+    "mergedAt": null,
+    "mergeCommit": null,
+    "issues": [
+      916
+    ],
+    "candidate_ancestry": "no_merge_record",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1152,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1152",
+    "state": "OPEN",
+    "headRefOid": "c10757270098aea35e36453c91054ea8b4f947db",
+    "baseRefName": "main",
+    "mergedAt": null,
+    "mergeCommit": null,
+    "issues": [
+      917
+    ],
+    "candidate_ancestry": "no_merge_record",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1154,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1154",
+    "state": "OPEN",
+    "headRefOid": "5c4a6149771c637f3c805985b86231077965eab4",
+    "baseRefName": "main",
+    "mergedAt": null,
+    "mergeCommit": null,
+    "issues": [
+      918
+    ],
+    "candidate_ancestry": "no_merge_record",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1153,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1153",
+    "state": "OPEN",
+    "headRefOid": "0cfe6e4fc7dd6e4964e6c78936146a8ea025bbe1",
+    "baseRefName": "main",
+    "mergedAt": null,
+    "mergeCommit": null,
+    "issues": [
+      919
+    ],
+    "candidate_ancestry": "no_merge_record",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1155,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1155",
+    "state": "OPEN",
+    "headRefOid": "42540b7d785174e2abe07c0d93192e3ad94d60e6",
+    "baseRefName": "main",
+    "mergedAt": null,
+    "mergeCommit": null,
+    "issues": [
+      920
+    ],
+    "candidate_ancestry": "no_merge_record",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1156,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1156",
+    "state": "OPEN",
+    "headRefOid": "fc6a80c362d6c1e63766bef263cd2dccacd2dc0b",
+    "baseRefName": "main",
+    "mergedAt": null,
+    "mergeCommit": null,
+    "issues": [
+      922
+    ],
+    "candidate_ancestry": "no_merge_record",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1136,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1136",
+    "state": "MERGED",
+    "headRefOid": "010454b3902afa803b0defa946dd512b0781201f",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-22T03:23:12Z",
+    "mergeCommit": {
+      "oid": "a26e9e56e3f0de58954fc9628870aaa5edd60301"
+    },
+    "issues": [
+      1135
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1138,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1138",
+    "state": "MERGED",
+    "headRefOid": "5cf0bdedc9bc1236df52550d4d9a27ff794d1266",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-22T04:23:51Z",
+    "mergeCommit": {
+      "oid": "2b047c8dc34e133ee1353ec265507a17c523e06f"
+    },
+    "issues": [
+      1133
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 16,
+    "url": "https://github.com/agent-logic/codefriend.ai/pull/16",
+    "state": "CLOSED",
+    "headRefOid": "f695c18cbdb8f14a73396d8e78049fdc9d3f17a5",
+    "baseRefName": "main",
+    "mergedAt": null,
+    "mergeCommit": null,
+    "issues": [
+      1132
+    ],
+    "candidate_ancestry": "no_merge_record",
+    "candidate": "a45e339c13b24716edbd3fadf29dddff36ffe02e"
+  },
+  {
+    "number": 1137,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1137",
+    "state": "MERGED",
+    "headRefOid": "8e2d85e8655cef7e0ae36ddbacc13df3fdc95d8c",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-22T04:18:41Z",
+    "mergeCommit": {
+      "oid": "1646f791da0c72850baed16e835922b354170606"
+    },
+    "issues": [
+      1132
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 18,
+    "url": "https://github.com/agent-logic/codefriend.ai/pull/18",
+    "state": "MERGED",
+    "headRefOid": "9b604d1debf3978e8e4b6dcfebed387f597121ba",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-22T03:57:21Z",
+    "mergeCommit": {
+      "oid": "a45e339c13b24716edbd3fadf29dddff36ffe02e"
+    },
+    "issues": [
+      1132
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "a45e339c13b24716edbd3fadf29dddff36ffe02e"
+  },
+  {
+    "number": 17,
+    "url": "https://github.com/agent-logic/codefriend.ai/pull/17",
+    "state": "MERGED",
+    "headRefOid": "732d76da3a60169db068634caceb46dacc717796",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-22T03:18:26Z",
+    "mergeCommit": {
+      "oid": "f48cbc962031f17e009e3da2f1cb5346cdafcba5"
+    },
+    "issues": [
+      1126
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "a45e339c13b24716edbd3fadf29dddff36ffe02e"
+  },
+  {
+    "number": 1125,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1125",
+    "state": "MERGED",
+    "headRefOid": "ef30f390d8c9dde5a06271633a9723cc41c87431",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-22T02:50:43Z",
+    "mergeCommit": {
+      "oid": "969b3f15e39dd23ef61bf899102fa1a3c9b1e848"
+    },
+    "issues": [
+      1124
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1123,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1123",
+    "state": "MERGED",
+    "headRefOid": "2058213c570f4838ea76c8988db586e1e8383b7a",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-22T02:23:40Z",
+    "mergeCommit": {
+      "oid": "e926142df3f688312021a7808a8b205868b2f30f"
+    },
+    "issues": [
+      1120
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1122,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1122",
+    "state": "MERGED",
+    "headRefOid": "e15b003c9a673ea2f661065356012ca1336fd35f",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-21T23:32:27Z",
+    "mergeCommit": {
+      "oid": "068a92e1d4b4da1350c51bde235116170d5b3265"
+    },
+    "issues": [
+      1117
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1116,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1116",
+    "state": "MERGED",
+    "headRefOid": "47012bc4b212e0455a0ed1667b8dcdf49195a56d",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-21T17:44:59Z",
+    "mergeCommit": {
+      "oid": "4fcf79899f961034e5f90ca01f8fea96c8be8f09"
+    },
+    "issues": [
+      1115
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1119,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1119",
+    "state": "MERGED",
+    "headRefOid": "f33a81a9125d814ae440f2238f70ffe35dad279e",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-22T00:15:12Z",
+    "mergeCommit": {
+      "oid": "ccf2673fb974df8f9f9a105853f1df2b141ddd89"
+    },
+    "issues": [
+      1113
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1121,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1121",
+    "state": "MERGED",
+    "headRefOid": "47f1fabad1eccaf242b8fe745ebb283258a3fd2b",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-21T20:38:14Z",
+    "mergeCommit": {
+      "oid": "047faf5e8840bc01e1e20cb4cab4e591ccba3cbc"
+    },
+    "issues": [
+      1109
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1106,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1106",
+    "state": "MERGED",
+    "headRefOid": "f94121a62a3c658a2d18c3eba87d1da7039c9528",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-21T00:25:13Z",
+    "mergeCommit": {
+      "oid": "7dc04020f387b43d5e0ba64f3d474e967e58488e"
+    },
+    "issues": [
+      1105
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1111,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1111",
+    "state": "MERGED",
+    "headRefOid": "8dfa3bd474c311c1895673a9a7fba2773fe8007e",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-21T15:42:10Z",
+    "mergeCommit": {
+      "oid": "f462f8989ef2454cf5ae6909d8641aeefa7dd342"
+    },
+    "issues": [
+      1102
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 11,
+    "url": "https://github.com/agent-logic/codefriend.ai/pull/11",
+    "state": "MERGED",
+    "headRefOid": "61d51801514c2c856b2cb4a7771225d4b232e42b",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-21T15:43:04Z",
+    "mergeCommit": {
+      "oid": "60d579e23936e11ef03b83d1d61099aa977e8ed3"
+    },
+    "issues": [
+      1102
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "a45e339c13b24716edbd3fadf29dddff36ffe02e"
+  },
+  {
+    "number": 1118,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1118",
+    "state": "MERGED",
+    "headRefOid": "9e04634edf82cb318b7603af69407987476fc261",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-21T22:44:20Z",
+    "mergeCommit": {
+      "oid": "cef7351a652dfd39a126b5c39a9b06e57e9bf3e5"
+    },
+    "issues": [
+      1101
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1103,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1103",
+    "state": "MERGED",
+    "headRefOid": "166481f246638914bf6e0a0e3ccf9ccfb3cf0bb1",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-21T00:25:50Z",
+    "mergeCommit": {
+      "oid": "d84e88b11097cae0d214fccda0b695867b3b2225"
+    },
+    "issues": [
+      1100
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1096,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1096",
+    "state": "MERGED",
+    "headRefOid": "3616fbc603c76e3f59832fafbab82ac0fbfda0f7",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-20T23:14:12Z",
+    "mergeCommit": {
+      "oid": "bc1a1ac9fa685f3b4f23d4317ef313f07867b4de"
+    },
+    "issues": [
+      1094
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1089,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1089",
+    "state": "MERGED",
+    "headRefOid": "02fa55bbfa43382f61ae6a91d9070d4e67597f02",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-20T02:11:40Z",
+    "mergeCommit": {
+      "oid": "ec996fd452f4c9e9e87fb52ebeb251e89beeb709"
+    },
+    "issues": [
+      1083
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1088,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1088",
+    "state": "MERGED",
+    "headRefOid": "81301f2e73bd4586bd0d1bd7dd7d7be6302eade3",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-20T02:07:04Z",
+    "mergeCommit": {
+      "oid": "bf6bbef06d14e5ad6447a0862d022e51522cacfc"
+    },
+    "issues": [
+      1082
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1081,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1081",
+    "state": "MERGED",
+    "headRefOid": "845fd0438c882a73c82f477f03015bf24443fa07",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-19T04:58:07Z",
+    "mergeCommit": {
+      "oid": "621f6c59702cc432389c60ee049a33126b365d64"
+    },
+    "issues": [
+      1079
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1080,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1080",
+    "state": "MERGED",
+    "headRefOid": "b24829cf2e99004cdf25a26f0858feaa41c3e9dc",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-19T04:57:50Z",
+    "mergeCommit": {
+      "oid": "df6216aee725d0d842fb0a95060224669c51a26e"
+    },
+    "issues": [
+      1077
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1076,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1076",
+    "state": "MERGED",
+    "headRefOid": "e1439b46ddad95b454243e041d0f1efd710d21bb",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-18T23:15:20Z",
+    "mergeCommit": {
+      "oid": "5178d2ab8ddd59ceeec175bf414b6022fdc8aed1"
+    },
+    "issues": [
+      1074
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1075,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1075",
+    "state": "MERGED",
+    "headRefOid": "439b5ca0e0bca9bce78f0bde73e8e9c6dabe2be4",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-18T23:44:51Z",
+    "mergeCommit": {
+      "oid": "347ab87fbf4328dba2ba21708cc89f34a05641d6"
+    },
+    "issues": [
+      1073
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1078,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1078",
+    "state": "MERGED",
+    "headRefOid": "bacbca7caf0b966f73568e06c3ab0e45cce09555",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-18T23:11:06Z",
+    "mergeCommit": {
+      "oid": "f343687e3cac28b00d614332795de961beec7838"
+    },
+    "issues": [
+      1072
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1071,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1071",
+    "state": "MERGED",
+    "headRefOid": "1166817866640d9b356ae0fe2c962e954b33972e",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-18T22:15:16Z",
+    "mergeCommit": {
+      "oid": "fbfb8a5107024a9089c458bee595d314168d5630"
+    },
+    "issues": [
+      1069
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1070,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1070",
+    "state": "MERGED",
+    "headRefOid": "691bd5ac50bd2b4683f4d4a78c20aff6443a2f01",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-18T22:33:14Z",
+    "mergeCommit": {
+      "oid": "27456bc27ab07ffeb2ed2ad470703f7a71aa84ea"
+    },
+    "issues": [
+      1068
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1066,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1066",
+    "state": "MERGED",
+    "headRefOid": "8224fb1099f20ccdfc30e14bb631b40dde144aaa",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-18T22:07:08Z",
+    "mergeCommit": {
+      "oid": "e9cccfdfb5d94a0d66c633be6a3e998bb9735d52"
+    },
+    "issues": [
+      1058
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 5,
+    "url": "https://github.com/agent-logic/codefriend.ai/pull/5",
+    "state": "MERGED",
+    "headRefOid": "b2740e8f71226a74da625fc68e6519ace9aafb40",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-20T02:47:48Z",
+    "mergeCommit": {
+      "oid": "3f397ec9598759fbabeba25b5b2269fe9451c5e0"
+    },
+    "issues": [
+      1057
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "a45e339c13b24716edbd3fadf29dddff36ffe02e"
+  },
+  {
+    "number": 1063,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1063",
+    "state": "MERGED",
+    "headRefOid": "afb3ce4f8b1e1aa49c3c25b886b55fbb97c93dd3",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-18T22:06:06Z",
+    "mergeCommit": {
+      "oid": "bd65dc444c71cb7bff93088898a96fd1a708bb06"
+    },
+    "issues": [
+      1056
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1052,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1052",
+    "state": "MERGED",
+    "headRefOid": "e36dc99699fed558eb53d63747a4dc59f9e35f43",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-17T01:25:28Z",
+    "mergeCommit": {
+      "oid": "a78dc10c3f7d185ba58c2b1c10240d0109792674"
+    },
+    "issues": [
+      1047
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1034,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1034",
+    "state": "MERGED",
+    "headRefOid": "5da1f6f461f1c16506edd2c30ad183241c538d0e",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-16T20:27:07Z",
+    "mergeCommit": {
+      "oid": "a3fed84a237d2160b722eafd3d9bc41c6e74c1e0"
+    },
+    "issues": [
+      1033
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1035,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1035",
+    "state": "MERGED",
+    "headRefOid": "d350c1322fd0039270eabca8a4ad8b0033f9070e",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-16T19:33:38Z",
+    "mergeCommit": {
+      "oid": "38e3679fed72917b03635d87e08bbdbd9662d795"
+    },
+    "issues": [
+      1029
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1045,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1045",
+    "state": "MERGED",
+    "headRefOid": "afe6c4640ef975100ded67bd6a9256aee4d1aa76",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-17T00:20:28Z",
+    "mergeCommit": {
+      "oid": "c1394a23be9a0e3012dea577cad6ee64944d9658"
+    },
+    "issues": [
+      1028
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1031,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1031",
+    "state": "MERGED",
+    "headRefOid": "5193727da07dff2d6fdeb34788ae6c05df194c83",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-16T18:55:33Z",
+    "mergeCommit": {
+      "oid": "8b482221e6a6c0eccab1175c2320aa1f7d441ce1"
+    },
+    "issues": [
+      1021
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1049,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1049",
+    "state": "MERGED",
+    "headRefOid": "9351df77916a146d2b5817a4e04fb29d31e14de2",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-17T00:18:39Z",
+    "mergeCommit": {
+      "oid": "a751b9bb456fb76861a34c143f034c845321cf52"
+    },
+    "issues": [
+      1017
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1023,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1023",
+    "state": "MERGED",
+    "headRefOid": "17fc00dd1f2f44697e5a78095e5b0551b55a9d76",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-16T17:50:56Z",
+    "mergeCommit": {
+      "oid": "9bfa58122dcb57c5c53b3b372dde2c827f4a09b4"
+    },
+    "issues": [
+      1016
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 998,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/998",
+    "state": "MERGED",
+    "headRefOid": "91b699c2ec35f974dd9ae8a13ab8f8a9c5b80b19",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-16T00:14:02Z",
+    "mergeCommit": {
+      "oid": "b0311902d77668d6f126d501fffe4c752232af87"
+    },
+    "issues": [
+      990
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 995,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/995",
+    "state": "MERGED",
+    "headRefOid": "786751b21b4954ba4615183afa31f88e8f15c26b",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-15T22:52:22Z",
+    "mergeCommit": {
+      "oid": "01e8aa0daf9d95d278ac6a79f1e3e95f416d9eff"
+    },
+    "issues": [
+      984
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 988,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/988",
+    "state": "MERGED",
+    "headRefOid": "242626c519f6fa346d565b40a1eb82def59cd460",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-15T19:32:40Z",
+    "mergeCommit": {
+      "oid": "9f15e6c47dc990e8feee4e606c882c577571752c"
+    },
+    "issues": [
+      981
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 994,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/994",
+    "state": "MERGED",
+    "headRefOid": "3c2cce09bf948a10b444c1192c6f5c6ea18d935d",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-15T22:35:17Z",
+    "mergeCommit": {
+      "oid": "ea1ef8a0ebde35fd3d2a1d34408d36b902f85ef5"
+    },
+    "issues": [
+      980
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 985,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/985",
+    "state": "MERGED",
+    "headRefOid": "2bc9aaaa5a3e03bfc1e1b1783194b10c3dd60296",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-15T19:34:32Z",
+    "mergeCommit": {
+      "oid": "4ea09540eea1a38d7ab2f79416b87a8cd4cb7690"
+    },
+    "issues": [
+      978
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 976,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/976",
+    "state": "MERGED",
+    "headRefOid": "f29c14b6b124805e59fd963b7660da1961067cde",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-14T17:36:32Z",
+    "mergeCommit": {
+      "oid": "a21bb59c1d3cba6d9d317b0ae4f40e525bb12932"
+    },
+    "issues": [
+      975
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 968,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/968",
+    "state": "MERGED",
+    "headRefOid": "9d7d828e96c5e639711d9bfeb2ac1b3e4e678a02",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-12T23:25:04Z",
+    "mergeCommit": {
+      "oid": "866a6b07937387443906a5f9e4cf1949699fba39"
+    },
+    "issues": [
+      967
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 962,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/962",
+    "state": "MERGED",
+    "headRefOid": "828a607b4137053a7d7db10eea93b874838a1f98",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-12T06:42:55Z",
+    "mergeCommit": {
+      "oid": "9b5aae0ca0f8d53d67850238b25b955af1b4ccd9"
+    },
+    "issues": [
+      960
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1157,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1157",
+    "state": "OPEN",
+    "headRefOid": "f7e731fe70d172e61ae58af6acb3d4fecb7ccf61",
+    "baseRefName": "main",
+    "mergedAt": null,
+    "mergeCommit": null,
+    "issues": [
+      937
+    ],
+    "candidate_ancestry": "no_merge_record",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 959,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/959",
+    "state": "MERGED",
+    "headRefOid": "43fecbf7c4f1cc443db765335cc1e8aa5382c136",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-12T05:45:25Z",
+    "mergeCommit": {
+      "oid": "3b251c2d544a7fb26c43e23dc8cd07c510501f13"
+    },
+    "issues": [
+      934
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 1014,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1014",
+    "state": "MERGED",
+    "headRefOid": "0e78aef60b7b0167a21b9908eced642529161c34",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-16T06:22:58Z",
+    "mergeCommit": {
+      "oid": "553232dbe6244c204f040fdd6e50c47a4161623b"
+    },
+    "issues": [
+      932
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 971,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/971",
+    "state": "MERGED",
+    "headRefOid": "0d5b252cd3b0362070827268853000eaa1d2fefd",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-14T17:18:01Z",
+    "mergeCommit": {
+      "oid": "5797ffe8d56db0b2a2c2de34a1738bf62db5fb3e"
+    },
+    "issues": [
+      928
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  },
+  {
+    "number": 938,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/938",
+    "state": "MERGED",
+    "headRefOid": "b39af04932deaa83d7de66edae2b9e02bd01136a",
+    "baseRefName": "main",
+    "mergedAt": "2026-09-12T00:17:33Z",
+    "mergeCommit": {
+      "oid": "bd7ccad8c749a7c55ec4f5ab44d507bb51129ec6"
+    },
+    "issues": [
+      926
+    ],
+    "candidate_ancestry": "ancestor_of_frozen_candidate",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4"
+  }
+]

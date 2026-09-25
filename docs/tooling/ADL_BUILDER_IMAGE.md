@@ -242,3 +242,26 @@ bash adl/tools/run_aws_spot_remote_validation_lane.sh \
 For Nessus, keep using `adl/tools/run_nessus_remote_validation.sh` with
 `ADL_NESSUS_BUILDER_IMAGE` set. For wuji, wait for an arm64 or multi-arch image
 before claiming an image-backed Docker benchmark.
+
+## Reviewed construction inputs (#1160)
+
+The Dockerfile pins the Ubuntu 24.04 multi-platform image index digest, Rust
+1.92.0, rustup 1.28.2, AWS CLI 2.27.41, and versioned Cargo tools. Every direct
+executable archive or installer is SHA-256 verified before extraction or execution.
+Both x86_64 and aarch64 have explicit approved hashes; unsupported architectures
+fail. Changing a version requires reviewing its matching digest and provenance.
+Build arguments are explicit operator overrides, not a runtime version resolver.
+
+`adl/docker/adl-builder/INPUT_PROVENANCE.json` records source URLs and the trust
+basis for each pin. GitHub release asset digests and rustup sidecars were observed
+from official sources; AWS archive digests were calculated from the official
+version-specific HTTPS downloads, without claiming independent signature proof.
+The emitted `adl-builder-toolchain.txt` now includes llvm-cov and input digests
+after all direct tools are installed.
+
+This does not establish a hermetic build: Ubuntu apt repositories and their package
+resolution remain network-dependent, and rustup verifies toolchain components
+through its upstream distribution checks. This remediation ran deterministic local
+input-verification regressions, not a Docker build or cloud validation. Existing
+published image tags are historical; they do not acquire these changes until an
+explicitly authorized build and publication.

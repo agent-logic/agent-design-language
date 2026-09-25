@@ -1163,7 +1163,189 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
     }
 }
 
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct MergeRetirementDisposition {
+    schema: String,
+    action: String,
+    operation_id: transaction::OperationId,
+    rationale: String,
+}
+
+fn retire_merge(context: &Context, request: &IntentRequest) -> Result<Value, String> {
+    let disposition: MergeRetirementDisposition =
+        serde_json::from_value(request.content.clone())
+            .map_err(|_| "intent_merge_retirement_disposition_invalid")?;
+    if disposition.schema != "csdlc.v3.semantic_merge_retirement_disposition.v1"
+        || disposition.action != "retire_never_dispatched_merge"
+        || disposition.rationale.trim().is_empty()
+    {
+        return Err("intent_merge_retirement_disposition_invalid".into());
+    }
+    let session = context.semantic_recovery_context(&disposition.operation_id)?;
+    let retained = DurableTransactionStore::inspect_effect(
+        &session.root,
+        &session.key,
+        &disposition.operation_id,
+    )
+    .map_err(semantic_error)?;
+    if retained.request().command() != crate::lifecycle::semantic::SemanticCommand::RecordMerge {
+        return Err("intent_merge_retirement_not_merge".into());
+    }
+    let content: Value = serde_json::from_slice(
+        &retained
+            .request()
+            .canonical_content()
+            .map_err(semantic_error)?,
+    )
+    .map_err(|_| "intent_merge_retirement_request_invalid")?;
+    if content["schema"] != "csdlc.v3.staged_github_mutation.v1" {
+        return Err("intent_merge_retirement_request_invalid".into());
+    }
+    let native: GithubMutationRequest = serde_json::from_value(content["request"].clone())
+        .map_err(|_| "intent_merge_retirement_request_invalid")?;
+    if native.repository != context.repository || native.issue != context.issue {
+        return Err("intent_merge_retirement_identity_invalid".into());
+    }
+    // Completed recovery is an observation of the exact durable failed operation,
+    // never a request to run its business effect again.
+    if retained.ticket().is_none() {
+        if retained.outcome_kind() != Some(transaction::OutcomeKind::Failure)
+            || retained.effect_truth() != Some(transaction::EffectTruth::NotPerformed)
+        {
+            return Err("intent_merge_retirement_outcome_conflict".into());
+        }
+        let evidence: Value = serde_json::from_slice(
+            retained
+                .evidence()
+                .ok_or("intent_merge_retirement_evidence_missing")?,
+        )
+        .map_err(|_| "intent_merge_retirement_evidence_invalid")?;
+        if evidence["schema"] != "csdlc.v3.merge_retirement.v1"
+            || evidence["rationale"] != disposition.rationale
+        {
+            return Err("intent_merge_retirement_evidence_invalid".into());
+        }
+        if request.execute {
+            if request.preview.as_deref() != evidence["preview_digest"].as_str() {
+                return Err("intent_recovery_preview_stale_or_missing".into());
+            }
+            let projected = session.complete_projection(&session.snapshot)?;
+            super::rebuild_semantic_card_projection(context)?;
+            return Ok(
+                json!({"status":"completed","read_only":false,"performed_mutation":true,"effects_unknown":false,"action":"retired_never_dispatched_merge","operation":disposition.operation_id,"semantic_version":projected.version(),"native_effect_truth":"not_performed","semantic_outcome":"failure"}),
+            );
+        }
+        return Ok(
+            json!({"status":"completed","read_only":true,"performed_mutation":false,"effects_unknown":false,"action":"retired_never_dispatched_merge","operation":disposition.operation_id}),
+        );
+    }
+    let preview = DurableTransactionStore::describe_effect_recovery(&session.root, &session.key)
+        .map_err(semantic_error)?
+        .ok_or("intent_merge_retirement_pending_missing")?;
+    if session
+        .snapshot
+        .pending()
+        .is_none_or(|p| p.id() != &disposition.operation_id)
+    {
+        return Err("intent_merge_retirement_pending_changed".into());
+    }
+    if !request.execute {
+        return Ok(
+            json!({"status":"recovery_required","read_only":true,"performed_mutation":false,"preview_digest":preview.digest().as_str(),"action":"retire_never_dispatched_merge","operation":disposition.operation_id}),
+        );
+    }
+    if request.preview.as_deref() != Some(preview.digest().as_str()) {
+        return Err("intent_recovery_preview_stale_or_missing".into());
+    }
+    context.fresh()?;
+    let mut process = RealProcessAdapter::new(EnvironmentCredentialResolver);
+    let evidence = retire_never_dispatched_merge(
+        &context.root,
+        &native,
+        content["intent_digest"]
+            .as_str()
+            .ok_or("intent_merge_retirement_intent_missing")?,
+        disposition.operation_id.as_str(),
+        preview.digest().as_str(),
+        &disposition.rationale,
+        &mut process,
+    )
+    .map_err(failure)?;
+    #[cfg(debug_assertions)]
+    if std::env::var("CSDLC_V3_TEST_CRASH_POINT").as_deref() == Ok("merge_retirement_after_fence") {
+        std::process::exit(91);
+    }
+    context.fresh()?;
+    let outcome = transaction::VerifiedOutcome::from_native_owner(
+        transaction::OutcomeKind::Failure,
+        transaction::EffectTruth::NotPerformed,
+        serde_json::to_vec(&evidence).map_err(|_| "intent_merge_retirement_encoding_failed")?,
+        crate::lifecycle::semantic::Facts {
+            merge_ready: true,
+            ..Default::default()
+        },
+        retained.request().native_identity().clone(),
+    )
+    .map_err(semantic_error)?;
+    let mut binding = session
+        .snapshot
+        .inputs()
+        .binding()
+        .cloned()
+        .ok_or("intent_merge_retirement_binding_missing")?;
+    if binding.branch != context.branch || binding.worktree != context.root {
+        return Err("intent_merge_retirement_binding_changed".into());
+    }
+    binding.head = context.head.clone();
+    let observed = transaction::AttachmentAdmission::from_native_owner(
+        context.semantic_authority()?,
+        transaction::EffectOrigin::bound(binding),
+    );
+    let resolution =
+        transaction::VerifiedRecoveryResolution::adopt_observed_after_native_reconciliation(
+            &preview,
+        );
+    match DurableTransactionStore::execute_effect_recovery_with_resolution(
+        &session.root,
+        preview,
+        outcome,
+        observed,
+        Some(resolution),
+    )
+    .map_err(semantic_error)?
+    {
+        transaction::Attachment::Completed(done)
+        | transaction::Attachment::AlreadyCompleted(done) => {
+            #[cfg(debug_assertions)]
+            if std::env::var("CSDLC_V3_TEST_CRASH_POINT").as_deref()
+                == Ok("merge_retirement_after_attachment")
+            {
+                std::process::exit(91);
+            }
+            let snapshot = match DurableTransactionStore::observe_issue(&session.root, &session.key)
+                .map_err(semantic_error)?
+            {
+                semantic::Observation::Current(v)
+                | semantic::Observation::ProjectionRepairRequired(v) => *v,
+                _ => return Err("intent_merge_retirement_projection_missing".into()),
+            };
+            let projected = session.complete_projection(&snapshot)?;
+            super::rebuild_semantic_card_projection(context)?;
+            Ok(
+                json!({"status":"completed","read_only":false,"operational_authority":true,"performed_mutation":true,"effects_unknown":false,
+                "action":"retired_never_dispatched_merge","native_effect_truth":done.truth(),"semantic_outcome":done.outcome_kind(),"semantic_version":projected.version()}),
+            )
+        }
+        transaction::Attachment::RecoveryRequired(_) => Ok(recovery_result()),
+    }
+}
+
 pub fn recover(context: &Context, request: &IntentRequest) -> Result<Option<Value>, String> {
+    if request.content["schema"] == "csdlc.v3.semantic_merge_retirement_disposition.v1" {
+        return retire_merge(context, request).map(Some);
+    }
+
     let review_disposition = request.content.get("schema").and_then(Value::as_str)
         == Some("csdlc.v3.semantic_review_recovery_disposition.v1");
     if !request.content.is_null() && !review_disposition {

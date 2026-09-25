@@ -1,6 +1,21 @@
 # v0.92.2 Release Plan
 
-Status: planned; no date commitment.
+## Current qualification disposition
+
+Issue #915 is closed as `NOT_PLANNED`: its retained independent qualification is
+incomplete and explicitly deferred, not a qualification pass. Under the approved
+#922 successor split, producer repairs #1148 and #1149 precede independent
+qualification #1150 in v0.93.1, before Beta 1 launch. Runtime v4 belongs to
+v0.93.2. The original demonstration requirements and historical evidence below
+remain intact; release acceptance is not established by issue closure or this
+documentation correction.
+
+Current routing is grounded in #916 commit
+`36ec0814683d0c8cc136bc9af27a0163ed506460` and #922 commit
+`fc6a80c362d6c1e63766bef263cd2dccacd2dc0b`. Those owner fixes are credited;
+this overlay does not rewrite their historical review packets.
+
+Status: release requirements retained; the #916 assessment is accepted for handoff with product qualification still `not_proven`, and #915 qualification is incomplete and explicitly deferred. No date commitment or release authorization.
 
 ## Candidate Formation
 
@@ -43,11 +58,11 @@ Product integration may finish before independent supporting work. TAIL-01 conve
 
 TAIL-07 and TAIL-08 must refresh the tracked [TBD scheduling reconciliation](TBD_SCHEDULING_RECONCILIATION_v0.92.2.md) against the then-current local inventory. The refresh is an accounting gate, not authority to add work. Every active source discovered after the retained #620 audit must be classified as admitted work, merged/completed provenance, an existing issue or milestone, or explicit backlog/deferred work before TAIL-09 review.
 
-The known unadmitted product candidate that must remain visible is `.adl/docs/TBD/codefriend_ai/POLIS_MUSIC_STUDIO_CONCEPT.md`. This is not an exhaustive inventory claim; the required TAIL-07/08 refresh supplies that denominator. The operator admitted `.adl/docs/TBD/provider_model/NVIDIA_PAIR_EXPERIMENT_PLAN_v0.92.2.md` as PLAT-PAIR and `.adl/docs/TBD/GCP_ACCOUNT_MOVE_IN_PLAN.md` as OPS-GCP. The older issue #122/#268 cloud plans remain v0.92.1/cloud provenance and are not duplicate successor rows. The Runtime v4 plugin-system design remains scheduled for v0.93. Issue-local C-SDLC audit snapshots and review outputs are evidence, not product backlog rows.
+The known unadmitted product candidate that must remain visible is `.adl/docs/TBD/codefriend_ai/POLIS_MUSIC_STUDIO_CONCEPT.md`. This is not an exhaustive inventory claim; the required TAIL-07/08 refresh supplies that denominator. The operator admitted `.adl/docs/TBD/provider_model/NVIDIA_PAIR_EXPERIMENT_PLAN_v0.92.2.md` as PLAT-PAIR and `.adl/docs/TBD/GCP_ACCOUNT_MOVE_IN_PLAN.md` as OPS-GCP. The older issue #122/#268 cloud plans remain v0.92.1/cloud provenance and are not duplicate successor rows. The Runtime v4 plugin-system design is scheduled for v0.93.2 under the approved #922 split. Issue-local C-SDLC audit snapshots and review outputs are evidence, not product backlog rows.
 
 ## First-sprint convergence
 
-The independently launched SIM sprint runs first. TAIL-01 consumes completed SIM-UMBRELLA after SIM-07 qualification, SIM-08 operations preparation, and the separately authorized SIM-09 pilot. The sprint does not gate CF-INTEGRATE; closed merged v0.92.1 #717/#718 are predecessor inputs, not active bugfix lanes. If activation is not authorized, record the unresolved program gate; do not silently call the sprint or milestone complete.
+SIM-01–SIM-08 and umbrella #866 have closed with bounded evidence. The operator deferred SIM-09/#875 to v0.93; its pilot is not a current v0.92.2 gate and is not claimed as executed. TAIL-01 consumes the completed bounded SIM result and explicit deferral. The original issue-wave dependency is retained creation history; it does not reactivate the deferred pilot. CF-INTEGRATE remains separately gated.
 
 ## Complete-task release accounting
 
@@ -61,6 +76,10 @@ OBS-S3 and ARCH-ADR keep their explicit non-dependency status for CF-INTEGRATE a
 
 ## Separate milestone sidecar
 
-Existing #671 is the separately admitted podcast public-launch/provider-submission sidecar. Account for its milestone membership and independently observed status alongside the 69 core-plan identities; do not add it to the atomic plan, startup denominator or dependency graph. Its retained explicit action approvals govern any future launch/submission. This sidecar does not supply CodeFriend proof or authorize publication.
+Podcast #671 is now assigned to v0.93, as is the deferred SIM-09 pilot #875. Both retain their original identities and authorization requirements. The historical 69-task creation roster is preserved for traceability; it is not a live milestone-membership count. The original sidecar admission and 82-membership census are creation-time history, not current scope.
 
 The [complete reviewed launch map](../../../.csdlc/evidence/864/all-issue-launch.json) binds all 69 core task IDs to verified issue numbers and independent creation reviews. This establishes issue inventory and review truth, not implementation or Beta 1 qualification.
+
+## Cargo release identity
+
+The [complete Cargo audit](evidence/issue-917/CARGO_MANIFEST_REVIEW.md) records 27 manifests. The main package family currently identifies as 0.92.1; independent components retain their own versions. #918 publication finalization must select release artifacts and reconcile versions and lockfiles before freezing the release candidate. #925 release approval consumes that exact identity; a v0.92.2 milestone label alone does not change a binary/package version.

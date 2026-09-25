@@ -420,11 +420,34 @@ unsupported mutation retries remain reconciliation-only. Multiple pending
 operations or simultaneous local and remote uncertainty are refused explicitly.
 With no pending operation the owner reports the appropriate no-op outcome.
 
-Native issue creation uses target issue zero and does not retain its coordinating
-issue. These unattributable operations are excluded from `recover ISSUE` and
-issue-local pending status. Reconcile an uncertain creation by explicitly
-repeating its identical `github-issue ISSUE --operation FILE --execute` request;
-shared checkout HEAD identity is not sufficient to assign it to an issue.
+Retained issue journals are activated before business-effect recovery through this
+same preview/execute protocol. Activation authenticates retained authority and
+checkout identity and never redispatches the business effect. A pending
+`Finish` or `FinishWithoutPr` can reconcile a missing terminal state or receipt
+after fresh authenticated terminal observation, using the exact original decision.
+
+Repository-scoped creation journals require explicit operation selection; the
+anchor issue supplies authenticated repository context, not ownership of every
+creation. Supply this strict `--disposition` object using the retained operation ID:
+
+```json
+{
+  "schema": "csdlc.v3.creation_journal_recovery_disposition.v1",
+  "operation_id": "semantic-operation-v1:0000000000000000000000000000000000000000000000000000000000000000"
+}
+```
+
+The zero digest above is a shape example, not a usable operation. Run
+`csdlc recover ISSUE --disposition creation-recovery.json` for read-only preview,
+then the identical selection with `--execute --preview DIGEST` using its returned
+`preview_digest`. Only the fully retained creation commit is activated. Admission checks its retained
+effective authority/head, including any prior authenticated recovery adoption;
+unadopted authority/head changes, tampered retained bytes and stale previews refuse. Activation
+never sends another creation request. After activation, reconcile the original
+creation through its identical `github-issue ISSUE --operation FILE --execute`
+request when required. Without explicit selection, unattributable creations stay
+excluded from issue-local recovery and status; shared checkout HEAD alone does
+not assign them to an issue.
 
 `clean ISSUE` returns `preview_token`. Execute with
 `clean ISSUE --execute --preview TOKEN`. The token binds the current issue
@@ -502,3 +525,40 @@ native authenticated terminal readback still checks exact head, closing linkage
 and closed issue. A conflicting native or retained terminal target is refused.
 This does not manufacture a publication mutation receipt or merge the PR.
 The flag and `--disposition` are mutually exclusive.
+
+### Retire a never-dispatched merge before integration
+
+A retained merge intent binds its reviewed head, base and policy. When integration
+requires a new candidate, do not delete the intent, target guard or semantic
+journal, and do not reinterpret a still-open PR as proof of non-dispatch.
+Use an explicit disposition after inspecting the pending semantic operation:
+
+```json
+{
+  "schema": "csdlc.v3.semantic_merge_retirement_disposition.v1",
+  "action": "retire_never_dispatched_merge",
+  "operation_id": "semantic-operation-v1:<64 hexadecimal characters>",
+  "rationale": "Operator-approved retirement to resolve integration conflicts"
+}
+```
+
+Run `csdlc recover ISSUE --disposition retirement.json` for its preview, then
+`csdlc recover ISSUE --disposition retirement.json --execute --preview DIGEST`.
+This route performs authenticated observation, not a remote merge. Under the PR
+lock it verifies the exact original intent and target and refuses retirement if
+any dispatch-prestate, private input, response, reconciliation or receipt object
+exists. Unreadable evidence and dangling symlinks fail closed. An immutable
+retirement fence is written before semantic `Failure / NotPerformed` completion.
+The original request can never dispatch after that fence, including after a crash.
+
+After retirement, resolve integration, declare the implementation amendment,
+then obtain fresh proof, independent review, publication and ready admission.
+The new merge is a distinct reviewed candidate. Native staging validates the
+retired predecessor's full intent and canonical semantic completion, and writes
+one create-only successor link while preserving the original target as history.
+A competing successor is rejected. A crash between the successor link and intent
+creation resumes only that exact successor. Changed operator prose alone does
+not create a new merge identity; the original retired operation stays retired.
+
+After any dispatch evidence, only authenticated reconciliation remains supported.
+Retirement does not claim a merge, close an issue, relax policy, or permit replay.

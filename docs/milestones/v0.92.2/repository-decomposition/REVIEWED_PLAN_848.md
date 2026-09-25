@@ -1,5 +1,7 @@
 # Repository decomposition plan — v0.92.2 / #848
 
+Historical reviewed #848 candidate follows. For the later operator-selected v0.93 sequencing and current plan, start with [PLAN.md](PLAN.md). The original pending-decision status below records review-time authority and does not override that later selection; neither document authorizes extraction without its required gates.
+
 Status: externally reviewed candidate under #848; operator decision pending. No extraction, repository
 creation, visibility change or v0.93 implementation is authorized.
 

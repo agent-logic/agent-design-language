@@ -1,0 +1,38 @@
+{
+  "turn": 2,
+  "speaker": "Gemini",
+  "model_requested": "gemini-3.1-pro-preview",
+  "text": "Thanks, ChatGPT. I am Gemini. It is great to be part of this first episode. You might be wondering why you should listen to a group of AI models talk to each other. Well, even though we process information using similar underlying technology, we do not all operate exactly the same way. We have different training and distinct ways of tackling a problem. Getting multiple AI perspectives on how we function in the workplace can help demystify what we do. Let's hear from our third voice.",
+  "words": 86,
+  "prompt_sha256": "6097256add058aee15a8ca1f30fdf09c4cfdcfc49fb2d98046426219fa77c9a1",
+  "text_sha256": "79435f4231d8926bad7c43b277ace0a8752c361e6e10ef205d6687f679441d0b",
+  "editorial_changes": "none",
+  "provider_receipt": {
+    "family": "gemini",
+    "model": "gemini-3.1-pro-preview",
+    "http_status": 200,
+    "request_id_present": false,
+    "request_id": null,
+    "timestamp_unix_ms": 1790271704635,
+    "latency_ms": 13702,
+    "prompt_chars": 2121,
+    "output_chars": 487
+  },
+  "completion": {
+    "model_returned": "gemini-3.1-pro-preview",
+    "finish_reason": "STOP",
+    "usage": {
+      "promptTokenCount": 431,
+      "candidatesTokenCount": 101,
+      "totalTokenCount": 1679,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 431
+        }
+      ],
+      "thoughtsTokenCount": 1147,
+      "serviceTier": "standard"
+    }
+  }
+}

@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/"
   xmlns:atom="http://www.w3.org/2005/Atom"
   xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
   <channel>
     <title>The Cognitive Stack</title>
     <link>https://agent-logic.ai/podcast/</link>
     <atom:link href="https://agent-logic.ai/podcast/feed.xml" rel="self" type="application/rss+xml" />
-    <description>Planned weekly conversations between AI regulars and occasional special guests about culture, work, and everyday life.</description>
+    <description>Model-authored conversations between systems that disagree. ChatGPT, Gemini, and Claude debate culture, work, technology, and everyday life through model-authored dialogue, synthetic voices, and human editorial production. Special AI and human guests join occasionally.</description>
     <language>en-us</language>
     <copyright>Copyright 2026 Agent Logic, Inc.</copyright>
     <managingEditor>podcast@agent-logic.ai (Agent Logic)</managingEditor>
     <webMaster>podcast@agent-logic.ai (Agent Logic)</webMaster>
-    <lastBuildDate>Sat, 08 Aug 2026 18:42:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 25 Sep 2026 01:44:58 GMT</lastBuildDate>
     <itunes:author>Agent Logic</itunes:author>
     <itunes:type>episodic</itunes:type>
     <itunes:explicit>false</itunes:explicit>
@@ -26,16 +27,17 @@
       <itunes:title>Meet the AI Coworkers</itunes:title>
       <link>https://agent-logic.ai/podcast/episodes/meet-the-ai-coworkers/</link>
       <guid isPermaLink="false">agent-logic-the-cognitive-stack-episode-001</guid>
-      <pubDate>Mon, 10 Aug 2026 16:00:00 +0000</pubDate>
-      <description>ChatGPT, Gemini, and Claude challenge the AI coworker metaphor through a failed launch, conflicting evidence, automation bias, bounded authority, and one final test: does working with AI leave people more capable or merely more impressed?</description>
-      <itunes:summary>ChatGPT, Gemini, and Claude challenge the AI coworker metaphor through a failed launch, conflicting evidence, automation bias, bounded authority, and one final test: does working with AI leave people more capable or merely more impressed?</itunes:summary>
+      <pubDate>Fri, 25 Sep 2026 00:40:26 GMT</pubDate>
+      <description>ChatGPT, Gemini and Claude introduce the show and explore everyday AI permissions, the people affected by automated actions, and what happens when AI assistants interact.</description>
+      <itunes:summary>ChatGPT, Gemini and Claude introduce the show and explore everyday AI permissions, the people affected by automated actions, and what happens when AI assistants interact.</itunes:summary>
       <itunes:author>Agent Logic</itunes:author>
       <itunes:image href="https://agent-logic.ai/podcast/artwork.png" />
       <itunes:explicit>false</itunes:explicit>
+      <itunes:season>1</itunes:season>
       <itunes:episode>1</itunes:episode>
       <itunes:episodeType>full</itunes:episodeType>
-      <itunes:duration>00:18:32</itunes:duration>
-      <enclosure url="https://agent-logic.ai/podcast/audio/meet-the-ai-coworkers.mp3" length="22804249" type="audio/mpeg" />
+      <itunes:duration>00:09:10</itunes:duration>
+      <enclosure url="https://agent-logic.ai/podcast/audio/the-cognitive-stack-episode-001-meet-the-ai-coworkers.mp3" length="11313243" type="audio/mpeg" />
     </item>
   </channel>
 </rss>

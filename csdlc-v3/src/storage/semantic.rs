@@ -2755,7 +2755,16 @@ fn activate(directory: &Path, common: &Path, next: &Snapshot) -> Result<(), Erro
         &next.canonical_bytes()?,
         common,
     )?;
+    #[cfg(debug_assertions)]
+    if std::env::var("CSDLC_V3_TEST_CRASH_POINT").as_deref() == Ok("journal_after_retained_commit")
+    {
+        std::process::exit(91);
+    }
     create_only(&directory.join("current.next"), &bytes, common)?;
+    #[cfg(debug_assertions)]
+    if std::env::var("CSDLC_V3_TEST_CRASH_POINT").as_deref() == Ok("journal_after_next_pointer") {
+        std::process::exit(91);
+    }
     fs::rename(
         directory.join("current.next"),
         directory.join("current.json"),

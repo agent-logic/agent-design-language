@@ -1,6 +1,6 @@
 # Longitudinal Review Memory
 
-Status: planned. Owner: CF-MEMORY.
+Status: requirements retained; component evidence is indexed in the [review handoff](../evidence/issue-917/HANDOFF.md), with final Beta 1 qualification pending. Owner: CF-MEMORY.
 
 Beta 1 retains enough governed review state to compare a later run with a baseline. It classifies added, resolved, and changed findings using stable identity and an explicit schema-compatibility policy.
 

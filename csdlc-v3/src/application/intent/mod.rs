@@ -2,6 +2,7 @@
 mod administrative;
 mod context;
 mod install;
+mod journal;
 mod local;
 mod remote;
 mod terminal;
@@ -287,13 +288,21 @@ pub fn run(command: &str, args: &[String]) -> Result<Value, String> {
     context.fresh()?;
     let mut value = match command {
         "recover" if !request.content.is_null() => {
-            if let Some(value) = terminal::recover_absent_cleanup(&context, &request)? {
+            if let Some(value) = journal::recover_creation(&context, &request)? {
+                value
+            } else if let Some(value) = terminal::recover_absent_cleanup(&context, &request)? {
                 value
             } else if request
                 .content
                 .get("schema")
                 .and_then(serde_json::Value::as_str)
-                == Some("csdlc.v3.semantic_review_recovery_disposition.v1")
+                .is_some_and(|schema| {
+                    matches!(
+                        schema,
+                        "csdlc.v3.semantic_review_recovery_disposition.v1"
+                            | "csdlc.v3.semantic_merge_retirement_disposition.v1"
+                    )
+                })
             {
                 remote::recover(&context, &request)?
                     .ok_or("intent_recovery_disposition_not_applicable")?
@@ -302,28 +311,38 @@ pub fn run(command: &str, args: &[String]) -> Result<Value, String> {
                     .ok_or("intent_recovery_disposition_not_applicable")?
             }
         }
-        "recover" => match administrative::recover(&context, &request)? {
-            Some(value) => value,
-            None => match install::recover(&context, &request)? {
-                Some(value) => value,
-                None => match local::recover_semantic_projection(&context, &request)? {
+        "recover" => {
+            if let Some(value) = journal::recover(&context, &request)? {
+                value
+            } else if let Some(value) = terminal::recover_pending_finish(&context, &request)? {
+                value
+            } else {
+                match administrative::recover(&context, &request)? {
                     Some(value) => value,
-                    None => match local::recover_semantic_bind(&context, &request)? {
+                    None => match install::recover(&context, &request)? {
                         Some(value) => value,
-                        None => match local::recover_semantic_edit(&context, &request)? {
+                        None => match local::recover_semantic_projection(&context, &request)? {
                             Some(value) => value,
-                            None => match local::recover_semantic_proof(&context, &request)? {
+                            None => match local::recover_semantic_bind(&context, &request)? {
                                 Some(value) => value,
-                                None => match remote::recover(&context, &request)? {
+                                None => match local::recover_semantic_edit(&context, &request)? {
                                     Some(value) => value,
-                                    None => local::run(&context, &request)?,
+                                    None => {
+                                        match local::recover_semantic_proof(&context, &request)? {
+                                            Some(value) => value,
+                                            None => match remote::recover(&context, &request)? {
+                                                Some(value) => value,
+                                                None => local::run(&context, &request)?,
+                                            },
+                                        }
+                                    }
                                 },
                             },
                         },
                     },
-                },
-            },
-        },
+                }
+            }
+        }
         "install" => install::run(&context, &request)?,
         "cutover" | "rollback" => administrative::run(&context, &request)?,
         "prepare" | "status" | "bind" | "edit" | "rebuild" | "validate" => {

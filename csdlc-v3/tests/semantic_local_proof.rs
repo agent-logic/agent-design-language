@@ -419,6 +419,15 @@ fn failed_proof_replay_retains_the_failed_attempt_without_rerun() {
 
 #[test]
 fn installed_bind_recovers_after_target_activation_without_ambiguous_topology() {
+    assert_bind_copy_recovery("bind_after_target_stage_rename");
+}
+
+#[test]
+fn installed_bind_recovers_partial_target_copy_with_complete_image() {
+    assert_bind_copy_recovery("bind_during_target_stage_copy");
+}
+
+fn assert_bind_copy_recovery(crash_point: &str) {
     let mut fixture = Fixture::new("semantic-bind-target-activation-recovery");
     let primary = fixture.root.clone();
     let input = fixture.write_json("semantic-plan.json", &plan());
@@ -429,10 +438,7 @@ fn installed_bind_recovers_after_target_activation_without_ambiguous_topology() 
     let crash = fixture.run_with_env(
         &primary,
         &["bind", "870"],
-        &[(
-            "CSDLC_V3_TEST_CRASH_POINT",
-            "bind_after_target_stage_rename",
-        )],
+        &[("CSDLC_V3_TEST_CRASH_POINT", crash_point)],
     );
     assert_eq!(crash.status.code(), Some(91));
     let interrupted = snapshot(&primary);
@@ -442,6 +448,13 @@ fn installed_bind_recovers_after_target_activation_without_ambiguous_topology() 
     assert!(!primary
         .join(".git/csdlc-v3/local/bindings/870.json")
         .exists());
+    let journal_value: Value = serde_json::from_slice(&fs::read(&journal).unwrap()).unwrap();
+    let digest = journal_value["request_digest"].as_str().unwrap();
+    let source_stage = primary.join(format!(
+        ".git/csdlc-v3/local/issues/.issue-870-bind-{digest}.stage"
+    ));
+    assert!(journal_value["bind_image_digest"].is_string());
+    let staged_cards = fs::read(source_stage.join("cards/sip.md")).unwrap();
     let interrupted_completed = interrupted.completed().len();
     let before = fixture::inventory(&primary);
     let preview = success(fixture.run(&primary, &["recover", "870"]));
@@ -494,6 +507,18 @@ fn installed_bind_recovers_after_target_activation_without_ambiguous_topology() 
             .count(),
         1
     );
+    assert_eq!(
+        fs::read(binding.worktree.join(".csdlc/issues/870/cards/sip.md")).unwrap(),
+        staged_cards
+    );
+    for kind in ["sip", "stp", "spp", "vpp", "srp", "sor"] {
+        for suffix in ["md", "values.json"] {
+            assert!(binding
+                .worktree
+                .join(format!(".csdlc/issues/870/cards/{kind}.{suffix}"))
+                .is_file());
+        }
+    }
     assert!(!journal.exists());
     assert!(primary
         .join(".git/csdlc-v3/local/bindings/870.json")
@@ -1013,4 +1038,73 @@ fn descendant_temp_is_owned_by_worktree() {
         "validator temporary root leaked"
     );
     assert_eq!(fs::read_dir(external).unwrap().count(), 0);
+}
+
+// PVF: deterministic installed recovery; synthetic transport, local disk only.
+#[test]
+fn installed_bind_copy_recovery_preserves_conflicting_or_corrupt_images() {
+    for corruption in ["extra_target_file", "changed_source_card", "target_symlink"] {
+        let mut fixture = Fixture::new(&format!("bind-copy-{corruption}"));
+        let primary = fixture.root.clone();
+        let input = fixture.write_json("plan.json", &plan());
+        success(fixture.run(
+            &primary,
+            &["prepare", "870", "--plan", input.to_str().unwrap()],
+        ));
+        let crash = fixture.run_with_env(
+            &primary,
+            &["bind", "870"],
+            &[("CSDLC_V3_TEST_CRASH_POINT", "bind_during_target_stage_copy")],
+        );
+        assert_eq!(crash.status.code(), Some(91));
+        let journal_path = primary.join(".git/csdlc-v3/local/transactions/870.json");
+        let journal: Value = serde_json::from_slice(&fs::read(&journal_path).unwrap()).unwrap();
+        let digest = journal["request_digest"].as_str().unwrap();
+        let name = format!(".issue-870-bind-{digest}");
+        let source = primary.join(format!(".git/csdlc-v3/local/issues/{name}.stage"));
+        let backup = primary.join(format!(".git/csdlc-v3/local/issues/{name}.backup"));
+        let target = std::path::PathBuf::from(journal["bind_worktree"].as_str().unwrap());
+        let stage = target.join(format!(".csdlc/issues/{name}.stage"));
+        match corruption {
+            "extra_target_file" => {
+                fs::write(stage.join("unexpected"), b"not in original image").unwrap()
+            }
+            "changed_source_card" => fs::write(source.join("cards/sip.md"), b"corrupt").unwrap(),
+            "target_symlink" => {
+                #[cfg(unix)]
+                std::os::unix::fs::symlink(source.join("index.json"), stage.join("alias")).unwrap();
+                #[cfg(not(unix))]
+                continue;
+            }
+            _ => unreachable!(),
+        }
+        let retained_source = fs::read(source.join("cards/sip.md")).unwrap();
+        let preview_output = fixture.run(&primary, &["recover", "870"]);
+        if preview_output.status.success() {
+            let preview: Value = serde_json::from_slice(&preview_output.stdout).unwrap();
+            let rejected = fixture.run(
+                &primary,
+                &[
+                    "recover",
+                    "870",
+                    "--execute",
+                    "--preview",
+                    preview["preview_digest"].as_str().unwrap(),
+                ],
+            );
+            assert!(
+                !rejected.status.success(),
+                "corrupt image admitted: {corruption}"
+            );
+        }
+        assert!(source.is_dir() && backup.is_dir() && journal_path.is_file());
+        assert_eq!(
+            fs::read(source.join("cards/sip.md")).unwrap(),
+            retained_source
+        );
+        assert!(!target.join(".csdlc/issues/870").exists());
+        assert!(!primary
+            .join(".git/csdlc-v3/local/bindings/870.json")
+            .exists());
+    }
 }

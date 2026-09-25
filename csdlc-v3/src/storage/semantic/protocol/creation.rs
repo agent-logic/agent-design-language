@@ -310,6 +310,11 @@ fn activate(root: &SemanticRoot, directory: &Path, next: &CreationSnapshot) -> R
         &codec::bytes(next).map_err(encoding)?,
         &root.common,
     )?;
+    #[cfg(debug_assertions)]
+    if std::env::var("CSDLC_V3_TEST_CRASH_POINT").as_deref() == Ok("creation_journal_after_commit")
+    {
+        std::process::exit(91);
+    }
     create_only(&directory.join("current.next"), &pointer, &root.common)?;
     fs::rename(
         directory.join("current.next"),
@@ -698,13 +703,6 @@ pub struct CreationJournalApproval {
     preview: CreationJournalPreview,
 }
 impl CreationJournalApproval {
-    #[cfg_attr(
-        not(test),
-        expect(
-            dead_code,
-            reason = "reserved for the explicit native creation journal recovery route"
-        )
-    )]
     pub(crate) fn from_native_owner(preview: &CreationJournalPreview) -> Self {
         Self {
             preview: preview.clone(),
@@ -854,6 +852,27 @@ impl DurableTransactionStore {
         }
         let _lock = acquire(&directory, false)?;
         describe_creation_journal(root, id)
+    }
+    pub(crate) fn validate_creation_journal_admission(
+        root: &SemanticRoot,
+        preview: &CreationJournalPreview,
+        authority: &Digest,
+        head: &str,
+    ) -> Result<(), Error> {
+        let directory = directory(root, &preview.id)?;
+        let _lock = acquire(&directory, false)?;
+        if describe_creation_journal(root, &preview.id)?.as_ref() != Some(preview) {
+            return Err(Error::StaleVersion);
+        }
+        let target = load_record(&directory, preview.generation)?;
+        let (effective_authority, effective_head) = match &target.payload.recovery_adoption {
+            Some((authority, head, _)) => (authority, head.as_str()),
+            None => (&target.payload.authority, target.payload.head.as_str()),
+        };
+        if effective_authority != authority || effective_head != head {
+            return Err(Error::AdmissionChanged);
+        }
+        Ok(())
     }
     pub fn execute_creation_journal_recovery(
         root: &SemanticRoot,
@@ -1026,6 +1045,8 @@ mod tests {
         );
         assert_eq!(serialized["repository"], preview.repository());
         let approval = VerifiedCreationRecovery::adopt_after_native_reconciliation(&preview);
+        let directory = directory(&f.root, inspection.ticket().id()).unwrap();
+        let previous_pointer = fs::read(directory.join("current.json")).unwrap();
         let result = DurableTransactionStore::execute_issue_creation_recovery(
             &f.root,
             preview.clone(),
@@ -1041,7 +1062,11 @@ mod tests {
         assert_eq!(done.completed_truth(), Some(EffectTruth::NotPerformed));
         assert!(matches!(
             DurableTransactionStore::execute_issue_creation_recovery(
-                &f.root, preview, outcome, changed, None
+                &f.root,
+                preview,
+                outcome,
+                changed.clone(),
+                None
             )
             .unwrap(),
             CreationAttachment::AlreadyCompleted(_)
@@ -1053,6 +1078,37 @@ mod tests {
                 .generation(),
             done.generation()
         );
+        // Model the durable crash boundary after retaining the adopted commit,
+        // before activating its pointer. Keep all immutable journal evidence.
+        fs::write(directory.join("current.json"), previous_pointer).unwrap();
+        let journal = DurableTransactionStore::describe_creation_journal_recovery(
+            &f.root,
+            inspection.ticket().id(),
+        )
+        .unwrap()
+        .unwrap();
+        assert_eq!(journal.target(), &done.digest);
+        DurableTransactionStore::validate_creation_journal_admission(
+            &f.root,
+            &journal,
+            &changed.authority,
+            &changed.head,
+        )
+        .unwrap();
+        assert_eq!(
+            DurableTransactionStore::validate_creation_journal_admission(
+                &f.root,
+                &journal,
+                &admission(&f).authority,
+                &admission(&f).head
+            ),
+            Err(Error::AdmissionChanged)
+        );
+        let approval = CreationJournalApproval::from_native_owner(&journal);
+        let activated =
+            DurableTransactionStore::execute_creation_journal_recovery(&f.root, journal, approval)
+                .unwrap();
+        assert_eq!(activated, done);
     }
 
     #[test]

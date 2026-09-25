@@ -1,0 +1,11 @@
+{
+  "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+  "mode": "deterministic_local_extracted_source",
+  "cases": 2,
+  "negative_controls": 1,
+  "result": "both_defects_reproduced",
+  "provider_calls": 0,
+  "network_calls": 0,
+  "source_changes": false,
+  "scope_limit": "Production function bodies extracted verbatim; invocation/output types minimal stubs. Not full native CLI integration."
+}

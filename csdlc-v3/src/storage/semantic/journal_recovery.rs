@@ -34,13 +34,6 @@ pub struct JournalRecoveryApproval {
     digest: Digest,
 }
 impl JournalRecoveryApproval {
-    #[cfg_attr(
-        not(test),
-        expect(
-            dead_code,
-            reason = "reserved for the explicit native journal recovery route"
-        )
-    )]
     pub(crate) fn from_native_owner(preview: &JournalRecoveryPreview) -> Self {
         Self {
             digest: preview.digest.clone(),
@@ -154,6 +147,18 @@ impl DurableTransactionStore {
         }
         let _lock = acquire(&directory, false)?;
         describe(&directory, key)
+    }
+    /// Read the exact retained target for native authority and topology admission.
+    pub(crate) fn journal_recovery_target(
+        root: &SemanticRoot,
+        preview: &JournalRecoveryPreview,
+    ) -> Result<Snapshot, Error> {
+        let directory = root.directory(&preview.key)?;
+        let _lock = acquire(&directory, false)?;
+        if describe(&directory, &preview.key)?.as_ref() != Some(preview) {
+            return Err(Error::StaleVersion);
+        }
+        load_commit(&directory, &preview.target)
     }
     pub fn execute_journal_recovery(
         root: &SemanticRoot,

@@ -1,0 +1,195 @@
+{
+  "blocking_issues": [
+    {
+      "check": "unsupported_claim",
+      "reason": "Unsupported claim appears in final_report.md line 5: approval"
+    },
+    {
+      "check": "unsupported_claim",
+      "reason": "Unsupported claim appears in final_report.md line 17: approval"
+    },
+    {
+      "check": "unsupported_claim",
+      "reason": "Unsupported claim appears in final_report.md line 67: approved"
+    },
+    {
+      "check": "unsupported_claim",
+      "reason": "Unsupported claim appears in final_report.md line 68: approved"
+    },
+    {
+      "check": "unsupported_claim",
+      "reason": "Unsupported claim appears in final_report.md line 96: approval"
+    },
+    {
+      "check": "unsupported_claim",
+      "reason": "Unsupported claim appears in final_report.md line 97: approved"
+    },
+    {
+      "check": "unsupported_claim",
+      "reason": "Unsupported claim appears in final_report.md line 129: approval"
+    },
+    {
+      "check": "unsupported_claim",
+      "reason": "Unsupported claim appears in final_report.md line 162: approved"
+    },
+    {
+      "check": "unsupported_claim",
+      "reason": "Unsupported claim appears in final_report.md line 167: approved"
+    },
+    {
+      "check": "unsupported_claim",
+      "reason": "Unsupported claim appears in final_report.md line 247: approved"
+    },
+    {
+      "check": "unsupported_claim",
+      "reason": "Unsupported claim appears in final_report.md line 248: approved"
+    }
+  ],
+  "created_at": "2026-09-23T17:35:11Z",
+  "publication_boundary": {
+    "approval_claimed": false,
+    "compliance_claimed": false,
+    "privacy_mode": "public_candidate",
+    "publication_allowed_by_source": true,
+    "publication_intent": "internal_review_report",
+    "published_by_skill": false,
+    "remediation_complete_claimed": false
+  },
+  "publication_intent": "internal_review_report",
+  "recommended_handoffs": [
+    "redaction-and-evidence-auditor"
+  ],
+  "repo_name": "agent-logic/agent-design-language",
+  "repo_ref": "5c4a6149771c637f3c805985b86231077965eab4",
+  "residual_risk_clarity": {
+    "non_reviewed_surfaces": [
+      "No live cloud/provider/deployed fleet qualification, paid calls or human/external acceptance.",
+      "Historical corpus entries classified as retained are not individually reexecuted or silently considered current passes.",
+      "Unavailable historical artifacts and restricted cloud authorization revalidation remain explicit in ledgers."
+    ],
+    "status": "pass"
+  },
+  "run_id": "919-full-nine-lane-review",
+  "schema": "codebuddy.review_quality_evaluation.v1",
+  "score": 0,
+  "scorecard": {
+    "actionability": "pass",
+    "duplication": "pass",
+    "evidence_quality": "pass",
+    "redaction_status": "partial",
+    "residual_risk_clarity": "pass",
+    "severity_accuracy": "pass",
+    "specialist_coverage": "pass",
+    "template_compliance": "pass",
+    "unsupported_claims": "fail"
+  },
+  "specialist_coverage": {
+    "missing_roles": [],
+    "present_roles": [
+      "code",
+      "security",
+      "tests",
+      "docs",
+      "architecture"
+    ],
+    "required_roles": [
+      "code",
+      "security",
+      "tests",
+      "docs",
+      "architecture"
+    ],
+    "source_artifacts": [
+      "specialist_reviews/architecture.md",
+      "specialist_reviews/code.md",
+      "specialist_reviews/dependencies.md",
+      "specialist_reviews/docs.md",
+      "specialist_reviews/security.md",
+      "specialist_reviews/tests.md"
+    ]
+  },
+  "status": "fail",
+  "template_compliance": {
+    "missing_sections": [],
+    "required_sections": [
+      "Executive Summary",
+      "Review Scope",
+      "Top Findings",
+      "Architecture Summary",
+      "Security And Privacy Notes",
+      "Test Recommendations",
+      "Remediation Sequence",
+      "Residual Risks"
+    ],
+    "status": "pass"
+  },
+  "unsupported_claims": [
+    {
+      "claim": "approval",
+      "line": "5",
+      "sample": "**Changes required.** The current register contains27 findings:4 P1,20 P2 and3 P3. Four aggregate remediation issues are being coordinated; individual findings retain distinct proo",
+      "source_artifact": "final_report.md"
+    },
+    {
+      "claim": "approval",
+      "line": "17",
+      "sample": "Four security findings cover implicit transport configuration, redaction order, PDF approval binding and session revocation during request-body wait. They are scoped to reviewed so",
+      "source_artifact": "final_report.md"
+    },
+    {
+      "claim": "approved",
+      "line": "67",
+      "sample": "- Impact: Latest release URL or mutable S3/tarball bytes are extracted and installed without independent checksum/signature/version identity. Version output does not establish appr",
+      "source_artifact": "final_report.md"
+    },
+    {
+      "claim": "approved",
+      "line": "68",
+      "sample": "- Recommended action: Require exact approved version, digest and S3 VersionId where used; verify before extraction/execution.",
+      "source_artifact": "final_report.md"
+    },
+    {
+      "claim": "approval",
+      "line": "96",
+      "sample": "- Evidence: `csdlc-v3/src/application/intent/mod.rs:301` \u2014 activate() creates intent, commit, current.next then renames. observe_issue translates an unactivated intent/current.next",
+      "source_artifact": "final_report.md"
+    },
+    {
+      "claim": "approved",
+      "line": "97",
+      "sample": "- Impact: All semantic operations stop on RecoveryRequired. The installed recover path has no native-approved way to activate the exact fully retained commit, despite a storage rec",
+      "source_artifact": "final_report.md"
+    },
+    {
+      "claim": "approval",
+      "line": "129",
+      "sample": "- Validation gap: {\"status\": \"reproduced_helper_logic\", \"source\": \"lanes/code-excerpt-repro.rs\", \"limitation\": \"Standalone Rust harness extracts production helper bodies; privacy g",
+      "source_artifact": "final_report.md"
+    },
+    {
+      "claim": "approved",
+      "line": "162",
+      "sample": "### Finding DOC-001: [P2] Route pending qualification to its approved v0.93 successors",
+      "source_artifact": "final_report.md"
+    },
+    {
+      "claim": "approved",
+      "line": "167",
+      "sample": "- Impact: Current status headers still describe #915 as pending, while retained SPRINT10_DEFERRAL records it CLOSED/NOT_PLANNED and routes remaining qualification to #1148/#1149/#1",
+      "source_artifact": "final_report.md"
+    },
+    {
+      "claim": "approved",
+      "line": "247",
+      "sample": "- Impact: verify_stage reaches verify_rendered, whose PDF branch checks only the prefix and hash-shaped semantic/font fields. pdf::validate_manifest validates metadata identities b",
+      "source_artifact": "final_report.md"
+    },
+    {
+      "claim": "approved",
+      "line": "248",
+      "sample": "- Recommended action: Bind returned PDF to trusted renderer evidence or validate its actual allowed structure and expected approved semantics; negative-test substituted PDF with al",
+      "source_artifact": "final_report.md"
+    }
+  ],
+  "warnings": []
+}

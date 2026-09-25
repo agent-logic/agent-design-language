@@ -51,6 +51,31 @@ fn publication_reservation_inventory(
         .collect()
 }
 
+#[test]
+fn fixture_inventory_excludes_only_transient_git_maintenance_lock() {
+    let fixture = Fixture::new("maintenance-lock-inventory");
+    let before = intent_fixture::inventory(&fixture.root);
+    let maintenance_lock = fixture.root.join(".git/objects/maintenance.lock");
+    fs::write(&maintenance_lock, "transient maintenance state\n").unwrap();
+    assert_same_inventory!(before, intent_fixture::inventory(&fixture.root));
+
+    fs::write(
+        fixture.root.join(".git/objects/durable-fixture-state"),
+        "durable git state\n",
+    )
+    .unwrap();
+    let after_durable_change = intent_fixture::inventory(&fixture.root);
+    assert_ne!(
+        before, after_durable_change,
+        "durable Git state was incorrectly excluded from fixture inventory"
+    );
+    assert_eq!(
+        git(&fixture.root, &["config", "--bool", "maintenance.auto"]),
+        "false"
+    );
+    assert_eq!(git(&fixture.root, &["config", "--int", "gc.auto"]), "0");
+}
+
 fn plan() -> Value {
     json!({"schema":"csdlc.v3.intent_plan.v1", "slug":"installed-intent-fixture",
       "cards":{"sip":{},"stp":{},"spp":{"dependencies_inline":"Fixture dependencies ready","repo_inputs_inline":"Tracked fixture inputs","target_files_surfaces_inline":"installed intent commands","deliverables_inline":"Run installed lifecycle commands","validation_plan_inline":"Declared Cargo validator","acceptance_criteria_inline":"Installed command behavior is proven","notes_risks_inline":"Synthetic transport and isolated repository"},"vpp":{},"srp":{},"sor":{}},
@@ -7175,4 +7200,296 @@ fn completed_publication_transport_ambiguous_fails_closed() {
 #[test]
 fn completed_publication_transport_wrapped_ambiguity_fails_closed() {
     assert_completed_publication_transport_refuses("wrapped-ambiguous");
+}
+
+// PVF #1171: required deterministic installed-owner retirement/succession proof;
+// local filesystem and synthetic authenticated GitHub, no live provider or merge.
+fn issue1171_inventory_settled(fixture: &mut Fixture, linked: &std::path::Path) {
+    let status = success(fixture.run(linked, &["status", "505"]));
+    assert_eq!(status["pending_remote"], json!([]), "{status}");
+    assert_ne!(status["allowed_next"], json!(["recover"]), "{status}");
+    let recovery = success(fixture.run(linked, &["recover", "505"]));
+    assert_ne!(recovery["status"], "recovery_required", "{recovery}");
+    assert!(recovery["pending"].is_null(), "{recovery}");
+}
+fn issue1171_retirement_journey(crash_point: Option<&str>) {
+    issue1171_retirement_journey_with_guards(crash_point, false);
+}
+fn issue1171_retirement_journey_with_guards(crash_point: Option<&str>, test_guards: bool) {
+    let (mut fixture, linked) = reviewed_fixture("issue1171-retirement-successor");
+    success(fixture.run(&linked, &["publish", "505"]));
+    let ready = fixture.write_json("ready.json", &json!({"action":"pull_request_ready"}));
+    success(fixture.run(
+        &linked,
+        &[
+            "github-pr",
+            "505",
+            "--operation",
+            ready.to_str().unwrap(),
+            "--execute",
+        ],
+    ));
+    fixture.enable_merge_transport(&linked);
+    let merge=fixture.write_json("merge.json",&json!({"action":"pull_request_merge","base":"main","method":"merge","operator_approval":"original fixture merge approval"}));
+    let crash = fixture.run_with_env(
+        &linked,
+        &[
+            "github-pr",
+            "505",
+            "--operation",
+            merge.to_str().unwrap(),
+            "--execute",
+        ],
+        &[(
+            "CSDLC_V3_TEST_CRASH_POINT",
+            "semantic_remote_after_reservation",
+        )],
+    );
+    assert_eq!(crash.status.code(), Some(91));
+    assert_eq!(fixture.remote_effects(), 2);
+    let pending = success(fixture.run(&linked, &["recover", "505"]));
+    let disposition=fixture.write_json("retire.json",&json!({"schema":"csdlc.v3.semantic_merge_retirement_disposition.v1","action":"retire_never_dispatched_merge","operation_id":pending["operation"],"rationale":"Explicit operator retirement for integration"}));
+    let dir = fixture.root.join(".git/csdlc-v3/remote/merges");
+    let original = fs::read_dir(&dir)
+        .unwrap()
+        .map(|e| e.unwrap().path())
+        .filter(|p| {
+            p.to_string_lossy().ends_with(".intent.json")
+                || p.to_string_lossy().ends_with(".target.json")
+        })
+        .map(|p| {
+            let bytes = fs::read(&p).unwrap();
+            (p, bytes)
+        })
+        .collect::<Vec<_>>();
+    let preview = success(fixture.run(
+        &linked,
+        &[
+            "recover",
+            "505",
+            "--disposition",
+            disposition.to_str().unwrap(),
+        ],
+    ));
+    let args = [
+        "recover",
+        "505",
+        "--disposition",
+        disposition.to_str().unwrap(),
+        "--execute",
+        "--preview",
+        preview["preview_digest"].as_str().unwrap(),
+    ];
+    if let Some(point) = crash_point {
+        let crash = fixture.run_with_env(&linked, &args, &[("CSDLC_V3_TEST_CRASH_POINT", point)]);
+        assert_eq!(crash.status.code(), Some(91));
+        assert_eq!(fixture.remote_effects(), 2);
+        let old = fixture.run(
+            &linked,
+            &[
+                "github-pr",
+                "505",
+                "--operation",
+                merge.to_str().unwrap(),
+                "--execute",
+            ],
+        );
+        assert!(!old.status.success());
+        assert_eq!(fixture.remote_effects(), 2);
+    }
+    let result = success(fixture.run(&linked, &args));
+    assert_eq!(result["native_effect_truth"], "not_performed");
+    assert_eq!(result["semantic_outcome"], "failure");
+    issue1171_inventory_settled(&mut fixture, &linked);
+    assert_eq!(fixture.remote_effects(), 2);
+    let old = fixture.run(
+        &linked,
+        &[
+            "github-pr",
+            "505",
+            "--operation",
+            merge.to_str().unwrap(),
+            "--execute",
+        ],
+    );
+    assert!(!old.status.success());
+    assert_eq!(fixture.remote_effects(), 2);
+    // Real integration continuation changes the candidate, invalidates old proof,
+    // and requires a fresh review before publishing the successor.
+    fs::write(
+        linked.join("integration-fix.txt"),
+        "resolved integration conflict\n",
+    )
+    .unwrap();
+    git(&linked, &["add", "integration-fix.txt"]);
+    git(
+        &linked,
+        &["commit", "--quiet", "-m", "Resolve integration conflict"],
+    );
+    let head = git(&linked, &["rev-parse", "HEAD"]);
+    let edit=fixture.write_json("integration-edit.json",&json!({"schema":"csdlc.v3.intent_changes.v1","amendment":{"class":"implementation","transition_approved":true,"implementation_revision":head,"new_commit":true},"cards":{"sor":{"summary":"Integration candidate resolved"}}}));
+    success(fixture.run(
+        &linked,
+        &["edit", "505", "--changes", edit.to_str().unwrap()],
+    ));
+    issue1171_inventory_settled(&mut fixture, &linked);
+    success(fixture.run(&linked, &["proof", "505"]));
+    let review = fixture.write_json("successor-review.json", &external_review(&linked));
+    success(fixture.run(
+        &linked,
+        &["review", "505", "--evidence", review.to_str().unwrap()],
+    ));
+    let mut remote = fixture.remote_pr();
+    remote["head"]["sha"] = json!(head);
+    fixture.set_remote_pr(&remote);
+    success(fixture.run(&linked, &["publish", "505"]));
+    success(fixture.run(
+        &linked,
+        &[
+            "github-pr",
+            "505",
+            "--operation",
+            ready.to_str().unwrap(),
+            "--execute",
+        ],
+    ));
+    fixture.enable_merge_transport(&linked);
+    let successor=fixture.write_json("successor.json",&json!({"action":"pull_request_merge","base":"main","method":"merge","operator_approval":"new explicit approval after integration retirement"}));
+    if test_guards {
+        let args = [
+            "github-pr",
+            "505",
+            "--operation",
+            successor.to_str().unwrap(),
+            "--execute",
+        ];
+        let effects = fixture.remote_effects();
+        let (intent_path, original_intent) = original
+            .iter()
+            .find(|(p, _)| p.to_string_lossy().ends_with(".intent.json"))
+            .unwrap();
+        for field in ["base_sha", "rules"] {
+            let mut altered: Value = serde_json::from_slice(original_intent).unwrap();
+            altered[field] = if field == "base_sha" {
+                json!("f".repeat(40))
+            } else {
+                json!([])
+            };
+            fs::write(intent_path, serde_json::to_vec(&altered).unwrap()).unwrap();
+            let denied = fixture.run(&linked, &args);
+            assert!(
+                !denied.status.success(),
+                "tampered predecessor {field} admitted: {denied:?}"
+            );
+            assert_eq!(fixture.remote_effects(), effects);
+            assert_eq!(
+                fs::read_dir(&dir)
+                    .unwrap()
+                    .filter(|e| e
+                        .as_ref()
+                        .unwrap()
+                        .path()
+                        .to_string_lossy()
+                        .ends_with(".successor.json"))
+                    .count(),
+                0
+            );
+            // Restore exact original bytes only inside this isolated adversarial fixture.
+            fs::write(intent_path, original_intent).unwrap();
+        }
+        let crash = fixture.run_with_env(
+            &linked,
+            &args,
+            &[("CSDLC_V3_TEST_CRASH_POINT", "merge_after_successor_link")],
+        );
+        assert_eq!(crash.status.code(), Some(91), "{crash:?}");
+        assert_eq!(fixture.remote_effects(), effects);
+        let slot = fs::read_dir(&dir)
+            .unwrap()
+            .map(|e| e.unwrap().path())
+            .find(|p| p.to_string_lossy().ends_with(".successor.json"))
+            .unwrap();
+        let slot_bytes = fs::read(&slot).unwrap();
+        // A second valid synthetic review identity at the same candidate produces
+        // a different merge operation. It must not fork the occupied successor slot.
+        let review_value = external_review(&linked);
+        let head = git(&linked, &["rev-parse", "HEAD"]);
+        let key = blake3::hash(review_value["proof_digest"].as_str().unwrap().as_bytes()).to_hex();
+        let retained_review = linked.join(format!(
+            ".csdlc/evidence/505/intent-review/{head}/{key}.json"
+        ));
+        let saved_review = fs::read(&retained_review).unwrap();
+        let mut alternate: Value = serde_json::from_slice(&saved_review).unwrap();
+        alternate["reviewer"] = json!("another-independent-fixture-reviewer");
+        alternate["external_review"]["receipt"]["reviewer"] =
+            json!("another-independent-fixture-reviewer");
+        let receipt: csdlc_v3::commands::remote::TypedReviewReceipt =
+            serde_json::from_value(alternate["external_review"]["receipt"].clone()).unwrap();
+        alternate["external_review"]["receipt_digest"] =
+            json!(csdlc_v3::commands::remote::typed_review_receipt_payload_digest(&receipt));
+        fs::write(&retained_review, serde_json::to_vec(&alternate).unwrap()).unwrap();
+        let conflict = fixture.run(&linked, &args);
+        assert!(
+            !conflict.status.success(),
+            "conflicting successor admitted: {conflict:?}"
+        );
+        assert!(
+            String::from_utf8_lossy(&conflict.stdout)
+                .contains("github_merge_retirement_ineligible"),
+            "unexpected conflicting-successor refusal: {conflict:?}"
+        );
+        assert_eq!(fixture.remote_effects(), effects);
+        assert_eq!(fs::read(&slot).unwrap(), slot_bytes);
+        fs::write(&retained_review, saved_review).unwrap();
+    }
+    success(fixture.run(
+        &linked,
+        &[
+            "github-pr",
+            "505",
+            "--operation",
+            successor.to_str().unwrap(),
+            "--execute",
+        ],
+    ));
+    assert_eq!(fixture.remote_effects(), 4);
+    assert_eq!(fixture.remote_pr()["merged"], true);
+    issue1171_inventory_settled(&mut fixture, &linked);
+    for (path, bytes) in original {
+        assert_eq!(
+            fs::read(path).unwrap(),
+            bytes,
+            "original intent/target rewritten"
+        );
+    }
+    assert_eq!(
+        fs::read_dir(&dir)
+            .unwrap()
+            .filter(|p| p
+                .as_ref()
+                .unwrap()
+                .path()
+                .to_string_lossy()
+                .ends_with(".successor.json"))
+            .count(),
+        1
+    );
+}
+
+#[test]
+fn issue1171_retirement_preserves_history_and_admits_one_successor() {
+    issue1171_retirement_journey(None);
+}
+#[test]
+fn issue1171_retirement_fence_crash_replays_without_dispatch() {
+    issue1171_retirement_journey(Some("merge_retirement_after_fence"));
+}
+#[test]
+fn issue1171_retirement_attachment_crash_repairs_projection() {
+    issue1171_retirement_journey(Some("merge_retirement_after_attachment"));
+}
+
+#[test]
+fn issue1171_successor_rejects_predecessor_tamper_and_conflicting_identity() {
+    issue1171_retirement_journey_with_guards(None, true);
 }

@@ -164,6 +164,15 @@ pub fn pending_operations(
             if request.repository != repository || request.issue == 0 || request.issue != issue {
                 continue;
             }
+            if directory == "merges"
+                && super::merge_retirement::verified_retirement(
+                    root,
+                    digest,
+                    &serde_json::json!({"repository": request.repository, "pull_request": request.pull_request}),
+                )?
+            {
+                continue;
+            }
             let receipt_path = github_mutation_receipt_path(root, digest)?;
             match receipt_path.symlink_metadata() {
                 Ok(m) => {

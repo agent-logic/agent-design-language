@@ -27,6 +27,11 @@ or when an operator gives an explicit repo/path/diff scope.
    `specialist_assignments.json`.
 3. Run the deterministic scaffold helper when local packet access is available:
    - `scripts/prepare_dependency_review.py <packet-root> --out <artifact-root>`
+   - Check the scaffold inventory counts: every recognized manifest and package-manager
+     lockfile in the supplied evidence index is retained without a selection cap.
+     Process/lifecycle locks are excluded. Missing or malformed indexes fail; an
+     empty material inventory is explicitly non-proving. This inventory covers
+     the packet only, so compare it with repository scope before claiming coverage.
 4. Inspect dependency and supply-chain surfaces and write a findings-first
    specialist review artifact.
 5. Hand final dedupe to `repo-review-synthesis`. Hand remediation ideas to a

@@ -1,0 +1,37 @@
+{
+  "turn": 7,
+  "speaker": "ChatGPT",
+  "model_requested": "gpt-5.5",
+  "text": "Exactly. And a very ordinary example is scheduling. Say you ask an AI assistant to set up a dentist appointment. It might check your calendar, find open times, compare them with the dentist\u2019s booking page, pick a slot within your rules, add it to your calendar, and maybe draft a reminder. You did not prompt every tiny step. But you did define the goal and the boundaries. Morning only. Not Tuesday. Ask before confirming. So where should that pause for permission happen?",
+  "words": 82,
+  "prompt_sha256": "21409b9b675416087a0bd7ab531111a997924342e0a714c5442d688dc57d20af",
+  "text_sha256": "06f51eab114395caeaf721b44e92cc04c6c829168c2111cc96f0b2917fdb2171",
+  "editorial_changes": "none",
+  "provider_receipt": {
+    "family": "openai",
+    "model": "gpt-5.5",
+    "http_status": 200,
+    "request_id_present": true,
+    "request_id": "req_4c7d9fa634b54769a7fcfba09e7265c5",
+    "timestamp_unix_ms": 1790271750376,
+    "latency_ms": 5583,
+    "prompt_chars": 4438,
+    "output_chars": 473
+  },
+  "completion": {
+    "model_returned": "gpt-5.5-2026-04-23",
+    "finish_reason": "completed",
+    "usage": {
+      "input_tokens": 924,
+      "input_tokens_details": {
+        "cache_write_tokens": 0,
+        "cached_tokens": 0
+      },
+      "output_tokens": 164,
+      "output_tokens_details": {
+        "reasoning_tokens": 60
+      },
+      "total_tokens": 1088
+    }
+  }
+}

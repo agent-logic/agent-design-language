@@ -120,6 +120,46 @@ assert_current_coverage_workflow_contract() {
   assert_file_not_has "$workflow" '--authority "adl_coverage_always_on"'
 }
 
+# PVF: deterministic small CLI regression; required PR contract, no network/provider.
+python3 - "$ROOT_DIR/.github/workflows/ci.yaml" <<'PYROOTS'
+import os, subprocess, sys
+from pathlib import Path
+workflow = Path(sys.argv[1]).read_text()
+assert workflow.count('# BEGIN independent Cargo roots aggregate contract') == 1
+aggregate_job = workflow.split('  adl-ci:\n', 1)[1].split('\n  adl_coverage_runtime_hosted:', 1)[0]
+assert '# BEGIN independent Cargo roots aggregate contract' in aggregate_job
+selector = workflow.split('      - name: Validate standalone C-SDLC selector\n', 1)[1].split('\n      - name:', 1)[0]
+selector_run = selector.split('        run: |\n', 1)[1]
+# Execute the actual early selector with only its declared input, before any
+# downstream results exist. Aggregate checks do not belong in this job.
+for selected, expected in [('true', True), ('false', True), ('invalid', False)]:
+    env = {'PATH': os.environ['PATH'], 'CSDLC_V2_STANDALONE_REQUIRED': selected}
+    passed = subprocess.run(['bash', '-eu', '-c', selector_run], env=env, capture_output=True).returncode == 0
+    assert passed == expected, ('early_selector', selected)
+block = workflow.split('# BEGIN independent Cargo roots aggregate contract', 1)[1].split('# END independent Cargo roots aggregate contract', 1)[0]
+lanes = {'adl_characterization_standalone': 'adl-characterization', 'adl_resilience_standalone': 'adl-resilience', 'remote_validation_standalone': 'tools/remote_validation'}
+base = os.environ.copy()
+for lane in lanes:
+    base[lane.upper() + '_REQUIRED'] = 'false'
+    base[lane.upper() + '_RESULT'] = 'skipped'
+count = 0
+for lane, root in lanes.items():
+    job = workflow.split('  ' + lane + ':\n', 1)[1]
+    import re
+    job = re.split(r'\n  [A-Za-z0-9_-]+:\n', job, maxsplit=1)[0]
+    assert f"if: needs.adl_path_policy.outputs.{lane}_required == 'true'" in job
+    for command in [f'cargo test --locked --manifest-path {root}/Cargo.toml', f'cargo fmt --manifest-path {root}/Cargo.toml --all -- --check', f'cargo clippy --locked --manifest-path {root}/Cargo.toml --all-targets -- -D warnings']:
+        assert command in job, (lane, command)
+    assert '      - ' + lane + '\n' in workflow
+    assert 'needs.' + lane + '.result' in workflow
+    for selected, result, expected in [('true','success',True),('false','skipped',True),('true','failure',False),('true','cancelled',False),('true','skipped',False),('true','',False),('false','success',False),('invalid','skipped',False)]:
+        env = dict(base, **{lane.upper() + '_REQUIRED': selected, lane.upper() + '_RESULT': result})
+        passed = subprocess.run(['bash', '-eu', '-c', block], env=env, capture_output=True).returncode == 0
+        assert passed == expected, (lane, selected, result)
+        count += 1
+print(f'independent Cargo aggregate: {count} cases passed')
+PYROOTS
+
 tmp_dir="${ADL_CI_PATH_POLICY_TEST_TMP_DIR:-$ROOT_DIR/.csdlc/evidence/ci-path-policy-test/tmp}"
 case "$tmp_dir" in
   "$ROOT_DIR"/.csdlc/evidence/ci-path-policy-test/*) ;;
@@ -226,6 +266,55 @@ EOF
   git add .
   git commit -q -m baseline
   base_sha="$(git rev-parse HEAD)"
+
+  # Verify isolated and mixed ownership using real Git diffs and the installed policy.
+  for root in adl-characterization adl-resilience tools/remote_validation; do
+    case "$root" in
+      adl-characterization) lane=adl_characterization_standalone ;;
+      adl-resilience) lane=adl_resilience_standalone ;;
+      *) lane=remote_validation_standalone ;;
+    esac
+    for suffix in src/lib.rs Cargo.toml Cargo.lock tests/contract.rs; do
+      git reset -q --hard "$base_sha"
+      mkdir -p "$(dirname "$root/$suffix")"
+      printf 'fixture\n' > "$root/$suffix"
+      git add "$root/$suffix"
+      git commit -q -m independent-root
+      output="$("$POLICY" --event-name pull_request --base "$base_sha" --head HEAD --ref refs/pull/1/merge)"
+      assert_has "$output" "${lane}_required=true"
+      assert_has "$output" "rust_required=false"
+      assert_has "$output" "pvf_lane=standalone_focused"
+    done
+    for companion in docs/readme.md adl/src/lib.rs .github/workflows/ci.yaml; do
+      printf '\nfixture\n' >> "$companion"
+      git add "$companion"
+      git commit -q -m mixed-independent-root
+      output="$("$POLICY" --event-name pull_request --base "$base_sha" --head HEAD --ref refs/pull/1/merge)"
+      assert_has "$output" "${lane}_required=true"
+      if [ "$companion" = adl/src/lib.rs ]; then
+        assert_has "$output" "rust_required=true"
+      fi
+    done
+  done
+  git reset -q --hard "$base_sha"
+  for root in adl-characterization adl-resilience tools/remote_validation; do
+    mkdir -p "$root/src"
+    printf 'fixture\n' > "$root/src/lib.rs"
+  done
+  git add adl-characterization adl-resilience tools/remote_validation
+  git commit -q -m all-independent-roots
+  output="$("$POLICY" --event-name pull_request --base "$base_sha" --head HEAD --ref refs/pull/1/merge)"
+  for lane in adl_characterization_standalone adl_resilience_standalone remote_validation_standalone; do
+    assert_has "$output" "${lane}_required=true"
+  done
+  assert_has "$output" "rust_required=false"
+  for event in workflow_dispatch pull_request; do
+    output="$("$POLICY" --event-name "$event")"
+    for lane in adl_characterization_standalone adl_resilience_standalone remote_validation_standalone; do
+      assert_has "$output" "${lane}_required=true"
+    done
+  done
+  git reset -q --hard "$base_sha"
 
   printf 'invalid on Windows\n' > 'docs/windows:illegal.md'
   git add 'docs/windows:illegal.md'

@@ -1,0 +1,145 @@
+{
+  "schema": "codebuddy.review_quality_evaluation.v1",
+  "run_id": "919-packet-quality-independent",
+  "repo_name": "agent-logic/agent-design-language",
+  "repo_ref": "5c4a6149771c637f3c805985b86231077965eab4",
+  "status": "partial",
+  "publication_intent": "public_candidate",
+  "score": null,
+  "scorecard": {
+    "evidence_reference_portability": "pass",
+    "publication_privacy_status": "pass_with_bounded_scan",
+    "scope_and_nonclaims": "pass",
+    "severity_and_role_reconciliation": "pass",
+    "template_compliance": "pass",
+    "unsupported_release_approval_claims": "pass"
+  },
+  "blocking_issues": [],
+  "warnings": [
+    {
+      "id": "PKT-POLICY",
+      "title": "Publication remains explicitly disabled",
+      "action": "Owner controls publication_allowed after all required reviews; quality review does not enable it or grant release approval."
+    }
+  ],
+  "specialist_coverage": {
+    "authored_lanes": 9,
+    "independence": "This evaluator authored tests, demos and ADR supplements. This is independent of lead synthesis and implementation but not an independent second review of those own lanes; another reviewer evaluates synthesis.",
+    "source_review_not_execution": true
+  },
+  "template_compliance": {
+    "required_final_sections_present": true
+  },
+  "unsupported_claims": {
+    "actual_unsupported_approval_claims_found": [],
+    "helper_false_positives": "All10 approval/approved hits discuss source contracts, remediation requirements or limitations; none grants release/publication approval. Demos role is authored despite helper discovery missing its custom role."
+  },
+  "residual_risk_clarity": {
+    "status": "pass",
+    "notes": [
+      "6195 changed paths and4778 retained files are inventories, not blanket source inspection or behavioral proof.",
+      "366 criteria across69 tasks uniquely inventoried with no final qualification PASS.",
+      "51 historical primary reports/contracts read;219 supporting files indexed;20 unavailable.",
+      "No live provider/cloud/release acceptance asserted; #915 successors and #875 deferral retained."
+    ]
+  },
+  "publication_boundary": {
+    "publication_allowed": false,
+    "published_by_evaluator": false,
+    "remediation_verified": false
+  },
+  "recommended_handoffs": [
+    "Lead synthesis: artifact-reference/count reconciliation",
+    "Privacy auditor: public-candidate redaction and portable tool source",
+    "Independent reviewer: final refreshed synthesis"
+  ],
+  "source_snapshot_sha256": {
+    "final_report.md": "876f6f820752386a88090d98476b55ec095d7e3be9027ca0b4178ad5ee8ce9e2",
+    "run_manifest.json": "af0b7638dabad11fd6af9ff1105d56914f49d4ef1b36e3c8bb0310e21723350d",
+    "repo_scope.md": "29b47c1257f71b208ce6f625003aaa490490207de1d52834e788f4d21a1eb425",
+    "findings.json": "111229fa08f16699282a9c3365cb285f88389d20ef94d37934ba0c93bcd826d4",
+    "acceptance-inventory.json": "d4e2bc0dbd6c08f99020d4ac8ee2b2f4467e5f29cc3aa2648e834dd5763ae193",
+    "history-inventory.json": "49aab9789345f7cc9347b4a74825d5b5a6de16013601e970c993c05f999ff8bb",
+    "history-findings-crosswalk.json": "039fc700fbf02b4f84301954f5bc3535fe0f61ad61e69e0b5f96c3046083b7e3",
+    "retained-artifacts.json": "961ada490d6d77ca62cd0c3c6320c549f826abe506dd99c90f1ee7d48a1f2bce",
+    "baseline-authority.json": "b1d3ff526f06b8fdd78042e71b3f022838fb7bf1cb02cd6b53183effe40eefc1",
+    "remediation-groups.json": "33c1ea7b132f26ddaf0d5f09e023c244112c3104679e9acc21a369b5306bfe6f",
+    "specialist_reviews/evidence.md": "9c9b7a9b255c0df8eb359081855b297fefa1570ab86070907180a99d8ced11a8",
+    "specialist_reviews/demos.md": "d1f6179ead1abc591d6e81b869bceb82fbf4415dd634a9612c784ed38d42eda1",
+    "coverage/tests-coverage.json": "6492765efd263fd75d8fdc07f3c0673da04c20ab924a8434de683c4d7a8cd49e",
+    "coverage/docs-coverage.json": "ec51829806ff50db5914c011806da966a28d7a707fcd176be0a421366e4aa6b1"
+  },
+  "helper_result": "lanes/quality-helper/review_quality_evaluation.json",
+  "limitations": [
+    "Snapshot quality evaluation; later refreshed packet requires targeted recheck.",
+    "No product source edits, lifecycle mutations or new test execution."
+  ],
+  "targeted_recheck": {
+    "status": "all_review_packet_repairs_verified_publication_policy_retained",
+    "resolved": [
+      "27 finding count4P1/20P2/3P3 consistent",
+      "All853 tests rows resolved;195 full22hunk30cross606cohort",
+      "All317 docs rows reconciled; restricted scope explicitly remains",
+      "History51read219indexed20unavailable coherent",
+      "Original lanes reports/proof directories now retained",
+      "DEP004 portable source + external SHA256 and no ADL-commit binding",
+      "No actual operator home/FastWork paths in refreshed packet",
+      "All20 unique criterion evidence refs resolve:11 packet and9 frozen source",
+      "Independent privacy content pass_with_bounded_scan; synthetic hostile fixtures explicitly classified, no actual secret/private operator path identified"
+    ],
+    "remaining": [
+      "Owner publication policy remains false; not a privacy defect or unresolved packet correction."
+    ],
+    "source_refs": "Repository-relative references checked against frozen918 candidate, not review919 checkout.",
+    "snapshot_sha256": {
+      "final_report.md": "876f6f820752386a88090d98476b55ec095d7e3be9027ca0b4178ad5ee8ce9e2",
+      "findings.json": "111229fa08f16699282a9c3365cb285f88389d20ef94d37934ba0c93bcd826d4",
+      "acceptance-inventory.json": "d4e2bc0dbd6c08f99020d4ac8ee2b2f4467e5f29cc3aa2648e834dd5763ae193",
+      "coverage/docs-coverage.json": "f2fd15108f616bbb1e484e289a3faab66be3dea64111117384e28d95c1e7842d",
+      "coverage/tests-coverage.json": "6492765efd263fd75d8fdc07f3c0673da04c20ab924a8434de683c4d7a8cd49e",
+      "external-source-provenance.json": "86f38d23cd43a16b65c29787f1402aeb40a2c8ae2d7f7b06653ad9ebe9275c03"
+    }
+  },
+  "prior_blocking_issues": [
+    {
+      "id": "PKT-Q01",
+      "severity": "P2",
+      "title": "Resolve local-only evidence references in the publication packet",
+      "evidence": "acceptance-inventory.json includes lanes/docs-report.md, lanes/tests-report.md, lanes/adr-report.md, lanes/lead-code-coverage.json and demos-artifacts/verification.json; those paths do not exist under full-review. Reports moved to specialist_reviews and ledgers to coverage. Several explicitly cited local reproduction records are absent too.",
+      "impact": "A consumer of the public packet cannot follow its claimed evidence chain without the private invocation layout. Source repo-relative paths should remain clearly separate and are not the problem.",
+      "action": "Rewrite artifact references to correct packet-relative paths; include sanitized bounded reproduction records where claims cite them or identify retained-only unavailable evidence explicitly. Verify each local artifact reference resolves."
+    },
+    {
+      "id": "PKT-Q02",
+      "severity": "P2",
+      "title": "Complete publication privacy status and portable external-tool identity",
+      "evidence": "No redaction status artifact was present at inspection. DEP-004 path in findings.json/final_report.md contains an absolute operator home path to an external skill script.",
+      "impact": "Public-candidate packet lacks its declared publication safety gate and exposes host-specific identity. The external skill defect also needs its own tool identity rather than implication it is part of frozen ADL bytes.",
+      "action": "Finish redaction audit, use a portable skill-relative source identity and retain reviewed script digest/limitations. Do not treat mentions of legitimate approval contracts as unsupported release approval."
+    }
+  ],
+  "prior_warnings": [
+    {
+      "id": "PKT-W01",
+      "title": "Refresh final register and complementary coverage",
+      "evidence": "Snapshot has26 findings, tests4 and one pending transactions row; newly completed transactions addendum contributes P3 TEST-TRANS-001 and closes853-row source denominator. docs coverage retains75 cross_lane_pending rows awaiting reconciliation.",
+      "action": "Copy final lane artifacts and transactions addendum, update27-finding severity/role/group counts, reconcile75 docs references before completion declaration."
+    },
+    {
+      "id": "PKT-W02",
+      "title": "Distinguish unavailable historical entries from indexed supporting files",
+      "evidence": "history inventory is51 read +219 available indexed +20 unavailable. Evidence report calls239 supporting entries indexed.",
+      "action": "Use exact three-way partition. Preserve explicit no individual semantic rereview or reexecution claim for supporting corpora."
+    }
+  ],
+  "privacy_audit_ref": "lanes/packet-privacy-independent.json",
+  "final_snapshot_sha256": {
+    "final_report.md": "876f6f820752386a88090d98476b55ec095d7e3be9027ca0b4178ad5ee8ce9e2",
+    "findings.json": "111229fa08f16699282a9c3365cb285f88389d20ef94d37934ba0c93bcd826d4",
+    "acceptance-inventory.json": "598cf3ff2369bbf99250e9408d24e15b56cacfe9c88a0ece3446ebc5487ef321",
+    "run_manifest.json": "af0b7638dabad11fd6af9ff1105d56914f49d4ef1b36e3c8bb0310e21723350d",
+    "coverage/tests-coverage.json": "6492765efd263fd75d8fdc07f3c0673da04c20ab924a8434de683c4d7a8cd49e",
+    "coverage/docs-coverage.json": "f2fd15108f616bbb1e484e289a3faab66be3dea64111117384e28d95c1e7842d",
+    "external-source-provenance.json": "86f38d23cd43a16b65c29787f1402aeb40a2c8ae2d7f7b06653ad9ebe9275c03"
+  }
+}

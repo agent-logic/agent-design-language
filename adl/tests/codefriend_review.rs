@@ -940,6 +940,90 @@ fn review_shell_immediate_retry_after_cancel_preserves_active_attempt_settlement
 }
 
 #[test]
+fn review_shell_rejects_retry_while_active_provider_attempt_is_incomplete() {
+    let fixture = Fixture::new();
+    let admission = fixture.admit();
+    let packet_id = admission["packet_id"].as_str().unwrap().to_string();
+    let evidence_id = source_evidence_id(&admission);
+    let responses = ["correctness", "security", "adversarial", "constitutional"]
+        .iter()
+        .map(|lane| lane_response(lane, evidence_id))
+        .collect();
+    let (endpoint, _requests) = provider_server_with_delay(responses, Duration::from_secs(2));
+    let provider_request = fixture.provider_request(&endpoint);
+    let out_dir = fixture.temp.join("review-shell-active-retry-refused");
+    let child = Command::new(env!("CARGO_BIN_EXE_adl"))
+        .args([
+            "codefriend",
+            "review",
+            "shell",
+            "start",
+            "--store",
+            fixture.store.to_str().unwrap(),
+            "--packet-id",
+            &packet_id,
+            "--provider-request",
+            provider_request.to_str().unwrap(),
+            "--out",
+            out_dir.to_str().unwrap(),
+            "--run-id",
+            "active-attempt-one",
+        ])
+        .env("ADL_CODEFRIEND_REVIEW_FIXTURE_KEY", "fixture-key")
+        .env("ADL_OBSERVABILITY_OTEL", "0")
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .unwrap();
+    let deadline = Instant::now() + Duration::from_secs(5);
+    while !out_dir.join("operator-state.json").exists() && Instant::now() < deadline {
+        thread::sleep(Duration::from_millis(20));
+    }
+    let (retry_endpoint, _retry_requests) = provider_server(
+        ["correctness", "security", "adversarial", "constitutional"]
+            .iter()
+            .map(|lane| lane_response(lane, evidence_id))
+            .collect(),
+    );
+    let retry_provider_request = fixture.provider_request(&retry_endpoint);
+    let retry = codefriend_review_shell(&[
+        "retry",
+        "--out",
+        out_dir.to_str().unwrap(),
+        "--provider-request",
+        retry_provider_request.to_str().unwrap(),
+        "--run-id",
+        "forbidden-attempt-two",
+    ]);
+    assert!(!retry.status.success());
+    assert!(
+        String::from_utf8_lossy(&retry.stderr).contains("retry_requires_settled_active_attempt")
+    );
+    let state = shell_state(&codefriend_review_shell(&[
+        "inspect",
+        "--out",
+        out_dir.to_str().unwrap(),
+    ]));
+    assert_eq!(state["active_attempt"], 1);
+    assert_eq!(state["attempts"].as_array().unwrap().len(), 1);
+    let cancelled = shell_state(&codefriend_review_shell(&[
+        "cancel",
+        "--out",
+        out_dir.to_str().unwrap(),
+        "--reason",
+        "test cleanup",
+    ]));
+    assert_eq!(cancelled["active_attempt"], 1);
+    assert!(out_dir.join("attempts/1/cancel-request.json").exists());
+    let output = child.wait_with_output().unwrap();
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+}
+
+#[test]
 fn review_shell_retry_after_pre_run_failure_uses_settlement_marker() {
     let fixture = Fixture::new();
     let admission = fixture.admit();
@@ -1021,6 +1105,93 @@ fn review_shell_retry_after_pre_run_failure_uses_settlement_marker() {
     assert_eq!(settlement["review_out"], "attempts/1/review");
     assert!(settlement["summary_ref"].is_null());
     assert!(!settlement["failure"].as_str().unwrap().is_empty());
+}
+
+#[test]
+fn review_shell_serializes_concurrent_retries_before_provider_dispatch() {
+    let fixture = Fixture::new();
+    let admission = fixture.admit();
+    let packet_id = admission["packet_id"].as_str().unwrap().to_string();
+    let invalid = json!({}).to_string();
+    let (bad_endpoint, _bad_requests) = provider_server(vec![invalid.clone(); 4]);
+    let bad_request = fixture.provider_request(&bad_endpoint);
+    let out_dir = fixture.temp.join("review-shell-concurrent-retry");
+    let failed = shell_state(&codefriend_review_shell(&[
+        "start",
+        "--store",
+        fixture.store.to_str().unwrap(),
+        "--packet-id",
+        &packet_id,
+        "--provider-request",
+        bad_request.to_str().unwrap(),
+        "--out",
+        out_dir.to_str().unwrap(),
+        "--run-id",
+        "concurrent-retry-failed",
+    ]));
+    assert_eq!(failed["status"], "failed");
+
+    let evidence_id = source_evidence_id(&admission);
+    let responses = ["correctness", "security", "adversarial", "constitutional"]
+        .iter()
+        .map(|lane| lane_response(lane, evidence_id))
+        .collect();
+    let (endpoint, requests) = provider_server_with_delay(responses, Duration::from_millis(500));
+    let provider_request = fixture.provider_request(&endpoint);
+    let spawn_retry = |run_id: &str| {
+        Command::new(env!("CARGO_BIN_EXE_adl"))
+            .args(["codefriend", "review", "shell", "retry", "--out"])
+            .arg(&out_dir)
+            .arg("--provider-request")
+            .arg(&provider_request)
+            .args(["--run-id", run_id])
+            .env("ADL_CODEFRIEND_REVIEW_FIXTURE_KEY", "fixture-key")
+            .env("ADL_OBSERVABILITY_OTEL", "0")
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped())
+            .spawn()
+            .unwrap()
+    };
+    let first = spawn_retry("concurrent-retry-a");
+    let second = spawn_retry("concurrent-retry-b");
+    let first = first.wait_with_output().unwrap();
+    let second = second.wait_with_output().unwrap();
+    assert_eq!(
+        [first.status.success(), second.status.success()]
+            .into_iter()
+            .filter(|success| *success)
+            .count(),
+        1,
+        "exactly one retry must reserve and dispatch: first stderr={:?}, second stderr={:?}",
+        String::from_utf8_lossy(&first.stderr),
+        String::from_utf8_lossy(&second.stderr)
+    );
+    let rejected = if first.status.success() {
+        &second
+    } else {
+        &first
+    };
+    assert!(
+        String::from_utf8_lossy(&rejected.stderr).contains("retry_requires_settled_active_attempt")
+            || String::from_utf8_lossy(&rejected.stderr).contains("retry_requires_noncomplete_run")
+    );
+    for _ in 0..4 {
+        requests
+            .recv_timeout(Duration::from_secs(5))
+            .expect("winning retry must execute exactly four provider lanes");
+    }
+    assert!(
+        requests.try_recv().is_err(),
+        "the rejected retry must not dispatch another provider request"
+    );
+    let state = shell_state(&codefriend_review_shell(&[
+        "inspect",
+        "--out",
+        out_dir.to_str().unwrap(),
+    ]));
+    assert_eq!(state["status"], "complete");
+    assert_eq!(state["active_attempt"], 2);
+    assert_eq!(state["attempts"].as_array().unwrap().len(), 2);
 }
 
 #[test]

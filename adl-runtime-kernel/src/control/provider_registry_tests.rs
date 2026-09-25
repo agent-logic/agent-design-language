@@ -37,7 +37,11 @@ impl RuntimeProviderAdapter for Fixture {
                 provider: id.into(),
                 adapter: "sixth".into(),
                 model_ref: binding.model.clone(),
-                provider_model_id: binding.model.clone(),
+                provider_model_id: if binding.model == "fixture-model-alias" {
+                    "provider-native-model-id".into()
+                } else {
+                    binding.model.clone()
+                },
                 endpoint_class: "fixture".into(),
                 capabilities: self.capabilities(),
                 definition_generation: 0,
@@ -905,4 +909,95 @@ async fn concurrent_provider_replacement_cannot_commit_a_stale_agent_binding() {
             serde_json::from_slice(&fs::read(store_path).unwrap()).unwrap();
         assert_eq!(store["agents"].as_array().unwrap().len(), 0);
     }
+}
+
+// PVF #1159: deterministic provider-accounting/incident integration, fixture
+// inference only; local files/CPU, required alias recovery regression.
+#[tokio::test]
+async fn resident_health_alias_recovers_same_incident_across_roster_refresh() {
+    let temp = tempfile::tempdir().unwrap();
+    let calls = Arc::new(AtomicUsize::new(0));
+    let svc = service(temp.path().join("admissions.json"), calls.clone());
+    let mut request = binding();
+    request.model = "fixture-model-alias".into();
+    svc.admit_agent(request.clone()).await.unwrap();
+    let observation = || {
+        svc.resident_health_observations()
+            .into_iter()
+            .find(|o| o.id == request.id)
+            .unwrap()
+    };
+    let before = observation();
+    assert!(before.unhealthy);
+    assert_eq!(before.reason, "inference_unverified");
+    assert_eq!(
+        svc.agent_roster_detail(&request.id)
+            .unwrap()
+            .model
+            .as_deref(),
+        Some("provider-native-model-id")
+    );
+    // A fixed opening instant avoids coupling the proof to millisecond sleeps.
+    svc.resident_health
+        .lock()
+        .unwrap()
+        .observe(&[before.clone()], true, 0)
+        .unwrap();
+    let incident_id = svc.resident_health.lock().unwrap().snapshot()[0]
+        .incident_id
+        .clone();
+    // Successful evidence for the native ID is not evidence for this binding.
+    svc.recorder
+        .provider_usage
+        .begin(
+            &request.name,
+            &request.provider,
+            "provider-native-model-id",
+            crate::provider_usage::ProviderRequestReason::RecoveryProbe,
+            "probe",
+        )
+        .success("READY");
+    assert!(observation().unhealthy);
+    let accounting = svc.recorder.provider_usage.begin(
+        &request.name,
+        &request.provider,
+        &request.model,
+        crate::provider_usage::ProviderRequestReason::RecoveryProbe,
+        "probe",
+    );
+    let reply = crate::provider_registry::complete(
+        svc.recorder.providers.clone(),
+        provider_binding(&request),
+        "probe".into(),
+        &CancellationToken::new(),
+    )
+    .await
+    .unwrap();
+    accounting.success(&reply);
+    for refreshed in [false, true] {
+        if refreshed {
+            svc.refresh_dynamic_agent_health().await;
+        }
+        let after = observation();
+        assert!(!after.unhealthy);
+        assert!(after.inference_verified);
+        assert_eq!(after.binding, before.binding);
+        svc.supervise_resident_health(true).unwrap();
+        let incidents = svc.resident_health.lock().unwrap().snapshot();
+        let recovered = incidents
+            .iter()
+            .find(|i| i.resident_id == request.id)
+            .unwrap();
+        assert_eq!(recovered.incident_id, incident_id);
+        assert_eq!(
+            recovered.state,
+            crate::resident_health::IncidentState::Recovered
+        );
+        assert_eq!(recovered.response_status, "verified_recovery");
+    }
+    assert_eq!(
+        calls.load(Ordering::SeqCst),
+        1,
+        "health polling must not infer"
+    );
 }
