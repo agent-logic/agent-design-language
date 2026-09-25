@@ -1,5 +1,7 @@
 # v0.93 First-Pass Planning Review
 
+Historical #1047 review: its 64-result denominator predates #922. Current scope and split task boundaries are recorded in EXECUTION_PLAN_v0.93.json and FEATURE_COVERAGE_v0.93.md; this review is not acceptance of the expanded draft.
+
 Status: full-package independent review and correction recheck passed. PR publication and exact-head lifecycle proof are recorded separately.
 
 ## Baseline review

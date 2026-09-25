@@ -4,6 +4,28 @@ use serde_json::Value;
 use std::collections::{BTreeMap, BTreeSet};
 use std::path::PathBuf;
 
+// PVF: planning-contract lane, deterministic local document/graph validation;
+// bounded Python subprocess and repository reads, no network or product claims.
+#[test]
+fn approved_release_split_preserves_scope_and_rejects_invalid_plans() {
+    let output = std::process::Command::new("python3")
+        .env("PYTHONDONTWRITEBYTECODE", "1")
+        .arg(root().join("validate_split.py"))
+        .output()
+        .expect("Python 3 is required for the release-split planning validator");
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    let report: Value = serde_json::from_slice(&output.stdout).expect("validator JSON report");
+    assert_eq!(report["status"], "pass");
+    assert_eq!(report["source_tasks"], 83);
+    assert_eq!(report["successor_tasks"], serde_json::json!([43, 53]));
+    assert_eq!(report["negative_fixtures"], 12);
+    assert_eq!(report["execution_opened"], false);
+}
+
 fn root() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR"))
         .parent()
@@ -77,14 +99,14 @@ fn check(plan: &Value) -> Result<(), String> {
     if by_id["RV-01"]["pvf"] != "planning_contract" {
         return Err("RV-01 requires a design-review proof gate".into());
     }
-    for i in 2..=8 {
+    for i in 2..=11 {
         if by_id[format!("RV-{i:02}").as_str()]["pvf"] != "installed_integration" {
             return Err(format!("RV-{i:02} requires installed implementation proof"));
         }
     }
     let mut release = BTreeSet::new();
     visit("TAIL-10", &by_id, &mut BTreeSet::new(), &mut release)?;
-    for prefix_count in [("RV", 8), ("CF", 7)] {
+    for prefix_count in [("RV", 11), ("CF", 7), ("CT", 10), ("CM", 4)] {
         for i in 1..=prefix_count.1 {
             let id = format!("{}-{i:02}", prefix_count.0);
             if !release.contains(id.as_str()) {
@@ -114,8 +136,56 @@ fn check(plan: &Value) -> Result<(), String> {
             return Err("CodeFriend separation".into());
         }
     }
-    if plan["status"] != "first_pass_not_open" {
+    if !matches!(
+        plan["status"].as_str(),
+        Some("first_pass_not_open" | "reconciled_draft_pending_final_predecessor")
+    ) {
         return Err("opening claim".into());
+    }
+    let schedule = &plan["sprint_plan"];
+    let sprints = schedule["sprints"].as_array().ok_or("missing sprints")?;
+    if schedule["sprint_count"].as_u64() != Some(sprints.len() as u64) {
+        return Err("sprint count mismatch".into());
+    }
+    let mut assigned = BTreeMap::new();
+    for (index, sprint) in sprints.iter().enumerate() {
+        let number = (index + 1) as u64;
+        if sprint["number"].as_u64() != Some(number) {
+            return Err("nonconsecutive sprint numbering".into());
+        }
+        let members = sprint["work_packages"]
+            .as_array()
+            .ok_or("missing members")?;
+        if members.is_empty() {
+            return Err("empty sprint".into());
+        }
+        for member in members {
+            let id = member.as_str().ok_or("invalid sprint member")?;
+            if !by_id.contains_key(id) || assigned.insert(id, number).is_some() {
+                return Err(format!("unknown or duplicate sprint member {id}"));
+            }
+        }
+    }
+    let split_end = *assigned.get("RD-11").ok_or("unscheduled split gate")?;
+    for (id, row) in &by_id {
+        let number = *assigned
+            .get(id)
+            .ok_or_else(|| format!("unscheduled {id}"))?;
+        if row["sprint"].as_u64() != Some(number) {
+            return Err(format!("sprint membership mismatch {id}"));
+        }
+        let split_task = *id == "WP-01" || id.starts_with("RD-");
+        if (split_task && number > split_end) || (!split_task && number <= split_end) {
+            return Err(format!("split must finish before features: {id}"));
+        }
+        for dep in row["depends_on"].as_array().unwrap() {
+            if assigned
+                .get(dep.as_str().unwrap())
+                .is_none_or(|n| *n > number)
+            {
+                return Err(format!("sprint precedes dependency: {id}"));
+            }
+        }
     }
     Ok(())
 }
@@ -131,6 +201,11 @@ fn issue_wave_and_specifications_match_canonical_results() {
         read("WP_EXECUTION_SPECIFICATIONS_v0.93.yaml")["work_packages"]
     );
     let wave = read("WP_ISSUE_WAVE_v0.93.yaml");
+    assert_eq!(p["sprint_plan"], wave["sprint_plan"]);
+    assert_eq!(
+        p["sprint_plan"],
+        read("WP_EXECUTION_SPECIFICATIONS_v0.93.yaml")["sprint_plan"]
+    );
     let rows = p["work_packages"].as_array().unwrap();
     let w = wave["work_packages"].as_array().unwrap();
     assert_eq!(rows.len(), w.len());
@@ -141,9 +216,48 @@ fn issue_wave_and_specifications_match_canonical_results() {
             ("repository", "repository"),
             ("depends_on", "depends_on"),
             ("result", "outcome"),
+            ("sprint", "sprint"),
         ] {
             assert_eq!(r[a], w[b], "{} {a}", r["id"]);
         }
+    }
+}
+
+#[test]
+fn rejects_missing_duplicate_and_premature_sprint_assignments() {
+    let mut p = read("EXECUTION_PLAN_v0.93.json");
+    p["sprint_plan"]["sprints"][0]["work_packages"]
+        .as_array_mut()
+        .unwrap()
+        .pop();
+    assert!(check(&p).is_err());
+    let mut p = read("EXECUTION_PLAN_v0.93.json");
+    p["sprint_plan"]["sprints"][0]["work_packages"]
+        .as_array_mut()
+        .unwrap()
+        .push(serde_json::json!("WP-01"));
+    assert!(check(&p).is_err());
+    for (id, target) in [("CF-01", 1_u64), ("CT-03", 2)] {
+        let mut p = read("EXECUTION_PLAN_v0.93.json");
+        for sprint in p["sprint_plan"]["sprints"].as_array_mut().unwrap() {
+            sprint["work_packages"]
+                .as_array_mut()
+                .unwrap()
+                .retain(|v| v != id);
+            if sprint["number"] == target {
+                sprint["work_packages"]
+                    .as_array_mut()
+                    .unwrap()
+                    .push(serde_json::json!(id));
+            }
+        }
+        p["work_packages"]
+            .as_array_mut()
+            .unwrap()
+            .iter_mut()
+            .find(|r| r["id"] == id)
+            .unwrap()["sprint"] = serde_json::json!(target);
+        assert!(check(&p).is_err(), "allowed premature {id}");
     }
 }
 #[test]
@@ -192,5 +306,22 @@ fn rejects_design_and_implementation_proof_lane_inversion() {
             .find(|r| r["id"] == id)
             .unwrap()["pvf"] = serde_json::json!(lane);
         assert!(check(&p).is_err());
+    }
+}
+
+#[test]
+fn rejects_omitted_template_and_citizen_release_requirements() {
+    for (id, deps) in [
+        ("CF-05", serde_json::json!(["CF-04"])),
+        ("INTEGRATE", serde_json::json!(["DEMO-GOV", "DEMO-SEC"])),
+    ] {
+        let mut p = read("EXECUTION_PLAN_v0.93.json");
+        p["work_packages"]
+            .as_array_mut()
+            .unwrap()
+            .iter_mut()
+            .find(|r| r["id"] == id)
+            .unwrap()["depends_on"] = deps;
+        assert!(check(&p).unwrap_err().contains("release omits"));
     }
 }

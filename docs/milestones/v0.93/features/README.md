@@ -1,3 +1,5 @@
+> **Superseded combined plan.** The operator-approved split is planned under #922 in [v0.93.1](../../v0.93.1/README.md) (repo split, templates and CodeFriend Beta 1 launch) and [v0.93.2](../../v0.93.2/README.md) (remaining platform work). The original combined scope below is retained for traceability; it does not require Runtime v4 before Beta 1 launch or authorize execution.
+
 # v0.93 Feature Plans
 
 ## Status
@@ -6,6 +8,9 @@ Forward-planning feature contracts. These documents prepare v0.93 for later
 WP-01 issue-wave authoring. They are not implementation closeout records.
 
 ## Feature Documents
+
+- [Versioned artifact templates and style guides](CODEFRIEND_ARTIFACT_TEMPLATES_AND_STYLE_GUIDES_v0.93.md)
+- [Citizen reproduction and migration](CITIZEN_REPRODUCTION_AND_MIGRATION_v0.93.md)
 
 - [CodeFriend launch](CODEFRIEND_LAUNCH_v0.93.md)
 - [Runtime v4 plugin system](RUNTIME_V4_PLUGIN_SYSTEM_v0.93.md)

@@ -1,3 +1,5 @@
+> **Superseded combined plan.** The operator-approved split is planned under #922 in [v0.93.1](../v0.93.1/README.md) (repo split, templates and CodeFriend Beta 1 launch) and [v0.93.2](../v0.93.2/README.md) (remaining platform work). The original combined scope below is retained for traceability; it does not require Runtime v4 before Beta 1 launch or authorize execution.
+
 # v0.93 Draft Release Notes
 
 ## Status
@@ -69,7 +71,7 @@ The final notes must not claim:
 
 ## Metadata
 
-Planning template set: 1.1.0. Target: v0.93. Authoring issue: #1047 in v0.92.2. Accountable planning role: milestone owner; named implementation owners are assigned before opening.
+Planning template set: 1.1.0. Target: v0.93. Authoring issue: #1047; current reconciliation: #922 in v0.92.2. Accountable planning role: milestone owner; named implementation owners are assigned before opening.
 
 ## How To Use
 
@@ -106,3 +108,18 @@ Resolve named decisions, incorporate #922 final residuals, then explicitly open 
 ## Exit Criteria
 
 Published notes describe only accepted behavior and link verified product versions without private evidence disclosure.
+
+
+## Confirmed scope reconciliation — #922
+
+The reconciled graph contains **83 candidate results**, including required
+CT-01–CT-10 branded artifact templates/style guides and CM-01–CM-04 citizen
+reproduction/migration. CT-05 gates CF-05; CM-04 gates INTEGRATE. All remain
+behind the accepted repository split. See [feature coverage](FEATURE_COVERAGE_v0.93.md)
+for all 21 inherited v0.93 feature rows and the two confirmed additions.
+
+#922 drafting is authorized early; accepted final #921 residuals and the final
+v0.92.2 handoff remain pending reconciliation before final planning acceptance.
+This package does not open v0.93, establish implementation proof or approve
+publication. Runtime v4, CodeFriend launch and both additions cannot be silently
+deferred. Existing #875/#671 retain separate identities in the issue ledger.

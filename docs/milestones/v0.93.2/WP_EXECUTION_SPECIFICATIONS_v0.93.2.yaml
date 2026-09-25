@@ -1,0 +1,2104 @@
+{
+  "milestone": "v0.93.2",
+  "status": "approved_scope_draft_not_open",
+  "work_packages": [
+    {
+      "id": "WP-01",
+      "title": "Open the reviewed v0.93.2 execution wave",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "v0.93.1/TAIL-10",
+        "v0.93.1/RD-11"
+      ],
+      "result": "Open only the reviewed remaining-platform wave after accepted v0.93.1 closure and explicit authorization; consume existing destination repositories and issue identities without repeating the split.",
+      "acceptance": [
+        "Open only the reviewed remaining-platform wave after accepted v0.93.1 closure and explicit authorization; consume existing destination repositories and issue identities without repeating the split.",
+        "No launch, paid run, cloud change or issue creation inferred from planning approval."
+      ],
+      "negative_cases": [
+        "Unaccepted predecessor",
+        "Missing opening approval",
+        "Duplicate issue identities"
+      ],
+      "phase": "opening",
+      "source": "README.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Open the reviewed v0.93.2 execution wave",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 1,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "WP-01",
+        "kind": "version_specific_gate"
+      }
+    },
+    {
+      "id": "RV-01",
+      "title": "Resolve plugin lifecycle design findings",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "v0.93.1/RD-11",
+        "WP-01"
+      ],
+      "result": "An accepted plugin contract defines topology precedence, epochs, durable activation journal, in-flight delivery, cancellation, versioned state/config migration, two-phase reconfiguration, dependency-safe removal and recovery classes.",
+      "acceptance": [
+        "An accepted plugin contract defines topology precedence, epochs, durable activation journal, in-flight delivery, cancellation, versioned state/config migration, two-phase reconfiguration, dependency-safe removal and recovery classes.",
+        "Independent design review resolves actionable findings against the versioned plugin contract and explicit success, refusal and recovery scenarios. Implementation and installed-consumer proof are delivered by RV-02 through RV-11, not required to admit RV-02."
+      ],
+      "negative_cases": [
+        "Manifest self-grants",
+        "Undefined crash recovery"
+      ],
+      "phase": "runtime_v4",
+      "source": "features/RUNTIME_V4_PLUGIN_SYSTEM_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No Runtime implementation or installed qualification claimed by design-review acceptance"
+      ],
+      "task_boundary": {
+        "single_result": "Resolve plugin lifecycle design findings",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 1,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "RV-01",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "RV-02",
+      "title": "Adapt built-in components to the native plugin contract",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "RV-01"
+      ],
+      "result": "Existing Runtime behavior and identity survive native adapter conversion with no second scheduler.",
+      "acceptance": [
+        "Existing Runtime behavior and identity survive native adapter conversion with no second scheduler.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Behavior parity regression"
+      ],
+      "phase": "runtime_v4",
+      "source": "features/RUNTIME_V4_PLUGIN_SYSTEM_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Adapt built-in components to the native plugin contract",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 1,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "RV-02",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "RV-03",
+      "title": "Implement recoverable plugin generation transitions",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "RV-02"
+      ],
+      "result": "The durable generation transaction stages, quiesces, activates and rolls back to one fenced generation after interruption; in-flight work and cancellation retain their declared disposition.",
+      "acceptance": [
+        "The durable generation transaction stages, quiesces, activates and rolls back to one fenced generation after interruption; in-flight work and cancellation retain their declared disposition.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Interrupted activation loses owner",
+        "Stale generation accepts work",
+        "Rollback duplicates in-flight delivery"
+      ],
+      "phase": "runtime_v4",
+      "source": "features/RUNTIME_V4_PLUGIN_SYSTEM_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Implement recoverable plugin generation transitions",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 1,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "RV-03",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "RV-09",
+      "title": "Migrate versioned plugin state",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "RV-03"
+      ],
+      "result": "An installed plugin migrates declared prior-version state to the selected version and preserves the prior generation when the migrator refuses or fails.",
+      "acceptance": [
+        "An installed plugin migrates declared prior-version state to the selected version and preserves the prior generation when the migrator refuses or fails.",
+        "Exact versioned input/output evidence and positive/negative scenario counts are retained; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Unsupported state version",
+        "Migrator failure mutates prior state",
+        "Retry repeats non-idempotent migration"
+      ],
+      "phase": "runtime_v4",
+      "source": "features/RUNTIME_V4_PLUGIN_SYSTEM_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Migrate versioned plugin state",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 1,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "RV-09",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "RV-10",
+      "title": "Reconfigure a plugin atomically",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "RV-09"
+      ],
+      "result": "Versioned configuration migration and two-phase validation/activation apply one accepted configuration, or preserve the prior version and active configuration on refusal, failure or interruption.",
+      "acceptance": [
+        "Versioned configuration migration and two-phase validation/activation apply one accepted configuration, or preserve the prior version and active configuration on refusal, failure or interruption.",
+        "Exact versioned input/output evidence and positive/negative scenario counts are retained; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Invalid configuration activated",
+        "Interrupted apply loses known-good configuration",
+        "Credential scope changes silently",
+        "Unsupported configuration version",
+        "Configuration migrator failure loses prior version"
+      ],
+      "phase": "runtime_v4",
+      "source": "features/RUNTIME_V4_PLUGIN_SYSTEM_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Reconfigure a plugin atomically",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 1,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "RV-10",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "RV-11",
+      "title": "Remove a plugin without breaking dependents",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "RV-10"
+      ],
+      "result": "A requested plugin removal checks dependencies and in-flight work, refuses unsafe removal, and completes authorized removal with durable recovery state.",
+      "acceptance": [
+        "A requested plugin removal checks dependencies and in-flight work, refuses unsafe removal, and completes authorized removal with durable recovery state.",
+        "Exact versioned input/output evidence and positive/negative scenario counts are retained; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Live dependent orphaned",
+        "Unsafe removal accepted",
+        "Interrupted removal resurrects stale generation"
+      ],
+      "phase": "runtime_v4",
+      "source": "features/RUNTIME_V4_PLUGIN_SYSTEM_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Remove a plugin without breaking dependents",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 1,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "RV-11",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "RV-04",
+      "title": "Run a governed process plugin",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "RV-11"
+      ],
+      "result": "One real non-core plugin uses authenticated bounded transport, deadlines and process supervision.",
+      "acceptance": [
+        "One real non-core plugin uses authenticated bounded transport, deadlines and process supervision.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Orphan process",
+        "Hung handler",
+        "Unbounded queue"
+      ],
+      "phase": "runtime_v4",
+      "source": "features/RUNTIME_V4_PLUGIN_SYSTEM_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Run a governed process plugin",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 1,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "RV-04",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "RV-05",
+      "title": "Run a bounded WASM component plugin",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "RV-04"
+      ],
+      "result": "The canonical contract drives a default-deny WIT adapter with enforced memory, time and host-call limits.",
+      "acceptance": [
+        "The canonical contract drives a default-deny WIT adapter with enforced memory, time and host-call limits.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Unapproved import",
+        "Timeout bypass"
+      ],
+      "phase": "runtime_v4",
+      "source": "features/RUNTIME_V4_PLUGIN_SYSTEM_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Run a bounded WASM component plugin",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 1,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "RV-05",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "RV-06",
+      "title": "Prove cross-adapter module equivalence",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "RV-05"
+      ],
+      "result": "One module has equivalent CSM-visible identity, messages, failure and state behavior across native, process and WASM adapters.",
+      "acceptance": [
+        "One module has equivalent CSM-visible identity, messages, failure and state behavior across native, process and WASM adapters.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Adapter-specific authority",
+        "State identity drift"
+      ],
+      "phase": "runtime_v4",
+      "source": "features/RUNTIME_V4_PLUGIN_SYSTEM_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Prove cross-adapter module equivalence",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 1,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "RV-06",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "RV-07",
+      "title": "Move provider instances to plugin configuration",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "RV-06"
+      ],
+      "result": "Provider instances consume host-owned credentials and versioned configuration through the common inference capability.",
+      "acceptance": [
+        "Provider instances consume host-owned credentials and versioned configuration through the common inference capability.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Credential in manifest",
+        "Implicit provider fallback"
+      ],
+      "phase": "runtime_v4",
+      "source": "features/RUNTIME_V4_PLUGIN_SYSTEM_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Move provider instances to plugin configuration",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 1,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "RV-07",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "RV-08",
+      "title": "Qualify installed plugin recovery and operations",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "RV-07"
+      ],
+      "result": "Installed package signing, checkpoint compatibility, generation recovery and Observatory operations pass with a retained known-good rollback.",
+      "acceptance": [
+        "Installed package signing, checkpoint compatibility, generation recovery and Observatory operations pass with a retained known-good rollback.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings.",
+        "Preserve the launched CodeFriend API/artifact contract and demonstrate compatible upgrade and known-good rollback."
+      ],
+      "negative_cases": [
+        "Bad signature",
+        "Incompatible checkpoint",
+        "Rollback cannot restore"
+      ],
+      "phase": "runtime_v4",
+      "source": "features/RUNTIME_V4_PLUGIN_SYSTEM_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Qualify installed plugin recovery and operations",
+        "supporting_work": "Execute and report the declared qualification/demo denominator. Implementation defects return to their owning result or a separately scoped corrective issue; do not absorb implementation into qualification.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 1,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "RV-08",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "PY-01",
+      "title": "Complete the bounded Python reduction tranche",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "v0.93.1/RD-11",
+        "WP-01"
+      ],
+      "result": "Record tracked Python file and LOC counts at milestone start and end across the split repository set, separating moves from reductions; remove or replace one coherent remaining public ADL helper family with live-behavior parity, or record an explicit reviewed no-reduction justification if no suitable family remains. Preserve the no-new-Python policy and enable a zero-Python gate only where the measured footprint supports it.",
+      "acceptance": [
+        "Record tracked Python file and LOC counts at milestone start and end across the split repository set, separating moves from reductions; remove or replace one coherent remaining public ADL helper family with live-behavior parity, or record an explicit reviewed no-reduction justification if no suitable family remains. Preserve the no-new-Python policy and enable a zero-Python gate only where the measured footprint supports it.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Repository move counted as deletion",
+        "Live behavior removed without parity",
+        "Unexplained unchanged footprint"
+      ],
+      "phase": "maintenance",
+      "source": "README.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Complete the bounded Python reduction tranche",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 1,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "PY-01",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "GOV-01",
+      "title": "Enforce citizen and guest actor boundaries",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "RV-08"
+      ],
+      "result": "Runtime admits citizen conduct only through bound identity, Freedom Gate and signed trace; guest/operator action remains distinct.",
+      "acceptance": [
+        "Runtime admits citizen conduct only through bound identity, Freedom Gate and signed trace; guest/operator action remains distinct.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings.",
+        "Installed cognitive-loop and instinct-originated actions traverse bound identity, Freedom Gate and temporal anchoring; guest or stale identity cannot acquire citizen authority."
+      ],
+      "negative_cases": [
+        "Guest impersonates citizen",
+        "Instinct bypasses governance",
+        "Missing or inconsistent temporal anchor"
+      ],
+      "phase": "governance",
+      "source": "features/CITIZENSHIP_RIGHTS_DUTIES_AND_SOCIAL_CONTRACT_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Enforce citizen and guest actor boundaries",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 2,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "GOV-01",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "GOV-02",
+      "title": "Evaluate trace-grounded rights and duties",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-01"
+      ],
+      "result": "A Runtime policy evaluator returns rights/duties decisions with trace evidence for a bounded action.",
+      "acceptance": [
+        "A Runtime policy evaluator returns rights/duties decisions with trace evidence for a bounded action.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Evidence-free verdict"
+      ],
+      "phase": "governance",
+      "source": "features/CITIZENSHIP_RIGHTS_DUTIES_AND_SOCIAL_CONTRACT_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Evaluate trace-grounded rights and duties",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 2,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "GOV-02",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "GOV-03",
+      "title": "Apply evidence-backed standing transitions",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-02"
+      ],
+      "result": "Standing maintenance, restriction, restoration and revocation consume existing state primitives and retain reasons and challenge context.",
+      "acceptance": [
+        "Standing maintenance, restriction, restoration and revocation consume existing state primitives and retain reasons and challenge context.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Unexplained restriction",
+        "Restoration loses history"
+      ],
+      "phase": "governance",
+      "source": "features/DELEGATION_IAM_STANDING_AND_APPEAL_GOVERNANCE_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Apply evidence-backed standing transitions",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 2,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "GOV-03",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "GOV-04",
+      "title": "Produce constitutional review from evidence",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-03"
+      ],
+      "result": "A review consumer emits findings over trace/outcome/policy evidence without raw private-state access.",
+      "acceptance": [
+        "A review consumer emits findings over trace/outcome/policy evidence without raw private-state access.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Fabricated evidence",
+        "Raw state disclosure"
+      ],
+      "phase": "governance",
+      "source": "features/CITIZENSHIP_RIGHTS_DUTIES_AND_SOCIAL_CONTRACT_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Produce constitutional review from evidence",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 2,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "GOV-04",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "GOV-05",
+      "title": "Resolve challenges and appeals",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-04"
+      ],
+      "result": "A challenged finding progresses through appeal and recorded disposition without destroying original evidence.",
+      "acceptance": [
+        "A challenged finding progresses through appeal and recorded disposition without destroying original evidence.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Replay changes verdict",
+        "Evidence lost on appeal"
+      ],
+      "phase": "governance",
+      "source": "features/DELEGATION_IAM_STANDING_AND_APPEAL_GOVERNANCE_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Resolve challenges and appeals",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 2,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "GOV-05",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "GOV-06",
+      "title": "Persist governed private ToM updates",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-01"
+      ],
+      "result": "Signed evidence-backed model updates replay under standing, consent/scope and projection controls.",
+      "acceptance": [
+        "Signed evidence-backed model updates replay under standing, consent/scope and projection controls.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Unsigned update",
+        "Guest scope exceeded"
+      ],
+      "phase": "governance",
+      "source": "features/THEORY_OF_MIND_AND_SOCIAL_COGNITION_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Persist governed private ToM updates",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 2,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "GOV-06",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "GOV-07",
+      "title": "Preserve ToM conflict and temporal decay",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-06"
+      ],
+      "result": "Conflicting and stale entries change a bounded consumer decision through explicit uncertainty/decay events.",
+      "acceptance": [
+        "Conflicting and stale entries change a bounded consumer decision through explicit uncertainty/decay events.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Conflict overwritten",
+        "Stale confidence unchanged"
+      ],
+      "phase": "governance",
+      "source": "features/THEORY_OF_MIND_AND_SOCIAL_COGNITION_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Preserve ToM conflict and temporal decay",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 2,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "GOV-07",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "GOV-08",
+      "title": "Persist governed relationship context",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-06"
+      ],
+      "result": "Relationship records preserve evidence and permitted scope across restart without becoming standing verdicts.",
+      "acceptance": [
+        "Relationship records preserve evidence and permitted scope across restart without becoming standing verdicts.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Untraceable relationship assertion"
+      ],
+      "phase": "governance",
+      "source": "features/SOCIAL_RELATIONSHIP_REPUTATION_AND_SHARED_MEMORY_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Persist governed relationship context",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 2,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "GOV-08",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "GOV-09",
+      "title": "Publish challengeable reputation projections",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-05",
+        "GOV-07",
+        "GOV-08"
+      ],
+      "result": "Authorized redacted projections can inform review while retaining challenge and source lineage.",
+      "acceptance": [
+        "Authorized redacted projections can inform review while retaining challenge and source lineage.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Raw ToM leak",
+        "Scalar moral verdict"
+      ],
+      "phase": "governance",
+      "source": "features/SOCIAL_RELATIONSHIP_REPUTATION_AND_SHARED_MEMORY_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Publish challengeable reputation projections",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 2,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "GOV-09",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "GOV-10",
+      "title": "Consume redacted shared social memory",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-09"
+      ],
+      "result": "Two governed consumers share evidence projections with preserved uncertainty, access rules and freshness.",
+      "acceptance": [
+        "Two governed consumers share evidence projections with preserved uncertainty, access rules and freshness.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Private model copied",
+        "Stale projection trusted"
+      ],
+      "phase": "governance",
+      "source": "features/SOCIAL_RELATIONSHIP_REPUTATION_AND_SHARED_MEMORY_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Consume redacted shared social memory",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 2,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "GOV-10",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "GOV-11",
+      "title": "Enforce delegated action authority",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-03"
+      ],
+      "result": "Delegated action binds identity, standing, resource, capability and policy without exceeding the delegator grant.",
+      "acceptance": [
+        "Delegated action binds identity, standing, resource, capability and policy without exceeding the delegator grant.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings.",
+        "A bounded remote action accepts a current scoped delegation and rejects refusal, revocation and replay without applying the action twice."
+      ],
+      "negative_cases": [
+        "Overbroad delegation",
+        "Revoked grant",
+        "Remote replay duplicates effect",
+        "Remote refusal ignored"
+      ],
+      "phase": "governance",
+      "source": "features/DELEGATION_IAM_STANDING_AND_APPEAL_GOVERNANCE_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Enforce delegated action authority",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 2,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "GOV-11",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "GOV-12",
+      "title": "Execute governed upstream cognition",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-11",
+        "GOV-07"
+      ],
+      "result": "A selected/rejected upstream call retains citizen identity, policy, provenance and verification; ToM may inform selection but cannot override authority.",
+      "acceptance": [
+        "A selected/rejected upstream call retains citizen identity, policy, provenance and verification; ToM may inform selection but cannot override authority.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Provider becomes sovereign",
+        "Unverified answer accepted"
+      ],
+      "phase": "governance",
+      "source": "features/DELEGATION_IAM_STANDING_AND_APPEAL_GOVERNANCE_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Execute governed upstream cognition",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 2,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "GOV-12",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "GOV-13",
+      "title": "Communicate without private inspection",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-11"
+      ],
+      "result": "A governed exchange succeeds while an associated unauthorized private-state/ToM inspection is denied.",
+      "acceptance": [
+        "A governed exchange succeeds while an associated unauthorized private-state/ToM inspection is denied.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Message receipt grants inspection"
+      ],
+      "phase": "governance",
+      "source": "features/DELEGATION_IAM_STANDING_AND_APPEAL_GOVERNANCE_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Communicate without private inspection",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 2,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "GOV-13",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "GOV-14",
+      "title": "Evaluate bounded social-contract obligations",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-05",
+        "GOV-10",
+        "GOV-13"
+      ],
+      "result": "A policy consumer evaluates explicit polis/citizen obligations and emits reviewable evidence.",
+      "acceptance": [
+        "A policy consumer evaluates explicit polis/citizen obligations and emits reviewable evidence.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings.",
+        "The installed obligations consumer evaluates accepted, expired and missed commitments and rejects causally invalid ordering using explicit temporal evidence and reviewable policy disposition."
+      ],
+      "negative_cases": [
+        "Policy text treated as executed behavior",
+        "Expired commitment treated as current",
+        "Missed deadline silently satisfied",
+        "Causally invalid commitment accepted"
+      ],
+      "phase": "governance",
+      "source": "features/CITIZENSHIP_RIGHTS_DUTIES_AND_SOCIAL_CONTRACT_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Evaluate bounded social-contract obligations",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 2,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "GOV-14",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "GOV-15",
+      "title": "Operate governed guild membership and action",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-14",
+        "GOV-12"
+      ],
+      "result": "Guild identity, membership, scoped resources and delegated actions persist with trace and challenge support.",
+      "acceptance": [
+        "Guild identity, membership, scoped resources and delegated actions persist with trace and challenge support.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Revoked membership acts",
+        "Guild exceeds citizen authority"
+      ],
+      "phase": "governance",
+      "source": "features/GUILDS_AND_COLLECTIVE_ORGANIZATION_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Operate governed guild membership and action",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 2,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "GOV-15",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "GOV-16",
+      "title": "Produce redacted polis governance health",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-15"
+      ],
+      "result": "The operator receives evidence-linked standing, appeals and social-memory summaries without private-state leaks or scalar moral ranking.",
+      "acceptance": [
+        "The operator receives evidence-linked standing, appeals and social-memory summaries without private-state leaks or scalar moral ranking.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Hidden uncertainty",
+        "Protected data in report"
+      ],
+      "phase": "governance",
+      "source": "features/CITIZENSHIP_RIGHTS_DUTIES_AND_SOCIAL_CONTRACT_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Produce redacted polis governance health",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 2,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "GOV-16",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "WP-S1",
+      "title": "Enforce the enterprise zero-trust boundary",
+      "repository": "agent-logic-enterprise-security",
+      "depends_on": [
+        "GOV-11",
+        "v0.93.1/RD-09"
+      ],
+      "result": "A private policy provider drives Runtime allow/deny decisions over all declared actor/message/data boundaries.",
+      "acceptance": [
+        "A private policy provider drives Runtime allow/deny decisions over all declared actor/message/data boundaries.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Implicit internal trust",
+        "Connection treated as permission"
+      ],
+      "phase": "security",
+      "source": "features/SECURITY_WP_S1_ZERO_TRUST_ARCHITECTURE_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Enforce the enterprise zero-trust boundary",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 2,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "WP-S1",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "WP-S2",
+      "title": "Enforce per-action and per-message authorization",
+      "repository": "agent-logic-enterprise-security",
+      "depends_on": [
+        "WP-S1",
+        "GOV-12"
+      ],
+      "result": "Enterprise policy narrows Runtime grants for identity, standing, delegation, tools and ACIP messages.",
+      "acceptance": [
+        "Enterprise policy narrows Runtime grants for identity, standing, delegation, tools and ACIP messages.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Stale/revoked grant",
+        "Malformed/replayed/out-of-order message"
+      ],
+      "phase": "security",
+      "source": "features/SECURITY_WP_S2_POLICY_ENFORCEMENT_AUTHORIZATION_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Enforce per-action and per-message authorization",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 2,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "WP-S2",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "WP-S3",
+      "title": "Enforce key and secret lifecycle",
+      "repository": "agent-logic-enterprise-security",
+      "depends_on": [
+        "WP-S2"
+      ],
+      "result": "Current scoped keys work and rotated/revoked keys fail in signed/encrypted message and checkpoint consumers.",
+      "acceptance": [
+        "Current scoped keys work and rotated/revoked keys fail in signed/encrypted message and checkpoint consumers.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Wrong-scope key",
+        "Secret in output",
+        "Revocation ignored"
+      ],
+      "phase": "security",
+      "source": "features/SECURITY_WP_S3_SECRETS_KEYS_CRYPTOGRAPHIC_TRUST_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Enforce key and secret lifecycle",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 2,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "WP-S3",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "WP-S4",
+      "title": "Produce tamper-evident incident evidence",
+      "repository": "agent-logic-enterprise-security",
+      "depends_on": [
+        "WP-S3",
+        "GOV-05"
+      ],
+      "result": "A synthetic incident emits linked audit, control and redacted review evidence accepted by the governance consumer.",
+      "acceptance": [
+        "A synthetic incident emits linked audit, control and redacted review evidence accepted by the governance consumer.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Tampered event",
+        "Raw private-state dump"
+      ],
+      "phase": "security",
+      "source": "features/SECURITY_WP_S4_AUDIT_COMPLIANCE_INCIDENT_EVIDENCE_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Produce tamper-evident incident evidence",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 2,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "WP-S4",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "WP-S5",
+      "title": "Enforce protected data lifecycle and isolation",
+      "repository": "agent-logic-enterprise-security",
+      "depends_on": [
+        "WP-S3",
+        "GOV-10"
+      ],
+      "result": "Access, retention, deletion and projection operations enforce tenant/polis/citizen ownership and privacy.",
+      "acceptance": [
+        "Access, retention, deletion and projection operations enforce tenant/polis/citizen ownership and privacy.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Cross-tenant leak",
+        "Raw ToM projection",
+        "Deletion leaves accessible data"
+      ],
+      "phase": "security",
+      "source": "features/SECURITY_WP_S5_ISOLATION_DATA_GOVERNANCE_PRIVACY_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Enforce protected data lifecycle and isolation",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 2,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "WP-S5",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "WP-S6",
+      "title": "Operate a replayable security regression drill",
+      "repository": "agent-logic-enterprise-security",
+      "depends_on": [
+        "WP-S4",
+        "WP-S5"
+      ],
+      "result": "One bounded red/blue/purple drill replays a seed per control area and produces mitigation, provenance, threat-board and release-risk evidence.",
+      "acceptance": [
+        "One bounded red/blue/purple drill replays a seed per control area and produces mitigation, provenance, threat-board and release-risk evidence.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Undeclared target",
+        "Non-replayable finding",
+        "Unproven mitigation"
+      ],
+      "phase": "security",
+      "source": "features/SECURITY_WP_S6_SECURITY_OPERATIONS_ADVERSARIAL_PROVENANCE_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Operate a replayable security regression drill",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 2,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "WP-S6",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "CM-01",
+      "title": "Accept citizen migration and descendant identity contracts",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "RV-08",
+        "GOV-01"
+      ],
+      "result": "A reviewed contract distinguishes same-identity migration and recovery from new-identity descendants, replication and independent clones; it defines authority, lineage, consent, state inheritance, fencing and recovery outcomes.",
+      "acceptance": [
+        "A reviewed contract distinguishes same-identity migration and recovery from new-identity descendants, replication and independent clones; it defines authority, lineage, consent, state inheritance, fencing and recovery outcomes.",
+        "Independent design review checks the enumerated success, denial and recovery examples against the contract; implementation and installed scenario counts belong to downstream results."
+      ],
+      "negative_cases": [
+        "Copy treated as same active identity",
+        "Implicit grant inheritance",
+        "Ambiguous ownership during transfer"
+      ],
+      "phase": "governance",
+      "source": "features/CITIZEN_REPRODUCTION_AND_MIGRATION_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI. No paid provider, cloud mutation or external publication without separately scoped authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated subsystem rewrite",
+        "No implementation completion from schema, scaffold, mock-only or zero-scenario proof"
+      ],
+      "task_boundary": {
+        "single_result": "Accept citizen migration and descendant identity contracts",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 3,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "CM-01",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "CM-02",
+      "title": "Migrate one citizen without conflicting active identity",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "CM-01",
+        "WP-S3"
+      ],
+      "result": "Two owned Runtime endpoints transfer one authorized citizen checkpoint and scoped continuity evidence; the source is fenced before destination activation and interruption can recover without two active holders or lost lineage.",
+      "acceptance": [
+        "Two owned Runtime endpoints transfer one authorized citizen checkpoint and scoped continuity evidence; the source is fenced before destination activation and interruption can recover without two active holders or lost lineage.",
+        "Exact versioned inputs and actual positive, denial and recovery scenario counts are retained; independent review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Stale or replayed transfer",
+        "Unauthorized destination",
+        "Interrupted handover",
+        "Source continues after destination activation",
+        "Wrong key or corrupt checkpoint"
+      ],
+      "phase": "governance",
+      "source": "features/CITIZEN_REPRODUCTION_AND_MIGRATION_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI. No paid provider, cloud mutation or external publication without separately scoped authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated subsystem rewrite",
+        "No implementation completion from schema, scaffold, mock-only or zero-scenario proof"
+      ],
+      "task_boundary": {
+        "single_result": "Migrate one citizen without conflicting active identity",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 3,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "CM-02",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "CM-03",
+      "title": "Create a governed descendant with distinct identity",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "CM-01",
+        "GOV-11",
+        "WP-S5"
+      ],
+      "result": "An authorized parent creates one distinctly identified descendant with explicit lineage, selected inherited state and newly scoped authority while preserving the parent and protecting private state.",
+      "acceptance": [
+        "An authorized parent creates one distinctly identified descendant with explicit lineage, selected inherited state and newly scoped authority while preserving the parent and protecting private state.",
+        "Exact versioned inputs and actual positive, denial and recovery scenario counts are retained; independent review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Unauthorized cloning",
+        "Duplicate descendant on retry",
+        "Private state inherited without scope",
+        "Parent standing or credentials copied as authority"
+      ],
+      "phase": "governance",
+      "source": "features/CITIZEN_REPRODUCTION_AND_MIGRATION_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI. No paid provider, cloud mutation or external publication without separately scoped authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated subsystem rewrite",
+        "No implementation completion from schema, scaffold, mock-only or zero-scenario proof"
+      ],
+      "task_boundary": {
+        "single_result": "Create a governed descendant with distinct identity",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 3,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "CM-03",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "CM-04",
+      "title": "Qualify citizen migration and reproduction recovery",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "CM-02",
+        "CM-03"
+      ],
+      "result": "Independent installed scenarios exercise migration and descendant creation across restart, interruption and retry, verify lineage/privacy/fencing and expose the resulting identity and custody status to the operator.",
+      "acceptance": [
+        "Independent installed scenarios exercise migration and descendant creation across restart, interruption and retry, verify lineage/privacy/fencing and expose the resulting identity and custody status to the operator.",
+        "Exact versioned inputs and actual positive, denial and recovery scenario counts are retained; independent review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Split-brain identity",
+        "Orphaned in-transit custody",
+        "Silent lineage loss",
+        "Retry creates extra descendant"
+      ],
+      "phase": "governance",
+      "source": "features/CITIZEN_REPRODUCTION_AND_MIGRATION_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI. No paid provider, cloud mutation or external publication without separately scoped authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated subsystem rewrite",
+        "No implementation completion from schema, scaffold, mock-only or zero-scenario proof"
+      ],
+      "task_boundary": {
+        "single_result": "Qualify citizen migration and reproduction recovery",
+        "supporting_work": "Execute and report the declared qualification/demo denominator. Implementation defects return to their owning result or a separately scoped corrective issue; do not absorb implementation into qualification.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 3,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "CM-04",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "DEMO-GOV",
+      "title": "Run integrated governance demonstrations",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-16"
+      ],
+      "result": "Execute D1-D8 and guild D13 through installed Runtime consumers with accepted and refused paths.",
+      "acceptance": [
+        "Execute D1-D8 and guild D13 through installed Runtime consumers with accepted and refused paths.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Demo replaces production path"
+      ],
+      "phase": "qualification",
+      "source": "DEMO_MATRIX_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Run integrated governance demonstrations",
+        "supporting_work": "Execute and report the declared qualification/demo denominator. Implementation defects return to their owning result or a separately scoped corrective issue; do not absorb implementation into qualification.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 3,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "DEMO-GOV",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "DEMO-SEC",
+      "title": "Run integrated security demonstrations",
+      "repository": "agent-logic-enterprise-security",
+      "depends_on": [
+        "WP-S6"
+      ],
+      "result": "Execute D9-D12 plus per-message ACIP cases against the private provider and installed Runtime.",
+      "acceptance": [
+        "Execute D9-D12 plus per-message ACIP cases against the private provider and installed Runtime.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Synthetic mechanics claimed as enterprise qualification"
+      ],
+      "phase": "qualification",
+      "source": "DEMO_MATRIX_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Run integrated security demonstrations",
+        "supporting_work": "Execute and report the declared qualification/demo denominator. Implementation defects return to their owning result or a separately scoped corrective issue; do not absorb implementation into qualification.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 3,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "DEMO-SEC",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "INTEGRATE",
+      "title": "Integrate governance with security and plugin operations",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "DEMO-GOV",
+        "DEMO-SEC",
+        "CM-04"
+      ],
+      "result": "One installed polis joins citizen action, upstream delegation, private cognition, policy enforcement, appeal and plugin restart without contract drift.",
+      "acceptance": [
+        "One installed polis joins citizen action, upstream delegation, private cognition, policy enforcement, appeal and plugin restart without contract drift.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings.",
+        "The inherited feature crosswalk is executed: remote delegation, cognitive-loop and instinct actions, Chronosense anchoring, commitments/deadlines and citizen migration/reproduction retain governance across restart."
+      ],
+      "negative_cases": [
+        "Authority lost across product boundary"
+      ],
+      "phase": "qualification",
+      "source": "DESIGN_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Integrate governance with security and plugin operations",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 4,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "INTEGRATE",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "QUALIFY",
+      "title": "Independently qualify the installed milestone",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "INTEGRATE",
+        "PY-01"
+      ],
+      "result": "Independent reviewer runs the accepted success/failure/recovery denominator on the exact multi-repository lockset.",
+      "acceptance": [
+        "Independent reviewer runs the accepted success/failure/recovery denominator on the exact multi-repository lockset.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings.",
+        "Qualify the pinned Runtime v4 upgrade against launched CodeFriend contracts and rollback without reopening Beta 1 launch as a prerequisite."
+      ],
+      "negative_cases": [
+        "Wrong artifact head",
+        "Missing negative scenario"
+      ],
+      "phase": "qualification",
+      "source": "QUALITY_GATE_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Independently qualify the installed milestone",
+        "supporting_work": "Execute and report the declared qualification/demo denominator. Implementation defects return to their owning result or a separately scoped corrective issue; do not absorb implementation into qualification.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 4,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "QUALIFY",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "TAIL-01",
+      "title": "Quality gate",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "QUALIFY"
+      ],
+      "result": "Deliver the complete quality gate result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "acceptance": [
+        "Deliver the complete quality gate result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "RELEASE_PLAN_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Quality gate",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 4,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "TAIL-01",
+        "kind": "version_specific_gate"
+      }
+    },
+    {
+      "id": "TAIL-02",
+      "title": "Documentation review and external-review handoff",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-01"
+      ],
+      "result": "Deliver the complete documentation review and external-review handoff result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "acceptance": [
+        "Deliver the complete documentation review and external-review handoff result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "RELEASE_PLAN_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Documentation review and external-review handoff",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 4,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "TAIL-02",
+        "kind": "version_specific_gate"
+      }
+    },
+    {
+      "id": "TAIL-03",
+      "title": "Publication finalization",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-02"
+      ],
+      "result": "Deliver the complete publication finalization result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "acceptance": [
+        "Deliver the complete publication finalization result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "RELEASE_PLAN_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Publication finalization",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 4,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "TAIL-03",
+        "kind": "version_specific_gate"
+      }
+    },
+    {
+      "id": "TAIL-04",
+      "title": "Internal milestone review",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-03"
+      ],
+      "result": "Deliver the complete internal milestone review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "acceptance": [
+        "Deliver the complete internal milestone review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "RELEASE_PLAN_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Internal milestone review",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 4,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "TAIL-04",
+        "kind": "version_specific_gate"
+      }
+    },
+    {
+      "id": "TAIL-05",
+      "title": "External or third-party review",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-04"
+      ],
+      "result": "Deliver the complete external or third-party review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "acceptance": [
+        "Deliver the complete external or third-party review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "RELEASE_PLAN_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "External or third-party review",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 4,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "TAIL-05",
+        "kind": "version_specific_gate"
+      }
+    },
+    {
+      "id": "TAIL-06",
+      "title": "Accepted-findings remediation or explicit deferral capture",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-05"
+      ],
+      "result": "Deliver the complete accepted-findings remediation or explicit deferral capture result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "acceptance": [
+        "Deliver the complete accepted-findings remediation or explicit deferral capture result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "RELEASE_PLAN_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Accepted-findings remediation or explicit deferral capture",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 4,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "TAIL-06",
+        "kind": "version_specific_gate"
+      }
+    },
+    {
+      "id": "TAIL-07",
+      "title": "Next-milestone planning",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-06"
+      ],
+      "result": "Deliver the complete next-milestone planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "acceptance": [
+        "Deliver the complete next-milestone planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "RELEASE_PLAN_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Next-milestone planning",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 4,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "TAIL-07",
+        "kind": "version_specific_gate"
+      }
+    },
+    {
+      "id": "TAIL-08",
+      "title": "Next-milestone closeout planning",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-07"
+      ],
+      "result": "Deliver the complete next-milestone closeout planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "acceptance": [
+        "Deliver the complete next-milestone closeout planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "RELEASE_PLAN_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Next-milestone closeout planning",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 4,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "TAIL-08",
+        "kind": "version_specific_gate"
+      }
+    },
+    {
+      "id": "TAIL-09",
+      "title": "Next-milestone planning review",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-08"
+      ],
+      "result": "Deliver the complete next-milestone planning review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "acceptance": [
+        "Deliver the complete next-milestone planning review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "RELEASE_PLAN_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Next-milestone planning review",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 4,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "TAIL-09",
+        "kind": "version_specific_gate"
+      }
+    },
+    {
+      "id": "TAIL-10",
+      "title": "Release ceremony and milestone close",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-09"
+      ],
+      "result": "Deliver the complete release ceremony and milestone close result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "acceptance": [
+        "Deliver the complete release ceremony and milestone close result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "RELEASE_PLAN_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Release ceremony and milestone close",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 4,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "TAIL-10",
+        "kind": "version_specific_gate"
+      }
+    }
+  ],
+  "sprint_plan": {
+    "status": "draft_allocated_not_open",
+    "sprint_count": 4,
+    "sizing": "Outcome-based groups; owners and estimates required before activation, not fixed calendar promises.",
+    "execution_rule": "Respect dependency acceptance; grouping gives no paid/cloud/publication authority.",
+    "sprints": [
+      {
+        "number": 1,
+        "title": "Runtime v4 and remaining platform foundations",
+        "work_packages": [
+          "WP-01",
+          "RV-01",
+          "RV-02",
+          "RV-03",
+          "RV-09",
+          "RV-10",
+          "RV-11",
+          "RV-04",
+          "RV-05",
+          "RV-06",
+          "RV-07",
+          "RV-08",
+          "PY-01"
+        ]
+      },
+      {
+        "number": 2,
+        "title": "Governance and security",
+        "work_packages": [
+          "GOV-01",
+          "GOV-02",
+          "GOV-03",
+          "GOV-04",
+          "GOV-05",
+          "GOV-06",
+          "GOV-07",
+          "GOV-08",
+          "GOV-09",
+          "GOV-10",
+          "GOV-11",
+          "GOV-12",
+          "GOV-13",
+          "GOV-14",
+          "GOV-15",
+          "GOV-16",
+          "WP-S1",
+          "WP-S2",
+          "WP-S3",
+          "WP-S4",
+          "WP-S5",
+          "WP-S6"
+        ]
+      },
+      {
+        "number": 3,
+        "title": "Citizen migration/reproduction and demonstrations",
+        "work_packages": [
+          "CM-01",
+          "CM-02",
+          "CM-03",
+          "CM-04",
+          "DEMO-GOV",
+          "DEMO-SEC"
+        ]
+      },
+      {
+        "number": 4,
+        "title": "Milestone integration and release closeout",
+        "work_packages": [
+          "INTEGRATE",
+          "QUALIFY",
+          "TAIL-01",
+          "TAIL-02",
+          "TAIL-03",
+          "TAIL-04",
+          "TAIL-05",
+          "TAIL-06",
+          "TAIL-07",
+          "TAIL-08",
+          "TAIL-09",
+          "TAIL-10"
+        ]
+      }
+    ]
+  },
+  "external_dependencies": {
+    "v0.93.1/TAIL-10": "Accepted launch milestone closure",
+    "v0.93.1/RD-11": "Accepted repository compatibility lockset",
+    "v0.93.1/RD-09": "Accepted enterprise security repository boundary"
+  }
+}

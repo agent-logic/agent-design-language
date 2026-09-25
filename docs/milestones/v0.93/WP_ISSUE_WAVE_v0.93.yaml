@@ -9,7 +9,8 @@
       "title": "Open the reviewed v0.93 execution wave",
       "repository": "agent-design-language",
       "depends_on": [],
-      "outcome": "After accepted v0.92.2 closure, the inter-milestone break and explicit opening approval, create only ADL coordination, audit and boundary-decision issue identities; destination issue creation waits for RD-02 repository bootstrap."
+      "outcome": "After accepted v0.92.2 closure, the inter-milestone break and explicit opening approval, create only ADL coordination, audit and boundary-decision issue identities; destination issue creation waits for RD-12 repository bootstrap and RD-13 issue mapping.",
+      "sprint": 1
     },
     {
       "wp": "RD-01",
@@ -18,7 +19,8 @@
       "depends_on": [
         "WP-01"
       ],
-      "outcome": "Every tracked source/artifact at the frozen v0.92.2 head has one owner or explicit blocking decision; explain all changes from #977."
+      "outcome": "Every tracked source/artifact at the frozen v0.92.2 head has one owner or explicit blocking decision; explain all changes from #977.",
+      "sprint": 1
     },
     {
       "wp": "RD-02",
@@ -27,25 +29,48 @@
       "depends_on": [
         "RD-01"
       ],
-      "outcome": "Record exact names, owners, licenses, version distribution, history/evidence retention and rollback authorities; settle audit gaps before moves, then create/bootstrap approved destination repositories and materialize their issue identities with immutable cross-repository links before extraction begins."
+      "outcome": "One accepted cutover contract fixes names, accountable owners, licenses, distribution, history/evidence retention and rollback boundaries and resolves the ownership audit findings before repository creation.",
+      "sprint": 1
+    },
+    {
+      "wp": "RD-12",
+      "title": "Bootstrap the approved destination repositories",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "RD-02"
+      ],
+      "outcome": "Approved destination repositories exist with verified visibility, access, default branches and minimal project configuration matching the accepted cutover contract.",
+      "sprint": 1
+    },
+    {
+      "wp": "RD-13",
+      "title": "Materialize destination issue identities",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "RD-12"
+      ],
+      "outcome": "One complete immutable cross-repository issue map binds the accepted candidate results to destination issue identities without duplicate creation.",
+      "sprint": 1
     },
     {
       "wp": "RD-03",
       "title": "Distribute portable public ADL contracts",
       "repository": "agent-design-language",
       "depends_on": [
-        "RD-02"
+        "RD-13"
       ],
-      "outcome": "Public portable interfaces and conformance fixtures build and package without private source; consumers resolve pinned distributable versions."
+      "outcome": "Public portable interfaces and conformance fixtures build and package without private source; consumers resolve pinned distributable versions.",
+      "sprint": 1
     },
     {
       "wp": "RD-04",
       "title": "Extract and qualify C-SDLC",
       "repository": "cognitive-sdlc",
       "depends_on": [
-        "RD-02"
+        "RD-13"
       ],
-      "outcome": "An independent install completes a shadow issue through review, publication, merge, finish and cleanup, including authentic copied-record interrupted recovery, without Runtime or ADL source."
+      "outcome": "An independent install completes a shadow issue through review, publication, merge, finish and cleanup, including authentic copied-record interrupted recovery, without Runtime or ADL source.",
+      "sprint": 1
     },
     {
       "wp": "RD-05",
@@ -55,7 +80,8 @@
         "RD-03",
         "RD-04"
       ],
-      "outcome": "Published Runtime artifacts run a local polis with continuity and Observatory using distributed contracts, with accepted pre-split rollback."
+      "outcome": "Published Runtime artifacts run a local polis with continuity and Observatory using distributed contracts, with accepted pre-split rollback.",
+      "sprint": 1
     },
     {
       "wp": "RD-06",
@@ -64,7 +90,8 @@
       "depends_on": [
         "RD-05"
       ],
-      "outcome": "Infrastructure validates against pinned application artifacts without copied application source; state and cloud applies remain separately authorized."
+      "outcome": "Infrastructure validates against pinned application artifacts without copied application source; state and cloud applies remain separately authorized.",
+      "sprint": 1
     },
     {
       "wp": "RD-09",
@@ -73,7 +100,8 @@
       "depends_on": [
         "RD-05"
       ],
-      "outcome": "Private security repository independently validates its versioned Runtime extension boundary; Runtime proves absent, unavailable and verified provider behavior using synthetic policies."
+      "outcome": "Private security repository independently validates its versioned Runtime extension boundary; Runtime proves absent, unavailable and verified provider behavior using synthetic policies.",
+      "sprint": 1
     },
     {
       "wp": "RD-10",
@@ -82,7 +110,8 @@
       "depends_on": [
         "RD-05"
       ],
-      "outcome": "Separate software checkout installs and repeats Beta 1 on ADL and an external repository; existing codefriend.ai site, history and deployment continue independently."
+      "outcome": "Separate software checkout installs and repeats Beta 1 on ADL and an external repository; existing codefriend.ai site, history and deployment continue independently.",
+      "sprint": 1
     },
     {
       "wp": "RD-08",
@@ -93,7 +122,8 @@
         "RD-09",
         "RD-10"
       ],
-      "outcome": "Every retained demo has one owner and runs against supported product artifacts; Runtime owns Observatory and product moves own their source placement."
+      "outcome": "Every retained demo has one owner and runs against supported product artifacts; Runtime owns Observatory and product moves own their source placement.",
+      "sprint": 1
     },
     {
       "wp": "RD-07",
@@ -102,7 +132,8 @@
       "depends_on": [
         "RD-08"
       ],
-      "outcome": "Each approved removal has preserved history/evidence and qualified replacement; a clean public checkout builds/tests/packages without private access."
+      "outcome": "Each approved removal has preserved history/evidence and qualified replacement; a clean public checkout builds/tests/packages without private access.",
+      "sprint": 1
     },
     {
       "wp": "RD-11",
@@ -111,7 +142,8 @@
       "depends_on": [
         "RD-07"
       ],
-      "outcome": "Accept a sanitized compatibility lockset of independently qualified products and rollback points; no v0.93 feature starts before this gate."
+      "outcome": "Accept a sanitized compatibility lockset of independently qualified products and rollback points; no v0.93 feature starts before this gate.",
+      "sprint": 1
     },
     {
       "wp": "RV-01",
@@ -120,7 +152,8 @@
       "depends_on": [
         "RD-11"
       ],
-      "outcome": "An accepted plugin contract defines topology precedence, epochs, durable activation journal, in-flight delivery, cancellation, versioned state/config migration, two-phase reconfiguration, dependency-safe removal and recovery classes."
+      "outcome": "An accepted plugin contract defines topology precedence, epochs, durable activation journal, in-flight delivery, cancellation, versioned state/config migration, two-phase reconfiguration, dependency-safe removal and recovery classes.",
+      "sprint": 2
     },
     {
       "wp": "RV-02",
@@ -129,7 +162,8 @@
       "depends_on": [
         "RV-01"
       ],
-      "outcome": "Existing Runtime behavior and identity survive native adapter conversion with no second scheduler."
+      "outcome": "Existing Runtime behavior and identity survive native adapter conversion with no second scheduler.",
+      "sprint": 2
     },
     {
       "wp": "RV-03",
@@ -138,16 +172,48 @@
       "depends_on": [
         "RV-02"
       ],
-      "outcome": "Staging, bounded quiesce, versioned state/config migration, two-phase reconfiguration, dependency-safe removal, activation and rollback recover to one fenced generation after every interruption; prove a successful migrator and preserve the prior generation when migration/reconfiguration/removal is refused."
+      "outcome": "The durable generation transaction stages, quiesces, activates and rolls back to one fenced generation after interruption; in-flight work and cancellation retain their declared disposition.",
+      "sprint": 2
+    },
+    {
+      "wp": "RV-09",
+      "title": "Migrate versioned plugin state",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "RV-03"
+      ],
+      "outcome": "An installed plugin migrates declared prior-version state to the selected version and preserves the prior generation when the migrator refuses or fails.",
+      "sprint": 2
+    },
+    {
+      "wp": "RV-10",
+      "title": "Reconfigure a plugin atomically",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "RV-09"
+      ],
+      "outcome": "Versioned configuration migration and two-phase validation/activation apply one accepted configuration, or preserve the prior version and active configuration on refusal, failure or interruption.",
+      "sprint": 2
+    },
+    {
+      "wp": "RV-11",
+      "title": "Remove a plugin without breaking dependents",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "RV-10"
+      ],
+      "outcome": "A requested plugin removal checks dependencies and in-flight work, refuses unsafe removal, and completes authorized removal with durable recovery state.",
+      "sprint": 2
     },
     {
       "wp": "RV-04",
       "title": "Run a governed process plugin",
       "repository": "agent-logic-runtime",
       "depends_on": [
-        "RV-03"
+        "RV-11"
       ],
-      "outcome": "One real non-core plugin uses authenticated bounded transport, deadlines and process supervision."
+      "outcome": "One real non-core plugin uses authenticated bounded transport, deadlines and process supervision.",
+      "sprint": 2
     },
     {
       "wp": "RV-05",
@@ -156,7 +222,8 @@
       "depends_on": [
         "RV-04"
       ],
-      "outcome": "The canonical contract drives a default-deny WIT adapter with enforced memory, time and host-call limits."
+      "outcome": "The canonical contract drives a default-deny WIT adapter with enforced memory, time and host-call limits.",
+      "sprint": 2
     },
     {
       "wp": "RV-06",
@@ -165,7 +232,8 @@
       "depends_on": [
         "RV-05"
       ],
-      "outcome": "One module has equivalent CSM-visible identity, messages, failure and state behavior across native, process and WASM adapters."
+      "outcome": "One module has equivalent CSM-visible identity, messages, failure and state behavior across native, process and WASM adapters.",
+      "sprint": 2
     },
     {
       "wp": "RV-07",
@@ -174,7 +242,8 @@
       "depends_on": [
         "RV-06"
       ],
-      "outcome": "Provider instances consume host-owned credentials and versioned configuration through the common inference capability."
+      "outcome": "Provider instances consume host-owned credentials and versioned configuration through the common inference capability.",
+      "sprint": 2
     },
     {
       "wp": "RV-08",
@@ -183,7 +252,8 @@
       "depends_on": [
         "RV-07"
       ],
-      "outcome": "Installed package signing, checkpoint compatibility, generation recovery and Observatory operations pass with a retained known-good rollback."
+      "outcome": "Installed package signing, checkpoint compatibility, generation recovery and Observatory operations pass with a retained known-good rollback.",
+      "sprint": 2
     },
     {
       "wp": "CF-01",
@@ -192,7 +262,8 @@
       "depends_on": [
         "RD-11"
       ],
-      "outcome": "Map every Drive Beta 1 workstream, demo and external-tester criterion to accepted v0.92.2 evidence, then accept the launch audience, deployment mode, limits and remaining operational gaps. Missing Beta 1 behavior remains a predecessor blocker."
+      "outcome": "Map every Drive Beta 1 workstream, demo and external-tester criterion to accepted v0.92.2 evidence, then accept the launch audience, deployment mode, limits and remaining operational gaps. Missing Beta 1 behavior remains a predecessor blocker.",
+      "sprint": 2
     },
     {
       "wp": "CF-02",
@@ -202,7 +273,8 @@
         "CF-01",
         "RV-08"
       ],
-      "outcome": "A clean target environment installs pinned CodeFriend and Runtime artifacts and completes a real repository review without a development checkout; deployment config identifies the approved environment and resource limits."
+      "outcome": "A clean target environment installs pinned CodeFriend and Runtime artifacts and completes a real repository review without a development checkout; deployment config identifies the approved environment and resource limits.",
+      "sprint": 3
     },
     {
       "wp": "CF-03",
@@ -211,7 +283,8 @@
       "depends_on": [
         "CF-02"
       ],
-      "outcome": "A non-ADL tester can connect an authorized local or GitHub repository, select scope, run a review and inspect/export its evidence packet with explicit privacy and publication state."
+      "outcome": "A non-ADL tester can connect an authorized local or GitHub repository, select scope, run a review and inspect/export its evidence packet with explicit privacy and publication state.",
+      "sprint": 3
     },
     {
       "wp": "CF-04",
@@ -220,16 +293,19 @@
       "depends_on": [
         "CF-03"
       ],
-      "outcome": "The deployed product restores a known-good release and retained project state after interruption, with bounded job cost, cancellation, deletion and operator diagnostics demonstrated."
+      "outcome": "The deployed product restores a known-good release and retained project state after interruption, with bounded job cost, cancellation, deletion and operator diagnostics demonstrated.",
+      "sprint": 3
     },
     {
       "wp": "CF-05",
       "title": "Qualify the external beta launch candidate",
       "repository": "codefriend",
       "depends_on": [
-        "CF-04"
+        "CF-04",
+        "CT-05"
       ],
-      "outcome": "An independent external-tester rehearsal repeats ADL, external OSS and PR-review journeys and evaluates evidence, diagrams, meaningful generated tests, documentation, redaction and report quality on exact installed versions."
+      "outcome": "An independent external-tester rehearsal repeats ADL, external OSS and PR-review journeys and evaluates evidence, diagrams, meaningful generated tests, documentation, redaction and report quality on exact installed versions.",
+      "sprint": 4
     },
     {
       "wp": "CF-06",
@@ -238,7 +314,8 @@
       "depends_on": [
         "CF-05"
       ],
-      "outcome": "The existing website launch plan and product entry point agree with qualified capabilities, support/feedback instructions, access limits and rollback; an approved preview is ready for separately authorized publication."
+      "outcome": "The existing website launch plan and product entry point agree with qualified capabilities, support/feedback instructions, access limits and rollback; an approved preview is ready for separately authorized publication.",
+      "sprint": 4
     },
     {
       "wp": "CF-07",
@@ -247,7 +324,112 @@
       "depends_on": [
         "CF-06"
       ],
-      "outcome": "After explicit authorization of the exact candidate, audience, environment and budget, publish the approved product/site entry points, admit the authorized testers, verify the live end-to-end journey and retain a tested rollback. Until launch authorization is granted and live launch is verified, this result remains incomplete and v0.93 cannot close."
+      "outcome": "After explicit authorization of the exact candidate, audience, environment and budget, publish the approved product/site entry points, admit the authorized testers, verify the live end-to-end journey and retain a tested rollback. Until launch authorization is granted and live launch is verified, this result remains incomplete and v0.93 cannot close.",
+      "sprint": 4
+    },
+    {
+      "wp": "CT-01",
+      "title": "Accept the complete artifact template catalog",
+      "repository": "codefriend",
+      "depends_on": [
+        "CF-01"
+      ],
+      "outcome": "Every enabled CodeFriend producer and exporter maps to a stable kind, field contract, owner, formats and common/per-kind style requirements; accepted blank and filled examples cover the catalog.",
+      "sprint": 2
+    },
+    {
+      "wp": "CT-02",
+      "title": "Release the common branded template foundation",
+      "repository": "codefriend",
+      "depends_on": [
+        "CT-01"
+      ],
+      "outcome": "One immutable common template package provides shared field/schema conventions, manifest/digest rules, REV 01 style tokens and approved font/logo assets for kind-specific template authors.",
+      "sprint": 2
+    },
+    {
+      "wp": "CT-09",
+      "title": "Release the test template family",
+      "repository": "codefriend",
+      "depends_on": [
+        "CT-02"
+      ],
+      "outcome": "Every supported test-plan, generated-test and test-report kind has a versioned template and guide preserving language/framework rules and distinct generated-versus-executed truth.",
+      "sprint": 2
+    },
+    {
+      "wp": "CT-08",
+      "title": "Release the diagram template family",
+      "repository": "codefriend",
+      "depends_on": [
+        "CT-02"
+      ],
+      "outcome": "Every supported diagram kind has a versioned template and guide with semantic shapes/edges and accessible alternatives; the full 4+1 package preserves shared IDs and cross-view consistency.",
+      "sprint": 2
+    },
+    {
+      "wp": "CT-07",
+      "title": "Release the review template family",
+      "repository": "codefriend",
+      "depends_on": [
+        "CT-02"
+      ],
+      "outcome": "Every enabled review kind has a versioned template and guide preserving scope, evidence, findings, severity/confidence and limitations with representative fixtures.",
+      "sprint": 2
+    },
+    {
+      "wp": "CT-06",
+      "title": "Release the document template family",
+      "repository": "codefriend",
+      "depends_on": [
+        "CT-02"
+      ],
+      "outcome": "Every enabled document kind has a versioned fill-in-the-blank template, per-kind guide, field contract and representative blank/filled fixture inheriting the common package.",
+      "sprint": 2
+    },
+    {
+      "wp": "CT-03",
+      "title": "Prepare artifact content through named fields",
+      "repository": "codefriend",
+      "depends_on": [
+        "CT-06",
+        "CT-07",
+        "CT-08",
+        "CT-09",
+        "CF-02"
+      ],
+      "outcome": "An installed user selects a kind and fills or edits named fields and repeatable blocks into a validated version-pinned content artifact with explicit unknowns and unfinished-field state.",
+      "sprint": 3
+    },
+    {
+      "wp": "CT-10",
+      "title": "Preview and export branded artifacts",
+      "repository": "codefriend",
+      "depends_on": [
+        "CT-03"
+      ],
+      "outcome": "Installed renderers consume the validated content artifact and pinned template package to produce human-readable preview and supported branded exports without exposing authoring hints.",
+      "sprint": 3
+    },
+    {
+      "wp": "CT-04",
+      "title": "Preserve artifact compatibility across template upgrades",
+      "repository": "codefriend",
+      "depends_on": [
+        "CT-10"
+      ],
+      "outcome": "An installed project pins a template release, preserves historical output and explicitly upgrades or rolls back supported schema/render combinations without changing evidence or finding identities.",
+      "sprint": 4
+    },
+    {
+      "wp": "CT-05",
+      "title": "Qualify the complete branded artifact catalog",
+      "repository": "codefriend",
+      "depends_on": [
+        "CT-04"
+      ],
+      "outcome": "Independent installed qualification covers every enabled kind and supported format with readable representative output, selectable text and accessible diagrams; supported generated tests parse and a bounded behavioral regression fails before its fix and passes afterward.",
+      "sprint": 4
     },
     {
       "wp": "GOV-01",
@@ -256,7 +438,8 @@
       "depends_on": [
         "RV-08"
       ],
-      "outcome": "Runtime admits citizen conduct only through bound identity, Freedom Gate and signed trace; guest/operator action remains distinct."
+      "outcome": "Runtime admits citizen conduct only through bound identity, Freedom Gate and signed trace; guest/operator action remains distinct.",
+      "sprint": 5
     },
     {
       "wp": "GOV-02",
@@ -265,7 +448,8 @@
       "depends_on": [
         "GOV-01"
       ],
-      "outcome": "A Runtime policy evaluator returns rights/duties decisions with trace evidence for a bounded action."
+      "outcome": "A Runtime policy evaluator returns rights/duties decisions with trace evidence for a bounded action.",
+      "sprint": 5
     },
     {
       "wp": "GOV-03",
@@ -274,7 +458,8 @@
       "depends_on": [
         "GOV-02"
       ],
-      "outcome": "Standing maintenance, restriction, restoration and revocation consume existing state primitives and retain reasons and challenge context."
+      "outcome": "Standing maintenance, restriction, restoration and revocation consume existing state primitives and retain reasons and challenge context.",
+      "sprint": 5
     },
     {
       "wp": "GOV-04",
@@ -283,7 +468,8 @@
       "depends_on": [
         "GOV-03"
       ],
-      "outcome": "A review consumer emits findings over trace/outcome/policy evidence without raw private-state access."
+      "outcome": "A review consumer emits findings over trace/outcome/policy evidence without raw private-state access.",
+      "sprint": 5
     },
     {
       "wp": "GOV-05",
@@ -292,7 +478,8 @@
       "depends_on": [
         "GOV-04"
       ],
-      "outcome": "A challenged finding progresses through appeal and recorded disposition without destroying original evidence."
+      "outcome": "A challenged finding progresses through appeal and recorded disposition without destroying original evidence.",
+      "sprint": 5
     },
     {
       "wp": "GOV-06",
@@ -301,7 +488,8 @@
       "depends_on": [
         "GOV-01"
       ],
-      "outcome": "Signed evidence-backed model updates replay under standing, consent/scope and projection controls."
+      "outcome": "Signed evidence-backed model updates replay under standing, consent/scope and projection controls.",
+      "sprint": 5
     },
     {
       "wp": "GOV-07",
@@ -310,7 +498,8 @@
       "depends_on": [
         "GOV-06"
       ],
-      "outcome": "Conflicting and stale entries change a bounded consumer decision through explicit uncertainty/decay events."
+      "outcome": "Conflicting and stale entries change a bounded consumer decision through explicit uncertainty/decay events.",
+      "sprint": 5
     },
     {
       "wp": "GOV-08",
@@ -319,7 +508,8 @@
       "depends_on": [
         "GOV-06"
       ],
-      "outcome": "Relationship records preserve evidence and permitted scope across restart without becoming standing verdicts."
+      "outcome": "Relationship records preserve evidence and permitted scope across restart without becoming standing verdicts.",
+      "sprint": 5
     },
     {
       "wp": "GOV-09",
@@ -330,7 +520,8 @@
         "GOV-07",
         "GOV-08"
       ],
-      "outcome": "Authorized redacted projections can inform review while retaining challenge and source lineage."
+      "outcome": "Authorized redacted projections can inform review while retaining challenge and source lineage.",
+      "sprint": 5
     },
     {
       "wp": "GOV-10",
@@ -339,7 +530,8 @@
       "depends_on": [
         "GOV-09"
       ],
-      "outcome": "Two governed consumers share evidence projections with preserved uncertainty, access rules and freshness."
+      "outcome": "Two governed consumers share evidence projections with preserved uncertainty, access rules and freshness.",
+      "sprint": 5
     },
     {
       "wp": "GOV-11",
@@ -348,7 +540,8 @@
       "depends_on": [
         "GOV-03"
       ],
-      "outcome": "Delegated action binds identity, standing, resource, capability and policy without exceeding the delegator grant."
+      "outcome": "Delegated action binds identity, standing, resource, capability and policy without exceeding the delegator grant.",
+      "sprint": 5
     },
     {
       "wp": "GOV-12",
@@ -358,7 +551,8 @@
         "GOV-11",
         "GOV-07"
       ],
-      "outcome": "A selected/rejected upstream call retains citizen identity, policy, provenance and verification; ToM may inform selection but cannot override authority."
+      "outcome": "A selected/rejected upstream call retains citizen identity, policy, provenance and verification; ToM may inform selection but cannot override authority.",
+      "sprint": 5
     },
     {
       "wp": "GOV-13",
@@ -367,7 +561,8 @@
       "depends_on": [
         "GOV-11"
       ],
-      "outcome": "A governed exchange succeeds while an associated unauthorized private-state/ToM inspection is denied."
+      "outcome": "A governed exchange succeeds while an associated unauthorized private-state/ToM inspection is denied.",
+      "sprint": 5
     },
     {
       "wp": "GOV-14",
@@ -378,7 +573,8 @@
         "GOV-10",
         "GOV-13"
       ],
-      "outcome": "A policy consumer evaluates explicit polis/citizen obligations and emits reviewable evidence."
+      "outcome": "A policy consumer evaluates explicit polis/citizen obligations and emits reviewable evidence.",
+      "sprint": 5
     },
     {
       "wp": "GOV-15",
@@ -388,7 +584,8 @@
         "GOV-14",
         "GOV-12"
       ],
-      "outcome": "Guild identity, membership, scoped resources and delegated actions persist with trace and challenge support."
+      "outcome": "Guild identity, membership, scoped resources and delegated actions persist with trace and challenge support.",
+      "sprint": 5
     },
     {
       "wp": "GOV-16",
@@ -397,7 +594,8 @@
       "depends_on": [
         "GOV-15"
       ],
-      "outcome": "The operator receives evidence-linked standing, appeals and social-memory summaries without private-state leaks or scalar moral ranking."
+      "outcome": "The operator receives evidence-linked standing, appeals and social-memory summaries without private-state leaks or scalar moral ranking.",
+      "sprint": 5
     },
     {
       "wp": "WP-S1",
@@ -407,7 +605,8 @@
         "GOV-11",
         "RD-09"
       ],
-      "outcome": "A private policy provider drives Runtime allow/deny decisions over all declared actor/message/data boundaries."
+      "outcome": "A private policy provider drives Runtime allow/deny decisions over all declared actor/message/data boundaries.",
+      "sprint": 5
     },
     {
       "wp": "WP-S2",
@@ -417,7 +616,8 @@
         "WP-S1",
         "GOV-12"
       ],
-      "outcome": "Enterprise policy narrows Runtime grants for identity, standing, delegation, tools and ACIP messages."
+      "outcome": "Enterprise policy narrows Runtime grants for identity, standing, delegation, tools and ACIP messages.",
+      "sprint": 5
     },
     {
       "wp": "WP-S3",
@@ -426,7 +626,8 @@
       "depends_on": [
         "WP-S2"
       ],
-      "outcome": "Current scoped keys work and rotated/revoked keys fail in signed/encrypted message and checkpoint consumers."
+      "outcome": "Current scoped keys work and rotated/revoked keys fail in signed/encrypted message and checkpoint consumers.",
+      "sprint": 5
     },
     {
       "wp": "WP-S4",
@@ -436,7 +637,8 @@
         "WP-S3",
         "GOV-05"
       ],
-      "outcome": "A synthetic incident emits linked audit, control and redacted review evidence accepted by the governance consumer."
+      "outcome": "A synthetic incident emits linked audit, control and redacted review evidence accepted by the governance consumer.",
+      "sprint": 5
     },
     {
       "wp": "WP-S5",
@@ -446,7 +648,8 @@
         "WP-S3",
         "GOV-10"
       ],
-      "outcome": "Access, retention, deletion and projection operations enforce tenant/polis/citizen ownership and privacy."
+      "outcome": "Access, retention, deletion and projection operations enforce tenant/polis/citizen ownership and privacy.",
+      "sprint": 5
     },
     {
       "wp": "WP-S6",
@@ -456,7 +659,53 @@
         "WP-S4",
         "WP-S5"
       ],
-      "outcome": "One bounded red/blue/purple drill replays a seed per control area and produces mitigation, provenance, threat-board and release-risk evidence."
+      "outcome": "One bounded red/blue/purple drill replays a seed per control area and produces mitigation, provenance, threat-board and release-risk evidence.",
+      "sprint": 5
+    },
+    {
+      "wp": "CM-01",
+      "title": "Accept citizen migration and descendant identity contracts",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "RV-08",
+        "GOV-01"
+      ],
+      "outcome": "A reviewed contract distinguishes same-identity migration and recovery from new-identity descendants, replication and independent clones; it defines authority, lineage, consent, state inheritance, fencing and recovery outcomes.",
+      "sprint": 6
+    },
+    {
+      "wp": "CM-02",
+      "title": "Migrate one citizen without conflicting active identity",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "CM-01",
+        "WP-S3"
+      ],
+      "outcome": "Two owned Runtime endpoints transfer one authorized citizen checkpoint and scoped continuity evidence; the source is fenced before destination activation and interruption can recover without two active holders or lost lineage.",
+      "sprint": 6
+    },
+    {
+      "wp": "CM-03",
+      "title": "Create a governed descendant with distinct identity",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "CM-01",
+        "GOV-11",
+        "WP-S5"
+      ],
+      "outcome": "An authorized parent creates one distinctly identified descendant with explicit lineage, selected inherited state and newly scoped authority while preserving the parent and protecting private state.",
+      "sprint": 6
+    },
+    {
+      "wp": "CM-04",
+      "title": "Qualify citizen migration and reproduction recovery",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "CM-02",
+        "CM-03"
+      ],
+      "outcome": "Independent installed scenarios exercise migration and descendant creation across restart, interruption and retry, verify lineage/privacy/fencing and expose the resulting identity and custody status to the operator.",
+      "sprint": 6
     },
     {
       "wp": "PY-01",
@@ -465,7 +714,8 @@
       "depends_on": [
         "RD-11"
       ],
-      "outcome": "Record tracked Python file and LOC counts at milestone start and end across the split repository set, separating moves from reductions; remove or replace one coherent remaining public ADL helper family with live-behavior parity, or record an explicit reviewed no-reduction justification if no suitable family remains. Preserve the no-new-Python policy and enable a zero-Python gate only where the measured footprint supports it."
+      "outcome": "Record tracked Python file and LOC counts at milestone start and end across the split repository set, separating moves from reductions; remove or replace one coherent remaining public ADL helper family with live-behavior parity, or record an explicit reviewed no-reduction justification if no suitable family remains. Preserve the no-new-Python policy and enable a zero-Python gate only where the measured footprint supports it.",
+      "sprint": 2
     },
     {
       "wp": "DEMO-GOV",
@@ -474,7 +724,8 @@
       "depends_on": [
         "GOV-16"
       ],
-      "outcome": "Execute D1-D8 and guild D13 through installed Runtime consumers with accepted and refused paths."
+      "outcome": "Execute D1-D8 and guild D13 through installed Runtime consumers with accepted and refused paths.",
+      "sprint": 6
     },
     {
       "wp": "DEMO-SEC",
@@ -483,7 +734,8 @@
       "depends_on": [
         "WP-S6"
       ],
-      "outcome": "Execute D9-D12 plus per-message ACIP cases against the private provider and installed Runtime."
+      "outcome": "Execute D9-D12 plus per-message ACIP cases against the private provider and installed Runtime.",
+      "sprint": 6
     },
     {
       "wp": "INTEGRATE",
@@ -491,9 +743,11 @@
       "repository": "agent-logic-runtime",
       "depends_on": [
         "DEMO-GOV",
-        "DEMO-SEC"
+        "DEMO-SEC",
+        "CM-04"
       ],
-      "outcome": "One installed polis joins citizen action, upstream delegation, private cognition, policy enforcement, appeal and plugin restart without contract drift."
+      "outcome": "One installed polis joins citizen action, upstream delegation, private cognition, policy enforcement, appeal and plugin restart without contract drift.",
+      "sprint": 7
     },
     {
       "wp": "QUALIFY",
@@ -504,7 +758,8 @@
         "CF-07",
         "PY-01"
       ],
-      "outcome": "Independent reviewer runs the accepted success/failure/recovery denominator on the exact multi-repository lockset."
+      "outcome": "Independent reviewer runs the accepted success/failure/recovery denominator on the exact multi-repository lockset.",
+      "sprint": 7
     },
     {
       "wp": "TAIL-01",
@@ -513,7 +768,8 @@
       "depends_on": [
         "QUALIFY"
       ],
-      "outcome": "Deliver the complete quality gate result over the qualified product lockset, with exact artifact links and truthful approval/deferral status."
+      "outcome": "Deliver the complete quality gate result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "sprint": 8
     },
     {
       "wp": "TAIL-02",
@@ -522,7 +778,8 @@
       "depends_on": [
         "TAIL-01"
       ],
-      "outcome": "Deliver the complete documentation review and external-review handoff result over the qualified product lockset, with exact artifact links and truthful approval/deferral status."
+      "outcome": "Deliver the complete documentation review and external-review handoff result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "sprint": 8
     },
     {
       "wp": "TAIL-03",
@@ -531,7 +788,8 @@
       "depends_on": [
         "TAIL-02"
       ],
-      "outcome": "Deliver the complete publication finalization result over the qualified product lockset, with exact artifact links and truthful approval/deferral status."
+      "outcome": "Deliver the complete publication finalization result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "sprint": 8
     },
     {
       "wp": "TAIL-04",
@@ -540,7 +798,8 @@
       "depends_on": [
         "TAIL-03"
       ],
-      "outcome": "Deliver the complete internal milestone review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status."
+      "outcome": "Deliver the complete internal milestone review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "sprint": 8
     },
     {
       "wp": "TAIL-05",
@@ -549,7 +808,8 @@
       "depends_on": [
         "TAIL-04"
       ],
-      "outcome": "Deliver the complete external or third-party review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status."
+      "outcome": "Deliver the complete external or third-party review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "sprint": 8
     },
     {
       "wp": "TAIL-06",
@@ -558,7 +818,8 @@
       "depends_on": [
         "TAIL-05"
       ],
-      "outcome": "Deliver the complete accepted-findings remediation or explicit deferral capture result over the qualified product lockset, with exact artifact links and truthful approval/deferral status."
+      "outcome": "Deliver the complete accepted-findings remediation or explicit deferral capture result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "sprint": 8
     },
     {
       "wp": "TAIL-07",
@@ -567,7 +828,8 @@
       "depends_on": [
         "TAIL-06"
       ],
-      "outcome": "Deliver the complete next-milestone planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status."
+      "outcome": "Deliver the complete next-milestone planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "sprint": 8
     },
     {
       "wp": "TAIL-08",
@@ -576,7 +838,8 @@
       "depends_on": [
         "TAIL-07"
       ],
-      "outcome": "Deliver the complete next-milestone closeout planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status."
+      "outcome": "Deliver the complete next-milestone closeout planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "sprint": 8
     },
     {
       "wp": "TAIL-09",
@@ -585,7 +848,8 @@
       "depends_on": [
         "TAIL-08"
       ],
-      "outcome": "Deliver the complete next-milestone planning review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status."
+      "outcome": "Deliver the complete next-milestone planning review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "sprint": 8
     },
     {
       "wp": "TAIL-10",
@@ -594,7 +858,181 @@
       "depends_on": [
         "TAIL-09"
       ],
-      "outcome": "Deliver the complete release ceremony and milestone close result over the qualified product lockset, with exact artifact links and truthful approval/deferral status."
+      "outcome": "Deliver the complete release ceremony and milestone close result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "sprint": 8
     }
-  ]
+  ],
+  "sprint_plan": {
+    "status": "draft_allocated_not_open",
+    "sprint_count": 8,
+    "sizing": "Eight outcome-based sprints, not fixed calendar timeboxes. Each issue retains one task; named owners and effort estimates are assigned before activation. Grouping does not reduce scope or effort.",
+    "execution_rule": "Sprint 1 contains only opening and repository split. No feature starts before accepted RD-11. Within later sprints, execute only ready issues in dependency order; independent lanes may overlap after their own gates pass. Sprint membership adds no dependency or external-action authority.",
+    "sprints": [
+      {
+        "number": 1,
+        "title": "Repository split, qualification and acceptance",
+        "work_packages": [
+          "WP-01",
+          "RD-01",
+          "RD-02",
+          "RD-12",
+          "RD-13",
+          "RD-03",
+          "RD-04",
+          "RD-05",
+          "RD-06",
+          "RD-09",
+          "RD-10",
+          "RD-08",
+          "RD-07",
+          "RD-11"
+        ],
+        "exit_result": "Complete split lockset accepted at RD-11 before any feature work."
+      },
+      {
+        "number": 2,
+        "title": "Runtime v4 and template foundations",
+        "work_packages": [
+          "RV-01",
+          "RV-02",
+          "RV-03",
+          "RV-09",
+          "RV-10",
+          "RV-11",
+          "RV-04",
+          "RV-05",
+          "RV-06",
+          "RV-07",
+          "RV-08",
+          "CF-01",
+          "CT-01",
+          "CT-02",
+          "CT-09",
+          "CT-08",
+          "CT-07",
+          "CT-06",
+          "PY-01"
+        ],
+        "exit_result": "Installed Runtime v4 qualified; launch requirements, common template foundation and four families accepted; Python tranche disposition recorded."
+      },
+      {
+        "number": 3,
+        "title": "CodeFriend product and artifact preparation",
+        "work_packages": [
+          "CF-02",
+          "CF-03",
+          "CF-04",
+          "CT-03",
+          "CT-10"
+        ],
+        "exit_result": "Deployable product, tester onboarding, launch recovery and branded artifact preparation/export accepted."
+      },
+      {
+        "number": 4,
+        "title": "Template qualification and Beta 1 launch",
+        "work_packages": [
+          "CT-04",
+          "CT-05",
+          "CF-05",
+          "CF-06",
+          "CF-07"
+        ],
+        "exit_result": "Complete template catalog and external launch candidate qualified; Beta 1 launched under explicit authority."
+      },
+      {
+        "number": 5,
+        "title": "Governance and security",
+        "work_packages": [
+          "GOV-01",
+          "GOV-02",
+          "GOV-03",
+          "GOV-04",
+          "GOV-05",
+          "GOV-06",
+          "GOV-07",
+          "GOV-08",
+          "GOV-09",
+          "GOV-10",
+          "GOV-11",
+          "GOV-12",
+          "GOV-13",
+          "GOV-14",
+          "GOV-15",
+          "GOV-16",
+          "WP-S1",
+          "WP-S2",
+          "WP-S3",
+          "WP-S4",
+          "WP-S5",
+          "WP-S6"
+        ],
+        "exit_result": "Constitutional/social governance and enterprise security behavior accepted, including replayable security drill."
+      },
+      {
+        "number": 6,
+        "title": "Citizen migration/reproduction and demonstrations",
+        "work_packages": [
+          "CM-01",
+          "CM-02",
+          "CM-03",
+          "CM-04",
+          "DEMO-GOV",
+          "DEMO-SEC"
+        ],
+        "exit_result": "Citizen migration/reproduction recovery and installed governance/security demonstrations accepted."
+      },
+      {
+        "number": 7,
+        "title": "Milestone integration and qualification",
+        "work_packages": [
+          "INTEGRATE",
+          "QUALIFY"
+        ],
+        "exit_result": "Complete installed product lockset integrated and independently qualified."
+      },
+      {
+        "number": 8,
+        "title": "Release reviews, remediation, successor planning and closeout",
+        "work_packages": [
+          "TAIL-01",
+          "TAIL-02",
+          "TAIL-03",
+          "TAIL-04",
+          "TAIL-05",
+          "TAIL-06",
+          "TAIL-07",
+          "TAIL-08",
+          "TAIL-09",
+          "TAIL-10"
+        ],
+        "exit_result": "Canonical TAIL-01\u2013TAIL-10 completed in order, including reviews before accepted remediation and authorized release."
+      }
+    ],
+    "existing_issue_sidecars": [
+      {
+        "issue": 875,
+        "planning_window": [
+          2,
+          6
+        ],
+        "gate": "After RD-11, refreshed SIM-07/SIM-08 qualification and separately authorized transition window; observe first five consecutive eligible journeys without fabricating or replacing failures. Reconcile actual disposition before QUALIFY.",
+        "status": "open_separately_gated_not_in_83_candidates"
+      },
+      {
+        "issue": 671,
+        "planning_window": [
+          4,
+          6
+        ],
+        "gate": "After RD-11, terminal #261/#262/#263/#660 and explicit public launch/provider submission authority. Preserve pending/accepted/live distinctions and report actual disposition before QUALIFY.",
+        "status": "open_separately_gated_not_in_83_candidates"
+      }
+    ]
+  },
+  "superseded_by": [
+    "v0.93.1",
+    "v0.93.2"
+  ],
+  "activation_allowed": false,
+  "retention_note": "Historical combined package; internal status fields describe its original draft. Use MILESTONE_SPLIT_v0.93.json and successor plans for current routing."
 }

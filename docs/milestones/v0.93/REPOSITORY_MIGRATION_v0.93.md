@@ -1,3 +1,5 @@
+> **Superseded combined plan.** The operator-approved split is planned under #922 in [v0.93.1](../v0.93.1/README.md) (repo split, templates and CodeFriend Beta 1 launch) and [v0.93.2](../v0.93.2/README.md) (remaining platform work). The original combined scope below is retained for traceability; it does not require Runtime v4 before Beta 1 launch or authorize execution.
+
 # v0.93 Opening Repository Migration
 
 ## Status
@@ -52,4 +54,9 @@ Stop on unresolved ownership, missing release proof, incompatible contracts, new
 
 ## Issue bootstrap order
 
-WP-01 creates only the ADL coordination/audit/decision identities. RD-02 accepts destination names and boundaries, then creates/bootstrap those repositories and their execution issue identities. Bind immutable cross-repository dependency links before RD-03 and extraction execution. Never require an issue in a not-yet-created repository as the prerequisite to deciding its name.
+WP-01 creates only the ADL coordination/audit/decision identities. RD-02 accepts destination names and boundaries. RD-12 bootstraps those repositories; RD-13 creates their execution issue identities. Bind immutable cross-repository dependency links before RD-03 and extraction execution. Never require an issue in a not-yet-created repository as the prerequisite to deciding its name.
+
+
+## Single-task cutover admission — #922
+
+RD-02 accepts the cutover contract. RD-12 bootstraps approved repositories. RD-13 materializes the cross-repository issue map. Extraction waits for RD-13; RD-11 remains final split acceptance after all extraction and retirement results. IDs express stable identity, not numeric execution order.

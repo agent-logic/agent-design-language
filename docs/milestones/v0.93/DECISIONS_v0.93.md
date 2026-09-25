@@ -1,3 +1,5 @@
+> **Superseded combined plan.** The operator-approved split is planned under #922 in [v0.93.1](../v0.93.1/README.md) (repo split, templates and CodeFriend Beta 1 launch) and [v0.93.2](../v0.93.2/README.md) (remaining platform work). The original combined scope below is retained for traceability; it does not require Runtime v4 before Beta 1 launch or authorize execution.
+
 # v0.93 Decisions
 
 ## Status
@@ -44,7 +46,7 @@ v0.93 allocation, but they are not implementation closeout decisions.
 
 ## Metadata
 
-Planning template set: 1.1.0. Target: v0.93. Authoring issue: #1047 in v0.92.2. Accountable planning role: milestone owner; named implementation owners are assigned before opening.
+Planning template set: 1.1.0. Target: v0.93. Authoring issue: #1047; current reconciliation: #922 in v0.92.2. Accountable planning role: milestone owner; named implementation owners are assigned before opening.
 
 ## Purpose
 
@@ -60,13 +62,29 @@ Original D-01 through D-10 remain planning boundaries, not proof of implementati
 |---|---|---|---|
 | D-11 | Repo split opens v0.93 after v0.92.2 acceptance/closure | Operator selected | WP-01/RD-11 |
 | D-12 | One public ADL and six private repositories; CodeFriend software separate from website | Operator boundary; software name proposed | RD-02 confirms exact names and people |
-| D-13 | Runtime v4 belongs in v0.93 | Required by explicit operator direction on 2026-09-16 | RV-01 through RV-08 completed and independently qualified before release |
+| D-13 | Runtime v4 belongs in v0.93 | Required by explicit operator direction on 2026-09-16 | RV-01 through RV-11 completed and independently qualified before release |
 | D-14 | Retain existing governance and six security tracks | First-pass assumption; scope/capacity review pending | Before opening issue wave |
 | D-15 | Customer-scale CodeFriend deployment | Required by explicit operator direction on 2026-09-16; launch audience/environment/limits resolved before execution | CF-01 and #922 final reconciliation; actual publication needs explicit authorization |
 | D-16 | Licenses, registries, supported versions, history/issue migration, evidence retention | Proposed owners in migration plan; named owners and policy unresolved | RD-02 before extraction |
 | D-17 | Runtime v4 review defects | Proposed corrections in feature doc; not accepted implementation design | RV-01 before RV-02 |
 | D-18 | ATE, OCI, economics, optional modernization and cloud/account operations | Retain existing separate routing; no automatic admission | #922 final reconciliation |
 
-Runtime v4 is mandatory in v0.93. RV-01 through RV-08 are required, including native, process and WASM adapters, provider integration and installed recovery qualification. Native generation recovery is an intermediate dependency gate, not a reduced release scope. Design review resolves implementation choices without deferring required outcomes. No calendar estimate is claimed.
+Runtime v4 is mandatory in v0.93. RV-01 through RV-11 are required, including native, process and WASM adapters, provider integration and installed recovery qualification. Native generation recovery is an intermediate dependency gate, not a reduced release scope. Design review resolves implementation choices without deferring required outcomes. No calendar estimate is claimed.
 
 CodeFriend Beta 1 must launch in v0.93. CF-07 is mandatory: an authorized live product, tester admission, end-to-end verification and retained rollback. Planning, a preview or withheld execution authorization cannot satisfy release completion. #1047 prepares this obligation and does not itself launch the service.
+
+
+## Operator-confirmed additions — #922 / 2026-09-22
+
+- D-19: CodeFriend versioned templates and per-kind style guides are required v0.93 scope. CT-01–CT-10 must complete before CF-05 launch qualification; use the supplied REV 01 brand source and full supported artifact catalog.
+- D-20: Citizen reproduction/migration is required v0.93 scope. CM-01–CM-04 provide the bounded identity/lineage/custody outcome and feed INTEGRATE. This replaces the old unresolved placement question.
+- D-21: #922 may draft/update now by operator instruction; final #921 evidence, predecessor acceptance, inter-milestone break and explicit v0.93 opening remain required. No permission for new product implementation or live launch is implied.
+
+
+## Proposed v0.93.1 / v0.93.2 scope split — 2026-09-22
+
+The operator proposes v0.93.1 for the repository split and all work necessary to launch CodeFriend Beta 1, drawing from the current Sprints 1, 3 and 4; the remaining platform work belongs to v0.93.2. This is successor planning, not milestone opening or issue migration.
+
+**Approved allocation:** Bring the complete CodeFriend template work (CT-01 through CT-10), including the foundations currently in Sprint 2, into v0.93.1. Retain the versioned document, review, diagram and test families, branded preparation/export and independent artifact qualification.
+
+**Dependency under review:** The existing CF-02 -> RV-08 edge makes the launch depend on all eleven Runtime v4 tasks. Its recorded rationale is the combined original v0.93 requirement to complete Runtime v4 and launch CodeFriend. The Beta 1 delivery contract in `../v0.92.2/adr/issue-945/BETA1_DELIVERY.md` does not name a Runtime v4-only feature. This is not yet evidence that the existing Runtime passes launch qualification, but the plan has not established a technical reason to require the entire v4 program before launch. Proposed replacement: require a pinned, compatible Runtime artifact with the actual CodeFriend launch/recovery/qualification behavior; allocate Runtime v4 to v0.93.2 if accepted. The operator subsequently approved removing the full Runtime v4 prerequisite and allocating v4 to v0.93.2. The successor graphs implement this decision; native issue migration is recorded separately.

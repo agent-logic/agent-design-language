@@ -1,3 +1,5 @@
+> **Superseded combined plan.** The operator-approved split is planned under #922 in [v0.93.1](../../v0.93.1/README.md) (repo split, templates and CodeFriend Beta 1 launch) and [v0.93.2](../../v0.93.2/README.md) (remaining platform work). The original combined scope below is retained for traceability; it does not require Runtime v4 before Beta 1 launch or authorize execution.
+
 # v0.93 CodeFriend Launch
 
 ## Status
@@ -88,7 +90,7 @@ The source scope and invariants above define the feature contract. Implement the
 - CF-02 follows CF-01, RV-08.
 - CF-03 follows CF-02.
 - CF-04 follows CF-03.
-- CF-05 follows CF-04.
+- CF-05 follows CF-04 and CT-05.
 - CF-06 follows CF-05.
 - CF-07 follows CF-06.
 
@@ -131,3 +133,12 @@ See [execution specifications](../WP_EXECUTION_SPECIFICATIONS_v0.93.yaml), [deci
 ## Current Candidate Mapping
 
 CF-01, CF-02, CF-03, CF-04, CF-05, CF-06, CF-07; owner repositories: codefriend, codefriend.ai. The current execution graph supersedes older sequencing or placement in retained source text.
+
+
+## Branded output launch dependency
+
+CT-01–CT-10 deliver versioned artifact templates and styles. CF-05 consumes CT-05 catalog-wide qualification before CF-07; no optional post-launch deferral.
+
+## Deferred Sprint 10 qualification
+
+The operator authorized v0.92.2 Sprint10 closeout with #915 qualification explicitly incomplete/deferred. This does not qualify Beta1 for launch. CF-01 maps three single-task successors: #1148 source-grounded citation correctness, #1149 unknown second-run reconciliation/recovery, and #1150 the remaining independent 12-cell/24-obligation qualification. #1150 depends on accepted #1148/#1149 results. These issues are created in v0.93 but are not complete. CF-05 must consume their accepted results before CF-07 launch. Existing six private export artifacts are retained partial proof, not a passing qualification. The eight-sprint/83-core-candidate allocation remains unchanged; report these three inherited follow-on issues separately and allocate them before Beta 1 launch after the repo split.

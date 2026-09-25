@@ -1,3 +1,5 @@
+> **Superseded combined plan.** The operator-approved split is planned under #922 in [v0.93.1](../../v0.93.1/README.md) (repo split, templates and CodeFriend Beta 1 launch) and [v0.93.2](../../v0.93.2/README.md) (remaining platform work). The original combined scope below is retained for traceability; it does not require Runtime v4 before Beta 1 launch or authorize execution.
+
 # v0.93 Feature: Delegation, Upstream Delegation, IAM, Standing Transition, and Appeal Governance
 
 ## Status
@@ -128,3 +130,10 @@ See [execution specifications](../WP_EXECUTION_SPECIFICATIONS_v0.93.yaml), [deci
 ## Current Candidate Mapping
 
 GOV-03, GOV-05, GOV-11, GOV-12, GOV-13; owner repositories: agent-logic-runtime. The current execution graph supersedes older sequencing or placement in retained source text.
+
+
+## Inherited feature acceptance — #922 / GOV-11
+
+A bounded remote action accepts a current scoped delegation and rejects refusal, revocation and replay without applying the action twice.
+
+Required negative scenarios: Remote replay duplicates effect; Remote refusal ignored.

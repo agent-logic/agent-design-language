@@ -1,0 +1,1797 @@
+{
+  "schema": "adl.v093.first_pass.v1",
+  "milestone": "v0.93.1",
+  "status": "approved_scope_draft_not_open",
+  "planning_issue": 922,
+  "opening_requires": [
+    "Accepted predecessor closure and exact handoff",
+    "Explicit milestone opening authorization",
+    "Reviewed logical work-package map before opening; numeric destination issue identities are created by RD-13 after RD-12 repository bootstrap, reusing existing issues."
+  ],
+  "feature_gate": "RD-11",
+  "required_release_tracks": [
+    "CF-01",
+    "CF-02",
+    "CF-03",
+    "CF-04",
+    "CF-05",
+    "CF-06",
+    "CF-07",
+    "CT-01",
+    "CT-02",
+    "CT-03",
+    "CT-04",
+    "CT-05",
+    "CT-06",
+    "CT-07",
+    "CT-08",
+    "CT-09",
+    "CT-10"
+  ],
+  "repositories": {
+    "agent-design-language": "public",
+    "cognitive-sdlc": "private",
+    "agent-logic-runtime": "private",
+    "codefriend": "private",
+    "codefriend.ai": "private",
+    "agent-logic-infrastructure": "private",
+    "agent-logic-enterprise-security": "private"
+  },
+  "decisions_pending": [
+    "Named owners, effort estimates and activation capacity",
+    "Exact deployment audience/environment/budget and launch authorization"
+  ],
+  "work_packages": [
+    {
+      "id": "WP-01",
+      "title": "Open the reviewed v0.93.1 execution wave",
+      "repository": "agent-design-language",
+      "depends_on": [],
+      "result": "After accepted v0.92.2 closure, the inter-milestone break and explicit opening approval, create only ADL coordination, audit and boundary-decision issue identities; destination issue creation waits for RD-12 repository bootstrap and RD-13 issue mapping.",
+      "acceptance": [
+        "After accepted v0.92.2 closure, the inter-milestone break and explicit opening approval, create only ADL coordination, audit and boundary-decision issue identities; destination issue creation waits for RD-12 repository bootstrap and RD-13 issue mapping.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Unaccepted predecessor",
+        "Missing opening approval",
+        "Duplicate issue identities"
+      ],
+      "phase": "opening",
+      "source": "README.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Open the reviewed v0.93.1 execution wave",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 1,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "WP-01",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "RD-01",
+      "title": "Refresh final-head ownership audit",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "WP-01"
+      ],
+      "result": "Every tracked source/artifact at the frozen v0.92.2 head has one owner or explicit blocking decision; explain all changes from #977.",
+      "acceptance": [
+        "Every tracked source/artifact at the frozen v0.92.2 head has one owner or explicit blocking decision; explain all changes from #977.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Omitted path",
+        "Unresolved owner hidden"
+      ],
+      "phase": "migration",
+      "source": "REPOSITORY_MIGRATION_v0.93.1.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Refresh final-head ownership audit",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 1,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "RD-01",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "RD-02",
+      "title": "Accept repository boundaries and cutover contracts",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "RD-01"
+      ],
+      "result": "One accepted cutover contract fixes names, accountable owners, licenses, distribution, history/evidence retention and rollback boundaries and resolves the ownership audit findings before repository creation.",
+      "acceptance": [
+        "One accepted cutover contract fixes names, accountable owners, licenses, distribution, history/evidence retention and rollback boundaries and resolves the ownership audit findings before repository creation.",
+        "Independent design review resolves ownership and cutover-contract findings before bootstrap; installed product proof belongs to the subsequent extraction owners."
+      ],
+      "negative_cases": [
+        "Public/private dependency inversion",
+        "Unassigned registry or rollback owner"
+      ],
+      "phase": "migration",
+      "source": "REPOSITORY_MIGRATION_v0.93.1.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Accept repository boundaries and cutover contracts",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 1,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "RD-02",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "RD-12",
+      "title": "Bootstrap the approved destination repositories",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "RD-02"
+      ],
+      "result": "Approved destination repositories exist with verified visibility, access, default branches and minimal project configuration matching the accepted cutover contract.",
+      "acceptance": [
+        "Approved destination repositories exist with verified visibility, access, default branches and minimal project configuration matching the accepted cutover contract.",
+        "Exact versioned input/output evidence and positive/negative scenario counts are retained; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Wrong visibility",
+        "Unapproved destination identity",
+        "Missing owner access"
+      ],
+      "phase": "migration",
+      "source": "REPOSITORY_MIGRATION_v0.93.1.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Bootstrap the approved destination repositories",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 1,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "RD-12",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "RD-13",
+      "title": "Materialize destination issue identities",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "RD-12"
+      ],
+      "result": "One complete immutable cross-repository issue map binds the accepted candidate results to destination issue identities without duplicate creation.",
+      "acceptance": [
+        "One complete immutable cross-repository issue map binds the accepted candidate results to destination issue identities without duplicate creation.",
+        "Exact versioned input/output evidence and positive/negative scenario counts are retained; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Duplicate issue",
+        "Missing dependency mapping",
+        "Issue in wrong repository"
+      ],
+      "phase": "migration",
+      "source": "REPOSITORY_MIGRATION_v0.93.1.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Materialize destination issue identities",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 1,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "RD-13",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "RD-03",
+      "title": "Distribute portable public ADL contracts",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "RD-13"
+      ],
+      "result": "Public portable interfaces and conformance fixtures build and package without private source; consumers resolve pinned distributable versions.",
+      "acceptance": [
+        "Public portable interfaces and conformance fixtures build and package without private source; consumers resolve pinned distributable versions.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Private credentials required",
+        "Sibling checkout required",
+        "Incompatible contract accepted"
+      ],
+      "phase": "migration",
+      "source": "REPOSITORY_MIGRATION_v0.93.1.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Distribute portable public ADL contracts",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 1,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "RD-03",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "RD-04",
+      "title": "Extract and qualify C-SDLC",
+      "repository": "cognitive-sdlc",
+      "depends_on": [
+        "RD-13"
+      ],
+      "result": "An independent install completes a shadow issue through review, publication, merge, finish and cleanup, including authentic copied-record interrupted recovery, without Runtime or ADL source.",
+      "acceptance": [
+        "An independent install completes a shadow issue through review, publication, merge, finish and cleanup, including authentic copied-record interrupted recovery, without Runtime or ADL source.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Stale authority",
+        "Uncertain write replay",
+        "Retained-record mismatch",
+        "Interrupted cleanup"
+      ],
+      "phase": "migration",
+      "source": "REPOSITORY_MIGRATION_v0.93.1.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Extract and qualify C-SDLC",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 1,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "RD-04",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "RD-05",
+      "title": "Extract and qualify Runtime with Observatory",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "RD-03",
+        "RD-04"
+      ],
+      "result": "Published Runtime artifacts run a local polis with continuity and Observatory using distributed contracts, with accepted pre-split rollback.",
+      "acceptance": [
+        "Published Runtime artifacts run a local polis with continuity and Observatory using distributed contracts, with accepted pre-split rollback.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Absent private sibling checkout",
+        "Restart loses continuity",
+        "API/projection mismatch"
+      ],
+      "phase": "migration",
+      "source": "REPOSITORY_MIGRATION_v0.93.1.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Extract and qualify Runtime with Observatory",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 1,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "RD-05",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "RD-06",
+      "title": "Extract artifact-consuming infrastructure",
+      "repository": "agent-logic-infrastructure",
+      "depends_on": [
+        "RD-05"
+      ],
+      "result": "Infrastructure validates against pinned application artifacts without copied application source; state and cloud applies remain separately authorized.",
+      "acceptance": [
+        "Infrastructure validates against pinned application artifacts without copied application source; state and cloud applies remain separately authorized.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Unpinned artifact",
+        "Application source required"
+      ],
+      "phase": "migration",
+      "source": "REPOSITORY_MIGRATION_v0.93.1.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Extract artifact-consuming infrastructure",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 1,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "RD-06",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "RD-09",
+      "title": "Establish enterprise-security producer boundary",
+      "repository": "agent-logic-enterprise-security",
+      "depends_on": [
+        "RD-05"
+      ],
+      "result": "Private security repository independently validates its versioned Runtime extension boundary; Runtime proves absent, unavailable and verified provider behavior using synthetic policies.",
+      "acceptance": [
+        "Private security repository independently validates its versioned Runtime extension boundary; Runtime proves absent, unavailable and verified provider behavior using synthetic policies.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Unavailable provider silently falls back",
+        "Provider bypasses Runtime enforcement"
+      ],
+      "phase": "migration",
+      "source": "REPOSITORY_MIGRATION_v0.93.1.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Establish enterprise-security producer boundary",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 1,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "RD-09",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "RD-10",
+      "title": "Extract CodeFriend software and preserve its website",
+      "repository": "codefriend",
+      "depends_on": [
+        "RD-05"
+      ],
+      "result": "Extract CodeFriend software and independently install the preserved baseline using pinned distributable Runtime artifacts; retain known v0.92.2 qualification failures, website history and deployment. Prove portability and no new boundary regressions, not final Beta 1 launch acceptance.",
+      "acceptance": [
+        "Extract CodeFriend software and independently install the preserved baseline using pinned distributable Runtime artifacts; retain known v0.92.2 qualification failures, website history and deployment. Prove portability and no new boundary regressions, not final Beta 1 launch acceptance.",
+        "Retain exact prior and extracted candidates, actual install/replay observations and explicit inherited failures. CF launch qualification follows the split; do not require new v4 features here."
+      ],
+      "negative_cases": [
+        "Website overwritten",
+        "Sibling import",
+        "Unapproved publication",
+        "Report parity drift"
+      ],
+      "phase": "migration",
+      "source": "REPOSITORY_MIGRATION_v0.93.1.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Extract CodeFriend software and preserve its website",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 1,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "RD-10",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "RD-08",
+      "title": "Qualify demo ownership after product moves",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "RD-06",
+        "RD-09",
+        "RD-10"
+      ],
+      "result": "Every retained demo has one owner and runs against supported product artifacts; Runtime owns Observatory and product moves own their source placement.",
+      "acceptance": [
+        "Every retained demo has one owner and runs against supported product artifacts; Runtime owns Observatory and product moves own their source placement.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Unowned demo",
+        "Copied production implementation",
+        "Mock presented as live proof"
+      ],
+      "phase": "migration",
+      "source": "REPOSITORY_MIGRATION_v0.93.1.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Qualify demo ownership after product moves",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 1,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "RD-08",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "RD-07",
+      "title": "Retire superseded source with verified public ADL",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "RD-08"
+      ],
+      "result": "Each approved removal has preserved history/evidence and qualified replacement; a clean public checkout builds/tests/packages without private access.",
+      "acceptance": [
+        "Each approved removal has preserved history/evidence and qualified replacement; a clean public checkout builds/tests/packages without private access.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Required evidence deleted",
+        "Private release dependency",
+        "Rollback absent"
+      ],
+      "phase": "migration",
+      "source": "REPOSITORY_MIGRATION_v0.93.1.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Retire superseded source with verified public ADL",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 1,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "RD-07",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "RD-11",
+      "title": "Accept the complete split and release lockset",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "RD-07"
+      ],
+      "result": "Accept a sanitized compatibility lockset of independently qualified products and rollback points; no v0.93.1 feature starts before this gate.",
+      "acceptance": [
+        "Accept a sanitized compatibility lockset of independently qualified products and rollback points; no v0.93.1 feature starts before this gate.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings.",
+        "From independently clean checkouts, build, test and install each product using only declared distributable dependencies. Reject hidden sibling-source imports, undeclared build-order cycles or Runtime requirements in standalone C-SDLC. Record the minimal versioned interface graph and one accepted compatibility lockset."
+      ],
+      "negative_cases": [
+        "Missing product proof",
+        "Mixed active source owners",
+        "Unqualified shared-tool activation"
+      ],
+      "phase": "migration",
+      "source": "REPOSITORY_MIGRATION_v0.93.1.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Accept the complete split and release lockset",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 1,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "RD-11",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "CF-01",
+      "title": "Accept the Beta 1 to launch requirements mapping",
+      "repository": "codefriend",
+      "depends_on": [
+        "RD-11"
+      ],
+      "result": "Map every Drive Beta 1 workstream, demo and external-tester criterion to accepted v0.92.2 evidence, then accept the launch audience, deployment mode, limits and remaining operational gaps. Retained incomplete Beta 1 behavior maps to v0.93.1 launch blockers; approved #915 deferral is not an opening blocker.",
+      "acceptance": [
+        "Map every Drive Beta 1 workstream, demo and external-tester criterion to accepted v0.92.2 evidence, then accept the launch audience, deployment mode, limits and remaining operational gaps. Retained incomplete Beta 1 behavior maps to v0.93.1 launch blockers; approved #915 deferral is not an opening blocker.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings.",
+        "Map the operator-deferred v0.92.2 #915 obligations to #1148 citation-grounded assessment correctness, #1149 uncertain second-run recovery and #1150 remaining independent 12-cell/24-obligation qualification. #1150 depends on accepted #1148 and #1149 results. Preserve original failed/incomplete evidence; do not count historical exports as qualification pass."
+      ],
+      "negative_cases": [
+        "Unproved Beta behavior deferred",
+        "Website readiness substituted for product readiness"
+      ],
+      "phase": "codefriend_launch",
+      "source": "features/CODEFRIEND_LAUNCH_v0.93.1.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Accept the Beta 1 to launch requirements mapping",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 2,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "CF-01",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "CF-02",
+      "title": "Deliver a deployable CodeFriend product",
+      "repository": "codefriend",
+      "depends_on": [
+        "CF-01"
+      ],
+      "result": "A clean target environment installs pinned CodeFriend and Runtime artifacts and completes a real repository review without a development checkout; deployment config identifies the approved environment and resource limits.",
+      "acceptance": [
+        "A clean target environment installs pinned CodeFriend and Runtime artifacts and completes a real repository review without a development checkout; deployment config identifies the approved environment and resource limits.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings.",
+        "Consume a pinned compatible Runtime and prove required CodeFriend deployment/review/recovery behavior. Runtime v4 is not a prerequisite; route only demonstrated launch blockers as bounded corrections."
+      ],
+      "negative_cases": [
+        "Private sibling dependency",
+        "Missing configuration silently defaulted",
+        "Incompatible Runtime accepted"
+      ],
+      "phase": "codefriend_launch",
+      "source": "features/CODEFRIEND_LAUNCH_v0.93.1.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Deliver a deployable CodeFriend product",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 2,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "CF-02",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "CF-03",
+      "title": "Complete external tester onboarding",
+      "repository": "codefriend",
+      "depends_on": [
+        "CF-02"
+      ],
+      "result": "A non-ADL tester can connect an authorized local or GitHub repository, select scope, run a review and inspect/export its evidence packet with explicit privacy and publication state.",
+      "acceptance": [
+        "A non-ADL tester can connect an authorized local or GitHub repository, select scope, run a review and inspect/export its evidence packet with explicit privacy and publication state.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Unauthorized repository access",
+        "Unsafe source path",
+        "Unapproved export",
+        "Hidden skipped surface"
+      ],
+      "phase": "codefriend_launch",
+      "source": "features/CODEFRIEND_LAUNCH_v0.93.1.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Complete external tester onboarding",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 2,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "CF-03",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "CF-04",
+      "title": "Qualify launch operations and recovery",
+      "repository": "codefriend",
+      "depends_on": [
+        "CF-03"
+      ],
+      "result": "The deployed product restores a known-good release and retained project state after interruption, with bounded job cost, cancellation, deletion and operator diagnostics demonstrated.",
+      "acceptance": [
+        "The deployed product restores a known-good release and retained project state after interruption, with bounded job cost, cancellation, deletion and operator diagnostics demonstrated.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Cross-project disclosure",
+        "Cancellation leaves billable work running",
+        "Backup cannot restore",
+        "Deletion leaves accessible data"
+      ],
+      "phase": "codefriend_launch",
+      "source": "features/CODEFRIEND_LAUNCH_v0.93.1.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Qualify launch operations and recovery",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 2,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "CF-04",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "CT-01",
+      "title": "Accept the complete artifact template catalog",
+      "repository": "codefriend",
+      "depends_on": [
+        "CF-01"
+      ],
+      "result": "Every enabled CodeFriend producer and exporter maps to a stable kind, field contract, owner, formats and common/per-kind style requirements; accepted blank and filled examples cover the catalog.",
+      "acceptance": [
+        "Every enabled CodeFriend producer and exporter maps to a stable kind, field contract, owner, formats and common/per-kind style requirements; accepted blank and filled examples cover the catalog.",
+        "Independent design review checks the enumerated success, denial and recovery examples against the contract; implementation and installed scenario counts belong to downstream results."
+      ],
+      "negative_cases": [
+        "Unmapped producer",
+        "Catch-all hides missing kind",
+        "Required field lacks source or unknown-state rule"
+      ],
+      "phase": "codefriend_launch",
+      "source": "features/CODEFRIEND_ARTIFACT_TEMPLATES_AND_STYLE_GUIDES_v0.93.1.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI. No paid provider, cloud mutation or external publication without separately scoped authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated subsystem rewrite",
+        "No implementation completion from schema, scaffold, mock-only or zero-scenario proof"
+      ],
+      "task_boundary": {
+        "single_result": "Accept the complete artifact template catalog",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 2,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "CT-01",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "CT-02",
+      "title": "Release the common branded template foundation",
+      "repository": "codefriend",
+      "depends_on": [
+        "CT-01"
+      ],
+      "result": "One immutable common template package provides shared field/schema conventions, manifest/digest rules, REV 01 style tokens and approved font/logo assets for kind-specific template authors.",
+      "acceptance": [
+        "One immutable common template package provides shared field/schema conventions, manifest/digest rules, REV 01 style tokens and approved font/logo assets for kind-specific template authors.",
+        "Exact versioned inputs and actual positive, denial and recovery scenario counts are retained; independent review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Unversioned asset",
+        "Unavailable or unlicensed font silently substituted",
+        "Manifest digest mismatch"
+      ],
+      "phase": "codefriend_launch",
+      "source": "features/CODEFRIEND_ARTIFACT_TEMPLATES_AND_STYLE_GUIDES_v0.93.1.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI. No paid provider, cloud mutation or external publication without separately scoped authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated subsystem rewrite",
+        "No implementation completion from schema, scaffold, mock-only or zero-scenario proof"
+      ],
+      "task_boundary": {
+        "single_result": "Release the common branded template foundation",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 2,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "CT-02",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "CT-06",
+      "title": "Release the document template family",
+      "repository": "codefriend",
+      "depends_on": [
+        "CT-02"
+      ],
+      "result": "Every enabled document kind has a versioned fill-in-the-blank template, per-kind guide, field contract and representative blank/filled fixture inheriting the common package.",
+      "acceptance": [
+        "Every enabled document kind has a versioned fill-in-the-blank template, per-kind guide, field contract and representative blank/filled fixture inheriting the common package.",
+        "Exact versioned input/output evidence and positive/negative scenario counts are retained; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Unmapped document producer",
+        "Missing required field rule"
+      ],
+      "phase": "codefriend_launch",
+      "source": "features/CODEFRIEND_ARTIFACT_TEMPLATES_AND_STYLE_GUIDES_v0.93.1.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI. No paid provider, cloud mutation or external publication without separately scoped authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated subsystem rewrite",
+        "No implementation completion from schema, scaffold, mock-only or zero-scenario proof"
+      ],
+      "task_boundary": {
+        "single_result": "Release the document template family",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 2,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "CT-06",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "CT-07",
+      "title": "Release the review template family",
+      "repository": "codefriend",
+      "depends_on": [
+        "CT-02"
+      ],
+      "result": "Every enabled review kind has a versioned template and guide preserving scope, evidence, findings, severity/confidence and limitations with representative fixtures.",
+      "acceptance": [
+        "Every enabled review kind has a versioned template and guide preserving scope, evidence, findings, severity/confidence and limitations with representative fixtures.",
+        "Exact versioned input/output evidence and positive/negative scenario counts are retained; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Unsupported grade without rubric",
+        "Missing evidence or uncertainty"
+      ],
+      "phase": "codefriend_launch",
+      "source": "features/CODEFRIEND_ARTIFACT_TEMPLATES_AND_STYLE_GUIDES_v0.93.1.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI. No paid provider, cloud mutation or external publication without separately scoped authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated subsystem rewrite",
+        "No implementation completion from schema, scaffold, mock-only or zero-scenario proof"
+      ],
+      "task_boundary": {
+        "single_result": "Release the review template family",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 2,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "CT-07",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "CT-08",
+      "title": "Release the diagram template family",
+      "repository": "codefriend",
+      "depends_on": [
+        "CT-02"
+      ],
+      "result": "Every supported diagram kind has a versioned template and guide with semantic shapes/edges and accessible alternatives; the full 4+1 package preserves shared IDs and cross-view consistency.",
+      "acceptance": [
+        "Every supported diagram kind has a versioned template and guide with semantic shapes/edges and accessible alternatives; the full 4+1 package preserves shared IDs and cross-view consistency.",
+        "Exact versioned input/output evidence and positive/negative scenario counts are retained; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Unsupported edge",
+        "Cross-view identity mismatch",
+        "Missing scenario view"
+      ],
+      "phase": "codefriend_launch",
+      "source": "features/CODEFRIEND_ARTIFACT_TEMPLATES_AND_STYLE_GUIDES_v0.93.1.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI. No paid provider, cloud mutation or external publication without separately scoped authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated subsystem rewrite",
+        "No implementation completion from schema, scaffold, mock-only or zero-scenario proof"
+      ],
+      "task_boundary": {
+        "single_result": "Release the diagram template family",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 2,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "CT-08",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "CT-09",
+      "title": "Release the test template family",
+      "repository": "codefriend",
+      "depends_on": [
+        "CT-02"
+      ],
+      "result": "Every supported test-plan, generated-test and test-report kind has a versioned template and guide preserving language/framework rules and distinct generated-versus-executed truth.",
+      "acceptance": [
+        "Every supported test-plan, generated-test and test-report kind has a versioned template and guide preserving language/framework rules and distinct generated-versus-executed truth.",
+        "Exact versioned input/output evidence and positive/negative scenario counts are retained; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Unsupported framework",
+        "Generated test reported as executed",
+        "Empty suite reported as pass"
+      ],
+      "phase": "codefriend_launch",
+      "source": "features/CODEFRIEND_ARTIFACT_TEMPLATES_AND_STYLE_GUIDES_v0.93.1.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI. No paid provider, cloud mutation or external publication without separately scoped authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated subsystem rewrite",
+        "No implementation completion from schema, scaffold, mock-only or zero-scenario proof"
+      ],
+      "task_boundary": {
+        "single_result": "Release the test template family",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 2,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "CT-09",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "CT-03",
+      "title": "Prepare artifact content through named fields",
+      "repository": "codefriend",
+      "depends_on": [
+        "CT-06",
+        "CT-07",
+        "CT-08",
+        "CT-09",
+        "CF-02"
+      ],
+      "result": "An installed user selects a kind and fills or edits named fields and repeatable blocks into a validated version-pinned content artifact with explicit unknowns and unfinished-field state.",
+      "acceptance": [
+        "An installed user selects a kind and fills or edits named fields and repeatable blocks into a validated version-pinned content artifact with explicit unknowns and unfinished-field state.",
+        "Exact versioned inputs and actual positive, denial and recovery scenario counts are retained; independent review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Unknown kind accepted",
+        "Missing required field hidden",
+        "Input loses source evidence"
+      ],
+      "phase": "codefriend_launch",
+      "source": "features/CODEFRIEND_ARTIFACT_TEMPLATES_AND_STYLE_GUIDES_v0.93.1.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI. No paid provider, cloud mutation or external publication without separately scoped authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated subsystem rewrite",
+        "No implementation completion from schema, scaffold, mock-only or zero-scenario proof"
+      ],
+      "task_boundary": {
+        "single_result": "Prepare artifact content through named fields",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 2,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "CT-03",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "CT-10",
+      "title": "Preview and export branded artifacts",
+      "repository": "codefriend",
+      "depends_on": [
+        "CT-03"
+      ],
+      "result": "Installed renderers consume the validated content artifact and pinned template package to produce human-readable preview and supported branded exports without exposing authoring hints.",
+      "acceptance": [
+        "Installed renderers consume the validated content artifact and pinned template package to produce human-readable preview and supported branded exports without exposing authoring hints.",
+        "Exact versioned input/output evidence and positive/negative scenario counts are retained; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Required unfinished field finalized",
+        "Authoring hints leak",
+        "Renderer bypasses pinned version",
+        "Unsupported export silently accepted"
+      ],
+      "phase": "codefriend_launch",
+      "source": "features/CODEFRIEND_ARTIFACT_TEMPLATES_AND_STYLE_GUIDES_v0.93.1.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI. No paid provider, cloud mutation or external publication without separately scoped authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated subsystem rewrite",
+        "No implementation completion from schema, scaffold, mock-only or zero-scenario proof"
+      ],
+      "task_boundary": {
+        "single_result": "Preview and export branded artifacts",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 2,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "CT-10",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "CT-04",
+      "title": "Preserve artifact compatibility across template upgrades",
+      "repository": "codefriend",
+      "depends_on": [
+        "CT-10"
+      ],
+      "result": "An installed project pins a template release, preserves historical output and explicitly upgrades or rolls back supported schema/render combinations without changing evidence or finding identities.",
+      "acceptance": [
+        "An installed project pins a template release, preserves historical output and explicitly upgrades or rolls back supported schema/render combinations without changing evidence or finding identities.",
+        "Exact versioned inputs and actual positive, denial and recovery scenario counts are retained; independent review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Historical output falsely restamped",
+        "Digest mismatch",
+        "Incompatible schema accepted",
+        "Rollback loses evidence"
+      ],
+      "phase": "codefriend_launch",
+      "source": "features/CODEFRIEND_ARTIFACT_TEMPLATES_AND_STYLE_GUIDES_v0.93.1.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI. No paid provider, cloud mutation or external publication without separately scoped authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated subsystem rewrite",
+        "No implementation completion from schema, scaffold, mock-only or zero-scenario proof"
+      ],
+      "task_boundary": {
+        "single_result": "Preserve artifact compatibility across template upgrades",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 3,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "CT-04",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "CT-05",
+      "title": "Qualify the complete branded artifact catalog",
+      "repository": "codefriend",
+      "depends_on": [
+        "CT-04"
+      ],
+      "result": "Independent installed qualification covers every enabled kind and supported format with readable representative output, selectable text and accessible diagrams; supported generated tests parse and a bounded behavioral regression fails before its fix and passes afterward.",
+      "acceptance": [
+        "Independent installed qualification covers every enabled kind and supported format with readable representative output, selectable text and accessible diagrams; supported generated tests parse and a bounded behavioral regression fails before its fix and passes afterward.",
+        "Exact versioned inputs and actual positive, denial and recovery scenario counts are retained; independent review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing kind fixture",
+        "Clipped text or missing glyphs",
+        "Color-only meaning",
+        "Unsupported diagram claim",
+        "Generated test does not detect regression"
+      ],
+      "phase": "codefriend_launch",
+      "source": "features/CODEFRIEND_ARTIFACT_TEMPLATES_AND_STYLE_GUIDES_v0.93.1.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI. No paid provider, cloud mutation or external publication without separately scoped authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated subsystem rewrite",
+        "No implementation completion from schema, scaffold, mock-only or zero-scenario proof"
+      ],
+      "task_boundary": {
+        "single_result": "Qualify the complete branded artifact catalog",
+        "supporting_work": "Execute and report the declared qualification/demo denominator. Implementation defects return to their owning result or a separately scoped corrective issue; do not absorb implementation into qualification.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 3,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "CT-05",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "CF-05",
+      "title": "Qualify the external beta launch candidate",
+      "repository": "codefriend",
+      "depends_on": [
+        "CF-04",
+        "CT-05",
+        "INTEGRATE"
+      ],
+      "result": "An independent external-tester rehearsal repeats ADL, external OSS and PR-review journeys and evaluates evidence, diagrams, meaningful generated tests, documentation, redaction and report quality on exact installed versions.",
+      "acceptance": [
+        "An independent external-tester rehearsal repeats ADL, external OSS and PR-review journeys and evaluates evidence, diagrams, meaningful generated tests, documentation, redaction and report quality on exact installed versions.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings.",
+        "Before accepting launch qualification, consume accepted producer closure of #1148 and #1149, then complete this #1150 qualification, including citation accuracy, safe repeat/comparison and the complete independent platform/website/CLI matrix. A v0.92.2 administrative deferral is not a waiver of the Beta1 launch gate.",
+        "Consume accepted #1148/#1149 results and complete existing #1150, including this external-tester rehearsal; retain original 12-cell/24-obligation denominator and any additional launch scenarios explicitly."
+      ],
+      "negative_cases": [
+        "Weak review passes quality gate",
+        "Unsupported diagram",
+        "Test unrelated to finding",
+        "Private material in report"
+      ],
+      "phase": "codefriend_launch",
+      "source": "features/CODEFRIEND_LAUNCH_v0.93.1.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Qualify the external beta launch candidate",
+        "supporting_work": "Execute and report the declared qualification/demo denominator. Implementation defects return to their owning result or a separately scoped corrective issue; do not absorb implementation into qualification.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 3,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "CF-05",
+        "kind": "retained_work"
+      },
+      "existing_issue": 1150,
+      "issue_creation": "reuse #1150 after aligning its scope to this acceptance; do not create a second qualification issue"
+    },
+    {
+      "id": "CF-06",
+      "title": "Prepare the website to hand off to the qualified product",
+      "repository": "codefriend.ai",
+      "depends_on": [
+        "CF-05"
+      ],
+      "result": "The existing website launch plan and product entry point agree with qualified capabilities, support/feedback instructions, access limits and rollback; an approved preview is ready for separately authorized publication.",
+      "acceptance": [
+        "The existing website launch plan and product entry point agree with qualified capabilities, support/feedback instructions, access limits and rollback; an approved preview is ready for separately authorized publication.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Coming-soon claims presented as live product",
+        "Broken product entry point",
+        "Unsupported availability claim"
+      ],
+      "phase": "codefriend_launch",
+      "source": "features/CODEFRIEND_LAUNCH_v0.93.1.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Prepare the website to hand off to the qualified product",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 3,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "CF-06",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "CF-07",
+      "title": "Launch the qualified CodeFriend service",
+      "repository": "codefriend",
+      "depends_on": [
+        "CF-06"
+      ],
+      "result": "After explicit authorization of the exact candidate, audience, environment and budget, publish the approved product/site entry points, admit the authorized testers, verify the live end-to-end journey and retain a tested rollback. Until launch authorization is granted and live launch is verified, this result remains incomplete and v0.93.1 cannot close.",
+      "acceptance": [
+        "After explicit authorization of the exact candidate, audience, environment and budget, publish the approved product/site entry points, admit the authorized testers, verify the live end-to-end journey and retain a tested rollback. Until launch authorization is granted and live launch is verified, this result remains incomplete and v0.93.1 cannot close.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing launch authorization",
+        "Live product differs from qualified artifact",
+        "Onboarding fails after publication",
+        "Rollback cannot restore access"
+      ],
+      "phase": "codefriend_launch",
+      "source": "features/CODEFRIEND_LAUNCH_v0.93.1.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Launch the qualified CodeFriend service",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 3,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "CF-07",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "INTEGRATE",
+      "title": "Accept the installed CodeFriend launch lockset",
+      "repository": "codefriend",
+      "depends_on": [
+        "RD-11",
+        "CF-04",
+        "CT-05"
+      ],
+      "result": "Accept one installed CodeFriend/Runtime/template/website lockset with completed integration evidence and explicit producer qualification identities.",
+      "acceptance": [
+        "Pin the installed components and reconcile success/failure/rollback evidence across both website modes and CLI.",
+        "Consume existing producer proof; avoid an independent duplicate qualification campaign."
+      ],
+      "negative_cases": [
+        "Authority lost across product boundary"
+      ],
+      "phase": "qualification",
+      "source": "DESIGN_v0.93.1.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Accept the installed CodeFriend launch lockset",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 3,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "INTEGRATE",
+        "kind": "version_specific_gate"
+      }
+    },
+    {
+      "id": "QUALIFY",
+      "title": "Independently qualify the installed milestone",
+      "repository": "codefriend",
+      "depends_on": [
+        "INTEGRATE",
+        "CF-07"
+      ],
+      "result": "Reconcile accepted launch and independent qualification evidence against the exact released multi-repository lockset, without duplicating #1150 execution.",
+      "acceptance": [
+        "All required launch claims trace to accepted exact-candidate evidence and retained failures/limitations.",
+        "Launch verification is real and authorized; an export or green component CI cannot satisfy product acceptance."
+      ],
+      "negative_cases": [
+        "Wrong artifact head",
+        "Missing negative scenario"
+      ],
+      "phase": "qualification",
+      "source": "QUALITY_GATE_v0.93.1.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Independently qualify the installed milestone",
+        "supporting_work": "Execute and report the declared qualification/demo denominator. Implementation defects return to their owning result or a separately scoped corrective issue; do not absorb implementation into qualification.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 4,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "QUALIFY",
+        "kind": "version_specific_gate"
+      }
+    },
+    {
+      "id": "TAIL-01",
+      "title": "Quality gate",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "QUALIFY"
+      ],
+      "result": "Deliver the complete quality gate result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "acceptance": [
+        "Deliver the complete quality gate result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "RELEASE_PLAN_v0.93.1.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Quality gate",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 4,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "TAIL-01",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "TAIL-02",
+      "title": "Documentation review and external-review handoff",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-01"
+      ],
+      "result": "Deliver the complete documentation review and external-review handoff result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "acceptance": [
+        "Deliver the complete documentation review and external-review handoff result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "RELEASE_PLAN_v0.93.1.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Documentation review and external-review handoff",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 4,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "TAIL-02",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "TAIL-03",
+      "title": "Publication finalization",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-02"
+      ],
+      "result": "Deliver the complete publication finalization result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "acceptance": [
+        "Deliver the complete publication finalization result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "RELEASE_PLAN_v0.93.1.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Publication finalization",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 4,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "TAIL-03",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "TAIL-04",
+      "title": "Internal milestone review",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-03"
+      ],
+      "result": "Deliver the complete internal milestone review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "acceptance": [
+        "Deliver the complete internal milestone review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "RELEASE_PLAN_v0.93.1.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Internal milestone review",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 4,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "TAIL-04",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "TAIL-05",
+      "title": "External or third-party review",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-04"
+      ],
+      "result": "Deliver the complete external or third-party review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "acceptance": [
+        "Deliver the complete external or third-party review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "RELEASE_PLAN_v0.93.1.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "External or third-party review",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 4,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "TAIL-05",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "TAIL-06",
+      "title": "Accepted-findings remediation or explicit deferral capture",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-05"
+      ],
+      "result": "Deliver the complete accepted-findings remediation or explicit deferral capture result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "acceptance": [
+        "Deliver the complete accepted-findings remediation or explicit deferral capture result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "RELEASE_PLAN_v0.93.1.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Accepted-findings remediation or explicit deferral capture",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 4,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "TAIL-06",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "TAIL-07",
+      "title": "Next-milestone planning",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-06"
+      ],
+      "result": "Deliver the complete next-milestone planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "acceptance": [
+        "Deliver the complete next-milestone planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "RELEASE_PLAN_v0.93.1.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Next-milestone planning",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 4,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "TAIL-07",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "TAIL-08",
+      "title": "Next-milestone closeout planning",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-07"
+      ],
+      "result": "Deliver the complete next-milestone closeout planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "acceptance": [
+        "Deliver the complete next-milestone closeout planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "RELEASE_PLAN_v0.93.1.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Next-milestone closeout planning",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 4,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "TAIL-08",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "TAIL-09",
+      "title": "Next-milestone planning review",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-08"
+      ],
+      "result": "Deliver the complete next-milestone planning review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "acceptance": [
+        "Deliver the complete next-milestone planning review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "RELEASE_PLAN_v0.93.1.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Next-milestone planning review",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 4,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "TAIL-09",
+        "kind": "retained_work"
+      }
+    },
+    {
+      "id": "TAIL-10",
+      "title": "Release ceremony and milestone close",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-09"
+      ],
+      "result": "Deliver the complete release ceremony and milestone close result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "acceptance": [
+        "Deliver the complete release ceremony and milestone close result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "RELEASE_PLAN_v0.93.1.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Release ceremony and milestone close",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 4,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "TAIL-10",
+        "kind": "retained_work"
+      }
+    }
+  ],
+  "predecessor_reconciliation": {
+    "status": "pending_final_accepted_handoff",
+    "predecessor": "v0.92.2",
+    "no_inferred_acceptance": true
+  },
+  "sprint_plan": {
+    "status": "draft_allocated_not_open",
+    "sprint_count": 4,
+    "sizing": "Outcome-based groups; owners and estimates required before activation, not fixed calendar promises.",
+    "execution_rule": "Respect dependency acceptance; grouping gives no paid/cloud/publication authority.",
+    "sprints": [
+      {
+        "number": 1,
+        "title": "Repository split and acceptance",
+        "work_packages": [
+          "WP-01",
+          "RD-01",
+          "RD-02",
+          "RD-12",
+          "RD-13",
+          "RD-03",
+          "RD-04",
+          "RD-05",
+          "RD-06",
+          "RD-09",
+          "RD-10",
+          "RD-08",
+          "RD-07",
+          "RD-11"
+        ]
+      },
+      {
+        "number": 2,
+        "title": "CodeFriend product and template preparation",
+        "work_packages": [
+          "CF-01",
+          "CF-02",
+          "CF-03",
+          "CF-04",
+          "CT-01",
+          "CT-02",
+          "CT-06",
+          "CT-07",
+          "CT-08",
+          "CT-09",
+          "CT-03",
+          "CT-10"
+        ]
+      },
+      {
+        "number": 3,
+        "title": "Artifact qualification and Beta 1 launch",
+        "work_packages": [
+          "CT-04",
+          "CT-05",
+          "INTEGRATE",
+          "CF-05",
+          "CF-06",
+          "CF-07"
+        ]
+      },
+      {
+        "number": 4,
+        "title": "Milestone evidence and release closeout",
+        "work_packages": [
+          "QUALIFY",
+          "TAIL-01",
+          "TAIL-02",
+          "TAIL-03",
+          "TAIL-04",
+          "TAIL-05",
+          "TAIL-06",
+          "TAIL-07",
+          "TAIL-08",
+          "TAIL-09",
+          "TAIL-10"
+        ]
+      }
+    ]
+  },
+  "scope_authority": "Operator approved v0.93.1 launch/repo split/templates, v0.93.2 remaining platform and removal of full Runtime v4 launch dependency on 2026-09-22. Execution not opened.",
+  "external_dependencies": {},
+  "existing_issue_routing": [
+    {
+      "issue": 1148,
+      "role": "citation correctness",
+      "sprint": 2,
+      "counted_in_core": false
+    },
+    {
+      "issue": 1149,
+      "role": "interrupted-request recovery",
+      "sprint": 2,
+      "counted_in_core": false
+    },
+    {
+      "issue": 1150,
+      "role": "CF-05 independent qualification",
+      "sprint": 3,
+      "counted_in_core": true,
+      "work_package": "CF-05"
+    }
+  ],
+  "counts": {
+    "core_work_packages": 43,
+    "existing_additional_issues": 2,
+    "distinct_planned_issue_identities": 45,
+    "new_core_issues_to_seed_at_most": 42,
+    "note": "CF-05 reuses #1150; #1148/#1149 are additional existing producer tasks. No issues opened by this plan."
+  }
+}

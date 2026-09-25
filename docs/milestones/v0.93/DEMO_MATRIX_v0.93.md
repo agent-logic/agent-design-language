@@ -1,3 +1,5 @@
+> **Superseded combined plan.** The operator-approved split is planned under #922 in [v0.93.1](../v0.93.1/README.md) (repo split, templates and CodeFriend Beta 1 launch) and [v0.93.2](../v0.93.2/README.md) (remaining platform work). The original combined scope below is retained for traceability; it does not require Runtime v4 before Beta 1 launch or authorize execution.
+
 # v0.93 Demo Matrix: Candidate Constitutional Governance Proofs
 
 ## Status
@@ -210,7 +212,7 @@ Expected proof:
 
 ## Metadata
 
-Planning template set: 1.1.0. Target: v0.93. Authoring issue: #1047 in v0.92.2. Accountable planning role: milestone owner; named implementation owners are assigned before opening.
+Planning template set: 1.1.0. Target: v0.93. Authoring issue: #1047; current reconciliation: #922 in v0.92.2. Accountable planning role: milestone owner; named implementation owners are assigned before opening.
 
 ## How To Use
 
@@ -244,3 +246,13 @@ Each reviewer records exact versions, scenarios observed, pass/fail/skipped outc
 ## Exit Criteria
 
 All applicable D1-D16 scenarios have current evidence tied to their actual consumer and no unresolved release-blocking finding. Publication/customer admission remains separately authorized; preview proof alone cannot close CF-07.
+
+
+## Required #922 demonstrations
+
+| ID | Outcome | Owner | Proof |
+|---|---|---|---|
+| D17 | Fill, preview, edit and export branded artifacts including full 4+1 | CT-05 / CF-05 | Every enabled kind represented; missing fields, bad version and malformed output rejected |
+| D18 | Same-identity migration with interrupted handover | CM-02 / CM-04 | One active holder, replay denial, recoverable custody and lineage |
+| D19 | Governed descendant creation | CM-03 / CM-04 | Distinct identity, selected inheritance, scope/privacy, idempotent retry |
+| D20 | Temporal and inherited governance integration | GOV-01 / GOV-11 / GOV-14 / INTEGRATE | Cognitive/instinct action admission; remote refusal/replay; expired/missed/causally invalid commitments |

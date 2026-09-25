@@ -1,10 +1,12 @@
+> **Superseded combined plan.** The operator-approved split is planned under #922 in [v0.93.1](../v0.93.1/README.md) (repo split, templates and CodeFriend Beta 1 launch) and [v0.93.2](../v0.93.2/README.md) (remaining platform work). The original combined scope below is retained for traceability; it does not require Runtime v4 before Beta 1 launch or authorize execution.
+
 # v0.93 Milestone README
 
 ## Current planning sources
 
 Start with this milestone package and the [candidate catalog](PLANNED_ISSUE_CATALOG_v0.93.md). The current CodeFriend product source is [CodeFriend Beta 1 Plan — Second-pass working draft](https://docs.google.com/document/d/1_CDM8QydW8_Lmue82j5tTHRJpi-hWzOo2u3y6M312b0/edit), last edited August 23 and inspected September 16. Its successor launch work is mapped in [CodeFriend Launch](features/CODEFRIEND_LAUNCH_v0.93.md). The website-only issue is an input, not the product plan.
 
-This first pass contains 64 candidate results. The opening repository split precedes feature development. [Runtime v4](features/RUNTIME_V4_PLUGIN_SYSTEM_v0.93.md) must be completed in v0.93. This package remains under review and does not open the milestone.
+This first pass contains 83 candidate results. The opening repository split precedes feature development. [Runtime v4](features/RUNTIME_V4_PLUGIN_SYSTEM_v0.93.md) must be completed in v0.93. This package remains under review and does not open the milestone.
 
 ## Metadata
 
@@ -190,3 +192,22 @@ Repository decomposition opens v0.93 after accepted v0.92.2 closure, before all 
 ## First-Pass Execution Map
 
 [Canonical graph](EXECUTION_PLAN_v0.93.json), [issue catalog](PLANNED_ISSUE_CATALOG_v0.93.md), [readiness](WP_EXECUTION_READINESS_v0.93.md), [quality gate](QUALITY_GATE_v0.93.md), [source accounting](TBD_SCHEDULING_RECONCILIATION_v0.93.md), [review](planning-review/REVIEW.md), and [successor handoff](NEXT_MILESTONE_HANDOFF_v0.93.md) complete this package. No GitHub milestone or issue wave has opened.
+
+
+## Confirmed scope reconciliation — #922
+
+The reconciled graph contains **83 candidate results**, including required
+CT-01–CT-10 branded artifact templates/style guides and CM-01–CM-04 citizen
+reproduction/migration. CT-05 gates CF-05; CM-04 gates INTEGRATE. All remain
+behind the accepted repository split. See [feature coverage](FEATURE_COVERAGE_v0.93.md)
+for all 21 inherited v0.93 feature rows and the two confirmed additions.
+
+#922 drafting is authorized early; accepted final #921 residuals and the final
+v0.92.2 handoff remain pending reconciliation before final planning acceptance.
+This package does not open v0.93, establish implementation proof or approve
+publication. Runtime v4, CodeFriend launch and both additions cannot be silently
+deferred. Existing #875/#671 retain separate identities in the issue ledger.
+
+## Sprint allocation — #922
+
+The [numbered sprint plan](SPRINT_v0.93.md) allocates all 83 core candidates across **8 proposed sprints**. Sprint 1 finishes and accept the repository split before feature work; CodeFriend Beta 1 launch is allocated to Sprint 4 and the release tail to Sprint 8. Existing #875/#671 keep separate identities and gated windows. Sprint numbering creates neither calendar commitments nor execution authority.

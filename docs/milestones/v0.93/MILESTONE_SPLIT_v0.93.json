@@ -1,0 +1,498 @@
+{
+  "schema": "adl.milestone_split.v1",
+  "planning_issue": 922,
+  "status": "scope_approved_packages_draft_not_open",
+  "source_count": 83,
+  "source_disposition": [
+    {
+      "source_id": "WP-01",
+      "destination": "v0.93.1",
+      "destination_id": "WP-01"
+    },
+    {
+      "source_id": "RD-01",
+      "destination": "v0.93.1",
+      "destination_id": "RD-01"
+    },
+    {
+      "source_id": "RD-02",
+      "destination": "v0.93.1",
+      "destination_id": "RD-02"
+    },
+    {
+      "source_id": "RD-12",
+      "destination": "v0.93.1",
+      "destination_id": "RD-12"
+    },
+    {
+      "source_id": "RD-13",
+      "destination": "v0.93.1",
+      "destination_id": "RD-13"
+    },
+    {
+      "source_id": "RD-03",
+      "destination": "v0.93.1",
+      "destination_id": "RD-03"
+    },
+    {
+      "source_id": "RD-04",
+      "destination": "v0.93.1",
+      "destination_id": "RD-04"
+    },
+    {
+      "source_id": "RD-05",
+      "destination": "v0.93.1",
+      "destination_id": "RD-05"
+    },
+    {
+      "source_id": "RD-06",
+      "destination": "v0.93.1",
+      "destination_id": "RD-06"
+    },
+    {
+      "source_id": "RD-09",
+      "destination": "v0.93.1",
+      "destination_id": "RD-09"
+    },
+    {
+      "source_id": "RD-10",
+      "destination": "v0.93.1",
+      "destination_id": "RD-10"
+    },
+    {
+      "source_id": "RD-08",
+      "destination": "v0.93.1",
+      "destination_id": "RD-08"
+    },
+    {
+      "source_id": "RD-07",
+      "destination": "v0.93.1",
+      "destination_id": "RD-07"
+    },
+    {
+      "source_id": "RD-11",
+      "destination": "v0.93.1",
+      "destination_id": "RD-11"
+    },
+    {
+      "source_id": "RV-01",
+      "destination": "v0.93.2",
+      "destination_id": "RV-01"
+    },
+    {
+      "source_id": "RV-02",
+      "destination": "v0.93.2",
+      "destination_id": "RV-02"
+    },
+    {
+      "source_id": "RV-03",
+      "destination": "v0.93.2",
+      "destination_id": "RV-03"
+    },
+    {
+      "source_id": "RV-09",
+      "destination": "v0.93.2",
+      "destination_id": "RV-09"
+    },
+    {
+      "source_id": "RV-10",
+      "destination": "v0.93.2",
+      "destination_id": "RV-10"
+    },
+    {
+      "source_id": "RV-11",
+      "destination": "v0.93.2",
+      "destination_id": "RV-11"
+    },
+    {
+      "source_id": "RV-04",
+      "destination": "v0.93.2",
+      "destination_id": "RV-04"
+    },
+    {
+      "source_id": "RV-05",
+      "destination": "v0.93.2",
+      "destination_id": "RV-05"
+    },
+    {
+      "source_id": "RV-06",
+      "destination": "v0.93.2",
+      "destination_id": "RV-06"
+    },
+    {
+      "source_id": "RV-07",
+      "destination": "v0.93.2",
+      "destination_id": "RV-07"
+    },
+    {
+      "source_id": "RV-08",
+      "destination": "v0.93.2",
+      "destination_id": "RV-08"
+    },
+    {
+      "source_id": "CF-01",
+      "destination": "v0.93.1",
+      "destination_id": "CF-01"
+    },
+    {
+      "source_id": "CF-02",
+      "destination": "v0.93.1",
+      "destination_id": "CF-02"
+    },
+    {
+      "source_id": "CF-03",
+      "destination": "v0.93.1",
+      "destination_id": "CF-03"
+    },
+    {
+      "source_id": "CF-04",
+      "destination": "v0.93.1",
+      "destination_id": "CF-04"
+    },
+    {
+      "source_id": "CF-05",
+      "destination": "v0.93.1",
+      "destination_id": "CF-05"
+    },
+    {
+      "source_id": "CF-06",
+      "destination": "v0.93.1",
+      "destination_id": "CF-06"
+    },
+    {
+      "source_id": "CF-07",
+      "destination": "v0.93.1",
+      "destination_id": "CF-07"
+    },
+    {
+      "source_id": "CT-01",
+      "destination": "v0.93.1",
+      "destination_id": "CT-01"
+    },
+    {
+      "source_id": "CT-02",
+      "destination": "v0.93.1",
+      "destination_id": "CT-02"
+    },
+    {
+      "source_id": "CT-09",
+      "destination": "v0.93.1",
+      "destination_id": "CT-09"
+    },
+    {
+      "source_id": "CT-08",
+      "destination": "v0.93.1",
+      "destination_id": "CT-08"
+    },
+    {
+      "source_id": "CT-07",
+      "destination": "v0.93.1",
+      "destination_id": "CT-07"
+    },
+    {
+      "source_id": "CT-06",
+      "destination": "v0.93.1",
+      "destination_id": "CT-06"
+    },
+    {
+      "source_id": "CT-03",
+      "destination": "v0.93.1",
+      "destination_id": "CT-03"
+    },
+    {
+      "source_id": "CT-10",
+      "destination": "v0.93.1",
+      "destination_id": "CT-10"
+    },
+    {
+      "source_id": "CT-04",
+      "destination": "v0.93.1",
+      "destination_id": "CT-04"
+    },
+    {
+      "source_id": "CT-05",
+      "destination": "v0.93.1",
+      "destination_id": "CT-05"
+    },
+    {
+      "source_id": "GOV-01",
+      "destination": "v0.93.2",
+      "destination_id": "GOV-01"
+    },
+    {
+      "source_id": "GOV-02",
+      "destination": "v0.93.2",
+      "destination_id": "GOV-02"
+    },
+    {
+      "source_id": "GOV-03",
+      "destination": "v0.93.2",
+      "destination_id": "GOV-03"
+    },
+    {
+      "source_id": "GOV-04",
+      "destination": "v0.93.2",
+      "destination_id": "GOV-04"
+    },
+    {
+      "source_id": "GOV-05",
+      "destination": "v0.93.2",
+      "destination_id": "GOV-05"
+    },
+    {
+      "source_id": "GOV-06",
+      "destination": "v0.93.2",
+      "destination_id": "GOV-06"
+    },
+    {
+      "source_id": "GOV-07",
+      "destination": "v0.93.2",
+      "destination_id": "GOV-07"
+    },
+    {
+      "source_id": "GOV-08",
+      "destination": "v0.93.2",
+      "destination_id": "GOV-08"
+    },
+    {
+      "source_id": "GOV-09",
+      "destination": "v0.93.2",
+      "destination_id": "GOV-09"
+    },
+    {
+      "source_id": "GOV-10",
+      "destination": "v0.93.2",
+      "destination_id": "GOV-10"
+    },
+    {
+      "source_id": "GOV-11",
+      "destination": "v0.93.2",
+      "destination_id": "GOV-11"
+    },
+    {
+      "source_id": "GOV-12",
+      "destination": "v0.93.2",
+      "destination_id": "GOV-12"
+    },
+    {
+      "source_id": "GOV-13",
+      "destination": "v0.93.2",
+      "destination_id": "GOV-13"
+    },
+    {
+      "source_id": "GOV-14",
+      "destination": "v0.93.2",
+      "destination_id": "GOV-14"
+    },
+    {
+      "source_id": "GOV-15",
+      "destination": "v0.93.2",
+      "destination_id": "GOV-15"
+    },
+    {
+      "source_id": "GOV-16",
+      "destination": "v0.93.2",
+      "destination_id": "GOV-16"
+    },
+    {
+      "source_id": "WP-S1",
+      "destination": "v0.93.2",
+      "destination_id": "WP-S1"
+    },
+    {
+      "source_id": "WP-S2",
+      "destination": "v0.93.2",
+      "destination_id": "WP-S2"
+    },
+    {
+      "source_id": "WP-S3",
+      "destination": "v0.93.2",
+      "destination_id": "WP-S3"
+    },
+    {
+      "source_id": "WP-S4",
+      "destination": "v0.93.2",
+      "destination_id": "WP-S4"
+    },
+    {
+      "source_id": "WP-S5",
+      "destination": "v0.93.2",
+      "destination_id": "WP-S5"
+    },
+    {
+      "source_id": "WP-S6",
+      "destination": "v0.93.2",
+      "destination_id": "WP-S6"
+    },
+    {
+      "source_id": "CM-01",
+      "destination": "v0.93.2",
+      "destination_id": "CM-01"
+    },
+    {
+      "source_id": "CM-02",
+      "destination": "v0.93.2",
+      "destination_id": "CM-02"
+    },
+    {
+      "source_id": "CM-03",
+      "destination": "v0.93.2",
+      "destination_id": "CM-03"
+    },
+    {
+      "source_id": "CM-04",
+      "destination": "v0.93.2",
+      "destination_id": "CM-04"
+    },
+    {
+      "source_id": "PY-01",
+      "destination": "v0.93.2",
+      "destination_id": "PY-01"
+    },
+    {
+      "source_id": "DEMO-GOV",
+      "destination": "v0.93.2",
+      "destination_id": "DEMO-GOV"
+    },
+    {
+      "source_id": "DEMO-SEC",
+      "destination": "v0.93.2",
+      "destination_id": "DEMO-SEC"
+    },
+    {
+      "source_id": "INTEGRATE",
+      "destination": "v0.93.2",
+      "destination_id": "INTEGRATE"
+    },
+    {
+      "source_id": "QUALIFY",
+      "destination": "v0.93.2",
+      "destination_id": "QUALIFY"
+    },
+    {
+      "source_id": "TAIL-01",
+      "destination": "v0.93.1",
+      "destination_id": "TAIL-01"
+    },
+    {
+      "source_id": "TAIL-02",
+      "destination": "v0.93.1",
+      "destination_id": "TAIL-02"
+    },
+    {
+      "source_id": "TAIL-03",
+      "destination": "v0.93.1",
+      "destination_id": "TAIL-03"
+    },
+    {
+      "source_id": "TAIL-04",
+      "destination": "v0.93.1",
+      "destination_id": "TAIL-04"
+    },
+    {
+      "source_id": "TAIL-05",
+      "destination": "v0.93.1",
+      "destination_id": "TAIL-05"
+    },
+    {
+      "source_id": "TAIL-06",
+      "destination": "v0.93.1",
+      "destination_id": "TAIL-06"
+    },
+    {
+      "source_id": "TAIL-07",
+      "destination": "v0.93.1",
+      "destination_id": "TAIL-07"
+    },
+    {
+      "source_id": "TAIL-08",
+      "destination": "v0.93.1",
+      "destination_id": "TAIL-08"
+    },
+    {
+      "source_id": "TAIL-09",
+      "destination": "v0.93.1",
+      "destination_id": "TAIL-09"
+    },
+    {
+      "source_id": "TAIL-10",
+      "destination": "v0.93.1",
+      "destination_id": "TAIL-10"
+    }
+  ],
+  "additional_version_specific_gates": [
+    {
+      "milestone": "v0.93.1",
+      "id": "INTEGRATE"
+    },
+    {
+      "milestone": "v0.93.1",
+      "id": "QUALIFY"
+    },
+    {
+      "milestone": "v0.93.2",
+      "id": "WP-01"
+    },
+    {
+      "milestone": "v0.93.2",
+      "id": "TAIL-01"
+    },
+    {
+      "milestone": "v0.93.2",
+      "id": "TAIL-02"
+    },
+    {
+      "milestone": "v0.93.2",
+      "id": "TAIL-03"
+    },
+    {
+      "milestone": "v0.93.2",
+      "id": "TAIL-04"
+    },
+    {
+      "milestone": "v0.93.2",
+      "id": "TAIL-05"
+    },
+    {
+      "milestone": "v0.93.2",
+      "id": "TAIL-06"
+    },
+    {
+      "milestone": "v0.93.2",
+      "id": "TAIL-07"
+    },
+    {
+      "milestone": "v0.93.2",
+      "id": "TAIL-08"
+    },
+    {
+      "milestone": "v0.93.2",
+      "id": "TAIL-09"
+    },
+    {
+      "milestone": "v0.93.2",
+      "id": "TAIL-10"
+    }
+  ],
+  "existing_issue_routing": {
+    "v0.93.1": [
+      1148,
+      1149,
+      1150
+    ],
+    "v0.93.2": [
+      875,
+      1145
+    ]
+  },
+  "canonical_plans": [
+    "../v0.93.1/EXECUTION_PLAN_v0.93.1.json",
+    "../v0.93.2/EXECUTION_PLAN_v0.93.2.json"
+  ],
+  "completed_predecessor_issues": {
+    "v0.92.2": [
+      671,
+      1169
+    ]
+  }
+}
