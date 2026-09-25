@@ -18,5 +18,6 @@ fn closeout_identity_and_truth_boundaries() {
     let value: serde_json::Value = serde_json::from_slice(&out.stdout).unwrap();
     assert_eq!(value["status"], "pass");
     assert_eq!(value["negative_cases"], 6);
+    assert_eq!(value["historical_negative_cases"], 5);
     assert_eq!(value["remote_effects"], false);
 }

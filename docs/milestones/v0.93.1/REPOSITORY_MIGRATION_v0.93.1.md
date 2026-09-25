@@ -2,9 +2,9 @@
 
 ## Status
 
-Reconciled scope-approved draft under #922; source extraction plan retained from #1047. v0.93.1 is not open; no extraction or feature implementation is authorized by this package.
+Scope allocation retained from #922/#1047; Sprint 1 preparation is open. No extraction or feature implementation is authorized by this package.
 
-The operator selected the split as the opening phase of v0.93.1, after accepted v0.92.2 closure and before feature development. The older post-v0.95 split and the previous recommendation for an unversioned inter-milestone migration window are superseded. Preparation happens now; execution waits for opening authorization.
+The operator selected the split as the opening phase of v0.93.1, after accepted v0.92.2 closure and before feature development. The older post-v0.95 split and the previous recommendation for an unversioned inter-milestone migration window are superseded. Preparation is authorized; execution waits for separate authorization and accepted dependencies.
 
 ## Product owners and visibility
 
@@ -52,7 +52,7 @@ Stop on unresolved ownership, missing release proof, incompatible contracts, new
 
 ## Issue bootstrap order
 
-WP-01 creates only the ADL coordination/audit/decision identities. RD-02 accepts destination names and boundaries. RD-12 bootstraps those repositories; RD-13 creates their execution issue identities. Bind immutable cross-repository dependency links before RD-03 and extraction execution. Never require an issue in a not-yet-created repository as the prerequisite to deciding its name.
+WP-01 has created all 14 Sprint 1 core identities in ADL plus umbrella #1180. RD-01 consumes its accepted preparation checkpoint, not WP-01 closure. RD-02 accepts destination names and boundaries. RD-12 bootstraps those repositories; RD-13 transfers destination-owned existing issues and preserves old/new identities and links. Bind immutable cross-repository dependency links before RD-03 and extraction execution. Never require an issue in a not-yet-created repository as the prerequisite to deciding its name.
 
 
 ## Single-task cutover admission — #922

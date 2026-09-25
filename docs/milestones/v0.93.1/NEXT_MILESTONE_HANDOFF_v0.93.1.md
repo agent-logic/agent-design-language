@@ -2,7 +2,7 @@
 
 ## Metadata
 
-Planning template family 1.1.0; authoring issue #922. Scope split approved by the operator; draft package, not opened, executed or release-approved. Named execution owners and resource limits remain to be assigned.
+Planning template family 1.1.0; authoring issue #922. Scope split approved; Sprint 1 preparation opened by the operator on 2026-09-25. Split execution and release are not authorized. Named execution owners and resource limits remain to be assigned.
 
 ## Status
 
@@ -22,7 +22,7 @@ v0.93.2 must preserve the accepted CodeFriend launch journeys while introducing 
 
 ## Historical evidence
 
-Existing #1148 (citation-grounded correctness) and #1149 (uncertain second-run recovery) are additional launch prerequisites. CF-05 reuses existing #1150 for independent qualification after scope alignment; do not seed a duplicate CF-05 issue. The 43 core work packages therefore map to 45 distinct planned issue identities including those two additions: three identities already exist and at most 42 core issues need seeding. Preserve their identities and original #915 failures; do not create duplicate tasks or replay an uncertain request to manufacture a result.
+Existing #1148 (citation-grounded correctness) and #1149 (uncertain second-run recovery) are additional launch prerequisites. CF-05 reuses existing #1150 for independent qualification after scope alignment; do not seed a duplicate CF-05 issue. The 43 core work packages plus #1148/#1149 and operator-routed #875/#1145 map to 47 planned identities. Fourteen Sprint 1 core issues and CF-05 #1150 already exist; at most 28 core issues remain to create after split acceptance. The Sprint 1 umbrella and separately scoped supporting issues are outside this denominator. Preserve their identities and original #915 failures; do not create duplicate tasks or replay an uncertain request to manufacture a result.
 
 ## Exit Criteria
 

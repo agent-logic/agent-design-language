@@ -2,7 +2,7 @@
 
 ## Metadata
 
-Planning template family 1.1.0; authoring issue #922. Scope split approved by the operator; draft package, not opened, executed or release-approved. Named execution owners and resource limits remain to be assigned.
+Planning template family 1.1.0; authoring issue #922. Scope split approved; Sprint 1 preparation opened by the operator on 2026-09-25. Split execution and release are not authorized. Named execution owners and resource limits remain to be assigned.
 
 ## Purpose
 

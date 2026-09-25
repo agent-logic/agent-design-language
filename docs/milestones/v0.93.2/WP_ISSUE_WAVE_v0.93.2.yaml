@@ -1,7 +1,7 @@
 {
   "milestone": "v0.93.2",
   "version": "v0.93.2",
-  "status": "planned_not_seeded",
+  "status": "approved_scope_draft_not_open",
   "serialization": "JSON-compatible YAML",
   "work_packages": [
     {

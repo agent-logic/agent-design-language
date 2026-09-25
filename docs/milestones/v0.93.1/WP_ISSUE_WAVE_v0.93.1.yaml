@@ -1,7 +1,7 @@
 {
   "milestone": "v0.93.1",
   "version": "v0.93.1",
-  "status": "planned_not_seeded",
+  "status": "sprint_1_preparation_open_execution_not_authorized",
   "serialization": "JSON-compatible YAML",
   "work_packages": [
     {
@@ -9,20 +9,24 @@
       "title": "Open the reviewed v0.93.1 execution wave",
       "repository": "agent-design-language",
       "depends_on": [],
-      "outcome": "After accepted v0.92.2 closure, the inter-milestone break and explicit opening approval, create only ADL coordination, audit and boundary-decision issue identities; destination issue creation waits for RD-12 repository bootstrap and RD-13 issue mapping.",
+      "outcome": "Prepare the reviewed milestone issue waves: establish the Sprint 1 opening checkpoint now, and retain later-wave issue creation after split acceptance as an open obligation.",
       "acceptance": [
-        "After accepted v0.92.2 closure, the inter-milestone break and explicit opening approval, create only ADL coordination, audit and boundary-decision issue identities; destination issue creation waits for RD-12 repository bootstrap and RD-13 issue mapping.",
-        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+        "Prepare the reviewed milestone issue waves: establish the Sprint 1 opening checkpoint now, and retain later-wave issue creation after split acceptance as an open obligation.",
+        "The Sprint 1 checkpoint records frozen predecessor closure, explicit preparation authority, 14 unique core identities plus umbrella #1180, reviewed dependencies and outstanding findings. Independent planning review resolves actionable findings; no installed extraction evidence is required for this checkpoint.",
+        "WP-01 #1178 remains OPEN until later waves are created and reviewed in their owning repositories. Sprint 1 checkpoint acceptance does not close WP-01 or authorize split execution."
       ],
       "negative_cases": [
         "Unaccepted predecessor",
         "Missing opening approval",
-        "Duplicate issue identities"
+        "Duplicate issue identities",
+        "RD-01 incorrectly gated on WP-01 closure",
+        "Later-sprint or closeout issue creation before authorization"
       ],
       "pvf": "planning_contract",
       "source": "README.md",
       "sprint": 1,
-      "existing_issue": null
+      "existing_issue": 1178,
+      "issue_repository": "agent-logic/agent-design-language"
     },
     {
       "wp": "RD-01",
@@ -34,7 +38,7 @@
       "outcome": "Every tracked source/artifact at the frozen v0.92.2 head has one owner or explicit blocking decision; explain all changes from #977.",
       "acceptance": [
         "Every tracked source/artifact at the frozen v0.92.2 head has one owner or explicit blocking decision; explain all changes from #977.",
-        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+        "Independent design review checks the complete frozen-source ownership census, omissions, unresolved decisions and changes from #977. Installed product qualification belongs to downstream extraction tasks."
       ],
       "negative_cases": [
         "Omitted path",
@@ -43,7 +47,11 @@
       "pvf": "planning_contract",
       "source": "REPOSITORY_MIGRATION_v0.93.1.md",
       "sprint": 1,
-      "existing_issue": null
+      "existing_issue": 1181,
+      "issue_repository": "agent-logic/agent-design-language",
+      "dependency_gates": {
+        "WP-01": "accepted_sprint_1_preparation_checkpoint_not_terminal_closure"
+      }
     },
     {
       "wp": "RD-02",
@@ -64,7 +72,8 @@
       "pvf": "planning_contract",
       "source": "REPOSITORY_MIGRATION_v0.93.1.md",
       "sprint": 1,
-      "existing_issue": null
+      "existing_issue": 1182,
+      "issue_repository": "agent-logic/agent-design-language"
     },
     {
       "wp": "RD-12",
@@ -86,18 +95,19 @@
       "pvf": "planning_contract",
       "source": "REPOSITORY_MIGRATION_v0.93.1.md",
       "sprint": 1,
-      "existing_issue": null
+      "existing_issue": 1183,
+      "issue_repository": "agent-logic/agent-design-language"
     },
     {
       "wp": "RD-13",
-      "title": "Materialize destination issue identities",
+      "title": "Transfer and map existing Sprint 1 issue identities",
       "repository": "agent-design-language",
       "depends_on": [
         "RD-12"
       ],
-      "outcome": "One complete immutable cross-repository issue map binds the accepted candidate results to destination issue identities without duplicate creation.",
+      "outcome": "After RD-12 bootstrap, transfer destination-owned existing Sprint 1 ADL issues and retain an immutable old/new issue map with all dependency and evidence links; reuse identities and do not create duplicates.",
       "acceptance": [
-        "One complete immutable cross-repository issue map binds the accepted candidate results to destination issue identities without duplicate creation.",
+        "After RD-12 bootstrap, transfer destination-owned existing Sprint 1 ADL issues and retain an immutable old/new issue map with all dependency and evidence links; reuse identities and do not create duplicates.",
         "Exact versioned input/output evidence and positive/negative scenario counts are retained; review resolves actionable findings."
       ],
       "negative_cases": [
@@ -108,7 +118,8 @@
       "pvf": "planning_contract",
       "source": "REPOSITORY_MIGRATION_v0.93.1.md",
       "sprint": 1,
-      "existing_issue": null
+      "existing_issue": 1184,
+      "issue_repository": "agent-logic/agent-design-language"
     },
     {
       "wp": "RD-03",
@@ -130,7 +141,8 @@
       "pvf": "installed_integration",
       "source": "REPOSITORY_MIGRATION_v0.93.1.md",
       "sprint": 1,
-      "existing_issue": null
+      "existing_issue": 1185,
+      "issue_repository": "agent-logic/agent-design-language"
     },
     {
       "wp": "RD-04",
@@ -153,7 +165,8 @@
       "pvf": "installed_integration",
       "source": "REPOSITORY_MIGRATION_v0.93.1.md",
       "sprint": 1,
-      "existing_issue": null
+      "existing_issue": 1186,
+      "issue_repository": "agent-logic/agent-design-language"
     },
     {
       "wp": "RD-05",
@@ -176,7 +189,8 @@
       "pvf": "installed_integration",
       "source": "REPOSITORY_MIGRATION_v0.93.1.md",
       "sprint": 1,
-      "existing_issue": null
+      "existing_issue": 1187,
+      "issue_repository": "agent-logic/agent-design-language"
     },
     {
       "wp": "RD-06",
@@ -197,7 +211,8 @@
       "pvf": "installed_integration",
       "source": "REPOSITORY_MIGRATION_v0.93.1.md",
       "sprint": 1,
-      "existing_issue": null
+      "existing_issue": 1188,
+      "issue_repository": "agent-logic/agent-design-language"
     },
     {
       "wp": "RD-09",
@@ -218,7 +233,8 @@
       "pvf": "installed_integration",
       "source": "REPOSITORY_MIGRATION_v0.93.1.md",
       "sprint": 1,
-      "existing_issue": null
+      "existing_issue": 1189,
+      "issue_repository": "agent-logic/agent-design-language"
     },
     {
       "wp": "RD-10",
@@ -241,7 +257,8 @@
       "pvf": "installed_integration",
       "source": "REPOSITORY_MIGRATION_v0.93.1.md",
       "sprint": 1,
-      "existing_issue": null
+      "existing_issue": 1190,
+      "issue_repository": "agent-logic/agent-design-language"
     },
     {
       "wp": "RD-08",
@@ -265,7 +282,8 @@
       "pvf": "installed_integration",
       "source": "REPOSITORY_MIGRATION_v0.93.1.md",
       "sprint": 1,
-      "existing_issue": null
+      "existing_issue": 1191,
+      "issue_repository": "agent-logic/agent-design-language"
     },
     {
       "wp": "RD-07",
@@ -287,7 +305,8 @@
       "pvf": "installed_integration",
       "source": "REPOSITORY_MIGRATION_v0.93.1.md",
       "sprint": 1,
-      "existing_issue": null
+      "existing_issue": 1192,
+      "issue_repository": "agent-logic/agent-design-language"
     },
     {
       "wp": "RD-11",
@@ -310,7 +329,8 @@
       "pvf": "installed_integration",
       "source": "REPOSITORY_MIGRATION_v0.93.1.md",
       "sprint": 1,
-      "existing_issue": null
+      "existing_issue": 1193,
+      "issue_repository": "agent-logic/agent-design-language"
     },
     {
       "wp": "CF-01",

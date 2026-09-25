@@ -2168,22 +2168,11 @@
     "v0.93.1/RD-11": "Accepted repository compatibility lockset",
     "v0.93.1/RD-09": "Accepted enterprise security repository boundary"
   },
-  "existing_issue_routing": [
-    {
-      "issue": 875,
-      "role": "separately authorized live pilot",
-      "counted_in_core": false
-    },
-    {
-      "issue": 1145,
-      "role": "Observatory Everyone selection",
-      "counted_in_core": false
-    }
-  ],
+  "existing_issue_routing": [],
   "counts": {
     "core_work_packages": 53,
-    "existing_additional_issues": 2,
-    "distinct_planned_issue_identities": 55,
-    "note": "Includes version-specific opening and release gates, not repeated repository split or duplicate product implementation."
+    "existing_additional_issues": 0,
+    "distinct_planned_issue_identities": 53,
+    "note": "53 core tasks; #875/#1145 moved to v0.93.1 by operator amendment. No repeated split or duplicate implementation."
   }
 }

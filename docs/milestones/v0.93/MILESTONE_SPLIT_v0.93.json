@@ -1,7 +1,7 @@
 {
   "schema": "adl.milestone_split.v1",
   "planning_issue": 922,
-  "status": "scope_approved_packages_draft_not_open",
+  "status": "v0931_sprint1_preparation_open_v0932_draft",
   "source_count": 83,
   "source_disposition": [
     {
@@ -478,12 +478,11 @@
     "v0.93.1": [
       1148,
       1149,
-      1150
-    ],
-    "v0.93.2": [
+      1150,
       875,
       1145
-    ]
+    ],
+    "v0.93.2": []
   },
   "canonical_plans": [
     "../v0.93.1/EXECUTION_PLAN_v0.93.1.json",
@@ -494,5 +493,6 @@
       671,
       1169
     ]
-  }
+  },
+  "operator_amendment": "../v0.93.1/OPERATOR_AMENDMENT_2026-09-25.md"
 }

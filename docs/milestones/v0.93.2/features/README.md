@@ -33,4 +33,4 @@ Retain full Runtime, governance/security, citizen continuity and bounded reducti
 
 ## Routing
 
-Accepted v0.93.1 handoff and pinned repository lockset are prerequisites: external references v0.93.1/RD-11, v0.93.1/RD-09 and v0.93.1/TAIL-10. WP-01 also requires explicit opening authorization. The repository split is consumed, not repeated. CodeFriend launch and all template foundations/catalog work belong to v0.93.1. #875 remain separately gated existing issues.
+Accepted v0.93.1 handoff and pinned repository lockset are prerequisites: external references v0.93.1/RD-11, v0.93.1/RD-09 and v0.93.1/TAIL-10. WP-01 also requires explicit opening authorization. The repository split is consumed, not repeated. CodeFriend launch and all template foundations/catalog work belong to v0.93.1. #875 and #1145 remain separately gated v0.93.1 issues.
