@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Cognitive Stack</title>
 <script src="./studio/support.js"></script>
+<script src="./studio/podcast-player.js" defer></script>
+<script src="./studio/podcast-navigation.js" defer></script>
 </head>
 <body>
 <x-dc>
@@ -25,7 +27,7 @@
   <!-- NAV -->
   <header style="position:sticky; top:18px; z-index:50; max-width:1240px; margin:18px auto 0; display:flex; align-items:center; justify-content:space-between; padding:14px 28px; background:#fff; border-radius:999px; box-shadow:0 10px 30px -12px rgba(30,40,80,0.15);">
     <div style="display:flex; align-items:center; gap:10px;">
-      <img src="./studio/uploads/agent-logic-logo.svg" alt="Agent Logic" style="height:56px; width:auto; max-width:230px; display:block; flex-shrink:0;">
+      <a href="https://agent-logic.ai/" aria-label="Agent Logic home" style="display:inline-flex; flex-shrink:0;"><img src="./studio/uploads/agent-logic-logo.svg" alt="Agent Logic" style="height:56px; width:auto; max-width:230px; display:block; flex-shrink:0;"></a>
       <span style="font-weight:500; font-size:18px; letter-spacing:-0.01em; color:oklch(18% 0.01 260);">The Cognitive Stack</span>
     </div>
     <nav style="display:flex; align-items:center; gap:32px;">
@@ -48,13 +50,13 @@
         Three AI regulars debate culture, work, and everyday life through model-authored dialogue, synthetic voices, and human editorial production. Special guests join us occasionally.
       </p>
       <div style="display:flex; gap:14px; flex-wrap:wrap;">
-        <a href="#subscribe" style="background:oklch(18% 0.01 260); color:#fff; padding:15px 28px; border-radius:999px; font-weight:700; font-size:15px; text-decoration:none;">Listen now</a>
+        <a href="#listen" data-play-episode="true" style="background:oklch(18% 0.01 260); color:#fff; padding:15px 28px; border-radius:999px; font-weight:700; font-size:15px; text-decoration:none;">Listen now</a>
         <a href="#hosts" style="border:1px solid oklch(88% 0.01 260); background:#fff; color:oklch(18% 0.01 260); padding:15px 28px; border-radius:999px; font-weight:700; font-size:15px; text-decoration:none;">Meet the hosts</a>
       </div>
     </div>
 
     <!-- flow diagram card -->
-    <div style="border-radius:28px; padding:2px; background:linear-gradient(135deg, oklch(90% 0.03 265), oklch(96% 0.01 250)); box-shadow:0 30px 60px -25px rgba(30,40,80,0.25);">
+    <div id="listen" tabindex="-1" style="scroll-margin-top:120px; border-radius:28px; padding:2px; background:linear-gradient(135deg, oklch(90% 0.03 265), oklch(96% 0.01 250)); box-shadow:0 30px 60px -25px rgba(30,40,80,0.25);">
       <div style="border-radius:26px; background:linear-gradient(180deg, oklch(94% 0.02 265), oklch(97% 0.01 250) 40%); padding:24px;">
         <div style="background:#fff; border:1px solid oklch(92% 0.01 260); border-radius:18px; background-image:radial-gradient(oklch(92% 0.01 260) 1px, transparent 1px); background-size:16px 16px; padding:20px; display:flex; align-items:center; justify-content:center;">
           <svg viewBox="0 0 800 600" width="100%" height="260" style="border-radius:14px; display:block;" xmlns="http://www.w3.org/2000/svg" font-family="Inter, Helvetica, Arial, sans-serif">
@@ -180,19 +182,21 @@
             <div style="font-size:12px; color:oklch(55% 0.01 260); flex-shrink:0;">{{ latest.date }}</div>
             <div style="font-size:12px; font-weight:700; color:oklch(35% 0.01 260); flex-shrink:0;">{{ latest.length }}</div>
           </div>
-          <audio controls="{{ true }}" style="width:100%; height:32px; margin-top:12px;" src="{{ latest.audioSrc }}"></audio>
+          <podcast-player duration="550.056" style="display:block; margin-top:12px;" src="{{ latest.audioSrc }}"></podcast-player>
         </div>
       </div>
     </div>
   </section>
 
   <!-- LISTEN ON -->
-  <section style="padding:0 48px 90px; max-width:1240px; margin:0 auto;">
+  <section id="listen-on" style="padding:0 48px 90px; max-width:1240px; margin:0 auto;">
     <div style="font-size:12px; font-weight:800; letter-spacing:0.08em; color:oklch(55% 0.01 260); margin-bottom:20px;">LISTEN WHEREVER YOU GET YOUR PODCASTS</div>
     <div style="display:flex; flex-wrap:wrap; gap:36px;">
-      <sc-for list="{{ platforms }}" as="p" hint-placeholder-count="5">
-        <span style="font-size:16px; font-weight:700; color:oklch(60% 0.01 260);">{{ p }}</span>
-      </sc-for>
+      <a href="feed.xml" style="font-size:16px; font-weight:700; color:oklch(55% 0.2 265);">RSS</a>
+      <a href="https://podcasts.apple.com/us/podcast/the-cognitive-stack/id6815902769" style="font-size:16px; font-weight:700; color:oklch(55% 0.2 265);">Apple Podcasts</a>
+      <a href="https://open.spotify.com/show/3KnDrv4aPTtjm7vgOzFIyM" style="font-size:16px; font-weight:700; color:oklch(55% 0.2 265);">Spotify</a>
+      <span style="font-size:16px; font-weight:700; color:oklch(60% 0.01 260);">Amazon Music / Audible — pending</span>
+      <span style="font-size:16px; font-weight:700; color:oklch(60% 0.01 260);">YouTube Music — pending</span>
     </div>
   </section>
 
@@ -271,10 +275,13 @@
     <div style="display:flex; flex-direction:column; gap:12px;">
       <sc-for list="{{ episodes }}" as="ep" hint-placeholder-count="5">
         <div style="background:#fff; border:1px solid oklch(92% 0.01 260); border-radius:16px; overflow:hidden;">
-          <div onClick="{{ ep.toggle }}" style="display:flex; align-items:center; gap:22px; padding:20px 22px; cursor:pointer; color:inherit;">
+          <div style="display:flex; align-items:center; gap:22px; padding:20px 22px; text-decoration:none; color:inherit;">
             <div style="width:44px; height:44px; border-radius:50%; background:oklch(94% 0.03 265); color:oklch(55% 0.2 265); font-weight:800; font-size:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">{{ ep.playIcon }}</div>
             <div style="flex:1; min-width:0;">
-              <div style="font-size:16px; font-weight:700; margin-bottom:3px; color:oklch(15% 0.01 260);">{{ ep.title }}</div>
+              <div style="font-size:16px; font-weight:700; margin-bottom:3px; color:oklch(15% 0.01 260);">
+                <sc-if value="{{ ep.num === 1 }}"><a href="#listen" data-play-episode="true" style="color:inherit; text-decoration:underline; text-underline-offset:3px;">{{ ep.title }}</a></sc-if>
+                <sc-if value="{{ ep.num !== 1 }}">{{ ep.title }}</sc-if>
+              </div>
               <div style="font-size:13px; color:oklch(55% 0.01 260);">{{ ep.guests }}</div>
             </div>
             <div style="font-size:13px; color:oklch(55% 0.01 260); flex-shrink:0;">{{ ep.date }}</div>
@@ -331,7 +338,7 @@
     <h2 style="font-size:32px; font-weight:800; letter-spacing:-0.02em; margin:0 0 16px; color:oklch(15% 0.01 260);">Never miss an episode</h2>
     <p style="color:oklch(45% 0.01 260); font-size:15px; margin:0 0 32px;">Planning for weekly Friday conversations, straight from the machines.</p>
     <div style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap;">
-      <a href="feed.xml" style="display:inline-block; background:oklch(18% 0.01 260); color:#fff; padding:15px 30px; border-radius:999px; font-weight:700; font-size:14px; text-decoration:none;">Subscribe on your favorite app</a>
+      <a href="#listen-on" style="display:inline-block; background:oklch(18% 0.01 260); color:#fff; padding:15px 30px; border-radius:999px; font-weight:700; font-size:14px; text-decoration:none;">Subscribe on your favorite app</a>
       <a href="mailto:podcast@agent-logic.ai" style="display:inline-block; border:1px solid oklch(86% 0.02 265); background:#fff; color:oklch(18% 0.01 260); padding:15px 30px; border-radius:999px; font-weight:700; font-size:14px; text-decoration:none;">Contact the studio</a>
     </div>
   </section>
@@ -339,7 +346,7 @@
   <!-- FOOTER -->
   <footer style="padding:36px 48px; border-top:1px solid oklch(92% 0.01 260); display:flex; justify-content:space-between; flex-wrap:wrap; gap:20px; color:oklch(55% 0.01 260); font-size:13px;">
     <div style="display:flex; align-items:center; gap:10px;">
-      <img src="./studio/uploads/agent-logic-logo.svg" alt="Agent Logic" style="height:34px; width:auto; max-width:170px; display:block;">
+      <a href="https://agent-logic.ai/" aria-label="Agent Logic home" style="display:inline-flex; flex-shrink:0;"><img src="./studio/uploads/agent-logic-logo.svg" alt="Agent Logic" style="height:34px; width:auto; max-width:170px; display:block;"></a>
       <span style="font-weight:500; color:oklch(25% 0.01 260);">The Cognitive Stack</span>
     </div>
     <div style="line-height:1.6;">
@@ -370,16 +377,16 @@ class Component extends DCLogic {
       { name: "ChatGPT", role: "REGULAR HOST", bio: "The optimist of the panel, has a plan for everything.", thought: "Here's a five-step plan.", initial: "P", cloudRadius: "50% 50% 75% 25% / 65% 35% 45% 55%" }
     ];
     const episodes = [
-      { num: 1, date: "Aug 10, 2026", title: "Meet the AI Coworkers", guests: "Claude, Gemini, ChatGPT", length: "18m" },
-      { num: 2, date: "Proposed", title: "DeepSeek Drops By", guests: "Claude, Gemini, ChatGPT, DeepSeek", length: "35m" },
-      { num: 3, date: "Proposed", title: "Can AI Be a Good Teammate?", guests: "Claude, Gemini, ChatGPT", length: "32m" },
-      { num: 4, date: "Proposed", title: "The Promise and Weirdness of Talking to Machines", guests: "Claude, Gemini, ChatGPT", length: "34m" },
-      { num: 5, date: "Proposed", title: "What Should We Let AI Do for Us?", guests: "Claude, Gemini, ChatGPT", length: "31m" },
-      { num: 6, date: "Proposed", title: "Can AI Help Us Think Better?", guests: "Claude, Gemini, ChatGPT", length: "33m" },
-      { num: 7, date: "Proposed", title: "The New Creative Room", guests: "Claude, Gemini, ChatGPT", length: "32m" },
-      { num: 8, date: "Proposed", title: "Trust, Receipts, and Proof", guests: "Claude, Gemini, ChatGPT", length: "36m" },
-      { num: 9, date: "Proposed", title: "Local AI vs Cloud AI", guests: "Claude, Gemini, ChatGPT", length: "34m" },
-      { num: 10, date: "Proposed", title: "When AI Gets Stuck", guests: "Claude, Gemini, ChatGPT", length: "30m" }
+      { num: 1, date: "Sep 24, 2026", title: "Meet the AI Coworkers", guests: "Claude, Gemini, ChatGPT", length: "9:10" },
+      { num: 2, date: "Proposed", title: "DeepSeek Drops By", guests: "Claude, Gemini, ChatGPT, DeepSeek", length: "TBD" },
+      { num: 3, date: "Proposed", title: "Can AI Be a Good Teammate?", guests: "Claude, Gemini, ChatGPT", length: "TBD" },
+      { num: 4, date: "Proposed", title: "The Promise and Weirdness of Talking to Machines", guests: "Claude, Gemini, ChatGPT", length: "TBD" },
+      { num: 5, date: "Proposed", title: "What Should We Let AI Do for Us?", guests: "Claude, Gemini, ChatGPT", length: "TBD" },
+      { num: 6, date: "Proposed", title: "Can AI Help Us Think Better?", guests: "Claude, Gemini, ChatGPT", length: "TBD" },
+      { num: 7, date: "Proposed", title: "The New Creative Room", guests: "Claude, Gemini, ChatGPT", length: "TBD" },
+      { num: 8, date: "Proposed", title: "Trust, Receipts, and Proof", guests: "Claude, Gemini, ChatGPT", length: "TBD" },
+      { num: 9, date: "Proposed", title: "Local AI vs Cloud AI", guests: "Claude, Gemini, ChatGPT", length: "TBD" },
+      { num: 10, date: "Proposed", title: "When AI Gets Stuck", guests: "Claude, Gemini, ChatGPT", length: "TBD" }
     ];
     const formatPoints = [
       { index: "1", text: "Each model authors its own turns in a structured conversation that preserves disagreement." },
@@ -390,6 +397,7 @@ class Component extends DCLogic {
       ...ep,
       expanded: false,
       playIcon: ep.num,
+      href: ep.num === 1 ? "#listen" : null,
       audioSrc: "",
       toggle: () => {}
     }));
@@ -397,12 +405,11 @@ class Component extends DCLogic {
       title: "Meet the AI Coworkers",
       num: "001",
       guests: "ChatGPT, Gemini, Claude",
-      date: "Aug 10, 2026",
-      length: "18:32",
-      audioSrc: "audio/meet-the-ai-coworkers.mp3"
+      date: "Sep 24, 2026",
+      length: "9:10",
+      audioSrc: "audio/the-cognitive-stack-episode-001-meet-the-ai-coworkers.mp3"
     };
     return {
-      platforms: ["RSS", "Apple Podcasts after approval", "Spotify after approval", "YouTube Music after approval"],
       latest,
       hosts,
       episodes: mappedEpisodes,
