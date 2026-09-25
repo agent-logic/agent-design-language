@@ -1,5 +1,7 @@
 # Sprint 11 Execution Packet
 
+Current closeout: [the final coordination disposition](SPRINT_CLOSEOUT.md) supersedes execution-state/owner observations below. This retained opening packet and its frozen SPP values are historical planning evidence.
+
 ## Metadata
 
 - Sprint issue: `#937`

@@ -96,7 +96,7 @@ assert closed_event["issue_936"]["disposition"] == "NOT_PLANNED"
 assert closed_event["successors"] == [1148, 1149, 1150]
 assert closed_event["qualification_claim"] == "incomplete_deferred_not_pass"
 
-spp = load_json(ROOT / ".csdlc/v3/issues/937/cards/spp.values.json")
+spp = load_json(ROOT / ".csdlc/evidence/937/opening-spp.values.json")
 dependencies = spp["dependencies_inline"]
 assert "#916 remains not_proven" in dependencies
 assert "#916 through #925" in dependencies

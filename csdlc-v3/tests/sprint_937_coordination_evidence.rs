@@ -147,7 +147,7 @@ fn sprint_937_coordination_packet_preserves_roster_owners_and_gates() {
         "incomplete_deferred_not_pass"
     );
 
-    let spp = json(&root.join(".csdlc/v3/issues/937/cards/spp.values.json"));
+    let spp = json(&root.join(".csdlc/evidence/937/opening-spp.values.json"));
     let dependencies = spp["dependencies_inline"]
         .as_str()
         .expect("SPP dependencies");
