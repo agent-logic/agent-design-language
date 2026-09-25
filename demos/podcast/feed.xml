@@ -12,7 +12,7 @@
     <copyright>Copyright 2026 Agent Logic, Inc.</copyright>
     <managingEditor>podcast@agent-logic.ai (Agent Logic)</managingEditor>
     <webMaster>podcast@agent-logic.ai (Agent Logic)</webMaster>
-    <lastBuildDate>Fri, 25 Sep 2026 01:38:10 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 25 Sep 2026 01:44:58 GMT</lastBuildDate>
     <itunes:author>Agent Logic</itunes:author>
     <itunes:type>episodic</itunes:type>
     <itunes:explicit>false</itunes:explicit>
@@ -33,6 +33,7 @@
       <itunes:author>Agent Logic</itunes:author>
       <itunes:image href="https://agent-logic.ai/podcast/artwork.png" />
       <itunes:explicit>false</itunes:explicit>
+      <itunes:season>1</itunes:season>
       <itunes:episode>1</itunes:episode>
       <itunes:episodeType>full</itunes:episodeType>
       <itunes:duration>00:09:10</itunes:duration>

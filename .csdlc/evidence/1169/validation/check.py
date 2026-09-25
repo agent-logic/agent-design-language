@@ -53,6 +53,9 @@ print('PASS: feed metadata, exact audio/artwork copies and approved transcript t
 private = (root / 'demos/podcast/releases/episode-001/private-feed.xml').read_text()
 private_tree = ET.fromstring(private.replace('https://agent-logic.ai/_private/podcast/', 'https://agent-logic.ai/podcast/'))
 public_tree = ET.parse(root / manifest['feed']).getroot()
+season = public_tree.find('channel/item/{http://www.itunes.com/dtds/podcast-1.0.dtd}season')
+assert season is not None and season.text == str(manifest['season']) == '1'
+public_tree.find('channel/item').remove(season)  # Private test snapshot predates season assignment.
 for tree in (private_tree, public_tree):
     for parent in tree.iter():
         for child in list(parent):
