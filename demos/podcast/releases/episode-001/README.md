@@ -33,3 +33,7 @@ Browser automation could not start because its installed runtime rejected a trus
 ## Date and duration correction
 
 The operator requested a complete date/time check after promotion. Both Episode 1 listings now show September 24, 2026 and 9:10. The episode page includes the Pacific timestamp. The RSS publication instant remains September 25 at 00:40:26 UTC, equivalent to September 24 at 17:40:26 PDT. September 25 remains the planned promotional launch day, distinct from public availability. Unproduced episodes retain Proposed dates and use TBD durations. The earlier webpage-preservation and stale-duration notes describe the prior state and are superseded by this authorized correction.
+
+## Final pre-registration reference audit
+
+Corrected the public episode page to the approved introductory episode summary and transcript. The downloadable transcript now has publication metadata rather than a stale listening-approval hold; its spoken turns are unchanged from the approved source. Updated its release hash and byte count. Subscribe points to the outlet section, with Apple Podcasts, Spotify, Amazon Music/Audible and YouTube Music pending registration. Live assets and feed references were checked; email delivery and independent browser clicks are not claimed.

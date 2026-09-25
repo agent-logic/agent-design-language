@@ -22,7 +22,11 @@ assert parsedate_to_datetime(manifest['publication_time']).tzinfo is not None
 assert manifest['status'] in ('authorized_for_publication', 'published')
 for asset in manifest['assets']:
     payload = (root / asset['source']).read_bytes()
-    assert payload == (root / asset['approved_source']).read_bytes()
+    approved = (root / asset['approved_source']).read_bytes()
+    if asset['source'].endswith('-transcript.md'):
+        assert payload.split(b'### ChatGPT', 1)[1] == approved.split(b'### ChatGPT', 1)[1]
+    else:
+        assert payload == approved
     assert hashlib.sha256(payload).hexdigest() == asset['sha256']
     assert len(payload) == asset['bytes']
     assert all(url.startswith('https://agent-logic.ai/podcast/') for url in asset['public_urls'])
@@ -44,7 +48,7 @@ assert parsedate_to_datetime(manifest['publication_time']).astimezone(ZoneInfo('
 episode_page = (root / 'demos/podcast/episodes/meet-the-ai-coworkers/index.html').read_text()
 assert '2026-09-24T17:40:26-07:00' in episode_page and '9:10' in episode_page
 assert not subprocess.check_output(['git','diff','2fbf1237abd4d5933b2dcb7ca60e54626b413420','--','demos/podcast/editorial/1166-episode-1-introduction'], cwd=root)
-print('PASS: feed metadata, 3 exact asset copies, hashes/bytes, retained MP3 hash and measured WAV duration, correct page dates/durations and unchanged approved source')
+print('PASS: feed metadata, exact audio/artwork copies and approved transcript turns, hashes/bytes, retained MP3 hash and measured WAV duration, correct page dates/durations and unchanged approved source')
 
 private = (root / 'demos/podcast/releases/episode-001/private-feed.xml').read_text()
 private_tree = ET.fromstring(private.replace('https://agent-logic.ai/_private/podcast/', 'https://agent-logic.ai/podcast/'))
@@ -59,3 +63,14 @@ for tree in (private_tree, public_tree):
         node.tail = ''
 assert ET.tostring(private_tree) == ET.tostring(public_tree)
 print('PASS: approved private feed matches public feed except URL prefix and publication dates')
+
+from html.parser import HTMLParser
+class TranscriptText(HTMLParser):
+    def __init__(self): super().__init__(); self.parts=[]
+    def handle_data(self,data): self.parts.append(data)
+parser=TranscriptText(); parser.feed(episode_page.split('<h2>Transcript</h2>',1)[1].split('</main>',1)[0])
+import re
+spoken=(root / manifest['assets'][1]['source']).read_text().split('### ChatGPT',1)[1]
+expected='ChatGPT'+spoken.replace('### ', '')
+assert re.sub(r'\s+',' ',''.join(parser.parts)).strip() == re.sub(r'\s+',' ',expected).strip()
+print('PASS: episode-page transcript matches approved spoken dialogue')

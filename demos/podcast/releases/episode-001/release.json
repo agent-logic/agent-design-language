@@ -26,12 +26,13 @@
     {
       "source": "demos/podcast/transcripts/the-cognitive-stack-episode-001-meet-the-ai-coworkers-transcript.md",
       "approved_source": "demos/podcast/editorial/1166-episode-1-introduction/audio-candidate/transcript.md",
-      "sha256": "4b15adddb356be184d32186497ce325d0a5dfb8613e767a772567c109640937f",
-      "bytes": 9135,
+      "sha256": "637b8df3a75bbfd46bc0e1c2380864d8a8bd44a58e5ed107765024cb93031947",
+      "bytes": 8840,
       "content_type": "text/markdown; charset=utf-8",
       "public_urls": [
         "https://agent-logic.ai/podcast/transcripts/the-cognitive-stack-episode-001-meet-the-ai-coworkers-transcript.md"
-      ]
+      ],
+      "derivation": "Public heading and publication status updated; all speaker turns match approved_source exactly."
     },
     {
       "source": "demos/podcast/artwork/the-cognitive-stack-cover-3000.png",

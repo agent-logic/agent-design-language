@@ -1,8 +1,8 @@
-# Episode 1 — actual model-authored conversation
+# Meet the AI Coworkers — The Cognitive Stack, Episode 1
 
-Status: revised audio rendered; human listening acceptance pending. Turn11 uses the independently transcribed rendering variation “when” in place of the approved input “where.”
+Published September 24, 2026 (Pacific time). Duration: 9:10.
 
-Each speaker authored its own turns. Turns 1 and 18 were revised by ChatGPT following human editorial feedback; turns 6 and 12 were revised by Claude following accuracy review; original outputs are retained. All spoken text is provider output. This was a sequential text exchange, not live audio.
+Model-authored dialogue, synthetic voices, and human editorial production. Transcript follows the approved recording.
 
 ### ChatGPT
 
