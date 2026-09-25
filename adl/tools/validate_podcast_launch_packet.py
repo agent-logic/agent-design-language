@@ -98,7 +98,10 @@ def validate_html_public_text(html_path: Path, require_audio: bool = False) -> N
     for forbidden in FORBIDDEN_PUBLIC_TEXT:
         if forbidden.lower() in text.lower():
             fail(f"public page contains internal/non-claim wording {forbidden!r}: {html_path}")
-    if require_audio and "<audio controls" not in text:
+    if require_audio and "<audio controls" not in text and not (
+        "<podcast-player " in text and 'src="./studio/podcast-player.js"' in text
+        and (html_path.parent / "studio/podcast-player.js").is_file()
+    ):
         fail(f"missing playable audio control: {html_path}")
     if SHOW_TITLE not in text:
         fail(f"public page does not use the approved show identity: {html_path}")
@@ -124,6 +127,9 @@ def validate_feed(root: Path) -> None:
         fail("RSS enclosure must be audio/wav or audio/mpeg")
     length = int(enclosure.attrib.get("length", "0"))
     audio_name = "meet-the-ai-coworkers.mp3" if enclosure_type == "audio/mpeg" else "meet-the-ai-coworkers.wav"
+    release = current_release(root)
+    if release is not None:
+        audio_name = Path(release["assets"][0]["source"]).name
     actual = (root / "audio" / audio_name).stat().st_size
     if length != actual:
         fail(f"RSS enclosure length {length} does not match audio size {actual}")
@@ -142,7 +148,7 @@ def validate_feed(root: Path) -> None:
             "episode": "1",
             "episodeType": "full",
             "explicit": "false",
-            "duration": "00:18:32",
+            "duration": "00:09:10" if release is not None else "00:18:32",
         }
         for name, value in expected.items():
             if item.findtext(f"{{{ITUNES_NS}}}{name}", "") != value:
@@ -332,6 +338,63 @@ def validate_storage_manifest(root: Path, package_root: Path, metadata: dict) ->
             fail(f"storage runbook does not retain infrastructure identity {value!r}")
 
 
+def current_release(root: Path) -> dict | None:
+    path = root / "releases/episode-001/release.json"
+    return json.loads(path.read_text(encoding="utf-8")) if path.is_file() else None
+
+
+def resolve_release_path(repo: Path, relative: str) -> Path:
+    if not isinstance(relative, str) or Path(relative).is_absolute():
+        fail("release path must be repository relative")
+    path = (repo / relative).resolve()
+    if not path.is_relative_to(repo.resolve()) or ".." in Path(relative).parts:
+        fail("release path escapes repository")
+    return path
+
+
+def validate_current_release(root: Path) -> None:
+    release = current_release(root)
+    if release is None:
+        return
+    repo = root.parent.parent
+    if release.get("status") != "published" or release.get("season") != 1:
+        fail("current release must record published Season 1")
+    assets = release.get("assets", [])
+    if len(assets) != 3:
+        fail("current release must contain audio, transcript and artwork")
+    for asset in assets:
+        source = resolve_release_path(repo, asset.get("source"))
+        approved = resolve_release_path(repo, asset.get("approved_source"))
+        data = source.read_bytes()
+        if len(data) != asset.get("bytes") or hashlib.sha256(data).hexdigest() != asset.get("sha256"):
+            fail("current release asset byte count or digest mismatch")
+        if source.suffix == ".md":
+            if data.split(b"### ChatGPT", 1)[-1] != approved.read_bytes().split(b"### ChatGPT", 1)[-1]:
+                fail("current release transcript differs from approved spoken turns")
+        elif data != approved.read_bytes():
+            fail("current release asset differs from approved source")
+    audio, transcript, artwork = assets
+    validate_png_artwork(repo / artwork["source"])
+    with wave.open(str(resolve_release_path(repo, release["archive_audio"])), "rb") as wav:
+        duration = wav.getnframes() / wav.getframerate()
+    if not 540 <= duration <= 660 or abs(duration - release["duration_seconds"]) > 0.1:
+        fail("current release duration does not match approved introductory audio")
+    channel = ET.parse(root / "feed.xml").getroot().find("channel")
+    if channel is None or len(channel.findall("item")) != 1:
+        fail("current release must have exactly one feed item")
+    item = channel.find("item")
+    enclosure = item.find("enclosure")
+    if enclosure is None or enclosure.attrib != {"url": audio["public_urls"][0], "length": str(audio["bytes"]), "type": "audio/mpeg"}:
+        fail("current release feed enclosure mismatch")
+    if item.findtext("guid") != release["guid"] or item.findtext("pubDate") != release["publication_time"]:
+        fail("current release feed identity or publication mismatch")
+    if item.findtext(f"{{{ITUNES_NS}}}season") != "1":
+        fail("current release feed season mismatch")
+    page = (root / "index.html").read_text(encoding="utf-8")
+    if f'audioSrc: "audio/{Path(audio["source"]).name}"' not in page:
+        fail("current homepage does not reference approved audio")
+
+
 def validate_production_episode(root: Path) -> None:
     package_root = root / "episodes" / "001-meet-the-ai-coworkers"
     metadata_path = package_root / "episode.json"
@@ -411,7 +474,7 @@ def validate_production_episode(root: Path) -> None:
         "duration": feed_item.findtext(f"{{{ITUNES_NS}}}duration", ""),
     }
     for field, value in feed_values.items():
-        if value != enclosure[field]:
+        if current_release(root) is None and value != enclosure[field]:
             fail(f"production RSS item {field} does not match enclosure packet")
 
     source_packet = (package_root / metadata["source_packet"]).read_text(encoding="utf-8")
@@ -510,6 +573,7 @@ def main() -> None:
             fail(f"missing required launch artifact: {path}")
     if production:
         validate_production_episode(root)
+        validate_current_release(root)
 
     for html_path in [root / "index.html", root / "episodes" / "meet-the-ai-coworkers" / "index.html"]:
         validate_html_public_text(html_path, require_audio=True)
