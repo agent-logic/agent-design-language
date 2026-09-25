@@ -1,0 +1,38 @@
+{
+  "schema": "adl.rd01.refresh.v1",
+  "baseline_977": "f69019c24a9b61511e912c93f95442f96fa66d92",
+  "frozen_predecessor": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+  "opening_integration": "08236f86026f2e317e7f405bb0381b782a1417b9",
+  "baseline_paths": 31813,
+  "frozen_paths": 36899,
+  "opening_paths": 36900,
+  "owners": {
+    "blocked_decision": 35491,
+    "agent-logic-runtime": 309,
+    "agent-design-language": 50,
+    "codefriend": 112,
+    "cognitive-sdlc": 937
+  },
+  "decisions": {
+    "D-ROOT": 16,
+    "D-HISTORY": 31648,
+    "D-DELIVERY": 334,
+    "D-GENERATION": 287,
+    "D-MIXED-ADL": 1937,
+    "D-DEMOS": 420,
+    "D-DOCS": 849
+  },
+  "delta_977": {
+    "added": 5086,
+    "modified": 271
+  },
+  "delta_opening": {
+    "modified": 41,
+    "added": 1
+  },
+  "reports": {
+    "census.jsonl.gz": "cde101515c4488d5091e0a2ecac34b81ac54394d386cbe5a23847edf20d843a9",
+    "delta-977.jsonl.gz": "be7dd11b6d91bd2aaae7fd1f4d245bdff0bfd27a82636f2f20e1e4906b8b9ff0",
+    "delta-opening.jsonl.gz": "26b3c2c11cb6f7ef750ee5349b2fbcbe71a2e2df1a10c6dbf4f6a8a6c9fea9e5"
+  }
+}
