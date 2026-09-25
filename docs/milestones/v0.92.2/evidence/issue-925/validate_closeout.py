@@ -2,6 +2,9 @@
 import copy
 import hashlib
 import json
+import re
+import subprocess
+from functools import lru_cache
 from pathlib import Path
 ROOT = Path(__file__).resolve().parents[5]
 PACKET = Path(__file__).resolve().parent
@@ -20,9 +23,31 @@ def validate(manifest):
     assert len({x['issue'] for x in ledger['tasks']}) == 69
     assert next(x for x in ledger['tasks'] if x['issue'] == 915)['final_disposition'] == 'deferred_qualification_to_1148_1149_1150'
     reviewed = json.loads((ROOT / 'docs/milestones/v0.92.2/evidence/issue-924/REVIEWED_MANIFEST.json').read_text())
+    validate_reviewed(reviewed)
+
+@lru_cache(maxsize=128)
+def historical_blob(revision, path):
+    # Pin a commit object, never a moving ref or working-copy successor document.
+    assert re.fullmatch(r'[0-9a-f]{40}', revision), 'full reviewed revision required'
+    relative = Path(path)
+    assert not relative.is_absolute() and '..' not in relative.parts
+    assert path.startswith('docs/milestones/')
+    commit = subprocess.run(['git', '-C', str(ROOT), 'rev-parse', '--verify', revision + '^{commit}'],
+                            capture_output=True, check=True).stdout.decode().strip()
+    assert commit == revision
+    return subprocess.run(['git', '-C', str(ROOT), 'show', revision + ':' + path],
+                          capture_output=True, check=True).stdout
+
+def validate_reviewed(reviewed):
     assert len(reviewed['files']) == 60
+    assert len({row['path'] for row in reviewed['files']}) == 60
     for row in reviewed['files']:
-        assert hashlib.sha256((ROOT / row['path']).read_bytes()).hexdigest() == row['sha256']
+        digest = hashlib.sha256(historical_blob(reviewed['reviewed_revision'], row['path'])).hexdigest()
+        assert digest == row['sha256'], row['path']
+        # Closed-milestone evidence remains immutable in the current checkout too.
+        # Only the successor plans can evolve independently of their historical review.
+        if row['path'].startswith('docs/milestones/v0.92.2/'):
+            assert hashlib.sha256((ROOT / row['path']).read_bytes()).hexdigest() == row['sha256']
 
 if __name__ == '__main__':
     manifest = json.loads((PACKET / 'CLOSEOUT_MANIFEST.json').read_text())
@@ -37,4 +62,15 @@ if __name__ == '__main__':
         try: validate(case)
         except (AssertionError,KeyError,FileNotFoundError): pass
         else: raise AssertionError('invalid closeout accepted')
-    print(json.dumps({'status':'pass','core_tasks':69,'planning_manifest_files':60,'negative_cases':len(cases),'remote_effects':False}))
+    reviewed = json.loads((ROOT / 'docs/milestones/v0.92.2/evidence/issue-924/REVIEWED_MANIFEST.json').read_text())
+    historical_cases=[]
+    for key,value in [('reviewed_revision','HEAD'),('reviewed_revision','0'*40)]:
+        candidate=copy.deepcopy(reviewed);candidate[key]=value;historical_cases.append(candidate)
+    candidate=copy.deepcopy(reviewed);candidate['files'][1]['sha256']='0'*64;historical_cases.append(candidate)
+    candidate=copy.deepcopy(reviewed);candidate['files'][1]['path']='docs/milestones/missing.md';historical_cases.append(candidate)
+    candidate=copy.deepcopy(reviewed);candidate['files'][1]=candidate['files'][0];historical_cases.append(candidate)
+    for candidate in historical_cases:
+        try: validate_reviewed(candidate)
+        except (AssertionError,KeyError,FileNotFoundError,subprocess.CalledProcessError): pass
+        else: raise AssertionError('invalid historical review accepted')
+    print(json.dumps({'status':'pass','core_tasks':69,'planning_manifest_files':60,'negative_cases':len(cases),'historical_negative_cases':len(historical_cases),'remote_effects':False}))
