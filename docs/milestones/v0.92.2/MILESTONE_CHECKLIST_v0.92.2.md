@@ -1,5 +1,9 @@
 # v0.92.2 Milestone Checklist
 
+## Final closeout disposition
+
+All internal-review findings were fixed. The external review attempt failed; #921 is closed at the operator's direction. [#925 records the final milestone decision](evidence/issue-925/RELEASE_DECISION.md): integrate the remaining tail, close v0.92.2, then wait15minutes before opening v0.93.1 with the repository split first. Product qualification remains explicitly deferred to #1148/#1149/#1150; no new software release/tag is claimed. The retained review-time observations below keep their original source meaning. Actual milestone closure is established by authenticated final readback, not this plan.
+
 Status: release acceptance checklist; unchecked requirements are not completed by issue closure. #915 independent qualification is incomplete and explicitly deferred; #916 is accepted for handoff with product qualification still `not_proven`. Successor repairs #1148/#1149 precede qualification #1150 in v0.93.1. The [handoff](evidence/issue-917/HANDOFF.md) records observed work without treating closed issues or local test counts as release approval.
 
 ## Opening

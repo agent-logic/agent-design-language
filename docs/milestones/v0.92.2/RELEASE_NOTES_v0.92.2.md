@@ -1,5 +1,9 @@
 # v0.92.2 release notes — external-review draft
 
+## Final closeout disposition
+
+All internal-review findings were fixed. The external review attempt failed; #921 is closed at the operator's direction. [#925 records the final milestone decision](evidence/issue-925/RELEASE_DECISION.md): integrate the remaining tail, close v0.92.2, then wait15minutes before opening v0.93.1 with the repository split first. Product qualification remains explicitly deferred to #1148/#1149/#1150; no new software release/tag is claimed. The retained review-time observations below keep their original source meaning. Actual milestone closure is established by authenticated final readback, not this plan.
+
 **Not a release or Beta1 launch approval.** This #918 packet consumes the accepted #916 assessment ([PR #1151](https://github.com/agent-logic/agent-design-language/pull/1151), `374ecc2a1237094e031ecb5f6d82853ea72ab819`) and #917 documentation handoff ([PR #1152](https://github.com/agent-logic/agent-design-language/pull/1152), `c72c8cc1bf255ae2e26bb85b631ce0550fd886fc`). Their integration does not change the `not_proven` product qualification decision. #919's internal review is retained at PR #1153 merge `52756b5bc7b02e3ebf6886170ee59b55f8dc10d1`; external review and release approval remain separate and incomplete.
 
 ## Current qualification disposition
