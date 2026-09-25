@@ -23,3 +23,9 @@ The operator subsequently authorized publishing a separate test feed at `https:/
 ## Public promotion authorization
 
 After the private-path listening test passed, the operator explicitly authorized moving the page, feed and assets to public URLs before registration. The public feed now records the actual publication time in `pubDate`; the private test snapshot remains preserved. Directory registration and social announcements are still separate actions.
+
+## Browser delivery correction
+
+Public HTTP availability alone did not prove browser rendering. The inherited site policy blocked the page renderer's pinned React dependencies and expression evaluation. A `podcast/*` response-header policy now permits the existing renderer and Google Fonts while preserving the main site's policy. The exact scoped policy is retained in `public-headers-policy.json`. The feed is served as `application/xml; charset=utf-8` with `Content-Disposition: inline` for browser display; RSS content and media are unchanged. Renderer CDN files were fetched and verified against their existing SHA-384 integrity pins.
+
+Browser automation could not start because its installed runtime rejected a trusted dependency path. Header checks and asset integrity are verified; visual rendering has not been independently confirmed through that browser tool. This scoped live policy addition must be preserved in future infrastructure reconciliation.
