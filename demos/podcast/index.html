@@ -55,7 +55,7 @@
     </div>
 
     <!-- flow diagram card -->
-    <div style="border-radius:28px; padding:2px; background:linear-gradient(135deg, oklch(90% 0.03 265), oklch(96% 0.01 250)); box-shadow:0 30px 60px -25px rgba(30,40,80,0.25);">
+    <div id="listen" tabindex="-1" style="scroll-margin-top:120px; border-radius:28px; padding:2px; background:linear-gradient(135deg, oklch(90% 0.03 265), oklch(96% 0.01 250)); box-shadow:0 30px 60px -25px rgba(30,40,80,0.25);">
       <div style="border-radius:26px; background:linear-gradient(180deg, oklch(94% 0.02 265), oklch(97% 0.01 250) 40%); padding:24px;">
         <div style="background:#fff; border:1px solid oklch(92% 0.01 260); border-radius:18px; background-image:radial-gradient(oklch(92% 0.01 260) 1px, transparent 1px); background-size:16px 16px; padding:20px; display:flex; align-items:center; justify-content:center;">
           <svg viewBox="0 0 800 600" width="100%" height="260" style="border-radius:14px; display:block;" xmlns="http://www.w3.org/2000/svg" font-family="Inter, Helvetica, Arial, sans-serif">
@@ -181,7 +181,7 @@
             <div style="font-size:12px; color:oklch(55% 0.01 260); flex-shrink:0;">{{ latest.date }}</div>
             <div style="font-size:12px; font-weight:700; color:oklch(35% 0.01 260); flex-shrink:0;">{{ latest.length }}</div>
           </div>
-          <podcast-player id="listen" duration="550.056" style="display:block; margin-top:12px;" src="{{ latest.audioSrc }}"></podcast-player>
+          <podcast-player duration="550.056" style="display:block; margin-top:12px;" src="{{ latest.audioSrc }}"></podcast-player>
         </div>
       </div>
     </div>
@@ -273,15 +273,18 @@
     <div style="display:flex; flex-direction:column; gap:12px;">
       <sc-for list="{{ episodes }}" as="ep" hint-placeholder-count="5">
         <div style="background:#fff; border:1px solid oklch(92% 0.01 260); border-radius:16px; overflow:hidden;">
-          <a href="{{ ep.href }}" style="display:flex; align-items:center; gap:22px; padding:20px 22px; text-decoration:none; color:inherit;">
+          <div style="display:flex; align-items:center; gap:22px; padding:20px 22px; text-decoration:none; color:inherit;">
             <div style="width:44px; height:44px; border-radius:50%; background:oklch(94% 0.03 265); color:oklch(55% 0.2 265); font-weight:800; font-size:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">{{ ep.playIcon }}</div>
             <div style="flex:1; min-width:0;">
-              <div style="font-size:16px; font-weight:700; margin-bottom:3px; color:oklch(15% 0.01 260);">{{ ep.title }}</div>
+              <div style="font-size:16px; font-weight:700; margin-bottom:3px; color:oklch(15% 0.01 260);">
+                <sc-if value="{{ ep.num === 1 }}"><a href="#listen" style="color:inherit; text-decoration:underline; text-underline-offset:3px;">{{ ep.title }}</a></sc-if>
+                <sc-if value="{{ ep.num !== 1 }}">{{ ep.title }}</sc-if>
+              </div>
               <div style="font-size:13px; color:oklch(55% 0.01 260);">{{ ep.guests }}</div>
             </div>
             <div style="font-size:13px; color:oklch(55% 0.01 260); flex-shrink:0;">{{ ep.date }}</div>
             <div style="font-size:13px; font-weight:700; color:oklch(35% 0.01 260); flex-shrink:0; width:44px; text-align:right;">{{ ep.length }}</div>
-          </a>
+          </div>
           <sc-if value="{{ ep.expanded }}">
             <div style="padding:0 22px 20px;">
               <audio controls="{{ true }}" style="width:100%; height:40px;" src="{{ ep.audioSrc }}"></audio>
