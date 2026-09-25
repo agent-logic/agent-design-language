@@ -49,7 +49,7 @@
         Three AI regulars debate culture, work, and everyday life through model-authored dialogue, synthetic voices, and human editorial production. Special guests join us occasionally.
       </p>
       <div style="display:flex; gap:14px; flex-wrap:wrap;">
-        <a href="#subscribe" style="background:oklch(18% 0.01 260); color:#fff; padding:15px 28px; border-radius:999px; font-weight:700; font-size:15px; text-decoration:none;">Listen now</a>
+        <a href="#listen" style="background:oklch(18% 0.01 260); color:#fff; padding:15px 28px; border-radius:999px; font-weight:700; font-size:15px; text-decoration:none;">Listen now</a>
         <a href="#hosts" style="border:1px solid oklch(88% 0.01 260); background:#fff; color:oklch(18% 0.01 260); padding:15px 28px; border-radius:999px; font-weight:700; font-size:15px; text-decoration:none;">Meet the hosts</a>
       </div>
     </div>
@@ -181,7 +181,7 @@
             <div style="font-size:12px; color:oklch(55% 0.01 260); flex-shrink:0;">{{ latest.date }}</div>
             <div style="font-size:12px; font-weight:700; color:oklch(35% 0.01 260); flex-shrink:0;">{{ latest.length }}</div>
           </div>
-          <podcast-player duration="550.056" style="display:block; margin-top:12px;" src="{{ latest.audioSrc }}"></podcast-player>
+          <podcast-player id="listen" duration="550.056" style="display:block; margin-top:12px;" src="{{ latest.audioSrc }}"></podcast-player>
         </div>
       </div>
     </div>
@@ -191,6 +191,7 @@
   <section style="padding:0 48px 90px; max-width:1240px; margin:0 auto;">
     <div style="font-size:12px; font-weight:800; letter-spacing:0.08em; color:oklch(55% 0.01 260); margin-bottom:20px;">LISTEN WHEREVER YOU GET YOUR PODCASTS</div>
     <div style="display:flex; flex-wrap:wrap; gap:36px;">
+      <a href="feed.xml" style="font-size:16px; font-weight:700; color:oklch(55% 0.2 265);">RSS</a>
       <sc-for list="{{ platforms }}" as="p" hint-placeholder-count="5">
         <span style="font-size:16px; font-weight:700; color:oklch(60% 0.01 260);">{{ p }}</span>
       </sc-for>
@@ -272,7 +273,7 @@
     <div style="display:flex; flex-direction:column; gap:12px;">
       <sc-for list="{{ episodes }}" as="ep" hint-placeholder-count="5">
         <div style="background:#fff; border:1px solid oklch(92% 0.01 260); border-radius:16px; overflow:hidden;">
-          <div onClick="{{ ep.toggle }}" style="display:flex; align-items:center; gap:22px; padding:20px 22px; cursor:pointer; color:inherit;">
+          <a href="{{ ep.href }}" style="display:flex; align-items:center; gap:22px; padding:20px 22px; text-decoration:none; color:inherit;">
             <div style="width:44px; height:44px; border-radius:50%; background:oklch(94% 0.03 265); color:oklch(55% 0.2 265); font-weight:800; font-size:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">{{ ep.playIcon }}</div>
             <div style="flex:1; min-width:0;">
               <div style="font-size:16px; font-weight:700; margin-bottom:3px; color:oklch(15% 0.01 260);">{{ ep.title }}</div>
@@ -280,7 +281,7 @@
             </div>
             <div style="font-size:13px; color:oklch(55% 0.01 260); flex-shrink:0;">{{ ep.date }}</div>
             <div style="font-size:13px; font-weight:700; color:oklch(35% 0.01 260); flex-shrink:0; width:44px; text-align:right;">{{ ep.length }}</div>
-          </div>
+          </a>
           <sc-if value="{{ ep.expanded }}">
             <div style="padding:0 22px 20px;">
               <audio controls="{{ true }}" style="width:100%; height:40px;" src="{{ ep.audioSrc }}"></audio>
@@ -391,6 +392,7 @@ class Component extends DCLogic {
       ...ep,
       expanded: false,
       playIcon: ep.num,
+      href: ep.num === 1 ? "#listen" : null,
       audioSrc: "",
       toggle: () => {}
     }));
@@ -403,7 +405,7 @@ class Component extends DCLogic {
       audioSrc: "audio/meet-the-ai-coworkers.mp3"
     };
     return {
-      platforms: ["RSS", "Apple Podcasts after approval", "Spotify after approval", "YouTube Music after approval"],
+      platforms: [ "Apple Podcasts after approval", "Spotify after approval", "YouTube Music after approval"],
       latest,
       hosts,
       episodes: mappedEpisodes,
