@@ -1,0 +1,249 @@
+{
+  "schema": "adl.successor_planning_review.v1",
+  "reviewed_revision": "048c7caaab65710812c8c21c72b9806065dcae5a",
+  "reviewer": "/root/review_922_plan",
+  "verdict": "pass",
+  "scope": "#922 split package and #923 closeout plan content; upstream merge/acceptance tracked separately",
+  "files": [
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-923/SUCCESSOR_CLOSEOUT_PLAN.md",
+      "sha256": "b2935e679eb1214fb215658241c111c17f8d4aa86bd8b65fea5cfe532d191a16"
+    },
+    {
+      "path": "docs/milestones/v0.93.1/ADR_PLAN_v0.93.1.md",
+      "sha256": "b9ea7a0e9b65152f8f32f12eabd89b1daafd12c2798d7e76efa3e404a9ff54dd"
+    },
+    {
+      "path": "docs/milestones/v0.93.1/DECISIONS_v0.93.1.md",
+      "sha256": "98812e82d71ae3a6a4050f872277655422c3696fd7b0455013fdd443cac64441"
+    },
+    {
+      "path": "docs/milestones/v0.93.1/DEMO_MATRIX_v0.93.1.md",
+      "sha256": "027ea2d39f5c69732096fbcadb0acb3fb518e957087870f543b28e19291b3b51"
+    },
+    {
+      "path": "docs/milestones/v0.93.1/DESIGN_v0.93.1.md",
+      "sha256": "fd5945e6251b117a1d8b5d1e50792e9f60f990848e588673b9a18e17d7137262"
+    },
+    {
+      "path": "docs/milestones/v0.93.1/EXECUTION_PLAN_v0.93.1.json",
+      "sha256": "9d877de89ef234a8b6d1909ce7bf555c5ea13411314662aa175e5b67969d818b"
+    },
+    {
+      "path": "docs/milestones/v0.93.1/FEATURE_PROOF_COVERAGE_v0.93.1.md",
+      "sha256": "74030143fabce49166fb97d07975cbeca9b16cda546502fdd1738b5fd36871a3"
+    },
+    {
+      "path": "docs/milestones/v0.93.1/MILESTONE_CHECKLIST_v0.93.1.md",
+      "sha256": "022fc5b2dce9ccef341bb77f7601dc8f10d25911abdcf60aecf5d86facbdc9ab"
+    },
+    {
+      "path": "docs/milestones/v0.93.1/NEXT_MILESTONE_HANDOFF_v0.93.1.md",
+      "sha256": "c4815f5b0588b2a240c40804301a63dcc03919b94f4aef58cc99788890f00af6"
+    },
+    {
+      "path": "docs/milestones/v0.93.1/QUALITY_GATE_v0.93.1.md",
+      "sha256": "9d6d8147a9aa082b61c7c54c9e2c578deaa6010bcd6522a3011270812d96b2f0"
+    },
+    {
+      "path": "docs/milestones/v0.93.1/README.md",
+      "sha256": "17d8d1ec8ffc2266044100f036c9a5b5da30f77acac64181c5eed6484f127aa3"
+    },
+    {
+      "path": "docs/milestones/v0.93.1/RELEASE_NOTES_v0.93.1.md",
+      "sha256": "f3076de22f051fbf20c2504da27fc723c4a19aa8f12e50148375fc8984c05220"
+    },
+    {
+      "path": "docs/milestones/v0.93.1/RELEASE_PLAN_v0.93.1.md",
+      "sha256": "36e09cb9dbce5baa8693b0bab4e5232951a6b48b2184cdb51d9d0bfda61dbb67"
+    },
+    {
+      "path": "docs/milestones/v0.93.1/REPOSITORY_MIGRATION_v0.93.1.md",
+      "sha256": "7544852997c490f2077b99576d77071ad9027d6b3516479ed910df3dbd1fb21a"
+    },
+    {
+      "path": "docs/milestones/v0.93.1/SPRINT_v0.93.1.md",
+      "sha256": "c7a613dd758e40ed43a7c479ba08f52cf063b72676140f08ca10bdde906b9685"
+    },
+    {
+      "path": "docs/milestones/v0.93.1/VISION_v0.93.1.md",
+      "sha256": "ada7414297d282611ec14834a2703ddbe6903f35e8444644865f9639d64b815f"
+    },
+    {
+      "path": "docs/milestones/v0.93.1/WBS_v0.93.1.md",
+      "sha256": "945b7debfd22589e913cc819dd38bc616e7500e773908f63f293ca117d6f1f1e"
+    },
+    {
+      "path": "docs/milestones/v0.93.1/WP_EXECUTION_READINESS_v0.93.1.md",
+      "sha256": "46ead843b79b23e52bf5c9f8ff8a0e2795cfd65c1e693dcdb04db9549c3759d4"
+    },
+    {
+      "path": "docs/milestones/v0.93.1/WP_EXECUTION_SPECIFICATIONS_v0.93.1.yaml",
+      "sha256": "d990a8f05cfd0cb4f8c686343ac1b1677e552b3837de7e0a765d9ee8e6252603"
+    },
+    {
+      "path": "docs/milestones/v0.93.1/WP_ISSUE_WAVE_v0.93.1.yaml",
+      "sha256": "a2914acfab5cf2e320935181552f8ec24e61a5903c6e218411ae17a73af3cb8b"
+    },
+    {
+      "path": "docs/milestones/v0.93.1/features/CODEFRIEND_ARTIFACT_TEMPLATES_AND_STYLE_GUIDES_v0.93.1.md",
+      "sha256": "be63f727b3a9d226d7f429e3c50f4224a33a648d71157130bf0ae6ffd8c28ad3"
+    },
+    {
+      "path": "docs/milestones/v0.93.1/features/CODEFRIEND_LAUNCH_v0.93.1.md",
+      "sha256": "117f2930eebfc60b2af7725c2bf1a8f1103e77047b7b62be4d0f3e9e0a0bc4a1"
+    },
+    {
+      "path": "docs/milestones/v0.93.1/features/README.md",
+      "sha256": "361599a5ac22d0fe177bb72cf1dc2f452802f71f0c9edeba8d492e87c2eb55b9"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/ADR_PLAN_v0.93.2.md",
+      "sha256": "20743dc43f8d11504222a7a934108b25c1c853abd795c19116d651a5410ae9dc"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/DECISIONS_v0.93.2.md",
+      "sha256": "a3d9815c5206b04e4ae3a055e90119c9a9e67dc487fb4b32c1540d2b655d8748"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/DEMO_MATRIX_v0.93.2.md",
+      "sha256": "2cb52015cd774b0bc7e148df189ee1a3ba8a896e81f8606e47cd71d10aee99cd"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/DESIGN_v0.93.2.md",
+      "sha256": "1925e5bda061488a9648e8a3efa726f89be2ebbb0e2b61954baf6dbd6cef9f75"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json",
+      "sha256": "e9e371c164a1ac606c5fba81655dd9e559a7fc56b833e8b02c40917d2af46683"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/FEATURE_PROOF_COVERAGE_v0.93.2.md",
+      "sha256": "3b4ee91bd4f496205270871fff1d75527e8df09c89fbbdf0604ce89aeb7cf165"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/MILESTONE_CHECKLIST_v0.93.2.md",
+      "sha256": "0b178da704a3b4ce480fa7e28dfbad50a3a0ff58599adb184d67347d39a4f67f"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/NEXT_MILESTONE_HANDOFF_v0.93.2.md",
+      "sha256": "ea664abb27232b70d8c9e5f637e3d1705a6f4c1bdff0acc1b4edcaaf22eeac94"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/QUALITY_GATE_v0.93.2.md",
+      "sha256": "0f3960488b62cf13949576f834b430b0af75b4926fe481353f2e5961ac897d65"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/README.md",
+      "sha256": "03b1f61e3e97f274b980b351743a556f46ba47da0510b40642d294a316ddc8d7"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/RELEASE_NOTES_v0.93.2.md",
+      "sha256": "c7f39faba3c6c2f40bc3484128d8c1a3f4c0cc6631d51c8f558c10c135426296"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/RELEASE_PLAN_v0.93.2.md",
+      "sha256": "d02ce813c26af09769c17ef0c359f7936822b3e47e0806b9ef5d3854afde81fa"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/SPRINT_v0.93.2.md",
+      "sha256": "93b3771b31de42a6cb94d9caa3549bafb502b2f3c2a7dde9587cce50afabdab2"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/VISION_v0.93.2.md",
+      "sha256": "a27ee2eccdf56fcfebe453f2260b4dcc5445427fd3b68b7ae9ce862a36d4294b"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/WBS_v0.93.2.md",
+      "sha256": "5137d05f0221be82782d5ec515264d307b22ef8d5bb08a1c093da5b9559b15bc"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/WP_EXECUTION_READINESS_v0.93.2.md",
+      "sha256": "a4acd6f459e3da445b6a5f98e2de02851e213f3efdecf43d4cfc4f4b2cda6fb1"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/WP_EXECUTION_SPECIFICATIONS_v0.93.2.yaml",
+      "sha256": "f167c2c75a1195dfd29fbc327d511ffc1c51c9a87ccb712425cfae2aa85f243b"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/WP_ISSUE_WAVE_v0.93.2.yaml",
+      "sha256": "5bf7b815fccd96da6219493bf4ad97177d0abce3c7106b1c8ed851f136c21508"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/features/CITIZENSHIP_RIGHTS_DUTIES_AND_SOCIAL_CONTRACT_v0.93.2.md",
+      "sha256": "c0f416e262288097097609975fb2a77f135587f704dc54896b35d0810232b56e"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/features/CITIZEN_REPRODUCTION_AND_MIGRATION_v0.93.2.md",
+      "sha256": "c28b8d9b0e39bbc9d80373837663dbd5bcb1e9e5aea7ff964a5571e591570d57"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/features/DELEGATION_IAM_STANDING_AND_APPEAL_GOVERNANCE_v0.93.2.md",
+      "sha256": "b93d453b3141bdd0a5fd6cfc8ea09cec028535c9d5b01b3ea72653d931b5048d"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/features/ENTERPRISE_SECURITY_v0.93.2.md",
+      "sha256": "570febc6e51dd53db2f4d4276bdc0803d706e917c9796b30a270f2565256bfbb"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/features/GUILDS_AND_COLLECTIVE_ORGANIZATION_v0.93.2.md",
+      "sha256": "5097eaa84101b58a76bfc7bca05818ed8ea03765ea77910b05aa59ef1b5e0e29"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/features/INTEGRATED_DEMONSTRATIONS_v0.93.2.md",
+      "sha256": "dd3d8980cb0d76fb9ca5fdb8d76777d4e2af800ec963e8e30308b7b038361a0a"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/features/PYTHON_REDUCTION_v0.93.2.md",
+      "sha256": "981bb359fc6da3efdd0ad5178a6dd18f94d93fcdd2135b61bf036cb1fadbbc1c"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/features/README.md",
+      "sha256": "f079953bad6ba67ca2c8c575e3f4a67668bea205cb0d7c6794f0615b97950f42"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/features/RUNTIME_V4_PLUGIN_SYSTEM_v0.93.2.md",
+      "sha256": "34e22c529ef8ca61d0faea2a13ab7a78f49313b5b5e708de80bea3417a71e34f"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/features/SECURITY_WP_S1_ZERO_TRUST_ARCHITECTURE_v0.93.2.md",
+      "sha256": "7eb9abfe78605bfe5bd7825d98c6b67d2984dcd4e25d6ca281bee04cc411b688"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/features/SECURITY_WP_S2_POLICY_ENFORCEMENT_AUTHORIZATION_v0.93.2.md",
+      "sha256": "60937140d860f229c325ebe58d7a21def55604b0404ab69f6afad7e7807e9304"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/features/SECURITY_WP_S3_SECRETS_KEYS_CRYPTOGRAPHIC_TRUST_v0.93.2.md",
+      "sha256": "b46a82c96315d253fd0a416df154d441a6a50fc7c7efe9674c9e27961291ce0a"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/features/SECURITY_WP_S4_AUDIT_COMPLIANCE_INCIDENT_EVIDENCE_v0.93.2.md",
+      "sha256": "75a5f409a1502bfb46b5525e684d47651c715c3e924273fe49ca437ca0da8ef0"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/features/SECURITY_WP_S5_ISOLATION_DATA_GOVERNANCE_PRIVACY_v0.93.2.md",
+      "sha256": "6dde819f3745b57081ba777cdb4e3e6b7221eac57ba7dbadb45de5fd920db9cb"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/features/SECURITY_WP_S6_SECURITY_OPERATIONS_ADVERSARIAL_PROVENANCE_v0.93.2.md",
+      "sha256": "1046aea039a6c03bec5b50903b1ba2c3a62b72e3c3b013017ef8b0df3790498a"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/features/SOCIAL_RELATIONSHIP_REPUTATION_AND_SHARED_MEMORY_v0.93.2.md",
+      "sha256": "5661f34b44a0646b259c6e47e29b0b46937f3bd47919e0648b947fd6f4cd7db0"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/features/THEORY_OF_MIND_AND_SOCIAL_COGNITION_v0.93.2.md",
+      "sha256": "64599b957d23ebd99249a593eaa4bff66b07761817584d4b4b1d177634776a2e"
+    },
+    {
+      "path": "docs/milestones/v0.93/MILESTONE_SPLIT_v0.93.json",
+      "sha256": "cab9b0777cc2eccde72d8c5393897df79051921ec73cb8ee026a4e34b899473a"
+    },
+    {
+      "path": "docs/milestones/v0.93/validate_split.py",
+      "sha256": "87eddddedb3e5dc0edbb9ac64c1a65d47d5f98ba1bcb679735646db053c131f8"
+    }
+  ]
+}
