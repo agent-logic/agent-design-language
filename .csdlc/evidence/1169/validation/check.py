@@ -81,3 +81,8 @@ print('PASS: episode-page transcript matches approved spoken dialogue')
 assert item.findtext("pubDate").endswith(" GMT")
 assert channel.findtext("lastBuildDate").endswith(" GMT")
 assert parsedate_to_datetime(channel.findtext("lastBuildDate")) >= parsedate_to_datetime(item.findtext("pubDate"))
+
+assert 'href="https://podcasts.apple.com/us/podcast/the-cognitive-stack/id6815902769"' in page
+assert 'href="https://open.spotify.com/show/3KnDrv4aPTtjm7vgOzFIyM"' in page
+assert 'Amazon Music / Audible — pending</span>' in page
+assert 'YouTube Music — pending</span>' in page

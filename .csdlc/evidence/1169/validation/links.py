@@ -26,6 +26,7 @@ for href in p.hrefs:
   with urlopen(urljoin(base,href),timeout=30) as r:
    data=r.read();assert r.status==200
    if href=='feed.xml':assert ET.fromstring(data).findtext('./channel/title')=='The Cognitive Stack'
+   elif 'podcasts.apple.com/' in href or 'open.spotify.com/' in href:assert b'Cognitive Stack' in data
    else:assert b'Agent Logic' in data
   print('PASS destination',href)
 for src in p.assets:
