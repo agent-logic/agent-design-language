@@ -342,11 +342,11 @@ production markets.
 - Foundation sprint umbrella: #5858
 - Upstream handoff: v0.92 consumed the retained exact-revision v0.91.8
   acceptance and handoff
-- Current ADL package and workspace version: `0.92.0`
+- Current ADL package and workspace version: `0.92.1`
 - Most recently completed engineering milestone: v0.92
 - Most recently published public release: v0.91.7
   ([GitHub release](https://github.com/danielbaustin/agent-design-language/releases/tag/v0.91.7))
-- Current engineering/review context: [v0.92.1](docs/milestones/v0.92.1/README.md), with quality and release-tail acceptance pending. The completed v0.92 package remains retained historical evidence; this entry does not declare a new public release.
+- Current engineering/review context: [v0.92.2](docs/milestones/v0.92.2/README.md), with external review pending and product qualification incomplete and deferred to v0.93.1. The completed v0.92 package remains retained historical evidence; this entry does not declare a new public release.
 - Primary implementation language: Rust
 
 ADL is under active development. The repository contains implemented runtime

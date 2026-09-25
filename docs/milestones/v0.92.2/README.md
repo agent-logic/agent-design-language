@@ -70,12 +70,12 @@ The eight task families are split into independently usable ingestion routes, ar
 
 The operator requires all 69 core-plan issue identities to be created and all creation-batch reviews to pass before any implementation begins, including the independently scheduled SIM sprint. Once that global gate is satisfied, the declared task dependencies, native readiness, bound ownership and issue-level authority still govern execution. Creation batches add no dependency edges and confer no paid/cloud/provider, publication or writer-activation authority.
 
-Podcast [#671](https://github.com/agent-logic/agent-design-language/issues/671) is now assigned to v0.93, as is the explicitly deferred SIM-09 pilot #875. The historical 69-row creation roster remains intact for traceability; it is not the current open-work or milestone-membership count. Public-launch/provider-submission authority remains separate.
+Podcast #671 was restored to v0.92.2 and closed with launch issue #1169 through PR #1174; Apple and Spotify publication is complete. SIM-09 pilot #875 remains deferred to v0.93. The historical 69-row creation roster remains intact for traceability; it is not the current open-work or milestone-membership count. Public-launch/provider-submission authority remains separate.
 
 The [complete reviewed launch map](../../../.csdlc/evidence/864/all-issue-launch.json) binds all 69 core task IDs to verified issue numbers and independent creation reviews. This establishes issue inventory and review truth, not implementation or Beta 1 qualification.
 
 The milestone description retains its original separate-creation-authorization boundary. The operator supplied that authorization for all eleven batches; the verified launch map records the resulting identities. That retained description is not a claim that tasks remain uncreated.
 
-The [execution sprint assignments](SPRINT_v0.92.2.md#execution-sprint-assignments) place all 69 core issues, including every preexisting issue, in eleven explicit scheduling groups. The creation-batch evidence remains unchanged; #671 is now scheduled in v0.93.
+The [execution sprint assignments](SPRINT_v0.92.2.md#execution-sprint-assignments) place all 69 core issues, including every preexisting issue, in eleven explicit scheduling groups. The creation-batch evidence remains unchanged; #671 is a completed v0.92.2 sidecar through #1169 / PR #1174.
 
 The original SIM-01 through SIM-09 sequence below is historical planning. SIM-09/#875 was deferred to v0.93 by operator decision; no completed live-pilot denominator is claimed.

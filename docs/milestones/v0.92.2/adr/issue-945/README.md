@@ -1,5 +1,9 @@
 # Architecture decision acceptance — #945
 
+## Current delivery reconciliation
+
+The requirements and original owner/gate table below are retained design history, not current unresolved assignments. Both website modes remain Beta 1 requirements. The [#916 disposition](../../evidence/issue-916/GAP_ANALYSIS.md) records closed/not-planned #915 and #936, incomplete qualification, and successor repairs #1148/#1149 followed by independent qualification #1150 in v0.93.1. Beta 1 launch is not established by v0.92.2 issue closure. The approved #922 split schedules repository extraction first in v0.93.1.
+
 Status: **all twelve design decisions accepted by the operator** in Planning #7.3. The eleven unchanged decisions bind the reviewed proposal hashes at `5507b83b19e21fb98b68ad082e01f1b91b72b6c4`. CF-09 binds the revised decision statement, followed by explicit installed-agent, invitation-only and GitHub sign-in selections. Its old CLI-only bytes were not accepted.
 
 [Operator approval and revision history](operator-decisions.json) records the individual replies. It is a repository transcription of the conversation, not a cryptographically signed external approval receipt. [Decisions](decisions.json) preserve all 69 original task mappings as historical accounting and associate each candidate with its accepted successor. [Relationships](relationships.json) preserve prior statuses and reciprocal refinements; no accepted record is superseded. Historical issue-911 proposals and their validator remain unchanged.

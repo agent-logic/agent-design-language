@@ -2,6 +2,16 @@
 
 All notable project-level changes are summarized here by milestone/release.
 
+## v0.92.2 (External-review preparation; not a release)
+
+The [milestone package](docs/milestones/v0.92.2/README.md) records merged
+implementation and internal-review remediation. The #916 assessment is accepted
+for handoff, with product qualification still `not_proven`. The approved #922
+successor split places remaining Beta 1 launch work in v0.93.1, including repairs
+#1148/#1149 before independent qualification #1150. External review and release
+approval remain separate pending decisions. Podcast sidecar #671/#1169 completed
+its authorized Apple/Spotify launch through PR #1174.
+
 ## v0.92 (Completed engineering milestone)
 
 Status: Completed. The canonical package and retained proof live under

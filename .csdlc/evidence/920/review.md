@@ -227,3 +227,18 @@ IDs. Any substantive candidate or claim change invalidates the assessment and
 requires a fresh review under the release plan.
 
 The current truthful verdict is `not_proven`.
+
+
+## Current documentation reconciliation after the frozen candidate
+
+The documentation audit starts from integration revision
+`b0896ac1c22612aab9366edb9120fa9eda55eb64`. This later supplement does not
+change the exact candidate or hashes in the #918 publication manifest.
+The retained #917 handoff's podcast deferral is superseded: #671 and #1169
+closed in v0.92.2 through PR #1174, with Apple and Spotify launch completed.
+The #875 pilot deferral is independent and remains unchanged.
+
+The #919 full-review packet and AUDIT_DISPOSITIONS govern the internal review;
+provisional reports and failed/partial helper runs remain historical evidence.
+The 27-finding repair mapping does not itself establish fresh independent
+execution of all repaired behaviors. External assessment has not started.

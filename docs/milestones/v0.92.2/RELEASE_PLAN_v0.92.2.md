@@ -76,7 +76,7 @@ OBS-S3 and ARCH-ADR keep their explicit non-dependency status for CF-INTEGRATE a
 
 ## Separate milestone sidecar
 
-Podcast #671 is now assigned to v0.93, as is the deferred SIM-09 pilot #875. Both retain their original identities and authorization requirements. The historical 69-task creation roster is preserved for traceability; it is not a live milestone-membership count. The original sidecar admission and 82-membership census are creation-time history, not current scope.
+Podcast #671 was restored to v0.92.2 and closed with launch issue #1169 through PR #1174; Apple and Spotify publication is complete. SIM-09 pilot #875 remains deferred to v0.93. Both retain their original identities and authorization requirements. The historical 69-task creation roster is preserved for traceability; it is not a live milestone-membership count. The original sidecar admission and 82-membership census are creation-time history, not current scope.
 
 The [complete reviewed launch map](../../../.csdlc/evidence/864/all-issue-launch.json) binds all 69 core task IDs to verified issue numbers and independent creation reviews. This establishes issue inventory and review truth, not implementation or Beta 1 qualification.
 

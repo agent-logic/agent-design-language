@@ -71,7 +71,7 @@ The statistical study directory and `evidence/issue-523/` preserve historical ob
 
 ## Sidecar accounting
 
-Podcast #671 is now assigned to v0.93, as is the deferred SIM-09 pilot #875. Both retain their original identities and authorization requirements. The historical 69-task creation roster is preserved for traceability; it is not a live milestone-membership count. The original sidecar admission and 82-membership census are creation-time history, not current scope.
+Podcast #671 was restored to v0.92.2 and closed with launch issue #1169 through PR #1174; Apple and Spotify publication is complete. SIM-09 pilot #875 remains deferred to v0.93. Both retain their original identities and authorization requirements. The historical 69-task creation roster is preserved for traceability; it is not a live milestone-membership count. The original sidecar admission and 82-membership census are creation-time history, not current scope.
 ## Complete milestone Markdown coverage
 
 The tables above describe canonical planning surfaces; they are not the entire documentation denominator. #917 additionally reads and checks **every Markdown file recursively under this milestone**, including the nested documents below. The handoff validator derives this complete set from the filesystem and rejects an omitted or newly added Markdown file until the manifest is refreshed. Exact file bytes and classifications are in the handoff manifest.

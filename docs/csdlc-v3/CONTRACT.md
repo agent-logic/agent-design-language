@@ -155,9 +155,9 @@ For explicit duplicate, superseded, or no-op issue closure, use an
 }
 ```
 
-`--disposition` accepts `duplicate`, `superseded`, or `no-op`. Duplicate
-closure requires `--duplicate-of`; all closure requires a non-empty rationale.
-`--body` or `--body-file` must provide the authenticated current issue body so
+The `disposition` field accepts `duplicate`, `superseded`, or `no-op`. Duplicate
+closure requires `duplicate_of`; all closure requires a non-empty rationale.
+The `current_body` field must provide the authenticated current issue body so
 the route can append close truth without clobbering existing issue provenance.
 The typed close route patches the issue to GitHub `state=closed` with
 `state_reason=not_planned`, appends the C-SDLC operation marker and close

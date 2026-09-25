@@ -1,7 +1,9 @@
 # ADL Feature List
 
 Current accounting: merged #517 follow-up PR #752 reconciles all 245 historical non-proving rows and five exception groups. Accounting is complete; historical gate results are preserved and release authorization remains separate.
-Current v0.92.1 review status is recorded in [the TAIL-02 packet](../milestones/v0.92.1/evidence/release/tail-02/README.md). Requirements below do not establish delivered acceptance; #517 merged its quality evaluation with release acceptance blocked; the documentation handoff preserves that finding. #84 Unity and #251 TLS are explicitly deferred backlog, not accepted milestone features.
+Historical v0.92.1 review status is recorded in [the TAIL-02 packet](../milestones/v0.92.1/evidence/release/tail-02/README.md). Requirements below do not establish delivered acceptance; #517 merged its quality evaluation with release acceptance blocked; the documentation handoff preserves that finding. #84 Unity and #251 TLS are explicitly deferred backlog, not accepted milestone features.
+
+Current review context: [v0.92.2](../milestones/v0.92.2/README.md). Its accepted #916 handoff preserves product qualification as `not_proven`; #922 allocates Beta 1 launch and the repository split to v0.93.1, with Runtime v4 in v0.93.2.
 
 ## Purpose
 
@@ -123,7 +125,7 @@ contracts it depends on.
 ## Current Repo Status
 
 Current roadmap planning truth, last verified 2026-08-05:
-Active status: v0.92.1
+Historical status: v0.92.1
 
 - the feature-doc production wave is tracked as issue `#3779` with child
   issues `#3778`, `#3780`, `#3781`, and `#3782`
@@ -829,8 +831,7 @@ remediation, and reporting capabilities into a usable integrated product with a
 shell and onboarding, portable Adapter v2, governed evidence, architecture
 cognition, executable fitness functions, multi-perspective review, human
 publication controls, longitudinal comparison, exports, documentation, and
-bounded proof on ADL plus one external repository. v0.92.2 completes Beta 1;
-v0.95 consumes and hardens it toward MVP convergence.
+bounded proof on ADL plus one external repository. v0.92.2 retains implementation and review evidence, with independent qualification incomplete. The approved v0.93.1 plan owns remaining Beta 1 launch work; v0.95 remains later MVP convergence.
 
 ADL already has a substantial platform:
 - deterministic execution
@@ -863,4 +864,4 @@ deliberate convergence path:
 
 ### v0.92.2 existing-issue reconciliation — issue #523
 
-CodeFriend Beta 1 remains the v0.92.2 product outcome and feeds v0.95 MVP integration. #717 capability orientation and #718 canonical-name A2A were promoted into v0.92.1 on 2026-09-09; v0.92.2 consumes their merged results as predecessor Runtime capabilities. Reuse admitted #720 for live Observatory retained-mode hazards. Other backlog is not admitted. See `docs/milestones/v0.92.2/EXISTING_ISSUE_RECONCILIATION_v0.92.2.md`.
+CodeFriend Beta 1 was the original v0.92.2 product target. Qualification remains incomplete and is deferred to v0.93.1 through #1148/#1149/#1150 before launch. #717 capability orientation and #718 canonical-name A2A were promoted into v0.92.1 on 2026-09-09; v0.92.2 consumes their merged results as predecessor Runtime capabilities. Reuse admitted #720 for live Observatory retained-mode hazards. Other backlog is not admitted. See `docs/milestones/v0.92.2/EXISTING_ISSUE_RECONCILIATION_v0.92.2.md`.

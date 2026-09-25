@@ -33,7 +33,7 @@ The [69-task ledger](evidence/issue-916/TASK_LEDGER.json) preserves every planne
 
 [The approved Sprint 10 disposition](evidence/issue-916/SPRINT10_DEFERRAL.json) records original #915 qualification as **incomplete: zero of twelve journey cells accepted**, with 24 obligation rows. Follow-on #1148 owns citation-grounded correctness; #1149 owns interrupted-request recovery; #1150 owns independent qualification after both. Their accepted results are required in v0.93.1 before CodeFriend Beta1 launch. Deferral and administrative closure do not constitute qualification PASS. Preserve unknown second-run outcomes and reserved spend; no replay to bypass uncertainty.
 
-Podcast #671 and pilot #875 are explicitly deferred to v0.93. Observatory #910 retains its separate deployment obligation. Accepted ARCH-ADR decisions are architecture evidence, not product acceptance. See the [review handoff](evidence/issue-917/HANDOFF.md) for the source-specific dispositions.
+Podcast #671 was restored to v0.92.2 and closed with launch issue #1169 through PR #1174; Apple and Spotify publication is complete. SIM-09 pilot #875 remains deferred to v0.93. Observatory #910 retains its separate deployment obligation. Accepted ARCH-ADR decisions are architecture evidence, not product acceptance. See the [review handoff](evidence/issue-917/HANDOFF.md) for the source-specific dispositions.
 
 ## Versions, formats and approvals
 

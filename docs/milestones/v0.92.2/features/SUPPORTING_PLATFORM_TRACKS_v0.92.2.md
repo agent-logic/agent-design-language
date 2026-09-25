@@ -35,7 +35,7 @@ CSDLC-DECOMPOSE/#862 completes local command-owner decomposition. CSDLC-REMOTE s
 
 ## Separately admitted sidecar
 
-Podcast [#671](https://github.com/agent-logic/agent-design-language/issues/671) is assigned to v0.93. The original sidecar admission is historical, outside the 69 core task identities; it is not current v0.92.2 membership or public-launch authority.
+Podcast #671 was restored to v0.92.2 and closed with launch issue #1169 through PR #1174; Apple and Spotify publication is complete. SIM-09 pilot #875 remains deferred to v0.93. Podcast #671 remains outside the 69 core task identities; podcast launch does not establish CodeFriend qualification.
 
 ## Observed result limits
 
