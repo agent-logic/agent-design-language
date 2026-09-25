@@ -7455,6 +7455,49 @@ fn issue1171_retirement_journey_with_guards(crash_point: Option<&str>, test_guar
     assert_eq!(fixture.remote_effects(), 4);
     assert_eq!(fixture.remote_pr()["merged"], true);
     issue1171_inventory_settled(&mut fixture, &linked);
+    if crash_point.is_none() && !test_guards {
+        // Regression: authentic owner-produced retirement/succession must not
+        // prevent the next issue from being prepared. Malformed identities
+        // still fail closed; no network effects or history edits are permitted.
+        fixture.enable_issue_transport();
+        let mut next_plan = plan();
+        next_plan["publication"]["body"] = json!("Closes #870");
+        let input = fixture.write_json("next-issue-plan.json", &next_plan);
+        let args = ["prepare", "870", "--plan", input.to_str().unwrap()];
+        let records = fs::read_dir(&dir)
+            .unwrap()
+            .map(|e| e.unwrap().path())
+            .filter(|p| {
+                p.to_string_lossy().ends_with(".retirement.json")
+                    || p.to_string_lossy().ends_with(".successor.json")
+            })
+            .map(|p| {
+                let bytes = fs::read(&p).unwrap();
+                (p, bytes)
+            })
+            .collect::<Vec<_>>();
+        assert_eq!(records.len(), 2);
+        let effects = fixture.remote_effects();
+        for (path, bytes) in &records {
+            let mut wrong: Value = serde_json::from_slice(bytes).unwrap();
+            wrong["schema"] = json!("unsupported.schema");
+            fs::write(path, serde_json::to_vec(&wrong).unwrap()).unwrap();
+            let denied = fixture.run(&linked, &args);
+            assert!(
+                !denied.status.success(),
+                "malformed residue admitted: {denied:?}"
+            );
+            assert_eq!(fixture.remote_effects(), effects);
+            fs::write(path, bytes).unwrap();
+        }
+        let primary = fixture.root.clone();
+        success(fixture.run(&primary, &args));
+        success(fixture.run(&linked, &["status", "870"]));
+        assert_eq!(fixture.remote_effects(), effects);
+        for (path, bytes) in records {
+            assert_eq!(fs::read(path).unwrap(), bytes);
+        }
+    }
     for (path, bytes) in original {
         assert_eq!(
             fs::read(path).unwrap(),
