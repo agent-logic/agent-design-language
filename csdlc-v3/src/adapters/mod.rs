@@ -838,6 +838,11 @@ fn run_process(
     max_output_bytes: usize,
 ) -> ProcessOutput {
     let mut command = Command::new(&invocation.program);
+    // Disable ambient curl configuration before any other argument, including
+    // for operational requests using a private credential configuration file.
+    if curl_config.is_some() {
+        command.arg("-q");
+    }
     command.args(invocation.argv());
     apply_minimal_child_environment(&mut command);
     if let Some(path) = curl_config {
@@ -847,7 +852,12 @@ fn run_process(
         command.env(name, value);
     }
     match command.output() {
-        Ok(output) => process_output(output, max_output_bytes),
+        Ok(mut output) => {
+            if let Some((_, secret)) = credential {
+                redact_process_output(&mut output, secret);
+            }
+            process_output(output, max_output_bytes)
+        }
         Err(error) => ProcessOutput {
             status: ProcessStatus::Exit(127),
             stdout: String::new(),
@@ -916,12 +926,7 @@ fn run_observational_curl(
         Ok(mut output) => {
             // Redact before bounding output: truncating first can retain a
             // credential prefix that a subsequent exact replacement misses.
-            output.stdout = String::from_utf8_lossy(&output.stdout)
-                .replace(credential.1, "[REDACTED]")
-                .into_bytes();
-            output.stderr = String::from_utf8_lossy(&output.stderr)
-                .replace(credential.1, "[REDACTED]")
-                .into_bytes();
+            redact_process_output(&mut output, credential.1);
             process_output(output, max_output_bytes)
         }
         Err(_) => ProcessOutput {
@@ -949,6 +954,18 @@ fn apply_minimal_child_environment(command: &mut Command) {
     #[cfg(windows)]
     if let Ok(system_root) = std::env::var("SystemRoot") {
         command.env("SystemRoot", system_root);
+    }
+}
+
+// Run before truncation so a boundary inside a secret never preserves a prefix.
+fn redact_process_output(output: &mut std::process::Output, secret: &str) {
+    if !secret.is_empty() {
+        output.stdout = String::from_utf8_lossy(&output.stdout)
+            .replace(secret, "[REDACTED]")
+            .into_bytes();
+        output.stderr = String::from_utf8_lossy(&output.stderr)
+            .replace(secret, "[REDACTED]")
+            .into_bytes();
     }
 }
 
@@ -1472,6 +1489,150 @@ mod tests {
         );
         assert_eq!(output.stdout, "isolated curl payload");
         assert!(output.stderr.is_empty());
+    }
+
+    // PVF: deterministic local security regression; synthetic credentials only,
+    // isolated subprocess PATH/CURL_HOME, real curl file://, no network or release gate.
+    #[cfg(unix)]
+    #[test]
+    fn operational_curl_isolates_ambient_config_and_redacts_before_cutoff() {
+        const CHILD: &str = "CSDLC_1161_OPERATIONAL_CHILD";
+        if let Ok(input_path) = std::env::var(CHILD) {
+            let request = CommandInvocation::new(
+                GITHUB_OPERATIONAL_ADAPTER,
+                ["POST", "repos/fixture/project/issues", &input_path],
+            )
+            .unwrap()
+            .with_child_credential("GITHUB_TOKEN")
+            .unwrap();
+            let resolver = StaticCredentialResolver::new("GITHUB_TOKEN", "synthetic-1161-secret");
+            let mut adapter = RealProcessAdapter::new(resolver.clone());
+            let output = adapter.run(request.clone());
+            assert_eq!(output.status, ProcessStatus::Exit(0), "{output:?}");
+            assert_eq!(output.stdout, "[REDACTED]");
+            assert_eq!(output.stderr, "[REDACTED]");
+            assert!(!output.truncated);
+            for limit in [1, 8, 12] {
+                let mut bounded =
+                    RealProcessAdapter::new(resolver.clone()).with_max_output_bytes(limit);
+                let output = bounded.run(request.clone());
+                assert_eq!(output.status, ProcessStatus::Exit(0), "{output:?}");
+                assert_eq!(output.stdout, &"[REDACTED]"[..limit.min(10)]);
+                assert_eq!(output.stderr, &"[REDACTED]"[..limit.min(10)]);
+                assert_eq!(output.truncated, limit < 10);
+            }
+            return;
+        }
+        use std::os::unix::fs::PermissionsExt;
+        let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("target/1161-operational-curl")
+            .join(std::process::id().to_string());
+        fs::create_dir_all(&root).unwrap();
+        let input = root.join("request.json");
+        fs::write(&input, "{}").unwrap();
+        let payload = root.join("payload.txt");
+        fs::write(&payload, "synthetic-1161-secret").unwrap();
+        let sentinel = root.join("unexpected-output.txt");
+        fs::write(
+            root.join(".curlrc"),
+            format!("output = {}\n", serde_json::to_string(&sentinel).unwrap()),
+        )
+        .unwrap();
+        let real_curl = Command::new("/bin/sh")
+            .args(["-c", "command -v curl"])
+            .output()
+            .unwrap();
+        assert!(real_curl.status.success());
+        let real_curl = String::from_utf8(real_curl.stdout).unwrap();
+        let fixture = root.join("curl");
+        // Translate only the API destination to a local file and remove the POST
+        // body/method (file:// has no API). All config arguments reach real curl.
+        // Assert the production credential file protections before forwarding.
+        fs::write(&fixture, format!(r#"#!/usr/bin/python3
+import os, pathlib, stat, subprocess, sys
+args = sys.argv[1:]
+config = args[args.index('--config') + 1]
+assert stat.S_IMODE(os.stat(config).st_mode) == 0o600
+assert pathlib.Path(config).read_text() == 'header = "Authorization: Bearer synthetic-1161-secret"\n'
+assert not any('synthetic-1161' in a for a in args)
+for option in ['--request', '--data-binary']:
+    index = args.index(option)
+    del args[index:index + 2]
+args = [pathlib.Path({payload}).as_uri() if a.startswith('https://api.github.com/') else a for a in args]
+env = dict(os.environ, CURL_HOME={root})
+result = subprocess.run([{real_curl}] + args, env=env, capture_output=True)
+sys.stdout.buffer.write(result.stdout)
+sys.stderr.buffer.write(result.stderr)
+if result.returncode == 0:
+    sys.stderr.write('synthetic-1161-secret')
+sys.exit(result.returncode)
+"#,
+            payload = serde_json::to_string(&payload).unwrap(),
+            root = serde_json::to_string(&root).unwrap(),
+            real_curl = serde_json::to_string(real_curl.trim()).unwrap(),
+        )).unwrap();
+        fs::set_permissions(&fixture, fs::Permissions::from_mode(0o700)).unwrap();
+        // Prove the ambient configuration really redirects output without -q.
+        let encoded: String = payload
+            .to_str()
+            .unwrap()
+            .bytes()
+            .map(|byte| {
+                if byte.is_ascii_alphanumeric() || b"/.-_~".contains(&byte) {
+                    (byte as char).to_string()
+                } else {
+                    format!("%{byte:02X}")
+                }
+            })
+            .collect();
+        let control = Command::new(real_curl.trim())
+            .args(["--silent", "--show-error"])
+            .arg(format!("file://{encoded}"))
+            .env_clear()
+            .env("CURL_HOME", &root)
+            .output()
+            .unwrap();
+        assert!(control.status.success(), "{control:?}");
+        assert!(control.stdout.is_empty());
+        assert_eq!(
+            fs::read_to_string(&sentinel).unwrap(),
+            "synthetic-1161-secret"
+        );
+        fs::remove_file(&sentinel).unwrap();
+        let output = Command::new(std::env::current_exe().unwrap())
+            .args(["--exact", "adapters::tests::operational_curl_isolates_ambient_config_and_redacts_before_cutoff", "--nocapture"])
+            .env(CHILD, &input).env("PATH", &root).output().unwrap();
+        assert!(
+            output.status.success(),
+            "{} {}",
+            String::from_utf8_lossy(&output.stdout),
+            String::from_utf8_lossy(&output.stderr)
+        );
+        assert!(
+            !sentinel.exists(),
+            "ambient curl config wrote a file during operational dispatch"
+        );
+        fs::remove_dir_all(&root).unwrap();
+    }
+
+    // PVF: deterministic credentialed generic child diagnostic test, local only;
+    // proves the non-curl path also redacts before output bounding.
+    #[cfg(unix)]
+    #[test]
+    fn credentialed_process_redacts_before_cutoff() {
+        let request = CommandInvocation::new("/usr/bin/printenv", ["GITHUB_TOKEN"])
+            .unwrap()
+            .with_child_credential("GITHUB_TOKEN")
+            .unwrap();
+        let mut adapter = RealProcessAdapter::new(StaticCredentialResolver::new(
+            "GITHUB_TOKEN",
+            "synthetic-1161-secret",
+        ))
+        .with_max_output_bytes(8);
+        let output = adapter.run(request);
+        assert_eq!(output.status, ProcessStatus::Exit(0));
+        assert_eq!(output.stdout, "[REDACTE");
+        assert!(output.truncated);
     }
 
     // PVF: deterministic local process-launch classification; no network or files.

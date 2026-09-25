@@ -139,6 +139,12 @@ pub(super) fn copy_local_issue_tree(
         } else if file_type.is_file() {
             fs::copy(entry.path(), target)
                 .map_err(io_finding("local_transaction_file_copy_failed"))?;
+            if destination
+                .ancestors()
+                .any(|p| p.file_name().is_some_and(|n| n == ".csdlc"))
+            {
+                local_transaction_failpoint("bind_during_target_stage_copy");
+            }
         } else {
             return Err(vec![finding(
                 PlanStatus::Blocked,
@@ -146,6 +152,93 @@ pub(super) fn copy_local_issue_tree(
                 "lifecycle transaction images may contain only files and directories",
             )]);
         }
+    }
+    Ok(())
+}
+// Include directories as well as files: an incomplete copy cannot be admitted
+// from an index alone. Symlinks and special files are never valid images.
+fn bind_image_inventory(
+    root: &Path,
+) -> Result<std::collections::BTreeMap<PathBuf, Option<Vec<u8>>>, Vec<DoctorFinding>> {
+    fn visit(
+        root: &Path,
+        path: &Path,
+        entries: &mut std::collections::BTreeMap<PathBuf, Option<Vec<u8>>>,
+    ) -> Result<(), Vec<DoctorFinding>> {
+        let metadata = fs::symlink_metadata(path).map_err(io_finding("bind_image_unavailable"))?;
+        if metadata.file_type().is_symlink() || (!metadata.is_dir() && !metadata.is_file()) {
+            return Err(vec![finding(
+                PlanStatus::Blocked,
+                "bind_image_type_denied",
+                "bind image must contain only real files and directories",
+            )]);
+        }
+        let relative = path
+            .strip_prefix(root)
+            .expect("image descendant")
+            .to_path_buf();
+        if metadata.is_file() {
+            entries.insert(
+                relative,
+                Some(fs::read(path).map_err(io_finding("bind_image_read_failed"))?),
+            );
+        } else {
+            entries.insert(relative, None);
+            for entry in fs::read_dir(path).map_err(io_finding("bind_image_read_failed"))? {
+                visit(
+                    root,
+                    &entry.map_err(io_finding("bind_image_read_failed"))?.path(),
+                    entries,
+                )?;
+            }
+        }
+        Ok(())
+    }
+    let mut entries = std::collections::BTreeMap::new();
+    visit(root, root, &mut entries)?;
+    Ok(entries)
+}
+pub(super) fn bind_image_digest(root: &Path) -> Result<String, Vec<DoctorFinding>> {
+    let inventory = bind_image_inventory(root)?;
+    // Length framing prevents path/content boundary ambiguities.
+    let mut hash = blake3::Hasher::new();
+    hash.update(b"csdlc-bind-image-v1");
+    for (path, bytes) in inventory {
+        let path = path.to_str().ok_or_else(|| {
+            vec![finding(
+                PlanStatus::Blocked,
+                "bind_image_path_invalid",
+                "bind image paths must be UTF-8",
+            )]
+        })?;
+        hash.update(&(path.len() as u64).to_le_bytes());
+        hash.update(path.as_bytes());
+        if let Some(bytes) = bytes {
+            hash.update(&[1]);
+            hash.update(&(bytes.len() as u64).to_le_bytes());
+            hash.update(&bytes);
+        } else {
+            hash.update(&[0]);
+        }
+    }
+    Ok(hash.finalize().to_hex().to_string())
+}
+fn verify_bind_image(
+    path: &Path,
+    journal: &LocalMutationJournal,
+    expected: &str,
+) -> Result<(), Vec<DoctorFinding>> {
+    let observed = inspect_lifecycle_issue_root(path, journal.issue, "bind image");
+    if !observed.ready_to_execute
+        || observed.phase != journal.result.phase
+        || observed.digest != journal.result.digest
+        || bind_image_digest(path)? != expected
+    {
+        return Err(vec![finding(
+            PlanStatus::Blocked,
+            "bind_image_integrity_mismatch",
+            "retained bind image does not match the complete journaled result",
+        )]);
     }
     Ok(())
 }
@@ -404,6 +497,22 @@ pub(super) fn commit_bind_local_transaction(
             )]);
         }
     }
+    // New journals retain a complete image digest before copying starts.
+    // Older journals can only recover while their intact source image remains.
+    let expected_image = if let Some(digest) = &journal.bind_image_digest {
+        digest.clone()
+    } else if source_stage.exists() {
+        bind_image_digest(&source_stage)?
+    } else {
+        return Err(vec![finding(
+            PlanStatus::Blocked,
+            "bind_source_image_required",
+            "legacy bind recovery requires its retained source image",
+        )]);
+    };
+    if source_stage.exists() {
+        verify_bind_image(&source_stage, journal, &expected_image)?;
+    }
     if target_backup.exists() {
         return Err(vec![finding(
             PlanStatus::Blocked,
@@ -456,10 +565,23 @@ pub(super) fn commit_bind_local_transaction(
                 .expect("target bind stage has a parent"),
         )
         .map_err(io_finding("local_transaction_target_parent_failed"))?;
+        if target_stage.exists() && bind_image_digest(&target_stage)? != expected_image {
+            let source = bind_image_inventory(&source_stage)?;
+            let partial = bind_image_inventory(&target_stage)?;
+            if partial
+                .iter()
+                .any(|(path, bytes)| source.get(path) != Some(bytes))
+            {
+                return Err(vec![finding(PlanStatus::Blocked, "bind_partial_image_conflict", "partial bind image contains conflicting or additional bytes; retained source preserved")]);
+            }
+            fs::remove_dir_all(&target_stage)
+                .map_err(io_finding("bind_partial_image_cleanup_failed"))?;
+        }
         if !target_stage.exists() {
             copy_local_issue_tree(&source_stage, &target_stage)?;
             local_transaction_failpoint("bind_after_target_stage_copy");
         }
+        verify_bind_image(&target_stage, journal, &expected_image)?;
         fs::rename(&target_stage, &target_issue_root)
             .map_err(io_finding("local_transaction_target_stage_commit_failed"))?;
         local_transaction_failpoint("bind_after_target_stage_rename");
@@ -471,6 +593,7 @@ pub(super) fn commit_bind_local_transaction(
             "bind transaction cannot reconcile source and target lifecycle state",
         )]);
     }
+    verify_bind_image(&target_issue_root, journal, &expected_image)?;
     let completed = LocalMutationCompletion {
         schema: "csdlc.v3.local_mutation_completion.v1".into(),
         issue: journal.issue,

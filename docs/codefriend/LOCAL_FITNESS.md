@@ -34,10 +34,11 @@ A prefix matches complete segments: `crate::bad` does not match `crate::badger`.
 
 Relative `self`/`super` imports, globs that could contain the forbidden prefix,
 macro invocations, parse failures, incomplete admissions and missing required evidence
-produce error. The parser has a conservative allocation-free guard: at most 32 KiB
-and 128 lexical units per required file (ASCII word runs count as one; punctuation
-and non-ASCII bytes each count as one; comments and literals count too). Over-budget
-files produce error. A pass proves only the declared literal-import predicate on all
+produce error. The shared parser admits at most 400 KiB and 32,768 parsed token-tree entries
+per required file, with delimiter/nested-comment depth 32 and cumulative ancestor
+statement span 2,048. Comments and literals are opaque to the lexical delimiter
+check. [Rust parser bounds](RUST_PARSER_BOUNDS.md) defines the complete admission,
+worker and concurrency contract. Over-budget files produce error. A pass proves only the declared literal-import predicate on all
 required files within these limits. Human architecture quality, runtime effects and
 macro expansion remain explicitly unassessed even on pass.
 

@@ -1,0 +1,51 @@
+{
+  "schema": "review919.provider_findings.v1",
+  "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+  "findings": [
+    {
+      "id": "PRV-001",
+      "severity": "P2",
+      "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+      "path": "adl-runtime-kernel/src/control.rs",
+      "line": 6712,
+      "title": "Join resident health using the declared model reference",
+      "trigger": "A live-admitted resident uses a model_ref distinct from provider_model_id, for example a Bedrock profile, and completes inference successfully.",
+      "impact": "Admission stores the native provider_model_id in sample.model (5540), while dispatch and ProviderUsage retain the declared model_ref (3857; assembly accounting). The supervisor compares them directly, cannot find successful inference, repeatedly classifies the resident inference_unverified and cannot close an incident through verified recovery. The small health endpoint already chooses provider_binding.model_ref at6608-6613.",
+      "evidence": [
+        "control.rs:5539-5541",
+        "control.rs:3855-3860",
+        "assembly.rs:1430-1464",
+        "control.rs:6709-6749",
+        "control.rs:6605-6613"
+      ],
+      "validation": "Static complete data-flow check. No executable test, live endpoint, credential access or cloud operation.",
+      "remediation": "Use one stable binding identity for accounting and health joins, including provider_binding.model_ref where available. Add a regression with differing model_ref/native ID proving successful inference clears the same resident incident before and after roster refresh.",
+      "owner": "#921 / Runtime resident health and provider registry owner",
+      "acceptance_relevance": "Correct health/status and shepherd recovery for aliased provider models.",
+      "disposition": "open"
+    },
+    {
+      "id": "PRV-002",
+      "severity": "P2",
+      "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+      "path": "adl-provider-core/src/http_family.rs",
+      "line": 153,
+      "title": "Bound successful provider response bytes before aggregation",
+      "trigger": "A configured HTTP-family provider returns a successful but oversized JSON/text response, including large unused fields, during canonical Runtime inference.",
+      "impact": "The shared helpers call Response.json/text without a byte bound. Runtime registry builds this executor directly; its optional demo wrapper checks only extracted output after the whole response has already been allocated and parsed. A malformed or faulty provider can consume Runtime memory far beyond the nominal 4 MiB output limit, threatening other residents and shepherd availability. The legacy Runtime adapter has a predecode bound that the new registry route does not inherit.",
+      "evidence": [
+        "http_family.rs:90-95 client builder constrains redirects/retries but not body bytes",
+        "http_family.rs:147-170 shared success helpers",
+        "http_family.rs:2593-2597 generic JSON path",
+        "registry.rs:833-834 canonical executor construction",
+        "registry.rs:398-417 optional wrapper",
+        "registry.rs:526-534 post-aggregation extracted output validation"
+      ],
+      "validation": "Source-confirmed complete call-path review only. No oversized response probe or executable reproduction performed.",
+      "remediation": "Apply a bounded response reader before decoding every Runtime HTTP success body, including unused JSON fields; keep timeout and decoded-output bounds as separate controls. Add local bounded regressions for content-length and chunked oversized bodies.",
+      "owner": "#921 / provider-core and Runtime registry owner",
+      "acceptance_relevance": "Bounded provider execution and isolation of resident failures from whole-Runtime availability.",
+      "disposition": "open"
+    }
+  ]
+}

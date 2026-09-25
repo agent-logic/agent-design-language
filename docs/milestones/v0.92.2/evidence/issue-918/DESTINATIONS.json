@@ -1,0 +1,38 @@
+{
+  "status": "draft_pending_approval",
+  "public_distribution_authorized": false,
+  "destinations": [
+    {
+      "id": "review_packet",
+      "location": "private repository draft PR and authorized external-review handoff",
+      "access": "repository-authorized reviewers; access not independently checked",
+      "approval": "pending final artifact-specific decision"
+    },
+    {
+      "id": "codefriend_exports",
+      "location": "unselected private review output set",
+      "formats": [
+        "Markdown",
+        "HTML",
+        "PDF"
+      ],
+      "status": "not_proven; actual approved files not supplied",
+      "approval": "pending"
+    },
+    {
+      "id": "articles_912",
+      "location": "existing article repository custody; proposed Medium channel",
+      "status": "draft handoff accepted; no publication action",
+      "approval": "pending"
+    },
+    {
+      "id": "manuscript_913",
+      "location": "existing private manuscript custody; no copy in this packet",
+      "status": "revision-4 review handoff only",
+      "reported_sha256": "f43b9ac3aca45d20bf5d203962c6b7fcdf0f30ebd49efe2a1456740391ca2e01",
+      "reported_bytes": 396563,
+      "approval": "pending editing and explicit author publication approval",
+      "verification": "sanitized handoff reference only; private PDF not reopened"
+    }
+  ]
+}

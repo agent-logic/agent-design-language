@@ -102,6 +102,23 @@ enclosure = json.loads((package / "rss-enclosure.json").read_text(encoding="utf-
 enclosure["bytes"] += 1
 expect_failure("RSS enclosure mismatch", lambda: validator.validate_enclosure_packet(enclosure, episode))
 
+# The archived 18:32 package remains independently validated. The published
+# introductory release must bind its own feed and approved assets.
+import copy
+from unittest.mock import patch
+import xml.etree.ElementTree as ET
+production_root = root / "demos/podcast"
+release = validator.current_release(production_root)
+assert release is not None
+bad_release = copy.deepcopy(release)
+bad_release["assets"][0]["bytes"] += 1
+with patch.object(validator, "current_release", return_value=bad_release):
+    expect_failure("current release asset mismatch", lambda: validator.validate_current_release(production_root))
+bad_feed = ET.parse(production_root / "feed.xml")
+bad_feed.find("./channel/item/enclosure").set("url", "https://agent-logic.ai/podcast/audio/meet-the-ai-coworkers.mp3")
+with patch.object(validator.ET, "parse", return_value=bad_feed):
+    expect_failure("current release stale enclosure", lambda: validator.validate_current_release(production_root))
+
 escaped = dict(episode)
 escaped["qa_report"] = "../qa-report.md"
 expect_failure(

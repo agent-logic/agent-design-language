@@ -1,0 +1,9 @@
+{
+  "verified_at": "2026-09-25T00:42:58.489725+00:00",
+  "feed_url": "https://agent-logic.ai/podcast/feed.xml",
+  "feed_sha256": "5003963168a995a046a16c1bbd9f5d857a457efa375cb01dc82d5811474c8885",
+  "all_feed_urls_http_200": true,
+  "audio_range_http_status": 206,
+  "publication_time": "Fri, 25 Sep 2026 00:40:26 +0000",
+  "directory_submissions": "not_started"
+}

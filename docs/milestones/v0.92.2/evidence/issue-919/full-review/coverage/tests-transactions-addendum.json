@@ -1,0 +1,77 @@
+{
+  "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+  "base": "c9cdb2f13ff77a06dcc79ad4e4c332f444b2e14f",
+  "reviewer": "review919_security, independent static test addendum",
+  "path": "csdlc-v3/tests/transactions.rs",
+  "coverage": "all added semantic_gate_a module and surrounding imports/context; unchanged older tests not independently reread",
+  "read_ranges": [
+    [
+      1,
+      35
+    ],
+    [
+      1007,
+      1470
+    ],
+    [
+      1471,
+      1900
+    ],
+    [
+      1901,
+      2350
+    ],
+    [
+      2351,
+      2833
+    ]
+  ],
+  "changed_hunk": "@@ -1012,5 +1012,1822 @@",
+  "added_test_entrypoints": 30,
+  "execution": "not run; source review only",
+  "observations": [
+    "Canonical serialization, unknown/duplicate keys, tampering and digest domain separation use concrete rejection assertions.",
+    "Create-only prepare, observation, stale projection and invalidation assertions check immutable or unchanged file bytes and generation/input-version behavior.",
+    "Legacy writer-fenced preparation checks exact retained local/remote receipt bytes and rejects pending/bound/damaged/wrong-identity state. Synthetic authenticated receipts prove parser and consistency behavior, not live transport authentication.",
+    "Residue census covers local/common/linked roots, repository/issue scoping, creation receipts, settled edits and ambiguous or malformed remote records.",
+    "Cross-process CAS checks exactly one committed and one stale writer plus final generation. Killed holder tests advisory lock release; neither test simulates activation-write or power-loss interruption.",
+    "The recursive inventory compares file bytes but does not independently represent empty directories or symlink topology, so byte-unchanged assertions are not complete filesystem-topology proof.",
+    "semantic_process_child returns immediately outside the child environment; its lexical test count is not an additional standalone behavior proof."
+  ],
+  "missing_proof_crosswalk": [
+    {
+      "finding": "ARCH-001",
+      "gap": "Unactivated intent and current.next tests establish observational RecoveryRequired/read-only rejection, not installed recovery through the public owner after activation interruption."
+    },
+    {
+      "finding": "ARCH-002",
+      "gap": "This module does not interrupt recursive bind staging copy or prove recovery of partial staged directories."
+    },
+    {
+      "finding": "ARCH-003",
+      "gap": "Pure lifecycle reservation/failure fact tests do not interrupt installed Finish/FinishWithoutPr between durable reservation, state update and terminal receipt."
+    }
+  ],
+  "new_findings": [
+    {
+      "id": "TEST-TRANS-001",
+      "severity": "P3",
+      "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+      "path": "csdlc-v3/tests/transactions.rs",
+      "line": 2815,
+      "end_line": 2829,
+      "title": "Reader concurrency test can fail solely because the writer finishes first",
+      "trigger": "The scheduler runs the writer through all twelve commits before the parent reaches its first while-condition, or permits the reader only Busy observations until the writer finishes.",
+      "impact": "The final observed > 0 assertion fails even when every commit and observation is coherent, making a purported deterministic local gate scheduler-dependent.",
+      "evidence": "The writer has no handshake with the reader; the parent reads only while !writer.is_finished() and then requires at least one successful Current observation. Joining the writer and checking final generation does not guarantee any loop iteration.",
+      "reproduction": "Static schedule analysis of lines 2777-2831; no executable reproduction or test execution performed.",
+      "owner": "C-SDLC transaction test maintainers",
+      "acceptance_relevance": "Reliability of required deterministic semantic Gate A validation; not evidence of production state corruption.",
+      "recommendation": "Coordinate at least one reader observation with the writer using an explicit handshake, then assert coherent observations and final generation without depending on scheduler fairness."
+    }
+  ],
+  "limitations": [
+    "No fresh tests, builds, remote effects, credential access or unsafe probes.",
+    "Older unchanged test body lines 36-1006 remains outside this added-module assignment."
+  ]
+}

@@ -1,6 +1,6 @@
 # v0.92.2 ADR Plan
 
-Status: planned candidates owned by the `ARCH-ADR` work package; this file does not accept ADRs. WP-01 records its canonical identity in the issue wave and verified creation map. Issue assignment does not accept the ADR set.
+Status: the proposed decision packet has been delivered by #911, owned by the `ARCH-ADR` work package; this file does not accept ADRs. WP-01 records its canonical identity in the issue wave and verified creation map. Issue assignment does not accept the ADR set.
 
 | Candidate | Decision surface | Owner | Trigger |
 |---|---|---|---|
@@ -21,8 +21,12 @@ The owner sets above are participating implementation tasks, not bundled impleme
 
 ARCH-ADR completion and its decision-set acceptance explicitly gate TAIL-10 milestone closure. It remains outside CF-INTEGRATE and the early TAIL-01 quality gate; the ten-step release order is preserved.
 
+## Current accepted product boundary
+
+[ADR 0084](../../adr/0084-cf-09.md) and [#945 delivery requirements](adr/issue-945/BETA1_DELIVERY.md) supersede the original local-CLI-only selection. Both website modes, invitation-only GitHub sign-in and CLI remain required. The [#945 acceptance packet](adr/issue-945/README.md) records acceptance of all twelve decisions as ADR0076–0087: eleven original reviewed proposals and revised CF-09. This satisfies the decision-set obligation, not implementation, deployment or final #925 completion.
+
 ## Proposed records from #911
 
 The [complete proposed packet](adr/issue-911/README.md) supplies ADR-CF-01 through ADR-CF-09, ADR-PLAT-01 and ADR-CSDLC-01/02. The original eight topics remain represented; four reviewed additions capture the local product, shared provider lifecycle, semantic C-SDLC record and single-writer transition boundaries. These are issue-local candidate labels, not accepted numeric ADR allocations.
 
-The packet reconciles all 69 task identities and retains separate #848 repository-decision and #910 deployment obligations. Twelve drafted candidates are documentation delivery, not formal decision acceptance, completed implementation, or satisfaction of the TAIL-10 gate. See its decision-dispositions and supersession map for unresolved authority.
+The packet reconciles all 69 task identities and retains separate #848 repository-decision and #910 deployment obligations. The original twelve proposed records remain historical drafting evidence. Later formal acceptance is recorded by #945, with revised CF-09; use that accepted map for current decision authority. Acceptance does not establish completed implementation or the entire TAIL-10 gate.

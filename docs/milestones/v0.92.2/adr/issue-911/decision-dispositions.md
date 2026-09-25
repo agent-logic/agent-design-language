@@ -1,5 +1,7 @@
 # Decision authority and conflicts
 
+Historical #911 proposal-state dispositions follow. Later [#945 acceptance](../issue-945/README.md) accepted all twelve decisions (eleven original reviewed proposals and revised CF-09). Use that accepted successor map for current decision authority; the open/pending observations below are not current tracker or acceptance claims.
+
 | Surface | Disposition | Accountable owner / required next evidence |
 |---|---|---|
 | Twelve issue-911 candidates | Complete Proposed records; no accepted ADR numbers assigned. | Named scope owner in each candidate; operator or designated decision owner must accept exact text. |

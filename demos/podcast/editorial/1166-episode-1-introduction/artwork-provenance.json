@@ -1,0 +1,22 @@
+{
+  "schema": "agent-logic.podcast.artwork_candidate.v1",
+  "issue": 1166,
+  "source": "User-supplied cognitive_stack_cover_3000.png",
+  "path": "cognitive_stack_cover_3000.png",
+  "sha256": "7f46dd6ac98d118e93799c8bcf0585e2e0bd6277626177de684c89070d0bce1e",
+  "bytes": 311478,
+  "format": "PNG",
+  "width": 3000,
+  "height": 3000,
+  "color_mode": "RGB",
+  "transformation": "none; exact original bytes",
+  "status": "candidate; not uploaded or embedded",
+  "prior_candidate_manifest": "preserved-candidate.json",
+  "integration_after_approval": [
+    "episode package artwork reference and hash",
+    "RSS artwork reference when replacement is accepted",
+    "embedded distribution-audio artwork derived with recorded format/hash",
+    "media candidate assets without editing webpage HTML, design or copy"
+  ],
+  "publication_authorized": false
+}

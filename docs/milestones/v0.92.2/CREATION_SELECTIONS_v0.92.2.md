@@ -1,5 +1,9 @@
 # v0.92.2 Creation Selections
 
+## Current disposition — September 21 review
+
+The original planning/creation observations below are retained history. Podcast #671 was restored to v0.92.2 and closed with launch issue #1169 through PR #1174; Apple and Spotify publication is complete. SIM-09 pilot #875 remains deferred to v0.93; any original sidecar or 82-membership statement is not a current membership count. The 69-row core roster remains an immutable identity denominator, with #875 explicitly deferred. The earlier PLAT-RUST ownership hold and prerequisite-rebaselining instructions describe pre-execution decisions; #906 is closed with its bounded source-accounting result. [#916 evidence](evidence/issue-916/GAP_ANALYSIS.md) records current observed results; #915 independent qualification is incomplete and explicitly deferred; #916 is accepted for handoff with product qualification still `not_proven`. Successor repairs #1148/#1149 precede qualification #1150 in v0.93.1. This overlay does not waive acceptance or finish successor planning.
+
 These are concrete scope selections for issue creation under WP-01. They do not claim implemented features, successful execution, deployment or publication. Implementation resolves current authority, ownership and exact candidate again. The original local-CLI-only product boundary was revised by operator-approved ADR 0084 under #945; both website execution modes are required in Beta 1. See [current delivery gates](adr/issue-945/BETA1_DELIVERY.md).
 
 ## CodeFriend command and source ownership

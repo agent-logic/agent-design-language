@@ -1,0 +1,37 @@
+{
+  "path": "csdlc-v3/src/commands/remote/routing.rs",
+  "baseline_path": "csdlc-v3/src/commands/remote/mod.rs",
+  "exact_moved_blocks": [
+    {
+      "baseline_start": 956,
+      "candidate_start": 14,
+      "count": 36
+    },
+    {
+      "baseline_start": 992,
+      "candidate_start": 51,
+      "count": 24
+    },
+    {
+      "baseline_start": 1486,
+      "candidate_start": 75,
+      "count": 17
+    }
+  ],
+  "unmatched_lines": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    50
+  ]
+}

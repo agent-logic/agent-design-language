@@ -1,6 +1,6 @@
 # Multi-Perspective Review
 
-Status: planned. Owners: CF-REVIEW, CF-SYNTHESIS, CF-REMEDIATE, CF-TESTPLAN.
+Status: requirements retained; component evidence is indexed in the [review handoff](../evidence/issue-917/HANDOFF.md), with final Beta 1 qualification pending. Owners: CF-REVIEW, CF-SYNTHESIS, CF-REMEDIATE, CF-TESTPLAN.
 
 The review engine runs correctness, security, adversarial, and constitutional perspectives as attributed lanes before synthesis. CF-SYNTHESIS deduplicates without erasing provenance and explains severity. CF-REMEDIATE and CF-TESTPLAN separately consume those findings to produce usable remediation and test plans.
 

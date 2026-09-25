@@ -1,0 +1,43 @@
+{
+  "schema": "csdlc.v3.typed_review_receipt.v1",
+  "repository": "agent-logic/agent-design-language",
+  "issue": 1162,
+  "implementer": "codex:/root",
+  "reviewer": "codex-subagent:/root/issue1162_final_review",
+  "reviewed_revision": "a50a6d03da66f033d6872cbe6d5df99d845d721f",
+  "expected_head_sha": "a50a6d03da66f033d6872cbe6d5df99d845d721f",
+  "evidence_digest": "ec5e9f1221f77fbbb6f974fa855ed7f1fcb6ae975d210ad70689e014603b7912",
+  "publication_linkage": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 1162,
+    "mode": "closing"
+  },
+  "external_review": {
+    "receipt": {
+      "schema": "csdlc.v3.typed_review_receipt.v1",
+      "repository": "agent-logic/agent-design-language",
+      "issue": 1162,
+      "implementer": "codex:/root",
+      "reviewer": "codex-subagent:/root/issue1162_final_review",
+      "reviewed_revision": "a50a6d03da66f033d6872cbe6d5df99d845d721f",
+      "expected_head_sha": "a50a6d03da66f033d6872cbe6d5df99d845d721f",
+      "evidence_digest": "ec5e9f1221f77fbbb6f974fa855ed7f1fcb6ae975d210ad70689e014603b7912",
+      "publication_linkage": {
+        "repository": "agent-logic/agent-design-language",
+        "issue": 1162,
+        "mode": "closing"
+      }
+    },
+    "receipt_digest": "35acab636cf2b2eb343a793c8da50abd803d585c823e2d8e352f81eda641117c",
+    "proof_path": ".csdlc/v3/issues/1162/proof.json",
+    "proof_digest": "4a349f8fd04fa694f73594ead26ead060bbf9aedf5cff2cad46cb2a2448d559d",
+    "judgment": {
+      "schema": "csdlc.v3.review_judgment.v1",
+      "implementer": "codex:/root",
+      "reviewer": "codex-subagent:/root/issue1162_final_review",
+      "reviewed_revision": "a50a6d03da66f033d6872cbe6d5df99d845d721f",
+      "verdict": "pass",
+      "evidence": ".git/csdlc-v3/local/invocations/1162-result-integrity/final-review-a50a6d03/REVIEW.md; independent review found no actionable implementation, test, documentation, evidence, or cross-repository findings; 65/65 focused tests passed; required post-review SRP projection remains before publication"
+    }
+  }
+}

@@ -1,25 +1,5 @@
-# The Cognitive Stack publication hold
+# The Cognitive Stack publication hold — superseded
 
-The files under `demos/podcast/` are production launch candidates, not current
-public deployment authority.
+The #660 publication hold was superseded by Daniel's explicit public-launch authorization under #1169 on September 24, 2026. The approved page, RSS, artwork and Episode 1 are now public at https://agent-logic.ai/podcast/.
 
-Do not copy, sync, or publish these files to `https://agent-logic.ai/podcast/`
-or podcast provider directories until a future issue records explicit operator
-approval for public launch.
-
-The current operator-visible page is:
-
-- `https://agent-logic.ai/_preview/podcast/`
-
-The preview player may use assets under `https://agent-logic.ai/_preview/podcast/`.
-That does not authorize copying or serving the same launch candidates under the
-public `/podcast/` route.
-
-The current public route is intentionally withheld:
-
-- `https://agent-logic.ai/podcast/`
-- `https://agent-logic.ai/podcast/feed.xml`
-- `https://agent-logic.ai/podcast/audio/meet-the-ai-coworkers.mp3`
-- `https://agent-logic.ai/podcast/artwork.png`
-
-Issue #660 records the emergency rollback evidence and live status checks.
+See [launch closeout](LAUNCH_READINESS.md) for current provider status, validation, ownership and deferrals. Historical #660 rollback evidence remains valid for its original time and has not been rewritten. This disposition does not authorize unrelated assets or future episodes.

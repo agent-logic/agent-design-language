@@ -1,0 +1,22 @@
+[
+  {
+    "id": "INTEGRATION-001",
+    "severity": "P1",
+    "title": "Frozen website rejects the native current assessment contract",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+    "website_candidate": "a45e339c13b24716edbd3fadf29dddff36ffe02e",
+    "source_lane": "code",
+    "path": "app/review-assessments.mjs",
+    "line": 64,
+    "repository": "agent-logic/codefriend.ai",
+    "expected": "The website snapshot named by the candidate must consume current native assessment results for its supported review-bearing cycles.",
+    "observed": "Native review/lanes.rs3 selects codefriend.review_lane.v4; runner539-547 emits it. Website validateAssessmentReview only admits all lane_versions == codefriend.review_lane.v2 and independently requires v2 on each lane. Runs.recordResult invokes cycle validation, which invokes this validator.",
+    "trigger": "A review-bearing cycle completes using the current native assessment producer and the frozen website consumer.",
+    "impact": "The successfully computed review cannot be accepted or continued through the website; hosted assessment cycles fail with result_identity_mismatch/assessment_review_invalid. Local cycle verification shares the same incompatible consumer. No live deployment failure is asserted.",
+    "recommendation": "Update website versioned validator/prompt-digest/gap handling to native supported generations, preserve historical v2 identities, and bind native-emitted v4 complete/partial/invalid records in a cross-repository interop test.",
+    "proof": "Actual website validator accepts its legacy fixture and rejects the same resealed record declaring native current v4; current producer and consumer callpaths independently source-confirmed.",
+    "limitations": "Version-gate fixture is not a complete native v4 emission. No paid/live run. Source mismatch is deterministic regardless of later v4 prompt/digest checks.",
+    "route": "#921 with CodeFriend website/native integration owner; coordinate frozen source pair before #918 refresh",
+    "status": "open"
+  }
+]

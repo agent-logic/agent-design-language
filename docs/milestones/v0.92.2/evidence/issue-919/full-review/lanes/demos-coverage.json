@@ -1,0 +1,227 @@
+{
+  "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+  "status": "bounded_demo_evidence_review_complete_not_qualification",
+  "baseline": "docs/milestones/v0.92.2/DEMO_MATRIX_v0.92.2.md",
+  "rows": [
+    {
+      "demo": "D1",
+      "classification": "retained_bounded_provider_component",
+      "observation": "891 retained shell summary: four successful lanes, zero findings on small fixture; source shell tests inspected. No current installed fresh-operator run."
+    },
+    {
+      "demo": "D2",
+      "classification": "retained_installed_component",
+      "observation": "879 proof records installed macOS Git-data HTTP parity, 8 candidate tests and17 failures, explicitly no live GitHub;880 CI acquisition source and runner contract reviewed. Not live acquisition acceptance."
+    },
+    {
+      "demo": "D3",
+      "classification": "source_component",
+      "observation": "Original Store admission, deletion, expiry, provenance and redaction negative tests inspected; current installed end-to-end safety not executed."
+    },
+    {
+      "demo": "D4",
+      "classification": "retained_installed_component",
+      "observation": "882/883/884/886 retained platform/provenance/scenario fields and consumers reviewed:9 structure,12 impact,11 rationale,11 drift scenarios on macOS fixtures.1109 two provider-backed partial architecture packages retain source/candidate IDs; not complete topology or915 acceptance."
+    },
+    {
+      "demo": "D5",
+      "classification": "retained_hosted_component",
+      "observation": "888 retained local/hosted proof inspected for exact candidate, original exit0/1/2 and expected-negative classification; current selector/aggregate probes executed. Historical hosted run35040846113 is not refreshed candidate CI."
+    },
+    {
+      "demo": "D6",
+      "classification": "source_and_retained_component",
+      "observation": "891 four-lane provider summary and896/897 rendered attributed finding/remediation/test-plan read; source synthesis/action tests inspected. No fresh full review."
+    },
+    {
+      "demo": "D7",
+      "classification": "retained_installed_component",
+      "observation": "885 memory and886 drift retained macOS binary/provenance fields; source original-owner/second-cycle tests inspected. Fixtures prove comparison behavior, not second live qualification run."
+    },
+    {
+      "demo": "D8",
+      "classification": "retained_outputs_verified",
+      "observation": "Six retained output digests verified with actual BLAKE3; ten PDF pages independently viewed and reproduced; Markdown r3 and HTML semantic content read. HTML/PDF approvals are operator-fixture and Markdown says codex/root. No final candidate or human acceptance inferred."
+    },
+    {
+      "demo": "D9",
+      "classification": "explicitly_pending",
+      "observation": "DEMO_MATRIX and918 publication manifest explicitly retain independent915 ADL qualification pending. No absence-as-product-defect finding."
+    },
+    {
+      "demo": "D10",
+      "classification": "explicitly_pending",
+      "observation": "Licensed external repository complete915 journey pending; existing Vector artifacts and1109 partial codefriend.ai generation do not establish this."
+    },
+    {
+      "demo": "D11",
+      "classification": "source_component",
+      "observation": "Provider/input/output failure, cancellation, uncertain effect/no replay, approval denial, corruption and retention failure source tests inspected.916 retains154 tests/11targets at older source; no installed candidate rerun here."
+    },
+    {
+      "demo": "D12",
+      "classification": "complementary_deployment_scope",
+      "observation": "Static Observatory contracts examined in tests lane; deployed HTTPS/WSS historical provenance owned by evidence/deployment lane. No live network/browser deployment check in this lane."
+    },
+    {
+      "demo": "D13",
+      "classification": "complementary_docs_scope",
+      "observation": "ADR source/status traceability belongs to docs/architecture lane; no ADR acceptance conferred by demo inventory."
+    },
+    {
+      "demo": "D14",
+      "classification": "inherited_predecessor",
+      "observation": "717/718 are v0.92.1 predecessor obligations, immutable history crosswalk owned by evidence lane. No reenactment or new runtime result here."
+    },
+    {
+      "demo": "D15",
+      "classification": "inherited_predecessor",
+      "observation": "Capability orientation predecessor717 is retained history; no grant of runtime authority or rerun claimed."
+    },
+    {
+      "demo": "D16",
+      "classification": "source_component",
+      "observation": "Observatory mocked projection and source contracts checked in tests lane; TESTS-001 concerns accessibility oracle, not stale telemetry or current live health. No live Runtime startup/navigation run."
+    }
+  ],
+  "fresh_execution": [
+    "six retained output BLAKE3 comparisons",
+    "two PDF text extractions; whitespace-normalized content parity",
+    "two PDF raster sets reproduced: original110dpi, corrected120dpi; all10 pages byte-match retained images"
+  ],
+  "source_test_cross_reference": "tests-coverage.json",
+  "limits": [
+    "No final installed candidate selected in918 draft",
+    "No provider/cloud/deployed Runtime execution",
+    "Historical binary/provenance digest fields inspected; original binary bytes unavailable in selected packet and not revalidated",
+    "Historical records inspected for scoped fields, not every log or byte in their evidence trees",
+    "D12/D13/D14/D15 complementary lane ownership remains explicit"
+  ],
+  "independence": "Same independent reviewer authored tests and demos lanes; no independent live qualification claimed",
+  "authored_documentation_scope": [
+    {
+      "path": "docs/codefriend/ARCHITECTURE_INSTALLED_PROOF.json",
+      "lines": 81,
+      "review_status": "complete_source_or_full_variant_diff",
+      "basis": "Full source read",
+      "observation": "Historical source and installed-binary/provenance identities, fixture denominator and nonclaims inspected. Records do not establish current candidate binary execution; original historical binary bytes not revalidated."
+    },
+    {
+      "path": "docs/codefriend/ARCHITECTURE_PROOF_INVENTORY.json",
+      "lines": 59,
+      "review_status": "complete_source_or_full_variant_diff",
+      "basis": "Full source read",
+      "observation": "Historical source and installed-binary/provenance identities, fixture denominator and nonclaims inspected. Records do not establish current candidate binary execution; original historical binary bytes not revalidated."
+    },
+    {
+      "path": "docs/codefriend/EVIDENCE_BOOTSTRAP_PROOF.json",
+      "lines": 209,
+      "review_status": "complete_source_or_full_variant_diff",
+      "basis": "Full original source read plus complete diff against EVIDENCE_INSTALLED_PROOF.json",
+      "observation": "Historical source and installed-binary/provenance identities, fixture denominator and nonclaims inspected. Records do not establish current candidate binary execution; original historical binary bytes not revalidated."
+    },
+    {
+      "path": "docs/codefriend/EVIDENCE_INSTALLED_PROOF.json",
+      "lines": 209,
+      "review_status": "complete_source_or_full_variant_diff",
+      "basis": "Full source read",
+      "observation": "Historical source and installed-binary/provenance identities, fixture denominator and nonclaims inspected. Records do not establish current candidate binary execution; original historical binary bytes not revalidated."
+    },
+    {
+      "path": "docs/codefriend/EVIDENCE_PROOF_INVENTORY.json",
+      "lines": 83,
+      "review_status": "complete_source_or_full_variant_diff",
+      "basis": "Full source read",
+      "observation": "Historical source and installed-binary/provenance identities, fixture denominator and nonclaims inspected. Records do not establish current candidate binary execution; original historical binary bytes not revalidated."
+    },
+    {
+      "path": "docs/codefriend/LOCAL_FITNESS_INSTALLED_PROOF.json",
+      "lines": 41,
+      "review_status": "complete_source_or_full_variant_diff",
+      "basis": "Full source read",
+      "observation": "Historical source and installed-binary/provenance identities, fixture denominator and nonclaims inspected. Records do not establish current candidate binary execution; original historical binary bytes not revalidated."
+    },
+    {
+      "path": "docs/codefriend/LOCAL_FITNESS_PROOF_INVENTORY.json",
+      "lines": 68,
+      "review_status": "complete_source_or_full_variant_diff",
+      "basis": "Full source read",
+      "observation": "Historical source and installed-binary/provenance identities, fixture denominator and nonclaims inspected. Records do not establish current candidate binary execution; original historical binary bytes not revalidated."
+    },
+    {
+      "path": "docs/codefriend/LOCAL_INGESTION_PROOF.json",
+      "lines": 147,
+      "review_status": "complete_source_or_full_variant_diff",
+      "basis": "Full source read",
+      "observation": "Historical source and installed-binary/provenance identities, fixture denominator and nonclaims inspected. Records do not establish current candidate binary execution; original historical binary bytes not revalidated."
+    },
+    {
+      "path": "docs/codefriend/LOCAL_INGESTION_REPAIR_PROOF.json",
+      "lines": 150,
+      "review_status": "complete_source_or_full_variant_diff",
+      "basis": "Full original source read plus complete diff against LOCAL_INGESTION_PROOF.json",
+      "observation": "Historical source and installed-binary/provenance identities, fixture denominator and nonclaims inspected. Records do not establish current candidate binary execution; original historical binary bytes not revalidated."
+    },
+    {
+      "path": "docs/codefriend/LOCAL_INGESTION_STREAMING_PROOF.json",
+      "lines": 150,
+      "review_status": "complete_source_or_full_variant_diff",
+      "basis": "Full original source read plus complete diff against LOCAL_INGESTION_REPAIR_PROOF.json",
+      "observation": "Historical source and installed-binary/provenance identities, fixture denominator and nonclaims inspected. Records do not establish current candidate binary execution; original historical binary bytes not revalidated."
+    },
+    {
+      "path": "docs/codefriend/LOCAL_INGESTION_TOML_PROOF.json",
+      "lines": 150,
+      "review_status": "complete_source_or_full_variant_diff",
+      "basis": "Full original source read plus complete diff against LOCAL_INGESTION_STREAMING_PROOF.json",
+      "observation": "Historical source and installed-binary/provenance identities, fixture denominator and nonclaims inspected. Records do not establish current candidate binary execution; original historical binary bytes not revalidated."
+    },
+    {
+      "path": "docs/codefriend/MEMORY_COMPARISON_PROOF_INVENTORY.json",
+      "lines": 14,
+      "review_status": "complete_source_or_full_variant_diff",
+      "basis": "Full source read",
+      "observation": "Historical source and installed-binary/provenance identities, fixture denominator and nonclaims inspected. Records do not establish current candidate binary execution; original historical binary bytes not revalidated."
+    },
+    {
+      "path": "docs/codefriend/MEMORY_INSTALLED_PROOF.json",
+      "lines": 34,
+      "review_status": "complete_source_or_full_variant_diff",
+      "basis": "Full source read",
+      "observation": "Historical source and installed-binary/provenance identities, fixture denominator and nonclaims inspected. Records do not establish current candidate binary execution; original historical binary bytes not revalidated."
+    },
+    {
+      "path": "docs/codefriend/MARKDOWN_EXPORT.md",
+      "reviewed_ranges": [
+        [
+          1,
+          70
+        ]
+      ],
+      "review_status": "complete_source_static",
+      "observation": "Command arguments and approval/artifact/renderer/output bounds compared to source and retained outputs. PDF terminology correction DEMOS-001; no new browser or live qualification."
+    },
+    {
+      "path": "docs/codefriend/HTML_EXPORT.md",
+      "reviewed_ranges": [
+        [
+          1,
+          44
+        ]
+      ],
+      "review_status": "complete_source_static",
+      "observation": "Command arguments and approval/artifact/renderer/output bounds compared to source and retained outputs. PDF terminology correction DEMOS-001; no new browser or live qualification."
+    },
+    {
+      "path": "docs/codefriend/PDF_EXPORT.md",
+      "reviewed_ranges": [
+        [
+          1,
+          56
+        ]
+      ],
+      "review_status": "complete_source_static",
+      "observation": "Command arguments and approval/artifact/renderer/output bounds compared to source and retained outputs. PDF terminology correction DEMOS-001; no new browser or live qualification."
+    }
+  ]
+}

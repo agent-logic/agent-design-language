@@ -71,14 +71,15 @@ Bounds: at most 512 graph nodes, 4,096 edges, 4,096 unknowns, 128 KiB policy and
 16 MiB report. Existing shared contracts further bound findings and text. Exceeding
 any bound fails rather than silently truncating the graph.
 
-Before recursive Rust parsing, each source is limited to 32 KiB and 128 raw
-lexical units. Each ASCII alphanumeric/underscore run counts once; each punctuation
-or non-ASCII byte counts once; ASCII whitespace is ignored. This conservative
-check also counts comments and literals. It bounds keyword chains, nested
-delimiters, unary expressions, generics and path chains without first invoking an untrusted-input parser. Larger sources
-produce `rust_syntax_complexity_limit` and a partial report, never a clean result.
-This first bounded reporter is suitable for small admitted module slices; it
-does not claim full analysis of arbitrarily large Rust files.
+Before recursive Rust parsing, each source is limited to 400 KiB and 32,768
+parsed token-tree entries. Delimiter and nested block-comment depth is limited
+to 32; cumulative ancestor statement spans are limited to 2,048 token entries.
+Comments and literals are opaque to the lexical delimiter check. Parsing,
+visiting and AST destruction run on one bounded worker. See
+[Rust parser bounds](RUST_PARSER_BOUNDS.md) for the shared admission contract and
+its concurrency and stack limits. Exceeding admission produces
+`rust_syntax_complexity_limit` and a partial report, never a clean result.
+These bounds do not establish complete analysis of arbitrarily large Rust files.
 
 Proof is declared in `ARCHITECTURE_PROOF_INVENTORY.json`. Cargo CLI tests and
 isolated installed-binary evidence are recorded separately; tests do not imply

@@ -1,5 +1,9 @@
 # Beta 1 delivery requirements after ADR 0084
 
+## Current delivery reconciliation
+
+The requirements and original owner/gate table below are retained design history, not current unresolved assignments. Both website modes remain Beta 1 requirements. The [#916 disposition](../../evidence/issue-916/GAP_ANALYSIS.md) records closed/not-planned #915 and #936, incomplete qualification, and successor repairs #1148/#1149 followed by independent qualification #1150 in v0.93.1. Beta 1 launch is not established by v0.92.2 issue closure. The approved #922 split schedules repository extraction first in v0.93.1.
+
 The operator requires both website modes in v0.92.2 / Beta 1: server-hosted reviews and website-controlled reviews executed by an installed local CodeFriend agent. Access is invitation-only with GitHub sign-in. CLI remains supported. This supersedes the earlier local-CLI-only product selection wherever that selection is used to judge Beta 1 readiness.
 
 ## Implementation gaps and gates

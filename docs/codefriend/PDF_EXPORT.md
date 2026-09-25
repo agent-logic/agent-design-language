@@ -43,7 +43,7 @@ warnings, oversized output, or stale/tampered input.
 
 ## Qualification
 
-Run the focused installed lane:
+Run the focused source-built component and CLI lane:
 
 ```sh
 cargo test --manifest-path adl/Cargo.toml --test codefriend_render_pdf

@@ -1,6 +1,6 @@
 # v0.92.2 Milestone Checklist
 
-Status: planned.
+Status: release acceptance checklist; unchecked requirements are not completed by issue closure. #915 independent qualification is incomplete and explicitly deferred; #916 is accepted for handoff with product qualification still `not_proven`. Successor repairs #1148/#1149 precede qualification #1150 in v0.93.1. The [handoff](evidence/issue-917/HANDOFF.md) records observed work without treating closed issues or local test counts as release approval.
 
 ## Opening
 

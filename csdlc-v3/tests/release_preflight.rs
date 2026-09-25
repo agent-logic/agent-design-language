@@ -50,8 +50,19 @@ impl Fixture {
         if root.exists() {
             fs::remove_dir_all(&root).unwrap();
         }
+        // Disable automatic maintenance in the clone before it starts writing
+        // Git objects. Background commit-graph/lock writes are unrelated to the
+        // release observer; keep all such paths in the strict inventory below.
         assert!(Command::new("git")
-            .args(["clone", "--quiet", "--shared"])
+            .args([
+                "clone",
+                "--quiet",
+                "--shared",
+                "--config",
+                "maintenance.auto=false",
+                "--config",
+                "gc.auto=0",
+            ])
             .arg(&source)
             .arg(&root)
             .status()

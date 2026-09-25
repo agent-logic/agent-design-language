@@ -1,0 +1,88 @@
+{
+  "schema": "adl.external_review_findings.v1",
+  "issue": 920,
+  "status": "not_started",
+  "reviewed_revision": null,
+  "reviewed_manifest_sha256": null,
+  "reviewer_identity": null,
+  "assessment_path": null,
+  "assessment_sha256": null,
+  "verdict": "not_proven",
+  "findings": [],
+  "verified_non_findings": [],
+  "validation_performed": [],
+  "internal_finding_dispositions": [],
+  "limitations": [
+    "This is an empty external-review intake structure, not an external review result.",
+    "The referenced 27 findings are immutable #919 internal-review inputs and are not duplicated as external findings.",
+    "The integrated candidate is bound for handoff, but no reviewer, contact authorization, assessment or external finding exists yet."
+  ],
+  "routing": {
+    "accepted_findings_issue": 921,
+    "original_review_immutable_after_intake": true
+  },
+  "internal_review_context": {
+    "review_revision": "6fc19987dcb9aaa347e61e6185f4ae1718e5ec6c",
+    "candidate_revision": "5c4a6149771c637f3c805985b86231077965eab4",
+    "publication_manifest_sha256": "b4f031ae10b3c7a5216523680dfca5b1cd94cdc5d35d3206c852932d37f246c6",
+    "source_findings_path": "docs/milestones/v0.92.2/evidence/issue-919/full-review/findings.json",
+    "source_findings_sha256": "111229fa08f16699282a9c3365cb285f88389d20ef94d37934ba0c93bcd826d4",
+    "finding_counts": {
+      "P1": 4,
+      "P2": 20,
+      "P3": 3
+    },
+    "repair_issues": {
+      "A": 1161,
+      "B": 1162,
+      "C": 1159,
+      "D": 1160
+    },
+    "repair_progress_observed": {
+      "candidate_integration_complete": true,
+      "A": {
+        "status": "merged_and_closed",
+        "pull_request": 1168,
+        "reviewed_head": "fdc968548458d6eb448ce01a99fa4c4d9a02101d",
+        "merge_commit": "c8f646dc8c90d139332315c507adbc57b0c222e2",
+        "finding_map_sha256": "34f11ce273c03d7227982f76cf8d2163f0d9e40461c4cd2be31ac30cfabe6e21",
+        "candidate_inclusion_verified": true
+      },
+      "B": {
+        "status": "merged_and_closed",
+        "website_pull_request": 20,
+        "website_merge_commit": "8b0c5fd12423494c7fed27059321b217d7dff430",
+        "adl_pull_request": 1170,
+        "adl_reviewed_head": "cdb48f4fea83218ddf7feb545da3b7be7fb7d345",
+        "adl_merge_commit": "81a2f13503ffa67e6e14d238bff6567b5320dfc1",
+        "adl_merged": true,
+        "candidate_inclusion_verified": true
+      },
+      "C": {
+        "status": "merged_and_closed",
+        "pull_request": 1163,
+        "reviewed_head": "de8574324b087366423d6d60911ab63e274ad280",
+        "merge_commit": "02c0aa707f17ed013cbf872222615411a78b4166",
+        "finding_map_sha256": "a921df9a2c20f128067cbf1a816d96c8d85b2c0b1c7a1c6c88b25f1d930758e5",
+        "candidate_inclusion_verified": true
+      },
+      "D": {
+        "status": "merged_and_closed",
+        "pull_request": 1164,
+        "reviewed_head": "8a409c7c327f6203e45b810c9566c9c70e6c0b50",
+        "merge_commit": "78f57f97c2b9e5e90301e132434d98ba2fcbc2e6",
+        "finding_map_sha256": "19f9d79c58f7f0f7511ff5f81a794dcb4080518d5ab12a8e49825fa898f40b7c",
+        "candidate_inclusion_verified": true
+      }
+    },
+    "integration_tooling_follow_on": {
+      "issue": 1171,
+      "pull_request": 1172,
+      "reviewed_head": "52b8e12177a74f036c044124c55867c1893e0628",
+      "merge_commit": "ee90f97a3d9fe31e08c3ba53af6b4d706a560788",
+      "status": "merged_and_closed",
+      "outside_frozen_finding_denominator": true
+    },
+    "disposition": "repairs_integrated_external_review_not_started"
+  }
+}

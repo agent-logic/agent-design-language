@@ -756,3 +756,36 @@ pub fn retained_mutation_request(
     }
     Ok(retained.request)
 }
+
+pub(super) fn present(path: &Path) -> Result<bool, RemoteRouteFinding> {
+    match fs::symlink_metadata(path) {
+        Ok(_) => Ok(true),
+        Err(e) if e.kind() == std::io::ErrorKind::NotFound => Ok(false),
+        Err(_) => Err(remote_finding(
+            "github_merge_retirement_ineligible",
+            "evidence presence is uncertain",
+        )),
+    }
+}
+pub(super) fn dispatch_evidence_is_absent(
+    root: &Path,
+    digest: &str,
+) -> Result<bool, RemoteRouteFinding> {
+    let control = git_control_dir(root).ok_or_else(|| {
+        remote_finding("github_merge_ineligible", "Git receipt directory missing")
+    })?;
+    let dir = control.join("csdlc-v3/remote/merges");
+    let receipt = github_mutation_receipt_path(root, digest)?;
+    for path in [
+        dir.join(format!("{digest}.dispatch-prestate.json")),
+        dir.join(format!("{digest}.input.json")),
+        dir.join(format!("{digest}.response.json")),
+        dir.join(format!("{digest}.reconciliation.json")),
+        receipt,
+    ] {
+        if present(&path)? {
+            return Ok(false);
+        }
+    }
+    Ok(true)
+}

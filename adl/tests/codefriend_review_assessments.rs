@@ -14,12 +14,16 @@ use adl::codefriend::{
     review::runner::{self, ExecutionOptions, LaneExecution},
 };
 use adl::provider_communication::ProviderInvocationFinalStatusV1;
+use serde_json::json as json_value;
+use sha2::{Digest, Sha256};
 use std::{fs, path::Path, process::Command};
 fn git(root: &Path, args: &[&str]) -> String {
     let out = Command::new("git")
         .arg("-C")
         .arg(root)
         .args(args)
+        .env("GIT_AUTHOR_DATE", "2026-01-01T00:00:00Z")
+        .env("GIT_COMMITTER_DATE", "2026-01-01T00:00:00Z")
         .output()
         .unwrap();
     assert!(
@@ -42,7 +46,19 @@ impl Fixture {
         Self::source(privacy, revision, "// café\npub fn guarded() {}\n")
     }
     fn source(privacy: bool, revision: u8, content: &str) -> Self {
-        let dir = tempfile::tempdir_in(std::env::temp_dir().canonicalize().unwrap()).unwrap();
+        let now = std::time::SystemTime::now()
+            .duration_since(std::time::UNIX_EPOCH)
+            .unwrap()
+            .as_secs();
+        Self::source_at(privacy, revision, content, now)
+    }
+    fn deterministic(privacy: bool) -> Self {
+        Self::source_at(privacy, 0, "// café\npub fn guarded() {}\n", 1_800_000_000)
+    }
+    fn source_at(privacy: bool, revision: u8, content: &str, now: u64) -> Self {
+        let target_tmp = Path::new(env!("CARGO_TARGET_TMPDIR"));
+        fs::create_dir_all(target_tmp).unwrap();
+        let dir = tempfile::tempdir_in(target_tmp).unwrap();
         let source = dir.path().join("source");
         fs::create_dir(&source).unwrap();
         git(&source, &["init", "-b", "main"]);
@@ -93,10 +109,6 @@ impl Fixture {
             },
         )
         .unwrap();
-        let now = std::time::SystemTime::now()
-            .duration_since(std::time::UNIX_EPOCH)
-            .unwrap()
-            .as_secs();
         let store = Store::open(&dir.path().join("store"), move || now).unwrap();
         let admission = store.admit(packet, Retention { seconds: 3600 }).unwrap();
         Self {
@@ -158,6 +170,96 @@ impl Fixture {
             },
         )
     }
+}
+
+#[test]
+fn native_v4_website_compatibility_fixture_generator() {
+    fn write_run(path: &Path, run: &runner::FourPerspectiveReviewRun) -> Vec<u8> {
+        let bytes = serde_json::to_vec_pretty(run).unwrap();
+        fs::write(path, &bytes).unwrap();
+        bytes
+    }
+    fn sha256(bytes: &[u8]) -> String {
+        format!("{:x}", Sha256::digest(bytes))
+    }
+
+    let complete_fixture = Fixture::deterministic(false);
+    let complete_raw = json(vec![
+        complete_fixture.item(AssessmentKind::PositiveObservation)
+    ]);
+    let complete = complete_fixture
+        .execute("native-v4-complete", |_| complete_raw.clone())
+        .unwrap();
+    complete.successful_execution().unwrap();
+    assert_eq!(complete.review_record.run.completion, Completion::Complete);
+
+    let partial_fixture = Fixture::deterministic(true);
+    let partial_raw = json(vec![
+        partial_fixture.item(AssessmentKind::PositiveObservation)
+    ]);
+    let partial = partial_fixture
+        .execute("native-v4-partial", |_| partial_raw.clone())
+        .unwrap();
+    partial.successful_execution().unwrap();
+    assert_eq!(partial.review_record.run.completion, Completion::Incomplete);
+    assert!(partial.review_record.run.coverage.is_some());
+
+    let gaps_fixture = Fixture::deterministic(false);
+    let mut unsupported = gaps_fixture.item(AssessmentKind::DefectCandidate);
+    unsupported.citations[0].quote = "unsupported invented source".into();
+    let gaps_raw = json(vec![
+        gaps_fixture.item(AssessmentKind::PositiveObservation),
+        unsupported,
+    ]);
+    let gaps = gaps_fixture
+        .execute("native-v4-gaps", |_| gaps_raw.clone())
+        .unwrap();
+    gaps.successful_execution().unwrap();
+    assert_eq!(gaps.review_record.run.completion, Completion::Incomplete);
+    assert!(gaps.review_record.run.assessment_coverage.is_some());
+    assert!(gaps
+        .lane_results
+        .iter()
+        .all(|receipt| !receipt.assessment_gaps.is_empty()));
+    assert!(complete
+        .review_record
+        .run
+        .lane_versions
+        .values()
+        .all(|version| version == "codefriend.review_lane.v4"));
+
+    let Some(output) = std::env::var_os("CODEFRIEND_NATIVE_V4_FIXTURE_DIR") else {
+        return;
+    };
+    let output = std::path::PathBuf::from(output);
+    fs::create_dir_all(&output).unwrap();
+    let complete_bytes = write_run(
+        &output.join("native-assessment-v4-complete.json"),
+        &complete,
+    );
+    let partial_bytes = write_run(&output.join("native-assessment-v4-partial.json"), &partial);
+    let gaps_bytes = write_run(&output.join("native-assessment-v4-gaps.json"), &gaps);
+    let repo = Path::new(env!("CARGO_MANIFEST_DIR")).parent().unwrap();
+    let source = repo.join("adl/tests/codefriend_review_assessments.rs");
+    let provenance = json_value!({
+        "schema": "codefriend.native_assessment_fixture_provenance.v1",
+        "adl_head": git(repo, &["rev-parse", "HEAD"]),
+        "generator_source": "adl/tests/codefriend_review_assessments.rs",
+        "generator_source_sha256": sha256(&fs::read(source).unwrap()),
+        "test_identity": "native_v4_website_compatibility_fixture_generator",
+        "command": "CODEFRIEND_NATIVE_V4_FIXTURE_DIR=<website>/tests/fixtures cargo test --locked --manifest-path adl/Cargo.toml --test codefriend_review_assessments native_v4_website_compatibility_fixture_generator -- --exact",
+        "external_provider_calls": 0,
+        "fixtures": {
+            "native-assessment-v4-complete.json": sha256(&complete_bytes),
+            "native-assessment-v4-partial.json": sha256(&partial_bytes),
+            "native-assessment-v4-gaps.json": sha256(&gaps_bytes)
+        }
+    });
+    fs::write(
+        output.join("native-assessment-v4-provenance.json"),
+        serde_json::to_vec_pretty(&provenance).unwrap(),
+    )
+    .unwrap();
 }
 fn json(items: Vec<ProviderAssessment>) -> String {
     serde_json::to_string(&ProviderAssessmentOutput { assessments: items }).unwrap()
