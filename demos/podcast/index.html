@@ -193,9 +193,10 @@
     <div style="font-size:12px; font-weight:800; letter-spacing:0.08em; color:oklch(55% 0.01 260); margin-bottom:20px;">LISTEN WHEREVER YOU GET YOUR PODCASTS</div>
     <div style="display:flex; flex-wrap:wrap; gap:36px;">
       <a href="feed.xml" style="font-size:16px; font-weight:700; color:oklch(55% 0.2 265);">RSS</a>
-      <sc-for list="{{ platforms }}" as="p" hint-placeholder-count="5">
-        <span style="font-size:16px; font-weight:700; color:oklch(60% 0.01 260);">{{ p }}</span>
-      </sc-for>
+      <a href="https://podcasts.apple.com/us/podcast/the-cognitive-stack/id6815902769" style="font-size:16px; font-weight:700; color:oklch(55% 0.2 265);">Apple Podcasts</a>
+      <a href="https://open.spotify.com/show/3KnDrv4aPTtjm7vgOzFIyM" style="font-size:16px; font-weight:700; color:oklch(55% 0.2 265);">Spotify</a>
+      <span style="font-size:16px; font-weight:700; color:oklch(60% 0.01 260);">Amazon Music / Audible — pending</span>
+      <span style="font-size:16px; font-weight:700; color:oklch(60% 0.01 260);">YouTube Music — pending</span>
     </div>
   </section>
 
@@ -409,7 +410,6 @@ class Component extends DCLogic {
       audioSrc: "audio/meet-the-ai-coworkers.mp3"
     };
     return {
-      platforms: [ "Apple Podcasts after approval", "Spotify after approval", "Amazon Music / Audible after approval", "YouTube Music after approval"],
       latest,
       hosts,
       episodes: mappedEpisodes,
