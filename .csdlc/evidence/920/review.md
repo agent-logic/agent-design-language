@@ -242,3 +242,5 @@ The #919 full-review packet and AUDIT_DISPOSITIONS govern the internal review;
 provisional reports and failed/partial helper runs remain historical evidence.
 The 27-finding repair mapping does not itself establish fresh independent
 execution of all repaired behaviors. External assessment has not started.
+
+See the [documentation audit](documentation-audit/README.md) and its full file inventory for current corrections, reviewed historical originals, and remaining coverage limits.

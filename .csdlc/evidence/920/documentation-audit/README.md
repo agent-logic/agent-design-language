@@ -35,10 +35,22 @@ that the repaired defect persists. Historical disposition or source inspection
 is not fresh execution on the external candidate.
 
 The review-history inventory is therefore not proof that all prior original
-reports were reread. Missing/private originals, generated man pages, diagrams,
-and manuscript PDFs were not newly substantively reviewed here. The #913
+reports were reread. All 20 candidate-unavailable originals were subsequently found and substantively
+read in the primary checkout; all 20 SHA256 hashes match the retained inventory.
+That does not change their frozen unavailable-at-candidate classification or
+make local-only history portable. Generated man pages, diagrams, and manuscript
+PDFs were not newly substantively reviewed here. The #913
 acceptance is PDF availability, with editing explicitly deferred. No historical
 failure was changed to PASS and no qualification run was repeated.
+
+Additional original reports read: v0.91.4 Claude external findings (2026-06-01),
+v0.91.5 external findings (2026-06-17), v0.91.6 external findings (2026-06-28),
+and v0.90.4 external summary. Recurring concerns were stale handoffs after fixes,
+ambiguous finding disposition, misleading current commands, unsupported README
+claims, and confusing structural validation with behavioral proof. These are
+covered by the current corrections and explicit limitations, not by relabeling
+old reports as passing. The v0.91.3 error register also preserves a reviewer's
+incorrect package-version claim; current Cargo versions were checked directly.
 
 ## Planning integration distinction
 
