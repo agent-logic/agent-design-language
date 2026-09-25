@@ -35,10 +35,16 @@ with wave.open(str(root / manifest['archive_audio'])) as wav:
     assert abs(wav.getnframes() / wav.getframerate() - manifest['duration_seconds']) < 0.1
 assert '_private' not in (root / manifest['feed']).read_text()
 assert channel.findtext('link') == 'https://agent-logic.ai/podcast/'
-for rel in ['demos/podcast/index.html', 'demos/podcast/episodes/meet-the-ai-coworkers/index.html']:
-    assert (root / rel).read_bytes() == subprocess.check_output(['git', 'show', '2fbf1237abd4d5933b2dcb7ca60e54626b413420:' + rel], cwd=root)
+page = (root / 'demos/podcast/index.html').read_text()
+assert page.count('Sep 24, 2026') == 2 and page.count('length: "9:10"') == 2
+assert '18:32' not in page and 'Aug 10' not in page
+assert page.count('length: "TBD"') == 9
+from zoneinfo import ZoneInfo
+assert parsedate_to_datetime(manifest['publication_time']).astimezone(ZoneInfo('America/Los_Angeles')).date().isoformat() == manifest['public_availability_date'] == '2026-09-24'
+episode_page = (root / 'demos/podcast/episodes/meet-the-ai-coworkers/index.html').read_text()
+assert '2026-09-24T17:40:26-07:00' in episode_page and '9:10' in episode_page
 assert not subprocess.check_output(['git','diff','2fbf1237abd4d5933b2dcb7ca60e54626b413420','--','demos/podcast/editorial/1166-episode-1-introduction'], cwd=root)
-print('PASS: feed metadata, 3 exact asset copies, hashes/bytes, retained MP3 hash and measured WAV duration, unchanged webpage and approved source')
+print('PASS: feed metadata, 3 exact asset copies, hashes/bytes, retained MP3 hash and measured WAV duration, correct page dates/durations and unchanged approved source')
 
 private = (root / 'demos/podcast/releases/episode-001/private-feed.xml').read_text()
 private_tree = ET.fromstring(private.replace('https://agent-logic.ai/_private/podcast/', 'https://agent-logic.ai/podcast/'))

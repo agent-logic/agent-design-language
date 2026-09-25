@@ -44,5 +44,6 @@
       ]
     }
   ],
-  "archive_audio": "demos/podcast/editorial/1166-episode-1-introduction/audio-candidate/episode.wav"
+  "archive_audio": "demos/podcast/editorial/1166-episode-1-introduction/audio-candidate/episode.wav",
+  "public_availability_date": "2026-09-24"
 }
