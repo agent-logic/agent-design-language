@@ -12,7 +12,7 @@
     <copyright>Copyright 2026 Agent Logic, Inc.</copyright>
     <managingEditor>podcast@agent-logic.ai (Agent Logic)</managingEditor>
     <webMaster>podcast@agent-logic.ai (Agent Logic)</webMaster>
-    <lastBuildDate>Wed, 23 Sep 2026 18:42:27 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 25 Sep 2026 00:12:15 +0000</lastBuildDate>
     <itunes:author>Agent Logic</itunes:author>
     <itunes:type>episodic</itunes:type>
     <itunes:explicit>false</itunes:explicit>
@@ -28,15 +28,15 @@
       <link>https://agent-logic.ai/podcast/episodes/meet-the-ai-coworkers/</link>
       <guid isPermaLink="false">agent-logic-the-cognitive-stack-episode-001</guid>
       <!-- Unreleased candidate: set pubDate only after explicit publication approval. -->
-      <description>ChatGPT, Gemini, and Claude challenge the AI coworker metaphor through a failed launch, conflicting evidence, automation bias, bounded authority, and one final test: does working with AI leave people more capable or merely more impressed?</description>
-      <itunes:summary>ChatGPT, Gemini, and Claude challenge the AI coworker metaphor through a failed launch, conflicting evidence, automation bias, bounded authority, and one final test: does working with AI leave people more capable or merely more impressed?</itunes:summary>
+      <description>ChatGPT, Gemini and Claude introduce the show and explore everyday AI permissions, the people affected by automated actions, and what happens when AI assistants interact.</description>
+      <itunes:summary>ChatGPT, Gemini and Claude introduce the show and explore everyday AI permissions, the people affected by automated actions, and what happens when AI assistants interact.</itunes:summary>
       <itunes:author>Agent Logic</itunes:author>
       <itunes:image href="https://agent-logic.ai/podcast/artwork.png" />
       <itunes:explicit>false</itunes:explicit>
       <itunes:episode>1</itunes:episode>
       <itunes:episodeType>full</itunes:episodeType>
-      <itunes:duration>00:18:32</itunes:duration>
-      <enclosure url="https://agent-logic.ai/podcast/audio/meet-the-ai-coworkers.mp3" length="22804249" type="audio/mpeg" />
+      <itunes:duration>00:09:10</itunes:duration>
+      <enclosure url="https://agent-logic.ai/podcast/audio/the-cognitive-stack-episode-001-meet-the-ai-coworkers.mp3" length="11313243" type="audio/mpeg" />
     </item>
   </channel>
 </rss>
