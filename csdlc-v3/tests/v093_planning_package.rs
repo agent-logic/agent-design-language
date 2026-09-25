@@ -22,7 +22,7 @@ fn approved_release_split_preserves_scope_and_rejects_invalid_plans() {
     assert_eq!(report["status"], "pass");
     assert_eq!(report["source_tasks"], 83);
     assert_eq!(report["successor_tasks"], serde_json::json!([43, 53]));
-    assert_eq!(report["negative_fixtures"], 12);
+    assert_eq!(report["negative_fixtures"], 22);
     assert_eq!(report["execution_opened"], false);
 }
 

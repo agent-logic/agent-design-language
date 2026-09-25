@@ -28,4 +28,4 @@ Retain a result-to-source-to-installed-consumer map with positive, negative and 
 
 ## Existing Observatory backlog
 
-Existing #1145 (Everyone Observatory) is separately routed to v0.93.2, outside the 53 core candidates. Preserve its existing task and authority; resolve its scope, dependencies and disposition at opening instead of creating a duplicate or assuming completion. #875 retains its original gates and is excluded from the core count. #671 is completed in v0.92.2 and has no successor allocation.
+Operator amendment routes existing #1145 (Everyone Observatory) and #875 to v0.93.1, outside both milestones' core counts. Preserve their existing task identities and authority; v0.93.1 owns their scope, dependencies and disposition, without duplicate creation or assumed completion. #875 retains its original gates and is excluded from the core count. #671 is completed in v0.92.2 and has no successor allocation.

@@ -2,11 +2,11 @@
 
 ## Metadata
 
-Planning template family 1.1.0; authoring issue #922. Scope split approved by the operator; draft package, not opened, executed or release-approved. Named execution owners and resource limits remain to be assigned.
+Planning template family 1.1.0; authoring issue #922. Scope split approved; Sprint 1 preparation opened by the operator on 2026-09-25. Split execution and release are not authorized. Named execution owners and resource limits remain to be assigned.
 
 ## Status
 
-Draft planning. Approval covers the scope allocation, including all template foundations and families. It does not open the issue wave or authorize extraction, provider spending, public launch or release.
+Sprint 1 issue preparation is open; its 14 core identities and umbrella exist in ADL. No new later-sprint or closeout issues are created now; later-wave preparation waits for split acceptance and preserves existing identities. Extraction, provider spending, public launch and release are not authorized.
 
 ## How To Use
 
@@ -14,7 +14,7 @@ Logical IDs each identify one completed result. Execution specifications own exa
 
 ## WBS Summary
 
-43 core work packages plus two additional existing prerequisites map to 45 distinct planned issue identities; CF-05 reuses #1150. Three identities already exist, so at most 42 core issues need seeding.
+The 43 core work packages plus #1148/#1149 and operator-routed #875/#1145 map to 47 planned identities. Fourteen Sprint 1 core issues and CF-05 #1150 already exist; at most 28 core issues remain to create after split acceptance. The Sprint 1 umbrella and separately scoped supporting issues are outside this denominator.
 
 ## Candidate WP Sequence
 
@@ -24,7 +24,7 @@ Logical IDs each identify one completed result. Execution specifications own exa
 | RD-01 | 1 | Refresh final-head ownership audit |
 | RD-02 | 1 | Accept repository boundaries and cutover contracts |
 | RD-12 | 1 | Bootstrap the approved destination repositories |
-| RD-13 | 1 | Materialize destination issue identities |
+| RD-13 | 1 | Transfer and map existing Sprint 1 issue identities |
 | RD-03 | 1 | Distribute portable public ADL contracts |
 | RD-04 | 1 | Extract and qualify C-SDLC |
 | RD-05 | 1 | Extract and qualify Runtime with Observatory |
@@ -70,7 +70,7 @@ Each result has a single accountable repository. Extraction carries source, fixt
 
 ## Existing Launch Prerequisites
 
-Existing #1148 (citation-grounded correctness) and #1149 (uncertain second-run recovery) are additional launch prerequisites. CF-05 reuses existing #1150 for independent qualification after scope alignment; do not seed a duplicate CF-05 issue. The 43 core work packages therefore map to 45 distinct planned issue identities including those two additions: three identities already exist and at most 42 core issues need seeding. Preserve their identities and original #915 failures; do not create duplicate tasks or replay an uncertain request to manufacture a result.
+Existing #1148 (citation-grounded correctness) and #1149 (uncertain second-run recovery) are additional launch prerequisites. CF-05 reuses existing #1150 for independent qualification after scope alignment; do not seed a duplicate CF-05 issue. The 43 core work packages plus #1148/#1149 and operator-routed #875/#1145 map to 47 planned identities. Fourteen Sprint 1 core issues and CF-05 #1150 already exist; at most 28 core issues remain to create after split acceptance. The Sprint 1 umbrella and separately scoped supporting issues are outside this denominator. Preserve their identities and original #915 failures; do not create duplicate tasks or replay an uncertain request to manufacture a result.
 
 ## Sequencing
 
@@ -87,3 +87,9 @@ See feature proof coverage; every result retains a consumer, exact version and n
 ## Exit Criteria
 
 All 43 results are mapped once; existing follow-ons have links and evidence, not duplicate implementations.
+
+## Sprint 1 preparation amendment — 2026-09-25
+
+See [operator amendment](OPERATOR_AMENDMENT_2026-09-25.md) for the verified issue map, routing and historical-evidence boundary. RD-01 depends on acceptance of WP-01's opening/preparation checkpoint, not closure of #1178. WP-01 stays open through later-wave creation. RD-03 and RD-04 both depend on RD-13 and converge at RD-05; serial scheduling does not add an RD-03 → RD-04 dependency.
+
+Sprint 1 closeout requires RD-11 acceptance and every Sprint 1 result accepted or explicitly deferred, recording issue/PR, source and artifact versions, actual proof, original review findings and dispositions, failures/unknowns, residual owner and cleanup status. Record WP-01's later-wave duty as an open milestone obligation. Cleanup remains separately owned. The ten-step milestone tail remains planned only; no tail or later-sprint issues are created by this amendment.

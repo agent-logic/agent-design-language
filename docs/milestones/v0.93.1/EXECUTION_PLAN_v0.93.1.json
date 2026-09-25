@@ -1,12 +1,12 @@
 {
   "schema": "adl.v093.first_pass.v1",
   "milestone": "v0.93.1",
-  "status": "approved_scope_draft_not_open",
+  "status": "sprint_1_preparation_open_execution_not_authorized",
   "planning_issue": 922,
   "opening_requires": [
     "Accepted predecessor closure and exact handoff",
     "Explicit milestone opening authorization",
-    "Reviewed logical work-package map before opening; numeric destination issue identities are created by RD-13 after RD-12 repository bootstrap, reusing existing issues."
+    "Review the existing Sprint 1 ADL identities and checkpoint; destination transfers wait for RD-12 bootstrap and RD-13 mapping. Later sprint creation waits for split acceptance."
   ],
   "feature_gate": "RD-11",
   "required_release_tracks": [
@@ -47,19 +47,22 @@
       "title": "Open the reviewed v0.93.1 execution wave",
       "repository": "agent-design-language",
       "depends_on": [],
-      "result": "After accepted v0.92.2 closure, the inter-milestone break and explicit opening approval, create only ADL coordination, audit and boundary-decision issue identities; destination issue creation waits for RD-12 repository bootstrap and RD-13 issue mapping.",
+      "result": "Prepare the reviewed milestone issue waves: establish the Sprint 1 opening checkpoint now, and retain later-wave issue creation after split acceptance as an open obligation.",
       "acceptance": [
-        "After accepted v0.92.2 closure, the inter-milestone break and explicit opening approval, create only ADL coordination, audit and boundary-decision issue identities; destination issue creation waits for RD-12 repository bootstrap and RD-13 issue mapping.",
-        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+        "Prepare the reviewed milestone issue waves: establish the Sprint 1 opening checkpoint now, and retain later-wave issue creation after split acceptance as an open obligation.",
+        "The Sprint 1 checkpoint records frozen predecessor closure, explicit preparation authority, 14 unique core identities plus umbrella #1180, reviewed dependencies and outstanding findings. Independent planning review resolves actionable findings; no installed extraction evidence is required for this checkpoint.",
+        "WP-01 #1178 remains OPEN until later waves are created and reviewed in their owning repositories. Sprint 1 checkpoint acceptance does not close WP-01 or authorize split execution."
       ],
       "negative_cases": [
         "Unaccepted predecessor",
         "Missing opening approval",
-        "Duplicate issue identities"
+        "Duplicate issue identities",
+        "RD-01 incorrectly gated on WP-01 closure",
+        "Later-sprint or closeout issue creation before authorization"
       ],
       "phase": "opening",
       "source": "README.md",
-      "status": "candidate",
+      "status": "issue_created_preparation_pending",
       "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
       "pvf": "planning_contract",
       "non_goals": [
@@ -69,14 +72,16 @@
       "task_boundary": {
         "single_result": "Open the reviewed v0.93.1 execution wave",
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
-        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+        "completion_rule": "Accept the Sprint 1 checkpoint separately; keep WP-01 open until all later-wave issue creation and review obligations are satisfied."
       },
       "sprint": 1,
       "origin": {
         "milestone": "v0.93",
         "id": "WP-01",
         "kind": "retained_work"
-      }
+      },
+      "existing_issue": 1178,
+      "issue_repository": "agent-logic/agent-design-language"
     },
     {
       "id": "RD-01",
@@ -88,7 +93,7 @@
       "result": "Every tracked source/artifact at the frozen v0.92.2 head has one owner or explicit blocking decision; explain all changes from #977.",
       "acceptance": [
         "Every tracked source/artifact at the frozen v0.92.2 head has one owner or explicit blocking decision; explain all changes from #977.",
-        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+        "Independent design review checks the complete frozen-source ownership census, omissions, unresolved decisions and changes from #977. Installed product qualification belongs to downstream extraction tasks."
       ],
       "negative_cases": [
         "Omitted path",
@@ -96,7 +101,7 @@
       ],
       "phase": "migration",
       "source": "REPOSITORY_MIGRATION_v0.93.1.md",
-      "status": "candidate",
+      "status": "issue_created_preparation_pending",
       "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
       "pvf": "planning_contract",
       "non_goals": [
@@ -113,7 +118,12 @@
         "milestone": "v0.93",
         "id": "RD-01",
         "kind": "retained_work"
-      }
+      },
+      "dependency_gates": {
+        "WP-01": "accepted_sprint_1_preparation_checkpoint_not_terminal_closure"
+      },
+      "existing_issue": 1181,
+      "issue_repository": "agent-logic/agent-design-language"
     },
     {
       "id": "RD-02",
@@ -133,7 +143,7 @@
       ],
       "phase": "migration",
       "source": "REPOSITORY_MIGRATION_v0.93.1.md",
-      "status": "candidate",
+      "status": "issue_created_preparation_pending",
       "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
       "pvf": "planning_contract",
       "non_goals": [
@@ -150,7 +160,9 @@
         "milestone": "v0.93",
         "id": "RD-02",
         "kind": "retained_work"
-      }
+      },
+      "existing_issue": 1182,
+      "issue_repository": "agent-logic/agent-design-language"
     },
     {
       "id": "RD-12",
@@ -171,7 +183,7 @@
       ],
       "phase": "migration",
       "source": "REPOSITORY_MIGRATION_v0.93.1.md",
-      "status": "candidate",
+      "status": "issue_created_preparation_pending",
       "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
       "pvf": "planning_contract",
       "non_goals": [
@@ -188,18 +200,20 @@
         "milestone": "v0.93",
         "id": "RD-12",
         "kind": "retained_work"
-      }
+      },
+      "existing_issue": 1183,
+      "issue_repository": "agent-logic/agent-design-language"
     },
     {
       "id": "RD-13",
-      "title": "Materialize destination issue identities",
+      "title": "Transfer and map existing Sprint 1 issue identities",
       "repository": "agent-design-language",
       "depends_on": [
         "RD-12"
       ],
-      "result": "One complete immutable cross-repository issue map binds the accepted candidate results to destination issue identities without duplicate creation.",
+      "result": "After RD-12 bootstrap, transfer destination-owned existing Sprint 1 ADL issues and retain an immutable old/new issue map with all dependency and evidence links; reuse identities and do not create duplicates.",
       "acceptance": [
-        "One complete immutable cross-repository issue map binds the accepted candidate results to destination issue identities without duplicate creation.",
+        "After RD-12 bootstrap, transfer destination-owned existing Sprint 1 ADL issues and retain an immutable old/new issue map with all dependency and evidence links; reuse identities and do not create duplicates.",
         "Exact versioned input/output evidence and positive/negative scenario counts are retained; review resolves actionable findings."
       ],
       "negative_cases": [
@@ -209,7 +223,7 @@
       ],
       "phase": "migration",
       "source": "REPOSITORY_MIGRATION_v0.93.1.md",
-      "status": "candidate",
+      "status": "issue_created_preparation_pending",
       "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
       "pvf": "planning_contract",
       "non_goals": [
@@ -217,7 +231,7 @@
         "No completion from scaffolding, schema-only work or zero executed scenarios"
       ],
       "task_boundary": {
-        "single_result": "Materialize destination issue identities",
+        "single_result": "Transfer and map existing Sprint 1 issue identities",
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
@@ -226,7 +240,9 @@
         "milestone": "v0.93",
         "id": "RD-13",
         "kind": "retained_work"
-      }
+      },
+      "existing_issue": 1184,
+      "issue_repository": "agent-logic/agent-design-language"
     },
     {
       "id": "RD-03",
@@ -247,7 +263,7 @@
       ],
       "phase": "migration",
       "source": "REPOSITORY_MIGRATION_v0.93.1.md",
-      "status": "candidate",
+      "status": "issue_created_preparation_pending",
       "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
       "pvf": "installed_integration",
       "non_goals": [
@@ -264,7 +280,9 @@
         "milestone": "v0.93",
         "id": "RD-03",
         "kind": "retained_work"
-      }
+      },
+      "existing_issue": 1185,
+      "issue_repository": "agent-logic/agent-design-language"
     },
     {
       "id": "RD-04",
@@ -286,7 +304,7 @@
       ],
       "phase": "migration",
       "source": "REPOSITORY_MIGRATION_v0.93.1.md",
-      "status": "candidate",
+      "status": "issue_created_preparation_pending",
       "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
       "pvf": "installed_integration",
       "non_goals": [
@@ -303,7 +321,9 @@
         "milestone": "v0.93",
         "id": "RD-04",
         "kind": "retained_work"
-      }
+      },
+      "existing_issue": 1186,
+      "issue_repository": "agent-logic/agent-design-language"
     },
     {
       "id": "RD-05",
@@ -325,7 +345,7 @@
       ],
       "phase": "migration",
       "source": "REPOSITORY_MIGRATION_v0.93.1.md",
-      "status": "candidate",
+      "status": "issue_created_preparation_pending",
       "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
       "pvf": "installed_integration",
       "non_goals": [
@@ -342,7 +362,9 @@
         "milestone": "v0.93",
         "id": "RD-05",
         "kind": "retained_work"
-      }
+      },
+      "existing_issue": 1187,
+      "issue_repository": "agent-logic/agent-design-language"
     },
     {
       "id": "RD-06",
@@ -362,7 +384,7 @@
       ],
       "phase": "migration",
       "source": "REPOSITORY_MIGRATION_v0.93.1.md",
-      "status": "candidate",
+      "status": "issue_created_preparation_pending",
       "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
       "pvf": "installed_integration",
       "non_goals": [
@@ -379,7 +401,9 @@
         "milestone": "v0.93",
         "id": "RD-06",
         "kind": "retained_work"
-      }
+      },
+      "existing_issue": 1188,
+      "issue_repository": "agent-logic/agent-design-language"
     },
     {
       "id": "RD-09",
@@ -399,7 +423,7 @@
       ],
       "phase": "migration",
       "source": "REPOSITORY_MIGRATION_v0.93.1.md",
-      "status": "candidate",
+      "status": "issue_created_preparation_pending",
       "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
       "pvf": "installed_integration",
       "non_goals": [
@@ -416,7 +440,9 @@
         "milestone": "v0.93",
         "id": "RD-09",
         "kind": "retained_work"
-      }
+      },
+      "existing_issue": 1189,
+      "issue_repository": "agent-logic/agent-design-language"
     },
     {
       "id": "RD-10",
@@ -438,7 +464,7 @@
       ],
       "phase": "migration",
       "source": "REPOSITORY_MIGRATION_v0.93.1.md",
-      "status": "candidate",
+      "status": "issue_created_preparation_pending",
       "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
       "pvf": "installed_integration",
       "non_goals": [
@@ -455,7 +481,9 @@
         "milestone": "v0.93",
         "id": "RD-10",
         "kind": "retained_work"
-      }
+      },
+      "existing_issue": 1190,
+      "issue_repository": "agent-logic/agent-design-language"
     },
     {
       "id": "RD-08",
@@ -478,7 +506,7 @@
       ],
       "phase": "migration",
       "source": "REPOSITORY_MIGRATION_v0.93.1.md",
-      "status": "candidate",
+      "status": "issue_created_preparation_pending",
       "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
       "pvf": "installed_integration",
       "non_goals": [
@@ -495,7 +523,9 @@
         "milestone": "v0.93",
         "id": "RD-08",
         "kind": "retained_work"
-      }
+      },
+      "existing_issue": 1191,
+      "issue_repository": "agent-logic/agent-design-language"
     },
     {
       "id": "RD-07",
@@ -516,7 +546,7 @@
       ],
       "phase": "migration",
       "source": "REPOSITORY_MIGRATION_v0.93.1.md",
-      "status": "candidate",
+      "status": "issue_created_preparation_pending",
       "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
       "pvf": "installed_integration",
       "non_goals": [
@@ -533,7 +563,9 @@
         "milestone": "v0.93",
         "id": "RD-07",
         "kind": "retained_work"
-      }
+      },
+      "existing_issue": 1192,
+      "issue_repository": "agent-logic/agent-design-language"
     },
     {
       "id": "RD-11",
@@ -555,7 +587,7 @@
       ],
       "phase": "migration",
       "source": "REPOSITORY_MIGRATION_v0.93.1.md",
-      "status": "candidate",
+      "status": "issue_created_preparation_pending",
       "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
       "pvf": "installed_integration",
       "non_goals": [
@@ -572,7 +604,9 @@
         "milestone": "v0.93",
         "id": "RD-11",
         "kind": "retained_work"
-      }
+      },
+      "existing_issue": 1193,
+      "issue_repository": "agent-logic/agent-design-language"
     },
     {
       "id": "CF-01",
@@ -1764,7 +1798,7 @@
       }
     ]
   },
-  "scope_authority": "Operator approved v0.93.1 launch/repo split/templates, v0.93.2 remaining platform and removal of full Runtime v4 launch dependency on 2026-09-22. Execution not opened.",
+  "scope_authority": "Operator authorized Sprint 1 preparation after v0.92.2 closure and the inter-milestone break on 2026-09-25. Create Sprint 1 in ADL now and transfer later. Split execution, later sprints and closeout issue creation remain unauthorized.",
   "external_dependencies": {},
   "existing_issue_routing": [
     {
@@ -1785,13 +1819,49 @@
       "sprint": 3,
       "counted_in_core": true,
       "work_package": "CF-05"
+    },
+    {
+      "issue": 875,
+      "role": "separately authorized live pilot",
+      "counted_in_core": false
+    },
+    {
+      "issue": 1145,
+      "role": "Observatory Everyone selection",
+      "counted_in_core": false
     }
   ],
   "counts": {
     "core_work_packages": 43,
-    "existing_additional_issues": 2,
-    "distinct_planned_issue_identities": 45,
-    "new_core_issues_to_seed_at_most": 42,
-    "note": "CF-05 reuses #1150; #1148/#1149 are additional existing producer tasks. No issues opened by this plan."
+    "existing_additional_issues": 4,
+    "distinct_planned_issue_identities": 47,
+    "new_core_issues_to_seed_at_most": 28,
+    "note": "43 core tasks include 14 existing Sprint 1 identities and CF-05 #1150; #1148/#1149/#875/#1145 are four additional existing sidecars. Umbrella #1180 and independently scoped supporting issues are outside this denominator. Later sprint creation remains deferred."
+  },
+  "preparation": {
+    "sprint": 1,
+    "umbrella_issue": 1180,
+    "current_repository": "agent-logic/agent-design-language",
+    "issue_map": {
+      "WP-01": 1178,
+      "RD-01": 1181,
+      "RD-02": 1182,
+      "RD-12": 1183,
+      "RD-13": 1184,
+      "RD-03": 1185,
+      "RD-04": 1186,
+      "RD-05": 1187,
+      "RD-06": 1188,
+      "RD-09": 1189,
+      "RD-10": 1190,
+      "RD-08": 1191,
+      "RD-07": 1192,
+      "RD-11": 1193
+    },
+    "execution_authorized": false,
+    "later_sprint_creation": "after_split_acceptance",
+    "closeout_issue_creation_authorized": false,
+    "checkpoint_status": "pending_independent_acceptance",
+    "wp01_terminal_closure_required": false
   }
 }

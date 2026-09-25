@@ -13,7 +13,7 @@ def read(version, name):
 def validate(plans, mapping, inspect_files=True):
     all_rows = {}
     for version, plan in plans.items():
-        assert plan['status'] == 'approved_scope_draft_not_open'
+        assert plan['status'] == ('sprint_1_preparation_open_execution_not_authorized' if version == 'v0.93.1' else 'approved_scope_draft_not_open')
         rows = {w['id']: w for w in plan['work_packages']}
         assert len(rows) == len(plan['work_packages']) == plan['counts']['core_work_packages']
         assert plan['repositories']['codefriend'] == plan['repositories']['codefriend.ai'] == 'private'
@@ -46,8 +46,10 @@ def validate(plans, mapping, inspect_files=True):
             assert spec['sprint_plan'] == wave['sprint_plan'] == plan['sprint_plan']
             assert len(wave['work_packages']) == len(rows)
             for row, item in zip(plan['work_packages'], wave['work_packages']):
-                for a, b in [('id','wp'),('result','outcome'),('depends_on','depends_on'),('acceptance','acceptance'),('sprint','sprint')]:
+                for a, b in [('id','wp'),('result','outcome'),('depends_on','depends_on'),('acceptance','acceptance'),('sprint','sprint'),('pvf','pvf'),('negative_cases','negative_cases')]:
                     assert row[a] == item[b], (version, row['id'], a)
+                for field in ['existing_issue','issue_repository','dependency_gates']:
+                    assert row.get(field) == item.get(field), (version,row['id'],field)
     def ancestors(key, active=None):
         active = set() if active is None else active
         assert key not in active, ('cycle', key)
@@ -69,8 +71,35 @@ def validate(plans, mapping, inspect_files=True):
     assert first_rows['CF-05']['existing_issue'] == 1150
     assert not any('closure of the #915 successors #1148, #1149 and #1150' in a for a in first_rows['CF-05']['acceptance'])
     assert 'Missing Beta 1 behavior remains a predecessor blocker.' not in first_rows['CF-01']['result']
-    assert {r['issue'] for r in first['existing_issue_routing']} == {1148,1149,1150}
-    assert first['counts']['distinct_planned_issue_identities'] == 45
+    assert {r['issue'] for r in first['existing_issue_routing']} == {875,1145,1148,1149,1150}
+    assert first['counts']['distinct_planned_issue_identities'] == 47
+    prep = first['preparation']
+    expected = {'WP-01':1178,'RD-01':1181,'RD-02':1182,'RD-12':1183,'RD-13':1184,'RD-03':1185,'RD-04':1186,'RD-05':1187,'RD-06':1188,'RD-09':1189,'RD-10':1190,'RD-08':1191,'RD-07':1192,'RD-11':1193}
+    assert prep['issue_map'] == expected
+    assert prep['umbrella_issue'] == 1180 and prep['sprint'] == 1
+    assert prep['execution_authorized'] is False and prep['closeout_issue_creation_authorized'] is False
+    assert prep['later_sprint_creation'] == 'after_split_acceptance'
+    assert prep['checkpoint_status'] == 'pending_independent_acceptance'
+    assert prep['wp01_terminal_closure_required'] is False
+    assert set(expected) == set(first['sprint_plan']['sprints'][0]['work_packages'])
+    for key, issue in expected.items():
+        assert first_rows[key]['existing_issue'] == issue
+        assert first_rows[key]['issue_repository'] == 'agent-logic/agent-design-language'
+    assert first_rows['RD-01']['dependency_gates'] == {'WP-01':'accepted_sprint_1_preparation_checkpoint_not_terminal_closure'}
+    for key in ['WP-01','RD-01','RD-02']:
+        assert first_rows[key]['pvf'] == 'planning_contract'
+        assert not any('Installed consumer evidence' in a for a in first_rows[key]['acceptance'])
+    assert 'remains OPEN' in ' '.join(first_rows['WP-01']['acceptance'])
+    assert 'transfer' in first_rows['RD-13']['result'] and 'existing' in first_rows['RD-13']['result']
+    assert first_rows['RD-03']['depends_on'] == first_rows['RD-04']['depends_on'] == ['RD-13']
+    assert first['counts']['new_core_issues_to_seed_at_most'] == 28
+    assert first['counts']['existing_additional_issues'] == 4
+    assert plans['v0.93.2']['existing_issue_routing'] == []
+    assert plans['v0.93.2']['counts']['distinct_planned_issue_identities'] == 53
+    assert mapping['existing_issue_routing'] == {'v0.93.1':[1148,1149,1150,875,1145],'v0.93.2':[]}
+    if inspect_files:
+        overlay = ROOT / 'v0.93' / mapping['operator_amendment']
+        assert overlay.is_file() and '#923' in overlay.read_text()
     for key, row in first_rows.items():
         if key != 'WP-01' and not key.startswith('RD-'):
             assert 'v0.93.1/RD-11' in ancestors('v0.93.1/' + key)
@@ -115,4 +144,14 @@ if __name__ == '__main__':
     reject('public private product',lambda p,m:p['v0.93.1']['repositories'].__setitem__('codefriend','public'))
     reject('tail skipped',lambda p,m:next(w for w in p['v0.93.2']['work_packages'] if w['id']=='TAIL-10')['depends_on'].clear())
     reject('opening falsely asserted',lambda p,m:p['v0.93.2'].__setitem__('status','open'))
+    reject('duplicate Sprint 1 identity',lambda p,m:p['v0.93.1']['preparation']['issue_map'].__setitem__('RD-01',1178))
+    reject('WP01 closure dependency',lambda p,m:next(w for w in p['v0.93.1']['work_packages'] if w['id']=='RD-01')['dependency_gates'].__setitem__('WP-01','terminal_closure'))
+    reject('premature execution',lambda p,m:p['v0.93.1']['preparation'].__setitem__('execution_authorized',True))
+    reject('premature later issue creation',lambda p,m:p['v0.93.1']['preparation'].__setitem__('later_sprint_creation','now'))
+    reject('premature closeout creation',lambda p,m:p['v0.93.1']['preparation'].__setitem__('closeout_issue_creation_authorized',True))
+    reject('downstream proof blocks audit',lambda p,m:next(w for w in p['v0.93.1']['work_packages'] if w['id']=='RD-01')['acceptance'].append('Installed consumer evidence'))
+    reject('lost existing transfer identities',lambda p,m:next(w for w in p['v0.93.1']['work_packages'] if w['id']=='RD-13').__setitem__('result','Create new issues'))
+    reject('invented serial acceptance edge',lambda p,m:next(w for w in p['v0.93.1']['work_packages'] if w['id']=='RD-04')['depends_on'].append('RD-03'))
+    reject('stale sidecar routing',lambda p,m:p['v0.93.2']['existing_issue_routing'].append({'issue':875}))
+    reject('core count inflated by sidecar',lambda p,m:p['v0.93.1']['counts'].__setitem__('core_work_packages',45))
     print(json.dumps({'status':'pass','source_tasks':83,'successor_tasks':[43,53],'version_specific_gates':13,'negative_fixtures':len(probes),'execution_opened':False},indent=2))

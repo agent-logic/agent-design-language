@@ -31,7 +31,7 @@ Maintain CodeFriend Beta 1 continuity through the Runtime upgrade.
 
 ## Planned Scope
 
-53 planned candidates: 40 inherited implementation/demo tasks plus 13 version-specific opening, integration, qualification and release-tail tasks. Existing #875 remains a separately gated sidecar and is not counted in 53. Podcast #671 is completed in v0.92.2 (PR #1174).
+53 planned candidates: 40 inherited implementation/demo tasks plus 13 version-specific opening, integration, qualification and release-tail tasks. Existing #875 is a separately gated v0.93.1 sidecar and is not counted in 53. Podcast #671 is completed in v0.92.2 (PR #1174).
 
 ## Work Plan
 
@@ -63,4 +63,4 @@ Each task and sidecar has truthful final disposition, with no launch or qualific
 
 ## Existing Observatory backlog
 
-Existing #1145 (Everyone Observatory) is separately routed to v0.93.2, outside the 53 core candidates. Preserve its existing task and authority; resolve its scope, dependencies and disposition at opening instead of creating a duplicate or assuming completion. #875 retains its original gates and is excluded from the core count. #671 is completed in v0.92.2 and has no successor allocation.
+Operator amendment routes existing #1145 (Everyone Observatory) and #875 to v0.93.1, outside both milestones' core counts. Preserve their existing task identities and authority; v0.93.1 owns their scope, dependencies and disposition, without duplicate creation or assumed completion. #875 retains its original gates and is excluded from the core count. #671 is completed in v0.92.2 and has no successor allocation.

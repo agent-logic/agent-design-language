@@ -10,7 +10,7 @@ Planned and unopened. The operator approved the scope split; this package does n
 
 ## Required denominator
 
-53 planned candidates: 40 inherited implementation/demo tasks plus 13 version-specific opening, integration, qualification and release-tail tasks. Existing #875 remains a separately gated sidecar and is not counted in 53. Podcast #671 is completed in v0.92.2 (PR #1174).
+53 planned candidates: 40 inherited implementation/demo tasks plus 13 version-specific opening, integration, qualification and release-tail tasks. Existing #875 is a separately gated v0.93.1 sidecar and is not counted in 53. Podcast #671 is completed in v0.92.2 (PR #1174).
 
 ## Opening gate
 

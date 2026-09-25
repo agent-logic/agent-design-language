@@ -2,11 +2,11 @@
 
 ## Metadata
 
-Planning template family 1.1.0; authoring issue #922. Scope split approved by the operator; draft package, not opened, executed or release-approved. Named execution owners and resource limits remain to be assigned.
+Planning template family 1.1.0; authoring issue #922. Scope split approved; Sprint 1 preparation opened by the operator on 2026-09-25. Split execution and release are not authorized. Named execution owners and resource limits remain to be assigned.
 
 ## Status
 
-Draft planning. Approval covers the scope allocation, including all template foundations and families. It does not open the issue wave or authorize extraction, provider spending, public launch or release.
+Sprint 1 issue preparation is open; its 14 core identities and umbrella exist in ADL. No new later-sprint or closeout issues are created now; later-wave preparation waits for split acceptance and preserves existing identities. Extraction, provider spending, public launch and release are not authorized.
 
 ## Coverage
 
