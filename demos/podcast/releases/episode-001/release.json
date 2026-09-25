@@ -9,7 +9,7 @@
   "approval_source": "Operator approved private-path listening test and explicitly authorized moving the page, feed and assets to public URLs before directory registration.",
   "planned_launch_date": "2026-09-25",
   "timezone": "America/Los_Angeles",
-  "publication_time": "Fri, 25 Sep 2026 00:40:26 +0000",
+  "publication_time": "Fri, 25 Sep 2026 00:40:26 GMT",
   "feed": "demos/podcast/feed.xml",
   "assets": [
     {

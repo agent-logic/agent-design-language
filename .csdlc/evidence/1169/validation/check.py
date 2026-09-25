@@ -74,3 +74,7 @@ spoken=(root / manifest['assets'][1]['source']).read_text().split('### ChatGPT',
 expected='ChatGPT'+spoken.replace('### ', '')
 assert re.sub(r'\s+',' ',''.join(parser.parts)).strip() == re.sub(r'\s+',' ',expected).strip()
 print('PASS: episode-page transcript matches approved spoken dialogue')
+
+assert item.findtext("pubDate").endswith(" GMT")
+assert channel.findtext("lastBuildDate").endswith(" GMT")
+assert parsedate_to_datetime(channel.findtext("lastBuildDate")) >= parsedate_to_datetime(item.findtext("pubDate"))
