@@ -2,7 +2,6 @@
 <rss version="2.0"
   xmlns:atom="http://www.w3.org/2005/Atom"
   xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
-  <!-- Prelaunch candidate. Episode content and media may change before launch; do not submit or deploy as a released feed. -->
   <channel>
     <title>The Cognitive Stack</title>
     <link>https://agent-logic.ai/podcast/</link>
@@ -12,7 +11,7 @@
     <copyright>Copyright 2026 Agent Logic, Inc.</copyright>
     <managingEditor>podcast@agent-logic.ai (Agent Logic)</managingEditor>
     <webMaster>podcast@agent-logic.ai (Agent Logic)</webMaster>
-    <lastBuildDate>Fri, 25 Sep 2026 00:12:15 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 25 Sep 2026 00:40:26 +0000</lastBuildDate>
     <itunes:author>Agent Logic</itunes:author>
     <itunes:type>episodic</itunes:type>
     <itunes:explicit>false</itunes:explicit>
@@ -27,7 +26,7 @@
       <itunes:title>Meet the AI Coworkers</itunes:title>
       <link>https://agent-logic.ai/podcast/episodes/meet-the-ai-coworkers/</link>
       <guid isPermaLink="false">agent-logic-the-cognitive-stack-episode-001</guid>
-      <!-- Unreleased candidate: set pubDate only after explicit publication approval. -->
+      <pubDate>Fri, 25 Sep 2026 00:40:26 +0000</pubDate>
       <description>ChatGPT, Gemini and Claude introduce the show and explore everyday AI permissions, the people affected by automated actions, and what happens when AI assistants interact.</description>
       <itunes:summary>ChatGPT, Gemini and Claude introduce the show and explore everyday AI permissions, the people affected by automated actions, and what happens when AI assistants interact.</itunes:summary>
       <itunes:author>Agent Logic</itunes:author>

@@ -16,8 +16,10 @@ assert item.findtext('guid') == meta['guid'] == manifest['guid']
 assert item.findtext('title') == meta['title']
 assert item.findtext('description') == item.findtext('itunes:summary', namespaces=ns) == meta['summary']
 assert item.findtext('itunes:duration', namespaces=ns) == '00:09:10'
-assert item.find('pubDate') is None and manifest['publication_time'] is None
-assert manifest['status'] == 'prepared_not_deployed'
+from email.utils import parsedate_to_datetime
+assert item.findtext('pubDate') == manifest['publication_time']
+assert parsedate_to_datetime(manifest['publication_time']).tzinfo is not None
+assert manifest['status'] in ('authorized_for_publication', 'published')
 for asset in manifest['assets']:
     payload = (root / asset['source']).read_bytes()
     assert payload == (root / asset['approved_source']).read_bytes()
@@ -39,6 +41,15 @@ assert not subprocess.check_output(['git','diff','2fbf1237abd4d5933b2dcb7ca60e54
 print('PASS: feed metadata, 3 exact asset copies, hashes/bytes, retained MP3 hash and measured WAV duration, unchanged webpage and approved source')
 
 private = (root / 'demos/podcast/releases/episode-001/private-feed.xml').read_text()
-assert private == (root / manifest['feed']).read_text().replace('https://agent-logic.ai/podcast/', 'https://agent-logic.ai/_private/podcast/').replace('Prelaunch candidate. Episode content and media may change before launch; do not submit or deploy as a released feed.', 'Private-path playback test only. Not the public launch feed.')
-ET.fromstring(private)
-print('PASS: private test feed differs only in the URL prefix and test notice')
+private_tree = ET.fromstring(private.replace('https://agent-logic.ai/_private/podcast/', 'https://agent-logic.ai/podcast/'))
+public_tree = ET.parse(root / manifest['feed']).getroot()
+for tree in (private_tree, public_tree):
+    for parent in tree.iter():
+        for child in list(parent):
+            if child.tag in ('pubDate', 'lastBuildDate'):
+                parent.remove(child)
+    for node in tree.iter():
+        node.text = (node.text or '').strip()
+        node.tail = ''
+assert ET.tostring(private_tree) == ET.tostring(public_tree)
+print('PASS: approved private feed matches public feed except URL prefix and publication dates')

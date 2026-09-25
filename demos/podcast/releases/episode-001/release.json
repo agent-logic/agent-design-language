@@ -1,15 +1,15 @@
 {
   "schema": "agent-logic.podcast.release-preparation.v1",
   "issue": 1169,
-  "status": "prepared_not_deployed",
+  "status": "authorized_for_publication",
   "title": "Meet the AI Coworkers",
   "guid": "agent-logic-the-cognitive-stack-episode-001",
   "duration_seconds": 550.056,
   "human_audio_approved": true,
-  "approval_source": "Operator confirmed final listening complete on 2026-09-24.",
+  "approval_source": "Operator approved private-path listening test and explicitly authorized moving the page, feed and assets to public URLs before directory registration.",
   "planned_launch_date": "2026-09-25",
   "timezone": "America/Los_Angeles",
-  "publication_time": null,
+  "publication_time": "Fri, 25 Sep 2026 00:40:26 +0000",
   "feed": "demos/podcast/feed.xml",
   "assets": [
     {

@@ -19,3 +19,7 @@ The webpage HTML, layout and copy remain unchanged as requested. Its displayed d
 ## Private-path playback test
 
 The operator subsequently authorized publishing a separate test feed at `https://agent-logic.ai/_private/podcast/feed.xml`. `private-feed.xml` is the launch XML with the URL prefix changed consistently and a test-only comment. Its linked audio, artwork, transcript and unchanged pages are copied beneath that prefix. This does not publish the public `/podcast/feed.xml` or set the launch publication time. The test path is externally readable for subscription testing.
+
+## Public promotion authorization
+
+After the private-path listening test passed, the operator explicitly authorized moving the page, feed and assets to public URLs before registration. The public feed now records the actual publication time in `pubDate`; the private test snapshot remains preserved. Directory registration and social announcements are still separate actions.
