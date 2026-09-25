@@ -87,7 +87,7 @@
     },
     {
       "path": "docs/milestones/v0.92.2/README.md",
-      "sha256": "531a3c1070b8fbb6dde8b8cc198178a363c3e84f1c1e808a329f9edd15473c3c",
+      "sha256": "6fadc657e0030c3b6d4232039a7728d2ae4277a32bfc0460c7b2b0703f7963b6",
       "review_depth": "substantive_document_read",
       "lane": "milestone-and-features"
     },

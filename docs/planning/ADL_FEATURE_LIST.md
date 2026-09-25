@@ -5,6 +5,8 @@ Historical v0.92.1 review status is recorded in [the TAIL-02 packet](../mileston
 
 Current review context: [v0.92.2](../milestones/v0.92.2/README.md). Its accepted #916 handoff preserves product qualification as `not_proven`; #922 allocates Beta 1 launch and the repository split to v0.93.1, with Runtime v4 in v0.93.2.
 
+The approved successor split is retained in [PR #1156](https://github.com/agent-logic/agent-design-language/pull/1156), which remains open at this reconciliation. Local `docs/milestones/v0.93/` paths below preserve the original planning package; they do not override the approved allocation. The split package is not yet integrated into this candidate.
+
 ## Purpose
 
 This document is the canonical ADL capability overview.
@@ -324,9 +326,9 @@ ADL already provides a serious platform baseline:
 | Memory grounding, capability envelope, and birth witnesses/receipt | Production composition implemented | `docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md`, issues `#448` and `#451` | The verified resident-cycle handles, authenticated ACC receipt, Adaptive Learning receipt, witness packet, and Memory Palace authority converge through the exactly-once production birthday store; retained #451 audit evidence proves the complete live wiring denominator. |
 | Memory Palace navigable context topology | Implemented Runtime-kernel production-authority slice | `docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md`, issue `#450`, PR `#458`, `adl-runtime-kernel::memory_palace`, `adl-runtime::memory_palace`, and `adl::memory_palace` adapter tests | `v0.92` now names `adl-runtime-kernel::memory_palace` as the production authority for admission, topology, working set, context cache, and canonical digest. `adl-runtime` owns durable retained checkpoint/latest/journal state, and `adl` consumes that authority through a compatibility projection; distributed or unbounded Memory Palace expansion remains later work. |
 | First true Gödel-agent birthday | Planned | `docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md` and `docs/milestones/v0.92/features/FIRST_BIRTHDAY_DEMO_AND_GOVERNANCE_HANDOFF_v0.92.md` | `v0.92` |
-| Opening repository split | Planned; operator-selected v0.93 opening phase | `docs/milestones/v0.93/REPOSITORY_MIGRATION_v0.93.md` and `EXECUTION_PLAN_v0.93.json` | RD-01 through RD-11 after accepted v0.92.2 closure and explicit opening; one public ADL plus six private repositories; CodeFriend software separate from existing website; complete before new feature work |
-| Runtime v4 CSM plugin system | Required v0.93 outcome; not implemented by planning | `docs/milestones/v0.93/features/RUNTIME_V4_PLUGIN_SYSTEM_v0.93.md` | RV-01 through RV-08: native/process/WASM adapters, migration/reconfiguration/removal, fenced recovery, provider integration and installed qualification; cannot be deferred as a reduced native-only release |
-| CodeFriend launch after qualified Beta 1 | Required v0.93 release outcome; audience/environment/limits resolved before launch | `docs/milestones/v0.93/features/CODEFRIEND_LAUNCH_v0.93.md` and current Drive Beta 1 plan linked there | CF-01 through CF-07: preserve Beta 1 evidence, deployable product, onboarding, operations/recovery, independent rehearsal, website handoff and explicitly authorized live launch; no launch performed by #1047 |
+| Opening repository split | Planned; approved v0.93.1 opening phase (split package pending PR #1156) | `docs/milestones/v0.93/REPOSITORY_MIGRATION_v0.93.md` and `EXECUTION_PLAN_v0.93.json` | Original RD-01 through RD-11 (expanded RD-01–RD-13 in PR #1156) after accepted v0.92.2 closure and explicit opening; one public ADL plus six private repositories; CodeFriend software separate from existing website; complete before new feature work |
+| Runtime v4 CSM plugin system | Required v0.93.2 outcome; split package pending PR #1156; not implemented by planning | `docs/milestones/v0.93/features/RUNTIME_V4_PLUGIN_SYSTEM_v0.93.md` | Original RV-01 through RV-08 (expanded RV-01–RV-11 in PR #1156): native/process/WASM adapters, migration/reconfiguration/removal, fenced recovery, provider integration and installed qualification; cannot be deferred as a reduced native-only release |
+| CodeFriend launch after qualified Beta 1 | Required v0.93.1 release outcome; split package pending PR #1156; audience/environment/limits resolved before launch | `docs/milestones/v0.93/features/CODEFRIEND_LAUNCH_v0.93.md` and current Drive Beta 1 plan linked there | CF-01 through CF-07: preserve Beta 1 evidence, deployable product, onboarding, operations/recovery, independent rehearsal, website handoff and explicitly authorized live launch; no launch performed by #1047 |
 | Constitutional citizenship, rights/duties, and governance review | Planned | `docs/milestones/v0.93/features/CITIZENSHIP_RIGHTS_DUTIES_AND_SOCIAL_CONTRACT_v0.93.md` plus the `v0.93` citizenship/governance allocation plan | `v0.93` |
 | Bounded Theory of Mind, relationship, reputation, and shared social memory boundary | Planned | `docs/milestones/v0.93/features/THEORY_OF_MIND_AND_SOCIAL_COGNITION_v0.93.md` and `docs/milestones/v0.93/features/SOCIAL_RELATIONSHIP_REPUTATION_AND_SHARED_MEMORY_v0.93.md` | `v0.93` |
 | Delegation, upstream delegation, IAM, standing transition, and challenge/appeal governance | Planned | `docs/milestones/v0.93/features/DELEGATION_IAM_STANDING_AND_APPEAL_GOVERNANCE_v0.93.md` plus local upstream-delegation source planning | `v0.93` |
@@ -378,7 +380,7 @@ has already landed, is landing now, or has explicitly placed on the path to the
 | `v0.92` | **Completed engineering milestone.** Identity-bearing agent substrate, stable names, cognitive profiles, model/provider capability contracts, continuity across runs, memory grounding, Memory Palace proof slice, witnesses, receipts, and the bounded first-birthday proof. External publication and later governance remain separately authorized. |
 | `v0.92.1` | Integration and product-readiness work: corporate/IP transfer, C-SDLC v3, distributed Runtime qualification, podcast and Studio, hot reload, Observatory redesign, Runtime v2/v3 decoupling, provider inference profiles, and GCP qualification sidecar. |
 | `v0.92.2` | CodeFriend Beta 1: product shell, Adapter v2, evidence core, architecture cognition, executable governance, specialist review, human publication controls, longitudinal intelligence, exports, documentation, and bounded product proof. |
-| `v0.93` | Opening repository split after accepted v0.92.2 closure; mandatory Runtime v4 completion; required CodeFriend Beta 1 launch; constitutional citizenship, rights/duties, social contract, delegation/upstream delegation/IAM, standing/challenge/appeal governance, guilds, relationship model, reputation/trust, shared social memory, ToM/social cognition, security governance, and enterprise security for the ADL polis. |
+| `v0.93` (original allocation; superseded by approved #922 split pending PR #1156) | Opening repository split after accepted v0.92.2 closure; mandatory Runtime v4 completion; required CodeFriend Beta 1 launch; constitutional citizenship, rights/duties, social contract, delegation/upstream delegation/IAM, standing/challenge/appeal governance, guilds, relationship model, reputation/trust, shared social memory, ToM/social cognition, security governance, and enterprise security for the ADL polis. |
 | `v0.94` | Secure execution, policy-engine and identity/auth convergence, provider trust and isolation, secrets/data governance, signed/queryable trace and reasoning/provenance closure, bounded mental time travel / temporal self-projection, and cross-band convergence before MVP freeze. |
 | `v0.94.1` | Payments, settlement, accounting/ledger/economic trace, economic agency, and `x402` / Lightning adapter follow-on work. |
 | `v0.95` | MVP convergence, dashboard/compression reporting, Shepherd/Gemma evidence, capability-testing evidence consumption, CodeFriend v1/adapter v2 proof packaging, distributed-substrate integration, polished demo catalog, coherent reviewer/customer walkthrough, control-plane/tooling hardening and Rust refactoring, web-editor baseline, explicit Zed/logistic-split decision boundaries, post-v0.95 disposition map, feature freeze, and the 1.0 scope boundary. |
@@ -734,9 +736,9 @@ The birthday is the special center of gravity for this milestone. It should be
 reviewable as an event, not asserted as ceremony or inferred from ordinary
 runtime lifecycle mechanics.
 
-### v0.93 - Repository Split, Runtime v4, CodeFriend Launch and Governance
+### Approved v0.93.1 / v0.93.2 split — pending planning integration
 
-The operator selected the repository split as the opening phase of `v0.93`, after accepted `v0.92.2` closure and before new feature development. Runtime v4 must be completed in this milestone. The operator also requires CodeFriend Beta 1 launch in v0.93, with explicit launch authorization required at execution time. See [the v0.93 plan](../milestones/v0.93/README.md) and its candidate catalog; the milestone is not opened by this planning update.
+The approved #922 split starts v0.93.1 with repository extraction, followed by CodeFriend Beta 1 qualification and launch, including versioned templates and style guides. Runtime v4 and the remaining platform/governance scope move to v0.93.2. [PR #1156](https://github.com/agent-logic/agent-design-language/pull/1156) contains the split package and remains open. The [local v0.93 plan](../milestones/v0.93/README.md) is the retained original allocation. Neither this reconciliation nor the planning PR opens a milestone or authorizes live launch.
 
 The retained governance scope turns identity substrate into accountable governance:
 - IAM
@@ -793,7 +795,7 @@ around the v0.95 path without distorting the core Runtime v2 milestone path:
 
 - CodeFriend: repo-wide code and architecture review, diagrams, tests,
   remediation plans, and product-grade reports powered by ADL review skills.
-  v0.92.2 owns the complete Beta 1 product, including onboarding, repository intake and report experience. The current [Drive Beta 1 plan](https://docs.google.com/document/d/1_CDM8QydW8_Lmue82j5tTHRJpi-hWzOo2u3y6M312b0/edit) defines the working product and external-tester criteria. The v0.93 first pass includes launch through CF-01–CF-07; v0.95 consumes accepted product evidence for MVP convergence. Billing and broader portfolio/product expansion remain separately scoped, rather than silently deferring required Beta 1 UX.
+  v0.92.2 originally targeted the complete Beta 1 product, including onboarding, repository intake and report experience; remaining qualification and launch now belong to approved v0.93.1. The current [Drive Beta 1 plan](https://docs.google.com/document/d/1_CDM8QydW8_Lmue82j5tTHRJpi-hWzOo2u3y6M312b0/edit) defines the working product and external-tester criteria. The approved v0.93.1 allocation includes launch through CF-01–CF-07; v0.95 consumes accepted product evidence for MVP convergence. Billing and broader portfolio/product expansion remain separately scoped, rather than silently deferring required Beta 1 UX.
 - Aptitude Atlas: model capability and aptitude assessment with leaderboard-
   style public reporting, deeper than one-off benchmark scores. v0.95 consumes
   capability-testing evidence only; Aptitude Atlas productization and baseline
@@ -822,7 +824,7 @@ transfer, C-SDLC v3, distributed multi-agent Runtime qualification, Podcast and
 Studio, Axum configuration hot reload, and Observatory redesign—plus explicit
 Runtime v2/v3 decoupling, provider inference profiles, and a portable GCP
 qualification sidecar. Repository authority cleanup is the shared prerequisite.
-Runtime v4 is outside this historical v0.92.1 scope and is now mandatory in v0.93 under explicit operator direction.
+Runtime v4 is outside this historical v0.92.1 scope and is mandatory in v0.93.2 under the approved #922 split.
 
 ### `v0.92.2` — CodeFriend Beta 1
 

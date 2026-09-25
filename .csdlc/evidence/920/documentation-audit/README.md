@@ -40,6 +40,13 @@ and manuscript PDFs were not newly substantively reviewed here. The #913
 acceptance is PDF availability, with editing explicitly deferred. No historical
 failure was changed to PASS and no qualification run was repeated.
 
+## Planning integration distinction
+
+The approved v0.93.1/v0.93.2 split remains in open PR #1156 at this audit.
+The feature overview identifies that pending integration and preserves local
+v0.93 links as historical allocation. No missing local split-package paths are
+invented and no successor milestone is opened by this patch.
+
 ## Validation
 
 The #920 handoff validator passes with 47 negative fixtures, reports
