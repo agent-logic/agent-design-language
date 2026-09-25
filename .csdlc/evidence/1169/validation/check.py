@@ -37,3 +37,8 @@ for rel in ['demos/podcast/index.html', 'demos/podcast/episodes/meet-the-ai-cowo
     assert (root / rel).read_bytes() == subprocess.check_output(['git', 'show', '2fbf1237abd4d5933b2dcb7ca60e54626b413420:' + rel], cwd=root)
 assert not subprocess.check_output(['git','diff','2fbf1237abd4d5933b2dcb7ca60e54626b413420','--','demos/podcast/editorial/1166-episode-1-introduction'], cwd=root)
 print('PASS: feed metadata, 3 exact asset copies, hashes/bytes, retained MP3 hash and measured WAV duration, unchanged webpage and approved source')
+
+private = (root / 'demos/podcast/releases/episode-001/private-feed.xml').read_text()
+assert private == (root / manifest['feed']).read_text().replace('https://agent-logic.ai/podcast/', 'https://agent-logic.ai/_private/podcast/').replace('Prelaunch candidate. Episode content and media may change before launch; do not submit or deploy as a released feed.', 'Private-path playback test only. Not the public launch feed.')
+ET.fromstring(private)
+print('PASS: private test feed differs only in the URL prefix and test notice')

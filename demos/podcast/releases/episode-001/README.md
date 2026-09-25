@@ -15,3 +15,7 @@ The feed uses the approved 550.056-second recording (displayed as 9:10), its mea
 ## Preserved webpage
 
 The webpage HTML, layout and copy remain unchanged as requested. Its displayed duration still says 18:32; the prepared feed correctly says 9:10. The compatibility audio URL above allows the page to play the approved recording without an HTML edit. The old displayed duration remains a known launch discrepancy requiring a separate decision.
+
+## Private-path playback test
+
+The operator subsequently authorized publishing a separate test feed at `https://agent-logic.ai/_private/podcast/feed.xml`. `private-feed.xml` is the launch XML with the URL prefix changed consistently and a test-only comment. Its linked audio, artwork, transcript and unchanged pages are copied beneath that prefix. This does not publish the public `/podcast/feed.xml` or set the launch publication time. The test path is externally readable for subscription testing.
