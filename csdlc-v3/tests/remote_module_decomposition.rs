@@ -1,6 +1,6 @@
 use std::collections::BTreeMap;
 
-const MODULES: [(&str, &str); 15] = [
+const MODULES: [(&str, &str); 16] = [
     (
         "authority",
         include_str!("../src/commands/remote/authority.rs"),
@@ -31,6 +31,10 @@ const MODULES: [(&str, &str); 15] = [
     (
         "publication",
         include_str!("../src/commands/remote/publication.rs"),
+    ),
+    (
+        "publication_observation",
+        include_str!("../src/commands/remote/publication_observation.rs"),
     ),
     ("routing", include_str!("../src/commands/remote/routing.rs")),
     ("storage", include_str!("../src/commands/remote/storage.rs")),
@@ -124,6 +128,7 @@ fn remote_owner_remains_a_thin_acyclic_module_graph() {
         ("publication", 3),
         ("transport", 3),
         ("coordination", 4),
+        ("publication_observation", 4),
         ("merge_retirement", 4),
         ("merge", 5),
         ("mutation", 6),
@@ -236,6 +241,10 @@ fn remote_responsibilities_have_one_production_owner() {
         ("mutation", "pub fn stage_github_mutation("),
         ("routing", "pub fn dispatch_operational_remote("),
         ("intent", "pub fn pending_operations("),
+        (
+            "publication_observation",
+            "pub fn observe_ready_publication(",
+        ),
     ];
 
     for (owner, symbol) in owners {
