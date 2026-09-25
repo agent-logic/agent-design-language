@@ -1,6 +1,6 @@
 # v0.92.2 Execution Readiness
 
-Status: historical creation/readiness requirements retained; Sprint 11 is active under operator direction. #917 documentation work overlaps pending #915/#916 acceptance by explicit instruction. This does not mark those dependencies accepted or authorize downstream release.
+Status: historical creation/readiness requirements retained; Sprint 11 is active under operator direction. #915 independent qualification is incomplete and explicitly deferred; #916 is accepted for handoff with product qualification still `not_proven`. Successor repairs #1148/#1149 precede qualification #1150 in v0.93.1. This does not authorize downstream release.
 
 ## Opening Gates
 
@@ -37,4 +37,4 @@ TAIL-10 waits for TAIL-09, OBS-S3 and ARCH-ADR. Final acceptance separately veri
 
 The operator requires all 69 core-plan issue identities to be created and all creation-batch reviews to pass before any implementation begins, including the independently scheduled SIM sprint. Once that global gate is satisfied, the declared task dependencies, native readiness, bound ownership and issue-level authority still govern execution. Creation batches add no dependency edges and confer no paid/cloud/provider, publication or writer-activation authority.
 
-Podcast [#671](https://github.com/agent-logic/agent-design-language/issues/671) is now assigned to v0.93, as is the explicitly deferred SIM-09 pilot #875. The historical 69-row creation roster remains intact for traceability; it is not the current open-work or milestone-membership count. Public-launch/provider-submission authority remains separate.
+Podcast #671 was restored to v0.92.2 and closed with launch issue #1169 through PR #1174; Apple and Spotify publication is complete. SIM-09 pilot #875 remains deferred to v0.93. The historical 69-row creation roster remains intact for traceability; it is not the current open-work or milestone-membership count. Public-launch/provider-submission authority remains separate.

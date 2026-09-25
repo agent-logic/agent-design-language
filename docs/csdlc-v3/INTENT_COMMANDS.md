@@ -318,9 +318,9 @@ recovery-required with its effects preserved.
 
 ## Rebind after a scope amendment
 
-A `scope_acceptance` amendment returns semantic state to Ready while retaining
-its registered checkout. Run `csdlc bind ISSUE` again to revalidate that exact
-checkout and return to Bound. Rebind does not create another worktree or execute
+A `scope_acceptance` amendment preserves Ready when already Ready; otherwise
+it returns to Bound while retaining the registered checkout. Run `csdlc bind ISSUE`
+to revalidate the checkout and refresh its exact revision when needed. Rebind does not create another worktree or execute
 validators. If HEAD changed, the native binding amendment records the new exact
 revision and invalidates prior proof, review, publication and terminal evidence.
 A Ready issue stays Ready during that head refresh until the explicit bind

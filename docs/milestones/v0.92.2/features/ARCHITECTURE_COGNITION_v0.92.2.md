@@ -19,5 +19,6 @@ consistent across views; conflicts and missing evidence must remain explicit.
 A populated sufficient-evidence fixture, truthful partial/conflict fixtures, installed
 ADL and bounded external-repository generation, and HTML/PDF readability checks are
 required before this outcome is complete. A schema, hand-written sample, source-only
-test or empty view does not qualify. #915 retains independent Beta 1 qualification;
-this requirement does not reassign that work or declare it complete.
+test or empty view does not qualify. Independent Beta 1 qualification remains incomplete: closed/not-planned #915
+is succeeded by v0.93.1 #1150 after repairs #1148/#1149. This requirement
+does not declare qualification complete.

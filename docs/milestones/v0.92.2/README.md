@@ -19,7 +19,7 @@ Status: Sprint 11 documentation assessment accepted for handoff; #915 qualificat
 
 Start with the [review handoff](evidence/issue-917/HANDOFF.md) and [current quality decision](evidence/issue-916/QUALITY_DECISION.json). Merged implementation, local component tests, installed qualification, deployment and release approval are separate claims.
 
-v0.92.2 is the complete CodeFriend Beta 1 build milestone. It consumes the governed provider, Runtime, C-SDLC, Observatory, and corporate-authority foundations prepared before it and turns them into one bounded product: repository ingestion, evidence-backed review, architecture cognition, executable governance, longitudinal comparison, and human-controlled publication.
+The original v0.92.2 plan targeted the complete CodeFriend Beta 1 build. Qualification remains incomplete under the disposition above. Its retained scope consumes the governed provider, Runtime, C-SDLC, Observatory, and corporate-authority foundations prepared before it and turns them into one bounded product: repository ingestion, evidence-backed review, architecture cognition, executable governance, longitudinal comparison, and human-controlled publication.
 
 ## Exit Bar
 
@@ -54,13 +54,13 @@ Beta 1 must provide the product shell and onboarding; portable repository ingest
 
 Jira, Linear, Slack, broad Workspace integrations, autonomous source mutation, public customer-scale or multi-tenant deployment, security tournaments, ATE, OCI model packaging, and optional OpenRewrite/general modernization are outside Beta 1 unless separately admitted through milestone planning. Runtime v4 is not silently absorbed here. The milestone does include bounded shared-provider configuration and MLX/Metal enablement, a bounded NVIDIA PAIR experiment, UTS productization, recurring Rust reduction, AWS inventory maintenance, a read-only company GCP move-in reconciliation, publication preparation, Memory Palace integration, speculative-decoding requalification, the existing-design Observatory static deployment sidecar, and milestone ADR generation as separately owned supporting tracks.
 
-The earlier v0.93-v0.95 CodeFriend alpha schedule is superseded for Beta 1 scope by this v0.92.2 package. No date commitment is created.
+The original v0.92.2 package superseded the earlier v0.93-v0.95 alpha schedule. The later approved #922 split allocates remaining Beta 1 launch work to v0.93.1; its planning package is pending integration in PR #1156. No date commitment is created.
 
 ## Existing admitted work
 
 Reuse #720, #848, #849, #852, #854, #855, #861, and #862 for their mapped execution rows; #864 is WP-01. #848 delivers the repository-decomposition decision only and does not itself authorize split implementation. #717 capability orientation and #718 canonical-name A2A are v0.92.1 predecessor inputs. Other backlog is excluded. See [existing issue reconciliation](EXISTING_ISSUE_RECONCILIATION_v0.92.2.md) and [adopted design contracts](ADOPTED_DESIGN_CONTRACTS_v0.92.2.md).
 
-The first coherent sprint is the ten-issue C-SDLC simplification program: one umbrella plus SIM-01 through SIM-09 in dependency order. It has no CodeFriend implementation prerequisite, but all 69 core identities and creation reviews must be complete before it starts. The complete work denominator is 69 rows: 69 assigned core issues (nine preexisting and 60 newly created), with zero unassigned tasks. All eleven creation batches are complete and reviewed; implementation and live activation are not claimed. v0.92.2 delivers Beta 1; v0.95 integrates and hardens it toward MVP convergence, not first implementation.
+The first coherent sprint is the ten-issue C-SDLC simplification program: one umbrella plus SIM-01 through SIM-09 in dependency order. It has no CodeFriend implementation prerequisite, but all 69 core identities and creation reviews must be complete before it starts. The complete work denominator is 69 rows: 69 assigned core issues (nine preexisting and 60 newly created), with zero unassigned tasks. All eleven creation batches are complete and reviewed; implementation and live activation are not claimed. This is creation-time accounting, not a claim of delivered Beta 1 qualification. The approved successor split places remaining launch work in v0.93.1.
 
 ## Complete-task delivery
 
@@ -70,12 +70,12 @@ The eight task families are split into independently usable ingestion routes, ar
 
 The operator requires all 69 core-plan issue identities to be created and all creation-batch reviews to pass before any implementation begins, including the independently scheduled SIM sprint. Once that global gate is satisfied, the declared task dependencies, native readiness, bound ownership and issue-level authority still govern execution. Creation batches add no dependency edges and confer no paid/cloud/provider, publication or writer-activation authority.
 
-Podcast [#671](https://github.com/agent-logic/agent-design-language/issues/671) is now assigned to v0.93, as is the explicitly deferred SIM-09 pilot #875. The historical 69-row creation roster remains intact for traceability; it is not the current open-work or milestone-membership count. Public-launch/provider-submission authority remains separate.
+Podcast #671 was restored to v0.92.2 and closed with launch issue #1169 through PR #1174; Apple and Spotify publication is complete. SIM-09 pilot #875 remains deferred to v0.93. The historical 69-row creation roster remains intact for traceability; it is not the current open-work or milestone-membership count. Public-launch/provider-submission authority remains separate.
 
 The [complete reviewed launch map](../../../.csdlc/evidence/864/all-issue-launch.json) binds all 69 core task IDs to verified issue numbers and independent creation reviews. This establishes issue inventory and review truth, not implementation or Beta 1 qualification.
 
 The milestone description retains its original separate-creation-authorization boundary. The operator supplied that authorization for all eleven batches; the verified launch map records the resulting identities. That retained description is not a claim that tasks remain uncreated.
 
-The [execution sprint assignments](SPRINT_v0.92.2.md#execution-sprint-assignments) place all 69 core issues, including every preexisting issue, in eleven explicit scheduling groups. The creation-batch evidence remains unchanged; #671 is now scheduled in v0.93.
+The [execution sprint assignments](SPRINT_v0.92.2.md#execution-sprint-assignments) place all 69 core issues, including every preexisting issue, in eleven explicit scheduling groups. The creation-batch evidence remains unchanged; #671 is a completed v0.92.2 sidecar through #1169 / PR #1174.
 
 The original SIM-01 through SIM-09 sequence below is historical planning. SIM-09/#875 was deferred to v0.93 by operator decision; no completed live-pilot denominator is claimed.

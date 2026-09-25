@@ -17,7 +17,7 @@ this overlay does not rewrite their historical review packets.
 
 ## Retained planning disposition and current successor routing
 
-The original planning/creation observations below are retained history. Podcast #671 and SIM-09 pilot #875 were moved out of v0.92.2; any original sidecar or 82-membership statement is not a current membership count. The 69-row core roster remains an immutable identity denominator, with #875 explicitly deferred. [#916 evidence](evidence/issue-916/GAP_ANALYSIS.md) records current observed results; #915 independent qualification is incomplete and explicitly deferred; the #916 assessment is accepted for handoff with product qualification still `not_proven`. This overlay does not waive acceptance or finish successor planning.
+The original planning/creation observations below are retained history. Podcast #671 was restored to v0.92.2 and closed with launch issue #1169 through PR #1174; Apple and Spotify publication is complete. SIM-09 pilot #875 remains deferred to v0.93; any original sidecar or 82-membership statement is not a current membership count. The 69-row core roster remains an immutable identity denominator, with #875 explicitly deferred. [#916 evidence](evidence/issue-916/GAP_ANALYSIS.md) records current observed results; #915 independent qualification is incomplete and explicitly deferred; the #916 assessment is accepted for handoff with product qualification still `not_proven`. This overlay does not waive acceptance or finish successor planning.
 
 Status: handoff contract with approved successors v0.93.1 and v0.93.2; final accepted release evidence remains pending.
 
@@ -48,4 +48,4 @@ Carry forward the final 69-row issue mapping, eight family splits and eleven str
 
 ## Sidecar handoff
 
-Report existing #671 podcast-sidecar state separately from the 69 core task results. Preserve its explicit future publication/submission approvals and route any remaining work truthfully without claiming that core Beta completion performed those actions.
+Report existing #671 podcast-sidecar state separately from the 69 core task results. Its authorized Apple/Spotify launch is completed through #1169 / PR #1174. Amazon and YouTube registration remain deferred; social promotion belongs to Darlicia. These sidecar outcomes do not establish core Beta qualification.
