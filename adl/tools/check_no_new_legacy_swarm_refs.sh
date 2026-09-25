@@ -32,6 +32,9 @@ echo "Guardrail diff range: ${range_spec}"
 
 # Allow explicit legacy-name references only in bounded historical or migration-planning surfaces.
 allowlist_regex='^(docs/milestones/v0\.[0-6]/|docs/milestones/v0\.7/SWARM_NAME_CHANGE_PLANNING_v0\.7\.md$|docs/milestones/v0\.85/README\.md$|docs/milestones/v0\.85/SWARM_REMOVAL_PLANNING\.md$|docs/milestones/v0\.85/DECISIONS_v0\.85\.md$|docs/milestones/v0\.85/DESIGN_v0\.85\.md$|docs/milestones/v0\.85/MILESTONE_CHECKLIST_v0\.85\.md$|docs/milestones/v0\.85/RELEASE_PLAN_v0\.85\.md$|docs/milestones/v0\.85/SPRINT_v0\.85\.md$|docs/milestones/v0\.85/WBS_v0\.85\.md$|docs/records/v0\.87\.1/tasks/issue-1477/sor\.md$|adl/tools/check_no_new_legacy_swarm_refs\.sh$|adl/tools/check_release_notes_commands\.sh$)'
+# RD02 retains exact historical source paths for the repository split audit.
+# Allow only this frozen inventory, not new operational legacy-name references.
+allowlist_regex="${allowlist_regex%)}|docs/milestones/v0\.93\.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions\.json$)"
 legacy_regex='(^|[^A-Za-z0-9_])(swarm-remote|SWARM_[A-Z0-9_]+)([^A-Za-z0-9_]|$)|(^|[^A-Za-z0-9_])swarm([^:/A-Za-z0-9_]|$)'
 
 violations=0
