@@ -601,6 +601,12 @@ fn semantic_mutation(
             transaction::Reservation::Reserved(ticket) => (ticket, false),
             transaction::Reservation::AlreadyPending(ticket) => (ticket, true),
             transaction::Reservation::AlreadyCompleted(done) => {
+                if matches!(request.mutation, GithubMutation::PullRequestReady)
+                    && done.outcome_kind() == transaction::OutcomeKind::Success
+                    && session.snapshot.phase() == crate::lifecycle::LifecycleState::Published
+                {
+                    return reconcile_current_readiness(context, request, &staged, process);
+                }
                 if request.recovery != Some(GithubMutationRecovery::RetryAfterAuthenticatedAbsence)
                     || done.outcome_kind() != transaction::OutcomeKind::Success
                     || !matches!(request.mutation, GithubMutation::PullRequestUpdate { .. })
@@ -723,6 +729,126 @@ fn semantic_mutation(
         }
     }
 }
+/// A completed native Ready is immutable. Re-establish semantic readiness for
+/// amended inputs using a separate, read-only, current-input-bound transaction.
+fn reconcile_current_readiness(
+    context: &Context,
+    request: &GithubMutationRequest,
+    staged: &StagedGithubMutation,
+    process: &mut impl crate::adapters::ProcessAdapter,
+) -> Result<Value, String> {
+    let session = context.semantic_context()?;
+    let review = evidence(context)?;
+    if request.repository != context.repository
+        || request.issue != context.issue
+        || request.expected_head_sha != context.head
+        || request.pull_request != target(context)?
+        || request.pull_request.is_none()
+    {
+        return Err("intent_ready_reconciliation_identity_mismatch".into());
+    }
+    let packet = json!({"schema":"csdlc.v3.ready_reconciliation.v1",
+        "staged":serde_json::from_slice::<Value>(&staged.request_bytes().map_err(failure)?)
+            .map_err(|_| "intent_ready_reconciliation_packet_invalid")?,
+        "inputs":session.snapshot.inputs_version(),"review_receipt":review.receipt_digest});
+    let bytes =
+        serde_json::to_vec(&packet).map_err(|_| "intent_ready_reconciliation_packet_invalid")?;
+    let native = transaction::NativeIdentity::new(
+        "csdlc-v3-ready-reconciliation".into(),
+        blake3::hash(&bytes).to_hex().to_string(),
+    )
+    .map_err(semantic_error)?;
+    let operation = transaction::EffectRequest::new(
+        crate::lifecycle::semantic::SemanticCommand::MarkMergeReady,
+        native.clone(),
+        session.origin.clone(),
+        &bytes,
+    )
+    .map_err(semantic_error)?;
+    let facts = crate::lifecycle::semantic::Facts {
+        merge_ready: true,
+        ..Default::default()
+    };
+    let admission = transaction::EffectAdmission::from_native_owner(
+        session.admission.clone(),
+        session.origin.clone(),
+        facts.clone(),
+    );
+    // Verify before reservation too: an invalid remote cannot create a new pending operation.
+    owner::observe_ready_publication(
+        request,
+        &context.plan()?.publication.base,
+        &context.branch,
+        process,
+    )
+    .map_err(failure)?;
+    context.repair_before_effect(&session.snapshot, &operation)?;
+    let ticket = match DurableTransactionStore::reserve_effect(&session.root, admission, operation)
+        .map_err(semantic_error)?
+    {
+        transaction::Reservation::Reserved(ticket)
+        | transaction::Reservation::AlreadyPending(ticket) => ticket,
+        transaction::Reservation::AlreadyCompleted(done) => return Ok(semantic_replay(&done)),
+    };
+    session.admit_before_effect(ticket.id())?;
+    #[cfg(debug_assertions)]
+    if std::env::var("CSDLC_V3_TEST_CRASH_POINT").as_deref()
+        == Ok("semantic_remote_after_reservation")
+    {
+        std::process::exit(91);
+    }
+    // Fresh authenticated evidence after reservation; never execute native Ready again.
+    if evidence(context)?.receipt_digest != review.receipt_digest {
+        return Err("intent_ready_reconciliation_review_changed".into());
+    }
+    let observation = owner::observe_ready_publication(
+        request,
+        &context.plan()?.publication.base,
+        &context.branch,
+        process,
+    )
+    .map_err(failure)?;
+    let outcome = transaction::VerifiedOutcome::from_native_owner(
+        transaction::OutcomeKind::Success,
+        transaction::EffectTruth::NotPerformed,
+        serde_json::to_vec(&json!({"schema":"csdlc.v3.ready_reconciliation_outcome.v1",
+            "inputs":session.snapshot.inputs_version(),"observation":observation}))
+        .map_err(|_| "intent_ready_reconciliation_outcome_invalid")?,
+        facts,
+        native,
+    )
+    .map_err(semantic_error)?;
+    #[cfg(debug_assertions)]
+    if std::env::var("CSDLC_V3_TEST_CRASH_POINT").as_deref() == Ok("semantic_remote_after_native") {
+        std::process::exit(91);
+    }
+    let observed = session.fresh_for_recovery_effect(ticket.id())?;
+    match DurableTransactionStore::attach_outcome(&session.root, ticket, outcome, observed)
+        .map_err(semantic_error)?
+    {
+        transaction::Attachment::AlreadyCompleted(done) => Ok(semantic_replay(&done)),
+        transaction::Attachment::RecoveryRequired(_) => Ok(recovery_result()),
+        transaction::Attachment::Completed(done) => {
+            let snapshot = match DurableTransactionStore::observe_issue(&session.root, &session.key)
+                .map_err(semantic_error)?
+            {
+                semantic::Observation::Current(value)
+                | semantic::Observation::ProjectionRepairRequired(value) => *value,
+                _ => return Err("semantic_remote_projection_state_unavailable".into()),
+            };
+            let projected = session.complete_projection(&snapshot)?;
+            super::rebuild_semantic_card_projection(context)?;
+            Ok(
+                json!({"status":"completed","read_only":false,"operational_authority":true,
+                "performed_mutation":false,"effects_unknown":false,
+                "action":"reconcile_current_readiness",
+                "semantic":{"original_version":done.original_version(),"current_version":projected.version(),
+                    "operation":done.operation_id().as_str(),"outcome":done.outcome_kind(),"effect_truth":done.truth()}}),
+            )
+        }
+    }
+}
+
 fn semantic_creation(
     context: &Context,
     request: &GithubMutationRequest,
@@ -1601,6 +1727,24 @@ pub fn recover(context: &Context, request: &IntentRequest) -> Result<Option<Valu
                     .map_err(semantic_error)?,
             )
             .map_err(|_| "semantic_remote_recovery_packet_invalid")?;
+            if staged["schema"] == "csdlc.v3.ready_reconciliation.v1" {
+                if staged["inputs"]
+                    != serde_json::to_value(session.snapshot.inputs_version())
+                        .map_err(|_| "intent_ready_reconciliation_packet_invalid")?
+                {
+                    return Err("intent_ready_reconciliation_inputs_changed".into());
+                }
+                let native: GithubMutationRequest =
+                    serde_json::from_value(staged["staged"]["request"].clone())
+                        .map_err(|_| "intent_ready_reconciliation_packet_invalid")?;
+                if !matches!(native.mutation, GithubMutation::PullRequestReady) {
+                    return Err("intent_ready_reconciliation_packet_invalid".into());
+                }
+                let mut process = RealProcessAdapter::new(EnvironmentCredentialResolver);
+                // Reconstruct and authenticate the original completed Ready, then the
+                // exact reconciliation identity. reserve_effect rejects packet drift.
+                return semantic_mutation(context, &native, &mut process).map(Some);
+            }
             if staged["schema"] != "csdlc.v3.staged_github_mutation.v1" {
                 return Err("semantic_remote_recovery_packet_invalid".into());
             }

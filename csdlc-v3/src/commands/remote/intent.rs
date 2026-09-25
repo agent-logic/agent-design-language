@@ -797,6 +797,45 @@ pub fn verify_publication_target(
     branch: &str,
     process: &mut impl ProcessAdapter,
 ) -> Result<(), RemoteRouteFinding> {
+    publication_target_observation(request, base, branch, process).map(|_| ())
+}
+
+/// Authenticate readiness without dispatching or changing the retained native operation.
+pub fn observe_ready_publication(
+    request: &GithubMutationRequest,
+    base: &str,
+    branch: &str,
+    process: &mut impl ProcessAdapter,
+) -> Result<serde_json::Value, RemoteRouteFinding> {
+    if !matches!(request.mutation, GithubMutation::PullRequestReady) {
+        return Err(remote_finding(
+            "intent_ready_reconciliation_invalid",
+            "readiness observation requires a ready request",
+        ));
+    }
+    let value = publication_target_observation(request, base, branch, process)?;
+    if value["draft"] != false {
+        return Err(remote_finding(
+            "intent_ready_reconciliation_not_ready",
+            "authenticated publication is not ready",
+        ));
+    }
+    // Keep only the facts used by this transition, not arbitrary remote body content.
+    Ok(
+        serde_json::json!({"repository":request.repository,"number":value["number"],
+        "head":value["head"]["sha"],"branch":value["head"]["ref"],
+        "base":value["base"]["ref"],"state":value["state"],"merged":value["merged"],
+        "draft":value["draft"],"closing_issue":request.issue,
+        "authenticated":true,"observed_by":"github-api-read-only"}),
+    )
+}
+
+fn publication_target_observation(
+    request: &GithubMutationRequest,
+    base: &str,
+    branch: &str,
+    process: &mut impl ProcessAdapter,
+) -> Result<serde_json::Value, RemoteRouteFinding> {
     let number = request
         .pull_request
         .filter(|number| *number > 0)
@@ -838,7 +877,7 @@ pub fn verify_publication_target(
     {
         return Err(remote_finding("intent_publication_remote_identity_mismatch","authenticated PR must match current head, branch, base, open state and canonical closing linkage before mutation"));
     }
-    Ok(())
+    Ok(value)
 }
 
 pub fn dispatch_intent_mutation(

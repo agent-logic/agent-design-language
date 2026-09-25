@@ -7536,3 +7536,275 @@ fn issue1171_retirement_attachment_crash_repairs_projection() {
 fn issue1171_successor_rejects_predecessor_tamper_and_conflicting_identity() {
     issue1171_retirement_journey_with_guards(None, true);
 }
+
+// PVF #1199: deterministic installed-owner integration, synthetic authenticated
+// GitHub and local Git only; bounded CPU/disk, required readiness repair gate.
+// Bootstrap copies repository authority; every issue transition uses the CLI.
+fn ready1199_amended_fixture(
+    label: &str,
+    republish: bool,
+) -> (Fixture, std::path::PathBuf, std::path::PathBuf) {
+    let (mut fixture, linked) = reviewed_fixture(label);
+    success(fixture.run(&linked, &["publish", "505"]));
+    let ready = fixture.write_json("ready1199.json", &json!({"action":"pull_request_ready"}));
+    success(fixture.run(
+        &linked,
+        &[
+            "github-pr",
+            "505",
+            "--operation",
+            ready.to_str().unwrap(),
+            "--execute",
+        ],
+    ));
+    let head = git(&linked, &["rev-parse", "HEAD"]);
+    for (card, class) in [("srp", "review"), ("sor", "implementation")] {
+        let changes = fixture.write_json(&format!("{card}1199.json"), &json!({
+            "schema":"csdlc.v3.intent_changes.v1",
+            "amendment":{"class":class,"transition_approved":true,"implementation_revision":head},
+            "cards":{card:{"summary":"Corrected same-head execution and review record"}}
+        }));
+        success(fixture.run(
+            &linked,
+            &["edit", "505", "--changes", changes.to_str().unwrap()],
+        ));
+    }
+    assert_eq!(git(&linked, &["rev-parse", "HEAD"]), head);
+    if republish {
+        success(fixture.run(&linked, &["proof", "505"]));
+        let review = fixture.write_json("renewed1199.json", &external_review(&linked));
+        success(fixture.run(
+            &linked,
+            &["review", "505", "--evidence", review.to_str().unwrap()],
+        ));
+        success(fixture.run(&linked, &["publish", "505"]));
+        assert_eq!(ready1199_phase(&linked), "published");
+    }
+    (fixture, linked, ready)
+}
+
+fn ready1199_phase(linked: &Path) -> Value {
+    let state: Value =
+        serde_json::from_slice(&fs::read(linked.join(".csdlc/v3/issues/505/state.json")).unwrap())
+            .unwrap();
+    state["phase"].clone()
+}
+
+#[test]
+fn installed_ready_reconciles_current_inputs() {
+    let (mut fixture, linked, ready) = ready1199_amended_fixture("1199-current-inputs", true);
+    let history_root = fixture
+        .root
+        .join(".git/csdlc-v3/semantic/issues/505/commits");
+    let history = intent_fixture::inventory(&history_root);
+    let native_root = fixture.root.join(".git/csdlc-v3/remote");
+    let native_history = intent_fixture::inventory(&native_root);
+    assert!(!history.is_empty(), "semantic history fixture is empty");
+    assert!(
+        !native_history.is_empty(),
+        "native history fixture is empty"
+    );
+    let effects = fixture.remote_effects();
+    success(fixture.run(
+        &linked,
+        &[
+            "github-pr",
+            "505",
+            "--operation",
+            ready.to_str().unwrap(),
+            "--execute",
+        ],
+    ));
+    assert_eq!(ready1199_phase(&linked), "merge_ready");
+    assert_eq!(
+        fixture.remote_effects(),
+        effects,
+        "reconciliation dispatched another ready mutation"
+    );
+    let after = intent_fixture::inventory(&history_root);
+    for (path, digest) in history {
+        assert_eq!(
+            after.get(&path),
+            Some(&digest),
+            "retained semantic history changed: {path:?}"
+        );
+    }
+    let native_after = intent_fixture::inventory(&native_root);
+    for (path, digest) in native_history {
+        assert_eq!(
+            native_after.get(&path),
+            Some(&digest),
+            "retained native history changed: {path:?}"
+        );
+    }
+    let stable = publication_reservation_inventory(&fixture.root);
+    success(fixture.run(
+        &linked,
+        &[
+            "github-pr",
+            "505",
+            "--operation",
+            ready.to_str().unwrap(),
+            "--execute",
+        ],
+    ));
+    assert_same_inventory!(stable, publication_reservation_inventory(&fixture.root));
+    assert_eq!(fixture.remote_effects(), effects);
+    fixture.enable_merge_transport(&linked);
+    let merge = fixture.write_json("merge1199.json", &json!({"action":"pull_request_merge","base":"main","method":"merge","operator_approval":"Synthetic operator approval for isolated PR639 readiness regression"}));
+    success(fixture.run(
+        &linked,
+        &[
+            "github-pr",
+            "505",
+            "--operation",
+            merge.to_str().unwrap(),
+            "--execute",
+        ],
+    ));
+    assert_eq!(fixture.remote_pr()["merged"], true);
+    assert_eq!(fixture.remote_effects(), effects + 1);
+}
+
+fn ready1199_assert_refusal(defect: &str) {
+    let (mut fixture, linked, ready) =
+        ready1199_amended_fixture(&format!("1199-{defect}"), defect != "stale-evidence");
+    let mut remote = fixture.remote_pr();
+    match defect {
+        "wrong-head" => remote["head"]["sha"] = json!("0".repeat(40)),
+        "wrong-pr" => remote["number"] = json!(640),
+        "draft" => remote["draft"] = json!(true),
+        "closed" => remote["state"] = json!("closed"),
+        "unavailable" => fixture.remote_flag("drop-readback", true),
+        "stale-evidence" => (),
+        _ => unreachable!(),
+    }
+    fixture.set_remote_pr(&remote);
+    let effects = fixture.remote_effects();
+    let output = fixture.run(
+        &linked,
+        &[
+            "github-pr",
+            "505",
+            "--operation",
+            ready.to_str().unwrap(),
+            "--execute",
+        ],
+    );
+    assert!(!output.status.success(), "{defect} admitted: {output:?}");
+    assert_ne!(
+        ready1199_phase(&linked),
+        "merge_ready",
+        "{defect} promoted stale readiness"
+    );
+    assert_eq!(
+        fixture.remote_effects(),
+        effects,
+        "{defect} performed a remote mutation"
+    );
+}
+
+#[test]
+fn installed_ready_reconciles_current_inputs_refuses_stale_evidence() {
+    ready1199_assert_refusal("stale-evidence");
+}
+
+#[test]
+fn installed_ready_reconciles_current_inputs_refuses_wrong_head() {
+    ready1199_assert_refusal("wrong-head");
+}
+
+#[test]
+fn installed_ready_reconciles_current_inputs_refuses_wrong_pr() {
+    ready1199_assert_refusal("wrong-pr");
+}
+
+#[test]
+fn installed_ready_reconciles_current_inputs_refuses_draft() {
+    ready1199_assert_refusal("draft");
+}
+
+#[test]
+fn installed_ready_reconciles_current_inputs_refuses_closed() {
+    ready1199_assert_refusal("closed");
+}
+
+#[test]
+fn installed_ready_reconciles_current_inputs_refuses_unavailable() {
+    ready1199_assert_refusal("unavailable");
+}
+
+#[test]
+fn installed_ready_reconciles_current_inputs_recovers_reservation() {
+    for point in [
+        "semantic_remote_after_reservation",
+        "semantic_remote_after_native",
+    ] {
+        ready1199_recovery_at(point);
+    }
+}
+
+fn ready1199_recovery_at(point: &str) {
+    let (mut fixture, linked, ready) = ready1199_amended_fixture("1199-reconcile-crash", true);
+    let effects = fixture.remote_effects();
+    let output = fixture.run_with_env(
+        &linked,
+        &[
+            "github-pr",
+            "505",
+            "--operation",
+            ready.to_str().unwrap(),
+            "--execute",
+        ],
+        &[("CSDLC_V3_TEST_CRASH_POINT", point)],
+    );
+    assert_eq!(output.status.code(), Some(91), "{output:?}");
+    assert_eq!(fixture.remote_effects(), effects);
+    let matching_remote = fixture.remote_pr();
+    for defect in ["draft", "closed"] {
+        let mut changed = matching_remote.clone();
+        if defect == "draft" {
+            changed["draft"] = json!(true);
+        } else {
+            changed["state"] = json!("closed");
+        }
+        fixture.set_remote_pr(&changed);
+        let preview = success(fixture.run(&linked, &["recover", "505"]));
+        let denied = fixture.run(
+            &linked,
+            &[
+                "recover",
+                "505",
+                "--execute",
+                "--preview",
+                preview["preview_digest"].as_str().unwrap(),
+            ],
+        );
+        assert!(
+            !denied.status.success(),
+            "recovery admitted {defect}: {denied:?}"
+        );
+        assert_ne!(ready1199_phase(&linked), "merge_ready");
+        assert_eq!(fixture.remote_effects(), effects);
+    }
+    fixture.set_remote_pr(&matching_remote);
+    let preview = success(fixture.run(&linked, &["recover", "505"]));
+    success(fixture.run(
+        &linked,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+    ));
+    assert_eq!(ready1199_phase(&linked), "merge_ready");
+    assert_eq!(
+        fixture.remote_effects(),
+        effects,
+        "crash recovery dispatched ready again"
+    );
+    success(fixture.run(&linked, &["recover", "505"]));
+    assert_eq!(fixture.remote_effects(), effects);
+}
