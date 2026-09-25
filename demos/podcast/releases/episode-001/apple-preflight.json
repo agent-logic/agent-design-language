@@ -1,0 +1,15 @@
+{
+  "checked_at": "2026-09-25T01:39:10.611272+00:00",
+  "feed_url": "https://agent-logic.ai/podcast/feed.xml",
+  "feed_sha256": "4bd8c0967a348da0dbe6373c0b7d3a6d9f41955230849b5532c7b19fae14185e",
+  "checks": [
+    "XML parse and live/local equality",
+    "metadata and GMT dates",
+    "all referenced URLs HEAD200",
+    "MP3 hash/bytes/MIME",
+    "two range requests206",
+    "PNG dimensions/RGB/no transparency"
+  ],
+  "apple_acceptance": "not_confirmed",
+  "date_normalization": "compatibility change; previous numeric UTC offset was valid"
+}
