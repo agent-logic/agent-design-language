@@ -55,10 +55,13 @@ class PodcastPlayer extends HTMLElement {
       mute.setAttribute('aria-label', this.audio.muted ? 'Unmute audio' : 'Mute audio');
       mute.setAttribute('aria-pressed', String(this.audio.muted));
     };
-    play.addEventListener('click', async () => {
-      if (!this.audio.paused) { this.audio.pause(); return; }
+    this.startPlayback = async () => {
       try { await this.audio.play(); error.hidden = true; }
-      catch { error.textContent = 'Playback could not start. Please try again.'; error.hidden = false; }
+      catch { error.textContent = 'Playback could not start. Please press Play to try again.'; error.hidden = false; }
+    };
+    play.addEventListener('click', () => {
+      if (!this.audio.paused) { this.audio.pause(); return; }
+      return this.startPlayback();
     });
     mute.addEventListener('click', () => { this.audio.muted = !this.audio.muted; });
     seek.addEventListener('input', () => { if (!seek.disabled) this.audio.currentTime = Number(seek.value); update(); });
@@ -69,6 +72,7 @@ class PodcastPlayer extends HTMLElement {
   attributeChangedCallback(name, oldValue, value) {
     if (name === 'src' && value && value !== oldValue) this.audio.src = value;
   }
+  play() { return this.startPlayback(); }
   disconnectedCallback() { this.audio.pause(); }
 }
 customElements.define('podcast-player', PodcastPlayer);

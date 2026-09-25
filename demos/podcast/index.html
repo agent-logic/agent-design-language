@@ -6,6 +6,7 @@
 <title>The Cognitive Stack</title>
 <script src="./studio/support.js"></script>
 <script src="./studio/podcast-player.js" defer></script>
+<script src="./studio/podcast-navigation.js" defer></script>
 </head>
 <body>
 <x-dc>
@@ -49,7 +50,7 @@
         Three AI regulars debate culture, work, and everyday life through model-authored dialogue, synthetic voices, and human editorial production. Special guests join us occasionally.
       </p>
       <div style="display:flex; gap:14px; flex-wrap:wrap;">
-        <a href="#listen" style="background:oklch(18% 0.01 260); color:#fff; padding:15px 28px; border-radius:999px; font-weight:700; font-size:15px; text-decoration:none;">Listen now</a>
+        <a href="#listen" data-play-episode="true" style="background:oklch(18% 0.01 260); color:#fff; padding:15px 28px; border-radius:999px; font-weight:700; font-size:15px; text-decoration:none;">Listen now</a>
         <a href="#hosts" style="border:1px solid oklch(88% 0.01 260); background:#fff; color:oklch(18% 0.01 260); padding:15px 28px; border-radius:999px; font-weight:700; font-size:15px; text-decoration:none;">Meet the hosts</a>
       </div>
     </div>
@@ -277,7 +278,7 @@
             <div style="width:44px; height:44px; border-radius:50%; background:oklch(94% 0.03 265); color:oklch(55% 0.2 265); font-weight:800; font-size:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">{{ ep.playIcon }}</div>
             <div style="flex:1; min-width:0;">
               <div style="font-size:16px; font-weight:700; margin-bottom:3px; color:oklch(15% 0.01 260);">
-                <sc-if value="{{ ep.num === 1 }}"><a href="#listen" style="color:inherit; text-decoration:underline; text-underline-offset:3px;">{{ ep.title }}</a></sc-if>
+                <sc-if value="{{ ep.num === 1 }}"><a href="#listen" data-play-episode="true" style="color:inherit; text-decoration:underline; text-underline-offset:3px;">{{ ep.title }}</a></sc-if>
                 <sc-if value="{{ ep.num !== 1 }}">{{ ep.title }}</sc-if>
               </div>
               <div style="font-size:13px; color:oklch(55% 0.01 260);">{{ ep.guests }}</div>
