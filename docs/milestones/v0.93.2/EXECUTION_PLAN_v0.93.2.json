@@ -2175,11 +2175,6 @@
       "counted_in_core": false
     },
     {
-      "issue": 671,
-      "role": "podcast registration after original prerequisites and approval",
-      "counted_in_core": false
-    },
-    {
       "issue": 1145,
       "role": "Observatory Everyone selection",
       "counted_in_core": false
@@ -2187,8 +2182,8 @@
   ],
   "counts": {
     "core_work_packages": 53,
-    "existing_additional_issues": 3,
-    "distinct_planned_issue_identities": 56,
+    "existing_additional_issues": 2,
+    "distinct_planned_issue_identities": 55,
     "note": "Includes version-specific opening and release gates, not repeated repository split or duplicate product implementation."
   }
 }

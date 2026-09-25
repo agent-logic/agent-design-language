@@ -5,7 +5,7 @@ Historical v0.92.1 review status is recorded in [the TAIL-02 packet](../mileston
 
 Current review context: [v0.92.2](../milestones/v0.92.2/README.md). Its accepted #916 handoff preserves product qualification as `not_proven`; #922 allocates Beta 1 launch and the repository split to v0.93.1, with Runtime v4 in v0.93.2.
 
-The approved successor split is retained in [PR #1156](https://github.com/agent-logic/agent-design-language/pull/1156), which remains open at this reconciliation. Local `docs/milestones/v0.93/` paths below preserve the original planning package; they do not override the approved allocation. The split package is not yet integrated into this candidate.
+The approved successor split is included in [v0.93.1](../milestones/v0.93.1/README.md) and [v0.93.2](../milestones/v0.93.2/README.md), delivered through [PR #1156](https://github.com/agent-logic/agent-design-language/pull/1156). Local `docs/milestones/v0.93/` paths below preserve the original planning package; they do not override the approved allocation.
 
 ## Purpose
 

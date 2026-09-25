@@ -14,7 +14,7 @@ Runtime v4 RV-01–RV-11; governance GOV-01–GOV-16; security WP-S1–WP-S6; ci
 
 ## Required handoff
 
-Accepted repository ownership and release lockset; supported existing Runtime compatibility; product/template versions; launch results and limits; all unresolved findings with exact issue identities. Preserve #875/#671 as separately gated existing work rather than duplicating candidates.
+Accepted repository ownership and release lockset; supported existing Runtime compatibility; product/template versions; launch results and limits; all unresolved findings with exact issue identities. Preserve #875 and #1145 as separately gated existing work rather than duplicating candidates. #671 completed in v0.92.2 through PR #1174 and has no successor allocation.
 
 ## Compatibility contract
 
