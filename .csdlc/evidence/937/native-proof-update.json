@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.v3.intent_changes.v1",
+  "amendment": {
+    "class": "plan",
+    "transition_approved": true
+  },
+  "cards": {
+    "spp": {
+      "target_files_surfaces_inline": ".csdlc/evidence/937/SPRINT_EXECUTION_PACKET.md; .csdlc/evidence/937/activity.jsonl; .csdlc/evidence/937/sprint-state.json; .csdlc/evidence/937/validate_coordination.py; csdlc-v3/tests/sprint_937_coordination_evidence.rs; native #937 cards and transaction evidence; #937 issue coordination comment.",
+      "validation_plan_inline": "Run the focused Python coordination validator and the focused Rust coordination-evidence test over the same roster, owner, disposition, gate, and non-claim surfaces; run native six-card validation and native proof; retain independent exact-head review. Treat the conductor's legacy task-bundle probe as incompatible with native-v3 child storage rather than duplicating child records."
+    }
+  }
+}

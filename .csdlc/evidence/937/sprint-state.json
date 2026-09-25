@@ -1,0 +1,1839 @@
+{
+  "blocked_issue_number": null,
+  "completed_issue_numbers": [],
+  "continuation": "continue",
+  "current_issue_number": 916,
+  "goal_policy": {
+    "active_session_goal_required": "child_issue_only",
+    "notes": [
+      "Sprint state may record a descriptive sprint objective, but that objective does not satisfy the active Codex session-goal requirement for child issue execution.",
+      "Each child issue session must create its own issue-bound goal after bind/readiness succeeds and before implementation starts.",
+      "Do not keep a competing sprint-global active session goal in the same thread while a child issue implementation session is active."
+    ],
+    "sprint_goal_role": "descriptive_sprint_objective",
+    "status": "descriptive_only"
+  },
+  "installed_skill_parity": {
+    "diff_files": [],
+    "ignored_generated_files": [
+      "scripts/__pycache__/issue_goal_metrics.cpython-314.pyc",
+      "scripts/__pycache__/issue_goal_metrics.cpython-314.pyc"
+    ],
+    "installed_skill_dir": "/Users/daniel/.codex/skills/sprint-conductor",
+    "left_only": [],
+    "notes": [
+      "installed sprint-conductor matches tracked bundle after generated-file filtering",
+      "ignored generated parity artifacts such as __pycache__, .pyc, .pyo, and .DS_Store"
+    ],
+    "parity_policy": "installed bundle must match tracked bundle except generated cache artifacts",
+    "repair_command": "bash adl/tools/install_adl_operational_skills.sh",
+    "right_only": [],
+    "status": "matched",
+    "tracked_skill_dir": "/Users/daniel/.codex/skills/sprint-conductor"
+  },
+  "issue_records": [
+    {
+      "artifact_paths": [],
+      "goal_metrics": {
+        "active_work_availability": "unknown",
+        "active_work_seconds": null,
+        "ci_wait_availability": "unknown",
+        "ci_wait_seconds": null,
+        "completed_at": null,
+        "completion_state": "unknown",
+        "cumulative_metrics": {
+          "active_work_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "active_work_seconds_known_sum": 0,
+          "ci_wait_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "ci_wait_seconds_known_sum": 0,
+          "completion_state_counts": {
+            "blocked": 0,
+            "cancelled": 0,
+            "completed": 0,
+            "completed_with_follow_on": 0,
+            "deferred": 0,
+            "failed": 0,
+            "unknown": 0
+          },
+          "data_source_counts": {
+            "codex_goal_tool": 0,
+            "derived_sprint_state": 0,
+            "manual_entry": 0,
+            "unknown": 0
+          },
+          "elapsed_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "elapsed_seconds_known_sum": 0,
+          "goal_instance_count": 0,
+          "pr_wait_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "pr_wait_seconds_known_sum": 0,
+          "token_usage": {
+            "completion_availability_counts": {
+              "known": 0,
+              "not_applicable": 0,
+              "not_available": 0,
+              "not_collected": 0,
+              "unknown": 0
+            },
+            "completion_tokens_known_sum": 0,
+            "prompt_availability_counts": {
+              "known": 0,
+              "not_applicable": 0,
+              "not_available": 0,
+              "not_collected": 0,
+              "unknown": 0
+            },
+            "prompt_tokens_known_sum": 0,
+            "total_availability_counts": {
+              "known": 0,
+              "not_applicable": 0,
+              "not_available": 0,
+              "not_collected": 0,
+              "unknown": 0
+            },
+            "total_tokens_known_sum": 0
+          },
+          "validation_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "validation_seconds_known_sum": 0
+        },
+        "data_source": "unknown",
+        "elapsed_availability": "unknown",
+        "elapsed_seconds": null,
+        "goal_id": null,
+        "goal_id_availability": "unknown",
+        "goal_instance_count": 0,
+        "goal_metrics_rollup_ref": null,
+        "goal_terminal_state": {
+          "boundary_source": "default_from_goal_kind",
+          "checks_state": "unknown",
+          "closeout_truth": "unknown",
+          "completion_allowed": false,
+          "declared_boundary": "pr_green",
+          "goal_kind": "tracked_issue",
+          "issue_state": "unknown",
+          "merge_conflicts": "unknown",
+          "pr_state": "unknown",
+          "reason": "goal terminal-state truth was not evaluated",
+          "review_truth": "unknown",
+          "sprint_rollup_status": "unknown",
+          "truth_status": "unknown",
+          "watch_target_status": "unknown"
+        },
+        "issue_goal_ref": null,
+        "metrics_confidence": "unknown",
+        "model_ref": null,
+        "phases_recorded": [],
+        "pr_wait_availability": "unknown",
+        "pr_wait_seconds": null,
+        "raw_log_path": null,
+        "record_count": 0,
+        "recorded_at": null,
+        "segments_recorded": [],
+        "selected_segment": null,
+        "selected_stage": null,
+        "session_ref": null,
+        "sprint_goal_ref": null,
+        "started_at": null,
+        "status": "not_recorded",
+        "thread_id": null,
+        "token_usage": {
+          "availability": "unknown",
+          "completion_availability": "unknown",
+          "completion_tokens": null,
+          "prompt_availability": "unknown",
+          "prompt_tokens": null,
+          "total_availability": "unknown",
+          "total_tokens": null
+        },
+        "validation_availability": "unknown",
+        "validation_seconds": null
+      },
+      "issue_number": 916,
+      "pr_url": null,
+      "status": "pending"
+    },
+    {
+      "artifact_paths": [],
+      "goal_metrics": {
+        "active_work_availability": "unknown",
+        "active_work_seconds": null,
+        "ci_wait_availability": "unknown",
+        "ci_wait_seconds": null,
+        "completed_at": null,
+        "completion_state": "unknown",
+        "cumulative_metrics": {
+          "active_work_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "active_work_seconds_known_sum": 0,
+          "ci_wait_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "ci_wait_seconds_known_sum": 0,
+          "completion_state_counts": {
+            "blocked": 0,
+            "cancelled": 0,
+            "completed": 0,
+            "completed_with_follow_on": 0,
+            "deferred": 0,
+            "failed": 0,
+            "unknown": 0
+          },
+          "data_source_counts": {
+            "codex_goal_tool": 0,
+            "derived_sprint_state": 0,
+            "manual_entry": 0,
+            "unknown": 0
+          },
+          "elapsed_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "elapsed_seconds_known_sum": 0,
+          "goal_instance_count": 0,
+          "pr_wait_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "pr_wait_seconds_known_sum": 0,
+          "token_usage": {
+            "completion_availability_counts": {
+              "known": 0,
+              "not_applicable": 0,
+              "not_available": 0,
+              "not_collected": 0,
+              "unknown": 0
+            },
+            "completion_tokens_known_sum": 0,
+            "prompt_availability_counts": {
+              "known": 0,
+              "not_applicable": 0,
+              "not_available": 0,
+              "not_collected": 0,
+              "unknown": 0
+            },
+            "prompt_tokens_known_sum": 0,
+            "total_availability_counts": {
+              "known": 0,
+              "not_applicable": 0,
+              "not_available": 0,
+              "not_collected": 0,
+              "unknown": 0
+            },
+            "total_tokens_known_sum": 0
+          },
+          "validation_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "validation_seconds_known_sum": 0
+        },
+        "data_source": "unknown",
+        "elapsed_availability": "unknown",
+        "elapsed_seconds": null,
+        "goal_id": null,
+        "goal_id_availability": "unknown",
+        "goal_instance_count": 0,
+        "goal_metrics_rollup_ref": null,
+        "goal_terminal_state": {
+          "boundary_source": "default_from_goal_kind",
+          "checks_state": "unknown",
+          "closeout_truth": "unknown",
+          "completion_allowed": false,
+          "declared_boundary": "pr_green",
+          "goal_kind": "tracked_issue",
+          "issue_state": "unknown",
+          "merge_conflicts": "unknown",
+          "pr_state": "unknown",
+          "reason": "goal terminal-state truth was not evaluated",
+          "review_truth": "unknown",
+          "sprint_rollup_status": "unknown",
+          "truth_status": "unknown",
+          "watch_target_status": "unknown"
+        },
+        "issue_goal_ref": null,
+        "metrics_confidence": "unknown",
+        "model_ref": null,
+        "phases_recorded": [],
+        "pr_wait_availability": "unknown",
+        "pr_wait_seconds": null,
+        "raw_log_path": null,
+        "record_count": 0,
+        "recorded_at": null,
+        "segments_recorded": [],
+        "selected_segment": null,
+        "selected_stage": null,
+        "session_ref": null,
+        "sprint_goal_ref": null,
+        "started_at": null,
+        "status": "not_recorded",
+        "thread_id": null,
+        "token_usage": {
+          "availability": "unknown",
+          "completion_availability": "unknown",
+          "completion_tokens": null,
+          "prompt_availability": "unknown",
+          "prompt_tokens": null,
+          "total_availability": "unknown",
+          "total_tokens": null
+        },
+        "validation_availability": "unknown",
+        "validation_seconds": null
+      },
+      "issue_number": 917,
+      "pr_url": null,
+      "status": "pending"
+    },
+    {
+      "artifact_paths": [],
+      "goal_metrics": {
+        "active_work_availability": "unknown",
+        "active_work_seconds": null,
+        "ci_wait_availability": "unknown",
+        "ci_wait_seconds": null,
+        "completed_at": null,
+        "completion_state": "unknown",
+        "cumulative_metrics": {
+          "active_work_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "active_work_seconds_known_sum": 0,
+          "ci_wait_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "ci_wait_seconds_known_sum": 0,
+          "completion_state_counts": {
+            "blocked": 0,
+            "cancelled": 0,
+            "completed": 0,
+            "completed_with_follow_on": 0,
+            "deferred": 0,
+            "failed": 0,
+            "unknown": 0
+          },
+          "data_source_counts": {
+            "codex_goal_tool": 0,
+            "derived_sprint_state": 0,
+            "manual_entry": 0,
+            "unknown": 0
+          },
+          "elapsed_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "elapsed_seconds_known_sum": 0,
+          "goal_instance_count": 0,
+          "pr_wait_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "pr_wait_seconds_known_sum": 0,
+          "token_usage": {
+            "completion_availability_counts": {
+              "known": 0,
+              "not_applicable": 0,
+              "not_available": 0,
+              "not_collected": 0,
+              "unknown": 0
+            },
+            "completion_tokens_known_sum": 0,
+            "prompt_availability_counts": {
+              "known": 0,
+              "not_applicable": 0,
+              "not_available": 0,
+              "not_collected": 0,
+              "unknown": 0
+            },
+            "prompt_tokens_known_sum": 0,
+            "total_availability_counts": {
+              "known": 0,
+              "not_applicable": 0,
+              "not_available": 0,
+              "not_collected": 0,
+              "unknown": 0
+            },
+            "total_tokens_known_sum": 0
+          },
+          "validation_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "validation_seconds_known_sum": 0
+        },
+        "data_source": "unknown",
+        "elapsed_availability": "unknown",
+        "elapsed_seconds": null,
+        "goal_id": null,
+        "goal_id_availability": "unknown",
+        "goal_instance_count": 0,
+        "goal_metrics_rollup_ref": null,
+        "goal_terminal_state": {
+          "boundary_source": "default_from_goal_kind",
+          "checks_state": "unknown",
+          "closeout_truth": "unknown",
+          "completion_allowed": false,
+          "declared_boundary": "pr_green",
+          "goal_kind": "tracked_issue",
+          "issue_state": "unknown",
+          "merge_conflicts": "unknown",
+          "pr_state": "unknown",
+          "reason": "goal terminal-state truth was not evaluated",
+          "review_truth": "unknown",
+          "sprint_rollup_status": "unknown",
+          "truth_status": "unknown",
+          "watch_target_status": "unknown"
+        },
+        "issue_goal_ref": null,
+        "metrics_confidence": "unknown",
+        "model_ref": null,
+        "phases_recorded": [],
+        "pr_wait_availability": "unknown",
+        "pr_wait_seconds": null,
+        "raw_log_path": null,
+        "record_count": 0,
+        "recorded_at": null,
+        "segments_recorded": [],
+        "selected_segment": null,
+        "selected_stage": null,
+        "session_ref": null,
+        "sprint_goal_ref": null,
+        "started_at": null,
+        "status": "not_recorded",
+        "thread_id": null,
+        "token_usage": {
+          "availability": "unknown",
+          "completion_availability": "unknown",
+          "completion_tokens": null,
+          "prompt_availability": "unknown",
+          "prompt_tokens": null,
+          "total_availability": "unknown",
+          "total_tokens": null
+        },
+        "validation_availability": "unknown",
+        "validation_seconds": null
+      },
+      "issue_number": 918,
+      "pr_url": null,
+      "status": "pending"
+    },
+    {
+      "artifact_paths": [],
+      "goal_metrics": {
+        "active_work_availability": "unknown",
+        "active_work_seconds": null,
+        "ci_wait_availability": "unknown",
+        "ci_wait_seconds": null,
+        "completed_at": null,
+        "completion_state": "unknown",
+        "cumulative_metrics": {
+          "active_work_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "active_work_seconds_known_sum": 0,
+          "ci_wait_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "ci_wait_seconds_known_sum": 0,
+          "completion_state_counts": {
+            "blocked": 0,
+            "cancelled": 0,
+            "completed": 0,
+            "completed_with_follow_on": 0,
+            "deferred": 0,
+            "failed": 0,
+            "unknown": 0
+          },
+          "data_source_counts": {
+            "codex_goal_tool": 0,
+            "derived_sprint_state": 0,
+            "manual_entry": 0,
+            "unknown": 0
+          },
+          "elapsed_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "elapsed_seconds_known_sum": 0,
+          "goal_instance_count": 0,
+          "pr_wait_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "pr_wait_seconds_known_sum": 0,
+          "token_usage": {
+            "completion_availability_counts": {
+              "known": 0,
+              "not_applicable": 0,
+              "not_available": 0,
+              "not_collected": 0,
+              "unknown": 0
+            },
+            "completion_tokens_known_sum": 0,
+            "prompt_availability_counts": {
+              "known": 0,
+              "not_applicable": 0,
+              "not_available": 0,
+              "not_collected": 0,
+              "unknown": 0
+            },
+            "prompt_tokens_known_sum": 0,
+            "total_availability_counts": {
+              "known": 0,
+              "not_applicable": 0,
+              "not_available": 0,
+              "not_collected": 0,
+              "unknown": 0
+            },
+            "total_tokens_known_sum": 0
+          },
+          "validation_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "validation_seconds_known_sum": 0
+        },
+        "data_source": "unknown",
+        "elapsed_availability": "unknown",
+        "elapsed_seconds": null,
+        "goal_id": null,
+        "goal_id_availability": "unknown",
+        "goal_instance_count": 0,
+        "goal_metrics_rollup_ref": null,
+        "goal_terminal_state": {
+          "boundary_source": "default_from_goal_kind",
+          "checks_state": "unknown",
+          "closeout_truth": "unknown",
+          "completion_allowed": false,
+          "declared_boundary": "pr_green",
+          "goal_kind": "tracked_issue",
+          "issue_state": "unknown",
+          "merge_conflicts": "unknown",
+          "pr_state": "unknown",
+          "reason": "goal terminal-state truth was not evaluated",
+          "review_truth": "unknown",
+          "sprint_rollup_status": "unknown",
+          "truth_status": "unknown",
+          "watch_target_status": "unknown"
+        },
+        "issue_goal_ref": null,
+        "metrics_confidence": "unknown",
+        "model_ref": null,
+        "phases_recorded": [],
+        "pr_wait_availability": "unknown",
+        "pr_wait_seconds": null,
+        "raw_log_path": null,
+        "record_count": 0,
+        "recorded_at": null,
+        "segments_recorded": [],
+        "selected_segment": null,
+        "selected_stage": null,
+        "session_ref": null,
+        "sprint_goal_ref": null,
+        "started_at": null,
+        "status": "not_recorded",
+        "thread_id": null,
+        "token_usage": {
+          "availability": "unknown",
+          "completion_availability": "unknown",
+          "completion_tokens": null,
+          "prompt_availability": "unknown",
+          "prompt_tokens": null,
+          "total_availability": "unknown",
+          "total_tokens": null
+        },
+        "validation_availability": "unknown",
+        "validation_seconds": null
+      },
+      "issue_number": 919,
+      "pr_url": null,
+      "status": "pending"
+    },
+    {
+      "artifact_paths": [],
+      "goal_metrics": {
+        "active_work_availability": "unknown",
+        "active_work_seconds": null,
+        "ci_wait_availability": "unknown",
+        "ci_wait_seconds": null,
+        "completed_at": null,
+        "completion_state": "unknown",
+        "cumulative_metrics": {
+          "active_work_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "active_work_seconds_known_sum": 0,
+          "ci_wait_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "ci_wait_seconds_known_sum": 0,
+          "completion_state_counts": {
+            "blocked": 0,
+            "cancelled": 0,
+            "completed": 0,
+            "completed_with_follow_on": 0,
+            "deferred": 0,
+            "failed": 0,
+            "unknown": 0
+          },
+          "data_source_counts": {
+            "codex_goal_tool": 0,
+            "derived_sprint_state": 0,
+            "manual_entry": 0,
+            "unknown": 0
+          },
+          "elapsed_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "elapsed_seconds_known_sum": 0,
+          "goal_instance_count": 0,
+          "pr_wait_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "pr_wait_seconds_known_sum": 0,
+          "token_usage": {
+            "completion_availability_counts": {
+              "known": 0,
+              "not_applicable": 0,
+              "not_available": 0,
+              "not_collected": 0,
+              "unknown": 0
+            },
+            "completion_tokens_known_sum": 0,
+            "prompt_availability_counts": {
+              "known": 0,
+              "not_applicable": 0,
+              "not_available": 0,
+              "not_collected": 0,
+              "unknown": 0
+            },
+            "prompt_tokens_known_sum": 0,
+            "total_availability_counts": {
+              "known": 0,
+              "not_applicable": 0,
+              "not_available": 0,
+              "not_collected": 0,
+              "unknown": 0
+            },
+            "total_tokens_known_sum": 0
+          },
+          "validation_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "validation_seconds_known_sum": 0
+        },
+        "data_source": "unknown",
+        "elapsed_availability": "unknown",
+        "elapsed_seconds": null,
+        "goal_id": null,
+        "goal_id_availability": "unknown",
+        "goal_instance_count": 0,
+        "goal_metrics_rollup_ref": null,
+        "goal_terminal_state": {
+          "boundary_source": "default_from_goal_kind",
+          "checks_state": "unknown",
+          "closeout_truth": "unknown",
+          "completion_allowed": false,
+          "declared_boundary": "pr_green",
+          "goal_kind": "tracked_issue",
+          "issue_state": "unknown",
+          "merge_conflicts": "unknown",
+          "pr_state": "unknown",
+          "reason": "goal terminal-state truth was not evaluated",
+          "review_truth": "unknown",
+          "sprint_rollup_status": "unknown",
+          "truth_status": "unknown",
+          "watch_target_status": "unknown"
+        },
+        "issue_goal_ref": null,
+        "metrics_confidence": "unknown",
+        "model_ref": null,
+        "phases_recorded": [],
+        "pr_wait_availability": "unknown",
+        "pr_wait_seconds": null,
+        "raw_log_path": null,
+        "record_count": 0,
+        "recorded_at": null,
+        "segments_recorded": [],
+        "selected_segment": null,
+        "selected_stage": null,
+        "session_ref": null,
+        "sprint_goal_ref": null,
+        "started_at": null,
+        "status": "not_recorded",
+        "thread_id": null,
+        "token_usage": {
+          "availability": "unknown",
+          "completion_availability": "unknown",
+          "completion_tokens": null,
+          "prompt_availability": "unknown",
+          "prompt_tokens": null,
+          "total_availability": "unknown",
+          "total_tokens": null
+        },
+        "validation_availability": "unknown",
+        "validation_seconds": null
+      },
+      "issue_number": 920,
+      "pr_url": null,
+      "status": "pending"
+    },
+    {
+      "artifact_paths": [],
+      "goal_metrics": {
+        "active_work_availability": "unknown",
+        "active_work_seconds": null,
+        "ci_wait_availability": "unknown",
+        "ci_wait_seconds": null,
+        "completed_at": null,
+        "completion_state": "unknown",
+        "cumulative_metrics": {
+          "active_work_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "active_work_seconds_known_sum": 0,
+          "ci_wait_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "ci_wait_seconds_known_sum": 0,
+          "completion_state_counts": {
+            "blocked": 0,
+            "cancelled": 0,
+            "completed": 0,
+            "completed_with_follow_on": 0,
+            "deferred": 0,
+            "failed": 0,
+            "unknown": 0
+          },
+          "data_source_counts": {
+            "codex_goal_tool": 0,
+            "derived_sprint_state": 0,
+            "manual_entry": 0,
+            "unknown": 0
+          },
+          "elapsed_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "elapsed_seconds_known_sum": 0,
+          "goal_instance_count": 0,
+          "pr_wait_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "pr_wait_seconds_known_sum": 0,
+          "token_usage": {
+            "completion_availability_counts": {
+              "known": 0,
+              "not_applicable": 0,
+              "not_available": 0,
+              "not_collected": 0,
+              "unknown": 0
+            },
+            "completion_tokens_known_sum": 0,
+            "prompt_availability_counts": {
+              "known": 0,
+              "not_applicable": 0,
+              "not_available": 0,
+              "not_collected": 0,
+              "unknown": 0
+            },
+            "prompt_tokens_known_sum": 0,
+            "total_availability_counts": {
+              "known": 0,
+              "not_applicable": 0,
+              "not_available": 0,
+              "not_collected": 0,
+              "unknown": 0
+            },
+            "total_tokens_known_sum": 0
+          },
+          "validation_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "validation_seconds_known_sum": 0
+        },
+        "data_source": "unknown",
+        "elapsed_availability": "unknown",
+        "elapsed_seconds": null,
+        "goal_id": null,
+        "goal_id_availability": "unknown",
+        "goal_instance_count": 0,
+        "goal_metrics_rollup_ref": null,
+        "goal_terminal_state": {
+          "boundary_source": "default_from_goal_kind",
+          "checks_state": "unknown",
+          "closeout_truth": "unknown",
+          "completion_allowed": false,
+          "declared_boundary": "pr_green",
+          "goal_kind": "tracked_issue",
+          "issue_state": "unknown",
+          "merge_conflicts": "unknown",
+          "pr_state": "unknown",
+          "reason": "goal terminal-state truth was not evaluated",
+          "review_truth": "unknown",
+          "sprint_rollup_status": "unknown",
+          "truth_status": "unknown",
+          "watch_target_status": "unknown"
+        },
+        "issue_goal_ref": null,
+        "metrics_confidence": "unknown",
+        "model_ref": null,
+        "phases_recorded": [],
+        "pr_wait_availability": "unknown",
+        "pr_wait_seconds": null,
+        "raw_log_path": null,
+        "record_count": 0,
+        "recorded_at": null,
+        "segments_recorded": [],
+        "selected_segment": null,
+        "selected_stage": null,
+        "session_ref": null,
+        "sprint_goal_ref": null,
+        "started_at": null,
+        "status": "not_recorded",
+        "thread_id": null,
+        "token_usage": {
+          "availability": "unknown",
+          "completion_availability": "unknown",
+          "completion_tokens": null,
+          "prompt_availability": "unknown",
+          "prompt_tokens": null,
+          "total_availability": "unknown",
+          "total_tokens": null
+        },
+        "validation_availability": "unknown",
+        "validation_seconds": null
+      },
+      "issue_number": 921,
+      "pr_url": null,
+      "status": "pending"
+    },
+    {
+      "artifact_paths": [],
+      "goal_metrics": {
+        "active_work_availability": "unknown",
+        "active_work_seconds": null,
+        "ci_wait_availability": "unknown",
+        "ci_wait_seconds": null,
+        "completed_at": null,
+        "completion_state": "unknown",
+        "cumulative_metrics": {
+          "active_work_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "active_work_seconds_known_sum": 0,
+          "ci_wait_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "ci_wait_seconds_known_sum": 0,
+          "completion_state_counts": {
+            "blocked": 0,
+            "cancelled": 0,
+            "completed": 0,
+            "completed_with_follow_on": 0,
+            "deferred": 0,
+            "failed": 0,
+            "unknown": 0
+          },
+          "data_source_counts": {
+            "codex_goal_tool": 0,
+            "derived_sprint_state": 0,
+            "manual_entry": 0,
+            "unknown": 0
+          },
+          "elapsed_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "elapsed_seconds_known_sum": 0,
+          "goal_instance_count": 0,
+          "pr_wait_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "pr_wait_seconds_known_sum": 0,
+          "token_usage": {
+            "completion_availability_counts": {
+              "known": 0,
+              "not_applicable": 0,
+              "not_available": 0,
+              "not_collected": 0,
+              "unknown": 0
+            },
+            "completion_tokens_known_sum": 0,
+            "prompt_availability_counts": {
+              "known": 0,
+              "not_applicable": 0,
+              "not_available": 0,
+              "not_collected": 0,
+              "unknown": 0
+            },
+            "prompt_tokens_known_sum": 0,
+            "total_availability_counts": {
+              "known": 0,
+              "not_applicable": 0,
+              "not_available": 0,
+              "not_collected": 0,
+              "unknown": 0
+            },
+            "total_tokens_known_sum": 0
+          },
+          "validation_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "validation_seconds_known_sum": 0
+        },
+        "data_source": "unknown",
+        "elapsed_availability": "unknown",
+        "elapsed_seconds": null,
+        "goal_id": null,
+        "goal_id_availability": "unknown",
+        "goal_instance_count": 0,
+        "goal_metrics_rollup_ref": null,
+        "goal_terminal_state": {
+          "boundary_source": "default_from_goal_kind",
+          "checks_state": "unknown",
+          "closeout_truth": "unknown",
+          "completion_allowed": false,
+          "declared_boundary": "pr_green",
+          "goal_kind": "tracked_issue",
+          "issue_state": "unknown",
+          "merge_conflicts": "unknown",
+          "pr_state": "unknown",
+          "reason": "goal terminal-state truth was not evaluated",
+          "review_truth": "unknown",
+          "sprint_rollup_status": "unknown",
+          "truth_status": "unknown",
+          "watch_target_status": "unknown"
+        },
+        "issue_goal_ref": null,
+        "metrics_confidence": "unknown",
+        "model_ref": null,
+        "phases_recorded": [],
+        "pr_wait_availability": "unknown",
+        "pr_wait_seconds": null,
+        "raw_log_path": null,
+        "record_count": 0,
+        "recorded_at": null,
+        "segments_recorded": [],
+        "selected_segment": null,
+        "selected_stage": null,
+        "session_ref": null,
+        "sprint_goal_ref": null,
+        "started_at": null,
+        "status": "not_recorded",
+        "thread_id": null,
+        "token_usage": {
+          "availability": "unknown",
+          "completion_availability": "unknown",
+          "completion_tokens": null,
+          "prompt_availability": "unknown",
+          "prompt_tokens": null,
+          "total_availability": "unknown",
+          "total_tokens": null
+        },
+        "validation_availability": "unknown",
+        "validation_seconds": null
+      },
+      "issue_number": 922,
+      "pr_url": null,
+      "status": "pending"
+    },
+    {
+      "artifact_paths": [],
+      "goal_metrics": {
+        "active_work_availability": "unknown",
+        "active_work_seconds": null,
+        "ci_wait_availability": "unknown",
+        "ci_wait_seconds": null,
+        "completed_at": null,
+        "completion_state": "unknown",
+        "cumulative_metrics": {
+          "active_work_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "active_work_seconds_known_sum": 0,
+          "ci_wait_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "ci_wait_seconds_known_sum": 0,
+          "completion_state_counts": {
+            "blocked": 0,
+            "cancelled": 0,
+            "completed": 0,
+            "completed_with_follow_on": 0,
+            "deferred": 0,
+            "failed": 0,
+            "unknown": 0
+          },
+          "data_source_counts": {
+            "codex_goal_tool": 0,
+            "derived_sprint_state": 0,
+            "manual_entry": 0,
+            "unknown": 0
+          },
+          "elapsed_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "elapsed_seconds_known_sum": 0,
+          "goal_instance_count": 0,
+          "pr_wait_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "pr_wait_seconds_known_sum": 0,
+          "token_usage": {
+            "completion_availability_counts": {
+              "known": 0,
+              "not_applicable": 0,
+              "not_available": 0,
+              "not_collected": 0,
+              "unknown": 0
+            },
+            "completion_tokens_known_sum": 0,
+            "prompt_availability_counts": {
+              "known": 0,
+              "not_applicable": 0,
+              "not_available": 0,
+              "not_collected": 0,
+              "unknown": 0
+            },
+            "prompt_tokens_known_sum": 0,
+            "total_availability_counts": {
+              "known": 0,
+              "not_applicable": 0,
+              "not_available": 0,
+              "not_collected": 0,
+              "unknown": 0
+            },
+            "total_tokens_known_sum": 0
+          },
+          "validation_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "validation_seconds_known_sum": 0
+        },
+        "data_source": "unknown",
+        "elapsed_availability": "unknown",
+        "elapsed_seconds": null,
+        "goal_id": null,
+        "goal_id_availability": "unknown",
+        "goal_instance_count": 0,
+        "goal_metrics_rollup_ref": null,
+        "goal_terminal_state": {
+          "boundary_source": "default_from_goal_kind",
+          "checks_state": "unknown",
+          "closeout_truth": "unknown",
+          "completion_allowed": false,
+          "declared_boundary": "pr_green",
+          "goal_kind": "tracked_issue",
+          "issue_state": "unknown",
+          "merge_conflicts": "unknown",
+          "pr_state": "unknown",
+          "reason": "goal terminal-state truth was not evaluated",
+          "review_truth": "unknown",
+          "sprint_rollup_status": "unknown",
+          "truth_status": "unknown",
+          "watch_target_status": "unknown"
+        },
+        "issue_goal_ref": null,
+        "metrics_confidence": "unknown",
+        "model_ref": null,
+        "phases_recorded": [],
+        "pr_wait_availability": "unknown",
+        "pr_wait_seconds": null,
+        "raw_log_path": null,
+        "record_count": 0,
+        "recorded_at": null,
+        "segments_recorded": [],
+        "selected_segment": null,
+        "selected_stage": null,
+        "session_ref": null,
+        "sprint_goal_ref": null,
+        "started_at": null,
+        "status": "not_recorded",
+        "thread_id": null,
+        "token_usage": {
+          "availability": "unknown",
+          "completion_availability": "unknown",
+          "completion_tokens": null,
+          "prompt_availability": "unknown",
+          "prompt_tokens": null,
+          "total_availability": "unknown",
+          "total_tokens": null
+        },
+        "validation_availability": "unknown",
+        "validation_seconds": null
+      },
+      "issue_number": 923,
+      "pr_url": null,
+      "status": "pending"
+    },
+    {
+      "artifact_paths": [],
+      "goal_metrics": {
+        "active_work_availability": "unknown",
+        "active_work_seconds": null,
+        "ci_wait_availability": "unknown",
+        "ci_wait_seconds": null,
+        "completed_at": null,
+        "completion_state": "unknown",
+        "cumulative_metrics": {
+          "active_work_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "active_work_seconds_known_sum": 0,
+          "ci_wait_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "ci_wait_seconds_known_sum": 0,
+          "completion_state_counts": {
+            "blocked": 0,
+            "cancelled": 0,
+            "completed": 0,
+            "completed_with_follow_on": 0,
+            "deferred": 0,
+            "failed": 0,
+            "unknown": 0
+          },
+          "data_source_counts": {
+            "codex_goal_tool": 0,
+            "derived_sprint_state": 0,
+            "manual_entry": 0,
+            "unknown": 0
+          },
+          "elapsed_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "elapsed_seconds_known_sum": 0,
+          "goal_instance_count": 0,
+          "pr_wait_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "pr_wait_seconds_known_sum": 0,
+          "token_usage": {
+            "completion_availability_counts": {
+              "known": 0,
+              "not_applicable": 0,
+              "not_available": 0,
+              "not_collected": 0,
+              "unknown": 0
+            },
+            "completion_tokens_known_sum": 0,
+            "prompt_availability_counts": {
+              "known": 0,
+              "not_applicable": 0,
+              "not_available": 0,
+              "not_collected": 0,
+              "unknown": 0
+            },
+            "prompt_tokens_known_sum": 0,
+            "total_availability_counts": {
+              "known": 0,
+              "not_applicable": 0,
+              "not_available": 0,
+              "not_collected": 0,
+              "unknown": 0
+            },
+            "total_tokens_known_sum": 0
+          },
+          "validation_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "validation_seconds_known_sum": 0
+        },
+        "data_source": "unknown",
+        "elapsed_availability": "unknown",
+        "elapsed_seconds": null,
+        "goal_id": null,
+        "goal_id_availability": "unknown",
+        "goal_instance_count": 0,
+        "goal_metrics_rollup_ref": null,
+        "goal_terminal_state": {
+          "boundary_source": "default_from_goal_kind",
+          "checks_state": "unknown",
+          "closeout_truth": "unknown",
+          "completion_allowed": false,
+          "declared_boundary": "pr_green",
+          "goal_kind": "tracked_issue",
+          "issue_state": "unknown",
+          "merge_conflicts": "unknown",
+          "pr_state": "unknown",
+          "reason": "goal terminal-state truth was not evaluated",
+          "review_truth": "unknown",
+          "sprint_rollup_status": "unknown",
+          "truth_status": "unknown",
+          "watch_target_status": "unknown"
+        },
+        "issue_goal_ref": null,
+        "metrics_confidence": "unknown",
+        "model_ref": null,
+        "phases_recorded": [],
+        "pr_wait_availability": "unknown",
+        "pr_wait_seconds": null,
+        "raw_log_path": null,
+        "record_count": 0,
+        "recorded_at": null,
+        "segments_recorded": [],
+        "selected_segment": null,
+        "selected_stage": null,
+        "session_ref": null,
+        "sprint_goal_ref": null,
+        "started_at": null,
+        "status": "not_recorded",
+        "thread_id": null,
+        "token_usage": {
+          "availability": "unknown",
+          "completion_availability": "unknown",
+          "completion_tokens": null,
+          "prompt_availability": "unknown",
+          "prompt_tokens": null,
+          "total_availability": "unknown",
+          "total_tokens": null
+        },
+        "validation_availability": "unknown",
+        "validation_seconds": null
+      },
+      "issue_number": 924,
+      "pr_url": null,
+      "status": "pending"
+    },
+    {
+      "artifact_paths": [],
+      "goal_metrics": {
+        "active_work_availability": "unknown",
+        "active_work_seconds": null,
+        "ci_wait_availability": "unknown",
+        "ci_wait_seconds": null,
+        "completed_at": null,
+        "completion_state": "unknown",
+        "cumulative_metrics": {
+          "active_work_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "active_work_seconds_known_sum": 0,
+          "ci_wait_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "ci_wait_seconds_known_sum": 0,
+          "completion_state_counts": {
+            "blocked": 0,
+            "cancelled": 0,
+            "completed": 0,
+            "completed_with_follow_on": 0,
+            "deferred": 0,
+            "failed": 0,
+            "unknown": 0
+          },
+          "data_source_counts": {
+            "codex_goal_tool": 0,
+            "derived_sprint_state": 0,
+            "manual_entry": 0,
+            "unknown": 0
+          },
+          "elapsed_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "elapsed_seconds_known_sum": 0,
+          "goal_instance_count": 0,
+          "pr_wait_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "pr_wait_seconds_known_sum": 0,
+          "token_usage": {
+            "completion_availability_counts": {
+              "known": 0,
+              "not_applicable": 0,
+              "not_available": 0,
+              "not_collected": 0,
+              "unknown": 0
+            },
+            "completion_tokens_known_sum": 0,
+            "prompt_availability_counts": {
+              "known": 0,
+              "not_applicable": 0,
+              "not_available": 0,
+              "not_collected": 0,
+              "unknown": 0
+            },
+            "prompt_tokens_known_sum": 0,
+            "total_availability_counts": {
+              "known": 0,
+              "not_applicable": 0,
+              "not_available": 0,
+              "not_collected": 0,
+              "unknown": 0
+            },
+            "total_tokens_known_sum": 0
+          },
+          "validation_availability_counts": {
+            "known": 0,
+            "not_applicable": 0,
+            "not_available": 0,
+            "not_collected": 0,
+            "unknown": 0
+          },
+          "validation_seconds_known_sum": 0
+        },
+        "data_source": "unknown",
+        "elapsed_availability": "unknown",
+        "elapsed_seconds": null,
+        "goal_id": null,
+        "goal_id_availability": "unknown",
+        "goal_instance_count": 0,
+        "goal_metrics_rollup_ref": null,
+        "goal_terminal_state": {
+          "boundary_source": "default_from_goal_kind",
+          "checks_state": "unknown",
+          "closeout_truth": "unknown",
+          "completion_allowed": false,
+          "declared_boundary": "pr_green",
+          "goal_kind": "tracked_issue",
+          "issue_state": "unknown",
+          "merge_conflicts": "unknown",
+          "pr_state": "unknown",
+          "reason": "goal terminal-state truth was not evaluated",
+          "review_truth": "unknown",
+          "sprint_rollup_status": "unknown",
+          "truth_status": "unknown",
+          "watch_target_status": "unknown"
+        },
+        "issue_goal_ref": null,
+        "metrics_confidence": "unknown",
+        "model_ref": null,
+        "phases_recorded": [],
+        "pr_wait_availability": "unknown",
+        "pr_wait_seconds": null,
+        "raw_log_path": null,
+        "record_count": 0,
+        "recorded_at": null,
+        "segments_recorded": [],
+        "selected_segment": null,
+        "selected_stage": null,
+        "session_ref": null,
+        "sprint_goal_ref": null,
+        "started_at": null,
+        "status": "not_recorded",
+        "thread_id": null,
+        "token_usage": {
+          "availability": "unknown",
+          "completion_availability": "unknown",
+          "completion_tokens": null,
+          "prompt_availability": "unknown",
+          "prompt_tokens": null,
+          "total_availability": "unknown",
+          "total_tokens": null
+        },
+        "validation_availability": "unknown",
+        "validation_seconds": null
+      },
+      "issue_number": 925,
+      "pr_url": null,
+      "status": "pending"
+    }
+  ],
+  "ordered_issue_numbers": [
+    916,
+    917,
+    918,
+    919,
+    920,
+    921,
+    922,
+    923,
+    924,
+    925
+  ],
+  "readiness_sweep": {
+    "activity_log_paths": {
+      "missing_paths": [],
+      "notes": [
+        "activity log path(s) declared"
+      ],
+      "paths": [
+        ".csdlc/evidence/937/activity.jsonl"
+      ],
+      "status": "declared"
+    },
+    "execution_mode": "hybrid",
+    "execution_packet": {
+      "missing_sections": [],
+      "notes": [
+        "execution packet present: .csdlc/evidence/937/SPRINT_EXECUTION_PACKET.md"
+      ],
+      "path": ".csdlc/evidence/937/SPRINT_EXECUTION_PACKET.md",
+      "status": "present"
+    },
+    "goal_policy": {
+      "active_session_goal_required": "child_issue_only",
+      "notes": [
+        "Sprint state may record a descriptive sprint objective, but that objective does not satisfy the active Codex session-goal requirement for child issue execution.",
+        "Each child issue session must create its own issue-bound goal after bind/readiness succeeds and before implementation starts.",
+        "Do not keep a competing sprint-global active session goal in the same thread while a child issue implementation session is active."
+      ],
+      "sprint_goal_role": "descriptive_sprint_objective",
+      "status": "descriptive_only"
+    },
+    "issue_repairs": [
+      {
+        "bundle_path": null,
+        "issue_number": 916,
+        "next_skills": [
+          "pr-init"
+        ],
+        "rationale": "No local task bundle found for issue #916.",
+        "status": "blocked"
+      },
+      {
+        "bundle_path": null,
+        "issue_number": 917,
+        "next_skills": [
+          "pr-init"
+        ],
+        "rationale": "No local task bundle found for issue #917.",
+        "status": "blocked"
+      },
+      {
+        "bundle_path": null,
+        "issue_number": 918,
+        "next_skills": [
+          "pr-init"
+        ],
+        "rationale": "No local task bundle found for issue #918.",
+        "status": "blocked"
+      },
+      {
+        "bundle_path": null,
+        "issue_number": 919,
+        "next_skills": [
+          "pr-init"
+        ],
+        "rationale": "No local task bundle found for issue #919.",
+        "status": "blocked"
+      },
+      {
+        "bundle_path": null,
+        "issue_number": 920,
+        "next_skills": [
+          "pr-init"
+        ],
+        "rationale": "No local task bundle found for issue #920.",
+        "status": "blocked"
+      },
+      {
+        "bundle_path": null,
+        "issue_number": 921,
+        "next_skills": [
+          "pr-init"
+        ],
+        "rationale": "No local task bundle found for issue #921.",
+        "status": "blocked"
+      },
+      {
+        "bundle_path": null,
+        "issue_number": 922,
+        "next_skills": [
+          "pr-init"
+        ],
+        "rationale": "No local task bundle found for issue #922.",
+        "status": "blocked"
+      },
+      {
+        "bundle_path": null,
+        "issue_number": 923,
+        "next_skills": [
+          "pr-init"
+        ],
+        "rationale": "No local task bundle found for issue #923.",
+        "status": "blocked"
+      },
+      {
+        "bundle_path": null,
+        "issue_number": 924,
+        "next_skills": [
+          "pr-init"
+        ],
+        "rationale": "No local task bundle found for issue #924.",
+        "status": "blocked"
+      },
+      {
+        "bundle_path": null,
+        "issue_number": 925,
+        "next_skills": [
+          "pr-init"
+        ],
+        "rationale": "No local task bundle found for issue #925.",
+        "status": "blocked"
+      }
+    ],
+    "notes": [
+      "installed sprint-conductor matches tracked bundle after generated-file filtering",
+      "ignored generated parity artifacts such as __pycache__, .pyc, .pyo, and .DS_Store",
+      "Review and repair all child issue structured cards before starting issue execution.",
+      "execution packet present: .csdlc/evidence/937/SPRINT_EXECUTION_PACKET.md",
+      "review path(s) declared",
+      "activity log path(s) declared"
+    ],
+    "ordered_issue_numbers": [
+      916,
+      917,
+      918,
+      919,
+      920,
+      921,
+      922,
+      923,
+      924,
+      925
+    ],
+    "review_paths": {
+      "missing_paths": [],
+      "notes": [
+        "review path(s) declared"
+      ],
+      "paths": [
+        ".csdlc/evidence/937/SPRINT_REVIEW.md"
+      ],
+      "status": "declared"
+    },
+    "status": "blocked"
+  },
+  "sprint_issue_number": 937,
+  "structured_prompt_preflight": {
+    "issue_results": [
+      {
+        "bundle_path": null,
+        "canonical_slug": null,
+        "contradictory_cards": [],
+        "issue_number": 916,
+        "missing_cards": [],
+        "notes": [
+          "No local task bundle found for issue #916."
+        ],
+        "required_editor_skills": [],
+        "status": "blocked"
+      },
+      {
+        "bundle_path": null,
+        "canonical_slug": null,
+        "contradictory_cards": [],
+        "issue_number": 917,
+        "missing_cards": [],
+        "notes": [
+          "No local task bundle found for issue #917."
+        ],
+        "required_editor_skills": [],
+        "status": "blocked"
+      },
+      {
+        "bundle_path": null,
+        "canonical_slug": null,
+        "contradictory_cards": [],
+        "issue_number": 918,
+        "missing_cards": [],
+        "notes": [
+          "No local task bundle found for issue #918."
+        ],
+        "required_editor_skills": [],
+        "status": "blocked"
+      },
+      {
+        "bundle_path": null,
+        "canonical_slug": null,
+        "contradictory_cards": [],
+        "issue_number": 919,
+        "missing_cards": [],
+        "notes": [
+          "No local task bundle found for issue #919."
+        ],
+        "required_editor_skills": [],
+        "status": "blocked"
+      },
+      {
+        "bundle_path": null,
+        "canonical_slug": null,
+        "contradictory_cards": [],
+        "issue_number": 920,
+        "missing_cards": [],
+        "notes": [
+          "No local task bundle found for issue #920."
+        ],
+        "required_editor_skills": [],
+        "status": "blocked"
+      },
+      {
+        "bundle_path": null,
+        "canonical_slug": null,
+        "contradictory_cards": [],
+        "issue_number": 921,
+        "missing_cards": [],
+        "notes": [
+          "No local task bundle found for issue #921."
+        ],
+        "required_editor_skills": [],
+        "status": "blocked"
+      },
+      {
+        "bundle_path": null,
+        "canonical_slug": null,
+        "contradictory_cards": [],
+        "issue_number": 922,
+        "missing_cards": [],
+        "notes": [
+          "No local task bundle found for issue #922."
+        ],
+        "required_editor_skills": [],
+        "status": "blocked"
+      },
+      {
+        "bundle_path": null,
+        "canonical_slug": null,
+        "contradictory_cards": [],
+        "issue_number": 923,
+        "missing_cards": [],
+        "notes": [
+          "No local task bundle found for issue #923."
+        ],
+        "required_editor_skills": [],
+        "status": "blocked"
+      },
+      {
+        "bundle_path": null,
+        "canonical_slug": null,
+        "contradictory_cards": [],
+        "issue_number": 924,
+        "missing_cards": [],
+        "notes": [
+          "No local task bundle found for issue #924."
+        ],
+        "required_editor_skills": [],
+        "status": "blocked"
+      },
+      {
+        "bundle_path": null,
+        "canonical_slug": null,
+        "contradictory_cards": [],
+        "issue_number": 925,
+        "missing_cards": [],
+        "notes": [
+          "No local task bundle found for issue #925."
+        ],
+        "required_editor_skills": [],
+        "status": "blocked"
+      }
+    ],
+    "notes": [
+      "Review and repair all child issue structured cards before starting issue execution."
+    ],
+    "required_card_types": [
+      "stp.md",
+      "sip.md",
+      "sor.md",
+      "spp.md",
+      "vpp.md",
+      "srp.md"
+    ],
+    "status": "blocked"
+  },
+  "truth_check": {
+    "checked_issue_numbers": [],
+    "checked_pr_urls": [],
+    "gate_passed": false,
+    "notes": [
+      "Run live GitHub truth check before the first sprint-state transition."
+    ],
+    "source": "sprint_state_only",
+    "status": "not_run"
+  }
+}

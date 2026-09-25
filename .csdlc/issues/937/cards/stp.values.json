@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 937,
+  "issue_padded": "0937",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/937",
+  "title": "[v0.92.2][Sprint 11] Canonical release tail",
+  "branch": "codex/937-v0922-sprint11-release-tail",
+  "version": "1.0.5",
+  "card": "stp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-937-v0922-sprint11-release-tail"
+}

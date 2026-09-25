@@ -1,0 +1,4 @@
+{
+  "action": "issue_comment",
+  "body": "## Sprint 10 disposition completed\n\n#915 closed at 2026-09-23T01:56:45Z and #936 closed at 2026-09-23T02:01:30Z, both as `NOT_PLANNED`. This is the operator-approved incomplete/deferred outcome, not PASS. The unmet work remains routed to #1148, #1149, and #1150.\n\nSprint 11 therefore proceeds at #916's truthful quality decision. #916 remains `not_proven` while its remaining producer evidence and dispositions are evaluated. The preparation-only lanes for #917, #918, and #922 remain unchanged and cannot satisfy their predecessor acceptance gates early."
+}
