@@ -1,0 +1,2945 @@
+{
+  "schema": "rd02.tool_residual_dispositions.v1",
+  "status": "preparation_only_not_accepted",
+  "source_revision": "682be6b8babb69f73c5e9fef8580f1b3c88966d5",
+  "input_count": 65,
+  "overlap_excluded": [
+    "adl/tools/test_check_no_tracked_adl_issue_record_residue.sh",
+    "adl/tools/test_process_drift_regressions.sh",
+    "adl/tools/test_readiness_prep_metrics_non_terminal.sh",
+    "adl/tools/test_review_subagent_auth_policy.sh",
+    "adl/tools/validate_evidence_bundle_packet.py",
+    "adl/tools/validate_transition_dag_packet.py"
+  ],
+  "overlap_owner_packet": "tool-skill-dispositions.json",
+  "paths": [
+    {
+      "path": "adl/tools/benchmark/deterministic_self_check.py",
+      "owner": "agent-logic-runtime",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Provider/model benchmark support and test panels for raw and governed invocation lanes. UTS wire schema is a public dependency, but these execution profiles, model rosters and governed/refusal benchmarks are Runtime-owned. No provider qualification or automatic retirement is inferred.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/benchmark/deterministic_self_check.py",
+          "git_object": "04f37b7ffd485bda7b21bd2b17207d883d1206fb",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/uts_benchmark_runner.py",
+          "lines": [
+            89,
+            1334,
+            1367,
+            1382,
+            1406
+          ]
+        },
+        {
+          "path": "adl/tools/run_uts_benchmark.sh",
+          "lines": [
+            12,
+            13
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/benchmark/full_core_models.txt",
+      "owner": "agent-logic-runtime",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Provider/model benchmark support and test panels for raw and governed invocation lanes. UTS wire schema is a public dependency, but these execution profiles, model rosters and governed/refusal benchmarks are Runtime-owned. No provider qualification or automatic retirement is inferred.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/benchmark/full_core_models.txt",
+          "git_object": "44aa876591288cde7d737e62b399e3ef8576b3ad",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/uts_benchmark_runner.py",
+          "lines": [
+            89,
+            1334,
+            1367,
+            1382,
+            1406
+          ]
+        },
+        {
+          "path": "adl/tools/run_uts_benchmark.sh",
+          "lines": [
+            12,
+            13
+          ]
+        }
+      ],
+      "gaps": [
+        "Declarative retained benchmark profile/model-list ownership established; no current automated selector of this exact filename established. Keep maintained input/fixture, no retirement inference."
+      ],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/benchmark/full_core_profile.json",
+      "owner": "agent-logic-runtime",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Provider/model benchmark support and test panels for raw and governed invocation lanes. UTS wire schema is a public dependency, but these execution profiles, model rosters and governed/refusal benchmarks are Runtime-owned. No provider qualification or automatic retirement is inferred.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/benchmark/full_core_profile.json",
+          "git_object": "c642286510dbaac3513155871d8828a6e942043a",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/uts_benchmark_runner.py",
+          "lines": [
+            89,
+            1334,
+            1367,
+            1382,
+            1406
+          ]
+        },
+        {
+          "path": "adl/tools/run_uts_benchmark.sh",
+          "lines": [
+            12,
+            13
+          ]
+        }
+      ],
+      "gaps": [
+        "Declarative retained benchmark profile/model-list ownership established; no current automated selector of this exact filename established. Keep maintained input/fixture, no retirement inference."
+      ],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/benchmark/hosted_core_models.txt",
+      "owner": "agent-logic-runtime",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Provider/model benchmark support and test panels for raw and governed invocation lanes. UTS wire schema is a public dependency, but these execution profiles, model rosters and governed/refusal benchmarks are Runtime-owned. No provider qualification or automatic retirement is inferred.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/benchmark/hosted_core_models.txt",
+          "git_object": "1f661f5ef8ccbd208fabe4f91a8af46db9b149be",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        {
+          "path": "adl/tools/uts_benchmark_runner.py",
+          "lines": [
+            89,
+            1334,
+            1367,
+            1382,
+            1406
+          ]
+        },
+        {
+          "path": "adl/tools/run_uts_benchmark.sh",
+          "lines": [
+            12,
+            13
+          ]
+        }
+      ],
+      "gaps": [
+        "Declarative retained benchmark profile/model-list ownership established; no current automated selector of this exact filename established. Keep maintained input/fixture, no retirement inference."
+      ],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/benchmark/hosted_core_profile.json",
+      "owner": "agent-logic-runtime",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Provider/model benchmark support and test panels for raw and governed invocation lanes. UTS wire schema is a public dependency, but these execution profiles, model rosters and governed/refusal benchmarks are Runtime-owned. No provider qualification or automatic retirement is inferred.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/benchmark/hosted_core_profile.json",
+          "git_object": "639b9fda0465db46d52bc8b713364bed437cc01f",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/uts_benchmark_runner.py",
+          "lines": [
+            89,
+            1334,
+            1367,
+            1382,
+            1406
+          ]
+        },
+        {
+          "path": "adl/tools/run_uts_benchmark.sh",
+          "lines": [
+            12,
+            13
+          ]
+        }
+      ],
+      "gaps": [
+        "Declarative retained benchmark profile/model-list ownership established; no current automated selector of this exact filename established. Keep maintained input/fixture, no retirement inference."
+      ],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/benchmark/hosted_smoke_models.txt",
+      "owner": "agent-logic-runtime",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Provider/model benchmark support and test panels for raw and governed invocation lanes. UTS wire schema is a public dependency, but these execution profiles, model rosters and governed/refusal benchmarks are Runtime-owned. No provider qualification or automatic retirement is inferred.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/benchmark/hosted_smoke_models.txt",
+          "git_object": "74000bea528855acaded88227246e16f5b331c81",
+          "lines": [
+            1
+          ]
+        },
+        {
+          "path": "adl/tools/uts_benchmark_runner.py",
+          "lines": [
+            89,
+            1334,
+            1367,
+            1382,
+            1406
+          ]
+        },
+        {
+          "path": "adl/tools/run_uts_benchmark.sh",
+          "lines": [
+            12,
+            13
+          ]
+        }
+      ],
+      "gaps": [
+        "Declarative retained benchmark profile/model-list ownership established; no current automated selector of this exact filename established. Keep maintained input/fixture, no retirement inference."
+      ],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/benchmark/portable_benchmark_common.py",
+      "owner": "agent-logic-runtime",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Provider/model benchmark support and test panels for raw and governed invocation lanes. UTS wire schema is a public dependency, but these execution profiles, model rosters and governed/refusal benchmarks are Runtime-owned. No provider qualification or automatic retirement is inferred.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/benchmark/portable_benchmark_common.py",
+          "git_object": "667db8b380822937f23d3a5573a670816407f4b1",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/uts_benchmark_runner.py",
+          "lines": [
+            89,
+            1334,
+            1367,
+            1382,
+            1406
+          ]
+        },
+        {
+          "path": "adl/tools/run_uts_benchmark.sh",
+          "lines": [
+            12,
+            13
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/benchmark/remote_open_core_models.txt",
+      "owner": "agent-logic-runtime",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Provider/model benchmark support and test panels for raw and governed invocation lanes. UTS wire schema is a public dependency, but these execution profiles, model rosters and governed/refusal benchmarks are Runtime-owned. No provider qualification or automatic retirement is inferred.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/benchmark/remote_open_core_models.txt",
+          "git_object": "902c5db6a215e306ee063e8e4a8ea9b098e697f1",
+          "lines": [
+            1
+          ]
+        },
+        {
+          "path": "adl/tools/uts_benchmark_runner.py",
+          "lines": [
+            89,
+            1334,
+            1367,
+            1382,
+            1406
+          ]
+        },
+        {
+          "path": "adl/tools/run_uts_benchmark.sh",
+          "lines": [
+            12,
+            13
+          ]
+        }
+      ],
+      "gaps": [
+        "Declarative retained benchmark profile/model-list ownership established; no current automated selector of this exact filename established. Keep maintained input/fixture, no retirement inference."
+      ],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/benchmark/remote_open_core_profile.json",
+      "owner": "agent-logic-runtime",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Provider/model benchmark support and test panels for raw and governed invocation lanes. UTS wire schema is a public dependency, but these execution profiles, model rosters and governed/refusal benchmarks are Runtime-owned. No provider qualification or automatic retirement is inferred.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/benchmark/remote_open_core_profile.json",
+          "git_object": "ab8edb404ac271a65002ae79d7eff0d598369cb2",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/uts_benchmark_runner.py",
+          "lines": [
+            89,
+            1334,
+            1367,
+            1382,
+            1406
+          ]
+        },
+        {
+          "path": "adl/tools/run_uts_benchmark.sh",
+          "lines": [
+            12,
+            13
+          ]
+        }
+      ],
+      "gaps": [
+        "Declarative retained benchmark profile/model-list ownership established; no current automated selector of this exact filename established. Keep maintained input/fixture, no retirement inference."
+      ],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/benchmark/uts_33_model_panel.json",
+      "owner": "agent-logic-runtime",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Provider/model benchmark support and test panels for raw and governed invocation lanes. UTS wire schema is a public dependency, but these execution profiles, model rosters and governed/refusal benchmarks are Runtime-owned. No provider qualification or automatic retirement is inferred.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/benchmark/uts_33_model_panel.json",
+          "git_object": "22763c61ce0366e0817c0ba5d6d8c57cfed60580",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/uts_benchmark_runner.py",
+          "lines": [
+            89,
+            1334,
+            1367,
+            1382,
+            1406
+          ]
+        },
+        {
+          "path": "adl/tools/run_uts_benchmark.sh",
+          "lines": [
+            12,
+            13
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/benchmark/uts_33_task_panel.json",
+      "owner": "agent-logic-runtime",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Provider/model benchmark support and test panels for raw and governed invocation lanes. UTS wire schema is a public dependency, but these execution profiles, model rosters and governed/refusal benchmarks are Runtime-owned. No provider qualification or automatic retirement is inferred.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/benchmark/uts_33_task_panel.json",
+          "git_object": "662875f0697d3072acb194eb72a1f152e754111c",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/uts_benchmark_runner.py",
+          "lines": [
+            89,
+            1334,
+            1367,
+            1382,
+            1406
+          ]
+        },
+        {
+          "path": "adl/tools/run_uts_benchmark.sh",
+          "lines": [
+            12,
+            13
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/benchmark/uts_smoke_task_panel.json",
+      "owner": "agent-logic-runtime",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Provider/model benchmark support and test panels for raw and governed invocation lanes. UTS wire schema is a public dependency, but these execution profiles, model rosters and governed/refusal benchmarks are Runtime-owned. No provider qualification or automatic retirement is inferred.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/benchmark/uts_smoke_task_panel.json",
+          "git_object": "0b81b44fddab587bf50ffa582bf05c0797813ecc",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/uts_benchmark_runner.py",
+          "lines": [
+            89,
+            1334,
+            1367,
+            1382,
+            1406
+          ]
+        },
+        {
+          "path": "adl/tools/run_uts_benchmark.sh",
+          "lines": [
+            12,
+            13
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/compute_ccc_v0.py",
+      "owner": "agent-logic-runtime",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Computes cognitive execution cost from reframe/iteration/tool/model/validation counters. Runtime owns this cognition metric implementation; preserved milestone draft references remain evidence dependencies, not copied lifecycle implementation.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/compute_ccc_v0.py",
+          "git_object": "84a395739d2f1884d20651208ed8b9c7fb85b271",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/compute_ccc_v0.py",
+          "lines": [
+            14,
+            17,
+            33,
+            55,
+            234
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/demo_hitl_editor_review.sh",
+      "owner": "cognitive-sdlc",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Serves the task-bundle card editor and SIP/STP/SOR demonstration, and invokes editor_action start in dry-run. Keep compatibility status explicit; ownership is not authority to reactivate an obsolete route.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/demo_hitl_editor_review.sh",
+          "git_object": "5eebe73217c7706f94916b2c4624ccb0a1092edc",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/demo_hitl_editor_review.sh",
+          "lines": [
+            10,
+            13,
+            15,
+            55
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/demo_smoke_v07_story.sh",
+      "owner": "agent-logic-runtime",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Exercises retained Runtime execution/trace/pause/recovery through adl and v0871 demo helpers. Here lifecycle means execution lifecycle, not C-SDLC lifecycle.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/demo_smoke_v07_story.sh",
+          "git_object": "5cc2bcd48e6fc61233eaa9c7fb2076ec093fee11",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/demo_smoke_v07_story.sh",
+          "lines": [
+            49,
+            77,
+            107
+          ]
+        },
+        {
+          "path": "adl/tools/demo_v0871_lifecycle.sh",
+          "lines": [
+            4,
+            8,
+            15
+          ]
+        },
+        {
+          "path": "adl/tools/demo_v0871_shepherd_recovery.sh",
+          "lines": [
+            15,
+            17
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/demo_v0871_lifecycle.sh",
+      "owner": "agent-logic-runtime",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Exercises retained Runtime execution/trace/pause/recovery through adl and v0871 demo helpers. Here lifecycle means execution lifecycle, not C-SDLC lifecycle.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/demo_v0871_lifecycle.sh",
+          "git_object": "f47558b0325275bab2015763b53666d342fa6c8d",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/demo_smoke_v07_story.sh",
+          "lines": [
+            49,
+            77,
+            107
+          ]
+        },
+        {
+          "path": "adl/tools/demo_v0871_lifecycle.sh",
+          "lines": [
+            4,
+            8,
+            15
+          ]
+        },
+        {
+          "path": "adl/tools/demo_v0871_shepherd_recovery.sh",
+          "lines": [
+            15,
+            17
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/demo_v0871_shepherd_recovery.sh",
+      "owner": "agent-logic-runtime",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Exercises retained Runtime execution/trace/pause/recovery through adl and v0871 demo helpers. Here lifecycle means execution lifecycle, not C-SDLC lifecycle.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/demo_v0871_shepherd_recovery.sh",
+          "git_object": "76be369e1fd70ef1c8bf4b38b492748925333efd",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/demo_smoke_v07_story.sh",
+          "lines": [
+            49,
+            77,
+            107
+          ]
+        },
+        {
+          "path": "adl/tools/demo_v0871_lifecycle.sh",
+          "lines": [
+            4,
+            8,
+            15
+          ]
+        },
+        {
+          "path": "adl/tools/demo_v0871_shepherd_recovery.sh",
+          "lines": [
+            15,
+            17
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/demo_v087_reviewer_package.sh",
+      "owner": "codefriend",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Assembles repository-review format contract examples and invokes test_repo_review_contract. Review product owns this presentation/contract harness; immutable milestone references remain linked source evidence.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/demo_v087_reviewer_package.sh",
+          "git_object": "d23e06cf910fd1fbd604a97a88fa6b5f227ad77d",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/demo_v087_reviewer_package.sh",
+          "lines": [
+            12,
+            18,
+            19,
+            20
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/demo_v088_phi_review_surface.sh",
+      "owner": "agent-logic-runtime",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Identity phi, temporal/instinct and Runtime demonstration surfaces, not CodeFriend code review. Companion tests verify the produced Runtime manifests.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/demo_v088_phi_review_surface.sh",
+          "git_object": "b0dba9361e1ab1798032d5a6e24cee4e4cb5d518",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/demo_v088_phi_review_surface.sh",
+          "lines": [
+            14
+          ]
+        },
+        {
+          "path": "adl/tools/demo_v088_review_surface.sh",
+          "lines": [
+            20,
+            21,
+            22,
+            23,
+            24
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/demo_v088_review_surface.sh",
+      "owner": "agent-logic-runtime",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Identity phi, temporal/instinct and Runtime demonstration surfaces, not CodeFriend code review. Companion tests verify the produced Runtime manifests.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/demo_v088_review_surface.sh",
+          "git_object": "2a0f49ee22fc347857a2526ed68bf40fa793e6da",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/demo_v088_phi_review_surface.sh",
+          "lines": [
+            14
+          ]
+        },
+        {
+          "path": "adl/tools/demo_v088_review_surface.sh",
+          "lines": [
+            20,
+            21,
+            22,
+            23,
+            24
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/demo_v0891_long_lived_stock_league.sh",
+      "owner": "agent-logic-runtime",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Paper-market long-lived-agent demonstration with model roster, simulated memory journals and guardrail reports; owns maintained demo generator and fixture tests, without claiming live trading or a production daemon.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/demo_v0891_long_lived_stock_league.sh",
+          "git_object": "d0be27834bf930ac3b716089d9bc0b8a510ae94c",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/demo_v0891_long_lived_stock_league.sh",
+          "lines": [
+            6,
+            78,
+            79
+          ]
+        },
+        {
+          "path": "adl/tools/stock_league_demo.py",
+          "lines": [
+            572,
+            718,
+            822
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/demo_v0913_five_minute_sprint_console.sh",
+      "owner": "cognitive-sdlc",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Launches static C-SDLC mini-sprint demonstrations. The game/console is an output of the lifecycle demonstration, not the CodeFriend website and not a shared hosting service.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/demo_v0913_five_minute_sprint_console.sh",
+          "git_object": "a672a32b98105b0d2e83d5c6bf30c72db129fceb",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "demos/v0.91.3/five_minute_sprint_console_demo.html",
+          "lines": [
+            6,
+            45
+          ]
+        },
+        {
+          "path": "demos/v0.91.3/starharvest_five_minute_sprint_demo.html",
+          "lines": [
+            14,
+            138
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/demo_v0913_starharvest_html_game.sh",
+      "owner": "cognitive-sdlc",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Launches static C-SDLC mini-sprint demonstrations. The game/console is an output of the lifecycle demonstration, not the CodeFriend website and not a shared hosting service.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/demo_v0913_starharvest_html_game.sh",
+          "git_object": "db72840e121906b4580a353170745747c7c5f517",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "demos/v0.91.3/five_minute_sprint_console_demo.html",
+          "lines": [
+            6,
+            45
+          ]
+        },
+        {
+          "path": "demos/v0.91.3/starharvest_five_minute_sprint_demo.html",
+          "lines": [
+            14,
+            138
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/issue607_validate_saved_plan.sh",
+      "owner": "agent-logic-infrastructure",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Validates Terraform saved-plan compute/warm-storage/preparation/retirement resource boundaries. Infrastructure owns cloud resource-plan policy; Runtime consumes qualified platform resources.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/issue607_validate_saved_plan.sh",
+          "git_object": "6079505bb427e4a8839aac6ba57a2f18080357f5",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/issue607_validate_saved_plan.sh",
+          "lines": [
+            7,
+            8,
+            80
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/local_model_capabilities.v1.json",
+      "owner": "agent-logic-runtime",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Runtime provider capability profile definitions referenced by retained Codex/Ollama demo source. The inspected demo exits before using the profile; retain compatibility input without claiming an active production consumer.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/local_model_capabilities.v1.json",
+          "git_object": "c3c952c787414d3e4b504fae55068e5569bef7a9",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/demo_codex_ollama_operational_skills.sh",
+          "lines": [
+            7
+          ]
+        },
+        {
+          "path": "adl/tools/local_model_capabilities.v1.json",
+          "lines": [
+            2,
+            6,
+            7
+          ]
+        }
+      ],
+      "gaps": [
+        "Only inspected referring demo is explicitly fail-closed before profile use. Active consumer not established; no new retirement or reactivation decision."
+      ],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/run_issue900_continuity_negatives.py",
+      "owner": "agent-logic-runtime",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Runs restore-integrity negative cases against isolated production-state copies through the production continuity binary.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/run_issue900_continuity_negatives.py",
+          "git_object": "6b56a0a438f311a959b966a84a25cbc96d54219f",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/run_issue900_continuity_negatives.py",
+          "lines": [
+            2,
+            29,
+            112,
+            168
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/run_v0915_multi_agent_quality_comparison.py",
+      "owner": "agent-logic-runtime",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Provider/agent useful-output comparison and reliability qualification over OpenRouter, remote Gemma and overhead packets. Although output is a review packet, the tested subject is provider/agent execution quality, not CodeFriend repository-review implementation.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/run_v0915_multi_agent_quality_comparison.py",
+          "git_object": "31466d67a7bafe5577e7450cf285412bba487408",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/run_v0915_multi_agent_quality_comparison.py",
+          "lines": [
+            24,
+            26,
+            28,
+            39,
+            64
+          ]
+        },
+        {
+          "path": "adl/tools/validate_v0915_multi_agent_quality_comparison.py",
+          "lines": [
+            61,
+            65
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/run_wp08_cloudfront_control_proof.sh",
+      "owner": "agent-logic-runtime",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Exercises CSM cloud-control read-only Runtime command through its binary-availability helper. CloudFront target is not evidence that this product behavior proof belongs to infrastructure.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/run_wp08_cloudfront_control_proof.sh",
+          "git_object": "5538499f70e03f7e693f7713ae1c99e0b3f145c8",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/run_wp08_cloudfront_control_proof.sh",
+          "lines": [
+            8,
+            95,
+            96,
+            117
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/select_validation_lanes.py",
+      "owner": "cognitive-sdlc",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Owns VPP/PVF record admission, release-gate escalation and lane selection. Existing commands/backend resources are invoked consumer contracts; do not transfer lifecycle admission to infrastructure or split merely because several products appear in input manifests.",
+      "component_splits": [],
+      "consumer_dependencies": [
+        {
+          "owner": "agent-logic-infrastructure",
+          "interface": "selected runner command execution/backend resources; selection and VPP admission remain C-SDLC",
+          "evidence": "adl/tools/select_validation_lanes.py:249-255,473-490"
+        }
+      ],
+      "source_evidence": [
+        {
+          "path": "adl/tools/select_validation_lanes.py",
+          "git_object": "9c76be9178a3050bb4b690f85097b16b01512873",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/select_validation_lanes.py",
+          "lines": [
+            101,
+            138,
+            157,
+            208,
+            267,
+            473
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/stock_league_demo.py",
+      "owner": "agent-logic-runtime",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Paper-market long-lived-agent demonstration with model roster, simulated memory journals and guardrail reports; owns maintained demo generator and fixture tests, without claiming live trading or a production daemon.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/stock_league_demo.py",
+          "git_object": "fd95392ad538705c065c1b2837492a356e7c0283",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/demo_v0891_long_lived_stock_league.sh",
+          "lines": [
+            6,
+            78,
+            79
+          ]
+        },
+        {
+          "path": "adl/tools/stock_league_demo.py",
+          "lines": [
+            572,
+            718,
+            822
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/test_adl_builder_image.sh",
+      "owner": "agent-logic-infrastructure",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Tests shared builder bootstrap or private cloud-network template input/resource contracts; no Runtime product implementation is embedded.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/test_adl_builder_image.sh",
+          "git_object": "8b31c10418f407e8281d343ac10e1bd949277df4",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/test_adl_builder_image.sh",
+          "lines": [
+            5,
+            6
+          ]
+        },
+        {
+          "path": "adl/tools/test_issue194_private_network_template.sh",
+          "lines": [
+            5,
+            31,
+            39
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/test_archive_run_artifacts.sh",
+      "owner": "agent-logic-runtime",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Tests archive_run_artifacts against runtime run/log fixtures, including apply/prune guards. Generic storage implementation may be supplied externally, but retention/active-run behavior under test belongs to Runtime.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/test_archive_run_artifacts.sh",
+          "git_object": "f39e7382e9eed67624bc197dba77e513db740782",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/test_archive_run_artifacts.sh",
+          "lines": [
+            8,
+            23,
+            32,
+            45
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/test_check_repo_quality_staleness.sh",
+      "owner": "cognitive-sdlc",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Tests lifecycle planning/documentation currency, owner routing/inventory, card proof or copied-record conversion and workflow guards. Multi-product inventory content is input to this one lifecycle contract, not a reason to copy its implementation.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/test_check_repo_quality_staleness.sh",
+          "git_object": "2467f6a6df2ad97f7302aac7437997a3b017ff4d",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/test_check_repo_quality_staleness.sh",
+          "lines": [
+            91,
+            110,
+            113
+          ]
+        },
+        {
+          "path": "adl/tools/test_developer_throughput_fast_lane.sh",
+          "lines": [
+            15,
+            18
+          ]
+        },
+        {
+          "path": "adl/tools/generate_tool_surface_registry.py",
+          "lines": [
+            17,
+            18,
+            19
+          ]
+        },
+        {
+          "path": "adl/tools/test_run_v0913_proof_validation_lane.sh",
+          "lines": [
+            11,
+            12
+          ]
+        },
+        {
+          "path": "adl/tools/test_validate_issue872_conversion_rehearsal.py",
+          "lines": [
+            57
+          ]
+        },
+        {
+          "path": "adl/tools/test_wp17a_demo_follow_ons.sh",
+          "lines": [
+            21,
+            26
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/test_demo_v088_phi_review_surface.sh",
+      "owner": "agent-logic-runtime",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Identity phi, temporal/instinct and Runtime demonstration surfaces, not CodeFriend code review. Companion tests verify the produced Runtime manifests.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/test_demo_v088_phi_review_surface.sh",
+          "git_object": "4c319f485063fc64b7f54b1f6827ab49d1799159",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/demo_v088_phi_review_surface.sh",
+          "lines": [
+            14
+          ]
+        },
+        {
+          "path": "adl/tools/demo_v088_review_surface.sh",
+          "lines": [
+            20,
+            21,
+            22,
+            23,
+            24
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/test_demo_v088_review_surface.sh",
+      "owner": "agent-logic-runtime",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Identity phi, temporal/instinct and Runtime demonstration surfaces, not CodeFriend code review. Companion tests verify the produced Runtime manifests.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/test_demo_v088_review_surface.sh",
+          "git_object": "e0169706625cd930a382608e76155aca2a5caa3d",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/demo_v088_phi_review_surface.sh",
+          "lines": [
+            14
+          ]
+        },
+        {
+          "path": "adl/tools/demo_v088_review_surface.sh",
+          "lines": [
+            20,
+            21,
+            22,
+            23,
+            24
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/test_demo_v0891_long_lived_stock_league.sh",
+      "owner": "agent-logic-runtime",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Paper-market long-lived-agent demonstration with model roster, simulated memory journals and guardrail reports; owns maintained demo generator and fixture tests, without claiming live trading or a production daemon.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/test_demo_v0891_long_lived_stock_league.sh",
+          "git_object": "bb9aec1f2eadd02ea7693ad72e59b55dccd273d0",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/demo_v0891_long_lived_stock_league.sh",
+          "lines": [
+            6,
+            78,
+            79
+          ]
+        },
+        {
+          "path": "adl/tools/stock_league_demo.py",
+          "lines": [
+            572,
+            718,
+            822
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/test_demo_v089_gemma4_issue_clerk.sh",
+      "owner": "cognitive-sdlc",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Validates materialized issue-body and invalid-response handling for the issue-clerk workflow. Runtime supplies model transport; lifecycle owns generated issue content validation and its demo test.",
+      "component_splits": [],
+      "consumer_dependencies": [
+        {
+          "owner": "agent-logic-runtime",
+          "interface": "Ollama transport in subject demo; test validates generated issue body and refusal",
+          "evidence": "adl/tools/demo_v089_gemma4_issue_clerk.sh:10-65"
+        }
+      ],
+      "source_evidence": [
+        {
+          "path": "adl/tools/test_demo_v089_gemma4_issue_clerk.sh",
+          "git_object": "7dcdf44c7dddaab97d5d0028f0ecbc5ec8525c83",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/test_demo_v089_gemma4_issue_clerk.sh",
+          "lines": [
+            6,
+            7,
+            11,
+            28,
+            45
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/test_demo_v089_multi_agent_repo_code_review.sh",
+      "owner": "codefriend",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Repository-review packet validation/privacy and module navigability are code-review aids owned by the review product. Generic file traversal is an implementation detail, not infrastructure ownership.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/test_demo_v089_multi_agent_repo_code_review.sh",
+          "git_object": "44fe249597e70d5cba544e78567f98695e341c41",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/test_demo_v089_multi_agent_repo_code_review.sh",
+          "lines": [
+            11,
+            55
+          ]
+        },
+        {
+          "path": "adl/tools/report_module_navigability.sh",
+          "lines": [
+            20,
+            21
+          ]
+        },
+        {
+          "path": "adl/tools/test_module_navigability_report.sh",
+          "lines": [
+            9
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/test_developer_throughput_fast_lane.sh",
+      "owner": "cognitive-sdlc",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Tests lifecycle planning/documentation currency, owner routing/inventory, card proof or copied-record conversion and workflow guards. Multi-product inventory content is input to this one lifecycle contract, not a reason to copy its implementation.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/test_developer_throughput_fast_lane.sh",
+          "git_object": "11bda697216f61e9f61513e45c387a708bd4e7d4",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/test_check_repo_quality_staleness.sh",
+          "lines": [
+            91,
+            110,
+            113
+          ]
+        },
+        {
+          "path": "adl/tools/test_developer_throughput_fast_lane.sh",
+          "lines": [
+            15,
+            18
+          ]
+        },
+        {
+          "path": "adl/tools/generate_tool_surface_registry.py",
+          "lines": [
+            17,
+            18,
+            19
+          ]
+        },
+        {
+          "path": "adl/tools/test_run_v0913_proof_validation_lane.sh",
+          "lines": [
+            11,
+            12
+          ]
+        },
+        {
+          "path": "adl/tools/test_validate_issue872_conversion_rehearsal.py",
+          "lines": [
+            57
+          ]
+        },
+        {
+          "path": "adl/tools/test_wp17a_demo_follow_ons.sh",
+          "lines": [
+            21,
+            26
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/test_generate_tool_surface_registry.sh",
+      "owner": "cognitive-sdlc",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Tests lifecycle planning/documentation currency, owner routing/inventory, card proof or copied-record conversion and workflow guards. Multi-product inventory content is input to this one lifecycle contract, not a reason to copy its implementation.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/test_generate_tool_surface_registry.sh",
+          "git_object": "4836d987a8927fdaacafe4ada9c1cf88c2ba6a05",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/test_check_repo_quality_staleness.sh",
+          "lines": [
+            91,
+            110,
+            113
+          ]
+        },
+        {
+          "path": "adl/tools/test_developer_throughput_fast_lane.sh",
+          "lines": [
+            15,
+            18
+          ]
+        },
+        {
+          "path": "adl/tools/generate_tool_surface_registry.py",
+          "lines": [
+            17,
+            18,
+            19
+          ]
+        },
+        {
+          "path": "adl/tools/test_run_v0913_proof_validation_lane.sh",
+          "lines": [
+            11,
+            12
+          ]
+        },
+        {
+          "path": "adl/tools/test_validate_issue872_conversion_rehearsal.py",
+          "lines": [
+            57
+          ]
+        },
+        {
+          "path": "adl/tools/test_wp17a_demo_follow_ons.sh",
+          "lines": [
+            21,
+            26
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/test_hosted_benchmark_hardening.sh",
+      "owner": "agent-logic-runtime",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Provider credential hardening, watcher/daemon continuity, governed SSM admission and runtime soak proof validators. Security/readiness names do not establish an enterprise backend; preserve baseline Runtime policy and linked historical evidence.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/test_hosted_benchmark_hardening.sh",
+          "git_object": "ae30e997ae8de39f726634b697f90025ad598acb",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/test_hosted_benchmark_hardening.sh",
+          "lines": [
+            17,
+            23
+          ]
+        },
+        {
+          "path": "adl/tools/test_v0915_remote_gemma_watcher_probe.sh",
+          "lines": [
+            5,
+            6
+          ]
+        },
+        {
+          "path": "adl/tools/test_validate_wp12_ssm_readiness_4657.sh",
+          "lines": [
+            8,
+            9,
+            10,
+            12
+          ]
+        },
+        {
+          "path": "adl/tools/validate_v0917_no_sparrow_4909_status.sh",
+          "lines": [
+            88,
+            96,
+            103
+          ]
+        },
+        {
+          "path": "adl/tools/validate_v0917_soak2_matrix.sh",
+          "lines": [
+            55,
+            84
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/test_issue194_private_network_template.sh",
+      "owner": "agent-logic-infrastructure",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Tests shared builder bootstrap or private cloud-network template input/resource contracts; no Runtime product implementation is embedded.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/test_issue194_private_network_template.sh",
+          "git_object": "577c2768ca83cbb3771b9a35053f01a50ab00985",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/test_adl_builder_image.sh",
+          "lines": [
+            5,
+            6
+          ]
+        },
+        {
+          "path": "adl/tools/test_issue194_private_network_template.sh",
+          "lines": [
+            5,
+            31,
+            39
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/test_module_navigability_report.sh",
+      "owner": "agent-design-language",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Companion test for the single ADL-owned configurable module scanner, including the current ADL default scan root. Product consumers set their own roots without duplicating the scanner.",
+      "component_splits": [],
+      "consumer_dependencies": [
+        {
+          "owner": "agent-design-language",
+          "path": "adl/tools/report_module_navigability.sh",
+          "contract": "Generic scanner implementation and default-root fixture"
+        }
+      ],
+      "source_evidence": [
+        {
+          "path": "adl/tools/test_module_navigability_report.sh",
+          "git_object": "09cd48cb415b3ea268ed12ddd8d63e964ef4bce3",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/test_demo_v089_multi_agent_repo_code_review.sh",
+          "lines": [
+            11,
+            55
+          ]
+        },
+        {
+          "path": "adl/tools/report_module_navigability.sh",
+          "lines": [
+            20,
+            21
+          ]
+        },
+        {
+          "path": "adl/tools/test_module_navigability_report.sh",
+          "lines": [
+            9
+          ]
+        }
+      ],
+      "gaps": [
+        "Destination callers must configure their scan roots; current default-root fixture does not prove destination installation."
+      ],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/test_opus_review_runbook.sh",
+      "owner": "cognitive-sdlc",
+      "owner_role": "integration_custodian",
+      "disposition": "split_integration_surface",
+      "rationale": "Integration contract for lifecycle review runbook plus Runtime provider-adapter request/help interface. C-SDLC is accountable for review instructions; Runtime owns provider request/provenance semantics consumed by explicit assertions.",
+      "component_splits": [
+        {
+          "owner": "cognitive-sdlc",
+          "selector": "RUNBOOK required csdlc-review/diff-hygiene and portable-path assertions (lines5-32,60-63)",
+          "role": "Lifecycle runbook contract retained with integration test"
+        },
+        {
+          "owner": "agent-logic-runtime",
+          "selector": "request_json route/model_identity/attempt_policy assertions and adl-provider-adapter help checks (lines34-57,66-72)",
+          "role": "Provider producer contract tests; lifecycle consumes pinned version and avoids copying adapter"
+        }
+      ],
+      "consumer_dependencies": [
+        {
+          "owner": "agent-logic-runtime",
+          "interface": "adl-provider-adapter structured request/result/log and source-run --help (installed-artifact replacement pending)",
+          "evidence": "adl/tools/test_opus_review_runbook.sh:34-72"
+        }
+      ],
+      "source_evidence": [
+        {
+          "path": "adl/tools/test_opus_review_runbook.sh",
+          "git_object": "bde6bc535d29fd758730860c7d06a6a4f389f3f9",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/test_opus_review_runbook.sh",
+          "lines": [
+            5,
+            26,
+            34,
+            66,
+            67
+          ]
+        }
+      ],
+      "gaps": [
+        "Current producer test invokes cargo run against monolithic adl/Cargo.toml at line66. Replace with admitted independently installed producer artifacts before claiming installed-interface proof."
+      ],
+      "export_authorized": false,
+      "execution_evidence": "Source-run producer command-contract test; independent installed-artifact resolution not yet proven."
+    },
+    {
+      "path": "adl/tools/test_retained_diff_proof_contract.sh",
+      "owner": "cognitive-sdlc",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Exact base/head commit verification and retained proof diff-hygiene contract. Small Git primitive remains one lifecycle-owned proof adapter; no new shared library is needed.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/test_retained_diff_proof_contract.sh",
+          "git_object": "1170b5153f25ccd32e240cc823f92c39ae260bc6",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/test_retained_diff_proof_contract.sh",
+          "lines": [
+            9,
+            12,
+            13,
+            14
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/test_run_v0913_proof_validation_lane.sh",
+      "owner": "cognitive-sdlc",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Tests lifecycle planning/documentation currency, owner routing/inventory, card proof or copied-record conversion and workflow guards. Multi-product inventory content is input to this one lifecycle contract, not a reason to copy its implementation.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/test_run_v0913_proof_validation_lane.sh",
+          "git_object": "0a4fcc8f5fb62e0869e61fedaa3570a5ce2b9832",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/test_check_repo_quality_staleness.sh",
+          "lines": [
+            91,
+            110,
+            113
+          ]
+        },
+        {
+          "path": "adl/tools/test_developer_throughput_fast_lane.sh",
+          "lines": [
+            15,
+            18
+          ]
+        },
+        {
+          "path": "adl/tools/generate_tool_surface_registry.py",
+          "lines": [
+            17,
+            18,
+            19
+          ]
+        },
+        {
+          "path": "adl/tools/test_run_v0913_proof_validation_lane.sh",
+          "lines": [
+            11,
+            12
+          ]
+        },
+        {
+          "path": "adl/tools/test_validate_issue872_conversion_rehearsal.py",
+          "lines": [
+            57
+          ]
+        },
+        {
+          "path": "adl/tools/test_wp17a_demo_follow_ons.sh",
+          "lines": [
+            21,
+            26
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/test_shell_wrapper_inventory.sh",
+      "owner": "cognitive-sdlc",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Tests lifecycle planning/documentation currency, owner routing/inventory, card proof or copied-record conversion and workflow guards. Multi-product inventory content is input to this one lifecycle contract, not a reason to copy its implementation.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/test_shell_wrapper_inventory.sh",
+          "git_object": "ae6c6590fd059529c50a9a182f1da04407eadee1",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/test_check_repo_quality_staleness.sh",
+          "lines": [
+            91,
+            110,
+            113
+          ]
+        },
+        {
+          "path": "adl/tools/test_developer_throughput_fast_lane.sh",
+          "lines": [
+            15,
+            18
+          ]
+        },
+        {
+          "path": "adl/tools/generate_tool_surface_registry.py",
+          "lines": [
+            17,
+            18,
+            19
+          ]
+        },
+        {
+          "path": "adl/tools/test_run_v0913_proof_validation_lane.sh",
+          "lines": [
+            11,
+            12
+          ]
+        },
+        {
+          "path": "adl/tools/test_validate_issue872_conversion_rehearsal.py",
+          "lines": [
+            57
+          ]
+        },
+        {
+          "path": "adl/tools/test_wp17a_demo_follow_ons.sh",
+          "lines": [
+            21,
+            26
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/test_v0915_multi_agent_quality_comparison.sh",
+      "owner": "agent-logic-runtime",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Provider/agent useful-output comparison and reliability qualification over OpenRouter, remote Gemma and overhead packets. Although output is a review packet, the tested subject is provider/agent execution quality, not CodeFriend repository-review implementation.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/test_v0915_multi_agent_quality_comparison.sh",
+          "git_object": "256312ef8f7f69e408f7400baf983e5d3cc0db01",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/run_v0915_multi_agent_quality_comparison.py",
+          "lines": [
+            24,
+            26,
+            28,
+            39,
+            64
+          ]
+        },
+        {
+          "path": "adl/tools/validate_v0915_multi_agent_quality_comparison.py",
+          "lines": [
+            61,
+            65
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/test_v0915_remote_gemma_watcher_probe.sh",
+      "owner": "agent-logic-runtime",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Provider credential hardening, watcher/daemon continuity, governed SSM admission and runtime soak proof validators. Security/readiness names do not establish an enterprise backend; preserve baseline Runtime policy and linked historical evidence.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/test_v0915_remote_gemma_watcher_probe.sh",
+          "git_object": "250455d3f71f0e9ad486290cfad004f8f2933bad",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/test_hosted_benchmark_hardening.sh",
+          "lines": [
+            17,
+            23
+          ]
+        },
+        {
+          "path": "adl/tools/test_v0915_remote_gemma_watcher_probe.sh",
+          "lines": [
+            5,
+            6
+          ]
+        },
+        {
+          "path": "adl/tools/test_validate_wp12_ssm_readiness_4657.sh",
+          "lines": [
+            8,
+            9,
+            10,
+            12
+          ]
+        },
+        {
+          "path": "adl/tools/validate_v0917_no_sparrow_4909_status.sh",
+          "lines": [
+            88,
+            96,
+            103
+          ]
+        },
+        {
+          "path": "adl/tools/validate_v0917_soak2_matrix.sh",
+          "lines": [
+            55,
+            84
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/test_validate_issue872_conversion_rehearsal.py",
+      "owner": "cognitive-sdlc",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Tests lifecycle planning/documentation currency, owner routing/inventory, card proof or copied-record conversion and workflow guards. Multi-product inventory content is input to this one lifecycle contract, not a reason to copy its implementation.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/test_validate_issue872_conversion_rehearsal.py",
+          "git_object": "090cfb344429a9ae65080a9aecb4033c72a9a633",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/test_check_repo_quality_staleness.sh",
+          "lines": [
+            91,
+            110,
+            113
+          ]
+        },
+        {
+          "path": "adl/tools/test_developer_throughput_fast_lane.sh",
+          "lines": [
+            15,
+            18
+          ]
+        },
+        {
+          "path": "adl/tools/generate_tool_surface_registry.py",
+          "lines": [
+            17,
+            18,
+            19
+          ]
+        },
+        {
+          "path": "adl/tools/test_run_v0913_proof_validation_lane.sh",
+          "lines": [
+            11,
+            12
+          ]
+        },
+        {
+          "path": "adl/tools/test_validate_issue872_conversion_rehearsal.py",
+          "lines": [
+            57
+          ]
+        },
+        {
+          "path": "adl/tools/test_wp17a_demo_follow_ons.sh",
+          "lines": [
+            21,
+            26
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/test_validate_wp12_ssm_readiness_4657.sh",
+      "owner": "agent-logic-runtime",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Provider credential hardening, watcher/daemon continuity, governed SSM admission and runtime soak proof validators. Security/readiness names do not establish an enterprise backend; preserve baseline Runtime policy and linked historical evidence.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/test_validate_wp12_ssm_readiness_4657.sh",
+          "git_object": "00051cc5cd86fca328843922bf698ffac4e9dc9d",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/test_hosted_benchmark_hardening.sh",
+          "lines": [
+            17,
+            23
+          ]
+        },
+        {
+          "path": "adl/tools/test_v0915_remote_gemma_watcher_probe.sh",
+          "lines": [
+            5,
+            6
+          ]
+        },
+        {
+          "path": "adl/tools/test_validate_wp12_ssm_readiness_4657.sh",
+          "lines": [
+            8,
+            9,
+            10,
+            12
+          ]
+        },
+        {
+          "path": "adl/tools/validate_v0917_no_sparrow_4909_status.sh",
+          "lines": [
+            88,
+            96,
+            103
+          ]
+        },
+        {
+          "path": "adl/tools/validate_v0917_soak2_matrix.sh",
+          "lines": [
+            55,
+            84
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/test_wp17a_demo_follow_ons.sh",
+      "owner": "cognitive-sdlc",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Tests lifecycle planning/documentation currency, owner routing/inventory, card proof or copied-record conversion and workflow guards. Multi-product inventory content is input to this one lifecycle contract, not a reason to copy its implementation.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/test_wp17a_demo_follow_ons.sh",
+          "git_object": "1043a618f7342312792228e79affa2d5b357ec3d",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/test_check_repo_quality_staleness.sh",
+          "lines": [
+            91,
+            110,
+            113
+          ]
+        },
+        {
+          "path": "adl/tools/test_developer_throughput_fast_lane.sh",
+          "lines": [
+            15,
+            18
+          ]
+        },
+        {
+          "path": "adl/tools/generate_tool_surface_registry.py",
+          "lines": [
+            17,
+            18,
+            19
+          ]
+        },
+        {
+          "path": "adl/tools/test_run_v0913_proof_validation_lane.sh",
+          "lines": [
+            11,
+            12
+          ]
+        },
+        {
+          "path": "adl/tools/test_validate_issue872_conversion_rehearsal.py",
+          "lines": [
+            57
+          ]
+        },
+        {
+          "path": "adl/tools/test_wp17a_demo_follow_ons.sh",
+          "lines": [
+            21,
+            26
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/validate_v0915_multi_agent_quality_comparison.py",
+      "owner": "agent-logic-runtime",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Provider/agent useful-output comparison and reliability qualification over OpenRouter, remote Gemma and overhead packets. Although output is a review packet, the tested subject is provider/agent execution quality, not CodeFriend repository-review implementation.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/validate_v0915_multi_agent_quality_comparison.py",
+          "git_object": "51c9b8fd9c8f43862243330d253cac2097f1d4ea",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/run_v0915_multi_agent_quality_comparison.py",
+          "lines": [
+            24,
+            26,
+            28,
+            39,
+            64
+          ]
+        },
+        {
+          "path": "adl/tools/validate_v0915_multi_agent_quality_comparison.py",
+          "lines": [
+            61,
+            65
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/validate_v0917_no_sparrow_4909_status.sh",
+      "owner": "agent-logic-runtime",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Provider credential hardening, watcher/daemon continuity, governed SSM admission and runtime soak proof validators. Security/readiness names do not establish an enterprise backend; preserve baseline Runtime policy and linked historical evidence.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/validate_v0917_no_sparrow_4909_status.sh",
+          "git_object": "aef117c31981969a80c4cd79bbc79232062b575c",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/test_hosted_benchmark_hardening.sh",
+          "lines": [
+            17,
+            23
+          ]
+        },
+        {
+          "path": "adl/tools/test_v0915_remote_gemma_watcher_probe.sh",
+          "lines": [
+            5,
+            6
+          ]
+        },
+        {
+          "path": "adl/tools/test_validate_wp12_ssm_readiness_4657.sh",
+          "lines": [
+            8,
+            9,
+            10,
+            12
+          ]
+        },
+        {
+          "path": "adl/tools/validate_v0917_no_sparrow_4909_status.sh",
+          "lines": [
+            88,
+            96,
+            103
+          ]
+        },
+        {
+          "path": "adl/tools/validate_v0917_soak2_matrix.sh",
+          "lines": [
+            55,
+            84
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/validate_v0917_soak2_matrix.sh",
+      "owner": "agent-logic-runtime",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Provider credential hardening, watcher/daemon continuity, governed SSM admission and runtime soak proof validators. Security/readiness names do not establish an enterprise backend; preserve baseline Runtime policy and linked historical evidence.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/validate_v0917_soak2_matrix.sh",
+          "git_object": "626b3f6f97150039fd4bf4aa118d4c2baccd499d",
+          "lines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "path": "adl/tools/test_hosted_benchmark_hardening.sh",
+          "lines": [
+            17,
+            23
+          ]
+        },
+        {
+          "path": "adl/tools/test_v0915_remote_gemma_watcher_probe.sh",
+          "lines": [
+            5,
+            6
+          ]
+        },
+        {
+          "path": "adl/tools/test_validate_wp12_ssm_readiness_4657.sh",
+          "lines": [
+            8,
+            9,
+            10,
+            12
+          ]
+        },
+        {
+          "path": "adl/tools/validate_v0917_no_sparrow_4909_status.sh",
+          "lines": [
+            88,
+            96,
+            103
+          ]
+        },
+        {
+          "path": "adl/tools/validate_v0917_soak2_matrix.sh",
+          "lines": [
+            55,
+            84
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/BURST_FINAL_SUMMARY_TEMPLATE.md",
+      "owner": "cognitive-sdlc",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Issue/PR burst execution summary template with parent issue, created issues, execution order, stop reason and next command; lifecycle reporting contract.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/BURST_FINAL_SUMMARY_TEMPLATE.md",
+          "git_object": "7590d82adbd91ceee205f263f4b2efdc9760ae99",
+          "lines": [
+            7,
+            12,
+            16,
+            20
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/archive_codex_sessions_to_fastwork.sh",
+      "owner": "agent-logic-infrastructure",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Host-local Codex session archive transport, digest verification, FastWork destination and filesystem permissions. Does not define lifecycle state; preserve source archive contents and authorized retention rules.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/archive_codex_sessions_to_fastwork.sh",
+          "git_object": "d6e9a93041f7de463034e62a71f62b3ac0eed380",
+          "lines": [
+            7,
+            35,
+            39,
+            74,
+            75,
+            76
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/test_archive_codex_sessions_to_fastwork.sh",
+      "owner": "agent-logic-infrastructure",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Isolated archive utility test verifies digest-preserving copy and refusing bad destinations; follows its host-storage producer, not Runtime session implementation.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/test_archive_codex_sessions_to_fastwork.sh",
+          "git_object": "8bbd5f6410a8ded2f7cf53815457bfdf07ae9207",
+          "lines": [
+            8,
+            14,
+            19,
+            31,
+            42
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/demo_codex_ollama_operational_skills.sh",
+      "owner": "cognitive-sdlc",
+      "owner_role": "component_owner",
+      "disposition": "preserve_existing_fail_closed_compatibility",
+      "rationale": "Source explicitly exits2 with retired standalone card-validation route diagnostic before provider/task code. Preserve this fail-closed compatibility fence and retained unreachable source; do not claim live execution or newly authorize retirement.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/demo_codex_ollama_operational_skills.sh",
+          "git_object": "bb1258773814bddebb3c4538792c87e58a3dc4d4",
+          "lines": [
+            120,
+            121,
+            122,
+            123,
+            125
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/demo_v087_operational_skills.sh",
+      "owner": "cognitive-sdlc",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Skill-installer/operator package demonstration validates install and inventories bundles; C-SDLC owns integration wrapper, product skill packages remain external producer inputs.",
+      "component_splits": [],
+      "consumer_dependencies": [
+        {
+          "owner": "codefriend",
+          "interface": "review skill bundles inventoried by installer, not duplicated by demo wrapper",
+          "evidence": "adl/tools/demo_v087_operational_skills.sh:14"
+        }
+      ],
+      "source_evidence": [
+        {
+          "path": "adl/tools/demo_v087_operational_skills.sh",
+          "git_object": "19d70fcb01fc9b4e8a68b57c14f51b3a7e58f59b",
+          "lines": [
+            12,
+            14,
+            31
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/demo_v0914_codex_only_complete_issue_workcell.sh",
+      "owner": "cognitive-sdlc",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Creates deterministic issue-workcell lane/review/gate fixtures explicitly marked no live provider, no publication, no merge approval. Lifecycle owns fixture generator, not a claimed running task service.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/demo_v0914_codex_only_complete_issue_workcell.sh",
+          "git_object": "80c7126737fbc1e180351e656f5c435fa54854b5",
+          "lines": [
+            54,
+            56,
+            59,
+            60,
+            64,
+            65
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/suitability_specs/deepseek_csdlc_panel_4096.json",
+      "owner": "agent-logic-runtime",
+      "owner_role": "integration_custodian",
+      "disposition": "split_integration_surface",
+      "rationale": "Provider suitability integration specification: C-SDLC role prompts evaluated across DeepSeek provider candidates. Runtime owns qualification runner/candidate routing, C-SDLC owns actual lifecycle task semantics; no repo-mutation authority is granted.",
+      "component_splits": [
+        {
+          "owner": "cognitive-sdlc",
+          "selector": "tasks[*].prompt and lifecycle role/closeout expected semantics",
+          "role": "Lifecycle suitability task contract"
+        },
+        {
+          "owner": "agent-logic-runtime",
+          "selector": "candidates[*], provider_setup_family and provider qualification packet routing",
+          "role": "Provider execution/identity/credential and qualification contract"
+        }
+      ],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/suitability_specs/deepseek_csdlc_panel_4096.json",
+          "git_object": "31996d82ceedc5ab37f327aa4fbdfd92cfedd7d4",
+          "lines": [
+            2,
+            5,
+            9,
+            19,
+            25,
+            31,
+            37,
+            45,
+            52
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/test_demo_codex_ollama_operational_skills.sh",
+      "owner": "cognitive-sdlc",
+      "owner_role": "component_owner",
+      "disposition": "preserve_existing_fail_closed_compatibility",
+      "rationale": "Tests explicit fail-closed retirement diagnostic for card-validation demo; follows compatibility fence, not unreachable provider implementation.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/test_demo_codex_ollama_operational_skills.sh",
+          "git_object": "86a12e4e16873fff762e315ea3c41c5db8934b8c",
+          "lines": [
+            11,
+            13,
+            17
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/test_demo_v0914_codex_only_complete_issue_workcell.sh",
+      "owner": "cognitive-sdlc",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Validates deterministic complete-issue workcell fixtures and custom-output deletion guard; no live task/provider execution.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/test_demo_v0914_codex_only_complete_issue_workcell.sh",
+          "git_object": "1b8e702676bca471e7924d090f45cca6f5e7fb18",
+          "lines": [
+            11,
+            106
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/tools/validate_csdlc_demo_proof_contract_packet.py",
+      "owner": "cognitive-sdlc",
+      "owner_role": "component_owner",
+      "disposition": "maintained",
+      "rationale": "Validates bounded C-SDLC demo proof packet contract; lifecycle evidence consumer.",
+      "component_splits": [],
+      "consumer_dependencies": [],
+      "source_evidence": [
+        {
+          "path": "adl/tools/validate_csdlc_demo_proof_contract_packet.py",
+          "git_object": "7853c94fb87f26760158ca23268ac98c43a98470",
+          "lines": [
+            2,
+            10,
+            20
+          ]
+        }
+      ],
+      "gaps": [],
+      "export_authorized": false
+    }
+  ],
+  "counts": {
+    "agent-design-language": 1,
+    "agent-logic-infrastructure": 5,
+    "agent-logic-runtime": 36,
+    "codefriend": 2,
+    "cognitive-sdlc": 21
+  },
+  "interpretation": "Source-grounded proposed accountable owners. Dependencies do not imply code splitting. Explicit component split only for the demonstrably mixed Opus review contract. Historical references retained as evidence, never declared retired. No runtime/provider behavior executed.",
+  "denominator": "actual base retain_pending_consumer_mapping paths minus union of tool-runtime-infra and tool-skill overrides; supersedes stale declared remaining61"
+}

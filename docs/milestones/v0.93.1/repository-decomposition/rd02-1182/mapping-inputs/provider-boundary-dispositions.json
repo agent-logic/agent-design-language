@@ -1,0 +1,167 @@
+{
+  "status": "technical_proposal_review_correction",
+  "source_revision": "682be6b8babb69f73c5e9fef8580f1b3c88966d5",
+  "paths": [
+    {
+      "path": "adl/src/adl/types.rs",
+      "git_object": "83d5cf101581c85a966f25170cd6e1e19fc62524",
+      "owner": "agent-design-language",
+      "owner_role": "integration_custodian",
+      "disposition": "split_before_export",
+      "rationale": "Portable ADL schema currently reexports ProviderSpec from operational provider-core. Extract the single DTO into public schema ownership; consumers reexport/use that public definition, never the private transport crate.",
+      "component_splits": [
+        {
+          "owner": "agent-design-language",
+          "component": "ADL schema types and public ProviderSpec reexport from the separated schema leaf"
+        },
+        {
+          "owner": "agent-logic-runtime",
+          "component": "Existing private provider-core facade must consume the same public ProviderSpec definition"
+        }
+      ],
+      "gaps": [
+        "Replace line13 private crate reexport before portable package qualification; no duplicate ProviderSpec implementation."
+      ],
+      "source_evidence": [
+        {
+          "path": "adl/src/adl/types.rs",
+          "git_object": "83d5cf101581c85a966f25170cd6e1e19fc62524",
+          "lines": [
+            13
+          ]
+        }
+      ],
+      "export_authorized": false
+    },
+    {
+      "path": "adl/src/adl/validation.rs",
+      "git_object": "1d066b3b935173274cc4cdbc6b5810703e6bf371",
+      "owner": "agent-design-language",
+      "owner_role": "integration_custodian",
+      "disposition": "split_before_export",
+      "rationale": "Separate portable document/schema validation from Runtime endpoint admission and key-source authority. Current crate::provider and crate::signing references prevent independent portable extraction.",
+      "component_splits": [
+        {
+          "owner": "agent-design-language",
+          "component": "Document shape, scalar constraints and portable key-source/provider declaration syntax"
+        },
+        {
+          "owner": "agent-logic-runtime",
+          "component": "Endpoint allow policy and configured provider/key admission; Runtime revalidates every untrusted declaration"
+        }
+      ],
+      "gaps": [
+        "Replace private signing/provider calls with public declaration syntax or Runtime-side admission; preserve endpoint denial at execution rather than silently dropping enforcement."
+      ],
+      "source_evidence": [
+        {
+          "path": "adl/src/adl/validation.rs",
+          "git_object": "1d066b3b935173274cc4cdbc6b5810703e6bf371",
+          "lines": [
+            109,
+            287,
+            311,
+            345
+          ]
+        }
+      ],
+      "export_authorized": false
+    },
+    {
+      "path": "adl-provider-core/src/spec.rs",
+      "git_object": "36aad1b88e24ed49530ed041562bb78e7cb1572b",
+      "owner": "agent-design-language",
+      "owner_role": "component_owner",
+      "disposition": "assign_component",
+      "rationale": "ProviderSpec and ProviderMap are serde/schemars declaration DTOs required by public ADL. Extract exactly this schema leaf once; Runtime transport and registry consume its versioned public artifact.",
+      "component_splits": [],
+      "gaps": [
+        "Extract schema package with only serde/json/schemars dependency surface and preserve wire compatibility; current mixed crate packaging is not portable qualification."
+      ],
+      "source_evidence": [
+        {
+          "path": "adl-provider-core/src/spec.rs",
+          "git_object": "36aad1b88e24ed49530ed041562bb78e7cb1572b",
+          "lines": [
+            1,
+            8,
+            33
+          ]
+        }
+      ],
+      "export_authorized": false
+    },
+    {
+      "path": "adl-provider-core/src/lib.rs",
+      "git_object": "fc29520bba89d4a602150643b086b8dbd37a7157",
+      "owner": "agent-logic-runtime",
+      "owner_role": "integration_custodian",
+      "disposition": "split_before_export",
+      "rationale": "Runtime retains operational provider facade/packaging; separate public ProviderSpec schema dependency from transport/model/profile/candidate/registry implementation.",
+      "component_splits": [
+        {
+          "owner": "agent-design-language",
+          "component": "Single separated ProviderSpec/ProviderMap schema leaf distribution contract"
+        },
+        {
+          "owner": "agent-logic-runtime",
+          "component": "Operational provider-core facade and transport/candidate/registry package"
+        }
+      ],
+      "gaps": [
+        "Change facade/import and package dependency to public schema artifact before extraction; do not export AWS/HTTP/process dependencies as a portable DTO package."
+      ],
+      "source_evidence": [
+        {
+          "path": "adl-provider-core/src/lib.rs",
+          "git_object": "fc29520bba89d4a602150643b086b8dbd37a7157",
+          "lines": [
+            3,
+            4,
+            5,
+            7,
+            8,
+            13
+          ]
+        }
+      ],
+      "export_authorized": false
+    },
+    {
+      "path": "adl-provider-core/Cargo.toml",
+      "git_object": "d014c0cd727b4eda92bf7db9ee0c40262f4ade9a",
+      "owner": "agent-logic-runtime",
+      "owner_role": "integration_custodian",
+      "disposition": "split_before_export",
+      "rationale": "Runtime retains operational provider facade/packaging; separate public ProviderSpec schema dependency from transport/model/profile/candidate/registry implementation.",
+      "component_splits": [
+        {
+          "owner": "agent-design-language",
+          "component": "Single separated ProviderSpec/ProviderMap schema leaf distribution contract"
+        },
+        {
+          "owner": "agent-logic-runtime",
+          "component": "Operational provider-core facade and transport/candidate/registry package"
+        }
+      ],
+      "gaps": [
+        "Change facade/import and package dependency to public schema artifact before extraction; do not export AWS/HTTP/process dependencies as a portable DTO package."
+      ],
+      "source_evidence": [
+        {
+          "path": "adl-provider-core/Cargo.toml",
+          "git_object": "d014c0cd727b4eda92bf7db9ee0c40262f4ade9a",
+          "lines": [
+            9,
+            11,
+            15,
+            16,
+            17,
+            20
+          ]
+        }
+      ],
+      "export_authorized": false
+    }
+  ]
+}
