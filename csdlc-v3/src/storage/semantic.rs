@@ -1201,6 +1201,51 @@ fn remote_file_identity(
         .file_name()
         .and_then(|name| name.to_str())
         .ok_or(Error::RecoveryRequired)?;
+    // Retirement and successor records are owned by the retained merge intent.
+    // They are not independent issue mutations and must not poison observation
+    // of an unrelated, newly created issue. Classification grants no retry or
+    // settlement authority; the merge owner still validates the full chain.
+    if namespace == "merges"
+        && (name.ends_with(".retirement.json") || name.ends_with(".successor.json"))
+    {
+        let predecessor = name.split('.').next().ok_or(Error::RecoveryRequired)?;
+        if predecessor.len() != 64 || !predecessor.bytes().all(|b| b.is_ascii_hexdigit()) {
+            return Err(Error::RecoveryRequired);
+        }
+        let original = read_remote_json(&directory.join(format!("{predecessor}.intent.json")))?;
+        let identity = remote_identity(&original)?;
+        if original["schema"] != "csdlc.v3.merge_intent.v1" {
+            return Err(Error::RecoveryRequired);
+        }
+        if name.ends_with(".retirement.json") {
+            if value["schema"] != "csdlc.v3.merge_retirement.v1"
+                || value["operation_digest"] != predecessor
+            {
+                return Err(Error::RecoveryRequired);
+            }
+        } else {
+            let successor = value["operation_digest"]
+                .as_str()
+                .ok_or(Error::RecoveryRequired)?;
+            if value["schema"] != "csdlc.v3.merge_target.v1"
+                || successor.len() != 64
+                || !successor.bytes().all(|b| b.is_ascii_hexdigit())
+                || successor == predecessor
+                || value["repository"] != original["request"]["repository"]
+                || value["pull_request"] != original["request"]["pull_request"]
+            {
+                return Err(Error::RecoveryRequired);
+            }
+            let next = read_remote_json(&directory.join(format!("{successor}.intent.json")))?;
+            if next["schema"] != "csdlc.v3.merge_intent.v1"
+                || remote_identity(&next)? != identity
+                || next["request"]["pull_request"] != value["pull_request"]
+            {
+                return Err(Error::RecoveryRequired);
+            }
+        }
+        return Ok(identity);
+    }
     Ok(
         if namespace == "merges"
             && [
