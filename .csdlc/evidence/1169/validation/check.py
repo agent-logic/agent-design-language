@@ -86,3 +86,5 @@ assert 'href="https://podcasts.apple.com/us/podcast/the-cognitive-stack/id681590
 assert 'href="https://open.spotify.com/show/3KnDrv4aPTtjm7vgOzFIyM"' in page
 assert 'Amazon Music / Audible — pending</span>' in page
 assert 'YouTube Music — pending</span>' in page
+
+assert 'audioSrc: "audio/the-cognitive-stack-episode-001-meet-the-ai-coworkers.mp3"' in page

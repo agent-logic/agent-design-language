@@ -1,18 +1,22 @@
 # Episode 1 launch preparation
 
-The Cognitive Stack — Meet the AI Coworkers. The operator approved final listening on September 24 for a September 25, 2026 launch. The operator subsequently approved the private-path playback test and authorized immediate public promotion. The package is now published; `public-deployment.json` records the verified public feed and actual publication timestamp. Directory submissions remain pending.
+The Cognitive Stack — Meet the AI Coworkers. The operator approved final listening on September 24 for a September 25, 2026 launch. The operator subsequently approved the private-path playback test and authorized immediate public promotion. The package is now published; `public-deployment.json` records the verified public feed and actual publication timestamp. Apple and Spotify registration and listening checks are complete per Daniel. Amazon/Audible and YouTube Music are deferred; Darlicia owns social promotion. See [launch closeout](../../LAUNCH_READINESS.md).
 
-The feed uses the approved 550.056-second recording (displayed as 9:10), its measured byte count, and the existing stable episode GUID. The descriptive MP3 and transcript are exact copies of the reviewed Episode 1 package. `release.json` records source paths, SHA-256 hashes, MIME types and intended public URLs. The original WAV remains in the reviewed source package to avoid duplicating the archive.
+The feed uses the approved 550.056-second recording (displayed as 9:10), its measured byte count, and the existing stable episode GUID. The descriptive MP3 is an exact copy of the reviewed recording; transcript spoken turns are unchanged, with public metadata corrected. `release.json` records source paths, SHA-256 hashes, MIME types and intended public URLs. The original WAV remains in the reviewed source package to avoid duplicating the archive.
 
 ## Launch checklist
 
 1. Completed: set the feed item's `pubDate` to the authorized public promotion time.
-2. Upload only the assets and URL mappings in `release.json`. Serve the approved MP3 at both its descriptive URL and the old audio URL still used by the webpage. Do not bulk-sync the podcast directory: historical files at the old source paths contain the previous episode and artwork.
+2. Upload only the assets and URL mappings in `release.json`. Serve the approved MP3 at both its descriptive URL and the old compatibility audio URL; the webpage now uses the descriptive URL. Do not bulk-sync the podcast directory: historical files at the old source paths contain the previous episode and artwork.
 3. Verify public artwork and both MP3 URLs return the expected bytes and MIME types, and verify audio playback/range requests. Verify the transcript URL.
 4. Publish the feed only after those assets pass verification; fetch the public XML and confirm its enclosure and publication date.
-5. Continue the remaining registration and launch checklist in issue #1169. This change does not complete the launch issue.
+5. Accepted launch scope is complete; #1169 tracks integration through PR. Deferred provider work and the promotion handoff are recorded in the launch closeout.
 
-## Preserved webpage
+## Historical stages (superseded by launch closeout)
+
+The following sections retain the sequence of operator-approved changes. They do not describe current provider availability.
+
+### Initially preserved webpage
 
 The webpage HTML, layout and copy remain unchanged as requested. Its displayed duration still says 18:32; the prepared feed correctly says 9:10. The compatibility audio URL above allows the page to play the approved recording without an HTML edit. The old displayed duration remains a known launch discrepancy requiring a separate decision.
 
