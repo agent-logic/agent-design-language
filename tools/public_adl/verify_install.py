@@ -152,7 +152,8 @@ def main():
         assert consumer_report['passed'] and consumer_report['executed_cases'] == consumer_report['expected_cases'] == 7
         assert consumer_report['uts_fixture_count'] == len(consumer_report['uts_cases'])
         assert all(case['passed'] for case in consumer_report['uts_cases'])
-        metadata = json.loads(isolated([str(cargo), 'metadata', '--offline', '--locked', '--format-version', '1']).stdout)
+        host = next(line.split(': ', 1)[1] for line in isolated([str(rustc), '-vV']).stdout.splitlines() if line.startswith('host: '))
+        metadata = json.loads(isolated([str(cargo), 'metadata', '--offline', '--locked', '--filter-platform', host, '--format-version', '1']).stdout)
         for name in PACKAGES:
             package = next(p for p in metadata['packages'] if p['name'] == name)
             assert Path(package['manifest_path']).resolve() == vendor / name / 'Cargo.toml'
