@@ -1,0 +1,13 @@
+version: "0.5"
+providers: {local: {type: ollama}}
+agents: {worker: {provider: local, model: test}}
+tasks:
+  a: {prompt: {user: a}}
+  b: {prompt: {user: b}}
+run:
+  name: dependency-cycle
+  workflow:
+    kind: concurrent
+    steps:
+      - {id: a, agent: worker, task: a, save_as: a_out, inputs: {peer: "@state:b_out"}}
+      - {id: b, agent: worker, task: b, save_as: b_out, inputs: {peer: "@state:a_out"}}

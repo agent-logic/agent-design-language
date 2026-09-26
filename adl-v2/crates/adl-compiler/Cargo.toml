@@ -1,13 +1,13 @@
 [package]
 name = "adl-compiler"
-version.workspace = true
+version = "0.92.1"
 edition = "2021"
 rust-version = "1.85"
 license = "Apache-2.0"
 description = "Pure deterministic compiler from validated ADL v2 documents to inert execution plans"
 
 [dependencies]
-adl-language = { path = "../adl-language" }
+adl-language = { version = "=0.92.1", path = "../adl-language" }
 hex = "=0.4.3"
 serde = { version = "=1.0.229", features = ["derive"] }
 serde_json = "=1.0.151"

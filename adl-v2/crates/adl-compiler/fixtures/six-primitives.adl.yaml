@@ -1,0 +1,45 @@
+version: "0.5"
+providers:
+  local:
+    id: local
+    type: local_ollama
+    config:
+      model: test-model
+tools:
+  docs:
+    id: docs
+    type: mcp
+    config:
+      server: docs
+agents:
+  planner:
+    id: planner
+    provider: local
+    model: test-model
+    tools: [docs]
+tasks:
+  summarize:
+    id: summarize
+    agent_ref: planner
+    inputs: [topic]
+    tool_allowlist: [docs]
+    prompt:
+      system: "You summarize deterministically."
+      user: "Summarize {{topic}}."
+workflows:
+  main:
+    id: main
+    kind: sequential
+    steps:
+      - id: summarize.topic
+        task: summarize
+        inputs:
+          topic: characterization
+run:
+  id: run-main
+  name: six-primitives
+  workflow_ref: main
+  inputs:
+    topic: characterization
+  placement:
+    target: local

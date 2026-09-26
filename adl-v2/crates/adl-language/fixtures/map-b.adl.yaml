@@ -1,0 +1,14 @@
+version: "0.5"
+providers:
+  beta: {type: ollama}
+  alpha: {type: ollama}
+agents:
+  worker: {provider: alpha, model: test}
+tasks:
+  one: {prompt: {user: "one"}}
+run:
+  name: map-order
+  workflow:
+    kind: sequential
+    steps:
+      - {id: one, agent: worker, task: one}

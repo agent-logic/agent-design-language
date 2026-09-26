@@ -1,0 +1,335 @@
+{
+  "source_revision": "2458df9507a0b91b2e94e051cc6984f529cde22b",
+  "records": [
+    {
+      "source": "LICENSE",
+      "destination": "adl-schema/LICENSE",
+      "git_object": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64"
+    },
+    {
+      "source": "LICENSE",
+      "destination": "adl-legacy-contracts/LICENSE",
+      "git_object": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64"
+    },
+    {
+      "source": "adl-provider-core/src/spec.rs",
+      "destination": "adl-schema/src/provider.rs",
+      "git_object": "36aad1b88e24ed49530ed041562bb78e7cb1572b"
+    },
+    {
+      "source": "adl-provider-core/src/model_identity.rs",
+      "destination": "adl-schema/src/model_identity.rs",
+      "git_object": "429047dbcca9035f17e70e5a26ac467dc24ba61a"
+    },
+    {
+      "source": "adl/src/adl.rs",
+      "destination": "adl-legacy-contracts/src/adl.rs",
+      "git_object": "c2cb21894d1edbdee4685061b23d49d96128c1b0"
+    },
+    {
+      "source": "adl/src/schema.rs",
+      "destination": "adl-legacy-contracts/src/schema.rs",
+      "git_object": "0c3089b038a89cd2f9ae913d53aa3c488ffd26c9"
+    },
+    {
+      "source": "adl/src/execution_plan.rs",
+      "destination": "adl-legacy-contracts/src/execution_plan.rs",
+      "git_object": "9b6ecfcfc5b9ece81fdf3883d0966f13a960022d"
+    },
+    {
+      "source": "adl/src/plan.rs",
+      "destination": "adl-legacy-contracts/src/plan.rs",
+      "git_object": "038e0a012d2c7a1b451ad4be3192a0d6c331a893"
+    },
+    {
+      "source": "adl/src/prompt.rs",
+      "destination": "adl-legacy-contracts/src/prompt.rs",
+      "git_object": "dbfcdd7d4e25eec88dc0b560e9ea26411a105d68"
+    },
+    {
+      "source": "adl/src/resolve.rs",
+      "destination": "adl-legacy-contracts/src/resolve.rs",
+      "git_object": "25f335f46ce401328285a58455d26724405ec1ab"
+    },
+    {
+      "source": "adl/src/trace_schema_v1.rs",
+      "destination": "adl-legacy-contracts/src/trace_schema_v1.rs",
+      "git_object": "b57f701aa52fa2c6aa9269af282d9788d2894d77"
+    },
+    {
+      "source": "adl/src/cognitive_transition_schema.rs",
+      "destination": "adl-legacy-contracts/src/cognitive_transition_schema.rs",
+      "git_object": "cc703d797078550f36c317530b13e8f4a6c6063d"
+    },
+    {
+      "source": "adl/src/adl/types.rs",
+      "destination": "adl-legacy-contracts/src/adl/types.rs",
+      "git_object": "83d5cf101581c85a966f25170cd6e1e19fc62524"
+    },
+    {
+      "source": "adl/src/adl/loading.rs",
+      "destination": "adl-legacy-contracts/src/adl/loading.rs",
+      "git_object": "98a8c00ecd329c0266185ea802d82030a5354972"
+    },
+    {
+      "source": "adl/src/adl/validation.rs",
+      "destination": "adl-legacy-contracts/src/adl/validation.rs",
+      "git_object": "1d066b3b935173274cc4cdbc6b5810703e6bf371"
+    },
+    {
+      "source": "adl/src/adl/tests.rs",
+      "destination": "adl-legacy-contracts/src/adl/tests.rs",
+      "git_object": "277da4ec05096455621a1e526d612b9ec8245317"
+    },
+    {
+      "source": "adl/schemas/adl.schema.json",
+      "destination": "adl-legacy-contracts/schemas/adl.schema.json",
+      "git_object": "e52ded5c2b7f94b6684bb33d722af203f4ae6782"
+    },
+    {
+      "source": "docs/milestones/v0.91.3/review/transition_dag/ct_demo_001_transition_dag.md",
+      "destination": "adl-legacy-contracts/fixtures/ct_demo_001_transition_dag.md",
+      "git_object": "c2ec5e0d83629532c1994956a6c32f4c4b7a87d3"
+    },
+    {
+      "source": "docs/milestones/v0.91.3/review/transition_dag/ct_demo_001_shard_plan.md",
+      "destination": "adl-legacy-contracts/fixtures/ct_demo_001_shard_plan.md",
+      "git_object": "f02843b34077726c860fc651c4b3a2934b35e6b5"
+    },
+    {
+      "source": "docs/milestones/v0.91.3/review/evidence_bundle/ct_demo_001_evidence_bundle.md",
+      "destination": "adl-legacy-contracts/fixtures/ct_demo_001_evidence_bundle.md",
+      "git_object": "dfa71ce581ce6618926323221d56849c082a97c7"
+    },
+    {
+      "source": "docs/milestones/v0.91.3/review/evidence_bundle/ct_demo_001_review_synthesis.md",
+      "destination": "adl-legacy-contracts/fixtures/ct_demo_001_review_synthesis.md",
+      "git_object": "b57fd93ddf0ee7d4050cf475417acb1c80805f5e"
+    },
+    {
+      "source": "docs/milestones/v0.91.3/review/merge_readiness/ct_demo_001_merge_gate.md",
+      "destination": "adl-legacy-contracts/fixtures/ct_demo_001_merge_gate.md",
+      "git_object": "e1f1f20687af40761c35888050c70ad959f366ab"
+    },
+    {
+      "source": "docs/milestones/v0.91.3/review/obsmem_handoff/ct_demo_001_obsmem_handoff.json",
+      "destination": "adl-legacy-contracts/fixtures/ct_demo_001_obsmem_handoff.json",
+      "git_object": "83f1a9daf344c88609fe599985d24decd997f689"
+    },
+    {
+      "source": "docs/milestones/v0.91.3/review/obsmem_handoff/ct_demo_001_obsmem_handoff.md",
+      "destination": "adl-legacy-contracts/fixtures/ct_demo_001_obsmem_handoff.md",
+      "git_object": "5bdecac190e2f2219d393d808ce7c170811f7c61"
+    },
+    {
+      "source": "adl/src/uts_conformance.rs",
+      "destination": "adl-uts/src/conformance.rs",
+      "git_object": "ba584cf806b749216ced3f8535684bbce0207013"
+    },
+    {
+      "source": "docs/milestones/v0.90.5/review/uts-conformance-report.json",
+      "destination": "adl-uts/fixtures/uts-conformance-report.json",
+      "git_object": "c4c5df533f3fec61305739c738f291bcb8c3e17e"
+    },
+    {
+      "source": "LICENSE",
+      "destination": "adl-v2/crates/adl-language/LICENSE",
+      "git_object": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64"
+    },
+    {
+      "source": "LICENSE",
+      "destination": "adl-v2/crates/adl-compiler/LICENSE",
+      "git_object": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64"
+    },
+    {
+      "source": "adl-characterization/corpus/v1/fixtures/schema-unknown.adl.yaml",
+      "destination": "adl-v2/crates/adl-language/fixtures/schema-unknown.adl.yaml",
+      "git_object": "013453ae6204582a2fbfa29af0dbe89c1fe42f5a"
+    },
+    {
+      "source": "adl-characterization/corpus/v1/fixtures/fork-join.adl.yaml",
+      "destination": "adl-v2/crates/adl-language/fixtures/fork-join.adl.yaml",
+      "git_object": "c9a23f8f035c3768d592250371ae4f1fd6c90c85"
+    },
+    {
+      "source": "adl-characterization/corpus/v1/fixtures/sequential-a.adl.yaml",
+      "destination": "adl-v2/crates/adl-language/fixtures/sequential-a.adl.yaml",
+      "git_object": "7e713d04b09a526c0e58c8666fc31a8e3b1fdb26"
+    },
+    {
+      "source": "adl-characterization/corpus/v1/fixtures/malformed.adl.yaml",
+      "destination": "adl-v2/crates/adl-language/fixtures/malformed.adl.yaml",
+      "git_object": "6409a6b451c50d287a525b8683316dc049d226a8"
+    },
+    {
+      "source": "adl-characterization/corpus/v1/fixtures/map-b.adl.yaml",
+      "destination": "adl-v2/crates/adl-language/fixtures/map-b.adl.yaml",
+      "git_object": "09766a5412902dd366c36a81aea839caf7fe8829"
+    },
+    {
+      "source": "adl-characterization/corpus/v1/fixtures/unknown-task.adl.yaml",
+      "destination": "adl-v2/crates/adl-language/fixtures/unknown-task.adl.yaml",
+      "git_object": "503c0b32271158d8b0e9eca50770bb08438aa67b"
+    },
+    {
+      "source": "adl-characterization/corpus/v1/fixtures/branch-a.adl.yaml",
+      "destination": "adl-v2/crates/adl-language/fixtures/branch-a.adl.yaml",
+      "git_object": "0129972c4846d456218d21585739ce577465aaa5"
+    },
+    {
+      "source": "adl-characterization/corpus/v1/fixtures/mock-run.adl.yaml",
+      "destination": "adl-v2/crates/adl-language/fixtures/mock-run.adl.yaml",
+      "git_object": "be2ec3effe106c4edac4b9e6d78170634c5278bd"
+    },
+    {
+      "source": "adl-characterization/corpus/v1/fixtures/unknown-tool.adl.yaml",
+      "destination": "adl-v2/crates/adl-language/fixtures/unknown-tool.adl.yaml",
+      "git_object": "5878245a69a6dbd81382e3c8c2fdc49549c45058"
+    },
+    {
+      "source": "adl-characterization/corpus/v1/fixtures/cycle.adl.yaml",
+      "destination": "adl-v2/crates/adl-language/fixtures/cycle.adl.yaml",
+      "git_object": "81e2aecb82fd1f511da1b4ee79cf194f8fb31522"
+    },
+    {
+      "source": "adl-characterization/corpus/v1/fixtures/six-primitives.adl.yaml",
+      "destination": "adl-v2/crates/adl-language/fixtures/six-primitives.adl.yaml",
+      "git_object": "7c3a66ae2b6ad2d1dc60938bd9d24f06f7e71ff2"
+    },
+    {
+      "source": "adl-characterization/corpus/v1/fixtures/unsupported-run-field.adl.yaml",
+      "destination": "adl-v2/crates/adl-language/fixtures/unsupported-run-field.adl.yaml",
+      "git_object": "6e9dd0fe45615b77ba9558b5820962b20e509763"
+    },
+    {
+      "source": "adl-characterization/corpus/v1/fixtures/sequential-b.adl.yaml",
+      "destination": "adl-v2/crates/adl-language/fixtures/sequential-b.adl.yaml",
+      "git_object": "2d8213a7bcee6da492421230325458a6e8201131"
+    },
+    {
+      "source": "adl-characterization/corpus/v1/fixtures/unknown-workflow.adl.yaml",
+      "destination": "adl-v2/crates/adl-language/fixtures/unknown-workflow.adl.yaml",
+      "git_object": "17137a5e644bd4ebfbeef37b81261db5f9ddd548"
+    },
+    {
+      "source": "adl-characterization/corpus/v1/fixtures/state-missing.adl.yaml",
+      "destination": "adl-v2/crates/adl-language/fixtures/state-missing.adl.yaml",
+      "git_object": "e88c5989f58155e1d6691ce81a4d3b3e17f6c66f"
+    },
+    {
+      "source": "adl-characterization/corpus/v1/fixtures/branch-b.adl.yaml",
+      "destination": "adl-v2/crates/adl-language/fixtures/branch-b.adl.yaml",
+      "git_object": "245132fa39ab8141d05f8dd69ca0b30b87a9f2c6"
+    },
+    {
+      "source": "adl-characterization/corpus/v1/fixtures/unknown-provider.adl.yaml",
+      "destination": "adl-v2/crates/adl-language/fixtures/unknown-provider.adl.yaml",
+      "git_object": "92391da32ccf0d38ae29152cf92d681433866bcf"
+    },
+    {
+      "source": "adl-characterization/corpus/v1/fixtures/unknown-agent.adl.yaml",
+      "destination": "adl-v2/crates/adl-language/fixtures/unknown-agent.adl.yaml",
+      "git_object": "bf0746430056fd1bb0fbe96f3b973b11e28a95da"
+    },
+    {
+      "source": "adl-characterization/corpus/v1/fixtures/map-a.adl.yaml",
+      "destination": "adl-v2/crates/adl-language/fixtures/map-a.adl.yaml",
+      "git_object": "82116872642d0979282046ff9022cd8f951e654f"
+    },
+    {
+      "source": "adl-characterization/corpus/v1/fixtures/schema-unknown.adl.yaml",
+      "destination": "adl-v2/crates/adl-compiler/fixtures/schema-unknown.adl.yaml",
+      "git_object": "013453ae6204582a2fbfa29af0dbe89c1fe42f5a"
+    },
+    {
+      "source": "adl-characterization/corpus/v1/fixtures/fork-join.adl.yaml",
+      "destination": "adl-v2/crates/adl-compiler/fixtures/fork-join.adl.yaml",
+      "git_object": "c9a23f8f035c3768d592250371ae4f1fd6c90c85"
+    },
+    {
+      "source": "adl-characterization/corpus/v1/fixtures/sequential-a.adl.yaml",
+      "destination": "adl-v2/crates/adl-compiler/fixtures/sequential-a.adl.yaml",
+      "git_object": "7e713d04b09a526c0e58c8666fc31a8e3b1fdb26"
+    },
+    {
+      "source": "adl-characterization/corpus/v1/fixtures/malformed.adl.yaml",
+      "destination": "adl-v2/crates/adl-compiler/fixtures/malformed.adl.yaml",
+      "git_object": "6409a6b451c50d287a525b8683316dc049d226a8"
+    },
+    {
+      "source": "adl-characterization/corpus/v1/fixtures/map-b.adl.yaml",
+      "destination": "adl-v2/crates/adl-compiler/fixtures/map-b.adl.yaml",
+      "git_object": "09766a5412902dd366c36a81aea839caf7fe8829"
+    },
+    {
+      "source": "adl-characterization/corpus/v1/fixtures/unknown-task.adl.yaml",
+      "destination": "adl-v2/crates/adl-compiler/fixtures/unknown-task.adl.yaml",
+      "git_object": "503c0b32271158d8b0e9eca50770bb08438aa67b"
+    },
+    {
+      "source": "adl-characterization/corpus/v1/fixtures/branch-a.adl.yaml",
+      "destination": "adl-v2/crates/adl-compiler/fixtures/branch-a.adl.yaml",
+      "git_object": "0129972c4846d456218d21585739ce577465aaa5"
+    },
+    {
+      "source": "adl-characterization/corpus/v1/fixtures/mock-run.adl.yaml",
+      "destination": "adl-v2/crates/adl-compiler/fixtures/mock-run.adl.yaml",
+      "git_object": "be2ec3effe106c4edac4b9e6d78170634c5278bd"
+    },
+    {
+      "source": "adl-characterization/corpus/v1/fixtures/unknown-tool.adl.yaml",
+      "destination": "adl-v2/crates/adl-compiler/fixtures/unknown-tool.adl.yaml",
+      "git_object": "5878245a69a6dbd81382e3c8c2fdc49549c45058"
+    },
+    {
+      "source": "adl-characterization/corpus/v1/fixtures/cycle.adl.yaml",
+      "destination": "adl-v2/crates/adl-compiler/fixtures/cycle.adl.yaml",
+      "git_object": "81e2aecb82fd1f511da1b4ee79cf194f8fb31522"
+    },
+    {
+      "source": "adl-characterization/corpus/v1/fixtures/six-primitives.adl.yaml",
+      "destination": "adl-v2/crates/adl-compiler/fixtures/six-primitives.adl.yaml",
+      "git_object": "7c3a66ae2b6ad2d1dc60938bd9d24f06f7e71ff2"
+    },
+    {
+      "source": "adl-characterization/corpus/v1/fixtures/unsupported-run-field.adl.yaml",
+      "destination": "adl-v2/crates/adl-compiler/fixtures/unsupported-run-field.adl.yaml",
+      "git_object": "6e9dd0fe45615b77ba9558b5820962b20e509763"
+    },
+    {
+      "source": "adl-characterization/corpus/v1/fixtures/sequential-b.adl.yaml",
+      "destination": "adl-v2/crates/adl-compiler/fixtures/sequential-b.adl.yaml",
+      "git_object": "2d8213a7bcee6da492421230325458a6e8201131"
+    },
+    {
+      "source": "adl-characterization/corpus/v1/fixtures/unknown-workflow.adl.yaml",
+      "destination": "adl-v2/crates/adl-compiler/fixtures/unknown-workflow.adl.yaml",
+      "git_object": "17137a5e644bd4ebfbeef37b81261db5f9ddd548"
+    },
+    {
+      "source": "adl-characterization/corpus/v1/fixtures/state-missing.adl.yaml",
+      "destination": "adl-v2/crates/adl-compiler/fixtures/state-missing.adl.yaml",
+      "git_object": "e88c5989f58155e1d6691ce81a4d3b3e17f6c66f"
+    },
+    {
+      "source": "adl-characterization/corpus/v1/fixtures/branch-b.adl.yaml",
+      "destination": "adl-v2/crates/adl-compiler/fixtures/branch-b.adl.yaml",
+      "git_object": "245132fa39ab8141d05f8dd69ca0b30b87a9f2c6"
+    },
+    {
+      "source": "adl-characterization/corpus/v1/fixtures/unknown-provider.adl.yaml",
+      "destination": "adl-v2/crates/adl-compiler/fixtures/unknown-provider.adl.yaml",
+      "git_object": "92391da32ccf0d38ae29152cf92d681433866bcf"
+    },
+    {
+      "source": "adl-characterization/corpus/v1/fixtures/unknown-agent.adl.yaml",
+      "destination": "adl-v2/crates/adl-compiler/fixtures/unknown-agent.adl.yaml",
+      "git_object": "bf0746430056fd1bb0fbe96f3b973b11e28a95da"
+    },
+    {
+      "source": "adl-characterization/corpus/v1/fixtures/map-a.adl.yaml",
+      "destination": "adl-v2/crates/adl-compiler/fixtures/map-a.adl.yaml",
+      "git_object": "82116872642d0979282046ff9022cd8f951e654f"
+    }
+  ]
+}

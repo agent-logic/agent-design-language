@@ -6,9 +6,11 @@ version = 4
 name = "adl"
 version = "0.92.1"
 dependencies = [
+ "adl-legacy-contracts",
  "adl-provider-core",
  "adl-runtime",
  "adl-runtime-kernel",
+ "adl-schema",
  "adl-uts",
  "anyhow",
  "async-trait",
@@ -91,9 +93,24 @@ dependencies = [
 ]
 
 [[package]]
+name = "adl-legacy-contracts"
+version = "0.1.0"
+dependencies = [
+ "adl-schema",
+ "anyhow",
+ "jsonschema",
+ "once_cell",
+ "schemars 0.8.22",
+ "serde",
+ "serde_json",
+ "serde_yaml",
+]
+
+[[package]]
 name = "adl-provider-core"
 version = "0.1.0"
 dependencies = [
+ "adl-schema",
  "anyhow",
  "aws-config",
  "aws-sdk-bedrockruntime",
@@ -202,6 +219,17 @@ dependencies = [
  "uuid",
  "windows-sys 0.61.2",
  "x509-parser",
+]
+
+[[package]]
+name = "adl-schema"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "schemars 0.8.22",
+ "serde",
+ "serde_json",
+ "url",
 ]
 
 [[package]]

@@ -2,8 +2,7 @@ use adl_language::{canonical_bytes, parse_and_validate_yaml, DiagnosticCode};
 use std::{collections::BTreeMap, fs, path::PathBuf};
 
 fn corpus_root() -> PathBuf {
-    PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-        .join("../../../adl-characterization/corpus/v1/fixtures")
+    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("fixtures")
 }
 
 fn fixture(name: &str) -> String {

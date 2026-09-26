@@ -31,8 +31,7 @@ const LANGUAGE_NEGATIVE: &[&str] = &[
 ];
 
 fn fixture_root() -> PathBuf {
-    PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-        .join("../../../adl-characterization/corpus/v1/fixtures")
+    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("fixtures")
 }
 
 #[test]

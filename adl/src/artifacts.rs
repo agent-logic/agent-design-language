@@ -7,28 +7,7 @@ use crate::runtime_environment::RuntimeEnvironment;
 
 pub const ARTIFACT_MODEL_VERSION: u32 = 1;
 
-pub fn validate_run_id_path_segment(run_id: &str) -> Result<String> {
-    let trimmed = run_id.trim();
-    if trimmed.is_empty() {
-        return Err(anyhow!("run_id must not be empty for artifact paths"));
-    }
-    if trimmed == "." || trimmed == ".." {
-        return Err(anyhow!(
-            "run_id must be a safe path segment, not '.' or '..'"
-        ));
-    }
-    if trimmed.contains('/') || trimmed.contains('\\') {
-        return Err(anyhow!(
-            "run_id must be a safe path segment and must not contain path separators"
-        ));
-    }
-    if trimmed.contains(':') {
-        return Err(anyhow!(
-            "run_id must be a safe path segment and must not contain drive-like ':' prefixes"
-        ));
-    }
-    Ok(trimmed.to_string())
-}
+pub use adl_legacy_contracts::validate_run_id_path_segment;
 
 /// Canonical run artifact path builder.
 ///
