@@ -104,6 +104,20 @@ fn failure_class(error: &IngressError) -> FailureClass {
         IngressError::Saturated => FailureClass::Saturation,
         IngressError::Closed => FailureClass::Resource,
         IngressError::ExecutionFailed => FailureClass::Permanent,
+        IngressError::ProviderExecutionFailed(code) => match *code {
+            "provider_timeout" => FailureClass::Timeout,
+            "provider_transport" => FailureClass::Retryable,
+            "provider_quota" => FailureClass::Saturation,
+            "provider_credentials" => FailureClass::PolicyDenied,
+            "provider_model_unavailable" => FailureClass::Dependency,
+            "provider_invalid_response" => FailureClass::Protocol,
+            "provider_cancelled" => FailureClass::Cancelled,
+            "provider_unknown"
+            | "provider_unsupported_capability"
+            | "provider_invalid_configuration" => FailureClass::InvalidRequest,
+            // Unknown provider reasons must not acquire retry authority.
+            _ => FailureClass::Permanent,
+        },
         IngressError::DrainTimeout => FailureClass::Timeout,
     }
 }
@@ -114,4 +128,39 @@ fn stable_record_id(source: &str, result: &str) -> String {
         "{:x}",
         Sha256::digest(serde_json::to_vec(&fields).unwrap_or_default())
     )
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    // PVF: deterministic CPU-only adapter contract, required RD03 integration gate.
+    #[test]
+    fn provider_failures_preserve_explicit_failure_classes() {
+        for (code, expected) in [
+            ("provider_timeout", FailureClass::Timeout),
+            ("provider_transport", FailureClass::Retryable),
+            ("provider_quota", FailureClass::Saturation),
+            ("provider_credentials", FailureClass::PolicyDenied),
+            ("provider_model_unavailable", FailureClass::Dependency),
+            ("provider_invalid_response", FailureClass::Protocol),
+            ("provider_cancelled", FailureClass::Cancelled),
+            ("provider_unknown", FailureClass::InvalidRequest),
+            (
+                "provider_unsupported_capability",
+                FailureClass::InvalidRequest,
+            ),
+            (
+                "provider_invalid_configuration",
+                FailureClass::InvalidRequest,
+            ),
+            ("future_unclassified_reason", FailureClass::Permanent),
+        ] {
+            assert_eq!(
+                failure_class(&IngressError::ProviderExecutionFailed(code)),
+                expected,
+                "{code}"
+            );
+        }
+    }
 }
