@@ -139,7 +139,7 @@ def main():
         isolated(['/bin/cat', str(consumer / 'fixture.yaml')])
         probes.append(denied_probe('private-credential-denied', ['/bin/cat', str(secret)], ['operation not permitted', 'permission denied']))
         probes.append(denied_probe('producer-source-denied', ['/bin/cat', str(ROOT / 'adl-schema/Cargo.toml')], ['operation not permitted', 'permission denied']))
-        probes.append(denied_probe('network-denied', ['/usr/bin/curl', '--noproxy', '*', '--connect-timeout', '2', 'http://127.0.0.1:9'], ['operation not permitted', 'permission denied']))
+        probes.append(denied_probe('network-denied', ['/usr/bin/ruby', '-rsocket', '-e', 'TCPSocket.new("127.0.0.1", 9)'], ['operation not permitted', 'permission denied']))
         isolated([str(cargo), 'generate-lockfile', '--offline'])
         shutil.copyfile(consumer / 'Cargo.lock', output / 'consumer.Cargo.lock')
         toolchain_versions = {tool: isolated([str(path), '--version']).stdout.strip()
