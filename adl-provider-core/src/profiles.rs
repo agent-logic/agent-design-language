@@ -5,7 +5,6 @@
 use crate as adl;
 use crate::ProviderMap;
 use anyhow::{anyhow, Result};
-use reqwest::Url;
 use serde_json::Value;
 use serde_json::{json, Map};
 use std::collections::{BTreeMap, HashMap};
@@ -117,22 +116,11 @@ pub(crate) fn validate_profile_endpoint(
 }
 
 pub fn is_allowed_remote_endpoint(endpoint: &str) -> bool {
-    let Ok(url) = Url::parse(endpoint.trim()) else {
-        return false;
-    };
-    match url.scheme() {
-        "https" => url.host_str().is_some_and(|host| !host.is_empty()),
-        "http" => matches!(
-            url.host_str(),
-            Some("localhost") | Some("127.0.0.1") | Some("[::1]") | Some("::1")
-        ),
-        _ => false,
-    }
+    adl_schema::syntax::remote_endpoint_declaration_valid(endpoint)
 }
 
 pub fn is_allowed_ollama_endpoint(endpoint: &str) -> bool {
-    let normalized = endpoint.trim().to_ascii_lowercase();
-    normalized.starts_with("https://") || normalized.starts_with("http://")
+    adl_schema::syntax::ollama_endpoint_declaration_valid(endpoint)
 }
 
 pub(crate) const OPENAI_RESPONSES_ENDPOINT: &str = "https://api.openai.com/v1/responses";

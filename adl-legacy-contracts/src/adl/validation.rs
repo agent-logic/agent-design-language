@@ -106,7 +106,7 @@ impl AdlDoc {
                         ));
             }
             for source in &remote.verify_allowed_key_sources {
-                if crate::signing::VerificationKeySource::parse(source).is_none() {
+                if !adl_schema::syntax::verification_key_source_valid(source) {
                     return Err(anyhow!(
                                 "run.remote.verify_allowed_key_sources contains unsupported source '{}' (allowed: embedded, explicit_key)",
                                 source
@@ -308,7 +308,7 @@ pub(super) fn validate_provider(provider_id: &str, provider: &ProviderSpec) -> R
                 .as_deref()
                 .or_else(|| provider.config.get("endpoint").and_then(|v| v.as_str()));
             if let Some(endpoint) = endpoint {
-                if !crate::provider::is_allowed_ollama_endpoint(endpoint) {
+                if !adl_schema::syntax::ollama_endpoint_declaration_valid(endpoint) {
                     return Err(anyhow!(
                         "providers.{provider_id} kind 'ollama' requires an http:// or https:// base_url/config.endpoint when remote transport is configured"
                     ));
@@ -342,7 +342,7 @@ pub(super) fn validate_provider(provider_id: &str, provider: &ProviderSpec) -> R
                     provider.kind
                 ));
             };
-            if !crate::provider::is_allowed_remote_endpoint(endpoint) {
+            if !adl_schema::syntax::remote_endpoint_declaration_valid(endpoint) {
                 return Err(anyhow!(
                     "providers.{provider_id} kind '{}' requires an https:// base_url or config.endpoint; plaintext http:// is only allowed for localhost/loopback test endpoints",
                     provider.kind

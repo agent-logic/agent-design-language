@@ -6,7 +6,7 @@ rust-version = "1.92"
 license = "MIT OR Apache-2.0"
 description = "Versioned Universal Tool Schema contract; execution authority remains with ACC"
 readme = "README.md"
-include = ["src/**", "schemas/**", "Cargo.toml", "README.md", "LICENSE"]
+include = ["src/**", "schemas/**", "fixtures/**", "Cargo.toml", "README.md", "LICENSE"]
 
 [dependencies]
 serde = { version = "1.0", features = ["derive"] }

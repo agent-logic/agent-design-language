@@ -73,14 +73,19 @@ dependencies = [
 name = "adl-provider-core"
 version = "0.1.0"
 dependencies = [
+ "adl-schema",
  "anyhow",
  "aws-config",
  "aws-sdk-bedrockruntime",
  "aws-sdk-sts",
+ "aws-smithy-runtime-api",
+ "aws-smithy-types",
  "aws-types",
  "fs2",
+ "http-body-util",
  "libc",
  "reqwest 0.12.28",
+ "rustls 0.23.43",
  "schemars 0.8.22",
  "serde",
  "serde_json",
@@ -157,6 +162,17 @@ dependencies = [
  "serde_json",
  "sha2 0.10.9",
  "tokio",
+]
+
+[[package]]
+name = "adl-schema"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "schemars 0.8.22",
+ "serde",
+ "serde_json",
+ "url",
 ]
 
 [[package]]
@@ -2858,7 +2874,6 @@ dependencies = [
  "log",
  "percent-encoding",
  "pin-project-lite",
- "quinn",
  "rustls 0.23.43",
  "rustls-pki-types",
  "serde",
@@ -3030,7 +3045,6 @@ dependencies = [
  "aws-lc-rs",
  "log",
  "once_cell",
- "ring",
  "rustls-pki-types",
  "rustls-webpki 0.103.13",
  "subtle",

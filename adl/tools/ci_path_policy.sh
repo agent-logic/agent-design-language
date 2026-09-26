@@ -1789,7 +1789,7 @@ EOF
               reason="rust_test_manifest_change_runs_focused_validation"
             fi
             ;;
-          adl/src/*|adl/tests/*|adl/Cargo.toml|adl/Cargo.lock|adl/build.rs)
+          adl-schema/*|adl-legacy-contracts/*|adl-uts/*|adl-provider-core/*|adl/src/*|adl/tests/*|adl/Cargo.toml|adl/Cargo.lock|adl/build.rs)
             if [ "$release_version_only" = true ] && { [ "$path" = "adl/Cargo.toml" ] || [ "$path" = "adl/Cargo.lock" ]; }; then
               continue
             fi
@@ -1992,7 +1992,7 @@ classify_changed_path() {
     adl-runtime/*|adl-runtime-kernel/*|infra/runtime-v3/*|adl/src/csm*|adl/src/long_lived*)
       printf '%s\n' "runtime_critical_source"
       ;;
-    adl/src/*|adl/tests/*|adl/Cargo.toml|adl/Cargo.lock|adl/build.rs|adl-v2/*|csdlc-v2/*|csdlc-v3/*|adl-characterization/*|adl-resilience/*|tools/remote_validation/*)
+    adl-schema/*|adl-legacy-contracts/*|adl-uts/*|adl-provider-core/*|adl/src/*|adl/tests/*|adl/Cargo.toml|adl/Cargo.lock|adl/build.rs|adl-v2/*|csdlc-v2/*|csdlc-v3/*|adl-characterization/*|adl-resilience/*|tools/remote_validation/*)
       printf '%s\n' "ordinary_product_source"
       ;;
     *)

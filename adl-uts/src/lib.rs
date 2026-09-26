@@ -1330,3 +1330,6 @@ mod tests {
             .starts_with("invalid_tool_declaration:"));
     }
 }
+
+/// Packaged portable conformance fixtures and report generation.
+pub mod conformance;

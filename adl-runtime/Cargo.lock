@@ -6,6 +6,7 @@ version = 4
 name = "adl-provider-core"
 version = "0.1.0"
 dependencies = [
+ "adl-schema",
  "anyhow",
  "aws-config",
  "aws-sdk-bedrockruntime",
@@ -116,6 +117,17 @@ dependencies = [
  "uuid",
  "windows-sys 0.61.2",
  "x509-parser",
+]
+
+[[package]]
+name = "adl-schema"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "schemars 0.8.22",
+ "serde",
+ "serde_json",
+ "url",
 ]
 
 [[package]]
@@ -2447,7 +2459,7 @@ dependencies = [
  "once_cell",
  "socket2 0.6.2",
  "tracing",
- "windows-sys 0.52.0",
+ "windows-sys 0.60.2",
 ]
 
 [[package]]

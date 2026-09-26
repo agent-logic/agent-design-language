@@ -617,7 +617,12 @@ chronosense_runtime_trace_filters="$TMP/chronosense-runtime-trace-filters.txt"
 bash "$SCRIPT" --changed-files "$chronosense_runtime_trace_changed" --print-risk-filters >"$chronosense_runtime_trace_filters"
 grep -Fx "chronosense" "$chronosense_runtime_trace_filters" >/dev/null
 grep -Fx "run_state" "$chronosense_runtime_trace_filters" >/dev/null
-grep -Fx "trace_schema_v1" "$chronosense_runtime_trace_filters" >/dev/null
+# RD03 moved executable trace validation into adl-legacy-contracts. The Runtime
+# compatibility reexport contains no executable lines; package tests own its proof.
+if grep -Fx "trace_schema_v1" "$chronosense_runtime_trace_filters" >/dev/null; then
+  echo "expected trace schema reexport to have no Runtime coverage filter" >&2
+  exit 1
+fi
 
 direct_tooling_binaries_changed="$TMP/direct-tooling-binaries-changed.txt"
 cat >"$direct_tooling_binaries_changed" <<'EOF'

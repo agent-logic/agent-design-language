@@ -10,7 +10,7 @@ use std::collections::HashMap;
 
 use super::AdlDoc;
 
-pub use adl_provider_core::ProviderSpec;
+pub use adl_schema::ProviderSpec;
 
 /// Tool spec (eventually maps to MCP tools, local tools, etc.).
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
