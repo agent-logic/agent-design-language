@@ -123,6 +123,9 @@ def main():
         profile = '(version 1)\n(allow default)\n(deny network*)\n'
         profile += ''.join(f'(deny file-read* (subpath {quote(path)}))\n' for path in denied)
         profile += f'(allow file-read* (subpath {quote(toolchain)}) (subpath {quote(cache)}))\n'
+        # Cargo canonicalizes public cache paths through their parent directories.
+        # Metadata traversal reveals no credential or producer file contents.
+        profile += f'(allow file-read-metadata (subpath {quote(original_home)}))\n'
         sandbox = work / 'consumer.sb'
         sandbox.write_text(profile)
         env = {'HOME': str(home), 'CARGO_HOME': str(cargo_home), 'RUSTC': str(rustc),
