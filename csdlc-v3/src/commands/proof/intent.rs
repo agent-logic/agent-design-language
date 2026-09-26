@@ -375,13 +375,17 @@ pub(crate) fn execute_admitted(
     }
     let input_revalidation = fresh()
         .and_then(|()| {
-            outcomes.iter().try_for_each(|record| {
-                compiler_inputs_tracked(
-                    root,
-                    &record["compiler_artifacts"],
-                    &admitted.excluded_projection_inputs,
-                )
-            })
+            outcomes
+                .iter()
+                .zip(validators)
+                .try_for_each(|(record, validator)| {
+                    compiler_inputs_tracked(
+                        root,
+                        &validator.args,
+                        &record["compiler_artifacts"],
+                        &admitted.excluded_projection_inputs,
+                    )
+                })
         })
         .and_then(|()| {
             tracked_input_digest(root, validators, &admitted.excluded_projection_inputs)
@@ -1184,8 +1188,98 @@ fn compiler_artifacts(root: &Path, stdout: &str) -> Value {
     json!(artifacts)
 }
 
+// Resolve only candidate-owned manifests, mirroring Cargo's explicit workspace
+// pointer and ancestor lookup. The invocation identity (not a dependency's own
+// workspace) determines rustc's base. Existing tracked-input hashing binds these
+// manifests and validator arguments at execution and subsequent revalidation.
+fn dependency_workspace(
+    root: &Path,
+    args: &[String],
+    tracked: &std::collections::BTreeSet<PathBuf>,
+) -> Result<PathBuf, String> {
+    let read = |path: &Path| -> Result<(PathBuf, toml::Value), String> {
+        let path = path
+            .canonicalize()
+            .map_err(|_| "intent_validator_input_unavailable")?;
+        if !path.starts_with(root) {
+            return Err("intent_validator_input_outside_repository".into());
+        }
+        if !tracked.contains(&path) {
+            return Err("intent_validator_input_not_tracked".into());
+        }
+        let value = toml::from_str(
+            &fs::read_to_string(&path).map_err(|_| "intent_validator_manifest_unreadable")?,
+        )
+        .map_err(|_| "intent_validator_manifest_invalid")?;
+        Ok((path, value))
+    };
+    let manifest = args
+        .windows(2)
+        .find(|pair| pair[0] == "--manifest-path")
+        .map(|pair| root.join(&pair[1]))
+        .unwrap_or_else(|| root.join("Cargo.toml"));
+    let (manifest, value) = read(&manifest)?;
+    let package = manifest
+        .parent()
+        .ok_or("intent_validator_manifest_invalid")?;
+    if value.get("workspace").is_some() {
+        return Ok(package.to_path_buf());
+    }
+    if let Some(explicit) = value.get("package").and_then(|p| p.get("workspace")) {
+        let explicit = explicit
+            .as_str()
+            .ok_or("intent_validator_manifest_invalid")?;
+        let (manifest, workspace) = read(&package.join(explicit).join("Cargo.toml"))?;
+        if workspace.get("workspace").is_none() {
+            return Err("intent_validator_manifest_invalid".into());
+        }
+        return Ok(manifest
+            .parent()
+            .ok_or("intent_validator_manifest_invalid")?
+            .to_path_buf());
+    }
+    for ancestor in package
+        .ancestors()
+        .skip(1)
+        .take_while(|p| p.starts_with(root))
+    {
+        let candidate = ancestor.join("Cargo.toml");
+        if candidate
+            .try_exists()
+            .map_err(|_| "intent_validator_input_unavailable")?
+        {
+            let (manifest, value) = read(&candidate)?;
+            if let Some(workspace) = value.get("workspace") {
+                if let Some(excludes) = workspace.get("exclude") {
+                    for excluded in excludes
+                        .as_array()
+                        .ok_or("intent_validator_manifest_invalid")?
+                    {
+                        let excluded = excluded
+                            .as_str()
+                            .ok_or("intent_validator_manifest_invalid")?;
+                        // Match the supported literal-path workspace inventory contract.
+                        if excluded.contains(['*', '?', '[', ']']) {
+                            return Err("intent_validator_workspace_selection_not_admitted".into());
+                        }
+                        if package.starts_with(ancestor.join(excluded)) {
+                            return Ok(package.to_path_buf());
+                        }
+                    }
+                }
+                return Ok(manifest
+                    .parent()
+                    .ok_or("intent_validator_manifest_invalid")?
+                    .to_path_buf());
+            }
+        }
+    }
+    Ok(package.to_path_buf())
+}
+
 fn compiler_inputs_tracked(
     root: &Path,
+    args: &[String],
     artifacts: &Value,
     excluded_projection_inputs: &[String],
 ) -> Result<(), String> {
@@ -1198,6 +1292,7 @@ fn compiler_inputs_tracked(
         .filter(|v| !v.is_empty())
         .map(|v| root.join(v))
         .collect();
+    let workspace = dependency_workspace(root, args, &tracked)?;
     for artifact in artifacts {
         if artifact["external_input_denied"] == true {
             return Err("intent_validator_input_outside_repository".into());
@@ -1221,9 +1316,18 @@ fn compiler_inputs_tracked(
         if !tracked.contains(&manifest) || !tracked.contains(&source) {
             return Err("intent_validator_compiler_input_not_tracked".into());
         }
-        let directory = manifest
+        // Cargo 1.92 bases packages beneath the invocation workspace there;
+        // custom target paths may point outside that workspace. Dependencies
+        // outside it retain their package base. Exact source matching below
+        // rejects any unsupported compiler path-remapping behavior.
+        let package = manifest
             .parent()
             .ok_or("intent_validator_compiler_artifact_invalid")?;
+        let directory = if package.starts_with(&workspace) {
+            workspace.as_path()
+        } else {
+            package
+        };
         let target = artifact["name"]
             .as_str()
             .ok_or("intent_validator_compiler_artifact_invalid")?
@@ -1614,9 +1718,10 @@ fn verify_execution_inputs_with_projection_inputs(
     let records = proof["validators"]
         .as_array()
         .ok_or("intent_proof_validators_missing")?;
-    for record in records {
+    for (record, validator) in records.iter().zip(validators) {
         compiler_inputs_tracked(
             root,
+            &validator.args,
             &record["compiler_artifacts"],
             excluded_projection_inputs,
         )?;
@@ -1695,6 +1800,231 @@ mod dependency_record_tests {
     impl Drop for OwnershipFixture {
         fn drop(&mut self) {
             let _ = std::fs::remove_dir_all(&self.0);
+        }
+    }
+
+    // #1204 PVF: deterministic local compiler-input correctness regression;
+    // real offline Cargo and isolated Git, small CPU/disk, required proof gate.
+    #[test]
+    fn real_workspace_library_binary_and_path_dependency_inputs() {
+        let fixture = OwnershipFixture::new();
+        let root = &fixture.0;
+        let write = |name: &str, content: &str| {
+            let path = root.join(name);
+            std::fs::create_dir_all(path.parent().unwrap()).unwrap();
+            std::fs::write(path, content).unwrap();
+        };
+        write(
+            "nested/Cargo.toml",
+            "[workspace]\nmembers=['crates/app']\nexclude=['vendor/inside']\nresolver='2'\n",
+        );
+        write("nested/crates/app/Cargo.toml", "[package]\nname='workspace-app'\nversion='0.1.0'\nedition='2021'\n[dependencies]\nhelper={path='../../../helper'}\ninside={path='../../vendor/inside'}\n");
+        write(
+            "helper/Cargo.toml",
+            "[package]\nname='helper'\nversion='0.1.0'\nedition='2021'\n[workspace]\n",
+        );
+        write("helper/src/lib.rs", "pub fn value()->u8 { 7 }\n");
+        write(
+            "nested/vendor/inside/Cargo.toml",
+            "[package]\nname='inside'\nversion='0.1.0'\nedition='2021'\n[workspace]\n",
+        );
+        write(
+            "nested/vendor/inside/src/lib.rs",
+            "pub fn value()->u8 { 0 }\n",
+        );
+        write("nested/crates/app/src/lib.rs", "pub fn value()->u8 { helper::value()+inside::value() }\n#[test] fn value_matches(){assert_eq!(value(),7); }\n");
+        write(
+            "nested/crates/app/src/main.rs",
+            "fn main(){assert_eq!(workspace_app::value(),7);}\n",
+        );
+        write("nested/crates/app/tests/binary.rs", "#[test] fn binary_runs(){assert!(std::process::Command::new(env!(\"CARGO_BIN_EXE_workspace-app\")).status().unwrap().success());}\n");
+        let git = |args: &[&str]| {
+            let output = std::process::Command::new("git")
+                .current_dir(root)
+                .args(args)
+                .output()
+                .unwrap();
+            assert!(
+                output.status.success(),
+                "{}",
+                String::from_utf8_lossy(&output.stderr)
+            );
+        };
+        git(&["init", "-q"]);
+        git(&["add", "."]);
+        let args: Vec<String> = [
+            "test",
+            "--offline",
+            "--manifest-path",
+            "nested/crates/app/Cargo.toml",
+        ]
+        .iter()
+        .map(|s| s.to_string())
+        .collect();
+        let output = std::process::Command::new("cargo")
+            .current_dir(root)
+            .args(&args)
+            .arg("--message-format=json")
+            .env("CARGO_TARGET_DIR", root.join("target/intent-validation"))
+            .output()
+            .unwrap();
+        assert!(
+            output.status.success(),
+            "{}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+        let stdout = String::from_utf8(output.stdout).unwrap();
+        assert!(stdout.contains("test result: ok. 1 passed"));
+        let artifacts = super::compiler_artifacts(root, &stdout);
+        assert!(artifacts
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|a| a["manifest"] == "helper/Cargo.toml"));
+        assert!(artifacts.as_array().unwrap().iter().any(|a| a["files"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|p| p == "target/intent-validation/debug/workspace-app")));
+        assert_eq!(
+            super::compiler_inputs_tracked(root, &args, &artifacts, &[]),
+            Ok(())
+        );
+        // Excluded and untracked dependencies must still be denied after base resolution.
+        assert_eq!(
+            super::compiler_inputs_tracked(root, &args, &artifacts, &["helper/src/lib.rs".into()])
+                .unwrap_err(),
+            "intent_validator_compiler_input_not_tracked"
+        );
+        git(&["rm", "--cached", "helper/src/lib.rs"]);
+        assert_eq!(
+            super::compiler_inputs_tracked(root, &args, &artifacts, &[]).unwrap_err(),
+            "intent_validator_compiler_input_not_tracked"
+        );
+        git(&["add", "helper/src/lib.rs"]);
+        // Compiler-discovered include inputs retain tracked and exclusion checks.
+        let deps = root.join("target/intent-validation/debug/deps");
+        let record = std::fs::read_dir(&deps)
+            .unwrap()
+            .map(|e| e.unwrap().path())
+            .find(|p| {
+                p.extension().is_some_and(|e| e == "d")
+                    && p.file_name()
+                        .unwrap()
+                        .to_string_lossy()
+                        .starts_with("workspace_app-")
+                    && super::dependency_tokens(p).unwrap()[0] == "crates/app/src/lib.rs"
+            })
+            .unwrap();
+        let original = std::fs::read_to_string(&record).unwrap();
+        write("nested/extra.txt", "retained input");
+        let changed = original.replacen('\n', " extra.txt\n", 1);
+        std::fs::write(&record, &changed).unwrap();
+        assert_eq!(
+            super::compiler_inputs_tracked(root, &args, &artifacts, &[]).unwrap_err(),
+            "intent_validator_compiler_input_not_tracked"
+        );
+        git(&["add", "nested/extra.txt"]);
+        assert_eq!(
+            super::compiler_inputs_tracked(root, &args, &artifacts, &["nested/extra.txt".into()])
+                .unwrap_err(),
+            "intent_validator_compiler_input_not_tracked"
+        );
+        std::fs::write(&record, original).unwrap();
+        // A sibling workspace pointer must use that workspace, not its own directory.
+        write(
+            "sibling/Cargo.toml",
+            "[package]\nname='sibling'\nversion='0.1.0'\nworkspace='../nested'\n",
+        );
+        git(&["add", "sibling/Cargo.toml"]);
+        let tracked = super::git_read(root, &["ls-files", "-z"])
+            .unwrap()
+            .split('\0')
+            .filter(|s| !s.is_empty())
+            .map(|s| root.join(s))
+            .collect();
+        let sibling = vec!["--manifest-path".into(), "sibling/Cargo.toml".into()];
+        assert_eq!(
+            super::dependency_workspace(root, &sibling, &tracked).unwrap(),
+            root.join("nested")
+        );
+        let standalone = vec!["--manifest-path".into(), "helper/Cargo.toml".into()];
+        assert_eq!(
+            super::dependency_workspace(root, &standalone, &tracked).unwrap(),
+            root.join("helper")
+        );
+    }
+
+    #[test]
+    fn real_excluded_package_and_custom_workspace_target_paths() {
+        for excluded in [false, true] {
+            let fixture = OwnershipFixture::new();
+            let root = &fixture.0;
+            for path in ["nested/app", "shared"] {
+                std::fs::create_dir_all(root.join(path)).unwrap();
+            }
+            std::fs::write(
+                root.join("nested/Cargo.toml"),
+                if excluded {
+                    "[workspace]\nexclude=['app']\nresolver='2'\n"
+                } else {
+                    "[workspace]\nmembers=['app']\nresolver='2'\n"
+                },
+            )
+            .unwrap();
+            std::fs::write(root.join("nested/app/Cargo.toml"),
+                "[package]\nname='custom-app'\nversion='0.1.0'\nedition='2021'\n[lib]\npath='../../shared/lib.rs'\n[[bin]]\nname='custom-app'\npath='../../shared/main.rs'\n").unwrap();
+            std::fs::write(
+                root.join("shared/lib.rs"),
+                "#[test] fn works(){assert_eq!(2+2,4);}\n",
+            )
+            .unwrap();
+            std::fs::write(
+                root.join("shared/main.rs"),
+                "fn main(){}\n#[test] fn works(){assert_eq!(2+2,4);}\n",
+            )
+            .unwrap();
+            assert!(std::process::Command::new("git")
+                .current_dir(root)
+                .args(["init", "-q"])
+                .status()
+                .unwrap()
+                .success());
+            assert!(std::process::Command::new("git")
+                .current_dir(root)
+                .args(["add", "."])
+                .status()
+                .unwrap()
+                .success());
+            let args: Vec<String> = [
+                "test",
+                "--offline",
+                "--manifest-path",
+                "nested/app/Cargo.toml",
+            ]
+            .iter()
+            .map(|s| s.to_string())
+            .collect();
+            let output = std::process::Command::new("cargo")
+                .current_dir(root)
+                .args(&args)
+                .arg("--message-format=json")
+                .env("CARGO_TARGET_DIR", root.join("target/intent-validation"))
+                .output()
+                .unwrap();
+            assert!(
+                output.status.success(),
+                "{}",
+                String::from_utf8_lossy(&output.stderr)
+            );
+            let stdout = String::from_utf8(output.stdout).unwrap();
+            assert!(stdout.contains("test result: ok. 1 passed"));
+            let artifacts = super::compiler_artifacts(root, &stdout);
+            assert_eq!(
+                super::compiler_inputs_tracked(root, &args, &artifacts, &[]),
+                Ok(()),
+                "excluded={excluded}"
+            );
         }
     }
 
