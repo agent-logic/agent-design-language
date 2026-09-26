@@ -1,0 +1,81 @@
+{
+  "observed_at": "2026-09-26T03:20:53.748147+00:00",
+  "scope": "Independent live identity, access and main-ref comparison against RD12 packet; not complete review or product qualification",
+  "results": [
+    {
+      "repository": "agent-logic/cognitive-sdlc",
+      "checks": {
+        "repository_id": true,
+        "private": true,
+        "default_main": true,
+        "not_archived": true,
+        "admin": true,
+        "main_commit": true,
+        "main_protected": true,
+        "issues_enabled": true,
+        "auto_merge_disabled": true
+      },
+      "passed": true
+    },
+    {
+      "repository": "agent-logic/agent-logic-runtime",
+      "checks": {
+        "repository_id": true,
+        "private": true,
+        "default_main": true,
+        "not_archived": true,
+        "admin": true,
+        "main_commit": true,
+        "main_protected": true,
+        "issues_enabled": true,
+        "auto_merge_disabled": true
+      },
+      "passed": true
+    },
+    {
+      "repository": "agent-logic/codefriend",
+      "checks": {
+        "repository_id": true,
+        "private": true,
+        "default_main": true,
+        "not_archived": true,
+        "admin": true,
+        "main_commit": true,
+        "main_protected": true,
+        "issues_enabled": true,
+        "auto_merge_disabled": true
+      },
+      "passed": true
+    },
+    {
+      "repository": "agent-logic/agent-logic-infrastructure",
+      "checks": {
+        "repository_id": true,
+        "private": true,
+        "default_main": true,
+        "not_archived": true,
+        "admin": true,
+        "main_commit": true,
+        "main_protected": true,
+        "issues_enabled": true,
+        "auto_merge_disabled": true
+      },
+      "passed": true
+    },
+    {
+      "repository": "agent-logic/agent-logic-enterprise-security",
+      "checks": {
+        "repository_id": true,
+        "private": true,
+        "default_main": true,
+        "not_archived": true,
+        "admin": true,
+        "main_commit": true,
+        "main_protected": true,
+        "issues_enabled": true,
+        "auto_merge_disabled": true
+      },
+      "passed": true
+    }
+  ]
+}
