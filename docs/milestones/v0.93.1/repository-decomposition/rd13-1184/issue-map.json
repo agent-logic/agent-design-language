@@ -1,0 +1,516 @@
+{
+  "schema": "rd13.transferred_issue_map.v1",
+  "observed_at": "2026-09-26T05:57:54.161655+00:00",
+  "source_repository": "agent-logic/agent-design-language",
+  "rd12_merge": "a59d3048538f4a4408b4182e0cd6c0a804a6e46b",
+  "authorization": "Existing operator create-in-ADL-then-transfer direction and Planning11 execution handoff after RD12 merged/finished; standing merge authorization applies to completed RD13.",
+  "transport": "Existing GitHub administrative transfer, with native ADL source body reference qualification and destination metadata restoration.",
+  "source_journal_policy": "Original ADL journals retained without repository/issue retagging; no continued writes against transferred source identities.",
+  "issues": [
+    {
+      "work_package": "RD-04",
+      "source": {
+        "id": 5586458326,
+        "node_id": "I_kwDOTvc2y88AAAABTPqW1g",
+        "number": 1186,
+        "html_url": "https://github.com/agent-logic/agent-design-language/issues/1186",
+        "title": "[v0.93.1][RD-04] Extract and qualify C-SDLC",
+        "body": "## One task\nExtract and qualify C-SDLC\n\n## Required outcome\nAn independent install completes a shadow issue through review, publication, merge, finish and cleanup, including authentic copied-record interrupted recovery, without Runtime or ADL source.\n\n## Sprint and dependencies\nPart of #1180. Depends on: RD-13 (#1184). Dependency acceptance is required before execution; umbrella closure is not a predecessor.\n\n## Repository placement\nCreated in agent-logic/agent-design-language for Sprint 1 review under explicit operator direction. Intended execution repository: agent-logic/cognitive-sdlc. Transfer only after RD-12 bootstrap and through RD-13 mapping, preserving identity and links. If ADL remains the owner, retain this issue here. No repository visibility decision is made by this issue's creation.\n\n## Acceptance criteria\n1. An independent install completes a shadow issue through review, publication, merge, finish and cleanup, including authentic copied-record interrupted recovery, without Runtime or ADL source.\n2. Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings.\n\n## Required negative cases\n1. Stale authority\n2. Uncertain write replay\n3. Retained-record mismatch\n4. Interrupted cleanup\n\n## Validation and evidence\nPVF: installed_integration. Retain exact candidate/source/artifact identity, actual scenario counts, commands/results, independent review and explicit limits. Design-only tasks use design evidence rather than demanding downstream implementation before it can begin. Extraction tasks require genuine independent installed-consumer proof; no sibling source dependency or fixture-only success may be presented as product acceptance.\n\n## Preparation and execution boundary\nPREPARATION ONLY. Another session will review scope, dependency graph, proof feasibility and six native lifecycle cards. Do not implement, transfer, bootstrap, publish, deploy or run live transitions until operator execution authorization. Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.\n\n## Non-goals\n1. No unrelated feature expansion\n2. No completion from scaffolding, schema-only work or zero executed scenarios\n\n## Completion pattern\nAccept this one result with its negative cases, scoped validation and exact-head independent review; integrate through a reviewed PR and native terminal reconciliation. Preserve adverse outcomes. Cleanup is separate, owned by Worker #1. The sprint umbrella reconciles results after RD-11; milestone closeout issues are not created in this wave.\n\n## Source\n`docs/milestones/v0.93.1/REPOSITORY_MIGRATION_v0.93.1.md` and `RD-04` in the reviewed execution plan at `248f00e359e412f6bc0061ac88be9ff374e3a212`. Operator amendment: create Sprint 1 in ADL now, transfer later; later sprints wait for accepted split.\n\n\n<!-- csdlc-v3-operation:74ff9cb2a641d0f49b39aacbcf5cc8689a2c1a977f8ee18df480aaf6e3c0fb02 -->",
+        "created_at": "2026-09-25T17:53:36Z",
+        "state": "open",
+        "labels": [
+          "version:v0.93.1"
+        ],
+        "milestone_title": "v0.93.1",
+        "assignees": []
+      },
+      "destination": {
+        "id": 5591759291,
+        "node_id": "I_kwDOUsHDPc8AAAABTUt5uw",
+        "number": 1,
+        "html_url": "https://github.com/agent-logic/cognitive-sdlc/issues/1",
+        "title": "[v0.93.1][RD-04] Extract and qualify C-SDLC",
+        "body": "## One task\nExtract and qualify C-SDLC\n\n## Required outcome\nAn independent install completes a shadow issue through review, publication, merge, finish and cleanup, including authentic copied-record interrupted recovery, without Runtime or ADL source.\n\n## Sprint and dependencies\nPart of https://github.com/agent-logic/agent-design-language/issues/1180. Depends on: RD-13 (https://github.com/agent-logic/agent-design-language/issues/1184). Dependency acceptance is required before execution; umbrella closure is not a predecessor.\n\n## Repository placement\nCreated in agent-logic/agent-design-language for Sprint 1 review under explicit operator direction. Intended execution repository: agent-logic/cognitive-sdlc. Transfer only after RD-12 bootstrap and through RD-13 mapping, preserving identity and links. If ADL remains the owner, retain this issue here. No repository visibility decision is made by this issue's creation.\n\n## Acceptance criteria\n1. An independent install completes a shadow issue through review, publication, merge, finish and cleanup, including authentic copied-record interrupted recovery, without Runtime or ADL source.\n2. Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings.\n\n## Required negative cases\n1. Stale authority\n2. Uncertain write replay\n3. Retained-record mismatch\n4. Interrupted cleanup\n\n## Validation and evidence\nPVF: installed_integration. Retain exact candidate/source/artifact identity, actual scenario counts, commands/results, independent review and explicit limits. Design-only tasks use design evidence rather than demanding downstream implementation before it can begin. Extraction tasks require genuine independent installed-consumer proof; no sibling source dependency or fixture-only success may be presented as product acceptance.\n\n## Preparation and execution boundary\nPREPARATION ONLY. Another session will review scope, dependency graph, proof feasibility and six native lifecycle cards. Do not implement, transfer, bootstrap, publish, deploy or run live transitions until operator execution authorization. Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.\n\n## Non-goals\n1. No unrelated feature expansion\n2. No completion from scaffolding, schema-only work or zero executed scenarios\n\n## Completion pattern\nAccept this one result with its negative cases, scoped validation and exact-head independent review; integrate through a reviewed PR and native terminal reconciliation. Preserve adverse outcomes. Cleanup is separate, owned by Worker #1. The sprint umbrella reconciles results after RD-11; milestone closeout issues are not created in this wave.\n\n## Source\n`docs/milestones/v0.93.1/REPOSITORY_MIGRATION_v0.93.1.md` and `RD-04` in the reviewed execution plan at `248f00e359e412f6bc0061ac88be9ff374e3a212`. Operator amendment: create Sprint 1 in ADL now, transfer later; later sprints wait for accepted split.\n\n\n<!-- csdlc-v3-operation:74ff9cb2a641d0f49b39aacbcf5cc8689a2c1a977f8ee18df480aaf6e3c0fb02 -->\n\n<!-- csdlc-v3-operation:482c3be35f965cff4a190e3c0cc584ff121e9da5a93c89474c7370fe3a7c67a4 -->",
+        "created_at": "2026-09-25T17:53:36Z",
+        "state": "open",
+        "labels": [
+          "version:v0.93.1"
+        ],
+        "milestone_title": "v0.93.1",
+        "assignees": []
+      },
+      "destination_repository_id": 1388430141,
+      "destination_repository": "agent-logic/cognitive-sdlc",
+      "source_redirect_url": "https://github.com/agent-logic/cognitive-sdlc/issues/1",
+      "transfer_event": {
+        "id": 31880714111,
+        "url": "https://api.github.com/repos/agent-logic/cognitive-sdlc/issues/events/31880714111",
+        "event": "transferred",
+        "created_at": "2026-09-26T05:49:46Z"
+      },
+      "source_comment_ids": [],
+      "destination_comment_ids": [],
+      "source_journal": {
+        "current": {
+          "audit": "semantic-audit-v1:217a6cdc4969e35fb788343ea768fd878e081f5bcd58ff0a532c951949e636c5",
+          "digest": "semantic-state-v1:68b5fb000aa8c2ddca12993d273ec60a443930fbe8ee492e43c73642c96a0e95",
+          "generation": 3
+        },
+        "commit_sha256": "4f43172e6bf700e5240242e6fbb6717b5cb64efe3ffef7d3ee975d57e9460eb7",
+        "source_repository": "agent-logic/agent-design-language",
+        "issue": 1186
+      },
+      "source_journal_unchanged": true,
+      "metadata_after_transfer_before_repair": {
+        "labels": [],
+        "milestone_title": null
+      },
+      "dependencies": [
+        {
+          "source_url": "https://github.com/agent-logic/agent-design-language/issues/1184",
+          "resolved_url": "https://github.com/agent-logic/agent-design-language/issues/1184",
+          "resolved_node_id": "I_kwDOTvc2y88AAAABTPo3KA"
+        }
+      ],
+      "parent": {
+        "source_url": "https://github.com/agent-logic/agent-design-language/issues/1180",
+        "resolved_url": "https://github.com/agent-logic/agent-design-language/issues/1180"
+      },
+      "destination_native_lifecycle": "not_initialized; portable installation belongs to RD04",
+      "evidence_sha256": {
+        "source-1186.json": "5b577201daf2bd0cbde8e298ebc6bd6ecd89b0459e29fc959fc9d687cf539e79",
+        "transfer-1186-pre.json": "1b3d78435e33c30a1f04b8b0c034676ad1f103b78899bcee5d2e98fcbf7f4c05",
+        "transfer-1186-transport.json": "336cfae3bac74c62c665b7bf6d4865633006b937f96707d0529911205c071d6c",
+        "1186-metadata-final.json": "4564d9a43ace789382d8c8c4f0e819a90055f7fd7a851596068cb382b279503d"
+      }
+    },
+    {
+      "work_package": "RD-05",
+      "source": {
+        "id": 5586471436,
+        "node_id": "I_kwDOTvc2y88AAAABTPrKDA",
+        "number": 1187,
+        "html_url": "https://github.com/agent-logic/agent-design-language/issues/1187",
+        "title": "[v0.93.1][RD-05] Extract and qualify Runtime with Observatory",
+        "body": "## One task\nExtract and qualify Runtime with Observatory\n\n## Required outcome\nPublished Runtime artifacts run a local polis with continuity and Observatory using distributed contracts, with accepted pre-split rollback.\n\n## Sprint and dependencies\nPart of #1180. Depends on: RD-03 (#1185), RD-04 (#1186). Dependency acceptance is required before execution; umbrella closure is not a predecessor.\n\n## Repository placement\nCreated in agent-logic/agent-design-language for Sprint 1 review under explicit operator direction. Intended execution repository: agent-logic/agent-logic-runtime. Transfer only after RD-12 bootstrap and through RD-13 mapping, preserving identity and links. If ADL remains the owner, retain this issue here. No repository visibility decision is made by this issue's creation.\n\n## Acceptance criteria\n1. Published Runtime artifacts run a local polis with continuity and Observatory using distributed contracts, with accepted pre-split rollback.\n2. Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings.\n\n## Required negative cases\n1. Absent private sibling checkout\n2. Restart loses continuity\n3. API/projection mismatch\n\n## Validation and evidence\nPVF: installed_integration. Retain exact candidate/source/artifact identity, actual scenario counts, commands/results, independent review and explicit limits. Design-only tasks use design evidence rather than demanding downstream implementation before it can begin. Extraction tasks require genuine independent installed-consumer proof; no sibling source dependency or fixture-only success may be presented as product acceptance.\n\n## Preparation and execution boundary\nPREPARATION ONLY. Another session will review scope, dependency graph, proof feasibility and six native lifecycle cards. Do not implement, transfer, bootstrap, publish, deploy or run live transitions until operator execution authorization. Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.\n\n## Non-goals\n1. No unrelated feature expansion\n2. No completion from scaffolding, schema-only work or zero executed scenarios\n\n## Completion pattern\nAccept this one result with its negative cases, scoped validation and exact-head independent review; integrate through a reviewed PR and native terminal reconciliation. Preserve adverse outcomes. Cleanup is separate, owned by Worker #1. The sprint umbrella reconciles results after RD-11; milestone closeout issues are not created in this wave.\n\n## Source\n`docs/milestones/v0.93.1/REPOSITORY_MIGRATION_v0.93.1.md` and `RD-05` in the reviewed execution plan at `248f00e359e412f6bc0061ac88be9ff374e3a212`. Operator amendment: create Sprint 1 in ADL now, transfer later; later sprints wait for accepted split.\n\n\n<!-- csdlc-v3-operation:a10c98d5c7b415cb7490efde8772c4ae1ca9dc20c76f27c3fae97ae7cb15e496 -->",
+        "created_at": "2026-09-25T17:54:43Z",
+        "state": "open",
+        "labels": [
+          "version:v0.93.1"
+        ],
+        "milestone_title": "v0.93.1",
+        "assignees": []
+      },
+      "destination": {
+        "id": 5591770908,
+        "node_id": "I_kwDOUsHJvM8AAAABTUunHA",
+        "number": 1,
+        "html_url": "https://github.com/agent-logic/agent-logic-runtime/issues/1",
+        "title": "[v0.93.1][RD-05] Extract and qualify Runtime with Observatory",
+        "body": "## One task\nExtract and qualify Runtime with Observatory\n\n## Required outcome\nPublished Runtime artifacts run a local polis with continuity and Observatory using distributed contracts, with accepted pre-split rollback.\n\n## Sprint and dependencies\nPart of https://github.com/agent-logic/agent-design-language/issues/1180. Depends on: RD-03 (https://github.com/agent-logic/agent-design-language/issues/1185), RD-04 (https://github.com/agent-logic/agent-design-language/issues/1186). Dependency acceptance is required before execution; umbrella closure is not a predecessor.\n\n## Repository placement\nCreated in agent-logic/agent-design-language for Sprint 1 review under explicit operator direction. Intended execution repository: agent-logic/agent-logic-runtime. Transfer only after RD-12 bootstrap and through RD-13 mapping, preserving identity and links. If ADL remains the owner, retain this issue here. No repository visibility decision is made by this issue's creation.\n\n## Acceptance criteria\n1. Published Runtime artifacts run a local polis with continuity and Observatory using distributed contracts, with accepted pre-split rollback.\n2. Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings.\n\n## Required negative cases\n1. Absent private sibling checkout\n2. Restart loses continuity\n3. API/projection mismatch\n\n## Validation and evidence\nPVF: installed_integration. Retain exact candidate/source/artifact identity, actual scenario counts, commands/results, independent review and explicit limits. Design-only tasks use design evidence rather than demanding downstream implementation before it can begin. Extraction tasks require genuine independent installed-consumer proof; no sibling source dependency or fixture-only success may be presented as product acceptance.\n\n## Preparation and execution boundary\nPREPARATION ONLY. Another session will review scope, dependency graph, proof feasibility and six native lifecycle cards. Do not implement, transfer, bootstrap, publish, deploy or run live transitions until operator execution authorization. Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.\n\n## Non-goals\n1. No unrelated feature expansion\n2. No completion from scaffolding, schema-only work or zero executed scenarios\n\n## Completion pattern\nAccept this one result with its negative cases, scoped validation and exact-head independent review; integrate through a reviewed PR and native terminal reconciliation. Preserve adverse outcomes. Cleanup is separate, owned by Worker #1. The sprint umbrella reconciles results after RD-11; milestone closeout issues are not created in this wave.\n\n## Source\n`docs/milestones/v0.93.1/REPOSITORY_MIGRATION_v0.93.1.md` and `RD-05` in the reviewed execution plan at `248f00e359e412f6bc0061ac88be9ff374e3a212`. Operator amendment: create Sprint 1 in ADL now, transfer later; later sprints wait for accepted split.\n\n\n<!-- csdlc-v3-operation:a10c98d5c7b415cb7490efde8772c4ae1ca9dc20c76f27c3fae97ae7cb15e496 -->\n\n<!-- csdlc-v3-operation:41d80a503a1ae015f2e8a0c29e7a9d25d6df147ae85c2547dfcf20e6d8b9ef6b -->",
+        "created_at": "2026-09-25T17:54:43Z",
+        "state": "open",
+        "labels": [
+          "version:v0.93.1"
+        ],
+        "milestone_title": "v0.93.1",
+        "assignees": []
+      },
+      "destination_repository_id": 1388431804,
+      "destination_repository": "agent-logic/agent-logic-runtime",
+      "source_redirect_url": "https://github.com/agent-logic/agent-logic-runtime/issues/1",
+      "transfer_event": {
+        "id": 31880765248,
+        "url": "https://api.github.com/repos/agent-logic/agent-logic-runtime/issues/events/31880765248",
+        "event": "transferred",
+        "created_at": "2026-09-26T05:52:12Z"
+      },
+      "source_comment_ids": [],
+      "destination_comment_ids": [],
+      "source_journal": {
+        "current": {
+          "audit": "semantic-audit-v1:35fc4dd94b4524000c114ee21cb4e0901b19fd53240a2d909e0eb6b2730899da",
+          "digest": "semantic-state-v1:580a73642912b0d25bf265d7d8b9693fa9c0c8a4b77c5dfb8ffd974e3f16cce8",
+          "generation": 5
+        },
+        "commit_sha256": "4ab4ce2e03ad3e6c43cacb1a41c51c767dff9768434ef58f44d0cf9c9c0a7a32",
+        "source_repository": "agent-logic/agent-design-language",
+        "issue": 1187
+      },
+      "source_journal_unchanged": true,
+      "metadata_after_transfer_before_repair": {
+        "labels": [],
+        "milestone_title": null
+      },
+      "dependencies": [
+        {
+          "source_url": "https://github.com/agent-logic/agent-design-language/issues/1185",
+          "resolved_url": "https://github.com/agent-logic/agent-design-language/issues/1185",
+          "resolved_node_id": "I_kwDOTvc2y88AAAABTPps7A"
+        },
+        {
+          "source_url": "https://github.com/agent-logic/agent-design-language/issues/1186",
+          "resolved_url": "https://github.com/agent-logic/cognitive-sdlc/issues/1",
+          "resolved_node_id": "I_kwDOUsHDPc8AAAABTUt5uw"
+        }
+      ],
+      "parent": {
+        "source_url": "https://github.com/agent-logic/agent-design-language/issues/1180",
+        "resolved_url": "https://github.com/agent-logic/agent-design-language/issues/1180"
+      },
+      "destination_native_lifecycle": "not_initialized; portable installation belongs to RD04",
+      "evidence_sha256": {
+        "source-1187.json": "f1bb49b651e7bf5311dc49e616c2e89ee5d2552afee9ac765abae885fc51a922",
+        "transfer-1187-pre.json": "bced34359f933c2a99369e32df25d6b478505922f250b2bab6e44fe016192889",
+        "transfer-1187-transport.json": "74171486bc5a06233d2111510400fcf1f2d8fda052092a88d009e6d633d7671d",
+        "1187-metadata-final.json": "979b917af1af11a4b85882cd02df6372cd1dbfadc361bce2be1ab4663c29c003"
+      }
+    },
+    {
+      "work_package": "RD-06",
+      "source": {
+        "id": 5586485753,
+        "node_id": "I_kwDOTvc2y88AAAABTPsB-Q",
+        "number": 1188,
+        "html_url": "https://github.com/agent-logic/agent-design-language/issues/1188",
+        "title": "[v0.93.1][RD-06] Extract artifact-consuming infrastructure",
+        "body": "## One task\nExtract artifact-consuming infrastructure\n\n## Required outcome\nInfrastructure validates against pinned application artifacts without copied application source; state and cloud applies remain separately authorized.\n\n## Sprint and dependencies\nPart of #1180. Depends on: RD-05 (#1187). Dependency acceptance is required before execution; umbrella closure is not a predecessor.\n\n## Repository placement\nCreated in agent-logic/agent-design-language for Sprint 1 review under explicit operator direction. Intended execution repository: agent-logic/agent-logic-infrastructure. Transfer only after RD-12 bootstrap and through RD-13 mapping, preserving identity and links. If ADL remains the owner, retain this issue here. No repository visibility decision is made by this issue's creation.\n\n## Acceptance criteria\n1. Infrastructure validates against pinned application artifacts without copied application source; state and cloud applies remain separately authorized.\n2. Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings.\n\n## Required negative cases\n1. Unpinned artifact\n2. Application source required\n\n## Validation and evidence\nPVF: installed_integration. Retain exact candidate/source/artifact identity, actual scenario counts, commands/results, independent review and explicit limits. Design-only tasks use design evidence rather than demanding downstream implementation before it can begin. Extraction tasks require genuine independent installed-consumer proof; no sibling source dependency or fixture-only success may be presented as product acceptance.\n\n## Preparation and execution boundary\nPREPARATION ONLY. Another session will review scope, dependency graph, proof feasibility and six native lifecycle cards. Do not implement, transfer, bootstrap, publish, deploy or run live transitions until operator execution authorization. Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.\n\n## Non-goals\n1. No unrelated feature expansion\n2. No completion from scaffolding, schema-only work or zero executed scenarios\n\n## Completion pattern\nAccept this one result with its negative cases, scoped validation and exact-head independent review; integrate through a reviewed PR and native terminal reconciliation. Preserve adverse outcomes. Cleanup is separate, owned by Worker #1. The sprint umbrella reconciles results after RD-11; milestone closeout issues are not created in this wave.\n\n## Source\n`docs/milestones/v0.93.1/REPOSITORY_MIGRATION_v0.93.1.md` and `RD-06` in the reviewed execution plan at `248f00e359e412f6bc0061ac88be9ff374e3a212`. Operator amendment: create Sprint 1 in ADL now, transfer later; later sprints wait for accepted split.\n\n\n<!-- csdlc-v3-operation:d3bd21a671ee704a05b4003902df1d75eac346453d8b17fe3a6bf2594b2e4d24 -->",
+        "created_at": "2026-09-25T17:55:52Z",
+        "state": "open",
+        "labels": [
+          "version:v0.93.1"
+        ],
+        "milestone_title": "v0.93.1",
+        "assignees": []
+      },
+      "destination": {
+        "id": 5591780101,
+        "node_id": "I_kwDOUsHLn88AAAABTUvLBQ",
+        "number": 1,
+        "html_url": "https://github.com/agent-logic/agent-logic-infrastructure/issues/1",
+        "title": "[v0.93.1][RD-06] Extract artifact-consuming infrastructure",
+        "body": "## One task\nExtract artifact-consuming infrastructure\n\n## Required outcome\nInfrastructure validates against pinned application artifacts without copied application source; state and cloud applies remain separately authorized.\n\n## Sprint and dependencies\nPart of https://github.com/agent-logic/agent-design-language/issues/1180. Depends on: RD-05 (https://github.com/agent-logic/agent-logic-runtime/issues/1). Dependency acceptance is required before execution; umbrella closure is not a predecessor.\n\n## Repository placement\nCreated in agent-logic/agent-design-language for Sprint 1 review under explicit operator direction. Intended execution repository: agent-logic/agent-logic-infrastructure. Transfer only after RD-12 bootstrap and through RD-13 mapping, preserving identity and links. If ADL remains the owner, retain this issue here. No repository visibility decision is made by this issue's creation.\n\n## Acceptance criteria\n1. Infrastructure validates against pinned application artifacts without copied application source; state and cloud applies remain separately authorized.\n2. Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings.\n\n## Required negative cases\n1. Unpinned artifact\n2. Application source required\n\n## Validation and evidence\nPVF: installed_integration. Retain exact candidate/source/artifact identity, actual scenario counts, commands/results, independent review and explicit limits. Design-only tasks use design evidence rather than demanding downstream implementation before it can begin. Extraction tasks require genuine independent installed-consumer proof; no sibling source dependency or fixture-only success may be presented as product acceptance.\n\n## Preparation and execution boundary\nPREPARATION ONLY. Another session will review scope, dependency graph, proof feasibility and six native lifecycle cards. Do not implement, transfer, bootstrap, publish, deploy or run live transitions until operator execution authorization. Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.\n\n## Non-goals\n1. No unrelated feature expansion\n2. No completion from scaffolding, schema-only work or zero executed scenarios\n\n## Completion pattern\nAccept this one result with its negative cases, scoped validation and exact-head independent review; integrate through a reviewed PR and native terminal reconciliation. Preserve adverse outcomes. Cleanup is separate, owned by Worker #1. The sprint umbrella reconciles results after RD-11; milestone closeout issues are not created in this wave.\n\n## Source\n`docs/milestones/v0.93.1/REPOSITORY_MIGRATION_v0.93.1.md` and `RD-06` in the reviewed execution plan at `248f00e359e412f6bc0061ac88be9ff374e3a212`. Operator amendment: create Sprint 1 in ADL now, transfer later; later sprints wait for accepted split.\n\n\n<!-- csdlc-v3-operation:d3bd21a671ee704a05b4003902df1d75eac346453d8b17fe3a6bf2594b2e4d24 -->\n\n<!-- csdlc-v3-operation:9b76a55176834360f3d8386e3c9fdd5cf03aa2a2c983904acbfc307a72398e7d -->",
+        "created_at": "2026-09-25T17:55:52Z",
+        "state": "open",
+        "labels": [
+          "version:v0.93.1"
+        ],
+        "milestone_title": "v0.93.1",
+        "assignees": []
+      },
+      "destination_repository_id": 1388432287,
+      "destination_repository": "agent-logic/agent-logic-infrastructure",
+      "source_redirect_url": "https://github.com/agent-logic/agent-logic-infrastructure/issues/1",
+      "transfer_event": {
+        "id": 31880806998,
+        "url": "https://api.github.com/repos/agent-logic/agent-logic-infrastructure/issues/events/31880806998",
+        "event": "transferred",
+        "created_at": "2026-09-26T05:54:10Z"
+      },
+      "source_comment_ids": [],
+      "destination_comment_ids": [],
+      "source_journal": {
+        "current": {
+          "audit": "semantic-audit-v1:de30512e07604bfdfc3998cb2d9973796e93de01e7af17649eeb4486a5ec76c4",
+          "digest": "semantic-state-v1:7c9173790de4523dbb85bbfddeb7a591283e40d00dca5e6020eccc480bcd6684",
+          "generation": 5
+        },
+        "commit_sha256": "46cb26c47684d292daaf118e13459ab8b92517491e67784786b56b46588f6bec",
+        "source_repository": "agent-logic/agent-design-language",
+        "issue": 1188
+      },
+      "source_journal_unchanged": true,
+      "metadata_after_transfer_before_repair": {
+        "labels": [],
+        "milestone_title": null
+      },
+      "dependencies": [
+        {
+          "source_url": "https://github.com/agent-logic/agent-design-language/issues/1187",
+          "resolved_url": "https://github.com/agent-logic/agent-logic-runtime/issues/1",
+          "resolved_node_id": "I_kwDOUsHJvM8AAAABTUunHA"
+        }
+      ],
+      "parent": {
+        "source_url": "https://github.com/agent-logic/agent-design-language/issues/1180",
+        "resolved_url": "https://github.com/agent-logic/agent-design-language/issues/1180"
+      },
+      "destination_native_lifecycle": "not_initialized; portable installation belongs to RD04",
+      "evidence_sha256": {
+        "source-1188.json": "4d46b9575faecdc394d0d0d80bbd3a712b5f0098f184b83c7b1d4b6ab978b895",
+        "transfer-1188-pre.json": "028f187d2d2ccc14718afc15d938c8ddb42e017aca623539e218741aef6248fc",
+        "transfer-1188-transport.json": "0e67a48b4464b5222a4869bfd712ddbc02e4b61e8f7626a7001524364820ca87",
+        "1188-metadata-final.json": "9efc571b186d4ea5c41e37e4aac6574ae920f144d3202a4d90b63e9ca7d5b0f9"
+      }
+    },
+    {
+      "work_package": "RD-09",
+      "source": {
+        "id": 5586498285,
+        "node_id": "I_kwDOTvc2y88AAAABTPsy7Q",
+        "number": 1189,
+        "html_url": "https://github.com/agent-logic/agent-design-language/issues/1189",
+        "title": "[v0.93.1][RD-09] Establish enterprise-security producer boundary",
+        "body": "## One task\nEstablish enterprise-security producer boundary\n\n## Required outcome\nPrivate security repository independently validates its versioned Runtime extension boundary; Runtime proves absent, unavailable and verified provider behavior using synthetic policies.\n\n## Sprint and dependencies\nPart of #1180. Depends on: RD-05 (#1187). Dependency acceptance is required before execution; umbrella closure is not a predecessor.\n\n## Repository placement\nCreated in agent-logic/agent-design-language for Sprint 1 review under explicit operator direction. Intended execution repository: agent-logic/agent-logic-enterprise-security. Transfer only after RD-12 bootstrap and through RD-13 mapping, preserving identity and links. If ADL remains the owner, retain this issue here. No repository visibility decision is made by this issue's creation.\n\n## Acceptance criteria\n1. Private security repository independently validates its versioned Runtime extension boundary; Runtime proves absent, unavailable and verified provider behavior using synthetic policies.\n2. Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings.\n\n## Required negative cases\n1. Unavailable provider silently falls back\n2. Provider bypasses Runtime enforcement\n\n## Validation and evidence\nPVF: installed_integration. Retain exact candidate/source/artifact identity, actual scenario counts, commands/results, independent review and explicit limits. Design-only tasks use design evidence rather than demanding downstream implementation before it can begin. Extraction tasks require genuine independent installed-consumer proof; no sibling source dependency or fixture-only success may be presented as product acceptance.\n\n## Preparation and execution boundary\nPREPARATION ONLY. Another session will review scope, dependency graph, proof feasibility and six native lifecycle cards. Do not implement, transfer, bootstrap, publish, deploy or run live transitions until operator execution authorization. Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.\n\n## Non-goals\n1. No unrelated feature expansion\n2. No completion from scaffolding, schema-only work or zero executed scenarios\n\n## Completion pattern\nAccept this one result with its negative cases, scoped validation and exact-head independent review; integrate through a reviewed PR and native terminal reconciliation. Preserve adverse outcomes. Cleanup is separate, owned by Worker #1. The sprint umbrella reconciles results after RD-11; milestone closeout issues are not created in this wave.\n\n## Source\n`docs/milestones/v0.93.1/REPOSITORY_MIGRATION_v0.93.1.md` and `RD-09` in the reviewed execution plan at `248f00e359e412f6bc0061ac88be9ff374e3a212`. Operator amendment: create Sprint 1 in ADL now, transfer later; later sprints wait for accepted split.\n\n\n<!-- csdlc-v3-operation:4bfa736a9c206f9d5bfbfc90d2a4f5ee446639ff3a483bfbab0d91a772eb15d7 -->",
+        "created_at": "2026-09-25T17:56:53Z",
+        "state": "open",
+        "labels": [
+          "version:v0.93.1"
+        ],
+        "milestone_title": "v0.93.1",
+        "assignees": []
+      },
+      "destination": {
+        "id": 5591781067,
+        "node_id": "I_kwDOUsHMqM8AAAABTUvOyw",
+        "number": 1,
+        "html_url": "https://github.com/agent-logic/agent-logic-enterprise-security/issues/1",
+        "title": "[v0.93.1][RD-09] Establish enterprise-security producer boundary",
+        "body": "## One task\nEstablish enterprise-security producer boundary\n\n## Required outcome\nPrivate security repository independently validates its versioned Runtime extension boundary; Runtime proves absent, unavailable and verified provider behavior using synthetic policies.\n\n## Sprint and dependencies\nPart of https://github.com/agent-logic/agent-design-language/issues/1180. Depends on: RD-05 (https://github.com/agent-logic/agent-logic-runtime/issues/1). Dependency acceptance is required before execution; umbrella closure is not a predecessor.\n\n## Repository placement\nCreated in agent-logic/agent-design-language for Sprint 1 review under explicit operator direction. Intended execution repository: agent-logic/agent-logic-enterprise-security. Transfer only after RD-12 bootstrap and through RD-13 mapping, preserving identity and links. If ADL remains the owner, retain this issue here. No repository visibility decision is made by this issue's creation.\n\n## Acceptance criteria\n1. Private security repository independently validates its versioned Runtime extension boundary; Runtime proves absent, unavailable and verified provider behavior using synthetic policies.\n2. Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings.\n\n## Required negative cases\n1. Unavailable provider silently falls back\n2. Provider bypasses Runtime enforcement\n\n## Validation and evidence\nPVF: installed_integration. Retain exact candidate/source/artifact identity, actual scenario counts, commands/results, independent review and explicit limits. Design-only tasks use design evidence rather than demanding downstream implementation before it can begin. Extraction tasks require genuine independent installed-consumer proof; no sibling source dependency or fixture-only success may be presented as product acceptance.\n\n## Preparation and execution boundary\nPREPARATION ONLY. Another session will review scope, dependency graph, proof feasibility and six native lifecycle cards. Do not implement, transfer, bootstrap, publish, deploy or run live transitions until operator execution authorization. Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.\n\n## Non-goals\n1. No unrelated feature expansion\n2. No completion from scaffolding, schema-only work or zero executed scenarios\n\n## Completion pattern\nAccept this one result with its negative cases, scoped validation and exact-head independent review; integrate through a reviewed PR and native terminal reconciliation. Preserve adverse outcomes. Cleanup is separate, owned by Worker #1. The sprint umbrella reconciles results after RD-11; milestone closeout issues are not created in this wave.\n\n## Source\n`docs/milestones/v0.93.1/REPOSITORY_MIGRATION_v0.93.1.md` and `RD-09` in the reviewed execution plan at `248f00e359e412f6bc0061ac88be9ff374e3a212`. Operator amendment: create Sprint 1 in ADL now, transfer later; later sprints wait for accepted split.\n\n\n<!-- csdlc-v3-operation:4bfa736a9c206f9d5bfbfc90d2a4f5ee446639ff3a483bfbab0d91a772eb15d7 -->\n\n<!-- csdlc-v3-operation:6d0d7d912f4b8a3215f35c8f43ce7c0992e52857380c538408a18ef5164d579e -->",
+        "created_at": "2026-09-25T17:56:53Z",
+        "state": "open",
+        "labels": [
+          "version:v0.93.1"
+        ],
+        "milestone_title": "v0.93.1",
+        "assignees": []
+      },
+      "destination_repository_id": 1388432552,
+      "destination_repository": "agent-logic/agent-logic-enterprise-security",
+      "source_redirect_url": "https://github.com/agent-logic/agent-logic-enterprise-security/issues/1",
+      "transfer_event": {
+        "id": 31880811781,
+        "url": "https://api.github.com/repos/agent-logic/agent-logic-enterprise-security/issues/events/31880811781",
+        "event": "transferred",
+        "created_at": "2026-09-26T05:54:24Z"
+      },
+      "source_comment_ids": [],
+      "destination_comment_ids": [],
+      "source_journal": {
+        "current": {
+          "audit": "semantic-audit-v1:15ed000a580fe2af5ba6a8eab702e0d11f5a806f3e777b5e29ae1e98b1dadc1a",
+          "digest": "semantic-state-v1:fe4e036ca5496376751dc0a71dd63a426bdb6ddc2a1b9881f0b5092858721a5f",
+          "generation": 5
+        },
+        "commit_sha256": "5cc0b6d949659edef7b8f521cba3cabe23aeff810f99837b08edf7dd4a745b20",
+        "source_repository": "agent-logic/agent-design-language",
+        "issue": 1189
+      },
+      "source_journal_unchanged": true,
+      "metadata_after_transfer_before_repair": {
+        "labels": [],
+        "milestone_title": null
+      },
+      "dependencies": [
+        {
+          "source_url": "https://github.com/agent-logic/agent-design-language/issues/1187",
+          "resolved_url": "https://github.com/agent-logic/agent-logic-runtime/issues/1",
+          "resolved_node_id": "I_kwDOUsHJvM8AAAABTUunHA"
+        }
+      ],
+      "parent": {
+        "source_url": "https://github.com/agent-logic/agent-design-language/issues/1180",
+        "resolved_url": "https://github.com/agent-logic/agent-design-language/issues/1180"
+      },
+      "destination_native_lifecycle": "not_initialized; portable installation belongs to RD04",
+      "evidence_sha256": {
+        "source-1189.json": "c438eb3c1abed68e401f5003be446b5876267e6e3e322d2409297b57a4bcde26",
+        "transfer-1189-pre.json": "281c8d100b1652adf190b7c86940f433b7e5a66c9a17a5872ae0060e08d0e56b",
+        "transfer-1189-transport.json": "767a4393b3e979dd3ca487d03e9435ed78e10317c8ed2a654f214ea38b808c4c",
+        "1189-metadata-final.json": "89e5165c83954a4365d10e95625518dc0491bb476e7abe23bd5a71a68152d98a"
+      }
+    },
+    {
+      "work_package": "RD-10",
+      "source": {
+        "id": 5586511485,
+        "node_id": "I_kwDOTvc2y88AAAABTPtmfQ",
+        "number": 1190,
+        "html_url": "https://github.com/agent-logic/agent-design-language/issues/1190",
+        "title": "[v0.93.1][RD-10] Extract CodeFriend software and preserve its website",
+        "body": "## One task\nExtract CodeFriend software and preserve its website\n\n## Required outcome\nExtract CodeFriend software and independently install the preserved baseline using pinned distributable Runtime artifacts; retain known v0.92.2 qualification failures, website history and deployment. Prove portability and no new boundary regressions, not final Beta 1 launch acceptance.\n\n## Sprint and dependencies\nPart of #1180. Depends on: RD-05 (#1187). Dependency acceptance is required before execution; umbrella closure is not a predecessor.\n\n## Repository placement\nCreated in agent-logic/agent-design-language for Sprint 1 review under explicit operator direction. Intended execution repository: agent-logic/codefriend. Transfer only after RD-12 bootstrap and through RD-13 mapping, preserving identity and links. If ADL remains the owner, retain this issue here. No repository visibility decision is made by this issue's creation.\n\n## Acceptance criteria\n1. Extract CodeFriend software and independently install the preserved baseline using pinned distributable Runtime artifacts; retain known v0.92.2 qualification failures, website history and deployment. Prove portability and no new boundary regressions, not final Beta 1 launch acceptance.\n2. Retain exact prior and extracted candidates, actual install/replay observations and explicit inherited failures. CF launch qualification follows the split; do not require new v4 features here.\n\n## Required negative cases\n1. Website overwritten\n2. Sibling import\n3. Unapproved publication\n4. Report parity drift\n\n## Validation and evidence\nPVF: installed_integration. Retain exact candidate/source/artifact identity, actual scenario counts, commands/results, independent review and explicit limits. Design-only tasks use design evidence rather than demanding downstream implementation before it can begin. Extraction tasks require genuine independent installed-consumer proof; no sibling source dependency or fixture-only success may be presented as product acceptance.\n\n## Preparation and execution boundary\nPREPARATION ONLY. Another session will review scope, dependency graph, proof feasibility and six native lifecycle cards. Do not implement, transfer, bootstrap, publish, deploy or run live transitions until operator execution authorization. Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.\n\n## Non-goals\n1. No unrelated feature expansion\n2. No completion from scaffolding, schema-only work or zero executed scenarios\n\n## Completion pattern\nAccept this one result with its negative cases, scoped validation and exact-head independent review; integrate through a reviewed PR and native terminal reconciliation. Preserve adverse outcomes. Cleanup is separate, owned by Worker #1. The sprint umbrella reconciles results after RD-11; milestone closeout issues are not created in this wave.\n\n## Source\n`docs/milestones/v0.93.1/REPOSITORY_MIGRATION_v0.93.1.md` and `RD-10` in the reviewed execution plan at `248f00e359e412f6bc0061ac88be9ff374e3a212`. Operator amendment: create Sprint 1 in ADL now, transfer later; later sprints wait for accepted split.\n\n\n<!-- csdlc-v3-operation:77e6d4087b934f22a61ed38ffa40a65c867e5b813530b81912e97ea568d280e6 -->",
+        "created_at": "2026-09-25T17:57:53Z",
+        "state": "open",
+        "labels": [
+          "version:v0.93.1"
+        ],
+        "milestone_title": "v0.93.1",
+        "assignees": []
+      },
+      "destination": {
+        "id": 5591782691,
+        "node_id": "I_kwDOUsHLOc8AAAABTUvVIw",
+        "number": 1,
+        "html_url": "https://github.com/agent-logic/codefriend/issues/1",
+        "title": "[v0.93.1][RD-10] Extract CodeFriend software and preserve its website",
+        "body": "## One task\nExtract CodeFriend software and preserve its website\n\n## Required outcome\nExtract CodeFriend software and independently install the preserved baseline using pinned distributable Runtime artifacts; retain known v0.92.2 qualification failures, website history and deployment. Prove portability and no new boundary regressions, not final Beta 1 launch acceptance.\n\n## Sprint and dependencies\nPart of https://github.com/agent-logic/agent-design-language/issues/1180. Depends on: RD-05 (https://github.com/agent-logic/agent-logic-runtime/issues/1). Dependency acceptance is required before execution; umbrella closure is not a predecessor.\n\n## Repository placement\nCreated in agent-logic/agent-design-language for Sprint 1 review under explicit operator direction. Intended execution repository: agent-logic/codefriend. Transfer only after RD-12 bootstrap and through RD-13 mapping, preserving identity and links. If ADL remains the owner, retain this issue here. No repository visibility decision is made by this issue's creation.\n\n## Acceptance criteria\n1. Extract CodeFriend software and independently install the preserved baseline using pinned distributable Runtime artifacts; retain known v0.92.2 qualification failures, website history and deployment. Prove portability and no new boundary regressions, not final Beta 1 launch acceptance.\n2. Retain exact prior and extracted candidates, actual install/replay observations and explicit inherited failures. CF launch qualification follows the split; do not require new v4 features here.\n\n## Required negative cases\n1. Website overwritten\n2. Sibling import\n3. Unapproved publication\n4. Report parity drift\n\n## Validation and evidence\nPVF: installed_integration. Retain exact candidate/source/artifact identity, actual scenario counts, commands/results, independent review and explicit limits. Design-only tasks use design evidence rather than demanding downstream implementation before it can begin. Extraction tasks require genuine independent installed-consumer proof; no sibling source dependency or fixture-only success may be presented as product acceptance.\n\n## Preparation and execution boundary\nPREPARATION ONLY. Another session will review scope, dependency graph, proof feasibility and six native lifecycle cards. Do not implement, transfer, bootstrap, publish, deploy or run live transitions until operator execution authorization. Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.\n\n## Non-goals\n1. No unrelated feature expansion\n2. No completion from scaffolding, schema-only work or zero executed scenarios\n\n## Completion pattern\nAccept this one result with its negative cases, scoped validation and exact-head independent review; integrate through a reviewed PR and native terminal reconciliation. Preserve adverse outcomes. Cleanup is separate, owned by Worker #1. The sprint umbrella reconciles results after RD-11; milestone closeout issues are not created in this wave.\n\n## Source\n`docs/milestones/v0.93.1/REPOSITORY_MIGRATION_v0.93.1.md` and `RD-10` in the reviewed execution plan at `248f00e359e412f6bc0061ac88be9ff374e3a212`. Operator amendment: create Sprint 1 in ADL now, transfer later; later sprints wait for accepted split.\n\n\n<!-- csdlc-v3-operation:77e6d4087b934f22a61ed38ffa40a65c867e5b813530b81912e97ea568d280e6 -->\n\n<!-- csdlc-v3-operation:7dac31bbbde09664f70dd2413b1570a2e0e2636dca64a939565de263488b7fe5 -->",
+        "created_at": "2026-09-25T17:57:53Z",
+        "state": "open",
+        "labels": [
+          "version:v0.93.1"
+        ],
+        "milestone_title": "v0.93.1",
+        "assignees": []
+      },
+      "destination_repository_id": 1388432185,
+      "destination_repository": "agent-logic/codefriend",
+      "source_redirect_url": "https://github.com/agent-logic/codefriend/issues/1",
+      "transfer_event": {
+        "id": 31880819997,
+        "url": "https://api.github.com/repos/agent-logic/codefriend/issues/events/31880819997",
+        "event": "transferred",
+        "created_at": "2026-09-26T05:54:45Z"
+      },
+      "source_comment_ids": [],
+      "destination_comment_ids": [],
+      "source_journal": {
+        "current": {
+          "audit": "semantic-audit-v1:f820f573b61e6a7b82e636fc02161dbc29ceb46a840b090591be8c9524cda4e2",
+          "digest": "semantic-state-v1:a32d55385468487950143402eff10e41708a667e68556022c2c41440306a7a68",
+          "generation": 5
+        },
+        "commit_sha256": "94f363226c187a9934892bd5e979e6747d3cde88f31786a43b845270140c191b",
+        "source_repository": "agent-logic/agent-design-language",
+        "issue": 1190
+      },
+      "source_journal_unchanged": true,
+      "metadata_after_transfer_before_repair": {
+        "labels": [],
+        "milestone_title": null
+      },
+      "dependencies": [
+        {
+          "source_url": "https://github.com/agent-logic/agent-design-language/issues/1187",
+          "resolved_url": "https://github.com/agent-logic/agent-logic-runtime/issues/1",
+          "resolved_node_id": "I_kwDOUsHJvM8AAAABTUunHA"
+        }
+      ],
+      "parent": {
+        "source_url": "https://github.com/agent-logic/agent-design-language/issues/1180",
+        "resolved_url": "https://github.com/agent-logic/agent-design-language/issues/1180"
+      },
+      "destination_native_lifecycle": "not_initialized; portable installation belongs to RD04",
+      "evidence_sha256": {
+        "source-1190.json": "a0616034ecb9a664d6cf1df83122ff435de7efc338ddbfc1783f676b38ef99b9",
+        "transfer-1190-pre.json": "47fd6374a795ac83f70110473634364fe94519734fa329a5378f6cb119e304f8",
+        "transfer-1190-transport.json": "d382f40d9f776198c1be2035fa06f8df0d0574fb4d72adf5e2e622f26f58abac",
+        "1190-metadata-final.json": "e425fc5c5d2b2ce2f52003bb9695b2b01d3afcf5046ad0b3f23869798099aeac"
+      }
+    },
+    {
+      "work_package": "RD-08",
+      "source": {
+        "id": 5586526820,
+        "node_id": "I_kwDOTvc2y88AAAABTPuiZA",
+        "number": 1191,
+        "html_url": "https://github.com/agent-logic/agent-design-language/issues/1191",
+        "title": "[v0.93.1][RD-08] Qualify demo ownership after product moves",
+        "body": "## One task\nQualify demo ownership after product moves\n\n## Required outcome\nEvery retained demo has one owner and runs against supported product artifacts; Runtime owns Observatory and product moves own their source placement.\n\n## Sprint and dependencies\nPart of #1180. Depends on: RD-06 (#1188), RD-09 (#1189), RD-10 (#1190). Dependency acceptance is required before execution; umbrella closure is not a predecessor.\n\n## Repository placement\nCreated in agent-logic/agent-design-language for Sprint 1 review under explicit operator direction. Intended execution repository: agent-logic/agent-logic-runtime. Transfer only after RD-12 bootstrap and through RD-13 mapping, preserving identity and links. If ADL remains the owner, retain this issue here. No repository visibility decision is made by this issue's creation.\n\n## Acceptance criteria\n1. Every retained demo has one owner and runs against supported product artifacts; Runtime owns Observatory and product moves own their source placement.\n2. Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings.\n\n## Required negative cases\n1. Unowned demo\n2. Copied production implementation\n3. Mock presented as live proof\n\n## Validation and evidence\nPVF: installed_integration. Retain exact candidate/source/artifact identity, actual scenario counts, commands/results, independent review and explicit limits. Design-only tasks use design evidence rather than demanding downstream implementation before it can begin. Extraction tasks require genuine independent installed-consumer proof; no sibling source dependency or fixture-only success may be presented as product acceptance.\n\n## Preparation and execution boundary\nPREPARATION ONLY. Another session will review scope, dependency graph, proof feasibility and six native lifecycle cards. Do not implement, transfer, bootstrap, publish, deploy or run live transitions until operator execution authorization. Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.\n\n## Non-goals\n1. No unrelated feature expansion\n2. No completion from scaffolding, schema-only work or zero executed scenarios\n\n## Completion pattern\nAccept this one result with its negative cases, scoped validation and exact-head independent review; integrate through a reviewed PR and native terminal reconciliation. Preserve adverse outcomes. Cleanup is separate, owned by Worker #1. The sprint umbrella reconciles results after RD-11; milestone closeout issues are not created in this wave.\n\n## Source\n`docs/milestones/v0.93.1/REPOSITORY_MIGRATION_v0.93.1.md` and `RD-08` in the reviewed execution plan at `248f00e359e412f6bc0061ac88be9ff374e3a212`. Operator amendment: create Sprint 1 in ADL now, transfer later; later sprints wait for accepted split.\n\n\n<!-- csdlc-v3-operation:771aa19b130e3dd57afb21f1c1dc045d6ac5daa8f88c4bd45710078396eec63d -->",
+        "created_at": "2026-09-25T17:59:00Z",
+        "state": "open",
+        "labels": [
+          "version:v0.93.1"
+        ],
+        "milestone_title": "v0.93.1",
+        "assignees": []
+      },
+      "destination": {
+        "id": 5591783588,
+        "node_id": "I_kwDOUsHJvM8AAAABTUvYpA",
+        "number": 2,
+        "html_url": "https://github.com/agent-logic/agent-logic-runtime/issues/2",
+        "title": "[v0.93.1][RD-08] Qualify demo ownership after product moves",
+        "body": "## One task\nQualify demo ownership after product moves\n\n## Required outcome\nEvery retained demo has one owner and runs against supported product artifacts; Runtime owns Observatory and product moves own their source placement.\n\n## Sprint and dependencies\nPart of https://github.com/agent-logic/agent-design-language/issues/1180. Depends on: RD-06 (https://github.com/agent-logic/agent-logic-infrastructure/issues/1), RD-09 (https://github.com/agent-logic/agent-logic-enterprise-security/issues/1), RD-10 (https://github.com/agent-logic/codefriend/issues/1). Dependency acceptance is required before execution; umbrella closure is not a predecessor.\n\n## Repository placement\nCreated in agent-logic/agent-design-language for Sprint 1 review under explicit operator direction. Intended execution repository: agent-logic/agent-logic-runtime. Transfer only after RD-12 bootstrap and through RD-13 mapping, preserving identity and links. If ADL remains the owner, retain this issue here. No repository visibility decision is made by this issue's creation.\n\n## Acceptance criteria\n1. Every retained demo has one owner and runs against supported product artifacts; Runtime owns Observatory and product moves own their source placement.\n2. Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings.\n\n## Required negative cases\n1. Unowned demo\n2. Copied production implementation\n3. Mock presented as live proof\n\n## Validation and evidence\nPVF: installed_integration. Retain exact candidate/source/artifact identity, actual scenario counts, commands/results, independent review and explicit limits. Design-only tasks use design evidence rather than demanding downstream implementation before it can begin. Extraction tasks require genuine independent installed-consumer proof; no sibling source dependency or fixture-only success may be presented as product acceptance.\n\n## Preparation and execution boundary\nPREPARATION ONLY. Another session will review scope, dependency graph, proof feasibility and six native lifecycle cards. Do not implement, transfer, bootstrap, publish, deploy or run live transitions until operator execution authorization. Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.\n\n## Non-goals\n1. No unrelated feature expansion\n2. No completion from scaffolding, schema-only work or zero executed scenarios\n\n## Completion pattern\nAccept this one result with its negative cases, scoped validation and exact-head independent review; integrate through a reviewed PR and native terminal reconciliation. Preserve adverse outcomes. Cleanup is separate, owned by Worker #1. The sprint umbrella reconciles results after RD-11; milestone closeout issues are not created in this wave.\n\n## Source\n`docs/milestones/v0.93.1/REPOSITORY_MIGRATION_v0.93.1.md` and `RD-08` in the reviewed execution plan at `248f00e359e412f6bc0061ac88be9ff374e3a212`. Operator amendment: create Sprint 1 in ADL now, transfer later; later sprints wait for accepted split.\n\n\n<!-- csdlc-v3-operation:771aa19b130e3dd57afb21f1c1dc045d6ac5daa8f88c4bd45710078396eec63d -->\n\n<!-- csdlc-v3-operation:26e4d6b85c032a606f4a1cba6f24517b5ce368a383c2abaf294047fd7b1a5c04 -->",
+        "created_at": "2026-09-25T17:59:00Z",
+        "state": "open",
+        "labels": [
+          "version:v0.93.1"
+        ],
+        "milestone_title": "v0.93.1",
+        "assignees": []
+      },
+      "destination_repository_id": 1388431804,
+      "destination_repository": "agent-logic/agent-logic-runtime",
+      "source_redirect_url": "https://github.com/agent-logic/agent-logic-runtime/issues/2",
+      "transfer_event": {
+        "id": 31880824750,
+        "url": "https://api.github.com/repos/agent-logic/agent-logic-runtime/issues/events/31880824750",
+        "event": "transferred",
+        "created_at": "2026-09-26T05:54:57Z"
+      },
+      "source_comment_ids": [],
+      "destination_comment_ids": [],
+      "source_journal": {
+        "current": {
+          "audit": "semantic-audit-v1:9feab7ac9ef60b746da1dd05d7f0f4eff4bf54c0e03888e6d2a226f5aace971e",
+          "digest": "semantic-state-v1:9310cf37cb2039d4559cb3e4bf7215e833667eae34bf75e4cacba812423333bd",
+          "generation": 5
+        },
+        "commit_sha256": "812dae8abd2b60698e4a1362de432c39a69c5468a2c5c41cff9ccade92382bec",
+        "source_repository": "agent-logic/agent-design-language",
+        "issue": 1191
+      },
+      "source_journal_unchanged": true,
+      "metadata_after_transfer_before_repair": {
+        "labels": [
+          "version:v0.93.1"
+        ],
+        "milestone_title": "v0.93.1"
+      },
+      "dependencies": [
+        {
+          "source_url": "https://github.com/agent-logic/agent-design-language/issues/1188",
+          "resolved_url": "https://github.com/agent-logic/agent-logic-infrastructure/issues/1",
+          "resolved_node_id": "I_kwDOUsHLn88AAAABTUvLBQ"
+        },
+        {
+          "source_url": "https://github.com/agent-logic/agent-design-language/issues/1189",
+          "resolved_url": "https://github.com/agent-logic/agent-logic-enterprise-security/issues/1",
+          "resolved_node_id": "I_kwDOUsHMqM8AAAABTUvOyw"
+        },
+        {
+          "source_url": "https://github.com/agent-logic/agent-design-language/issues/1190",
+          "resolved_url": "https://github.com/agent-logic/codefriend/issues/1",
+          "resolved_node_id": "I_kwDOUsHLOc8AAAABTUvVIw"
+        }
+      ],
+      "parent": {
+        "source_url": "https://github.com/agent-logic/agent-design-language/issues/1180",
+        "resolved_url": "https://github.com/agent-logic/agent-design-language/issues/1180"
+      },
+      "destination_native_lifecycle": "not_initialized; portable installation belongs to RD04",
+      "evidence_sha256": {
+        "source-1191.json": "e7433d6f27b81e6154e8c36674f96f69b544ec16c52a0bf50a3da0e4a47d5d75",
+        "transfer-1191-pre.json": "85b0f3adfb0f5f2e2510ead8efebba1968bfe98741d86f546368772adc3dced0",
+        "transfer-1191-transport.json": "c2aa619252e0a867e2644165bea6614d6fa7e00125aff794002bf15d0af5910d",
+        "1191-metadata-final.json": "d5a18227b44965a28f2b4bee4ddb2c1a8e3eaf44d1f9946f4588167ac5003c39"
+      }
+    }
+  ],
+  "incoming_dependencies": [
+    {
+      "consumer": "https://github.com/agent-logic/agent-design-language/issues/1192",
+      "source_dependency": "https://github.com/agent-logic/agent-design-language/issues/1191",
+      "resolved_dependency": "https://github.com/agent-logic/agent-logic-runtime/issues/2",
+      "consumer_body_sha256": "bbfc389486e98d505ecad2a68d481f96a3d6e96e631d187e8de8bb8e9bd2c885"
+    }
+  ],
+  "preserved_adl_issues": [
+    1178,
+    1180,
+    1181,
+    1182,
+    1183,
+    1184,
+    1185,
+    1192,
+    1193
+  ],
+  "limitations": [
+    "GitHub changed issue database/node IDs; identity continuity is proved by authenticated original URL redirects, transferred timeline events and retained content/history, not stable node equality.",
+    "All six source comment sets were empty. No nonempty-comment migration proof claimed.",
+    "Labels and milestone placement lost during transfer were restored explicitly; metadata was not preserved unchanged.",
+    "Destination native lifecycle installation is not performed or claimed; RD04 owns it.",
+    "Captured authenticated readbacks are point-in-time evidence; offline tests verify packet consistency, not current GitHub state."
+  ]
+}
