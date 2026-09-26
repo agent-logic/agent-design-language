@@ -71,3 +71,12 @@ required RD03 deterministic CPU-only contract tests. The installed-consumer run
 is a required offline CPU/disk integration qualification with OS sandbox
 capability, no cloud/provider spend and no release authority. It is additional
 to native lifecycle proof and CI, not a replacement for either.
+
+## Recorded candidate qualification
+
+`report.json` records the successful installed run at source
+`5a1cfe4fd2d1af78438f4aa49d6bc6f5e21a1245`: five archives, seven consumer
+scenarios, 21 UTS fixtures and five adverse cases. `consumer.Cargo.lock` is the
+retained exact dependency lock. Archives are retained in the local execution
+packet and reproducible from that source revision; no registry upload occurred.
+Later evidence-only commits do not change those qualified package bytes.
