@@ -12,6 +12,7 @@ mod merge_retirement;
 mod model;
 mod mutation;
 mod publication;
+mod publication_observation;
 mod routing;
 mod storage;
 mod support;
