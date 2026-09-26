@@ -684,19 +684,34 @@ pub fn read_milestone_truth(repo_root: &Path) -> Result<WorkspaceMilestoneTruthR
 
 fn detect_current_milestone(readme: &str) -> String {
     let mut detected = Vec::new();
-    for milestone in ["v0.92.1", "v0.92", "v0.91.8", "v0.91.7", "v0.91.6"] {
-        let active_patterns = [
-            format!("Active milestone: {milestone}"),
-            format!("Active status: {milestone}"),
-        ];
-        if readme
-            .lines()
-            .map(str::trim)
-            .any(|line| active_patterns.iter().any(|pattern| line == pattern))
+    for line in readme.lines().map(str::trim) {
+        let Some(declaration) = line
+            .strip_prefix("Active milestone:")
+            .or_else(|| line.strip_prefix("Active status:"))
+        else {
+            continue;
+        };
+        let Some(declaration) = declaration.strip_prefix(' ') else {
+            return "unknown".to_string();
+        };
+        let Some(token) = declaration.split_whitespace().next() else {
+            return "unknown".to_string();
+        };
+        let milestone = token.strip_suffix('.').unwrap_or(token);
+        let Some(version) = milestone.strip_prefix('v') else {
+            return "unknown".to_string();
+        };
+        let parts: Vec<_> = version.split('.').collect();
+        if !(2..=3).contains(&parts.len())
+            || parts
+                .iter()
+                .any(|part| part.is_empty() || !part.bytes().all(|byte| byte.is_ascii_digit()))
         {
-            detected.push(milestone.to_string());
+            return "unknown".to_string();
         }
+        detected.push(milestone.to_string());
     }
+    detected.sort();
     detected.dedup();
     match detected.as_slice() {
         [milestone] => milestone.clone(),
@@ -908,8 +923,20 @@ mod tests {
     fn milestone_truth_reads_current_repo_story() {
         let repo_root = crate::adl_gws_native::tracked_path("");
         let truth = read_milestone_truth(&repo_root).expect("milestone truth");
-        assert!(["v0.91.6", "v0.91.7", "v0.91.8", "v0.92", "v0.92.1"]
-            .contains(&truth.chatgpt_facing_current_milestone.as_str()));
+        let feature_list =
+            std::fs::read_to_string(repo_root.join("docs/planning/ADL_FEATURE_LIST.md"))
+                .expect("current feature list");
+        let declaration = feature_list
+            .lines()
+            .find_map(|line| line.trim().strip_prefix("Active milestone: "))
+            .expect("authoritative active milestone declaration");
+        let expected = declaration
+            .split_whitespace()
+            .next()
+            .expect("declared milestone")
+            .trim_end_matches('.');
+        assert_ne!(truth.chatgpt_facing_current_milestone, "unknown");
+        assert_eq!(truth.chatgpt_facing_current_milestone, expected);
         assert_eq!(
             truth.planning_sequence.first().map(String::as_str),
             Some(truth.chatgpt_facing_current_milestone.as_str())
@@ -922,6 +949,74 @@ mod tests {
             .planning_sequence
             .contains(&truth.chatgpt_facing_current_milestone));
         assert!(!truth.v092_activation_blocked);
+    }
+
+    // PVF: deterministic local reader compatibility; bounded files, no network;
+    // required regression proof for the #1182 CI prerequisite repair.
+    #[test]
+    fn milestone_truth_reads_explicit_fixture_and_ledger() {
+        let root = tempfile::tempdir().expect("fixture root");
+        std::fs::create_dir_all(root.path().join("docs/planning")).unwrap();
+        std::fs::create_dir_all(root.path().join("docs/milestones/v0.92")).unwrap();
+        std::fs::write(root.path().join("README.md"), "Repository context").unwrap();
+        std::fs::write(
+            root.path().join("docs/planning/ADL_FEATURE_LIST.md"),
+            "Active milestone: v0.93.1. Repository split is active.",
+        )
+        .unwrap();
+        let ledger = root
+            .path()
+            .join("docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md");
+        for (contents, blocked) in [("activation remains blocked", true), ("accepted", false)] {
+            std::fs::write(&ledger, contents).unwrap();
+            let truth = read_milestone_truth(root.path()).unwrap();
+            assert_eq!(truth.chatgpt_facing_current_milestone, "v0.93.1");
+            assert_eq!(truth.planning_sequence, ["v0.93.1", "v0.92"]);
+            assert_eq!(truth.v092_activation_blocked, blocked);
+        }
+        std::fs::write(root.path().join("README.md"), "Active status: v0.92.2").unwrap();
+        let conflict = read_milestone_truth(root.path()).unwrap();
+        assert_eq!(conflict.chatgpt_facing_current_milestone, "unknown");
+        assert!(conflict.planning_sequence.is_empty());
+    }
+
+    // PVF: deterministic parser regression; required, small CPU, no external IO.
+    #[test]
+    fn milestone_declarations_accept_versions_and_reject_ambiguity() {
+        for (source, expected) in [
+            (
+                "Active milestone: v0.92.2. The approved successor is v0.93.1.",
+                "v0.92.2",
+            ),
+            ("Active status: v0.93.1", "v0.93.1"),
+            ("Active milestone: v0.91.6", "v0.91.6"),
+            ("Active milestone: v0.92", "v0.92"),
+            (
+                "Active milestone: v0.93.1\nActive status: v0.93.1",
+                "v0.93.1",
+            ),
+            (
+                "Active milestone: v0.92.2\nActive status: v0.93.1",
+                "unknown",
+            ),
+            (
+                "Active milestone: v0.93.1\nActive status: broken",
+                "unknown",
+            ),
+            ("Active milestone: v0.93.1\nActive status: ", "unknown"),
+            ("Active status: \nActive milestone: v0.93.1", "unknown"),
+            ("Active milestone:v0.93.1", "unknown"),
+            ("Active milestone: v0..3", "unknown"),
+            ("Active milestone: v0.93.1..", "unknown"),
+            ("Active milestone: v0.93.1-beta", "unknown"),
+            ("Active milestone: v0.93.1.2", "unknown"),
+            ("Active milestone: v0", "unknown"),
+            ("Active milestone: ", "unknown"),
+            ("Next milestone: v0.93.1", "unknown"),
+            ("", "unknown"),
+        ] {
+            assert_eq!(detect_current_milestone(source), expected, "{source}");
+        }
     }
 
     #[tokio::test]

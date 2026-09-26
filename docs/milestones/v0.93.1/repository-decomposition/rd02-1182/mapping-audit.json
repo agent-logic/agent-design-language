@@ -1,0 +1,50 @@
+{
+  "status": "technical_draft_policy_pending",
+  "frozen_revision": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+  "rd01_candidate": "682be6b8babb69f73c5e9fef8580f1b3c88966d5",
+  "count": 36899,
+  "owner_counts": {
+    "agent-logic-runtime": 1549,
+    "cognitive-sdlc": 1708,
+    "agent-design-language": 32765,
+    "codefriend": 404,
+    "agent-logic-infrastructure": 470,
+    "codefriend.ai": 3
+  },
+  "source_groups": {
+    "D-ROOT": 16,
+    "D-HISTORY": 31648,
+    "D-DELIVERY": 334,
+    "D-GENERATION": 287,
+    "cohesive_product": 1408,
+    "D-MIXED-ADL": 1937,
+    "D-DEMOS": 420,
+    "D-DOCS": 849
+  },
+  "missing_paths": [],
+  "duplicate_output_paths": [],
+  "unassigned_owners": [],
+  "unresolved_consumer_mapping_rows": [],
+  "input_sha256": {
+    "mixed-generation-dispositions.json": "b132333c76bf9165c98db6d2272f87b8ca8f9f4773124b6866dbede8a9fa3847",
+    "docs-dispositions.json": "8e5fe09fbe43d7fe1f3ed1fad491af026b8532ba89ecdb22a2fb1b5117436c6c",
+    "demo-root-dispositions.json": "3ef10eaa63f8e407f2327181c24f6ee8e3f21a14a1a5db89bf1e93f501da63b7",
+    "delivery-dispositions.json": "ddc92ef0ae1698461b7e679a7d9dd91d71961d500eedad3351d9053b6f4f1fa9",
+    "tool-runtime-infra-dispositions.json": "ade8a599e63d76b7f31001b88f0a69c347a8f9229ceaddf7b83a233f8c64e38a",
+    "tool-skill-dispositions.json": "0ba49567d0f74815f113fb4cb4c9f696be9e8c277c9c4067bf19c0926dfc4cdc",
+    "tool-residual-dispositions.json": "19dbd042509ca254d0c9d61f49c4d34adb1c17c63577a0c064793c98b0b25cb9",
+    "override-adjudications.json": "c8e03a32458571f455cd04d3cc91b5e44bb5d965a420794977322b79a949ab94",
+    "provider-boundary-dispositions.json": "601d2220f6e4394745618035dd703d0ed8b04b4ed47e33625e96cf5f64599933"
+  },
+  "output_sha256": "458f5a6cb9d74fefcc4b056c75cdc353a64cd433d47bdab3b54677726adfd5cf",
+  "override_rule": "Tool proposals supersede the base residual rows; explicit five adjudications supersede overlapping lane proposals. Original lane files retained. Provider boundary corrections supersede original cohesive candidates and module-family proposals for exactly five named paths.",
+  "review_limits": [
+    "Coverage and source identity checks are not exhaustive semantic review.",
+    "Residual65 bounded review passed after two corrections; exact set/source identities checked, representative semantic review only.",
+    "No independent installed product or extraction qualification claimed.",
+    "Consolidated operator policy remains pending; technical proof must not imply bootstrap authority."
+  ],
+  "output_file": "ownership.jsonl.gz",
+  "mapping_input_directory": "mapping-inputs",
+  "source_excerpt_hygiene": "Host-specific quoted excerpts are explicitly omitted with a redaction marker; original source path, line and blob references remain. These are not installed-path requirements."
+}

@@ -12,7 +12,7 @@ abort 'package job missing from aggregate needs' unless aggregate.fetch('needs')
 step = aggregate.fetch('steps').find { |s| s['name'] == 'Aggregate split adl-ci lanes' }
 script = step.fetch('run')
 start = script.index('if [ "$UTS_PACKAGE_REQUIRED" = true ]; then') or abort 'UTS gate missing'
-finish = script.index('case "$CSDLC_V2_STANDALONE_REQUIRED" in', start) or abort 'UTS gate boundary missing'
+finish = script.index('# BEGIN independent Cargo roots aggregate contract', start) or abort 'UTS gate boundary missing'
 block = script[start...finish]
 %w[UTS_PACKAGE_REQUIRED UTS_PACKAGE_RESULT].each do |key|
   abort "missing aggregate env #{key}" unless step.fetch('env').key?(key)
