@@ -3198,6 +3198,9 @@ function formatAgentOrientation(orientation = null) {
 }
 
 function formatResidentIncidentReason(reason, state = "open") {
+  if (state === "retired") return reason === "inference_evidence_stale"
+    ? "Retired: historical idle-evidence incident"
+    : `Retired: ${formatLabel(reason || "unknown")}`;
   if (state === "recovered") return `Recovered: ${formatLabel(reason || "unknown")}`;
   if (reason === "inference_evidence_stale") return "Verification needed: last inference is old";
   if (reason === "inference_unverified") return "Verification needed: no inference recorded";
