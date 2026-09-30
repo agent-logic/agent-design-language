@@ -1,0 +1,54 @@
+{
+  "status": "candidate_not_accepted",
+  "producer": "agent-logic/agent-design-language",
+  "source_revision": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+  "package": "adl-remote-validation",
+  "version": "0.92.1",
+  "owned_source_rows": 5,
+  "additional_license_file": true,
+  "files": [
+    {
+      "source_path": "tools/remote_validation/Cargo.lock",
+      "git_blob": "43bdbe5019a5840a5fd1dcbeb67c375ab276bb54",
+      "sha256": "396d801a74444e11fdd0ad85e47248a9c5ce845efe6fa4dd7405d15a30e89adf",
+      "bytes": 4899
+    },
+    {
+      "source_path": "tools/remote_validation/Cargo.toml",
+      "git_blob": "fb4c30bd9753b836be3c3aa03426a381eb58704e",
+      "sha256": "c9903f60b2bb4185b4aa400d474f347521936540bbc6d7cf9eded6ed79fa7536",
+      "bytes": 391
+    },
+    {
+      "source_path": "tools/remote_validation/src/bin/adl-remote-validation.rs",
+      "git_blob": "c7b8b2f4f262b3132ca262de9506178df0bf5123",
+      "sha256": "a23b87aeef67ff3fa58899ee394902ce7d6b06eb773e4df3da04cc7592b09393",
+      "bytes": 3802
+    },
+    {
+      "source_path": "tools/remote_validation/src/lib.rs",
+      "git_blob": "67a8bbb7bf49549873ab0c93492f6aec105e1ec3",
+      "sha256": "bea4d950458afe5ad096d0d84697dd4846abc2fa3b1d9e3c84a16db4c10bbccd",
+      "bytes": 27216
+    },
+    {
+      "source_path": "tools/remote_validation/tests/contract.rs",
+      "git_blob": "89d3769128846aa0d94498f829d0ab3bf7c62811",
+      "sha256": "f8d1b00167f84c86f90b52f479dabb583150c22b005a3d3c6a677a1e415d17d7",
+      "bytes": 17027
+    },
+    {
+      "source_path": "LICENSE",
+      "git_blob": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64",
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "bytes": 11357
+    }
+  ],
+  "artifact": {
+    "name": "adl-remote-validation-0.92.1-source.tar.gz",
+    "sha256": "9ab5247741d12768f0e2bb866f59bf8ca4748bdb01005003c54b78dc100580f1",
+    "bytes": 15289
+  },
+  "source_modifications": false,
+  "qualification_claim": false
+}

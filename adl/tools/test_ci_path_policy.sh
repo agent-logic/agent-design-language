@@ -268,7 +268,7 @@ EOF
   base_sha="$(git rev-parse HEAD)"
 
   # Verify isolated and mixed ownership using real Git diffs and the installed policy.
-  for root in adl-characterization adl-resilience tools/remote_validation; do
+  for root in adl-characterization adl-resilience tools/remote_validation tools/remote_validation_distribution; do
     case "$root" in
       adl-characterization) lane=adl_characterization_standalone ;;
       adl-resilience) lane=adl_resilience_standalone ;;
@@ -297,11 +297,11 @@ EOF
     done
   done
   git reset -q --hard "$base_sha"
-  for root in adl-characterization adl-resilience tools/remote_validation; do
+  for root in adl-characterization adl-resilience tools/remote_validation tools/remote_validation_distribution; do
     mkdir -p "$root/src"
     printf 'fixture\n' > "$root/src/lib.rs"
   done
-  git add adl-characterization adl-resilience tools/remote_validation
+  git add adl-characterization adl-resilience tools/remote_validation tools/remote_validation_distribution
   git commit -q -m all-independent-roots
   output="$("$POLICY" --event-name pull_request --base "$base_sha" --head HEAD --ref refs/pull/1/merge)"
   for lane in adl_characterization_standalone adl_resilience_standalone remote_validation_standalone; do

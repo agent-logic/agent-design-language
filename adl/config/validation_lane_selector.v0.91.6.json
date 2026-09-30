@@ -129,13 +129,15 @@
         "remote_validation_standalone"
       ],
       "path_selectors": [
-        "tools/remote_validation/**"
+        "tools/remote_validation/**",
+        "tools/remote_validation_distribution/**"
       ],
       "path_hints": [
-        "tools/remote_validation/**"
+        "tools/remote_validation/**",
+        "tools/remote_validation_distribution/**"
       ],
-      "command": "bash adl/tools/run_cargo_validation.sh cargo test --locked --manifest-path tools/remote_validation/Cargo.toml && bash adl/tools/run_cargo_validation.sh cargo fmt --manifest-path tools/remote_validation/Cargo.toml --all -- --check && bash adl/tools/run_cargo_validation.sh cargo clippy --locked --manifest-path tools/remote_validation/Cargo.toml --all-targets -- -D warnings",
-      "run_command": "bash adl/tools/run_cargo_validation.sh cargo test --locked --manifest-path tools/remote_validation/Cargo.toml && bash adl/tools/run_cargo_validation.sh cargo fmt --manifest-path tools/remote_validation/Cargo.toml --all -- --check && bash adl/tools/run_cargo_validation.sh cargo clippy --locked --manifest-path tools/remote_validation/Cargo.toml --all-targets -- -D warnings",
+      "command": "bash adl/tools/run_cargo_validation.sh cargo test --locked --manifest-path tools/remote_validation/Cargo.toml && bash adl/tools/run_cargo_validation.sh cargo fmt --manifest-path tools/remote_validation/Cargo.toml --all -- --check && bash adl/tools/run_cargo_validation.sh cargo clippy --locked --manifest-path tools/remote_validation/Cargo.toml --all-targets -- -D warnings && bash adl/tools/run_cargo_validation.sh cargo test --offline --locked --manifest-path tools/remote_validation_distribution/Cargo.toml --test distribution",
+      "run_command": "bash adl/tools/run_cargo_validation.sh cargo test --locked --manifest-path tools/remote_validation/Cargo.toml && bash adl/tools/run_cargo_validation.sh cargo fmt --manifest-path tools/remote_validation/Cargo.toml --all -- --check && bash adl/tools/run_cargo_validation.sh cargo clippy --locked --manifest-path tools/remote_validation/Cargo.toml --all-targets -- -D warnings && bash adl/tools/run_cargo_validation.sh cargo test --offline --locked --manifest-path tools/remote_validation_distribution/Cargo.toml --test distribution",
       "reason": "independent_cargo_root_requires_locked_focused_suite"
     },
     {
