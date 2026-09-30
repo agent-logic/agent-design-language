@@ -941,7 +941,7 @@ async fn resident_health_alias_recovers_same_incident_across_roster_refresh() {
     svc.resident_health
         .lock()
         .unwrap()
-        .observe(&[before.clone()], true, 0)
+        .observe(std::slice::from_ref(&before), true, 0)
         .unwrap();
     let incident_id = svc.resident_health.lock().unwrap().snapshot()[0]
         .incident_id
