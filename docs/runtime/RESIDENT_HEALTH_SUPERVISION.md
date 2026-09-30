@@ -22,6 +22,19 @@ five minutes have distinct reason codes. Metadata success does not establish
 inference success. This is a bound after Runtime observes a problem, not a promise
 to detect an external outage before the provider reports it.
 
+Health endpoints and roster cards use the supervisor's inference evidence class.
+Successful metadata verification reports `configured` / `unverified` until a
+successful inference is recorded for the current binding. Evidence older than
+five minutes also reports `configured` / `unverified`; this leaves communication
+available and does not assert a provider outage. Failed inference reports
+`failed` / `unavailable` and blocks agent-initiated dispatch; the existing explicit
+operator recovery path remains available. Status reads never generate inference.
+
+The Observatory labels incidents as retained records, separate from current
+health. A `binding_changed` response belongs to the prior binding and awaits
+verified recovery. Recovered records are labeled recovered, preserving the
+original reason, attempt budgets and notification receipts.
+
 Each resident has at most one open incident. Incidents survive binding replacement;
 old response completions cannot update the successor binding. Removal retires the
 incident without losing its pending alert. Re-admission can create a new incident.
