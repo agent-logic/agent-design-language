@@ -165,6 +165,18 @@ impl ResidentHealthSupervisor {
                     // Preserve ownership and bounded budget across replacements.
                 }
                 Some(o)
+                    if incident.reason == "inference_evidence_stale"
+                        && !o.unhealthy
+                        && o.inference_verified
+                        && o.inference_observed_at_unix_millis > 0 =>
+                {
+                    // Retire the obsolete age-only policy claim. This is not a
+                    // new inference or verified post-incident recovery. Actual
+                    // failures and missing evidence retain the stricter guard.
+                    incident.state = IncidentState::Retired;
+                    incident.response_status = "idle_policy_reconciled".into();
+                }
+                Some(o)
                     if !o.unhealthy
                         && o.inference_verified
                         && o.inference_observed_at_unix_millis > incident.opened_at_unix_millis =>
@@ -524,6 +536,48 @@ mod tests {
             present: true,
         }
     }
+    // PVF #1215: required deterministic journal regression; local CPU/files,
+    // no provider/AWS calls. Policy reconciliation never fabricates recovery.
+    #[test]
+    fn idle_policy_reconciliation_preserves_receipts_and_failure_recovery_guards() {
+        let temp = tempfile::tempdir().unwrap();
+        let path = temp.path().join("health.json");
+        let mut supervisor = ResidentHealthSupervisor::open(path.clone()).unwrap();
+        let mut old = failed("idle");
+        old.reason = "inference_evidence_stale";
+        supervisor.observe(&[old.clone()], true, 400_000).unwrap();
+        supervisor.observe(&[old.clone()], true, 435_000).unwrap();
+        let reserved = supervisor.reserve_alert(435_000).unwrap().unwrap();
+        supervisor.finish_alert(&reserved, true).unwrap();
+        let before = supervisor.snapshot()[0].clone();
+        let mut healthy = old.clone();
+        healthy.unhealthy = false;
+        healthy.reason = "healthy";
+        healthy.inference_verified = true;
+        healthy.inference_observed_at_unix_millis = 1_000;
+        // Fresh metadata with no successful inference cannot retire the record.
+        let mut unknown = healthy.clone();
+        unknown.inference_verified = false;
+        supervisor.observe(&[unknown], true, 440_000).unwrap();
+        assert_eq!(supervisor.snapshot()[0].state, IncidentState::Open);
+        supervisor.observe(&[healthy.clone()], true, 445_000).unwrap();
+        let after = supervisor.snapshot()[0].clone();
+        assert_eq!(after.state, IncidentState::Retired);
+        assert_eq!(after.response_status, "idle_policy_reconciled");
+        assert_eq!(after.incident_id, before.incident_id);
+        assert_eq!(after.opened_at_unix_millis, before.opened_at_unix_millis);
+        assert_eq!(after.alert_attempts, before.alert_attempts);
+        assert_eq!(after.alert_delivered, before.alert_delivered);
+        assert_eq!(after.response_attempts, before.response_attempts);
+        assert_eq!(ResidentHealthSupervisor::open(path).unwrap().snapshot()[0], after);
+        supervisor.observe(&[failed("idle")], true, 450_000).unwrap();
+        supervisor.observe(&[healthy.clone()], true, 455_000).unwrap();
+        assert_eq!(supervisor.snapshot()[1].state, IncidentState::Open);
+        healthy.inference_observed_at_unix_millis = 460_000;
+        supervisor.observe(&[healthy], true, 465_000).unwrap();
+        assert_eq!(supervisor.snapshot()[1].state, IncidentState::Recovered);
+    }
+
     #[test]
     fn simultaneous_failures_and_offline_shepherd_are_independently_owned_and_deduplicated() {
         let mut s = ResidentHealthSupervisor::default();
@@ -623,7 +677,7 @@ mod tests {
     }
 
     #[test]
-    fn readiness_restoration_survives_journal_restart_and_waits_for_real_inference() {
+    fn readiness_restoration_survives_restart_and_reconciles_idle_policy() {
         let temp = tempfile::tempdir().unwrap();
         let path = temp.path().join("incidents.json");
         let mut s = ResidentHealthSupervisor::open(path.clone()).unwrap();
@@ -650,12 +704,12 @@ mod tests {
         o.inference_verified = true;
         o.inference_observed_at_unix_millis = 50;
         s.observe(std::slice::from_ref(&o), true, 202).unwrap();
-        assert_eq!(s.snapshot()[0].state, IncidentState::Open);
+        assert_eq!(s.snapshot()[0].state, IncidentState::Retired);
         o.inference_observed_at_unix_millis = 203;
         s.observe(std::slice::from_ref(&o), true, 204).unwrap();
-        assert_eq!(s.snapshot()[0].state, IncidentState::Recovered);
+        assert_eq!(s.snapshot()[0].state, IncidentState::Retired);
         s.observe(&[o], false, 205).unwrap();
-        assert_eq!(s.snapshot()[0].response_status, "verified_recovery");
+        assert_eq!(s.snapshot()[0].response_status, "idle_policy_reconciled");
     }
 
     #[test]

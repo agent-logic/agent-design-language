@@ -80,3 +80,16 @@ test("live raw orientation and normalized orientation render the same algorithm"
     assert.doesNotMatch(formatResidentIncidentReason(reason, "recovered"), /recovery unverified|Verification needed/i);
   }
 });
+
+// PVF #1215: required small deterministic UI regression, no network or model calls.
+test("retired idle-policy incidents do not request verification or claim recovery", async () => {
+  await import("../app.js");
+  const { formatResidentIncidentReason } = globalThis.AdlHtmlObservatory;
+  assert.equal(formatResidentIncidentReason("inference_evidence_stale", "retired"),
+    "Retired: historical idle-evidence incident");
+  for (const reason of ["inference_evidence_stale", "inference_unverified", "observed_health_failure"]) {
+    const text = formatResidentIncidentReason(reason, "retired");
+    assert.match(text, /^Retired:/);
+    assert.doesNotMatch(text, /Verification needed|recovery unverified|Recovered:/);
+  }
+});

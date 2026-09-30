@@ -65,7 +65,8 @@ pub const MAX_SHUTDOWN_GRACE_MILLIS: u64 = 60_000;
 const AGENT_PROVIDER_EXECUTION_TIMEOUT: Duration = Duration::from_secs(15 * 60);
 
 /// Shared health/roster presentation of the incident monitor's evidence class.
-/// Stale or absent inference is a verification need, not a provider outage.
+/// Absent inference is a verification need, not a provider outage.
+/// Successful current-binding inference has no idle expiration.
 fn resident_health_presentation(
     current: InferenceReadinessState,
     reason: &str,
@@ -6753,6 +6754,13 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
     fn resident_health_observations_locked(
         &self,
     ) -> Vec<crate::resident_health::ResidentObservation> {
+        self.resident_health_observations_at_locked(now_unix_millis())
+    }
+
+    fn resident_health_observations_at_locked(
+        &self,
+        now: u64,
+    ) -> Vec<crate::resident_health::ResidentObservation> {
         let samples = self
             .agent_population
             .read()
@@ -6760,7 +6768,6 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .sample
             .clone();
         let signals = self.recorder.provider_usage.health_snapshot();
-        let now = now_unix_millis();
         samples
             .iter()
             .map(|sample| {
@@ -6791,8 +6798,6 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                     "resident_observation_stale"
                 } else if inference_at == 0 {
                     "inference_unverified"
-                } else if now.saturating_sub(inference_at) > 300_000 {
-                    "inference_evidence_stale"
                 } else {
                     "healthy"
                 };
@@ -15799,6 +15804,51 @@ mod orientation_tests {
             service.observatory_feed().agents.sample[0].inference_readiness,
             InferenceReadinessState::Configured
         );
+    }
+
+    // PVF #1215: required deterministic runtime regression; local CPU only,
+    // production census/accounting/supervisor paths, no network or model calls.
+    #[test]
+    fn resident_health_idle_success_survives_age_but_not_failure_or_invalidation() {
+        let service = service_with_resident();
+        let now = now_unix_millis();
+        let (id, name) = {
+            let mut agents = service.agent_population.write().unwrap();
+            let a = &mut agents.sample[0];
+            a.provider = Some("ollama".into());
+            a.model = Some("idle-fixture".into());
+            a.inference_readiness = InferenceReadinessState::Ready;
+            a.health = "healthy".into();
+            a.observed_at_unix_millis = now;
+            a.freshness_deadline_unix_millis = now + 3_600_000;
+            (a.id.clone(), a.name.clone())
+        };
+        let usage = &service.recorder.provider_usage;
+        usage.begin(&name, "ollama", "idle-fixture",
+            crate::provider_usage::ProviderRequestReason::OperatorConversation, "fixture")
+            .success("ready");
+        let mut supervisor = crate::resident_health::ResidentHealthSupervisor::default();
+        for elapsed in [0, 300_001, 900_000, 3_600_000] {
+            let observations = service.resident_health_observations_at_locked(now + elapsed);
+            assert_eq!(observations[0].id, id);
+            assert_eq!(observations[0].reason, "healthy");
+            assert!(observations[0].inference_verified);
+            supervisor.observe(&observations, true, now + elapsed).unwrap();
+        }
+        assert!(supervisor.snapshot().is_empty());
+        assert_eq!(service.resident_health_observations_at_locked(now + 3_600_001)[0].reason,
+            "resident_observation_stale");
+        usage.begin(&name, "ollama", "idle-fixture",
+            crate::provider_usage::ProviderRequestReason::OperatorConversation, "fixture")
+            .failure("fixture failure");
+        let failed = service.resident_health_observations_at_locked(now + 900_000);
+        assert_eq!(failed[0].reason, "observed_health_failure");
+        supervisor.observe(&failed, true, now + 900_000).unwrap();
+        assert_eq!(supervisor.snapshot()[0].reason, "observed_health_failure");
+        usage.invalidate_binding(&name);
+        let replaced = service.resident_health_observations_at_locked(now + 900_000);
+        assert_eq!(replaced[0].reason, "inference_unverified");
+        assert!(!replaced[0].inference_verified);
     }
 
     #[test]

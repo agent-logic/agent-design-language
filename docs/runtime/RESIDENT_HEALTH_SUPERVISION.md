@@ -17,16 +17,18 @@ historical edits are outside that contract. Full historical audits remain separa
 Cursor catch-up does not count as fresh exporter progress in the stall detector.
 
 An independent task checks observed health every five seconds. Provider failure,
-stale resident observations, unknown inference and inference evidence older than
-five minutes have distinct reason codes. Metadata success does not establish
+stale resident observations and unknown inference have distinct reason codes.
+Successful current-binding inference remains last-known ready while observations
+are fresh and no actual failure or explicit invalidation occurs. Idle time alone
+does not invalidate inference or create an incident. Metadata success does not establish
 inference success. This is a bound after Runtime observes a problem, not a promise
 to detect an external outage before the provider reports it.
 
 Health endpoints and roster cards use the supervisor's inference evidence class.
 Successful metadata verification reports `configured` / `unverified` until a
-successful inference is recorded for the current binding. Evidence older than
-five minutes also reports `configured` / `unverified`; this leaves communication
-available and does not assert a provider outage. Failed inference reports
+successful inference is recorded for the current binding. Last-success timestamps
+remain visible; readiness is retained evidence, not a continuous connectivity
+promise. Health reads and idle time never generate model calls. Failed inference reports
 `failed` / `unavailable` and blocks agent-initiated dispatch; the existing explicit
 operator recovery path remains available. Status reads never generate inference.
 
@@ -45,9 +47,15 @@ It is asked to acknowledge and assess; its prose is not executed as a repair pla
 Existing metadata retries and governed local shepherd recovery continue separately.
 A failed or absent shepherd never prevents independent incident creation or SNS
 escalation. All incidents escalate after 30 seconds even when response slots are
-busy. Verification-only incidents (unknown or aged inference) do not dispatch model
-responses; they escalate for operator attention without recurring synthetic
-inference. Confirmed failures and explicit help requests can dispatch responses.
+busy. Verification-only incidents (unknown inference) do not dispatch model responses;
+they escalate for operator attention without recurring synthetic inference. Confirmed failures and explicit help requests can dispatch responses.
+
+Legacy `inference_evidence_stale` incidents retire with `idle_policy_reconciled`
+only when the current binding has successful inference and fresh observations.
+This policy reconciliation preserves history, attempt budgets and alert receipts;
+it is not a claim of a new inference or a repaired provider. Existing pending
+outbox deliveries retain their at-least-once behavior. Missing evidence, actual
+failures and stale observations cannot take this reconciliation path.
 
 Recovery requires current-binding successful inference observed after the incident
 opened, along with fresh healthy observations. An acknowledgment or model-list
