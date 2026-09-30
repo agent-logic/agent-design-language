@@ -2704,8 +2704,8 @@ function renderAgentDirectory(agents = lastAgentPopulation) {
         <div><dt>Provider</dt><dd>${escapeHtml(formatLabel(agent.provider || "not reported"))}</dd></div>
         <div><dt>Health</dt><dd>${escapeHtml(formatLabel(agent.health || "unknown"))}</dd></div>
         <div><dt>Availability</dt><dd>${escapeHtml(formatLabel(agent.availability || "unknown"))}</dd></div>
-        ${agent.resident_incident ? `<div><dt>Shepherd response</dt><dd>${escapeHtml(formatLabel(agent.resident_incident.response_status))}</dd></div>
-        <div><dt>Health incident</dt><dd>${escapeHtml(formatLabel(agent.resident_incident.reason))} · ${escapeHtml(formatLabel(agent.resident_incident.state))}</dd></div>
+        ${agent.resident_incident ? `<div><dt>Incident response</dt><dd>${escapeHtml(agent.resident_incident.response_status === "binding_changed" ? "Prior binding; awaiting verified recovery" : formatLabel(agent.resident_incident.response_status))}</dd></div>
+        <div><dt>Retained incident</dt><dd>${escapeHtml(formatResidentIncidentReason(agent.resident_incident.reason, agent.resident_incident.state))} · ${escapeHtml(formatLabel(agent.resident_incident.state))}</dd></div>
         <div><dt>Help request</dt><dd>${escapeHtml(agent.resident_incident.alert_delivered ? "Accepted by SNS" : formatLabel(agent.resident_incident.alert_status))}</dd></div>
         <div><dt>Next alert attempt</dt><dd>${escapeHtml(agent.resident_incident.alert_delivered ? "None pending" : new Date(agent.resident_incident.next_alert_at_unix_millis).toLocaleString())}</dd></div>` : ""}
         <div><dt>Last snapshotted</dt><dd data-tone="${escapeHtml(fresh.tone)}">${escapeHtml(fresh.label)}</dd></div>
@@ -3191,7 +3191,18 @@ function normalizeAgentOrientation(orientation = null) {
 
 function formatAgentOrientation(orientation = null) {
   if (!orientation) return "Not recorded";
-  return `${orientation.version} / ${orientation.digestAlgorithm}:${orientation.digest.slice(0, 12)} / ${orientation.projection} / non-authoritative`;
+  const value = orientation.digest_algorithm !== undefined
+    ? normalizeAgentOrientation(orientation) : orientation;
+  if (!value || value.digestAlgorithm !== "blake3" || !/^[a-fA-F0-9]{64}$/.test(value.digest || "")) return "Not recorded";
+  return `${value.version} / ${value.digestAlgorithm}:${value.digest.slice(0, 12)} / ${value.projection} / non-authoritative`;
+}
+
+function formatResidentIncidentReason(reason, state = "open") {
+  if (state === "recovered") return `Recovered: ${formatLabel(reason || "unknown")}`;
+  if (reason === "inference_evidence_stale") return "Verification needed: last inference is old";
+  if (reason === "inference_unverified") return "Verification needed: no inference recorded";
+  if (reason === "observed_health_failure") return "Previously observed failure; recovery unverified";
+  return formatLabel(reason || "unknown");
 }
 
 function latestResidentIncident(incidents, id) {
@@ -5036,6 +5047,7 @@ globalThis.AdlHtmlObservatory = {
   projectPolisIdentity,
   normalizeAgentOrientation,
   formatAgentOrientation,
+  formatResidentIncidentReason,
   buildRuntimeAgentRows,
   acceptRuntimeRosterSnapshot,
   runtimeRosterCursorState,

@@ -63,6 +63,31 @@ pub const PREVIOUS_OBSERVATORY_FEED_SCHEMA: &str = "adl.runtime_v3.observatory_f
 pub const OBSERVATORY_FEED_SCHEMA: &str = "adl.runtime_v3.observatory_feed.v3";
 pub const MAX_SHUTDOWN_GRACE_MILLIS: u64 = 60_000;
 const AGENT_PROVIDER_EXECUTION_TIMEOUT: Duration = Duration::from_secs(15 * 60);
+
+/// Shared health/roster presentation of the incident monitor's evidence class.
+/// Stale or absent inference is a verification need, not a provider outage.
+fn resident_health_presentation(
+    current: InferenceReadinessState,
+    reason: &str,
+) -> Option<(InferenceReadinessState, &'static str, Option<&'static str>)> {
+    use InferenceReadinessState::{Configured, Ready};
+    if !matches!(current, Configured | Ready) {
+        return None;
+    }
+    Some(match reason {
+        "healthy" => (Ready, "healthy", None),
+        "inference_evidence_stale" => (Configured, "unverified", Some("inference_evidence_stale")),
+        "inference_unverified" => (Configured, "unverified", Some("inference_unverified")),
+        "resident_observation_stale" => (Configured, "stale", Some("resident_observation_stale")),
+        "observed_health_failure" => (
+            InferenceReadinessState::Failed,
+            "failed",
+            Some("observed_health_failure"),
+        ),
+        _ => return None,
+    })
+}
+
 const AGENT_CONVERSATION_MESSAGE_PART_LIMIT_BYTES: usize = 32 * 1024;
 const AGENT_CONVERSATION_MESSAGE_TOTAL_LIMIT_BYTES: usize = 256 * 1024;
 const AGENT_CONVERSATION_MESSAGE_MAX_PARTS: usize = 64;
@@ -5038,7 +5063,24 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .lock()
             .expect("dynamic agents state poisoned")
             .clone();
+        let observations = self.resident_health_observations_locked();
         for agent in &mut agents.sample {
+            if let Some(observation) = observations.iter().find(|o| o.id == agent.id) {
+                if agent.provider.is_some() {
+                    if let Some((readiness, health, activity)) =
+                        resident_health_presentation(agent.inference_readiness, observation.reason)
+                    {
+                        if readiness == InferenceReadinessState::Failed {
+                            agent.availability = readiness.projection().availability.into();
+                            agent.communication_eligible = false;
+                        }
+                        agent.inference_readiness = readiness;
+                        agent.state = readiness.as_str().into();
+                        agent.health = health.into();
+                        agent.activity = activity.map(str::to_owned);
+                    }
+                }
+            }
             if let Some(binding) = bindings.iter().find(|b| b.id == agent.id) {
                 agent.provider_binding = self
                     .recorder
@@ -5071,6 +5113,25 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
     }
 
     fn decorate_agent_detail(&self, agent: &mut AgentRosterEntry) {
+        if agent.provider.is_some() {
+            if let Some(observation) = self
+                .resident_health_observations_locked()
+                .iter()
+                .find(|o| o.id == agent.id)
+            {
+                if let Some((readiness, health, activity)) =
+                    resident_health_presentation(agent.inference_readiness, observation.reason)
+                {
+                    if readiness == InferenceReadinessState::Failed {
+                        agent.availability = readiness.projection().availability.into();
+                        agent.communication_eligible = false;
+                    }
+                    agent.inference_readiness = readiness;
+                    agent.health = health.into();
+                    agent.activity = activity.map(str::to_owned);
+                }
+            }
+        }
         if let Some(binding) = self
             .dynamic_agents
             .lock()
@@ -5163,12 +5224,9 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                     match verify_registered_provider(providers, provider_binding(&declaration))
                         .await
                     {
-                        Ok(projection) => (
-                            if projection.capabilities.model_validation {
-                                InferenceReadinessState::Ready
-                            } else {
-                                InferenceReadinessState::Configured
-                            },
+                        Ok(_projection) => (
+                            // Metadata establishes configuration, never generated inference.
+                            InferenceReadinessState::Configured,
                             None,
                         ),
                         Err(failure) => (
@@ -12569,6 +12627,7 @@ mod layer8_conversation_ingress_tests {
         for sample in service.agent_population.write().unwrap().sample.iter_mut() {
             if sample.id == "beacon" || sample.id == "ember" {
                 sample.provider = Some("sixth".into());
+                sample.model = Some("gemma3-local".into());
             }
         }
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join(".adl/issue855");
@@ -13831,7 +13890,7 @@ mod agent_lifecycle {
                 .find(|agent| agent.id == "gemma-e4b")
                 .unwrap()
                 .health,
-            "healthy"
+            "unverified"
         );
         assert_eq!(
             invoke_ollama_model(
@@ -14036,8 +14095,8 @@ mod agent_lifecycle {
             .iter()
             .find(|agent| agent.id == healthy.id)
             .expect("healthy peer remains projected");
-        assert_eq!(healthy_sample.health, "healthy");
-        assert_eq!(healthy_sample.state, "ready");
+        assert_eq!(healthy_sample.health, "unverified");
+        assert_eq!(healthy_sample.state, "configured");
         assert!(
             healthy_sample.detail.contains("verified"),
             "healthy peer projection must not be overwritten: {}",
@@ -14086,8 +14145,8 @@ mod agent_lifecycle {
             .iter()
             .find(|agent| agent.id == healthy.id)
             .expect("healthy peer remains projected");
-        assert_eq!(healthy_sample.health, "healthy");
-        assert_eq!(healthy_sample.state, "ready");
+        assert_eq!(healthy_sample.health, "unverified");
+        assert_eq!(healthy_sample.state, "configured");
         assert!(
             healthy_sample.detail.contains("verified"),
             "healthy peer projection must not be overwritten: {}",
@@ -15646,6 +15705,114 @@ mod orientation_tests {
         let feed = service.observatory_feed();
         assert_eq!(feed.resident_incidents.len(), 1);
         assert!(feed.resident_incidents[0].escalated);
+    }
+
+    // PVF #1211: deterministic local unit/integration proof, no provider calls;
+    // small CPU/files, required health evidence and binding-fence regression.
+    #[test]
+    fn resident_health_projection_requires_inference_and_respects_rebinding() {
+        let service = service_with_resident();
+        let now = now_unix_millis();
+        let (id, name, provider, model) = {
+            let mut agents = service.agent_population.write().unwrap();
+            let a = &mut agents.sample[0];
+            a.provider = Some("ollama".into());
+            a.model = Some("fixture-model".into());
+            a.inference_readiness = InferenceReadinessState::Ready;
+            a.health = "healthy".into();
+            a.state = "ready".into();
+            a.observed_at_unix_millis = now;
+            a.freshness_deadline_unix_millis = now + 300_000;
+            (
+                a.id.clone(),
+                a.name.clone(),
+                a.provider.clone().unwrap(),
+                a.model.clone().unwrap(),
+            )
+        };
+        service
+            .recorder
+            .set_component_state(ComponentId::new(&id), crate::RunningState::Running);
+        assert!(service.recorder.record_agent_admission(
+            &id,
+            now,
+            now + 300_000,
+            "1111111111111111111111111111111111111111"
+        ));
+        let status = service.agent_health_status(&id).unwrap();
+        assert_eq!(status["health"], "unverified");
+        assert_eq!(status["inference_readiness"], "configured");
+        assert_eq!(status["reason"], "inference_unverified");
+        assert_eq!(
+            service.observatory_feed().agents.sample[0].health,
+            "unverified"
+        );
+        service
+            .recorder
+            .provider_usage
+            .begin(
+                &name,
+                &provider,
+                &model,
+                crate::provider_usage::ProviderRequestReason::RecoveryProbe,
+                "fixture",
+            )
+            .success("ready");
+        assert_eq!(
+            service.agent_health_status(&id).unwrap()["health"],
+            "healthy"
+        );
+        assert_eq!(
+            service.observatory_feed().agents.sample[0].health,
+            "healthy"
+        );
+        service
+            .recorder
+            .provider_usage
+            .begin(
+                &name,
+                &provider,
+                &model,
+                crate::provider_usage::ProviderRequestReason::RecoveryProbe,
+                "failure-fixture",
+            )
+            .failure("fixture inference failed");
+        let failed = service.agent_health_status(&id).unwrap();
+        assert_eq!(failed["health"], "failed");
+        assert_eq!(failed["availability"], "unavailable");
+        let roster = service.observatory_feed();
+        assert_eq!(roster.agents.sample[0].health, "failed");
+        assert_eq!(roster.agents.sample[0].availability, "unavailable");
+        assert!(!roster.agents.sample[0].communication_eligible);
+        assert_eq!(
+            service
+                .conversation_dispatch_eligibility(&id, false)
+                .unwrap(),
+            Some(false)
+        );
+        service.recorder.provider_usage.invalidate_binding(&name);
+        assert_eq!(
+            service.agent_health_status(&id).unwrap()["health"],
+            "unverified"
+        );
+        assert_eq!(
+            service.observatory_feed().agents.sample[0].inference_readiness,
+            InferenceReadinessState::Configured
+        );
+    }
+
+    #[test]
+    fn resident_health_presentation_separates_stale_evidence_from_failure() {
+        use InferenceReadinessState::{Configured, Failed, Ready};
+        assert_eq!(
+            resident_health_presentation(Ready, "inference_evidence_stale"),
+            Some((Configured, "unverified", Some("inference_evidence_stale")))
+        );
+        assert_eq!(
+            resident_health_presentation(Ready, "observed_health_failure"),
+            Some((Failed, "failed", Some("observed_health_failure")))
+        );
+        assert_eq!(resident_health_presentation(Failed, "healthy"), None);
     }
 
     #[tokio::test]

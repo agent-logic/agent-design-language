@@ -64,3 +64,19 @@ test("Observatory preserves exact per-agent orientation provenance", async () =>
   assert.equal(agent.orientation.digest, "a".repeat(64));
   assert.match(formatAgentOrientation(agent.orientation), /v1 \/ blake3:aaaaaaaaaaaa \/ full \/ non-authoritative/);
 });
+
+// PVF #1211: deterministic small local UI contract, required, no browser/network.
+test("live raw orientation and normalized orientation render the same algorithm", async () => {
+  await import("../app.js");
+  const { normalizeAgentOrientation, formatAgentOrientation, formatResidentIncidentReason } = globalThis.AdlHtmlObservatory;
+  const raw = { schema: "adl.runtime_v3.agent_orientation_delivery.v1", version: "v1", digest_algorithm: "blake3", digest: "b".repeat(64), source_path: "orientation.md", projection: "full" };
+  assert.equal(formatAgentOrientation(raw), formatAgentOrientation(normalizeAgentOrientation(raw)));
+  assert.match(formatAgentOrientation(raw), /blake3:bbbbbbbbbbbb/);
+  assert.equal(formatAgentOrientation({ ...raw, digest_algorithm: "unknown" }), "Not recorded");
+  assert.match(formatResidentIncidentReason("inference_evidence_stale"), /Verification needed/);
+  assert.match(formatResidentIncidentReason("observed_health_failure"), /Previously observed failure; recovery unverified/);
+  for (const reason of ["observed_health_failure", "inference_evidence_stale", "inference_unverified"]) {
+    assert.match(formatResidentIncidentReason(reason, "recovered"), /^Recovered:/);
+    assert.doesNotMatch(formatResidentIncidentReason(reason, "recovered"), /recovery unverified|Verification needed/i);
+  }
+});
