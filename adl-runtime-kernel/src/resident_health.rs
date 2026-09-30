@@ -218,6 +218,24 @@ impl ResidentHealthSupervisor {
             if !shepherd_ready {
                 incident.escalated = true;
                 incident.response_status = "shepherd_unavailable".into();
+            } else if incident.response_status == "shepherd_unavailable" {
+                // Assistance availability is not resident recovery. Old journals
+                // do not retain the status overwritten by unavailability, so
+                // derive only what the durable response state proves.
+                incident.response_status = if incident.response_deadline_unix_millis.is_some() {
+                    "responding"
+                } else if matches!(
+                    incident.reason.as_str(),
+                    "inference_unverified" | "inference_evidence_stale"
+                ) {
+                    "awaiting_inference_evidence"
+                } else if incident.response_attempts >= MAX_RESPONSE_ATTEMPTS {
+                    "response_budget_exhausted"
+                } else {
+                    "pending"
+                }
+                .into();
+                incident.updated_at_unix_millis = now;
             }
         }
         for o in observations.iter().filter(|o| o.present && o.unhealthy) {
@@ -234,6 +252,7 @@ impl ResidentHealthSupervisor {
                         .filter(|i| i.resident_id == o.id && i.state == IncidentState::Open)
                     {
                         i.escalated = true;
+                        i.response_status = "shepherd_unavailable".into();
                     }
                 }
             }
@@ -524,6 +543,121 @@ mod tests {
         assert_eq!(ids.len(), 3);
         assert!(s.reserve_alert(100_000).unwrap().is_none());
     }
+    // #1209 PVF: deterministic unit/journal regression; bounded local CPU/files,
+    // no providers/network. Required assistance-status proof, not live deployment.
+    #[test]
+    fn readiness_restoration_reconciles_all_open_incidents_without_recovery() {
+        let mut s = ResidentHealthSupervisor::default();
+        let mut stale = failed("idle");
+        stale.reason = "inference_evidence_stale";
+        let mut unverified = failed("unverified");
+        unverified.reason = "inference_unverified";
+        let observations = [failed("broken"), stale, unverified];
+        s.observe(&observations, false, 100).unwrap();
+        assert!(s
+            .snapshot()
+            .iter()
+            .all(|i| i.response_status == "shepherd_unavailable"));
+        while let Some(alert) = s.reserve_alert(100).unwrap() {
+            s.finish_alert(&alert, true).unwrap();
+        }
+        let before = s.snapshot();
+        s.observe(&observations, true, 200).unwrap();
+        for (old, current) in before.iter().zip(s.snapshot()) {
+            let mut expected = old.clone();
+            expected.response_status = if old.resident_id == "broken" {
+                "pending"
+            } else {
+                "awaiting_inference_evidence"
+            }
+            .into();
+            expected.updated_at_unix_millis = 200;
+            assert_eq!(
+                current, expected,
+                "only assistance status and timestamp may change"
+            );
+            assert_eq!(current.state, IncidentState::Open);
+        }
+        let stable = s.snapshot();
+        s.observe(&observations, true, 201).unwrap();
+        assert_eq!(s.snapshot(), stable);
+        assert!(s.reserve_alert(u64::MAX).unwrap().is_none());
+        let request = s.reserve_response(201).unwrap().unwrap();
+        assert_eq!(request.resident_id, "broken");
+        assert!(s.reserve_response(201).unwrap().is_none());
+    }
+
+    #[test]
+    fn restored_readiness_preserves_inflight_response_and_exhausted_budget() {
+        let mut s = ResidentHealthSupervisor::default();
+        let observations = [failed("resident")];
+        s.observe(&observations, true, 100).unwrap();
+        let reserved = s.reserve_response(100).unwrap().unwrap();
+        s.observe(&observations, false, 101).unwrap();
+        s.observe(&observations, true, 102).unwrap();
+        let restored = s.snapshot().remove(0);
+        assert_eq!(restored.response_status, "responding");
+        assert_eq!(restored.response_attempts, reserved.response_attempts);
+        assert_eq!(
+            restored.response_deadline_unix_millis,
+            reserved.response_deadline_unix_millis
+        );
+        assert!(s.reserve_response(103).unwrap().is_none());
+        s.finish_response(&reserved, false, 104).unwrap();
+        for now in [100_000, 300_000] {
+            let request = s.reserve_response(now).unwrap().unwrap();
+            s.finish_response(&request, false, now + 1).unwrap();
+        }
+        s.observe(&observations, false, 400_000).unwrap();
+        let exhausted = s.snapshot().remove(0);
+        s.observe(&observations, true, 400_001).unwrap();
+        let restored = s.snapshot().remove(0);
+        assert_eq!(restored.response_status, "response_budget_exhausted");
+        assert_eq!(restored.response_attempts, MAX_RESPONSE_ATTEMPTS);
+        assert_eq!(
+            restored.next_response_at_unix_millis,
+            exhausted.next_response_at_unix_millis
+        );
+        assert_eq!(restored.state, IncidentState::Open);
+        assert!(s.reserve_response(u64::MAX).unwrap().is_none());
+    }
+
+    #[test]
+    fn readiness_restoration_survives_journal_restart_and_waits_for_real_inference() {
+        let temp = tempfile::tempdir().unwrap();
+        let path = temp.path().join("incidents.json");
+        let mut s = ResidentHealthSupervisor::open(path.clone()).unwrap();
+        let mut o = failed("idle");
+        o.reason = "inference_evidence_stale";
+        s.observe(std::slice::from_ref(&o), false, 100).unwrap();
+        let alert = s.reserve_alert(100).unwrap().unwrap();
+        s.finish_alert(&alert, true).unwrap();
+        drop(s);
+        let mut s = ResidentHealthSupervisor::open(path.clone()).unwrap();
+        s.observe(std::slice::from_ref(&o), true, 200).unwrap();
+        assert_eq!(
+            s.snapshot()[0].response_status,
+            "awaiting_inference_evidence"
+        );
+        assert!(s.reserve_response(1_000_000).unwrap().is_none());
+        let restored = s.snapshot();
+        drop(s);
+        let mut s = ResidentHealthSupervisor::open(path).unwrap();
+        s.observe(std::slice::from_ref(&o), true, 201).unwrap();
+        assert_eq!(s.snapshot(), restored);
+        assert!(s.reserve_alert(u64::MAX).unwrap().is_none());
+        o.unhealthy = false;
+        o.inference_verified = true;
+        o.inference_observed_at_unix_millis = 50;
+        s.observe(std::slice::from_ref(&o), true, 202).unwrap();
+        assert_eq!(s.snapshot()[0].state, IncidentState::Open);
+        o.inference_observed_at_unix_millis = 203;
+        s.observe(std::slice::from_ref(&o), true, 204).unwrap();
+        assert_eq!(s.snapshot()[0].state, IncidentState::Recovered);
+        s.observe(&[o], false, 205).unwrap();
+        assert_eq!(s.snapshot()[0].response_status, "verified_recovery");
+    }
+
     #[test]
     fn unknown_and_metadata_success_cannot_resolve_an_incident() {
         let mut s = ResidentHealthSupervisor::default();
