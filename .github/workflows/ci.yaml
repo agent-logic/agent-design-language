@@ -295,8 +295,17 @@ jobs:
       - name: Verify frozen remote-validation distribution
         run: bash adl/tools/run_cargo_validation.sh cargo test --offline --locked --manifest-path tools/remote_validation_distribution/Cargo.toml --test distribution
 
+      - name: Populate the pinned artifact consumer registry cache
+        run: cargo fetch --locked --manifest-path tools/remote_validation/Cargo.toml
+
       - name: Execute the offline remote-validation artifact consumer
         run: python3 -B tools/remote_validation_distribution/verify_consumer.py --output "$RUNNER_TEMP/remote-validation-consumer"
+
+      - name: Show artifact consumer failure log
+        if: failure()
+        run: |
+          log="$RUNNER_TEMP/remote-validation-consumer/command-0.log"
+          if [ -f "$log" ]; then cat "$log"; fi
 
   csdlc_v3_standalone:
     name: csdlc-v3-standalone
