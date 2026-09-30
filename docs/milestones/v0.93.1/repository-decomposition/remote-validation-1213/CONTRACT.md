@@ -77,3 +77,9 @@ Standalone compilation and artifact-consumer execution are separate evidence.
 No cloud calls, deployed Runtime changes or installed Linux qualification are
 claimed. CI runs the distribution tests and artifact consumer on Linux; the
 result of that actual run must be recorded before claiming it passed.
+
+The existing `remote_validation_standalone` job in `ci.yaml` owns automatic
+Linux proof for this distribution. Its required aggregate includes the original
+crate checks, distribution tests, and offline artifact consumer. The local lane
+selector command runs the crate and distribution tests; consumer execution is
+a separate command above and must have its own result before being claimed.

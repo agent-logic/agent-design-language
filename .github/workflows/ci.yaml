@@ -292,6 +292,12 @@ jobs:
       - name: tools/remote_validation strict Clippy
         run: bash adl/tools/run_cargo_validation.sh cargo clippy --locked --manifest-path tools/remote_validation/Cargo.toml --all-targets -- -D warnings
 
+      - name: Verify frozen remote-validation distribution
+        run: bash adl/tools/run_cargo_validation.sh cargo test --offline --locked --manifest-path tools/remote_validation_distribution/Cargo.toml --test distribution
+
+      - name: Execute the offline remote-validation artifact consumer
+        run: python3 -B tools/remote_validation_distribution/verify_consumer.py --output "$RUNNER_TEMP/remote-validation-consumer"
+
   csdlc_v3_standalone:
     name: csdlc-v3-standalone
     needs: adl_path_policy

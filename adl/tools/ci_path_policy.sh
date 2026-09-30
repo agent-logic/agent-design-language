@@ -1718,7 +1718,7 @@ else
         adl-resilience/*)
           adl_resilience_standalone_required=true
           ;;
-        tools/remote_validation/*)
+        tools/remote_validation/*|tools/remote_validation_distribution/*)
           remote_validation_standalone_required=true
           ;;
       esac
@@ -1980,7 +1980,7 @@ classify_changed_path() {
     .csdlc/*)
       printf '%s\n' "lifecycle_metadata"
       ;;
-    tools/remote_validation/*)
+    tools/remote_validation/*|tools/remote_validation_distribution/*)
       printf '%s\n' "ordinary_product_source"
       ;;
     .github/workflows/*|adl/tools/*|tools/*)
@@ -1992,7 +1992,7 @@ classify_changed_path() {
     adl-runtime/*|adl-runtime-kernel/*|infra/runtime-v3/*|adl/src/csm*|adl/src/long_lived*)
       printf '%s\n' "runtime_critical_source"
       ;;
-    adl-schema/*|adl-legacy-contracts/*|adl-uts/*|adl-provider-core/*|adl/src/*|adl/tests/*|adl/Cargo.toml|adl/Cargo.lock|adl/build.rs|adl-v2/*|csdlc-v2/*|csdlc-v3/*|adl-characterization/*|adl-resilience/*|tools/remote_validation/*)
+    adl-schema/*|adl-legacy-contracts/*|adl-uts/*|adl-provider-core/*|adl/src/*|adl/tests/*|adl/Cargo.toml|adl/Cargo.lock|adl/build.rs|adl-v2/*|csdlc-v2/*|csdlc-v3/*|adl-characterization/*|adl-resilience/*|tools/remote_validation/*|tools/remote_validation_distribution/*)
       printf '%s\n' "ordinary_product_source"
       ;;
     *)
