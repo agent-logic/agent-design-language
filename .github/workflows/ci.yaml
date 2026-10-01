@@ -100,6 +100,21 @@ jobs:
         run: ruby adl/tools/validate_ci_workflow_policy.rb
         working-directory: .
 
+      - name: Frozen Gödel distribution contracts
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          if [ "$EVENT_NAME" = pull_request ] && git diff --quiet "$BASE_SHA" "$HEAD_SHA" -- tools/godel_contract_distribution .github/workflows/ci.yaml; then
+            echo "Gödel distribution unchanged; focused data proof not selected"
+            exit 0
+          fi
+          python3 -B -m unittest discover -s tools/godel_contract_distribution -p 'test_*.py' -v
+          python3 tools/godel_contract_distribution/package.py verify --artifact tools/godel_contract_distribution/adl-godel-contracts-0.8.0.tar.gz --extract "$RUNNER_TEMP/godel-contracts"
+          cd "$RUNNER_TEMP"
+          python3 "$GITHUB_WORKSPACE/tools/godel_contract_distribution/package.py" verify-root --root "$RUNNER_TEMP/godel-contracts"
+
       - name: Validation profile summary (adl-ci)
         run: |
           {
