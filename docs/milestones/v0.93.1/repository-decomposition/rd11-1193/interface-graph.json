@@ -1,0 +1,101 @@
+{
+  "schema": "adl.compatibility_graph.v1",
+  "edges": [
+    {
+      "consumer": "runtime",
+      "producer": "public_adl",
+      "kind": "distribution",
+      "interface": "adl-engine",
+      "version": "0.92.1",
+      "optional": false,
+      "evidence": {
+        "path": "rd08-package-04d7db1b/artifacts/dependency-lockset.json",
+        "sha256": "9c31ea43a979fde2781ad6d483ece307f14d7d7c54f4652e22b49b6f7a23be10"
+      }
+    },
+    {
+      "consumer": "runtime",
+      "producer": "public_adl",
+      "kind": "distribution",
+      "interface": "adl-records",
+      "version": "0.92.1",
+      "optional": false,
+      "evidence": {
+        "path": "rd08-package-04d7db1b/artifacts/dependency-lockset.json",
+        "sha256": "9c31ea43a979fde2781ad6d483ece307f14d7d7c54f4652e22b49b6f7a23be10"
+      }
+    },
+    {
+      "consumer": "infrastructure",
+      "producer": "public_adl",
+      "kind": "build",
+      "interface": "adl-remote-validation",
+      "version": "0.92.1",
+      "optional": false,
+      "evidence": {
+        "path": "worker10-remote-validation-export/accepted-1213/ACCEPTED_PROVENANCE.json",
+        "sha256": "0007d2d376d9e6d52df1c7c4d0e70131bc6849f675b86ee20f3a2bf94f513626"
+      }
+    },
+    {
+      "consumer": "infrastructure",
+      "producer": "runtime",
+      "kind": "distribution",
+      "interface": "runtime-candidate.tar",
+      "version": "0.92.1",
+      "optional": false,
+      "evidence": {
+        "path": "rd06-native-proof-route/native-test-evidence/scenarios/result.json",
+        "sha256": "e366cd7cdda38be470c363f9fa9414d5e8627e8fb105b670ba4d5b172cc7914a"
+      }
+    },
+    {
+      "consumer": "codefriend",
+      "producer": "runtime",
+      "kind": "build",
+      "interface": "runtime-source",
+      "version": "0.92.1",
+      "optional": false,
+      "evidence": {
+        "path": "remaining-wave-readiness-73/PRODUCT_RD10_ACCEPTED_RUNTIME_INPUT_STAGED.json",
+        "sha256": "8bb2100557dd214167a3b8c4cf000c43d5ec74e4185ffd7d827631bb35311984"
+      }
+    },
+    {
+      "consumer": "enterprise_adapter",
+      "producer": "runtime",
+      "kind": "build",
+      "interface": "adl-runtime-policy",
+      "version": "1",
+      "optional": false,
+      "evidence": {
+        "path": "remaining-wave-readiness-73/runtime12-ci-36789819771/VERIFIED_DISTRIBUTION.json",
+        "sha256": "681e6875366a59f999ca89e211cf7232adfb8076edb4db0aaae1241d6d08350b"
+      }
+    },
+    {
+      "consumer": "runtime",
+      "producer": "enterprise_adapter",
+      "kind": "runtime",
+      "interface": null,
+      "version": null,
+      "optional": true,
+      "evidence": {
+        "path": "rd06-rd09-product-reconciliation/PRODUCT_DEPENDENCY_GATES.json",
+        "sha256": "813d60cae2a95ab35f39877ed41cd54390bd73cb2e15ededfdce7e2161fa7ac3"
+      }
+    },
+    {
+      "consumer": "website",
+      "producer": "codefriend",
+      "kind": "api",
+      "interface": null,
+      "version": null,
+      "optional": true,
+      "evidence": {
+        "path": "next-wave-ready/RD11/INPUT_OVERLAY_R2.json",
+        "sha256": "5e7af310229a7bba0f2f70a381fce96ca6473672264982d1dea775ab3fec9f37"
+      }
+    }
+  ]
+}

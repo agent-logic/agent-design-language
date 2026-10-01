@@ -1,0 +1,117 @@
+{
+  "schema": "adl.compatibility_rollback.v1",
+  "roles": [
+    {
+      "role": "public_adl",
+      "disposition": "pending",
+      "prior": null,
+      "prior_observations": [
+        {
+          "description": "Available Runtime dependency manifest retains five public packages and engine/records; final RD07 generation unselected.",
+          "evidence": {
+            "path": "rd08-package-04d7db1b/artifacts/dependency-lockset.json",
+            "sha256": "9c31ea43a979fde2781ad6d483ece307f14d7d7c54f4652e22b49b6f7a23be10"
+          }
+        }
+      ],
+      "restore_argv": [],
+      "recoverability": null
+    },
+    {
+      "role": "csdlc",
+      "disposition": "pending",
+      "prior": null,
+      "prior_observations": [
+        {
+          "description": "RD04 historical accepted source dc4445be/merge6005595d; current executable/platform selection pending.",
+          "evidence": {
+            "path": "next-wave-ready/RD11/INPUT_OVERLAY_R2.json",
+            "sha256": "5e7af310229a7bba0f2f70a381fce96ca6473672264982d1dea775ab3fec9f37"
+          }
+        }
+      ],
+      "restore_argv": [],
+      "recoverability": null
+    },
+    {
+      "role": "runtime",
+      "disposition": "pending",
+      "prior": null,
+      "prior_observations": [
+        {
+          "description": "Retained macOS source04d7db1b and package d28eefc7; distinct Linux policy97f30f04 is not warm Runtime support.",
+          "evidence": {
+            "path": "rd08-package-04d7db1b/VERIFIED_PROVENANCE.json",
+            "sha256": "63ef49385e4ed9a5e64955c89e073c07dfe79ea64a7ecf8d64f04287463dae64"
+          }
+        }
+      ],
+      "restore_argv": [],
+      "recoverability": null
+    },
+    {
+      "role": "infrastructure",
+      "disposition": "pending",
+      "prior": null,
+      "prior_observations": [
+        {
+          "description": "Original offline RD06 accepted at proof56765627/mergec8b787ce with native terminal closeout; no Linuxwarm claim.",
+          "evidence": {
+            "path": "rd06-completion-scope-audit/FINAL_ACCEPTANCE_PLANNING5.md",
+            "sha256": "43daacaf789ff4386b67206be200238106bed6a59c254ab4c02bbd4096eb3edb"
+          }
+        }
+      ],
+      "restore_argv": [],
+      "recoverability": null
+    },
+    {
+      "role": "enterprise_adapter",
+      "disposition": "pending",
+      "prior": null,
+      "prior_observations": [
+        {
+          "description": "Product35d6b540/mergebbd5a466 actual six installed synthetic-host cases include original four; optional only.",
+          "evidence": {
+            "path": "rd06-rd09-product-reconciliation/PRODUCT_DEPENDENCY_GATES.json",
+            "sha256": "813d60cae2a95ab35f39877ed41cd54390bd73cb2e15ededfdce7e2161fa7ac3"
+          }
+        }
+      ],
+      "restore_argv": [],
+      "recoverability": null
+    },
+    {
+      "role": "codefriend",
+      "disposition": "pending",
+      "prior": null,
+      "prior_observations": [
+        {
+          "description": "CF7 draft provides distribution interface, not accepted final integrated archive; maintained resource deliveries still distinct.",
+          "evidence": {
+            "path": "codefriend-issue7-consumers/DRAFT_DELIVERY.json",
+            "sha256": "d1c2b95ef27c5b60963f328e04d1428d13faf4e27f8912e23316fafd5a0be429"
+          }
+        }
+      ],
+      "restore_argv": [],
+      "recoverability": null
+    },
+    {
+      "role": "website",
+      "disposition": "pending",
+      "prior": null,
+      "prior_observations": [
+        {
+          "description": "Retained source8b0c5fd1/tree263751d2; deployed bundle/API baseline unknown, no deployment authorized.",
+          "evidence": {
+            "path": "next-wave-ready/RD11/INPUT_OVERLAY_R2.json",
+            "sha256": "5e7af310229a7bba0f2f70a381fce96ca6473672264982d1dea775ab3fec9f37"
+          }
+        }
+      ],
+      "restore_argv": [],
+      "recoverability": null
+    }
+  ]
+}
