@@ -5,7 +5,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 DATA = ["demos/rust-transpiler/workflow/rust_transpiler_demo.yaml", "demos/rust-transpiler/output/workflow_runtime.rs", "LICENSE"]
 def build(binary, output):
     revision = subprocess.check_output(["git", "-C", str(ROOT), "rev-parse", "HEAD"], text=True).strip()
-    payload = {p: (ROOT / p).read_bytes() for p in DATA}
+    payload = {p: subprocess.check_output(["git", "-C", str(ROOT), "show", f"{revision}:{p}"]) for p in DATA}
     payload["bin/transpiler_demo"] = binary.read_bytes()
     manifest = {"schema": "adl.transpiler_demo.installed.v1", "source_revision": revision, "classification": "bounded_demo_scaffold", "members": [{"path": p, "sha256": hashlib.sha256(b).hexdigest(), "bytes": len(b), "mode": 493 if p.startswith("bin/") else 420} for p,b in sorted(payload.items())]}
     payload["manifest.json"] = (json.dumps(manifest, sort_keys=True, indent=2)+"\n").encode()

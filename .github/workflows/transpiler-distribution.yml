@@ -1,7 +1,7 @@
 name: Transpiler installed distribution
 on:
-  pull_request:
-    paths: ['demos/transpiler_demo/**', 'demos/rust-transpiler/**', 'tools/transpiler_distribution/**', '.github/workflows/transpiler-distribution.yml']
+  workflow_dispatch:
+  workflow_call:
 permissions:
   contents: read
 jobs:
