@@ -22,6 +22,7 @@ jobs:
       contents: read
       pull-requests: read
     outputs:
+      transpiler_distribution_required: ${{ steps.transpiler-selection.outputs.required }}
       codefriend_ci_required: ${{ steps.path-policy.outputs.codefriend_ci_required }}
       reason: ${{ steps.path-policy.outputs.reason }}
       change_class: ${{ steps.path-policy.outputs.change_class }}
@@ -95,6 +96,19 @@ jobs:
           fi
           echo "heavy_ci_backend=$backend" >> "$GITHUB_OUTPUT"
         working-directory: .
+
+      - name: Select installed transpiler distribution
+        id: transpiler-selection
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          required=true
+          if [ "$EVENT_NAME" = pull_request ] && git diff --quiet "$BASE_SHA" "$HEAD_SHA" -- demos/transpiler_demo demos/rust-transpiler tools/transpiler_distribution LICENSE .github/workflows/transpiler-distribution.yml .github/workflows/ci.yaml; then
+            required=false
+          fi
+          echo "required=$required" >> "$GITHUB_OUTPUT"
 
       - name: Enforce whole-workflow dispatch policy
         run: ruby adl/tools/validate_ci_workflow_policy.rb
@@ -932,10 +946,18 @@ jobs:
       issue_number: ${{ github.event.pull_request.number }}
     secrets: inherit
 
+  transpiler_distribution:
+    needs: adl_path_policy
+    if: needs.adl_path_policy.outputs.transpiler_distribution_required == 'true'
+    permissions:
+      contents: read
+    uses: ./.github/workflows/transpiler-distribution.yml
+
   adl-ci:
     name: adl-ci
     needs:
       - adl_path_policy
+      - transpiler_distribution
       - csdlc_v2_standalone
       - csdlc_v3_standalone
       - adl_characterization_standalone
@@ -1104,6 +1126,10 @@ jobs:
             --hosted-result "rust-fmt-clippy=${{ needs.adl_rust_fmt_clippy.result }}" \
             --hosted-result "rust-tests=${{ needs.adl_rust_tests.result }}" \
             --hosted-result "demo-proof=${{ needs.adl_demo_proof.result }}"
+          case "${{ needs.adl_path_policy.outputs.transpiler_distribution_required }}:${{ needs.transpiler_distribution.result }}" in
+            true:success|false:skipped) ;;
+            *) echo "::error::transpiler distribution selection/result mismatch"; exit 1 ;;
+          esac
           failed=""
           for lane in \
             "adl_path_policy:${{ needs.adl_path_policy.result }}" \
