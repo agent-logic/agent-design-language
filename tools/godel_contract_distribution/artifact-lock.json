@@ -1,0 +1,12 @@
+{
+  "schema": "adl.godel.artifact-lock.v1",
+  "package": "adl-godel-contracts",
+  "version": "0.8.0",
+  "source_revision": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+  "manifest_sha256": "d55bf97ac04bb58fcbca826e15aa48cfca13bce0a7e402157b9529c80f48f8be",
+  "artifact": {
+    "name": "adl-godel-contracts-0.8.0.tar.gz",
+    "sha256": "c6210f763a1534392deed49c8682b03752d7f8660a9a75a7d4a10b5275097059",
+    "bytes": 10438
+  }
+}

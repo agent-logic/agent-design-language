@@ -1,0 +1,26 @@
+name: Gödel contract distribution
+on:
+  pull_request:
+    paths:
+      - 'tools/godel_contract_distribution/**'
+      - '.github/workflows/godel-contract-distribution.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'tools/godel_contract_distribution/**'
+      - '.github/workflows/godel-contract-distribution.yml'
+permissions:
+  contents: read
+jobs:
+  offline-contracts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+      - name: Frozen data and refusal regressions
+        run: python3 -B -m unittest discover -s tools/godel_contract_distribution -p 'test_*.py' -v
+      - name: Standalone installed-root verification
+        run: |
+          python3 tools/godel_contract_distribution/package.py verify --artifact tools/godel_contract_distribution/adl-godel-contracts-0.8.0.tar.gz --extract "$RUNNER_TEMP/godel-contracts"
+          cd "$RUNNER_TEMP"
+          python3 "$GITHUB_WORKSPACE/tools/godel_contract_distribution/package.py" verify-root --root "$RUNNER_TEMP/godel-contracts"
