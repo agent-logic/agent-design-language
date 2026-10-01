@@ -560,7 +560,9 @@ mod tests {
         unknown.inference_verified = false;
         supervisor.observe(&[unknown], true, 440_000).unwrap();
         assert_eq!(supervisor.snapshot()[0].state, IncidentState::Open);
-        supervisor.observe(&[healthy.clone()], true, 445_000).unwrap();
+        supervisor
+            .observe(&[healthy.clone()], true, 445_000)
+            .unwrap();
         let after = supervisor.snapshot()[0].clone();
         assert_eq!(after.state, IncidentState::Retired);
         assert_eq!(after.response_status, "idle_policy_reconciled");
@@ -569,9 +571,16 @@ mod tests {
         assert_eq!(after.alert_attempts, before.alert_attempts);
         assert_eq!(after.alert_delivered, before.alert_delivered);
         assert_eq!(after.response_attempts, before.response_attempts);
-        assert_eq!(ResidentHealthSupervisor::open(path).unwrap().snapshot()[0], after);
-        supervisor.observe(&[failed("idle")], true, 450_000).unwrap();
-        supervisor.observe(&[healthy.clone()], true, 455_000).unwrap();
+        assert_eq!(
+            ResidentHealthSupervisor::open(path).unwrap().snapshot()[0],
+            after
+        );
+        supervisor
+            .observe(&[failed("idle")], true, 450_000)
+            .unwrap();
+        supervisor
+            .observe(&[healthy.clone()], true, 455_000)
+            .unwrap();
         assert_eq!(supervisor.snapshot()[1].state, IncidentState::Open);
         healthy.inference_observed_at_unix_millis = 460_000;
         supervisor.observe(&[healthy], true, 465_000).unwrap();
