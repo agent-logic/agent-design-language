@@ -115,10 +115,50 @@ fn build_verification_artifact(
     }
 }
 
+fn installed_paths(args: &[String]) -> Result<(PathBuf, PathBuf, PathBuf), String> {
+    if args.len() != 4 || args[0] != "--input-root" || args[2] != "--output-root" {
+        return Err("usage: transpiler_demo --input-root <installed-directory> --output-root <fresh-directory>".into());
+    }
+    let input = PathBuf::from(&args[1]);
+    let output = PathBuf::from(&args[3]);
+    for path in [&input, &output] {
+        if !path.is_absolute() || path.components().any(|c| matches!(c, std::path::Component::ParentDir)) {
+            return Err("installed roots must be absolute without parent traversal".into());
+        }
+        for ancestor in path.ancestors() {
+            if fs::symlink_metadata(ancestor).is_ok_and(|m| m.file_type().is_symlink()) {
+                return Err("installed roots must not traverse symlinks".into());
+            }
+        }
+    }
+    let canonical = input.canonicalize().map_err(|e| format!("input root: {e}"))?;
+    let mut inputs = Vec::new();
+    for relative in [FIXTURE_REL, RUST_OUTPUT_REL] {
+        let path = input.join(relative);
+        for ancestor in path.ancestors().take_while(|p| *p != input) {
+            if fs::symlink_metadata(ancestor).is_ok_and(|m| m.file_type().is_symlink()) {
+                return Err("installed inputs must not traverse symlinks".into());
+            }
+        }
+        let resolved = path.canonicalize().map_err(|e| format!("required input {relative}: {e}"))?;
+        if !resolved.starts_with(&canonical) || !resolved.is_file() {
+            return Err("required input is outside installed root or not a file".into());
+        }
+        inputs.push(resolved);
+    }
+    fs::create_dir(&output).map_err(|e| format!("output root must be fresh with an existing parent: {e}"))?;
+    let verification = output.join(VERIFICATION_REL);
+    fs::create_dir_all(verification.parent().unwrap()).map_err(|e| e.to_string())?;
+    Ok((inputs.remove(0), inputs.remove(0), verification))
+}
+
 fn main() -> Result<(), String> {
-    let fixture_path = path_from_repo_root(FIXTURE_REL);
-    let rust_output_path = path_from_repo_root(RUST_OUTPUT_REL);
-    let verification_path = path_from_repo_root(VERIFICATION_REL);
+    let args: Vec<String> = std::env::args().skip(1).collect();
+    let (fixture_path, rust_output_path, verification_path) = if args.is_empty() {
+        (path_from_repo_root(FIXTURE_REL), path_from_repo_root(RUST_OUTPUT_REL), path_from_repo_root(VERIFICATION_REL))
+    } else {
+        installed_paths(&args)?
+    };
 
     if !fixture_path.exists() {
         return Err(format!("missing fixture: {}", fixture_path.display()));

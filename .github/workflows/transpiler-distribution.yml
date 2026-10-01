@@ -1,0 +1,23 @@
+name: Transpiler installed distribution
+on:
+  pull_request:
+    paths: ['demos/transpiler_demo/**', 'demos/rust-transpiler/**', 'tools/transpiler_distribution/**', '.github/workflows/transpiler-distribution.yml']
+permissions:
+  contents: read
+jobs:
+  installed-demo:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-14]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@1.92.0
+      - run: cargo test --locked --manifest-path demos/transpiler_demo/Cargo.toml
+      - run: cargo build --locked --manifest-path demos/transpiler_demo/Cargo.toml
+      - run: python3 tools/transpiler_distribution/test_installed.py --binary demos/transpiler_demo/target/debug/transpiler_demo
+      - run: python3 tools/transpiler_distribution/package.py --binary demos/transpiler_demo/target/debug/transpiler_demo --output transpiler-demo.tar
+      - uses: actions/upload-artifact@v4
+        with:
+          name: transpiler-demo-${{ matrix.os }}
+          path: transpiler-demo.tar
