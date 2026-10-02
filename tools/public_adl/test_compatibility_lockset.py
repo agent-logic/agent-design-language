@@ -28,6 +28,30 @@ class Lockset(unittest.TestCase):
         for edge in self.graph['edges']:edge.update(interface=edge['interface'] or 'fixture-interface',version='1',evidence=self.ref)
         for row in self.rollback['roles']:
             row.update(disposition='no_prior_accepted_baseline',prior=None,restore_argv=[],recoverability=self.ref)
+        for disposition in self.graph.get('dependency_dispositions',[]):
+            selected=next(row for row in self.lock['roles'] if row['role']==disposition['consumer'])['selected']
+            authentication=next(row for row in self.lock['roles'] if row['role']==disposition['consumer'])['authentication']
+            disposition.update(
+                selected_source_commit=selected['source_commit'],
+                selected_artifact_sha256=selected['sha256'],
+                dependency_lock=selected['dependency_lock'],
+                build_provenance=selected['build_provenance'],
+                authentication=authentication,
+                evidence=self.ref,
+            )
+    def candidate_fixture(self):
+        # Preserve the original all-pending structural fixture independently of
+        # the increasingly complete real candidate loaded from DOC.
+        for row in self.lock['roles']:
+            row.update(selected=None,active_source_owners=[],platforms=[],authentication=None)
+        self.graph['schema']='adl.compatibility_graph.v1'
+        self.graph.pop('dependency_dispositions',None)
+        if not any((edge['consumer'],edge['producer'],edge['kind'],edge['interface'])==('codefriend','runtime','build','runtime-source') for edge in self.graph['edges']):
+            self.graph['edges'].append({
+                'consumer':'codefriend','producer':'runtime','kind':'build',
+                'interface':'runtime-source','version':'0.92.1','optional':False,
+                'evidence':self.ref,
+            })
     def check(self):return v.verify(self.lock,self.graph,self.rollback,self.root)
     def independent_codefriend_fixture(self):
         self.qualified_fixture()
@@ -48,6 +72,7 @@ class Lockset(unittest.TestCase):
             'evidence':self.ref,
         }]
     def test_candidate_preserves_seven_pending_roles(self):
+        self.candidate_fixture()
         result=self.check();self.assertEqual(len(result['pending_selections']),7);self.assertFalse(result['acceptance_authority'])
         with self.assertRaises(ValueError):v.verify(self.lock,self.graph,self.rollback,self.root,True)
     def test_complete_synthetic_correspondence_never_grants_authority(self):
@@ -105,16 +130,19 @@ class Lockset(unittest.TestCase):
         self.bundled_fixture();del self.lock['roles'][0]['selected']['asset_identity']['member']
         with self.assertRaisesRegex(ValueError,'whole bundle overlaps'):self.check()
     def test_each_concrete_interface_is_required(self):
-        original=copy.deepcopy(self.graph['edges'])
+        self.qualified_fixture();original_edges=copy.deepcopy(self.graph['edges']);original_dispositions=copy.deepcopy(self.graph.get('dependency_dispositions',[]))
         for obligation in v.REQUIRED_INTERFACES:
-            self.graph['edges']=[e for e in copy.deepcopy(original) if (e['consumer'],e['producer'],e['kind'],e['interface'])!=obligation]
+            self.graph['edges']=[e for e in copy.deepcopy(original_edges) if (e['consumer'],e['producer'],e['kind'],e['interface'])!=obligation]
+            self.graph['dependency_dispositions']=[d for d in copy.deepcopy(original_dispositions) if (d['consumer'],d['producer'],d['kind'],d['interface'])!=obligation]
             with self.subTest(obligation=obligation),self.assertRaisesRegex(ValueError,'interface/kind obligation'):self.check()
     def test_required_kind_cannot_be_downgraded_or_optional(self):
-        original=copy.deepcopy(self.graph['edges'])
+        self.qualified_fixture();original_edges=copy.deepcopy(self.graph['edges']);original_dispositions=copy.deepcopy(self.graph.get('dependency_dispositions',[]))
         for obligation in v.REQUIRED_INTERFACES:
             for change in ({'kind':'runtime'},{'optional':True}):
-                self.graph['edges']=copy.deepcopy(original)
-                edge=next(e for e in self.graph['edges'] if (e['consumer'],e['producer'],e['kind'],e['interface'])==obligation);edge.update(change)
+                self.graph['edges']=copy.deepcopy(original_edges);self.graph['dependency_dispositions']=copy.deepcopy(original_dispositions)
+                surfaces=[e for e in self.graph['edges'] if (e['consumer'],e['producer'],e['kind'],e['interface'])==obligation]
+                surfaces += [d for d in self.graph['dependency_dispositions'] if (d['consumer'],d['producer'],d['kind'],d['interface'])==obligation]
+                self.assertEqual(len(surfaces),1);surfaces[0].update(change)
                 with self.subTest(obligation=obligation,change=change),self.assertRaises(ValueError):self.check()
     def test_artifact_platform_mismatch(self):
         self.qualified_fixture();self.lock['roles'][0]['platforms'][0]['artifact_sha256']='c'*64
@@ -133,14 +161,17 @@ class Lockset(unittest.TestCase):
             self.lock['rd07_acceptance']={'path':path,'sha256':self.ref['sha256']}
             with self.subTest(path=path),self.assertRaises(ValueError):self.check()
     def test_standalone_csdlc_runtime_forbidden(self):
+        self.candidate_fixture()
         edge=copy.deepcopy(self.graph['edges'][0]);edge.update(consumer='csdlc',producer='runtime');self.graph['edges'].append(edge)
         with self.assertRaises(ValueError):self.check()
     def test_build_cycle_and_missing_graph(self):
+        self.candidate_fixture()
         saved=copy.deepcopy(self.graph['edges']);edge=copy.deepcopy(saved[0]);edge.update(consumer='public_adl',producer='runtime',kind='build');self.graph['edges'].append(edge)
         with self.assertRaises(ValueError):self.check()
         self.graph['edges']=[]
         with self.assertRaises(ValueError):self.check()
     def test_mandatory_enterprise_dependency_forbidden(self):
+        self.candidate_fixture()
         edge=next(e for e in self.graph['edges'] if e['consumer']=='runtime' and e['producer']=='enterprise_adapter');edge['optional']=False
         with self.assertRaises(ValueError):self.check()
     def test_unresolved_rollback_and_original_negatives(self):

@@ -1,0 +1,374 @@
+{
+  "schema": "adl.compatibility_evidence_manifest.v1",
+  "evidence_root_contract": "All paths are relative to the separately retained Sprint 1 execution evidence root; publication of this source branch does not copy, authenticate, or activate those private bytes.",
+  "entries": [
+    {
+      "path": "codefriend-final-seven-design/infra10-source/source-c8b787ce065e2912fe1db88fc778daded7a8ba63.manifest.json",
+      "sha256": "8adf52461d60d862d803f729e41c7b54edabb06bf94237213af14e0e8b43a7cb",
+      "referenced_by": [
+        "candidate-lockset.json"
+      ]
+    },
+    {
+      "path": "codefriend-final-seven-design/infra10-source/source-c8b787ce065e2912fe1db88fc778daded7a8ba63.tar",
+      "sha256": "21d604bb77831c9176430020c0346d0ef8c94946736335519767cae94314ea94",
+      "referenced_by": [
+        "candidate-lockset.json#selected_asset"
+      ]
+    },
+    {
+      "path": "codefriend-issue7-consumers/DRAFT_DELIVERY.json",
+      "sha256": "d1c2b95ef27c5b60963f328e04d1428d13faf4e27f8912e23316fafd5a0be429",
+      "referenced_by": [
+        "candidate-lockset.json",
+        "rollback-catalog.json"
+      ]
+    },
+    {
+      "path": "github-projection-maintenance/consumer-endorsement/OPERATIONAL_DELIVERY.json",
+      "sha256": "67da7121e4e6ba1cfd0e9ef1c1d7633922fd8e0d6e5d628c44cde3a3dca2a607",
+      "referenced_by": [
+        "rollback-catalog.json"
+      ]
+    },
+    {
+      "path": "next-wave-ready/RD11/INPUT_OVERLAY_R2.json",
+      "sha256": "5e7af310229a7bba0f2f70a381fce96ca6473672264982d1dea775ab3fec9f37",
+      "referenced_by": [
+        "candidate-lockset.json",
+        "rollback-catalog.json"
+      ]
+    },
+    {
+      "path": "rd05-preparation-45/INDEPENDENT_DELIVERY_2fee402c_CHECKS.json",
+      "sha256": "d0cc63e3bb8d28a599299a3e4c8c7eec293956a3dba189f2294fae70723c96d0",
+      "referenced_by": [
+        "candidate-lockset.json"
+      ]
+    },
+    {
+      "path": "rd05-r8-browser/INDEPENDENT_SEVEN_SCENARIO_REVIEW.md",
+      "sha256": "4ef59612957cdab10dadbbaf9c778c5dbee1c7297b962ffaa8456f40c2e6feb4",
+      "referenced_by": [
+        "rollback-catalog.json"
+      ]
+    },
+    {
+      "path": "rd06-completion-scope-audit/FINAL_ACCEPTANCE_PLANNING5.md",
+      "sha256": "43daacaf789ff4386b67206be200238106bed6a59c254ab4c02bbd4096eb3edb",
+      "referenced_by": [
+        "candidate-lockset.json",
+        "rollback-catalog.json"
+      ]
+    },
+    {
+      "path": "rd06-native-proof-route/native-test-evidence/scenarios/result.json",
+      "sha256": "e366cd7cdda38be470c363f9fa9414d5e8627e8fb105b670ba4d5b172cc7914a",
+      "referenced_by": [
+        "interface-graph.json"
+      ]
+    },
+    {
+      "path": "rd06-rd09-product-reconciliation/PRODUCT_DEPENDENCY_GATES.json",
+      "sha256": "813d60cae2a95ab35f39877ed41cd54390bd73cb2e15ededfdce7e2161fa7ac3",
+      "referenced_by": [
+        "candidate-lockset.json",
+        "rollback-catalog.json"
+      ]
+    },
+    {
+      "path": "rd08-package-04d7db1b/VERIFIED_PROVENANCE.json",
+      "sha256": "63ef49385e4ed9a5e64955c89e073c07dfe79ea64a7ecf8d64f04287463dae64",
+      "referenced_by": [
+        "candidate-lockset.json",
+        "rollback-catalog.json"
+      ]
+    },
+    {
+      "path": "rd08-package-04d7db1b/artifacts/dependency-lockset.json",
+      "sha256": "9c31ea43a979fde2781ad6d483ece307f14d7d7c54f4652e22b49b6f7a23be10",
+      "referenced_by": [
+        "candidate-lockset.json",
+        "rollback-catalog.json"
+      ]
+    },
+    {
+      "path": "rd10-input-resolution-45/CONTRACT_INPUTS.json",
+      "sha256": "3a21524e61cccfc4b63c82bdf6d7a7a048cde2302b8e9945e93902f0339b4d45",
+      "referenced_by": [
+        "candidate-lockset.json",
+        "rollback-catalog.json"
+      ]
+    },
+    {
+      "path": "rd11-lockset-source/focused-published-07ab6afe/tests.stderr.log",
+      "sha256": "7ae51b1a7b42c9d8874f396d72e4ee0474e859f6200d735941ed6cc73049ca74",
+      "referenced_by": [
+        "candidate-lockset.json"
+      ]
+    },
+    {
+      "path": "remaining-wave-readiness-73/RD09_PR3_ADMIN_MERGE_READBACK.json",
+      "sha256": "58a42a75d25b6956d849a3cf3c84bc8a9efd530c621d27c630d5f124669ad010",
+      "referenced_by": [
+        "candidate-lockset.json"
+      ]
+    },
+    {
+      "path": "remaining-wave-readiness-73/rd09-conformance-36791337310/job.log",
+      "sha256": "3a4ef4b94dc6c6364cc1856c67cc4de6b1e4e95a40dd52b201d5879579fe119d",
+      "referenced_by": [
+        "candidate-lockset.json"
+      ]
+    },
+    {
+      "path": "remaining-wave-readiness-73/runtime12-ci-36789819771/VERIFIED_DISTRIBUTION.json",
+      "sha256": "681e6875366a59f999ca89e211cf7232adfb8076edb4db0aaae1241d6d08350b",
+      "referenced_by": [
+        "interface-graph.json"
+      ]
+    },
+    {
+      "path": "worker10-remote-validation-export/accepted-1213/ACCEPTED_PROVENANCE.json",
+      "sha256": "0007d2d376d9e6d52df1c7c4d0e70131bc6849f675b86ee20f3a2bf94f513626",
+      "referenced_by": [
+        "interface-graph.json"
+      ]
+    },
+    {
+      "path": "workerbee14/RESOURCE_ADMISSION_MISMATCH.json",
+      "sha256": "1bd642478f39d65d07442c0a2386aaf2c91f8280179cb6a8a01c8971d564166b",
+      "referenced_by": [
+        "candidate-lockset.json"
+      ]
+    },
+    {
+      "path": "workerbee14/codefriend-completion/shared-library/installed-proof-91ae8c5/codefriend-product.tar",
+      "sha256": "a82fdb80f79bca977599c68b6a6e42da411be97dffef988d3031db24e46442ee",
+      "referenced_by": [
+        "candidate-lockset.json#selected_asset"
+      ]
+    },
+    {
+      "path": "workerbee14/codefriend-completion/sprint1-final/FINAL_DELIVERY.json",
+      "sha256": "3aa507e5d495e22a4ebe43c9c83e1ff260e099e7071b2efacf5bec6e80c4bce9",
+      "referenced_by": [
+        "candidate-lockset.json",
+        "interface-graph.json"
+      ]
+    },
+    {
+      "path": "workerbee14/codefriend9-retained/codefriend-product.tar",
+      "sha256": "71d8b651047a6848042c1316d2e1463b011f0c608d05e702a9b1b3fdbccd06ec",
+      "referenced_by": [
+        "rollback-catalog.json#selected_asset"
+      ]
+    },
+    {
+      "path": "workerbee14/codefriend9-retained/manifest.json",
+      "sha256": "dc41d16e1a7cae1ac18e8026848263fdf83ff65e3801f587d3be950d9e7bb1c7",
+      "referenced_by": [
+        "rollback-catalog.json"
+      ]
+    },
+    {
+      "path": "workerbee14/enterprise-accepted-source/SOURCE_EXPORT.json",
+      "sha256": "868d6838487e997461663b1f9db966e06499268b4f169c282cededda69156b27",
+      "referenced_by": [
+        "candidate-lockset.json"
+      ]
+    },
+    {
+      "path": "workerbee14/enterprise-accepted-source/source-bbd5a4665d2e6756644bc78f9a7c5c537a7f540b.tar",
+      "sha256": "a04cc023c822d7360bbd8dcd834a271f0f0278bb4679acab55f94ca3bace0c6f",
+      "referenced_by": [
+        "candidate-lockset.json#selected_asset"
+      ]
+    },
+    {
+      "path": "workerbee14/runtime-companions/MERGED_DELIVERY.json",
+      "sha256": "55a52e2c801f592d82b26b2d36362c83ab7cd188183a962ba05f52fa5f83a457",
+      "referenced_by": [
+        "candidate-lockset.json"
+      ]
+    },
+    {
+      "path": "workerbee15-csdlc-delivery/PR88_MERGED.json",
+      "sha256": "4a6befc0812763f3f8ab8e54f1cc9aa7cbc970e3f5d768f21ed1f75d5f67a1bc",
+      "referenced_by": [
+        "candidate-lockset.json"
+      ]
+    },
+    {
+      "path": "workerbee15-csdlc-delivery/pr88/contract-repair/artifact/artifact.zip",
+      "sha256": "86f2a0612520a923b97e76f10e84846378df3fccf00fac52ebd035303d7eb5b4",
+      "referenced_by": [
+        "candidate-lockset.json#selected_asset"
+      ]
+    },
+    {
+      "path": "workerbee15-csdlc-delivery/pr88/contract-repair/artifact/manifest.json",
+      "sha256": "e28ae84a2d4f1f5db5e400d6e71c9e3c585b522e4d4ab8ca625014335f5465e9",
+      "referenced_by": [
+        "candidate-lockset.json"
+      ]
+    },
+    {
+      "path": "workerbee16-acceptance-integration/rd11-custody-update/CODEFRIEND_CUSTODY_VERIFIED.json",
+      "sha256": "ebae5272f0c12672b226aba739803d9d6bc519270dd2c00a53908c67e7709dc8",
+      "referenced_by": [
+        "rollback-catalog.json"
+      ]
+    },
+    {
+      "path": "workerbee16-acceptance-integration/rd11-custody-update/QUALIFICATION_CORRESPONDENCE.json",
+      "sha256": "268a2af4c428b2b8ac5c14049db372a07263e2372a704c4d963c77c219721335",
+      "referenced_by": [
+        "candidate-lockset.json"
+      ]
+    },
+    {
+      "path": "workerbee16-acceptance-integration/rd11-custody-update/enterprise-baseline-absence.json",
+      "sha256": "489e6a1363e13d8d4a8d9e14e14a578dfd8b6abc07dbc4a3462f93bbbb1cd34f",
+      "referenced_by": [
+        "rollback-catalog.json"
+      ]
+    },
+    {
+      "path": "workerbee16-acceptance-integration/rd11-custody-update/infrastructure-baseline-absence.json",
+      "sha256": "82f03d6ec6efaa71787d5210a1d8c789d316964ffa43756c34c0498eea50c770",
+      "referenced_by": [
+        "rollback-catalog.json"
+      ]
+    },
+    {
+      "path": "workerbee16-acceptance-integration/rd11-custody-update/members/codefriend/Cargo.lock",
+      "sha256": "6d6dec803ec9c11380f5922e0882609986e45d511f7759936b3a054ce5d54320",
+      "referenced_by": [
+        "rollback-catalog.json"
+      ]
+    },
+    {
+      "path": "workerbee16-acceptance-integration/rd11-custody-update/members/infrastructure/contracts/runtime-rd05.json",
+      "sha256": "4c2d779317d94cff5565087c29baf76ca00e6f5e951f63546b1ab8d55bac85e4",
+      "referenced_by": [
+        "candidate-lockset.json"
+      ]
+    },
+    {
+      "path": "workerbee16-acceptance-integration/rd11-custody-update/members/website/package-lock.json",
+      "sha256": "766cfdaf2374e261a3c09a55b9cc7906628dd80e7ed24fbcf36e54ab72d58781",
+      "referenced_by": [
+        "candidate-lockset.json"
+      ]
+    },
+    {
+      "path": "workerbee16-acceptance-integration/rd11-custody-update/runtime-custody/RECOVERED_EVIDENCE.json",
+      "sha256": "1d9e4b597df47cda5caff0a4d771ba0683a06ec2cb0441b3736ca9f158645c40",
+      "referenced_by": [
+        "rollback-catalog.json"
+      ]
+    },
+    {
+      "path": "workerbee16-acceptance-integration/rd11-custody-update/runtime-rd05/BUILD_PROVENANCE.json",
+      "sha256": "c45ad1e0caaaee2de9523f23ddb8c59cee88c0a578b954f26d8196e83b2bdeb5",
+      "referenced_by": [
+        "candidate-lockset.json"
+      ]
+    },
+    {
+      "path": "workerbee16-acceptance-integration/rd11-custody-update/runtime-rd05/dependency-lockset.json",
+      "sha256": "b18560e34df76600315462a760f5806ecb409cc6854220658317687fffe78009",
+      "referenced_by": [
+        "candidate-lockset.json",
+        "interface-graph.json"
+      ]
+    },
+    {
+      "path": "workerbee16-acceptance-integration/rd11-custody-update/runtime-rd05/mismatch-consumer-result.json",
+      "sha256": "b4604906f10a04bbf068682465f469d1562d1a0b6cf54e3eaa25411476718ec9",
+      "referenced_by": [
+        "candidate-lockset.json"
+      ]
+    },
+    {
+      "path": "workerbee16-acceptance-integration/rd11-custody-update/runtime-rd05/runtime-candidate.tar",
+      "sha256": "9cbd2fd026c84fe7c5b85bdfe48fa635eee7f556bb0cbd51194eecfcf5ea4186",
+      "referenced_by": [
+        "candidate-lockset.json#selected_asset"
+      ]
+    },
+    {
+      "path": "workerbee16-acceptance-integration/rd11-custody-update/runtime-rd05/source-denial.json",
+      "sha256": "586135ff292bdc033db57554528dfa35e7d18cc896dead6967911a8b6a3e2d51",
+      "referenced_by": [
+        "candidate-lockset.json"
+      ]
+    },
+    {
+      "path": "workerbee16-cross-owner-bundle/RD11_CUSTODY_CANDIDATES.json",
+      "sha256": "334080db37ad840c8f0c7f6c705b6ad66f0d6d1c85ed5f04cfc4563ae0c9b2c1",
+      "referenced_by": [
+        "candidate-lockset.json"
+      ]
+    },
+    {
+      "path": "workerbee16-cross-owner-bundle/enterprise-custody-members/Cargo.lock",
+      "sha256": "1e365e38e0a3b327636961a8c9b3e6c4cffebe24ac5da53a5180d6095ea8aa9f",
+      "referenced_by": [
+        "candidate-lockset.json"
+      ]
+    },
+    {
+      "path": "workerbee16-cross-owner-bundle/enterprise-custody-members/conformance/test_installed_adapter.py",
+      "sha256": "a662646f2da748e7d05a84f911f18e349de8373631c11a04d074b001a2cd530f",
+      "referenced_by": [
+        "interface-graph.json"
+      ]
+    },
+    {
+      "path": "workerbee16-cross-owner-bundle/website-preserved-source-8b0c5fd12423494c7fed27059321b217d7dff430.tar",
+      "sha256": "0a783f9d00a77b6dedf6e63a785754c65abbf0895f1761dc86697c62b7be8512",
+      "referenced_by": [
+        "candidate-lockset.json#selected_asset"
+      ]
+    },
+    {
+      "path": "workerbee16-rd07-rd11-closeout/codefriend-rollback/RESULT.json",
+      "sha256": "3bcc3f2ccca32770556fa6e75e010989703b001a67ff3ccdf8ac2bd7074cddde",
+      "referenced_by": [
+        "rollback-catalog.json"
+      ]
+    },
+    {
+      "path": "workerbee16-rd07-rd11-closeout/csdlc-final-custody/CURRENT_EVIDENCE.json",
+      "sha256": "4cdf37eab3a9bb5405adf3b219f24a0bf68bfbd6e929eb8ebca553997b1643f5",
+      "referenced_by": [
+        "candidate-lockset.json"
+      ]
+    },
+    {
+      "path": "workerbee16-rd07-rd11-closeout/rd07/public-adl-baseline-f8e42278-native/report.json",
+      "sha256": "bdbd962ec8f24704260fe0851c5121ea52d68838c0e61c4fe1cdec946e2ff000",
+      "referenced_by": [
+        "candidate-lockset.json"
+      ]
+    },
+    {
+      "path": "workerbee16-rd07-rd11-closeout/rd11/members/codefriend/Cargo.lock",
+      "sha256": "37c9191557ad70736aac5770cfd5fe2cde879413ddd224ac6e7eab64034caf96",
+      "referenced_by": [
+        "candidate-lockset.json",
+        "interface-graph.json"
+      ]
+    },
+    {
+      "path": "workerbee16-rd07-rd11-closeout/rd11/members/codefriend/manifest.json",
+      "sha256": "4d1265e0f504ab8508db979ac5d40206ba53be08498e01798c536d410c1cdbb1",
+      "referenced_by": [
+        "candidate-lockset.json",
+        "interface-graph.json"
+      ]
+    }
+  ]
+}

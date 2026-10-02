@@ -15,6 +15,8 @@ python3 tools/public_adl/verify_compatibility_lockset.py \
 
 This accepts only a well-formed candidate structure. Add `--require-qualified --evidence-root EVIDENCE_BUNDLE` to require actual referenced bytes and complete original qualification. Any lockset declaring state `accepted` always takes this stricter route; changing the string cannot bypass it. Missing selections, missing/corrupt artifacts/evidence, unresolved rollback, failed/zero/skipped operations, missing negatives or absent acceptedRD07/review references refuse with exit2. Machine-readable results go to stdout, bounded refusal diagnostics to stderr. The checker is read-only and does not convert the candidate into an accepted lockset.
 
+`evidence-manifest.json` inventories all 51 distinct evidence-root paths and expected SHA-256 digests referenced by the lockset, graph, rollback catalog, and selected artifacts. The evidence bytes remain in the separately retained Sprint 1 execution bundle; the tracked manifest does not copy, authenticate, or activate them.
+
 ## Exact contract
 
 The validator is the executable schema: it rejects unexpected keys and duplicate JSON keys. Exactly seven unique role/repository identities are required: public_adl, csdlc, runtime, infrastructure, enterprise_adapter, codefriend, website. Each role retains available manifest observations separately from `selected`. No package generation or platform is selected by the source candidate.
@@ -45,6 +47,14 @@ PYTHONPATH=tools/public_adl python3 -m unittest \
 ```
 
 These focused tests cover the graph-v2 standalone disposition's positive path, required evidence, and exact selected identity/source correspondence. Their complete fixture is explicitly synthetic and demonstrates no acceptance authority. The real candidate is checked separately with `--evidence-root`. Actual product build/test/install remains performed through each existing owner verifier or installer; this script does not rerun product qualification.
+
+The complete synthetic contract suite remains available and currently contains 26 tests:
+
+```sh
+python3 tools/public_adl/test_compatibility_lockset.py
+```
+
+Its fixtures construct pending and qualified states independently of the evolving real candidate and treat a required interface as satisfied by either its concrete edge or the single permitted graph-v2 disposition.
 
 ## Concrete dependency and asset identities
 
