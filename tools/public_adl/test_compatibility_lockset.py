@@ -26,13 +26,44 @@ class Lockset(unittest.TestCase):
             if row['role']=='website':row['website_disposition']='preserved_no_deployed_baseline'
             else:row['platforms']=[{'target':'fixture-platform','source_commit':'a'*40,'artifact_sha256':self.ref['sha256'],'independent_clean':True,'distributable_only':True,'operations':[{'operation':op,'argv':['fixture',op],'exit_code':0,'executed':1,'skipped':0} for op in ['build','test','install']],'evidence':self.ref}]
         for edge in self.graph['edges']:edge.update(interface=edge['interface'] or 'fixture-interface',version='1',evidence=self.ref)
-        for row in self.rollback['roles']:row.update(disposition='no_prior_accepted_baseline',recoverability=self.ref)
+        for row in self.rollback['roles']:
+            row.update(disposition='no_prior_accepted_baseline',prior=None,restore_argv=[],recoverability=self.ref)
     def check(self):return v.verify(self.lock,self.graph,self.rollback,self.root)
+    def independent_codefriend_fixture(self):
+        self.qualified_fixture()
+        key=('codefriend','runtime','build','runtime-source')
+        self.graph['schema']='adl.compatibility_graph.v2'
+        self.graph['edges']=[edge for edge in self.graph['edges'] if tuple(edge[name] for name in ('consumer','producer','kind','interface'))!=key]
+        selected=next(row for row in self.lock['roles'] if row['role']=='codefriend')['selected']
+        authentication=next(row for row in self.lock['roles'] if row['role']=='codefriend')['authentication']
+        self.graph['dependency_dispositions']=[{
+            'schema':'adl.compatibility_dependency_disposition.v1',
+            'consumer':'codefriend','producer':'runtime','kind':'build','interface':'runtime-source',
+            'disposition':'independently_built_no_dependency',
+            'selected_source_commit':selected['source_commit'],
+            'selected_artifact_sha256':selected['sha256'],
+            'dependency_lock':selected['dependency_lock'],
+            'build_provenance':selected['build_provenance'],
+            'authentication':authentication,
+            'evidence':self.ref,
+        }]
     def test_candidate_preserves_seven_pending_roles(self):
         result=self.check();self.assertEqual(len(result['pending_selections']),7);self.assertFalse(result['acceptance_authority'])
         with self.assertRaises(ValueError):v.verify(self.lock,self.graph,self.rollback,self.root,True)
     def test_complete_synthetic_correspondence_never_grants_authority(self):
         self.qualified_fixture();result=self.check();self.assertEqual(result['status'],'qualified_evidence_correspondence');self.assertFalse(result['acceptance_authority']);self.assertFalse(result['activation_performed'])
+    def test_independently_built_codefriend_disposition(self):
+        self.independent_codefriend_fixture();result=self.check();self.assertEqual(result['status'],'qualified_evidence_correspondence');self.assertFalse(result['acceptance_authority'])
+    def test_independent_disposition_requires_evidence(self):
+        self.independent_codefriend_fixture();self.graph['dependency_dispositions'][0]['evidence']=None
+        with self.assertRaisesRegex(ValueError,'dependency disposition evidence missing'):self.check()
+    def test_independent_disposition_matches_selected_identity_and_sources(self):
+        for field,value,message in (
+            ('selected_artifact_sha256','0'*64,'selected identity mismatch'),
+            ('dependency_lock',{'path':'other.json','sha256':'0'*64},'source declaration mismatch'),
+        ):
+            self.independent_codefriend_fixture();self.graph['dependency_dispositions'][0][field]=value
+            with self.subTest(field=field),self.assertRaisesRegex(ValueError,message):self.check()
     def test_missing_product_proof(self):
         self.qualified_fixture();self.lock['roles'][0]['authentication']=None
         with self.assertRaises(ValueError):self.check()

@@ -19,6 +19,7 @@ REQUIRED_INTERFACES={
     ('codefriend','runtime','build','runtime-source'),
     ('enterprise_adapter','runtime','build','adl-runtime-policy'),
 }
+DISPOSITIONABLE_INTERFACES={('codefriend','runtime','build','runtime-source')}
 NEGATIVES={'missing_product_proof','corrupt_artifact','incompatible_version','unproven_artifact','hidden_sibling_source','undeclared_build_cycle','standalone_csdlc_runtime_dependency','optional_adapter_absent_or_invalid','mixed_active_owners','unqualified_shared_tool_activation'}
 
 def require(value,label):
@@ -145,7 +146,13 @@ def verify(lockset,graph,rollback,evidence_root=None,require_qualified=False):
             if row['selected'] is not None:
                 for platform in row['platforms']:qualify(platform,row['selected'],evidence_root)
             else:require(not row['platforms'],'unselected artifact cannot have platform proof')
-    keys(graph,('schema','edges'),'graph');require(graph['schema']=='adl.compatibility_graph.v1','graph schema')
+    require(isinstance(graph,dict),'graph fields')
+    if graph.get('schema')=='adl.compatibility_graph.v1':
+        keys(graph,('schema','edges'),'graph');dispositions=[]
+    elif graph.get('schema')=='adl.compatibility_graph.v2':
+        keys(graph,('schema','edges','dependency_dispositions'),'graph');dispositions=graph['dependency_dispositions']
+        require(isinstance(dispositions,list),'dependency dispositions list')
+    else:raise ValueError('graph schema')
     edges=set();build={r:set() for r in ROLES}
     for edge in graph['edges']:
         keys(edge,('consumer','producer','kind','interface','version','optional','evidence'),'edge')
@@ -158,7 +165,23 @@ def verify(lockset,graph,rollback,evidence_root=None,require_qualified=False):
         elif edge['interface'] is not None:text(edge['interface'],'interface')
         reference(edge['evidence'],evidence_root,qualified,'declared interface evidence')
         if edge['kind'] in ('build','distribution'):build[consumer].add(producer)
-    require(REQUIRED_INTERFACES <= edges,'original concrete interface/kind obligation missing')
+    disposition_keys=set()
+    for disposition in dispositions:
+        keys(disposition,('schema','consumer','producer','kind','interface','disposition','selected_source_commit','selected_artifact_sha256','dependency_lock','build_provenance','authentication','evidence'),'dependency disposition')
+        require(disposition['schema']=='adl.compatibility_dependency_disposition.v1','dependency disposition schema')
+        key=tuple(disposition[name] for name in ('consumer','producer','kind','interface'))
+        require(key in DISPOSITIONABLE_INTERFACES and key not in disposition_keys,'unsupported/duplicate dependency disposition')
+        require(key not in edges,'dependency edge and disposition conflict')
+        require(disposition['disposition']=='independently_built_no_dependency','dependency disposition')
+        selected=by_role[disposition['consumer']]['selected']
+        require(selected is not None,'dependency disposition selected distribution missing')
+        require(disposition['selected_source_commit']==selected['source_commit'] and disposition['selected_artifact_sha256']==selected['sha256'],'dependency disposition selected identity mismatch')
+        require(disposition['dependency_lock']==selected['dependency_lock'] and disposition['build_provenance']==selected['build_provenance'],'dependency disposition source declaration mismatch')
+        require(disposition['authentication']==by_role[disposition['consumer']]['authentication'],'dependency disposition authentication mismatch')
+        for name in ('dependency_lock','build_provenance','authentication','evidence'):
+            reference(disposition[name],evidence_root,qualified,'dependency disposition '+name)
+        disposition_keys.add(key)
+    require(REQUIRED_INTERFACES <= edges|disposition_keys,'original concrete interface/kind obligation missing')
     require(all(not edge['optional'] for edge in graph['edges'] if (edge['consumer'],edge['producer'],edge['kind'],edge['interface']) in REQUIRED_INTERFACES),'required interface cannot be optional')
     if qualified and by_role['website']['website_disposition']=='bundle_api_compatible':
         require(any(a=='website' and b=='codefriend' and k=='api' for a,b,k,_ in edges),'website API compatibility edge missing')

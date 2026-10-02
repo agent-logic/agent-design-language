@@ -1,6 +1,6 @@
 # RD11 compatibility lockset and rollback input
 
-These source files implement existing issue1193's bounded compatibility input. They do not accept the split, activate shared tooling, install packages or edit lifecycle state. Accepted RD07 remains the final acceptance prerequisite. The supplied candidate deliberately has all seven selections pending. Its available facts preserve original evidence, not inferred current releases.
+These source files implement issue 1193's bounded compatibility candidate. They do not accept the split, activate shared tooling, install packages, or manufacture producer proof. Six roles have immutable selections grounded in retained evidence; `public_adl` remains unselected until RD07 chooses and accepts a retirement candidate. C-SDLC selects the final PR 88 package while preserving its unproven installed-contract admission and rollback boundary. Available observations remain separate from selected identity.
 
 ## Read-only validation
 
@@ -23,7 +23,7 @@ A selected identity has the original seven fields: source_commit (40hex), asset_
 
 Software platform rows bind exact source and artifact digest, target, independently clean/distributable-only assertions, and all three build/test/install command/results with positive executed counts and zero failed/skipped credit. The normalized row points to actual retained evidence; it does not replace that evidence. Multiple supported platforms require separate rows. Website uses explicit `bundle_api_compatible` or `preserved_no_deployed_baseline` disposition with owner evidence, not fictitious software test counts. No deployed API compatibility is inferred from static source.
 
-Graph edges are consumer→producer and retain kind build/distribution/runtime/api, actual interface/version, optionality and source evidence. Known engine/records, remote-validation, Runtime source and policy interfaces are seeded from retained manifests. Unknown optional-enterprise/API pair names remain null; qualified mode refuses unresolved edges, or the owner explicitly removes an unsupported API claim with its website absence disposition. Build/distribution cycles, a CSDLC dependency on Runtime, a mandatory enterprise dependency in Runtime, unknown nodes and removed core dependency edges are rejected. Graph records are normalized producer-manifest claims: this checker is not a second Cargo resolver or a replacement for clean-consumer hidden-sibling tests.
+Graph edges are consumer→producer and retain kind build/distribution/runtime/api, actual interface/version, optionality and source evidence. Known engine/records, remote-validation, Runtime source and policy interfaces are seeded from retained manifests. Graph v2 permits one narrow `independently_built_no_dependency` disposition for CodeFriend's historical Runtime source edge when the disposition exactly matches the selected CodeFriend source, artifact, dependency lock, build provenance, authentication, and hash-backed final-delivery evidence. This records the final standalone product manifest; it is not a general edge waiver. Unknown optional-enterprise/API pair names remain null; qualified mode refuses unresolved edges. Build/distribution cycles, a C-SDLC dependency on Runtime, a mandatory enterprise dependency in Runtime, unknown nodes, and removed core dependency edges are rejected.
 
 Rollback contains exactly seven roles, prior observations, explicit pending/retained_prior/no_prior_accepted_baseline disposition, prior full identity, existing restore argv, and recovery/absence evidence. Pending cannot qualify. No-prior disposition does not invent a prior asset or restore command and still requires reviewed evidence. A retained prior distribution requires actual asset and metadata hashes plus an existing installer/restore command and evidence; the checker never executes it. Retained Runtime dependency-lockset is not a prior seven-role accepted RD11 lockset.
 
@@ -38,10 +38,13 @@ Existing RD04/05/06 acceptance stays unchanged. RD06's retained final review inc
 ## Focused validation after early draft
 
 ```sh
-python3 -B -m unittest discover -s tools/public_adl -p test_compatibility_lockset.py -v
+PYTHONPATH=tools/public_adl python3 -m unittest \
+  tools.public_adl.test_compatibility_lockset.Lockset.test_independently_built_codefriend_disposition \
+  tools.public_adl.test_compatibility_lockset.Lockset.test_independent_disposition_requires_evidence \
+  tools.public_adl.test_compatibility_lockset.Lockset.test_independent_disposition_matches_selected_identity_and_sources
 ```
 
-23 source tests cover pending/qualified structure, missing/corrupt proof, byte mismatch, zero/skipped/failed results, role duplication, JSON duplicates, confinement, mutable pins, mixed ownership, forbidden activation, CSDLC independence, optional enterprise, build cycles, missing edges and rollback/negative completeness. Their complete positive fixture is explicitly synthetic and demonstrates no acceptance authority. It is not installed-product evidence. Actual product build/test/install remains performed through each existing owner verifier/installer on selected artifacts; no heavy product suite is run by this script.
+These focused tests cover the graph-v2 standalone disposition's positive path, required evidence, and exact selected identity/source correspondence. Their complete fixture is explicitly synthetic and demonstrates no acceptance authority. The real candidate is checked separately with `--evidence-root`. Actual product build/test/install remains performed through each existing owner verifier or installer; this script does not rerun product qualification.
 
 ## Concrete dependency and asset identities
 

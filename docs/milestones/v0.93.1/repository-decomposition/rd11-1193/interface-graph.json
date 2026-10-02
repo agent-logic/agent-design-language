@@ -1,5 +1,5 @@
 {
-  "schema": "adl.compatibility_graph.v1",
+  "schema": "adl.compatibility_graph.v2",
   "edges": [
     {
       "consumer": "runtime",
@@ -9,8 +9,8 @@
       "version": "0.92.1",
       "optional": false,
       "evidence": {
-        "path": "rd08-package-04d7db1b/artifacts/dependency-lockset.json",
-        "sha256": "9c31ea43a979fde2781ad6d483ece307f14d7d7c54f4652e22b49b6f7a23be10"
+        "path": "workerbee16-acceptance-integration/rd11-custody-update/runtime-rd05/dependency-lockset.json",
+        "sha256": "b18560e34df76600315462a760f5806ecb409cc6854220658317687fffe78009"
       }
     },
     {
@@ -21,8 +21,8 @@
       "version": "0.92.1",
       "optional": false,
       "evidence": {
-        "path": "rd08-package-04d7db1b/artifacts/dependency-lockset.json",
-        "sha256": "9c31ea43a979fde2781ad6d483ece307f14d7d7c54f4652e22b49b6f7a23be10"
+        "path": "workerbee16-acceptance-integration/rd11-custody-update/runtime-rd05/dependency-lockset.json",
+        "sha256": "b18560e34df76600315462a760f5806ecb409cc6854220658317687fffe78009"
       }
     },
     {
@@ -50,18 +50,6 @@
       }
     },
     {
-      "consumer": "codefriend",
-      "producer": "runtime",
-      "kind": "build",
-      "interface": "runtime-source",
-      "version": "0.92.1",
-      "optional": false,
-      "evidence": {
-        "path": "remaining-wave-readiness-73/PRODUCT_RD10_ACCEPTED_RUNTIME_INPUT_STAGED.json",
-        "sha256": "8bb2100557dd214167a3b8c4cf000c43d5ec74e4185ffd7d827631bb35311984"
-      }
-    },
-    {
       "consumer": "enterprise_adapter",
       "producer": "runtime",
       "kind": "build",
@@ -77,24 +65,40 @@
       "consumer": "runtime",
       "producer": "enterprise_adapter",
       "kind": "runtime",
-      "interface": null,
-      "version": null,
+      "interface": "adl.runtime.policy.request.v1",
+      "version": "1",
       "optional": true,
       "evidence": {
-        "path": "rd06-rd09-product-reconciliation/PRODUCT_DEPENDENCY_GATES.json",
-        "sha256": "813d60cae2a95ab35f39877ed41cd54390bd73cb2e15ededfdce7e2161fa7ac3"
+        "path": "workerbee16-cross-owner-bundle/enterprise-custody-members/conformance/test_installed_adapter.py",
+        "sha256": "a662646f2da748e7d05a84f911f18e349de8373631c11a04d074b001a2cd530f"
       }
-    },
+    }
+  ],
+  "dependency_dispositions": [
     {
-      "consumer": "website",
-      "producer": "codefriend",
-      "kind": "api",
-      "interface": null,
-      "version": null,
-      "optional": true,
+      "schema": "adl.compatibility_dependency_disposition.v1",
+      "consumer": "codefriend",
+      "producer": "runtime",
+      "kind": "build",
+      "interface": "runtime-source",
+      "disposition": "independently_built_no_dependency",
+      "selected_source_commit": "91ae8c5e4008a07cee8fd3a70a1306d4d971f9b4",
+      "selected_artifact_sha256": "a82fdb80f79bca977599c68b6a6e42da411be97dffef988d3031db24e46442ee",
+      "dependency_lock": {
+        "path": "workerbee16-rd07-rd11-closeout/rd11/members/codefriend/Cargo.lock",
+        "sha256": "37c9191557ad70736aac5770cfd5fe2cde879413ddd224ac6e7eab64034caf96"
+      },
+      "build_provenance": {
+        "path": "workerbee16-rd07-rd11-closeout/rd11/members/codefriend/manifest.json",
+        "sha256": "4d1265e0f504ab8508db979ac5d40206ba53be08498e01798c536d410c1cdbb1"
+      },
+      "authentication": {
+        "path": "workerbee14/codefriend-completion/sprint1-final/FINAL_DELIVERY.json",
+        "sha256": "3aa507e5d495e22a4ebe43c9c83e1ff260e099e7071b2efacf5bec6e80c4bce9"
+      },
       "evidence": {
-        "path": "next-wave-ready/RD11/INPUT_OVERLAY_R2.json",
-        "sha256": "5e7af310229a7bba0f2f70a381fce96ca6473672264982d1dea775ab3fec9f37"
+        "path": "workerbee14/codefriend-completion/sprint1-final/FINAL_DELIVERY.json",
+        "sha256": "3aa507e5d495e22a4ebe43c9c83e1ff260e099e7071b2efacf5bec6e80c4bce9"
       }
     }
   ]

@@ -28,6 +28,13 @@
             "path": "next-wave-ready/RD11/INPUT_OVERLAY_R2.json",
             "sha256": "5e7af310229a7bba0f2f70a381fce96ca6473672264982d1dea775ab3fec9f37"
           }
+        },
+        {
+          "description": "Retained operationalPR50 package and original receipt exist; no supported current-state downgrade performed.",
+          "evidence": {
+            "path": "github-projection-maintenance/consumer-endorsement/OPERATIONAL_DELIVERY.json",
+            "sha256": "67da7121e4e6ba1cfd0e9ef1c1d7633922fd8e0d6e5d628c44cde3a3dca2a607"
+          }
         }
       ],
       "restore_argv": [],
@@ -44,14 +51,31 @@
             "path": "rd08-package-04d7db1b/VERIFIED_PROVENANCE.json",
             "sha256": "63ef49385e4ed9a5e64955c89e073c07dfe79ea64a7ecf8d64f04287463dae64"
           }
+        },
+        {
+          "description": "Actual original RD05 R1 restored predecessor 0e1b6edc and matching 37-file state; the exact historical restore invocation is recovered separately, while the full predecessor distribution remains absent.",
+          "evidence": {
+            "path": "rd05-r8-browser/INDEPENDENT_SEVEN_SCENARIO_REVIEW.md",
+            "sha256": "4ef59612957cdab10dadbbaf9c778c5dbee1c7297b962ffaa8456f40c2e6feb4"
+          }
+        },
+        {
+          "description": "Bounded custody recovery records the exact rollback transcript, predecessor receipt and three binary hashes, and the exact 37-file restored-state result without granting replay authority.",
+          "evidence": {
+            "path": "workerbee16-acceptance-integration/rd11-custody-update/runtime-custody/RECOVERED_EVIDENCE.json",
+            "sha256": "1d9e4b597df47cda5caff0a4d771ba0683a06ec2cb0441b3736ca9f158645c40"
+          }
         }
       ],
       "restore_argv": [],
-      "recoverability": null
+      "recoverability": {
+        "path": "workerbee16-acceptance-integration/rd11-custody-update/runtime-custody/RECOVERED_EVIDENCE.json",
+        "sha256": "1d9e4b597df47cda5caff0a4d771ba0683a06ec2cb0441b3736ca9f158645c40"
+      }
     },
     {
       "role": "infrastructure",
-      "disposition": "pending",
+      "disposition": "no_prior_accepted_baseline",
       "prior": null,
       "prior_observations": [
         {
@@ -63,11 +87,14 @@
         }
       ],
       "restore_argv": [],
-      "recoverability": null
+      "recoverability": {
+        "path": "workerbee16-acceptance-integration/rd11-custody-update/infrastructure-baseline-absence.json",
+        "sha256": "82f03d6ec6efaa71787d5210a1d8c789d316964ffa43756c34c0498eea50c770"
+      }
     },
     {
       "role": "enterprise_adapter",
-      "disposition": "pending",
+      "disposition": "no_prior_accepted_baseline",
       "prior": null,
       "prior_observations": [
         {
@@ -79,12 +106,34 @@
         }
       ],
       "restore_argv": [],
-      "recoverability": null
+      "recoverability": {
+        "path": "workerbee16-acceptance-integration/rd11-custody-update/enterprise-baseline-absence.json",
+        "sha256": "489e6a1363e13d8d4a8d9e14e14a578dfd8b6abc07dbc4a3462f93bbbb1cd34f"
+      }
     },
     {
       "role": "codefriend",
-      "disposition": "pending",
-      "prior": null,
+      "disposition": "retained_prior",
+      "prior": {
+        "source_commit": "fa5b117cddcef0dc32d361efc23db84a3a439714",
+        "asset_identity": {
+          "name": "codefriend-product.tar",
+          "path": "workerbee14/codefriend9-retained/codefriend-product.tar"
+        },
+        "sha256": "71d8b651047a6848042c1316d2e1463b011f0c608d05e702a9b1b3fdbccd06ec",
+        "package_version": "0.93.1",
+        "dependency_lock": {
+          "path": "workerbee16-acceptance-integration/rd11-custody-update/members/codefriend/Cargo.lock",
+          "sha256": "6d6dec803ec9c11380f5922e0882609986e45d511f7759936b3a054ce5d54320"
+        },
+        "build_provenance": {
+          "path": "workerbee14/codefriend9-retained/manifest.json",
+          "sha256": "dc41d16e1a7cae1ac18e8026848263fdf83ff65e3801f587d3be950d9e7bb1c7"
+        },
+        "supported_consumer_versions": [
+          "Historical RD10 CodeFriend 0.93.1 product at fa5b117cddcef0dc32d361efc23db84a3a439714"
+        ]
+      },
       "prior_observations": [
         {
           "description": "CF7 draft provides distribution interface, not accepted final integrated archive; maintained resource deliveries still distinct.",
@@ -92,14 +141,57 @@
             "path": "codefriend-issue7-consumers/DRAFT_DELIVERY.json",
             "sha256": "d1c2b95ef27c5b60963f328e04d1428d13faf4e27f8912e23316fafd5a0be429"
           }
+        },
+        {
+          "description": "Prior accepted RD10 CodeFriend product at fa5b117c remains retained with exact archive, lock, manifest and authentication identities. It is preserved as rollback input, but retained_prior cannot be declared until an existing restore argv and recoverability evidence are recovered.",
+          "evidence": {
+            "path": "workerbee16-acceptance-integration/rd11-custody-update/CODEFRIEND_CUSTODY_VERIFIED.json",
+            "sha256": "ebae5272f0c12672b226aba739803d9d6bc519270dd2c00a53908c67e7709dc8"
+          }
+        },
+        {
+          "description": "The retained RD10 archive was restored into a fresh private prefix using its original installer; all 21 archive members and all 20 manifest resources matched exact bytes and modes. This proves archive recoverability only, not Linux execution, product qualification, provider behavior, deployment or active-prefix replacement.",
+          "evidence": {
+            "path": "workerbee16-rd07-rd11-closeout/codefriend-rollback/RESULT.json",
+            "sha256": "3bcc3f2ccca32770556fa6e75e010989703b001a67ff3ccdf8ac2bd7074cddde"
+          }
         }
       ],
-      "restore_argv": [],
-      "recoverability": null
+      "restore_argv": [
+        "python3",
+        "workerbee16-rd07-rd11-closeout/codefriend-rollback/product_distribution.py",
+        "install",
+        "--archive",
+        "workerbee14/codefriend9-retained/codefriend-product.tar",
+        "--archive-sha256",
+        "71d8b651047a6848042c1316d2e1463b011f0c608d05e702a9b1b3fdbccd06ec",
+        "--candidate",
+        "fa5b117cddcef0dc32d361efc23db84a3a439714",
+        "--run-id",
+        "36833718546",
+        "--run-attempt",
+        "1",
+        "--artifact-id",
+        "11150592550",
+        "--workflow-ref",
+        "agent-logic/codefriend/.github/workflows/product-ci.yaml@refs/pull/9/merge",
+        "--workflow-sha",
+        "43a0b4e9a72022ef465dd56bd4225d68c9330ab3",
+        "--job-name",
+        "installed-product",
+        "--job-id",
+        "110276149323",
+        "--root",
+        "<fresh-private-prefix>"
+      ],
+      "recoverability": {
+        "path": "workerbee16-rd07-rd11-closeout/codefriend-rollback/RESULT.json",
+        "sha256": "3bcc3f2ccca32770556fa6e75e010989703b001a67ff3ccdf8ac2bd7074cddde"
+      }
     },
     {
       "role": "website",
-      "disposition": "pending",
+      "disposition": "no_prior_accepted_baseline",
       "prior": null,
       "prior_observations": [
         {
@@ -111,7 +203,10 @@
         }
       ],
       "restore_argv": [],
-      "recoverability": null
+      "recoverability": {
+        "path": "rd10-input-resolution-45/CONTRACT_INPUTS.json",
+        "sha256": "3a21524e61cccfc4b63c82bdf6d7a7a048cde2302b8e9945e93902f0339b4d45"
+      }
     }
   ]
 }
