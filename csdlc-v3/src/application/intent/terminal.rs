@@ -17,7 +17,11 @@ use crate::{
     },
 };
 use serde_json::{json, Value};
-use std::{collections::BTreeMap, fs, path::PathBuf};
+use std::{
+    collections::{BTreeMap, BTreeSet},
+    fs,
+    path::PathBuf,
+};
 
 const ABSENT_CLEANUP_DISPOSITION_SCHEMA: &str =
     "csdlc.v3.semantic_cleanup_absence_recovery_disposition.v1";
@@ -71,6 +75,11 @@ fn missing_semantic_no_pr_evidence_verified(
     }
     if closeout.evidence_digests.is_empty() {
         return Err("intent_missing_semantic_evidence_digest_required".into());
+    }
+    let evidence_refs = closeout.evidence_refs.iter().collect::<BTreeSet<_>>();
+    let digest_refs = closeout.evidence_digests.keys().collect::<BTreeSet<_>>();
+    if evidence_refs.len() != closeout.evidence_refs.len() || evidence_refs != digest_refs {
+        return Err("intent_missing_semantic_evidence_identity_invalid".into());
     }
     let local_root = context.git_common.join("csdlc-v3/local");
     for (reference, expected) in &closeout.evidence_digests {

@@ -3715,7 +3715,13 @@ fn installed_missing_semantic_no_pr_finish_requires_marker_and_hashed_local_evid
 
 #[test]
 fn installed_missing_semantic_no_pr_finish_rejects_unbound_or_forged_evidence() {
-    for case in ["wrong-disposition", "wrong-marker", "wrong-evidence-digest"] {
+    for case in [
+        "wrong-disposition",
+        "wrong-marker",
+        "wrong-evidence-digest",
+        "extra-unhashed-reference",
+        "duplicate-evidence-reference",
+    ] {
         let mut fixture = Fixture::new(case);
         fixture.enable_issue_transport();
         let primary = fixture.root.clone();
@@ -3742,7 +3748,14 @@ fn installed_missing_semantic_no_pr_finish_rejects_unbound_or_forged_evidence() 
                 "disposition":if case == "wrong-disposition" {"absorbed"} else {"historical_disposition"},
                 "operator":"synthetic-fixture-operator",
                 "rationale":"Negative missing-state closeout fixture",
-                "evidence_refs":[evidence_ref],
+                "evidence_refs":match case {
+                    "extra-unhashed-reference" => json!([
+                        evidence_ref,
+                        ".git/csdlc-v3/local/issue870-operator-close/unhashed.json"
+                    ]),
+                    "duplicate-evidence-reference" => json!([evidence_ref, evidence_ref]),
+                    _ => json!([evidence_ref]),
+                },
                 "expected_operation_digest":if case == "wrong-marker" {"c".repeat(64)} else {operation_digest.clone()},
                 "evidence_digests":{
                     evidence_ref:if case == "wrong-evidence-digest" {"d".repeat(64)} else {blake3::hash(evidence).to_hex().to_string()}
