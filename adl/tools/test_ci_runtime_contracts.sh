@@ -37,6 +37,18 @@ if ruby "$ROOT_DIR/adl/tools/validate_ci_workflow_policy.rb" "$POLICY_FIXTURE_RO
   echo "runner-bypass fixture escaped standard-runner enforcement" >&2
   exit 1
 fi
+cp -R "$ROOT_DIR/.github/workflows/." "$POLICY_FIXTURE_ROOT/.github/workflows/"
+ruby -e 'path = ARGV.fetch(0); text = File.read(path); marker = "  public_adl_validation:\n"; abort "public ADL job missing" unless text.include?(marker); head, tail = text.split(marker, 2); tail = tail.sub("runs-on: macos-latest", "runs-on: ubuntu-latest"); abort "public ADL macOS runner missing" unless tail.include?("runs-on: ubuntu-latest"); File.write(path, head + marker + tail)' "$POLICY_FIXTURE_ROOT/.github/workflows/ci.yaml"
+if ruby "$ROOT_DIR/adl/tools/validate_ci_workflow_policy.rb" "$POLICY_FIXTURE_ROOT" >/dev/null 2>&1; then
+  echo "public ADL Ubuntu fixture escaped sandbox-capable runner enforcement" >&2
+  exit 1
+fi
+cp -R "$ROOT_DIR/.github/workflows/." "$POLICY_FIXTURE_ROOT/.github/workflows/"
+ruby -e 'path = ARGV.fetch(0); text = File.read(path); marker = "  public_adl_validation:\n"; abort "public ADL job missing" unless text.include?(marker); head, tail = text.split(marker, 2); tail = tail.sub("runs-on: macos-latest", "runs-on: self-hosted"); abort "public ADL macOS runner missing" unless tail.include?("runs-on: self-hosted"); File.write(path, head + marker + tail)' "$POLICY_FIXTURE_ROOT/.github/workflows/ci.yaml"
+if ruby "$ROOT_DIR/adl/tools/validate_ci_workflow_policy.rb" "$POLICY_FIXTURE_ROOT" >/dev/null 2>&1; then
+  echo "public ADL self-hosted fixture escaped sandbox-capable runner enforcement" >&2
+  exit 1
+fi
 
 ruby -ryaml - "$WORKFLOW" <<'RUBY'
 NEXTTEST_INSTALLER = "taiki-e/install-action@50414676f9f5d50a65992c6dd2ed02641263226c"
@@ -1112,6 +1124,12 @@ for standard_job_name in (
         raise SystemExit(f"{standard_job_name} must not use the configurable heavy runner")
     if "runs-on: ubuntu-latest" not in job:
         raise SystemExit(f"{standard_job_name} must use the standard GitHub-hosted runner")
+
+public_adl_job = job_block("public_adl_validation")
+if "runs-on: macos-latest" not in public_adl_job:
+    raise SystemExit("public-adl-validation must use GitHub-hosted macOS for sandbox-exec proof")
+if "/usr/bin/sandbox-exec" not in pathlib.Path("tools/public_adl/run_ci.sh").read_text():
+    raise SystemExit("public-adl-validation macOS exception requires enforced sandbox-exec proof")
 
 print("PASS test_ci_runtime_contracts")
 PY
