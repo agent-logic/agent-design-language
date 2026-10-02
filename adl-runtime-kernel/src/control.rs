@@ -15824,14 +15824,8 @@ mod orientation_tests {
             (a.id.clone(), a.name.clone())
         };
         let usage = &service.recorder.provider_usage;
-        usage
-            .begin(
-                &name,
-                "ollama",
-                "idle-fixture",
-                crate::provider_usage::ProviderRequestReason::OperatorConversation,
-                "fixture",
-            )
+        usage.begin(&name, "ollama", "idle-fixture",
+            crate::provider_usage::ProviderRequestReason::OperatorConversation, "fixture")
             .success("ready");
         let mut supervisor = crate::resident_health::ResidentHealthSupervisor::default();
         for elapsed in [0, 300_001, 900_000, 3_600_000] {
@@ -15839,23 +15833,13 @@ mod orientation_tests {
             assert_eq!(observations[0].id, id);
             assert_eq!(observations[0].reason, "healthy");
             assert!(observations[0].inference_verified);
-            supervisor
-                .observe(&observations, true, now + elapsed)
-                .unwrap();
+            supervisor.observe(&observations, true, now + elapsed).unwrap();
         }
         assert!(supervisor.snapshot().is_empty());
-        assert_eq!(
-            service.resident_health_observations_at_locked(now + 3_600_001)[0].reason,
-            "resident_observation_stale"
-        );
-        usage
-            .begin(
-                &name,
-                "ollama",
-                "idle-fixture",
-                crate::provider_usage::ProviderRequestReason::OperatorConversation,
-                "fixture",
-            )
+        assert_eq!(service.resident_health_observations_at_locked(now + 3_600_001)[0].reason,
+            "resident_observation_stale");
+        usage.begin(&name, "ollama", "idle-fixture",
+            crate::provider_usage::ProviderRequestReason::OperatorConversation, "fixture")
             .failure("fixture failure");
         let failed = service.resident_health_observations_at_locked(now + 900_000);
         assert_eq!(failed[0].reason, "observed_health_failure");
