@@ -1,0 +1,36 @@
+{
+  "schema": "csdlc.v3.intent_changes.v1",
+  "amendment": {
+    "class": "implementation",
+    "transition_approved": true,
+    "implementation_revision": "e9609ba4fd1b9c2c8cc6a0410917583de026406d",
+    "new_commit": true
+  },
+  "cards": {
+    "sor": {
+      "status": "in_progress",
+      "completion_state": "implementation_validated_review_pending",
+      "integration_state": "worktree_only",
+      "summary": "Implemented authenticated historical no-PR reconciliation for closed issues with absent or legacy-only semantic state. Admission requires historical_disposition, exact authenticated issue closure timestamps, a matching native issue-body operation marker, safe Git-local evidence paths, exact BLAKE3 evidence digests, and byte-stable replay. Independent exact-head review, publication, CI, merge, installed-owner deployment, #1179 reconciliation, and terminal cleanup remain pending.",
+      "tracked_implementation_artifacts": "csdlc-v3/src/application/intent/terminal.rs; csdlc-v3/src/commands/terminal.rs; csdlc-v3/tests/installed_intent_commands.rs; csdlc-v3/tests/terminal_cleanup_cutover_commands.rs; docs/csdlc-v3/man",
+      "additional_proof_artifacts": ".csdlc/evidence/1227/sor-implementation-update.json",
+      "validation_command": "cargo test --manifest-path csdlc-v3/Cargo.toml --test installed_intent_commands; cargo test --manifest-path csdlc-v3/Cargo.toml --test terminal_cleanup_cutover_commands; cargo test --manifest-path csdlc-v3/Cargo.toml --test operator_man_pages; cargo clippy --manifest-path csdlc-v3/Cargo.toml --all-targets --all-features -- -D warnings; cargo fmt --manifest-path csdlc-v3/Cargo.toml --all -- --check; python3 docs/csdlc-v3/man/render.py --check; git diff --check",
+      "validation_effect": "Proves installed native intent behavior, terminal persistence and replay, negative identity/freshness/evidence guards, operator-manual parity, strict lint, formatting, generated-page freshness, and patch hygiene.",
+      "validation_result": "Installed intent suite passed 126 tests with 1 intentional ignore and 0 failures; terminal suite passed 38; operator manual suite passed 7; strict all-target Clippy, formatting, generated manual checks, and diff hygiene passed.",
+      "verification_validation_status": "passed",
+      "verification_required_artifacts_present": "true",
+      "verification_artifacts_status": "passed",
+      "verification_determinism_status": "passed",
+      "verification_replay_verified": "true",
+      "verification_security_privacy_status": "passed",
+      "verification_scope": "bound issue worktree",
+      "verification_check_1": "Installed missing-state positive and negative recovery, full installed intent, terminal owner, operator manual, strict Clippy, formatting, generated documentation, and diff hygiene",
+      "verification_schema_changes_present": "true",
+      "verification_schema_changes_approved": "issue_scoped_request_extension",
+      "verification_ordering_guarantees_verified": "authenticated remote closure and local evidence verification precede terminal persistence; cleanup remains separate",
+      "verification_secrets_leakage_detected": "false",
+      "verification_prompt_or_tool_arg_leakage_detected": "false",
+      "verification_absolute_path_leakage_detected": "false"
+    }
+  }
+}

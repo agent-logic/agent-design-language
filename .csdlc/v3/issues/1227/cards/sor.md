@@ -21,7 +21,7 @@ Version: 1.0.5
 Title: [v0.93.1][C-SDLC v3][defect] Recover externally closed issues with missing semantic state
 Branch: codex/1227-1227-missing-semantic-closeout-recovery
 Card Status: ready
-Status: not_started
+Status: in_progress
 Generated: <timestamp>
 
 Execution:
@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Preparation, implementation, validation, exact-head review, publication, merge, #1179 reconciliation, and terminal cleanup are pending.
+Implemented authenticated historical no-PR reconciliation for closed issues with absent or legacy-only semantic state. Admission requires historical_disposition, exact authenticated issue closure timestamps, a matching native issue-body operation marker, safe Git-local evidence paths, exact BLAKE3 evidence digests, and byte-stable replay. Independent exact-head review, publication, CI, merge, installed-owner deployment, #1179 reconciliation, and terminal cleanup remain pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `<initial_pvf_lane>`
@@ -57,7 +57,7 @@ Preparation, implementation, validation, exact-head review, publication, merge, 
 - Goal metrics source ref: `<actual_metrics_source_ref>`
 - Data-source confidence: `<actual_metrics_confidence>`
 - Estimate error percent: `<estimate_error_percent>`
-- Completion state: `<completion_state>`
+- Completion state: `implementation_validated_review_pending`
 - Issue goal ref: `<issue_goal_ref>`
 - Sprint goal ref: `<sprint_goal_ref>`
 - Goal metrics rollup ref: `<goal_metrics_rollup_ref>`
@@ -75,8 +75,8 @@ Preparation, implementation, validation, exact-head review, publication, merge, 
 
 ## Artifacts produced
 - Local ignored output-card scaffold at `<output_card>`
-- Tracked implementation artifacts: `<tracked_implementation_artifacts>`
-- Additional proof artifacts: `<additional_proof_artifacts>`
+- Tracked implementation artifacts: `csdlc-v3/src/application/intent/terminal.rs; csdlc-v3/src/commands/terminal.rs; csdlc-v3/tests/installed_intent_commands.rs; csdlc-v3/tests/terminal_cleanup_cutover_commands.rs; docs/csdlc-v3/man`
+- Additional proof artifacts: `.csdlc/evidence/1227/sor-implementation-update.json`
 
 ## Actions taken
 - `<actions_taken_line_1>`
@@ -86,8 +86,8 @@ Preparation, implementation, validation, exact-head review, publication, merge, 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `<main_repo_paths_updated>`
 - Worktree-only paths remaining: `<worktree_only_paths_remaining>`
-- Integration state: `<integration_state>`
-- Verification scope: `<verification_scope>`
+- Integration state: `worktree_only`
+- Verification scope: `bound issue worktree`
 - Integration method used: `<integration_method_used>`
 - Verification performed:
   - `<integration_verification_command>`
@@ -107,10 +107,10 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `<validation_command>`
-    `<validation_effect>`
+  - `cargo test --manifest-path csdlc-v3/Cargo.toml --test installed_intent_commands; cargo test --manifest-path csdlc-v3/Cargo.toml --test terminal_cleanup_cutover_commands; cargo test --manifest-path csdlc-v3/Cargo.toml --test operator_man_pages; cargo clippy --manifest-path csdlc-v3/Cargo.toml --all-targets --all-features -- -D warnings; cargo fmt --manifest-path csdlc-v3/Cargo.toml --all -- --check; python3 docs/csdlc-v3/man/render.py --check; git diff --check`
+    `Proves installed native intent behavior, terminal persistence and replay, negative identity/freshness/evidence guards, operator-manual parity, strict lint, formatting, generated-page freshness, and patch hygiene.`
 - Results:
-  - `<validation_result>`
+  - `Installed intent suite passed 126 tests with 1 intentional ignore and 0 failures; terminal suite passed 38; operator manual suite passed 7; strict all-target Clippy, formatting, generated manual checks, and diff hygiene passed.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -123,24 +123,24 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: <verification_validation_status>
+    status: passed
     checks_run:
-      - "<verification_check_1>"
+      - "Installed missing-state positive and negative recovery, full installed intent, terminal owner, operator manual, strict Clippy, formatting, generated documentation, and diff hygiene"
   determinism:
-    status: <verification_determinism_status>
-    replay_verified: <verification_replay_verified>
-    ordering_guarantees_verified: <verification_ordering_guarantees_verified>
+    status: passed
+    replay_verified: true
+    ordering_guarantees_verified: authenticated remote closure and local evidence verification precede terminal persistence; cleanup remains separate
   security_privacy:
-    status: <verification_security_privacy_status>
-    secrets_leakage_detected: <verification_secrets_leakage_detected>
-    prompt_or_tool_arg_leakage_detected: <verification_prompt_or_tool_arg_leakage_detected>
-    absolute_path_leakage_detected: <verification_absolute_path_leakage_detected>
+    status: passed
+    secrets_leakage_detected: false
+    prompt_or_tool_arg_leakage_detected: false
+    absolute_path_leakage_detected: false
   artifacts:
-    status: <verification_artifacts_status>
-    required_artifacts_present: <verification_required_artifacts_present>
+    status: passed
+    required_artifacts_present: true
     schema_changes:
-      present: <verification_schema_changes_present>
-      approved: <verification_schema_changes_approved>
+      present: true
+      approved: issue_scoped_request_extension
 ```
 
 ## Determinism Evidence
