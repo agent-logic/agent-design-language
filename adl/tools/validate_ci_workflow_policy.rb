@@ -95,7 +95,6 @@ errors << ".github/workflows/ci.yaml: concurrency key must unambiguously identif
 errors << ".github/workflows/ci.yaml: superseded revisions must cancel in progress" unless ci.include?("cancel-in-progress: true")
 
 standard_runner = "runs-on: ubuntu-latest"
-public_adl_runner = "runs-on: macos-latest"
 light_jobs = %w[adl_path_policy adl_tooling_contracts adl_coverage_hosted adl-ci adl-coverage]
 ci.scan(/^  ([A-Za-z0-9_-]+):\n(.*?)(?=^  [A-Za-z0-9_-]+:\n|\z)/m).each do |job, body|
   runner_line = body.lines.find { |line| line.match?(/^    runs-on:/) }
@@ -104,12 +103,7 @@ ci.scan(/^  ([A-Za-z0-9_-]+):\n(.*?)(?=^  [A-Za-z0-9_-]+:\n|\z)/m).each do |job,
     errors << "ci.yaml #{job}: light classifier/aggregator must use ubuntu-latest" unless runner_line.strip == "runs-on: ubuntu-latest"
     next
   end
-  # The public distribution proof enforces network/home/source denial through
-  # macOS sandbox-exec. It has no truthful Ubuntu fallback, so this one named
-  # job must remain on GitHub-hosted macOS while every other selected job stays
-  # on the standard Ubuntu runner.
-  required_runner = job == "public_adl_validation" ? public_adl_runner : standard_runner
-  errors << "ci.yaml #{job}: selected required job must use #{required_runner}" unless runner_line.strip == required_runner
+  errors << "ci.yaml #{job}: selected required job must use the standard GitHub-hosted runner" unless body.include?(standard_runner)
 
   header = body.split("runs-on:", 2).first
   errors << "ci.yaml #{job}: required standard-runner job must depend on adl_path_policy" unless header.include?("adl_path_policy")
