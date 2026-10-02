@@ -32,11 +32,6 @@ demos/v0.91.6/unity-observatory/Assets/Plugins.meta
 demos/v0.91.6/unity-observatory/Assets/Plugins/NuGet.meta
 demos/v0.91.6/unity-observatory/Assets/Plugins/NuGet/
 demos/v0.91.6/unity-observatory/Proof/
-infra/ddns/.terraform/
-infra/ddns/tfplan
-infra/ddns/build/
-infra/ddns/terraform.tfstate
-infra/ddns/terraform.tfstate.backup
 infra/aws/csm-public-edge/.terraform/
 infra/aws/csm-public-edge/tfplan
 infra/aws/csm-public-edge/terraform.tfstate
