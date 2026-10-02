@@ -17,7 +17,7 @@ use crate::{
     },
 };
 use serde_json::{json, Value};
-use std::{fs, path::PathBuf};
+use std::{collections::BTreeMap, fs, path::PathBuf};
 
 const ABSENT_CLEANUP_DISPOSITION_SCHEMA: &str =
     "csdlc.v3.semantic_cleanup_absence_recovery_disposition.v1";
@@ -45,6 +45,71 @@ fn legacy_coordination_completion_verified(context: &Context) -> Result<(), Stri
     } else {
         Err("intent_legacy_coordination_completion_receipt_required".into())
     }
+}
+
+fn missing_semantic_no_pr_evidence_verified(
+    context: &Context,
+    issue: &Value,
+    closeout: &NoPrCloseout,
+) -> Result<(), String> {
+    if closeout.disposition != NoPrDisposition::HistoricalDisposition {
+        return Err("intent_missing_semantic_disposition_invalid".into());
+    }
+    let digest = closeout
+        .expected_operation_digest
+        .as_deref()
+        .ok_or("intent_missing_semantic_operation_digest_required")?;
+    if digest.len() != 64 || !digest.bytes().all(|byte| byte.is_ascii_hexdigit()) {
+        return Err("intent_missing_semantic_operation_digest_invalid".into());
+    }
+    let marker = format!("<!-- csdlc-v3-operation:{digest} -->");
+    if !issue["body"]
+        .as_str()
+        .is_some_and(|body| body.contains(&marker))
+    {
+        return Err("intent_missing_semantic_operation_marker_mismatch".into());
+    }
+    if closeout.evidence_digests.is_empty() {
+        return Err("intent_missing_semantic_evidence_digest_required".into());
+    }
+    let local_root = context.git_common.join("csdlc-v3/local");
+    for (reference, expected) in &closeout.evidence_digests {
+        if !closeout.evidence_refs.iter().any(|item| item == reference)
+            || !reference.starts_with(".git/csdlc-v3/local/")
+            || expected.len() != 64
+            || !expected.bytes().all(|byte| byte.is_ascii_hexdigit())
+        {
+            return Err("intent_missing_semantic_evidence_identity_invalid".into());
+        }
+        let relative = reference
+            .strip_prefix(".git/csdlc-v3/local/")
+            .ok_or("intent_missing_semantic_evidence_identity_invalid")?;
+        let candidate = local_root.join(relative);
+        let metadata = candidate
+            .symlink_metadata()
+            .map_err(|_| "intent_missing_semantic_evidence_unavailable")?;
+        if !metadata.is_file() || metadata.file_type().is_symlink() {
+            return Err("intent_missing_semantic_evidence_identity_invalid".into());
+        }
+        let canonical = candidate
+            .canonicalize()
+            .map_err(|_| "intent_missing_semantic_evidence_unavailable")?;
+        let canonical_root = local_root
+            .canonicalize()
+            .map_err(|_| "intent_missing_semantic_evidence_unavailable")?;
+        if !canonical.starts_with(&canonical_root) {
+            return Err("intent_missing_semantic_evidence_identity_invalid".into());
+        }
+        let actual = blake3::hash(
+            &fs::read(&canonical).map_err(|_| "intent_missing_semantic_evidence_unavailable")?,
+        )
+        .to_hex()
+        .to_string();
+        if &actual != expected {
+            return Err("intent_missing_semantic_evidence_digest_mismatch".into());
+        }
+    }
+    Ok(())
 }
 fn semantic_for(
     context: &Context,
@@ -1255,6 +1320,7 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
         );
     }
     let mut legacy_merged_compatibility = false;
+    let mut missing_semantic_no_pr_compatibility = false;
     let mut native = if request.command == "finish"
         && !request.content.is_null()
         && explicit_pr.is_none()
@@ -1266,6 +1332,10 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
             operator: String,
             rationale: String,
             evidence_refs: Vec<String>,
+            #[serde(default)]
+            expected_operation_digest: Option<String>,
+            #[serde(default)]
+            evidence_digests: BTreeMap<String, String>,
         }
         let approved: Disposition = serde_json::from_value(request.content.clone())
             .map_err(|_| "intent_finish_disposition_invalid")?;
@@ -1292,9 +1362,31 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
         {
             return Err("intent_terminal_closed_issue_required".into());
         }
+        missing_semantic_no_pr_compatibility =
+            context.semantic_terminal_compatibility_required()?;
+        let closeout = NoPrCloseout {
+            disposition: approved.disposition,
+            operator: approved.operator,
+            rationale: approved.rationale,
+            evidence_refs: approved.evidence_refs,
+            expected_issue_updated_at: issue["updated_at"]
+                .as_str()
+                .ok_or("intent_terminal_disposition_observation_invalid")?
+                .to_owned(),
+            expected_issue_closed_at: issue["closed_at"]
+                .as_str()
+                .ok_or("intent_terminal_disposition_observation_invalid")?
+                .to_owned(),
+            expected_operation_digest: approved.expected_operation_digest,
+            evidence_digests: approved.evidence_digests,
+        };
+        if missing_semantic_no_pr_compatibility {
+            missing_semantic_no_pr_evidence_verified(context, &issue, &closeout)?;
+        }
         serde_json::from_value(json!({"repository":context.repository,"issue":context.issue,"expected_head_sha":context.head,"credential_names":["GITHUB_TOKEN"],"no_pr_closeout":{
-            "disposition":approved.disposition,"operator":approved.operator,"rationale":approved.rationale,"evidence_refs":approved.evidence_refs,
-            "expected_issue_updated_at":issue["updated_at"],"expected_issue_closed_at":issue["closed_at"]
+            "disposition":closeout.disposition,"operator":closeout.operator,"rationale":closeout.rationale,"evidence_refs":closeout.evidence_refs,
+            "expected_issue_updated_at":closeout.expected_issue_updated_at,"expected_issue_closed_at":closeout.expected_issue_closed_at,
+            "expected_operation_digest":closeout.expected_operation_digest,"evidence_digests":closeout.evidence_digests
         }})).map_err(|_|"intent_terminal_disposition_observation_invalid")?
     } else if request.command == "clean" {
         let receipt: DurableTerminalReceipt = serde_json::from_slice(
@@ -1437,6 +1529,48 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
                     "effects_unknown":!completed,
                     "result":result,
                     "compatibility":"legacy_coordination_only"
+                }));
+            }
+            if missing_semantic_no_pr_compatibility {
+                if receipt_path.exists() {
+                    let receipt: DurableTerminalReceipt = serde_json::from_slice(
+                        &fs::read(&receipt_path).map_err(|_| "intent_terminal_receipt_required")?,
+                    )
+                    .map_err(|_| "intent_terminal_receipt_invalid")?;
+                    if receipt.repository != context.repository
+                        || receipt.issue != context.issue
+                        || receipt.head_sha != context.head
+                        || receipt.disposition != "closed_out"
+                        || receipt.no_pr_closeout != native.no_pr_closeout
+                        || receipt.state_digest.is_none()
+                        || receipt.state_digest != file_digest(&state_path)?
+                    {
+                        return Err("intent_terminal_receipt_mismatch".into());
+                    }
+                    return Ok(json!({
+                        "status":"expected_noop","read_only":true,"operational_authority":true,
+                        "performed_mutation":false,"effects_unknown":false,"result":staged,
+                        "compatibility":"missing_semantic_no_pr_closeout"
+                    }));
+                }
+                native.terminal_state = Some(TerminalStateWriteRequest {
+                    repository_root: context.primary.clone(),
+                    reconciliation_checkout: Some(context.root.clone()),
+                    state_path,
+                    receipt_path: receipt_path.clone(),
+                    expected_state_digest: file_digest(
+                        &output_root.join(format!("v3/issues/{}/terminal.json", context.issue)),
+                    )?,
+                });
+                let result = prepare_terminal_finish_with_github_observation(&native, &mut process)
+                    .map_err(|finding| finding.code)?;
+                let completed = result.status == TerminalRouteStatus::Ready;
+                return Ok(json!({
+                    "status":if completed {"completed"} else {"blocked"},"read_only":false,
+                    "operational_authority":result.operational_authority,
+                    "performed_mutation":if completed {Some(true)} else {None},
+                    "effects_unknown":!completed,"result":result,
+                    "compatibility":"missing_semantic_no_pr_closeout"
                 }));
             }
             let semantic = semantic_for(context, command)?;
