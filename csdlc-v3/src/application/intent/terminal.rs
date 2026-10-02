@@ -1371,8 +1371,12 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
         {
             return Err("intent_terminal_closed_issue_required".into());
         }
-        missing_semantic_no_pr_compatibility =
-            context.semantic_terminal_compatibility_required()?;
+        // Preserve the pre-existing legacy coordination path. The missing-state
+        // recovery contract is intentionally a distinct historical disposition,
+        // not a replacement for every legacy no-PR closeout.
+        missing_semantic_no_pr_compatibility = approved.disposition
+            == NoPrDisposition::HistoricalDisposition
+            && context.semantic_terminal_compatibility_required()?;
         let closeout = NoPrCloseout {
             disposition: approved.disposition,
             operator: approved.operator,
