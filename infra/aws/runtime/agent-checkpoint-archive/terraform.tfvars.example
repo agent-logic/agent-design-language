@@ -1,3 +1,0 @@
-environment       = "dev"
-runtime_role_name = "agent-logic-runtime-dev"
-restore_role_name = "agent-logic-runtime-restore-dev"
