@@ -151,6 +151,55 @@ class Lockset(unittest.TestCase):
         for changes in [{'executed':0},{'skipped':1},{'exit_code':1}]:
             self.qualified_fixture();self.lock['roles'][0]['platforms'][0]['operations'][1].update(changes)
             with self.subTest(changes=changes),self.assertRaises(ValueError):self.check()
+    def test_single_adapter_invocation_with_phase_outcomes(self):
+        self.qualified_fixture();row=self.lock['roles'][0]
+        adapter_row={
+            'target':'fixture-platform','source_commit':'a'*40,'artifact_sha256':self.ref['sha256'],
+            'independent_clean':True,'distributable_only':True,
+            'adapter_invocation':{'argv':['fixture','adapter'],'exit_code':0,'executed':1,'skipped':0},
+            'phase_outcomes':[{'phase':phase,'executed':1,'failed':0,'skipped':0,'claim':'fixture phase'} for phase in ('build','test','install')],
+            'evidence':self.ref,
+        }
+        row['platforms']=[copy.deepcopy(adapter_row)]
+        self.assertEqual(self.check()['status'],'qualified_evidence_correspondence')
+        for field,value in (('executed',2),('executed',True),('skipped',1),('skipped',False),('exit_code',1),('exit_code',False)):
+            self.qualified_fixture();self.lock['roles'][0]['platforms']=[copy.deepcopy(adapter_row)]
+            self.lock['roles'][0]['platforms'][0]['adapter_invocation'][field]=value
+            with self.subTest(field=field),self.assertRaisesRegex(ValueError,'exactly one successful invocation'):self.check()
+        for field,value in (('executed',0),('executed',True),('failed',1),('failed',False),('skipped',1),('skipped',False)):
+            self.qualified_fixture();self.lock['roles'][0]['platforms']=[copy.deepcopy(adapter_row)]
+            self.lock['roles'][0]['platforms'][0]['phase_outcomes'][0][field]=value
+            with self.subTest(field=field,value=value),self.assertRaisesRegex(ValueError,'adapter phase'):self.check()
+    def test_runtime_retained_acceptance_preserves_deferred_qualification(self):
+        self.qualified_fixture();row=next(r for r in self.lock['roles'] if r['role']=='runtime')
+        retained={
+            'build_provenance':self.ref,'installation_identity':self.ref,
+            'scenario_acceptance':self.ref,'independent_review':self.ref,
+            'scope_decision':self.ref,'scenarios_passed':7,
+            'exact_install_invocation_retained':False,
+            'current_qualification_status':'operator_deferred_outside_sprint1',
+            'limitations':['historical aggregate install argv was not retained'],
+        }
+        row['platforms']=[{
+            'target':'fixture-platform','source_commit':'a'*40,
+            'artifact_sha256':self.ref['sha256'],'independent_clean':True,
+            'distributable_only':True,'retained_acceptance':retained,
+            'evidence':self.ref,
+        }]
+        self.assertEqual(self.check()['status'],'qualified_evidence_correspondence')
+        for field,value,message in (
+            ('scenarios_passed',0,'scenario denominator'),
+            ('scenarios_passed',True,'scenario denominator'),
+            ('exact_install_invocation_retained',True,'explicitly unavailable'),
+            ('current_qualification_status','qualified','qualification disposition'),
+        ):
+            self.qualified_fixture();row=next(r for r in self.lock['roles'] if r['role']=='runtime')
+            changed=copy.deepcopy(retained);changed[field]=value
+            row['platforms']=[{'target':'fixture-platform','source_commit':'a'*40,'artifact_sha256':self.ref['sha256'],'independent_clean':True,'distributable_only':True,'retained_acceptance':changed,'evidence':self.ref}]
+            with self.subTest(field=field),self.assertRaisesRegex(ValueError,message):self.check()
+        self.qualified_fixture();row=self.lock['roles'][0]
+        row['platforms']=[{'target':'fixture-platform','source_commit':'a'*40,'artifact_sha256':self.ref['sha256'],'independent_clean':True,'distributable_only':True,'retained_acceptance':copy.deepcopy(retained),'evidence':self.ref}]
+        with self.assertRaisesRegex(ValueError,'Runtime-only'):self.check()
     def test_mutated_evidence(self):
         self.qualified_fixture();self.receipt.write_text('changed')
         with self.assertRaises(ValueError):self.check()
@@ -179,6 +228,45 @@ class Lockset(unittest.TestCase):
         with self.assertRaises(ValueError):self.check()
         self.qualified_fixture();self.lock['negative_evidence'].pop()
         with self.assertRaises(ValueError):self.check()
+    def test_retained_installed_generation_point(self):
+        self.qualified_fixture();row=next(x for x in self.rollback['roles'] if x['role']=='runtime')
+        receipt=self.root/'generation.json';receipt.write_text(json.dumps({
+            'source_revision':'b'*40,'generation':'fixture-generation','platform':'fixture-platform',
+            'artifacts':{key:{'sha256':self.ref['sha256']} for key in ('kernel','guardian','csm')},
+        }))
+        receipt_ref={'path':'generation.json','sha256':v.digest(receipt)}
+        point={'source_commit':'b'*40,'generation':'fixture-generation','platform':'fixture-platform',
+               'artifacts':[{'name':name,'path':'fixture.json','sha256':self.ref['sha256']} for name in ('adl-runtime-kernel','adl-runtime-guardian','csm')],
+               'receipt':receipt_ref,'supported_consumer_versions':['fixture runtime generation'],'replay_authority':False}
+        row.update(disposition='retained_installed_generation',prior=copy.deepcopy(point),restore_argv=[],recoverability=self.ref)
+        self.assertEqual(self.check()['status'],'qualified_evidence_correspondence')
+        for change,message in (
+            ({'replay_authority':True},'replay authority forbidden'),
+            ({'artifacts':[]},'artifacts missing'),
+        ):
+            self.qualified_fixture();row=next(x for x in self.rollback['roles'] if x['role']=='runtime')
+            changed=copy.deepcopy(point);changed.update(change)
+            row.update(disposition='retained_installed_generation',prior=changed,restore_argv=[],recoverability=self.ref)
+            with self.subTest(change=change),self.assertRaisesRegex(ValueError,message):self.check()
+        for change,message in (
+            ({'generation':'other-generation'},'receipt identity mismatch'),
+            ({'artifacts':[{'name':'kernel','path':'fixture.json','sha256':self.ref['sha256']}]},'exact installed generation artifacts'),
+            ({'artifacts':point['artifacts']+[{'name':'extra','path':'fixture.json','sha256':self.ref['sha256']}]},'exact installed generation artifacts'),
+        ):
+            self.qualified_fixture();row=next(x for x in self.rollback['roles'] if x['role']=='runtime')
+            changed=copy.deepcopy(point);changed.update(change)
+            row.update(disposition='retained_installed_generation',prior=changed,restore_argv=[],recoverability=self.ref)
+            with self.subTest(change=change),self.assertRaisesRegex(ValueError,message):self.check()
+        mutated=json.loads(receipt.read_text());mutated['artifacts']['kernel']['sha256']='0'*64;receipt.write_text(json.dumps(mutated))
+        receipt_ref['sha256']=v.digest(receipt);point['receipt']=receipt_ref
+        self.qualified_fixture();row=next(x for x in self.rollback['roles'] if x['role']=='runtime')
+        row.update(disposition='retained_installed_generation',prior=copy.deepcopy(point),restore_argv=[],recoverability=self.ref)
+        with self.assertRaisesRegex(ValueError,'receipt artifact mismatch'):self.check()
+        mutated['artifacts']['kernel']['sha256']=self.ref['sha256'];receipt.write_text(json.dumps(mutated))
+        point['receipt']={'path':'generation.json','sha256':v.digest(receipt)}
+        self.qualified_fixture();row=next(x for x in self.rollback['roles'] if x['role']=='runtime')
+        row.update(disposition='retained_installed_generation',prior=copy.deepcopy(point),restore_argv=['python3','missing.py'],recoverability=self.ref)
+        with self.assertRaisesRegex(ValueError,'cannot imply replay argv'):self.check()
     def test_private_paths_and_mutable_selection(self):
         self.lock['roles'][0]['available'][0]['description']='/Users/private/source'
         with self.assertRaises(ValueError):self.check()

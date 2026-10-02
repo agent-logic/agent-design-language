@@ -89,21 +89,66 @@ def identity(value,root,required,label):
     versions=value['supported_consumer_versions'];require(isinstance(versions,list) and versions and all(isinstance(v,str) and v.strip() and v!='*' for v in versions) and len(set(versions))==len(versions),label+' explicit consumer versions')
     for key in ('dependency_lock','build_provenance'):reference(value[key],root,required,label+' '+key)
 
+def generation_point(value,root,required,label):
+    keys(value,('source_commit','generation','platform','artifacts','receipt','supported_consumer_versions','replay_authority'),label)
+    sha(value['source_commit'],40,label);text(value['generation'],label+' generation');text(value['platform'],label+' platform')
+    artifacts=value['artifacts'];require(isinstance(artifacts,list) and artifacts,'installed generation artifacts missing')
+    names=set()
+    for artifact in artifacts:
+        keys(artifact,('name','path','sha256'),'installed generation artifact');text(artifact['name'],'installed generation artifact name')
+        require(artifact['name'] not in names,'duplicate installed generation artifact');names.add(artifact['name'])
+        reference({'path':artifact['path'],'sha256':artifact['sha256']},root,required,'installed generation artifact')
+    require(names=={'adl-runtime-kernel','adl-runtime-guardian','csm'},'exact installed generation artifacts required')
+    reference(value['receipt'],root,required,label+' receipt')
+    versions=value['supported_consumer_versions'];require(isinstance(versions,list) and versions and all(isinstance(v,str) and v.strip() and v!='*' for v in versions),'installed generation explicit consumer versions')
+    require(value['replay_authority'] is False,'installed generation replay authority forbidden')
+    if required:
+        receipt=load(root/value['receipt']['path'])
+        require(receipt.get('source_revision')==value['source_commit'] and receipt.get('generation')==value['generation'] and receipt.get('platform')==value['platform'],'installed generation receipt identity mismatch')
+        receipt_artifacts=receipt.get('artifacts');require(isinstance(receipt_artifacts,dict),'installed generation receipt artifacts missing')
+        mapping={'adl-runtime-kernel':'kernel','adl-runtime-guardian':'guardian','csm':'csm'}
+        actual={artifact['name']:artifact['sha256'] for artifact in artifacts}
+        require(set(receipt_artifacts)==set(mapping.values()) and all(isinstance(receipt_artifacts[key],dict) and receipt_artifacts[key].get('sha256')==actual[name] for name,key in mapping.items()),'installed generation receipt artifact mismatch')
+
 def selected_asset_key(selected):
     # Local transport path is not identity: copying a bundle cannot evade uniqueness.
     asset=selected['asset_identity'];member=asset.get('member')
     return (selected['source_commit'],asset['name'],selected['sha256'],
             None if member is None else (member['path'],member['sha256']))
 
-def qualify(row,selected,root):
-    keys(row,('target','source_commit','artifact_sha256','independent_clean','distributable_only','operations','evidence'),'platform')
+def qualify(row,selected,root,role):
+    common={'target','source_commit','artifact_sha256','independent_clean','distributable_only','evidence'}
+    traditional=common|{'operations'}
+    adapter=common|{'adapter_invocation','phase_outcomes'}
+    retained=common|{'retained_acceptance'}
+    require(isinstance(row,dict) and set(row) in (traditional,adapter,retained),'platform fields')
     text(row['target'],'platform');require(row['source_commit']==selected['source_commit'] and row['artifact_sha256']==selected['sha256'],'platform artifact/source mismatch')
     require(row['independent_clean'] is True and row['distributable_only'] is True,'independent clean distributable proof missing')
-    operations=row['operations'];require(isinstance(operations,list) and len(operations)==3 and {x['operation'] for x in operations}=={'build','test','install'},'three original operations required')
-    for op in operations:
-        keys(op,('operation','argv','exit_code','executed','skipped'),'operation')
-        require(isinstance(op['argv'],list) and op['argv'] and all(isinstance(v,str) and v for v in op['argv']),'exact operation argv missing')
-        require(type(op['exit_code']) is int and op['exit_code']==0 and type(op['executed']) is int and op['executed']>0 and type(op['skipped']) is int and op['skipped']==0,'failed/zero/skipped operation cannot qualify')
+    if set(row)==traditional:
+        operations=row['operations'];require(isinstance(operations,list) and len(operations)==3 and {x['operation'] for x in operations}=={'build','test','install'},'three original operations required')
+        for op in operations:
+            keys(op,('operation','argv','exit_code','executed','skipped'),'operation')
+            require(isinstance(op['argv'],list) and op['argv'] and all(isinstance(v,str) and v for v in op['argv']),'exact operation argv missing')
+            require(type(op['exit_code']) is int and op['exit_code']==0 and type(op['executed']) is int and op['executed']>0 and type(op['skipped']) is int and op['skipped']==0,'failed/zero/skipped operation cannot qualify')
+    elif set(row)==adapter:
+        invocation=row['adapter_invocation'];keys(invocation,('argv','exit_code','executed','skipped'),'adapter invocation')
+        require(isinstance(invocation['argv'],list) and invocation['argv'] and all(isinstance(v,str) and v for v in invocation['argv']),'exact adapter argv missing')
+        require(type(invocation['exit_code']) is int and invocation['exit_code']==0 and type(invocation['executed']) is int and invocation['executed']==1 and type(invocation['skipped']) is int and invocation['skipped']==0,'adapter must record exactly one successful invocation')
+        phases=row['phase_outcomes'];require(isinstance(phases,list) and len(phases)==3 and {x['phase'] for x in phases}=={'build','test','install'},'adapter build/test/install phase outcomes required')
+        for phase in phases:
+            keys(phase,('phase','executed','failed','skipped','claim'),'adapter phase')
+            text(phase['claim'],'adapter phase claim')
+            require(type(phase['executed']) is int and phase['executed']>0 and type(phase['failed']) is int and phase['failed']==0 and type(phase['skipped']) is int and phase['skipped']==0,'failed/zero/skipped adapter phase cannot qualify')
+    else:
+        require(role=='runtime','retained acceptance is Runtime-only')
+        retained_acceptance=row['retained_acceptance']
+        keys(retained_acceptance,('build_provenance','installation_identity','scenario_acceptance','independent_review','scope_decision','scenarios_passed','exact_install_invocation_retained','current_qualification_status','limitations'),'retained acceptance')
+        require(type(retained_acceptance['scenarios_passed']) is int and retained_acceptance['scenarios_passed']==7,'retained Runtime scenario denominator')
+        require(retained_acceptance['exact_install_invocation_retained'] is False,'retained Runtime install argv must remain explicitly unavailable')
+        require(retained_acceptance['current_qualification_status']=='operator_deferred_outside_sprint1','retained Runtime qualification disposition')
+        limitations=retained_acceptance['limitations'];require(isinstance(limitations,list) and limitations and all(isinstance(v,str) and v.strip() for v in limitations),'retained Runtime limitations')
+        for name in ('build_provenance','installation_identity','scenario_acceptance','independent_review','scope_decision'):
+            reference(retained_acceptance[name],root,True,'retained Runtime '+name)
     reference(row['evidence'],root,True,'platform qualification')
 
 def verify(lockset,graph,rollback,evidence_root=None,require_qualified=False):
@@ -144,7 +189,7 @@ def verify(lockset,graph,rollback,evidence_root=None,require_qualified=False):
             require(row['website_disposition'] is None,'software website disposition')
             require(not qualified or bool(targets),'supported software platform proof missing')
             if row['selected'] is not None:
-                for platform in row['platforms']:qualify(platform,row['selected'],evidence_root)
+                for platform in row['platforms']:qualify(platform,row['selected'],evidence_root,role)
             else:require(not row['platforms'],'unselected artifact cannot have platform proof')
     require(isinstance(graph,dict),'graph fields')
     if graph.get('schema')=='adl.compatibility_graph.v1':
@@ -200,11 +245,14 @@ def verify(lockset,graph,rollback,evidence_root=None,require_qualified=False):
         require(isinstance(row['prior_observations'],list),'prior observations list')
         for prior in row['prior_observations']:
             keys(prior,('description','evidence'),'prior observation');text(prior['description'],'prior description');reference(prior['evidence'],evidence_root,False,'prior observation')
-        require(row['disposition'] in ('pending','retained_prior','no_prior_accepted_baseline'),'rollback disposition')
+        require(row['disposition'] in ('pending','retained_prior','retained_installed_generation','no_prior_accepted_baseline'),'rollback disposition')
         require(not qualified or row['disposition']!='pending','rollback unresolved')
         if row['disposition']=='retained_prior':
             identity(row['prior'],evidence_root,qualified,'prior distribution')
             require(isinstance(row['restore_argv'],list) and row['restore_argv'] and all(isinstance(s,str) and s for s in row['restore_argv']),'existing restore command missing')
+        elif row['disposition']=='retained_installed_generation':
+            generation_point(row['prior'],evidence_root,qualified,'prior installed generation')
+            require(row['restore_argv']==[],'historical installed generation cannot imply replay argv')
         else:require(row['prior'] is None and row['restore_argv']==[],'absence/pending cannot imply prior restore')
         reference(row['recoverability'],evidence_root,qualified,'rollback recovery or baseline absence evidence')
     reference(lockset['rd07_acceptance'],evidence_root,qualified,'accepted RD07')

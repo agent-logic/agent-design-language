@@ -3,8 +3,27 @@
   "roles": [
     {
       "role": "public_adl",
-      "disposition": "pending",
-      "prior": null,
+      "disposition": "retained_prior",
+      "prior": {
+        "source_commit": "f8e422781145b1b0addb537ddacfc44f3ddf7a14",
+        "asset_identity": {
+          "name": "public-adl-five-package-baseline-report-f8e42278.json",
+          "path": "workerbee16-rd07-rd11-closeout/rd07/public-adl-baseline-f8e42278-native/report.json"
+        },
+        "sha256": "bdbd962ec8f24704260fe0851c5121ea52d68838c0e61c4fe1cdec946e2ff000",
+        "package_version": "adl-schema 0.1.0; adl-uts 0.1.0; adl-language 0.92.1; adl-compiler 0.92.1; adl-legacy-contracts 0.1.0",
+        "dependency_lock": {
+          "path": "workerbee16-rd07-rd11-closeout/rd07/public-adl-baseline-f8e42278-native/consumer.Cargo.lock",
+          "sha256": "48d0e670282c0b8683b77ce635b93cd6775a9ae7ad886dc34725555e5ea41eea"
+        },
+        "build_provenance": {
+          "path": "workerbee16-rd07-rd11-closeout/rd07/public-adl-baseline-f8e42278-native/report.json",
+          "sha256": "bdbd962ec8f24704260fe0851c5121ea52d68838c0e61c4fe1cdec946e2ff000"
+        },
+        "supported_consumer_versions": [
+          "accepted f8e42278 five-package baseline: seven consumer cases, 21 UTS fixtures and five negative cases"
+        ]
+      },
       "prior_observations": [
         {
           "description": "Available Runtime dependency manifest retains five public packages and engine/records; final RD07 generation unselected.",
@@ -12,15 +31,62 @@
             "path": "rd08-package-04d7db1b/artifacts/dependency-lockset.json",
             "sha256": "9c31ea43a979fde2781ad6d483ece307f14d7d7c54f4652e22b49b6f7a23be10"
           }
+        },
+        {
+          "description": "The accepted f8e42278 five-package source distribution was restored create-only into an isolated prefix; 110 members matched exact bytes and modes. This proves source-package custody only.",
+          "evidence": {
+            "path": "workerbee16-rd07-rd11-closeout/public-adl-prior-recovery-1193/RECOVERY_RECEIPT.json",
+            "sha256": "8e71db5e62613e737d013d3deb044bf571ef2a989aa4a965a4148f49072269cd"
+          }
+        },
+        {
+          "description": "Independent verification confirmed all five archives and all 110 restored members were safe, regular and exact in bytes and modes; no binary, service, deployment or registry rollback was claimed.",
+          "evidence": {
+            "path": "workerbee16-rd07-rd11-closeout/public-adl-prior-recovery-1193/VERIFICATION.json",
+            "sha256": "67b381ccd53e86b1d0714b2eeeb2e179010a552d6619a80ccc0a4fbaa1fa682b"
+          }
         }
       ],
-      "restore_argv": [],
-      "recoverability": null
+      "restore_argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "workerbee16-rd07-rd11-closeout/public-adl-prior-recovery-1193/restore_public_adl_prior.py",
+        "--baseline-report",
+        "workerbee16-rd07-rd11-closeout/rd07/public-adl-baseline-f8e42278-native/report.json",
+        "--current-proof-dir",
+        "workerbee16-rd07-rd11-closeout/rd11/members/public-adl-final",
+        "--destination",
+        "<fresh-private-prefix>",
+        "--receipt",
+        "workerbee16-rd07-rd11-closeout/public-adl-prior-recovery-1193/RECOVERY_RECEIPT.json"
+      ],
+      "recoverability": {
+        "path": "workerbee16-rd07-rd11-closeout/public-adl-prior-recovery-1193/VERIFICATION.json",
+        "sha256": "67b381ccd53e86b1d0714b2eeeb2e179010a552d6619a80ccc0a4fbaa1fa682b"
+      }
     },
     {
       "role": "csdlc",
-      "disposition": "pending",
-      "prior": null,
+      "disposition": "retained_prior",
+      "prior": {
+        "source_commit": "2600e285f224ec088f725e9f31a6c60a166a3eb3",
+        "asset_identity": {
+          "name": "csdlc-package-11140465521.zip",
+          "path": "workerbee16-rd07-rd11-closeout/csdlc-rollback-custody/csdlc-package.zip"
+        },
+        "sha256": "6ec1a174face70b94adf62f3f71e5034f8d8f86132a3e77c6d3aaf538d43b50c",
+        "package_version": "PR50 package-maintain artifact 11140465521",
+        "dependency_lock": {
+          "path": "workerbee16-rd07-rd11-closeout/csdlc-rollback-custody/Cargo.lock",
+          "sha256": "ab3bc4aef3e216b6ae88a254a6d7e84c6d811b9739c327a642a9387b50ab9191"
+        },
+        "build_provenance": {
+          "path": "workerbee16-rd07-rd11-closeout/csdlc-rollback-custody/CUSTODY.json",
+          "sha256": "e68fe36e3a674c4d660904b842d2dcbb172358effdb04319f44cc9b23a13dec0"
+        },
+        "supported_consumer_versions": [
+          "agent-logic-infrastructure package-maintain consumer PR8 merge 0cdf6da59e5eb9b8ab668fd5eafdbd95668fabee; x86_64-unknown-linux-gnu"
+        ]
+      },
       "prior_observations": [
         {
           "description": "RD04 historical accepted source dc4445be/merge6005595d; current executable/platform selection pending.",
@@ -35,15 +101,91 @@
             "path": "github-projection-maintenance/consumer-endorsement/OPERATIONAL_DELIVERY.json",
             "sha256": "67da7121e4e6ba1cfd0e9ef1c1d7633922fd8e0d6e5d628c44cde3a3dca2a607"
           }
+        },
+        {
+          "description": "Exact PR50 predecessor custody retains authenticated outer and inner packages, source and toolchain locks, build metadata, accepted operational receipt, and the 202-member create-only recovery result.",
+          "evidence": {
+            "path": "workerbee16-rd07-rd11-closeout/csdlc-rollback-custody/CUSTODY.json",
+            "sha256": "e68fe36e3a674c4d660904b842d2dcbb172358effdb04319f44cc9b23a13dec0"
+          }
+        },
+        {
+          "description": "Mechanical recovery restored all 202 manifested package members with exact hashes, sizes and modes. It does not prove Linux execution, admission, active-prefix replacement, or an upgrade/downgrade transition.",
+          "evidence": {
+            "path": "workerbee16-rd07-rd11-closeout/csdlc-rollback-custody/BYTE_RESTORE_RESULT.json",
+            "sha256": "6d77adb13ed6f1869e4773f43aaa69fd374b0c78c25307fe424c3383e4df113c"
+          }
+        },
+        {
+          "description": "The retained create-only verifier is the exact script used for byte/mode recovery; it does not install or activate the predecessor.",
+          "evidence": {
+            "path": "workerbee16-rd07-rd11-closeout/csdlc-rollback-custody/verify_and_restore_bytes.py",
+            "sha256": "36dabdc638351bcdd417ffbc6e09c97d623f8beee7e2015e219e459fe312e174"
+          }
+        },
+        {
+          "description": "Fresh-destination create-only wrapper preserves the original verifier checks while taking explicit package, destination and result paths; it refuses reuse of either output.",
+          "evidence": {
+            "path": "workerbee16-rd07-rd11-closeout/csdlc-rollback-custody/verify_and_restore_bytes_fresh.py",
+            "sha256": "8409b413f458803764bb8d60ec2a400a963f5d0f5ac58362e2d5a0efe7ef8c35"
+          }
+        },
+        {
+          "description": "A fresh invocation restored all 202 manifested members with exact bytes and modes. This remains package custody only and does not install, admit, activate or switch C-SDLC.",
+          "evidence": {
+            "path": "workerbee16-rd07-rd11-closeout/csdlc-rollback-custody/FRESH_RESTORE_RESULT.json",
+            "sha256": "7f72a130473450bec41417fe50aab2f939c854ea26c5236f2bb4697fe835eaed"
+          }
         }
       ],
-      "restore_argv": [],
-      "recoverability": null
+      "restore_argv": [
+        "python3",
+        "workerbee16-rd07-rd11-closeout/csdlc-rollback-custody/verify_and_restore_bytes_fresh.py",
+        "--package",
+        "workerbee16-rd07-rd11-closeout/csdlc-rollback-custody/csdlc-package.zip",
+        "--destination",
+        "<fresh-private-prefix>",
+        "--result",
+        "<fresh-private-result>"
+      ],
+      "recoverability": {
+        "path": "workerbee16-rd07-rd11-closeout/csdlc-rollback-custody/FRESH_RESTORE_RESULT.json",
+        "sha256": "7f72a130473450bec41417fe50aab2f939c854ea26c5236f2bb4697fe835eaed"
+      }
     },
     {
       "role": "runtime",
-      "disposition": "pending",
-      "prior": null,
+      "disposition": "retained_installed_generation",
+      "prior": {
+        "source_commit": "0e1b6edc6a5abf26157a933b8352f384b92222a5",
+        "generation": "issue-1130-0e1b6edc6a-approved",
+        "platform": "macos-aarch64",
+        "artifacts": [
+          {
+            "name": "adl-runtime-kernel",
+            "path": "workerbee16-acceptance-integration/rd11-custody-update/runtime-custody/predecessor-generation/bin/adl-runtime-kernel",
+            "sha256": "029d7620a41459015f1f74c5d9a894364c980cfb34db62ceb27b4bf1cb12ad70"
+          },
+          {
+            "name": "adl-runtime-guardian",
+            "path": "workerbee16-acceptance-integration/rd11-custody-update/runtime-custody/predecessor-generation/bin/adl-runtime-guardian",
+            "sha256": "924d3edebfdc25c0f4b934727256c71dc8a458600f6c4b8461a206d03e24bda9"
+          },
+          {
+            "name": "csm",
+            "path": "workerbee16-acceptance-integration/rd11-custody-update/runtime-custody/predecessor-generation/bin/csm",
+            "sha256": "a9367f49eb961e1a40e1f16f7a6fe364ea5cc80f87e685b48a31d4e8cf1c917c"
+          }
+        ],
+        "receipt": {
+          "path": "workerbee16-acceptance-integration/rd11-custody-update/runtime-custody/predecessor-generation/receipt.json",
+          "sha256": "ad92cf2ac890a07508bb661088911de46b70960191094873f53adb6765766d9a"
+        },
+        "supported_consumer_versions": [
+          "accepted macOS aarch64 Runtime generation issue-1130-0e1b6edc6a-approved"
+        ],
+        "replay_authority": false
+      },
       "prior_observations": [
         {
           "description": "Retained macOS source04d7db1b and package d28eefc7; distinct Linux policy97f30f04 is not warm Runtime support.",
@@ -61,6 +203,13 @@
         },
         {
           "description": "Bounded custody recovery records the exact rollback transcript, predecessor receipt and three binary hashes, and the exact 37-file restored-state result without granting replay authority.",
+          "evidence": {
+            "path": "workerbee16-acceptance-integration/rd11-custody-update/runtime-custody/RECOVERED_EVIDENCE.json",
+            "sha256": "1d9e4b597df47cda5caff0a4d771ba0683a06ec2cb0441b3736ca9f158645c40"
+          }
+        },
+        {
+          "description": "Private custody copies of the three already-retained predecessor binaries and accepted generation receipt preserve their original exact hashes; no build or new qualification was performed.",
           "evidence": {
             "path": "workerbee16-acceptance-integration/rd11-custody-update/runtime-custody/RECOVERED_EVIDENCE.json",
             "sha256": "1d9e4b597df47cda5caff0a4d771ba0683a06ec2cb0441b3736ca9f158645c40"
