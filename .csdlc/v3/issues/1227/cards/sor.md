@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implemented authenticated historical no-PR reconciliation for closed issues with absent or legacy-only semantic state. Admission requires historical_disposition, exact authenticated issue closure timestamps, a matching native issue-body operation marker, safe Git-local evidence paths, exact BLAKE3 evidence digests, and byte-stable replay. Independent exact-head review, publication, CI, merge, installed-owner deployment, #1179 reconciliation, and terminal cleanup remain pending.
+Implemented authenticated historical no-PR reconciliation for closed issues with absent or legacy-only semantic state. Admission requires historical_disposition, exact authenticated issue closure timestamps, a matching native issue-body operation marker, a one-to-one duplicate-free mapping between safe Git-local evidence references and exact BLAKE3 digests, and byte-stable replay. The first independent review finding about un-hashed extra references was fixed with negative coverage; fresh exact-head review, publication, CI, merge, installed-owner deployment, #1179 reconciliation, and terminal cleanup remain pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `<initial_pvf_lane>`
@@ -110,7 +110,7 @@ Rules:
   - `cargo test --manifest-path csdlc-v3/Cargo.toml --test installed_intent_commands; cargo test --manifest-path csdlc-v3/Cargo.toml --test terminal_cleanup_cutover_commands; cargo test --manifest-path csdlc-v3/Cargo.toml --test operator_man_pages; cargo clippy --manifest-path csdlc-v3/Cargo.toml --all-targets --all-features -- -D warnings; cargo fmt --manifest-path csdlc-v3/Cargo.toml --all -- --check; python3 docs/csdlc-v3/man/render.py --check; git diff --check`
     `Proves installed native intent behavior, terminal persistence and replay, negative identity/freshness/evidence guards, operator-manual parity, strict lint, formatting, generated-page freshness, and patch hygiene.`
 - Results:
-  - `Installed intent suite passed 126 tests with 1 intentional ignore and 0 failures; terminal suite passed 38; operator manual suite passed 7; strict all-target Clippy, formatting, generated manual checks, and diff hygiene passed.`
+  - `The refreshed focused missing-state lane passed 2 tests including five denial cases; terminal suite passed 38; operator manual suite passed 7; operator-manual helper passed 2; strict all-target Clippy, formatting, generated manual checks, and diff hygiene passed. The earlier full installed intent suite passed 126 tests with 1 intentional ignore and 0 failures before the bounded review repair and will be refreshed before publication.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
