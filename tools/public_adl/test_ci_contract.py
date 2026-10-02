@@ -47,6 +47,8 @@ def main() -> None:
     job = workflow.split("  public_adl_validation:\n", 1)[1].split("\n  adl_rust_fmt_clippy:\n", 1)[0]
     assert "runs-on: macos-latest" in job
     assert "needs.adl_path_policy.outputs.public_adl_validation_required == 'true'" in job
+    proof_step = job.split("      - name: Five public packages and installed consumer proof\n", 1)[1].split("\n      - name:", 1)[0]
+    assert "CARGO_TARGET_DIR: ${{ runner.temp }}/public-adl-target" in proof_step
     assert "bash tools/public_adl/run_ci.sh" in job
     assert "sys.version_info >= (3, 12)" in job
     assert "actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a" in job

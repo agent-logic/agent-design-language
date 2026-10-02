@@ -701,8 +701,6 @@ jobs:
     runs-on: macos-latest
     permissions:
       contents: read
-    env:
-      CARGO_TARGET_DIR: ${{ runner.temp }}/public-adl-target
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
@@ -713,6 +711,8 @@ jobs:
           toolchain: 1.92.0
           components: rustfmt, clippy
       - name: Five public packages and installed consumer proof
+        env:
+          CARGO_TARGET_DIR: ${{ runner.temp }}/public-adl-target
         run: |
           python3 -c 'import sys; assert sys.version_info >= (3, 12), sys.version'
           bash tools/public_adl/run_ci.sh
