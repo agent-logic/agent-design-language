@@ -66,3 +66,20 @@ git commit -q -m unknown
 unknown_output="$($POLICY --event-name pull_request --base "$base" --head HEAD --ref refs/pull/3/merge)"
 assert_line "$unknown_output" "fail_closed=true"
 assert_line "$unknown_output" "full_coverage_required=true"
+
+git checkout -q -b public-policy "$base"
+mkdir -p tools/public_adl .github/workflows
+printf 'fixture\n' >tools/public_adl/verify_install_validator.py
+printf 'name: ci\n' >.github/workflows/ci.yaml
+git add .
+git commit -q -m public-adl-policy-change
+policy_output="$($POLICY --event-name pull_request --base "$base" --head HEAD --ref refs/pull/4/merge)"
+assert_line "$policy_output" "public_adl_validation_required=true"
+assert_line "$policy_output" "validation_profile_run_lanes=ci_path_policy_contracts,public_adl_distribution"
+assert_line "$policy_output" "ci_contracts_required=true"
+assert_line "$policy_output" "rust_required=false"
+assert_line "$policy_output" "coverage_required=false"
+assert_line "$policy_output" "full_coverage_required=false"
+assert_line "$policy_output" "reason=coverage_policy_surface_tooling_change_runs_contract_validation"
+assert_line "$policy_output" "validation_profile_primary_reason=ci_policy_surface_requires_path_policy_contract_checks"
+assert_line "$policy_output" "fail_closed=false"

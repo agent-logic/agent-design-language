@@ -1395,9 +1395,6 @@ EOF
 }
 
 apply_validation_manager_routing() {
-  if validation_profile_includes_lane "public_adl_distribution"; then
-    public_adl_validation_required=true
-  fi
   if [ "$validation_profile_status" = "ready_to_run" ] \
     && [ "$validation_profile_escalation_required" = "false" ] \
     && validation_profile_includes_lane "public_adl_distribution" \
@@ -1776,6 +1773,9 @@ EOF
     used_validation_manager=false
     if [ "$release_version_only" != true ] && [ "$pvf_slow_proof_policy_change" != true ]; then
       if load_validation_manager_profile; then
+        if validation_profile_includes_lane "public_adl_distribution"; then
+          public_adl_validation_required=true
+        fi
         if manager_profile_is_wp08_cloudfront_release_gate_contract && apply_validation_manager_routing; then
           used_validation_manager=true
         elif [ "$saw_pr_finish_control_plane" = true ] && [ "$validation_profile_status" = "escalation_required" ] && ! manager_profile_is_release_gate_only_escalation && apply_validation_manager_routing; then
