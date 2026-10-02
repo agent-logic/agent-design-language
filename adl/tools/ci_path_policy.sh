@@ -142,6 +142,7 @@ adl_v2_standalone_required="$bool_false"
 adl_characterization_standalone_required="$bool_false"
 adl_resilience_standalone_required="$bool_false"
 remote_validation_standalone_required="$bool_false"
+public_adl_validation_required="$bool_false"
 large_file_lines="${COVERAGE_IMPACT_LARGE_FILE_LINES:-200}"
 large_file_delta="${COVERAGE_IMPACT_LARGE_FILE_DELTA:-80}"
 pvf_slow_proof_policy_change=false
@@ -1394,6 +1395,18 @@ EOF
 }
 
 apply_validation_manager_routing() {
+  if validation_profile_includes_lane "public_adl_distribution"; then
+    public_adl_validation_required=true
+  fi
+  if [ "$validation_profile_status" = "ready_to_run" ] \
+    && [ "$validation_profile_escalation_required" = "false" ] \
+    && validation_profile_includes_lane "public_adl_distribution" \
+    && validation_profile_includes_lane "runtime_owner_lane" \
+    && validation_profile_includes_lane "rust_pr_fast" \
+    && validation_profile_lanes_subset_of "docs_diff_check,public_adl_distribution,runtime_owner_lane,rust_pr_fast"; then
+    mark_runtime_owner_focused_coverage
+    return 0
+  fi
   if manager_profile_is_runtime_owner_focused_coverage; then
     mark_runtime_owner_focused_coverage
     return 0
@@ -1406,6 +1419,14 @@ apply_validation_manager_routing() {
   fi
   if [ "$validation_profile_status" = "ready_to_run" ] \
     && [ "$validation_profile_escalation_required" = "false" ]; then
+    if validation_profile_lanes_subset_of "docs_diff_check,public_adl_distribution" \
+      && validation_profile_includes_lane "public_adl_distribution"; then
+      coverage_lane="skip"
+      coverage_authority="not_required"
+      coverage_execution_state="skipped_by_path_policy"
+      reason="public_adl_package_surface_runs_focused_distribution_validation"
+      return 0
+    fi
     if validation_profile_lanes_subset_of "docs_diff_check,adl_characterization_standalone,adl_resilience_standalone,remote_validation_standalone" \
       && { [ "$adl_characterization_standalone_required" = true ] || [ "$adl_resilience_standalone_required" = true ] || [ "$remote_validation_standalone_required" = true ]; }; then
       coverage_lane="skip"
@@ -1708,6 +1729,8 @@ else
           ;;
         csdlc-v3/*)
           csdlc_v3_standalone_required=true
+          ;;
+        adl-v2/crates/adl-language/*|adl-v2/crates/adl-compiler/*)
           ;;
         adl-v2/*)
           adl_v2_standalone_required=true
@@ -2038,7 +2061,7 @@ EOF
   elif [ "$rust_required" = true ]; then
     pvf_lane="focused_rust"
     release_gate_role="source_required"
-  elif [ "$csdlc_v2_standalone_required" = true ] || [ "$csdlc_v3_standalone_required" = true ] || [ "$adl_v2_standalone_required" = true ] || [ "$adl_characterization_standalone_required" = true ] || [ "$adl_resilience_standalone_required" = true ] || [ "$remote_validation_standalone_required" = true ]; then
+  elif [ "$public_adl_validation_required" = true ] || [ "$csdlc_v2_standalone_required" = true ] || [ "$csdlc_v3_standalone_required" = true ] || [ "$adl_v2_standalone_required" = true ] || [ "$adl_characterization_standalone_required" = true ] || [ "$adl_resilience_standalone_required" = true ] || [ "$remote_validation_standalone_required" = true ]; then
     pvf_lane="standalone_focused"
     release_gate_role="source_required"
   elif [ "$ci_contracts_required" = true ]; then
@@ -2085,6 +2108,7 @@ emit "adl_v2_standalone_required" "$adl_v2_standalone_required"
 emit "adl_characterization_standalone_required" "$adl_characterization_standalone_required"
 emit "adl_resilience_standalone_required" "$adl_resilience_standalone_required"
 emit "remote_validation_standalone_required" "$remote_validation_standalone_required"
+emit "public_adl_validation_required" "$public_adl_validation_required"
 emit "fail_closed" "$fail_closed"
 emit "coverage_lane" "$coverage_lane"
 emit "coverage_authority" "$coverage_authority"

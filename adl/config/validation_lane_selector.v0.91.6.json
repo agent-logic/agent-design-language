@@ -179,6 +179,37 @@
       "reason": "standalone_csdlc_v3_surface_requires_only_its_independent_focused_suite"
     },
     {
+      "id": "public_adl_distribution",
+      "lane_class": "cli_workflow",
+      "default_surface": "tooling",
+      "owner": "tools/public_adl",
+      "proof_role": "installed_consumer_regression",
+      "resource_class": "medium",
+      "determinism_posture": "deterministic_macos_sandbox",
+      "requirement_ids": [
+        "public_adl_distribution"
+      ],
+      "path_selectors": [
+        "adl-schema/**",
+        "adl-uts/**",
+        "adl-v2/crates/adl-language/**",
+        "adl-v2/crates/adl-compiler/**",
+        "adl-legacy-contracts/**",
+        "tools/public_adl/**"
+      ],
+      "path_hints": [
+        "adl-schema/**",
+        "adl-uts/**",
+        "adl-v2/crates/adl-language/**",
+        "adl-v2/crates/adl-compiler/**",
+        "adl-legacy-contracts/**",
+        "tools/public_adl/**"
+      ],
+      "command": "bash tools/public_adl/run_ci.sh",
+      "run_command": "bash tools/public_adl/run_ci.sh",
+      "reason": "public_adl_package_surface_requires_five_package_tests_lints_and_installed_consumer_proof"
+    },
+    {
       "id": "adl_v2_standalone",
       "lane_class": "rust_unit",
       "default_surface": "tooling",
