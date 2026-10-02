@@ -1,0 +1,361 @@
+{
+  "schema": "adl.compatibility_rollback.v1",
+  "roles": [
+    {
+      "role": "public_adl",
+      "disposition": "retained_prior",
+      "prior": {
+        "source_commit": "f8e422781145b1b0addb537ddacfc44f3ddf7a14",
+        "asset_identity": {
+          "name": "public-adl-five-package-baseline-report-f8e42278.json",
+          "path": "workerbee16-rd07-rd11-closeout/rd07/public-adl-baseline-f8e42278-native/report.json"
+        },
+        "sha256": "bdbd962ec8f24704260fe0851c5121ea52d68838c0e61c4fe1cdec946e2ff000",
+        "package_version": "adl-schema 0.1.0; adl-uts 0.1.0; adl-language 0.92.1; adl-compiler 0.92.1; adl-legacy-contracts 0.1.0",
+        "dependency_lock": {
+          "path": "workerbee16-rd07-rd11-closeout/rd07/public-adl-baseline-f8e42278-native/consumer.Cargo.lock",
+          "sha256": "48d0e670282c0b8683b77ce635b93cd6775a9ae7ad886dc34725555e5ea41eea"
+        },
+        "build_provenance": {
+          "path": "workerbee16-rd07-rd11-closeout/rd07/public-adl-baseline-f8e42278-native/report.json",
+          "sha256": "bdbd962ec8f24704260fe0851c5121ea52d68838c0e61c4fe1cdec946e2ff000"
+        },
+        "supported_consumer_versions": [
+          "accepted f8e42278 five-package baseline: seven consumer cases, 21 UTS fixtures and five negative cases"
+        ]
+      },
+      "prior_observations": [
+        {
+          "description": "Available Runtime dependency manifest retains five public packages and engine/records; final RD07 generation unselected.",
+          "evidence": {
+            "path": "rd08-package-04d7db1b/artifacts/dependency-lockset.json",
+            "sha256": "9c31ea43a979fde2781ad6d483ece307f14d7d7c54f4652e22b49b6f7a23be10"
+          }
+        },
+        {
+          "description": "The accepted f8e42278 five-package source distribution was restored create-only into an isolated prefix; 110 members matched exact bytes and modes. This proves source-package custody only.",
+          "evidence": {
+            "path": "workerbee16-rd07-rd11-closeout/public-adl-prior-recovery-1193/RECOVERY_RECEIPT.json",
+            "sha256": "8e71db5e62613e737d013d3deb044bf571ef2a989aa4a965a4148f49072269cd"
+          }
+        },
+        {
+          "description": "Independent verification confirmed all five archives and all 110 restored members were safe, regular and exact in bytes and modes; no binary, service, deployment or registry rollback was claimed.",
+          "evidence": {
+            "path": "workerbee16-rd07-rd11-closeout/public-adl-prior-recovery-1193/VERIFICATION.json",
+            "sha256": "67b381ccd53e86b1d0714b2eeeb2e179010a552d6619a80ccc0a4fbaa1fa682b"
+          }
+        }
+      ],
+      "restore_argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "workerbee16-rd07-rd11-closeout/public-adl-prior-recovery-1193/restore_public_adl_prior.py",
+        "--baseline-report",
+        "workerbee16-rd07-rd11-closeout/rd07/public-adl-baseline-f8e42278-native/report.json",
+        "--current-proof-dir",
+        "workerbee16-rd07-rd11-closeout/rd11/members/public-adl-final",
+        "--destination",
+        "<fresh-private-prefix>",
+        "--receipt",
+        "workerbee16-rd07-rd11-closeout/public-adl-prior-recovery-1193/RECOVERY_RECEIPT.json"
+      ],
+      "recoverability": {
+        "path": "workerbee16-rd07-rd11-closeout/public-adl-prior-recovery-1193/VERIFICATION.json",
+        "sha256": "67b381ccd53e86b1d0714b2eeeb2e179010a552d6619a80ccc0a4fbaa1fa682b"
+      }
+    },
+    {
+      "role": "csdlc",
+      "disposition": "retained_prior",
+      "prior": {
+        "source_commit": "2600e285f224ec088f725e9f31a6c60a166a3eb3",
+        "asset_identity": {
+          "name": "csdlc-package-11140465521.zip",
+          "path": "workerbee16-rd07-rd11-closeout/csdlc-rollback-custody/csdlc-package.zip"
+        },
+        "sha256": "6ec1a174face70b94adf62f3f71e5034f8d8f86132a3e77c6d3aaf538d43b50c",
+        "package_version": "PR50 package-maintain artifact 11140465521",
+        "dependency_lock": {
+          "path": "workerbee16-rd07-rd11-closeout/csdlc-rollback-custody/Cargo.lock",
+          "sha256": "ab3bc4aef3e216b6ae88a254a6d7e84c6d811b9739c327a642a9387b50ab9191"
+        },
+        "build_provenance": {
+          "path": "workerbee16-rd07-rd11-closeout/csdlc-rollback-custody/CUSTODY.json",
+          "sha256": "e68fe36e3a674c4d660904b842d2dcbb172358effdb04319f44cc9b23a13dec0"
+        },
+        "supported_consumer_versions": [
+          "agent-logic-infrastructure package-maintain consumer PR8 merge 0cdf6da59e5eb9b8ab668fd5eafdbd95668fabee; x86_64-unknown-linux-gnu"
+        ]
+      },
+      "prior_observations": [
+        {
+          "description": "RD04 historical accepted source dc4445be/merge6005595d; current executable/platform selection pending.",
+          "evidence": {
+            "path": "next-wave-ready/RD11/INPUT_OVERLAY_R2.json",
+            "sha256": "5e7af310229a7bba0f2f70a381fce96ca6473672264982d1dea775ab3fec9f37"
+          }
+        },
+        {
+          "description": "Retained operationalPR50 package and original receipt exist; no supported current-state downgrade performed.",
+          "evidence": {
+            "path": "github-projection-maintenance/consumer-endorsement/OPERATIONAL_DELIVERY.json",
+            "sha256": "67da7121e4e6ba1cfd0e9ef1c1d7633922fd8e0d6e5d628c44cde3a3dca2a607"
+          }
+        },
+        {
+          "description": "Exact PR50 predecessor custody retains authenticated outer and inner packages, source and toolchain locks, build metadata, accepted operational receipt, and the 202-member create-only recovery result.",
+          "evidence": {
+            "path": "workerbee16-rd07-rd11-closeout/csdlc-rollback-custody/CUSTODY.json",
+            "sha256": "e68fe36e3a674c4d660904b842d2dcbb172358effdb04319f44cc9b23a13dec0"
+          }
+        },
+        {
+          "description": "Mechanical recovery restored all 202 manifested package members with exact hashes, sizes and modes. It does not prove Linux execution, admission, active-prefix replacement, or an upgrade/downgrade transition.",
+          "evidence": {
+            "path": "workerbee16-rd07-rd11-closeout/csdlc-rollback-custody/BYTE_RESTORE_RESULT.json",
+            "sha256": "6d77adb13ed6f1869e4773f43aaa69fd374b0c78c25307fe424c3383e4df113c"
+          }
+        },
+        {
+          "description": "The retained create-only verifier is the exact script used for byte/mode recovery; it does not install or activate the predecessor.",
+          "evidence": {
+            "path": "workerbee16-rd07-rd11-closeout/csdlc-rollback-custody/verify_and_restore_bytes.py",
+            "sha256": "36dabdc638351bcdd417ffbc6e09c97d623f8beee7e2015e219e459fe312e174"
+          }
+        },
+        {
+          "description": "Fresh-destination create-only wrapper preserves the original verifier checks while taking explicit package, destination and result paths; it refuses reuse of either output.",
+          "evidence": {
+            "path": "workerbee16-rd07-rd11-closeout/csdlc-rollback-custody/verify_and_restore_bytes_fresh.py",
+            "sha256": "8409b413f458803764bb8d60ec2a400a963f5d0f5ac58362e2d5a0efe7ef8c35"
+          }
+        },
+        {
+          "description": "A fresh invocation restored all 202 manifested members with exact bytes and modes. This remains package custody only and does not install, admit, activate or switch C-SDLC.",
+          "evidence": {
+            "path": "workerbee16-rd07-rd11-closeout/csdlc-rollback-custody/FRESH_RESTORE_RESULT.json",
+            "sha256": "7f72a130473450bec41417fe50aab2f939c854ea26c5236f2bb4697fe835eaed"
+          }
+        }
+      ],
+      "restore_argv": [
+        "python3",
+        "workerbee16-rd07-rd11-closeout/csdlc-rollback-custody/verify_and_restore_bytes_fresh.py",
+        "--package",
+        "workerbee16-rd07-rd11-closeout/csdlc-rollback-custody/csdlc-package.zip",
+        "--destination",
+        "<fresh-private-prefix>",
+        "--result",
+        "<fresh-private-result>"
+      ],
+      "recoverability": {
+        "path": "workerbee16-rd07-rd11-closeout/csdlc-rollback-custody/FRESH_RESTORE_RESULT.json",
+        "sha256": "7f72a130473450bec41417fe50aab2f939c854ea26c5236f2bb4697fe835eaed"
+      }
+    },
+    {
+      "role": "runtime",
+      "disposition": "retained_installed_generation",
+      "prior": {
+        "source_commit": "0e1b6edc6a5abf26157a933b8352f384b92222a5",
+        "generation": "issue-1130-0e1b6edc6a-approved",
+        "platform": "macos-aarch64",
+        "artifacts": [
+          {
+            "name": "adl-runtime-kernel",
+            "path": "workerbee16-acceptance-integration/rd11-custody-update/runtime-custody/predecessor-generation/bin/adl-runtime-kernel",
+            "sha256": "029d7620a41459015f1f74c5d9a894364c980cfb34db62ceb27b4bf1cb12ad70"
+          },
+          {
+            "name": "adl-runtime-guardian",
+            "path": "workerbee16-acceptance-integration/rd11-custody-update/runtime-custody/predecessor-generation/bin/adl-runtime-guardian",
+            "sha256": "924d3edebfdc25c0f4b934727256c71dc8a458600f6c4b8461a206d03e24bda9"
+          },
+          {
+            "name": "csm",
+            "path": "workerbee16-acceptance-integration/rd11-custody-update/runtime-custody/predecessor-generation/bin/csm",
+            "sha256": "a9367f49eb961e1a40e1f16f7a6fe364ea5cc80f87e685b48a31d4e8cf1c917c"
+          }
+        ],
+        "receipt": {
+          "path": "workerbee16-acceptance-integration/rd11-custody-update/runtime-custody/predecessor-generation/receipt.json",
+          "sha256": "ad92cf2ac890a07508bb661088911de46b70960191094873f53adb6765766d9a"
+        },
+        "supported_consumer_versions": [
+          "accepted macOS aarch64 Runtime generation issue-1130-0e1b6edc6a-approved"
+        ],
+        "replay_authority": false
+      },
+      "prior_observations": [
+        {
+          "description": "Retained macOS source04d7db1b and package d28eefc7; distinct Linux policy97f30f04 is not warm Runtime support.",
+          "evidence": {
+            "path": "rd08-package-04d7db1b/VERIFIED_PROVENANCE.json",
+            "sha256": "63ef49385e4ed9a5e64955c89e073c07dfe79ea64a7ecf8d64f04287463dae64"
+          }
+        },
+        {
+          "description": "Actual original RD05 R1 restored predecessor 0e1b6edc and matching 37-file state; the exact historical restore invocation is recovered separately, while the full predecessor distribution remains absent.",
+          "evidence": {
+            "path": "rd05-r8-browser/INDEPENDENT_SEVEN_SCENARIO_REVIEW.md",
+            "sha256": "4ef59612957cdab10dadbbaf9c778c5dbee1c7297b962ffaa8456f40c2e6feb4"
+          }
+        },
+        {
+          "description": "Bounded custody recovery records the exact rollback transcript, predecessor receipt and three binary hashes, and the exact 37-file restored-state result without granting replay authority.",
+          "evidence": {
+            "path": "workerbee16-acceptance-integration/rd11-custody-update/runtime-custody/RECOVERED_EVIDENCE.json",
+            "sha256": "1d9e4b597df47cda5caff0a4d771ba0683a06ec2cb0441b3736ca9f158645c40"
+          }
+        },
+        {
+          "description": "Private custody copies of the three already-retained predecessor binaries and accepted generation receipt preserve their original exact hashes; no build or new qualification was performed.",
+          "evidence": {
+            "path": "workerbee16-acceptance-integration/rd11-custody-update/runtime-custody/RECOVERED_EVIDENCE.json",
+            "sha256": "1d9e4b597df47cda5caff0a4d771ba0683a06ec2cb0441b3736ca9f158645c40"
+          }
+        }
+      ],
+      "restore_argv": [],
+      "recoverability": {
+        "path": "workerbee16-acceptance-integration/rd11-custody-update/runtime-custody/RECOVERED_EVIDENCE.json",
+        "sha256": "1d9e4b597df47cda5caff0a4d771ba0683a06ec2cb0441b3736ca9f158645c40"
+      }
+    },
+    {
+      "role": "infrastructure",
+      "disposition": "no_prior_accepted_baseline",
+      "prior": null,
+      "prior_observations": [
+        {
+          "description": "Original offline RD06 accepted at proof56765627/mergec8b787ce with native terminal closeout; no Linuxwarm claim.",
+          "evidence": {
+            "path": "rd06-completion-scope-audit/FINAL_ACCEPTANCE_PLANNING5.md",
+            "sha256": "43daacaf789ff4386b67206be200238106bed6a59c254ab4c02bbd4096eb3edb"
+          }
+        }
+      ],
+      "restore_argv": [],
+      "recoverability": {
+        "path": "workerbee16-acceptance-integration/rd11-custody-update/infrastructure-baseline-absence.json",
+        "sha256": "82f03d6ec6efaa71787d5210a1d8c789d316964ffa43756c34c0498eea50c770"
+      }
+    },
+    {
+      "role": "enterprise_adapter",
+      "disposition": "no_prior_accepted_baseline",
+      "prior": null,
+      "prior_observations": [
+        {
+          "description": "Product35d6b540/mergebbd5a466 actual six installed synthetic-host cases include original four; optional only.",
+          "evidence": {
+            "path": "rd06-rd09-product-reconciliation/PRODUCT_DEPENDENCY_GATES.json",
+            "sha256": "813d60cae2a95ab35f39877ed41cd54390bd73cb2e15ededfdce7e2161fa7ac3"
+          }
+        }
+      ],
+      "restore_argv": [],
+      "recoverability": {
+        "path": "workerbee16-acceptance-integration/rd11-custody-update/enterprise-baseline-absence.json",
+        "sha256": "489e6a1363e13d8d4a8d9e14e14a578dfd8b6abc07dbc4a3462f93bbbb1cd34f"
+      }
+    },
+    {
+      "role": "codefriend",
+      "disposition": "retained_prior",
+      "prior": {
+        "source_commit": "fa5b117cddcef0dc32d361efc23db84a3a439714",
+        "asset_identity": {
+          "name": "codefriend-product.tar",
+          "path": "workerbee14/codefriend9-retained/codefriend-product.tar"
+        },
+        "sha256": "71d8b651047a6848042c1316d2e1463b011f0c608d05e702a9b1b3fdbccd06ec",
+        "package_version": "0.93.1",
+        "dependency_lock": {
+          "path": "workerbee16-acceptance-integration/rd11-custody-update/members/codefriend/Cargo.lock",
+          "sha256": "6d6dec803ec9c11380f5922e0882609986e45d511f7759936b3a054ce5d54320"
+        },
+        "build_provenance": {
+          "path": "workerbee14/codefriend9-retained/manifest.json",
+          "sha256": "dc41d16e1a7cae1ac18e8026848263fdf83ff65e3801f587d3be950d9e7bb1c7"
+        },
+        "supported_consumer_versions": [
+          "Historical RD10 CodeFriend 0.93.1 product at fa5b117cddcef0dc32d361efc23db84a3a439714"
+        ]
+      },
+      "prior_observations": [
+        {
+          "description": "CF7 draft provides distribution interface, not accepted final integrated archive; maintained resource deliveries still distinct.",
+          "evidence": {
+            "path": "codefriend-issue7-consumers/DRAFT_DELIVERY.json",
+            "sha256": "d1c2b95ef27c5b60963f328e04d1428d13faf4e27f8912e23316fafd5a0be429"
+          }
+        },
+        {
+          "description": "Prior accepted RD10 CodeFriend product at fa5b117c remains retained with exact archive, lock, manifest and authentication identities. It is preserved as rollback input, but retained_prior cannot be declared until an existing restore argv and recoverability evidence are recovered.",
+          "evidence": {
+            "path": "workerbee16-acceptance-integration/rd11-custody-update/CODEFRIEND_CUSTODY_VERIFIED.json",
+            "sha256": "ebae5272f0c12672b226aba739803d9d6bc519270dd2c00a53908c67e7709dc8"
+          }
+        },
+        {
+          "description": "The retained RD10 archive was restored into a fresh private prefix using its original installer; all 21 archive members and all 20 manifest resources matched exact bytes and modes. This proves archive recoverability only, not Linux execution, product qualification, provider behavior, deployment or active-prefix replacement.",
+          "evidence": {
+            "path": "workerbee16-rd07-rd11-closeout/codefriend-rollback/RESULT.json",
+            "sha256": "3bcc3f2ccca32770556fa6e75e010989703b001a67ff3ccdf8ac2bd7074cddde"
+          }
+        }
+      ],
+      "restore_argv": [
+        "python3",
+        "workerbee16-rd07-rd11-closeout/codefriend-rollback/product_distribution.py",
+        "install",
+        "--archive",
+        "workerbee14/codefriend9-retained/codefriend-product.tar",
+        "--archive-sha256",
+        "71d8b651047a6848042c1316d2e1463b011f0c608d05e702a9b1b3fdbccd06ec",
+        "--candidate",
+        "fa5b117cddcef0dc32d361efc23db84a3a439714",
+        "--run-id",
+        "36833718546",
+        "--run-attempt",
+        "1",
+        "--artifact-id",
+        "11150592550",
+        "--workflow-ref",
+        "agent-logic/codefriend/.github/workflows/product-ci.yaml@refs/pull/9/merge",
+        "--workflow-sha",
+        "43a0b4e9a72022ef465dd56bd4225d68c9330ab3",
+        "--job-name",
+        "installed-product",
+        "--job-id",
+        "110276149323",
+        "--root",
+        "<fresh-private-prefix>"
+      ],
+      "recoverability": {
+        "path": "workerbee16-rd07-rd11-closeout/codefriend-rollback/RESULT.json",
+        "sha256": "3bcc3f2ccca32770556fa6e75e010989703b001a67ff3ccdf8ac2bd7074cddde"
+      }
+    },
+    {
+      "role": "website",
+      "disposition": "no_prior_accepted_baseline",
+      "prior": null,
+      "prior_observations": [
+        {
+          "description": "Retained source8b0c5fd1/tree263751d2; deployed bundle/API baseline unknown, no deployment authorized.",
+          "evidence": {
+            "path": "next-wave-ready/RD11/INPUT_OVERLAY_R2.json",
+            "sha256": "5e7af310229a7bba0f2f70a381fce96ca6473672264982d1dea775ab3fec9f37"
+          }
+        }
+      ],
+      "restore_argv": [],
+      "recoverability": {
+        "path": "rd10-input-resolution-45/CONTRACT_INPUTS.json",
+        "sha256": "3a21524e61cccfc4b63c82bdf6d7a7a048cde2302b8e9945e93902f0339b4d45"
+      }
+    }
+  ]
+}
