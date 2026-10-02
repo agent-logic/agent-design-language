@@ -420,6 +420,34 @@ assert_has "$TMP/aws-remote-validation-tool.out" "aggregate_status=selected"
 assert_has "$TMP/aws-remote-validation-tool.out" "aws_remote_validation_tooling status=selected"
 assert_not_has "$TMP/aws-remote-validation-tool.out" "unmapped_change_surface"
 
+public_adl="$TMP/public-adl.txt"
+cat >"$public_adl" <<'EOF'
+M	adl-schema/src/lib.rs
+M	adl-uts/src/lib.rs
+M	adl-v2/crates/adl-language/src/lib.rs
+M	adl-v2/crates/adl-compiler/src/lib.rs
+M	adl-legacy-contracts/src/lib.rs
+M	tools/public_adl/verify_install_validator.py
+EOF
+bash "$SCRIPT" --changed-files "$public_adl" >"$TMP/public-adl.out"
+assert_has "$TMP/public-adl.out" "aggregate_status=selected"
+assert_has "$TMP/public-adl.out" "public_adl_distribution status=selected"
+assert_not_has "$TMP/public-adl.out" "adl_v2_standalone status=selected"
+assert_not_has "$TMP/public-adl.out" "runtime_owner_lane status=selected"
+assert_not_has "$TMP/public-adl.out" "csdlc_v2_standalone status=selected"
+assert_not_has "$TMP/public-adl.out" "csdlc_v3_standalone status=selected"
+assert_not_has "$TMP/public-adl.out" "unmapped_change_surface"
+
+public_adl_mixed="$TMP/public-adl-mixed.txt"
+cat >"$public_adl_mixed" <<'EOF'
+M	tools/public_adl/verify_install_validator.py
+M	adl-runtime/src/lib.rs
+EOF
+bash "$SCRIPT" --changed-files "$public_adl_mixed" >"$TMP/public-adl-mixed.out"
+assert_has "$TMP/public-adl-mixed.out" "public_adl_distribution status=selected"
+assert_has "$TMP/public-adl-mixed.out" "runtime_owner_lane status=selected"
+assert_has "$TMP/public-adl-mixed.out" "rust_pr_fast status=selected"
+
 aws_codefriend_build_lane="$TMP/aws-codefriend-build-lane.txt"
 cat >"$aws_codefriend_build_lane" <<'EOF'
 A	.github/workflows/aws-codefriend-build.yaml

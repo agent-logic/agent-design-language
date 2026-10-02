@@ -1,0 +1,11 @@
+[package]
+name = "public-adl-validator"
+version = "0.0.0"
+edition = "2021"
+publish = false
+
+[[test]]
+name = "public_adl_install_validator"
+path = "public_adl_install_validator.rs"
+
+[workspace]
