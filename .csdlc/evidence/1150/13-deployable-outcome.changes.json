@@ -1,0 +1,19 @@
+{
+  "schema": "csdlc.v3.intent_changes.v1",
+  "amendment": {
+    "class": "implementation",
+    "transition_approved": true,
+    "implementation_revision": "f1493c54e4d9f6c5a1da798f48d9f2c361033fa4",
+    "new_commit": false
+  },
+  "cards": {
+    "sor": {
+      "summary": "CF-05 has a bound preparation context and issue-specific planning for a deployable, tested v0.93.1 candidate. Qualification has not started; accepted cells remain 0/12 and all 24 obligations remain unresolved. Public deployment and live launch are outside this release boundary.",
+      "artifact_stability_notes": "No candidate or qualification artifacts admitted yet. Future proof must distinguish local or owned nonpublic deployability evidence from public deployment and live launch.",
+      "decision_or_deviation_1": "Treat v0.93.1 readiness as built, tested and deployable, including the waiting-list mechanism; do not require or infer public deployment.",
+      "decision_or_deviation_2": "Do not invent unavailable original private cell labels, replay the unknown interrupted request, or spend without authority.",
+      "follow_up_1": "Accept all five prerequisites, admit exact candidate custody, and obtain local or owned nonpublic proof that the waiting-list and hosted-mode paths are built, tested and deployable before execution.",
+      "sandbox_policy_invariants_preserved": "No implementation, provider command, public deployment, audience activation or live launch ran during preparation."
+    }
+  }
+}

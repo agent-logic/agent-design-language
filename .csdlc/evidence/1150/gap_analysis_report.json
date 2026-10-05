@@ -1,0 +1,1372 @@
+{
+  "schema": "adl.cf05.qualification_preparation_matrix.v1",
+  "run_id": "cf05-repo-evidence-2026-10-04",
+  "status": "partial",
+  "scope": {
+    "issue": 1150,
+    "source_head": "f1493c54e4d9f6c5a1da798f48d9f2c361033fa4",
+    "mode": "compare_issue_to_implementation",
+    "boundary": "Repository-evidence preparation only. No qualification execution, provider call, dependency credit, spend, deployment, publication, or launch.",
+    "write_root": ".csdlc/evidence/1150"
+  },
+  "classification": {
+    "proven/current": "Current evidence bound to the exact #1150 candidate and complete claimed denominator.",
+    "historical-only": "Retained evidence with a narrower or older candidate/scope that receives no #1150 qualification credit.",
+    "missing": "A required current scenario or proof record is absent without an attributable executed failure.",
+    "failed": "Evidence records an executed negative or an explicit non-acceptance outcome.",
+    "blocked": "A prerequisite, semantic mapping, authorization, resource, or exact candidate identity prevents a truthful run or classification."
+  },
+  "expected_baseline": {
+    "deployment_boundary": "Qualification consumes a deployable exact installed/local candidate and exercises required website, local-agent, and CLI journeys without requiring public deployment, a live audience, or launch. Public deployment and live launch are later release steps.",
+    "cells": {
+      "count": 12,
+      "derivation": "surface x repository x platform",
+      "surfaces": [
+        "hosted_website",
+        "local_agent_website",
+        "cli"
+      ],
+      "repositories": [
+        "adl",
+        "vector"
+      ],
+      "platforms": [
+        "macos",
+        "linux"
+      ],
+      "required_stages": [
+        "setup",
+        "ingestion",
+        "analysis",
+        "review",
+        "synthesis",
+        "plans",
+        "comparison",
+        "approved_exports"
+      ],
+      "source_refs": [
+        "codex/915-v0922-independent-beta1-qualification:docs/codefriend/BETA1_QUALIFICATION.md",
+        "codex/915-v0922-independent-beta1-qualification:adl/tools/qualify_codefriend_beta1.py",
+        "codex/915-v0922-independent-beta1-qualification:.csdlc/evidence/915/qualification-current.prepared.json"
+      ]
+    },
+    "obligations": {
+      "count": 24,
+      "contract_ids": [
+        "Q01",
+        "Q02",
+        "Q03",
+        "Q04",
+        "Q05",
+        "Q06",
+        "Q07",
+        "Q08",
+        "Q09",
+        "Q10",
+        "Q11",
+        "Q12",
+        "Q13",
+        "Q14",
+        "Q15",
+        "Q16",
+        "Q17",
+        "Q18",
+        "Q19",
+        "Q20",
+        "Q21",
+        "Q22",
+        "Q23",
+        "Q24"
+      ],
+      "semantic_mapping_status": "recovered_historical_source",
+      "mapping_gap": "The retained #915 execution handoff supplies the exact Q01-Q24 requirement text. Every row remains unproven for the selected historical candidate with an empty scenario_ids array; the map supplies semantics, not current #1150 qualification credit.",
+      "source_refs": [
+        "codex/915-v0922-independent-beta1-qualification:docs/codefriend/BETA1_QUALIFICATION.md",
+        "codex/915-v0922-independent-beta1-qualification:adl/tools/qualify_codefriend_beta1.py",
+        "codex/915-v0922-independent-beta1-qualification:.csdlc/evidence/915/qualification-current.prepared.json",
+        "retained issue #915 worktree:.csdlc/evidence/915/execution-handoff-8dfa3bd4.json"
+      ],
+      "source_sha256": "70df5cb0c723367ceb2dee306f455bc0c6515d6276588931cd78e2d2fe418956"
+    }
+  },
+  "observed_evidence": [
+    {
+      "id": "1150-native-status",
+      "status": "proven/current",
+      "ref": ".csdlc/evidence/1150/native-status.json",
+      "claim": "The #1150 binding and six-card projection are structurally valid at the recorded source head.",
+      "nonclaim": "proof_current is false, validators_run is false, scheduling is blocked, and no qualification result is established."
+    },
+    {
+      "id": "1150-readiness",
+      "status": "proven/current",
+      "ref": ".csdlc/evidence/1150/PREPARATION_READINESS.md",
+      "claim": "Preparation explicitly preserves 0/12 accepted cells and all 24 obligations unresolved.",
+      "nonclaim": "No execution, dependency acceptance, installed candidate, provider authority, or qualification result."
+    },
+    {
+      "id": "915-contract",
+      "status": "historical-only",
+      "ref": "codex/915-v0922-independent-beta1-qualification:docs/codefriend/BETA1_QUALIFICATION.md",
+      "claim": "Defines the twelve contract-derived tuples, eight required stages, evidence shape, and fail-closed audit semantics.",
+      "nonclaim": "The contract does not grant acceptance."
+    },
+    {
+      "id": "915-execution-handoff",
+      "status": "historical-only",
+      "ref": "retained issue #915 worktree:.csdlc/evidence/915/execution-handoff-8dfa3bd4.json",
+      "sha256": "70df5cb0c723367ceb2dee306f455bc0c6515d6276588931cd78e2d2fe418956",
+      "claim": "Supplies the exact Q01-Q24 requirement text; all 24 rows are unproven_for_selected_candidate with empty scenario_ids.",
+      "nonclaim": "The retained handoff is not current #1150 execution or qualification credit."
+    },
+    {
+      "id": "915-empty-manifest",
+      "status": "failed",
+      "ref": "codex/915-v0922-independent-beta1-qualification:.csdlc/evidence/915/qualification-current.prepared.json",
+      "claim": "All twelve cell-stage arrays and all Q01-Q24 obligation arrays are empty.",
+      "nonclaim": "An empty prepared manifest is not evidence that product behavior failed."
+    },
+    {
+      "id": "915-current-gate",
+      "status": "failed",
+      "ref": "codex/915-v0922-independent-beta1-qualification:.csdlc/evidence/915/qualification-current-gate.json",
+      "claim": "The retained audit is incomplete and accepted=false with zero verified scenario records.",
+      "nonclaim": "The audit result does not localize a product defect to a specific tuple or obligation."
+    },
+    {
+      "id": "916-deferral",
+      "status": "historical-only",
+      "ref": "docs/milestones/v0.92.2/evidence/issue-916/SPRINT10_DEFERRAL.json",
+      "claim": "The operator-authorized historical disposition records incomplete qualification, accepted_cells=0, 12 cells, 24 obligations, and six retained private exports.",
+      "nonclaim": "Deferral is not a qualification PASS or current dependency acceptance."
+    },
+    {
+      "id": "916-gap-analysis",
+      "status": "historical-only",
+      "ref": "docs/milestones/v0.92.2/evidence/issue-916/GAP_ANALYSIS.md",
+      "claim": "Preserves Q11/Q12 not-proven truth, original failures/unknowns, and the separation between product tests and independent qualification.",
+      "nonclaim": "The quality decision does not provide current #1150 cell or obligation proof."
+    },
+    {
+      "id": "product-local-ingestion",
+      "status": "historical-only",
+      "ref": "docs/codefriend/LOCAL_INGESTION_STREAMING_PROOF.json",
+      "claim": "Retained installed Darwin-arm64 local-ingestion component proof.",
+      "nonclaim": "No review, model/network call, Vector execution, or Linux qualification; not bound to the #1150 candidate."
+    },
+    {
+      "id": "product-evidence-core",
+      "status": "historical-only",
+      "ref": "docs/codefriend/EVIDENCE_INSTALLED_PROOF.json",
+      "claim": "Retained installed Darwin-arm64 evidence-core component proof.",
+      "nonclaim": "No review, publication, provider/cloud call, Vector execution, or Linux qualification; not bound to #1150."
+    },
+    {
+      "id": "product-architecture",
+      "status": "historical-only",
+      "ref": "docs/codefriend/ARCHITECTURE_INSTALLED_PROOF.json",
+      "claim": "Retained installed Darwin-arm64 architecture analysis proof including deterministic repeat and negative checks.",
+      "nonclaim": "No provider, external repository, or Linux execution; not bound to #1150."
+    },
+    {
+      "id": "product-fitness",
+      "status": "historical-only",
+      "ref": "docs/codefriend/LOCAL_FITNESS_INSTALLED_PROOF.json",
+      "claim": "Retained installed Darwin-arm64 fitness proof records three passed scenarios.",
+      "nonclaim": "actual_ci_integration=false and the proof is not a complete #1150 journey."
+    },
+    {
+      "id": "product-memory",
+      "status": "historical-only",
+      "ref": "docs/codefriend/MEMORY_INSTALLED_PROOF.json",
+      "claim": "Retained installed Darwin-arm64 memory proof records eight scenarios and negative behaviors.",
+      "nonclaim": "Known fixture assessments only, with no provider or external-source execution; not bound to #1150."
+    },
+    {
+      "id": "product-server-contract",
+      "status": "historical-only",
+      "ref": "docs/codefriend/SERVER.md",
+      "claim": "Documents hosted/local-model service modes, invitation authority, exact candidate correlation, and failure semantics.",
+      "nonclaim": "Component/protocol tests do not prove real hosted execution or model quality."
+    },
+    {
+      "id": "product-export-contracts",
+      "status": "historical-only",
+      "ref": "docs/codefriend/MARKDOWN_EXPORT.md; docs/codefriend/HTML_EXPORT.md; docs/codefriend/PDF_EXPORT.md",
+      "claim": "Documents current local export command contracts and approval inputs for Markdown, HTML, and PDF.",
+      "nonclaim": "Documentation and deterministic renderer lanes do not prove human inspection, parity, provider execution, or #1150 qualification."
+    },
+    {
+      "id": "915-export-adl-md",
+      "status": "historical-only",
+      "ref": "codex/915-v0922-independent-beta1-qualification:.csdlc/evidence/915/prepared-8dfa3bd4/fresh-operator-5d133c40-r1/adl-authorized-r1/post-review/proposed-export-destination/report-md/report.md",
+      "sha256": "0f110433ede69fccd9b78dea4bbe4be9f89f2e0d21f86cb1a13fd19c568b407b",
+      "claim": "Export command exited zero; semantic inspection found 11/11 gap summaries and an incomplete warning.",
+      "nonclaim": "No surface/platform binding and no accepted cell credit."
+    },
+    {
+      "id": "915-export-adl-html",
+      "status": "historical-only",
+      "ref": "codex/915-v0922-independent-beta1-qualification:.csdlc/evidence/915/prepared-8dfa3bd4/fresh-operator-5d133c40-r1/adl-authorized-r1/post-review/proposed-export-destination/report-html/report.html",
+      "sha256": "3cd24b6eab147bb2529a6dda92aaf8fdeab373438f6301516a76891d7a49267d",
+      "claim": "Export command exited zero; semantic inspection found 11/11 gap summaries and an incomplete warning.",
+      "nonclaim": "No surface/platform binding and no accepted cell credit."
+    },
+    {
+      "id": "915-export-adl-pdf",
+      "status": "historical-only",
+      "ref": "codex/915-v0922-independent-beta1-qualification:.csdlc/evidence/915/prepared-8dfa3bd4/fresh-operator-5d133c40-r1/adl-authorized-r1/post-review/proposed-export-destination/report-pdf/report.pdf",
+      "sha256": "522ac15c790c967b65c1675ce190310f6b9a10b60be0bfa7f7c93156c3cc662a",
+      "claim": "Export command exited zero; semantic inspection found 11/11 gap summaries and an incomplete warning.",
+      "nonclaim": "No surface/platform binding and no accepted cell credit."
+    },
+    {
+      "id": "915-export-vector-md",
+      "status": "historical-only",
+      "ref": "codex/915-v0922-independent-beta1-qualification:.csdlc/evidence/915/prepared-8dfa3bd4/fresh-operator-5d133c40-r1/vector-authorized-r1/post-review/proposed-export-destination/report-md/report.md",
+      "sha256": "666f68132034fd55aa9837b30eec25c85581bd558ee47cbff093af5ab4d658b3",
+      "claim": "Export command exited zero; semantic inspection found 11/11 gap summaries and an incomplete warning.",
+      "nonclaim": "No surface/platform binding and no accepted cell credit."
+    },
+    {
+      "id": "915-export-vector-html",
+      "status": "historical-only",
+      "ref": "codex/915-v0922-independent-beta1-qualification:.csdlc/evidence/915/prepared-8dfa3bd4/fresh-operator-5d133c40-r1/vector-authorized-r1/post-review/proposed-export-destination/report-html/report.html",
+      "sha256": "7a279e51d86f6fc51aa2d96ac58732be517876b4727be4d960ca5ca310430219",
+      "claim": "Export command exited zero; semantic inspection found 11/11 gap summaries and an incomplete warning.",
+      "nonclaim": "No surface/platform binding and no accepted cell credit."
+    },
+    {
+      "id": "915-export-vector-pdf",
+      "status": "historical-only",
+      "ref": "codex/915-v0922-independent-beta1-qualification:.csdlc/evidence/915/prepared-8dfa3bd4/fresh-operator-5d133c40-r1/vector-authorized-r1/post-review/proposed-export-destination/report-pdf/report.pdf",
+      "sha256": "70242359d0005f9d1b65c198671d81dfbf13b0c321751dad6b8c43054f402e56",
+      "claim": "Export command exited zero; semantic inspection found 11/11 gap summaries and an incomplete warning.",
+      "nonclaim": "No surface/platform binding and no accepted cell credit."
+    }
+  ],
+  "execution_profiles": {
+    "common": {
+      "preconditions": [
+        "Authenticated accepted CodeFriend #34, #44, and #45 plus ADL #1148 and #1149 producer results, not issue closure alone.",
+        "Exact installed ADL, CodeFriend server/agent, website, template, and source lockset bound to one current candidate.",
+        "Independent operator distinct from implementation principals.",
+        "Authenticated original Q01-Q24 semantic map.",
+        "Private evidence root and redaction/retention plan.",
+        "Explicit provider and spend authorization for provider-backed review; no authorization is inferred here."
+      ],
+      "required_cross_cutting_scenarios": [
+        "repeat compatible second run",
+        "missing/incompatible/deleted baseline negatives",
+        "provider failure and partial/incomplete run",
+        "privacy/tampering denial",
+        "unapproved/stale artifact rejection",
+        "renderer failure",
+        "HTML navigation inspection",
+        "rendered PDF page inspection",
+        "semantic parity across Markdown/HTML/PDF"
+      ],
+      "export_command_templates": [
+        "<installed-adl> codefriend export markdown --review-record <review-record.json> --publication <publication.json> --approval-store <approval-store> --artifact-root <approved-inputs> --synthesis <relative-synthesis> --remediation-plan <relative-remediation-plan> --test-plan <relative-test-plan> --destination-root <private-output-root> --out <new-approved-output>",
+        "<installed-adl> codefriend export html --review-record <review-record.json> --publication <publication.json> --approval-store <approval-store> --artifact-root <approved-inputs> --synthesis <relative-synthesis> --remediation-plan <relative-remediation-plan> --test-plan <relative-test-plan> --destination-root <private-output-root> --out <new-approved-output>",
+        "<installed-adl> codefriend export pdf --review-record <review-record.json> --publication <publication.json> --approval-store <approval-store> --artifact-root <approved-inputs> --synthesis <relative-synthesis> --remediation-plan <relative-remediation-plan> --test-plan <relative-test-plan> --destination-root <private-output-root> --out <new-approved-output> --font <reviewed-font.ttf>"
+      ]
+    },
+    "hosted_website": {
+      "minimum_command_or_procedure": "Browser-driven installed/local website journey against the exact authenticated website/server candidate; no truthful executable command can be frozen until the invitation, endpoint, candidate, and reviewed request identity exist. A public deployment or live audience is not required.",
+      "resources": [
+        "selected macOS or Linux browser environment",
+        "fresh invited GitHub user",
+        "authenticated installed/local website and server candidate",
+        "private evidence capture",
+        "HTML/PDF viewers"
+      ],
+      "authorizations": [
+        "invitation and GitHub sign-in",
+        "qualification execution",
+        "provider route and spend for review stages",
+        "human inspection"
+      ]
+    },
+    "local_agent_website": {
+      "minimum_command_or_procedure": "<installed-codefriend-agent> once --store <private-store> --consent <reviewed-consent.json>, followed through the authenticated website control surface and the exact retained operation identity.",
+      "resources": [
+        "selected macOS or Linux environment",
+        "exact installed codefriend-agent",
+        "authenticated website/server pair",
+        "private store and evidence root",
+        "HTML/PDF viewers"
+      ],
+      "authorizations": [
+        "invitation and GitHub sign-in",
+        "local-agent consent",
+        "qualification execution",
+        "provider route and spend for review stages",
+        "human inspection"
+      ]
+    },
+    "cli": {
+      "minimum_command_or_procedure": "<installed-adl> codefriend journey resume --output <private-evidence-root>/<cell>/journey --request <reviewed-request.json>",
+      "resources": [
+        "selected macOS or Linux environment",
+        "exact installed adl binary",
+        "private evidence root",
+        "pinned ADL or Vector source packet",
+        "HTML/PDF viewers"
+      ],
+      "authorizations": [
+        "qualification execution",
+        "provider route and spend for review stages",
+        "approved publication input for exports",
+        "human inspection"
+      ]
+    },
+    "obligation_mapping": {
+      "minimum_command_or_procedure": "Use each source-identified Q requirement to select and record exact current-candidate scenarios, then bind the resulting scenario IDs and independent review outcome to that Q row.",
+      "blocked_reason": "Execution remains blocked on accepted prerequisites, exact candidate custody, and scenario-specific execution/provider/resource authority; the semantic map itself is available.",
+      "resources": [
+        "source-identified #915 obligation map",
+        "exact current candidate",
+        "mapped executed scenario record"
+      ],
+      "authorizations": [
+        "qualification execution",
+        "any scenario-specific provider/spend/browser/human authority"
+      ]
+    }
+  },
+  "cells": [
+    {
+      "id": "hosted_website/adl/macos",
+      "status": "missing",
+      "execution_state": "blocked",
+      "baseline_ref": "915-empty-manifest#/cells/hosted_website~1adl~1macos",
+      "reused_proof_refs": [
+        "916-deferral",
+        "product-server-contract",
+        "product-local-ingestion",
+        "product-evidence-core",
+        "product-architecture",
+        "product-fitness",
+        "product-memory",
+        "915-export-adl-md",
+        "915-export-adl-html",
+        "915-export-adl-pdf"
+      ],
+      "reuse_credit": "none; component proofs and exports lack complete cell, current candidate, and platform/surface binding",
+      "missing_actual_scenarios": [
+        "setup",
+        "ingestion",
+        "analysis",
+        "review",
+        "synthesis",
+        "plans",
+        "comparison",
+        "approved_exports",
+        "fresh invited-user browser walkthrough",
+        "uninvited-user denial",
+        "user isolation",
+        "cancellation/disconnect/retry",
+        "HTML/PDF human inspection"
+      ],
+      "execution_profile": "hosted_website"
+    },
+    {
+      "id": "hosted_website/adl/linux",
+      "status": "missing",
+      "execution_state": "blocked",
+      "baseline_ref": "915-empty-manifest#/cells/hosted_website~1adl~1linux",
+      "reused_proof_refs": [
+        "916-deferral",
+        "product-server-contract",
+        "product-local-ingestion",
+        "product-evidence-core",
+        "product-architecture",
+        "product-fitness",
+        "product-memory",
+        "915-export-adl-md",
+        "915-export-adl-html",
+        "915-export-adl-pdf"
+      ],
+      "reuse_credit": "none; retained component proofs explicitly defer Linux and exports lack platform/surface binding",
+      "missing_actual_scenarios": [
+        "setup",
+        "ingestion",
+        "analysis",
+        "review",
+        "synthesis",
+        "plans",
+        "comparison",
+        "approved_exports",
+        "fresh invited-user browser walkthrough",
+        "uninvited-user denial",
+        "user isolation",
+        "cancellation/disconnect/retry",
+        "HTML/PDF human inspection"
+      ],
+      "execution_profile": "hosted_website"
+    },
+    {
+      "id": "hosted_website/vector/macos",
+      "status": "missing",
+      "execution_state": "blocked",
+      "baseline_ref": "915-empty-manifest#/cells/hosted_website~1vector~1macos",
+      "reused_proof_refs": [
+        "916-deferral",
+        "product-server-contract",
+        "product-local-ingestion",
+        "product-evidence-core",
+        "product-architecture",
+        "product-memory",
+        "915-export-vector-md",
+        "915-export-vector-html",
+        "915-export-vector-pdf"
+      ],
+      "reuse_credit": "none; retained component proofs explicitly disclaim external-source execution and exports lack platform/surface binding",
+      "missing_actual_scenarios": [
+        "setup",
+        "ingestion",
+        "analysis",
+        "review",
+        "synthesis",
+        "plans",
+        "comparison",
+        "approved_exports",
+        "ten-file pinned Vector source verification",
+        "fresh invited-user browser walkthrough",
+        "uninvited-user denial",
+        "user isolation",
+        "cancellation/disconnect/retry",
+        "HTML/PDF human inspection"
+      ],
+      "execution_profile": "hosted_website"
+    },
+    {
+      "id": "hosted_website/vector/linux",
+      "status": "missing",
+      "execution_state": "blocked",
+      "baseline_ref": "915-empty-manifest#/cells/hosted_website~1vector~1linux",
+      "reused_proof_refs": [
+        "916-deferral",
+        "product-server-contract",
+        "product-local-ingestion",
+        "product-evidence-core",
+        "product-architecture",
+        "product-memory",
+        "915-export-vector-md",
+        "915-export-vector-html",
+        "915-export-vector-pdf"
+      ],
+      "reuse_credit": "none; retained component proofs disclaim external-source execution and defer Linux, while exports lack platform/surface binding",
+      "missing_actual_scenarios": [
+        "setup",
+        "ingestion",
+        "analysis",
+        "review",
+        "synthesis",
+        "plans",
+        "comparison",
+        "approved_exports",
+        "ten-file pinned Vector source verification",
+        "fresh invited-user browser walkthrough",
+        "uninvited-user denial",
+        "user isolation",
+        "cancellation/disconnect/retry",
+        "HTML/PDF human inspection"
+      ],
+      "execution_profile": "hosted_website"
+    },
+    {
+      "id": "local_agent_website/adl/macos",
+      "status": "missing",
+      "execution_state": "blocked",
+      "baseline_ref": "915-empty-manifest#/cells/local_agent_website~1adl~1macos",
+      "reused_proof_refs": [
+        "916-deferral",
+        "product-server-contract",
+        "product-local-ingestion",
+        "product-evidence-core",
+        "product-architecture",
+        "product-fitness",
+        "product-memory",
+        "915-export-adl-md",
+        "915-export-adl-html",
+        "915-export-adl-pdf"
+      ],
+      "reuse_credit": "none; no current website-controlled installed-agent journey is bound to the exact #1150 candidate",
+      "missing_actual_scenarios": [
+        "setup",
+        "ingestion",
+        "analysis",
+        "review",
+        "synthesis",
+        "plans",
+        "comparison",
+        "approved_exports",
+        "local consent and user isolation",
+        "operation reconnect/cancellation/retry",
+        "correct local execution location",
+        "HTML/PDF human inspection"
+      ],
+      "execution_profile": "local_agent_website"
+    },
+    {
+      "id": "local_agent_website/adl/linux",
+      "status": "missing",
+      "execution_state": "blocked",
+      "baseline_ref": "915-empty-manifest#/cells/local_agent_website~1adl~1linux",
+      "reused_proof_refs": [
+        "916-deferral",
+        "product-server-contract",
+        "product-local-ingestion",
+        "product-evidence-core",
+        "product-architecture",
+        "product-fitness",
+        "product-memory",
+        "915-export-adl-md",
+        "915-export-adl-html",
+        "915-export-adl-pdf"
+      ],
+      "reuse_credit": "none; retained component proofs defer Linux and no current website-controlled installed-agent journey exists",
+      "missing_actual_scenarios": [
+        "setup",
+        "ingestion",
+        "analysis",
+        "review",
+        "synthesis",
+        "plans",
+        "comparison",
+        "approved_exports",
+        "local consent and user isolation",
+        "operation reconnect/cancellation/retry",
+        "correct local execution location",
+        "HTML/PDF human inspection"
+      ],
+      "execution_profile": "local_agent_website"
+    },
+    {
+      "id": "local_agent_website/vector/macos",
+      "status": "missing",
+      "execution_state": "blocked",
+      "baseline_ref": "915-empty-manifest#/cells/local_agent_website~1vector~1macos",
+      "reused_proof_refs": [
+        "916-deferral",
+        "product-server-contract",
+        "product-local-ingestion",
+        "product-evidence-core",
+        "product-architecture",
+        "product-memory",
+        "915-export-vector-md",
+        "915-export-vector-html",
+        "915-export-vector-pdf"
+      ],
+      "reuse_credit": "none; retained proofs disclaim external-source execution and no current website-controlled installed-agent journey exists",
+      "missing_actual_scenarios": [
+        "setup",
+        "ingestion",
+        "analysis",
+        "review",
+        "synthesis",
+        "plans",
+        "comparison",
+        "approved_exports",
+        "ten-file pinned Vector source verification",
+        "local consent and user isolation",
+        "operation reconnect/cancellation/retry",
+        "correct local execution location",
+        "HTML/PDF human inspection"
+      ],
+      "execution_profile": "local_agent_website"
+    },
+    {
+      "id": "local_agent_website/vector/linux",
+      "status": "missing",
+      "execution_state": "blocked",
+      "baseline_ref": "915-empty-manifest#/cells/local_agent_website~1vector~1linux",
+      "reused_proof_refs": [
+        "916-deferral",
+        "product-server-contract",
+        "product-local-ingestion",
+        "product-evidence-core",
+        "product-architecture",
+        "product-memory",
+        "915-export-vector-md",
+        "915-export-vector-html",
+        "915-export-vector-pdf"
+      ],
+      "reuse_credit": "none; retained proofs disclaim external-source execution and defer Linux, and no current installed-agent journey exists",
+      "missing_actual_scenarios": [
+        "setup",
+        "ingestion",
+        "analysis",
+        "review",
+        "synthesis",
+        "plans",
+        "comparison",
+        "approved_exports",
+        "ten-file pinned Vector source verification",
+        "local consent and user isolation",
+        "operation reconnect/cancellation/retry",
+        "correct local execution location",
+        "HTML/PDF human inspection"
+      ],
+      "execution_profile": "local_agent_website"
+    },
+    {
+      "id": "cli/adl/macos",
+      "status": "missing",
+      "execution_state": "blocked",
+      "baseline_ref": "915-empty-manifest#/cells/cli~1adl~1macos",
+      "reused_proof_refs": [
+        "916-deferral",
+        "product-local-ingestion",
+        "product-evidence-core",
+        "product-architecture",
+        "product-fitness",
+        "product-memory",
+        "product-export-contracts",
+        "915-export-adl-md",
+        "915-export-adl-html",
+        "915-export-adl-pdf"
+      ],
+      "reuse_credit": "none; retained component and export proof is historical and not a complete current-candidate CLI journey",
+      "missing_actual_scenarios": [
+        "setup",
+        "ingestion",
+        "analysis",
+        "review",
+        "synthesis",
+        "plans",
+        "comparison",
+        "approved_exports",
+        "provider failure and partial run",
+        "privacy/tampering denial",
+        "unapproved/stale artifact rejection",
+        "renderer failure",
+        "HTML/PDF human inspection"
+      ],
+      "execution_profile": "cli"
+    },
+    {
+      "id": "cli/adl/linux",
+      "status": "missing",
+      "execution_state": "blocked",
+      "baseline_ref": "915-empty-manifest#/cells/cli~1adl~1linux",
+      "reused_proof_refs": [
+        "916-deferral",
+        "product-local-ingestion",
+        "product-evidence-core",
+        "product-architecture",
+        "product-fitness",
+        "product-memory",
+        "product-export-contracts",
+        "915-export-adl-md",
+        "915-export-adl-html",
+        "915-export-adl-pdf"
+      ],
+      "reuse_credit": "none; retained component proofs defer Linux and exports lack current-candidate platform binding",
+      "missing_actual_scenarios": [
+        "setup",
+        "ingestion",
+        "analysis",
+        "review",
+        "synthesis",
+        "plans",
+        "comparison",
+        "approved_exports",
+        "provider failure and partial run",
+        "privacy/tampering denial",
+        "unapproved/stale artifact rejection",
+        "renderer failure",
+        "HTML/PDF human inspection"
+      ],
+      "execution_profile": "cli"
+    },
+    {
+      "id": "cli/vector/macos",
+      "status": "missing",
+      "execution_state": "blocked",
+      "baseline_ref": "915-empty-manifest#/cells/cli~1vector~1macos",
+      "reused_proof_refs": [
+        "916-deferral",
+        "product-local-ingestion",
+        "product-evidence-core",
+        "product-architecture",
+        "product-memory",
+        "product-export-contracts",
+        "915-export-vector-md",
+        "915-export-vector-html",
+        "915-export-vector-pdf"
+      ],
+      "reuse_credit": "none; retained proofs disclaim external-source execution and exports lack current-candidate platform binding",
+      "missing_actual_scenarios": [
+        "setup",
+        "ingestion",
+        "analysis",
+        "review",
+        "synthesis",
+        "plans",
+        "comparison",
+        "approved_exports",
+        "ten-file pinned Vector source verification",
+        "provider failure and partial run",
+        "privacy/tampering denial",
+        "unapproved/stale artifact rejection",
+        "renderer failure",
+        "HTML/PDF human inspection"
+      ],
+      "execution_profile": "cli"
+    },
+    {
+      "id": "cli/vector/linux",
+      "status": "missing",
+      "execution_state": "blocked",
+      "baseline_ref": "915-empty-manifest#/cells/cli~1vector~1linux",
+      "reused_proof_refs": [
+        "916-deferral",
+        "product-local-ingestion",
+        "product-evidence-core",
+        "product-architecture",
+        "product-memory",
+        "product-export-contracts",
+        "915-export-vector-md",
+        "915-export-vector-html",
+        "915-export-vector-pdf"
+      ],
+      "reuse_credit": "none; retained proofs disclaim external-source execution and defer Linux, while exports lack current-candidate platform binding",
+      "missing_actual_scenarios": [
+        "setup",
+        "ingestion",
+        "analysis",
+        "review",
+        "synthesis",
+        "plans",
+        "comparison",
+        "approved_exports",
+        "ten-file pinned Vector source verification",
+        "provider failure and partial run",
+        "privacy/tampering denial",
+        "unapproved/stale artifact rejection",
+        "renderer failure",
+        "HTML/PDF human inspection"
+      ],
+      "execution_profile": "cli"
+    }
+  ],
+  "obligations": [
+    {
+      "id": "Q01",
+      "label": "Fresh independent operator can install and complete documented setup on selected macOS and Linux; exact installed command paths and hashes retained.",
+      "status": "missing",
+      "baseline_ref": "915-execution-handoff#/obligations/Q01",
+      "reused_proof_refs": [
+        "915-execution-handoff",
+        "915-current-gate",
+        "916-deferral",
+        "916-gap-analysis"
+      ],
+      "reuse_credit": "semantic requirement only; no current execution or qualification credit",
+      "missing_actual_scenarios": [
+        "one or more exact-candidate executed scenario records satisfying this requirement",
+        "independent review of those artifacts"
+      ],
+      "execution_profile": "obligation_mapping",
+      "execution_state": "blocked"
+    },
+    {
+      "id": "Q02",
+      "label": "Fresh invited GitHub user succeeds; uninvited user denied; invitation/session expiry and logout prevent access. No Google or BYOK requirement.",
+      "status": "missing",
+      "baseline_ref": "915-execution-handoff#/obligations/Q02",
+      "reused_proof_refs": [
+        "915-execution-handoff",
+        "915-current-gate",
+        "916-deferral",
+        "916-gap-analysis"
+      ],
+      "reuse_credit": "semantic requirement only; no current execution or qualification credit",
+      "missing_actual_scenarios": [
+        "one or more exact-candidate executed scenario records satisfying this requirement",
+        "independent review of those artifacts"
+      ],
+      "execution_profile": "obligation_mapping",
+      "execution_state": "blocked"
+    },
+    {
+      "id": "Q03",
+      "label": "Cross-user run/artifact/approval and cross-agent access denied; hosted/local execution location and Agent Logic model access demonstrated.",
+      "status": "missing",
+      "baseline_ref": "915-execution-handoff#/obligations/Q03",
+      "reused_proof_refs": [
+        "915-execution-handoff",
+        "915-current-gate",
+        "916-deferral",
+        "916-gap-analysis"
+      ],
+      "reuse_credit": "semantic requirement only; no current execution or qualification credit",
+      "missing_actual_scenarios": [
+        "one or more exact-candidate executed scenario records satisfying this requirement",
+        "independent review of those artifacts"
+      ],
+      "execution_profile": "obligation_mapping",
+      "execution_state": "blocked"
+    },
+    {
+      "id": "Q04",
+      "label": "Local, GitHub and CI ingestion execute and yield the same portable packet contract with immutable scope/provenance; distinguish actual CI producer from local fixtures.",
+      "status": "missing",
+      "baseline_ref": "915-execution-handoff#/obligations/Q04",
+      "reused_proof_refs": [
+        "915-execution-handoff",
+        "915-current-gate",
+        "916-deferral",
+        "916-gap-analysis"
+      ],
+      "reuse_credit": "semantic requirement only; no current execution or qualification credit",
+      "missing_actual_scenarios": [
+        "one or more exact-candidate executed scenario records satisfying this requirement",
+        "independent review of those artifacts"
+      ],
+      "execution_profile": "obligation_mapping",
+      "execution_state": "blocked"
+    },
+    {
+      "id": "Q05",
+      "label": "Evidence stable identity, secret redaction, tampering/provenance rejection, privacy and retention/deletion hold across stores, diagnostics and exports.",
+      "status": "missing",
+      "baseline_ref": "915-execution-handoff#/obligations/Q05",
+      "reused_proof_refs": [
+        "915-execution-handoff",
+        "915-current-gate",
+        "916-deferral",
+        "916-gap-analysis"
+      ],
+      "reuse_credit": "semantic requirement only; no current execution or qualification credit",
+      "missing_actual_scenarios": [
+        "one or more exact-candidate executed scenario records satisfying this requirement",
+        "independent review of those artifacts"
+      ],
+      "execution_profile": "obligation_mapping",
+      "execution_state": "blocked"
+    },
+    {
+      "id": "Q06",
+      "label": "Architecture structure findings trace to source with confidence/unknowns; no claims beyond acquired scope.",
+      "status": "missing",
+      "baseline_ref": "915-execution-handoff#/obligations/Q06",
+      "reused_proof_refs": [
+        "915-execution-handoff",
+        "915-current-gate",
+        "916-deferral",
+        "916-gap-analysis"
+      ],
+      "reuse_credit": "semantic requirement only; no current execution or qualification credit",
+      "missing_actual_scenarios": [
+        "one or more exact-candidate executed scenario records satisfying this requirement",
+        "independent review of those artifacts"
+      ],
+      "execution_profile": "obligation_mapping",
+      "execution_state": "blocked"
+    },
+    {
+      "id": "Q07",
+      "label": "Drift, change impact and rationale outputs execute through their existing owners with evidence references.",
+      "status": "missing",
+      "baseline_ref": "915-execution-handoff#/obligations/Q07",
+      "reused_proof_refs": [
+        "915-execution-handoff",
+        "915-current-gate",
+        "916-deferral",
+        "916-gap-analysis"
+      ],
+      "reuse_credit": "semantic requirement only; no current execution or qualification credit",
+      "missing_actual_scenarios": [
+        "one or more exact-candidate executed scenario records satisfying this requirement",
+        "independent review of those artifacts"
+      ],
+      "execution_profile": "obligation_mapping",
+      "execution_state": "blocked"
+    },
+    {
+      "id": "Q08",
+      "label": "Local and CI fitness execute; machine invariants stay distinct from human judgments.",
+      "status": "missing",
+      "baseline_ref": "915-execution-handoff#/obligations/Q08",
+      "reused_proof_refs": [
+        "915-execution-handoff",
+        "915-current-gate",
+        "916-deferral",
+        "916-gap-analysis"
+      ],
+      "reuse_credit": "semantic requirement only; no current execution or qualification credit",
+      "missing_actual_scenarios": [
+        "one or more exact-candidate executed scenario records satisfying this requirement",
+        "independent review of those artifacts"
+      ],
+      "execution_profile": "obligation_mapping",
+      "execution_state": "blocked"
+    },
+    {
+      "id": "Q09",
+      "label": "Four isolated review perspectives actually call the registered provider; exact provider/model/profile and candidate identities survive results and synthesis.",
+      "status": "missing",
+      "baseline_ref": "915-execution-handoff#/obligations/Q09",
+      "reused_proof_refs": [
+        "915-execution-handoff",
+        "915-current-gate",
+        "916-deferral",
+        "916-gap-analysis"
+      ],
+      "reuse_credit": "semantic requirement only; no current execution or qualification credit",
+      "missing_actual_scenarios": [
+        "one or more exact-candidate executed scenario records satisfying this requirement",
+        "independent review of those artifacts"
+      ],
+      "execution_profile": "obligation_mapping",
+      "execution_state": "blocked"
+    },
+    {
+      "id": "Q10",
+      "label": "Synthesis preserves attributed findings, conflicts and partiality; actual producer outputs retained.",
+      "status": "missing",
+      "baseline_ref": "915-execution-handoff#/obligations/Q10",
+      "reused_proof_refs": [
+        "915-execution-handoff",
+        "915-current-gate",
+        "916-deferral",
+        "916-gap-analysis"
+      ],
+      "reuse_credit": "semantic requirement only; no current execution or qualification credit",
+      "missing_actual_scenarios": [
+        "one or more exact-candidate executed scenario records satisfying this requirement",
+        "independent review of those artifacts"
+      ],
+      "execution_profile": "obligation_mapping",
+      "execution_state": "blocked"
+    },
+    {
+      "id": "Q11",
+      "label": "Both remediation and test planners produce bounded plans without source mutation.",
+      "status": "missing",
+      "baseline_ref": "915-execution-handoff#/obligations/Q11",
+      "reused_proof_refs": [
+        "915-execution-handoff",
+        "915-current-gate",
+        "916-deferral",
+        "916-gap-analysis"
+      ],
+      "reuse_credit": "semantic requirement only; no current execution or qualification credit",
+      "missing_actual_scenarios": [
+        "one or more exact-candidate executed scenario records satisfying this requirement",
+        "independent review of those artifacts"
+      ],
+      "execution_profile": "obligation_mapping",
+      "execution_state": "blocked"
+    },
+    {
+      "id": "Q12",
+      "label": "Memory Palace persists/reads baseline; compatible repeat classifies added/resolved/changed findings. Controlled changed-source comparison uses a separate recorded revision.",
+      "status": "missing",
+      "baseline_ref": "915-execution-handoff#/obligations/Q12",
+      "reused_proof_refs": [
+        "915-execution-handoff",
+        "915-current-gate",
+        "916-deferral",
+        "916-gap-analysis"
+      ],
+      "reuse_credit": "semantic requirement only; no current execution or qualification credit",
+      "missing_actual_scenarios": [
+        "one or more exact-candidate executed scenario records satisfying this requirement",
+        "independent review of those artifacts"
+      ],
+      "execution_profile": "obligation_mapping",
+      "execution_state": "blocked"
+    },
+    {
+      "id": "Q13",
+      "label": "Missing, incompatible and deleted baselines each fail or report honest unavailable comparison; no invented continuity.",
+      "status": "missing",
+      "baseline_ref": "915-execution-handoff#/obligations/Q13",
+      "reused_proof_refs": [
+        "915-execution-handoff",
+        "915-current-gate",
+        "916-deferral",
+        "916-gap-analysis"
+      ],
+      "reuse_credit": "semantic requirement only; no current execution or qualification credit",
+      "missing_actual_scenarios": [
+        "one or more exact-candidate executed scenario records satisfying this requirement",
+        "independent review of those artifacts"
+      ],
+      "execution_profile": "obligation_mapping",
+      "execution_state": "blocked"
+    },
+    {
+      "id": "Q14",
+      "label": "Operator can inspect progress, cancel, disconnect/reconnect and retry; no duplicated unknown effects, stale runner success or misleading completion.",
+      "status": "missing",
+      "baseline_ref": "915-execution-handoff#/obligations/Q14",
+      "reused_proof_refs": [
+        "915-execution-handoff",
+        "915-current-gate",
+        "916-deferral",
+        "916-gap-analysis"
+      ],
+      "reuse_credit": "semantic requirement only; no current execution or qualification credit",
+      "missing_actual_scenarios": [
+        "one or more exact-candidate executed scenario records satisfying this requirement",
+        "independent review of those artifacts"
+      ],
+      "execution_profile": "obligation_mapping",
+      "execution_state": "blocked"
+    },
+    {
+      "id": "Q15",
+      "label": "Provider failure, measured resource/token exhaustion and suspected hangs remain explicit; no arbitrary elapsed review cutoff. Thirty minutes means idle shutdown only. Configured-but-unused provider or zero generated scenarios cannot pass.",
+      "status": "missing",
+      "baseline_ref": "915-execution-handoff#/obligations/Q15",
+      "reused_proof_refs": [
+        "915-execution-handoff",
+        "915-current-gate",
+        "916-deferral",
+        "916-gap-analysis"
+      ],
+      "reuse_credit": "semantic requirement only; no current execution or qualification credit",
+      "missing_actual_scenarios": [
+        "one or more exact-candidate executed scenario records satisfying this requirement",
+        "independent review of those artifacts"
+      ],
+      "execution_profile": "obligation_mapping",
+      "execution_state": "blocked"
+    },
+    {
+      "id": "Q16",
+      "label": "Malformed/partial input and incomplete review lane cannot become complete success or successful publication manifest.",
+      "status": "missing",
+      "baseline_ref": "915-execution-handoff#/obligations/Q16",
+      "reused_proof_refs": [
+        "915-execution-handoff",
+        "915-current-gate",
+        "916-deferral",
+        "916-gap-analysis"
+      ],
+      "reuse_credit": "semantic requirement only; no current execution or qualification credit",
+      "missing_actual_scenarios": [
+        "one or more exact-candidate executed scenario records satisfying this requirement",
+        "independent review of those artifacts"
+      ],
+      "execution_profile": "obligation_mapping",
+      "execution_state": "blocked"
+    },
+    {
+      "id": "Q17",
+      "label": "Human approval binds exact current artifacts, destination, claims and versions; withheld/unapproved/stale/tampered approval rejected.",
+      "status": "missing",
+      "baseline_ref": "915-execution-handoff#/obligations/Q17",
+      "reused_proof_refs": [
+        "915-execution-handoff",
+        "915-current-gate",
+        "916-deferral",
+        "916-gap-analysis"
+      ],
+      "reuse_credit": "semantic requirement only; no current execution or qualification credit",
+      "missing_actual_scenarios": [
+        "one or more exact-candidate executed scenario records satisfying this requirement",
+        "independent review of those artifacts"
+      ],
+      "execution_profile": "obligation_mapping",
+      "execution_state": "blocked"
+    },
+    {
+      "id": "Q18",
+      "label": "Actual Markdown, HTML and PDF generated after approval; all three semantic claim sets agree with approved inputs.",
+      "status": "missing",
+      "baseline_ref": "915-execution-handoff#/obligations/Q18",
+      "reused_proof_refs": [
+        "915-execution-handoff",
+        "915-current-gate",
+        "916-deferral",
+        "916-gap-analysis"
+      ],
+      "reuse_credit": "semantic requirement only; no current execution or qualification credit",
+      "missing_actual_scenarios": [
+        "one or more exact-candidate executed scenario records satisfying this requirement",
+        "independent review of those artifacts"
+      ],
+      "execution_profile": "obligation_mapping",
+      "execution_state": "blocked"
+    },
+    {
+      "id": "Q19",
+      "label": "Inspect HTML navigation and rendered PDF pages, retaining visual inspection evidence; renderer/font/output failures stay explicit and cannot pass.",
+      "status": "missing",
+      "baseline_ref": "915-execution-handoff#/obligations/Q19",
+      "reused_proof_refs": [
+        "915-execution-handoff",
+        "915-current-gate",
+        "916-deferral",
+        "916-gap-analysis"
+      ],
+      "reuse_credit": "semantic requirement only; no current execution or qualification credit",
+      "missing_actual_scenarios": [
+        "one or more exact-candidate executed scenario records satisfying this requirement",
+        "independent review of those artifacts"
+      ],
+      "execution_profile": "obligation_mapping",
+      "execution_state": "blocked"
+    },
+    {
+      "id": "Q20",
+      "label": "Source immutable before/after all journeys; no implicit external publication or source writer activation.",
+      "status": "missing",
+      "baseline_ref": "915-execution-handoff#/obligations/Q20",
+      "reused_proof_refs": [
+        "915-execution-handoff",
+        "915-current-gate",
+        "916-deferral",
+        "916-gap-analysis"
+      ],
+      "reuse_credit": "semantic requirement only; no current execution or qualification credit",
+      "missing_actual_scenarios": [
+        "one or more exact-candidate executed scenario records satisfying this requirement",
+        "independent review of those artifacts"
+      ],
+      "execution_profile": "obligation_mapping",
+      "execution_state": "blocked"
+    },
+    {
+      "id": "Q21",
+      "label": "ADL source pin and bounded scope recorded; Vector exactly pinned/licensed/bounded as below; fixture scripts/builds/downloads never executed.",
+      "status": "missing",
+      "baseline_ref": "915-execution-handoff#/obligations/Q21",
+      "reused_proof_refs": [
+        "915-execution-handoff",
+        "915-current-gate",
+        "916-deferral",
+        "916-gap-analysis"
+      ],
+      "reuse_credit": "semantic requirement only; no current execution or qualification credit",
+      "missing_actual_scenarios": [
+        "one or more exact-candidate executed scenario records satisfying this requirement",
+        "independent review of those artifacts"
+      ],
+      "execution_profile": "obligation_mapping",
+      "execution_state": "blocked"
+    },
+    {
+      "id": "Q22",
+      "label": "Command transcript, source/binary/OS/schema/lane/provider/model/profile identities, input/output digests and actual artifacts resolve to accepted candidate; redact credentials/private payloads from shareable evidence.",
+      "status": "missing",
+      "baseline_ref": "915-execution-handoff#/obligations/Q22",
+      "reused_proof_refs": [
+        "915-execution-handoff",
+        "915-current-gate",
+        "916-deferral",
+        "916-gap-analysis"
+      ],
+      "reuse_credit": "semantic requirement only; no current execution or qualification credit",
+      "missing_actual_scenarios": [
+        "one or more exact-candidate executed scenario records satisfying this requirement",
+        "independent review of those artifacts"
+      ],
+      "execution_profile": "obligation_mapping",
+      "execution_state": "blocked"
+    },
+    {
+      "id": "Q23",
+      "label": "Reproduction docs/examples work for independent operator; privacy/legal/nonclaim audit complete; authored-only or synthetic-only acceptance rejected.",
+      "status": "missing",
+      "baseline_ref": "915-execution-handoff#/obligations/Q23",
+      "reused_proof_refs": [
+        "915-execution-handoff",
+        "915-current-gate",
+        "916-deferral",
+        "916-gap-analysis"
+      ],
+      "reuse_credit": "semantic requirement only; no current execution or qualification credit",
+      "missing_actual_scenarios": [
+        "one or more exact-candidate executed scenario records satisfying this requirement",
+        "independent review of those artifacts"
+      ],
+      "execution_profile": "obligation_mapping",
+      "execution_state": "blocked"
+    },
+    {
+      "id": "Q24",
+      "label": "Every required row/cell has owned disposition; no unresolved P1/unowned failure. Independently reviewed accepted evidence handed to TAIL-01 for both repos and supported environments; no release, superiority or defect-free certification.",
+      "status": "missing",
+      "baseline_ref": "915-execution-handoff#/obligations/Q24",
+      "reused_proof_refs": [
+        "915-execution-handoff",
+        "915-current-gate",
+        "916-deferral",
+        "916-gap-analysis"
+      ],
+      "reuse_credit": "semantic requirement only; no current execution or qualification credit",
+      "missing_actual_scenarios": [
+        "one or more exact-candidate executed scenario records satisfying this requirement",
+        "independent review of those artifacts"
+      ],
+      "execution_profile": "obligation_mapping",
+      "execution_state": "blocked"
+    }
+  ],
+  "findings": [
+    {
+      "id": "CF05-G01",
+      "gap_type": "missing_evidence",
+      "severity": "P1",
+      "title": "No current qualification cell is proven",
+      "expected": "Twelve complete exact-candidate journeys with all eight stages and required negative/human scenarios.",
+      "observed": "The retained #915 manifest has empty stage arrays, its gate is incomplete with zero verified scenarios, #916 records 0/12 accepted, and #1150 has not executed qualification.",
+      "evidence": [
+        "915-empty-manifest",
+        "915-current-gate",
+        "916-deferral",
+        "1150-readiness"
+      ],
+      "uncertainty": "Historical activity exists, but it cannot be assigned current cell credit without exact candidate and tuple bindings.",
+      "recommended_follow_up": "After prerequisites and authorization, execute each tuple through its declared execution profile and retain actual stage records.",
+      "source_artifact": ".csdlc/evidence/1150/gap_analysis_report.json",
+      "milestone_release_bucket": "release_blockers"
+    },
+    {
+      "id": "CF05-G02",
+      "gap_type": "missing_evidence",
+      "severity": "P1",
+      "title": "No current Q01-Q24 obligation is proven",
+      "expected": "Twenty-four source-mapped obligations linked to exact-candidate executed scenarios and independent review.",
+      "observed": "The retained #915 handoff supplies every requirement text, but all rows are unproven_for_selected_candidate with empty scenario_ids and no #1150 execution exists.",
+      "evidence": [
+        "915-execution-handoff",
+        "915-current-gate",
+        "916-deferral",
+        "1150-readiness"
+      ],
+      "uncertainty": "The semantic map is available; current candidate execution and review evidence are absent.",
+      "recommended_follow_up": "After prerequisites and authority are admitted, execute and independently review scenarios mapped to every Q row.",
+      "source_artifact": ".csdlc/evidence/1150/gap_analysis_report.json",
+      "milestone_release_bucket": "release_blockers"
+    },
+    {
+      "id": "CF05-G03",
+      "gap_type": "missing_evidence",
+      "severity": "P1",
+      "title": "Required producer acceptance and exact installed lockset are not evidenced",
+      "expected": "Accepted CodeFriend #34/#44/#45 and ADL #1148/#1149 results plus exact installed product, website, templates, source scopes, platforms, provider/profile, and hashes.",
+      "observed": "The current #1150 scheduler reports dependencies_ready, design_ready, and budget_available blocked; issue closure and retained component proofs do not supply accepted producer receipts or a current lockset.",
+      "evidence": [
+        "1150-native-status",
+        "1150-readiness",
+        "product-local-ingestion",
+        "product-evidence-core",
+        "product-architecture",
+        "product-fitness",
+        "product-memory"
+      ],
+      "uncertainty": "Producer work may exist elsewhere, but no accepted current receipt is present in the inspected repository evidence.",
+      "recommended_follow_up": "Attach authenticated producer acceptance and freeze one exact current candidate before any run.",
+      "source_artifact": ".csdlc/evidence/1150/gap_analysis_report.json",
+      "milestone_release_bucket": "release_blockers"
+    },
+    {
+      "id": "CF05-G04",
+      "gap_type": "test_gap",
+      "severity": "P2",
+      "title": "Six exports are valid historical artifacts but cannot satisfy cell or obligation coverage",
+      "expected": "Approved exports bound to a complete exact-candidate cell, source, platform, review record, semantic parity, and human HTML/PDF inspection.",
+      "observed": "Six ADL/Vector Markdown/HTML/PDF artifacts exited zero and carry incomplete warnings, but have no surface/platform binding and #916 preserves 0/12 accepted.",
+      "evidence": [
+        "915-export-adl-md",
+        "915-export-adl-html",
+        "915-export-adl-pdf",
+        "915-export-vector-md",
+        "915-export-vector-html",
+        "915-export-vector-pdf",
+        "916-deferral"
+      ],
+      "uncertainty": "Owner-reported inspection exists historically, but the retained matrix does not bind it to accepted tuple records.",
+      "recommended_follow_up": "Reuse hashes as adverse historical inputs only; regenerate and inspect exports within each current-candidate journey where the original contract requires them.",
+      "source_artifact": ".csdlc/evidence/1150/gap_analysis_report.json",
+      "milestone_release_bucket": "durable_proof_gaps"
+    },
+    {
+      "id": "CF05-G05",
+      "gap_type": "scope_ambiguity",
+      "severity": "P2",
+      "title": "Current-tree product proofs have narrower claim boundaries",
+      "expected": "Product proof reusable at the exact #1150 candidate across both repositories, both platforms, all surfaces, provider-backed review, comparison, exports, and human inspection.",
+      "observed": "Retained proof packets are Darwin-arm64 component/fixture proofs with explicit no-provider, no-external-source, no-Linux, no-publication, or no-CI claims.",
+      "evidence": [
+        "product-local-ingestion",
+        "product-evidence-core",
+        "product-architecture",
+        "product-fitness",
+        "product-memory",
+        "product-server-contract",
+        "product-export-contracts"
+      ],
+      "uncertainty": "They may reduce setup risk, but no current candidate linkage or denominator coverage is established.",
+      "recommended_follow_up": "Use them as preparation references and negative-contract guidance without qualification credit.",
+      "source_artifact": ".csdlc/evidence/1150/gap_analysis_report.json",
+      "milestone_release_bucket": "durable_proof_gaps"
+    }
+  ],
+  "gap_buckets": {
+    "release_blockers": [
+      "CF05-G01",
+      "CF05-G02",
+      "CF05-G03"
+    ],
+    "durable_proof_gaps": [
+      "CF05-G04",
+      "CF05-G05"
+    ],
+    "routed_work": [],
+    "stale_release_readiness_docs": [],
+    "non_blocking_quality_concerns": []
+  },
+  "missing_evidence": [
+    "Accepted CodeFriend #34 producer result",
+    "Accepted CodeFriend #44 producer result",
+    "Accepted CodeFriend #45 producer result",
+    "Accepted ADL #1148 producer result",
+    "Accepted ADL #1149 producer result",
+    "Exact current installed candidate lockset",
+    "Twelve complete current-candidate journey records",
+    "Twenty-four obligation-to-scenario mappings and reviewed results",
+    "Current provider/spend authority for provider-backed stages",
+    "Current independent human HTML/PDF inspection bound to tuple records"
+  ],
+  "uncertainty": [
+    "Historical adverse evidence includes citation defects and an uncertain interrupted second run, but the inspected records do not bind them to one exact tuple or Q ID, so no individual row is marked failed.",
+    "Retained #915 evidence resides in the registered historical issue worktree and is referenced repo-relatively with its branch; it is not copied into #1150.",
+    "The Q01-Q24 semantic map is recovered from a retained #915 worktree evidence file identified by SHA-256; it is historical input and carries no current #1150 execution credit."
+  ],
+  "recommended_follow_up": [
+    "Attach accepted CodeFriend #34/#44/#45 and ADL #1148/#1149 results and freeze the exact current installed lockset.",
+    "Obtain separate execution, provider, spend, browser/invitation, and human-inspection authority as applicable.",
+    "Execute all twelve tuple journeys without reducing the denominator, then independently review every mapped obligation and preserve adverse outcomes."
+  ],
+  "artifact_routing": {
+    "quality_gate_update_allowed": false,
+    "separate_gap_review_allowed": true,
+    "emit": "separate qualification-preparation matrix",
+    "reason": "The comparison is useful, but it supplies no qualification or release decision."
+  },
+  "stop_boundary": {
+    "fixed_gaps": false,
+    "created_issues": false,
+    "created_prs": false,
+    "approved_closeout": false,
+    "approved_release": false,
+    "mutated_repository": "report artifacts only",
+    "qualification_executed": false,
+    "provider_calls": false,
+    "dependency_credit_granted": false,
+    "spend_incurred": false,
+    "deployed": false,
+    "published": false,
+    "launched": false
+  }
+}
