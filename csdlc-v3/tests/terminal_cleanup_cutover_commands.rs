@@ -1976,6 +1976,8 @@ fn no_pr_request() -> TerminalRouteRequest {
         evidence_refs: vec!["docs/retirement.md".into()],
         expected_issue_updated_at: "2026-09-09T00:00:00Z".into(),
         expected_issue_closed_at: "2026-09-08T00:00:00Z".into(),
+        expected_operation_digest: None,
+        evidence_digests: Default::default(),
     });
     request
 }

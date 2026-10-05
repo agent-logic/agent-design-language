@@ -1212,6 +1212,16 @@
           "name": "expected_issue_closed_at",
           "type": "String",
           "optional": false
+        },
+        {
+          "name": "expected_operation_digest",
+          "type": "Option<String>",
+          "optional": true
+        },
+        {
+          "name": "evidence_digests",
+          "type": "BTreeMap<String, String>",
+          "optional": true
         }
       ]
     },

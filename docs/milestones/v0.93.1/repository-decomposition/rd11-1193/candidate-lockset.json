@@ -1,0 +1,915 @@
+{
+  "schema": "adl.compatibility_lockset.v1",
+  "state": "candidate",
+  "roles": [
+    {
+      "role": "public_adl",
+      "repository": "agent-logic/agent-design-language",
+      "available": [
+        {
+          "description": "Available Runtime dependency manifest retains five public packages and engine/records; final RD07 generation unselected.",
+          "evidence": {
+            "path": "rd08-package-04d7db1b/artifacts/dependency-lockset.json",
+            "sha256": "9c31ea43a979fde2781ad6d483ece307f14d7d7c54f4652e22b49b6f7a23be10"
+          }
+        },
+        {
+          "description": "Prior f8e42278 public ADL baseline qualified five packages, seven consumer cases, 21 UTS fixtures and five negative cases; it remains rollback input, not the selected generation.",
+          "evidence": {
+            "path": "workerbee16-rd07-rd11-closeout/rd07/public-adl-baseline-f8e42278-native/report.json",
+            "sha256": "bdbd962ec8f24704260fe0851c5121ea52d68838c0e61c4fe1cdec946e2ff000"
+          }
+        },
+        {
+          "description": "Final public ADL qualification at 1889916a passed five packages, seven consumer cases, 21 UTS fixtures and five negative cases with no execution or registry-publication authority.",
+          "evidence": {
+            "path": "workerbee16-rd07-rd11-closeout/rd11/members/public-adl-final/report.json",
+            "sha256": "ec6fd3198dc60c9062e5f6811026225040574f7de4a702fbc88f301bdb797326"
+          }
+        },
+        {
+          "description": "Qualified public package adl-schema 0.1.0 from the final 1889916a proof; exact source-package bytes only.",
+          "evidence": {
+            "path": "workerbee16-rd07-rd11-closeout/rd11/members/public-adl-final/adl-schema-0.1.0.tar",
+            "sha256": "59b160ba52a136489a24cba80e2b9ab1bd4db70d66455cded29fae71a40010f7"
+          }
+        },
+        {
+          "description": "Qualified public package adl-uts 0.1.0 from the final 1889916a proof; exact source-package bytes only.",
+          "evidence": {
+            "path": "workerbee16-rd07-rd11-closeout/rd11/members/public-adl-final/adl-uts-0.1.0.tar",
+            "sha256": "048545366aa4691a7102aba22ae774f214f3882760bce752d3d5d2f5377c0026"
+          }
+        },
+        {
+          "description": "Qualified public package adl-language 0.92.1 from the final 1889916a proof; exact source-package bytes only.",
+          "evidence": {
+            "path": "workerbee16-rd07-rd11-closeout/rd11/members/public-adl-final/adl-language-0.92.1.tar",
+            "sha256": "32ee997b0ab5ec326cfb8b9c2759d00377febdc9da1f71ab91c2e9b6bd58d01c"
+          }
+        },
+        {
+          "description": "Qualified public package adl-compiler 0.92.1 from the final 1889916a proof; exact source-package bytes only.",
+          "evidence": {
+            "path": "workerbee16-rd07-rd11-closeout/rd11/members/public-adl-final/adl-compiler-0.92.1.tar",
+            "sha256": "b029bcaf5cd658989d66299710c89749f151e48170a1f180410687907ebe4d7f"
+          }
+        },
+        {
+          "description": "Qualified public package adl-legacy-contracts 0.1.0 from the final 1889916a proof; exact source-package bytes only.",
+          "evidence": {
+            "path": "workerbee16-rd07-rd11-closeout/rd11/members/public-adl-final/adl-legacy-contracts-0.1.0.tar",
+            "sha256": "0af06ee11000ebebc0efc2e24e3c0ef1c330a225dd2e8844a278f7f0cce634d3"
+          }
+        },
+        {
+          "description": "The operator deferred issue 1223 source retirement and Runtime issue 39 qualification to separate nonblocking paths; issue 39 remains unqualified and owned by WorkerBee #17.",
+          "evidence": {
+            "path": "workerbee16-rd07-rd11-closeout/rd11/SPRINT1_SCOPE_DECISION.json",
+            "sha256": "73abb644dc79632c47d7a51a8bc8b0670a8679f6bfed53dc58deaf058f4bd1dc"
+          }
+        },
+        {
+          "description": "Native C-SDLC proof at exact 1889916a ran the dependency-free Cargo adapter; its inner verifier produced the five-package report and enforced the nonzero denominators.",
+          "evidence": {
+            "path": "workerbee16-rd07-rd11-closeout/rd11/members/public-adl-final/native-proof.json",
+            "sha256": "97cc579ace16d0a25d638bcf33aa0afa86279bdfb0477dd9b02b4c9fd453c0a3"
+          }
+        }
+      ],
+      "selected": {
+        "source_commit": "1889916a1bf458fc39cfe047a0b0733701e044bc",
+        "asset_identity": {
+          "name": "public-adl-five-package-qualification-report-1889916a.json",
+          "path": "workerbee16-rd07-rd11-closeout/rd11/members/public-adl-final/report.json"
+        },
+        "sha256": "ec6fd3198dc60c9062e5f6811026225040574f7de4a702fbc88f301bdb797326",
+        "package_version": "adl-schema 0.1.0; adl-uts 0.1.0; adl-language 0.92.1; adl-compiler 0.92.1; adl-legacy-contracts 0.1.0",
+        "dependency_lock": {
+          "path": "workerbee16-rd07-rd11-closeout/rd11/members/public-adl-final/consumer.Cargo.lock",
+          "sha256": "48d0e670282c0b8683b77ce635b93cd6775a9ae7ad886dc34725555e5ea41eea"
+        },
+        "build_provenance": {
+          "path": "workerbee16-rd07-rd11-closeout/rd11/members/public-adl-final/report.json",
+          "sha256": "ec6fd3198dc60c9062e5f6811026225040574f7de4a702fbc88f301bdb797326"
+        },
+        "supported_consumer_versions": [
+          "qualified five-package set: adl-schema 0.1.0, adl-uts 0.1.0, adl-language 0.92.1, adl-compiler 0.92.1, adl-legacy-contracts 0.1.0; seven consumer cases and 21 UTS fixtures"
+        ]
+      },
+      "active_source_owners": [
+        "agent-logic/agent-design-language"
+      ],
+      "platforms": [
+        {
+          "target": "aarch64-apple-darwin; macOS sandboxed public-package installed-consumer adapter",
+          "source_commit": "1889916a1bf458fc39cfe047a0b0733701e044bc",
+          "artifact_sha256": "ec6fd3198dc60c9062e5f6811026225040574f7de4a702fbc88f301bdb797326",
+          "independent_clean": true,
+          "distributable_only": true,
+          "evidence": {
+            "path": "workerbee16-rd07-rd11-closeout/rd11/members/public-adl-final/native-proof.json",
+            "sha256": "97cc579ace16d0a25d638bcf33aa0afa86279bdfb0477dd9b02b4c9fd453c0a3"
+          },
+          "adapter_invocation": {
+            "argv": [
+              "cargo",
+              "test",
+              "--manifest-path",
+              "tools/public_adl/validator/Cargo.toml",
+              "--offline",
+              "--locked",
+              "--test",
+              "public_adl_install_validator",
+              "--message-format=json"
+            ],
+            "exit_code": 0,
+            "executed": 1,
+            "skipped": 0
+          },
+          "phase_outcomes": [
+            {
+              "phase": "build",
+              "executed": 5,
+              "failed": 0,
+              "skipped": 0,
+              "claim": "five deterministic source-package archives generated from the selected Git revision"
+            },
+            {
+              "phase": "install",
+              "executed": 5,
+              "failed": 0,
+              "skipped": 0,
+              "claim": "five generated archives extracted into the isolated consumer vendor prefix with sibling package paths only"
+            },
+            {
+              "phase": "test",
+              "executed": 7,
+              "failed": 0,
+              "skipped": 0,
+              "claim": "seven consumer cases passed; the same report records 21 inert UTS fixtures and five classified negative cases"
+            }
+          ]
+        }
+      ],
+      "website_disposition": null,
+      "authentication": {
+        "path": "workerbee16-rd07-rd11-closeout/rd11/members/public-adl-final/independent-review.json",
+        "sha256": "a19130e9be2df87cf71737478b68a69fff777da449a15e29c51e6927775e3d5a"
+      },
+      "activation": "none"
+    },
+    {
+      "role": "csdlc",
+      "repository": "agent-logic/cognitive-sdlc",
+      "available": [
+        {
+          "description": "RD04 historical accepted source dc4445be/merge6005595d; current executable/platform selection pending.",
+          "evidence": {
+            "path": "next-wave-ready/RD11/INPUT_OVERLAY_R2.json",
+            "sha256": "5e7af310229a7bba0f2f70a381fce96ca6473672264982d1dea775ab3fec9f37"
+          }
+        },
+        {
+          "description": "Historical issue 91/PR92 resource-admission package was superseded by final integration PR88; installed admission remained false and it is not the final RD11 selection.",
+          "evidence": {
+            "path": "workerbee14/RESOURCE_ADMISSION_MISMATCH.json",
+            "sha256": "1bd642478f39d65d07442c0a2386aaf2c91f8280179cb6a8a01c8971d564166b"
+          }
+        },
+        {
+          "description": "Final C-SDLC integration PR88 merged head 8da60c66 as 61aca088 with 17 checks; exact final artifact, manifest and installed admission remain pending and installed_acceptance is false.",
+          "evidence": {
+            "path": "workerbee15-csdlc-delivery/PR88_MERGED.json",
+            "sha256": "4a6befc0812763f3f8ab8e54f1cc9aa7cbc970e3f5d768f21ed1f75d5f67a1bc"
+          }
+        },
+        {
+          "description": "Final PR88 portable package artifact 11215965814 has exact source, artifact, manifest, installed executable and installation custody; original installed-contract admission and rollback remain explicitly unproven.",
+          "evidence": {
+            "path": "workerbee16-rd07-rd11-closeout/csdlc-final-custody/CURRENT_EVIDENCE.json",
+            "sha256": "4cdf37eab3a9bb5405adf3b219f24a0bf68bfbd6e929eb8ebca553997b1643f5"
+          }
+        },
+        {
+          "description": "Exact PR50 predecessor package custody and 202-member create-only byte/mode restoration satisfy the retained rollback-point boundary; a Linux active-prefix transition remains explicitly unclaimed.",
+          "evidence": {
+            "path": "workerbee16-rd07-rd11-closeout/rd11/SPRINT1_SCOPE_DECISION.json",
+            "sha256": "73abb644dc79632c47d7a51a8bc8b0670a8679f6bfed53dc58deaf058f4bd1dc"
+          }
+        }
+      ],
+      "selected": {
+        "source_commit": "8da60c666e6c71586cc2ad6185814499a63f8487",
+        "asset_identity": {
+          "name": "csdlc-owner-linux-artifact-11215965814.zip",
+          "path": "workerbee15-csdlc-delivery/pr88/contract-repair/artifact/artifact.zip"
+        },
+        "sha256": "86f2a0612520a923b97e76f10e84846378df3fccf00fac52ebd035303d7eb5b4",
+        "package_version": "Sprint 1 PR88 portable owner package 11215965814",
+        "dependency_lock": {
+          "path": "workerbee15-csdlc-delivery/pr88/contract-repair/artifact/manifest.json",
+          "sha256": "e28ae84a2d4f1f5db5e400d6e71c9e3c585b522e4d4ab8ca625014335f5465e9"
+        },
+        "build_provenance": {
+          "path": "workerbee16-rd07-rd11-closeout/csdlc-final-custody/CURRENT_EVIDENCE.json",
+          "sha256": "4cdf37eab3a9bb5405adf3b219f24a0bf68bfbd6e929eb8ebca553997b1643f5"
+        },
+        "supported_consumer_versions": [
+          "C-SDLC native v3 portable owner package at PR88 head 8da60c666e6c71586cc2ad6185814499a63f8487; installed-contract admission remains unproven"
+        ]
+      },
+      "active_source_owners": [
+        "agent-logic/cognitive-sdlc"
+      ],
+      "platforms": [
+        {
+          "target": "x86_64-unknown-linux-gnu; portable owner package installed correspondence",
+          "source_commit": "8da60c666e6c71586cc2ad6185814499a63f8487",
+          "artifact_sha256": "86f2a0612520a923b97e76f10e84846378df3fccf00fac52ebd035303d7eb5b4",
+          "independent_clean": true,
+          "distributable_only": true,
+          "evidence": {
+            "path": "workerbee16-rd07-rd11-closeout/rd11/csdlc-platform-correspondence/CORRESPONDENCE_RESULT.json",
+            "sha256": "5084714d00241c6535c78b3f6ac704d0a1ca7f6633601f123b6c85794a17f9be"
+          },
+          "adapter_invocation": {
+            "argv": [
+              "python3",
+              "workerbee16-rd07-rd11-closeout/rd11/csdlc-platform-correspondence/verify_correspondence.py",
+              "--outer",
+              "workerbee15-csdlc-delivery/pr88/contract-repair/artifact/artifact.zip",
+              "--inner",
+              "workerbee15-csdlc-delivery/pr88/contract-repair/artifact/csdlc-package.zip",
+              "--installed",
+              "<installed-prefix>/11215965814/installed",
+              "--custody",
+              "workerbee16-rd07-rd11-closeout/csdlc-final-custody/CURRENT_EVIDENCE.json",
+              "--package-install-result",
+              "workerbee15-csdlc-delivery/issue30/host-native/install88-single-producer/result.json",
+              "--package-install-readback",
+              "workerbee15-csdlc-delivery/issue30/host-native/install88-single-producer/stdout.json",
+              "--installer-result",
+              "workerbee15-csdlc-delivery/acceptance/installed-proof-78da118a-validation/install/installer-correspondence.json",
+              "--conductor-result",
+              "workerbee15-csdlc-delivery/acceptance/conductor-cwd-repair-proof/result.json",
+              "--conductor-mapped-result",
+              "workerbee15-csdlc-delivery/acceptance/conductor-cwd-repair-proof/lifecycle/MAPPED_ORIGINAL_RESULT.json",
+              "--retained-bundle",
+              "workerbee15-csdlc-delivery/acceptance/assembler/artifact-composition-78da118a-validation/candidate-bundle",
+              "--out",
+              "workerbee16-rd07-rd11-closeout/rd11/csdlc-platform-correspondence/CORRESPONDENCE_RESULT.json"
+            ],
+            "exit_code": 0,
+            "executed": 1,
+            "skipped": 0
+          },
+          "phase_outcomes": [
+            {
+              "phase": "build",
+              "executed": 1,
+              "failed": 0,
+              "skipped": 0,
+              "claim": "authenticated selected artifact and source/build custody verified"
+            },
+            {
+              "phase": "install",
+              "executed": 1,
+              "failed": 0,
+              "skipped": 0,
+              "claim": "selected installed manifest and both assertion-map members match the inner package"
+            },
+            {
+              "phase": "test",
+              "executed": 2,
+              "failed": 0,
+              "skipped": 0,
+              "claim": "installed installer and conductor maps are byte-identical to retained passed-evidence inputs"
+            }
+          ]
+        }
+      ],
+      "website_disposition": null,
+      "authentication": {
+        "path": "workerbee16-rd07-rd11-closeout/csdlc-final-custody/CURRENT_EVIDENCE.json",
+        "sha256": "4cdf37eab3a9bb5405adf3b219f24a0bf68bfbd6e929eb8ebca553997b1643f5"
+      },
+      "activation": "none"
+    },
+    {
+      "role": "runtime",
+      "repository": "agent-logic/agent-logic-runtime",
+      "available": [
+        {
+          "description": "Retained macOS source04d7db1b and package d28eefc7; distinct Linux policy97f30f04 is not warm Runtime support.",
+          "evidence": {
+            "path": "rd08-package-04d7db1b/VERIFIED_PROVENANCE.json",
+            "sha256": "63ef49385e4ed9a5e64955c89e073c07dfe79ea64a7ecf8d64f04287463dae64"
+          }
+        },
+        {
+          "description": "Writer schema companions merged as source-only supplement; original Runtime artifacts and installed receipts keep their original identities.",
+          "evidence": {
+            "path": "workerbee14/runtime-companions/MERGED_DELIVERY.json",
+            "sha256": "55a52e2c801f592d82b26b2d36362c83ab7cd188183a962ba05f52fa5f83a457"
+          }
+        },
+        {
+          "description": "The operator moved Runtime issue 39 qualification outside Sprint 1 under WorkerBee #17; it remains unqualified, while accepted RD05/RD08 product evidence remains the selected product basis.",
+          "evidence": {
+            "path": "workerbee16-rd07-rd11-closeout/rd11/SPRINT1_SCOPE_DECISION.json",
+            "sha256": "73abb644dc79632c47d7a51a8bc8b0670a8679f6bfed53dc58deaf058f4bd1dc"
+          }
+        }
+      ],
+      "selected": {
+        "source_commit": "2fee402c5287091dcd61c831b49786ba116aedf5",
+        "asset_identity": {
+          "name": "runtime-candidate.tar",
+          "path": "workerbee16-acceptance-integration/rd11-custody-update/runtime-rd05/runtime-candidate.tar"
+        },
+        "sha256": "9cbd2fd026c84fe7c5b85bdfe48fa635eee7f556bb0cbd51194eecfcf5ea4186",
+        "package_version": "0.92.1",
+        "dependency_lock": {
+          "path": "workerbee16-acceptance-integration/rd11-custody-update/runtime-rd05/dependency-lockset.json",
+          "sha256": "b18560e34df76600315462a760f5806ecb409cc6854220658317687fffe78009"
+        },
+        "build_provenance": {
+          "path": "workerbee16-acceptance-integration/rd11-custody-update/runtime-rd05/BUILD_PROVENANCE.json",
+          "sha256": "c45ad1e0caaaee2de9523f23ddb8c59cee88c0a578b954f26d8196e83b2bdeb5"
+        },
+        "supported_consumer_versions": [
+          "infrastructure.artifact-inputs.v1 at c8b787ce065e2912fe1db88fc778daded7a8ba63 (exact distribution input)"
+        ]
+      },
+      "active_source_owners": [
+        "agent-logic/agent-logic-runtime"
+      ],
+      "platforms": [
+        {
+          "target": "aarch64-apple-darwin; retained accepted RD05 installed product",
+          "source_commit": "2fee402c5287091dcd61c831b49786ba116aedf5",
+          "artifact_sha256": "9cbd2fd026c84fe7c5b85bdfe48fa635eee7f556bb0cbd51194eecfcf5ea4186",
+          "independent_clean": true,
+          "distributable_only": true,
+          "retained_acceptance": {
+            "build_provenance": {
+              "path": "workerbee16-acceptance-integration/rd11-custody-update/runtime-rd05/BUILD_PROVENANCE.json",
+              "sha256": "c45ad1e0caaaee2de9523f23ddb8c59cee88c0a578b954f26d8196e83b2bdeb5"
+            },
+            "installation_identity": {
+              "path": "workerbee16-acceptance-integration/rd11-custody-update/runtime-rd05/INSTALLATION.json",
+              "sha256": "4bd8ce4671704c3531e4d962d3e3df8936f7e492d3b95b136dcce7ddb5763978"
+            },
+            "scenario_acceptance": {
+              "path": "workerbee16-acceptance-integration/rd11-custody-update/runtime-rd05/ACCEPTANCE.json",
+              "sha256": "47bf4b820a10b565a003aaf57f4f5d249a2cd8bfefa8c303d982448b7078c32f"
+            },
+            "independent_review": {
+              "path": "rd05-r8-browser/INDEPENDENT_SEVEN_SCENARIO_REVIEW.md",
+              "sha256": "4ef59612957cdab10dadbbaf9c778c5dbee1c7297b962ffaa8456f40c2e6feb4"
+            },
+            "scope_decision": {
+              "path": "workerbee16-rd07-rd11-closeout/rd11/SPRINT1_SCOPE_DECISION.json",
+              "sha256": "73abb644dc79632c47d7a51a8bc8b0670a8679f6bfed53dc58deaf058f4bd1dc"
+            },
+            "scenarios_passed": 7,
+            "exact_install_invocation_retained": false,
+            "current_qualification_status": "operator_deferred_outside_sprint1",
+            "limitations": [
+              "Runtime issue 39 current qualification remains unproven and is owned by WorkerBee #17 outside Sprint 1.",
+              "The accepted RD05 aggregate install invocation was not retained; exact installed identity, six binary hashes, fresh build provenance, seven scenarios and independent review are retained.",
+              "No public release, shared-service replacement, native admission or issue 39 completion is claimed."
+            ]
+          },
+          "evidence": {
+            "path": "workerbee16-acceptance-integration/rd11-custody-update/QUALIFICATION_CORRESPONDENCE.json",
+            "sha256": "268a2af4c428b2b8ac5c14049db372a07263e2372a704c4d963c77c219721335"
+          }
+        }
+      ],
+      "website_disposition": null,
+      "authentication": {
+        "path": "rd05-r8-browser/INDEPENDENT_SEVEN_SCENARIO_REVIEW.md",
+        "sha256": "4ef59612957cdab10dadbbaf9c778c5dbee1c7297b962ffaa8456f40c2e6feb4"
+      },
+      "activation": "none"
+    },
+    {
+      "role": "infrastructure",
+      "repository": "agent-logic/agent-logic-infrastructure",
+      "available": [
+        {
+          "description": "Original offline RD06 accepted at proof56765627/mergec8b787ce with native terminal closeout; no Linuxwarm claim.",
+          "evidence": {
+            "path": "rd06-completion-scope-audit/FINAL_ACCEPTANCE_PLANNING5.md",
+            "sha256": "43daacaf789ff4386b67206be200238106bed6a59c254ab4c02bbd4096eb3edb"
+          }
+        },
+        {
+          "description": "Exact retained source/archive custody resolved; see current custody inputs, without new installed or deployment claim.",
+          "evidence": {
+            "path": "workerbee16-cross-owner-bundle/RD11_CUSTODY_CANDIDATES.json",
+            "sha256": "334080db37ad840c8f0c7f6c705b6ad66f0d6d1c85ed5f04cfc4563ae0c9b2c1"
+          }
+        }
+      ],
+      "selected": {
+        "source_commit": "c8b787ce065e2912fe1db88fc778daded7a8ba63",
+        "asset_identity": {
+          "name": "source-c8b787ce065e2912fe1db88fc778daded7a8ba63.tar",
+          "path": "codefriend-final-seven-design/infra10-source/source-c8b787ce065e2912fe1db88fc778daded7a8ba63.tar"
+        },
+        "sha256": "21d604bb77831c9176430020c0346d0ef8c94946736335519767cae94314ea94",
+        "package_version": "infrastructure.artifact-inputs.v1",
+        "dependency_lock": {
+          "path": "workerbee16-acceptance-integration/rd11-custody-update/members/infrastructure/contracts/runtime-rd05.json",
+          "sha256": "4c2d779317d94cff5565087c29baf76ca00e6f5e951f63546b1ab8d55bac85e4"
+        },
+        "build_provenance": {
+          "path": "codefriend-final-seven-design/infra10-source/source-c8b787ce065e2912fe1db88fc778daded7a8ba63.manifest.json",
+          "sha256": "8adf52461d60d862d803f729e41c7b54edabb06bf94237213af14e0e8b43a7cb"
+        },
+        "supported_consumer_versions": [
+          "runtime 0.92.1 at 2fee402c5287091dcd61c831b49786ba116aedf5; aarch64-apple-darwin artifact input; offline only"
+        ]
+      },
+      "active_source_owners": [
+        "agent-logic/agent-logic-infrastructure"
+      ],
+      "platforms": [
+        {
+          "target": "offline-artifact-consumer; Linux host; macOS Runtime artifact bytes only",
+          "source_commit": "c8b787ce065e2912fe1db88fc778daded7a8ba63",
+          "artifact_sha256": "21d604bb77831c9176430020c0346d0ef8c94946736335519767cae94314ea94",
+          "independent_clean": true,
+          "distributable_only": true,
+          "operations": [
+            {
+              "operation": "build",
+              "argv": [
+                "cargo",
+                "test",
+                "--offline",
+                "--locked",
+                "--manifest-path",
+                "tools/artifacts/native-proof/Cargo.toml",
+                "--test",
+                "original_artifact_consumers",
+                "--message-format=json"
+              ],
+              "exit_code": 0,
+              "executed": 1,
+              "skipped": 0
+            },
+            {
+              "operation": "test",
+              "argv": [
+                "cargo",
+                "test",
+                "--offline",
+                "--locked",
+                "--manifest-path",
+                "tools/artifacts/native-proof/Cargo.toml",
+                "--test",
+                "original_artifact_consumers",
+                "--message-format=json"
+              ],
+              "exit_code": 0,
+              "executed": 1,
+              "skipped": 0
+            },
+            {
+              "operation": "install",
+              "argv": [
+                "/usr/bin/python3",
+                "-B",
+                "/qualification/first-wave/agent-logic-infrastructure-worktrees/adl-issue-1-extract-artifact-consuming-infrastructure/tools/artifacts/qualify_installed.py",
+                "--artifacts",
+                "/qualification/first-wave/agent-logic-infrastructure-worktrees/adl-issue-1-extract-artifact-consuming-infrastructure/target/rd06-accepted-inputs",
+                "--lock",
+                "/qualification/first-wave/agent-logic-infrastructure-worktrees/adl-issue-1-extract-artifact-consuming-infrastructure/contracts/runtime-rd05.json",
+                "--lock-sha256",
+                "4c2d779317d94cff5565087c29baf76ca00e6f5e951f63546b1ab8d55bac85e4",
+                "--output",
+                "/qualification/first-wave/agent-logic-infrastructure-worktrees/adl-issue-1-extract-artifact-consuming-infrastructure/target/rd06-proof/original-four-l40bys8v/scenarios"
+              ],
+              "exit_code": 0,
+              "executed": 1,
+              "skipped": 0
+            }
+          ],
+          "evidence": {
+            "path": "workerbee16-acceptance-integration/rd11-custody-update/QUALIFICATION_CORRESPONDENCE.json",
+            "sha256": "268a2af4c428b2b8ac5c14049db372a07263e2372a704c4d963c77c219721335"
+          }
+        }
+      ],
+      "website_disposition": null,
+      "authentication": {
+        "path": "rd06-completion-scope-audit/FINAL_ACCEPTANCE_PLANNING5.md",
+        "sha256": "43daacaf789ff4386b67206be200238106bed6a59c254ab4c02bbd4096eb3edb"
+      },
+      "activation": "none"
+    },
+    {
+      "role": "enterprise_adapter",
+      "repository": "agent-logic/agent-logic-enterprise-security",
+      "available": [
+        {
+          "description": "Product35d6b540/mergebbd5a466 actual six installed synthetic-host cases include original four; optional only.",
+          "evidence": {
+            "path": "rd06-rd09-product-reconciliation/PRODUCT_DEPENDENCY_GATES.json",
+            "sha256": "813d60cae2a95ab35f39877ed41cd54390bd73cb2e15ededfdce7e2161fa7ac3"
+          }
+        },
+        {
+          "description": "Exact accepted-merge source archive, lock, license and Runtime policy pin retained; source export provenance only, installed proof remains on original reviewed source.",
+          "evidence": {
+            "path": "workerbee14/enterprise-accepted-source/SOURCE_EXPORT.json",
+            "sha256": "868d6838487e997461663b1f9db966e06499268b4f169c282cededda69156b27"
+          }
+        }
+      ],
+      "selected": {
+        "source_commit": "bbd5a4665d2e6756644bc78f9a7c5c537a7f540b",
+        "asset_identity": {
+          "name": "source-bbd5a4665d2e6756644bc78f9a7c5c537a7f540b.tar",
+          "path": "workerbee14/enterprise-accepted-source/source-bbd5a4665d2e6756644bc78f9a7c5c537a7f540b.tar"
+        },
+        "sha256": "a04cc023c822d7360bbd8dcd834a271f0f0278bb4679acab55f94ca3bace0c6f",
+        "package_version": "0.1.0",
+        "dependency_lock": {
+          "path": "workerbee16-cross-owner-bundle/enterprise-custody-members/Cargo.lock",
+          "sha256": "1e365e38e0a3b327636961a8c9b3e6c4cffebe24ac5da53a5180d6095ea8aa9f"
+        },
+        "build_provenance": {
+          "path": "workerbee14/enterprise-accepted-source/SOURCE_EXPORT.json",
+          "sha256": "868d6838487e997461663b1f9db966e06499268b4f169c282cededda69156b27"
+        },
+        "supported_consumer_versions": [
+          "0.92.1"
+        ]
+      },
+      "active_source_owners": [
+        "agent-logic/agent-logic-enterprise-security"
+      ],
+      "platforms": [
+        {
+          "target": "x86_64-unknown-linux-gnu; optional static-policy synthetic host",
+          "source_commit": "bbd5a4665d2e6756644bc78f9a7c5c537a7f540b",
+          "artifact_sha256": "a04cc023c822d7360bbd8dcd834a271f0f0278bb4679acab55f94ca3bace0c6f",
+          "independent_clean": true,
+          "distributable_only": true,
+          "operations": [
+            {
+              "operation": "build",
+              "argv": [
+                "cargo",
+                "--config",
+                "patch.crates-io.adl-runtime-policy-interface.path=\"/tmp/rd09-interface-nf2yo4t6/runtime-policy/adl-runtime-policy-interface\"",
+                "build",
+                "--offline",
+                "--locked",
+                "--manifest-path",
+                "/home/runner/work/agent-logic-enterprise-security/agent-logic-enterprise-security/Cargo.toml",
+                "--bin",
+                "agent-logic-enterprise-policy"
+              ],
+              "exit_code": 0,
+              "executed": 1,
+              "skipped": 0
+            },
+            {
+              "operation": "test",
+              "argv": [
+                "cargo",
+                "--config",
+                "patch.crates-io.adl-runtime-policy-interface.path=\"/tmp/rd09-interface-nf2yo4t6/runtime-policy/adl-runtime-policy-interface\"",
+                "test",
+                "--offline",
+                "--locked",
+                "--manifest-path",
+                "/home/runner/work/agent-logic-enterprise-security/agent-logic-enterprise-security/Cargo.toml",
+                "--test",
+                "adapter"
+              ],
+              "exit_code": 0,
+              "executed": 4,
+              "skipped": 0
+            },
+            {
+              "operation": "install",
+              "argv": [
+                "python3",
+                "-B",
+                "/home/runner/work/agent-logic-enterprise-security/agent-logic-enterprise-security/tools/validate_rd09.py",
+                "--runtime-interface",
+                "/home/runner/work/_temp/runtime-policy-input/runtime-policy.tar",
+                "--sha256",
+                "4ab1e60cf0ebb263858ea16460492f65c3b97961744450ff4f2ce846934bfa4c"
+              ],
+              "exit_code": 0,
+              "executed": 1,
+              "skipped": 0
+            }
+          ],
+          "evidence": {
+            "path": "workerbee16-acceptance-integration/rd11-custody-update/QUALIFICATION_CORRESPONDENCE.json",
+            "sha256": "268a2af4c428b2b8ac5c14049db372a07263e2372a704c4d963c77c219721335"
+          }
+        }
+      ],
+      "website_disposition": null,
+      "authentication": {
+        "path": "remaining-wave-readiness-73/RD09_PR3_ADMIN_MERGE_READBACK.json",
+        "sha256": "58a42a75d25b6956d849a3cf3c84bc8a9efd530c621d27c630d5f124669ad010"
+      },
+      "activation": "none"
+    },
+    {
+      "role": "codefriend",
+      "repository": "agent-logic/codefriend",
+      "available": [
+        {
+          "description": "CF7 draft provides distribution interface, not accepted final integrated archive; maintained resource deliveries still distinct.",
+          "evidence": {
+            "path": "codefriend-issue7-consumers/DRAFT_DELIVERY.json",
+            "sha256": "d1c2b95ef27c5b60963f328e04d1428d13faf4e27f8912e23316fafd5a0be429"
+          }
+        },
+        {
+          "description": "Final CodeFriend Sprint 1 delivery records accepted candidate 91ae8c5e, exact tree and merge, six passing CI checks, authenticated artifact 11215848769, installed fitness and memory proof, and native terminal closeout; deployment and public launch remain non-claims.",
+          "evidence": {
+            "path": "workerbee14/codefriend-completion/sprint1-final/FINAL_DELIVERY.json",
+            "sha256": "3aa507e5d495e22a4ebe43c9c83e1ff260e099e7071b2efacf5bec6e80c4bce9"
+          }
+        }
+      ],
+      "selected": {
+        "source_commit": "91ae8c5e4008a07cee8fd3a70a1306d4d971f9b4",
+        "asset_identity": {
+          "name": "codefriend-product.tar",
+          "path": "workerbee14/codefriend-completion/shared-library/installed-proof-91ae8c5/codefriend-product.tar"
+        },
+        "sha256": "a82fdb80f79bca977599c68b6a6e42da411be97dffef988d3031db24e46442ee",
+        "package_version": "0.93.1",
+        "dependency_lock": {
+          "path": "workerbee16-rd07-rd11-closeout/rd11/members/codefriend/Cargo.lock",
+          "sha256": "37c9191557ad70736aac5770cfd5fe2cde879413ddd224ac6e7eab64034caf96"
+        },
+        "build_provenance": {
+          "path": "workerbee16-rd07-rd11-closeout/rd11/members/codefriend/manifest.json",
+          "sha256": "4d1265e0f504ab8508db979ac5d40206ba53be08498e01798c536d410c1cdbb1"
+        },
+        "supported_consumer_versions": [
+          "CodeFriend 0.93.1 with local agent-product-support 0.1.0; accepted candidate 91ae8c5e4008a07cee8fd3a70a1306d4d971f9b4"
+        ]
+      },
+      "active_source_owners": [
+        "agent-logic/codefriend"
+      ],
+      "platforms": [
+        {
+          "target": "x86_64-unknown-linux-gnu; accepted standalone installed product",
+          "source_commit": "91ae8c5e4008a07cee8fd3a70a1306d4d971f9b4",
+          "artifact_sha256": "a82fdb80f79bca977599c68b6a6e42da411be97dffef988d3031db24e46442ee",
+          "independent_clean": true,
+          "distributable_only": true,
+          "operations": [
+            {
+              "operation": "build",
+              "argv": [
+                "cargo",
+                "build",
+                "--offline",
+                "--locked",
+                "--release",
+                "-p",
+                "codefriend",
+                "--bins",
+                "--timings"
+              ],
+              "exit_code": 0,
+              "executed": 1,
+              "skipped": 0
+            },
+            {
+              "operation": "install",
+              "argv": [
+                "/opt/homebrew/bin/docker",
+                "--context",
+                "colima-rd04",
+                "exec",
+                "rd04-qualification-49a222d1",
+                "python3",
+                "-B",
+                "/qualification/codefriend-completion/proof-inputs-91ae8c5/run_remaining_installed_once.py",
+                "--checkout",
+                "/qualification/codefriend-completion/source-91ae8c5",
+                "--archive",
+                "/qualification/codefriend-completion/proof-inputs-91ae8c5/codefriend-product.tar",
+                "--owner-pins",
+                "/qualification/codefriend-completion/proof-inputs-91ae8c5/OWNER_PINS.json",
+                "--verification-receipt",
+                "/qualification/codefriend-completion/proof-inputs-91ae8c5/VERIFIED_FINAL_ARTIFACT.json",
+                "--verification-receipt-sha256",
+                "02cf5dd54ba2d065870c9c10966796f1259293c5cc8c3cb3dd2dff18f3cb2218",
+                "--verification-pins",
+                "/qualification/codefriend-completion/proof-inputs-91ae8c5/PINS.json",
+                "--proof-root",
+                "/qualification/codefriend-completion/installed-proof-91ae8c5",
+                "--qemu-default-prefix",
+                "/usr/gnemul/qemu-x86_64"
+              ],
+              "exit_code": 0,
+              "executed": 1,
+              "skipped": 0
+            },
+            {
+              "operation": "test",
+              "argv": [
+                "python3",
+                "-B",
+                "tools/codefriend_host/ci/verify_host_package.py",
+                "--archive",
+                "$RUNNER_TEMP/product-distribution/codefriend-product.tar",
+                "--archive-sha256",
+                "$(sha256sum $RUNNER_TEMP/product-distribution/codefriend-product.tar | cut -d \" \" -f1)",
+                "--candidate",
+                "$(git rev-parse HEAD)",
+                "--output",
+                "$RUNNER_TEMP/host-package-extracted",
+                "--logs",
+                "$RUNNER_TEMP/host-component-results"
+              ],
+              "exit_code": 0,
+              "executed": 36,
+              "skipped": 0
+            }
+          ],
+          "evidence": {
+            "path": "workerbee16-rd07-rd11-closeout/rd11/CODEFRIEND_PLATFORM_CORRESPONDENCE.json",
+            "sha256": "f5e6882a9146dd335d05936d5fe0ab49d52f6bca384c80be4ff521507b3a5145"
+          }
+        }
+      ],
+      "website_disposition": null,
+      "authentication": {
+        "path": "workerbee14/codefriend-completion/sprint1-final/FINAL_DELIVERY.json",
+        "sha256": "3aa507e5d495e22a4ebe43c9c83e1ff260e099e7071b2efacf5bec6e80c4bce9"
+      },
+      "activation": "none"
+    },
+    {
+      "role": "website",
+      "repository": "agent-logic/codefriend.ai",
+      "available": [
+        {
+          "description": "Retained source8b0c5fd1/tree263751d2; deployed bundle/API baseline unknown, no deployment authorized.",
+          "evidence": {
+            "path": "next-wave-ready/RD11/INPUT_OVERLAY_R2.json",
+            "sha256": "5e7af310229a7bba0f2f70a381fce96ca6473672264982d1dea775ab3fec9f37"
+          }
+        },
+        {
+          "description": "Exact retained source/archive custody resolved; see current custody inputs, without new installed or deployment claim.",
+          "evidence": {
+            "path": "workerbee16-cross-owner-bundle/RD11_CUSTODY_CANDIDATES.json",
+            "sha256": "334080db37ad840c8f0c7f6c705b6ad66f0d6d1c85ed5f04cfc4563ae0c9b2c1"
+          }
+        }
+      ],
+      "selected": {
+        "source_commit": "8b0c5fd12423494c7fed27059321b217d7dff430",
+        "asset_identity": {
+          "name": "website-preserved-source-8b0c5fd12423494c7fed27059321b217d7dff430.tar",
+          "path": "workerbee16-cross-owner-bundle/website-preserved-source-8b0c5fd12423494c7fed27059321b217d7dff430.tar"
+        },
+        "sha256": "0a783f9d00a77b6dedf6e63a785754c65abbf0895f1761dc86697c62b7be8512",
+        "package_version": "0.1.0",
+        "dependency_lock": {
+          "path": "workerbee16-acceptance-integration/rd11-custody-update/members/website/package-lock.json",
+          "sha256": "766cfdaf2374e261a3c09a55b9cc7906628dd80e7ed24fbcf36e54ab72d58781"
+        },
+        "build_provenance": {
+          "path": "workerbee16-cross-owner-bundle/RD11_CUSTODY_CANDIDATES.json",
+          "sha256": "334080db37ad840c8f0c7f6c705b6ad66f0d6d1c85ed5f04cfc4563ae0c9b2c1"
+        },
+        "supported_consumer_versions": [
+          "Node >=24.0.0 (preserved source only; no deployed API pair)"
+        ]
+      },
+      "active_source_owners": [
+        "agent-logic/codefriend.ai"
+      ],
+      "platforms": [],
+      "website_disposition": "preserved_no_deployed_baseline",
+      "authentication": {
+        "path": "rd10-input-resolution-45/CONTRACT_INPUTS.json",
+        "sha256": "3a21524e61cccfc4b63c82bdf6d7a7a048cde2302b8e9945e93902f0339b4d45"
+      },
+      "activation": "none"
+    }
+  ],
+  "rd07_acceptance": {
+    "path": "workerbee16-rd07-rd11-closeout/rd07/188_finish_RESULT.json",
+    "sha256": "3b5bebb415910ecb0ca745bf9238b2e20843e554a22b37050fbb9c5fceeb019f"
+  },
+  "negative_evidence": [
+    {
+      "case": "missing_product_proof",
+      "observed_refusal": "Missing authentication refused in synthetic checker fixture; retained23-test run, not product qualification",
+      "executed": 1,
+      "evidence": {
+        "path": "rd11-lockset-source/focused-published-07ab6afe/tests.stderr.log",
+        "sha256": "7ae51b1a7b42c9d8874f396d72e4ee0474e859f6200d735941ed6cc73049ca74"
+      }
+    },
+    {
+      "case": "unproven_artifact",
+      "observed_refusal": "Different artifact/platform digest refused in synthetic checker fixture; retained23-test run, not product qualification",
+      "executed": 1,
+      "evidence": {
+        "path": "rd11-lockset-source/focused-published-07ab6afe/tests.stderr.log",
+        "sha256": "7ae51b1a7b42c9d8874f396d72e4ee0474e859f6200d735941ed6cc73049ca74"
+      }
+    },
+    {
+      "case": "corrupt_artifact",
+      "observed_refusal": "Missing/corrupt member refused in synthetic checker fixture; retained23-test run, not product qualification",
+      "executed": 1,
+      "evidence": {
+        "path": "rd11-lockset-source/focused-published-07ab6afe/tests.stderr.log",
+        "sha256": "7ae51b1a7b42c9d8874f396d72e4ee0474e859f6200d735941ed6cc73049ca74"
+      }
+    },
+    {
+      "case": "undeclared_build_cycle",
+      "observed_refusal": "Build cycle refused in synthetic checker fixture; retained23-test run, not product qualification",
+      "executed": 1,
+      "evidence": {
+        "path": "rd11-lockset-source/focused-published-07ab6afe/tests.stderr.log",
+        "sha256": "7ae51b1a7b42c9d8874f396d72e4ee0474e859f6200d735941ed6cc73049ca74"
+      }
+    },
+    {
+      "case": "standalone_csdlc_runtime_dependency",
+      "observed_refusal": "Forbidden dependency refused in synthetic checker fixture; retained23-test run, not product qualification",
+      "executed": 1,
+      "evidence": {
+        "path": "rd11-lockset-source/focused-published-07ab6afe/tests.stderr.log",
+        "sha256": "7ae51b1a7b42c9d8874f396d72e4ee0474e859f6200d735941ed6cc73049ca74"
+      }
+    },
+    {
+      "case": "mixed_active_owners",
+      "observed_refusal": "Two active owners refused in synthetic checker fixture; retained23-test run, not product qualification",
+      "executed": 1,
+      "evidence": {
+        "path": "rd11-lockset-source/focused-published-07ab6afe/tests.stderr.log",
+        "sha256": "7ae51b1a7b42c9d8874f396d72e4ee0474e859f6200d735941ed6cc73049ca74"
+      }
+    },
+    {
+      "case": "unqualified_shared_tool_activation",
+      "observed_refusal": "Shared install request refused in synthetic checker fixture; retained23-test run, not product qualification",
+      "executed": 1,
+      "evidence": {
+        "path": "rd11-lockset-source/focused-published-07ab6afe/tests.stderr.log",
+        "sha256": "7ae51b1a7b42c9d8874f396d72e4ee0474e859f6200d735941ed6cc73049ca74"
+      }
+    },
+    {
+      "case": "hidden_sibling_source",
+      "observed_refusal": "Original RD05 installed OS sandbox denied two source reads (exit1) while installed UI read succeeded; source2fee402c only",
+      "executed": 2,
+      "evidence": {
+        "path": "workerbee16-acceptance-integration/rd11-custody-update/runtime-rd05/source-denial.json",
+        "sha256": "586135ff292bdc033db57554528dfa35e7d18cc896dead6967911a8b6a3e2d51"
+      }
+    },
+    {
+      "case": "incompatible_version",
+      "observed_refusal": "Original RD05 installed app rejected adl.runtime_v3.observatory_feed.incompatible between two authentic accepts",
+      "executed": 1,
+      "evidence": {
+        "path": "workerbee16-acceptance-integration/rd11-custody-update/runtime-rd05/mismatch-consumer-result.json",
+        "sha256": "b4604906f10a04bbf068682465f469d1562d1a0b6cf54e3eaa25411476718ec9"
+      }
+    },
+    {
+      "case": "optional_adapter_absent_or_invalid",
+      "observed_refusal": "Original RD09 six installed cases at reviewed35d6b540: absent preserves baseline, invalid/unavailable refuse; no merge-archive binary proof inferred",
+      "executed": 6,
+      "evidence": {
+        "path": "remaining-wave-readiness-73/rd09-conformance-36791337310/job.log",
+        "sha256": "3a4ef4b94dc6c6364cc1856c67cc4de6b1e4e95a40dd52b201d5879579fe119d"
+      }
+    }
+  ],
+  "independent_review": {
+    "path": "workerbee16-rd07-rd11-closeout/rd11/FINAL_INDEPENDENT_REVIEW.md",
+    "sha256": "83e90a3dd321954fca9b44d9d3232ba0fd1735caa311565ac054c914c0044254"
+  }
+}

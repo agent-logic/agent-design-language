@@ -115,6 +115,13 @@ assert_current_coverage_workflow_contract() {
   assert_file_has "$workflow" 'selected ADL v2 standalone lane is $ADL_V2_STANDALONE_RESULT; expected success'
   assert_file_has "$workflow" 'unselected ADL v2 standalone lane is $ADL_V2_STANDALONE_RESULT; expected skipped'
   assert_file_has "$workflow" 'adl_v2_standalone_required must be exactly true or false'
+  assert_file_has "$workflow" 'name: public-adl-validation'
+  assert_file_has "$workflow" "if: needs.adl_path_policy.outputs.public_adl_validation_required == 'true'"
+  assert_file_has "$workflow" 'runs-on: macos-latest'
+  assert_file_has "$workflow" 'bash tools/public_adl/run_ci.sh'
+  assert_file_has "$workflow" 'path: .git/csdlc-v3/local/public-adl-proof/1192/'
+  assert_file_has "$workflow" 'PUBLIC_ADL_VALIDATION_RESULT: ${{ needs.public_adl_validation.result }}'
+  assert_file_has "$workflow" 'true:success|false:skipped'
   assert_file_has "$workflow" 'Full workspace coverage gate deferred for PR'
   assert_file_has "$workflow" 'adl/target/coverage-impact-summary.json'
   assert_file_not_has "$workflow" '--authority "adl_coverage_always_on"'
@@ -139,6 +146,8 @@ for selected, expected in [('true', True), ('false', True), ('invalid', False)]:
 block = workflow.split('# BEGIN independent Cargo roots aggregate contract', 1)[1].split('# END independent Cargo roots aggregate contract', 1)[0]
 lanes = {'adl_characterization_standalone': 'adl-characterization', 'adl_resilience_standalone': 'adl-resilience', 'remote_validation_standalone': 'tools/remote_validation'}
 base = os.environ.copy()
+base['PUBLIC_ADL_VALIDATION_REQUIRED'] = 'false'
+base['PUBLIC_ADL_VALIDATION_RESULT'] = 'skipped'
 for lane in lanes:
     base[lane.upper() + '_REQUIRED'] = 'false'
     base[lane.upper() + '_RESULT'] = 'skipped'

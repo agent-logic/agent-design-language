@@ -1,0 +1,10 @@
+[package]
+name = "adl-compatibility-validator"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[[test]]
+name = "full_contract"
+path = "tests/full_contract.rs"
+

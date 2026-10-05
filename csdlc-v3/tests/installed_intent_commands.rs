@@ -3648,6 +3648,138 @@ fn installed_no_pr_finish_requires_closed_authenticated_issue_and_retains_dispos
 }
 
 #[test]
+fn installed_missing_semantic_no_pr_finish_requires_marker_and_hashed_local_evidence() {
+    let mut fixture = Fixture::new("missing-semantic-no-pr-disposition");
+    fixture.enable_issue_transport();
+    let primary = fixture.root.clone();
+    let operation_digest = "a".repeat(64);
+    let mut remote = fixture.remote_issue();
+    remote["state"] = json!("closed");
+    remote["updated_at"] = json!("2026-09-30T22:51:45Z");
+    remote["closed_at"] = json!("2026-09-30T22:51:45Z");
+    remote["body"] = json!(format!(
+        "Fixture issue\n\n<!-- csdlc-v3-operation:{operation_digest} -->"
+    ));
+    fs::write(
+        primary.join(".git/installed-candidate/remote-issue.json"),
+        serde_json::to_vec(&remote).unwrap(),
+    )
+    .unwrap();
+    let evidence_ref = ".git/csdlc-v3/local/issue870-operator-close/decision.json";
+    let evidence = br#"{"operator":"fixture","outcome":"verified"}"#;
+    fs::create_dir_all(
+        primary
+            .join(evidence_ref)
+            .parent()
+            .expect("evidence parent"),
+    )
+    .unwrap();
+    fs::write(primary.join(evidence_ref), evidence).unwrap();
+    let disposition = fixture.write_json(
+        "missing-semantic-disposition.json",
+        &json!({
+            "disposition":"historical_disposition",
+            "operator":"synthetic-fixture-operator",
+            "rationale":"Reconcile an authenticated historical fallback without claiming reviewed delivery",
+            "evidence_refs":[evidence_ref],
+            "expected_operation_digest":operation_digest,
+            "evidence_digests":{
+                evidence_ref:blake3::hash(evidence).to_hex().to_string()
+            }
+        }),
+    );
+    let args = [
+        "finish",
+        "870",
+        "--disposition",
+        disposition.to_str().unwrap(),
+    ];
+    let result = success(fixture.run(&primary, &args));
+    assert_eq!(result["compatibility"], "missing_semantic_no_pr_closeout");
+    let receipt_path = primary.join(".git/csdlc-v3/local/evidence/870/terminal-receipt.json");
+    let receipt: Value = serde_json::from_slice(&fs::read(&receipt_path).unwrap()).unwrap();
+    assert_eq!(
+        receipt["no_pr_closeout"]["disposition"],
+        "historical_disposition"
+    );
+    assert_eq!(
+        receipt["no_pr_closeout"]["expected_operation_digest"],
+        operation_digest
+    );
+    let before = fs::read(&receipt_path).unwrap();
+    let replay = success(fixture.run(&primary, &args));
+    assert_eq!(replay["status"], "expected_noop");
+    assert_eq!(fs::read(receipt_path).unwrap(), before);
+    assert_eq!(fixture.remote_effects(), 0);
+}
+
+#[test]
+fn installed_missing_semantic_no_pr_finish_rejects_unbound_or_forged_evidence() {
+    for case in [
+        "wrong-disposition",
+        "wrong-marker",
+        "wrong-evidence-digest",
+        "extra-unhashed-reference",
+        "duplicate-evidence-reference",
+    ] {
+        let mut fixture = Fixture::new(case);
+        fixture.enable_issue_transport();
+        let primary = fixture.root.clone();
+        let operation_digest = "b".repeat(64);
+        let mut remote = fixture.remote_issue();
+        remote["state"] = json!("closed");
+        remote["updated_at"] = json!("2026-09-30T22:51:45Z");
+        remote["closed_at"] = json!("2026-09-30T22:51:45Z");
+        remote["body"] = json!(format!(
+            "Fixture issue\n\n<!-- csdlc-v3-operation:{operation_digest} -->"
+        ));
+        fs::write(
+            primary.join(".git/installed-candidate/remote-issue.json"),
+            serde_json::to_vec(&remote).unwrap(),
+        )
+        .unwrap();
+        let evidence_ref = ".git/csdlc-v3/local/issue870-operator-close/decision.json";
+        let evidence = b"fixture decision";
+        fs::create_dir_all(primary.join(evidence_ref).parent().unwrap()).unwrap();
+        fs::write(primary.join(evidence_ref), evidence).unwrap();
+        let disposition = fixture.write_json(
+            &format!("{case}.json"),
+            &json!({
+                "disposition":if case == "wrong-disposition" {"absorbed"} else {"historical_disposition"},
+                "operator":"synthetic-fixture-operator",
+                "rationale":"Negative missing-state closeout fixture",
+                "evidence_refs":match case {
+                    "extra-unhashed-reference" => json!([
+                        evidence_ref,
+                        ".git/csdlc-v3/local/issue870-operator-close/unhashed.json"
+                    ]),
+                    "duplicate-evidence-reference" => json!([evidence_ref, evidence_ref]),
+                    _ => json!([evidence_ref]),
+                },
+                "expected_operation_digest":if case == "wrong-marker" {"c".repeat(64)} else {operation_digest.clone()},
+                "evidence_digests":{
+                    evidence_ref:if case == "wrong-evidence-digest" {"d".repeat(64)} else {blake3::hash(evidence).to_hex().to_string()}
+                }
+            }),
+        );
+        let output = fixture.run(
+            &primary,
+            &[
+                "finish",
+                "870",
+                "--disposition",
+                disposition.to_str().unwrap(),
+            ],
+        );
+        assert!(!output.status.success(), "{case}");
+        assert!(!primary
+            .join(".git/csdlc-v3/local/evidence/870/terminal-receipt.json")
+            .exists());
+        assert_eq!(fixture.remote_effects(), 0);
+    }
+}
+
+#[test]
 fn installed_remote_recover_retries_once_only_after_authenticated_absence() {
     let (mut fixture, linked) = reviewed_fixture("remote-recover-absence");
     let primary = fixture.root.clone();
