@@ -3,7 +3,7 @@
   "component": "infra/aws/runtime/log-archive",
   "counts": {
     "remove_paths": 8,
-    "retained_historical_reference_files": 19,
+    "retained_historical_reference_files": 38,
     "surgical_files": 0,
     "surgical_lines": 0
   },
@@ -29,18 +29,37 @@
     "retained Runtime and infrastructure validators"
   ],
   "reference_scan": {
-    "classification": "No active source, workflow, validation lane, executable test, or current operation document depends on this component. Exact per-file scanning found only immutable lifecycle/evidence records, the RD02 mapping inventory, and one inert changed-path fixture retained to preserve its test scenario.",
+    "classification": "All 38 enumerated references are retained historical lifecycle/evidence/inventory records or the inert issue-520 fixture. The historical issue-594 validator requires the original source revision or restored component; it is not runnable against the retired source tree. This amended inventory requires fresh review; old result receipts retain their original meaning.",
     "operational_reference_files": [],
     "retained_historical_reference_files": [
       ".csdlc/issues/594/audit.jsonl",
+      ".csdlc/issues/594/cards/sip.md",
+      ".csdlc/issues/594/cards/sip.values.json",
       ".csdlc/issues/594/cards/sor.md",
       ".csdlc/issues/594/cards/sor.values.json",
+      ".csdlc/issues/594/cards/spp.values.json",
+      ".csdlc/issues/594/cards/srp.md",
+      ".csdlc/issues/594/cards/srp.values.json",
       ".csdlc/issues/594/index.json",
+      ".csdlc/issues/695/cards/stp.md",
+      ".csdlc/issues/695/cards/stp.values.json",
+      ".csdlc/prepared/issues/594/bootstrap-request.json",
+      ".csdlc/prepared/issues/594/edit-spp-owned-paths.json",
+      ".csdlc/prepared/issues/594/edit-spp-terraform-validator.json",
+      ".csdlc/prepared/issues/594/edit-spp-validator-paths.json",
+      ".csdlc/prepared/issues/594/edit-vpp-executable-lanes.json",
       ".csdlc/prepared/issues/594/finalize-implementation.json",
       ".csdlc/prepared/issues/594/replace-execution-after-identifier-parity.json",
       ".csdlc/prepared/issues/594/replace-execution-after-s3-failure-proof.json",
       ".csdlc/prepared/issues/594/replace-execution-after-s3-survival-proof.json",
       ".csdlc/prepared/issues/594/replace-execution-after-wrapper-tightening.json",
+      ".csdlc/prepared/issues/594/review-assign-r2.json",
+      ".csdlc/prepared/issues/594/review-assign-r3.json",
+      ".csdlc/prepared/issues/594/review-assign-r4.json",
+      ".csdlc/prepared/issues/594/review-assign-r5-publication-safe.json",
+      ".csdlc/prepared/issues/594/review-record-r4-pass.json",
+      ".csdlc/prepared/issues/594/validate-terraform-log-archive.sh",
+      ".csdlc/prepared/issues/695/bootstrap-request.json",
       "adl/tools/skills/repo-packet-builder/tests/fixtures/issue-520-changed-paths.txt",
       "docs/milestones/v0.92.1/evidence/release/tail-04/repo_inventory.json",
       "docs/milestones/v0.92.1/evidence/release/tail-04/specialist-input/dependency.json",
@@ -185,5 +204,31 @@
     "run git diff --check",
     "run final public ADL qualification at committed candidate",
     "native exact-head review"
-  ]
+  ],
+  "reference_inventory_amendment": {
+    "observed_main": "f1493c54e4d9f6c5a1da798f48d9f2c361033fa4",
+    "previous_count": 19,
+    "additional_paths": [
+      ".csdlc/issues/594/cards/sip.md",
+      ".csdlc/issues/594/cards/sip.values.json",
+      ".csdlc/issues/594/cards/spp.values.json",
+      ".csdlc/issues/594/cards/srp.md",
+      ".csdlc/issues/594/cards/srp.values.json",
+      ".csdlc/issues/695/cards/stp.md",
+      ".csdlc/issues/695/cards/stp.values.json",
+      ".csdlc/prepared/issues/594/bootstrap-request.json",
+      ".csdlc/prepared/issues/594/edit-spp-owned-paths.json",
+      ".csdlc/prepared/issues/594/edit-spp-terraform-validator.json",
+      ".csdlc/prepared/issues/594/edit-spp-validator-paths.json",
+      ".csdlc/prepared/issues/594/edit-vpp-executable-lanes.json",
+      ".csdlc/prepared/issues/594/review-assign-r2.json",
+      ".csdlc/prepared/issues/594/review-assign-r3.json",
+      ".csdlc/prepared/issues/594/review-assign-r4.json",
+      ".csdlc/prepared/issues/594/review-assign-r5-publication-safe.json",
+      ".csdlc/prepared/issues/594/review-record-r4-pass.json",
+      ".csdlc/prepared/issues/594/validate-terraform-log-archive.sh",
+      ".csdlc/prepared/issues/695/bootstrap-request.json"
+    ],
+    "historical_records_modified": false
+  }
 }

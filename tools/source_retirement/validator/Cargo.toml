@@ -1,0 +1,15 @@
+[package]
+name = "source-retirement-validator"
+version = "0.0.0"
+edition = "2021"
+publish = false
+
+[[test]]
+name = "retirement_contract"
+path = "retirement_contract.rs"
+
+[[test]]
+name = "installed_public_packages"
+path = "installed_public_packages.rs"
+
+[workspace]

@@ -1,0 +1,130 @@
+{
+  "schema": "adl.source_retirement.validation_plan.v1",
+  "issue": 1223,
+  "validators": [
+    {
+      "id": "public-schema",
+      "program": "cargo",
+      "args": [
+        "test",
+        "--locked",
+        "--manifest-path",
+        "adl-schema/Cargo.toml"
+      ],
+      "success_marker": "test result: ok.",
+      "timeout_seconds": 300
+    },
+    {
+      "id": "public-uts",
+      "program": "cargo",
+      "args": [
+        "test",
+        "--locked",
+        "--manifest-path",
+        "adl-uts/Cargo.toml"
+      ],
+      "success_marker": "test result: ok.",
+      "timeout_seconds": 300
+    },
+    {
+      "id": "public-language",
+      "program": "cargo",
+      "args": [
+        "test",
+        "--locked",
+        "--manifest-path",
+        "adl-v2/crates/adl-language/Cargo.toml"
+      ],
+      "success_marker": "test result: ok.",
+      "timeout_seconds": 300
+    },
+    {
+      "id": "public-compiler",
+      "program": "cargo",
+      "args": [
+        "test",
+        "--locked",
+        "--manifest-path",
+        "adl-v2/crates/adl-compiler/Cargo.toml"
+      ],
+      "success_marker": "test result: ok.",
+      "timeout_seconds": 300
+    },
+    {
+      "id": "public-legacy-contracts",
+      "program": "cargo",
+      "args": [
+        "test",
+        "--locked",
+        "--manifest-path",
+        "adl-legacy-contracts/Cargo.toml"
+      ],
+      "success_marker": "test result: ok.",
+      "timeout_seconds": 300
+    },
+    {
+      "id": "retirement-contract",
+      "program": "cargo",
+      "args": [
+        "test",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "tools/source_retirement/validator/Cargo.toml",
+        "--test",
+        "retirement_contract"
+      ],
+      "success_marker": "test result: ok.",
+      "timeout_seconds": 300
+    },
+    {
+      "id": "installed-public-packages",
+      "program": "cargo",
+      "args": [
+        "test",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "tools/source_retirement/validator/Cargo.toml",
+        "--test",
+        "installed_public_packages"
+      ],
+      "success_marker": "test result: ok.",
+      "timeout_seconds": 300
+    }
+  ],
+  "pvf": {
+    "retirement-contract": {
+      "lane": "local_contract",
+      "role": "preparation_and_retirement_regression",
+      "determinism": "deterministic",
+      "resources": "small_cpu_and_local_disk_no_network",
+      "gate": "required"
+    },
+    "installed-public-packages": {
+      "lane": "installed_integration",
+      "role": "exact_candidate_five_package_qualification",
+      "determinism": "sandboxed_real_consumer",
+      "resources": "macos_cpu_disk_public_cargo_cache_no_paid_services",
+      "gate": "required_final_candidate"
+    }
+  },
+  "required_counts": {
+    "original_rows": 4134,
+    "existing_removals": 34,
+    "regression_cases": 10,
+    "public_packages": 5,
+    "consumer_cases": 7,
+    "uts_fixtures": 21,
+    "installed_negative_cases": 5
+  },
+  "remaining_execution_gates": [
+    "operator_sequence_after_non_tail_before_sprint4",
+    "coherent_component_consumer_and_qualified_replacement_decisions",
+    "final_candidate_installed_proof",
+    "independent_exact_head_review",
+    "native_publication_integration_finish"
+  ],
+  "proof_executed_by_this_document": false,
+  "package_selection": "Explicit member --manifest-path selects full package tests including integration tests and doctests. No --lib filter; native admitted form omits unsupported --package flag."
+}

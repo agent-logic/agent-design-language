@@ -21,7 +21,7 @@ Version: 1.0.5
 Title: [v0.93.1][RD-07 final] Complete coherent source retirement after the repository split
 Branch: codex/1223-1223-coherent-source-retirement
 Card Status: ready
-Status: not_started
+Status: in_progress
 Generated: <timestamp>
 
 Execution:
@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Native preparation, dependency-closure analysis, coherent delta review, implementation, validation, publication, integration, and closeout are pending. No source has been deleted.
+Source retirement remains scheduled after non-tail work and before Sprint4. Preserved34 reviewed committed removals remain isolated and unmerged (16DDNS,8log-archive,10checkpoint-archive). WorkerBee19 preserved all five pre-existing dirty files, integrated inspected main f1493c54 into branch b14dfa9c, recovered and reconciled all4134 original rows, verified archive and restored4136members with zero mismatches, corrected Batch02 from19 to38 references, and amended SPP/VPP through native edits. Added preparation guard plus10 focused regression cases; those Python cases passed locally. New candidate guard and final five-package installed proof remain pending committed-candidate execution. No new source deletion, PR, deployment, provider/cloud execution or full retirement completion claimed. All4100 retained candidates remain explicit holds; content equality is not replacement acceptance. Pre-existing untracked Batch04 is preserved and not applied.
 
 ## PVF Lane Truth
 - Initial PVF lane: `<initial_pvf_lane>`

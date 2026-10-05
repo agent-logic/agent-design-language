@@ -38,7 +38,7 @@ source_refs:
     ref: "<sip_card>"
 scope:
   files:
-    - "First reviewable batch: one complete extracted component, its ADL references, validation selectors, workflow/test/docs routes, exact retirement manifest, and issue-local proof. Active C-SDLC execution source and five public-package surfaces remain protected."
+    - "docs/milestones/v0.93.1/repository-decomposition/rd07-1223; tools/source_retirement; six native cards. Preparation changes do not add source deletions. Existing34 removals stay isolated; all4100 other candidates remain held with row-specific source/successor identities."
   components:
     - "<slug>"
   out_of_scope:
@@ -53,19 +53,19 @@ assumptions:
   - "The linked source issue prompt, STP, and SIP remain the canonical design-time inputs."
 proposed_steps:
   - id: "step-1"
-    description: "Confirm dependency readiness and starting state: Accepted product replacement evidence and RD-08 delivery are inputs. RD-11 may proceed in parallel and consumes this issue's final evidence; neither RD-07 nor RD-11 closure is a prerequisite."
+    description: "Confirm dependency readiness and starting state: Source retirement remains last after non-tail work and before Sprint 4. RD07/RD11/Sprint1 acceptance do not depend on this follow-up. Preserve active producer ownership and C-SDLC operational routes. Preparation may proceed now; new deletion requires a reviewed coherent component and qualified successor."
     expected_output: "<sip_card>"
     allowed_mode: "design_review_then_execution"
   - id: "step-2"
-    description: "Review repo inputs and scoped surfaces before editing: Issue #1223; #1192; #1193; frozen original revision 248f00e359e412f6bc0061ac88be9ff374e3a212; current retirement inventory of 4,134 paths; verified 4,136-member preservation archive; authenticated destination heads; public-package baseline report bdbd962ec8f24704260fe0851c5121ea52d68838c0e61c4fe1cdec946e2ff000."
+    description: "Review repo inputs and scoped surfaces before editing: Issue1223; frozen248f00e359e412f6bc0061ac88be9ff374e3a212; inspected main f1493c54e4d9f6c5a1da798f48d9f2c361033fa4 integrated into this bound branch; docs/milestones/v0.93.1/repository-decomposition/rd07-1223/DISPOSITION_REGISTER.json preserves all4134 original rows; retained batch01-03 reviews and archive12205043566913435c25ea414b1fd9148b46727821f7bfefd5d452cfe47a1c17."
     expected_output: "<stp_card>"
     allowed_mode: "design_review_then_execution"
   - id: "step-3"
-    description: "Implement only the bounded deliverables: Reviewed exact-path retirement manifest; coherent component removal with all reference repairs; preservation and isolated restore evidence; final public-package and retained-repository validation; independent exact-head review and native closeout."
+    description: "Implement only the bounded deliverables: Complete candidate register; corrected38-file Batch02 historical reference inventory; native SPP/VPP and validator declarations; focused denominator, protected-evidence, rollback and direct-reference guard; current review. Full retirement separately requires consumer transitions, qualified replacements and final exact-candidate installed proof."
     expected_output: "tracked issue work product"
     allowed_mode: "execution_after_approval"
   - id: "step-4"
-    description: "Run focused proof gates for acceptance: All 4,134 candidates retain explicit remove, surgical, or justified-retain dispositions; every removed component has a qualified replacement, preservation, rollback, and zero retained live references; public ADL remains usable; active C-SDLC remains operational."
+    description: "Run focused proof gates for acceptance: All4134 candidates retain exact identities and explicit actions; no unknown replacement becomes removal approval; no new source deletion in this preparation; final issue acceptance still needs every retained hold resolved or explicitly justified at component level, qualified replacements, historical reproduction, public installed proof and native delivery."
     expected_output: "validation evidence recorded in VPP/SOR"
     allowed_mode: "execution_after_approval"
   - id: "step-5"
@@ -91,7 +91,7 @@ invariants_to_preserve:
 risks_and_edge_cases:
   - "<risks_inline>"
 test_strategy:
-  - "Before any deletion, prove destination byte/mode correspondence, complete inbound-reference closure, exact preservation and restore. After the reviewed decision, run focused changed-boundary proof, dangling-reference negatives, the five-package independent-consumer qualifier, native proof, exact-head review, and CI."
+  - "Run retirement_contract for committed inventory/reference checks and ten focused positive/negative cases. Run each of five public-package Cargo tests and installed_public_packages for exact-candidate five-package artifacts, seven consumers,21UTS fixtures and five private/source/network/version negatives. Missing rollback, evidence, unapproved deletion or remaining direct reference must fail closed. Do not rerun old installed proof merely for preparation; final candidate proof remains pending."
 execution_handoff: "Use this SPP as the design-time plan-of-record, then hand validation-planning specifics into VPP and update both cards whenever the real execution path diverges."
 required_permissions:
   - "workspace-write after execution approval"
@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "Issue creation and exact successor equality are not deletion authority. No source deletion occurs before an exact coherent delta is independently reviewed and accepted. Do not revive cognitive-sdlc#100 as a Sprint 1 prerequisite."
+notes: "Equality is only candidate correspondence. RD11 selections are not automatically current installed qualification. Preserve source-dependent C-SDLC and public contracts. AWS proposal includes Batch04; do not apply twice. Current plan changes invalidate prior proof/review; missing final proof remains pending."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -154,10 +154,10 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 ## Proposed Steps
 
-1. Confirm dependency readiness and starting state: Accepted product replacement evidence and RD-08 delivery are inputs. RD-11 may proceed in parallel and consumes this issue's final evidence; neither RD-07 nor RD-11 closure is a prerequisite.
-2. Review repo inputs and scoped surfaces before editing: Issue #1223; #1192; #1193; frozen original revision 248f00e359e412f6bc0061ac88be9ff374e3a212; current retirement inventory of 4,134 paths; verified 4,136-member preservation archive; authenticated destination heads; public-package baseline report bdbd962ec8f24704260fe0851c5121ea52d68838c0e61c4fe1cdec946e2ff000.
-3. Implement only the bounded deliverables: Reviewed exact-path retirement manifest; coherent component removal with all reference repairs; preservation and isolated restore evidence; final public-package and retained-repository validation; independent exact-head review and native closeout.
-4. Run focused proof gates for acceptance: All 4,134 candidates retain explicit remove, surgical, or justified-retain dispositions; every removed component has a qualified replacement, preservation, rollback, and zero retained live references; public ADL remains usable; active C-SDLC remains operational.
+1. Confirm dependency readiness and starting state: Source retirement remains last after non-tail work and before Sprint 4. RD07/RD11/Sprint1 acceptance do not depend on this follow-up. Preserve active producer ownership and C-SDLC operational routes. Preparation may proceed now; new deletion requires a reviewed coherent component and qualified successor.
+2. Review repo inputs and scoped surfaces before editing: Issue1223; frozen248f00e359e412f6bc0061ac88be9ff374e3a212; inspected main f1493c54e4d9f6c5a1da798f48d9f2c361033fa4 integrated into this bound branch; docs/milestones/v0.93.1/repository-decomposition/rd07-1223/DISPOSITION_REGISTER.json preserves all4134 original rows; retained batch01-03 reviews and archive12205043566913435c25ea414b1fd9148b46727821f7bfefd5d452cfe47a1c17.
+3. Implement only the bounded deliverables: Complete candidate register; corrected38-file Batch02 historical reference inventory; native SPP/VPP and validator declarations; focused denominator, protected-evidence, rollback and direct-reference guard; current review. Full retirement separately requires consumer transitions, qualified replacements and final exact-candidate installed proof.
+4. Run focused proof gates for acceptance: All4134 candidates retain exact identities and explicit actions; no unknown replacement becomes removal approval; no new source deletion in this preparation; final issue acceptance still needs every retained hold resolved or explicitly justified at component level, qualified replacements, historical reproduction, public installed proof and native delivery.
 5. Record issue-specific review findings in SRP, validation-planning truth in VPP, issue outcome truth in SOR, and refresh this SPP if execution diverges.
 
 ## Affected Areas
@@ -175,7 +175,7 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 ## Test Strategy
 
-- Before any deletion, prove destination byte/mode correspondence, complete inbound-reference closure, exact preservation and restore. After the reviewed decision, run focused changed-boundary proof, dangling-reference negatives, the five-package independent-consumer qualifier, native proof, exact-head review, and CI.
+- Run retirement_contract for committed inventory/reference checks and ten focused positive/negative cases. Run each of five public-package Cargo tests and installed_public_packages for exact-candidate five-package artifacts, seven consumers,21UTS fixtures and five private/source/network/version negatives. Missing rollback, evidence, unapproved deletion or remaining direct reference must fail closed. Do not rerun old installed proof merely for preparation; final candidate proof remains pending.
 
 ## Execution Handoff
 
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-Issue creation and exact successor equality are not deletion authority. No source deletion occurs before an exact coherent delta is independently reviewed and accepted. Do not revive cognitive-sdlc#100 as a Sprint 1 prerequisite.
+Equality is only candidate correspondence. RD11 selections are not automatically current installed qualification. Preserve source-dependent C-SDLC and public contracts. AWS proposal includes Batch04; do not apply twice. Current plan changes invalidate prior proof/review; missing final proof remains pending.
