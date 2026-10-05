@@ -22,6 +22,8 @@ class RetirementNegatives(unittest.TestCase):
         for r in cls.ledger['rows']:
             if r['action'] == 'existing_branch_removal':
                 del cls.candidate[r['path']]
+            elif r['action'] == 'existing_branch_surgical':
+                cls.candidate[r['path']] = r['expected_surgical_identity']
 
     def test_complete_original_denominator_and_existing_delta(self):
         self.assertEqual(len(check.check_inventory(self.ledger, self.frozen, self.observed, self.candidate)), 34)
@@ -68,6 +70,12 @@ class RetirementNegatives(unittest.TestCase):
                 self.assertEqual(check.committed_json('input.json'), {'allowed': []})
             finally:
                 check.ROOT = old_root
+
+    def test_surgical_repair_cannot_hide_configuration_change(self):
+        candidate = dict(self.candidate)
+        candidate['infra/runtime-v3/runtime-init.toml'] = ['100644', '0' * 40]
+        with self.assertRaisesRegex(ValueError, 'surgical change exceeds'):
+            check.check_inventory(self.ledger, self.frozen, self.observed, candidate)
 
     def test_false_approval_rejected(self):
         ledger = dict(self.ledger, new_removals_authorized=True)

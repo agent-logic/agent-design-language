@@ -38,7 +38,7 @@ source_refs:
     ref: "<sip_card>"
 scope:
   files:
-    - "docs/milestones/v0.93.1/repository-decomposition/rd07-1223; tools/source_retirement; six native cards. Preparation changes do not add source deletions. Existing34 removals stay isolated; all4100 other candidates remain held with row-specific source/successor identities."
+    - "docs/milestones/v0.93.1/repository-decomposition/rd07-1223; tools/source_retirement; six native cards. Preparation changes do not add source deletions. Existing34 removals stay isolated; 4099 other candidates remain held and one retained path has the existing reviewed comment-only repair with row-specific source/successor identities."
   components:
     - "<slug>"
   out_of_scope:
@@ -91,7 +91,7 @@ invariants_to_preserve:
 risks_and_edge_cases:
   - "<risks_inline>"
 test_strategy:
-  - "Run retirement_contract for committed inventory/reference checks and ten focused positive/negative cases. Run each of five public-package Cargo tests and installed_public_packages for exact-candidate five-package artifacts, seven consumers,21UTS fixtures and five private/source/network/version negatives. Missing rollback, evidence, unapproved deletion or remaining direct reference must fail closed. Do not rerun old installed proof merely for preparation; final candidate proof remains pending."
+  - "Run retirement_contract for committed inventory/reference checks and eleven focused positive/negative cases. Run each of five public-package Cargo tests and installed_public_packages for exact-candidate five-package artifacts, seven consumers,21UTS fixtures and five private/source/network/version negatives. Missing rollback, evidence, unapproved deletion or remaining direct reference must fail closed. Do not rerun old installed proof merely for preparation; final candidate proof remains pending."
 execution_handoff: "Use this SPP as the design-time plan-of-record, then hand validation-planning specifics into VPP and update both cards whenever the real execution path diverges."
 required_permissions:
   - "workspace-write after execution approval"
@@ -175,7 +175,7 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 ## Test Strategy
 
-- Run retirement_contract for committed inventory/reference checks and ten focused positive/negative cases. Run each of five public-package Cargo tests and installed_public_packages for exact-candidate five-package artifacts, seven consumers,21UTS fixtures and five private/source/network/version negatives. Missing rollback, evidence, unapproved deletion or remaining direct reference must fail closed. Do not rerun old installed proof merely for preparation; final candidate proof remains pending.
+- Run retirement_contract for committed inventory/reference checks and eleven focused positive/negative cases. Run each of five public-package Cargo tests and installed_public_packages for exact-candidate five-package artifacts, seven consumers,21UTS fixtures and five private/source/network/version negatives. Missing rollback, evidence, unapproved deletion or remaining direct reference must fail closed. Do not rerun old installed proof merely for preparation; final candidate proof remains pending.
 
 ## Execution Handoff
 

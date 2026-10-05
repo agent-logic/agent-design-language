@@ -112,7 +112,7 @@
   "required_counts": {
     "original_rows": 4134,
     "existing_removals": 34,
-    "regression_cases": 10,
+    "regression_cases": 11,
     "public_packages": 5,
     "consumer_cases": 7,
     "uts_fixtures": 21,

@@ -55,6 +55,13 @@ def check_inventory(ledger, frozen, observed, candidate):
             require(any(p.startswith(c + '/') for c in COMPONENTS), 'out-of-scope removal: ' + p)
             require(p not in candidate, 'declared prior removal still present: ' + p)
             removed.append(p)
+        elif r['action'] == 'existing_branch_surgical':
+            require(p == 'infra/runtime-v3/runtime-init.toml', 'unapproved surgical path')
+            before = subprocess.check_output(['git', '--no-optional-locks', 'show', ledger['observed_main'] + ':' + p], cwd=ROOT)
+            after = before.replace(b'# S3 archive values come from infra/aws/runtime/agent-checkpoint-archive outputs.',
+                                   b"# S3 archive values come from the agent-logic-infrastructure repository's\n# infra/aws/runtime/agent-checkpoint-archive outputs.")
+            expected = hashlib.sha1(b'blob ' + str(len(after)).encode() + b'\0' + after).hexdigest()
+            require(after != before and candidate.get(p) == [observed[p][0], expected], 'surgical change exceeds reviewed comment')
         else:
             require(r['action'] == 'retain', 'unknown action: ' + p)
             require(candidate.get(p) == observed.get(p), 'held source removed or altered: ' + p)

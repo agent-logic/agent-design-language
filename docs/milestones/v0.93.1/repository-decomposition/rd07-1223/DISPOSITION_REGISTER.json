@@ -84326,12 +84326,16 @@
         "100644",
         "84ce398c2836b838aaa4120079cf9cd749b15713"
       ],
-      "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "action": "existing_branch_surgical",
+      "reason": "reviewed_batch_03_successor_repository_comment_only",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "expected_surgical_identity": [
+        "100644",
+        "ef3cde01157e47e62236ee2701373e2560602d22"
+      ]
     },
     {
       "id": "RD07-4093",
