@@ -1,0 +1,16 @@
+{
+  "schema": "csdlc.v3.intent_changes.v1",
+  "amendment": {
+    "class": "proof_validator",
+    "transition_approved": true,
+    "new_commit": false
+  },
+  "cards": {
+    "vpp": {
+      "plan_summary": "The installed independent qualification is planned in a bound preparation context. Prove the waiting-list and hosted-mode paths are built, tested and deployable through local or owned nonpublic staging evidence; public deployment and live launch are outside v0.93.1 qualification. Do not execute until accepted dependencies, exact candidate custody, the source-authoritative obligation map, applicable provider authority for genuinely provider-backed local scenarios, and complete prompt-only SRP readiness are present.",
+      "selected_lanes_inline": "Installed-consumer identity/custody; macOS/Linux x ADL/external repository x hosted-mode build/local-agent website/CLI matrix; waiting-list and hosted-mode local or owned nonpublic staging deployability; external-tester ADL/external OSS/PR-review journeys; refusal/privacy/interruption/recovery/cost/deletion/rollback; human HTML/PDF inspection; independent findings review.",
+      "validation_resource_profile": "Bounded local CPU/files and owned nonpublic CI or staging; paid providers require separate issue-specific authority; public deployment, audience activation and live launch are excluded.",
+      "failure_policy": "Fail closed. Missing inputs, skipped cells, zero scenarios, unmatched versions, unresolved citations, unknown effects, failed obligations, missing waiting-list or hosted-mode deployability proof, privacy leakage or unresolved actionable findings block qualification. Absence of public deployment alone is not a qualification failure."
+    }
+  }
+}
