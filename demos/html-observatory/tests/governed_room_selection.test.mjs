@@ -43,12 +43,12 @@ test('nine eligible agents remain visible and block sends until reduced to eight
   assert.equal(all.canSend, false);
   assert.equal(selection.select(ids(all).slice(1)).canSend, true);
 });
-test('Everyone collects raw Runtime pages at the same revision and rejects incomplete or drifting pages', async () => {
+test('Everyone collects Runtime HTTP feed pages at the same revision and rejects incomplete or drifting pages', async () => {
   const first = population([agent('a')], {total_count: 2, has_more: true, next_page_token: 'page2'});
-  const page = { agents: [agent('b')], visible_count: 2, revision: 1, event_cursor: 'cursor', scope: 'local', population_complete: false, has_more: false, next_page_token: null };
+  const page = { sample: [agent('b')], total_count: 2, revision: 1, event_cursor: 'cursor', scope: 'local', population_complete: false, has_more: false, next_page_token: null };
   const full = await completeGovernedRoomRoster(first, async token => { assert.equal(token, 'page2'); return page; });
   assert.deepEqual(full.sample.map(a => a.id), ['a', 'b']);
-  for (const delta of [{revision: 2}, {event_cursor: 'other'}, {visible_count: 3}, {scope: 'other'}, {agents: [agent('a')]}, {agents: []}]) {
+  for (const delta of [{revision: 2}, {event_cursor: 'other'}, {total_count: 3}, {scope: 'other'}, {sample: [agent('a')]}, {sample: []}]) {
     await assert.rejects(completeGovernedRoomRoster(first, async () => ({...page, ...delta})));
   }
   assert.deepEqual((await completeGovernedRoomRoster(population([]), async () => page)).sample, []);

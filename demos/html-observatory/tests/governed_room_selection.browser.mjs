@@ -43,7 +43,7 @@ try {
         assert.equal(url.searchParams.has('event_cursor'), false, 'same-revision page must omit successor cursor');
         assert.equal(url.searchParams.get('page_size'), '1');
         await new Promise(resolve => {releasePage = resolve; pageStarted();});
-        return route.fulfill({json:{schema:'adl.runtime_v3.agent_roster_page.v1', revision:current.agents.revision, event_cursor:current.agents.event_cursor, scope:'local_runtime', visible_count:2, population_complete:false, agents:[agent('b')], has_more:false, next_page_token:null}});
+        return route.fulfill({json:{schema:'adl.runtime_v3.agent_roster_page.v1', revision:current.agents.revision, event_cursor:current.agents.event_cursor, scope:'local_runtime', total_count:2, population_complete:false, sample:[agent('b')], has_more:false, next_page_token:null}});
       }
       if (url.pathname.startsWith('/v1/')) return route.fulfill({json: url.pathname === '/v1/observatory' ? current : {ready:true, degraded_reasons:[]}});
       return route.fulfill({status:404, body:''});

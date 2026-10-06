@@ -645,8 +645,7 @@ async function completeGovernedRoomRoster(population, fetchPage) {
     const token = page.next_page_token;
     if (!token || tokens.has(token)) throw new Error("Roster pagination is incomplete. Refresh and try again.");
     tokens.add(token);
-    const response = await fetchPage(token);
-    page = { ...response, sample: response.agents, total_count: response.visible_count };
+    page = await fetchPage(token);
     if (page.revision !== population.revision || page.event_cursor !== population.event_cursor ||
         page.total_count !== population.total_count || page.scope !== population.scope) {
       throw new Error("Roster changed during selection. Try Everyone again.");
