@@ -1166,6 +1166,11 @@ fn attach_locked(
         payload.inputs.validate()?;
     }
     if outcome.kind == OutcomeKind::Success && pending.command == SemanticCommand::AmendCards {
+        if let Some((cards, class, _)) = &amendment {
+            if *class == policy::AmendmentClass::Plan {
+                payload.inputs.plan = super::plan_from_spp(cards)?;
+            }
+        }
         payload.inputs.intent_plan.cards = amendment
             .as_ref()
             .map(|(cards, _, _)| cards.clone())

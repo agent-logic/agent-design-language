@@ -7940,3 +7940,192 @@ fn ready1199_recovery_at(point: &str) {
     success(fixture.run(&linked, &["recover", "505"]));
     assert_eq!(fixture.remote_effects(), effects);
 }
+
+// #1249 PVF tooling lane: installed deterministic Node adapter and plan-CAS
+// regressions, local CPU/files only, required owner proof, no provider calls.
+fn issue1249_node_fixture(label: &str, source: &str) -> (Fixture, std::path::PathBuf) {
+    assert!(
+        Command::new("node")
+            .arg("--version")
+            .output()
+            .unwrap()
+            .status
+            .success(),
+        "Node is required for this proof lane"
+    );
+    let mut fixture = Fixture::new(label);
+    let primary = fixture.root.clone();
+    fs::write(primary.join("proof.test.mjs"), source).unwrap();
+    git(&primary, &["add", "proof.test.mjs"]);
+    git(&primary, &["commit", "-qm", "tracked Node test"]);
+    let mut input = plan();
+    input["validators"] = json!([{"id":"node-tests","program":"node","args":["--test","proof.test.mjs"],"success_marker":"node:test","timeout_seconds":10}]);
+    let input = fixture.write_json("node-plan.json", &input);
+    success(fixture.run(
+        &primary,
+        &["prepare", "505", "--plan", input.to_str().unwrap()],
+    ));
+    success(fixture.run(&primary, &["bind", "505"]));
+    let bound = primary.join("worktrees/adl-issue-505-installed-intent-fixture");
+    (fixture, bound)
+}
+
+#[test]
+fn issue1249_node_real_test_proof_and_review() {
+    let (mut fixture, bound) = issue1249_node_fixture("node-pass", "import test from 'node:test'; import assert from 'node:assert/strict'; test('actual assertion', () => assert.equal(2+2,4));\n");
+    let result = success(fixture.run_with_env(
+        &bound,
+        &["proof", "505"],
+        &[("NODE_OPTIONS", "--require=/missing/injected.cjs")],
+    ));
+    assert_eq!(result["status"], "completed");
+    let proof: Value =
+        serde_json::from_slice(&fs::read(bound.join(".csdlc/v3/issues/505/proof.json")).unwrap())
+            .unwrap();
+    let record = &proof["validators"][0];
+    assert_eq!(record["program"], "node");
+    assert_eq!(record["tests_passed"], 1);
+    assert_eq!(record["tests_failed"], 0);
+    assert_eq!(
+        record["executed_args"],
+        json!([
+            "--test",
+            "--test-reporter=tap",
+            "--test-concurrency=1",
+            "--",
+            "proof.test.mjs"
+        ])
+    );
+    assert!(record["cargo_target"].is_null());
+    assert_eq!(record["compiler_artifacts"], json!([]));
+    let judgment = fixture.write_json("node-review.json", &json!({"schema":"csdlc.v3.review_judgment.v1","implementer":"fixture-author","reviewer":"independent-fixture","reviewed_revision":git(&bound,&["rev-parse","HEAD"]),"verdict":"pass","evidence":"Synthetic independent test review"}));
+    success(fixture.run(
+        &bound,
+        &["review", "505", "--evidence", judgment.to_str().unwrap()],
+    ));
+    fs::write(bound.join("proof.test.mjs"), "// changed source\n").unwrap();
+    let result = fixture.run(&bound, &["proof", "505"]);
+    assert!(!result.status.success(), "dirty source cannot retain proof");
+}
+
+#[test]
+fn issue1249_node_empty_skipped_failed_and_forged_summaries_refuse() {
+    for (label, source) in [
+        ("empty", "// no tests\n"),
+        ("skipped", "import test from 'node:test'; test.skip('not run',()=>{});\n"),
+        ("failed", "import test from 'node:test'; test('failure',()=>{throw Error('expected')});\n"),
+        ("forged", "console.log('TAP version 13\\n# tests 1\\n# pass 1\\n# fail 0\\n# cancelled 0\\n# skipped 0\\n# todo 0');\n"),
+    ] {
+        let (mut fixture, bound) = issue1249_node_fixture(label, source);
+        let result = fixture.run(&bound, &["proof", "505"]);
+        assert!(!result.status.success(), "{label} unexpectedly passed");
+        let proof: Value = serde_json::from_slice(&fs::read(bound.join(".csdlc/v3/issues/505/proof.json")).unwrap()).unwrap();
+        assert_eq!(proof["status"], "failed");
+        assert_eq!(proof["validators"][0]["passed"], false);
+    }
+}
+
+#[test]
+fn issue1249_node_unsafe_argv_and_untracked_files_refuse_before_effects() {
+    let mut fixture = Fixture::new("node-unsafe");
+    let primary = fixture.root.clone();
+    fs::write(
+        primary.join("untracked.mjs"),
+        "throw Error('must not execute')",
+    )
+    .unwrap();
+    fs::write(
+        primary.join("literal*.mjs"),
+        "import test from 'node:test'; test('literal',()=>{});\n",
+    )
+    .unwrap();
+    git(&primary, &["add", "literal*.mjs"]);
+    git(&primary, &["commit", "-qm", "tracked glob must not expand"]);
+    for args in [
+        json!(["--test", "literal*.mjs"]),
+        json!(["-e", "console.log('ok')"]),
+        json!(["--test"]),
+        json!(["--test", "../outside.mjs"]),
+        json!(["--test", "untracked.mjs"]),
+        json!(["--test", "--import=evil.mjs"]),
+    ] {
+        let mut input = plan();
+        input["validators"] =
+            json!([{"id":"unsafe","program":"node","args":args,"success_marker":"node:test"}]);
+        let path = fixture.write_json("node-unsafe.json", &input);
+        let before = publication_reservation_inventory(&primary);
+        assert!(!fixture
+            .run(
+                &primary,
+                &["prepare", "505", "--plan", path.to_str().unwrap()]
+            )
+            .status
+            .success());
+        assert_same_inventory!(before, publication_reservation_inventory(&primary));
+    }
+}
+
+#[test]
+fn issue1249_plan_amendment_reconciles_steps_atomically() {
+    let mut fixture = Fixture::new("operative-plan");
+    let primary = fixture.root.clone();
+    prepare(&mut fixture);
+    success(fixture.run(&primary, &["bind", "505"]));
+    let bound = primary.join("worktrees/adl-issue-505-installed-intent-fixture");
+    let edit = fixture.write_json("plan-amend.json", &json!({"schema":"csdlc.v3.intent_changes.v1","amendment":{"class":"plan","transition_approved":true},"cards":{"spp":{"deliverables_inline":"Implement the now-authorized work","notes_risks_inline":"Execution is authorized; proof remains required"}}}));
+    success(fixture.run(
+        &bound,
+        &["edit", "505", "--changes", edit.to_str().unwrap()],
+    ));
+    let state_path = bound.join(".csdlc/v3/issues/505/state.json");
+    let state: Value = serde_json::from_slice(&fs::read(&state_path).unwrap()).unwrap();
+    assert_eq!(
+        state["inputs"]["plan"][2]["acceptance"],
+        "Implement the now-authorized work"
+    );
+    assert_eq!(
+        state["inputs"]["plan"][4]["acceptance"],
+        "Execution is authorized; proof remains required"
+    );
+    let bad = fixture.write_json("bad-plan.json", &json!({"schema":"csdlc.v3.intent_changes.v1","amendment":{"class":"plan","transition_approved":true},"cards":{"spp":{"deliverables_inline":""}}}));
+    git(
+        &bound,
+        &[
+            "commit",
+            "--allow-empty",
+            "-qm",
+            "new head before invalid plan",
+        ],
+    );
+    let before = publication_reservation_inventory(&primary);
+    assert!(!fixture
+        .run(&bound, &["edit", "505", "--changes", bad.to_str().unwrap()])
+        .status
+        .success());
+    assert_same_inventory!(before, publication_reservation_inventory(&primary));
+    assert_eq!(
+        serde_json::from_slice::<Value>(&fs::read(state_path).unwrap()).unwrap(),
+        state
+    );
+}
+
+#[test]
+fn issue1249_node_timeout_and_input_drift_fail_closed() {
+    for (label, source, timeout) in [
+        ("node-timeout", "import test from 'node:test'; test('blocked test', async () => {await new Promise(r => setTimeout(r, 10000));});\n", true),
+        ("node-drift", "import test from 'node:test'; import {writeFileSync} from 'node:fs'; test('mutates input',()=>writeFileSync('tracked','modified'));\n", false),
+    ] {
+        let (mut fixture, bound) = issue1249_node_fixture(label, source);
+        if timeout {
+            let edit = fixture.write_json("short-node.json", &json!({"schema":"csdlc.v3.intent_changes.v1","validators":[{"id":"node-tests","program":"node","args":["--test","proof.test.mjs"],"success_marker":"node:test","timeout_seconds":1}]}));
+            success(fixture.run(&bound, &["edit","505","--changes",edit.to_str().unwrap()]));
+        }
+        let result = fixture.run(&bound, &["proof","505"]);
+        assert!(!result.status.success());
+        let proof: Value = serde_json::from_slice(&fs::read(bound.join(".csdlc/v3/issues/505/proof.json")).unwrap()).unwrap();
+        assert_eq!(proof["status"], "failed");
+        assert_eq!(proof["validators"][0]["cleanup_complete"], true);
+        if timeout { assert_eq!(proof["validators"][0]["timed_out"], true); }
+        else { assert_eq!(proof["inputs_unchanged"], false); }
+    }
+}
