@@ -45,3 +45,13 @@ Resolved findings cover policy eligibility for configured agents, complete roste
 The native SOR implementation amendment succeeded and records `worktree_only` / publication blocked. Applying the final SRP review result through the native review-class amendment refused with `intent_amendment_policy_rejected`; output is retained in `NATIVE_REVIEW_CARD_REFUSAL.json`. The SRP was not hand-edited to bypass that gate. Independent review evidence is retained here pending native proof admission. Publication metadata now describes the implementation and includes `Closes #1145`.
 
 Next owner action: provide an admitted native proof-completion route for this JavaScript/browser validation; rerun proof, finalize review cards, obtain current exact-head native review, then publish through the native owner. Fixing that lifecycle owner is a separate bounded tooling change. This worktree and session goal remain open; issue 1145 is not complete or merged.
+
+## Final-head readiness audit and additional native plan gap
+
+Independent audit of `39da4e0bbe5beb26d7bda2e251338dad793ddd99` confirmed Observatory source bytes match the reviewed source candidate and the retained proof/refusal claims are accurate. The audit also found that semantic `inputs.plan` retains the original backlog-only steps (no implementation/no tests/do not bind), despite the successfully amended SPP and other rendered cards. This packet is therefore not fully ready for publication.
+
+Source diagnosis: `csdlc-v3/src/application/intent/local.rs` defines strict `Changes` with only `cards`, `validators`, `publication`, and `amendment`. Its card path calls `semantic_edit`. `storage/semantic/protocol.rs` applies `AmendCards` only to `inputs.intent_plan.cards`; it does not regenerate `inputs.plan`. `storage/semantic.rs` defines `LocalChange::AmendPlan`, but that is not exposed by the current ordinary intent edit request. Native plan-class card editing cannot currently reconcile these two planning surfaces through that entrypoint. No semantic state was hand-edited.
+
+Required tooling follow-up: expose a guarded plan amendment or correctly reconcile operative plan steps during a plan-class card amendment, preserving version checks, authority, binding, and evidence invalidation. Reconcile the stale plan before publication, in addition to admitting truthful non-Cargo proof. The current SOR and this evidence document remain the truthful local execution record. The source implementation remains reviewed; final packet/publication readiness is BLOCKED.
+
+A second `csdlc proof 1145 --json` at final-head audit again returned `intent_validator_execution_unsupported`. The primary checkout is clean on main; the issue worktree remains preserved and no external mutation was attempted.
