@@ -10,7 +10,7 @@ csdlc\-proof \- execute and retain an issue\-bound proof manifest
 .SH ISSUE INTENT FORM
 \&The semantic issue intent form is the current operational interface. It resolves issue identity and routes effects through the native semantic transaction owner.
 .PP
-\&Execute the retained plan validators through the native proof owner. Require admitted Cargo test arguments, current candidate bytes, successful nonzero test counts and fresh issue/worktree identity; retain actual outcomes in .csdlc/evidence/ISSUE/intent\-proof.json. This form rejects preview/execute overrides.
+\&Execute the retained plan validators through the native proof owner. Require admitted Cargo or Node test arguments, current candidate bytes, successful nonzero test counts and fresh issue/worktree identity; retain actual outcomes in .csdlc/evidence/ISSUE/intent\-proof.json. This form rejects preview/execute overrides.
 .PP
 \&Optional \-\-repo\-root selects discovery, \-\-json retains machine output, and \-\-emit\-request returns a generated wrapper accepted directly by COMMAND \-\-intent\-request REQUEST.json; its inner request is also accepted. Both forms share identity and mutation guards.
 .PP
@@ -37,6 +37,10 @@ csdlc\-proof \- execute and retain an issue\-bound proof manifest
 \&The legacy \-\-request writer syntax is retired. It remains visible only through \-\-help and \-\-describe for migration discovery; execution fails before request parsing or effects. The semantic issue form above is the current operational interface.
 .PP
 \&ProofRouteRequest and its typed binding/manifest/install fields are described in csdlc\-requests(1). Paths must stay within the authenticated bound issue evidence boundary; they are not arbitrary shell execution or filesystem destinations.
+.SH NODE TEST PROOF
+\&A Node validator declares program node, args ["\-\-test", "tests/ui.test.mjs"] and success_marker "node:test". Supply 1 through 32 unique tracked repository-relative JavaScript test files. The owner fixes the TAP reporter and concurrency and admits only real successful named node:test cases; empty, implicit file-only, skipped-only, failed, cancelled, TODO or printed-marker results do not establish proof. Test names must differ from the file path. No custom reporter, eval, import option, shell, or arbitrary argument is admitted.
+.PP
+\&Node receives PATH, HOME, private temporary-directory variables and optional NODE_PATH. NODE_OPTIONS and other ambient startup injection variables are cleared. Externally installed Node dependencies are not hermetically fingerprinted; fixture browser proof is not deployment or installed Runtime qualification. Node outcomes have no Cargo target or compiler artifacts. Non-executing Python, git and manual-review declarations remain unsupported at proof execution.
 .SH EFFECTS
 \&The legacy \-\-request writer syntax is retired. It remains visible only through \-\-help and \-\-describe for migration discovery; execution fails before request parsing or effects. The semantic issue form above is the current operational interface.
 .PP

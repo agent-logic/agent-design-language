@@ -117,24 +117,37 @@ A bounded validator declaration has this shape:
 }
 ```
 
-The proof owner admits bounded Cargo test arguments, verifies issue/worktree
-ownership and requires successful output with a nonzero passed-test count.
-Preparation and validator edits also admit three explicitly non-executing
-declaration forms: `python3` with a tracked repository-relative `.py` script and
-optional `--self-test`; `git` with exactly `diff --check`; and `manual-review`
-with one nonempty review-scope identifier excluding path separators and `.`/`..`. Each declaration still needs
-a unique ID, nonempty success marker and bounded timeout. For example,
-`{"id":"quality-review","program":"manual-review","args":["release-evidence"],"success_marker":"accepted independent evidence"}`
-retains a human acceptance requirement without inventing a Rust test.
+The proof owner admits bounded Cargo test arguments and Node's built-in test
+runner. Cargo requires a successful nonempty Rust harness result. Node uses this
+strict declaration (1–32 unique tracked repository-relative `.js`, `.mjs`, or
+`.cjs` files, using ASCII alphanumeric, underscore, hyphen, dot and slash only;
+no glob, option, dot, parent, or absolute path components):
 
-These declarations only unblock honest planning, card validation and binding.
-They are not executable proof adapters. If any declared validator is non-Cargo,
-`proof` refuses with `intent_validator_execution_unsupported` before running
-commands or reserving proof effects. Run applicable checks and retain real
-review evidence through their actual owners; this release does not provide a
-native non-Cargo proof-completion route. Never replace a required review or
-document check with an unrelated Cargo test to obtain publication admission.
-Preparing or binding a task does not satisfy its predecessor or acceptance gates.
+```json
+{"id":"ui-tests","program":"node","args":["--test","tests/ui.test.mjs"],"success_marker":"node:test","timeout_seconds":120}
+```
+
+The owner supplies `--test-reporter=tap --test-concurrency=1 --` and admits only
+real successful named `node:test` cases. Empty files, implicit file-only tests,
+skipped-only runs, failed/cancelled/TODO cases, duplicate or incomplete summaries,
+and printed success markers do not establish proof. Keep case names distinct
+from the test file path. Browser tests must use named `node:test` cases and own
+browser cleanup; fixtures are not live Runtime or deployment evidence.
+
+Both adapters preserve candidate/ownership checks, tracked source digests,
+process-group timeout/cancellation, bounded capture and redacted diagnostics.
+Node gets only PATH, HOME, temporary-directory variables and optional NODE_PATH;
+startup injection such as NODE_OPTIONS is not inherited. NODE_PATH supports an
+operator-installed dependency bundle. Node/runtime and externally installed
+packages are ambient dependencies, not hermetically fingerprinted by this receipt;
+use explicit dependency provenance for installed or release qualification.
+
+Preparation and validator edits also admit three non-executing declaration forms:
+`python3` with a tracked relative `.py` script and optional `--self-test`; `git`
+with exactly `diff --check`; and `manual-review` with one nonempty review-scope
+identifier excluding path separators and `.`/`..`. These forms retain requirements
+but still refuse at proof execution with `intent_validator_execution_unsupported`.
+They do not import human attestations or substitute unrelated Cargo tests.
 
 An empty validator set, an exit-zero marker-only process or stale candidate
 bytes does not establish proof. Cargo targets selected by the validator and
@@ -187,7 +200,10 @@ validation:
 }
 ```
 
-For card edits, the amendment declaration is mandatory and retained with the native effect.
+For card edits, the amendment declaration is mandatory and retained with the native effect. A plan-class SPP amendment also derives the five operative
+`inputs.plan` steps from accepted SPP inline fields in the same semantic CAS
+commit. Missing/empty required plan fields refuse before binding refresh or
+mutation. Generated projections do not override these authoritative values.
 `binding` is reserved for the topology-verified bind owner. An implementation
 amendment also supplies the exact 40-character `implementation_revision`; the
 owner requires it to match the bound effect head. `new_commit` records whether
