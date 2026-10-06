@@ -11,7 +11,7 @@ const feed = sample => ({
   schema: 'adl.runtime_v3.observatory_feed.v3', runtime_instance_id: 'fixture-runtime', runtime_incarnation_id: 'incarnation1',
   polis_identity: {polis_id: 'fixture', display_name: 'Fixture Polis', public_domain: 'runtime.agent-logic.ai', runtime_api_base: 'https://runtime.agent-logic.ai', observatory_public_origin: 'https://observatory.agent-logic.ai'},
   health: {observability_ready: true, snapshot: {lifecycle: 'running'}}, events: [],
-  agents: {revision: 1, event_cursor: 'cursor1', scope: 'local_runtime', population_complete: true, total_count: sample.length, sample}
+  agents: {revision: 1, event_cursor: 'cursor1', scope: 'local_runtime', population_complete: false, total_count: sample.length, sample}
 });
 try {
   for (const viewport of [{width: 1280, height: 900}, {width: 390, height: 844}]) {
@@ -43,7 +43,7 @@ try {
         assert.equal(url.searchParams.has('event_cursor'), false, 'same-revision page must omit successor cursor');
         assert.equal(url.searchParams.get('page_size'), '1');
         await new Promise(resolve => {releasePage = resolve; pageStarted();});
-        return route.fulfill({json:{schema:'adl.runtime_v3.agent_roster_page.v1', revision:current.agents.revision, event_cursor:current.agents.event_cursor, scope:'local_runtime', visible_count:2, population_complete:true, agents:[agent('b')], has_more:false, next_page_token:null}});
+        return route.fulfill({json:{schema:'adl.runtime_v3.agent_roster_page.v1', revision:current.agents.revision, event_cursor:current.agents.event_cursor, scope:'local_runtime', visible_count:2, population_complete:false, agents:[agent('b')], has_more:false, next_page_token:null}});
       }
       if (url.pathname.startsWith('/v1/')) return route.fulfill({json: url.pathname === '/v1/observatory' ? current : {ready:true, degraded_reasons:[]}});
       return route.fulfill({status:404, body:''});

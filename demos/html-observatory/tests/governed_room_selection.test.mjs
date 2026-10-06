@@ -5,7 +5,7 @@ import test from 'node:test';
 await import('../app.js');
 const { createGovernedRoomSelection, completeGovernedRoomRoster, buildGovernedRoomTurnIntent } = globalThis.AdlHtmlObservatory;
 const agent = (id, extra = {}) => ({ id, label: id, state: 'configured', communication_eligible: true, ...extra });
-const population = (sample, extra = {}) => ({ sample, total_count: sample.length, revision: 1, event_cursor: 'cursor', scope: 'local', population_complete: true, ...extra });
+const population = (sample, extra = {}) => ({ sample, total_count: sample.length, revision: 1, event_cursor: 'cursor', scope: 'local', population_complete: false, ...extra });
 const ids = state => state.recipients.map(p => p.participant_id);
 test('Everyone selects policy-eligible configured and busy agents, never a wildcard', () => {
   const selection = createGovernedRoomSelection();
@@ -45,12 +45,12 @@ test('nine eligible agents remain visible and block sends until reduced to eight
 });
 test('Everyone collects raw Runtime pages at the same revision and rejects incomplete or drifting pages', async () => {
   const first = population([agent('a')], {total_count: 2, has_more: true, next_page_token: 'page2'});
-  const page = { agents: [agent('b')], visible_count: 2, revision: 1, event_cursor: 'cursor', scope: 'local', population_complete: true, has_more: false, next_page_token: null };
+  const page = { agents: [agent('b')], visible_count: 2, revision: 1, event_cursor: 'cursor', scope: 'local', population_complete: false, has_more: false, next_page_token: null };
   const full = await completeGovernedRoomRoster(first, async token => { assert.equal(token, 'page2'); return page; });
   assert.deepEqual(full.sample.map(a => a.id), ['a', 'b']);
-  for (const delta of [{revision: 2}, {event_cursor: 'other'}, {visible_count: 3}, {scope: 'other'}, {agents: [agent('a')]}, {population_complete: false}, {agents: []}]) {
+  for (const delta of [{revision: 2}, {event_cursor: 'other'}, {visible_count: 3}, {scope: 'other'}, {agents: [agent('a')]}, {agents: []}]) {
     await assert.rejects(completeGovernedRoomRoster(first, async () => ({...page, ...delta})));
   }
-  await assert.rejects(completeGovernedRoomRoster(population([], {population_complete: false}), async () => page));
+  assert.deepEqual((await completeGovernedRoomRoster(population([]), async () => page)).sample, []);
   await assert.rejects(completeGovernedRoomRoster({...first, has_more: false, next_page_token: null}, async () => page));
 });

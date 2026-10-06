@@ -626,7 +626,6 @@ function normalizeGovernedRoomParticipants(population) {
 
 // Read only pages belonging to one roster revision; never silently select a sample.
 async function completeGovernedRoomRoster(population, fetchPage) {
-  if (population?.population_complete === false) throw new Error("Runtime reports an incomplete roster. Select individual recipients.");
   let page = population;
   const agents = new Map();
   const tokens = new Set();
@@ -649,8 +648,7 @@ async function completeGovernedRoomRoster(population, fetchPage) {
     const response = await fetchPage(token);
     page = { ...response, sample: response.agents, total_count: response.visible_count };
     if (page.revision !== population.revision || page.event_cursor !== population.event_cursor ||
-        page.total_count !== population.total_count || page.scope !== population.scope ||
-        page.population_complete === false) {
+        page.total_count !== population.total_count || page.scope !== population.scope) {
       throw new Error("Roster changed during selection. Try Everyone again.");
     }
   }
@@ -4044,7 +4042,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
       !(roomMessage?.value || "").trim();
     if (roomEveryone) roomEveryone.disabled = roomSelectionLoading || !roomPopulation ||
       (selection.roster.length === 0 && !roomPopulation.has_more && !roomPopulation.next_page_token);
-    if (roomClear) roomClear.disabled = selection.recipients.length === 0;
+    if (roomClear) roomClear.disabled = !roomSelectionLoading && selection.recipients.length === 0;
     if (roomSelectionSummary) {
       const warnings = [roomSelectionLoading ? "Loading complete roster…" : roomSelectionNotice].filter(Boolean);
       if (selection.overLimit) warnings.push("Limit is 8. Deselect agents before sending; no recipients were truncated.");
@@ -4093,8 +4091,8 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
 
   const updateGovernedRoomRoster = (population, identity) => {
     roomSelectionGeneration += 1;
+    roomSelectionNotice = roomSelectionLoading ? "Roster changed during selection. Try Everyone again." : "";
     roomSelectionLoading = false;
-    roomSelectionNotice = "";
     roomPopulation = population;
     roomSelection.refresh(population, identity);
     renderGovernedRoomSelection();
