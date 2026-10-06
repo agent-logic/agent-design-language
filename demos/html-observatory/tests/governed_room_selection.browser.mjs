@@ -1,10 +1,15 @@
 // PVF runtime lane: deterministic mocked browser proof, local CPU only.
 // Required #1145 desktop/mobile acceptance; no live Runtime or provider execution.
 import assert from 'node:assert/strict';
+import test from 'node:test';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { createRequire } from 'node:module';
-import { readFile } from 'node:fs/promises';
+import { readFile, mkdtemp, rm } from 'node:fs/promises';
 const { chromium } = createRequire(import.meta.url)('playwright');
 const root = new URL('../', import.meta.url);
+test('Everyone selection desktop and mobile acceptance', {timeout: 120000}, async () => {
+const outputDir = await mkdtemp(join(tmpdir(), 'room-selection-'));
 const browser = await chromium.launch({channel: 'chrome', headless: true});
 const agent = id => ({id, label: `Agent ${id}`, state: 'configured', communication_eligible: true});
 const feed = sample => ({
@@ -111,9 +116,10 @@ try {
     await page.evaluate(value => window.fixtureEmit(value), current);
     await page.waitForFunction(() => document.querySelector('#governed-room-recipients').selectedOptions.length === 0);
     await page.locator('#governed-room-title').scrollIntoViewIfNeeded();
-    await page.screenshot({path:`/tmp/1145-room-${viewport.width}.png`});
+    await page.screenshot({path:join(outputDir, `room-${viewport.width}.png`)});
     assert.deepEqual(errors, []);
     await page.close();
   }
   console.log('PASS: desktop/mobile Everyone, explicit sends, authorization, limits, roster drift, paging cancellation, incarnation reset');
-} finally { await browser.close(); }
+} finally { await browser.close(); await rm(outputDir, {recursive:true, force:true}); }
+});
