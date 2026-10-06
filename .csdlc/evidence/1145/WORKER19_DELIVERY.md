@@ -1,6 +1,12 @@
-# Issue 1145 local implementation and publication boundary
+# Issue 1145 implementation evidence and repair history
 
-## Result
+## Current repair status
+
+Tooling issue #1249 implements bounded named Node proof and operative-plan reconciliation. Its source candidate `d2b35b250efdc5381993da74d112f39af9bdf998` passed independent review and ten native installed tests. An isolated owner installation was verified against its installed manual. Applying the plan amendment with that owner reconciled `inputs.plan`; the original backlog-only entries are gone. #1145 now declares named Node acceptance cases (selection, contracts, browser, polis identity). Product source is unchanged; the browser harness now registers a named test and uses a portable temporary directory.
+
+Current proof/review/publication truth is held by the native receipts; the sections below preserve the earlier blocker diagnosis, not a claim that the repaired owner still has those limitations. No CI, merge or production deployment is claimed by this record.
+
+## Initial result (historical)
 
 Everyone selection is implemented on `codex/1145-observatory-everyone-selection`.
 Source candidate: `25af9600b26ca96d83c1e3fdbe82108cef8f73be`.

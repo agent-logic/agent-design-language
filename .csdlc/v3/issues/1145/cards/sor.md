@@ -20,7 +20,7 @@ Run ID: issue-1145
 Version: 1.0.5
 Title: Observatory: add Everyone selection to the multi-agent room
 Branch: codex/1145-observatory-everyone-selection
-Card Status: blocked
+Card Status: ready
 Status: in_progress
 Generated: <timestamp>
 
@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Everyone selection implementation and independent source review complete locally. Native proof refuses non-Cargo validator execution; no PR, CI, merge, installed Runtime or deployment proof.
+Everyone selection and named Node acceptance cases implemented and independently reviewed. #1249 supplies reviewed isolated native owner supporting Node proof and plan reconciliation.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
@@ -57,7 +57,7 @@ Everyone selection implementation and independent source review complete locally
 - Goal metrics source ref: `<actual_metrics_source_ref>`
 - Data-source confidence: `unknown`
 - Estimate error percent: `<estimate_error_percent>`
-- Completion state: `publication_blocked`
+- Completion state: `implemented`
 - Issue goal ref: `<issue_goal_ref>`
 - Sprint goal ref: `<sprint_goal_ref>`
 - Goal metrics rollup ref: `<goal_metrics_rollup_ref>`
@@ -110,7 +110,7 @@ Rules:
   - `See .csdlc/evidence/1145/WORKER19_DELIVERY.md for exact focused commands.`
     `UI behavior fixture evidence only; does not establish installed Runtime, provider or release qualification.`
 - Results:
-  - `Local focused checks passed; native proof not admitted; no CI or live sends.`
+  - `Local named Node and desktop/mobile fixture cases passed. Current native proof currency is determined by the owner receipt.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -174,5 +174,5 @@ verification_summary:
 - `<decision_or_deviation_2>`
 
 ## Follow-ups / Deferred work
-- `Native owner needs an admitted JavaScript/browser proof completion route; do not substitute unrelated Cargo proof.`
-- `After tooling support, refresh native proof and exact-head review, finalize SRP/SOR, then publish through native owner.`
+- `Complete native Node proof and independent native review, then publish; merge and installed Runtime qualification remain separate.`
+- `Use isolated #1249 owner until tooling integration; preserve CI and deployment boundaries.`
