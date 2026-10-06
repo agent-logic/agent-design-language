@@ -1934,6 +1934,7 @@ mod dependency_record_tests {
             .current_dir(root)
             .args(&args)
             .arg("--message-format=json")
+            .env("CARGO_TARGET_DIR", root.join("target/intent-validation"))
             .output()
             .unwrap();
         assert!(
@@ -2077,6 +2078,7 @@ mod dependency_record_tests {
                 .current_dir(root)
                 .args(&args)
                 .arg("--message-format=json")
+                .env("CARGO_TARGET_DIR", root.join("target/intent-validation"))
                 .output()
                 .unwrap();
             assert!(
