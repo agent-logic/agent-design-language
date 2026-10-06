@@ -8,7 +8,7 @@ version: "1.0.5"
 title: "Observatory: add Everyone selection to the multi-agent room"
 branch: "codex/1145-observatory-everyone-selection"
 generated_at: "<timestamp>"
-card_status: "ready"
+card_status: "completed"
 status: "draft"
 source_refs:
   - kind: "issue"
@@ -55,9 +55,9 @@ policy_refs:
   - "<sip_card>"
   - "<vpp_card>"
 review_results:
-  findings_status: "<findings_status>"
-  recommended_outcome: "<recommended_outcome>"
-notes: "<review_notes>"
+  findings_status: "all_actionable_findings_resolved"
+  recommended_outcome: "PASS"
+notes: "Independent reviewer /root/review_1145 passed exact source 7fc29e24ab2895d3e388c945e1e3b6e8bb902a0c; all actionable findings fixed. Native proof passed nine named Node acceptance cases, including desktop/mobile fixture browser tests. No live/provider/deployment proof; native receipts govern current proof and publication currency."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -131,8 +131,8 @@ review_results:
 
 ### Recommended Outcome
 
-- <recommended_outcome>
+- PASS
 
 ## Notes
 
-<review_notes>
+Independent reviewer /root/review_1145 passed exact source 7fc29e24ab2895d3e388c945e1e3b6e8bb902a0c; all actionable findings fixed. Native proof passed nine named Node acceptance cases, including desktop/mobile fixture browser tests. No live/provider/deployment proof; native receipts govern current proof and publication currency.
