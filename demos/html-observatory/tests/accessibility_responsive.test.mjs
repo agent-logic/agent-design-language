@@ -69,7 +69,7 @@ for (const id of ["agent-conversation-transcript", "governed-room-transcript"]) 
   assert.throws(() => assertTranscriptAnnouncements(withoutAnnouncement),
     { name: "AssertionError" }, `${id}: other live regions must not mask a missing attribute`);
 }
-assert.match(html, /id=["']governed-room-recipients["'][^>]*aria-describedby=["']governed-room-help["']/, "multi-select room recipients must point to explicit recipient constraints");
+assert.match(html, /id=["']governed-room-recipients["'][^>]*aria-describedby=["']governed-room-help governed-room-selection-summary["']/, "multi-select room recipients must point to explicit recipient constraints");
 assert.match(html, /aria-describedby=["']claim-boundary["']/, "status grid must expose the proof boundary");
 assert.match(html, /aria-labelledby=["']hero-ready-label hero-ready-state["']/, "runtime readiness stat must expose label and state");
 assert.match(html, /role=["']group["'] aria-label=["']Runtime controls["']/, "top controls must remain grouped for assistive tech");

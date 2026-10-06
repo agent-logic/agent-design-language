@@ -624,6 +624,79 @@ function normalizeGovernedRoomParticipants(population) {
     .sort((left, right) => left.participant_id.localeCompare(right.participant_id));
 }
 
+// Read only pages belonging to one roster revision; never silently select a sample.
+async function completeGovernedRoomRoster(population, fetchPage) {
+  let page = population;
+  const agents = new Map();
+  const tokens = new Set();
+  for (let pages = 0; pages < 100; pages += 1) {
+    for (const agent of asArray(page?.sample)) {
+      if (!agent || typeof agent.id !== "string" || agents.has(agent.id)) {
+        throw new Error("Roster contains duplicate or invalid identities. Refresh and try again.");
+      }
+      agents.set(agent.id, agent);
+    }
+    if (!page?.has_more && !page?.next_page_token) {
+      if (Number.isSafeInteger(population?.total_count) && agents.size !== population.total_count) {
+        throw new Error("Roster is incomplete. Refresh and try again.");
+      }
+      return { ...population, sample: [...agents.values()], has_more: false, next_page_token: null };
+    }
+    const token = page.next_page_token;
+    if (!token || tokens.has(token)) throw new Error("Roster pagination is incomplete. Refresh and try again.");
+    tokens.add(token);
+    page = await fetchPage(token);
+    if (page.revision !== population.revision || page.event_cursor !== population.event_cursor ||
+        page.total_count !== population.total_count || page.scope !== population.scope) {
+      throw new Error("Roster changed during selection. Try Everyone again.");
+    }
+  }
+  throw new Error("Roster exceeds the selection loading limit. Select individual recipients.");
+}
+
+// Selection is an explicit snapshot, never a subscription to roster newcomers.
+function createGovernedRoomSelection() {
+  let roster = new Map();
+  let selected = new Map();
+  let scope = null;
+  const view = () => {
+    const recipients = [...selected.values()];
+    const unavailable = recipients.filter((p) => p.stale || !roster.has(p.participant_id));
+    return {
+      roster: [...roster.values()], recipients, unavailable,
+      overLimit: recipients.length > MAX_GOVERNED_ROOM_RECIPIENTS,
+      canSend: recipients.length > 0 && recipients.length <= MAX_GOVERNED_ROOM_RECIPIENTS && unavailable.length === 0
+    };
+  };
+  return {
+    view,
+    refresh(population, identity = scope) {
+      if (identity !== scope) selected.clear();
+      scope = identity;
+      roster = new Map(normalizeGovernedRoomParticipants(population)
+        .filter((p) => isSafeGovernedRoomIdentifier(p.participant_id) && p.participant_id.toLowerCase() !== "all")
+        .map((p) => [p.participant_id, p]));
+      // Keep missing selections visible and blocked, even if that identity returns.
+      for (const [id, participant] of selected) {
+        if (!roster.has(id)) selected.set(id, { ...participant, stale: true });
+      }
+      return view();
+    },
+    select(ids) {
+      const next = new Map();
+      for (const id of ids) {
+        if (selected.has(id)) next.set(id, selected.get(id));
+        else if (roster.has(id)) next.set(id, roster.get(id));
+      }
+      selected = next;
+      return view();
+    },
+    everyone() { selected = new Map(roster); return view(); },
+    clear() { selected.clear(); return view(); },
+    reset() { roster.clear(); selected.clear(); scope = null; return view(); }
+  };
+}
+
 function normalizeExplicitGovernedRoomRecipients(recipients) {
   const unique = new Set();
   for (const recipient of asArray(recipients).map((value) => String(value || "").trim())) {
@@ -3826,6 +3899,14 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
   const pendingConversationTurns = new Map();
   const roomRecipients = document.getElementById("governed-room-recipients");
   const roomParticipants = document.getElementById("governed-room-participants");
+  const roomEveryone = document.getElementById("governed-room-everyone");
+  const roomClear = document.getElementById("governed-room-clear");
+  const roomSelectionSummary = document.getElementById("governed-room-selection-summary");
+  const roomSelection = createGovernedRoomSelection();
+  let roomPopulation = null;
+  let roomSelectionGeneration = 0;
+  let roomSelectionLoading = false;
+  let roomSelectionNotice = "";
   const roomTranscript = document.getElementById("governed-room-transcript");
   const roomMessage = document.getElementById("governed-room-message");
   const roomSend = document.getElementById("send-governed-room-turn");
@@ -3952,57 +4033,68 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
   };
 
   const selectedRoomRecipients = () =>
-    Array.from(roomRecipients?.selectedOptions || [])
-      .map((option) => option.value)
-      .filter(Boolean);
+    roomSelection.view().recipients.map((p) => p.participant_id);
 
   const updateRoomSendState = () => {
-    if (roomSend) {
-      roomSend.disabled = !conversationAuthorized ||
-        selectedRoomRecipients().length === 0 ||
-        !(roomMessage?.value || "").trim();
+    const selection = roomSelection.view();
+    if (roomSend) roomSend.disabled = roomSelectionLoading || !conversationAuthorized || !selection.canSend ||
+      !(roomMessage?.value || "").trim();
+    if (roomEveryone) roomEveryone.disabled = roomSelectionLoading || !roomPopulation ||
+      (selection.roster.length === 0 && !roomPopulation.has_more && !roomPopulation.next_page_token);
+    if (roomClear) roomClear.disabled = !roomSelectionLoading && selection.recipients.length === 0;
+    if (roomSelectionSummary) {
+      const warnings = [roomSelectionLoading ? "Loading complete roster…" : roomSelectionNotice].filter(Boolean);
+      if (selection.overLimit) warnings.push("Limit is 8. Deselect agents before sending; no recipients were truncated.");
+      if (selection.unavailable.length) warnings.push("Selection changed availability. Remove unavailable agents or select Everyone again to review a fresh roster.");
+      roomSelectionSummary.textContent = `${selection.recipients.length} selected / ${selection.roster.length} eligible. ${warnings.join(" ")}`;
     }
   };
 
-  const renderGovernedRoomParticipants = (participants) => {
-    if (!roomParticipants) return;
-    if (participants.length === 0) {
-      roomParticipants.innerHTML = '<span class="room-participant-empty">No Runtime-eligible participants.</span>';
-      return;
-    }
-    roomParticipants.innerHTML = participants.map((participant) => `
-      <span class="room-participant" data-state="${escapeHtml(participant.state)}">
-        <strong>${escapeHtml(participant.display_name)}</strong>
-        <span>${escapeHtml(participant.participant_id)}</span>
-      </span>
-    `).join("");
-  };
-
-  const updateGovernedRoomRoster = (population) => {
-    if (!roomRecipients) return;
-    const previous = new Set(selectedRoomRecipients());
-    const participants = normalizeGovernedRoomParticipants(population);
-    roomRecipients.replaceChildren();
-    if (participants.length === 0) {
-      const option = document.createElement("option");
-      option.value = "";
-      option.textContent = "No live agents";
-      roomRecipients.append(option);
-      roomRecipients.disabled = true;
-      if (roomStatus) roomStatus.textContent = "waiting for runtime";
-    } else {
-      participants.forEach((participant) => {
+  const renderGovernedRoomSelection = (rebuildOptions = true) => {
+    const selection = roomSelection.view();
+    const selectedIds = new Set(selectedRoomRecipients());
+    if (roomRecipients && rebuildOptions) {
+      roomRecipients.replaceChildren();
+      const options = new Map(selection.roster.map((p) => [p.participant_id, p]));
+      selection.recipients.forEach((p) => options.set(p.participant_id, p));
+      for (const participant of options.values()) {
         const option = document.createElement("option");
         option.value = participant.participant_id;
-        option.textContent = participant.display_name;
-        option.selected = previous.has(participant.participant_id);
+        option.textContent = `${participant.display_name} (${participant.participant_id})${participant.stale ? " — unavailable; deselect" : ""}`;
+        option.selected = selectedIds.has(participant.participant_id);
         roomRecipients.append(option);
-      });
-      roomRecipients.disabled = false;
-      if (roomStatus) roomStatus.textContent = conversationAuthorized ? "ready" : "login required";
+      }
+      roomRecipients.disabled = options.size === 0;
     }
-    renderGovernedRoomParticipants(participants);
+    if (roomParticipants) {
+      roomParticipants.replaceChildren();
+      for (const participant of selection.recipients) {
+        const remove = document.createElement("button");
+        remove.type = "button";
+        remove.className = "button room-recipient-remove";
+        remove.textContent = `${participant.display_name} (${participant.participant_id})${participant.stale ? " — unavailable" : ""} ×`;
+        remove.setAttribute("aria-label", `Deselect ${participant.display_name} (${participant.participant_id})`);
+        remove.addEventListener("click", () => {
+          roomSelectionGeneration += 1;
+          roomSelectionLoading = false;
+          roomSelectionNotice = "";
+          roomSelection.select(selectedRoomRecipients().filter((id) => id !== participant.participant_id));
+          renderGovernedRoomSelection();
+          roomRecipients?.focus();
+        });
+        roomParticipants.append(remove);
+      }
+    }
     updateRoomSendState();
+  };
+
+  const updateGovernedRoomRoster = (population, identity) => {
+    roomSelectionGeneration += 1;
+    roomSelectionNotice = roomSelectionLoading ? "Roster changed during selection. Try Everyone again." : "";
+    roomSelectionLoading = false;
+    roomPopulation = population;
+    roomSelection.refresh(population, identity);
+    renderGovernedRoomSelection();
   };
 
   const appendRoomTurn = (speaker, message, turnId, status = "", rows = []) => {
@@ -4454,7 +4546,8 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
             renderPanopticon(streamSnapshot, packet);
             if (rosterAccepted) {
               updateConversationRoster(streamSnapshot.status?.agent_population);
-              updateGovernedRoomRoster(streamSnapshot.status?.agent_population);
+              updateGovernedRoomRoster(streamSnapshot.status?.agent_population,
+                JSON.stringify([streamSnapshot.polisIdentity?.polisId, streamSnapshot.status?.runtime_id, streamSnapshot.status?.runtime_incarnation_id]));
             }
             if (runtimeV3Readiness?.ready !== true && !runtimeV3ReadinessRefresh) {
               runtimeV3ReadinessRefresh = fetchCurrentRuntimeV3Readiness(base)
@@ -4642,6 +4735,12 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     if (operatorToken) operatorToken.value = "";
     pendingConversationTurns.clear();
     governedRoomSequences.clear();
+    roomSelectionGeneration += 1;
+    roomSelectionLoading = false;
+    roomSelectionNotice = "";
+    roomPopulation = null;
+    roomSelection.reset();
+    renderGovernedRoomSelection();
     liveRuntimeIncarnationId = null;
     hasReceivedLiveSnapshot = false;
     resetPolisScopedProjectionState();
@@ -4798,7 +4897,44 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
       requestRuntimeConversationHistory(liveSocket, `conversation-${conversationRecipient.value}`);
     }
   });
-  roomRecipients?.addEventListener("change", updateRoomSendState);
+  roomRecipients?.addEventListener("change", () => {
+    roomSelectionGeneration += 1;
+    roomSelectionLoading = false;
+    roomSelectionNotice = "";
+    roomSelection.select(Array.from(roomRecipients.selectedOptions).map((option) => option.value));
+    renderGovernedRoomSelection(false);
+  });
+  roomEveryone?.addEventListener("click", async () => {
+    if (!roomPopulation || roomSelectionLoading) return;
+    const generation = ++roomSelectionGeneration;
+    const population = roomPopulation;
+    const base = readApiBase();
+    roomSelectionLoading = true;
+    roomSelectionNotice = "";
+    updateRoomSendState();
+    try {
+      const complete = await completeGovernedRoomRoster(population, (token) =>
+        fetchRuntimeV3AgentRosterPage(base, token, null, population.rendered_sample_count || asArray(population.sample).length));
+      if (generation !== roomSelectionGeneration) return;
+      roomSelection.refresh(complete);
+      roomSelection.everyone();
+    } catch (error) {
+      if (generation !== roomSelectionGeneration) return;
+      roomSelectionNotice = error instanceof Error ? error.message : "Unable to load complete roster.";
+    } finally {
+      if (generation === roomSelectionGeneration) {
+        roomSelectionLoading = false;
+        renderGovernedRoomSelection();
+      }
+    }
+  });
+  roomClear?.addEventListener("click", () => {
+    roomSelectionGeneration += 1;
+    roomSelectionLoading = false;
+    roomSelectionNotice = "";
+    roomSelection.clear();
+    renderGovernedRoomSelection();
+  });
   roomMessage?.addEventListener("input", updateRoomSendState);
   conversationSend?.addEventListener("click", () => {
     const message = conversationMessage?.value.trim() || "";
@@ -4849,6 +4985,10 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
   roomSend?.addEventListener("click", () => {
     const message = roomMessage?.value.trim() || "";
     const recipients = selectedRoomRecipients();
+    if (roomSelectionLoading || !roomSelection.view().canSend) {
+      updateRoomSendState();
+      return;
+    }
     if (!conversationAuthorized || !liveSocket || liveSocket.readyState !== WebSocket.OPEN) {
       if (roomStatus) roomStatus.textContent = "login required";
       return;
@@ -5017,6 +5157,8 @@ globalThis.AdlHtmlObservatory = {
   safeConversationHistoryId,
   isSafeGovernedRoomIdentifier,
   normalizeGovernedRoomParticipants,
+  createGovernedRoomSelection,
+  completeGovernedRoomRoster,
   normalizeExplicitGovernedRoomRecipients,
   governedRoomIdentityForRecipients,
   nextGovernedRoomTurnSequence,
