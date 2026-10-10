@@ -82,7 +82,7 @@ For `WP-10`, the truthful posture is:
 - the packet now records the pinned replayable tool coordinates:
   - plugin: `org.openrewrite.maven:rewrite-maven-plugin:6.39.0`
   - recipe artifact: `org.openrewrite.recipe:rewrite-static-analysis:2.34.1`
-- the warm-cache pinned replay completed in approximately `4.614 s`.
+- the retained execution log records a total time of `01:24 min`.
 - the repo-relative `.m2-local/` replay also completed successfully and is the
   retained command shape for portable proof.
 - A dry-run patch was produced under the fixture at
@@ -95,6 +95,12 @@ Tracked proof captures:
 - `modernization_execution_command.md`
 - `modernization_execution_log.txt`
 - `modernization_rewrite.patch`
+
+The retained log corroborates `BUILD SUCCESS`, plugin `6.39.0`, the active
+`UseDiamondOperator` recipe, and one changed Java file. It does not print the
+recipe artifact `2.34.1` coordinate, and no retained receipt was found for the
+earlier `4.614 s` warm-replay timing. Those provenance limits do not erase the
+credited one-file dry-run or its immutable execution log and patch.
 
 ## Reviewer Expectations
 

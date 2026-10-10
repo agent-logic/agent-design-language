@@ -6,7 +6,7 @@
 - Milestone Target: `v0.91.2`
 - Status: implemented
 - Planned WP Home: WP-15
-- Source Docs: `.adl/docs/TBD/RUSTDOC_GAP_ANALYSIS.md`; `.adl/docs/TBD/ADL_DOC_CLEANUP_LEDGER.md`
+- Source Docs: `.adl/docs/TBD/rust_refactoring/RUSTDOC_GAP_ANALYSIS.md`; `.adl/docs/TBD/ADL_DOC_CLEANUP_LEDGER.md`
 - Proof Modes: docs, checks, review
 
 ## Purpose
@@ -36,3 +36,12 @@ Out of scope:
 - Rustdoc/doc claims match current code.
 - No host paths or unresolved scaffold language remain in promoted docs.
 - Cleanup evidence is recorded.
+
+## Current Reconciliation
+
+The local cleanup ledger records that `#3014` completed the bounded workflow,
+navigation, and planning cleanup slice. Duplicate active-looking ledger entries
+do not reopen that completed work without a new concrete finding. Historical
+coverage estimates are retained context rather than current documentation
+coverage, and a warning-free rustdoc render does not prove that every API has
+complete semantic documentation.
