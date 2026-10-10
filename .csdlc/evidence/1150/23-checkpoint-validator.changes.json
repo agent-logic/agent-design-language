@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.v3.intent_changes.v1",
+  "validators": [
+    {
+      "id": "cf05-qualification-checkpoint",
+      "program": "node",
+      "args": ["--test", "adl/tools/tests/cf05_qualification_checkpoint.test.mjs"],
+      "success_marker": "node:test",
+      "timeout_seconds": 60
+    }
+  ]
+}

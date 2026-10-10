@@ -1,0 +1,9 @@
+{
+  "schema": "csdlc.v3.intent_changes.v1",
+  "publication": {
+    "base": "main",
+    "title": "Record CF-05 qualification outcome and remaining gates",
+    "body": "Closes #1150\n\nThis draft records the completed CF-05 execution and independent review without claiming final qualification. The current result is 21 PASS / 0 FAIL / 3 INCOMPLETE across Q01-Q24. All 12 semantic execution cells pass, while 0/12 are release-accepted until Q02, Q03, and Q19 are complete.\n\nThe terminal record binds 122 actual provider POSTs, zero unknown outcomes, and no replay of ambiguity under the operator-amended USD 70 ceiling. No further provider calls or scenario reruns are required.\n\nRemaining gates:\n- Q02: real uninvited GitHub-account denial;\n- Q03: live cross-user run and artifact denial with two real identities;\n- Q19: human navigation of all 12 HTML reports and inspection of all 12 PDFs.\n\nNo second real GitHub identity is currently known, so the identity gates remain explicit. Machine and agent render checks pass, but they do not substitute for the human-only Q19 gate.\n\nDo not mark this PR ready or merge it until the three gates pass or the issue authority explicitly changes them. This draft does not approve release, deployment, or launch.",
+    "draft": true
+  }
+}

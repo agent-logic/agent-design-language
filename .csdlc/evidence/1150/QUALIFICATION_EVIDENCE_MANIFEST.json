@@ -1,0 +1,102 @@
+{
+  "schema": "adl.cf05.qualification_checkpoint.v1",
+  "issue": 1150,
+  "date": "2026-10-09",
+  "decision": "NOT_QUALIFIED",
+  "original_obligations": {
+    "pass": 21,
+    "fail": 0,
+    "incomplete": 3,
+    "incomplete_ids": ["Q02", "Q03", "Q19"]
+  },
+  "obligations": [
+    {"id": "Q01", "status": "PASS"},
+    {"id": "Q02", "status": "INCOMPLETE"},
+    {"id": "Q03", "status": "INCOMPLETE"},
+    {"id": "Q04", "status": "PASS"},
+    {"id": "Q05", "status": "PASS"},
+    {"id": "Q06", "status": "PASS"},
+    {"id": "Q07", "status": "PASS"},
+    {"id": "Q08", "status": "PASS"},
+    {"id": "Q09", "status": "PASS"},
+    {"id": "Q10", "status": "PASS"},
+    {"id": "Q11", "status": "PASS"},
+    {"id": "Q12", "status": "PASS"},
+    {"id": "Q13", "status": "PASS"},
+    {"id": "Q14", "status": "PASS"},
+    {"id": "Q15", "status": "PASS"},
+    {"id": "Q16", "status": "PASS"},
+    {"id": "Q17", "status": "PASS"},
+    {"id": "Q18", "status": "PASS"},
+    {"id": "Q19", "status": "INCOMPLETE"},
+    {"id": "Q20", "status": "PASS"},
+    {"id": "Q21", "status": "PASS"},
+    {"id": "Q22", "status": "PASS"},
+    {"id": "Q23", "status": "PASS"},
+    {"id": "Q24", "status": "PASS"}
+  ],
+  "execution_groups": {
+    "pass": 23,
+    "fail": 1,
+    "incomplete": 0
+  },
+  "semantic_cells": {
+    "pass": 12,
+    "fail": 0
+  },
+  "cells": [
+    {"surface": "cli", "repository": "adl", "platform": "linux", "first": "PASS", "repeat": "PASS", "semantic_status": "PASS"},
+    {"surface": "cli", "repository": "adl", "platform": "macos", "first": "PASS", "repeat": "PASS", "semantic_status": "PASS"},
+    {"surface": "cli", "repository": "vector", "platform": "linux", "first": "PASS", "repeat": "PASS", "semantic_status": "PASS"},
+    {"surface": "cli", "repository": "vector", "platform": "macos", "first": "PASS", "repeat": "PASS", "semantic_status": "PASS"},
+    {"surface": "hosted_website", "repository": "adl", "platform": "linux", "first": "PASS", "repeat": "PASS", "semantic_status": "PASS"},
+    {"surface": "hosted_website", "repository": "adl", "platform": "macos", "first": "PASS", "repeat": "PASS", "semantic_status": "PASS"},
+    {"surface": "hosted_website", "repository": "vector", "platform": "linux", "first": "PASS", "repeat": "PASS", "semantic_status": "PASS"},
+    {"surface": "hosted_website", "repository": "vector", "platform": "macos", "first": "PASS", "repeat": "PASS", "semantic_status": "PASS"},
+    {"surface": "local_agent_website", "repository": "adl", "platform": "linux", "first": "PASS", "repeat": "PASS", "semantic_status": "PASS"},
+    {"surface": "local_agent_website", "repository": "adl", "platform": "macos", "first": "PASS", "repeat": "PASS", "semantic_status": "PASS"},
+    {"surface": "local_agent_website", "repository": "vector", "platform": "linux", "first": "FAIL", "repeat": "PASS", "semantic_status": "PASS"},
+    {"surface": "local_agent_website", "repository": "vector", "platform": "macos", "first": "PASS", "repeat": "PASS", "semantic_status": "PASS"}
+  ],
+  "release_accepted_cells": {
+    "accepted": 0,
+    "denominator": 12,
+    "reason": "global_required_obligations_incomplete"
+  },
+  "provider_accounting": {
+    "actual_posts": 122,
+    "unknown_outcomes": 0,
+    "ambiguous_outcomes_replayed": 0,
+    "operator_amended_ceiling_usd": 70,
+    "exact_billed_cost_claimed": false
+  },
+  "exports": {
+    "markdown": 12,
+    "html": 12,
+    "pdf": 12
+  },
+  "candidate": {
+    "product_reviewed_head": "e4c7e25660d779791e7c81ad75ba5fff4c86b697",
+    "installed_codefriend_sha256": "0a926b685ec9db7fb14c3c35c107fcac6dadcc7a66368717d1fd5d09fbda2db4",
+    "execution_website_baseline": "de2cfedbab3d102fe12b00a1368a18892d0eec7a",
+    "current_website_merge": "62b34f30a7042c10e35cbd5924841305bf68d106"
+  },
+  "private_evidence_sha256": {
+    "final_qualification_decision": "e069b3eef16a93294747ff63a0814a1a36c35de7ae9dc5d04d6d01bdfeb7a733",
+    "pr31_identity_bridge": "fc070a1d98721ecdde28fcae46d03acd000fec7bb1b781b9078d97a30592e8bd",
+    "auth_isolation_checks": "bfc541bace4780dc441f50898beae7586ba460827e6505c3be502472078fd625",
+    "q08_fitness_parity": "af72b5950c458e77540d182bb14bd44a23ab64614b667643564f1109e717de3e",
+    "linux_vector_disposition": "8fa5fd22c0a818f10bedfd62280fc56465d265d15154947a3d2d83e6de108466",
+    "terminal_accounting_manifest": "1908730227c7466bf8abcb72427b24e42aa57296ba055d1e33117579e40d6187",
+    "terminal_dispatch_ledger": "d590e90d59fd6aadb95a6c931063518018799b8c1a2e9877fd44cf3af9cb8f85"
+  },
+  "nonclaims": [
+    "issue_complete",
+    "release_qualified",
+    "public_launch_approved",
+    "exact_provider_billed_cost",
+    "human_artifact_inspection_complete",
+    "real_uninvited_account_denial_proved",
+    "live_two_real_user_isolation_proved"
+  ]
+}
