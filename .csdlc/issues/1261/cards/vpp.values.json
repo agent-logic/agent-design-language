@@ -1,0 +1,15 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 1261,
+  "issue_padded": "1261",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/1261",
+  "title": "[v0.93.1][defect] Report dashboard JavaScript validation as skipped or failed when Node is missing",
+  "branch": "codex/1261-dashboard-node-validation-truth",
+  "version": "1.0.5",
+  "card": "vpp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-1261-dashboard-node-validation-truth",
+  "validation_command": "node --test adl/tools/tests/test_milestone_dashboard_node_modes.test.mjs",
+  "planned_pvf_lane": "focused-node"
+}
