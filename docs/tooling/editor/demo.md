@@ -1,6 +1,7 @@
 # Editor Workflow Demo
 
-This bounded demo is the canonical proof surface for the current editor slice.
+This bounded demo documents the retained three-card editor slice and its
+copy-only handoff to the current native C-SDLC v3 control plane.
 
 It demonstrates the real workflow that now exists in the repo:
 
@@ -52,10 +53,14 @@ It does not claim a finished browser-only workflow platform.
     - `.adl/<version>/tasks/<task-id>__<slug>/stp.md`
     - `.adl/<version>/tasks/<task-id>__<slug>/sip.md`
     - `.adl/<version>/tasks/<task-id>__<slug>/sor.md`
-13. Return to the `Structured Task Prompt` card, set a numeric GitHub issue number that matches the branch prefix, and confirm the workflow action panel shows a ready `pr run` command.
-14. Copy the command from the editor and run it from the repo root:
+13. Return to the `Structured Task Prompt` card, set a numeric GitHub issue number that matches the branch prefix, and confirm the workflow action panel shows a ready copy-only lifecycle adapter command.
+14. Copy the adapter command from the editor and run it from the repo root:
     - `adl/tools/editor_action.sh prepare --phase run --issue <issue-number> --slug <slug> --version <version>`
-15. Copy the review note from the Review Flow panel and confirm it summarizes:
+15. Confirm the adapter prints the native v3 handoff command without executing it:
+    - `.adl/bin/native-v3/csdlc bind <issue-number>`
+16. Run the emitted command only through the authorized native workflow after
+    its preparation and binding preconditions are satisfied.
+17. Copy the review note from the Review Flow panel and confirm it summarizes:
     - the bounded recommendation
     - the current proof surface
     - the follow-ups that still remain manual
@@ -70,12 +75,10 @@ It does not claim a finished browser-only workflow platform.
 
 ## Still Manual / Out Of Scope
 
-- `pr create` is not launched from the browser in this slice
-- `pr init` is not launched from the browser in this slice
-- `pr doctor` / `pr ready` is not launched from the browser in this slice
-- `pr run` is not launched from the browser in this slice
-- `pr finish` is not launched from the browser in this slice
-- `pr janitor` and `pr closeout` remain skill-owned, not browser-owned
+- native `csdlc prepare`, `doctor`, `bind`, `validate`, `review`, `publish`,
+  `finish`, and `clean` are not launched from the browser in this slice
+- retired `pr` lifecycle actions are historical names, not runnable guidance
+- janitor and closeout judgment remain outside the browser editor
 - final review judgment is still human-made
 - the browser does not write tracked files directly
 - no claim is made that this is already a full HTA platform
@@ -92,3 +95,7 @@ It does not claim a finished browser-only workflow platform.
 - the demo makes the remaining manual steps explicit instead of hiding them
 - the editor keeps the public task-bundle destination visible
 - the editor reduces structural editing fragility by guiding required fields and rendering the final markdown artifact live
+
+These are source-level capabilities of the retained editor. The original
+real-bundle browser acceptance receipt has not been located, so this document
+does not present the historical demo as freshly qualified browser proof.

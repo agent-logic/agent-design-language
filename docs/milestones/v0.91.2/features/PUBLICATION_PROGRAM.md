@@ -29,7 +29,9 @@ In scope:
 - Authoring process notes.
 - Review gates and claim/citation discipline.
 - Backlog item for "Gödel Agents and the Gödel-Hadamard-Bayes Algorithm".
-- Refreshed `v0.95`-oriented Medium launch-series inventory.
+- Reconciled Medium launch-series inventory: issue `#5735` supersedes the
+  earlier `v0.95`-oriented inventory with the operator-preferred ten-article
+  sequence recorded in the tracked publication backlog.
 - Backlog placement for the future C-SDLC paper after v0.91.3/v0.91.4
   implementation evidence exists.
 - Explicit non-publication posture for every listed paper/article lane.
@@ -48,7 +50,9 @@ Out of scope:
 - No artifact is marked published by this milestone.
 - The Godel/GHB paper lane remains explicit backlog rather than hidden future
   scope.
-- The Medium article inventory reflects the current `v0.95` MVP launch framing
-  rather than the older `v0.88`-centered article arc.
+- The Medium article inventory follows the `#5735` operator-preferred sequence
+  recorded in
+  [`ARXIV_AND_MEDIUM_PUBLICATION_BACKLOG_v0.91.2.md`](../review/publication_program/ARXIV_AND_MEDIUM_PUBLICATION_BACKLOG_v0.91.2.md).
+  The earlier `v0.95` inventory remains superseded planning history.
 - The C-SDLC paper lane remains explicit backlog and is not treated as
   publication-ready before tracked implementation evidence exists.
