@@ -20,47 +20,47 @@ Run ID: issue-1150
 Version: 1.0.5
 Title: [v0.93][CodeFriend] Complete independent Beta 1 installed qualification
 Branch: codex/1150-codefriend-independent-qualification
-Card Status: draft
-Status: not_started
+Card Status: blocked
+Status: executed_not_qualified
 Generated: 2026-10-04T06:03:30Z
 
 Execution:
-- Actor: `none`
-- Model: `none`
-- Provider: `none`
-- Start Time: `not_started`
-- End Time: `not_started`
+- Actor: `WorkerBee #16 with independent review subagents`
+- Model: `mixed governed execution; exact provider/model identities retained in private receipts`
+- Provider: `OpenAI provider calls complete; no further calls authorized or required`
+- Start Time: `2026-10-05`
+- End Time: `2026-10-09 checkpoint`
 
 ## Summary
 
-CF-05 has a bound preparation context and issue-specific planning for a deployable, tested v0.93.1 candidate. Qualification has not started; accepted cells remain 0/12 and all 24 obligations remain unresolved. Public deployment and live launch are outside this release boundary.
+Authorized CF-05 execution and independent review are complete. The retained result is 21 PASS / 0 FAIL / 3 INCOMPLETE across Q01-Q24. All 12 semantic execution cells pass, but 0/12 are release-accepted because Q02, Q03 and Q19 remain incomplete. The correct decision is NOT QUALIFIED.
 
 ## PVF Lane Truth
 - Initial PVF lane: `installed_integration`
 - Planned PVF lane: `installed_integration`
-- Final PVF lane: `not_executed`
-- Lane change reason: `none; execution has not started`
+- Final PVF lane: `installed_integration_executed_acceptance_blocked`
+- Lane change reason: `Execution completed; only real-account OAuth/isolation negatives and human artifact inspection remain.`
 
 ## Issue Metrics Truth
 - Expected runtime class: `multi_platform_installed_integration_after_authorization`
 - Estimated elapsed seconds: `unknown`
-- Actual elapsed seconds: `0`
-- Actual active work seconds: `0`
+- Actual elapsed seconds: `not_collected`
+- Actual active work seconds: `not_collected`
 - Estimated total tokens: `unknown`
-- Actual total tokens: `0`
+- Actual total tokens: `not_collected`
 - Estimated validation seconds: `unknown`
-- Actual validation seconds: `0`
-- Actual PR wait seconds: `0`
-- Actual CI wait seconds: `0`
-- Budget source: `not_authorized`
-- Goal metrics data source: `no_execution`
-- Goal metrics source ref: `cf05-card-preparation`
-- Data-source confidence: `preparation_only`
-- Estimate error percent: `not_applicable`
-- Completion state: `not_started`
-- Issue goal ref: `Preparation-only goal active; no qualification execution goal is created or authorized.`
+- Actual validation seconds: `not_collected`
+- Actual PR wait seconds: `not_collected`
+- Actual CI wait seconds: `not_collected`
+- Budget source: `Operator-authorized staged campaign, later amended to at most 122 POSTs and USD 70; terminal accounting records 122 POSTs and zero unknown outcomes.`
+- Goal metrics data source: `Terminal accounting and retained qualification evidence; unavailable timing/token metrics remain not_collected.`
+- Goal metrics source ref: `.csdlc/evidence/1150/QUALIFICATION_EVIDENCE_MANIFEST.json`
+- Data-source confidence: `high for call/outcome counts; unavailable for elapsed time, tokens and exact billed cost`
+- Estimate error percent: `not_computable`
+- Completion state: `blocked_on_q02_q03_q19`
+- Issue goal ref: `Active issue #1150 execution-and-qualification goal; provider execution is complete and final acceptance remains blocked on Q02, Q03 and Q19.`
 - Sprint goal ref: `Sprint-3 umbrella #1229`
-- Goal metrics rollup ref: `Planning #13 preparation-content review passed; qualification execution and result review have not run.`
+- Goal metrics rollup ref: `Issue #1150 execution checkpoint: 21 PASS / 0 FAIL / 3 INCOMPLETE, with Q02/Q03/Q19 remaining.`
 - Validation planning prompt: `.git/csdlc-v3/local/projections/1150/cards/vpp.md`
 - Missing-telemetry rule: record `unknown` or `not_collected`; do not invent precision from chat memory or broad timestamp guesses.
 - Goal-metrics substrate note: consume the `#4264` issue-goal metrics summary when available and record `unknown` instead of duplicating raw session logs here.
@@ -70,29 +70,29 @@ CF-05 has a bound preparation context and issue-specific planning for a deployab
 - Variance analysis required: `false`
 - Variance analysis completed: `false`
 - Variance category: `not_applicable`
-- Variance note: `No execution estimate was admitted.`
+- Variance note: `The preparation estimate was unknown; no comparable numeric estimate exists.`
 - Sprint rollup guidance: count only completed variance analyses by `Variance category`; keep `not_applicable` out of category totals and never treat unknown metrics as zero variance.
 
 ## Artifacts produced
 - Local ignored output-card scaffold at `.git/csdlc-v3/local/projections/1150/cards/sor.md`
-- Tracked implementation artifacts: `none`
-- Additional proof artifacts: `none`
+- Tracked implementation artifacts: `.csdlc/evidence/1150/QUALIFICATION_DECISION.md and .csdlc/evidence/1150/QUALIFICATION_EVIDENCE_MANIFEST.json`
+- Additional proof artifacts: `Private retained evidence bound by SHA-256 digests in QUALIFICATION_EVIDENCE_MANIFEST.json.`
 
 ## Actions taken
-- `Audited the live issue, planning contract and retained adverse baseline.`
-- `Bound the native preparation context and applied typed planning corrections without executing qualification.`
-- `Preserved all qualification, review and launch claims as not started.`
+- `Executed and terminally reconciled the authorized qualification denominator with 122 actual POSTs, zero unknown outcomes and no ambiguous replay.`
+- `Reconciled all 24 original obligations, all 12 semantic cells, all 36 exports, Q08 exact-candidate parity and the PR #31 current-site identity bridge.`
+- `Recorded the independent NOT QUALIFIED decision and isolated Q02, Q03 and Q19 as the only remaining gates.`
 
 ## Main Repo Integration (REQUIRED)
-- Main-repo paths updated: `none`
-- Worktree-only paths remaining: `Native-generated bound lifecycle records remain in the issue worktree; no implementation or qualification artifacts exist.`
-- Integration state: `not_started`
-- Verification scope: `preparation_only`
-- Integration method used: `none`
+- Main-repo paths updated: `none yet; the qualification checkpoint and native-rendered #1150 lifecycle cards remain on the draft PR branch until merge`
+- Worktree-only paths remaining: `Current checkpoint remains on the issue branch until its draft PR is reviewed and merged; private execution artifacts remain intentionally outside the public repository.`
+- Integration state: `worktree_only`
+- Verification scope: `exact_candidate_private_evidence_with_public_digest_checkpoint`
+- Integration method used: `native C-SDLC v3 edit and validate complete; independent pre-PR review and draft publication pending`
 - Verification performed:
-  - `not_run`
-    `none`
-- Result: `not_started`
+  - `native csdlc validate 1150 plus JSON parse and bounded digest/readback checks`
+    `Verifies six-card structure, tracked checkpoint syntax and correspondence to retained evidence without rerunning provider work.`
+- Result: `pending_draft_pr`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -107,10 +107,10 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `not_run`
-    `none`
+  - `Read-only reconciliation of retained terminal accounting, independent decision, exact-candidate bridges and 36-export inventory; native csdlc validate 1150 for tracked lifecycle structure.`
+    `Proves 21 PASS / 0 FAIL / 3 INCOMPLETE, 122 actual POSTs, zero unknown outcomes, 12 semantic cell passes and the exact remaining gates without replay.`
 - Results:
-  - `not_run`
+  - `passed_with_required_gates_incomplete`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -123,20 +123,20 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: not_run
+    status: passed_with_blockers
     checks_run:
-      - "No qualification or acceptance claim is made."
+      - "The public checkpoint matches the private decision and terminal accounting digests; Q02, Q03 and Q19 remain explicit blockers."
   determinism:
-    status: not_run
+    status: terminal_accounting_chain_verified
     replay_verified: false
-    ordering_guarantees_verified: false
+    ordering_guarantees_verified: true
   security_privacy:
-    status: not_run
-    secrets_leakage_detected: unknown
-    prompt_or_tool_arg_leakage_detected: unknown
-    absolute_path_leakage_detected: unknown
+    status: passed_for_published_checkpoint
+    secrets_leakage_detected: false
+    prompt_or_tool_arg_leakage_detected: false
+    absolute_path_leakage_detected: false
   artifacts:
-    status: missing_before_execution
+    status: complete_for_execution_incomplete_for_final_acceptance
     required_artifacts_present: false
     schema_changes:
       present: false
@@ -144,35 +144,35 @@ verification_summary:
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `none`
-- Fixtures or scripts used: `none`
-- Replay verification (same inputs -> same artifacts/order): `not_run`
-- Ordering guarantees (sorting / tie-break rules used): `not_assessed`
-- Artifact stability notes: `No candidate or qualification artifacts admitted yet. Future proof must distinguish local or owned nonpublic deployability evidence from public deployment and live launch.`
+- Determinism tests executed: `Retained ordered terminal event-chain validation and exact-candidate parity evidence; no provider execution replay.`
+- Fixtures or scripts used: `Candidate/pass/fail/error Q08 fixtures and retained qualification launchers identified in private evidence.`
+- Replay verification (same inputs -> same artifacts/order): `not_applicable; terminal accounting was validated by read-only ledger-chain reconciliation and provider execution was not replayed`
+- Ordering guarantees (sorting / tie-break rules used): `Append-only dispatch ledger final event and terminal manifest bind the completed 16 website groups; all 24 review groups have owned dispositions.`
+- Artifact stability notes: `Public checkpoint records stable SHA-256 correspondence only. Private reports and receipts remain outside the repository and were not rewritten.`
 
 ## Security / Privacy Checks
-- Secret leakage scan performed: `false`
-- Prompt / tool argument redaction verified: `false`
-- Absolute path leakage check: `not_run`
-- Sandbox / policy invariants preserved: `No implementation, provider command, public deployment, audience activation or live launch ran during preparation.`
+- Secret leakage scan performed: `true`
+- Prompt / tool argument redaction verified: `true`
+- Absolute path leakage check: `passed for tracked checkpoint`
+- Sandbox / policy invariants preserved: `No further provider call, ambiguous replay, source mutation, public deployment, audience activation or launch action occurred during reconciliation.`
 
 ## Replay Artifacts
-- Trace bundle path(s): `none`
-- Run artifact root: `not_created`
-- Replay command used for verification: `not_authorized`
-- Replay result: `not_run`
+- Trace bundle path(s): `Private retained execution packet; public identities are listed in QUALIFICATION_EVIDENCE_MANIFEST.json.`
+- Run artifact root: `Private review custody; intentionally not published.`
+- Replay command used for verification: `none; provider execution replay was prohibited`
+- Replay result: `not_applicable; read-only terminal reconciliation records 122 actual POSTs, zero unknown outcomes and no replay of ambiguity`
 
 ## Artifact Verification
-- Primary proof surface: `not_available_before_execution`
+- Primary proof surface: `.csdlc/evidence/1150/QUALIFICATION_DECISION.md`
 - Required artifacts present: `false`
-- Artifact schema/version checks: `not_run`
-- Hash/byte-stability checks: `not_run`
-- Missing/optional artifacts and rationale: `Execution has not started.`
+- Artifact schema/version checks: `Qualification checkpoint JSON parsed; native six-card validation required before publication.`
+- Hash/byte-stability checks: `Private evidence SHA-256 identities recorded in QUALIFICATION_EVIDENCE_MANIFEST.json.`
+- Missing/optional artifacts and rationale: `Required acceptance evidence is missing only for Q02 real uninvited denial, Q03 live two-real-user isolation and Q19 human inspection; these are not optional.`
 
 ## Decisions / Deviations
-- `Treat v0.93.1 readiness as built, tested and deployable, including the waiting-list mechanism; do not require or infer public deployment.`
-- `Use the recovered SHA-256-identified Q01-Q24 requirement map without granting historical execution credit; do not replay the unknown interrupted request or spend without authority.`
+- `Preserve NOT QUALIFIED and 0/12 release-accepted cells until Q02, Q03 and Q19 are satisfied or the issue authority changes those requirements.`
+- `Make no additional provider call or replay; remaining evidence is provider-free and identity/human dependent.`
 
 ## Follow-ups / Deferred work
-- `Accept all five prerequisites, admit exact candidate custody, and obtain local or owned nonpublic proof that the waiting-list and hosted-mode paths are built, tested and deployable before execution.`
-- `After every execution gate and separate execution authority are admitted, create the execution goal and use the existing bound context; do not claim readiness from preparation alone.`
+- `Use an existing second GitHub identity of known invitation state to prove real uninvited denial and live cross-user run/artifact isolation. Do not create or infer an identity.`
+- `Have a human navigate all 12 HTML reports and inspect all 12 PDFs, then record acceptance or exact exceptions before final closeout.`

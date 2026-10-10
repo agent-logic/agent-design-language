@@ -1,0 +1,21 @@
+{
+  "schema": "csdlc.v3.intent_changes.v1",
+  "amendment": {
+    "class": "proof_validator",
+    "transition_approved": true,
+    "new_commit": false
+  },
+  "cards": {
+    "vpp": {
+      "card_status": "blocked",
+      "status": "executed_blocked_on_q02_q03_q19",
+      "issue_goal_ref": "Active issue #1150 execution-and-qualification goal; provider execution is complete and final acceptance remains blocked on Q02, Q03 and Q19.",
+      "goal_metrics_rollup_ref": "Issue #1150 execution checkpoint: 21 PASS / 0 FAIL / 3 INCOMPLETE, with Q02/Q03/Q19 remaining.",
+      "plan_summary": "The full authorized provider-backed execution, export generation, exact-candidate parity checks, compatibility bridge, terminal reconciliation and independent semantic review have run. The result is 21 PASS / 0 FAIL / 3 INCOMPLETE. Remaining validation is provider-free and limited to Q02, Q03 and Q19.",
+      "validation_commands_inline": "Retained terminal-accounting verification proved 122 actual POSTs, zero unknown outcomes and no ambiguity replay. Retained evidence review reconciled all 24 first/repeat groups, 36 exports, exact candidate identities, Q08 parity and the PR #31 bridge. Remaining: exercise a real uninvited GitHub account, prove live cross-user run/artifact denial with two real identities, and record human navigation of 12 HTML plus inspection of 12 PDFs.",
+      "expected_proof_cost": "No additional provider cost. Q02/Q03 require an existing second GitHub identity of known invitation state; Q19 requires operator inspection time only.",
+      "failure_policy": "Fail closed. Keep NOT QUALIFIED and 0/12 release-accepted cells until Q02, Q03 and Q19 are proved or the issue authority explicitly changes those requirements. Do not infer identity evidence, substitute fixtures for real OAuth, or substitute agent render checks for human inspection.",
+      "notes_risks_inline": "The semantic execution passes all 12 cells, but global acceptance remains blocked. The first Linux/Vector quote mismatch remains adverse evidence while its compatible repeat satisfies Q06. Q22 is PASS on the independently reviewed identity bridge. No fresh provider, CI, deployment or service operation is needed."
+    }
+  }
+}
