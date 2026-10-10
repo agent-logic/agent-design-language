@@ -210,6 +210,7 @@ for (const element of elements.values()) {
   }
 }
 NODE
+  echo "PASS test_milestone_dashboard javascript_validation=executed"
+else
+  echo "SKIP test_milestone_dashboard javascript_validation=skipped reason=node_unavailable static_validation=passed"
 fi
-
-echo "PASS test_milestone_dashboard"
