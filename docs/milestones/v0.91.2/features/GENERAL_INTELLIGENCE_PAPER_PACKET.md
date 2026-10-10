@@ -23,7 +23,7 @@ In scope:
 - Claim and citation packet update.
 - Unsupported-claim register.
 - Review packet suitable for human handoff.
-- Next authoring steps.
+- Current final-publication decision handoff.
 - Explicit source-boundary note for the separate paper repository.
 
 Out of scope:
@@ -40,3 +40,17 @@ Out of scope:
 - The packet does not pretend the older local `.adl` draft copy is canonical.
 - The separate paper repo is documented as the canonical home with a working
   manuscript build.
+
+## Current Canonical Handoff
+
+The canonical paper repository's
+`A_MATHEMATICAL_THEORY_OF_GENERAL_INTELLIGENCE_CITATION_AND_CLAIM_PACKET.md`
+is the current final-prepublication truth surface. It supersedes the earlier
+development-time handoff that called for broad manuscript expansion. New
+examples, sections, or theory text are not planned unless a genuine error is
+found. The remaining publication decision belongs to the author.
+
+The retained successful TeX/BibTeX build and citation-key consistency support
+mechanical readiness only. They do not establish submission, external
+mathematical approval, empirical validation, or a universal context-free
+intelligence ranking.
