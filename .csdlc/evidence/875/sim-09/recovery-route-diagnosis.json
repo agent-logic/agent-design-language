@@ -1,0 +1,73 @@
+{
+  "schema": "adl.sim09.recovery_route_diagnosis.v1",
+  "command": [
+    "/Users/daniel/git/agent-design-language/.git/csdlc-v3/local/invocations/1068-external-pr-finish/verified-owner/csdlc",
+    "recover",
+    "482",
+    "--repo-root",
+    "/Users/daniel/.codex/worktrees/dae6/agent-design-language",
+    "--json"
+  ],
+  "exit_code": 2,
+  "native_result": {
+    "schema": "csdlc.v3.command_failure.v1",
+    "status": "failed",
+    "findings": [
+      {
+        "code": "intent_issue_topology_ambiguous",
+        "message": "intent_issue_topology_ambiguous"
+      }
+    ],
+    "resolution_metrics": {
+      "application_git_reads": 4,
+      "canonical_authority_file_reads": 0,
+      "scope": "actual application Git calls and canonical authority file reads, including repeated freshness checks; complete native Git subprocess counts are measured separately by installed fixture instrumentation"
+    },
+    "envelope": {
+      "schema": "csdlc.v3.command_result.v1",
+      "command": "recover",
+      "issue": {
+        "status": "unavailable"
+      },
+      "status": "failed",
+      "process_status": "failed",
+      "authority_status": "not_established",
+      "issue_version": {
+        "before": {
+          "basis": "request_expectation",
+          "digest": null
+        },
+        "after": {
+          "basis": "owner_result",
+          "digest": null
+        }
+      },
+      "effects": {
+        "class": "guarded_local",
+        "outcome": "unknown"
+      },
+      "findings": [
+        {
+          "code": "intent_issue_topology_ambiguous",
+          "message": "intent_issue_topology_ambiguous"
+        }
+      ],
+      "reason_code": "intent_issue_topology_ambiguous",
+      "allowed_next_operations": [],
+      "correlation_id": "32203-1789766593206",
+      "intent_identity": null,
+      "evidence_invalidation": {
+        "status": "not_reported"
+      },
+      "timing": {
+        "started_unix_ms": 1789766593206,
+        "monotonic_duration_ms": 85
+      },
+      "wait_owner": "operator"
+    }
+  },
+  "execute_requested": false,
+  "result": "Existing native recovery cannot admit the unregistered historical bundle.",
+  "next_action": "Review an issue-scoped evidence-preserving native reconciliation path for the eight frozen bundles; preserve all source data and do not weaken the census or invent binding/terminal authority.",
+  "cleanup_contract": "docs/csdlc-v3/man/man1/csdlc-clean.1 requires durable terminal receipt, registered candidate and approved parent; dirty/live/unregistered/protected paths are not permission to delete manually."
+}

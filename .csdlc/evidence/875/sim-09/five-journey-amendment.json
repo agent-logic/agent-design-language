@@ -1,0 +1,13 @@
+{
+  "schema": "adl.sim09.protocol_amendment.v1",
+  "issue": 875,
+  "recorded_at": "2026-09-19T00:09:01.123203+00:00",
+  "operator_instruction": "just do 5 not 30",
+  "previous_sample_size": 30,
+  "sample_size": 5,
+  "eligible_at_amendment": 0,
+  "protocol": ".csdlc/evidence/875/sim-09/PILOT-5.md",
+  "protocol_sha256": "ebdf248c21741afecbba9a2369a81cc930074cf1c40d0ef31b3764ab830a9e7f",
+  "changes": "Sample size only. Preserve consecutive real post-resume enrollment, all adverse outcomes, transition authorization and full accounting.",
+  "live_effects": false
+}
