@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.v3.local_state.v1",
+  "issue": 1261,
+  "phase": "bound",
+  "generation": 2,
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/1261-dashboard-node-validation-truth",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-1261-dashboard-node-validation-truth",
+  "template_registry_version": "1.0.5",
+  "operational_authority": true,
+  "digest": "67572b57b9a457f9eb95a7c5b13c5bb589de04736fd14ad1aba02cf73e4c57d6"
+}
