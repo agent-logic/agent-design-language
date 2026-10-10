@@ -1078,6 +1078,7 @@ jobs:
           else
             [ "$UTS_PACKAGE_RESULT" = skipped ] || { echo "::error::unselected UTS package lane was not skipped"; exit 1; }
           fi
+          # END UTS package aggregate contract
           case "$PUBLIC_ADL_VALIDATION_REQUIRED:$PUBLIC_ADL_VALIDATION_RESULT" in
             true:success|false:skipped) ;;
             *) echo "::error::public ADL validation selection/result mismatch"; exit 1 ;;
