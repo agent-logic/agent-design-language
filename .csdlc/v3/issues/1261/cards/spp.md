@@ -11,7 +11,7 @@ branch: "codex/1261-dashboard-node-validation-truth"
 generated_at: "<timestamp>"
 card_status: "ready"
 status: "ready"
-activation_state: "prepared"
+activation_state: "bound"
 plan_revision: 1
 initial_pvf_lane: "focused-node"
 planned_pvf_lane: "focused-node"
@@ -48,7 +48,7 @@ constraints:
   - "runtime_execution_must_update_spp_if_plan_changes"
   - "no_hidden_scope_expansion"
 confidence: "medium"
-plan_summary: "Preserve the dashboard checks, replace the ambiguous unconditional PASS with explicit executed or skipped JavaScript-validation results, and prove both paths with a focused Node test."
+plan_summary: "Preserve the dashboard checks, replace the ambiguous unconditional PASS with an executed success when Node is present and an explicit nonzero unavailable result when Node is absent, and prove both paths with a focused Node test."
 assumptions:
   - "The linked source issue prompt, STP, and SIP remain the canonical design-time inputs."
 proposed_steps:
@@ -65,7 +65,7 @@ proposed_steps:
     expected_output: "tracked issue work product"
     allowed_mode: "execution_after_approval"
   - id: "step-4"
-    description: "Run focused proof gates for acceptance: Node absent emits SKIP without behavioral PASS; Node present executes and reports the existing behavioral assertions; both focused cases pass."
+    description: "Run focused proof gates for acceptance: Node absent exits nonzero with an unavailable result and no behavioral PASS; Node present executes and reports the existing behavioral assertions; both focused cases pass."
     expected_output: "validation evidence recorded in VPP/SOR"
     allowed_mode: "execution_after_approval"
   - id: "step-5"
@@ -115,7 +115,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
 
 Design-time operative plan for `[v0.93.1][defect] Report dashboard JavaScript validation as skipped or failed when Node is missing`.
 
-Preserve the dashboard checks, replace the ambiguous unconditional PASS with explicit executed or skipped JavaScript-validation results, and prove both paths with a focused Node test.
+Preserve the dashboard checks, replace the ambiguous unconditional PASS with an executed success when Node is present and an explicit nonzero unavailable result when Node is absent, and prove both paths with a focused Node test.
 
 ## PVF Lane Plan
 
@@ -157,7 +157,7 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 1. Confirm dependency readiness and starting state: Issue scope reviewed; current script and dashboard fixtures present; Node is available to run the focused test harness.
 2. Review repo inputs and scoped surfaces before editing: Issue #1261, the reviewed audit finding, the dashboard validator, and current dashboard fixtures.
 3. Implement only the bounded deliverables: Truthful outcome markers and deterministic Node-present/Node-absent regression assertions.
-4. Run focused proof gates for acceptance: Node absent emits SKIP without behavioral PASS; Node present executes and reports the existing behavioral assertions; both focused cases pass.
+4. Run focused proof gates for acceptance: Node absent exits nonzero with an unavailable result and no behavioral PASS; Node present executes and reports the existing behavioral assertions; both focused cases pass.
 5. Record issue-specific review findings in SRP, validation-planning truth in VPP, issue outcome truth in SOR, and refresh this SPP if execution diverges.
 
 ## Affected Areas

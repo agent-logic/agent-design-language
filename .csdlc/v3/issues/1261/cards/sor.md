@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Preparation only; implementation, validation, review, publication, integration, and closeout remain pending.
+Implemented truthful dashboard validation outcomes: Node-present execution retains all behavioral checks and reports javascript_validation=executed, while Node-unavailable execution reports FAIL with javascript_validation=unavailable and exits nonzero so downstream gates cannot convert static-only validation into PASS. Focused local proof and independent review pass; native non-Cargo proof, publication, CI, merge, finish, and cleanup remain pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `<initial_pvf_lane>`
@@ -75,8 +75,8 @@ Preparation only; implementation, validation, review, publication, integration, 
 
 ## Artifacts produced
 - Local ignored output-card scaffold at `<output_card>`
-- Tracked implementation artifacts: `Pending bounded implementation in the native issue worktree.`
-- Additional proof artifacts: `Pending focused validation and independent review evidence.`
+- Tracked implementation artifacts: `adl/tools/test_milestone_dashboard.sh; adl/tools/tests/test_milestone_dashboard_node_modes.test.mjs`
+- Additional proof artifacts: `/Volumes/FastWork/agent-logic-review/worker16-1261/LOCAL_PROOF_AND_NATIVE_BLOCKER.json; independent review of 4aa9d98d5a2d59a86470f6a96e7e32f9567718c6`
 
 ## Actions taken
 - `<actions_taken_line_1>`
@@ -107,10 +107,10 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `node --test adl/tools/tests/test_milestone_dashboard_node_modes.test.mjs`
+  - `node --test adl/tools/tests/test_milestone_dashboard_node_modes.test.mjs; bash adl/tools/test_milestone_dashboard.sh; git diff --check`
     `<validation_effect>`
 - Results:
-  - `pending`
+  - `Focused Node test passed 2/2. Direct Node-present validation exited 0 with javascript_validation=executed. Isolated Node-absent validation exited 1 with javascript_validation=unavailable, downstream gate FAIL, and no behavioral PASS. git diff --check passed. Independent review reported no actionable findings. Native proof remains blocked by intent_validator_execution_unsupported for the retained preparation-only git validator until the tracked non-Cargo proof repair is available.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.

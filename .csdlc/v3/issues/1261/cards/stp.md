@@ -43,7 +43,7 @@ Prevent static-only validation from being labeled as full dashboard PASS.
 
 ## Required Outcome
 
-Node-present execution reports behavioral validation executed; Node-absent execution reports behavioral validation skipped and never prints the full PASS result.
+Node-present execution reports behavioral validation executed; Node-absent execution returns nonzero, reports behavioral validation unavailable, and never prints the full PASS result.
 
 ## Deliverables
 
@@ -71,7 +71,7 @@ Run node --test for the focused regression, run the dashboard script directly, r
 
 ## Demo Expectations
 
-The focused test must assert the exact outcome markers and that the Node-absent run has no behavioral PASS marker.
+The focused test must assert the exact outcome markers, the Node-absent nonzero exit, and that the Node-absent run has no behavioral PASS marker.
 
 ## Non-goals
 

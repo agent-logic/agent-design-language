@@ -98,7 +98,7 @@ The script distinguishes static-only validation from executed JavaScript syntax,
 
 ## Acceptance Criteria
 
-Node absent cannot report behavioral validation PASS; Node present retains actual syntax, rendering, and escaping assertions; focused tests assert distinct executed and skipped outcomes.
+Node absent cannot report behavioral validation PASS and must return a nonzero unavailable result; Node present retains actual syntax, rendering, and escaping assertions; focused tests assert distinct executed and unavailable failure outcomes.
 
 ## Inputs
 
@@ -166,7 +166,7 @@ No dashboard product change, no live sync work, no v0.95 expansion, no runtime r
 
 ## Notes / Risks
 
-A zero exit in the Node-absent branch is acceptable only with an explicit SKIP result that cannot be mistaken for behavioral PASS.
+The Node-absent branch must fail nonzero with an explicit unavailable result so existing callers cannot map static-only validation to behavioral PASS.
 
 ## Instructions to the Agent
 - Read this file.
