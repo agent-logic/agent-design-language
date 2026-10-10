@@ -1,0 +1,69 @@
+{
+  "schema": "adl.sim09.preparation_packet.v1",
+  "issue": 875,
+  "deliverable": "Preparation evidence only; not pilot acceptance",
+  "pilot": {
+    "journeys": 0,
+    "resume_receipt": null,
+    "activation_performed": false,
+    "acceptance": "not_proven",
+    "required_journeys": 5
+  },
+  "candidate": {
+    "source": "067cb99bf5c6220f64c9faadd7da6abdca34bcc4",
+    "sha256": "6d30fcc7aa17c417c444145809968d0c286ad15b3338303963c42761a0620fa9",
+    "verification": "Retained binary bytes rehashed2026-10-10; exact match. Historical SIM07 pass does not establish current deployment compatibility."
+  },
+  "transition": {
+    "accepted_source": "439b5ca0e0bca9bce78f0bde73e8e9c6dabe2be4",
+    "merge": "347ab87fbf4328dba2ba21708cc89f34a05641d6",
+    "pr": 1075,
+    "binary_sha256": "bcdc1049aa8520dbfa60c6c7e190d86a045bc775cf76be3f9e4f4c37b21cdc18",
+    "source_hash": "beaff3d1635c705aa545e6fd737cdce7dbf580ce14fe3f70bd8828f6b0a87f4e",
+    "verification": "Installer source hash recomputed from accepted Git objects; matches retained binary provenance."
+  },
+  "read_only_outcomes": [
+    {
+      "operation": "accepted transition inventory in dedicated pilot primary",
+      "exit_code": 2,
+      "result": "refused unregistered or changed lifecycle residue1056"
+    },
+    {
+      "operation": "accepted reconcile-history preview for1056",
+      "exit_code": 2,
+      "result": "NotFound; source reads absent index.json before identity admission"
+    }
+  ],
+  "blocker": {
+    "issue": 1056,
+    "tracked_card_files": 12,
+    "index_present": false,
+    "binding_present": false,
+    "original_terminal_pr": 1063,
+    "original_terminal_head": "afb3ce4f8b1e1aa49c3c25b886b55fbb97c93dd3",
+    "original_pr_state": "MERGED",
+    "namespace_boundary": "Original terminal receipt exists in original metadata; not imported or authenticated as authority in dedicated namespace."
+  },
+  "scope_alternatives": {
+    "existing_dedicated": "Native cards-only historical disposition admission required. Preserve residue.",
+    "shared_primary": "Requires changed scope, full census and writer acknowledgments; not authorized by historical dedicated scope.",
+    "new_namespace": "Requires reviewed scope/candidate applicability and genuine assignments; empty census/synthetic work cannot satisfy pilot.",
+    "hide_or_delete_residue": "forbidden"
+  },
+  "remaining_acceptance": [
+    "complete admitted census",
+    "current candidate qualification applicability",
+    "prospective collector readiness and owner acknowledgments",
+    "fresh exact candidate and pause-window authority",
+    "paused conversion/readback then separate explicit resume",
+    "five consecutive genuine post-resume journeys with complete attempts",
+    "independent final scorecard and adverse dispositions"
+  ],
+  "cost": {
+    "incremental_paid_budget_usd": 0,
+    "provider_calls": false
+  },
+  "shadow_boundary": "Separate operator-directed current-activity sample joined mid-journey; not controlled pilot evidence.",
+  "publication_boundary": "Draft only; merge and issue closure not authorized. Full issue acceptance unchanged.",
+  "validation_boundary": "Focused packet accounting/integrity proof only; no runtime, migration, installed activation or real-journey proof."
+}

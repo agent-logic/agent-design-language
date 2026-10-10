@@ -1,0 +1,27 @@
+{
+  "schema": "adl.sim09.pilot_status.v1",
+  "issue": 875,
+  "status": "not_started",
+  "protocol": ".csdlc/evidence/875/sim-09/PILOT-5.md",
+  "protocol_revision": "operator-five-journey-amendment-pre-enrollment",
+  "protocol_sha256": "ebdf248c21741afecbba9a2369a81cc930074cf1c40d0ef31b3764ab830a9e7f",
+  "sample_size": 5,
+  "resume_receipt": null,
+  "counts": {
+    "considered": 0,
+    "eligible": 0,
+    "excluded": 0,
+    "attempted": 0,
+    "not_attempted": 0,
+    "active": 0,
+    "completed": 0,
+    "failed": 0,
+    "abandoned": 0,
+    "censored": 0,
+    "command_attempts": 0,
+    "retries": 0
+  },
+  "observation_cutoff": null,
+  "scorecard": "not_proven",
+  "reason": "No authorized resume; preflight operations are not eligible pilot journeys."
+}
