@@ -1,4 +1,23 @@
-# SIM-09 execution record
+# SIM-09 preparation record
+
+## Preparation draft — 2026-10-10
+
+This draft publishes preparation evidence only. The controlled pilot remains
+not started: **0/5 journeys**, no resume receipt and acceptance **not_proven**.
+`PILOT-5.md` and `five-journey-amendment.json` retain the operator sample-size
+amendment; older 30-journey references remain historical. All other execution
+acceptance criteria remain required. The separate read-only shadow is not a
+substitute for the consecutive post-resume pilot.
+
+`draft-preparation/packet.json` records current candidate identity checks, the
+accepted transition-owner census refusal for the dedicated checkout's cards-only
+#1056 history, scope alternatives and remaining acceptance gates.
+`draft-preparation/validate_packet.py` checks packet consistency and rejects false
+completion/activation claims; it does not prove migration or actual journeys.
+No activation, deployment, provider spending, cleanup or issue closure is
+authorized by publishing this draft.
+
+## Historical preflight — 2026-09-18
 
 Issue #875, Sprint #866. Pilot is **not started: 0/30 journeys**.
 
