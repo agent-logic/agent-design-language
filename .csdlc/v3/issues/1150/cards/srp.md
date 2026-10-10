@@ -8,7 +8,7 @@ version: "1.0.5"
 title: "[v0.93][CodeFriend] Complete independent Beta 1 installed qualification"
 branch: "codex/1150-codefriend-independent-qualification"
 generated_at: "<timestamp>"
-card_status: "ready"
+card_status: "completed"
 status: "draft"
 source_refs:
   - kind: "issue"
@@ -55,9 +55,9 @@ policy_refs:
   - "<sip_card>"
   - "<vpp_card>"
 review_results:
-  findings_status: "<findings_status>"
-  recommended_outcome: "<recommended_outcome>"
-notes: "<review_notes>"
+  findings_status: "findings_present"
+  recommended_outcome: "block"
+notes: "Independent review covered all 24 first/repeat execution groups, 245 admitted findings, 36 exports, negative/recovery/spend evidence, exact-candidate fitness parity and the current website identity bridge. The final count is 21 PASS / 0 FAIL / 3 INCOMPLETE and the issue remains open."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- <review_findings>
+- Q02 lacks real uninvited-account denial; Q03 lacks live two-real-user run/artifact isolation; Q19 lacks the required human HTML/PDF inspection. All other original obligations pass. The adverse Linux/Vector first observation remains retained, its compatible repeat satisfies Q06, and the exact-candidate bridge satisfies Q22.
 
 ### Dispositions
 
-- <review_dispositions>
+- Block final qualification, release acceptance, merge-ready closeout and launch claims. Preserve all retained execution evidence, make no further provider calls, and complete only the three stated gates or obtain an explicit authority change.
 
 ### Recommended Outcome
 
-- <recommended_outcome>
+- block
 
 ## Notes
 
-<review_notes>
+Independent review covered all 24 first/repeat execution groups, 245 admitted findings, 36 exports, negative/recovery/spend evidence, exact-candidate fitness parity and the current website identity bridge. The final count is 21 PASS / 0 FAIL / 3 INCOMPLETE and the issue remains open.
