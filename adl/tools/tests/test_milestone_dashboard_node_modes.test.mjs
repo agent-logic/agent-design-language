@@ -39,7 +39,7 @@ test("Node-present dashboard validation executes behavioral assertions", () => {
   assert.doesNotMatch(result.stdout, /^SKIP test_milestone_dashboard/m);
 });
 
-test("Node-absent dashboard validation reports behavioral assertions skipped", () => {
+test("Node-absent dashboard validation fails instead of implying behavioral PASS", () => {
   const isolatedBin = mkdtempSync(join(tmpdir(), "adl-dashboard-node-modes-"));
   try {
     for (const name of ["bash", "dirname", "grep", "head", "sed"]) {
@@ -48,12 +48,12 @@ test("Node-absent dashboard validation reports behavioral assertions skipped", (
 
     const result = runDashboardValidator(isolatedBin);
 
-    assert.equal(result.status, 0, result.stderr);
+    assert.equal(result.status, 1, result.stdout);
     assert.match(
-      result.stdout,
-      /^SKIP test_milestone_dashboard javascript_validation=skipped reason=node_unavailable static_validation=passed$/m,
+      result.stderr,
+      /^FAIL test_milestone_dashboard javascript_validation=unavailable reason=node_unavailable static_validation=passed$/m,
     );
-    assert.doesNotMatch(result.stdout, /^PASS test_milestone_dashboard/m);
+    assert.doesNotMatch(`${result.stdout}\n${result.stderr}`, /^PASS test_milestone_dashboard/m);
   } finally {
     rmSync(isolatedBin, { force: true, recursive: true });
   }
