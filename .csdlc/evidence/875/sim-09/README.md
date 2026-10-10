@@ -21,7 +21,7 @@ authorized by publishing this draft.
 
 Issue #875, Sprint #866. Pilot is **not started: 0/30 journeys**.
 
-The accepted measurement contract is `../../874/sim-08/PILOT.md`; its exact revision and SHA256 are retained in `pilot-status.json`. These empty append-only ledgers reserve the record surfaces; they do not establish a working collector or completed accounting validation.
+The historical measurement contract was `../../874/sim-08/PILOT.md` at revision `904f650644217004fb3e16ac31586064f5e7b78f`, SHA256 `de19042a632de742a0d7e50073c1934537d680af07d602538d860e77ec227b58`. The current `pilot-status.json` instead records the five-journey amendment. These empty append-only ledgers reserve the record surfaces; they do not establish a working collector or completed accounting validation.
 
 Before the first eligible attempt, retain an authorized resume receipt and register the entry with ordinal, issue, repository, branch/worktree, exact executable/source, phase, wall time, protocol, dependency class, work type, proof profile and scale. Keep every subsequent attempt, retry, wait and disposition under that original journey. Corrections append references to prior events; never replace adverse journeys. Preserve missing fields with an explicit reason. Enrollment stops at30; all later considered entries are recorded as exclusions.
 
