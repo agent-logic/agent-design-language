@@ -1,10 +1,5 @@
 {
   "schema": "csdlc.v3.intent_changes.v1",
-  "amendment": {
-    "class": "publication",
-    "transition_approved": true,
-    "new_commit": false
-  },
   "publication": {
     "base": "main",
     "draft": true,
