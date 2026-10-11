@@ -88,7 +88,7 @@ CF-05 qualification is complete: 24 PASS / 0 FAIL / 0 INCOMPLETE across Q01-Q24 
 - Worktree-only paths remaining: `Current checkpoint remains on the issue branch until its draft PR is reviewed and merged; private execution artifacts remain intentionally outside the public repository.`
 - Integration state: `pr_open`
 - Verification scope: `exact_candidate_private_evidence_with_public_digest_checkpoint`
-- Integration method used: `Native C-SDLC v3 edit, validate, proof, review, publication update, ready and merge routes.`
+- Integration method used: `Native C-SDLC v3 edit routes; publication remains draft and merge remains pending.`
 - Verification performed:
   - `native csdlc validate 1150 plus JSON parse and bounded digest/readback checks`
     `Verifies six-card structure, tracked checkpoint syntax and correspondence to retained evidence without rerunning provider work.`
@@ -110,7 +110,7 @@ Rules:
   - `node --test adl/tools/tests/cf05_qualification_checkpoint.test.mjs; native csdlc validate 1150; native csdlc proof 1150; independent exact-head review.`
     `Proves the final 24-obligation and 12-cell denominator, exact deployable identity, evidence digests, privacy boundary and lifecycle readiness without provider replay.`
 - Results:
-  - `passed`
+  - `Focused checkpoint validation passed; current exact-head native proof and independent review remain required before publication update, ready and merge.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -123,7 +123,7 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: passed
+    status: focused_checkpoint_passed_current_exact_head_proof_and_review_pending
     checks_run:
       - "The tracked public checkpoint matches the final private decision and binds Q02, Q03, Q08, Q19, candidate bridge, output refresh and retained adverse evidence."
   determinism:
@@ -160,7 +160,7 @@ verification_summary:
 - Trace bundle path(s): `Private retained execution packet; public identities are listed in QUALIFICATION_EVIDENCE_MANIFEST.json.`
 - Run artifact root: `Private review custody; intentionally not published.`
 - Replay command used for verification: `none; provider execution replay was prohibited`
-- Replay result: `not_applicable; read-only terminal reconciliation records 122 actual POSTs, zero unknown outcomes and no replay of ambiguity`
+- Replay result: `not_applicable; terminal accounting records 126 actual POSTs, zero unknown outcomes and no replay of ambiguity`
 
 ## Artifact Verification
 - Primary proof surface: `.csdlc/evidence/1150/QUALIFICATION_DECISION.md`

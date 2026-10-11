@@ -92,9 +92,18 @@ test("CF-05 checkpoint publishes stable identities without private absolute path
   for (const [name, digest] of Object.entries(manifest.private_evidence_sha256)) {
     assert.match(digest, sha256, `${name} must be a SHA-256 digest`);
   }
-  assert.match(manifest.candidate.execution_installed_codefriend_sha256, sha256);
-  assert.match(manifest.candidate.deployable_macos_arm64_codefriend_sha256, sha256);
-  assert.match(manifest.candidate.deployable_linux_x86_64_codefriend_sha256, sha256);
+  assert.equal(
+    manifest.candidate.execution_installed_codefriend_sha256,
+    "0a926b685ec9db7fb14c3c35c107fcac6dadcc7a66368717d1fd5d09fbda2db4",
+  );
+  assert.equal(
+    manifest.candidate.deployable_macos_arm64_codefriend_sha256,
+    "17c64d9c1c5244aa0f1811268dcab6ce2bacfa2e03339574888e49eff384f328",
+  );
+  assert.equal(
+    manifest.candidate.deployable_linux_x86_64_codefriend_sha256,
+    "55520a6994b084affcc1aeb9dd88ae6aac245a88aeef7263f2402ae47cf1cb39",
+  );
 
   assert.doesNotMatch(manifestText, /\/Users\//);
   assert.doesNotMatch(manifestText, /\/Volumes\/FastWork/);
