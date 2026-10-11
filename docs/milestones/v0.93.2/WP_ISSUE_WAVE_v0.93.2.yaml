@@ -1605,6 +1605,7 @@
         "title": "Milestone integration and release closeout",
         "work_packages": [
           "INTEGRATE",
+          "CF-92",
           "QUALIFY",
           "TAIL-01",
           "TAIL-02",
@@ -1615,8 +1616,7 @@
           "TAIL-07",
           "TAIL-08",
           "TAIL-09",
-          "TAIL-10",
-          "CF-92"
+          "TAIL-10"
         ]
       }
     ]

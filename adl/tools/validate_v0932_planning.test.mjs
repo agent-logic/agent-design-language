@@ -15,6 +15,8 @@ test('v0.93.2 graphs agree on the complete allocated scope', () => {
     assert.ok(byId.QUALIFY.depends_on.includes('CF-92'));
     assert.equal(byId['GHB-WP12'].sprint, 4);
     assert.equal(byId['CF-92'].sprint, 5);
+    const finalOrder = graph.sprint_plan.sprints[4].work_packages;
+    assert.ok(finalOrder.indexOf('CF-92') < finalOrder.indexOf('QUALIFY'));
     for (const dep of ['ADL-1150','CodeFriend-45','CodeFriend-46','codefriend.ai-21']) assert.ok(graph.external_dependencies[dep]);
   }
 });
