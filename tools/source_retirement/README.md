@@ -20,7 +20,7 @@ No host path, archive download, provider credential, or cloud execution is
 embedded in the check. A new host without rollback custody must fail closed.
 The archive digest check is separate from the isolated restoration rehearsal.
 
-Run the focused guard and its eleven regression scenarios with:
+Run the focused guard and its twelve regression scenarios with:
 
 ```sh
 CARGO_TARGET_DIR=target/source-retirement cargo test --offline --locked --manifest-path tools/source_retirement/validator/Cargo.toml --test retirement_contract

@@ -104,6 +104,7 @@ def run():
         # These new artifacts describe the retirement itself; they do not invoke removed code.
         allowed.extend(str(PACKET / (name + suffix)) for name in names for suffix in ('.json', '_RESULT.json'))
         allowed.extend([str(PACKET / 'DISPOSITION_REGISTER.json'),
+                        str(PACKET / 'CURRENT_SUCCESSOR_ROWS.jsonl'),
                         'tools/source_retirement/check.py', 'tools/source_retirement/README.md'])
         if component == COMPONENTS[2]:
             p = 'infra/runtime-v3/runtime-init.toml'
