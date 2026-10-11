@@ -8,7 +8,7 @@ version: "1.0.5"
 title: "[v0.93][CodeFriend] Complete independent Beta 1 installed qualification"
 branch: "codex/1150-codefriend-independent-qualification"
 generated_at: "<timestamp>"
-card_status: "ready"
+card_status: "completed"
 status: "draft"
 source_refs:
   - kind: "issue"
@@ -55,9 +55,9 @@ policy_refs:
   - "<sip_card>"
   - "<vpp_card>"
 review_results:
-  findings_status: "<findings_status>"
-  recommended_outcome: "<recommended_outcome>"
-notes: "<review_notes>"
+  findings_status: "resolved"
+  recommended_outcome: "pass"
+notes: "Independent review verified Q02 and Q03 receipts, all 24 Q19 report hashes and 477 pages, exact-aa2 Q08 exits 0/0/1/2 with parity, candidate bridge, output refresh, privacy evidence, and 24/24 denominator accounting."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- <review_findings>
+- No blocking finding remains. All 24 obligations pass and 12/12 cells are release-accepted. The Linux Vector first execution-group failure remains retained adverse evidence; its compatible repeat satisfies Q06. Q03 retains the operator-witnessed and corroborated raw-capture limitation.
 
 ### Dispositions
 
-- <review_dispositions>
+- Accept the final CF-05 qualification for deployable candidate aa2cca757ba4e6c37cef6c1a6e013d3896cd1de1; preserve adverse evidence and limitations; proceed to exact-head PR review, ready and merge. Public deployment, launch and native terminal closeout remain separate.
 
 ### Recommended Outcome
 
-- <recommended_outcome>
+- pass
 
 ## Notes
 
-<review_notes>
+Independent review verified Q02 and Q03 receipts, all 24 Q19 report hashes and 477 pages, exact-aa2 Q08 exits 0/0/1/2 with parity, candidate bridge, output refresh, privacy evidence, and 24/24 denominator accounting.

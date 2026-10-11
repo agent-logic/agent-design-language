@@ -1,0 +1,18 @@
+{
+  "schema": "csdlc.v3.intent_changes.v1",
+  "amendment": {
+    "class": "review",
+    "transition_approved": true,
+    "new_commit": false
+  },
+  "cards": {
+    "srp": {
+      "card_status": "completed",
+      "findings_status": "findings_present",
+      "recommended_outcome": "block",
+      "review_findings": "Q02 lacks real uninvited-account denial; Q03 lacks live two-real-user run/artifact isolation; Q19 lacks the required human HTML/PDF inspection. All other original obligations pass. The adverse Linux/Vector first observation remains retained, its compatible repeat satisfies Q06, and the exact-candidate bridge satisfies Q22.",
+      "review_dispositions": "Block final qualification, release acceptance, merge-ready closeout and launch claims. Preserve all retained execution evidence, make no further provider calls, and complete only the three stated gates or obtain an explicit authority change.",
+      "review_notes": "Independent review covered all 24 first/repeat execution groups, 245 admitted findings, 36 exports, negative/recovery/spend evidence, exact-candidate fitness parity and the current website identity bridge. The final count is 21 PASS / 0 FAIL / 3 INCOMPLETE and the issue remains open."
+    }
+  }
+}
