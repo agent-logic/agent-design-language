@@ -1,85 +1,106 @@
-# CF-05 independent qualification checkpoint
+# CF-05 / ADL #1150 independent qualification decision
 
-Date: 2026-10-09
+Decision date: 2026-10-10
 
-Issue: #1150
+Decision: **QUALIFIED**
 
-Disposition: **NOT QUALIFIED**
+Original Q01-Q24 obligations: **24 PASS / 0 FAIL / 0 INCOMPLETE**
 
-## Current result
+Release-accepted cells: **12/12**
 
-- Original Q01-Q24 obligations: **21 PASS / 0 FAIL / 3 INCOMPLETE**.
-- Execution-group semantic dispositions: **23 PASS / 1 FAIL / 0 INCOMPLETE**.
-- Cell semantic dispositions on the executed candidate: **12 PASS / 0 FAIL**.
-- Final accepted cells for a current-site release claim: **0/12** while the global obligations below remain incomplete.
-- Provider terminal accounting: **122 actual POSTs, 0 unknown outcomes, no replay of ambiguity** under the operator-amended USD 70 ceiling. This is a conservative authorization ceiling, not an exact provider-billing claim.
-- Export denominator: **12 Markdown, 12 HTML, and 12 PDF** reports.
+Execution-group semantic dispositions: **23 PASS / 1 FAIL / 0 INCOMPLETE**
 
-No further provider calls, scenario reruns, CI runs, service restarts, deployment,
-publication, or launch action is required to evaluate the retained execution.
+## Decision
 
-## Remaining gates
+The exact deployable CodeFriend candidate aa2cca757ba4e6c37cef6c1a6e013d3896cd1de1,
+tree 89ca46e84d9f1060c80e47c97704eb9ab369af2a, satisfies the retained
+CF-05 qualification contract. All 24 original obligations pass and all 12
+surface/repository/platform cells are accepted for the deployable-candidate
+release claim.
 
-### Q02 — real uninvited-account denial
+This decision preserves the execution candidate and raw provider identities
+instead of relabelling them. The reviewed compatibility bridge proves that the
+review, agent, evidence, ingestion, server, fitness runner, and ProductCI paths
+are unchanged where retained evidence is reused. Fresh aa2 installed-product,
+Q08, publication-output, and human-render evidence closes the candidate
+transition.
 
-Anonymous denial, a real expired-session denial, and current authorized access
-pass on the installed HTTPS site. A real GitHub account known to be uninvited
-has not been exercised. The installed-candidate runbook requires that live
-negative and states that fixtures do not prove real OAuth behavior.
+## Final gates
 
-### Q03 — live two-user isolation
+### Q02 and Q03 — identity admission and isolation
 
-The retained evidence proves installed subject-isolation smoke behavior, but it
-does not prove cross-user run and artifact denial with two real GitHub
-identities. The operator has identified no available second identity. No account
-will be invented, created, invited, or inferred to satisfy this gate.
+Q02 passes from the real daniel-asksifu GitHub identity receiving
+invitation_required while its subject was absent, followed by restored
+subject-bound access. Q03 passes from fresh owner run
+29d151c5086206261d273306e4f8df430e059b51eb915015: the owner loaded the
+completed result, while invited second subject github_340710889 received
+run_not_found for that run and result before expiry. The four provider lanes
+were each attempted once; there were zero retries, unknown outcomes, or replay.
 
-### Q19 — human artifact inspection
+### Q08 — exact-aa2 local/CI fitness parity
 
-Machine and agent render checks pass for all 12 HTML and 12 PDF reports. The
-issue contract separately requires a human to navigate every HTML report and
-inspect every rendered PDF. A local read-only inspection index is available to
-the operator; no human acceptance has yet been recorded.
+Authenticated ProductCI run 38030979163, attempt 1, artifact 11661624501,
+archive SHA-256 2bf22aa1d0f354c5a719d26a07c92f0fbd39a890733f4d7336bed80b943c2c0c
+was independently installed for candidate, pass, fail, and error. The installed
+Linux x86_64 binary SHA-256 is
+55520a6994b084affcc1aeb9dd88ae6aac245a88aeef7263f2402ae47cf1cb39.
+The four cases produced exits 0/0/1/2; every proof records
+local_result_parity=true.
 
-## Resolved review points
+### Q19 — human report acceptance
 
-- Q06 passes because the retained same-identity compatible repeat supplies the
-  source-grounded observation required by the original criterion. The adverse
-  first Linux/Vector observation remains retained and visible.
-- Q08 passes exact-candidate local/CI result parity for candidate, pass, fail,
-  and error cases.
-- Q22 passes after requirement reconciliation: the independently reviewed PR
-  #31 bridge binds the qualification baseline, current website merge, exact
-  installed projection bytes, complete wrapper denominator, and retained
-  adverse result. The original Q22 criterion did not require an additional
-  operator-acceptance gate.
+The operator accepted the presentation quality and page integrity of the exact
+12 HTML plus 12 PDF denominator. Independent review recomputed all 24 hashes
+and byte counts, verified 12 scenarios and 477 rendered PDF pages, and found no
+blank pages, obvious clipping, or missing-glyph blocks. The accepted denominator
+is unchanged by the separate Markdown candidate refresh.
 
-## Evidence identities
+## Retained adverse evidence
 
-The detailed evidence remains in private review custody. These digests provide
-stable correspondence without publishing private host paths or report bodies.
+local_agent_website/vector/linux/first remains a failed execution group because
+its OPENPGPKEY assessment was rejected as assessment_quote_mismatch. Its
+compatible repeat used the same execution identity and completed with admissible
+source-grounded findings. The original Q06 criterion requires one source-traced
+observation with confidence and scope limits; it does not require every
+stochastic observation to pass. Q06 and the cell therefore pass while the first
+failure remains visible.
+
+The second-user denial in Q03 is an operator-browser observation corroborated
+by the subject-scoped database and exact enforcement code; it is not represented
+as a separately captured raw HTTP response. Exact provider billing is also not
+claimed.
+
+## Accounting and export integrity
+
+- Provider posts: **126**
+- Unknown outcomes: **0**
+- Ambiguous outcomes replayed: **0**
+- Conservative spend accounting: **USD 64.744** under the operator-amended
+  **USD 70** ceiling
+- Exports: **12 Markdown / 12 HTML / 12 PDF**
+- Composite 36-export privacy scan: **0** bounded credential or machine-local
+  path hits
+- Provider calls used by the aa2 candidate refresh: **0**
+
+## Principal evidence
 
 | Evidence | SHA-256 |
 |---|---|
-| Final qualification decision | `e069b3eef16a93294747ff63a0814a1a36c35de7ae9dc5d04d6d01bdfeb7a733` |
-| PR #31 identity bridge | `fc070a1d98721ecdde28fcae46d03acd000fec7bb1b781b9078d97a30592e8bd` |
-| Installed authentication/isolation checks | `bfc541bace4780dc441f50898beae7586ba460827e6505c3be502472078fd625` |
-| Q08 exact-candidate fitness parity | `af72b5950c458e77540d182bb14bd44a23ab64614b667643564f1109e717de3e` |
-| Linux/Vector quote-mismatch disposition | `8fa5fd22c0a818f10bedfd62280fc56465d265d15154947a3d2d83e6de108466` |
-| Terminal accounting manifest | `1908730227c7466bf8abcb72427b24e42aa57296ba055d1e33117579e40d6187` |
-| Terminal dispatch ledger | `d590e90d59fd6aadb95a6c931063518018799b8c1a2e9877fd44cf3af9cb8f85` |
+| Q02 identity-bound admission | 5f1b547b2c08bbf418ba699f5c9f301cc07b7a074b55899b78a621e9b30069cf |
+| Q03 fresh two-user isolation | df705cf4ae27c0173a629a640ed75a0817ff4d26ca274568ed416eb6b6a85b81 |
+| Q19 operator acceptance | 23280a8814663cefe4542a820470f50c721a1f9bf7cf7569d22956c41b9079b6 |
+| PR #95 compatibility bridge | ec4207bf23c61514af3f4c904b42d7b592f68e2c75a5e77c169938ecd5009fde |
+| Bridge validation V2 | 801ebc084303e1a63aef88ad26a3cec3c545c94f7e49d41881d13cdbbae6d8bc |
+| Bridge independent review | 034d80404b1db5d51d19b8e4c36968a163ae749afe486e0e0013298fb4cb26c1 |
+| aa2 Q08 receipt | c4296ebeafa2e122def3b3534e0e7b8dbdc2b9163e38687c45249bdddaf54cc2 |
+| aa2 Q08 report | 9b471a87fee15934d3f6ce15cf2eee39f29365c9ecfad308b4d878c446c2734e |
+| aa2 output refresh | 46be4a2d87e233196dab5249620baeee2d13a22d8e6a4f22d53f6e19b1ed278a |
+| Composite 36-export receipt | 4a9a845b56010c47e4dbec44ebcb4993c58619f3b872bcb827c3574e4e62db2e |
+| Q19 unchanged-denominator audit | 101985adf2df163d46a91fd40330a8868000739a8f1e7c7d507ca1facf73cebe |
 
-The qualification product reviewed head is
-`e4c7e25660d779791e7c81ad75ba5fff4c86b697`. The installed `codefriend`
-binary digest is
-`0a926b685ec9db7fb14c3c35c107fcac6dadcc7a66368717d1fd5d09fbda2db4`.
-The current website bridge records merge
-`62b34f30a7042c10e35cbd5924841305bf68d106` over the execution website
-baseline `de2cfedbab3d102fe12b00a1368a18892d0eec7a`.
+## Boundary
 
-## Decision boundary
-
-This checkpoint records completed execution and review truth. It does not claim
-that #1150 is complete, that the candidate is qualified for release, or that
-the public site is approved for launch. Q02, Q03, and Q19 must be satisfied or
-explicitly changed by the issue authority before final qualification can pass.
+This is the final CF-05 product qualification decision. It does not claim public
+deployment, launch, exact provider billing, defect-free behavior, native
+terminal closeout, or superiority. Merge and issue closure remain separate
+lifecycle evidence.

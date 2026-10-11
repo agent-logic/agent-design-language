@@ -1,0 +1,42 @@
+{
+  "schema": "csdlc.v3.intent_changes.v1",
+  "amendment": {
+    "class": "implementation",
+    "transition_approved": true,
+    "implementation_revision": "e21e416e5608e2d391f5ff55bff1609e01e22a9f",
+    "new_commit": false
+  },
+  "cards": {
+    "sor": {
+      "card_status": "ready",
+      "status": "executed_qualified",
+      "completion_state": "qualification_complete_publication_pending",
+      "end_time": "2026-10-10",
+      "summary": "CF-05 qualification is complete: 24 PASS / 0 FAIL / 0 INCOMPLETE across Q01-Q24 and 12/12 release-accepted cells for deployable candidate aa2cca757ba4e6c37cef6c1a6e013d3896cd1de1. The Linux Vector first failure remains retained adverse evidence; its compatible repeat satisfies Q06.",
+      "final_pvf_lane": "installed_integration_executed_accepted",
+      "lane_change_reason": "Real-account admission and isolation, exact-aa2 fitness parity, output refresh, and operator human-render acceptance closed every remaining qualification gate.",
+      "budget_source": "Operator-authorized staged campaign, amended to USD 70; terminal accounting records 126 posts, zero unknown outcomes and conservative USD 64.744.",
+      "issue_goal_ref": "Issue #1150 final qualification is complete; PR publication and merge remain.",
+      "goal_metrics_rollup_ref": "24 PASS / 0 FAIL / 0 INCOMPLETE; 12/12 release-accepted; 126 posts; zero unknown outcomes or replay.",
+      "actions_taken_line_1": "Completed and reconciled the governed provider execution with 126 posts, zero unknown outcomes and no ambiguous replay.",
+      "actions_taken_line_2": "Proved Q02/Q03 real-identity admission and isolation, exact-aa2 Q08 exits 0/0/1/2 with parity, and the reviewed aa2 compatibility/output bridge.",
+      "actions_taken_line_3": "Recorded operator Q19 acceptance over 12 HTML plus 12 PDF reports and the final QUALIFIED 24/24 decision.",
+      "integration_state": "pr_open",
+      "integration_result": "pending_merge",
+      "integration_method_used": "Native C-SDLC v3 edit, validate, proof, review, publication update, ready and merge routes.",
+      "validation_command": "node --test adl/tools/tests/cf05_qualification_checkpoint.test.mjs; native csdlc validate 1150; native csdlc proof 1150; independent exact-head review.",
+      "validation_effect": "Proves the final 24-obligation and 12-cell denominator, exact deployable identity, evidence digests, privacy boundary and lifecycle readiness without provider replay.",
+      "validation_result": "passed",
+      "verification_check_1": "The tracked public checkpoint matches the final private decision and binds Q02, Q03, Q08, Q19, candidate bridge, output refresh and retained adverse evidence.",
+      "verification_validation_status": "passed",
+      "verification_artifacts_status": "complete_for_final_acceptance",
+      "verification_required_artifacts_present": "true",
+      "required_artifacts_present": "true",
+      "missing_optional_artifacts_rationale": "No required qualification artifact is missing. Native terminal closeout, public deployment and launch are separate lifecycle surfaces.",
+      "decision_or_deviation_1": "Accept 24/24 obligations and 12/12 cells while retaining the Linux Vector first execution-group failure.",
+      "decision_or_deviation_2": "Preserve exact execution/provider identities and use the reviewed compatibility bridge; do not relabel retained provider outputs as aa2.",
+      "follow_up_1": "Perform native terminal closeout asynchronously after merge, as directed by the operator.",
+      "follow_up_2": "Treat public deployment and launch as separate authorized work."
+    }
+  }
+}

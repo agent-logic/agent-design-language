@@ -10,8 +10,8 @@ title: "[v0.93][CodeFriend] Complete independent Beta 1 installed qualification"
 branch: "codex/1150-codefriend-independent-qualification"
 generated_at: "2026-10-04T06:03:30Z"
 card_status: "ready"
-status: "in_progress_blocked_on_q02_q03_q19"
-activation_state: "bound_execution_complete_acceptance_blocked"
+status: "final_qualification_complete"
+activation_state: "bound_execution_complete_acceptance_passed"
 plan_revision: 1
 initial_pvf_lane: "installed_integration"
 planned_pvf_lane: "installed_integration"
@@ -24,9 +24,9 @@ variance_threshold_percent: "unknown"
 estimate_confidence: "low_until_candidate_and_provider_authority_are_known"
 estimate_data_source: "Execution completed without comparable numeric preparation estimates; retained call/outcome counts are authoritative and timing/token totals remain not_collected."
 estimate_source_ref: "issue-1150-cf05-card-preparation"
-issue_goal_ref: "Active issue #1150 execution-and-qualification goal; provider execution is complete and final acceptance remains blocked on Q02, Q03 and Q19."
+issue_goal_ref: "Issue #1150 final qualification is complete; PR publication and merge remain."
 sprint_goal_ref: "Sprint-3 umbrella #1229"
-goal_metrics_rollup_ref: "Issue #1150 execution checkpoint: 21 PASS / 0 FAIL / 3 INCOMPLETE, with Q02/Q03/Q19 remaining."
+goal_metrics_rollup_ref: "Issue #1150 final qualification: 24 PASS / 0 FAIL / 0 INCOMPLETE; 12/12 release-accepted."
 source_refs:
   - kind: "issue"
     ref: "https://github.com/agent-logic/agent-design-language/issues/1150"
@@ -48,7 +48,7 @@ constraints:
   - "runtime_execution_must_update_spp_if_plan_changes"
   - "no_hidden_scope_expansion"
 confidence: "medium"
-plan_summary: "The authorized qualification execution and independent evidence review are complete. All 12 semantic cells pass and 21 of 24 original obligations pass. Closeout is blocked only on real uninvited-account denial (Q02), live two-real-user isolation (Q03), and recorded human inspection of all 12 HTML and 12 PDF reports (Q19). No provider rerun is required."
+plan_summary: "The authorized CF-05 execution, exact-aa2 candidate refresh, identity isolation proof, human render acceptance and independent evidence review are complete. All 24 original obligations pass and all 12 cells are release-accepted. No provider replay or further qualification execution is required."
 assumptions:
   - "The linked source issue prompt, STP, and SIP remain the canonical design-time inputs."
 proposed_steps:
@@ -82,7 +82,7 @@ codex_plan:
   - step: "Run focused validation and proof gates."
     status: "completed"
   - step: "Record issue-specific SRP findings and VPP/SOR outcome truth."
-    status: "blocked_on_q02_q03_q19"
+    status: "completed"
 affected_areas:
   - "cf05-independent-beta1-qualification"
 invariants_to_preserve:
@@ -91,7 +91,7 @@ invariants_to_preserve:
 risks_and_edge_cases:
   - "Historical map without current execution credit, stale or mismatched installed candidate, unresolved interrupted request, unauthorized paid replay, source-free citations, private-material leakage and partial evidence miscounted as acceptance."
 test_strategy:
-  - "Reuse the exact-candidate retained evidence and private evidence digests. Do not replay any provider call. Complete only the two real-account OAuth/isolation negatives with an existing identity of known invitation state and the human 12-HTML/12-PDF inspection, then amend the independent decision."
+  - "Preserve the exact candidate and retained evidence identities, run the focused checkpoint test and native validation, obtain exact-head independent review, then ready and merge PR #1255."
 execution_handoff: "Use this SPP as the design-time plan-of-record, then hand validation-planning specifics into VPP and update both cards whenever the real execution path diverges."
 required_permissions:
   - "workspace-write after execution approval"
@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "Terminal accounting records 122 actual POSTs, zero unknown outcomes and no ambiguous replay under the operator-amended USD 70 ceiling. The retained decision is 21 PASS / 0 FAIL / 3 INCOMPLETE; 0/12 cells are release-accepted while global obligations remain incomplete. No second real GitHub identity is currently known, and agent render checks cannot substitute for Q19 human inspection."
+notes: "Terminal accounting records 126 posts, zero unknown outcomes and zero ambiguous replay under the operator-amended USD 70 ceiling. The Linux Vector first failure remains adverse evidence while its compatible repeat satisfies Q06. Public deployment and launch remain outside this issue."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -115,7 +115,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
 
 Design-time operative plan for `[v0.93][CodeFriend] Complete independent Beta 1 installed qualification`.
 
-The authorized qualification execution and independent evidence review are complete. All 12 semantic cells pass and 21 of 24 original obligations pass. Closeout is blocked only on real uninvited-account denial (Q02), live two-real-user isolation (Q03), and recorded human inspection of all 12 HTML and 12 PDF reports (Q19). No provider rerun is required.
+The authorized CF-05 execution, exact-aa2 candidate refresh, identity isolation proof, human render acceptance and independent evidence review are complete. All 24 original obligations pass and all 12 cells are release-accepted. No provider replay or further qualification execution is required.
 
 ## PVF Lane Plan
 
@@ -146,7 +146,7 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 2. [completed] Inspect repo inputs and target surfaces before editing.
 3. [completed] Implement the bounded deliverables only.
 4. [completed] Run focused validation and proof gates.
-5. [blocked_on_q02_q03_q19] Record issue-specific SRP findings and VPP/SOR outcome truth.
+5. [completed] Record issue-specific SRP findings and VPP/SOR outcome truth.
 
 ## Assumptions
 
@@ -175,7 +175,7 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 ## Test Strategy
 
-- Reuse the exact-candidate retained evidence and private evidence digests. Do not replay any provider call. Complete only the two real-account OAuth/isolation negatives with an existing identity of known invitation state and the human 12-HTML/12-PDF inspection, then amend the independent decision.
+- Preserve the exact candidate and retained evidence identities, run the focused checkpoint test and native validation, obtain exact-head independent review, then ready and merge PR #1255.
 
 ## Execution Handoff
 
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-Terminal accounting records 122 actual POSTs, zero unknown outcomes and no ambiguous replay under the operator-amended USD 70 ceiling. The retained decision is 21 PASS / 0 FAIL / 3 INCOMPLETE; 0/12 cells are release-accepted while global obligations remain incomplete. No second real GitHub identity is currently known, and agent render checks cannot substitute for Q19 human inspection.
+Terminal accounting records 126 posts, zero unknown outcomes and zero ambiguous replay under the operator-amended USD 70 ceiling. The Linux Vector first failure remains adverse evidence while its compatible repeat satisfies Q06. Public deployment and launch remain outside this issue.

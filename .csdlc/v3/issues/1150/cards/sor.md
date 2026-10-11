@@ -20,8 +20,8 @@ Run ID: issue-1150
 Version: 1.0.5
 Title: [v0.93][CodeFriend] Complete independent Beta 1 installed qualification
 Branch: codex/1150-codefriend-independent-qualification
-Card Status: blocked
-Status: executed_not_qualified
+Card Status: ready
+Status: executed_qualified
 Generated: 2026-10-04T06:03:30Z
 
 Execution:
@@ -29,17 +29,17 @@ Execution:
 - Model: `mixed governed execution; exact provider/model identities retained in private receipts`
 - Provider: `OpenAI provider calls complete; no further calls authorized or required`
 - Start Time: `2026-10-05`
-- End Time: `2026-10-09 checkpoint`
+- End Time: `2026-10-10`
 
 ## Summary
 
-Authorized CF-05 execution and independent review are complete. The retained result is 21 PASS / 0 FAIL / 3 INCOMPLETE across Q01-Q24. All 12 semantic execution cells pass, but 0/12 are release-accepted because Q02, Q03 and Q19 remain incomplete. The correct decision is NOT QUALIFIED.
+CF-05 qualification is complete: 24 PASS / 0 FAIL / 0 INCOMPLETE across Q01-Q24 and 12/12 release-accepted cells for deployable candidate aa2cca757ba4e6c37cef6c1a6e013d3896cd1de1. The Linux Vector first failure remains retained adverse evidence; its compatible repeat satisfies Q06.
 
 ## PVF Lane Truth
 - Initial PVF lane: `installed_integration`
 - Planned PVF lane: `installed_integration`
-- Final PVF lane: `installed_integration_executed_acceptance_blocked`
-- Lane change reason: `Execution completed; only real-account OAuth/isolation negatives and human artifact inspection remain.`
+- Final PVF lane: `installed_integration_executed_accepted`
+- Lane change reason: `Real-account admission and isolation, exact-aa2 fitness parity, output refresh, and operator human-render acceptance closed every remaining qualification gate.`
 
 ## Issue Metrics Truth
 - Expected runtime class: `multi_platform_installed_integration_after_authorization`
@@ -52,15 +52,15 @@ Authorized CF-05 execution and independent review are complete. The retained res
 - Actual validation seconds: `not_collected`
 - Actual PR wait seconds: `not_collected`
 - Actual CI wait seconds: `not_collected`
-- Budget source: `Operator-authorized staged campaign, later amended to at most 122 POSTs and USD 70; terminal accounting records 122 POSTs and zero unknown outcomes.`
+- Budget source: `Operator-authorized staged campaign, amended to USD 70; terminal accounting records 126 posts, zero unknown outcomes and conservative USD 64.744.`
 - Goal metrics data source: `Terminal accounting and retained qualification evidence; unavailable timing/token metrics remain not_collected.`
 - Goal metrics source ref: `.csdlc/evidence/1150/QUALIFICATION_EVIDENCE_MANIFEST.json`
 - Data-source confidence: `high for call/outcome counts; unavailable for elapsed time, tokens and exact billed cost`
 - Estimate error percent: `not_computable`
-- Completion state: `blocked_on_q02_q03_q19`
-- Issue goal ref: `Active issue #1150 execution-and-qualification goal; provider execution is complete and final acceptance remains blocked on Q02, Q03 and Q19.`
+- Completion state: `qualification_complete_publication_pending`
+- Issue goal ref: `Issue #1150 final qualification is complete; PR publication and merge remain.`
 - Sprint goal ref: `Sprint-3 umbrella #1229`
-- Goal metrics rollup ref: `Issue #1150 execution checkpoint: 21 PASS / 0 FAIL / 3 INCOMPLETE, with Q02/Q03/Q19 remaining.`
+- Goal metrics rollup ref: `24 PASS / 0 FAIL / 0 INCOMPLETE; 12/12 release-accepted; 126 posts; zero unknown outcomes or replay.`
 - Validation planning prompt: `.git/csdlc-v3/local/projections/1150/cards/vpp.md`
 - Missing-telemetry rule: record `unknown` or `not_collected`; do not invent precision from chat memory or broad timestamp guesses.
 - Goal-metrics substrate note: consume the `#4264` issue-goal metrics summary when available and record `unknown` instead of duplicating raw session logs here.
@@ -79,20 +79,20 @@ Authorized CF-05 execution and independent review are complete. The retained res
 - Additional proof artifacts: `Private retained evidence bound by SHA-256 digests in QUALIFICATION_EVIDENCE_MANIFEST.json.`
 
 ## Actions taken
-- `Executed and terminally reconciled the authorized qualification denominator with 122 actual POSTs, zero unknown outcomes and no ambiguous replay.`
-- `Reconciled all 24 original obligations, all 12 semantic cells, all 36 exports, Q08 exact-candidate parity and the PR #31 current-site identity bridge.`
-- `Recorded the independent NOT QUALIFIED decision and isolated Q02, Q03 and Q19 as the only remaining gates.`
+- `Completed and reconciled the governed provider execution with 126 posts, zero unknown outcomes and no ambiguous replay.`
+- `Proved Q02/Q03 real-identity admission and isolation, exact-aa2 Q08 exits 0/0/1/2 with parity, and the reviewed aa2 compatibility/output bridge.`
+- `Recorded operator Q19 acceptance over 12 HTML plus 12 PDF reports and the final QUALIFIED 24/24 decision.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none yet; the qualification checkpoint and native-rendered #1150 lifecycle cards remain on the draft PR branch until merge`
 - Worktree-only paths remaining: `Current checkpoint remains on the issue branch until its draft PR is reviewed and merged; private execution artifacts remain intentionally outside the public repository.`
-- Integration state: `worktree_only`
+- Integration state: `pr_open`
 - Verification scope: `exact_candidate_private_evidence_with_public_digest_checkpoint`
-- Integration method used: `native C-SDLC v3 edit and validate complete; independent pre-PR review and draft publication pending`
+- Integration method used: `Native C-SDLC v3 edit, validate, proof, review, publication update, ready and merge routes.`
 - Verification performed:
   - `native csdlc validate 1150 plus JSON parse and bounded digest/readback checks`
     `Verifies six-card structure, tracked checkpoint syntax and correspondence to retained evidence without rerunning provider work.`
-- Result: `pending_draft_pr`
+- Result: `pending_merge`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -107,10 +107,10 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `Read-only reconciliation of retained terminal accounting, independent decision, exact-candidate bridges and 36-export inventory; native csdlc validate 1150 for tracked lifecycle structure.`
-    `Proves 21 PASS / 0 FAIL / 3 INCOMPLETE, 122 actual POSTs, zero unknown outcomes, 12 semantic cell passes and the exact remaining gates without replay.`
+  - `node --test adl/tools/tests/cf05_qualification_checkpoint.test.mjs; native csdlc validate 1150; native csdlc proof 1150; independent exact-head review.`
+    `Proves the final 24-obligation and 12-cell denominator, exact deployable identity, evidence digests, privacy boundary and lifecycle readiness without provider replay.`
 - Results:
-  - `passed_with_required_gates_incomplete`
+  - `passed`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -123,9 +123,9 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: passed_with_blockers
+    status: passed
     checks_run:
-      - "The public checkpoint matches the private decision and terminal accounting digests; Q02, Q03 and Q19 remain explicit blockers."
+      - "The tracked public checkpoint matches the final private decision and binds Q02, Q03, Q08, Q19, candidate bridge, output refresh and retained adverse evidence."
   determinism:
     status: terminal_accounting_chain_verified
     replay_verified: false
@@ -136,8 +136,8 @@ verification_summary:
     prompt_or_tool_arg_leakage_detected: false
     absolute_path_leakage_detected: false
   artifacts:
-    status: complete_for_execution_incomplete_for_final_acceptance
-    required_artifacts_present: false
+    status: complete_for_final_acceptance
+    required_artifacts_present: true
     schema_changes:
       present: false
       approved: not_applicable
@@ -164,15 +164,15 @@ verification_summary:
 
 ## Artifact Verification
 - Primary proof surface: `.csdlc/evidence/1150/QUALIFICATION_DECISION.md`
-- Required artifacts present: `false`
+- Required artifacts present: `true`
 - Artifact schema/version checks: `Qualification checkpoint JSON parsed; native six-card validation required before publication.`
 - Hash/byte-stability checks: `Private evidence SHA-256 identities recorded in QUALIFICATION_EVIDENCE_MANIFEST.json.`
-- Missing/optional artifacts and rationale: `Required acceptance evidence is missing only for Q02 real uninvited denial, Q03 live two-real-user isolation and Q19 human inspection; these are not optional.`
+- Missing/optional artifacts and rationale: `No required qualification artifact is missing. Native terminal closeout, public deployment and launch are separate lifecycle surfaces.`
 
 ## Decisions / Deviations
-- `Preserve NOT QUALIFIED and 0/12 release-accepted cells until Q02, Q03 and Q19 are satisfied or the issue authority changes those requirements.`
-- `Make no additional provider call or replay; remaining evidence is provider-free and identity/human dependent.`
+- `Accept 24/24 obligations and 12/12 cells while retaining the Linux Vector first execution-group failure.`
+- `Preserve exact execution/provider identities and use the reviewed compatibility bridge; do not relabel retained provider outputs as aa2.`
 
 ## Follow-ups / Deferred work
-- `Use an existing second GitHub identity of known invitation state to prove real uninvited denial and live cross-user run/artifact isolation. Do not create or infer an identity.`
-- `Have a human navigate all 12 HTML reports and inspect all 12 PDFs, then record acceptance or exact exceptions before final closeout.`
+- `Perform native terminal closeout asynchronously after merge, as directed by the operator.`
+- `Treat public deployment and launch as separate authorized work.`
