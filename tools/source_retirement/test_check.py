@@ -28,6 +28,14 @@ class RetirementNegatives(unittest.TestCase):
     def test_complete_original_denominator_and_existing_delta(self):
         self.assertEqual(len(check.check_inventory(self.ledger, self.frozen, self.observed, self.candidate)), 34)
 
+    def test_integrated_main_fix_cannot_be_reverted(self):
+        candidate = dict(self.candidate)
+        path = 'csdlc-v3/src/storage/semantic.rs'
+        candidate[path] = self.frozen[path]
+        self.assertNotEqual(candidate[path], self.observed[path])
+        with self.assertRaisesRegex(ValueError, 'held source'):
+            check.check_inventory(self.ledger, self.frozen, self.observed, candidate)
+
     def test_missing_candidate_rejected(self):
         ledger = copy.deepcopy(self.ledger)
         ledger['rows'].pop()

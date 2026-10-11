@@ -38,7 +38,7 @@ source_refs:
     ref: "<sip_card>"
 scope:
   files:
-    - "docs/milestones/v0.93.1/repository-decomposition/rd07-1223; tools/source_retirement; six native cards. Preparation changes do not add source deletions. Existing34 removals stay isolated; 4099 other candidates remain held and one retained path has the existing reviewed comment-only repair with row-specific source/successor identities."
+    - "docs/milestones/v0.93.1/repository-decomposition/rd07-1223; tools/source_retirement; native cards; exact reviewed component and retained-consumer changes only. Current phase prepares a reviewable retirement delta and repairs baseline drift; no blanket deletion."
   components:
     - "<slug>"
   out_of_scope:
@@ -53,19 +53,19 @@ assumptions:
   - "The linked source issue prompt, STP, and SIP remain the canonical design-time inputs."
 proposed_steps:
   - id: "step-1"
-    description: "Confirm dependency readiness and starting state: Source retirement remains last after non-tail work and before Sprint 4. RD07/RD11/Sprint1 acceptance do not depend on this follow-up. Preserve active producer ownership and C-SDLC operational routes. Preparation may proceed now; new deletion requires a reviewed coherent component and qualified successor."
+    description: "Confirm dependency readiness and starting state: Operator authorized execution on2026-10-11. C-SDLC205 is explicitly not a prerequisite. Prior non-tail-before1223-beforeSprint4 order remains. Preserve active producer ownership and Runtime/shared tools. Exact correspondence is not functional replacement acceptance."
     expected_output: "<sip_card>"
     allowed_mode: "design_review_then_execution"
   - id: "step-2"
-    description: "Review repo inputs and scoped surfaces before editing: Issue1223; frozen248f00e359e412f6bc0061ac88be9ff374e3a212; inspected main f1493c54e4d9f6c5a1da798f48d9f2c361033fa4 integrated into this bound branch; docs/milestones/v0.93.1/repository-decomposition/rd07-1223/DISPOSITION_REGISTER.json preserves all4134 original rows; retained batch01-03 reviews and archive12205043566913435c25ea414b1fd9148b46727821f7bfefd5d452cfe47a1c17."
+    description: "Review repo inputs and scoped surfaces before editing: Issue1223; frozen248f00e359e412f6bc0061ac88be9ff374e3a212; current main9cfd035aac2a44637b3c8026bd40b669579a8c7f integrated into existing bound FastWork branch; refreshed audit4134rows,3222exact successor matches,912nonexact,14changed main paths; existing preservation archive and reviewed preparation evidence."
     expected_output: "<stp_card>"
     allowed_mode: "design_review_then_execution"
   - id: "step-3"
-    description: "Implement only the bounded deliverables: Complete candidate register; corrected38-file Batch02 historical reference inventory; native SPP/VPP and validator declarations; focused denominator, protected-evidence, rollback and direct-reference guard; current review. Full retirement separately requires consumer transitions, qualified replacements and final exact-candidate installed proof."
+    description: "Implement only the bounded deliverables: Refresh all 4134 exact original candidate dispositions against current ADL and successor heads. Preserve existing34 removals and current-main changes. Prepare coherent component-level removal/surgical/justified-retain decisions and all affected consumers. Maintain exact preservation and restore evidence; qualify final public packages and retained boundaries before independently reviewed native publication."
     expected_output: "tracked issue work product"
     allowed_mode: "execution_after_approval"
   - id: "step-4"
-    description: "Run focused proof gates for acceptance: All4134 candidates retain exact identities and explicit actions; no unknown replacement becomes removal approval; no new source deletion in this preparation; final issue acceptance still needs every retained hold resolved or explicitly justified at component level, qualified replacements, historical reproduction, public installed proof and native delivery."
+    description: "Run focused proof gates for acceptance: Account explicitly for all4134 original candidates without counting unresolved holds as complete. Each removal requires a qualified successor or accepted retirement decision, coherent consumer repairs, preservation and restore proof. Protect active native control plane and five public packages. Run final exact-candidate proof and independent review. Obtain scoped retirement decision on concrete reviewed delta before any additional removals."
     expected_output: "validation evidence recorded in VPP/SOR"
     allowed_mode: "execution_after_approval"
   - id: "step-5"
@@ -91,7 +91,7 @@ invariants_to_preserve:
 risks_and_edge_cases:
   - "<risks_inline>"
 test_strategy:
-  - "Run retirement_contract for committed inventory/reference checks and eleven focused positive/negative cases. Run each of five public-package Cargo tests and installed_public_packages for exact-candidate five-package artifacts, seven consumers,21UTS fixtures and five private/source/network/version negatives. Missing rollback, evidence, unapproved deletion or remaining direct reference must fail closed. Do not rerun old installed proof merely for preparation; final candidate proof remains pending."
+  - "First refresh inventory/reference guards to current integrated baseline and run focused positive/negative tests. Prepare component correspondence and retained-consumer evidence without repeated builds. At final committed retirement candidate run five public package tests and installed-public-packages proof once, including7consumer cases,21UTSfixtures and5negative cases. All Cargo outputs and worktrees stay on FastWork; no Runtime replacement or restart."
 execution_handoff: "Use this SPP as the design-time plan-of-record, then hand validation-planning specifics into VPP and update both cards whenever the real execution path diverges."
 required_permissions:
   - "workspace-write after execution approval"
@@ -154,10 +154,10 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 ## Proposed Steps
 
-1. Confirm dependency readiness and starting state: Source retirement remains last after non-tail work and before Sprint 4. RD07/RD11/Sprint1 acceptance do not depend on this follow-up. Preserve active producer ownership and C-SDLC operational routes. Preparation may proceed now; new deletion requires a reviewed coherent component and qualified successor.
-2. Review repo inputs and scoped surfaces before editing: Issue1223; frozen248f00e359e412f6bc0061ac88be9ff374e3a212; inspected main f1493c54e4d9f6c5a1da798f48d9f2c361033fa4 integrated into this bound branch; docs/milestones/v0.93.1/repository-decomposition/rd07-1223/DISPOSITION_REGISTER.json preserves all4134 original rows; retained batch01-03 reviews and archive12205043566913435c25ea414b1fd9148b46727821f7bfefd5d452cfe47a1c17.
-3. Implement only the bounded deliverables: Complete candidate register; corrected38-file Batch02 historical reference inventory; native SPP/VPP and validator declarations; focused denominator, protected-evidence, rollback and direct-reference guard; current review. Full retirement separately requires consumer transitions, qualified replacements and final exact-candidate installed proof.
-4. Run focused proof gates for acceptance: All4134 candidates retain exact identities and explicit actions; no unknown replacement becomes removal approval; no new source deletion in this preparation; final issue acceptance still needs every retained hold resolved or explicitly justified at component level, qualified replacements, historical reproduction, public installed proof and native delivery.
+1. Confirm dependency readiness and starting state: Operator authorized execution on2026-10-11. C-SDLC205 is explicitly not a prerequisite. Prior non-tail-before1223-beforeSprint4 order remains. Preserve active producer ownership and Runtime/shared tools. Exact correspondence is not functional replacement acceptance.
+2. Review repo inputs and scoped surfaces before editing: Issue1223; frozen248f00e359e412f6bc0061ac88be9ff374e3a212; current main9cfd035aac2a44637b3c8026bd40b669579a8c7f integrated into existing bound FastWork branch; refreshed audit4134rows,3222exact successor matches,912nonexact,14changed main paths; existing preservation archive and reviewed preparation evidence.
+3. Implement only the bounded deliverables: Refresh all 4134 exact original candidate dispositions against current ADL and successor heads. Preserve existing34 removals and current-main changes. Prepare coherent component-level removal/surgical/justified-retain decisions and all affected consumers. Maintain exact preservation and restore evidence; qualify final public packages and retained boundaries before independently reviewed native publication.
+4. Run focused proof gates for acceptance: Account explicitly for all4134 original candidates without counting unresolved holds as complete. Each removal requires a qualified successor or accepted retirement decision, coherent consumer repairs, preservation and restore proof. Protect active native control plane and five public packages. Run final exact-candidate proof and independent review. Obtain scoped retirement decision on concrete reviewed delta before any additional removals.
 5. Record issue-specific review findings in SRP, validation-planning truth in VPP, issue outcome truth in SOR, and refresh this SPP if execution diverges.
 
 ## Affected Areas
@@ -175,7 +175,7 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 ## Test Strategy
 
-- Run retirement_contract for committed inventory/reference checks and eleven focused positive/negative cases. Run each of five public-package Cargo tests and installed_public_packages for exact-candidate five-package artifacts, seven consumers,21UTS fixtures and five private/source/network/version negatives. Missing rollback, evidence, unapproved deletion or remaining direct reference must fail closed. Do not rerun old installed proof merely for preparation; final candidate proof remains pending.
+- First refresh inventory/reference guards to current integrated baseline and run focused positive/negative tests. Prepare component correspondence and retained-consumer evidence without repeated builds. At final committed retirement candidate run five public package tests and installed-public-packages proof once, including7consumer cases,21UTSfixtures and5negative cases. All Cargo outputs and worktrees stay on FastWork; no Runtime replacement or restart.
 
 ## Execution Handoff
 

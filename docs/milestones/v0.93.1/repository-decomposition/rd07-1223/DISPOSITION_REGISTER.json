@@ -2,7 +2,7 @@
   "schema": "adl.source_retirement.disposition.v1",
   "issue": 1223,
   "original_revision": "248f00e359e412f6bc0061ac88be9ff374e3a212",
-  "observed_main": "f1493c54e4d9f6c5a1da798f48d9f2c361033fa4",
+  "observed_main": "9cfd035aac2a44637b3c8026bd40b669579a8c7f",
   "original_manifest_sha256": "78284b4de653d7a3ffcd40759b35ce2ec7bbaba76a69c41b57098c423e9adee2",
   "candidate_count": 4134,
   "new_removals_authorized": false,
@@ -41265,7 +41265,7 @@
       "original_blob": "a9b647400f6020e12d4b8c22223c03f45c889ec0",
       "observed_main": [
         "100755",
-        "a9b647400f6020e12d4b8c22223c03f45c889ec0"
+        "f0f66af5a82545dae5d05f0e60759673ad60d6e4"
       ],
       "action": "retain",
       "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
@@ -41276,6 +41276,10 @@
       "accepted_rd11_revision": "c8b787ce065e2912fe1db88fc778daded7a8ba63",
       "accepted_content_candidates": [
         "adl/tools/test_milestone_dashboard.sh"
+      ],
+      "prior_observed_main": [
+        "100755",
+        "a9b647400f6020e12d4b8c22223c03f45c889ec0"
       ]
     },
     {
@@ -48363,14 +48367,18 @@
       "original_blob": "93c3e0337fd75886bececb18281a36bf363346f5",
       "observed_main": [
         "100644",
-        "93c3e0337fd75886bececb18281a36bf363346f5"
+        "4a69dff4072c8f417c043aa81c72c32ad03e7de3"
       ],
       "action": "retain",
       "reason": "hold_no_proven_current_successor_mapping",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "prior_observed_main": [
+        "100644",
+        "93c3e0337fd75886bececb18281a36bf363346f5"
+      ]
     },
     {
       "id": "RD07-2394",
@@ -48839,14 +48847,18 @@
       "original_blob": "4280ac32a81fc9e1ba44cd4c16f356533ca25f2c",
       "observed_main": [
         "100644",
-        "2ac371647f6e124f7386096111e7ee8284750937"
+        "b40445f493fa9bcab06448a07f1c418162d57370"
       ],
       "action": "retain",
       "reason": "hold_current_source_changes_not_covered_by_frozen_rollback",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "prior_observed_main": [
+        "100644",
+        "2ac371647f6e124f7386096111e7ee8284750937"
+      ]
     },
     {
       "id": "RD07-2420",
@@ -49490,14 +49502,18 @@
       "original_blob": "31af3a34d4e8ec2abd1f98b816933a201cff71a6",
       "observed_main": [
         "100644",
-        "8319c1ce7af6dac02ef01cc99cfbf2df9294278e"
+        "9d0cab49af831e19b9878c9d1defa34d2a7c5c81"
       ],
       "action": "retain",
       "reason": "hold_current_source_changes_not_covered_by_frozen_rollback",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "prior_observed_main": [
+        "100644",
+        "8319c1ce7af6dac02ef01cc99cfbf2df9294278e"
+      ]
     },
     {
       "id": "RD07-2455",
@@ -49528,14 +49544,18 @@
       "original_blob": "a3cd83a57c5874cf39c2d9772e85dca4c267e389",
       "observed_main": [
         "100644",
-        "a3cd83a57c5874cf39c2d9772e85dca4c267e389"
+        "11a2af9c9b3e69fedc823c80b352e772521e9403"
       ],
       "action": "retain",
       "reason": "hold_no_proven_current_successor_mapping",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "prior_observed_main": [
+        "100644",
+        "a3cd83a57c5874cf39c2d9772e85dca4c267e389"
+      ]
     },
     {
       "id": "RD07-2457",
@@ -63448,14 +63468,18 @@
       "original_blob": "d8f49a5431034ecbe21f381ee077b192fbe3fba4",
       "observed_main": [
         "100644",
-        "585fd991c675968375f85d523325397da53d7182"
+        "a8a31ba8767da5acbf616e6c14b316eccd4760e8"
       ],
       "action": "retain",
       "reason": "hold_current_source_changes_not_covered_by_frozen_rollback",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "prior_observed_main": [
+        "100644",
+        "585fd991c675968375f85d523325397da53d7182"
+      ]
     },
     {
       "id": "RD07-3077",
@@ -65313,14 +65337,18 @@
       "original_blob": "20207be6c82ca136ff143678b7032c09569293b6",
       "observed_main": [
         "100644",
-        "2735bc609c046045519ccfee00c1f59a9461afba"
+        "ef20c83383ec526c90771384f56d6f71a374f6fe"
       ],
       "action": "retain",
       "reason": "hold_current_source_changes_not_covered_by_frozen_rollback",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "prior_observed_main": [
+        "100644",
+        "2735bc609c046045519ccfee00c1f59a9461afba"
+      ]
     },
     {
       "id": "RD07-3168",
@@ -65330,7 +65358,7 @@
       "original_blob": "fc17ac89e2c31f03fb70be8f0ab74b41ae0d6325",
       "observed_main": [
         "100644",
-        "fc17ac89e2c31f03fb70be8f0ab74b41ae0d6325"
+        "0a9b71c62aae369fec43401b5af668b0612f2359"
       ],
       "action": "retain",
       "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
@@ -65341,6 +65369,10 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "demos/html-observatory/index.html"
+      ],
+      "prior_observed_main": [
+        "100644",
+        "fc17ac89e2c31f03fb70be8f0ab74b41ae0d6325"
       ]
     },
     {
@@ -65372,7 +65404,7 @@
       "original_blob": "5343400e56946fd981a1a0136e7b8506f9e9cfc8",
       "observed_main": [
         "100644",
-        "5343400e56946fd981a1a0136e7b8506f9e9cfc8"
+        "da6ed61260135c92013dd570f9da8f4c3a107235"
       ],
       "action": "retain",
       "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
@@ -65383,6 +65415,10 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "demos/html-observatory/styles.css"
+      ],
+      "prior_observed_main": [
+        "100644",
+        "5343400e56946fd981a1a0136e7b8506f9e9cfc8"
       ]
     },
     {
@@ -65393,7 +65429,7 @@
       "original_blob": "1625b3ad91581a07cd77ca93ee3dc5f74c78909b",
       "observed_main": [
         "100644",
-        "1625b3ad91581a07cd77ca93ee3dc5f74c78909b"
+        "9af6fedb41769b856b8844fcf91b5c527260d3bc"
       ],
       "action": "retain",
       "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
@@ -65404,6 +65440,10 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "demos/html-observatory/tests/accessibility_responsive.test.mjs"
+      ],
+      "prior_observed_main": [
+        "100644",
+        "1625b3ad91581a07cd77ca93ee3dc5f74c78909b"
       ]
     },
     {
@@ -71127,7 +71167,7 @@
       "original_blob": "5159916d39bc2d87269b53b630f975576c4c06cd",
       "observed_main": [
         "100644",
-        "5159916d39bc2d87269b53b630f975576c4c06cd"
+        "0bae0dc05ed3ca1c2e77168db05a7b3e6a2cb351"
       ],
       "action": "retain",
       "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
@@ -71138,6 +71178,10 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/csdlc-v3/INTENT_COMMANDS.md"
+      ],
+      "prior_observed_main": [
+        "100644",
+        "5159916d39bc2d87269b53b630f975576c4c06cd"
       ]
     },
     {
@@ -72148,7 +72192,7 @@
       "original_blob": "f425c5d257e716942553454200001df60d382fdd",
       "observed_main": [
         "100644",
-        "f425c5d257e716942553454200001df60d382fdd"
+        "8382d8dff6e15661b8eaa5903144b688afbca0d8"
       ],
       "action": "retain",
       "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
@@ -72159,6 +72203,10 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/csdlc-v3/man/man1/csdlc-proof.1"
+      ],
+      "prior_observed_main": [
+        "100644",
+        "f425c5d257e716942553454200001df60d382fdd"
       ]
     },
     {
@@ -72518,14 +72566,18 @@
       "original_blob": "35b67759e19a3108f25963114d85ebbc4d2740db",
       "observed_main": [
         "100644",
-        "cc8adf3a8f9d793f998ac68e946621c386b87382"
+        "3844777e574ebc872e904c9523ab64a9dddd6317"
       ],
       "action": "retain",
       "reason": "hold_current_source_changes_not_covered_by_frozen_rollback",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "prior_observed_main": [
+        "100644",
+        "cc8adf3a8f9d793f998ac68e946621c386b87382"
+      ]
     },
     {
       "id": "RD07-3523",
@@ -77817,14 +77869,18 @@
       "original_blob": "98e364fd4aadad17033c231b72933e93b7c5e681",
       "observed_main": [
         "100644",
-        "98e364fd4aadad17033c231b72933e93b7c5e681"
+        "ee820c40d424014c12d7b8eec221d1113c1c952e"
       ],
       "action": "retain",
       "reason": "hold_no_proven_current_successor_mapping",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "prior_observed_main": [
+        "100644",
+        "98e364fd4aadad17033c231b72933e93b7c5e681"
+      ]
     },
     {
       "id": "RD07-3790",
@@ -85159,5 +85215,6 @@
       "accepted_rd11_revision": "91ae8c5e4008a07cee8fd3a70a1306d4d971f9b4",
       "accepted_content_candidates": []
     }
-  ]
+  ],
+  "previous_observed_main": "f1493c54e4d9f6c5a1da798f48d9f2c361033fa4"
 }

@@ -38,7 +38,7 @@ def tree(ref):
 
 def check_inventory(ledger, frozen, observed, candidate):
     require(ledger['original_revision'] == '248f00e359e412f6bc0061ac88be9ff374e3a212' and
-            ledger['observed_main'] == 'f1493c54e4d9f6c5a1da798f48d9f2c361033fa4', 'reviewed baseline changed')
+            ledger['observed_main'] == '9cfd035aac2a44637b3c8026bd40b669579a8c7f', 'reviewed baseline changed')
     rows = ledger['rows']
     tuples = [[r['id'], r['path'], r['original_mode'], r['original_blob']] for r in rows]
     require(len(rows) == len({r['path'] for r in rows}) == 4134, 'original denominator missing or duplicated')
