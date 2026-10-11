@@ -12,9 +12,9 @@ All issues target working installed Runtime behavior. Local WP IDs are not issue
 
 **Proposed title:** [GHB][Sprint] Deliver governed recursive improvement in the installed Agent Logic Runtime
 
-**Repository:** `agent-logic/agent-logic-runtime`  
-**Type:** sprint/program umbrella  
-**Priority:** P1 proposed scheduling priority, not a vulnerability severity  
+**Repository:** `agent-logic/agent-logic-runtime`
+**Type:** sprint/program umbrella
+**Priority:** P1 proposed scheduling priority, not a vulnerability severity
 **Owner:** program owner; implementers and independent reviewers assigned per child
 
 ### Objective and problem
@@ -84,10 +84,10 @@ All new children inherit proposed P1 scheduling priority, the umbrella Runtime d
 
 ### WP00 — [GHB][WP00] Source-to-caller audit and baseline
 
-**Repository:** `agent-logic/agent-logic-runtime`  
-**Tracker action:** Create one new child after duplicate/owner check.  
-**Parent:** GHB-SPRINT (link pending)  
-**Completion dependencies:** None  
+**Repository:** `agent-logic/agent-logic-runtime`
+**Tracker action:** Create one new child after duplicate/owner check.
+**Parent:** GHB-SPRINT (link pending)
+**Completion dependencies:** None
 **Base estimate:** 3 engineering days; 0.25M development tokens. Runtime experiment consumption is charged to the shared campaign ledger, not multiplied per issue.
 
 **Problem/evidence:** DESIGN_AND_RESEARCH.md §2; Runtime #112; installed release and production callers to be pinned.
@@ -106,10 +106,10 @@ Acceptance: source-to-caller matrix at pinned revisions; no duplicated owner pla
 
 ### WP01 — [GHB][WP01] Normative specification and invariants
 
-**Repository:** `agent-logic/agent-design-language`  
-**Tracker action:** Create one new child after duplicate/owner check.  
-**Parent:** GHB-SPRINT (link pending)  
-**Completion dependencies:** WP00  
+**Repository:** `agent-logic/agent-design-language`
+**Tracker action:** Create one new child after duplicate/owner check.
+**Parent:** GHB-SPRINT (link pending)
+**Completion dependencies:** WP00
 **Base estimate:** 3 engineering days; 0.25M development tokens. Runtime experiment consumption is charged to the shared campaign ledger, not multiplied per issue.
 
 **Problem/evidence:** ADL docs/milestones/v0.86/features/GODEL_HADAMARD_BAYES_ALGORITHM.md and docs/milestones/v0.89/ideas/GHB_EXECUTION_MODEL.md have conflicting phase semantics.
@@ -128,10 +128,10 @@ Acceptance: every transition has inputs, outputs, authority, side effects and st
 
 ### WP02 — [GHB][WP02] Schemas and installed contract parity
 
-**Repository:** `agent-logic/agent-design-language`  
-**Tracker action:** Create one new child after duplicate/owner check.  
-**Parent:** GHB-SPRINT (link pending)  
-**Completion dependencies:** WP01  
+**Repository:** `agent-logic/agent-design-language`
+**Tracker action:** Create one new child after duplicate/owner check.
+**Parent:** GHB-SPRINT (link pending)
+**Completion dependencies:** WP01
 **Base estimate:** 4 engineering days; 0.45M development tokens. Runtime experiment consumption is charged to the shared campaign ledger, not multiplied per issue.
 
 **Problem/evidence:** Existing installed Gödel contract distribution and ADL adl/src/godel/ghb_loop.rs packet types; DESIGN_AND_RESEARCH.md §§4–7.
@@ -150,10 +150,10 @@ Acceptance: canonical digest/round-trip tests, malformed and stale-reference rej
 
 ### WP03 — [GHB][WP03] Belief update and experiment selection
 
-**Repository:** `agent-logic/agent-logic-runtime`  
-**Tracker action:** Create one new child after duplicate/owner check.  
-**Parent:** GHB-SPRINT (link pending)  
-**Completion dependencies:** WP02  
+**Repository:** `agent-logic/agent-logic-runtime`
+**Tracker action:** Create one new child after duplicate/owner check.
+**Parent:** GHB-SPRINT (link pending)
+**Completion dependencies:** WP02
 **Base estimate:** 7 engineering days; 0.80M development tokens. Runtime experiment consumption is charged to the shared campaign ledger, not multiplied per issue.
 
 **Problem/evidence:** ADL adl/src/godel/promotion.rs currently uses a fixed score; DESIGN_AND_RESEARCH.md §5 defines the proposed statistical replacement.
@@ -172,10 +172,10 @@ Acceptance: analytically known posterior fixtures; zero/impossible likelihood ha
 
 ### WP04 — [GHB][WP04] Candidate generation and archive
 
-**Repository:** `agent-logic/agent-logic-runtime`  
-**Tracker action:** Create one new child after duplicate/owner check.  
-**Parent:** GHB-SPRINT (link pending)  
-**Completion dependencies:** WP02, WP03  
+**Repository:** `agent-logic/agent-logic-runtime`
+**Tracker action:** Create one new child after duplicate/owner check.
+**Parent:** GHB-SPRINT (link pending)
+**Completion dependencies:** WP02, WP03
 **Base estimate:** 6 engineering days; 0.65M development tokens. Runtime experiment consumption is charged to the shared campaign ledger, not multiplied per issue.
 
 **Problem/evidence:** ADL adl/src/godel/stage_loop.rs and ghb_loop.rs; DESIGN_AND_RESEARCH.md §6; archive and live-provider gaps in the inspected path.
@@ -194,10 +194,10 @@ Acceptance: candidate changes match the declared mutation class; exact parent an
 
 ### WP05 — [GHB][WP05] Isolated body builder and experiment executor
 
-**Repository:** `agent-logic/agent-logic-runtime`  
-**Tracker action:** Create one new child after duplicate/owner check.  
-**Parent:** GHB-SPRINT (link pending)  
-**Completion dependencies:** WP02  
+**Repository:** `agent-logic/agent-logic-runtime`
+**Tracker action:** Create one new child after duplicate/owner check.
+**Parent:** GHB-SPRINT (link pending)
+**Completion dependencies:** WP02
 **Base estimate:** 7 engineering days; 0.80M development tokens. Runtime experiment consumption is charged to the shared campaign ledger, not multiplied per issue.
 
 **Problem/evidence:** DESIGN_AND_RESEARCH.md Runtime delivery contract and §7; Runtime adapter/capability owners to be mapped by WP00.
@@ -216,10 +216,10 @@ Acceptance: denied network/filesystem/capability escapes; killed and timed-out e
 
 ### WP06 — [GHB][WP06] Independent evaluator and promotion decision
 
-**Repository:** `agent-logic/agent-logic-runtime`  
-**Tracker action:** Create one new child after duplicate/owner check.  
-**Parent:** GHB-SPRINT (link pending)  
-**Completion dependencies:** WP00, WP02, WP03, WP05  
+**Repository:** `agent-logic/agent-logic-runtime`
+**Tracker action:** Create one new child after duplicate/owner check.
+**Parent:** GHB-SPRINT (link pending)
+**Completion dependencies:** WP00, WP02, WP03, WP05
 **Base estimate:** 8 engineering days; 0.90M development tokens. Runtime experiment consumption is charged to the shared campaign ledger, not multiplied per issue.
 
 **Problem/evidence:** ADL adl/src/godel/promotion.rs fixed threshold and DESIGN_AND_RESEARCH.md §5; independent measured promotion remains required.
@@ -238,10 +238,10 @@ Acceptance: these malicious/invalid candidates fail; raw outcomes can be indepen
 
 ### WP07 — [P1] Complete the governed resident-to-birthday activation path
 
-**Repository:** `agent-logic/agent-logic-runtime`  
-**Tracker action:** Reuse existing Runtime #112; do not replace its body or widen scope automatically.  
-**Parent:** GHB-SPRINT (link pending)  
-**Completion dependencies:** WP00  
+**Repository:** `agent-logic/agent-logic-runtime`
+**Tracker action:** Reuse existing Runtime #112; do not replace its body or widen scope automatically.
+**Parent:** GHB-SPRINT (link pending)
+**Completion dependencies:** WP00
 **Base estimate:** 5 engineering days; 0.55M development tokens. Runtime experiment consumption is charged to the shared campaign ledger, not multiplied per issue.
 
 **Problem/evidence:** https://github.com/agent-logic/agent-logic-runtime/issues/112; Runtime adl-runtime-kernel/src/production_birthday.rs.
@@ -260,10 +260,10 @@ Acceptance: Runtime #112's actual-resident positive/negative criteria pass witho
 
 ### WP08 — [GHB][WP08] Successor activation and rollback
 
-**Repository:** `agent-logic/agent-logic-runtime`  
-**Tracker action:** Create one new child after duplicate/owner check.  
-**Parent:** GHB-SPRINT (link pending)  
-**Completion dependencies:** WP02, WP05, WP06, WP07  
+**Repository:** `agent-logic/agent-logic-runtime`
+**Tracker action:** Create one new child after duplicate/owner check.
+**Parent:** GHB-SPRINT (link pending)
+**Completion dependencies:** WP02, WP05, WP06, WP07
 **Base estimate:** 7 engineering days; 0.80M development tokens. Runtime experiment consumption is charged to the shared campaign ledger, not multiplied per issue.
 
 **Problem/evidence:** Runtime continuity and production_birthday owners; DESIGN_AND_RESEARCH.md §7 requires successor activation distinct from birthday.
@@ -282,10 +282,10 @@ Acceptance: failpoints at durable boundaries; stale parents and concurrent confl
 
 ### WP09 — [GHB][WP09] Live GHB resident loop and Gate A
 
-**Repository:** `agent-logic/agent-logic-runtime`  
-**Tracker action:** Create one new child after duplicate/owner check.  
-**Parent:** GHB-SPRINT (link pending)  
-**Completion dependencies:** WP03, WP04, WP05, WP06, WP07, WP08  
+**Repository:** `agent-logic/agent-logic-runtime`
+**Tracker action:** Create one new child after duplicate/owner check.
+**Parent:** GHB-SPRINT (link pending)
+**Completion dependencies:** WP03, WP04, WP05, WP06, WP07, WP08
 **Base estimate:** 6 engineering days; 0.65M development tokens. Runtime experiment consumption is charged to the shared campaign ledger, not multiplied per issue.
 
 **Problem/evidence:** ADL ghb_loop.rs proof path does not invoke hosted providers; mandatory installed Runtime chain in IMPLEMENTATION_PLAN.md.
@@ -304,10 +304,10 @@ Acceptance: full Gate A scenario from a clean installed Runtime environment with
 
 ### WP10 — [GHB][WP10] Bounded recursive improvement
 
-**Repository:** `agent-logic/agent-logic-runtime`  
-**Tracker action:** Create one new child after duplicate/owner check.  
-**Parent:** GHB-SPRINT (link pending)  
-**Completion dependencies:** WP09  
+**Repository:** `agent-logic/agent-logic-runtime`
+**Tracker action:** Create one new child after duplicate/owner check.
+**Parent:** GHB-SPRINT (link pending)
+**Completion dependencies:** WP09
 **Base estimate:** 8 engineering days; 0.90M development tokens. Runtime experiment consumption is charged to the shared campaign ledger, not multiplied per issue.
 
 **Problem/evidence:** DESIGN_AND_RESEARCH.md §§7,9; empirical recursion requires a successor actually running the next improvement cycle.
@@ -326,10 +326,10 @@ Acceptance: at least one admitted successor changes improvement behavior and exe
 
 ### WP11 — [GHB][WP11] Longitudinal qualification, fleet adoption and Gate B
 
-**Repository:** `agent-logic/agent-logic-runtime`  
-**Tracker action:** Create one new child after duplicate/owner check.  
-**Parent:** GHB-SPRINT (link pending)  
-**Completion dependencies:** WP10  
+**Repository:** `agent-logic/agent-logic-runtime`
+**Tracker action:** Create one new child after duplicate/owner check.
+**Parent:** GHB-SPRINT (link pending)
+**Completion dependencies:** WP10
 **Base estimate:** 10 engineering days; 1.10M development tokens. Runtime experiment consumption is charged to the shared campaign ledger, not multiplied per issue.
 
 **Problem/evidence:** DESIGN_AND_RESEARCH.md §9 and IMPLEMENTATION_PLAN.md Gate B; current proof packets do not establish fleet qualification.
@@ -348,10 +348,10 @@ Acceptance: qualification matrix names each tested domain/configuration; one res
 
 ### WP12 — [GHB][WP12] Research evidence and operator documentation
 
-**Repository:** `agent-logic/agent-logic-runtime`  
-**Tracker action:** Create one new child after duplicate/owner check.  
-**Parent:** GHB-SPRINT (link pending)  
-**Completion dependencies:** WP01, WP11  
+**Repository:** `agent-logic/agent-logic-runtime`
+**Tracker action:** Create one new child after duplicate/owner check.
+**Parent:** GHB-SPRINT (link pending)
+**Completion dependencies:** WP01, WP11
 **Base estimate:** 3 engineering days; 0.35M development tokens. Runtime experiment consumption is charged to the shared campaign ledger, not multiplied per issue.
 
 **Problem/evidence:** Paper GODEL_HADAMARD_BAYES_SOURCE_PACKET.md, GODEL_HADAMARD_BAYES_CLAIM_AND_CITATION_PACKET.md and provisional refs/sources.bib.
