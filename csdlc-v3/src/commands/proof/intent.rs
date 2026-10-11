@@ -1,5 +1,7 @@
-//! Bounded Cargo validator execution owned by the existing proof command.
+//! Bounded Cargo and Node test execution owned by the existing proof command.
 //! A marker alone is never proof: require an actual nonzero successful test result.
+#[path = "node.rs"]
+mod node;
 use super::*;
 use crate::application::intent::{Context, Validator};
 use serde_json::{json, Value};
@@ -154,6 +156,10 @@ pub(crate) fn admit_validator_declarations(
             return Err("intent_validator_timeout_not_admitted".into());
         }
         safe_component(&validator.id).map_err(|finding| finding.code)?;
+        if validator.program == "node" {
+            node::admit(root, validator)?;
+            continue;
+        }
         if validator.program != "cargo" {
             admit_preparation_only_declaration(root, validator)?;
             continue;
@@ -275,7 +281,7 @@ fn admit_validators_with_projection_inputs(
     admit_validator_declarations(root, validators)?;
     if validators
         .iter()
-        .any(|validator| validator.program != "cargo")
+        .any(|validator| !matches!(validator.program.as_str(), "cargo" | "node"))
     {
         return Err("intent_validator_execution_unsupported".into());
     }
@@ -336,7 +342,7 @@ pub(crate) fn execute_admitted(
         };
         effect_truth = crate::storage::semantic::protocol::EffectTruth::Performed;
         let text = String::from_utf8_lossy(&execution.stdout.bytes);
-        let tests_passed = text
+        let cargo_tests_passed = text
             .lines()
             .filter_map(|line| {
                 line.trim()
@@ -346,7 +352,7 @@ pub(crate) fn execute_admitted(
                     .and_then(|(count, _)| count.parse::<u64>().ok())
             })
             .sum::<u64>();
-        let tests_failed = text
+        let cargo_tests_failed = text
             .lines()
             .filter(|line| line.trim().starts_with("test result: "))
             .filter_map(|line| {
@@ -355,18 +361,26 @@ pub(crate) fn execute_admitted(
                     .and_then(|(count, _)| count.parse::<u64>().ok())
             })
             .sum::<u64>();
-        let passed = execution.success
+        let counts = if validator.program == "node" {
+            node::counts(root, validator, &text)
+        } else {
+            Some((cargo_tests_passed, cargo_tests_failed))
+        };
+        let (tests_passed, tests_failed) = counts.unwrap_or_default();
+        let passed = counts.is_some()
+            && execution.success
             && !execution.timed_out
             && !execution.cancelled
             && execution.cleanup_complete
             && !execution.stdout.truncated
             && !execution.stderr.truncated
-            && tests_passed > 0;
+            && tests_passed > 0
+            && tests_failed == 0;
         outcomes.push(json!({"id":validator.id,"program":validator.program,"args":validator.args,"timeout_seconds":validator.timeout_seconds,
-            "compiler_artifacts":compiler_artifacts(root,&text),"executed_args":validator.args.iter().cloned().chain(std::iter::once("--message-format=json".to_owned())).collect::<Vec<_>>(),"input_digest":input_digest,"exit_code":execution.exit_code,"tests_passed":tests_passed,"tests_failed":tests_failed,
+            "compiler_artifacts":if validator.program == "cargo" { compiler_artifacts(root,&text) } else { json!([]) },"executed_args":executed_args(validator),"input_digest":input_digest,"exit_code":execution.exit_code,"test_report_valid":counts.is_some(),"tests_passed":counts.map(|v|v.0),"tests_failed":counts.map(|v|v.1),
             "stdout_digest":blake3::hash(&execution.stdout.bytes).to_hex().to_string(),"stderr_digest":blake3::hash(&execution.stderr.bytes).to_hex().to_string(),
             "stdout_evidence":diagnostic_excerpt(root,&execution.stdout.bytes),"stderr_evidence":diagnostic_excerpt(root,&execution.stderr.bytes),
-            "temporary_root":execution.temporary_root,"cargo_target":"target/intent-validation",
+            "temporary_root":execution.temporary_root,"cargo_target":if validator.program == "cargo" {json!("target/intent-validation")} else {Value::Null},
             "timed_out":execution.timed_out,"cancelled":execution.cancelled,"cleanup_complete":execution.cleanup_complete,
             "truncated":execution.stdout.truncated||execution.stderr.truncated,"passed":passed,"elapsed_ms":execution.elapsed_ms}));
         if !passed {
@@ -379,9 +393,9 @@ pub(crate) fn execute_admitted(
                 .iter()
                 .zip(validators)
                 .try_for_each(|(record, validator)| {
-                    compiler_inputs_tracked(
+                    validator_inputs_tracked(
                         root,
-                        &validator.args,
+                        validator,
                         &record["compiler_artifacts"],
                         &admitted.excluded_projection_inputs,
                     )
@@ -768,15 +782,13 @@ fn run_validator(root: &Path, validator: &Validator) -> Result<ValidatorExecutio
     stderr
         .set_nonblocking(true)
         .map_err(|_| "intent_validator_capture_failed")?;
-    let mut command = Command::new("cargo");
+    let mut command = Command::new(&validator.program);
     command
         .current_dir(root)
-        .args(&validator.args)
-        .arg("--message-format=json")
+        .args(executed_args(validator))
         .env_clear()
         .env("PATH", std::env::var_os("PATH").unwrap_or_default())
         .env("HOME", std::env::var_os("HOME").unwrap_or_default())
-        .env("CARGO_TARGET_DIR", root.join("target/intent-validation"))
         .env("TMPDIR", &temporary.path)
         .env("TMP", &temporary.path)
         .env("TEMP", &temporary.path)
@@ -784,6 +796,15 @@ fn run_validator(root: &Path, validator: &Validator) -> Result<ValidatorExecutio
         .stdout(Stdio::from(OwnedFd::from(stdout_writer)))
         .stderr(Stdio::from(OwnedFd::from(stderr_writer)))
         .process_group(0);
+    // Node dependencies may be provided by the operator's installed runtime.
+    // All other ambient injection variables (including NODE_OPTIONS) stay cleared.
+    if validator.program == "node" {
+        if let Some(path) = std::env::var_os("NODE_PATH") {
+            command.env("NODE_PATH", path);
+        }
+    } else {
+        command.env("CARGO_TARGET_DIR", root.join("target/intent-validation"));
+    }
     let child = command
         .spawn()
         .map_err(|_| "intent_validator_spawn_failed")?;
@@ -901,6 +922,10 @@ fn manifest_inputs(root: &Path, validators: &[Validator]) -> Result<(), String> 
     };
     let mut queue = Vec::new();
     for validator in validators {
+        if validator.program == "node" {
+            node::admit(root, validator)?;
+            continue;
+        }
         let selection = ValidatorTargetSelection::from_args(&validator.args);
         let manifest = validator
             .args
@@ -1275,6 +1300,50 @@ fn dependency_workspace(
         }
     }
     Ok(package.to_path_buf())
+}
+
+fn executed_args(validator: &Validator) -> Vec<String> {
+    if validator.program == "node" {
+        [
+            "--test",
+            "--test-reporter=tap",
+            "--test-concurrency=1",
+            "--",
+        ]
+        .into_iter()
+        .map(str::to_owned)
+        .chain(validator.args.iter().skip(1).cloned())
+        .collect()
+    } else {
+        validator
+            .args
+            .iter()
+            .cloned()
+            .chain(std::iter::once("--message-format=json".to_owned()))
+            .collect()
+    }
+}
+
+fn validator_inputs_tracked(
+    root: &Path,
+    validator: &Validator,
+    artifacts: &Value,
+    excluded: &[String],
+) -> Result<(), String> {
+    if validator.program == "node" {
+        node::admit(root, validator)?;
+        if validator
+            .args
+            .iter()
+            .skip(1)
+            .any(|path| excluded.contains(path))
+        {
+            return Err("intent_validator_input_not_tracked".into());
+        }
+        Ok(())
+    } else {
+        compiler_inputs_tracked(root, &validator.args, artifacts, excluded)
+    }
 }
 
 fn compiler_inputs_tracked(
@@ -1719,9 +1788,9 @@ fn verify_execution_inputs_with_projection_inputs(
         .as_array()
         .ok_or("intent_proof_validators_missing")?;
     for (record, validator) in records.iter().zip(validators) {
-        compiler_inputs_tracked(
+        validator_inputs_tracked(
             root,
-            &validator.args,
+            validator,
             &record["compiler_artifacts"],
             excluded_projection_inputs,
         )?;

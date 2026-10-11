@@ -3437,3 +3437,36 @@ textarea,
 
 
 }
+
+/* Explicit room selections remain individually removable on touch screens. */
+.room-recipient-remove {
+  min-height: 44px;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  text-align: left;
+}
+#governed-room-selection-summary { overflow-wrap: anywhere; }
+
+/* The room's mobile controls need the full viewport, below the navigation. */
+@media (max-width: 980px) {
+  .observatory[data-dashboard-surface="communication"] {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto auto auto auto;
+  }
+  .observatory[data-dashboard-surface="communication"] > .dashboard-rail {
+    grid-column: 1;
+    grid-row: 3;
+  }
+  .observatory[data-dashboard-surface="communication"] > .runtime-grid {
+    grid-column: 1;
+    grid-row: 4;
+    min-width: 0;
+  }
+  .observatory[data-dashboard-surface="communication"] > .dashboard-statusbar {
+    grid-row: 5;
+  }
+  .room-surface, .chat-advanced { min-width: 0; }
+  .room-surface select, .room-surface textarea { min-width: 0; max-width: 100%; }
+  #governed-room-everyone { white-space: normal; }
+}

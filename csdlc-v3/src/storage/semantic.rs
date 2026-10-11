@@ -192,6 +192,47 @@ impl EvidenceInputVersion {
     }
 }
 
+/// Derive the operative five-step plan from the same accepted SPP values used
+/// during preparation. Evaluate before mutation so incomplete amendments fail atomically.
+pub(crate) fn plan_from_spp(
+    cards: &BTreeMap<String, serde_json::Value>,
+) -> Result<Vec<PlanStep>, Error> {
+    let spp = cards
+        .get("spp")
+        .ok_or_else(|| Error::InvalidInput("SPP missing".into()))?;
+    let fields: [(&str, &[&str]); 5] = [
+        ("dependencies", &["dependencies_inline"]),
+        (
+            "inspect",
+            &["repo_inputs_inline", "target_files_surfaces_inline"],
+        ),
+        ("implement", &["deliverables_inline"]),
+        (
+            "validate",
+            &["validation_plan_inline", "acceptance_criteria_inline"],
+        ),
+        ("record", &["notes_risks_inline"]),
+    ];
+    fields
+        .into_iter()
+        .map(|(id, fields)| {
+            let text = fields
+                .iter()
+                .map(|field| {
+                    spp[*field]
+                        .as_str()
+                        .filter(|v| !v.trim().is_empty())
+                        .ok_or_else(|| Error::InvalidInput(format!("SPP requires {field}")))
+                })
+                .collect::<Result<Vec<_>, _>>()?;
+            Ok(PlanStep {
+                id: id.into(),
+                acceptance: text.join("\n"),
+            })
+        })
+        .collect()
+}
+
 /// Explicit typed input shape; ordered plan steps and validator argv remain ordered.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -2184,6 +2225,9 @@ impl DurableTransactionStore {
                 SemanticCommand::AmendCards
             }
             LocalChange::AmendVerifiedCards(amendment) => {
+                if amendment.class == AmendmentClass::Plan {
+                    payload.inputs.plan = plan_from_spp(&amendment.cards)?;
+                }
                 payload.inputs.intent_plan.cards = amendment.cards;
                 amendment_class = Some(amendment.class);
                 card_facts = Some(amendment.facts);

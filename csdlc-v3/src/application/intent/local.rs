@@ -636,6 +636,10 @@ fn semantic_edit(
         return Err("intent_amendment_policy_rejected".into());
     }
     let admitted_cards = cards;
+    if amendment.class == crate::lifecycle::semantic::AmendmentClass::Plan {
+        crate::storage::semantic::plan_from_spp(&admitted_cards)
+            .map_err(|error| format!("intent_semantic_plan_invalid:{error:?}"))?;
+    }
     if context.refresh_semantic_binding()? {
         super::rebuild_semantic_card_projection(context)?;
     }

@@ -1,0 +1,20 @@
+{
+  "schema": "csdlc.v3.intent_changes.v1",
+  "amendment": {
+    "class": "plan",
+    "transition_approved": true,
+    "new_commit": false
+  },
+  "cards": {
+    "spp": {
+      "activation_state": "bound_execution_complete_acceptance_passed",
+      "status": "final_qualification_complete",
+      "plan_summary": "The authorized CF-05 execution, exact-aa2 candidate refresh, identity isolation proof, human render acceptance and independent evidence review are complete. All 24 original obligations pass and all 12 cells are release-accepted. No provider replay or further qualification execution is required.",
+      "step_5_status": "completed",
+      "issue_goal_ref": "Issue #1150 final qualification is complete; PR publication and merge remain.",
+      "validation_plan_inline": "Preserve the exact candidate and retained evidence identities, run the focused checkpoint test and native validation, obtain exact-head independent review, then ready and merge PR #1255.",
+      "notes_risks_inline": "Terminal accounting records 126 posts, zero unknown outcomes and zero ambiguous replay under the operator-amended USD 70 ceiling. The Linux Vector first failure remains adverse evidence while its compatible repeat satisfies Q06. Public deployment and launch remain outside this issue.",
+      "goal_metrics_rollup_ref": "Issue #1150 final qualification: 24 PASS / 0 FAIL / 0 INCOMPLETE; 12/12 release-accepted."
+    }
+  }
+}

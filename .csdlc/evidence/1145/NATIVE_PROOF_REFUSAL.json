@@ -1,0 +1,57 @@
+{
+  "schema": "csdlc.v3.command_failure.v1",
+  "status": "failed",
+  "findings": [
+    {
+      "code": "intent_validator_execution_unsupported",
+      "message": "intent_validator_execution_unsupported"
+    }
+  ],
+  "resolution_metrics": {
+    "application_git_reads": 24,
+    "canonical_authority_file_reads": 16,
+    "scope": "actual application Git calls and canonical authority file reads, including repeated freshness checks; complete native Git subprocess counts are measured separately by installed fixture instrumentation"
+  },
+  "envelope": {
+    "schema": "csdlc.v3.command_result.v1",
+    "command": "proof",
+    "issue": {
+      "status": "unavailable"
+    },
+    "status": "failed",
+    "process_status": "failed",
+    "authority_status": "not_established",
+    "issue_version": {
+      "before": {
+        "basis": "request_expectation",
+        "digest": null
+      },
+      "after": {
+        "basis": "owner_result",
+        "digest": null
+      }
+    },
+    "effects": {
+      "class": "guarded_local",
+      "outcome": "unknown"
+    },
+    "findings": [
+      {
+        "code": "intent_validator_execution_unsupported",
+        "message": "intent_validator_execution_unsupported"
+      }
+    ],
+    "reason_code": "intent_validator_execution_unsupported",
+    "allowed_next_operations": [],
+    "correlation_id": "12412-1791306229484",
+    "intent_identity": null,
+    "evidence_invalidation": {
+      "status": "not_reported"
+    },
+    "timing": {
+      "started_unix_ms": 1791306229484,
+      "monotonic_duration_ms": 2288
+    },
+    "wait_owner": "operator"
+  }
+}

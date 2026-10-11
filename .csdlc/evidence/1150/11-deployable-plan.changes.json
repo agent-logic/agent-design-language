@@ -1,0 +1,18 @@
+{
+  "schema": "csdlc.v3.intent_changes.v1",
+  "amendment": {
+    "class": "plan",
+    "transition_approved": true,
+    "new_commit": false
+  },
+  "cards": {
+    "spp": {
+      "deliverables_inline": "Complete 12-tuple/24-obligation matrix, exact installed-candidate packet, actual scenario counts, external-tester rehearsal, waiting-list and hosted-mode build/test/deployability proof, human HTML/PDF inspection, independent review and qualification decision.",
+      "target_files_surfaces_inline": "Issue-local qualification matrix, exact-candidate evidence, waiting-list and hosted-mode deployability proof, independent review and outcome records; no producer implementation edits or public deployment.",
+      "validation_plan_inline": "Run only the installed-integration denominator after dependencies and candidate inputs are accepted; reuse identity-matching evidence; test the waiting-list and hosted-mode paths locally or in an owned nonpublic staging boundary; record actual positive, refusal, privacy, interruption, recovery, cost, deletion and rollback outcomes; obtain independent review. Public deployment and live launch are not qualification prerequisites.",
+      "non_goals_inline": "No product repair, provider replay or spend, public deployment, audience activation, live launch, duplicate issue, or invented historical IDs.",
+      "plan_summary": "First admit all five prerequisite results and one exact installed lockset. Recover the original obligation map without fabricating unavailable labels. Then execute and reconcile the complete 12-tuple/24-obligation denominator, prove the waiting-list and hosted-mode paths are built, tested and deployable without public deployment, perform external-tester and human artifact review, and issue one independent decision.",
+      "notes_risks_inline": "The native preparation context is bound and the plan is issue-specific. v0.93.1 readiness means deployable and tested, not publicly deployed. Qualification remains blocked on accepted dependency evidence, exact installed candidate custody, the original obligation map or an explicitly accepted source-authoritative replacement, applicable provider authority for genuinely provider-backed local scenarios, and complete prompt-only SRP readiness."
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": "csdlc.v3.intent_changes.v1",
+  "amendment": {"class": "plan", "transition_approved": true, "new_commit": false},
+  "cards": {
+    "spp": {
+      "plan_summary": "First admit all five prerequisite results and one exact installed lockset. Use the recovered, SHA-256-identified Q01-Q24 requirements without granting historical execution credit. Then execute and reconcile the complete 12-tuple/24-obligation denominator, prove the waiting-list and hosted-mode paths are built, tested and deployable without public deployment, perform external-tester and human artifact review, and issue one independent decision.",
+      "notes_risks_inline": "The native preparation context is bound and the plan is issue-specific. v0.93.1 readiness means deployable and tested, not publicly deployed. The exact Q01-Q24 requirement text is recovered, but all obligations remain unproven. Qualification remains blocked on accepted dependency evidence, exact installed candidate custody, applicable provider authority for genuinely provider-backed local scenarios, and complete prompt-only SRP readiness.",
+      "risks_inline": "Historical map without current execution credit, stale or mismatched installed candidate, unresolved interrupted request, unauthorized paid replay, source-free citations, private-material leakage and partial evidence miscounted as acceptance."
+    }
+  }
+}

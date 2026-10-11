@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 1145,
+  "issue_padded": "1145",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/1145",
+  "title": "Observatory: add Everyone selection to the multi-agent room",
+  "branch": "codex/1145-observatory-everyone-selection",
+  "version": "1.0.5",
+  "card": "srp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-1145-observatory-everyone-selection"
+}

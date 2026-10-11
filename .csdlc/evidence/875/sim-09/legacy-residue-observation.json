@@ -1,0 +1,235 @@
+{
+  "schema": "adl.sim09.residue_observation.v1",
+  "observed_at": "2026-09-18T21:20:43.936930+00:00",
+  "checkout": "/Users/daniel/.codex/worktrees/dae6/agent-design-language",
+  "checkout_head": "fbe58c25998405d994e2e0c94ab5869b8a26ecd1",
+  "records": [
+    {
+      "issue": 482,
+      "native_schema": "csdlc.issue.index.v1",
+      "native_phase": "initialized",
+      "native_binding": null,
+      "github": {
+        "closedAt": "2026-08-26T19:33:08Z",
+        "state": "CLOSED",
+        "title": "[v0.92.1][CORP-A] Critical-asset schedule"
+      },
+      "disposition": "unreconciled_unregistered_residue_preserved",
+      "files_sha256": {
+        "audit.jsonl": "c7615c54b7ae96a2678481267f0ffa2af32c1ad48aac43245e55aa556cf94548",
+        "cards/sip.md": "d99c6e0ff1adc4ec343a864f790f17662bca81380813e1d62f589726ac447fa5",
+        "cards/sip.values.json": "0074c4a96972aa2af0275dab11a4f2ddab7379487c857fb3cc5c7820cbf89884",
+        "cards/sor.md": "249fc75697f547c95d858636cdcc1e364f89f1a76f373c426ba97b7642506ae4",
+        "cards/sor.values.json": "c7cfc6af9997e0394f60e039c228666dcd3a554f31a9e070bfe51e32b399a82d",
+        "cards/spp.md": "142cccdbe68ea761c479916633accf917d16d1759847c92e6314b1822104f999",
+        "cards/spp.values.json": "be0bad20ec00feb9d10f66a0071b146eb64f0943e66c76b3d95451ee2a3ce676",
+        "cards/srp.md": "7b11d5655897e5847ad2bde84083bb5dc0eb21f0d50fb2b366e2befbf946c7d2",
+        "cards/srp.values.json": "ba550bca00dbafc089d2b2d6ec3bd88ea8bb57c578dbc720a2bb7bda880126c8",
+        "cards/stp.md": "4669198e2a7488d1270de1cd30cb47b202b2a9ad908f28969ad1f34d2c043adc",
+        "cards/stp.values.json": "a02c1c64a6d06bb18d86bf993caeaf5f7500a90fdc9299cc9d190781cb6e79ca",
+        "cards/vpp.md": "1e26f431092b74e8fe706189bb4c2d855dd6abf0a6581ee65af3ff30d72fb0a3",
+        "cards/vpp.values.json": "5d4bee66bba9213ef09e4edfe545808933a400c681b8fb1209ed4872c81877f2",
+        "index.json": "1799c47f9662f0e2fa274fa6fa66f30121faf47a720c58897ee602320c10bcfd"
+      }
+    },
+    {
+      "issue": 483,
+      "native_schema": "csdlc.issue.index.v1",
+      "native_phase": "initialized",
+      "native_binding": null,
+      "github": {
+        "closedAt": "2026-08-27T19:20:53Z",
+        "state": "CLOSED",
+        "title": "[v0.92.1][CORP-B] Corporate account custody register"
+      },
+      "disposition": "unreconciled_unregistered_residue_preserved",
+      "files_sha256": {
+        "audit.jsonl": "26819d0b263b1ced86a150fda46b3885b20a9fc6cecd4631f97d962e4a3a6d5f",
+        "cards/sip.md": "1aca15365c6a988d64f558b3de8c0593e65551bd68fd680fb05f0e11e861bfe2",
+        "cards/sip.values.json": "fbe700bb3967e1407bcfdf4ad126437fb4f084d7735ee7bc6c6c0ef4b5b10e24",
+        "cards/sor.md": "9c314086df3bc1b18b9805a7e2846a13952389d27feb53c78f33f42ccfb6ab8e",
+        "cards/sor.values.json": "2f26119c9a6540999afa2ef277d888aee4bf329c4f645dd1e0ab1da072ce8b76",
+        "cards/spp.md": "fad42f7c2ced7478e3e9aa5d3cc185ac586f2590bf86a299fa97f0c17f28ac42",
+        "cards/spp.values.json": "2b04d514179873761355e45fd1ca861f6f68f1a94bcbc0d2047ecf0558c06cfa",
+        "cards/srp.md": "0f10f1fcdca6aef8899899eda2611191287213eee86329ab486ad511f96034d9",
+        "cards/srp.values.json": "c2c87eefc691814daf6037917e5c6708b4c2a10b2f924edeacffd9704d648893",
+        "cards/stp.md": "610c5fc7eb4fd60d777e0ba9cc269c24a9a72cafd437a825f03790568aa634ce",
+        "cards/stp.values.json": "199679d982f5cf0a3e46b301a36b4df92ba5a729a5edc31da460a77f6b5a1b89",
+        "cards/vpp.md": "ad1668b0b6ca003a3f4a46c501b03ac67982e67e4e6b97f57c12cbd0890ca975",
+        "cards/vpp.values.json": "1b9c57541d4e1ab8c3d6639a93d7aa9386b46e82893589bd36aad0f9c66fb531",
+        "index.json": "de25feb4e00d77e23105d5a9add6c414f685de6e7caf868d2f6245f358441c89"
+      }
+    },
+    {
+      "issue": 499,
+      "native_schema": "csdlc.issue.index.v1",
+      "native_phase": "initialized",
+      "native_binding": null,
+      "github": {
+        "closedAt": "2026-08-27T20:26:14Z",
+        "state": "CLOSED",
+        "title": "[v0.92.1][RUST-01] Resilience owner-boundary refactoring"
+      },
+      "disposition": "unreconciled_unregistered_residue_preserved",
+      "files_sha256": {
+        "audit.jsonl": "7da29d2627db1bbe632447165ab031eb3d4cdb2e78109bf0ed4201cb66968dee",
+        "cards/sip.md": "f5c937e4df3f7c676622141ec00816569b2e4970aa5b9715e0b73a6c11d0b6d0",
+        "cards/sip.values.json": "a78f5a3c9a5b827a229f6a679a24275f13662156d46a490362f6c226af04dde3",
+        "cards/sor.md": "1979c6cfe3bb5e1155d9d9a064beddbe54319df7a5505d4690e6012e3002eee2",
+        "cards/sor.values.json": "9b0dd58acf5a6bc7f581fd9f0b186ffbe99f39040f9e9b3206c65fabe95e758e",
+        "cards/spp.md": "5c36a633d44d410281290051aa8fc9eb2e77aee884a176680ac1a482151ece7a",
+        "cards/spp.values.json": "e9c9e672cd40f7fcd18381826bf23dfe8f8596c1f2e343bedf3090f908945a89",
+        "cards/srp.md": "d8bc366bd393ae88fd5e05dc5af9af78bba218276bf6a7c9918db9a7eea67d2f",
+        "cards/srp.values.json": "79f5d7d04e6f43b7061c567f11cb898d3acf54d446192bbda9403b5b527082aa",
+        "cards/stp.md": "a5fca8e810f0fe2d5a83026a789f2942b733c437b08109afba5809ea64457804",
+        "cards/stp.values.json": "b38719f747428f547b57d1c4c975e89ab2227d61c4b7f2a877fc00ce7d075489",
+        "cards/vpp.md": "5517a5e5793a6a73cafe22191dc08936caf2e2236dea985b6dc51b5c2096085b",
+        "cards/vpp.values.json": "08faa45f0999ee1c64c9c50fe72f75f934fc77deacf01c05f8195cd44842b6a6",
+        "index.json": "f66c64f2d54730766b20f9cd5e4baca1a12a5032a8134a4e5bc9b1be753a25c2"
+      }
+    },
+    {
+      "issue": 510,
+      "native_schema": "csdlc.issue.index.v1",
+      "native_phase": "initialized",
+      "native_binding": null,
+      "github": {
+        "closedAt": "2026-08-26T20:21:19Z",
+        "state": "CLOSED",
+        "title": "[v0.92.1][HOT-01] Axum configuration hot reload"
+      },
+      "disposition": "unreconciled_unregistered_residue_preserved",
+      "files_sha256": {
+        "audit.jsonl": "ed9afe94310760f551fc61c5e6146e53eb17241caaeaa3dd85fb3abb0ef4a555",
+        "cards/sip.md": "7ef503f9e3f5dae8fbacbf05c0ae14d9d731e600f52ef7f2e5500514ba96d4c4",
+        "cards/sip.values.json": "78d90b1e6b4495f6e4b9e9a8584bfb47832a6ac9aa58f0bea4e6aa92dece82c1",
+        "cards/sor.md": "1f567d0144cf1a3fa5e1c0fd08e6085e099b62dcf73ce4b1010168f87c4ba57d",
+        "cards/sor.values.json": "bf2e5a80be2611ec60bff21bdbfedcbcbab62aa4948a1bcc23902ba0f8804639",
+        "cards/spp.md": "4324583337aa0dd411b53f1821642007eb725577031153ae3a10927c702a5a19",
+        "cards/spp.values.json": "01b267d5a76ce554cec2180eb66232d8b05901e494011a4a3e2a68c7229c9f2a",
+        "cards/srp.md": "4e7d579371f73472d972d68f58513c4eb34f7a29448711bdada19a586f2257b9",
+        "cards/srp.values.json": "5f463f73aeb4b6687d1960e54d9dd689607e447f4990737364406106c827e057",
+        "cards/stp.md": "b36ecaaaccd1b516c17b80d6d726d3c59dd1208508fc7ba334cd964462a6d42c",
+        "cards/stp.values.json": "42fd26ce6f7727497098e88930ba54cc7a6eec92d39b77012573c9a4268eb2b0",
+        "cards/vpp.md": "0ae06b1fbdde5ffca28f0cff82aabecadab57f160c90e0341ca795b3fa0203bb",
+        "cards/vpp.values.json": "96d7f97be887c120018acf8f19f5e6f67a8016de11e2abafbc0668d3cefa144b",
+        "index.json": "1b1fd7bfbb2e56304e21bf20ff690d04c9401a399c9d214191105b960024342d"
+      }
+    },
+    {
+      "issue": 513,
+      "native_schema": "csdlc.issue.index.v1",
+      "native_phase": "initialized",
+      "native_binding": null,
+      "github": {
+        "closedAt": "2026-08-26T21:27:50Z",
+        "state": "CLOSED",
+        "title": "[v0.92.1][DEC-01] Runtime v2/v3 authority separation"
+      },
+      "disposition": "unreconciled_unregistered_residue_preserved",
+      "files_sha256": {
+        "audit.jsonl": "a3c26cff80bd62f7f1e992c21fc46ae60d56e328f0d5262ca5868ba339d21bd0",
+        "cards/sip.md": "e2ff99be9fdfed9b54c0beb2369af54e5f7fa99bc48fbba9ec3a395f9c254c97",
+        "cards/sip.values.json": "e44bc4fcf9977d58cec2f9cb1f140dad4818a016a803ff01847d4111d44b539b",
+        "cards/sor.md": "a43d8d7c9568fab61bd7f65e6d440c31897de6de798f6056c857e9dc594e0f13",
+        "cards/sor.values.json": "a7c119747aaf1357a2cd1760afcf2e024dccfaf14ad99de8956e516fe901769e",
+        "cards/spp.md": "e7378b61c1e2d7aa668613abbb1f2021bdda559db8e984845f2651093737dd1f",
+        "cards/spp.values.json": "136a9d3f6cc7db86646bd919d4e5c40094b7fc893d3f84e1244e5e4e926ff53a",
+        "cards/srp.md": "2f2b2897cbf3fd3a489e75aaa11baa4c56962baec5445e16de97c71fb7d8fc23",
+        "cards/srp.values.json": "dd0bd85d84b671fccc786524d1d4984ec544969b21560883b9bacd91c1e52d2e",
+        "cards/stp.md": "96f6f64d9690fb7fa4dbb8fd616bb5a80e2783b5d8ab099416493290d074cc45",
+        "cards/stp.values.json": "065471c58a5ab78b961fa047d84440d44bd3d79aa8280201684f4ea41cac51a0",
+        "cards/vpp.md": "ffcf28fad146c2a0ba2b276c6a1c1552382b64bc85e04856ddd64c8d07386618",
+        "cards/vpp.values.json": "be92ba9bdaf649031b0f4a07d4b15092f084d9ce6a022555b07cce1b2672cf6d",
+        "index.json": "d879e03e5656d1f9f7e191262c20f8a146cca982f960578dc943373c300e528b"
+      }
+    },
+    {
+      "issue": 514,
+      "native_schema": "csdlc.issue.index.v1",
+      "native_phase": "initialized",
+      "native_binding": null,
+      "github": {
+        "closedAt": "2026-08-27T02:05:33Z",
+        "state": "CLOSED",
+        "title": "[v0.92.1][PROV-A] Shared provider inference profiles"
+      },
+      "disposition": "unreconciled_unregistered_residue_preserved",
+      "files_sha256": {
+        "audit.jsonl": "80ca015ad8102df2db148fe6a3c2fd49eb8123e742c35232c58d6ad4e5d5d20f",
+        "cards/sip.md": "ba47db8b6a47da4598ca548fb3c737398bceda94ee0364f384a3499ec17f011b",
+        "cards/sip.values.json": "cb4c0db52851bfa57b8738dd91b8173f6ecc05cabea2297bff4bbbee58654923",
+        "cards/sor.md": "c08f1da8dbadd7d1ce7e9f32eb3cd05e6b98530ee8c52e78f32e78c2964ae306",
+        "cards/sor.values.json": "21d3022d500938c05e92bb2ac328377e388e0d620950faced7997d832cad4124",
+        "cards/spp.md": "282de7cb87648290995c7518ec26fdfaaaf1a11f170ee54ec3f2542b98d9ab85",
+        "cards/spp.values.json": "a540f88d0aeb6e16eed5fa90bfa8a7cddf7d00a3d9d02dda774e4681de1f162c",
+        "cards/srp.md": "8595cd72e3614f5ed6e93253292f96c82efc0177b0cf8092932b159475a73bf4",
+        "cards/srp.values.json": "e98b829134bd209a6eb9a37c38284e6aa6ad5b7d69ac1900f0404f2b6c9ca9fa",
+        "cards/stp.md": "6dec24e43517a0119f6708c7ce830aeddd8713b61bfb2d149f6040a554381000",
+        "cards/stp.values.json": "1decd8581695758bfede2c608a21f794379e7f680e5deac70e0199d86a968416",
+        "cards/vpp.md": "e460ed7c67425429e8c84370193eb974165cbedfa09bcad3f99b60424418ede5",
+        "cards/vpp.values.json": "527d0a120ae3c860329d9da114eda1e9b8e32d9fd33e5d1166aa43d3d5e97914",
+        "index.json": "57eabf3bb1000cb77ba0ed1dbc71f9c182751e971585f907b469200b99768177"
+      }
+    },
+    {
+      "issue": 529,
+      "native_schema": "csdlc.issue.index.v1",
+      "native_phase": "initialized",
+      "native_binding": null,
+      "github": {
+        "closedAt": "2026-08-28T00:18:50Z",
+        "state": "CLOSED",
+        "title": "[v0.92.1][Sprint 1] Independent foundations"
+      },
+      "disposition": "unreconciled_unregistered_residue_preserved",
+      "files_sha256": {
+        "audit.jsonl": "5351c987211959dc36ee8531c2d15630ae46f35bd74c379e9994ffebf922f612",
+        "cards/sip.md": "a05f79c88efaefa43a5124706fd12b9015252559fcb45f7ccba43a1b08dd6cdd",
+        "cards/sip.values.json": "590aca903cead90c8e12f81e020d38183e4789584711b4ac1cb24ac9867bfb94",
+        "cards/sor.md": "c48a4d3363b64179b8482d4a12a216429a43db353bfea45eeef6c44ce717aef0",
+        "cards/sor.values.json": "48260b7944baad6dd86b45eb56e06bfa246ffe6f2a48e2359fb40c663ec0a578",
+        "cards/spp.md": "d69d2170344b1cc859cc8215e4926e1e54deab7b9e89914caa8d19dbfc36ef2c",
+        "cards/spp.values.json": "262b9c7c728273c9fc0cd2ccad2401278f5da12dbb3f59f2c0d1845003ef7d7d",
+        "cards/srp.md": "6c65250318d971c0aca36e38be4e9c55c790ee801caadf08fe6bee55e231aeb4",
+        "cards/srp.values.json": "d26647e11c806c35b398a570ed68a6ebd39abad37548eb2e1df6fd5698993820",
+        "cards/stp.md": "6e370e60f3b4183bb42c5dfb377444056022e1f9b9b6d8369d87b89295b1d105",
+        "cards/stp.values.json": "bc15fa1a115bf1e5a768380387ae1f2d1fe5ac4501363b090e4d77e92b41369a",
+        "cards/vpp.md": "49e03ddbd1902fc8ef0ffe117331890361d6707c50d64509ac2ac13374bf5c8e",
+        "cards/vpp.values.json": "12ac94b7b1221cd4c8d67b8c0a7f196191ee1d8a010f06594af1329298f23ba3",
+        "index.json": "6675c5e15450927c9c91f56cc3153a4025a3124316a3e9ce47e3d8f94a518e08"
+      }
+    },
+    {
+      "issue": 540,
+      "native_schema": "csdlc.issue.index.v1",
+      "native_phase": "initialized",
+      "native_binding": null,
+      "github": {
+        "closedAt": "2026-08-26T17:39:11Z",
+        "state": "CLOSED",
+        "title": "[v0.92][runtime][observatory] Prove additional_allowed_origins for localhost:8000"
+      },
+      "disposition": "unreconciled_unregistered_residue_preserved",
+      "files_sha256": {
+        "audit.jsonl": "d0db04c6b3ec790ad5d5a4a1885f6e55a25ba30a795f70ad115d20652bc47cb0",
+        "cards/sip.md": "204d662ec54161a4e69564adf2940c47635a92da493025761ba86c88fb1089c0",
+        "cards/sip.values.json": "6b4e99e8564c955584f0ce6ea4d2a48e91faff6a67cabedab8c9e476968d9b9b",
+        "cards/sor.md": "ffccd3344a4c3c4b1d6d9bf5827d803c277467e1fa8f8f8d87a4c8321e8ba0d2",
+        "cards/sor.values.json": "fc7d374543a64bdb1484f7ecbc60435b7d3cdfc6d6790135bf9620786118112b",
+        "cards/spp.md": "7e36770e51f8d6c00f80914f6075c2766d57189234a0905b3f46c918c3f2287a",
+        "cards/spp.values.json": "560d24f20988df49d334eb9f7938dad3d2aa9e2964ab897bb1a1cdb398d13697",
+        "cards/srp.md": "60669b74225dfff65a596de30456ef5e61ab30759ed602044d4f4e9b4b7be592",
+        "cards/srp.values.json": "a0575ee692010d414ba012f3fc76c070d3637a3d7609e3aafe425fff88a3371d",
+        "cards/stp.md": "0734ab06c93eaed8c7889c2679b8a6fe12cfb8762fd2aff4c099f8ebed2901a2",
+        "cards/stp.values.json": "18ea543b8e18e93e8d5921ff46c1564be5309a0bcfc1905bc22dc1a03b30f747",
+        "cards/vpp.md": "e2c4960511edb45ceffd9cfd27996fac99d08fc9eaa2da3eac80b2ef9448c574",
+        "cards/vpp.values.json": "12575f0e53f5305eda827424eb546b5c044c5eb5024ae992286a68948b236295",
+        "index.json": "67766c0ef2313463c2d587d4d21393843f06cc62a91154ccf5eaca8fe01d8dc0"
+      }
+    }
+  ],
+  "scope": "Only the first refusing checkout was inspected; this is not a complete transition census.",
+  "mutation_performed": false,
+  "required_resolution": "Native ownership or evidence-preserving terminal reconciliation; GitHub closure alone is not permission to omit or delete these records."
+}

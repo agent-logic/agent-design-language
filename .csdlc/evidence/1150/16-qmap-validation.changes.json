@@ -1,0 +1,11 @@
+{
+  "schema": "csdlc.v3.intent_changes.v1",
+  "amendment": {"class": "proof_validator", "transition_approved": true, "new_commit": false},
+  "cards": {
+    "vpp": {
+      "status": "blocked_on_prerequisites_candidate_and_execution_authority",
+      "plan_summary": "The installed independent qualification is planned in a bound preparation context. The exact Q01-Q24 requirement text is recovered but carries no execution credit. Prove the waiting-list and hosted-mode paths are built, tested and deployable through local or owned nonpublic staging evidence; public deployment and live launch are outside v0.93.1 qualification. Do not execute until accepted dependencies, exact candidate custody, applicable provider authority for genuinely provider-backed local scenarios, and complete prompt-only SRP readiness are present.",
+      "validation_commands_inline": "Blocked during preparation. The execution owner must record exact approved commands after candidate custody and provider/resource authority are known, then bind actual scenario IDs to every source-mapped Q row."
+    }
+  }
+}

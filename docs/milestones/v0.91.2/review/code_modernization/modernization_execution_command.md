@@ -31,14 +31,20 @@ mvn -Dmaven.repo.local=.m2-local -U org.openrewrite.maven:rewrite-maven-plugin:6
 ## Observed Result
 
 - build result: `BUILD SUCCESS`
-- elapsed time on first pinned replay with a warm cache: approximately
-  `4.614 s`
+- elapsed time in the retained execution log: `01:24 min`
 - recipe run: `org.openrewrite.staticanalysis.UseDiamondOperator`
 - changed file count: `1`
 - generated patch:
   `target/rewrite/rewrite.patch`
 - tracked packet copy:
   `docs/milestones/v0.91.2/review/code_modernization/modernization_rewrite.patch`
+
+The command record pins recipe artifact version `2.34.1`. The retained
+execution log prints the plugin version and active recipe, but does not print
+that recipe artifact coordinate. No retained receipt was found for the earlier
+`4.614 s` warm-replay claim, so this summary does not treat that timing as
+verified. The original one-file dry-run, patch, and `BUILD SUCCESS` evidence
+remain unchanged.
 
 ## Authority Posture
 

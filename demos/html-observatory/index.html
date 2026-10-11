@@ -419,11 +419,16 @@
               </div>
               <label class="field">
                 <span class="row-kicker">Room participants</span>
-                <select id="governed-room-recipients" multiple size="4" disabled aria-describedby="governed-room-help">
+                <select id="governed-room-recipients" multiple size="4" disabled aria-describedby="governed-room-help governed-room-selection-summary">
                   <option value="">No live agents</option>
                 </select>
               </label>
-              <p class="row-detail" id="governed-room-help">Select 1-8 explicit recipients. Broadcast and browser-selected implicit participants are denied.</p>
+              <div class="communication-actions">
+                <button class="button" type="button" id="governed-room-everyone" disabled>Everyone — select all eligible agents</button>
+                <button class="button" type="button" id="governed-room-clear" disabled>Clear selection</button>
+              </div>
+              <p class="row-detail" id="governed-room-help">Select 1-8 explicit recipients. Everyone selects the current eligible roster; it does not send a message. Tap a selected agent below to deselect. Broadcast and browser-selected implicit participants are denied.</p>
+              <p class="row-detail" id="governed-room-selection-summary" role="status" aria-live="polite">0 selected / 0 eligible.</p>
               <div class="governed-room-participants" id="governed-room-participants" aria-live="polite"></div>
               <ol class="conversation-transcript governed-room-transcript" id="governed-room-transcript" aria-live="polite">
                 <li class="conversation-empty">Connect to Runtime v3 and select room participants.</li>
