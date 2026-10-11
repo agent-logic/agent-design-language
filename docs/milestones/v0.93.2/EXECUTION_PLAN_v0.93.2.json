@@ -47,7 +47,11 @@
     "CM-02",
     "CM-03",
     "CM-04",
-    "PY-01"
+    "PY-01",
+    "CF-92",
+    "GHB Gate A through GHB-WP09",
+    "GHB Gate B through GHB-WP11",
+    "GHB-WP12 research and runbooks"
   ],
   "repositories": {
     "agent-design-language": "public",
@@ -1655,7 +1659,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 4,
+      "sprint": 5,
       "origin": {
         "milestone": "v0.93",
         "id": "INTEGRATE",
@@ -1668,7 +1672,9 @@
       "repository": "agent-logic-runtime",
       "depends_on": [
         "INTEGRATE",
-        "PY-01"
+        "PY-01",
+        "GHB-WP12",
+        "CF-92"
       ],
       "result": "Independent reviewer runs the accepted success/failure/recovery denominator on the exact multi-repository lockset.",
       "acceptance": [
@@ -1694,7 +1700,7 @@
         "supporting_work": "Execute and report the declared qualification/demo denominator. Implementation defects return to their owning result or a separately scoped corrective issue; do not absorb implementation into qualification.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 4,
+      "sprint": 5,
       "origin": {
         "milestone": "v0.93",
         "id": "QUALIFY",
@@ -1731,7 +1737,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 4,
+      "sprint": 5,
       "origin": {
         "milestone": "v0.93",
         "id": "TAIL-01",
@@ -1768,7 +1774,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 4,
+      "sprint": 5,
       "origin": {
         "milestone": "v0.93",
         "id": "TAIL-02",
@@ -1805,7 +1811,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 4,
+      "sprint": 5,
       "origin": {
         "milestone": "v0.93",
         "id": "TAIL-03",
@@ -1842,7 +1848,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 4,
+      "sprint": 5,
       "origin": {
         "milestone": "v0.93",
         "id": "TAIL-04",
@@ -1879,7 +1885,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 4,
+      "sprint": 5,
       "origin": {
         "milestone": "v0.93",
         "id": "TAIL-05",
@@ -1916,7 +1922,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 4,
+      "sprint": 5,
       "origin": {
         "milestone": "v0.93",
         "id": "TAIL-06",
@@ -1953,7 +1959,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 4,
+      "sprint": 5,
       "origin": {
         "milestone": "v0.93",
         "id": "TAIL-07",
@@ -1990,7 +1996,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 4,
+      "sprint": 5,
       "origin": {
         "milestone": "v0.93",
         "id": "TAIL-08",
@@ -2027,7 +2033,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 4,
+      "sprint": 5,
       "origin": {
         "milestone": "v0.93",
         "id": "TAIL-09",
@@ -2064,7 +2070,7 @@
         "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
         "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
       },
-      "sprint": 4,
+      "sprint": 5,
       "origin": {
         "milestone": "v0.93",
         "id": "TAIL-10",
@@ -2073,7 +2079,7 @@
     },
     {
       "id": "GHB-SPRINT",
-      "result": "Coordinate the approved GHB program without granting execution or spend authority.",
+      "result": "Open and coordinate the approved GHB program without granting execution, spend, or completion authority.",
       "phase": "ghb-program",
       "status": "candidate",
       "resources": "Issue-specific authorization required for provider spend, experiments, deployment and publication.",
@@ -2096,7 +2102,7 @@
       "repository": "agent-logic-runtime",
       "depends_on": [],
       "acceptance": [
-        "Both installed-runtime delivery gates and truthful evidence are required before milestone qualification."
+        "The GHB roster, ownership, scope, budgets-to-approve, dependency order, and separate Gate A/Gate B acceptance are reviewable before child execution."
       ],
       "negative_cases": [
         "Planning status treated as execution authority",
@@ -2104,7 +2110,7 @@
         "Fixture evidence substituted for installed behavior"
       ],
       "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
-      "sprint": 5,
+      "sprint": 4,
       "existing_issue": null
     },
     {
@@ -2142,7 +2148,7 @@
         "Fixture evidence substituted for installed behavior"
       ],
       "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
-      "sprint": 5,
+      "sprint": 4,
       "existing_issue": null
     },
     {
@@ -2181,7 +2187,7 @@
         "Fixture evidence substituted for installed behavior"
       ],
       "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
-      "sprint": 5,
+      "sprint": 4,
       "existing_issue": null
     },
     {
@@ -2220,7 +2226,7 @@
         "Fixture evidence substituted for installed behavior"
       ],
       "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
-      "sprint": 5,
+      "sprint": 4,
       "existing_issue": null
     },
     {
@@ -2259,7 +2265,7 @@
         "Fixture evidence substituted for installed behavior"
       ],
       "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
-      "sprint": 5,
+      "sprint": 4,
       "existing_issue": null
     },
     {
@@ -2299,7 +2305,7 @@
         "Fixture evidence substituted for installed behavior"
       ],
       "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
-      "sprint": 5,
+      "sprint": 4,
       "existing_issue": null
     },
     {
@@ -2338,7 +2344,7 @@
         "Fixture evidence substituted for installed behavior"
       ],
       "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
-      "sprint": 5,
+      "sprint": 4,
       "existing_issue": null
     },
     {
@@ -2380,7 +2386,7 @@
         "Fixture evidence substituted for installed behavior"
       ],
       "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
-      "sprint": 5,
+      "sprint": 4,
       "existing_issue": null
     },
     {
@@ -2422,7 +2428,7 @@
         "Fixture evidence substituted for installed behavior"
       ],
       "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
-      "sprint": 5,
+      "sprint": 4,
       "existing_issue": 112
     },
     {
@@ -2467,7 +2473,7 @@
         "Fixture evidence substituted for installed behavior"
       ],
       "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
-      "sprint": 5,
+      "sprint": 4,
       "existing_issue": null
     },
     {
@@ -2511,7 +2517,7 @@
         "Fixture evidence substituted for installed behavior"
       ],
       "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
-      "sprint": 5,
+      "sprint": 4,
       "existing_issue": null
     },
     {
@@ -2550,7 +2556,7 @@
         "Fixture evidence substituted for installed behavior"
       ],
       "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
-      "sprint": 5,
+      "sprint": 4,
       "existing_issue": null
     },
     {
@@ -2589,7 +2595,7 @@
         "Fixture evidence substituted for installed behavior"
       ],
       "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
-      "sprint": 5,
+      "sprint": 4,
       "existing_issue": null
     },
     {
@@ -2629,7 +2635,7 @@
         "Fixture evidence substituted for installed behavior"
       ],
       "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
-      "sprint": 5,
+      "sprint": 4,
       "existing_issue": null
     },
     {
@@ -2670,7 +2676,7 @@
         "Public availability inferred from ready-to-deploy evidence"
       ],
       "source": "features/CODEFRIEND_LAUNCH_v0.93.2.md",
-      "sprint": 4,
+      "sprint": 5,
       "existing_issue": 92
     }
   ],
@@ -2746,25 +2752,6 @@
       },
       {
         "number": 4,
-        "title": "Milestone integration and release closeout",
-        "work_packages": [
-          "INTEGRATE",
-          "QUALIFY",
-          "TAIL-01",
-          "TAIL-02",
-          "TAIL-03",
-          "TAIL-04",
-          "TAIL-05",
-          "TAIL-06",
-          "TAIL-07",
-          "TAIL-08",
-          "TAIL-09",
-          "TAIL-10",
-          "CF-92"
-        ]
-      },
-      {
-        "number": 5,
         "title": "GHB Gate A, Gate B, qualification and research packet",
         "work_packages": [
           "GHB-SPRINT",
@@ -2781,6 +2768,25 @@
           "GHB-WP10",
           "GHB-WP11",
           "GHB-WP12"
+        ]
+      },
+      {
+        "number": 5,
+        "title": "Milestone integration and release closeout",
+        "work_packages": [
+          "INTEGRATE",
+          "QUALIFY",
+          "TAIL-01",
+          "TAIL-02",
+          "TAIL-03",
+          "TAIL-04",
+          "TAIL-05",
+          "TAIL-06",
+          "TAIL-07",
+          "TAIL-08",
+          "TAIL-09",
+          "TAIL-10",
+          "CF-92"
         ]
       }
     ]

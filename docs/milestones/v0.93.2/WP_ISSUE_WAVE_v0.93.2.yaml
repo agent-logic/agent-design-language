@@ -928,7 +928,7 @@
       ],
       "pvf": "installed_integration",
       "source": "DESIGN_v0.93.2.md",
-      "sprint": 4,
+      "sprint": 5,
       "existing_issue": null
     },
     {
@@ -937,7 +937,9 @@
       "repository": "agent-logic-runtime",
       "depends_on": [
         "INTEGRATE",
-        "PY-01"
+        "PY-01",
+        "GHB-WP12",
+        "CF-92"
       ],
       "outcome": "Independent reviewer runs the accepted success/failure/recovery denominator on the exact multi-repository lockset.",
       "acceptance": [
@@ -951,7 +953,7 @@
       ],
       "pvf": "installed_integration",
       "source": "QUALITY_GATE_v0.93.2.md",
-      "sprint": 4,
+      "sprint": 5,
       "existing_issue": null
     },
     {
@@ -972,7 +974,7 @@
       ],
       "pvf": "planning_contract",
       "source": "RELEASE_PLAN_v0.93.2.md",
-      "sprint": 4,
+      "sprint": 5,
       "existing_issue": null
     },
     {
@@ -993,7 +995,7 @@
       ],
       "pvf": "planning_contract",
       "source": "RELEASE_PLAN_v0.93.2.md",
-      "sprint": 4,
+      "sprint": 5,
       "existing_issue": null
     },
     {
@@ -1014,7 +1016,7 @@
       ],
       "pvf": "planning_contract",
       "source": "RELEASE_PLAN_v0.93.2.md",
-      "sprint": 4,
+      "sprint": 5,
       "existing_issue": null
     },
     {
@@ -1035,7 +1037,7 @@
       ],
       "pvf": "planning_contract",
       "source": "RELEASE_PLAN_v0.93.2.md",
-      "sprint": 4,
+      "sprint": 5,
       "existing_issue": null
     },
     {
@@ -1056,7 +1058,7 @@
       ],
       "pvf": "planning_contract",
       "source": "RELEASE_PLAN_v0.93.2.md",
-      "sprint": 4,
+      "sprint": 5,
       "existing_issue": null
     },
     {
@@ -1077,7 +1079,7 @@
       ],
       "pvf": "planning_contract",
       "source": "RELEASE_PLAN_v0.93.2.md",
-      "sprint": 4,
+      "sprint": 5,
       "existing_issue": null
     },
     {
@@ -1098,7 +1100,7 @@
       ],
       "pvf": "planning_contract",
       "source": "RELEASE_PLAN_v0.93.2.md",
-      "sprint": 4,
+      "sprint": 5,
       "existing_issue": null
     },
     {
@@ -1119,7 +1121,7 @@
       ],
       "pvf": "planning_contract",
       "source": "RELEASE_PLAN_v0.93.2.md",
-      "sprint": 4,
+      "sprint": 5,
       "existing_issue": null
     },
     {
@@ -1140,7 +1142,7 @@
       ],
       "pvf": "planning_contract",
       "source": "RELEASE_PLAN_v0.93.2.md",
-      "sprint": 4,
+      "sprint": 5,
       "existing_issue": null
     },
     {
@@ -1161,18 +1163,18 @@
       ],
       "pvf": "planning_contract",
       "source": "RELEASE_PLAN_v0.93.2.md",
-      "sprint": 4,
+      "sprint": 5,
       "existing_issue": null
     },
     {
       "wp": "GHB-SPRINT",
-      "outcome": "Coordinate the approved GHB program without granting execution or spend authority.",
+      "outcome": "Open and coordinate the approved GHB program without granting execution, spend, or completion authority.",
       "pvf": "installed_runtime_and_independent_evaluation",
       "title": "[GHB][Sprint] Deliver governed recursive improvement in the installed Agent Logic Runtime",
       "repository": "agent-logic-runtime",
       "depends_on": [],
       "acceptance": [
-        "Both installed-runtime delivery gates and truthful evidence are required before milestone qualification."
+        "The GHB roster, ownership, scope, budgets-to-approve, dependency order, and separate Gate A/Gate B acceptance are reviewable before child execution."
       ],
       "negative_cases": [
         "Planning status treated as execution authority",
@@ -1180,7 +1182,7 @@
         "Fixture evidence substituted for installed behavior"
       ],
       "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
-      "sprint": 5,
+      "sprint": 4,
       "existing_issue": null
     },
     {
@@ -1201,7 +1203,7 @@
         "Fixture evidence substituted for installed behavior"
       ],
       "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
-      "sprint": 5,
+      "sprint": 4,
       "existing_issue": null
     },
     {
@@ -1223,7 +1225,7 @@
         "Fixture evidence substituted for installed behavior"
       ],
       "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
-      "sprint": 5,
+      "sprint": 4,
       "existing_issue": null
     },
     {
@@ -1245,7 +1247,7 @@
         "Fixture evidence substituted for installed behavior"
       ],
       "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
-      "sprint": 5,
+      "sprint": 4,
       "existing_issue": null
     },
     {
@@ -1267,7 +1269,7 @@
         "Fixture evidence substituted for installed behavior"
       ],
       "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
-      "sprint": 5,
+      "sprint": 4,
       "existing_issue": null
     },
     {
@@ -1290,7 +1292,7 @@
         "Fixture evidence substituted for installed behavior"
       ],
       "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
-      "sprint": 5,
+      "sprint": 4,
       "existing_issue": null
     },
     {
@@ -1312,7 +1314,7 @@
         "Fixture evidence substituted for installed behavior"
       ],
       "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
-      "sprint": 5,
+      "sprint": 4,
       "existing_issue": null
     },
     {
@@ -1337,7 +1339,7 @@
         "Fixture evidence substituted for installed behavior"
       ],
       "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
-      "sprint": 5,
+      "sprint": 4,
       "existing_issue": null
     },
     {
@@ -1362,7 +1364,7 @@
         "Fixture evidence substituted for installed behavior"
       ],
       "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
-      "sprint": 5,
+      "sprint": 4,
       "existing_issue": 112
     },
     {
@@ -1390,7 +1392,7 @@
         "Fixture evidence substituted for installed behavior"
       ],
       "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
-      "sprint": 5,
+      "sprint": 4,
       "existing_issue": null
     },
     {
@@ -1417,7 +1419,7 @@
         "Fixture evidence substituted for installed behavior"
       ],
       "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
-      "sprint": 5,
+      "sprint": 4,
       "existing_issue": null
     },
     {
@@ -1439,7 +1441,7 @@
         "Fixture evidence substituted for installed behavior"
       ],
       "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
-      "sprint": 5,
+      "sprint": 4,
       "existing_issue": null
     },
     {
@@ -1461,7 +1463,7 @@
         "Fixture evidence substituted for installed behavior"
       ],
       "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
-      "sprint": 5,
+      "sprint": 4,
       "existing_issue": null
     },
     {
@@ -1484,7 +1486,7 @@
         "Fixture evidence substituted for installed behavior"
       ],
       "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
-      "sprint": 5,
+      "sprint": 4,
       "existing_issue": null
     },
     {
@@ -1509,7 +1511,7 @@
         "Public availability inferred from ready-to-deploy evidence"
       ],
       "source": "features/CODEFRIEND_LAUNCH_v0.93.2.md",
-      "sprint": 4,
+      "sprint": 5,
       "existing_issue": 92
     }
   ],
@@ -1580,25 +1582,6 @@
       },
       {
         "number": 4,
-        "title": "Milestone integration and release closeout",
-        "work_packages": [
-          "INTEGRATE",
-          "QUALIFY",
-          "TAIL-01",
-          "TAIL-02",
-          "TAIL-03",
-          "TAIL-04",
-          "TAIL-05",
-          "TAIL-06",
-          "TAIL-07",
-          "TAIL-08",
-          "TAIL-09",
-          "TAIL-10",
-          "CF-92"
-        ]
-      },
-      {
-        "number": 5,
         "title": "GHB Gate A, Gate B, qualification and research packet",
         "work_packages": [
           "GHB-SPRINT",
@@ -1615,6 +1598,25 @@
           "GHB-WP10",
           "GHB-WP11",
           "GHB-WP12"
+        ]
+      },
+      {
+        "number": 5,
+        "title": "Milestone integration and release closeout",
+        "work_packages": [
+          "INTEGRATE",
+          "QUALIFY",
+          "TAIL-01",
+          "TAIL-02",
+          "TAIL-03",
+          "TAIL-04",
+          "TAIL-05",
+          "TAIL-06",
+          "TAIL-07",
+          "TAIL-08",
+          "TAIL-09",
+          "TAIL-10",
+          "CF-92"
         ]
       }
     ]
