@@ -26,7 +26,7 @@ Demonstrate accepted governance and security producers together on installed, pi
 
 ## Design
 
-Consume accepted producer contracts and preserve the launched CodeFriend baseline.
+Consume accepted producer contracts and preserve the qualified ready-to-deploy CodeFriend baseline.
 
 ## Execution Flow
 

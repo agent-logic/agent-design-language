@@ -78,7 +78,7 @@ This document preserves its source requirements. The canonical execution graph s
 
 ## Context
 
-Implementation follows the accepted v0.93.1 handoff and repository lockset. Preserve launched Beta 1 behavior through compatible upgrade and rollback; Runtime v4 is not a retroactive launch prerequisite. The source inputs above retain design context; newer operator decisions in the milestone decision register govern scheduling.
+Implementation follows the accepted v0.93.1 handoff and repository lockset. Preserve qualified ready-to-deploy Beta 1 behavior through compatible upgrade and rollback; Runtime v4 is not a retroactive launch prerequisite. The source inputs above retain design context; newer operator decisions in the milestone decision register govern scheduling.
 
 ## Coverage / Ownership
 

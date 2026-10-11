@@ -429,7 +429,7 @@
       "acceptance": [
         "Installed package signing, checkpoint compatibility, generation recovery and Observatory operations pass with a retained known-good rollback.",
         "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings.",
-        "Preserve the launched CodeFriend API/artifact contract and demonstrate compatible upgrade and known-good rollback."
+        "Preserve the qualified ready-to-deploy CodeFriend API/artifact contract and demonstrate compatible upgrade and known-good rollback."
       ],
       "negative_cases": [
         "Bad signature",
@@ -1613,7 +1613,7 @@
       "acceptance": [
         "Independent reviewer runs the accepted success/failure/recovery denominator on the exact multi-repository lockset.",
         "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings.",
-        "Qualify the pinned Runtime v4 upgrade against launched CodeFriend contracts and rollback without reopening Beta 1 launch as a prerequisite."
+        "Qualify the pinned Runtime v4 upgrade against qualified ready-to-deploy CodeFriend contracts and rollback without reopening Beta 1 launch as a prerequisite."
       ],
       "negative_cases": [
         "Wrong artifact head",
@@ -2009,11 +2009,613 @@
         "id": "TAIL-10",
         "kind": "version_specific_gate"
       }
+    },
+    {
+      "id": "GHB-SPRINT",
+      "result": "Coordinate the approved GHB program without granting execution or spend authority.",
+      "phase": "ghb-program",
+      "status": "candidate",
+      "resources": "Issue-specific authorization required for provider spend, experiments, deployment and publication.",
+      "pvf": "installed_runtime_and_independent_evaluation",
+      "non_goals": [
+        "No issue creation from planning alone",
+        "No unbounded self-modification or global-optimality claim"
+      ],
+      "task_boundary": {
+        "single_result": "[GHB][Sprint] Deliver governed recursive improvement in the installed Agent Logic Runtime",
+        "supporting_work": "Only work required for the declared package and gates.",
+        "completion_rule": "Accept installed behavior and negative cases; planning or closure state is insufficient."
+      },
+      "origin": {
+        "milestone": "v0.93.2",
+        "id": "GHB-SPRINT",
+        "kind": "approved_ghb_scope"
+      },
+      "title": "[GHB][Sprint] Deliver governed recursive improvement in the installed Agent Logic Runtime",
+      "repository": "agent-logic-runtime",
+      "depends_on": [],
+      "acceptance": [
+        "Both installed-runtime delivery gates and truthful evidence are required before milestone qualification."
+      ],
+      "negative_cases": [
+        "Planning status treated as execution authority",
+        "Duplicate owner or issue identity",
+        "Fixture evidence substituted for installed behavior"
+      ],
+      "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
+      "sprint": 5,
+      "existing_issue": null
+    },
+    {
+      "id": "GHB-WP00",
+      "result": "Owner: program + Runtime. Dependencies: none.",
+      "phase": "ghb-program",
+      "status": "candidate",
+      "resources": "Issue-specific authorization required for provider spend, experiments, deployment and publication.",
+      "pvf": "installed_runtime_and_independent_evaluation",
+      "non_goals": [
+        "No issue creation from planning alone",
+        "No unbounded self-modification or global-optimality claim"
+      ],
+      "task_boundary": {
+        "single_result": "[GHB][WP00] Source-to-caller audit and baseline",
+        "supporting_work": "Only work required for the declared package and gates.",
+        "completion_rule": "Accept installed behavior and negative cases; planning or closure state is insufficient."
+      },
+      "origin": {
+        "milestone": "v0.93.2",
+        "id": "GHB-WP00",
+        "kind": "approved_ghb_scope"
+      },
+      "title": "[GHB][WP00] Source-to-caller audit and baseline",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GHB-SPRINT"
+      ],
+      "acceptance": [
+        "source-to-caller matrix at pinned revisions; no duplicated owner planned; runnable unchanged-agent baseline; measurable Gate A scenario; approved evaluation protocol and task/data licenses. A missing existing owner is an explicit gap rather than assumed absence."
+      ],
+      "negative_cases": [
+        "Planning status treated as execution authority",
+        "Duplicate owner or issue identity",
+        "Fixture evidence substituted for installed behavior"
+      ],
+      "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
+      "sprint": 5,
+      "existing_issue": null
+    },
+    {
+      "id": "GHB-WP01",
+      "result": "Owner: ADL. Dependencies: WP00.",
+      "phase": "ghb-program",
+      "status": "candidate",
+      "resources": "Issue-specific authorization required for provider spend, experiments, deployment and publication.",
+      "pvf": "installed_runtime_and_independent_evaluation",
+      "non_goals": [
+        "No issue creation from planning alone",
+        "No unbounded self-modification or global-optimality claim"
+      ],
+      "task_boundary": {
+        "single_result": "[GHB][WP01] Normative specification and invariants",
+        "supporting_work": "Only work required for the declared package and gates.",
+        "completion_rule": "Accept installed behavior and negative cases; planning or closure state is insufficient."
+      },
+      "origin": {
+        "milestone": "v0.93.2",
+        "id": "GHB-WP01",
+        "kind": "approved_ghb_scope"
+      },
+      "title": "[GHB][WP01] Normative specification and invariants",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "GHB-SPRINT",
+        "GHB-WP00"
+      ],
+      "acceptance": [
+        "every transition has inputs, outputs, authority, side effects and stop conditions; fresh inference versus replay is explicit; historical docs link to the normative successor after review; conformance labels remain proposed until accepted."
+      ],
+      "negative_cases": [
+        "Planning status treated as execution authority",
+        "Duplicate owner or issue identity",
+        "Fixture evidence substituted for installed behavior"
+      ],
+      "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
+      "sprint": 5,
+      "existing_issue": null
+    },
+    {
+      "id": "GHB-WP02",
+      "result": "Owner: ADL. Dependencies: WP01.",
+      "phase": "ghb-program",
+      "status": "candidate",
+      "resources": "Issue-specific authorization required for provider spend, experiments, deployment and publication.",
+      "pvf": "installed_runtime_and_independent_evaluation",
+      "non_goals": [
+        "No issue creation from planning alone",
+        "No unbounded self-modification or global-optimality claim"
+      ],
+      "task_boundary": {
+        "single_result": "[GHB][WP02] Schemas and installed contract parity",
+        "supporting_work": "Only work required for the declared package and gates.",
+        "completion_rule": "Accept installed behavior and negative cases; planning or closure state is insufficient."
+      },
+      "origin": {
+        "milestone": "v0.93.2",
+        "id": "GHB-WP02",
+        "kind": "approved_ghb_scope"
+      },
+      "title": "[GHB][WP02] Schemas and installed contract parity",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "GHB-SPRINT",
+        "GHB-WP01"
+      ],
+      "acceptance": [
+        "canonical digest/round-trip tests, malformed and stale-reference rejection, schema examples, installed Runtime compatibility test, and a migration policy for existing artifacts. New tests are classified in the validation inventory when authored."
+      ],
+      "negative_cases": [
+        "Planning status treated as execution authority",
+        "Duplicate owner or issue identity",
+        "Fixture evidence substituted for installed behavior"
+      ],
+      "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
+      "sprint": 5,
+      "existing_issue": null
+    },
+    {
+      "id": "GHB-WP03",
+      "result": "Owner: Runtime algorithm lane; exact module selected by WP00. Dependencies: WP02.",
+      "phase": "ghb-program",
+      "status": "candidate",
+      "resources": "Issue-specific authorization required for provider spend, experiments, deployment and publication.",
+      "pvf": "installed_runtime_and_independent_evaluation",
+      "non_goals": [
+        "No issue creation from planning alone",
+        "No unbounded self-modification or global-optimality claim"
+      ],
+      "task_boundary": {
+        "single_result": "[GHB][WP03] Belief update and experiment selection",
+        "supporting_work": "Only work required for the declared package and gates.",
+        "completion_rule": "Accept installed behavior and negative cases; planning or closure state is insufficient."
+      },
+      "origin": {
+        "milestone": "v0.93.2",
+        "id": "GHB-WP03",
+        "kind": "approved_ghb_scope"
+      },
+      "title": "[GHB][WP03] Belief update and experiment selection",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GHB-SPRINT",
+        "GHB-WP02"
+      ],
+      "acceptance": [
+        "analytically known posterior fixtures; zero/impossible likelihood handling; correlated evidence cannot be silently double-counted; replay reproduces updates; informative experiments can differ from high-utility candidates; sparse evidence defers promotion."
+      ],
+      "negative_cases": [
+        "Planning status treated as execution authority",
+        "Duplicate owner or issue identity",
+        "Fixture evidence substituted for installed behavior"
+      ],
+      "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
+      "sprint": 5,
+      "existing_issue": null
+    },
+    {
+      "id": "GHB-WP04",
+      "result": "Owner: Runtime algorithm lane. Dependencies: WP02; integrate WP03 selection after initial archive support.",
+      "phase": "ghb-program",
+      "status": "candidate",
+      "resources": "Issue-specific authorization required for provider spend, experiments, deployment and publication.",
+      "pvf": "installed_runtime_and_independent_evaluation",
+      "non_goals": [
+        "No issue creation from planning alone",
+        "No unbounded self-modification or global-optimality claim"
+      ],
+      "task_boundary": {
+        "single_result": "[GHB][WP04] Candidate generation and archive",
+        "supporting_work": "Only work required for the declared package and gates.",
+        "completion_rule": "Accept installed behavior and negative cases; planning or closure state is insufficient."
+      },
+      "origin": {
+        "milestone": "v0.93.2",
+        "id": "GHB-WP04",
+        "kind": "approved_ghb_scope"
+      },
+      "title": "[GHB][WP04] Candidate generation and archive",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GHB-SPRINT",
+        "GHB-WP02",
+        "GHB-WP03"
+      ],
+      "acceptance": [
+        "candidate changes match the declared mutation class; exact parent and proposal provenance retained; archive cannot change production head; budget exhaustion terminates cleanly; at least two distinct useful candidate strategies are exercised."
+      ],
+      "negative_cases": [
+        "Planning status treated as execution authority",
+        "Duplicate owner or issue identity",
+        "Fixture evidence substituted for installed behavior"
+      ],
+      "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
+      "sprint": 5,
+      "existing_issue": null
+    },
+    {
+      "id": "GHB-WP05",
+      "result": "Owner: Runtime/execution. Dependencies: WP02.",
+      "phase": "ghb-program",
+      "status": "candidate",
+      "resources": "Issue-specific authorization required for provider spend, experiments, deployment and publication.",
+      "pvf": "installed_runtime_and_independent_evaluation",
+      "non_goals": [
+        "No issue creation from planning alone",
+        "No unbounded self-modification or global-optimality claim"
+      ],
+      "task_boundary": {
+        "single_result": "[GHB][WP05] Isolated body builder and experiment executor",
+        "supporting_work": "Only work required for the declared package and gates.",
+        "completion_rule": "Accept installed behavior and negative cases; planning or closure state is insufficient."
+      },
+      "origin": {
+        "milestone": "v0.93.2",
+        "id": "GHB-WP05",
+        "kind": "approved_ghb_scope"
+      },
+      "title": "[GHB][WP05] Isolated body builder and experiment executor",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GHB-SPRINT",
+        "GHB-WP02"
+      ],
+      "acceptance": [
+        "denied network/filesystem/capability escapes; killed and timed-out experiments leave no production changes; exact candidate digest in results; measured resource accounting; controlled-adapter and live-provider execution classifications remain distinct."
+      ],
+      "negative_cases": [
+        "Planning status treated as execution authority",
+        "Duplicate owner or issue identity",
+        "Fixture evidence substituted for installed behavior"
+      ],
+      "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
+      "sprint": 5,
+      "existing_issue": null
+    },
+    {
+      "id": "GHB-WP06",
+      "result": "Owner: evaluation lane. Dependencies: WP00 protocol, WP02 contracts, WP03 statistics, WP05 executor.",
+      "phase": "ghb-program",
+      "status": "candidate",
+      "resources": "Issue-specific authorization required for provider spend, experiments, deployment and publication.",
+      "pvf": "installed_runtime_and_independent_evaluation",
+      "non_goals": [
+        "No issue creation from planning alone",
+        "No unbounded self-modification or global-optimality claim"
+      ],
+      "task_boundary": {
+        "single_result": "[GHB][WP06] Independent evaluator and promotion decision",
+        "supporting_work": "Only work required for the declared package and gates.",
+        "completion_rule": "Accept installed behavior and negative cases; planning or closure state is insufficient."
+      },
+      "origin": {
+        "milestone": "v0.93.2",
+        "id": "GHB-WP06",
+        "kind": "approved_ghb_scope"
+      },
+      "title": "[GHB][WP06] Independent evaluator and promotion decision",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GHB-SPRINT",
+        "GHB-WP00",
+        "GHB-WP02",
+        "GHB-WP03",
+        "GHB-WP05"
+      ],
+      "acceptance": [
+        "these malicious/invalid candidates fail; raw outcomes can be independently recomputed; unseen final tasks are excluded from candidate context; thresholds declared before trials; non-improvement is a legitimate terminal outcome. Promotion recommendation cannot itself activate a body."
+      ],
+      "negative_cases": [
+        "Planning status treated as execution authority",
+        "Duplicate owner or issue identity",
+        "Fixture evidence substituted for installed behavior"
+      ],
+      "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
+      "sprint": 5,
+      "existing_issue": null
+    },
+    {
+      "id": "GHB-WP07",
+      "result": "Owner: Runtime. Dependencies: WP00 audit; coordinate/reuse Runtime #112 rather than opening a duplicate.",
+      "phase": "ghb-program",
+      "status": "candidate",
+      "resources": "Issue-specific authorization required for provider spend, experiments, deployment and publication.",
+      "pvf": "installed_runtime_and_independent_evaluation",
+      "non_goals": [
+        "No issue creation from planning alone",
+        "No unbounded self-modification or global-optimality claim"
+      ],
+      "task_boundary": {
+        "single_result": "[P1] Complete the governed resident-to-birthday activation path",
+        "supporting_work": "Only work required for the declared package and gates.",
+        "completion_rule": "Accept installed behavior and negative cases; planning or closure state is insufficient."
+      },
+      "origin": {
+        "milestone": "v0.93.2",
+        "id": "GHB-WP07",
+        "kind": "approved_ghb_scope"
+      },
+      "title": "[P1] Complete the governed resident-to-birthday activation path",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GHB-SPRINT",
+        "GHB-WP00",
+        "RV-09",
+        "RV-10",
+        "CM-02"
+      ],
+      "acceptance": [
+        "Runtime #112's actual-resident positive/negative criteria pass without test-support authority substitutes; no implicit birthday on startup; one birthday under retry/concurrency/interruption; authenticated restored resident performs a useful task."
+      ],
+      "negative_cases": [
+        "Planning status treated as execution authority",
+        "Duplicate owner or issue identity",
+        "Fixture evidence substituted for installed behavior"
+      ],
+      "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
+      "sprint": 5,
+      "existing_issue": 112
+    },
+    {
+      "id": "GHB-WP08",
+      "result": "Owner: Runtime. Dependencies: WP02, WP05, WP06, WP07.",
+      "phase": "ghb-program",
+      "status": "candidate",
+      "resources": "Issue-specific authorization required for provider spend, experiments, deployment and publication.",
+      "pvf": "installed_runtime_and_independent_evaluation",
+      "non_goals": [
+        "No issue creation from planning alone",
+        "No unbounded self-modification or global-optimality claim"
+      ],
+      "task_boundary": {
+        "single_result": "[GHB][WP08] Successor activation and rollback",
+        "supporting_work": "Only work required for the declared package and gates.",
+        "completion_rule": "Accept installed behavior and negative cases; planning or closure state is insufficient."
+      },
+      "origin": {
+        "milestone": "v0.93.2",
+        "id": "GHB-WP08",
+        "kind": "approved_ghb_scope"
+      },
+      "title": "[GHB][WP08] Successor activation and rollback",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GHB-SPRINT",
+        "GHB-WP02",
+        "GHB-WP05",
+        "GHB-WP06",
+        "GHB-WP07",
+        "RV-11",
+        "CM-03",
+        "CM-04"
+      ],
+      "acceptance": [
+        "failpoints at durable boundaries; stale parents and concurrent conflicting activations reject; crash recovery yields one authoritative head; accepted successor is actually loaded; rollback restores compatible execution without erasing history or replaying external effects."
+      ],
+      "negative_cases": [
+        "Planning status treated as execution authority",
+        "Duplicate owner or issue identity",
+        "Fixture evidence substituted for installed behavior"
+      ],
+      "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
+      "sprint": 5,
+      "existing_issue": null
+    },
+    {
+      "id": "GHB-WP09",
+      "result": "Owner: Runtime resident integration. Dependencies: WP03\u2013WP08.",
+      "phase": "ghb-program",
+      "status": "candidate",
+      "resources": "Issue-specific authorization required for provider spend, experiments, deployment and publication.",
+      "pvf": "installed_runtime_and_independent_evaluation",
+      "non_goals": [
+        "No issue creation from planning alone",
+        "No unbounded self-modification or global-optimality claim"
+      ],
+      "task_boundary": {
+        "single_result": "[GHB][WP09] Live GHB resident loop and Gate A",
+        "supporting_work": "Only work required for the declared package and gates.",
+        "completion_rule": "Accept installed behavior and negative cases; planning or closure state is insufficient."
+      },
+      "origin": {
+        "milestone": "v0.93.2",
+        "id": "GHB-WP09",
+        "kind": "approved_ghb_scope"
+      },
+      "title": "[GHB][WP09] Live GHB resident loop and Gate A",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GHB-SPRINT",
+        "GHB-WP03",
+        "GHB-WP04",
+        "GHB-WP05",
+        "GHB-WP06",
+        "GHB-WP07",
+        "GHB-WP08"
+      ],
+      "acceptance": [
+        "full Gate A scenario from a clean installed Runtime environment with no ADL source checkout or development binaries; separate controlled-adapter regression and live-provider evidence; successor handles later tasks; replay performs no external mutations; two competing cycles cannot both activate against one parent. Export an exact-version evidence packet."
+      ],
+      "negative_cases": [
+        "Planning status treated as execution authority",
+        "Duplicate owner or issue identity",
+        "Fixture evidence substituted for installed behavior"
+      ],
+      "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
+      "sprint": 5,
+      "existing_issue": null
+    },
+    {
+      "id": "GHB-WP10",
+      "result": "Owner: Runtime algorithm and activation owners. Dependencies: Gate A.",
+      "phase": "ghb-program",
+      "status": "candidate",
+      "resources": "Issue-specific authorization required for provider spend, experiments, deployment and publication.",
+      "pvf": "installed_runtime_and_independent_evaluation",
+      "non_goals": [
+        "No issue creation from planning alone",
+        "No unbounded self-modification or global-optimality claim"
+      ],
+      "task_boundary": {
+        "single_result": "[GHB][WP10] Bounded recursive improvement",
+        "supporting_work": "Only work required for the declared package and gates.",
+        "completion_rule": "Accept installed behavior and negative cases; planning or closure state is insufficient."
+      },
+      "origin": {
+        "milestone": "v0.93.2",
+        "id": "GHB-WP10",
+        "kind": "approved_ghb_scope"
+      },
+      "title": "[GHB][WP10] Bounded recursive improvement",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GHB-SPRINT",
+        "GHB-WP09"
+      ],
+      "acceptance": [
+        "at least one admitted successor changes improvement behavior and executes the next cycle using that change; independent tests verify the change did not modify protected evaluation or authority rules. If no improvement emerges within budget, report the capability as implemented but empirical improvement unproven; do not manufacture acceptance."
+      ],
+      "negative_cases": [
+        "Planning status treated as execution authority",
+        "Duplicate owner or issue identity",
+        "Fixture evidence substituted for installed behavior"
+      ],
+      "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
+      "sprint": 5,
+      "existing_issue": null
+    },
+    {
+      "id": "GHB-WP11",
+      "result": "Owner: evaluation + Runtime. Dependencies: WP10; test design begins during WP06.",
+      "phase": "ghb-program",
+      "status": "candidate",
+      "resources": "Issue-specific authorization required for provider spend, experiments, deployment and publication.",
+      "pvf": "installed_runtime_and_independent_evaluation",
+      "non_goals": [
+        "No issue creation from planning alone",
+        "No unbounded self-modification or global-optimality claim"
+      ],
+      "task_boundary": {
+        "single_result": "[GHB][WP11] Longitudinal qualification, fleet adoption and Gate B",
+        "supporting_work": "Only work required for the declared package and gates.",
+        "completion_rule": "Accept installed behavior and negative cases; planning or closure state is insufficient."
+      },
+      "origin": {
+        "milestone": "v0.93.2",
+        "id": "GHB-WP11",
+        "kind": "approved_ghb_scope"
+      },
+      "title": "[GHB][WP11] Longitudinal qualification, fleet adoption and Gate B",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GHB-SPRINT",
+        "GHB-WP10"
+      ],
+      "acceptance": [
+        "qualification matrix names each tested domain/configuration; one resident reaches Gate B with useful post-restore continuation; every intended fleet profile is either qualified, pending or excluded with a reason; no blanket claim that all agents qualify from one demonstration. Rollout authorization is separate from local qualification."
+      ],
+      "negative_cases": [
+        "Planning status treated as execution authority",
+        "Duplicate owner or issue identity",
+        "Fixture evidence substituted for installed behavior"
+      ],
+      "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
+      "sprint": 5,
+      "existing_issue": null
+    },
+    {
+      "id": "GHB-WP12",
+      "result": "Owner: docs/research, with independent review. Dependencies: WP01 for vocabulary; WP11 for final claims.",
+      "phase": "ghb-program",
+      "status": "candidate",
+      "resources": "Issue-specific authorization required for provider spend, experiments, deployment and publication.",
+      "pvf": "installed_runtime_and_independent_evaluation",
+      "non_goals": [
+        "No issue creation from planning alone",
+        "No unbounded self-modification or global-optimality claim"
+      ],
+      "task_boundary": {
+        "single_result": "[GHB][WP12] Research evidence and operator documentation",
+        "supporting_work": "Only work required for the declared package and gates.",
+        "completion_rule": "Accept installed behavior and negative cases; planning or closure state is insufficient."
+      },
+      "origin": {
+        "milestone": "v0.93.2",
+        "id": "GHB-WP12",
+        "kind": "approved_ghb_scope"
+      },
+      "title": "[GHB][WP12] Research evidence and operator documentation",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GHB-SPRINT",
+        "GHB-WP01",
+        "GHB-WP11"
+      ],
+      "acceptance": [
+        "claim-to-evidence ledger; reproducible benchmark instructions; installed command/manual parity where applicable; no unsupported theorem, novelty, personhood or general-performance claim. Scholarly publication is outside this plan's authorization."
+      ],
+      "negative_cases": [
+        "Planning status treated as execution authority",
+        "Duplicate owner or issue identity",
+        "Fixture evidence substituted for installed behavior"
+      ],
+      "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
+      "sprint": 5,
+      "existing_issue": null
+    },
+    {
+      "id": "CF-92",
+      "result": "Deploy and launch the qualified CodeFriend service only after exact deployment authorization and all named predecessors are accepted.",
+      "phase": "release",
+      "status": "existing_issue_candidate",
+      "resources": "Deployment environment and budget require explicit issue-specific authorization.",
+      "pvf": "installed_and_public_codefriend_launch",
+      "non_goals": [
+        "No candidate, audience, environment or spend inferred from planning approval"
+      ],
+      "task_boundary": {
+        "single_result": "Authorized CodeFriend deployment and public launch",
+        "supporting_work": "Qualification, waiting-list, website and rollback evidence required for launch.",
+        "completion_rule": "Accept the public journey and rollback at the exact candidate; ready-to-deploy evidence alone is insufficient."
+      },
+      "origin": {
+        "milestone": "v0.93.2",
+        "id": "CF-92",
+        "kind": "existing_issue"
+      },
+      "title": "Deploy and launch the qualified CodeFriend service",
+      "repository": "codefriend",
+      "depends_on": [
+        "ADL-1150",
+        "CodeFriend-45",
+        "CodeFriend-46",
+        "codefriend.ai-21"
+      ],
+      "acceptance": [
+        "Pin the exact qualified candidate, audience, environment and budget before deployment.",
+        "Deploy through the authorized production route, verify the public journey and rollback, and preserve exact artifact and evidence identity."
+      ],
+      "negative_cases": [
+        "Planning allocation treated as deployment authorization",
+        "Unqualified candidate or missing predecessor",
+        "Public availability inferred from ready-to-deploy evidence"
+      ],
+      "source": "features/CODEFRIEND_LAUNCH_v0.93.2.md",
+      "sprint": 4,
+      "existing_issue": 92
     }
   ],
   "sprint_plan": {
     "status": "draft_allocated_not_open",
-    "sprint_count": 4,
+    "sprint_count": 5,
     "sizing": "Outcome-based groups; owners and estimates required before activation, not fixed calendar promises.",
     "execution_rule": "Respect dependency acceptance; grouping gives no paid/cloud/publication authority.",
     "sprints": [
@@ -2091,14 +2693,39 @@
           "TAIL-07",
           "TAIL-08",
           "TAIL-09",
-          "TAIL-10"
+          "TAIL-10",
+          "CF-92"
+        ]
+      },
+      {
+        "number": 5,
+        "title": "GHB Gate A, Gate B, qualification and research packet",
+        "work_packages": [
+          "GHB-SPRINT",
+          "GHB-WP00",
+          "GHB-WP01",
+          "GHB-WP02",
+          "GHB-WP03",
+          "GHB-WP04",
+          "GHB-WP05",
+          "GHB-WP06",
+          "GHB-WP07",
+          "GHB-WP08",
+          "GHB-WP09",
+          "GHB-WP10",
+          "GHB-WP11",
+          "GHB-WP12"
         ]
       }
     ]
   },
   "external_dependencies": {
-    "v0.93.1/TAIL-10": "Accepted launch milestone closure",
+    "v0.93.1/TAIL-10": "Accepted ready-to-deploy milestone closure",
     "v0.93.1/RD-11": "Accepted repository compatibility lockset",
-    "v0.93.1/RD-09": "Accepted enterprise security repository boundary"
+    "v0.93.1/RD-09": "Accepted enterprise security repository boundary",
+    "ADL-1150": "https://github.com/agent-logic/agent-design-language/issues/1150 \u2014 independent CodeFriend qualification predecessor (open)",
+    "CodeFriend-45": "https://github.com/agent-logic/codefriend/issues/45 \u2014 existing launch predecessor",
+    "CodeFriend-46": "https://github.com/agent-logic/codefriend/issues/46 \u2014 built waiting-list predecessor",
+    "codefriend.ai-21": "https://github.com/agent-logic/codefriend.ai/issues/21 \u2014 website predecessor"
   }
 }
