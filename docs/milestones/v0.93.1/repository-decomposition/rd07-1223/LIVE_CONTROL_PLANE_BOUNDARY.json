@@ -32,5 +32,14 @@
     "9cfd035aac2a44637b3c8026bd40b669579a8c7f:csdlc-v3/src/commands/proof/intent.rs:1334:        node::admit(root, validator)?;"
   ],
   "decision": "Do not delete current C-SDLC source or disable its consumers based on identical old source rows. Review supported packaged-owner replacement and Node/publication semantic parity first.205 normalization is not a dependency.",
-  "changes_applied": false
+  "changes_applied": false,
+  "installer_boundary": {
+    "local_installer": "adl/tools/install_owner_binaries.sh",
+    "local_source_required_even_with_no_build": true,
+    "reason": "Source provenance is computed from csdlc-v3/Cargo.toml, Cargo.lock and src before installation. Supplying prebuilt bytes does not remove this source dependency.",
+    "successor_manual": "agent-logic/cognitive-sdlc@deed45851f9e8a6847dd5adae277b78eb3531336:docs/csdlc-v3/man/man1/csdlc-package-install.1",
+    "manual_contract": "First import is repository-bound to agent-logic/cognitive-sdlc, preserves shared binaries, and still requires live qualification.",
+    "conclusion": "This route alone is not evidence that ADL can retire its local lifecycle source. A supported ADL consumer installation and semantic parity must be established first.",
+    "installation_attempted": false
+  }
 }
