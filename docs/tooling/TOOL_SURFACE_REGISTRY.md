@@ -30,7 +30,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 8
 - `supported shim`: 0
-- `internal helper`: 490
+- `internal helper`: 487
 - `historical evidence`: 31
 - `archive candidate`: 0
 - `remove candidate`: 0
@@ -121,7 +121,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/demo_v0891_deep_agents_comparative_wave.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v0891_five_agent_hey_jude.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v0891_gemini_provider_harmony_roundtable.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
-| `adl/tools/demo_v0891_long_lived_stock_league.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v0891_wp13_demo_integration.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v089_deep_agents_comparative_wave.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v089_gemini_in_the_loop.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
@@ -278,7 +277,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/setup_aws_spot_remote_validation_github_resources.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/setup_required_coverage_toolchain.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/setup_wp08_s3_obsmem_archive_policy.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
-| `adl/tools/stock_league_demo.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/suitability_specs` | tool surface | internal helper | Directory containing bounded helper assets, scripts, or proof inputs. |
 | `adl/tools/test_adl_milestone_creator_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_adl_runtime_compatibility.sh` | tool surface | internal helper | Focused regression or contract test helper. |
@@ -332,7 +330,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_demo_v0891_deep_agents_comparative_wave.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v0891_five_agent_hey_jude.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v0891_gemini_provider_harmony_roundtable.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_demo_v0891_long_lived_stock_league.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v0891_wp13_demo_integration.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v089_deep_agents_comparative_wave.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v089_gemini_in_the_loop.sh` | tool surface | internal helper | Focused regression or contract test helper. |

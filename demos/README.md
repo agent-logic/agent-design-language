@@ -257,7 +257,7 @@ manifest, claim matrix, revision requests, and a clearer reviewer brief.
 - `v0.89.1/arxiv_manuscript_workflow_demo.md`
 - `v0.89.1/gemini_provider_harmony_roundtable_demo.md`
 - `v0.89.1/deep_agents_comparative_wave_follow_on_demo.md`
-- `v0.89.1/long_lived_stock_league_demo.md`
+- [v0.89.1 long-lived stock-league fixture demo (Runtime owner)](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.89.1/long_lived_stock_league_demo.md)
 
 The `v0.89.1` release-tail quality-gate aggregate is historical after #1223.
 Use the current public ADL and separately qualified owner checks for their
