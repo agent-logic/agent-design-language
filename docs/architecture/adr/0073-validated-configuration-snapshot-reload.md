@@ -32,7 +32,7 @@ Refines configuration consequences of [ADR 0054](../../adr/0054-runtime-v3-guard
 
 - [HOT-01 feature contract](../../milestones/v0.92.1/features/AXUM_CONFIGURATION_HOT_RELOAD_v0.92.1.md)
 - [Milestone decisions](../../milestones/v0.92.1/DECISIONS_v0.92.1.md)
-- [Operator documentation](../../runtime/config-hot-reload.md)
+- [Operator documentation](https://github.com/agent-logic/agent-logic-runtime/blob/315abf70358828a8f4d452532ebd995fb4178389/docs/runtime/config-hot-reload.md)
 - [Current kernel implementation](../../../adl-runtime-kernel/src/config_reload.rs)
 - [Retained reload tests](../../../adl-runtime/tests/config_reload.rs)
 

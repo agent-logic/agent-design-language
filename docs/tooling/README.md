@@ -6,6 +6,8 @@ The goal of this directory is to make ADL’s tooling surfaces understandable an
 
 ## Start Here
 
+- [Runtime owner guide references](RUNTIME_OWNER_GUIDES.md) — preserved documentation for Runtime-owned APIs and operations.
+
 - [Runtime contract-market fixture owner](RUNTIME_CONTRACT_MARKET_OWNER.md) — qualified deterministic fixture, runner and summary source route.
 
 - Prompt-spec and structured prompt surfaces: `prompt-spec.md`
