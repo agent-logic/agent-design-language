@@ -31,6 +31,7 @@ PY
 )"
 python3 tools/public_adl/test_public_runtime_dispatch.py --binary "$binary"
 python3 tools/public_adl/test_public_cli_refusals.py --binary "$binary"
+python3 tools/public_adl/test_public_session.py --binary "$binary"
 ADL_PUBLIC_CLI="$binary" python3 tools/public_adl/test_public_codefriend_dispatch.py
 python3 tools/public_adl/test_runtime_owner.py
 python3 tools/public_adl/test_codefriend_owner.py
