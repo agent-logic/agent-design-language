@@ -65,6 +65,19 @@ def approved_component_delta():
     return json.loads(data)
 
 
+def approved_consumer_identity(path, identity):
+    # #1223 public qualification adds one integration target without changing
+    # the immutable component approval or authorizing another source removal.
+    if path != 'adl/config/validation_lane_selector.v0.91.6.json':
+        return identity
+    before = subprocess.check_output(['git', '--no-optional-locks', 'cat-file', 'blob', identity[1]], cwd=ROOT)
+    old = b'        "adl/tests/public_process.rs",\n'
+    require(before.count(old) == 2, 'public observation selector baseline changed')
+    after = before.replace(old, old + b'        "adl/tests/public_observation.rs",\n')
+    digest = hashlib.sha1(b'blob ' + str(len(after)).encode() + b'\0' + after).hexdigest()
+    return [identity[0], digest]
+
+
 def check_inventory(ledger, frozen, observed, candidate):
     require(ledger['original_revision'] == '248f00e359e412f6bc0061ac88be9ff374e3a212' and
             ledger['observed_main'] == '9cfd035aac2a44637b3c8026bd40b669579a8c7f', 'reviewed baseline changed')
@@ -89,7 +102,7 @@ def check_inventory(ledger, frozen, observed, candidate):
             require(p in approved['removed'] and p not in candidate, 'unapproved component removal: ' + p)
             removed.append(p)
         elif r['action'] == 'approved_component_consumer_repair':
-            require(p in approved['repairs'] and candidate.get(p) == approved['repairs'][p],
+            require(p in approved['repairs'] and candidate.get(p) == approved_consumer_identity(p, approved['repairs'][p]),
                     'component consumer repair exceeds approved bytes: ' + p)
         elif r['action'] == 'existing_branch_surgical':
             require(p == 'infra/runtime-v3/runtime-init.toml', 'unapproved surgical path')
@@ -107,7 +120,7 @@ def check_inventory(ledger, frozen, observed, candidate):
             require(r['action'] == 'retain', 'unknown action: ' + p)
             require(candidate.get(p) == observed.get(p), 'held source removed or altered: ' + p)
     for path, identity in approved['repairs'].items():
-        require(candidate.get(path) == identity, 'component consumer repair exceeds approved bytes: ' + path)
+        require(candidate.get(path) == approved_consumer_identity(path, identity), 'component consumer repair exceeds approved bytes: ' + path)
     require(len(removed) == 70 and set(approved['removed']).issubset(removed),
             'retirement delta must preserve prior 34 and approved 36 removals')
     require(set(observed) - set(candidate) == set(removed), 'new deletion outside reviewed 70-path set')
