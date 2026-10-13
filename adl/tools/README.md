@@ -26,13 +26,13 @@ Keep behavioral and milestone narrative in canonical docs, not here.
 - `demo_v089_quality_gate.sh`: canonical `v0.89` D11 quality-gate walkthrough that aggregates the bounded local gate and proof-package checks into one reviewer-facing manifest.
 - Native v3 `csdlc edit` and `csdlc validate` own current typed card edits and
   validation.
-- `burst_worktree.sh`, `burst_continue.sh`: burst lane/worktree helpers.
+- Issue execution uses the selected native C-SDLC owner and bound FastWork worktrees.
 - `batched_checks.sh`, `preflight_review.sh`: quality/preflight checks, including the repo-code-review skill contract guard.
 - `check_repo_quality_staleness.py`: focused reviewer-facing docs and tracked-junk audit for the current milestone package and root repo status surfaces.
 - `enforce_coverage_gates.sh`: deterministic coverage threshold enforcement (workspace + per-file).
 - `clean_coverage_artifacts.sh`: removes local generated coverage summaries and loose LLVM profile shards after coverage/report runs.
 - `report_large_rust_modules.sh`: non-blocking Rust source-and-test module size report for maintainability review.
-- `open_artifact.sh`: convenience opener for cards/reports.
+- Inspect cards and reports directly in their registered issue worktree or retained evidence directory.
 - `update_reports_index.sh`, `update_latest_reports.sh`: report index maintenance.
 
 ## Canonical Workflow Commands
