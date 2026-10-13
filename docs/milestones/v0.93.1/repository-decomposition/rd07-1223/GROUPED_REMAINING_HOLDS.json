@@ -1,9 +1,9 @@
 {
   "schema": "adl.source_retirement.grouped_holds.v1",
   "source_head": "5edd4bf7452227fbfa83e990ffd496baeba6a3c0",
-  "ledger_sha256": "dce5a7beeda1e8c98109ad7935f829540e71f23644034077438df4e7695dd30d",
+  "ledger_sha256": "b74445988f23ea4384016df1b9abd70d59bba6df16d4a913b14dab1dee77a8f1",
   "original_count": 4134,
-  "held_count": 64,
+  "held_count": 60,
   "additional_paths_separate": 22,
   "execution_authorized": false,
   "boundary": "Grouping preserves every original row and prerequisite verbatim. It does not resolve holds, authorize removal, or imply full issue readiness. Other proposed removals remain conditional.",
@@ -1621,73 +1621,10 @@
     {
       "id": "cognitive-sdlc-remaining",
       "title": "Mixed consumers (inherited inventory owner)",
-      "count": 11,
+      "count": 7,
       "next_action": "Resolve the exact per-row required_before_execution entries preserved below as one owner consumer batch: map current caller and qualified successor or choose explicit historical retention/retirement. Reuse existing owner evidence; source presence alone does not close behavior. Cloud/live operations require their own existing authorization.",
       "evidence": [],
       "rows": [
-        {
-          "id": "RD07-1410",
-          "path": "adl/tools/issue194_model_health_command.py",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100644",
-            "blob": "49e876f566f6540f1dfb415b87f8b04489b95b6d"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_no_proven_current_successor_mapping",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "specific_consumer_or_document_disposition_required"
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          }
-        },
-        {
-          "id": "RD07-1411",
-          "path": "adl/tools/issue194_private_network.cloudformation.json",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100644",
-            "blob": "4094e107b601f4d35525212ddebc39900ed16e3d"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_no_proven_current_successor_mapping",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "specific_consumer_or_document_disposition_required"
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          }
-        },
-        {
-          "id": "RD07-1412",
-          "path": "adl/tools/issue194_private_wuji_aws_runner.sh",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "de072e2c01cd365883b40810950feb66cb1633ad"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_no_proven_current_successor_mapping",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "specific_consumer_or_document_disposition_required"
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          }
-        },
         {
           "id": "RD07-1417",
           "path": "adl/tools/issue414_restore_and_admit.sh",
@@ -1872,27 +1809,6 @@
             "live_behavior_qualified": false,
             "validator_presence_is_execution": false,
             "changes_removal_authority": false
-          }
-        },
-        {
-          "id": "RD07-2050",
-          "path": "adl/tools/test_private_wuji_aws_recovery_qualification.sh",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "62563199814768e8a98e861a2fa532e965a02de4"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_no_proven_current_successor_mapping",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "specific_consumer_or_document_disposition_required"
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
           }
         },
         {

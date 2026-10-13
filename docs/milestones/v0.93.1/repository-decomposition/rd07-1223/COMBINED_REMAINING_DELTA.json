@@ -6,17 +6,17 @@
   "execution_authorized": false,
   "original_count": 4134,
   "counts": {
-    "hold_explicit_reconciliation": 29,
-    "hold_owner_test_reconciliation": 35,
+    "retain_resolved": 527,
+    "proposed_owner_transfer_with_consumer_qualification": 511,
     "preserve_approved_removal": 70,
+    "proposed_remove_with_entire_source_family": 1874,
+    "retain_public_source_or_fixture": 124,
     "preserve_reviewed_consumer_repair": 18,
     "proposed_historical_retirement_with_caller_repair": 60,
-    "proposed_owner_transfer_with_consumer_qualification": 507,
-    "proposed_remove_construction_qualified_infrastructure": 216,
-    "proposed_remove_with_entire_source_family": 1874,
+    "hold_owner_test_reconciliation": 35,
     "proposed_remove_with_entire_tool_family": 674,
-    "retain_public_source_or_fixture": 124,
-    "retain_resolved": 527
+    "hold_explicit_reconciliation": 25,
+    "proposed_remove_construction_qualified_infrastructure": 216
   },
   "additional_current_source_paths": 22,
   "preservation": "Original inventory and baseline archive unchanged;70 prior approved removals preserved; no new deletion applied",
@@ -33158,14 +33158,35 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Retire the private-Wuji family coherently with the exact remaining caller obligations in PRIVATE_WUJI_OWNER_DISPOSITION.json; preserve historical validators and rollback evidence.",
+        "Source delivery and three offline tests do not prove live AWS/model or genuine Runtime semantic acceptance; preserve those explicit unrun boundaries in the final scoped decision."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "prior_dispositions": [
+        {
+          "proposed_action": "hold_explicit_reconciliation",
+          "required_before_execution": [
+            "specific_consumer_or_document_disposition_required"
+          ]
+        }
+      ],
+      "reviewed_disposition": {
+        "packet": "PRIVATE_WUJI_OWNER_DISPOSITION.json",
+        "packet_sha256": "eb7cb3ba55c85567ee8db8863456e490849cfee7b4a0bf7c891b04257e1753d5",
+        "proposal": "conditional_owner_transfer",
+        "review": "Independent source/caller audit and root exact-object/evidence verification; no new removal authorization"
+      },
+      "qualified_successor": {
+        "repository": "agent-logic/agent-logic-infrastructure",
+        "revision": "8b7494642c423d024c79bef5b4d493eaee126f63",
+        "merge_revision": "db78fff91b07a0b05dfbb4ceb5bdd3279b3315a1",
+        "path": "adl/tools/issue194_model_health_command.py"
       }
     },
     {
@@ -33179,14 +33200,35 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Retire the private-Wuji family coherently with the exact remaining caller obligations in PRIVATE_WUJI_OWNER_DISPOSITION.json; preserve historical validators and rollback evidence.",
+        "Source delivery and three offline tests do not prove live AWS/model or genuine Runtime semantic acceptance; preserve those explicit unrun boundaries in the final scoped decision."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "prior_dispositions": [
+        {
+          "proposed_action": "hold_explicit_reconciliation",
+          "required_before_execution": [
+            "specific_consumer_or_document_disposition_required"
+          ]
+        }
+      ],
+      "reviewed_disposition": {
+        "packet": "PRIVATE_WUJI_OWNER_DISPOSITION.json",
+        "packet_sha256": "eb7cb3ba55c85567ee8db8863456e490849cfee7b4a0bf7c891b04257e1753d5",
+        "proposal": "conditional_owner_transfer",
+        "review": "Independent source/caller audit and root exact-object/evidence verification; no new removal authorization"
+      },
+      "qualified_successor": {
+        "repository": "agent-logic/agent-logic-infrastructure",
+        "revision": "8b7494642c423d024c79bef5b4d493eaee126f63",
+        "merge_revision": "db78fff91b07a0b05dfbb4ceb5bdd3279b3315a1",
+        "path": "adl/tools/issue194_private_network.cloudformation.json"
       }
     },
     {
@@ -33200,14 +33242,35 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Retire the private-Wuji family coherently with the exact remaining caller obligations in PRIVATE_WUJI_OWNER_DISPOSITION.json; preserve historical validators and rollback evidence.",
+        "Source delivery and three offline tests do not prove live AWS/model or genuine Runtime semantic acceptance; preserve those explicit unrun boundaries in the final scoped decision."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "prior_dispositions": [
+        {
+          "proposed_action": "hold_explicit_reconciliation",
+          "required_before_execution": [
+            "specific_consumer_or_document_disposition_required"
+          ]
+        }
+      ],
+      "reviewed_disposition": {
+        "packet": "PRIVATE_WUJI_OWNER_DISPOSITION.json",
+        "packet_sha256": "eb7cb3ba55c85567ee8db8863456e490849cfee7b4a0bf7c891b04257e1753d5",
+        "proposal": "conditional_owner_transfer",
+        "review": "Independent source/caller audit and root exact-object/evidence verification; no new removal authorization"
+      },
+      "qualified_successor": {
+        "repository": "agent-logic/agent-logic-infrastructure",
+        "revision": "8b7494642c423d024c79bef5b4d493eaee126f63",
+        "merge_revision": "db78fff91b07a0b05dfbb4ceb5bdd3279b3315a1",
+        "path": "adl/tools/issue194_private_wuji_aws_runner.sh"
       }
     },
     {
@@ -50181,14 +50244,35 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Retire the private-Wuji family coherently with the exact remaining caller obligations in PRIVATE_WUJI_OWNER_DISPOSITION.json; preserve historical validators and rollback evidence.",
+        "Source delivery and three offline tests do not prove live AWS/model or genuine Runtime semantic acceptance; preserve those explicit unrun boundaries in the final scoped decision."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "prior_dispositions": [
+        {
+          "proposed_action": "hold_explicit_reconciliation",
+          "required_before_execution": [
+            "specific_consumer_or_document_disposition_required"
+          ]
+        }
+      ],
+      "reviewed_disposition": {
+        "packet": "PRIVATE_WUJI_OWNER_DISPOSITION.json",
+        "packet_sha256": "eb7cb3ba55c85567ee8db8863456e490849cfee7b4a0bf7c891b04257e1753d5",
+        "proposal": "conditional_owner_transfer",
+        "review": "Independent source/caller audit and root exact-object/evidence verification; no new removal authorization"
+      },
+      "qualified_successor": {
+        "repository": "agent-logic/agent-logic-infrastructure",
+        "revision": "8b7494642c423d024c79bef5b4d493eaee126f63",
+        "merge_revision": "db78fff91b07a0b05dfbb4ceb5bdd3279b3315a1",
+        "path": "adl/tools/test_private_wuji_aws_recovery_qualification.sh"
       }
     },
     {
