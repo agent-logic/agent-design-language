@@ -191,5 +191,28 @@ class CodeFriendBatchTests(unittest.TestCase):
                 check.check_codefriend_batch(batch, self.before, self.after, set())
 
 
+class CodeFriendFamilyTests(unittest.TestCase):
+    def setUp(self):
+        self.batch = check.committed_json(check.PACKET / 'CODEFRIEND_FAMILY_APPLIED.json')
+        self.before = check.tree(check.CODEFRIEND_FAMILY_IMPLEMENTATION + '^')
+        self.after = check.tree(check.CODEFRIEND_FAMILY_IMPLEMENTATION)
+
+    def test_exact_family_and_repeated_scope_refusal(self):
+        paths = check.check_codefriend_family(self.batch, self.before, self.after, set())
+        self.assertEqual(len(paths), 198)
+        with self.assertRaisesRegex(ValueError, 'scope changed'):
+            check.check_codefriend_family(self.batch, self.before, self.after, paths)
+
+    def test_family_preimage_and_custody_refusal(self):
+        row = next(r for r in self.batch['files'] if r['action'] == 'remove')
+        changed_before = dict(self.before)
+        changed_before[row['path']] = ['100755', row['before']['blob']]
+        with self.assertRaisesRegex(ValueError, 'identity mismatch'):
+            check.check_codefriend_family(self.batch, changed_before, self.after, set())
+        self.batch['rollback_custody']['rows'][0]['preimage_sha256'] = '0' * 64
+        with self.assertRaisesRegex(ValueError, 'custody identity mismatch'):
+            check.check_codefriend_family(self.batch, self.before, self.after, set())
+
+
 if __name__ == '__main__':
     unittest.main()

@@ -16,7 +16,7 @@ INVENTORY_SHA256 = 'a22fa6306245ddb3916cf4cb3021286a2d91ebfe77ca719eb7b1039d9f6d
 CAPTURED_IDENTITIES_SHA256 = 'e306e5a70ae7792fd2fef91449a0285d665126375a28c0dd05914724fe1bdebe'
 ARCHIVE_SHA256 = '12205043566913435c25ea414b1fd9148b46727821f7bfefd5d452cfe47a1c17'
 # Independently reviewed existing execution overlay; changing this pin requires review.
-EXECUTION_APPROVAL_SHA256 = 'd8dc1c33261321d88e0ddccba4d58c111c23ca2bbff2ebbd77feee1faa3aa8c9'
+EXECUTION_APPROVAL_SHA256 = '4a25617becc08792fc065d236313afbb2325897ce6bc836820b97b1e6217ba3d'
 COMPONENTS = ('infra/ddns', 'infra/aws/runtime/log-archive', 'infra/aws/runtime/agent-checkpoint-archive')
 PROTECTED = ('csdlc-v3/operator/authority-selector.json', 'csdlc-v3/operator/native-authority-receipt.json',
              'docs/templates/prompts/current.json', 'adl/tools/install_owner_binaries.sh',
@@ -268,6 +268,30 @@ def check_codefriend_batch(batch, before_tree, after_tree, prior_removed):
     return paths
 
 
+
+CODEFRIEND_FAMILY_SHA256 = '06a4d80aa527033ef7528a19c714b3c884bf67bbaacbf5d5f21070821f8b4ed4'
+CODEFRIEND_FAMILY_IMPLEMENTATION = '5fa701e8e12f87dce7c8e100eacfa04dc1828c22'
+
+
+def check_codefriend_family(batch, before_tree, after_tree, prior_removed):
+    rows = [r for r in batch['files'] if r['action'] == 'remove']
+    paths = {r['path'] for r in rows}
+    require(len(rows) == len(paths) == 198 and not paths.intersection(prior_removed),
+            'CodeFriend family removal scope changed')
+    require(batch['counts']['product_removals'] == 196 and batch['counts']['workflow_removals'] == 2,
+            'CodeFriend family denominator changed')
+    require('adl/src/bin/adl_review.rs' not in paths and 'adl/src/cli/codefriend_owner.rs' not in paths,
+            'retained review or public selector removed')
+    custody = {r['path']: r for r in batch['rollback_custody']['rows']}
+    require(set(custody) == paths, 'CodeFriend family custody scope changed')
+    for row in rows:
+        path, before = row['path'], row['before']
+        require(before_tree.get(path) == [before['mode'], before['blob']] and
+                row['after'] is None and path not in after_tree, 'CodeFriend family applied identity mismatch')
+        require(custody[path]['preimage_sha256'] == before['sha256'], 'CodeFriend family custody identity mismatch')
+    return paths
+
+
 def run():
     ledger = committed_json(PACKET / 'DISPOSITION_REGISTER.json')
     observed = tree(ledger['observed_main'])
@@ -295,7 +319,13 @@ def run():
     batch = json.loads(batch_bytes)
     removed.update(check_codefriend_batch(batch, tree(CODEFRIEND_IMPLEMENTATION + '^'),
                                          tree(CODEFRIEND_IMPLEMENTATION), removed))
-    require(len(removed) == 77, 'executed removal count changed')
+    family_bytes = committed_bytes(PACKET / 'CODEFRIEND_FAMILY_APPLIED.json')
+    require(hashlib.sha256(family_bytes).hexdigest() == CODEFRIEND_FAMILY_SHA256,
+            'CodeFriend family applied packet changed')
+    family = json.loads(family_bytes)
+    removed.update(check_codefriend_family(family, tree(CODEFRIEND_FAMILY_IMPLEMENTATION + '^'),
+                                          tree(CODEFRIEND_FAMILY_IMPLEMENTATION), removed))
+    require(len(removed) == 275, 'executed removal count changed')
     overlay_bytes = committed_bytes(PACKET / 'EXECUTION_OVERLAY.json')
     overlay = json.loads(overlay_bytes)
     require(overlay['status'] == 'complete' and not overlay['missing_entries'],
@@ -321,6 +351,20 @@ def run():
                     'CodeFriend archive member mode changed')
             require(hashlib.sha256(archive.extractfile(member).read()).hexdigest() == row['before']['sha256'],
                     'CodeFriend archive member bytes changed')
+    supplement = family['rollback_custody']['supplement']
+    supplement_path = Path(supplement['path'])
+    require(hashlib.sha256(supplement_path.read_bytes()).hexdigest() == supplement['sha256'],
+            'CodeFriend family supplement changed')
+    family_rows = {r['path']: r for r in family['files'] if r['action'] == 'remove'}
+    with tarfile.open(archive_path, 'r:gz') as original, tarfile.open(supplement_path) as extra:
+        for custody in family['rollback_custody']['rows']:
+            archive = original if custody['current_bytes_match_archive'] else extra
+            member = archive.getmember('source/' + custody['path'])
+            before = family_rows[custody['path']]['before']
+            require(member.isfile() and member.mode == int(before['mode'][-3:], 8),
+                    'CodeFriend family archive mode changed')
+            require(hashlib.sha256(archive.extractfile(member).read()).hexdigest() == before['sha256'],
+                    'CodeFriend family archive bytes changed')
     scanned = {}
     for component in COMPONENTS:
         names = ('RETIREMENT_BATCH_01_DDNS', 'RETIREMENT_BATCH_02_LOG_ARCHIVE',
@@ -350,7 +394,7 @@ def run():
         check_references(refs, allowed)
         scanned[component] = len(refs)
     return {'schema': 'adl.source_retirement.guard.v1', 'status': 'passed', 'head': git('rev-parse', 'HEAD'),
-            'candidate_rows': 4134, 'existing_branch_removals': 34, 'approved_component_removals': 36, 'public_cutover_removals': 1, 'codefriend_helper_removals': 6, 'additional_inventory_paths': 22, 'total_removals': len(removed), 'direct_reference_files': scanned,
+            'candidate_rows': 4134, 'existing_branch_removals': 34, 'approved_component_removals': 36, 'public_cutover_removals': 1, 'codefriend_helper_removals': 6, 'codefriend_family_removals': 198, 'additional_inventory_paths': 22, 'total_removals': len(removed), 'direct_reference_files': scanned,
             'limits': ['Preparation guard only; no new deletion approval.',
                        'Direct component-path references only; dynamic and indirect consumers still require review.',
                        'Rollback digest is checked separately from functional restore and installed product proof.',

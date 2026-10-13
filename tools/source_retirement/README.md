@@ -5,7 +5,11 @@ combined ledger classifies those same rows and 22 additional paths separately.
 Conditional proposals never authorize deletion. The executed boundary is 34
 original removals, 36 approved component removals, and one public-cutover removal:
 `RD07-2113 adl/tools/test_select_validation_lanes.sh` (71 historical total), plus
-six reviewed CodeFriend helper removals (77 executed removals total).
+six reviewed CodeFriend helper removals (77 historical total), followed by196
+CodeFriend source-family and two obsolete workflow removals (275 executed total).
+`CODEFRIEND_FAMILY_APPLIED.json` pins the latter198 exact paths and source
+preimages, reviewed caller delta and five-member supplemental rollback archive.
+Retired host entrypoints do not establish current owner host/release acceptance.
 `CODEFRIEND_SIX_HELPER_APPLIED.json` pins those six IDs, their exact preimages,
 commit `40dd5b4ce90d6f5fc89db77501788ad30505a292`, and baseline archive members.
 Its eight caller repairs preserve historical assertions and qualified owner routing.
