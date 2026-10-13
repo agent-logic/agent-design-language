@@ -33,6 +33,14 @@ Keep behavioral and milestone narrative in canonical docs, not here.
 
 ## Canonical Workflow Commands
 
+The original `test_skill_documentation_completeness.sh` checks the historical
+monorepo skill layout. Its 51-family, 205-input inventory and missing Sprint
+Review schema are preserved in the [historical disposition](../../docs/milestones/v0.93.1/repository-decomposition/rd07-1223/SKILL_COMPLETENESS_HISTORICAL_DISPOSITION.json);
+no full completeness pass is claimed. Each skill owner must check its declared
+current inventory, manifests, schemas, output contracts, guide coverage, and
+installation contract in that owner's layout. Individual resource checks do not
+establish complete owner coverage.
+
 From repo root:
 
 ```bash
@@ -44,9 +52,6 @@ ADL_OPERATIONAL_SKILLS_INSTALL_MODE=symlink bash adl/tools/install_adl_operation
 
 # verify install/resync behavior in an isolated temporary CODEX_HOME
 bash adl/tools/test_install_adl_operational_skills.sh
-
-# verify every tracked skill has schema/reference/operator-guide coverage
-bash adl/tools/test_skill_documentation_completeness.sh
 
 # verify the multi-agent repo-review specialist skill contracts
 bash adl/tools/test_multi_agent_repo_review_specialist_skill_contracts.sh

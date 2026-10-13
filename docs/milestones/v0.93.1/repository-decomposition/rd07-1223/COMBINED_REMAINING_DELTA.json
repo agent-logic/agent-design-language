@@ -6,12 +6,12 @@
   "execution_authorized": false,
   "original_count": 4134,
   "counts": {
-    "hold_explicit_reconciliation": 43,
+    "hold_explicit_reconciliation": 33,
     "hold_owner_test_reconciliation": 35,
     "preserve_approved_removal": 70,
     "preserve_reviewed_consumer_repair": 18,
-    "proposed_historical_retirement_with_caller_repair": 58,
-    "proposed_owner_transfer_with_consumer_qualification": 500,
+    "proposed_historical_retirement_with_caller_repair": 60,
+    "proposed_owner_transfer_with_consumer_qualification": 508,
     "proposed_remove_construction_qualified_infrastructure": 216,
     "proposed_remove_with_entire_source_family": 1874,
     "proposed_remove_with_entire_tool_family": 678,
@@ -34964,15 +34964,25 @@
         "blob": "89a98465dc3a68a8cfd8a6867fc86f6b5bd10227"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "specific_consumer_or_document_disposition_required",
+        "Reconcile1417 invocation, registry and414/268 historical references.",
+        "Preserve original source/evidence in pinned baseline.",
+        "Exact scoped retirement decision."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "prior_hold_reason": "hold_no_proven_current_successor_mapping",
+      "reviewed_disposition": {
+        "packet": "LLAMA_REFERENCE_RUNNER_HISTORICAL_DISPOSITION.json",
+        "packet_sha256": "9efa13e9229fef9c46b0f4ded66c5459a768501d60a01649b0fe29449b8d3c4e",
+        "proposal": "proposed_historical_retirement_with_caller_repair",
+        "reason": "Fixed two-resident one-model llama3.1:8b Q4 historical reference lane, not current generic qualification.",
+        "review": "Bounded independent source and exact evidence review; limits retained."
       }
     },
     {
@@ -35855,13 +35865,15 @@
         "blob": "22641bf9d4530c0010c0c2a7018943c8af14c126"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_until_adl_caller_closure_and_behavior_obligations_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
         "specific_consumer_or_document_disposition_required",
         "Reconcile active ADL inbound callers and docs with delivered Infrastructure family.",
         "Preserve original live behavior obligations separately from resolver proof; validator delivery is not validator execution.",
-        "Scoped retirement decision required before removal."
+        "Scoped retirement decision required before removal.",
+        "Reconcile original ADL callers and source retirement together.",
+        "Externally supplied missing validators and tests remain an explicit owner-support dependency; do not claim owner delivery.",
+        "Preserve separate genuine resolver3case evidence and liveAWS/CSM nonclaims."
       ],
       "successor_mapping": {
         "mapping": "reviewed_owner_adaptation",
@@ -35884,6 +35896,14 @@
         "live_behavior_qualified": false,
         "validator_presence_is_execution": false,
         "changes_removal_authority": false
+      },
+      "prior_hold_reason": "hold_until_adl_caller_closure_and_behavior_obligations_are_reconciled",
+      "reviewed_disposition": {
+        "packet": "CSM_ORIGINAL_WRAPPER_QUALIFICATION.json",
+        "packet_sha256": "fce04ffd5985f903b6df91e08029594d6b12c9449147eafb0246d43f64f16353",
+        "proposal": "proposed_owner_transfer_with_consumer_qualification",
+        "reason": "Original tests and owner runner bytes unchanged; explicit resolver double. Missing original validators supplied externally, not owner delivery. No liveAWS/CSM/provider/installed acceptance.",
+        "review": "Bounded independent source and exact evidence review; limits retained."
       }
     },
     {
@@ -35896,13 +35916,15 @@
         "blob": "8a1b6d53860bc711210af84c95b14e028cb2839d"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_until_adl_caller_closure_and_behavior_obligations_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
         "specific_consumer_or_document_disposition_required",
         "Reconcile active ADL inbound callers and docs with delivered Infrastructure family.",
         "Preserve original live behavior obligations separately from resolver proof; validator delivery is not validator execution.",
-        "Scoped retirement decision required before removal."
+        "Scoped retirement decision required before removal.",
+        "Reconcile original ADL callers and source retirement together.",
+        "Externally supplied missing validators and tests remain an explicit owner-support dependency; do not claim owner delivery.",
+        "Preserve separate genuine resolver3case evidence and liveAWS/CSM nonclaims."
       ],
       "successor_mapping": {
         "mapping": "reviewed_owner_adaptation",
@@ -35925,6 +35947,14 @@
         "live_behavior_qualified": false,
         "validator_presence_is_execution": false,
         "changes_removal_authority": false
+      },
+      "prior_hold_reason": "hold_until_adl_caller_closure_and_behavior_obligations_are_reconciled",
+      "reviewed_disposition": {
+        "packet": "CSM_ORIGINAL_WRAPPER_QUALIFICATION.json",
+        "packet_sha256": "fce04ffd5985f903b6df91e08029594d6b12c9449147eafb0246d43f64f16353",
+        "proposal": "proposed_owner_transfer_with_consumer_qualification",
+        "reason": "Original tests and owner runner bytes unchanged; explicit resolver double. Missing original validators supplied externally, not owner delivery. No liveAWS/CSM/provider/installed acceptance.",
+        "review": "Bounded independent source and exact evidence review; limits retained."
       }
     },
     {
@@ -35961,13 +35991,15 @@
         "blob": "90544d83ac9c0baa4c8ce7a5d4a19b3608763031"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_until_adl_caller_closure_and_behavior_obligations_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
         "specific_consumer_or_document_disposition_required",
         "Reconcile active ADL inbound callers and docs with delivered Infrastructure family.",
         "Preserve original live behavior obligations separately from resolver proof; validator delivery is not validator execution.",
-        "Scoped retirement decision required before removal."
+        "Scoped retirement decision required before removal.",
+        "Reconcile original ADL callers and source retirement together.",
+        "Externally supplied missing validators and tests remain an explicit owner-support dependency; do not claim owner delivery.",
+        "Preserve separate genuine resolver3case evidence and liveAWS/CSM nonclaims."
       ],
       "successor_mapping": {
         "mapping": "reviewed_owner_adaptation",
@@ -35990,6 +36022,14 @@
         "live_behavior_qualified": false,
         "validator_presence_is_execution": false,
         "changes_removal_authority": false
+      },
+      "prior_hold_reason": "hold_until_adl_caller_closure_and_behavior_obligations_are_reconciled",
+      "reviewed_disposition": {
+        "packet": "CSM_ORIGINAL_WRAPPER_QUALIFICATION.json",
+        "packet_sha256": "fce04ffd5985f903b6df91e08029594d6b12c9449147eafb0246d43f64f16353",
+        "proposal": "proposed_owner_transfer_with_consumer_qualification",
+        "reason": "Original tests and owner runner bytes unchanged; explicit resolver double. Missing original validators supplied externally, not owner delivery. No liveAWS/CSM/provider/installed acceptance.",
+        "review": "Bounded independent source and exact evidence review; limits retained."
       }
     },
     {
@@ -36050,13 +36090,15 @@
         "blob": "39ef22f262e9d095ce51e4a9a44f654f7d015fc8"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_until_adl_caller_closure_and_behavior_obligations_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
         "specific_consumer_or_document_disposition_required",
         "Reconcile active ADL inbound callers and docs with delivered Infrastructure family.",
         "Preserve original live behavior obligations separately from resolver proof; validator delivery is not validator execution.",
-        "Scoped retirement decision required before removal."
+        "Scoped retirement decision required before removal.",
+        "Reconcile original ADL callers and source retirement together.",
+        "Externally supplied missing validators and tests remain an explicit owner-support dependency; do not claim owner delivery.",
+        "Preserve separate genuine resolver3case evidence and liveAWS/CSM nonclaims."
       ],
       "successor_mapping": {
         "mapping": "reviewed_owner_adaptation",
@@ -36079,6 +36121,14 @@
         "live_behavior_qualified": false,
         "validator_presence_is_execution": false,
         "changes_removal_authority": false
+      },
+      "prior_hold_reason": "hold_until_adl_caller_closure_and_behavior_obligations_are_reconciled",
+      "reviewed_disposition": {
+        "packet": "CSM_ORIGINAL_WRAPPER_QUALIFICATION.json",
+        "packet_sha256": "fce04ffd5985f903b6df91e08029594d6b12c9449147eafb0246d43f64f16353",
+        "proposal": "proposed_owner_transfer_with_consumer_qualification",
+        "reason": "Original tests and owner runner bytes unchanged; explicit resolver double. Missing original validators supplied externally, not owner delivery. No liveAWS/CSM/provider/installed acceptance.",
+        "review": "Bounded independent source and exact evidence review; limits retained."
       }
     },
     {
@@ -51622,11 +51672,13 @@
         "blob": "e05e5fde4f295e755f9b6d7ef43d5d9412bdb85e"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
         "specific_consumer_or_document_disposition_required",
-        "Deliver original adapted test with Infrastructure signal caller family; passing private fixture is not owner test publication or ADL caller closure."
+        "Deliver original adapted test with Infrastructure signal caller family; passing private fixture is not owner test publication or ADL caller closure.",
+        "Reconcile original ADL callers and source retirement together.",
+        "Externally supplied missing validators and tests remain an explicit owner-support dependency; do not claim owner delivery.",
+        "Preserve separate genuine resolver3case evidence and liveAWS/CSM nonclaims."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
@@ -51638,6 +51690,14 @@
         "status": "original_orchestration_fixture_passed",
         "native_or_live_aws_acceptance": false,
         "changes_removal_authority": false
+      },
+      "prior_hold_reason": "hold_no_proven_current_successor_mapping",
+      "reviewed_disposition": {
+        "packet": "CSM_ORIGINAL_WRAPPER_QUALIFICATION.json",
+        "packet_sha256": "fce04ffd5985f903b6df91e08029594d6b12c9449147eafb0246d43f64f16353",
+        "proposal": "proposed_owner_transfer_with_consumer_qualification",
+        "reason": "Original tests and owner runner bytes unchanged; explicit resolver double. Missing original validators supplied externally, not owner delivery. No liveAWS/CSM/provider/installed acceptance.",
+        "review": "Bounded independent source and exact evidence review; limits retained."
       }
     },
     {
@@ -51984,10 +52044,14 @@
         "blob": "945ef8cf18dd691d35a403b7a29959972b5fdea3"
       },
       "existing_action": "retain",
-      "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "Mixed skill distributions: preserve SKILL/manifest/schema completeness, card-editor exceptions, guide coverage and installer checks; exact CSDLc original-v1 archive is not active replacement."
+        "Mixed skill distributions: preserve SKILL/manifest/schema completeness, card-editor exceptions, guide coverage and installer checks; exact CSDLc original-v1 archive is not active replacement.",
+        "Repair retained tools README and operational skills guide claims of current complete-inventory validation.",
+        "Reconcile1368 demo_v0902_review_quality_gate.sh caller and generated registry.",
+        "Preserve installer/completeness obligations under exact owner-specific current layouts.",
+        "Do not drop missing schema/family or synthesize input to manufacture pass.",
+        "Exact scoped retirement decision."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
@@ -51995,11 +52059,13 @@
         "exact_successor_paths": []
       },
       "reviewed_disposition": {
-        "packet": "ACTIVE_19_TOOL_DISPOSITIONS.json",
-        "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
-        "proposal": "specific_family_reconciliation",
-        "reason": "Mixed skill distributions: preserve SKILL/manifest/schema completeness, card-editor exceptions, guide coverage and installer checks; exact CSDLc original-v1 archive is not active replacement."
-      }
+        "packet": "SKILL_COMPLETENESS_HISTORICAL_DISPOSITION.json",
+        "packet_sha256": "04e4fb4cff9af27138381db03eed4c71bb0c66cd225d68e964e15cd703a4dfd9",
+        "proposal": "proposed_historical_retirement_with_caller_repair",
+        "reason": "Historical monorepo-layout wrapper retirement; no unchanged full-pass claim. Preserve all51families and205inputs including missing SprintReview schema and65ADL-only inputs.",
+        "review": "Bounded independent source and exact evidence review; limits retained."
+      },
+      "prior_hold_reason": "protect_existing_public_contract_policy_or_control_plane"
     },
     {
       "id": "RD07-2118",
@@ -55428,13 +55494,15 @@
         "blob": "ac58055a24a488ff80bb18567fd7bc561ce0404f"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_until_adl_caller_closure_and_behavior_obligations_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
         "specific_consumer_or_document_disposition_required",
         "Reconcile active ADL inbound callers and docs with delivered Infrastructure family.",
         "Preserve original live behavior obligations separately from resolver proof; validator delivery is not validator execution.",
-        "Scoped retirement decision required before removal."
+        "Scoped retirement decision required before removal.",
+        "Reconcile original ADL callers and source retirement together.",
+        "Externally supplied missing validators and tests remain an explicit owner-support dependency; do not claim owner delivery.",
+        "Preserve separate genuine resolver3case evidence and liveAWS/CSM nonclaims."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -55457,6 +55525,14 @@
         "live_behavior_qualified": false,
         "validator_presence_is_execution": false,
         "changes_removal_authority": false
+      },
+      "prior_hold_reason": "hold_until_adl_caller_closure_and_behavior_obligations_are_reconciled",
+      "reviewed_disposition": {
+        "packet": "CSM_ORIGINAL_WRAPPER_QUALIFICATION.json",
+        "packet_sha256": "fce04ffd5985f903b6df91e08029594d6b12c9449147eafb0246d43f64f16353",
+        "proposal": "proposed_owner_transfer_with_consumer_qualification",
+        "reason": "Original tests and owner runner bytes unchanged; explicit resolver double. Missing original validators supplied externally, not owner delivery. No liveAWS/CSM/provider/installed acceptance.",
+        "review": "Bounded independent source and exact evidence review; limits retained."
       }
     },
     {
@@ -55469,13 +55545,15 @@
         "blob": "e3eb4d4490512ae787b379856de84e75a4cb48ed"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_until_adl_caller_closure_and_behavior_obligations_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
         "specific_consumer_or_document_disposition_required",
         "Reconcile active ADL inbound callers and docs with delivered Infrastructure family.",
         "Preserve original live behavior obligations separately from resolver proof; validator delivery is not validator execution.",
-        "Scoped retirement decision required before removal."
+        "Scoped retirement decision required before removal.",
+        "Reconcile original ADL callers and source retirement together.",
+        "Externally supplied missing validators and tests remain an explicit owner-support dependency; do not claim owner delivery.",
+        "Preserve separate genuine resolver3case evidence and liveAWS/CSM nonclaims."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -55498,6 +55576,14 @@
         "live_behavior_qualified": false,
         "validator_presence_is_execution": false,
         "changes_removal_authority": false
+      },
+      "prior_hold_reason": "hold_until_adl_caller_closure_and_behavior_obligations_are_reconciled",
+      "reviewed_disposition": {
+        "packet": "CSM_ORIGINAL_WRAPPER_QUALIFICATION.json",
+        "packet_sha256": "fce04ffd5985f903b6df91e08029594d6b12c9449147eafb0246d43f64f16353",
+        "proposal": "proposed_owner_transfer_with_consumer_qualification",
+        "reason": "Original tests and owner runner bytes unchanged; explicit resolver double. Missing original validators supplied externally, not owner delivery. No liveAWS/CSM/provider/installed acceptance.",
+        "review": "Bounded independent source and exact evidence review; limits retained."
       }
     },
     {
@@ -87409,12 +87495,13 @@
         "blob": "2a5444dfc0f812802de91d952bb1559cc081c6b2"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
         "active ADL navigation and source consumers reconciled",
         "reuse applicable owner proof; source presence alone not execution",
-        "scoped retirement approval"
+        "scoped retirement approval",
+        "Reconcile original runbook/caller references and exact source removal scope.",
+        "Preserve historical authorization examples as non-current."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -87424,11 +87511,13 @@
         ]
       },
       "reviewed_disposition": {
-        "packet": "RUNTIME_29_DOC_DISPOSITIONS.json",
-        "packet_sha256": "2ae4a55dbaee23c4367e3503cd4f94378f6eec43ea42d8fec40f750296335dc1",
-        "proposal": "hold_cross_owner_infrastructure_dependencies",
-        "review": "Source specialist and root finite-disposition review; no execution or owner acceptance inferred"
-      }
+        "packet": "AWS_DISPOSABLE_OWNER_DELIVERY_RESULT.json",
+        "packet_sha256": "c108e4e8d52a85f48b06afbafc676f4bca53c394f518ffafec7981c236a9158a",
+        "proposal": "proposed_owner_transfer_with_consumer_qualification",
+        "reason": "Exact source/runbook, six stages, authorization fields, command failures, reverse cleanup/readback ordering and adverse suppressed-readback behavior; fake tools only.",
+        "review": "Bounded independent source and exact evidence review; limits retained."
+      },
+      "prior_hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled"
     },
     {
       "id": "RD07-3551",

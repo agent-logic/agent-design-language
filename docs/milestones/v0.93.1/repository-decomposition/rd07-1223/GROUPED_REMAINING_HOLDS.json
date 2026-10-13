@@ -1,9 +1,9 @@
 {
   "schema": "adl.source_retirement.grouped_holds.v1",
-  "source_head": "8ae73ceccf87e8aa99aab21854e18fc2a41a2bdf",
-  "ledger_sha256": "028d538f24e4f5714c25d1947b31c20aeed9ca9d525ca1ebaeac4777091d2a90",
+  "source_head": "13521e3280fa2c5017721e44fcc31cc23dea5542",
+  "ledger_sha256": "07931ab99bda22122b4f39b58d662b6f549c67ab891d3d99a7b77349af23fe28",
   "original_count": 4134,
-  "held_count": 78,
+  "held_count": 68,
   "additional_paths_separate": 22,
   "execution_authorized": false,
   "boundary": "Grouping preserves every original row and prerequisite verbatim. It does not resolve holds, authorize removal, or imply full issue readiness. Other proposed removals remain conditional.",
@@ -1412,45 +1412,6 @@
       ]
     },
     {
-      "id": "skill-contracts",
-      "title": "Skill and operational contract consumers",
-      "count": 1,
-      "next_action": "Resolve remaining skill producer/contract obligations using existing proof. Main-sync helper and restoration test now have explicit conditional historical retirement; native closeout policy guard retained.",
-      "evidence": [
-        "CSDLC_PLANNING_ORIGINAL_CONTRACT_QUALIFICATION.json",
-        "CSDLC_OPERATIONAL_COMPONENT_QUALIFICATION.json"
-      ],
-      "rows": [
-        {
-          "id": "RD07-2117",
-          "path": "adl/tools/test_skill_documentation_completeness.sh",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-active-tool-contracts",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "945ef8cf18dd691d35a403b7a29959972b5fdea3"
-          },
-          "existing_action": "retain",
-          "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "Mixed skill distributions: preserve SKILL/manifest/schema completeness, card-editor exceptions, guide coverage and installer checks; exact CSDLc original-v1 archive is not active replacement."
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          },
-          "reviewed_disposition": {
-            "packet": "ACTIVE_19_TOOL_DISPOSITIONS.json",
-            "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
-            "proposal": "specific_family_reconciliation",
-            "reason": "Mixed skill distributions: preserve SKILL/manifest/schema completeness, card-editor exceptions, guide coverage and installer checks; exact CSDLc original-v1 archive is not active replacement."
-          }
-        }
-      ]
-    },
-    {
       "id": "validation-remainder",
       "title": "Remaining ADL validation routing",
       "count": 9,
@@ -1723,49 +1684,9 @@
       ]
     },
     {
-      "id": "agent-logic-runtime-remaining",
-      "title": "agent-logic-runtime remaining consumers",
-      "count": 1,
-      "next_action": "Resolve the exact per-row required_before_execution entries preserved below as one owner consumer batch: map current caller and qualified successor or choose explicit historical retention/retirement. Reuse existing owner evidence; source presence alone does not close behavior. Cloud/live operations require their own existing authorization.",
-      "evidence": [],
-      "rows": [
-        {
-          "id": "RD07-3550",
-          "path": "docs/operations/cloud/aws/runtime-platform/run-disposable-proof.sh",
-          "owner": "agent-logic-runtime",
-          "component": "agent-logic-runtime-product-docs",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "2a5444dfc0f812802de91d952bb1559cc081c6b2"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "active ADL navigation and source consumers reconciled",
-            "reuse applicable owner proof; source presence alone not execution",
-            "scoped retirement approval"
-          ],
-          "successor_mapping": {
-            "mapping": "exact_successor",
-            "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
-            "exact_successor_paths": [
-              "docs/operations/cloud/aws/runtime-platform/run-disposable-proof.sh"
-            ]
-          },
-          "reviewed_disposition": {
-            "packet": "RUNTIME_29_DOC_DISPOSITIONS.json",
-            "packet_sha256": "2ae4a55dbaee23c4367e3503cd4f94378f6eec43ea42d8fec40f750296335dc1",
-            "proposal": "hold_cross_owner_infrastructure_dependencies",
-            "review": "Source specialist and root finite-disposition review; no execution or owner acceptance inferred"
-          }
-        }
-      ]
-    },
-    {
       "id": "cognitive-sdlc-remaining",
       "title": "Mixed consumers (inherited inventory owner)",
-      "count": 21,
+      "count": 13,
       "next_action": "Resolve the exact per-row required_before_execution entries preserved below as one owner consumer batch: map current caller and qualified successor or choose explicit historical retention/retirement. Reuse existing owner evidence; source presence alone does not close behavior. Cloud/live operations require their own existing authorization.",
       "evidence": [],
       "rows": [
@@ -1882,27 +1803,6 @@
           "current_identity": {
             "mode": "100755",
             "blob": "7d8c12e9b118cf88baf24951f885157e85ff743f"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_no_proven_current_successor_mapping",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "specific_consumer_or_document_disposition_required"
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          }
-        },
-        {
-          "id": "RD07-1488",
-          "path": "adl/tools/run_issue414_llama_baseline.sh",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100644",
-            "blob": "89a98465dc3a68a8cfd8a6867fc86f6b5bd10227"
           },
           "existing_action": "retain",
           "hold_reason": "hold_no_proven_current_successor_mapping",
@@ -2066,170 +1966,6 @@
           }
         },
         {
-          "id": "RD07-1519",
-          "path": "adl/tools/run_wp08_acip_sns_live_proof.sh",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "22641bf9d4530c0010c0c2a7018943c8af14c126"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_until_adl_caller_closure_and_behavior_obligations_are_reconciled",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "specific_consumer_or_document_disposition_required",
-            "Reconcile active ADL inbound callers and docs with delivered Infrastructure family.",
-            "Preserve original live behavior obligations separately from resolver proof; validator delivery is not validator execution.",
-            "Scoped retirement decision required before removal."
-          ],
-          "successor_mapping": {
-            "mapping": "reviewed_owner_adaptation",
-            "successor_repository": "agent-logic/agent-logic-infrastructure",
-            "successor_revision": "a5838b0748cd6fb13b8d30afb02da1088167c9fe",
-            "successor_paths": [
-              "adl/tools/run_wp08_acip_sns_live_proof.sh"
-            ],
-            "successor_blob": "c62aef7e99d3e7fdddf14630ddd51a5fd74724a8",
-            "evidence": "INFRASTRUCTURE_CSM_FAMILY_DELIVERY.json"
-          },
-          "prior_successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          },
-          "qualification_followup": {
-            "record": "INFRASTRUCTURE_CSM_FAMILY_DELIVERY.json",
-            "scope": "published_source_and_bounded_resolver_only",
-            "live_behavior_qualified": false,
-            "validator_presence_is_execution": false,
-            "changes_removal_authority": false
-          }
-        },
-        {
-          "id": "RD07-1520",
-          "path": "adl/tools/run_wp08_aws_signal_integration_live_proof.sh",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "8a1b6d53860bc711210af84c95b14e028cb2839d"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_until_adl_caller_closure_and_behavior_obligations_are_reconciled",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "specific_consumer_or_document_disposition_required",
-            "Reconcile active ADL inbound callers and docs with delivered Infrastructure family.",
-            "Preserve original live behavior obligations separately from resolver proof; validator delivery is not validator execution.",
-            "Scoped retirement decision required before removal."
-          ],
-          "successor_mapping": {
-            "mapping": "reviewed_owner_adaptation",
-            "successor_repository": "agent-logic/agent-logic-infrastructure",
-            "successor_revision": "a5838b0748cd6fb13b8d30afb02da1088167c9fe",
-            "successor_paths": [
-              "adl/tools/run_wp08_aws_signal_integration_live_proof.sh"
-            ],
-            "successor_blob": "18638bea3d26cbad073d56d2691b6126830a867f",
-            "evidence": "INFRASTRUCTURE_CSM_FAMILY_DELIVERY.json"
-          },
-          "prior_successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          },
-          "qualification_followup": {
-            "record": "INFRASTRUCTURE_CSM_FAMILY_DELIVERY.json",
-            "scope": "published_source_and_bounded_resolver_only",
-            "live_behavior_qualified": false,
-            "validator_presence_is_execution": false,
-            "changes_removal_authority": false
-          }
-        },
-        {
-          "id": "RD07-1522",
-          "path": "adl/tools/run_wp08_heartbeat_live_proof.sh",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "90544d83ac9c0baa4c8ce7a5d4a19b3608763031"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_until_adl_caller_closure_and_behavior_obligations_are_reconciled",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "specific_consumer_or_document_disposition_required",
-            "Reconcile active ADL inbound callers and docs with delivered Infrastructure family.",
-            "Preserve original live behavior obligations separately from resolver proof; validator delivery is not validator execution.",
-            "Scoped retirement decision required before removal."
-          ],
-          "successor_mapping": {
-            "mapping": "reviewed_owner_adaptation",
-            "successor_repository": "agent-logic/agent-logic-infrastructure",
-            "successor_revision": "a5838b0748cd6fb13b8d30afb02da1088167c9fe",
-            "successor_paths": [
-              "adl/tools/run_wp08_heartbeat_live_proof.sh"
-            ],
-            "successor_blob": "4db98db7407e07cc4f9f1bb02fe740833e95da8f",
-            "evidence": "INFRASTRUCTURE_CSM_FAMILY_DELIVERY.json"
-          },
-          "prior_successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          },
-          "qualification_followup": {
-            "record": "INFRASTRUCTURE_CSM_FAMILY_DELIVERY.json",
-            "scope": "published_source_and_bounded_resolver_only",
-            "live_behavior_qualified": false,
-            "validator_presence_is_execution": false,
-            "changes_removal_authority": false
-          }
-        },
-        {
-          "id": "RD07-1525",
-          "path": "adl/tools/run_wp08_polis_storage_live_proof.sh",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100644",
-            "blob": "39ef22f262e9d095ce51e4a9a44f654f7d015fc8"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_until_adl_caller_closure_and_behavior_obligations_are_reconciled",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "specific_consumer_or_document_disposition_required",
-            "Reconcile active ADL inbound callers and docs with delivered Infrastructure family.",
-            "Preserve original live behavior obligations separately from resolver proof; validator delivery is not validator execution.",
-            "Scoped retirement decision required before removal."
-          ],
-          "successor_mapping": {
-            "mapping": "reviewed_owner_adaptation",
-            "successor_repository": "agent-logic/agent-logic-infrastructure",
-            "successor_revision": "a5838b0748cd6fb13b8d30afb02da1088167c9fe",
-            "successor_paths": [
-              "adl/tools/run_wp08_polis_storage_live_proof.sh"
-            ],
-            "successor_blob": "2a957e214bc8bb8b40236e110b1101405cef8985",
-            "evidence": "INFRASTRUCTURE_CSM_FAMILY_DELIVERY.json"
-          },
-          "prior_successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          },
-          "qualification_followup": {
-            "record": "INFRASTRUCTURE_CSM_FAMILY_DELIVERY.json",
-            "scope": "published_source_and_bounded_resolver_only",
-            "live_behavior_qualified": false,
-            "validator_presence_is_execution": false,
-            "changes_removal_authority": false
-          }
-        },
-        {
           "id": "RD07-2050",
           "path": "adl/tools/test_private_wuji_aws_recovery_qualification.sh",
           "owner": "cognitive-sdlc",
@@ -2248,34 +1984,6 @@
             "mapping": "unmapped",
             "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
             "exact_successor_paths": []
-          }
-        },
-        {
-          "id": "RD07-2103",
-          "path": "adl/tools/test_run_wp08_aws_signal_integration_live_proof.sh",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "e05e5fde4f295e755f9b6d7ef43d5d9412bdb85e"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_no_proven_current_successor_mapping",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "specific_consumer_or_document_disposition_required",
-            "Deliver original adapted test with Infrastructure signal caller family; passing private fixture is not owner test publication or ADL caller closure."
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          },
-          "qualification_followup": {
-            "record": "SIGNAL_ORIGINAL_CONSUMER_QUALIFICATION.json",
-            "status": "original_orchestration_fixture_passed",
-            "native_or_live_aws_acceptance": false,
-            "changes_removal_authority": false
           }
         },
         {
@@ -2342,88 +2050,6 @@
           "qualification_followup": {
             "record": "HISTORICAL_CONSUMER_CLOSURE_GAPS.json",
             "status": "full_effectful_contract_not_executed",
-            "changes_removal_authority": false
-          }
-        },
-        {
-          "id": "RD07-2245",
-          "path": "adl/tools/validate_wp08_acip_sns_live_proof.py",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "ac58055a24a488ff80bb18567fd7bc561ce0404f"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_until_adl_caller_closure_and_behavior_obligations_are_reconciled",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "specific_consumer_or_document_disposition_required",
-            "Reconcile active ADL inbound callers and docs with delivered Infrastructure family.",
-            "Preserve original live behavior obligations separately from resolver proof; validator delivery is not validator execution.",
-            "Scoped retirement decision required before removal."
-          ],
-          "successor_mapping": {
-            "mapping": "exact_successor",
-            "successor_repository": "agent-logic/agent-logic-infrastructure",
-            "successor_revision": "a5838b0748cd6fb13b8d30afb02da1088167c9fe",
-            "successor_paths": [
-              "adl/tools/validate_wp08_acip_sns_live_proof.py"
-            ],
-            "successor_blob": "ac58055a24a488ff80bb18567fd7bc561ce0404f",
-            "evidence": "INFRASTRUCTURE_CSM_FAMILY_DELIVERY.json"
-          },
-          "prior_successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          },
-          "qualification_followup": {
-            "record": "INFRASTRUCTURE_CSM_FAMILY_DELIVERY.json",
-            "scope": "published_source_and_bounded_resolver_only",
-            "live_behavior_qualified": false,
-            "validator_presence_is_execution": false,
-            "changes_removal_authority": false
-          }
-        },
-        {
-          "id": "RD07-2246",
-          "path": "adl/tools/validate_wp08_aws_signal_integration_live_proof.py",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "e3eb4d4490512ae787b379856de84e75a4cb48ed"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_until_adl_caller_closure_and_behavior_obligations_are_reconciled",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "specific_consumer_or_document_disposition_required",
-            "Reconcile active ADL inbound callers and docs with delivered Infrastructure family.",
-            "Preserve original live behavior obligations separately from resolver proof; validator delivery is not validator execution.",
-            "Scoped retirement decision required before removal."
-          ],
-          "successor_mapping": {
-            "mapping": "exact_successor",
-            "successor_repository": "agent-logic/agent-logic-infrastructure",
-            "successor_revision": "a5838b0748cd6fb13b8d30afb02da1088167c9fe",
-            "successor_paths": [
-              "adl/tools/validate_wp08_aws_signal_integration_live_proof.py"
-            ],
-            "successor_blob": "e3eb4d4490512ae787b379856de84e75a4cb48ed",
-            "evidence": "INFRASTRUCTURE_CSM_FAMILY_DELIVERY.json"
-          },
-          "prior_successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          },
-          "qualification_followup": {
-            "record": "INFRASTRUCTURE_CSM_FAMILY_DELIVERY.json",
-            "scope": "published_source_and_bounded_resolver_only",
-            "live_behavior_qualified": false,
-            "validator_presence_is_execution": false,
             "changes_removal_authority": false
           }
         }
