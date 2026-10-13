@@ -6,12 +6,12 @@
   "execution_authorized": false,
   "original_count": 4134,
   "counts": {
-    "hold_explicit_reconciliation": 179,
+    "hold_explicit_reconciliation": 176,
     "hold_owner_test_reconciliation": 35,
     "preserve_approved_removal": 70,
     "preserve_reviewed_consumer_repair": 18,
     "proposed_historical_retirement_with_caller_repair": 19,
-    "proposed_owner_transfer_with_consumer_qualification": 474,
+    "proposed_owner_transfer_with_consumer_qualification": 477,
     "proposed_remove_construction_qualified_infrastructure": 216,
     "proposed_remove_with_entire_source_family": 1874,
     "proposed_remove_with_entire_tool_family": 716,
@@ -52385,15 +52385,32 @@
         "blob": "8006ccddf1ab52995226328bd9c5121eb982ca0e"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "coherent_source_retirement_approval",
+        "remaining_ADL_current_callers_repaired_or_retired",
+        "preserve_original_design_inputs_and_negative_guard_obligations"
       ],
       "successor_mapping": {
+        "mapping": "reviewed_owner_transfer",
+        "repository": "agent-logic/agent-logic-infrastructure",
+        "successor_revision": "52726019f14b790bdabe84b2e8e629fbbb6af7de",
+        "exact_successor_paths": [
+          "adl/tools/test_xcl_terraform_provider_major_bounds.sh"
+        ],
+        "source_sha256": "190a8113ec1e578bfe6f4bf081f81a5dc02e2365807c3d3974bb162f0d4e1032"
+      },
+      "prior_proposed_action": "hold_explicit_reconciliation",
+      "historical_hold_reason": "hold_no_proven_current_successor_mapping",
+      "historical_successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "consumer_qualification": {
+        "packet": "INFRASTRUCTURE_STATIC_VALIDATOR_OWNER_DELIVERY.json",
+        "sha256": "8fe93d2abe293bca60e15fe2d20b012b88fe38c26ed1793d6534706d92599f3b",
+        "scope": "Owner source guards6cases plus separately realdefaultpublicedge execution. No cloudplan/apply, source removal authority, nativefinish or cleanup claim."
       }
     },
     {
@@ -52503,15 +52520,32 @@
         "blob": "55199a86baf223e74d9f355d73eeda051c4cc6a3"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "coherent_source_retirement_approval",
+        "remaining_ADL_current_callers_repaired_or_retired",
+        "preserve_original_design_inputs_and_negative_guard_obligations"
       ],
       "successor_mapping": {
+        "mapping": "reviewed_owner_transfer",
+        "repository": "agent-logic/agent-logic-infrastructure",
+        "successor_revision": "52726019f14b790bdabe84b2e8e629fbbb6af7de",
+        "exact_successor_paths": [
+          "adl/tools/validate_aws_runtime_platform_static.sh"
+        ],
+        "source_sha256": "07394896e73617239dbd21be53384312fadd17db502ee33d0fd2cef022f9b48a"
+      },
+      "prior_proposed_action": "hold_explicit_reconciliation",
+      "historical_hold_reason": "hold_no_proven_current_successor_mapping",
+      "historical_successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "consumer_qualification": {
+        "packet": "INFRASTRUCTURE_STATIC_VALIDATOR_OWNER_DELIVERY.json",
+        "sha256": "8fe93d2abe293bca60e15fe2d20b012b88fe38c26ed1793d6534706d92599f3b",
+        "scope": "Owner source guards6cases plus separately realdefaultpublicedge execution. No cloudplan/apply, source removal authority, nativefinish or cleanup claim."
       }
     },
     {
@@ -52708,15 +52742,32 @@
         "blob": "a1e19fcfc9f7f0c0768fc6cfa1f1bd85786d9daa"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "coherent_source_retirement_approval",
+        "remaining_ADL_current_callers_repaired_or_retired",
+        "preserve_original_design_inputs_and_negative_guard_obligations"
       ],
       "successor_mapping": {
+        "mapping": "reviewed_owner_transfer",
+        "repository": "agent-logic/agent-logic-infrastructure",
+        "successor_revision": "52726019f14b790bdabe84b2e8e629fbbb6af7de",
+        "exact_successor_paths": [
+          "adl/tools/validate_csm_public_edge_static.sh"
+        ],
+        "source_sha256": "a2b143fc1dc946077f7536fc6aae2654e73645e51ddd52b4f8690f7bbf44c2fb"
+      },
+      "prior_proposed_action": "hold_explicit_reconciliation",
+      "historical_hold_reason": "hold_no_proven_current_successor_mapping",
+      "historical_successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "consumer_qualification": {
+        "packet": "INFRASTRUCTURE_STATIC_VALIDATOR_OWNER_DELIVERY.json",
+        "sha256": "8fe93d2abe293bca60e15fe2d20b012b88fe38c26ed1793d6534706d92599f3b",
+        "scope": "Owner source guards6cases plus separately realdefaultpublicedge execution. No cloudplan/apply, source removal authority, nativefinish or cleanup claim."
       }
     },
     {
