@@ -6,11 +6,11 @@
   "execution_authorized": false,
   "original_count": 4134,
   "counts": {
-    "hold_explicit_reconciliation": 125,
+    "hold_explicit_reconciliation": 124,
     "hold_owner_test_reconciliation": 35,
     "preserve_approved_removal": 70,
     "preserve_reviewed_consumer_repair": 18,
-    "proposed_historical_retirement_with_caller_repair": 22,
+    "proposed_historical_retirement_with_caller_repair": 23,
     "proposed_owner_transfer_with_consumer_qualification": 488,
     "proposed_remove_construction_qualified_infrastructure": 216,
     "proposed_remove_with_entire_source_family": 1874,
@@ -29505,15 +29505,18 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "specific_consumer_or_document_disposition_required",
+        "Exact scoped retirement decision for orphan checker; preserve original five-card DOM assertions historically without claiming native equivalence."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "prior_proposed_action": "hold_explicit_reconciliation",
+      "disposition_evidence": "RETIRED_PROMPT_EDITOR_CHECKER.json"
     },
     {
       "id": "RD07-1269",

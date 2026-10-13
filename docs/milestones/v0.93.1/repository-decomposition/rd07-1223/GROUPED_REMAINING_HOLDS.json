@@ -1,9 +1,9 @@
 {
   "schema": "adl.source_retirement.grouped_holds.v1",
   "source_head": "ea85e76550b49b4dade170e1da054d26b0e8d441",
-  "ledger_sha256": "38a0d11bd7ecbf2153441031a1f77db1c882ffc9c4768dd45cac1447d158e178",
+  "ledger_sha256": "53467f326929b6d1febc60c50256fba964ee3a9623d94123de1c2c0df6880509",
   "original_count": 4134,
-  "held_count": 160,
+  "held_count": 159,
   "additional_paths_separate": 22,
   "execution_authorized": false,
   "boundary": "Grouping preserves every original row and prerequisite verbatim. It does not resolve holds, authorize removal, or imply full issue readiness. Other proposed removals remain conditional.",
@@ -3976,31 +3976,10 @@
     {
       "id": "cognitive-sdlc-remaining",
       "title": "Mixed consumers (inherited inventory owner)",
-      "count": 34,
+      "count": 33,
       "next_action": "Resolve the exact per-row required_before_execution entries preserved below as one owner consumer batch: map current caller and qualified successor or choose explicit historical retention/retirement. Reuse existing owner evidence; source presence alone does not close behavior. Cloud/live operations require their own existing authorization.",
       "evidence": [],
       "rows": [
-        {
-          "id": "RD07-1268",
-          "path": "adl/tools/check_csdlc_prompt_editor_browser.js",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100644",
-            "blob": "6308713d2e161dfe561b481d355623b76f123ee6"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_no_proven_current_successor_mapping",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "specific_consumer_or_document_disposition_required"
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          }
-        },
         {
           "id": "RD07-1299",
           "path": "adl/tools/csm_binary_availability.sh",

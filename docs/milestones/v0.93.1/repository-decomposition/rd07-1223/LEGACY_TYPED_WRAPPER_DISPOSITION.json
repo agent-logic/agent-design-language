@@ -198,6 +198,31 @@
       "release_gate": false
     },
     "review_disposition": "ROOT_REVIEW.json finding fixed: removed both executable fullhashreads and --sha256. Caller supplies selected canonical executable path; help is discovery only, no admission claim.",
-    "delivery": "External proposal only. Existing owner issue selection, real discovery, owner publication, final consumer repair and scoped retirement still required. Five original rows remain held."
+    "delivery": "Native issue251 created and authenticated-reconciled; Planning12 owns setup/delivery. Source proposal not yet delivered owner qualification.",
+    "delivery_issue": {
+      "repository": "agent-logic/cognitive-sdlc",
+      "issue": 251,
+      "url": "https://github.com/agent-logic/cognitive-sdlc/issues/251",
+      "owner": "Planning #12",
+      "creation_status": "completed",
+      "authenticated_receipt": {
+        "schema": "csdlc.v3.github_mutation_receipt.v2",
+        "repository": "agent-logic/cognitive-sdlc",
+        "issue": 251,
+        "pull_request": null,
+        "expected_head_sha": "92779b3a8376182b691aad45258435ffb9c095f0",
+        "operation_digest": "9fcb9d111d75c5d39a443920419f17c50a12fb25bc90654575935b9f01581ba5",
+        "response_digest": null,
+        "readback_digest": "a6811ebefea0386d9d0ebcc76e41f12d2045f2505ea5155888dce998e627bb48",
+        "intent_digest": "3a50f55488192fd954a00546fb88fe846ef85c77a6acd68c67613104228367ae",
+        "reconciliation_digest": "ec60a5faaab61c2aa8c7b4f6f6f55d4e47737a00d102984a944bc5fbb27e03d4",
+        "adapter": "github-api-operational",
+        "authenticated": true,
+        "idempotent_replay": true
+      },
+      "evidence_path": "/Volumes/FastWork/c1223/native-v3-wrapper-proposal/create-reconciled-result.json",
+      "evidence_sha256": "ce48b29cd184123d7e97d0056de12a7f502b81bd21fea160db6ff87ae2dda7bb",
+      "boundary": "Issue creation/reconciliation only. Bound implementation, real help discovery, CI/publication and finalADLcaller retirement remain; fiveoriginalrows stillheld."
+    }
   }
 }
