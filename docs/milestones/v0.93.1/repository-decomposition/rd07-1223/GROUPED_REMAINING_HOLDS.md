@@ -15,7 +15,7 @@ The accompanying `GROUPED_REMAINING_HOLDS.json` preserves every held row, exact 
 
 ## Critical completion sequence
 
-1. Resolve existing scoped cutover decisions and owner native admission repair through Planning #12.
+1. Resolve existing scoped cutover decisions and owner native admission repair through WorkerBee #18, coordinating C-SDLC package delivery with WorkerBee #15. Planning #12 remains paused.
 2. Close owner publication/acceptance and identified missing behavior contracts using existing proof before scheduling any new tests.
 3. Reconcile remaining consumer batches and prepare one coherent exact-path retirement decision, preserving rollback evidence.
 4. Apply only accepted removal scope, qualify final public packages, independently review and complete native publication, finish and cleanup.
