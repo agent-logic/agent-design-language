@@ -1,12 +1,11 @@
 # #1223 remaining hold groups
 
-Snapshot of all **18 holds** after reviewed owner deliveries, conditional historical review-wrapper disposition and exact-candidate Runtime test reconciliation. All 4,134 original identities remain in the ledger; 22 additional current paths remain separately tracked. No deletion is authorized by this grouping.
+Snapshot of all **17 holds** after reviewed owner deliveries, conditional historical review-wrapper disposition and exact-candidate Runtime test reconciliation. All 4,134 original identities remain in the ledger; 22 additional current paths remain separately tracked. No deletion is authorized by this grouping.
 
 | Group | Held paths | Next action |
 | --- | ---: | --- |
 | Native conversion rehearsal closure | 5 | Deliver missing five helpers as coherent owner support; preserve authentic505 receipt, pinned old binary and generation9 inputs; qualify isolated real conversion route before transfer. Source-only native CLI correspondence is insufficient. |
 | Runtime Observatory behavior and CI | 6 | Reconcile room selection, mobile controls and incident assertions with owner journal additions; preserve extra governed-room test. Reconcile live-only CI denominator separately. Reuse existing owner proof where exact. |
-| Installed C-SDLC node and plan proof | 1 | Reuse five restored passing scenarios and native proof; reconcile exact delivered artifact and installed admission before authorizing source/test removal. |
 | Remaining ADL validation routing | 5 | After reviewed caller cutover, reconcile each retained runner, selector, coverage/PVF policy and configuration against five public packages and original assertions. Retain historical private lanes explicitly; do not silently drop inventory rows. |
 | Mixed consumers (inherited inventory owner) | 1 | Resolve the exact per-row required_before_execution entries preserved below as one owner consumer batch: map current caller and qualified successor or choose explicit historical retention/retirement. Reuse existing owner evidence; source presence alone does not close behavior. Cloud/live operations require their own existing authorization. |
 
@@ -94,3 +93,5 @@ RD07-0426 now has conditional historical-wrapper retirement with caller repair. 
 Runtime #149 / PR #156 exact candidate `ebfc8d84` now supplies conditional owner-transfer mappings for33 rows. Actual macOS ARM64 CI passed397 unit cases with1 unchanged ignored D12 case and94 smoke cases. Original201 maps200PASS+1ignored; historical109 splits91same-name RuntimePASS+1current-help replacementPASS+16unchanged public ADL processPASS+1historical undeclared-remote case. Two additional owner-boundary tests bring Runtime smoke to94. Counts are not interchangeable. Merge, native finish, installed acceptance and coherent removal approval remain separate. See `RUNTIME_149_33_TEST_RECONCILIATION.json`. No source removed; current holds:21.
 
 Three delivered Infrastructure CSM manual scripts now have reviewed owner navigation and conditional transfer dispositions. Their live acceptance obligations remain explicit; see `CSM_MANUAL_CALLER_RECONCILIATION.json`.
+
+C-SDLC source-family implementation f598c0711d9b270a5b304c7cde64dcdf3068619e applied815 exact removals. RD07-3076 left holds using the existing five-case proof and admitted owner package; CSDLC_SOURCE_FAMILY_APPLIED.json preserves changed historical contract boundaries. Prior275 removals remain, giving1090 executed removals. This grouping grants no further removal authority.

@@ -214,5 +214,52 @@ class CodeFriendFamilyTests(unittest.TestCase):
             check.check_codefriend_family(self.batch, self.before, self.after, set())
 
 
+
+class CsdlcFamilyTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.batch = check.committed_json(check.PACKET / 'CSDLC_SOURCE_FAMILY_APPLIED.json')
+        cls.before = check.tree(check.CSDLC_FAMILY_IMPLEMENTATION + '^')
+        cls.after = check.tree(check.CSDLC_FAMILY_IMPLEMENTATION)
+
+    def test_exact_scope_and_duplicate_removal_refusal(self):
+        paths = check.check_csdlc_family(self.batch, self.before, self.after, set())
+        self.assertEqual(len(paths), 815)
+        with self.assertRaisesRegex(ValueError, 'removal scope changed'):
+            check.check_csdlc_family(self.batch, self.before, self.after, paths)
+
+    def test_protected_authority_and_history_refuse(self):
+        for path in ('csdlc-v3/operator/authority-selector.json',
+                     'csdlc-v2/operator/skills/retained.md',
+                     '.csdlc/evidence/872/old-binary', 'docs/templates/prompts/current.json'):
+            batch = copy.deepcopy(self.batch)
+            next(r for r in batch['files'] if r['action'] == 'remove')['path'] = path
+            with self.assertRaisesRegex(ValueError, 'protected path'):
+                check.check_csdlc_family(batch, self.before, self.after, set())
+
+    def test_preimage_and_custody_tamper_refuse(self):
+        row = next(r for r in self.batch['files'] if r['action'] == 'remove')
+        before = dict(self.before)
+        before[row['path']] = ['100755', '0' * 40]
+        with self.assertRaisesRegex(ValueError, 'applied identity mismatch'):
+            check.check_csdlc_family(self.batch, before, self.after, set())
+        batch = copy.deepcopy(self.batch)
+        batch['rollback']['rows'][0]['sha256'] = '0' * 64
+        with self.assertRaisesRegex(ValueError, 'custody identity mismatch'):
+            check.check_csdlc_family(batch, self.before, self.after, set())
+        batch['rollback']['rows'][0]['id'] = 'RD07-9999'
+        with self.assertRaisesRegex(ValueError, 'custody scope changed'):
+            check.check_csdlc_family(batch, self.before, self.after, set())
+
+    def test_substituted_archive_refuses_before_readback(self):
+        batch = copy.deepcopy(self.batch)
+        with tempfile.TemporaryDirectory() as tmp:
+            fake = Path(tmp) / 'substituted.tar'
+            fake.write_bytes(b'not the pinned archive')
+            batch['rollback']['supplement']['path'] = str(fake)
+            with self.assertRaisesRegex(ValueError, 'supplement changed'):
+                check.check_csdlc_custody(batch, Path(tmp) / 'unused-original.tar.gz')
+
+
 if __name__ == '__main__':
     unittest.main()

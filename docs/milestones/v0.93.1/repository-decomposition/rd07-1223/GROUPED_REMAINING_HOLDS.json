@@ -1,9 +1,9 @@
 {
   "schema": "adl.source_retirement.grouped_holds.v1",
   "source_head": "5edd4bf7452227fbfa83e990ffd496baeba6a3c0",
-  "ledger_sha256": "69955ee4d223cb7bbf242f93bfb661faa90e7db4c78d394b907b0e1066f2a9f3",
+  "ledger_sha256": "42b7a9a525c20601812b94da8f4232b7508867d00afcc83d1f447c3db9d94b9a",
   "original_count": 4134,
-  "held_count": 18,
+  "held_count": 17,
   "additional_paths_separate": 22,
   "execution_authorized": false,
   "boundary": "Grouping preserves every original row and prerequisite verbatim. It does not resolve holds, authorize removal, or imply full issue readiness. Other proposed removals remain conditional.",
@@ -314,47 +314,6 @@
             "exact_successor_paths": [
               "demos/html-observatory/tests/live_only.browser.mjs"
             ]
-          }
-        }
-      ]
-    },
-    {
-      "id": "node-proof",
-      "title": "Installed C-SDLC node and plan proof",
-      "count": 1,
-      "next_action": "Reuse five restored passing scenarios and native proof; reconcile exact delivered artifact and installed admission before authorizing source/test removal.",
-      "evidence": [
-        "QUALIFIED_OWNER_HOLD_MAPPING.json"
-      ],
-      "rows": [
-        {
-          "id": "RD07-3076",
-          "path": "csdlc-v3/tests/installed_intent_commands.rs",
-          "owner": "cognitive-sdlc",
-          "component": "csdlc-v3-tests",
-          "current_identity": {
-            "mode": "100644",
-            "blob": "a8a31ba8767da5acbf616e6c14b316eccd4760e8"
-          },
-          "existing_action": "retain",
-          "proposed_action": "hold_owner_test_reconciliation",
-          "required_before_execution": [
-            "qualified_owner_source_and_test_obligations",
-            "all_active_caller_and_CI_repairs_in_same_delta",
-            "scoped_operator_decision",
-            "Resolve CS-NODE-PROOF with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json",
-            "Resolve CS-PLAN-AMENDMENT with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
-          ],
-          "successor_mapping": {
-            "mapping": "same_path_changed",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          },
-          "qualification_followup": {
-            "record": "QUALIFIED_OWNER_HOLD_MAPPING.json",
-            "scope": "restored_node_and_atomic_plan_5_pass_177_filtered",
-            "source_candidate": "369cbde1e91efbc15ad72f936080b54aed8e6bb5",
-            "changes_removal_authority": false
           }
         }
       ]

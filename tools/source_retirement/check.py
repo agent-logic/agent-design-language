@@ -16,7 +16,7 @@ INVENTORY_SHA256 = 'a22fa6306245ddb3916cf4cb3021286a2d91ebfe77ca719eb7b1039d9f6d
 CAPTURED_IDENTITIES_SHA256 = 'e306e5a70ae7792fd2fef91449a0285d665126375a28c0dd05914724fe1bdebe'
 ARCHIVE_SHA256 = '12205043566913435c25ea414b1fd9148b46727821f7bfefd5d452cfe47a1c17'
 # Independently reviewed existing execution overlay; changing this pin requires review.
-EXECUTION_APPROVAL_SHA256 = '9e1ac58f2f7da12603b5b14a353268b8e0ba3028c44da8ebdda43fba106d76c3'
+EXECUTION_APPROVAL_SHA256 = '316d0f1fc306fbd7217ee538667f8d94b7bfeedfe36e24a75de7f3f5674f01ae'
 COMPONENTS = ('infra/ddns', 'infra/aws/runtime/log-archive', 'infra/aws/runtime/agent-checkpoint-archive')
 PROTECTED = ('csdlc-v3/operator/authority-selector.json', 'csdlc-v3/operator/native-authority-receipt.json',
              'docs/templates/prompts/current.json', 'adl/tools/install_owner_binaries.sh',
@@ -292,6 +292,56 @@ def check_codefriend_family(batch, before_tree, after_tree, prior_removed):
     return paths
 
 
+
+CSDLC_FAMILY_SHA256 = '1e462af26effbb5ab0f9318152105a3f270d499386fa799c0622a36df014aea2'
+CSDLC_FAMILY_IMPLEMENTATION = 'f598c0711d9b270a5b304c7cde64dcdf3068619e'
+CSDLC_REMOVAL_SCOPE_SHA256 = 'cc9e93053181b4d0b2ef0379dc435250c9b34c82ad66a2647b3db7eeebba9ffb'
+
+
+def check_csdlc_family(batch, before_tree, after_tree, prior_removed):
+    rows = [r for r in batch['files'] if r['action'] == 'remove']
+    paths = {r['path'] for r in rows}
+    require(not any(p.startswith(('csdlc-v3/operator/', 'csdlc-v2/operator/',
+                                  '.csdlc/', 'docs/templates/')) for p in paths),
+            'C-SDLC protected path removal')
+    require(len(rows) == len(paths) == 815 and not paths.intersection(prior_removed),
+            'C-SDLC family removal scope changed')
+    require(batch['counts'] == {'source_removals': 815, 'caller_modifications': 12, 'additions': 3},
+            'C-SDLC family denominator changed')
+    custody_rows = batch['rollback']['rows']
+    custody = {r['path']: r for r in custody_rows}
+    scope = hashlib.sha256(json.dumps(sorted((r['id'], r['path']) for r in custody_rows),
+                                     separators=(',', ':')).encode()).hexdigest()
+    require(len(custody_rows) == 815 and set(custody) == paths and
+            scope == CSDLC_REMOVAL_SCOPE_SHA256, 'C-SDLC family custody scope changed')
+    for row in rows:
+        path, before = row['path'], row['before']
+        require(before_tree.get(path) == [before['mode'], before['blob']] and
+                row['after'] is None and path not in after_tree, 'C-SDLC family applied identity mismatch')
+        c = custody[path]
+        require(c['sha256'] == before['sha256'] and c['member'] == 'source/' + path and
+                c['mode'] == int(before['mode'][-3:], 8), 'C-SDLC family custody identity mismatch')
+    return paths
+
+
+def check_csdlc_custody(batch, original_path):
+    supplement = batch['rollback']['supplement']
+    supplement_path = Path(supplement['path'])
+    require(hashlib.sha256(supplement_path.read_bytes()).hexdigest() == supplement['sha256'],
+            'C-SDLC family supplement changed')
+    with tarfile.open(original_path, 'r:gz') as original, tarfile.open(supplement_path) as extra:
+        expected_extra = {'source/' + c['path'] for c in batch['rollback']['rows']
+                          if not c['original_archive_matches']}
+        require({m.name for m in extra.getmembers()} == expected_extra,
+                'C-SDLC family supplemental member scope changed')
+        for c in batch['rollback']['rows']:
+            archive = original if c['original_archive_matches'] else extra
+            member = archive.getmember(c['member'])
+            require(member.isfile() and member.mode == c['mode'], 'C-SDLC family archive mode changed')
+            require(hashlib.sha256(archive.extractfile(member).read()).hexdigest() == c['sha256'],
+                    'C-SDLC family archive bytes changed')
+
+
 def run():
     ledger = committed_json(PACKET / 'DISPOSITION_REGISTER.json')
     observed = tree(ledger['observed_main'])
@@ -325,7 +375,13 @@ def run():
     family = json.loads(family_bytes)
     removed.update(check_codefriend_family(family, tree(CODEFRIEND_FAMILY_IMPLEMENTATION + '^'),
                                           tree(CODEFRIEND_FAMILY_IMPLEMENTATION), removed))
-    require(len(removed) == 275, 'executed removal count changed')
+    csdlc_bytes = committed_bytes(PACKET / 'CSDLC_SOURCE_FAMILY_APPLIED.json')
+    require(hashlib.sha256(csdlc_bytes).hexdigest() == CSDLC_FAMILY_SHA256,
+            'C-SDLC family applied packet changed')
+    csdlc = json.loads(csdlc_bytes)
+    removed.update(check_csdlc_family(csdlc, tree(CSDLC_FAMILY_IMPLEMENTATION + '^'),
+                                    tree(CSDLC_FAMILY_IMPLEMENTATION), removed))
+    require(len(removed) == 1090, 'executed removal count changed')
     overlay_bytes = committed_bytes(PACKET / 'EXECUTION_OVERLAY.json')
     overlay = json.loads(overlay_bytes)
     require(overlay['status'] == 'complete' and not overlay['missing_entries'],
@@ -365,6 +421,7 @@ def run():
                     'CodeFriend family archive mode changed')
             require(hashlib.sha256(archive.extractfile(member).read()).hexdigest() == before['sha256'],
                     'CodeFriend family archive bytes changed')
+    check_csdlc_custody(csdlc, archive_path)
     scanned = {}
     for component in COMPONENTS:
         names = ('RETIREMENT_BATCH_01_DDNS', 'RETIREMENT_BATCH_02_LOG_ARCHIVE',
@@ -394,7 +451,7 @@ def run():
         check_references(refs, allowed)
         scanned[component] = len(refs)
     return {'schema': 'adl.source_retirement.guard.v1', 'status': 'passed', 'head': git('rev-parse', 'HEAD'),
-            'candidate_rows': 4134, 'existing_branch_removals': 34, 'approved_component_removals': 36, 'public_cutover_removals': 1, 'codefriend_helper_removals': 6, 'codefriend_family_removals': 198, 'additional_inventory_paths': 22, 'total_removals': len(removed), 'direct_reference_files': scanned,
+            'candidate_rows': 4134, 'existing_branch_removals': 34, 'approved_component_removals': 36, 'public_cutover_removals': 1, 'codefriend_helper_removals': 6, 'codefriend_family_removals': 198, 'csdlc_family_removals': 815, 'additional_inventory_paths': 22, 'total_removals': len(removed), 'direct_reference_files': scanned,
             'limits': ['Preparation guard only; no new deletion approval.',
                        'Direct component-path references only; dynamic and indirect consumers still require review.',
                        'Rollback digest is checked separately from functional restore and installed product proof.',

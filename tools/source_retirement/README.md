@@ -5,15 +5,25 @@ combined ledger classifies those same rows and 22 additional paths separately.
 Conditional proposals never authorize deletion. The executed boundary is 34
 original removals, 36 approved component removals, and one public-cutover removal:
 `RD07-2113 adl/tools/test_select_validation_lanes.sh` (71 historical total), plus
-six reviewed CodeFriend helper removals (77 historical total), followed by196
-CodeFriend source-family and two obsolete workflow removals (275 executed total).
-`CODEFRIEND_FAMILY_APPLIED.json` pins the latter198 exact paths and source
+six reviewed CodeFriend helper removals (77 historical total), followed by 196
+CodeFriend source-family and two obsolete workflow removals (275 historical total), then 815 C-SDLC source-family removals
+(1,090 executed removals total).
+`CODEFRIEND_FAMILY_APPLIED.json` pins the latter 198 exact paths and source
 preimages, reviewed caller delta and five-member supplemental rollback archive.
 Retired host entrypoints do not establish current owner host/release acceptance.
 `CODEFRIEND_SIX_HELPER_APPLIED.json` pins those six IDs, their exact preimages,
 commit `40dd5b4ce90d6f5fc89db77501788ad30505a292`, and baseline archive members.
 Its eight caller repairs preserve historical assertions and qualified owner routing.
-The wider CodeFriend proposals remain conditional.
+Remaining proposals remain conditional.
+
+`CSDLC_SOURCE_FAMILY_APPLIED.json` pins the 815 C-SDLC removals, 12 caller
+modifications and three additions at commit
+`f598c0711d9b270a5b304c7cde64dcdf3068619e`. Custody covers 801 unchanged
+baseline-archive files and 14 exact supplemental preimages. Canonical native
+authority selectors and receipts, retained operator history, public prompt
+templates, lifecycle journals and original issue 872 evidence remain protected.
+Historical failure-injection differences and owner package provenance do not
+establish behavioral equivalence or a new conversion rehearsal pass.
 
 `check.py` reads committed Git objects, including approval packets. It verifies
 original identities, combined counts, disjoint held groups, exact executed deletion
