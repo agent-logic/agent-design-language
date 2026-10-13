@@ -75,9 +75,14 @@ staleness, citations, or unavailable admission fail closed. Incompatible or
 partial admitted review records yield `not_comparable`, never a resolved claim.
 Output is JSON on stdout; command events remain on stderr.
 
-## Installed proof recipe
+## Historical ADL installed proof recipe
 
-Create fresh fixture directories. The examples produce deterministic signed
+The qualified successor is the [CodeFriend owner runner at `e93a457ad6325017627a66a2abe31a3376fa28fd`](https://github.com/agent-logic/codefriend/blob/e93a457ad6325017627a66a2abe31a3376fa28fd/tools/installed_proof/codefriend_palace_installed_proof.py).
+Use that runner and its owner resources for execution. The recipe below preserves
+the original ADL fixture and assertion provenance; it is not a current ADL build
+or execution instruction, and the source-family transfer remains conditional.
+
+The original recipe required fresh fixture directories. The examples produce deterministic signed
 fixtures with **public test signing seeds**, not operational credentials.
 The fixture identity goes through the same public builders and production
 provisioner as the consumer; no test-support authority constructor is used.

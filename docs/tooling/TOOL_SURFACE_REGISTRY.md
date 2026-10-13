@@ -30,7 +30,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 15
 - `supported shim`: 6
-- `internal helper`: 713
+- `internal helper`: 707
 - `historical evidence`: 11
 - `archive candidate`: 0
 - `remove candidate`: 2
@@ -87,17 +87,11 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/ci_path_policy.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/clean_coverage_artifacts.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/codefriend` | tool surface | internal helper | Directory containing bounded helper assets, scripts, or proof inputs. |
-| `adl/tools/codefriend_drift_installed_proof.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/codefriend_fitness_ci.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/codefriend_fitness_ci_artifacts.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/codefriend_fitness_ci_fixture.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/codefriend_fitness_ci_proof.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
-| `adl/tools/codefriend_fitness_installed_proof.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
-| `adl/tools/codefriend_impact_installed_proof.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/codefriend_memory_installed_proof.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
-| `adl/tools/codefriend_palace_installed_proof.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
-| `adl/tools/codefriend_rationale_installed_proof.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
-| `adl/tools/codefriend_structure_installed_proof.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/codex_pr.sh` | tool surface | remove candidate | Retired fail-closed wrapper kept only for migration guidance until final deletion. |
 | `adl/tools/codexw.sh` | tool surface | remove candidate | Retired fail-closed wrapper kept only for migration guidance until final deletion. |
 | `adl/tools/compute_ccc_v0.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |

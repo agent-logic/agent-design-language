@@ -57,8 +57,13 @@ content or local paths. Repository content remains admitted redacted evidence.
 
 ## Validation and calibration
 
-`codefriend_cf_cog_impact` exercises the production reporter with admitted inert
-Git fixtures. `adl/tools/codefriend_impact_installed_proof.py` drives the installed
+The following is the historical ADL assertion contract. The qualified runner now
+belongs to [CodeFriend at `e93a457ad6325017627a66a2abe31a3376fa28fd`](https://github.com/agent-logic/codefriend/blob/e93a457ad6325017627a66a2abe31a3376fa28fd/tools/installed_proof/codefriend_impact_installed_proof.py).
+Its owner resources and installed-product requirements apply; this text does not
+assert that the historical ADL test target is currently runnable.
+
+`codefriend_cf_cog_impact` exercised the production reporter with admitted inert
+Git fixtures. The historical `adl/tools/codefriend_impact_installed_proof.py` drove the installed
 product through acquisition, graph creation, impact, persistence and readback.
 It checks exact expected sets for a chain and cycle, explicit partial output for
 unknown edges and unsupported input, stale revisions, malformed/bounded inputs,

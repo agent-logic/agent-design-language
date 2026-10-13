@@ -19,5 +19,15 @@
     "Private-state lineage verification is invocation-local; durable Memory Palace succession is separately enforced by Runtime service"
   ],
   "successor_lineage_regression": "Real signed seq1 admission followed by seq2 preparation, continuity-error atomicity and accepted replay; original prepare must fail",
-  "cli_coverage_regression": "Rust integration invokes CARGO_BIN_EXE_adl for signed palace-index and repeat palace-compare, validates saved output, and proves root/output isolation and malformed-authority failure without advancing latest."
+  "cli_coverage_regression": "Rust integration invokes CARGO_BIN_EXE_adl for signed palace-index and repeat palace-compare, validates saved output, and proves root/output isolation and malformed-authority failure without advancing latest.",
+  "repository_split_routing": {
+    "status": "historical_ADL_contract_with_qualified_owner_runner",
+    "owner_repository": "agent-logic/codefriend",
+    "owner_candidate": "e93a457ad6325017627a66a2abe31a3376fa28fd",
+    "owner_runner": "tools/installed_proof/codefriend_palace_installed_proof.py",
+    "owner_runner_source": "https://github.com/agent-logic/codefriend/blob/e93a457ad6325017627a66a2abe31a3376fa28fd/tools/installed_proof/codefriend_palace_installed_proof.py",
+    "historical_adl_runner": "adl/tools/codefriend_palace_installed_proof.py",
+    "qualification_packet": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CODEFRIEND_104_INSTALLED_QUALIFICATION.json",
+    "boundary": "Original fields preserve historical assertions and fixture provenance. They do not declare a current runnable ADL test target or release gate. Execute the owner runner with its owner resources; local source-family retirement remains separately conditional."
+  }
 }
