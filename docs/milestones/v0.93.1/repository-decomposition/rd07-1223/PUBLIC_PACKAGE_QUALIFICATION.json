@@ -40,5 +40,82 @@
     "Local recorded-source proof; not exact future PR-head CI",
     "No permission for additional source removal",
     "Native publication/finish and owner prerequisite qualification remain separate"
-  ]
+  ],
+  "linux_artifact_consumer": {
+    "status": "passed",
+    "source_revision": "e4d7bf057634c2f0fd6d22421e9ca3e6cb37702e",
+    "evidence": "FastWork c1223/evidence/public-linux-five-e4d7bf0576",
+    "result_sha256": "4159b40cc8c05ae9bc2a06ef6c0f50d1f5a6cb16206a2ac1a3287e702677195f",
+    "input_sha256": "7e9e88fbbd8c3ea7a9d31a360b1fc38141359d26ff52a18adf6be401c5b05a85",
+    "exit_code": 0,
+    "elapsed_seconds": 29.105,
+    "packages": [
+      {
+        "package": "adl-schema",
+        "version": "0.1.0",
+        "source": "adl-schema",
+        "artifact": "adl-schema-0.1.0.tar",
+        "sha256": "59b160ba52a136489a24cba80e2b9ab1bd4db70d66455cded29fae71a40010f7",
+        "manifest_normalization": "standalone workspace; existing sibling public dependencies retained"
+      },
+      {
+        "package": "adl-uts",
+        "version": "0.1.0",
+        "source": "adl-uts",
+        "artifact": "adl-uts-0.1.0.tar",
+        "sha256": "8d95da463d8840e8ab0c93ad4ac83d3b7eb87398d3f8cca3c039cde908def2ab",
+        "manifest_normalization": "standalone workspace; existing sibling public dependencies retained"
+      },
+      {
+        "package": "adl-language",
+        "version": "0.92.1",
+        "source": "adl-v2/crates/adl-language",
+        "artifact": "adl-language-0.92.1.tar",
+        "sha256": "32ee997b0ab5ec326cfb8b9c2759d00377febdc9da1f71ab91c2e9b6bd58d01c",
+        "manifest_normalization": "standalone workspace; existing sibling public dependencies retained"
+      },
+      {
+        "package": "adl-compiler",
+        "version": "0.92.1",
+        "source": "adl-v2/crates/adl-compiler",
+        "artifact": "adl-compiler-0.92.1.tar",
+        "sha256": "b029bcaf5cd658989d66299710c89749f151e48170a1f180410687907ebe4d7f",
+        "manifest_normalization": "standalone workspace; existing sibling public dependencies retained"
+      },
+      {
+        "package": "adl-legacy-contracts",
+        "version": "0.1.0",
+        "source": "adl-legacy-contracts",
+        "artifact": "adl-legacy-contracts-0.1.0.tar",
+        "sha256": "0af06ee11000ebebc0efc2e24e3c0ef1c330a225dd2e8844a278f7f0cce634d3",
+        "manifest_normalization": "standalone workspace; existing sibling public dependencies retained"
+      }
+    ],
+    "consumer_cases": 7,
+    "uts_fixtures": 21,
+    "argv": [
+      "docker",
+      "--host",
+      "unix:///Volumes/FastWork/c1223/home/split-build/docker.sock",
+      "exec",
+      "--workdir",
+      "/qualification-public-five-e4d7-r2/source/consumer",
+      "--env",
+      "CARGO_BUILD_JOBS=1",
+      "--env",
+      "CARGO_TARGET_DIR=/build-target",
+      "issue1223-runtime-11ce6614",
+      "cargo",
+      "run",
+      "--offline",
+      "--locked",
+      "--quiet"
+    ],
+    "isolation": "Network-disabled Linux container; fresh extracted public artifacts and locked consumer, no private source in extracted tree; reused Runtime qualification container and public dependency cache.",
+    "limits": [
+      "Artifact construction and consumer proof, not a fresh ADL clone in a dedicated new container",
+      "Does not rerun macOS sandbox negative cases or source test/fmt/clippy",
+      "Recorded source only, not final PR-head CI"
+    ]
+  }
 }
