@@ -91,12 +91,27 @@
       "before": null,
       "after": [
         "100644",
-        "1ec456fd1628ac12284e12771b46eff37e4413bf"
+        "0c258a5d2a9225d3912975b4d1318e9f8225c71a"
       ],
-      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
-      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
-      "review_reference": "review_1223_applied_components exact77/112 review",
-      "source_chain_reference": "proposed_reconciled_entries:adl/config/validation_lane_selector.public.v1.json"
+      "implementation_commit": "6030a16305699af338e41c27f2abcac893c078f3",
+      "approval_reference": "PUBLIC_WORKSPACE_CLOSURE.json",
+      "review_reference": "review_1223_applied_components six-file PASS",
+      "source_chain_reference": "PUBLIC_WORKSPACE_CLOSURE.json:adl/config/validation_lane_selector.public.v1.json",
+      "prior_reviewed_transitions": [
+        {
+          "path": "adl/config/validation_lane_selector.public.v1.json",
+          "action": "add",
+          "before": null,
+          "after": [
+            "100644",
+            "1ec456fd1628ac12284e12771b46eff37e4413bf"
+          ],
+          "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+          "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+          "review_reference": "review_1223_applied_components exact77/112 review",
+          "source_chain_reference": "proposed_reconciled_entries:adl/config/validation_lane_selector.public.v1.json"
+        }
+      ]
     },
     {
       "path": "adl/config/validation_lane_selector.v0.91.6.json",
@@ -1224,12 +1239,30 @@
       ],
       "after": [
         "100755",
-        "7e64d99db4cb346ac252f93704184a2e5848c78d"
+        "0a8444d0f026b3800ee776957419817f0cba35f1"
       ],
-      "implementation_commit": "bc3324635521987bd0c9315b1c62459c4f1d3578",
-      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
-      "review_reference": "review_1223_applied_components exact77/112 review",
-      "source_chain_reference": "proposed_reconciled_entries:tools/public_adl/test_ci_contract.py"
+      "implementation_commit": "6030a16305699af338e41c27f2abcac893c078f3",
+      "approval_reference": "PUBLIC_WORKSPACE_CLOSURE.json",
+      "review_reference": "review_1223_applied_components six-file PASS",
+      "source_chain_reference": "PUBLIC_WORKSPACE_CLOSURE.json:tools/public_adl/test_ci_contract.py",
+      "prior_reviewed_transitions": [
+        {
+          "path": "tools/public_adl/test_ci_contract.py",
+          "action": "modify",
+          "before": [
+            "100755",
+            "61fb0e2bb89a84d82f8b40b1953039b21407b267"
+          ],
+          "after": [
+            "100755",
+            "7e64d99db4cb346ac252f93704184a2e5848c78d"
+          ],
+          "implementation_commit": "bc3324635521987bd0c9315b1c62459c4f1d3578",
+          "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+          "review_reference": "review_1223_applied_components exact77/112 review",
+          "source_chain_reference": "proposed_reconciled_entries:tools/public_adl/test_ci_contract.py"
+        }
+      ]
     },
     {
       "path": "tools/public_adl/test_ci_policy.py",
@@ -1266,12 +1299,12 @@
       "before": null,
       "after": [
         "100644",
-        "67913eff47f26792a46f731e2bfaf43196e3b7b6"
+        "2c0d332d738aab85e37a90740916771d2356206a"
       ],
-      "implementation_commit": "b2cdd4e9b1100a4f94e463e8d80243747a88554d",
-      "approval_reference": "PUBLIC_OWNER_CALLER_REPAIR.json",
-      "review_reference": "review_1223_applied_components exact five-file PASS",
-      "source_chain_reference": "PUBLIC_OWNER_CALLER_REPAIR.json:tools/public_adl/test_validation_interfaces.py",
+      "implementation_commit": "6030a16305699af338e41c27f2abcac893c078f3",
+      "approval_reference": "PUBLIC_WORKSPACE_CLOSURE.json",
+      "review_reference": "review_1223_applied_components six-file PASS",
+      "source_chain_reference": "PUBLIC_WORKSPACE_CLOSURE.json:tools/public_adl/test_validation_interfaces.py",
       "prior_reviewed_transitions": [
         {
           "path": "tools/public_adl/test_validation_interfaces.py",
@@ -1285,6 +1318,19 @@
           "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
           "review_reference": "review_1223_applied_components exact77/112 review",
           "source_chain_reference": "proposed_reconciled_entries:tools/public_adl/test_validation_interfaces.py"
+        },
+        {
+          "path": "tools/public_adl/test_validation_interfaces.py",
+          "action": "add",
+          "before": null,
+          "after": [
+            "100644",
+            "67913eff47f26792a46f731e2bfaf43196e3b7b6"
+          ],
+          "implementation_commit": "b2cdd4e9b1100a4f94e463e8d80243747a88554d",
+          "approval_reference": "PUBLIC_OWNER_CALLER_REPAIR.json",
+          "review_reference": "review_1223_applied_components exact five-file PASS",
+          "source_chain_reference": "PUBLIC_OWNER_CALLER_REPAIR.json:tools/public_adl/test_validation_interfaces.py"
         }
       ]
     },
@@ -1303,6 +1349,51 @@
       "approval_reference": "PUBLIC_OWNER_CALLER_REPAIR.json",
       "review_reference": "review_1223_applied_components exact five-file PASS",
       "source_chain_reference": "PUBLIC_OWNER_CALLER_REPAIR.json:docs/tooling/VALIDATION_PLATFORM_ROUTING.md"
+    },
+    {
+      "path": "adl-v2/Cargo.lock",
+      "action": "modify",
+      "before": [
+        "100644",
+        "f8263d8b8297f651d11caa6278945a38f2c963dc"
+      ],
+      "after": [
+        "100644",
+        "c1f8cb82f2bee0196fe62b88354efa03d52b75a0"
+      ],
+      "implementation_commit": "6030a16305699af338e41c27f2abcac893c078f3",
+      "approval_reference": "PUBLIC_WORKSPACE_CLOSURE.json",
+      "review_reference": "review_1223_applied_components six-file PASS",
+      "source_chain_reference": "PUBLIC_WORKSPACE_CLOSURE.json:adl-v2/Cargo.lock"
+    },
+    {
+      "path": "adl-v2/Cargo.toml",
+      "action": "modify",
+      "before": [
+        "100644",
+        "5de27d7f50a3ff7767beac400fcedcb1bf4f94ca"
+      ],
+      "after": [
+        "100644",
+        "5992378030c2801a91197d6c93ed9081a58b5b3a"
+      ],
+      "implementation_commit": "6030a16305699af338e41c27f2abcac893c078f3",
+      "approval_reference": "PUBLIC_WORKSPACE_CLOSURE.json",
+      "review_reference": "review_1223_applied_components six-file PASS",
+      "source_chain_reference": "PUBLIC_WORKSPACE_CLOSURE.json:adl-v2/Cargo.toml"
+    },
+    {
+      "path": "tools/source_retirement/README.md",
+      "action": "add",
+      "before": null,
+      "after": [
+        "100644",
+        "9e6dae1ee100b09ca30fcfd826fcc9ea2cebd926"
+      ],
+      "implementation_commit": "6030a16305699af338e41c27f2abcac893c078f3",
+      "approval_reference": "PUBLIC_WORKSPACE_CLOSURE.json",
+      "review_reference": "review_1223_applied_components six-file PASS",
+      "source_chain_reference": "PUBLIC_WORKSPACE_CLOSURE.json:tools/source_retirement/README.md"
     }
   ],
   "missing_entries": [],
@@ -5360,6 +5451,20 @@
         "adl/tools/test_owner_binary_install.sh",
         "tools/public_adl/test_validation_interfaces.py",
         "docs/tooling/VALIDATION_PLATFORM_ROUTING.md"
+      ],
+      "reviewer": "review_1223_applied_components",
+      "verdict": "PASS"
+    },
+    {
+      "packet": "PUBLIC_WORKSPACE_CLOSURE.json",
+      "implementation_commit": "6030a16305699af338e41c27f2abcac893c078f3",
+      "paths": [
+        "adl-v2/Cargo.lock",
+        "adl-v2/Cargo.toml",
+        "adl/config/validation_lane_selector.public.v1.json",
+        "tools/public_adl/test_ci_contract.py",
+        "tools/public_adl/test_validation_interfaces.py",
+        "tools/source_retirement/README.md"
       ],
       "reviewer": "review_1223_applied_components",
       "verdict": "PASS"
