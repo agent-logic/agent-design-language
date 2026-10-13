@@ -23,8 +23,6 @@ SUPPORTED_SHIMS = {
 }
 
 REMOVE_CANDIDATES = {
-    "codex_pr.sh": "Retired fail-closed wrapper kept only for migration guidance until final deletion.",
-    "codexw.sh": "Retired fail-closed wrapper kept only for migration guidance until final deletion.",
 }
 
 PRIMARY_TOOL_SCRIPTS = {

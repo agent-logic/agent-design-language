@@ -145,8 +145,9 @@ are not the preferred public workflow:
 - v1 lifecycle aliases are removed and must not be used for issue work
 - `adl_pr_cycle` install/resync helpers are retained only for historical or
   compatibility inspection, not for current native v3 lifecycle operation
-- `codex_pr.sh` and `codexw.sh` are retired fail-closed wrappers kept only to
-  print migration guidance; do not use them for new work
+- `codex_pr.sh` and `codexw.sh` have been removed after their fail-closed
+  migration period. Use the current native C-SDLC authority and run Codex
+  directly in its bound worktree; historical v2 guidance is not current routing.
 
 ## See Also / Canonical Docs
 
