@@ -1,17 +1,17 @@
 {
   "schema": "adl.source_retirement.combined_remaining_delta.v1",
   "issue": 1223,
-  "source_head": "12d730f033293fc1fe142dc180001afa9936fd65",
+  "source_head": "2a392518dd0afd4b8eb239e561ef4591bdb604b8",
   "status": "prepared_scope_not_ready_for_execution",
   "execution_authorized": false,
   "original_count": 4134,
   "counts": {
-    "hold_explicit_reconciliation": 91,
+    "hold_explicit_reconciliation": 89,
     "hold_owner_test_reconciliation": 35,
     "preserve_approved_removal": 70,
     "preserve_reviewed_consumer_repair": 18,
     "proposed_historical_retirement_with_caller_repair": 33,
-    "proposed_owner_transfer_with_consumer_qualification": 489,
+    "proposed_owner_transfer_with_consumer_qualification": 491,
     "proposed_remove_construction_qualified_infrastructure": 216,
     "proposed_remove_with_entire_source_family": 1874,
     "proposed_remove_with_entire_tool_family": 687,
@@ -52581,15 +52581,24 @@
         "blob": "481b8f23ab5cb173111cdd420b6dad639665749e"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Exact source delivery and original static contract delta independently reviewed",
+        "Coherent owner source/test/document and active caller transfer",
+        "Preserve separate failed editor-smoke obligation; static acceptance does not authorize removing unresolved smoke",
+        "Scoped retirement decision"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "UNITY_OWNER_DELIVERY_RESULT.json",
+        "packet_sha256": "067c1c3c35c5da18822a03d66cfca2884dc9a60b94e0b2f6094fb322cad37b59",
+        "review": "Independent delivery review; recorded additional smoke-runner cleanup changes",
+        "owner_source": "588f347a1eba54171fc483f772dad3556467aa28",
+        "editor_smoke": "unproven; timed out124"
       }
     },
     {
@@ -52602,15 +52611,24 @@
         "blob": "ebda52f6c2cac5fe1ec9bcadc88cc56095e77159"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Exact source delivery and original static contract delta independently reviewed",
+        "Coherent owner source/test/document and active caller transfer",
+        "Preserve separate failed editor-smoke obligation; static acceptance does not authorize removing unresolved smoke",
+        "Scoped retirement decision"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "UNITY_OWNER_DELIVERY_RESULT.json",
+        "packet_sha256": "067c1c3c35c5da18822a03d66cfca2884dc9a60b94e0b2f6094fb322cad37b59",
+        "review": "Independent delivery review; recorded additional smoke-runner cleanup changes",
+        "owner_source": "588f347a1eba54171fc483f772dad3556467aa28",
+        "editor_smoke": "unproven; timed out124"
       }
     },
     {
@@ -52680,6 +52698,13 @@
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "UNITY_OWNER_DELIVERY_RESULT.json",
+        "packet_sha256": "067c1c3c35c5da18822a03d66cfca2884dc9a60b94e0b2f6094fb322cad37b59",
+        "review": "Independent delivery review; recorded additional smoke-runner cleanup changes",
+        "owner_source": "588f347a1eba54171fc483f772dad3556467aa28",
+        "editor_smoke": "unproven; timed out124"
       }
     },
     {
