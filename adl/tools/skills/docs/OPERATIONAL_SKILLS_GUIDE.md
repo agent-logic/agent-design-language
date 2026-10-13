@@ -1,5 +1,7 @@
 # Operational Skills Guide
 
+> Medium writer resources belong to [Runtime at the qualified source](https://github.com/agent-logic/agent-logic-runtime/tree/cadb48e496cf27a6011cd31752894438b772ae9c/adl/tools/skills/medium-article-writer). Select that complete source checkout with `ADL_MEDIUM_SKILL_SOURCE_ROOT` for the retained original contract test. The six pinned resources passed the unchanged original source contract; this is not installed, provider, publication, or demo acceptance. The full-layout installer retains its separate `ADL_OPERATIONAL_SKILLS_SOURCE_ROOT` input.
+
 > The remaining pr-finish, pr-closeout and sprint-review resource copies now belong to the authenticated Cognitive-SDLC distribution under `resources/adl/tools/skills/`. Sprint-review remains a findings-first review contract; its relocation does not retire review obligations. Finish/closeout input schemas and output inventories remain owner reporting contracts, not native wire formats. Read the owner `pr-finish/references/compatibility-v1.md` and `pr-closeout/references/compatibility-v1.md`: legacy root-card copying, automatic branch deletion and typed-v2 publication are not supported replacements for native review/publish/finish/clean. Original installer tests retain their explicitly selected complete historical fixture and every original assertion; mapped copy/symlink resource proof is not full native or installer acceptance.
 
 > CodeFriend input-schema and suite documents are now supplied under the authenticated review-skill distribution's `review-skills/contracts/248f00e3/` directory. The former `adl/tools/skills/docs/` paths below are historical source references. Original-layout contract adapters select their complete historical input root explicitly; they do not read removed local schemas. Owner path/example normalization changes documentation locations, not schema requirements.
@@ -2848,7 +2850,7 @@ surfaces:
 | `gap-analysis` | `GAP_ANALYSIS_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | gap report only |
 | `issue-folding` | `ISSUE_FOLDING_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | issue disposition classification only |
 | `issue-splitter` | `ISSUE_SPLITTER_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | issue split planning only |
-| `medium-article-writer` | `MEDIUM_ARTICLE_WRITER_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | article packet only |
+| `medium-article-writer` (Runtime owner source) | `MEDIUM_ARTICLE_WRITER_SKILL_INPUT_SCHEMA.md` (owner source) | `references/output-contract.md` | article packet only |
 | `portable-contract-normalizer` | `PORTABLE_CONTRACT_NORMALIZER_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | bounded portability scan or explicit safe normalization only |
 | `pr-closeout` | `PR_CLOSEOUT_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | local closeout only |
 | `pr-finish` | `PR_FINISH_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | PR publication/update only |

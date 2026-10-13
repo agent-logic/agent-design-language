@@ -30,7 +30,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 8
 - `supported shim`: 0
-- `internal helper`: 504
+- `internal helper`: 503
 - `historical evidence`: 43
 - `archive candidate`: 0
 - `remove candidate`: 0
@@ -605,7 +605,6 @@ Source skill directories only; installed skill admission is not inventoried here
 | Surface | Kind | Classification | Notes |
 | --- | --- | --- | --- |
 | `adl/tools/skills/arxiv-paper-writer` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
-| `adl/tools/skills/medium-article-writer` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
 | `adl/tools/skills/pr-run` | skill | historical evidence | Partial historical ADL compatibility reference; use the selected native owner for current lifecycle commands. |
 
 ## Historical Evidence Artifacts
