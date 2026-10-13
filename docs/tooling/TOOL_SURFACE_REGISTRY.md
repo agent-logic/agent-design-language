@@ -30,7 +30,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 8
 - `supported shim`: 0
-- `internal helper`: 462
+- `internal helper`: 460
 - `historical evidence`: 31
 - `archive candidate`: 0
 - `remove candidate`: 0
@@ -189,7 +189,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/mock_ollama_v0_4.sh` | tool surface | internal helper | Mock helper used for focused testing or proof. |
 | `adl/tools/native_qwen_assisted_generation_benchmark.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/owner_binary_resolution.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
-| `adl/tools/pair_experiment.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/polis_status_for_ssm.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/polis_status_for_ssm_qts.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/polis_status_for_ssm_windows.ps1` | tool surface | internal helper | Visible tool surface retained for bounded support work. |
@@ -370,7 +369,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_obsmem_handoff_packet.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_opus_review_runbook.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_owner_binary_install.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_pair_experiment.py` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_planning_doc_editor_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_podcast_launch_packet.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_podcast_studio_v2_packet.sh` | tool surface | internal helper | Focused regression or contract test helper. |
