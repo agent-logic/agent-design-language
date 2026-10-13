@@ -1424,6 +1424,23 @@
           "review_reference": "prior bounded public facade review and public package qualification"
         }
       ]
+    },
+    {
+      "path": "adl/src/cli/codefriend_owner.rs",
+      "action": "add",
+      "before": null,
+      "after": [
+        "100644",
+        "9d21acce4c7ecda4683d78511fb98d02227519f4"
+      ],
+      "implementation_commit": "b3d6a2ec6545ae9cc7a47d15edb8abc6534474a6",
+      "approval_reference": "PUBLIC_CODEFRIEND_PREDICATE_CLOSURE.json",
+      "review_reference": "review_1223_public_facade exact predicate PASS",
+      "source_chain_reference": "PUBLIC_CODEFRIEND_PREDICATE_CLOSURE.json",
+      "prior_reviewed_identity": [
+        "100644",
+        "c4b00fe6c63a04eaba08eb33c3fc0085a2db8b03"
+      ]
     }
   ],
   "missing_entries": [],
@@ -5504,6 +5521,15 @@
       "implementation_commit": "8117efe160c394d5cf785d1f53b28b2681bf291e",
       "paths": [
         "adl/src/lib.rs"
+      ],
+      "reviewer": "review_1223_public_facade",
+      "verdict": "PASS"
+    },
+    {
+      "packet": "PUBLIC_CODEFRIEND_PREDICATE_CLOSURE.json",
+      "implementation_commit": "b3d6a2ec6545ae9cc7a47d15edb8abc6534474a6",
+      "paths": [
+        "adl/src/cli/codefriend_owner.rs"
       ],
       "reviewer": "review_1223_public_facade",
       "verdict": "PASS"
