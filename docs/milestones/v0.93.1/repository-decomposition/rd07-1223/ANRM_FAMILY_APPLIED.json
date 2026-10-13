@@ -1,0 +1,258 @@
+{
+  "issue": 1223,
+  "base_head": "8ec7bb979a9f2a7d7b81b530ad91999dccd8967e",
+  "scope": "Two-file complete deterministic ANRM fixture family; does not claim largest 262-family closure.",
+  "removed": [
+    {
+      "original_row": {
+        "id": "RD07-1261",
+        "path": "adl/tools/build_v0911_anrm_trace_dataset.py",
+        "owner": "agent-logic-runtime",
+        "component": "agent-logic-runtime-mapped-tools",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "04bdb59cfc0975daff5e7ad0a13f207d7d828e01"
+        },
+        "existing_action": "retain",
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ],
+        "successor_mapping": {
+          "mapping": "exact_successor",
+          "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+          "exact_successor_paths": [
+            "adl/tools/build_v0911_anrm_trace_dataset.py"
+          ]
+        }
+      },
+      "current_adl_identity": {
+        "mode": "100644",
+        "blob": "04bdb59cfc0975daff5e7ad0a13f207d7d828e01",
+        "sha256": "17a82b8be8e72669f2ab10d4c0502b97d0be4ec514f29a0b9e9d1d149c0d955a"
+      },
+      "owner_revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "same_path_owner_identity": {
+        "mode": "100644",
+        "blob": "04bdb59cfc0975daff5e7ad0a13f207d7d828e01",
+        "sha256": "17a82b8be8e72669f2ab10d4c0502b97d0be4ec514f29a0b9e9d1d149c0d955a"
+      },
+      "owner_bytes_equal_current": true,
+      "status": "qualified_coherent_anrm_fixture_transfer",
+      "reason": "Exact original source/test and independent expected artifacts; actual owner retained_demo_dependencies helper_and_anrm case PASS in CI38455831412."
+    },
+    {
+      "original_row": {
+        "id": "RD07-1914",
+        "path": "adl/tools/test_build_v0911_anrm_trace_dataset.sh",
+        "owner": "agent-logic-runtime",
+        "component": "agent-logic-runtime-mapped-tools",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "8b9160c83e318fd997b469425bb16751ea423f69"
+        },
+        "existing_action": "retain",
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ],
+        "successor_mapping": {
+          "mapping": "exact_successor",
+          "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+          "exact_successor_paths": [
+            "adl/tools/test_build_v0911_anrm_trace_dataset.sh"
+          ]
+        }
+      },
+      "current_adl_identity": {
+        "mode": "100644",
+        "blob": "8b9160c83e318fd997b469425bb16751ea423f69",
+        "sha256": "5c859a6aa429ea57a332f43755b4bd06f4417855dcdd0ad7e832b2b3fe27bbb6"
+      },
+      "owner_revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "same_path_owner_identity": {
+        "mode": "100644",
+        "blob": "8b9160c83e318fd997b469425bb16751ea423f69",
+        "sha256": "5c859a6aa429ea57a332f43755b4bd06f4417855dcdd0ad7e832b2b3fe27bbb6"
+      },
+      "owner_bytes_equal_current": true,
+      "status": "qualified_coherent_anrm_fixture_transfer",
+      "reason": "Exact original source/test and independent expected artifacts; actual owner retained_demo_dependencies helper_and_anrm case PASS in CI38455831412."
+    }
+  ],
+  "caller_repairs": [
+    "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+  ],
+  "caller_findings": "Only direct executable source caller in bounded current adl/tools/tools/.github roots is selected original test calling selected generator; live registry two rows removed and internal-helper count decremented. Immutable milestone prose retained.",
+  "proof": {
+    "owner_revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+    "ci_run": "38455831412",
+    "log": "/Volumes/FastWork/c1223/runtime-contract-repair/ci-success.log",
+    "sha256": "4fb1b3ccd6e568d6053baed178408988d08293bb719db2bdc2d3c77b11b34daf",
+    "case": "helper_and_anrm_contracts_use_independent_pinned_references",
+    "log_line": 3989,
+    "scope": "One Rust case executes unchanged original ANRM shell test plus separate provider helper test and hashes pinned resources. Four-case target total is not four ANRM cases.",
+    "expected_reference_files": [
+      {
+        "path": "docs/milestones/v0.91.1/review/anrm_gemma_trace_dataset/anrm_trace_dataset.json",
+        "sha256": "611112c166fabc1009286092b7e36262cffad3700505b07ef7567f160b2bca16",
+        "source_repository": "agent-logic/agent-design-language",
+        "source_revision": "89b14992c1c21b4388a113c128ee1af563b10659",
+        "source_path": "docs/milestones/v0.91.1/review/anrm_gemma_trace_dataset/anrm_trace_dataset.json",
+        "disposition": "restored_from_committed_source"
+      },
+      {
+        "path": "docs/milestones/v0.91.1/review/anrm_gemma_trace_dataset/anrm_trace_extractor_spec.json",
+        "sha256": "152eab7818a206301a76dccd988104b820e69c8859287b3d985211ef6ffe89aa",
+        "source_repository": "agent-logic/agent-design-language",
+        "source_revision": "89b14992c1c21b4388a113c128ee1af563b10659",
+        "source_path": "docs/milestones/v0.91.1/review/anrm_gemma_trace_dataset/anrm_trace_extractor_spec.json",
+        "disposition": "restored_from_committed_source"
+      },
+      {
+        "path": "docs/milestones/v0.91.1/review/anrm_gemma_trace_dataset/anrm_gemma_placement_package.json",
+        "sha256": "200b9ba9b4c60de8ba3aec75811a12949661e90b46e5f0806a8e8c741947af15",
+        "source_repository": "agent-logic/agent-design-language",
+        "source_revision": "89b14992c1c21b4388a113c128ee1af563b10659",
+        "source_path": "docs/milestones/v0.91.1/review/anrm_gemma_trace_dataset/anrm_gemma_placement_package.json",
+        "disposition": "restored_from_committed_source"
+      },
+      {
+        "path": "docs/milestones/v0.91.1/review/anrm_gemma_trace_dataset/anrm_trace_dataset_limitations.md",
+        "sha256": "2ccacce33c5385eeb183e62e99606ac44d2bb37f8da31ad34e1976af57481863",
+        "source_repository": "agent-logic/agent-design-language",
+        "source_revision": "89b14992c1c21b4388a113c128ee1af563b10659",
+        "source_path": "docs/milestones/v0.91.1/review/anrm_gemma_trace_dataset/anrm_trace_dataset_limitations.md",
+        "disposition": "restored_from_committed_source"
+      }
+    ]
+  },
+  "preserved_contract": [
+    "Generate twice and compare all four outputs.",
+    "Compare four outputs against independently committed expected artifacts.",
+    "Ten fixture records, five cases x two subjects, unique IDs, eligibility not_approved.",
+    "Schema/placement/deferred training and required limitations assertions.",
+    "No host-local path leakage."
+  ],
+  "limits": [
+    "Fixture-only; no Gemma/provider/training/benchmark superiority proof.",
+    "No new execution. No deletion authorization inferred.",
+    "Registry composition requires fresh regeneration on final application if shared source advanced."
+  ],
+  "patch_sha256": "36cc3b76b41d79d93721f7ac1b9a92541b9e6e5130cd1cb1ffa7a7ab26abef8f",
+  "custody": {
+    "path": "/Volumes/FastWork/c1223/runtime-remaining-tool-reconciliation/anrm-preimages.tar",
+    "sha256": "219b571f0b95afac38f225d7ffcc88da8ead5adec9dd810f811e1ad51c377a3e",
+    "members": 3
+  },
+  "schema": "adl1223.reviewed_family_applied.v1",
+  "status": "applied_local_reversible_implementation",
+  "source_head_before": "3bfb70aa7192ddbf58cd1ab040ff88efb6a55b4e",
+  "implementation_commit": "pending_parent_commit",
+  "proposal": {
+    "path": "/Volumes/FastWork/c1223/runtime-remaining-tool-reconciliation/ANRM_TWO_PROPOSAL.json",
+    "sha256": "45b1252d55c206999df181247f90b1e6063879fd65661cb6c28ef7d49a138a21"
+  },
+  "reviewed_patch": {
+    "path": "/Volumes/FastWork/c1223/runtime-remaining-tool-reconciliation/anrm-two-and-registry.patch",
+    "sha256": "36cc3b76b41d79d93721f7ac1b9a92541b9e6e5130cd1cb1ffa7a7ab26abef8f"
+  },
+  "files": [
+    {
+      "path": "adl/tools/build_v0911_anrm_trace_dataset.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "04bdb59cfc0975daff5e7ad0a13f207d7d828e01",
+        "sha256": "17a82b8be8e72669f2ab10d4c0502b97d0be4ec514f29a0b9e9d1d149c0d955a"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_build_v0911_anrm_trace_dataset.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "8b9160c83e318fd997b469425bb16751ea423f69",
+        "sha256": "5c859a6aa429ea57a332f43755b4bd06f4417855dcdd0ad7e832b2b3fe27bbb6"
+      },
+      "after": null
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "0af1b622a30df843b46b9c8567149f5deb2af15f",
+        "sha256": "fc6e7260e492c1403742d5afb494c68b6ccb0019ae50eba477291b975435e2d2"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "0b367b11e8efe9f3967f7a4baea79065ef87d7d8",
+        "sha256": "2ee13c2544039316187df469001a77dd3fcbdd391203ebcb2e926a92386095a3"
+      }
+    }
+  ],
+  "registry_custody": {
+    "path": "/Volumes/FastWork/c1223/runtime-remaining-tool-reconciliation/application-registry-3bfb70aa7192.tar",
+    "sha256": "2837ec7af30107345172fc23b4de1d8ccf6ac5ead624af4079440e80fa7be36b",
+    "member": "source/docs/tooling/TOOL_SURFACE_REGISTRY.md"
+  },
+  "authorization_basis": "User-directed coherent ADL1223 source retirement, with bounded independent exact-family review.",
+  "independent_review": "Historical-retention subagent PASS on exact source/custody/caller and prior qualified or explicit historical retirement boundaries.",
+  "application_verification": "Non-registry current preimages and removal/modified afterimages verified; actual registry regenerated preserving preceding batches. Original evidence unchanged; no original tests/builds/cloud/native operations repeated.",
+  "rows": [
+    {
+      "id": "RD07-1261",
+      "path": "adl/tools/build_v0911_anrm_trace_dataset.py",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "04bdb59cfc0975daff5e7ad0a13f207d7d828e01"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/build_v0911_anrm_trace_dataset.py"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1914",
+      "path": "adl/tools/test_build_v0911_anrm_trace_dataset.sh",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "8b9160c83e318fd997b469425bb16751ea423f69"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/test_build_v0911_anrm_trace_dataset.sh"
+        ]
+      }
+    }
+  ]
+}
