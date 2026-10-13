@@ -6,7 +6,7 @@
   "execution_authorized": false,
   "original_count": 4134,
   "counts": {
-    "hold_explicit_reconciliation": 160,
+    "hold_explicit_reconciliation": 159,
     "hold_owner_test_reconciliation": 35,
     "preserve_approved_removal": 70,
     "preserve_reviewed_consumer_repair": 18,
@@ -14,9 +14,9 @@
     "proposed_owner_transfer_with_consumer_qualification": 473,
     "proposed_remove_construction_qualified_infrastructure": 216,
     "proposed_remove_with_entire_source_family": 1874,
-    "proposed_remove_with_entire_tool_family": 692,
+    "proposed_remove_with_entire_tool_family": 691,
     "retain_public_source_or_fixture": 68,
-    "retain_resolved": 511
+    "retain_resolved": 513
   },
   "additional_current_source_paths": 19,
   "preservation": "Original inventory and baseline archive unchanged;70 prior approved removals preserved; no new deletion applied",
@@ -34384,18 +34384,20 @@
         "blob": "6f9789e3df2f8659be71312315b65b708ab57a54"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/revision_validation_inventory.py"
         ]
+      },
+      "consumer_disposition": {
+        "decision": "Retain unchanged historical revision measurement/integrity helper and paired tests.",
+        "evidence": "REVISION_INVENTORY_HISTORICAL_RETENTION.json",
+        "actual_cargo_measurement_proven": false,
+        "runtime_qualification": false
       }
     },
     {
@@ -50096,14 +50098,18 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "consumer_disposition": {
+        "decision": "Retain unchanged historical revision measurement/integrity helper and paired tests.",
+        "evidence": "REVISION_INVENTORY_HISTORICAL_RETENTION.json",
+        "actual_cargo_measurement_proven": false,
+        "runtime_qualification": false
       }
     },
     {
