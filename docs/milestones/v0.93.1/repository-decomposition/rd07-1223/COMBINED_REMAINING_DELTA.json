@@ -7,19 +7,19 @@
   "original_count": 4134,
   "counts": {
     "retain_resolved": 527,
-    "proposed_owner_transfer_with_consumer_qualification": 324,
-    "preserve_approved_removal": 2619,
-    "retain_public_source_or_fixture": 151,
+    "proposed_owner_transfer_with_consumer_qualification": 301,
+    "preserve_approved_removal": 2649,
+    "retain_public_source_or_fixture": 178,
     "preserve_reviewed_consumer_repair": 18,
-    "proposed_historical_retirement_with_caller_repair": 61,
+    "proposed_historical_retirement_with_caller_repair": 49,
     "proposed_remove_with_entire_source_family": 1,
-    "proposed_remove_with_entire_tool_family": 417,
+    "proposed_remove_with_entire_tool_family": 395,
     "hold_explicit_reconciliation": 11,
     "hold_owner_test_reconciliation": 1,
     "proposed_remove_construction_qualified_infrastructure": 4
   },
   "additional_current_source_paths": 22,
-  "preservation": "Original 4134 identities and separate 22 captured paths unchanged. Exact executed retirement actions 2621 comprise 2620 baseline deletions and one newly-added-then-retired ADL conversion bridge; the bridge is outside both captured inventories. Other proposals remain conditional.",
+  "preservation": "Original 4134 identities and separate 22 captured paths unchanged. Exact executed retirement actions 2651 comprise 2650 baseline deletions and one newly-added-then-retired ADL conversion bridge; the bridge is outside both captured inventories. Other proposals remain conditional.",
   "review_boundary": "Exact paths and Git identities are pinned. Proposed removals remain conditional; this is not a claim that caller closure or all successor tests are qualified.",
   "known_prerequisites": {
     "codefriend": "Issue102 e14ff1b08b7ef01f838404bca8ecdf47c1318ac1 passed all39suites409Linux tests,0failed0ignored,174.293s; exacthead and clean source before/after. Evidence FastWork c1223/evidence/codefriend/issue102-e14ff1b0-full, transcriptSHA256c7944f7e0403ba485b377868b1bd85e91eeee0ecce3f79920de3e86c813cfa1a. Focused1 and parallel47 diagnostics also passed; prior dc2 redelivery failure did not reproduce and its cause is not claimed fixed. Earlier failures retained. One macOS-only case, actual hosted installed-acquisition CI proof and owner publication remain separate.",
@@ -47224,11 +47224,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "Legacy branch cleanup fetches/prunes and offers local force/remote branch deletion directly, without typed finish/clean. Full110line source read; bounded existing caller scan has no references.",
-      "proposed_action": "proposed_historical_retirement_with_caller_repair",
-      "required_before_execution": [
-        "Retire only by explicit sunset decision and preserve Git history; absence of callers is not deletion authorization; no new replacement branch-management feature.",
-        "Explicit coherent retirement approval; preserve original identities and historical evidence"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -47239,6 +47236,18 @@
         "packet_sha256": "19c401eb8c113e49d7b5751af38a8188731cf7b4094e9794c7a234d6c5a4eaed",
         "proposal": "proposed_historical_retirement_with_caller_repair",
         "reason": "Legacy branch cleanup fetches/prunes and offers local force/remote branch deletion directly, without typed finish/clean. Full110line source read; bounded existing caller scan has no references."
+      },
+      "pre_legacy_anrm_infrastructure_public_execution_classification": {
+        "proposed_action": "proposed_historical_retirement_with_caller_repair",
+        "required_before_execution": [
+          "Retire only by explicit sunset decision and preserve Git history; absence of callers is not deletion authorization; no new replacement branch-management feature.",
+          "Explicit coherent retirement approval; preserve original identities and historical evidence"
+        ]
+      },
+      "applied_removal": {
+        "packet": "LEGACY_EIGHT_APPLIED.json",
+        "sha256": "6b093f40d2b1500ff29f9cc73f685c84a9128a479762e4814ffb80a882629641",
+        "implementation_commit": "3bfb70aa7192ddbf58cd1ab040ff88efb6a55b4e"
       }
     },
     {
@@ -47286,18 +47295,27 @@
         "blob": "04bdb59cfc0975daff5e7ad0a13f207d7d828e01"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/build_v0911_anrm_trace_dataset.py"
         ]
+      },
+      "pre_legacy_anrm_infrastructure_public_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "ANRM_FAMILY_APPLIED.json",
+        "sha256": "ad4b4a118b4ce7d2ca01e02c0dd1c792986e6d9a9a49090322496248ee073a15",
+        "implementation_commit": "b890c02c1c35f7819c1bb47954bd3415f2d7de57"
       }
     },
     {
@@ -47368,11 +47386,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "proposed_historical_retirement_with_caller_repair",
-      "required_before_execution": [
-        "Current native v3 route already governs this operation; do not port retired wrapper behavior into new product. Preserve historical Git/evidence. Repair or explicitly retire the listed active callers/tests; update public tool navigation. No new removal authority.",
-        "atomic family and caller disposition; no v1 route restoration"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -47383,6 +47398,18 @@
         "packet_sha256": "2682d1f5904ff8cf484acec5c0a8f2e62c45798c7f7a9b1de3fbc422ec655f35",
         "proposal": "retire_sunset_with_caller_repairs",
         "reason": "Determines progress exclusively by run_log marker executed via adl_pr_cycle; current native receipts do not use that legacy authority."
+      },
+      "pre_legacy_anrm_infrastructure_public_execution_classification": {
+        "proposed_action": "proposed_historical_retirement_with_caller_repair",
+        "required_before_execution": [
+          "Current native v3 route already governs this operation; do not port retired wrapper behavior into new product. Preserve historical Git/evidence. Repair or explicitly retire the listed active callers/tests; update public tool navigation. No new removal authority.",
+          "atomic family and caller disposition; no v1 route restoration"
+        ]
+      },
+      "applied_removal": {
+        "packet": "LEGACY_EIGHT_APPLIED.json",
+        "sha256": "6b093f40d2b1500ff29f9cc73f685c84a9128a479762e4814ffb80a882629641",
+        "implementation_commit": "3bfb70aa7192ddbf58cd1ab040ff88efb6a55b4e"
       }
     },
     {
@@ -47396,11 +47423,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "proposed_historical_retirement_with_caller_repair",
-      "required_before_execution": [
-        "Current native v3 route already governs this operation; do not port retired wrapper behavior into new product. Preserve historical Git/evidence. Repair or explicitly retire the listed active callers/tests; update public tool navigation. No new removal authority.",
-        "atomic family and caller disposition; no v1 route restoration"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -47411,6 +47435,18 @@
         "packet_sha256": "2682d1f5904ff8cf484acec5c0a8f2e62c45798c7f7a9b1de3fbc422ec655f35",
         "proposal": "retire_sunset_with_caller_repairs",
         "reason": "Creates/removes raw Git worktrees beneath default .worktrees/burst without native bind or FastWork policy; current AGENTS mandates native bind/clean."
+      },
+      "pre_legacy_anrm_infrastructure_public_execution_classification": {
+        "proposed_action": "proposed_historical_retirement_with_caller_repair",
+        "required_before_execution": [
+          "Current native v3 route already governs this operation; do not port retired wrapper behavior into new product. Preserve historical Git/evidence. Repair or explicitly retire the listed active callers/tests; update public tool navigation. No new removal authority.",
+          "atomic family and caller disposition; no v1 route restoration"
+        ]
+      },
+      "applied_removal": {
+        "packet": "LEGACY_EIGHT_APPLIED.json",
+        "sha256": "6b093f40d2b1500ff29f9cc73f685c84a9128a479762e4814ffb80a882629641",
+        "implementation_commit": "3bfb70aa7192ddbf58cd1ab040ff88efb6a55b4e"
       }
     },
     {
@@ -47496,18 +47532,27 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "proposed_historical_retirement_with_caller_repair",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required",
-        "Exact scoped retirement decision for orphan checker; preserve original five-card DOM assertions historically without claiming native equivalence."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
       },
       "prior_proposed_action": "hold_explicit_reconciliation",
-      "disposition_evidence": "RETIRED_PROMPT_EDITOR_CHECKER.json"
+      "disposition_evidence": "RETIRED_PROMPT_EDITOR_CHECKER.json",
+      "pre_legacy_anrm_infrastructure_public_execution_classification": {
+        "proposed_action": "proposed_historical_retirement_with_caller_repair",
+        "required_before_execution": [
+          "specific_consumer_or_document_disposition_required",
+          "Exact scoped retirement decision for orphan checker; preserve original five-card DOM assertions historically without claiming native equivalence."
+        ]
+      },
+      "applied_removal": {
+        "packet": "LEGACY_EIGHT_APPLIED.json",
+        "sha256": "6b093f40d2b1500ff29f9cc73f685c84a9128a479762e4814ffb80a882629641",
+        "implementation_commit": "3bfb70aa7192ddbf58cd1ab040ff88efb6a55b4e"
+      }
     },
     {
       "id": "RD07-1269",
@@ -48400,11 +48445,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "Seven-line unscoped cargo llvm-cov/genhtml/open wrapper is superseded for retained public package proof by explicit six-package coverage producer. Existing basename hits were substrings of other test names, not calls.",
-      "proposed_action": "proposed_historical_retirement_with_caller_repair",
-      "required_before_execution": [
-        "Record explicit retirement and use tools/public_adl coverage path; no threshold reduction or assertion that old private denominator transferred.",
-        "Explicit coherent retirement approval; preserve original identities and historical evidence"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -48415,6 +48457,18 @@
         "packet_sha256": "19c401eb8c113e49d7b5751af38a8188731cf7b4094e9794c7a234d6c5a4eaed",
         "proposal": "proposed_historical_retirement_with_caller_repair",
         "reason": "Seven-line unscoped cargo llvm-cov/genhtml/open wrapper is superseded for retained public package proof by explicit six-package coverage producer. Existing basename hits were substrings of other test names, not calls."
+      },
+      "pre_legacy_anrm_infrastructure_public_execution_classification": {
+        "proposed_action": "proposed_historical_retirement_with_caller_repair",
+        "required_before_execution": [
+          "Record explicit retirement and use tools/public_adl coverage path; no threshold reduction or assertion that old private denominator transferred.",
+          "Explicit coherent retirement approval; preserve original identities and historical evidence"
+        ]
+      },
+      "applied_removal": {
+        "packet": "LEGACY_EIGHT_APPLIED.json",
+        "sha256": "6b093f40d2b1500ff29f9cc73f685c84a9128a479762e4814ffb80a882629641",
+        "implementation_commit": "3bfb70aa7192ddbf58cd1ab040ff88efb6a55b4e"
       }
     },
     {
@@ -50755,10 +50809,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Preserve reviewed artifact contracts and redirect or retire specific ADL callers. Reuse existing qualified evidence where applicable; no live Runtime or cloud qualification inferred."
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -50777,6 +50829,22 @@
           ],
           "other_findings": 0
         }
+      },
+      "pre_legacy_anrm_infrastructure_public_retention_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Preserve reviewed artifact contracts and redirect or retire specific ADL callers. Reuse existing qualified evidence where applicable; no live Runtime or cloud qualification inferred."
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "packet_sha256": "14a66f746122c76cbf4c48181d0ceacfcc1623e31b523b659ec78c729cd983d5",
+        "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "6d11a0ad18ca64aef90c1ef20c2cef130003574a"
+        },
+        "reason": "retain_public_compatibility_diagnostic_and_its_nine_inert_contract_assertions; original Cargo-build tests retired explicitly in Runtime batch."
       }
     },
     {
@@ -51068,16 +51136,30 @@
         "blob": "d25daf5b0c9ac4640b517681d96f60fda7ba7245"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": []
+      },
+      "pre_legacy_anrm_infrastructure_public_retention_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "packet_sha256": "14a66f746122c76cbf4c48181d0ceacfcc1623e31b523b659ec78c729cd983d5",
+        "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "7a27c084f58560d4d53818f057ac5d6a591f51e1"
+        },
+        "reason": "retain_explicit_historical_refusal: committed prior owner cutover retains compatibility diagnostic; no original assertions execute."
       }
     },
     {
@@ -51277,11 +51359,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Retire the private-Wuji family coherently with the exact remaining caller obligations in PRIVATE_WUJI_OWNER_DISPOSITION.json; preserve historical validators and rollback evidence.",
-        "Source delivery and three offline tests do not prove live AWS/model or genuine Runtime semantic acceptance; preserve those explicit unrun boundaries in the final scoped decision."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -51306,6 +51385,18 @@
         "revision": "8b7494642c423d024c79bef5b4d493eaee126f63",
         "merge_revision": "db78fff91b07a0b05dfbb4ceb5bdd3279b3315a1",
         "path": "adl/tools/issue194_model_health_command.py"
+      },
+      "pre_legacy_anrm_infrastructure_public_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Retire the private-Wuji family coherently with the exact remaining caller obligations in PRIVATE_WUJI_OWNER_DISPOSITION.json; preserve historical validators and rollback evidence.",
+          "Source delivery and three offline tests do not prove live AWS/model or genuine Runtime semantic acceptance; preserve those explicit unrun boundaries in the final scoped decision."
+        ]
+      },
+      "applied_removal": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "sha256": "14a66f746122c76cbf4c48181d0ceacfcc1623e31b523b659ec78c729cd983d5",
+        "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04"
       }
     },
     {
@@ -51319,11 +51410,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Retire the private-Wuji family coherently with the exact remaining caller obligations in PRIVATE_WUJI_OWNER_DISPOSITION.json; preserve historical validators and rollback evidence.",
-        "Source delivery and three offline tests do not prove live AWS/model or genuine Runtime semantic acceptance; preserve those explicit unrun boundaries in the final scoped decision."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -51348,6 +51436,18 @@
         "revision": "8b7494642c423d024c79bef5b4d493eaee126f63",
         "merge_revision": "db78fff91b07a0b05dfbb4ceb5bdd3279b3315a1",
         "path": "adl/tools/issue194_private_network.cloudformation.json"
+      },
+      "pre_legacy_anrm_infrastructure_public_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Retire the private-Wuji family coherently with the exact remaining caller obligations in PRIVATE_WUJI_OWNER_DISPOSITION.json; preserve historical validators and rollback evidence.",
+          "Source delivery and three offline tests do not prove live AWS/model or genuine Runtime semantic acceptance; preserve those explicit unrun boundaries in the final scoped decision."
+        ]
+      },
+      "applied_removal": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "sha256": "14a66f746122c76cbf4c48181d0ceacfcc1623e31b523b659ec78c729cd983d5",
+        "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04"
       }
     },
     {
@@ -51361,11 +51461,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Retire the private-Wuji family coherently with the exact remaining caller obligations in PRIVATE_WUJI_OWNER_DISPOSITION.json; preserve historical validators and rollback evidence.",
-        "Source delivery and three offline tests do not prove live AWS/model or genuine Runtime semantic acceptance; preserve those explicit unrun boundaries in the final scoped decision."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -51390,6 +51487,18 @@
         "revision": "8b7494642c423d024c79bef5b4d493eaee126f63",
         "merge_revision": "db78fff91b07a0b05dfbb4ceb5bdd3279b3315a1",
         "path": "adl/tools/issue194_private_wuji_aws_runner.sh"
+      },
+      "pre_legacy_anrm_infrastructure_public_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Retire the private-Wuji family coherently with the exact remaining caller obligations in PRIVATE_WUJI_OWNER_DISPOSITION.json; preserve historical validators and rollback evidence.",
+          "Source delivery and three offline tests do not prove live AWS/model or genuine Runtime semantic acceptance; preserve those explicit unrun boundaries in the final scoped decision."
+        ]
+      },
+      "applied_removal": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "sha256": "14a66f746122c76cbf4c48181d0ceacfcc1623e31b523b659ec78c729cd983d5",
+        "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04"
       }
     },
     {
@@ -51499,11 +51608,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Resolve complete issue414/607 family callers and exact owner inputs listed in INFRASTRUCTURE_CONTINUITY_OWNER_DISPOSITIONS.json before coherent source removal.",
-        "Preserve original Git identities, historical proof and rollback custody; offline adaptation proof does not establish genuine Linux Runtime artifact, live AWS/model, or operational equivalence."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -51527,6 +51633,18 @@
         "repository": "agent-logic/agent-logic-infrastructure",
         "revision": "051fabe60d60dffeb3e200e689ea64ebf37f6cb4",
         "path": "adl/tools/issue414_restore_and_admit.sh"
+      },
+      "pre_legacy_anrm_infrastructure_public_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Resolve complete issue414/607 family callers and exact owner inputs listed in INFRASTRUCTURE_CONTINUITY_OWNER_DISPOSITIONS.json before coherent source removal.",
+          "Preserve original Git identities, historical proof and rollback custody; offline adaptation proof does not establish genuine Linux Runtime artifact, live AWS/model, or operational equivalence."
+        ]
+      },
+      "applied_removal": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "sha256": "14a66f746122c76cbf4c48181d0ceacfcc1623e31b523b659ec78c729cd983d5",
+        "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04"
       }
     },
     {
@@ -51540,11 +51658,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Resolve complete issue414/607 family callers and exact owner inputs listed in INFRASTRUCTURE_CONTINUITY_OWNER_DISPOSITIONS.json before coherent source removal.",
-        "Preserve original Git identities, historical proof and rollback custody; offline adaptation proof does not establish genuine Linux Runtime artifact, live AWS/model, or operational equivalence."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -51568,6 +51683,18 @@
         "repository": "agent-logic/agent-logic-infrastructure",
         "revision": "051fabe60d60dffeb3e200e689ea64ebf37f6cb4",
         "path": "adl/tools/issue414_s3_linux_bootstrap.py"
+      },
+      "pre_legacy_anrm_infrastructure_public_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Resolve complete issue414/607 family callers and exact owner inputs listed in INFRASTRUCTURE_CONTINUITY_OWNER_DISPOSITIONS.json before coherent source removal.",
+          "Preserve original Git identities, historical proof and rollback custody; offline adaptation proof does not establish genuine Linux Runtime artifact, live AWS/model, or operational equivalence."
+        ]
+      },
+      "applied_removal": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "sha256": "14a66f746122c76cbf4c48181d0ceacfcc1623e31b523b659ec78c729cd983d5",
+        "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04"
       }
     },
     {
@@ -51580,18 +51707,27 @@
         "blob": "5399e34873af6a21204c6b881ad810cb87449008"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/issue414_spot_dehydrate_callback.sh"
         ]
+      },
+      "pre_legacy_anrm_infrastructure_public_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "sha256": "14a66f746122c76cbf4c48181d0ceacfcc1623e31b523b659ec78c729cd983d5",
+        "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04"
       }
     },
     {
@@ -52182,11 +52318,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "Shell library defines redaction, stdout/stderr compatibility, timed stages and heartbeat settings; Runtime-labelled component alone does not establish owner succession. Existing Rust observability.shutdown hits are false literal matches.",
-      "proposed_action": "proposed_historical_retirement_with_caller_repair",
-      "required_before_execution": [
-        "Reconcile sole source test_control_plane_observability.sh and run_owner_validation_lane.sh before transfer/retirement; preserve all sanitization/compatibility assertions; no new logging feature.",
-        "Apply coherent owner-lane/selector/manager caller retirement and obtain exact scoped decision; preserve historical outputs and explicit changed-contract distinction."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -52199,7 +52332,19 @@
         "reason": "Shell library defines redaction, stdout/stderr compatibility, timed stages and heartbeat settings; Runtime-labelled component alone does not establish owner succession. Existing Rust observability.shutdown hits are false literal matches."
       },
       "prior_proposed_action": "hold_explicit_reconciliation",
-      "disposition_evidence": "LEGACY_HELPERS_RETIREMENT_PROPOSAL.json"
+      "disposition_evidence": "LEGACY_HELPERS_RETIREMENT_PROPOSAL.json",
+      "pre_legacy_anrm_infrastructure_public_execution_classification": {
+        "proposed_action": "proposed_historical_retirement_with_caller_repair",
+        "required_before_execution": [
+          "Reconcile sole source test_control_plane_observability.sh and run_owner_validation_lane.sh before transfer/retirement; preserve all sanitization/compatibility assertions; no new logging feature.",
+          "Apply coherent owner-lane/selector/manager caller retirement and obtain exact scoped decision; preserve historical outputs and explicit changed-contract distinction."
+        ]
+      },
+      "applied_removal": {
+        "packet": "LEGACY_EIGHT_APPLIED.json",
+        "sha256": "6b093f40d2b1500ff29f9cc73f685c84a9128a479762e4814ffb80a882629641",
+        "implementation_commit": "3bfb70aa7192ddbf58cd1ab040ff88efb6a55b4e"
+      }
     },
     {
       "id": "RD07-1445",
@@ -52212,11 +52357,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "Legacy card/burst opener depends on card_paths.sh and input/output card conventions; full94line source read.",
-      "proposed_action": "proposed_historical_retirement_with_caller_repair",
-      "required_before_execution": [
-        "Repair adl/tools/README.md opener recommendation together with legacy card_paths dependency disposition; preserve historical usage.",
-        "Explicit coherent retirement approval; preserve original identities and historical evidence"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -52227,6 +52369,18 @@
         "packet_sha256": "19c401eb8c113e49d7b5751af38a8188731cf7b4094e9794c7a234d6c5a4eaed",
         "proposal": "proposed_historical_retirement_with_caller_repair",
         "reason": "Legacy card/burst opener depends on card_paths.sh and input/output card conventions; full94line source read."
+      },
+      "pre_legacy_anrm_infrastructure_public_execution_classification": {
+        "proposed_action": "proposed_historical_retirement_with_caller_repair",
+        "required_before_execution": [
+          "Repair adl/tools/README.md opener recommendation together with legacy card_paths dependency disposition; preserve historical usage.",
+          "Explicit coherent retirement approval; preserve original identities and historical evidence"
+        ]
+      },
+      "applied_removal": {
+        "packet": "LEGACY_EIGHT_APPLIED.json",
+        "sha256": "6b093f40d2b1500ff29f9cc73f685c84a9128a479762e4814ffb80a882629641",
+        "implementation_commit": "3bfb70aa7192ddbf58cd1ab040ff88efb6a55b4e"
       }
     },
     {
@@ -52409,18 +52563,27 @@
         "blob": "fe531b38f6ed7660748296d4fac963bc541faf99"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/private_wuji_aws_recovery_qualification.py"
         ]
+      },
+      "pre_legacy_anrm_infrastructure_public_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "sha256": "14a66f746122c76cbf4c48181d0ceacfcc1623e31b523b659ec78c729cd983d5",
+        "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04"
       }
     },
     {
@@ -52840,18 +53003,32 @@
         "blob": "0aaa6874c2fa31f6d4b6e593564c4a173e41cbb7"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/run_adl_v2_standalone.sh"
         ]
+      },
+      "pre_legacy_anrm_infrastructure_public_retention_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "PUBLIC_V2_RUNNER_APPLIED.json",
+        "packet_sha256": "d686a6322ec026436319b82f50869e9c82191d90f6fb13208d17e03c4e751f50",
+        "implementation_commit": "2eb69b00d783dccea06600becbdbcd8ee4c312db",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "6f03a4b5790b1327c6174006c6dd5b0e79fb8f42"
+        },
+        "reason": "Retain ADL public validation caller after exact manifest-list repair; excluded private crate execution is explicitly retired, with unchanged test/fmt/clippy arguments for both public crates."
       }
     },
     {
@@ -52888,13 +53065,8 @@
         "blob": "86522bed74536718197dac34d3b55dfe601b78e8"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_historical_retirement_with_caller_repair",
-      "required_before_execution": [
-        "coherent mandatory caller repairs",
-        "preserve original child test obligations independently",
-        "scoped retirement decision",
-        "Resolve remaining caller repairs enumerated in PRIVATE_VALIDATION_DISPOSITION.json"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -52908,6 +53080,25 @@
         "proposal": "proposed_historical_retirement_with_caller_repair",
         "reason": "Private workspace/runtime coverage collection and merging, isolated evidence outputs, partition/report separation and failure propagation.",
         "review": "Independent source-only disposition and exact packet review passed"
+      },
+      "pre_legacy_anrm_infrastructure_public_retention_classification": {
+        "proposed_action": "proposed_historical_retirement_with_caller_repair",
+        "required_before_execution": [
+          "coherent mandatory caller repairs",
+          "preserve original child test obligations independently",
+          "scoped retirement decision",
+          "Resolve remaining caller repairs enumerated in PRIVATE_VALIDATION_DISPOSITION.json"
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "packet_sha256": "14a66f746122c76cbf4c48181d0ceacfcc1623e31b523b659ec78c729cd983d5",
+        "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "6200e1a51b524c43569e86a9d7be138b110e77b1"
+        },
+        "reason": "retain_explicit_historical_refusal: committed prior owner cutover retains compatibility diagnostic; no original assertions execute."
       }
     },
     {
@@ -52978,18 +53169,32 @@
         "blob": "f2ac6b16f57a64ad18abcfb0854fee8442cd6c10"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/run_aws_spot_remote_validation_lane.sh"
         ]
+      },
+      "pre_legacy_anrm_infrastructure_public_retention_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "packet_sha256": "14a66f746122c76cbf4c48181d0ceacfcc1623e31b523b659ec78c729cd983d5",
+        "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "a161ea422dfd2514d4f4f9a55e30abaf178cba0a"
+        },
+        "reason": "retain_explicit_historical_refusal: committed prior owner cutover retains compatibility diagnostic; no original assertions execute."
       }
     },
     {
@@ -53040,18 +53245,32 @@
         "blob": "1d1c2af8650b5b6c6a9f3163bc7a7285c5797550"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/run_ci_step_with_log.sh"
         ]
+      },
+      "pre_legacy_anrm_infrastructure_public_retention_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "PUBLIC_V2_RUNNER_APPLIED.json",
+        "packet_sha256": "d686a6322ec026436319b82f50869e9c82191d90f6fb13208d17e03c4e751f50",
+        "implementation_commit": "2eb69b00d783dccea06600becbdbcd8ee4c312db",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "1d1c2af8650b5b6c6a9f3163bc7a7285c5797550"
+        },
+        "reason": "Retain command-agnostic ADL stdout/stderr/combined metadata wrapper and its actual mock command tests. Scope is local ADL CI logging and exit propagation, not private Runtime execution or hosted-CI acceptance."
       }
     },
     {
@@ -53209,10 +53428,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Transfer orchestration ownership to Infrastructure, replacing source-relative portable/Runtime inputs with installed qualified artifacts and owner test evidence. Preserve explicit authorization gates; do not run cloud proof to resolve source retirement."
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -53233,6 +53450,22 @@
           ],
           "other_findings": 0
         }
+      },
+      "pre_legacy_anrm_infrastructure_public_retention_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Transfer orchestration ownership to Infrastructure, replacing source-relative portable/Runtime inputs with installed qualified artifacts and owner test evidence. Preserve explicit authorization gates; do not run cloud proof to resolve source retirement."
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "packet_sha256": "14a66f746122c76cbf4c48181d0ceacfcc1623e31b523b659ec78c729cd983d5",
+        "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "6200e1a51b524c43569e86a9d7be138b110e77b1"
+        },
+        "reason": "retain_explicit_historical_refusal: committed prior owner cutover retains compatibility diagnostic; no original assertions execute."
       }
     },
     {
@@ -53246,11 +53479,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Resolve complete issue414/607 family callers and exact owner inputs listed in INFRASTRUCTURE_CONTINUITY_OWNER_DISPOSITIONS.json before coherent source removal.",
-        "Preserve original Git identities, historical proof and rollback custody; offline adaptation proof does not establish genuine Linux Runtime artifact, live AWS/model, or operational equivalence."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -53274,6 +53504,18 @@
         "repository": "agent-logic/agent-logic-infrastructure",
         "revision": "051fabe60d60dffeb3e200e689ea64ebf37f6cb4",
         "path": "adl/tools/run_issue414_cpu_shepherd_continuity.sh"
+      },
+      "pre_legacy_anrm_infrastructure_public_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Resolve complete issue414/607 family callers and exact owner inputs listed in INFRASTRUCTURE_CONTINUITY_OWNER_DISPOSITIONS.json before coherent source removal.",
+          "Preserve original Git identities, historical proof and rollback custody; offline adaptation proof does not establish genuine Linux Runtime artifact, live AWS/model, or operational equivalence."
+        ]
+      },
+      "applied_removal": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "sha256": "14a66f746122c76cbf4c48181d0ceacfcc1623e31b523b659ec78c729cd983d5",
+        "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04"
       }
     },
     {
@@ -53318,10 +53560,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Preserve reviewed artifact contracts and redirect or retire specific ADL callers. Reuse existing qualified evidence where applicable; no live Runtime or cloud qualification inferred."
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -53340,6 +53580,22 @@
           ],
           "other_findings": 0
         }
+      },
+      "pre_legacy_anrm_infrastructure_public_retention_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Preserve reviewed artifact contracts and redirect or retire specific ADL callers. Reuse existing qualified evidence where applicable; no live Runtime or cloud qualification inferred."
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "packet_sha256": "14a66f746122c76cbf4c48181d0ceacfcc1623e31b523b659ec78c729cd983d5",
+        "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "99ab3812eb5b04a37f450b69e90ed8bde26356d7"
+        },
+        "reason": "retain_explicit_historical_refusal: committed prior owner cutover retains compatibility diagnostic; no original assertions execute."
       }
     },
     {
@@ -53581,13 +53837,8 @@
         "blob": "9a929c1953ff7682bb23fe1d6eec0f69493fdd0b"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_historical_retirement_with_caller_repair",
-      "required_before_execution": [
-        "coherent mandatory caller repairs",
-        "preserve original child test obligations independently",
-        "scoped retirement decision",
-        "Resolve remaining caller repairs enumerated in PRIVATE_VALIDATION_DISPOSITION.json"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -53601,6 +53852,25 @@
         "proposal": "proposed_historical_retirement_with_caller_repair",
         "reason": "Focused/family/mixed-workspace routing and ambiguous scope refusal except explicit full-suite opt-in.",
         "review": "Independent source-only disposition and exact packet review passed"
+      },
+      "pre_legacy_anrm_infrastructure_public_retention_classification": {
+        "proposed_action": "proposed_historical_retirement_with_caller_repair",
+        "required_before_execution": [
+          "coherent mandatory caller repairs",
+          "preserve original child test obligations independently",
+          "scoped retirement decision",
+          "Resolve remaining caller repairs enumerated in PRIVATE_VALIDATION_DISPOSITION.json"
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "packet_sha256": "14a66f746122c76cbf4c48181d0ceacfcc1623e31b523b659ec78c729cd983d5",
+        "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "6200e1a51b524c43569e86a9d7be138b110e77b1"
+        },
+        "reason": "retain_explicit_historical_refusal: committed prior owner cutover retains compatibility diagnostic; no original assertions execute."
       }
     },
     {
@@ -53714,10 +53984,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Preserve reviewed artifact contracts and redirect or retire specific ADL callers. Reuse existing qualified evidence where applicable; no live Runtime or cloud qualification inferred."
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -53736,6 +54004,22 @@
           ],
           "other_findings": 0
         }
+      },
+      "pre_legacy_anrm_infrastructure_public_retention_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Preserve reviewed artifact contracts and redirect or retire specific ADL callers. Reuse existing qualified evidence where applicable; no live Runtime or cloud qualification inferred."
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "packet_sha256": "14a66f746122c76cbf4c48181d0ceacfcc1623e31b523b659ec78c729cd983d5",
+        "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "6200e1a51b524c43569e86a9d7be138b110e77b1"
+        },
+        "reason": "retain_explicit_historical_refusal: committed prior owner cutover retains compatibility diagnostic; no original assertions execute."
       }
     },
     {
@@ -54618,18 +54902,32 @@
         "blob": "4774e8dedf603c70bbd5660ba39e0cf03a5064da"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/rust_cache_env.sh"
         ]
+      },
+      "pre_legacy_anrm_infrastructure_public_retention_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "PUBLIC_V2_RUNNER_APPLIED.json",
+        "packet_sha256": "d686a6322ec026436319b82f50869e9c82191d90f6fb13208d17e03c4e751f50",
+        "implementation_commit": "2eb69b00d783dccea06600becbdbcd8ee4c312db",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "4774e8dedf603c70bbd5660ba39e0cf03a5064da"
+        },
+        "reason": "Retain generic ADL Rust cache preparation and original mock/local safety contracts. AGENTS.md explicitly directs the warm-cache wrapper; its Python companion preserves same-host/filesystem/toolchain and Cargo metadata guards. Infrastructure copy does not transfer away this public ADL build consumer. No test execution or cache warming performed."
       }
     },
     {
@@ -54642,18 +54940,32 @@
         "blob": "ab0953093d9e6b9680d883d1f310f08796fd582c"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/rust_validation_warm_cache.sh"
         ]
+      },
+      "pre_legacy_anrm_infrastructure_public_retention_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "PUBLIC_V2_RUNNER_APPLIED.json",
+        "packet_sha256": "d686a6322ec026436319b82f50869e9c82191d90f6fb13208d17e03c4e751f50",
+        "implementation_commit": "2eb69b00d783dccea06600becbdbcd8ee4c312db",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "ab0953093d9e6b9680d883d1f310f08796fd582c"
+        },
+        "reason": "Retain generic ADL Rust cache preparation and original mock/local safety contracts. AGENTS.md explicitly directs the warm-cache wrapper; its Python companion preserves same-host/filesystem/toolchain and Cargo metadata guards. Infrastructure copy does not transfer away this public ADL build consumer. No test execution or cache warming performed."
       }
     },
     {
@@ -60550,18 +60862,32 @@
         "blob": "922bd7d6d01865b5c4996f661f4b4112834481cd"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/skills/pr-run/SKILL.md"
         ]
+      },
+      "pre_legacy_anrm_infrastructure_public_retention_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "packet_sha256": "14a66f746122c76cbf4c48181d0ceacfcc1623e31b523b659ec78c729cd983d5",
+        "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "69421c25acc92b5642cf2c7595e0bde2a332b27d"
+        },
+        "reason": "retain_partial_historical_pr_run_reference; previous historical83 batch intentionally retained these and registry marks pr-run historical. Not an operational lifecycle route."
       }
     },
     {
@@ -60673,18 +60999,32 @@
         "blob": "43bd8b0e8ab02218cfbc81aa28562cca0f47b53f"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/skills/pr-run/references/run-playbook.md"
         ]
+      },
+      "pre_legacy_anrm_infrastructure_public_retention_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "packet_sha256": "14a66f746122c76cbf4c48181d0ceacfcc1623e31b523b659ec78c729cd983d5",
+        "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "43bd8b0e8ab02218cfbc81aa28562cca0f47b53f"
+        },
+        "reason": "retain_partial_historical_pr_run_reference; previous historical83 batch intentionally retained these and registry marks pr-run historical. Not an operational lifecycle route."
       }
     },
     {
@@ -67596,18 +67936,27 @@
         "blob": "8b9160c83e318fd997b469425bb16751ea423f69"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/test_build_v0911_anrm_trace_dataset.sh"
         ]
+      },
+      "pre_legacy_anrm_infrastructure_public_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "ANRM_FAMILY_APPLIED.json",
+        "sha256": "ad4b4a118b4ce7d2ca01e02c0dd1c792986e6d9a9a49090322496248ee073a15",
+        "implementation_commit": "b890c02c1c35f7819c1bb47954bd3415f2d7de57"
       }
     },
     {
@@ -68307,18 +68656,27 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "proposed_historical_retirement_with_caller_repair",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required",
-        "Apply coherent owner-lane/selector/manager caller retirement and obtain exact scoped decision; preserve historical outputs and explicit changed-contract distinction."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
       },
       "prior_proposed_action": "hold_explicit_reconciliation",
-      "disposition_evidence": "LEGACY_HELPERS_RETIREMENT_PROPOSAL.json"
+      "disposition_evidence": "LEGACY_HELPERS_RETIREMENT_PROPOSAL.json",
+      "pre_legacy_anrm_infrastructure_public_execution_classification": {
+        "proposed_action": "proposed_historical_retirement_with_caller_repair",
+        "required_before_execution": [
+          "specific_consumer_or_document_disposition_required",
+          "Apply coherent owner-lane/selector/manager caller retirement and obtain exact scoped decision; preserve historical outputs and explicit changed-contract distinction."
+        ]
+      },
+      "applied_removal": {
+        "packet": "LEGACY_EIGHT_APPLIED.json",
+        "sha256": "6b093f40d2b1500ff29f9cc73f685c84a9128a479762e4814ffb80a882629641",
+        "implementation_commit": "3bfb70aa7192ddbf58cd1ab040ff88efb6a55b4e"
+      }
     },
     {
       "id": "RD07-1937",
@@ -69910,16 +70268,30 @@
         "blob": "78ce6fbfff8b91b34f936be30a2ab3f2e77e7048"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": []
+      },
+      "pre_legacy_anrm_infrastructure_public_retention_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "packet_sha256": "14a66f746122c76cbf4c48181d0ceacfcc1623e31b523b659ec78c729cd983d5",
+        "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "4d7786d26261100aced84489df563e016fa2457c"
+        },
+        "reason": "retain_public_compatibility_diagnostic_and_its_nine_inert_contract_assertions; original Cargo-build tests retired explicitly in Runtime batch."
       }
     },
     {
@@ -70483,18 +70855,27 @@
         "blob": "577c2768ca83cbb3771b9a35053f01a50ab00985"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/test_issue194_private_network_template.sh"
         ]
+      },
+      "pre_legacy_anrm_infrastructure_public_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "sha256": "14a66f746122c76cbf4c48181d0ceacfcc1623e31b523b659ec78c729cd983d5",
+        "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04"
       }
     },
     {
@@ -70531,18 +70912,27 @@
         "blob": "bf10396ec52330414c1d37d178fa034a2231ef4b"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/test_issue414_s3_linux_bootstrap.py"
         ]
+      },
+      "pre_legacy_anrm_infrastructure_public_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "sha256": "14a66f746122c76cbf4c48181d0ceacfcc1623e31b523b659ec78c729cd983d5",
+        "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04"
       }
     },
     {
@@ -71444,11 +71834,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Retire the private-Wuji family coherently with the exact remaining caller obligations in PRIVATE_WUJI_OWNER_DISPOSITION.json; preserve historical validators and rollback evidence.",
-        "Source delivery and three offline tests do not prove live AWS/model or genuine Runtime semantic acceptance; preserve those explicit unrun boundaries in the final scoped decision."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -71473,6 +71860,18 @@
         "revision": "8b7494642c423d024c79bef5b4d493eaee126f63",
         "merge_revision": "db78fff91b07a0b05dfbb4ceb5bdd3279b3315a1",
         "path": "adl/tools/test_private_wuji_aws_recovery_qualification.sh"
+      },
+      "pre_legacy_anrm_infrastructure_public_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Retire the private-Wuji family coherently with the exact remaining caller obligations in PRIVATE_WUJI_OWNER_DISPOSITION.json; preserve historical validators and rollback evidence.",
+          "Source delivery and three offline tests do not prove live AWS/model or genuine Runtime semantic acceptance; preserve those explicit unrun boundaries in the final scoped decision."
+        ]
+      },
+      "applied_removal": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "sha256": "14a66f746122c76cbf4c48181d0ceacfcc1623e31b523b659ec78c729cd983d5",
+        "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04"
       }
     },
     {
@@ -72552,13 +72951,8 @@
         "blob": "60ada319d396e9ae9ca51e56df28cfac992e1435"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_historical_retirement_with_caller_repair",
-      "required_before_execution": [
-        "coherent mandatory caller repairs",
-        "preserve original child test obligations independently",
-        "scoped retirement decision",
-        "Resolve remaining caller repairs enumerated in PRIVATE_VALIDATION_DISPOSITION.json"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -72572,6 +72966,25 @@
         "proposal": "proposed_historical_retirement_with_caller_repair",
         "reason": "Coverage runner companion includes actual installed cargo-llvm-cov parser check plus fake-tool cases; not wholly fixture-only.",
         "review": "Independent source-only disposition and exact packet review passed"
+      },
+      "pre_legacy_anrm_infrastructure_public_retention_classification": {
+        "proposed_action": "proposed_historical_retirement_with_caller_repair",
+        "required_before_execution": [
+          "coherent mandatory caller repairs",
+          "preserve original child test obligations independently",
+          "scoped retirement decision",
+          "Resolve remaining caller repairs enumerated in PRIVATE_VALIDATION_DISPOSITION.json"
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "packet_sha256": "14a66f746122c76cbf4c48181d0ceacfcc1623e31b523b659ec78c729cd983d5",
+        "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "6200e1a51b524c43569e86a9d7be138b110e77b1"
+        },
+        "reason": "retain_explicit_historical_refusal: committed prior owner cutover retains compatibility diagnostic; no original assertions execute."
       }
     },
     {
@@ -72595,10 +73008,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Transfer orchestration ownership to Infrastructure, replacing source-relative portable/Runtime inputs with installed qualified artifacts and owner test evidence. Preserve explicit authorization gates; do not run cloud proof to resolve source retirement."
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -72619,6 +73030,22 @@
           ],
           "other_findings": 0
         }
+      },
+      "pre_legacy_anrm_infrastructure_public_retention_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Transfer orchestration ownership to Infrastructure, replacing source-relative portable/Runtime inputs with installed qualified artifacts and owner test evidence. Preserve explicit authorization gates; do not run cloud proof to resolve source retirement."
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "packet_sha256": "14a66f746122c76cbf4c48181d0ceacfcc1623e31b523b659ec78c729cd983d5",
+        "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "107af3b83f4c23154d68fcdcc0f1cf09286d217a"
+        },
+        "reason": "retain_explicit_historical_refusal: committed prior owner cutover retains compatibility diagnostic; no original assertions execute."
       }
     },
     {
@@ -72631,18 +73058,32 @@
         "blob": "a52a866fe27c9fcdc26a657e866ae7ab48394f81"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/test_run_aws_spot_ci_profile.sh"
         ]
+      },
+      "pre_legacy_anrm_infrastructure_public_retention_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "packet_sha256": "14a66f746122c76cbf4c48181d0ceacfcc1623e31b523b659ec78c729cd983d5",
+        "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "91623b22fef5b710eda47416dab7fe9a8c840fbe"
+        },
+        "reason": "retain_explicit_historical_refusal: committed prior owner cutover retains compatibility diagnostic; no original assertions execute."
       }
     },
     {
@@ -72655,18 +73096,32 @@
         "blob": "a15e18eb9f77d81c91144885d6a2e196a7bc1d43"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/test_run_aws_spot_remote_validation_lane.sh"
         ]
+      },
+      "pre_legacy_anrm_infrastructure_public_retention_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "packet_sha256": "14a66f746122c76cbf4c48181d0ceacfcc1623e31b523b659ec78c729cd983d5",
+        "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "6200e1a51b524c43569e86a9d7be138b110e77b1"
+        },
+        "reason": "retain_explicit_historical_refusal: committed prior owner cutover retains compatibility diagnostic; no original assertions execute."
       }
     },
     {
@@ -72706,18 +73161,32 @@
         "blob": "88b4cd9b496c1470c1da7138fcfe4bfd7724a9ea"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/test_run_ci_step_with_log.sh"
         ]
+      },
+      "pre_legacy_anrm_infrastructure_public_retention_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "PUBLIC_V2_RUNNER_APPLIED.json",
+        "packet_sha256": "d686a6322ec026436319b82f50869e9c82191d90f6fb13208d17e03c4e751f50",
+        "implementation_commit": "2eb69b00d783dccea06600becbdbcd8ee4c312db",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "88b4cd9b496c1470c1da7138fcfe4bfd7724a9ea"
+        },
+        "reason": "Retain command-agnostic ADL stdout/stderr/combined metadata wrapper and its actual mock command tests. Scope is local ADL CI logging and exit propagation, not private Runtime execution or hosted-CI acceptance."
       }
     },
     {
@@ -72777,10 +73246,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Transfer orchestration ownership to Infrastructure, replacing source-relative portable/Runtime inputs with installed qualified artifacts and owner test evidence. Preserve explicit authorization gates; do not run cloud proof to resolve source retirement."
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -72801,6 +73268,22 @@
           ],
           "other_findings": 0
         }
+      },
+      "pre_legacy_anrm_infrastructure_public_retention_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Transfer orchestration ownership to Infrastructure, replacing source-relative portable/Runtime inputs with installed qualified artifacts and owner test evidence. Preserve explicit authorization gates; do not run cloud proof to resolve source retirement."
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "packet_sha256": "14a66f746122c76cbf4c48181d0ceacfcc1623e31b523b659ec78c729cd983d5",
+        "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "6200e1a51b524c43569e86a9d7be138b110e77b1"
+        },
+        "reason": "retain_explicit_historical_refusal: committed prior owner cutover retains compatibility diagnostic; no original assertions execute."
       }
     },
     {
@@ -73463,18 +73946,32 @@
         "blob": "24438bb94f7499adc7cc75ea7ff2e1997d8130f3"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/test_rust_cache_env.sh"
         ]
+      },
+      "pre_legacy_anrm_infrastructure_public_retention_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "PUBLIC_V2_RUNNER_APPLIED.json",
+        "packet_sha256": "d686a6322ec026436319b82f50869e9c82191d90f6fb13208d17e03c4e751f50",
+        "implementation_commit": "2eb69b00d783dccea06600becbdbcd8ee4c312db",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "24438bb94f7499adc7cc75ea7ff2e1997d8130f3"
+        },
+        "reason": "Retain generic ADL Rust cache preparation and original mock/local safety contracts. AGENTS.md explicitly directs the warm-cache wrapper; its Python companion preserves same-host/filesystem/toolchain and Cargo metadata guards. Infrastructure copy does not transfer away this public ADL build consumer. No test execution or cache warming performed."
       }
     },
     {
@@ -73487,18 +73984,32 @@
         "blob": "3e5c434c7518e176333a573a77b03e3369afef6e"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/test_rust_validation_warm_cache.sh"
         ]
+      },
+      "pre_legacy_anrm_infrastructure_public_retention_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "PUBLIC_V2_RUNNER_APPLIED.json",
+        "packet_sha256": "d686a6322ec026436319b82f50869e9c82191d90f6fb13208d17e03c4e751f50",
+        "implementation_commit": "2eb69b00d783dccea06600becbdbcd8ee4c312db",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "3e5c434c7518e176333a573a77b03e3369afef6e"
+        },
+        "reason": "Retain generic ADL Rust cache preparation and original mock/local safety contracts. AGENTS.md explicitly directs the warm-cache wrapper; its Python companion preserves same-host/filesystem/toolchain and Cargo metadata guards. Infrastructure copy does not transfer away this public ADL build consumer. No test execution or cache warming performed."
       }
     },
     {
@@ -73639,13 +74150,8 @@
         "blob": "9e545f009bfef123c265e487eab06fc9d41031d2"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_historical_retirement_with_caller_repair",
-      "required_before_execution": [
-        "coherent mandatory caller repairs",
-        "preserve original child test obligations independently",
-        "scoped retirement decision",
-        "Resolve remaining caller repairs enumerated in PRIVATE_VALIDATION_DISPOSITION.json"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -73659,6 +74165,25 @@
         "proposal": "proposed_historical_retirement_with_caller_repair",
         "reason": "Manifest/source/command contract assertions, not actual private Rust suite execution.",
         "review": "Independent source-only disposition and exact packet review passed"
+      },
+      "pre_legacy_anrm_infrastructure_public_retention_classification": {
+        "proposed_action": "proposed_historical_retirement_with_caller_repair",
+        "required_before_execution": [
+          "coherent mandatory caller repairs",
+          "preserve original child test obligations independently",
+          "scoped retirement decision",
+          "Resolve remaining caller repairs enumerated in PRIVATE_VALIDATION_DISPOSITION.json"
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "packet_sha256": "14a66f746122c76cbf4c48181d0ceacfcc1623e31b523b659ec78c729cd983d5",
+        "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "6200e1a51b524c43569e86a9d7be138b110e77b1"
+        },
+        "reason": "retain_explicit_historical_refusal: committed prior owner cutover retains compatibility diagnostic; no original assertions execute."
       }
     },
     {
@@ -74894,18 +75419,32 @@
         "blob": "3f52cee5637c86a4dd1e9dae3011fde9f8967dd3"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/test_warm_rust_dependency_cache.py"
         ]
+      },
+      "pre_legacy_anrm_infrastructure_public_retention_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "PUBLIC_V2_RUNNER_APPLIED.json",
+        "packet_sha256": "d686a6322ec026436319b82f50869e9c82191d90f6fb13208d17e03c4e751f50",
+        "implementation_commit": "2eb69b00d783dccea06600becbdbcd8ee4c312db",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "3f52cee5637c86a4dd1e9dae3011fde9f8967dd3"
+        },
+        "reason": "Retain generic ADL Rust cache preparation and original mock/local safety contracts. AGENTS.md explicitly directs the warm-cache wrapper; its Python companion preserves same-host/filesystem/toolchain and Cargo metadata guards. Infrastructure copy does not transfer away this public ADL build consumer. No test execution or cache warming performed."
       }
     },
     {
@@ -77095,10 +77634,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Preserve reviewed artifact contracts and redirect or retire specific ADL callers. Reuse existing qualified evidence where applicable; no live Runtime or cloud qualification inferred."
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -77117,6 +77654,22 @@
           ],
           "other_findings": 0
         }
+      },
+      "pre_legacy_anrm_infrastructure_public_retention_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Preserve reviewed artifact contracts and redirect or retire specific ADL callers. Reuse existing qualified evidence where applicable; no live Runtime or cloud qualification inferred."
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "packet_sha256": "14a66f746122c76cbf4c48181d0ceacfcc1623e31b523b659ec78c729cd983d5",
+        "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "6200e1a51b524c43569e86a9d7be138b110e77b1"
+        },
+        "reason": "retain_explicit_historical_refusal: committed prior owner cutover retains compatibility diagnostic; no original assertions execute."
       }
     },
     {
@@ -77688,18 +78241,32 @@
         "blob": "aaf2833a8e5aaa19ead5d3652afdf6ed1a537fe7"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/warm_rust_dependency_cache.py"
         ]
+      },
+      "pre_legacy_anrm_infrastructure_public_retention_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "PUBLIC_V2_RUNNER_APPLIED.json",
+        "packet_sha256": "d686a6322ec026436319b82f50869e9c82191d90f6fb13208d17e03c4e751f50",
+        "implementation_commit": "2eb69b00d783dccea06600becbdbcd8ee4c312db",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "aaf2833a8e5aaa19ead5d3652afdf6ed1a537fe7"
+        },
+        "reason": "Retain generic ADL Rust cache preparation and original mock/local safety contracts. AGENTS.md explicitly directs the warm-cache wrapper; its Python companion preserves same-host/filesystem/toolchain and Cargo metadata guards. Infrastructure copy does not transfer away this public ADL build consumer. No test execution or cache warming performed."
       }
     },
     {
@@ -133309,10 +133876,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Transfer complete release assembly family to Infrastructure, preserving producer artifact and independent installed-product acceptance requirements. Redirect any retained product navigation; assembly is not deployment or installed acceptance."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -133331,6 +133896,17 @@
           ],
           "other_findings": 0
         }
+      },
+      "pre_legacy_anrm_infrastructure_public_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Transfer complete release assembly family to Infrastructure, preserving producer artifact and independent installed-product acceptance requirements. Redirect any retained product navigation; assembly is not deployment or installed acceptance."
+        ]
+      },
+      "applied_removal": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "sha256": "14a66f746122c76cbf4c48181d0ceacfcc1623e31b523b659ec78c729cd983d5",
+        "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04"
       }
     },
     {
@@ -133344,10 +133920,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Transfer complete release assembly family to Infrastructure, preserving producer artifact and independent installed-product acceptance requirements. Redirect any retained product navigation; assembly is not deployment or installed acceptance."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -133366,6 +133940,17 @@
           ],
           "other_findings": 0
         }
+      },
+      "pre_legacy_anrm_infrastructure_public_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Transfer complete release assembly family to Infrastructure, preserving producer artifact and independent installed-product acceptance requirements. Redirect any retained product navigation; assembly is not deployment or installed acceptance."
+        ]
+      },
+      "applied_removal": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "sha256": "14a66f746122c76cbf4c48181d0ceacfcc1623e31b523b659ec78c729cd983d5",
+        "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04"
       }
     },
     {
@@ -133379,10 +133964,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Transfer complete release assembly family to Infrastructure, preserving producer artifact and independent installed-product acceptance requirements. Redirect any retained product navigation; assembly is not deployment or installed acceptance."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -133401,6 +133984,17 @@
           ],
           "other_findings": 0
         }
+      },
+      "pre_legacy_anrm_infrastructure_public_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Transfer complete release assembly family to Infrastructure, preserving producer artifact and independent installed-product acceptance requirements. Redirect any retained product navigation; assembly is not deployment or installed acceptance."
+        ]
+      },
+      "applied_removal": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "sha256": "14a66f746122c76cbf4c48181d0ceacfcc1623e31b523b659ec78c729cd983d5",
+        "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04"
       }
     },
     {
@@ -133414,10 +134008,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Transfer complete release assembly family to Infrastructure, preserving producer artifact and independent installed-product acceptance requirements. Redirect any retained product navigation; assembly is not deployment or installed acceptance."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -133438,6 +134030,17 @@
           ],
           "other_findings": 0
         }
+      },
+      "pre_legacy_anrm_infrastructure_public_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Transfer complete release assembly family to Infrastructure, preserving producer artifact and independent installed-product acceptance requirements. Redirect any retained product navigation; assembly is not deployment or installed acceptance."
+        ]
+      },
+      "applied_removal": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "sha256": "14a66f746122c76cbf4c48181d0ceacfcc1623e31b523b659ec78c729cd983d5",
+        "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04"
       }
     },
     {
@@ -133451,10 +134054,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Transfer complete release assembly family to Infrastructure, preserving producer artifact and independent installed-product acceptance requirements. Redirect any retained product navigation; assembly is not deployment or installed acceptance."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -133473,6 +134074,17 @@
           ],
           "other_findings": 0
         }
+      },
+      "pre_legacy_anrm_infrastructure_public_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Transfer complete release assembly family to Infrastructure, preserving producer artifact and independent installed-product acceptance requirements. Redirect any retained product navigation; assembly is not deployment or installed acceptance."
+        ]
+      },
+      "applied_removal": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "sha256": "14a66f746122c76cbf4c48181d0ceacfcc1623e31b523b659ec78c729cd983d5",
+        "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04"
       }
     },
     {
@@ -133593,10 +134205,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Infrastructure owns this whole Terraform root. Link retained CodeFriend host documentation to owner root and preserve existing static qualification evidence. No plan/apply/deploy or live-account claim."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -133617,6 +134227,17 @@
           ],
           "other_findings": 0
         }
+      },
+      "pre_legacy_anrm_infrastructure_public_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Infrastructure owns this whole Terraform root. Link retained CodeFriend host documentation to owner root and preserve existing static qualification evidence. No plan/apply/deploy or live-account claim."
+        ]
+      },
+      "applied_removal": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "sha256": "14a66f746122c76cbf4c48181d0ceacfcc1623e31b523b659ec78c729cd983d5",
+        "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04"
       }
     },
     {
@@ -133630,10 +134251,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Infrastructure owns this whole Terraform root. Link retained CodeFriend host documentation to owner root and preserve existing static qualification evidence. No plan/apply/deploy or live-account claim."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -133654,6 +134273,17 @@
           ],
           "other_findings": 0
         }
+      },
+      "pre_legacy_anrm_infrastructure_public_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Infrastructure owns this whole Terraform root. Link retained CodeFriend host documentation to owner root and preserve existing static qualification evidence. No plan/apply/deploy or live-account claim."
+        ]
+      },
+      "applied_removal": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "sha256": "14a66f746122c76cbf4c48181d0ceacfcc1623e31b523b659ec78c729cd983d5",
+        "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04"
       }
     },
     {
@@ -133667,10 +134297,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Infrastructure owns this whole Terraform root. Link retained CodeFriend host documentation to owner root and preserve existing static qualification evidence. No plan/apply/deploy or live-account claim."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -133691,6 +134319,17 @@
           ],
           "other_findings": 0
         }
+      },
+      "pre_legacy_anrm_infrastructure_public_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Infrastructure owns this whole Terraform root. Link retained CodeFriend host documentation to owner root and preserve existing static qualification evidence. No plan/apply/deploy or live-account claim."
+        ]
+      },
+      "applied_removal": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "sha256": "14a66f746122c76cbf4c48181d0ceacfcc1623e31b523b659ec78c729cd983d5",
+        "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04"
       }
     },
     {
@@ -133704,10 +134343,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Infrastructure owns this whole Terraform root. Link retained CodeFriend host documentation to owner root and preserve existing static qualification evidence. No plan/apply/deploy or live-account claim."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -133728,6 +134365,17 @@
           ],
           "other_findings": 0
         }
+      },
+      "pre_legacy_anrm_infrastructure_public_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Infrastructure owns this whole Terraform root. Link retained CodeFriend host documentation to owner root and preserve existing static qualification evidence. No plan/apply/deploy or live-account claim."
+        ]
+      },
+      "applied_removal": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "sha256": "14a66f746122c76cbf4c48181d0ceacfcc1623e31b523b659ec78c729cd983d5",
+        "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04"
       }
     },
     {

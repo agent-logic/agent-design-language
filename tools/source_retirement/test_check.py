@@ -422,13 +422,14 @@ class RecentOwnerFamilyTests(unittest.TestCase):
             self.assertEqual(len(paths), spec['removals'])
             check.check_recent_owner_custody(batch, spec)
             total += len(paths)
-        self.assertEqual(total, 290)
+        self.assertEqual(total, 320)
 
     def test_expanded_scope_and_repeat_refuse(self):
         for spec, batch, before, after in self.batches():
             paths = {r['path'] for r in batch['files'] if r['action'] == 'remove'}
-            with self.assertRaisesRegex(ValueError, 'scope changed'):
-                check.check_recent_owner_family(batch, before, after, paths, spec)
+            if paths:
+                with self.assertRaisesRegex(ValueError, 'scope changed'):
+                    check.check_recent_owner_family(batch, before, after, paths, spec)
             altered = copy.deepcopy(batch)
             altered['files'].append(copy.deepcopy(altered['files'][0]))
             with self.assertRaisesRegex(ValueError, 'scope changed'):
@@ -436,16 +437,37 @@ class RecentOwnerFamilyTests(unittest.TestCase):
 
     def test_source_resurrection_and_caller_drift_refuse(self):
         for spec, batch, before, after in self.batches():
-            source = next(r for r in batch['files'] if r['action'] == 'remove')
-            altered = dict(after)
-            altered[source['path']] = before[source['path']]
-            with self.assertRaisesRegex(ValueError, 'identity mismatch'):
-                check.check_recent_owner_family(batch, before, altered, set(), spec)
+            sources = [r for r in batch['files'] if r['action'] == 'remove']
+            if sources:
+                source = sources[0]
+                altered = dict(after)
+                altered[source['path']] = before[source['path']]
+                with self.assertRaisesRegex(ValueError, 'identity mismatch'):
+                    check.check_recent_owner_family(batch, before, altered, set(), spec)
             caller = next(r for r in batch['files'] if r['action'] != 'remove')
             altered = dict(after)
             altered[caller['path']] = ['100644', '0' * 40]
             with self.assertRaisesRegex(ValueError, 'identity mismatch'):
                 check.check_recent_owner_family(batch, before, altered, set(), spec)
+
+    def test_zero_removal_caller_repair_has_no_removal_authority(self):
+        spec, batch, before, after = next(x for x in self.batches()
+                                         if x[0]['removals'] == 0)
+        self.assertTrue(batch['files'])
+        self.assertTrue(all(r['action'] == 'modify' for r in batch['files']))
+        self.assertEqual(check.check_recent_owner_family(
+            batch, before, after, {'previously/removed'}, spec), set())
+        altered = copy.deepcopy(batch)
+        altered['files'][0]['action'] = 'remove'
+        altered['files'][0]['after'] = None
+        with self.assertRaisesRegex(ValueError, 'scope changed'):
+            check.check_recent_owner_family(altered, before, after, set(), spec)
+        # A caller-only batch still requires its precise preimage and afterimage.
+        caller = batch['files'][0]['path']
+        changed_before = dict(before)
+        changed_before[caller] = ['100644', '0' * 40]
+        with self.assertRaisesRegex(ValueError, 'identity mismatch'):
+            check.check_recent_owner_family(batch, changed_before, after, set(), spec)
 
     def test_added_helper_cannot_replace_existing_file(self):
         spec, batch, before, after = next(x for x in self.batches()

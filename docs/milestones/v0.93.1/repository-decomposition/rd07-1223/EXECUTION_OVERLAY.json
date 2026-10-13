@@ -6,7 +6,7 @@
   "execution_authorized": false,
   "original_inventory_count": 4134,
   "additional_inventory_count": 22,
-  "executed_deletion_count": 2621,
+  "executed_deletion_count": 2651,
   "entries": [
     {
       "path": ".github/workflows/ci.yaml",
@@ -28037,7 +28037,7 @@
       ],
       "after": [
         "100644",
-        "6966b08d9ef141fdbd966e0d692f563f95a8423d"
+        "c8f7102d7d4176cbcd012ca5b6e8b2041195506e"
       ],
       "implementation_commit": "666818f2aafdaf4839d1c3de4119b513c4236d3d",
       "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
@@ -28079,6 +28079,18 @@
             "6966b08d9ef141fdbd966e0d692f563f95a8423d"
           ],
           "packet": "RUNTIME_DEMO_FAMILY_APPLIED.json"
+        },
+        {
+          "commit": "3bfb70aa7192ddbf58cd1ab040ff88efb6a55b4e",
+          "before": [
+            "100644",
+            "6966b08d9ef141fdbd966e0d692f563f95a8423d"
+          ],
+          "after": [
+            "100644",
+            "c8f7102d7d4176cbcd012ca5b6e8b2041195506e"
+          ],
+          "packet": "LEGACY_EIGHT_APPLIED.json"
         }
       ]
     },
@@ -28595,7 +28607,7 @@
       ],
       "after": [
         "100644",
-        "d272b85e584a4debd3b1941270c935b8944fe201"
+        "2c38c2d3dbcfd66f5ccdf00c210a607fab9e23f6"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json",
@@ -28668,6 +28680,18 @@
             "d272b85e584a4debd3b1941270c935b8944fe201"
           ],
           "packet": "HISTORICAL_SKILL_FAMILY_APPLIED.json"
+        },
+        {
+          "commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+          "before": [
+            "100644",
+            "d272b85e584a4debd3b1941270c935b8944fe201"
+          ],
+          "after": [
+            "100644",
+            "2c38c2d3dbcfd66f5ccdf00c210a607fab9e23f6"
+          ],
+          "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json"
         }
       ]
     },
@@ -56472,7 +56496,7 @@
       "before": null,
       "after": [
         "100644",
-        "a5406109d258ab40313fa0d8478b750edc3c4174"
+        "7d93709bcd1194c7446608754ef4cd50b69eba28"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json",
@@ -56661,6 +56685,42 @@
             "a5406109d258ab40313fa0d8478b750edc3c4174"
           ],
           "packet": "RUNTIME_DEMO_FAMILY_APPLIED.json"
+        },
+        {
+          "commit": "3bfb70aa7192ddbf58cd1ab040ff88efb6a55b4e",
+          "before": [
+            "100644",
+            "a5406109d258ab40313fa0d8478b750edc3c4174"
+          ],
+          "after": [
+            "100644",
+            "0af1b622a30df843b46b9c8567149f5deb2af15f"
+          ],
+          "packet": "LEGACY_EIGHT_APPLIED.json"
+        },
+        {
+          "commit": "b890c02c1c35f7819c1bb47954bd3415f2d7de57",
+          "before": [
+            "100644",
+            "0af1b622a30df843b46b9c8567149f5deb2af15f"
+          ],
+          "after": [
+            "100644",
+            "0b367b11e8efe9f3967f7a4baea79065ef87d7d8"
+          ],
+          "packet": "ANRM_FAMILY_APPLIED.json"
+        },
+        {
+          "commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+          "before": [
+            "100644",
+            "0b367b11e8efe9f3967f7a4baea79065ef87d7d8"
+          ],
+          "after": [
+            "100644",
+            "7d93709bcd1194c7446608754ef4cd50b69eba28"
+          ],
+          "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json"
         }
       ],
       "prior_execution_provenance": [
@@ -63584,15 +63644,12 @@
     },
     {
       "path": "tools/codefriend_host/release/assemble.py",
-      "action": "modify",
+      "action": "remove",
       "before": [
         "100755",
         "abd31cf2f28336022eda87e44363b6d0dbc66292"
       ],
-      "after": [
-        "100755",
-        "f076b58a9d0f7672d1129cb62283fc51192ed3e1"
-      ],
+      "after": null,
       "implementation_commit": "5fa701e8e12f87dce7c8e100eacfa04dc1828c22",
       "approval_reference": "CODEFRIEND_FAMILY_APPLIED.json",
       "review_reference": "review_1223_public_facade exact family patch PASS",
@@ -63608,7 +63665,27 @@
             "f076b58a9d0f7672d1129cb62283fc51192ed3e1"
           ]
         }
-      ]
+      ],
+      "supplemental_source_chain": [
+        {
+          "commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+          "before": [
+            "100755",
+            "f076b58a9d0f7672d1129cb62283fc51192ed3e1"
+          ],
+          "after": null,
+          "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/infrastructure-remaining-family-preparation/current-preimages.tar",
+        "archive_sha256": "816d0d7fecc1bc6ee3ec26855a6a9bda7c2bc54e32fd1d899ab1ebde5b2aa2ca",
+        "member": "tools/codefriend_host/release/assemble.py",
+        "mode": "100755",
+        "blob": "f076b58a9d0f7672d1129cb62283fc51192ed3e1",
+        "sha256": "df4f55e1066206bf8b46a6302be6d517204d3697e70f9f52a01b95c632462bf7"
+      }
     },
     {
       "path": "tools/groupd_validation/fixtures/historical_parser_bounds.json",
@@ -63839,7 +63916,7 @@
       "before": null,
       "after": [
         "100644",
-        "6f5faec3fa471a1a2bded9b98cbe490b29e674b0"
+        "6d842ca6c076b8a1359ebccea60a048ca4c84bd8"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "Infrastructure212 source commit guard-documentation accompaniment",
@@ -63932,6 +64009,18 @@
             "6f5faec3fa471a1a2bded9b98cbe490b29e674b0"
           ],
           "packet": "Public companion21 and CodeFriend19 guard integration"
+        },
+        {
+          "commit": "pending_reviewed_integration",
+          "before": [
+            "100644",
+            "6f5faec3fa471a1a2bded9b98cbe490b29e674b0"
+          ],
+          "after": [
+            "100644",
+            "6d842ca6c076b8a1359ebccea60a048ca4c84bd8"
+          ],
+          "packet": "Legacy8 ANRM2 Infrastructure20 and public retention integration"
         }
       ],
       "prior_execution_provenance": [
@@ -78714,6 +78803,1021 @@
           "packet": "RUNTIME_DEMO_FAMILY_APPLIED.json"
         }
       ]
+    },
+    {
+      "path": "adl/tools/test_control_plane_observability.sh",
+      "before": [
+        "100755",
+        "2205d79ca53b7b7d22a260e7e03222a80eb7af3d"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "3bfb70aa7192ddbf58cd1ab040ff88efb6a55b4e",
+      "approval_reference": "LEGACY_EIGHT_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "3bfb70aa7192ddbf58cd1ab040ff88efb6a55b4e",
+          "before": [
+            "100755",
+            "2205d79ca53b7b7d22a260e7e03222a80eb7af3d"
+          ],
+          "after": null,
+          "packet": "LEGACY_EIGHT_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "LEGACY_EIGHT_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/legacy-eight-preparation/preimages.tar",
+        "archive_sha256": "b7e3aea77341e35080cdf5df0df341a63b12ac432904eddf70be66b2312fcc91",
+        "member": "source/adl/tools/test_control_plane_observability.sh",
+        "mode": "100755",
+        "blob": "2205d79ca53b7b7d22a260e7e03222a80eb7af3d",
+        "sha256": "0c59dc15742c942796db274829d5e78f31e80577dbae111f59a234e89c8e2ded"
+      }
+    },
+    {
+      "path": "adl/tools/burst_worktree.sh",
+      "before": [
+        "100755",
+        "9f2eb8bd337568b84685abd1a55862d90b8f677e"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "3bfb70aa7192ddbf58cd1ab040ff88efb6a55b4e",
+      "approval_reference": "LEGACY_EIGHT_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "3bfb70aa7192ddbf58cd1ab040ff88efb6a55b4e",
+          "before": [
+            "100755",
+            "9f2eb8bd337568b84685abd1a55862d90b8f677e"
+          ],
+          "after": null,
+          "packet": "LEGACY_EIGHT_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "LEGACY_EIGHT_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/legacy-eight-preparation/preimages.tar",
+        "archive_sha256": "b7e3aea77341e35080cdf5df0df341a63b12ac432904eddf70be66b2312fcc91",
+        "member": "source/adl/tools/burst_worktree.sh",
+        "mode": "100755",
+        "blob": "9f2eb8bd337568b84685abd1a55862d90b8f677e",
+        "sha256": "b2c332b035ff0a0f215323f4b43faf70f0be06d613cded581e1977d3cf733fd4"
+      }
+    },
+    {
+      "path": "adl/tools/burst_continue.sh",
+      "before": [
+        "100644",
+        "d0fb8d32c9b3d4715009fb878c13a7a0c861b5fd"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "3bfb70aa7192ddbf58cd1ab040ff88efb6a55b4e",
+      "approval_reference": "LEGACY_EIGHT_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "3bfb70aa7192ddbf58cd1ab040ff88efb6a55b4e",
+          "before": [
+            "100644",
+            "d0fb8d32c9b3d4715009fb878c13a7a0c861b5fd"
+          ],
+          "after": null,
+          "packet": "LEGACY_EIGHT_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "LEGACY_EIGHT_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/legacy-eight-preparation/preimages.tar",
+        "archive_sha256": "b7e3aea77341e35080cdf5df0df341a63b12ac432904eddf70be66b2312fcc91",
+        "member": "source/adl/tools/burst_continue.sh",
+        "mode": "100644",
+        "blob": "d0fb8d32c9b3d4715009fb878c13a7a0c861b5fd",
+        "sha256": "9ebdac11c8a74c2878619bb18bbe582661b8dab1ebc974af64bd426939f54152"
+      }
+    },
+    {
+      "path": "adl/tools/coverage.sh",
+      "before": [
+        "100644",
+        "89b025c49a478bc353841b4a3f12330ec66c52e5"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "3bfb70aa7192ddbf58cd1ab040ff88efb6a55b4e",
+      "approval_reference": "LEGACY_EIGHT_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "3bfb70aa7192ddbf58cd1ab040ff88efb6a55b4e",
+          "before": [
+            "100644",
+            "89b025c49a478bc353841b4a3f12330ec66c52e5"
+          ],
+          "after": null,
+          "packet": "LEGACY_EIGHT_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "LEGACY_EIGHT_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/legacy-eight-preparation/preimages.tar",
+        "archive_sha256": "b7e3aea77341e35080cdf5df0df341a63b12ac432904eddf70be66b2312fcc91",
+        "member": "source/adl/tools/coverage.sh",
+        "mode": "100644",
+        "blob": "89b025c49a478bc353841b4a3f12330ec66c52e5",
+        "sha256": "0115e93b0e26dcc392ee1b4a7d146b9f0c61a59551fc14feb52e7f858b778a2d"
+      }
+    },
+    {
+      "path": "adl/tools/check_csdlc_prompt_editor_browser.js",
+      "before": [
+        "100644",
+        "6308713d2e161dfe561b481d355623b76f123ee6"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "3bfb70aa7192ddbf58cd1ab040ff88efb6a55b4e",
+      "approval_reference": "LEGACY_EIGHT_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "3bfb70aa7192ddbf58cd1ab040ff88efb6a55b4e",
+          "before": [
+            "100644",
+            "6308713d2e161dfe561b481d355623b76f123ee6"
+          ],
+          "after": null,
+          "packet": "LEGACY_EIGHT_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "LEGACY_EIGHT_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/legacy-eight-preparation/preimages.tar",
+        "archive_sha256": "b7e3aea77341e35080cdf5df0df341a63b12ac432904eddf70be66b2312fcc91",
+        "member": "source/adl/tools/check_csdlc_prompt_editor_browser.js",
+        "mode": "100644",
+        "blob": "6308713d2e161dfe561b481d355623b76f123ee6",
+        "sha256": "88fda85a59437efffd6ada57cff16f920755b07bf478bd322aa67f4e556245a7"
+      }
+    },
+    {
+      "path": "adl/tools/branch_hygiene.sh",
+      "before": [
+        "100755",
+        "0cee74d5cfceb32afd52e7f4f21368479a3d14ca"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "3bfb70aa7192ddbf58cd1ab040ff88efb6a55b4e",
+      "approval_reference": "LEGACY_EIGHT_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "3bfb70aa7192ddbf58cd1ab040ff88efb6a55b4e",
+          "before": [
+            "100755",
+            "0cee74d5cfceb32afd52e7f4f21368479a3d14ca"
+          ],
+          "after": null,
+          "packet": "LEGACY_EIGHT_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "LEGACY_EIGHT_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/legacy-eight-preparation/preimages.tar",
+        "archive_sha256": "b7e3aea77341e35080cdf5df0df341a63b12ac432904eddf70be66b2312fcc91",
+        "member": "source/adl/tools/branch_hygiene.sh",
+        "mode": "100755",
+        "blob": "0cee74d5cfceb32afd52e7f4f21368479a3d14ca",
+        "sha256": "7607315d747d5164da000012dbcf5a50bab975b004bab03aed895eba4533c164"
+      }
+    },
+    {
+      "path": "adl/tools/open_artifact.sh",
+      "before": [
+        "100755",
+        "7d0c52ce3208e3a47beec206b37c8dfeec78ed88"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "3bfb70aa7192ddbf58cd1ab040ff88efb6a55b4e",
+      "approval_reference": "LEGACY_EIGHT_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "3bfb70aa7192ddbf58cd1ab040ff88efb6a55b4e",
+          "before": [
+            "100755",
+            "7d0c52ce3208e3a47beec206b37c8dfeec78ed88"
+          ],
+          "after": null,
+          "packet": "LEGACY_EIGHT_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "LEGACY_EIGHT_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/legacy-eight-preparation/preimages.tar",
+        "archive_sha256": "b7e3aea77341e35080cdf5df0df341a63b12ac432904eddf70be66b2312fcc91",
+        "member": "source/adl/tools/open_artifact.sh",
+        "mode": "100755",
+        "blob": "7d0c52ce3208e3a47beec206b37c8dfeec78ed88",
+        "sha256": "75b8a7b8f245b939c6d48fc9e2fdda53697f96eaf1bf8329d22e975884668714"
+      }
+    },
+    {
+      "path": "adl/tools/observability.sh",
+      "before": [
+        "100755",
+        "bde621fa5660e4f6fdec637b739885e1a28220ac"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "3bfb70aa7192ddbf58cd1ab040ff88efb6a55b4e",
+      "approval_reference": "LEGACY_EIGHT_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "3bfb70aa7192ddbf58cd1ab040ff88efb6a55b4e",
+          "before": [
+            "100755",
+            "bde621fa5660e4f6fdec637b739885e1a28220ac"
+          ],
+          "after": null,
+          "packet": "LEGACY_EIGHT_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "LEGACY_EIGHT_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/legacy-eight-preparation/preimages.tar",
+        "archive_sha256": "b7e3aea77341e35080cdf5df0df341a63b12ac432904eddf70be66b2312fcc91",
+        "member": "source/adl/tools/observability.sh",
+        "mode": "100755",
+        "blob": "bde621fa5660e4f6fdec637b739885e1a28220ac",
+        "sha256": "27afa246a06d4849e3335b0e88e4d37ec5f634be842eefca740064e4d715dd25"
+      }
+    },
+    {
+      "path": "adl/tools/build_v0911_anrm_trace_dataset.py",
+      "before": [
+        "100644",
+        "04bdb59cfc0975daff5e7ad0a13f207d7d828e01"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "b890c02c1c35f7819c1bb47954bd3415f2d7de57",
+      "approval_reference": "ANRM_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "b890c02c1c35f7819c1bb47954bd3415f2d7de57",
+          "before": [
+            "100644",
+            "04bdb59cfc0975daff5e7ad0a13f207d7d828e01"
+          ],
+          "after": null,
+          "packet": "ANRM_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "ANRM_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-remaining-tool-reconciliation/anrm-preimages.tar",
+        "archive_sha256": "219b571f0b95afac38f225d7ffcc88da8ead5adec9dd810f811e1ad51c377a3e",
+        "member": "adl/tools/build_v0911_anrm_trace_dataset.py",
+        "mode": "100644",
+        "blob": "04bdb59cfc0975daff5e7ad0a13f207d7d828e01",
+        "sha256": "17a82b8be8e72669f2ab10d4c0502b97d0be4ec514f29a0b9e9d1d149c0d955a"
+      }
+    },
+    {
+      "path": "adl/tools/test_build_v0911_anrm_trace_dataset.sh",
+      "before": [
+        "100644",
+        "8b9160c83e318fd997b469425bb16751ea423f69"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "b890c02c1c35f7819c1bb47954bd3415f2d7de57",
+      "approval_reference": "ANRM_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "b890c02c1c35f7819c1bb47954bd3415f2d7de57",
+          "before": [
+            "100644",
+            "8b9160c83e318fd997b469425bb16751ea423f69"
+          ],
+          "after": null,
+          "packet": "ANRM_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "ANRM_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-remaining-tool-reconciliation/anrm-preimages.tar",
+        "archive_sha256": "219b571f0b95afac38f225d7ffcc88da8ead5adec9dd810f811e1ad51c377a3e",
+        "member": "adl/tools/test_build_v0911_anrm_trace_dataset.sh",
+        "mode": "100644",
+        "blob": "8b9160c83e318fd997b469425bb16751ea423f69",
+        "sha256": "5c859a6aa429ea57a332f43755b4bd06f4417855dcdd0ad7e832b2b3fe27bbb6"
+      }
+    },
+    {
+      "path": "adl/tools/issue194_model_health_command.py",
+      "before": [
+        "100644",
+        "49e876f566f6540f1dfb415b87f8b04489b95b6d"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+      "approval_reference": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+          "before": [
+            "100644",
+            "49e876f566f6540f1dfb415b87f8b04489b95b6d"
+          ],
+          "after": null,
+          "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/infrastructure-remaining-family-preparation/current-preimages.tar",
+        "archive_sha256": "816d0d7fecc1bc6ee3ec26855a6a9bda7c2bc54e32fd1d899ab1ebde5b2aa2ca",
+        "member": "adl/tools/issue194_model_health_command.py",
+        "mode": "100644",
+        "blob": "49e876f566f6540f1dfb415b87f8b04489b95b6d",
+        "sha256": "1b7f021e6c69bd8bbc227f098d694bfca49581a483991059007d64832e1ec3ad"
+      }
+    },
+    {
+      "path": "adl/tools/issue194_private_network.cloudformation.json",
+      "before": [
+        "100644",
+        "4094e107b601f4d35525212ddebc39900ed16e3d"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+      "approval_reference": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+          "before": [
+            "100644",
+            "4094e107b601f4d35525212ddebc39900ed16e3d"
+          ],
+          "after": null,
+          "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/infrastructure-remaining-family-preparation/current-preimages.tar",
+        "archive_sha256": "816d0d7fecc1bc6ee3ec26855a6a9bda7c2bc54e32fd1d899ab1ebde5b2aa2ca",
+        "member": "adl/tools/issue194_private_network.cloudformation.json",
+        "mode": "100644",
+        "blob": "4094e107b601f4d35525212ddebc39900ed16e3d",
+        "sha256": "80905a1c6adec4623c3dac504e673ebb318aec0873b4d4d243b650c86f514030"
+      }
+    },
+    {
+      "path": "adl/tools/issue194_private_wuji_aws_runner.sh",
+      "before": [
+        "100755",
+        "de072e2c01cd365883b40810950feb66cb1633ad"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+      "approval_reference": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+          "before": [
+            "100755",
+            "de072e2c01cd365883b40810950feb66cb1633ad"
+          ],
+          "after": null,
+          "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/infrastructure-remaining-family-preparation/current-preimages.tar",
+        "archive_sha256": "816d0d7fecc1bc6ee3ec26855a6a9bda7c2bc54e32fd1d899ab1ebde5b2aa2ca",
+        "member": "adl/tools/issue194_private_wuji_aws_runner.sh",
+        "mode": "100755",
+        "blob": "de072e2c01cd365883b40810950feb66cb1633ad",
+        "sha256": "84d83cff9c5a22e19efcd5c6781fb9163ce87e85cd44cbdd569b52b41da77369"
+      }
+    },
+    {
+      "path": "adl/tools/issue414_restore_and_admit.sh",
+      "before": [
+        "100644",
+        "becf29334a9c598e3d6e6b8c2488bddb33dc864c"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+      "approval_reference": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+          "before": [
+            "100644",
+            "becf29334a9c598e3d6e6b8c2488bddb33dc864c"
+          ],
+          "after": null,
+          "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/infrastructure-remaining-family-preparation/current-preimages.tar",
+        "archive_sha256": "816d0d7fecc1bc6ee3ec26855a6a9bda7c2bc54e32fd1d899ab1ebde5b2aa2ca",
+        "member": "adl/tools/issue414_restore_and_admit.sh",
+        "mode": "100644",
+        "blob": "becf29334a9c598e3d6e6b8c2488bddb33dc864c",
+        "sha256": "8fe37096c47356b6e625dc5cca213aa2cb06907e8fecdb8f650b144af1a50265"
+      }
+    },
+    {
+      "path": "adl/tools/issue414_s3_linux_bootstrap.py",
+      "before": [
+        "100644",
+        "d8f864e4957377c036d295d35a91c6493529217f"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+      "approval_reference": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+          "before": [
+            "100644",
+            "d8f864e4957377c036d295d35a91c6493529217f"
+          ],
+          "after": null,
+          "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/infrastructure-remaining-family-preparation/current-preimages.tar",
+        "archive_sha256": "816d0d7fecc1bc6ee3ec26855a6a9bda7c2bc54e32fd1d899ab1ebde5b2aa2ca",
+        "member": "adl/tools/issue414_s3_linux_bootstrap.py",
+        "mode": "100644",
+        "blob": "d8f864e4957377c036d295d35a91c6493529217f",
+        "sha256": "4b77b6b680fdb657346bce3ad4b646bf73bed2b0ccac8ba4293b78b5f6a7537f"
+      }
+    },
+    {
+      "path": "adl/tools/issue414_spot_dehydrate_callback.sh",
+      "before": [
+        "100755",
+        "5399e34873af6a21204c6b881ad810cb87449008"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+      "approval_reference": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+          "before": [
+            "100755",
+            "5399e34873af6a21204c6b881ad810cb87449008"
+          ],
+          "after": null,
+          "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/infrastructure-remaining-family-preparation/current-preimages.tar",
+        "archive_sha256": "816d0d7fecc1bc6ee3ec26855a6a9bda7c2bc54e32fd1d899ab1ebde5b2aa2ca",
+        "member": "adl/tools/issue414_spot_dehydrate_callback.sh",
+        "mode": "100755",
+        "blob": "5399e34873af6a21204c6b881ad810cb87449008",
+        "sha256": "3a31607a8ab0667132b7965f562bfc2b170eed7d587bd352de791cdba28b9b9a"
+      }
+    },
+    {
+      "path": "adl/tools/private_wuji_aws_recovery_qualification.py",
+      "before": [
+        "100755",
+        "fe531b38f6ed7660748296d4fac963bc541faf99"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+      "approval_reference": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+          "before": [
+            "100755",
+            "fe531b38f6ed7660748296d4fac963bc541faf99"
+          ],
+          "after": null,
+          "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/infrastructure-remaining-family-preparation/current-preimages.tar",
+        "archive_sha256": "816d0d7fecc1bc6ee3ec26855a6a9bda7c2bc54e32fd1d899ab1ebde5b2aa2ca",
+        "member": "adl/tools/private_wuji_aws_recovery_qualification.py",
+        "mode": "100755",
+        "blob": "fe531b38f6ed7660748296d4fac963bc541faf99",
+        "sha256": "ad91442470c010efdc9d01a748886d56cec7a0df97eaae059469e33097464bb9"
+      }
+    },
+    {
+      "path": "adl/tools/run_issue414_cpu_shepherd_continuity.sh",
+      "before": [
+        "100755",
+        "7d8c12e9b118cf88baf24951f885157e85ff743f"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+      "approval_reference": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+          "before": [
+            "100755",
+            "7d8c12e9b118cf88baf24951f885157e85ff743f"
+          ],
+          "after": null,
+          "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/infrastructure-remaining-family-preparation/current-preimages.tar",
+        "archive_sha256": "816d0d7fecc1bc6ee3ec26855a6a9bda7c2bc54e32fd1d899ab1ebde5b2aa2ca",
+        "member": "adl/tools/run_issue414_cpu_shepherd_continuity.sh",
+        "mode": "100755",
+        "blob": "7d8c12e9b118cf88baf24951f885157e85ff743f",
+        "sha256": "9022cf562ec6c254bedca25633e2370af7b1d0ae08f0892167560c9a1bb3aeb9"
+      }
+    },
+    {
+      "path": "adl/tools/run_issue414_llama_baseline.sh",
+      "before": [
+        "100644",
+        "89a98465dc3a68a8cfd8a6867fc86f6b5bd10227"
+      ],
+      "after": [
+        "100644",
+        "e1cedc099ca03a9671c80364f2395c6923ddd81f"
+      ],
+      "action": "modify",
+      "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+      "approval_reference": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+          "before": [
+            "100644",
+            "89a98465dc3a68a8cfd8a6867fc86f6b5bd10227"
+          ],
+          "after": [
+            "100644",
+            "e1cedc099ca03a9671c80364f2395c6923ddd81f"
+          ],
+          "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/test_issue194_private_network_template.sh",
+      "before": [
+        "100755",
+        "577c2768ca83cbb3771b9a35053f01a50ab00985"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+      "approval_reference": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+          "before": [
+            "100755",
+            "577c2768ca83cbb3771b9a35053f01a50ab00985"
+          ],
+          "after": null,
+          "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/infrastructure-remaining-family-preparation/current-preimages.tar",
+        "archive_sha256": "816d0d7fecc1bc6ee3ec26855a6a9bda7c2bc54e32fd1d899ab1ebde5b2aa2ca",
+        "member": "adl/tools/test_issue194_private_network_template.sh",
+        "mode": "100755",
+        "blob": "577c2768ca83cbb3771b9a35053f01a50ab00985",
+        "sha256": "5bff0ce64134ee67c9f01af7555b1afe63398cc914d39306a9f297359ab6b4b9"
+      }
+    },
+    {
+      "path": "adl/tools/test_issue414_s3_linux_bootstrap.py",
+      "before": [
+        "100644",
+        "bf10396ec52330414c1d37d178fa034a2231ef4b"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+      "approval_reference": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+          "before": [
+            "100644",
+            "bf10396ec52330414c1d37d178fa034a2231ef4b"
+          ],
+          "after": null,
+          "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/infrastructure-remaining-family-preparation/current-preimages.tar",
+        "archive_sha256": "816d0d7fecc1bc6ee3ec26855a6a9bda7c2bc54e32fd1d899ab1ebde5b2aa2ca",
+        "member": "adl/tools/test_issue414_s3_linux_bootstrap.py",
+        "mode": "100644",
+        "blob": "bf10396ec52330414c1d37d178fa034a2231ef4b",
+        "sha256": "30c1477758ae7b3977e08e8eccf7ddb9aa56fdf622be3d37a9245e7211ce3442"
+      }
+    },
+    {
+      "path": "adl/tools/test_private_wuji_aws_recovery_qualification.sh",
+      "before": [
+        "100755",
+        "62563199814768e8a98e861a2fa532e965a02de4"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+      "approval_reference": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+          "before": [
+            "100755",
+            "62563199814768e8a98e861a2fa532e965a02de4"
+          ],
+          "after": null,
+          "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/infrastructure-remaining-family-preparation/current-preimages.tar",
+        "archive_sha256": "816d0d7fecc1bc6ee3ec26855a6a9bda7c2bc54e32fd1d899ab1ebde5b2aa2ca",
+        "member": "adl/tools/test_private_wuji_aws_recovery_qualification.sh",
+        "mode": "100755",
+        "blob": "62563199814768e8a98e861a2fa532e965a02de4",
+        "sha256": "e84b79eec80caaa92f3ad6684101ec952a5675a857261568746006dcbfa14188"
+      }
+    },
+    {
+      "path": "docs/codefriend/HOSTING.md",
+      "before": [
+        "100644",
+        "111e0690fb10820a3e0df0898f16c0936637051b"
+      ],
+      "after": [
+        "100644",
+        "874d38a57c1ebd30b12880d41b664b5930cb5248"
+      ],
+      "action": "modify",
+      "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+      "approval_reference": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+          "before": [
+            "100644",
+            "111e0690fb10820a3e0df0898f16c0936637051b"
+          ],
+          "after": [
+            "100644",
+            "874d38a57c1ebd30b12880d41b664b5930cb5248"
+          ],
+          "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "tools/codefriend_host/release/README.md",
+      "before": [
+        "100644",
+        "4c0e12eebd79f0396fb282c0d62afe209e77494f"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+      "approval_reference": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+          "before": [
+            "100644",
+            "4c0e12eebd79f0396fb282c0d62afe209e77494f"
+          ],
+          "after": null,
+          "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/infrastructure-remaining-family-preparation/current-preimages.tar",
+        "archive_sha256": "816d0d7fecc1bc6ee3ec26855a6a9bda7c2bc54e32fd1d899ab1ebde5b2aa2ca",
+        "member": "tools/codefriend_host/release/README.md",
+        "mode": "100644",
+        "blob": "4c0e12eebd79f0396fb282c0d62afe209e77494f",
+        "sha256": "d8b89e1517f7f145eaaec896809859217254ccb9821570b4a4e040e41ac3a752"
+      }
+    },
+    {
+      "path": "tools/codefriend_host/release/test_assemble.py",
+      "before": [
+        "100644",
+        "bef1f7745d709e3373b5dc4c0ad64ac12dbf9e16"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+      "approval_reference": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+          "before": [
+            "100644",
+            "bef1f7745d709e3373b5dc4c0ad64ac12dbf9e16"
+          ],
+          "after": null,
+          "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/infrastructure-remaining-family-preparation/current-preimages.tar",
+        "archive_sha256": "816d0d7fecc1bc6ee3ec26855a6a9bda7c2bc54e32fd1d899ab1ebde5b2aa2ca",
+        "member": "tools/codefriend_host/release/test_assemble.py",
+        "mode": "100644",
+        "blob": "bef1f7745d709e3373b5dc4c0ad64ac12dbf9e16",
+        "sha256": "fe4161ea56cc917d92f8b2efecaa006dc665d1f05e4fc15c03d488981f2ed788"
+      }
+    },
+    {
+      "path": "tools/codefriend_host/release/validation.json",
+      "before": [
+        "100644",
+        "5fa12bdc014e16dfe3624710fd6c293c25a80be7"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+      "approval_reference": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+          "before": [
+            "100644",
+            "5fa12bdc014e16dfe3624710fd6c293c25a80be7"
+          ],
+          "after": null,
+          "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/infrastructure-remaining-family-preparation/current-preimages.tar",
+        "archive_sha256": "816d0d7fecc1bc6ee3ec26855a6a9bda7c2bc54e32fd1d899ab1ebde5b2aa2ca",
+        "member": "tools/codefriend_host/release/validation.json",
+        "mode": "100644",
+        "blob": "5fa12bdc014e16dfe3624710fd6c293c25a80be7",
+        "sha256": "1151810cb870e3c6c49312de41e5f47ccd824c1a2c28f010c49b819748ca2146"
+      }
+    },
+    {
+      "path": "tools/codefriend_host/release/verify_packet.py",
+      "before": [
+        "100755",
+        "1e5c4e27b7ab27ad504fd52f729ac6e86616abd7"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+      "approval_reference": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+          "before": [
+            "100755",
+            "1e5c4e27b7ab27ad504fd52f729ac6e86616abd7"
+          ],
+          "after": null,
+          "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/infrastructure-remaining-family-preparation/current-preimages.tar",
+        "archive_sha256": "816d0d7fecc1bc6ee3ec26855a6a9bda7c2bc54e32fd1d899ab1ebde5b2aa2ca",
+        "member": "tools/codefriend_host/release/verify_packet.py",
+        "mode": "100755",
+        "blob": "1e5c4e27b7ab27ad504fd52f729ac6e86616abd7",
+        "sha256": "d3a57659cd58e6eaf92e06b2125b913bfec9001967cc797cc58c2068e01e02b2"
+      }
+    },
+    {
+      "path": "tools/codefriend_host/terraform/.gitignore",
+      "before": [
+        "100644",
+        "e63927116ca18f8756b26473bcf1cf7acd98260d"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+      "approval_reference": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+          "before": [
+            "100644",
+            "e63927116ca18f8756b26473bcf1cf7acd98260d"
+          ],
+          "after": null,
+          "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/infrastructure-remaining-family-preparation/current-preimages.tar",
+        "archive_sha256": "816d0d7fecc1bc6ee3ec26855a6a9bda7c2bc54e32fd1d899ab1ebde5b2aa2ca",
+        "member": "tools/codefriend_host/terraform/.gitignore",
+        "mode": "100644",
+        "blob": "e63927116ca18f8756b26473bcf1cf7acd98260d",
+        "sha256": "d72d34078e73a0584080f8f5b26227f5140e9c4674aa70af76e4d6abecad77fd"
+      }
+    },
+    {
+      "path": "tools/codefriend_host/terraform/.terraform.lock.hcl",
+      "before": [
+        "100644",
+        "cdec8db461a63a92af6b8e7908cd393f0c1342b5"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+      "approval_reference": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+          "before": [
+            "100644",
+            "cdec8db461a63a92af6b8e7908cd393f0c1342b5"
+          ],
+          "after": null,
+          "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/infrastructure-remaining-family-preparation/current-preimages.tar",
+        "archive_sha256": "816d0d7fecc1bc6ee3ec26855a6a9bda7c2bc54e32fd1d899ab1ebde5b2aa2ca",
+        "member": "tools/codefriend_host/terraform/.terraform.lock.hcl",
+        "mode": "100644",
+        "blob": "cdec8db461a63a92af6b8e7908cd393f0c1342b5",
+        "sha256": "94bff334cb514eae21870f892d1a660487f9a2db11841c584adf25e473830785"
+      }
+    },
+    {
+      "path": "tools/codefriend_host/terraform/main.tf",
+      "before": [
+        "100644",
+        "64aa73ca2aa5d10b65560a5e63f8aeb5cc508716"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+      "approval_reference": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+          "before": [
+            "100644",
+            "64aa73ca2aa5d10b65560a5e63f8aeb5cc508716"
+          ],
+          "after": null,
+          "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/infrastructure-remaining-family-preparation/current-preimages.tar",
+        "archive_sha256": "816d0d7fecc1bc6ee3ec26855a6a9bda7c2bc54e32fd1d899ab1ebde5b2aa2ca",
+        "member": "tools/codefriend_host/terraform/main.tf",
+        "mode": "100644",
+        "blob": "64aa73ca2aa5d10b65560a5e63f8aeb5cc508716",
+        "sha256": "9b16e116427198506a07aa5f003b99daca4f8cf20546650a001d8574baade3cd"
+      }
+    },
+    {
+      "path": "tools/codefriend_host/terraform/variables.tf",
+      "before": [
+        "100644",
+        "7a3b17048476937b7ddc1b32808ad9950b1dfba9"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+      "approval_reference": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+          "before": [
+            "100644",
+            "7a3b17048476937b7ddc1b32808ad9950b1dfba9"
+          ],
+          "after": null,
+          "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/infrastructure-remaining-family-preparation/current-preimages.tar",
+        "archive_sha256": "816d0d7fecc1bc6ee3ec26855a6a9bda7c2bc54e32fd1d899ab1ebde5b2aa2ca",
+        "member": "tools/codefriend_host/terraform/variables.tf",
+        "mode": "100644",
+        "blob": "7a3b17048476937b7ddc1b32808ad9950b1dfba9",
+        "sha256": "556a9839c31ccd607785e7c2106d11b6ba2141debdd93a885b469ac9514c6031"
+      }
+    },
+    {
+      "path": "adl/tools/run_adl_v2_standalone.sh",
+      "before": [
+        "100755",
+        "0aaa6874c2fa31f6d4b6e593564c4a173e41cbb7"
+      ],
+      "after": [
+        "100755",
+        "6f03a4b5790b1327c6174006c6dd5b0e79fb8f42"
+      ],
+      "action": "modify",
+      "implementation_commit": "2eb69b00d783dccea06600becbdbcd8ee4c312db",
+      "approval_reference": "PUBLIC_V2_RUNNER_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "2eb69b00d783dccea06600becbdbcd8ee4c312db",
+          "before": [
+            "100755",
+            "0aaa6874c2fa31f6d4b6e593564c4a173e41cbb7"
+          ],
+          "after": [
+            "100755",
+            "6f03a4b5790b1327c6174006c6dd5b0e79fb8f42"
+          ],
+          "packet": "PUBLIC_V2_RUNNER_APPLIED.json"
+        }
+      ]
     }
   ],
   "missing_entries": [],
@@ -84883,9 +85987,99 @@
         "docs/tooling/TOOL_SURFACE_REGISTRY.md"
       ],
       "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "LEGACY_EIGHT_APPLIED.json",
+      "sha256": "6b093f40d2b1500ff29f9cc73f685c84a9128a479762e4814ffb80a882629641",
+      "commit": "3bfb70aa7192ddbf58cd1ab040ff88efb6a55b4e",
+      "files": 10,
+      "removals": 8,
+      "scope_sha256": "39fee1596c7029514cd2aeaffe327409769b213fccc96b8d09a0d5bf9fa3fad2",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl/tools/test_control_plane_observability.sh",
+        "adl/tools/burst_worktree.sh",
+        "adl/tools/burst_continue.sh",
+        "adl/tools/coverage.sh",
+        "adl/tools/check_csdlc_prompt_editor_browser.js",
+        "adl/tools/branch_hygiene.sh",
+        "adl/tools/open_artifact.sh",
+        "adl/tools/observability.sh",
+        "adl/tools/README.md",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "ANRM_FAMILY_APPLIED.json",
+      "sha256": "ad4b4a118b4ce7d2ca01e02c0dd1c792986e6d9a9a49090322496248ee073a15",
+      "commit": "b890c02c1c35f7819c1bb47954bd3415f2d7de57",
+      "files": 3,
+      "removals": 2,
+      "scope_sha256": "50591a5605dde93306aa8a9b62fd26a74015f8feae6e227158de23d16adae7c9",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl/tools/build_v0911_anrm_trace_dataset.py",
+        "adl/tools/test_build_v0911_anrm_trace_dataset.sh",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+      "sha256": "14a66f746122c76cbf4c48181d0ceacfcc1623e31b523b659ec78c729cd983d5",
+      "commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+      "files": 24,
+      "removals": 20,
+      "scope_sha256": "afbdb58955d8548c247d69037c4dbdff9813a364da408493dd057106fa440162",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl/tools/generate_tool_surface_registry.py",
+        "adl/tools/issue194_model_health_command.py",
+        "adl/tools/issue194_private_network.cloudformation.json",
+        "adl/tools/issue194_private_wuji_aws_runner.sh",
+        "adl/tools/issue414_restore_and_admit.sh",
+        "adl/tools/issue414_s3_linux_bootstrap.py",
+        "adl/tools/issue414_spot_dehydrate_callback.sh",
+        "adl/tools/private_wuji_aws_recovery_qualification.py",
+        "adl/tools/run_issue414_cpu_shepherd_continuity.sh",
+        "adl/tools/run_issue414_llama_baseline.sh",
+        "adl/tools/test_issue194_private_network_template.sh",
+        "adl/tools/test_issue414_s3_linux_bootstrap.py",
+        "adl/tools/test_private_wuji_aws_recovery_qualification.sh",
+        "docs/codefriend/HOSTING.md",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+        "tools/codefriend_host/release/README.md",
+        "tools/codefriend_host/release/assemble.py",
+        "tools/codefriend_host/release/test_assemble.py",
+        "tools/codefriend_host/release/validation.json",
+        "tools/codefriend_host/release/verify_packet.py",
+        "tools/codefriend_host/terraform/.gitignore",
+        "tools/codefriend_host/terraform/.terraform.lock.hcl",
+        "tools/codefriend_host/terraform/main.tf",
+        "tools/codefriend_host/terraform/variables.tf"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "PUBLIC_V2_RUNNER_APPLIED.json",
+      "sha256": "d686a6322ec026436319b82f50869e9c82191d90f6fb13208d17e03c4e751f50",
+      "commit": "2eb69b00d783dccea06600becbdbcd8ee4c312db",
+      "files": 1,
+      "removals": 0,
+      "scope_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl/tools/run_adl_v2_standalone.sh"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
     }
   ],
-  "baseline_deletion_count": 2620,
+  "baseline_deletion_count": 2650,
   "transient_removed_paths": [
     "adl/tools/test_issue872_historical_manifest.py"
   ]
