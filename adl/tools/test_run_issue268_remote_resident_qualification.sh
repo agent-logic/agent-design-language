@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd -P)
+# Exact owner resources are explicit fixture input; original four invocation blocks are unchanged.
+ADL_ISSUE268_RUNTIME_SOURCE_ROOT=$(python3 "$ROOT/adl/tools/lib/issue268_runtime_resources.py")
+export ADL_ISSUE268_RUNTIME_SOURCE_ROOT
 grep -Fq 'tail -80 "$OLLAMA_LOG"' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
 grep -Fq 'OLLAMA_KEEP_ALIVE=-1' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
 grep -Fq 'OLLAMA_LOAD_TIMEOUT=15m' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"

@@ -2,6 +2,7 @@
 set -euo pipefail
 
 ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd -P)
+ISSUE268_RUNTIME_SOURCE_ROOT=$(python3 "$ROOT/adl/tools/lib/issue268_runtime_resources.py")
 if [[ -n "${ADL_ISSUE268_CUSTODY_ENV_FILE:-}" ]]; then
   [[ "$ADL_ISSUE268_CUSTODY_ENV_FILE" == /tmp/adl-issue268-custody-env.* \
       && -f "$ADL_ISSUE268_CUSTODY_ENV_FILE" \
@@ -30,9 +31,9 @@ RUNTIME_ROOT=${ADL_ISSUE268_RETAINED_RUNTIME_ROOT:-$VOLUME_ROOT/state/$RUN_ID}
 BUILD_CACHE_ROOT=${ADL_ISSUE268_BUILD_CACHE_ROOT:-${ADL_CACHE_VOLUME_MOUNT_PATH:?ADL_CACHE_VOLUME_MOUNT_PATH is required}}
 AGENT_SPEC_DIR=${ADL_ISSUE268_AGENT_SPEC_DIR:-$EVIDENCE_ROOT/agent-specs}
 VOLUME_IDENTITY=${ADL_ISSUE268_RUNTIME_VOLUME_IDENTITY_SHA256:-${ADL_RUNTIME_CONTINUITY_VOLUME_ID_SHA256:?ADL_RUNTIME_CONTINUITY_VOLUME_ID_SHA256 is required}}
-MATERIALIZER=${ADL_ISSUE268_MATERIALIZER:-$ROOT/adl/tools/materialize_issue268_ollama_plan.py}
-ORCHESTRATOR=${ADL_ISSUE268_CONTINUITY_UTS_RUNNER:-$ROOT/adl/tools/run_issue268_continuity_uts_qualification.py}
-MODEL_WARMUP=${ADL_ISSUE268_MODEL_WARMUP:-$ROOT/adl/tools/warm_issue268_ollama_models.py}
+MATERIALIZER=${ADL_ISSUE268_MATERIALIZER:-$ISSUE268_RUNTIME_SOURCE_ROOT/adl/tools/materialize_issue268_ollama_plan.py}
+ORCHESTRATOR=${ADL_ISSUE268_CONTINUITY_UTS_RUNNER:-$ISSUE268_RUNTIME_SOURCE_ROOT/adl/tools/run_issue268_continuity_uts_qualification.py}
+MODEL_WARMUP=${ADL_ISSUE268_MODEL_WARMUP:-$ISSUE268_RUNTIME_SOURCE_ROOT/adl/tools/warm_issue268_ollama_models.py}
 GUARDIAN=${ADL_ISSUE268_GUARDIAN_RUNNER:-$ROOT/adl/tools/validate_v092_runtime_guardian_lifecycle.sh}
 SOURCE_RECEIPT=${ADL_ISSUE268_S3_SOURCE_RECEIPT:-$ROOT/.csdlc/evidence/268/aws/issue268-six-hour-r7i-20260819-01/s3-source-receipt.json}
 INSTALLER=${ADL_ISSUE268_VOLUME_INSTALLER:-$ROOT/adl/tools/install_issue268_runtime_volume.py}
@@ -160,6 +161,7 @@ fi
 mkdir -p "$EVIDENCE_ROOT/continuity-uts"
 orchestrator_log="$EVIDENCE_ROOT/continuity-uts/orchestrator.log"
 if ! python3 "$ORCHESTRATOR" \
+  --producer-source-revision "$SOURCE_REVISION" \
   --continuity-bin "$CONTINUITY_BIN" \
   --runtime-bin "$RUNTIME_BIN" \
   --runtime-root "$RUNTIME_ROOT" \

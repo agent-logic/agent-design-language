@@ -2,6 +2,7 @@
 set -euo pipefail
 
 ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd -P)
+ISSUE268_RUNTIME_SOURCE_ROOT=$(python3 "$ROOT/adl/tools/lib/issue268_runtime_resources.py")
 MODE=${1:-}
 RUN_ID=issue268-six-hour-r7i-20260821-72
 EVIDENCE_ROOT=${ADL_ISSUE268_EVIDENCE_ROOT:-$ROOT/.csdlc/evidence/268/aws/$RUN_ID}
@@ -13,7 +14,7 @@ LAUNCH_CLAIM="$EVIDENCE_ROOT/launch-claimed.json"
 REMOTE_BIN=${ADL_AWS_REMOTE_VALIDATION_BIN:-$ROOT/.adl/bin/adl-aws-remote-validation-tool}
 PORTABLE_BIN=${ADL_REMOTE_VALIDATION_BIN:-$ROOT/tools/remote_validation/target/debug/adl-remote-validation}
 OWNER=${ADL_ISSUE268_OWNER:-$ROOT/adl/tools/run_aws_spot_remote_validation_lane.sh}
-UTS_PLAN_VALIDATOR="$ROOT/adl/tools/validate_issue268_six_resident_uts_plan.py"
+UTS_PLAN_VALIDATOR="$ISSUE268_RUNTIME_SOURCE_ROOT/adl/tools/validate_issue268_six_resident_uts_plan.py"
 AWS_CLI=${ADL_ISSUE268_AWS_CLI:-aws}
 DIG=${ADL_ISSUE268_DIG:-dig}
 PROFILE=agent-logic-admin
@@ -24,7 +25,7 @@ RUNTIME_VOLUME_ID=${ADL_AWS_RUNTIME_CONTINUITY_VOLUME_ID:-}
 RUNTIME_VOLUME_NAME=${ADL_AWS_RUNTIME_CONTINUITY_VOLUME_NAME:-}
 RUNTIME_VOLUME_ID_SHA256=${ADL_AWS_RUNTIME_CONTINUITY_VOLUME_ID_SHA256:-}
 HOURLY=${ADL_ISSUE268_ESTIMATED_HOURLY_COST_USD:-}
-CFN_TEMPLATE="$ROOT/adl/tools/issue268_runtime_qualification.cloudformation.yaml"
+CFN_TEMPLATE="$ISSUE268_RUNTIME_SOURCE_ROOT/adl/tools/issue268_runtime_qualification.cloudformation.yaml"
 CFN_STACK_NAME="adl-issue268-runtime-72"
 CFN_SUBNET_ID=${ADL_ISSUE268_SUBNET_ID:-${ADL_AWS_REMOTE_VALIDATION_SUBNET_ID:-}}
 CFN_AVAILABILITY_ZONE=${ADL_ISSUE268_AVAILABILITY_ZONE:-}
@@ -108,10 +109,10 @@ BRANCH=$(git -C "$ROOT" symbolic-ref --quiet --short HEAD || true)
 }
 
 python3 - "$REQUEST" "$REVISION" "$CANCEL" "$RUN_ID" "$ROOT" <<'PY'
-import hashlib, json, os, pathlib, sys
+import hashlib, json, os, pathlib, sys, subprocess
 request_path, revision, cancel, run_id, root = sys.argv[1:]
 profile = {
-    "argv": ["bash", "adl/tools/run_issue268_remote_resident_qualification.sh"],
+    "argv": json.loads(subprocess.check_output(["python3", str(pathlib.Path(root) / "adl/tools/lib/issue268_runtime_resources.py"), "--remote-profile"], text=True)),
     "working_directory": ".",
     "environment_allowlist": [
         "PATH", "HOME", "CARGO_HOME", "RUSTUP_HOME", "CARGO_TARGET_DIR", "ADL_RUN_ID", "ADL_RUNTIME_VECTOR_BIN",
@@ -122,7 +123,7 @@ profile = {
         "ADL_ISSUE268_AGENT_SPEC_DIR", "ADL_ISSUE268_RUNTIME_VOLUME_IDENTITY_SHA256",
         "ADL_ISSUE268_S3_SOURCE_RECEIPT", "ADL_ISSUE268_414_REVIEWED_SHA",
         "ADL_ISSUE268_CONTINUITY_BIN_SHA256", "ADL_ISSUE414_SIGNING_KEY_HEX",
-        "ADL_ISSUE268_CUSTODY_ENV_FILE",
+        "ADL_ISSUE268_CUSTODY_ENV_FILE", "ADL_ISSUE268_RUNTIME_SOURCE_ROOT",
     ],
 }
 digest = hashlib.sha256(json.dumps(profile, separators=(",", ":")).encode()).hexdigest()
@@ -300,7 +301,7 @@ PY
     RUNTIME_VOLUME_ID_SHA256=$(python3 -c 'import hashlib,sys; print(hashlib.sha256(sys.argv[1].encode()).hexdigest())' "$RUNTIME_VOLUME_ID")
     RUNTIME_VOLUME_NAME="$RUN_ID-runtime"
     python3 - "$EVIDENCE_ROOT/cloudformation.json" "$CFN_STACK_NAME" "$RUNTIME_INSTANCE_ID" "$RUNTIME_VOLUME_ID" <<'PY'
-import hashlib, json, os, pathlib, sys
+import hashlib, json, os, pathlib, sys, subprocess
 path, stack, instance, volume = sys.argv[1:]
 payload={"schema":"adl.issue268.cloudformation.v1","status":"created","stack_name_sha256":hashlib.sha256(stack.encode()).hexdigest(),"instance_id_sha256":hashlib.sha256(instance.encode()).hexdigest(),"runtime_volume_id_sha256":hashlib.sha256(volume.encode()).hexdigest()}
 p=pathlib.Path(path); t=p.with_suffix('.tmp'); t.write_text(json.dumps(payload,sort_keys=True)+'\n'); os.replace(t,p)

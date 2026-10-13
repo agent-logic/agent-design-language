@@ -30,7 +30,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 8
 - `supported shim`: 0
-- `internal helper`: 503
+- `internal helper`: 490
 - `historical evidence`: 31
 - `archive candidate`: 0
 - `remove candidate`: 0
@@ -175,9 +175,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/install_runtime_v3_generation.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/install_vector_component.ps1` | tool surface | internal helper | Visible tool surface retained for bounded support work. |
 | `adl/tools/install_vector_component.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
-| `adl/tools/issue268_runtime_qualification.cloudformation.yaml` | tool surface | internal helper | Visible tool surface retained for bounded support work. |
-| `adl/tools/issue268_runtime_uts_task_panel.json` | tool surface | internal helper | Visible tool surface retained for bounded support work. |
-| `adl/tools/issue268_six_resident_uts_plan.json` | tool surface | internal helper | Visible tool surface retained for bounded support work. |
 | `adl/tools/issue345_aws_gpu_prerequisites.cloudformation.yaml` | tool surface | internal helper | Visible tool surface retained for bounded support work. |
 | `adl/tools/issue607_guardian_recovery_proof.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/issue607_probe_runtime.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
@@ -188,7 +185,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/issue990_managed_restart_proof.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/lib` | tool surface | internal helper | Directory containing bounded helper assets, scripts, or proof inputs. |
 | `adl/tools/local_model_capabilities.v1.json` | tool surface | internal helper | Visible tool surface retained for bounded support work. |
-| `adl/tools/materialize_issue268_ollama_plan.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/mcp` | tool surface | internal helper | Directory containing bounded helper assets, scripts, or proof inputs. |
 | `adl/tools/mechanical_coverage_fallout.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/merge_coverage_summaries.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
@@ -235,10 +231,8 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/run_cargo_validation.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_ci_step_with_log.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_fable5_uts_acceptance.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
-| `adl/tools/run_issue268_continuity_uts_qualification.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_issue268_remote_resident_qualification.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_issue268_six_hour_spot_qualification.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
-| `adl/tools/run_issue268_six_resident_uts_cycle.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_issue414_llama_baseline.sh` | tool surface | historical evidence | Historical ADL live-model baseline route retired by #1223; refuses execution. Original model, CSM and restore assertions remain unqualified and preserved in custody. |
 | `adl/tools/run_issue509_gcp_drt_d_qualification.sh` | tool surface | historical evidence | Historical Infrastructure source route retired by #1223; command refuses execution. Original assertions remain in Git and retirement custody; run the reviewed owner route. |
 | `adl/tools/run_issue607_warm_polis.sh` | tool surface | historical evidence | Historical Infrastructure source route retired by #1223; command refuses execution. Original assertions remain in Git and retirement custody; run the reviewed owner route. |
@@ -378,13 +372,11 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_html_observatory.sh` | tool surface | historical evidence | Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing. |
 | `adl/tools/test_install_adl_operational_skills.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_install_issue268_runtime_volume.py` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_issue268_runtime_qualification_cloudformation.py` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_issue905_runtime_speculative_retest.py` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_issue_folding_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_issue_lifecycle_shepherd_contract.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_issue_splitter_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_issue_watcher_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_materialize_issue268_ollama_plan.py` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_mechanical_coverage_fallout.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_medium_article_writer_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_merge_coverage_summaries.sh` | tool surface | internal helper | Focused regression or contract test helper. |
@@ -426,9 +418,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_run_aws_spot_ci_profile.sh` | tool surface | historical evidence | Historical Infrastructure source route retired by #1223; command refuses execution. Original assertions remain in Git and retirement custody; run the reviewed owner route. |
 | `adl/tools/test_run_cargo_validation.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_run_ci_step_with_log.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_run_issue268_continuity_uts_qualification.py` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_run_issue268_remote_resident_qualification.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_run_issue268_six_resident_uts_cycle.py` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_run_issue901_provider_recovery_qualification.py` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_run_issue901_runtime_recovery_qualification.py` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_run_local_authoritative_coverage_gate.sh` | tool surface | internal helper | Focused regression or contract test helper. |
@@ -482,7 +472,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_validation_inventory.sh` | tool surface | historical evidence | Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing. |
 | `adl/tools/test_validation_manager.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_vllm_qwen_speculative_decoding_benchmark.py` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_warm_issue268_ollama_models.py` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_warm_rust_dependency_cache.py` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_workflow_guardrails.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_workspace_coverage_deadline.rb` | tool surface | internal helper | Focused regression or contract test helper. |
@@ -510,7 +499,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/validate_five_agent_music_demo.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_five_minute_html_game_packet.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_five_minute_sprint_console_packet.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
-| `adl/tools/validate_issue268_six_resident_uts_plan.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_layer8_authority_observatory_ui.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_merge_readiness_packet.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_multi_agent_repo_review_demo.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
@@ -580,7 +568,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/verify_review_output_provenance.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/verify_spot_advertised_ref.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/vllm_qwen_speculative_decoding_benchmark.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
-| `adl/tools/warm_issue268_ollama_models.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/warm_rust_dependency_cache.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/workflow_guardrails.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/worktree_doctor.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
