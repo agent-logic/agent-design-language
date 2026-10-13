@@ -1,0 +1,50 @@
+{
+  "schema": "adl.csdlc_v3.preexisting_terminal_receipts.v1",
+  "issue": 1266,
+  "milestone": "v0.93.1",
+  "receipt_count": 35,
+  "purpose": "Byte identities captured before recordless reconciliation; these receipts were not rewritten.",
+  "repositories": [
+    {
+      "repository": "agent-logic/codefriend",
+      "receipt_scope": "consumer repository Git common directory",
+      "receipts": {
+        "1": "cb14800fa8dbb9f3d37ce99c91e20af383524e9b5bf84e3a6ae426c40e452555",
+        "4": "2d681481a5795ec0821853e43ff3b72425ebecc001971c491d5ac8d501761347",
+        "6": "eb1126b3cfe402a6435deee91d1ad91ebb2ddd9c6b00b68d37c037f1d383ba97",
+        "7": "8a7f123eed3e030e0912bffe8ffb574e6fbb725cfe4404f24b81a995e04f6a29",
+        "10": "0f49ec153d12be6f10f1837820b9a08d82973cd14128505f52ad63695f7f000b",
+        "12": "85c8713de30919ecdc265979a70d0afd052d4de357582602a1d752eb980dbf57",
+        "14": "a283e182c04a96f9c657e4ba592545469193eaeadffc9ec486042729f22cf051",
+        "15": "d52f6bf3b8954adc51f305f10bf54a7eb1b1e48d91a8f393b3255aaac381ae95",
+        "16": "ba0481ffafd747bd3157335c4dd04b14ea02c97b3396a6930874b9fb75d4ba5c",
+        "17": "e47637e633a04282ec71c17f872b92dbb8d8fb4bb3297db8ab08df7c886516ad",
+        "18": "e330435885e6b9f4f8e466d3da883eb99ee3e0f2b5194265264a24038705fcc4",
+        "24": "11ecc06aca9c0d66fbc787e00bb1378ee5dbf573ab8cbc9f851214e80b3b83b4",
+        "26": "3763a12ab008a0dac64791b512e61feeb7db9fc795f1ccc6956323acf3ba4f0e",
+        "27": "04186e9fcdfd527e8a310e939e864101e2158be576c9f6e98d76e271df36b560",
+        "29": "abd1e2c4533e44894e088198eb8cd2bb7d38d32415cf8bd72482abb05ffddd2a",
+        "31": "40204fd97f015c054ff8244de963b47f1e20a820bd2d8830f6c7c5714b2d8747",
+        "34": "a5300f5425fc90d129f6d32ef62cb23b1423d73bb1546c00d9bfc564047219b2",
+        "35": "076f6d7211a2a55e1c75822a693feb7269da22be62be049bfaf34a3773021f54",
+        "36": "371b51042f1d0a2fdef19223a4fe2b5f848154c21b9f3e17caf865ad47b5180d",
+        "37": "9cb0185ef854aab518d8efe95456201599ca384fe81498788caeed713da9cf3c",
+        "38": "813de94acf7b56b7f0b95c4d975149ef361c339e88d0e5713cb58f25b0a2da5f",
+        "39": "5e048030628e9037419e48aac226d144cc05435d892465b1012c6a9a2dbda076",
+        "40": "7eaffda4be31925e5ac74545f1d5736dfc35531eadb4ff3f42580232213418d0",
+        "41": "a5c0b759afab821890dcce5c6f9b8432a97c395cc3f38aa96059825d00887d8d",
+        "42": "340a6146002d6995cd574d70a7aa5ad3cbfd32300e0f69ba745cc5652241c942",
+        "43": "38f8ecfed47a955fb0fc8d2c3a4df386b1094e23155c1c684e8d952b67f5d7f9",
+        "44": "266de65a75849e5b0995b4f6aedaa062ff7b46dc3542756337c1688f6b172c7f",
+        "45": "1578664bdb34c204b6782a87136e8f8c9d370b01669574f4ed0b82e0738446a8",
+        "46": "dfbc3d3fe516ffeccb445f68f8a1bb49c21354a824816fa26bde9427c3fb6218",
+        "47": "f62eba0cfbe5ae86e6f9e6d72ecdb44fc7df5cc90aedd3a0fec213ad2110d77a"
+      }
+    },
+    {"repository":"agent-logic/agent-logic-infrastructure","receipt_scope":"consumer repository Git common directory","receipts":{"1":"410a1193226d25cc7788365f3dac124bef509406276a102eff763bd1b8fe4c58"}},
+    {"repository":"agent-logic/agent-logic-enterprise-security","receipt_scope":"consumer repository Git common directory","receipts":{"1":"d5dd85fe2c615966f2f5570866f4022e3f3eada4ded5e26d16e2e88c861f71ad"}},
+    {"repository":"agent-logic/agent-logic-runtime","receipt_scope":"consumer repository Git common directory","receipts":{"1":"8b73dd476613bb6c643da30bd9bf2a545cc1e4e58f7a585ad466bddd034dc9e4","2":"0b9e6c18991a1d3496d03675fbded59d82b43497f0ec49e372041be6ed3ee48c"}},
+    {"repository":"agent-logic/cognitive-sdlc","receipt_scope":"consumer repository Git common directory","receipts":{"1":"686d0110ca3484c340ac4b395bc4e16e7925123eb77cab0eb098f83c2b6d5299"}}
+  ],
+  "mutation": "none"
+}

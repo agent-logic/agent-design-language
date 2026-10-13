@@ -1,0 +1,20 @@
+{
+  "schema": "adl.csdlc_v3.consumer_authority_observations.v1",
+  "issue": 1266,
+  "observed_with": {
+    "artifact_id": 11786371585,
+    "installed_executable_sha256": "ea30664cab70ddf87eb7bb63aa6d067201071f684a5ba0490430da0cd56ca1ed",
+    "installation_verification_sha256": "1e90d2ebac584cd0797a56306e86bfe43ee5121b72492d0bfafa0f059725f081"
+  },
+  "observations": [
+    {"repository":"agent-logic/codefriend","issue":1,"result":"intent_semantic_migration_required","package_or_activation_finding":false},
+    {"repository":"agent-logic/agent-logic-infrastructure","issue":1,"result":"intent_semantic_state_missing","package_or_activation_finding":false},
+    {"repository":"agent-logic/agent-logic-enterprise-security","issue":1,"result":"intent_semantic_migration_required","package_or_activation_finding":false},
+    {"repository":"agent-logic/agent-logic-runtime","issue":1,"result":"intent_semantic_migration_required","package_or_activation_finding":false},
+    {"repository":"agent-logic/cognitive-sdlc","issue":1,"result":"intent_semantic_migration_required","package_or_activation_finding":false}
+  ],
+  "interpretation": "The exact retained host-compatible installation entered every consumer repository and reached repository semantic-state classification without a package, host, repository, or activation finding. These read-only observations do not migrate historical semantic state and do not replace the immutable receipt ledger.",
+  "affected_recordless_consumer": "agent-logic/agent-logic-infrastructure",
+  "affected_recordless_consumer_result": "Issues 26 and 27 were both reconciled through authenticated packages; no other repository retained an eligible recordless case.",
+  "remote_writes": 0
+}

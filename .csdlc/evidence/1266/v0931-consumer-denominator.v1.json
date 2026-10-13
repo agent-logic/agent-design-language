@@ -7,6 +7,8 @@
   "preexisting_terminal_receipt_count": 35,
   "eligible_recordless_merged_count": 2,
   "excluded_without_closing_pr_count": 2,
+  "preexisting_receipt_ledger": ".csdlc/evidence/1266/preexisting-terminal-receipts.v1.json",
+  "consumer_authority_observations": ".csdlc/evidence/1266/consumer-authority-observations.v1.json",
   "repositories": [
     {
       "repository": "agent-logic/codefriend",
@@ -40,5 +42,10 @@
     }
   ],
   "scope_rule": "Only closed v0.93.1 issues with an authenticated merged closing pull request are eligible. Manual closures without a closing PR are preserved as excluded evidence, not converted into delivery claims.",
+  "eligible_reconciliation": {
+    "attempted": 2,
+    "completed": 2,
+    "remaining": 0
+  },
   "remote_writes": 0
 }

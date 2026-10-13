@@ -10,6 +10,12 @@
     "source_issue": 245,
     "source_pull_request": 246
   },
+  "predecessor_package": {
+    "artifact_id": 11786371585,
+    "installed_executable_sha256": "ea30664cab70ddf87eb7bb63aa6d067201071f684a5ba0490430da0cd56ca1ed",
+    "installation_verification_sha256": "1e90d2ebac584cd0797a56306e86bfe43ee5121b72492d0bfafa0f059725f081",
+    "use": "Retained bound issue 27 only; the package exactly matches the semantic authority that prepared, bound, reviewed and published that issue."
+  },
   "results": [
     {
       "issue": 26,
@@ -28,10 +34,13 @@
       "pull_request_head": "8b7494642c423d024c79bef5b4d493eaee126f63",
       "merge_commit": "db78fff91b07a0b05dfbb4ceb5bdd3279b3315a1",
       "closing_linkage": "Closes #27",
-      "status": "external_controller_receipt_written_canonical_bound_controller_blocked",
-      "external_controller_terminal_receipt_sha256": "0a27e9b244569c6fd96fd6088ebf5f214fb10cc959ee5063f00ef7151a868f3e",
-      "external_controller_terminal_state_sha256": "fe26d3c7468b755d53b638e5c1ab93580030dbbccbf226559a19b2097512f19f",
-      "canonical_bound_controller_finding": "intent_semantic_authority_changed",
+      "status": "canonical_bound_controller_terminal_receipt_written",
+      "terminal_receipt_sha256": "0a27e9b244569c6fd96fd6088ebf5f214fb10cc959ee5063f00ef7151a868f3e",
+      "terminal_state_sha256": "fe26d3c7468b755d53b638e5c1ab93580030dbbccbf226559a19b2097512f19f",
+      "semantic_operation_id": "semantic-operation-v1:c0ccbb460af62a9618f9ce52b5af366b428e0f82398a5935a5fcaa89a6aea0b1",
+      "semantic_terminal_generation": 26,
+      "semantic_terminal_digest": "semantic-state-v1:3738b89b3932f400b5b56b3aade53ba2149d00c20cad2606e70779c83b32343a",
+      "replay_status": "expected_noop",
       "remote_writes": 0
     }
   ],
@@ -45,5 +54,5 @@
     ],
     "focused_result": "2 passed; 0 failed"
   },
-  "residual": "Issue 27's original bound controller retains pre-cutover semantic authority and fails closed until that authority is reconciled; this change does not delete or bypass the binding."
+  "residual": "No eligible recordless merged Infrastructure issue remains unreconciled. Existing dirty tracked and untracked bytes in issue 27's bound worktree were preserved; finish wrote only canonical Git-common terminal state and receipt bytes."
 }
