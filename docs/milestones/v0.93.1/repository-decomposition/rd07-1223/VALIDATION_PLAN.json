@@ -135,7 +135,8 @@
     "independent_repositories": 5,
     "install_storage_regressions": 6,
     "approved_component_removals": 36,
-    "total_removals": 70
+    "total_removals": 70,
+    "public_packages_including_retained_cli": 6
   },
   "remaining_execution_gates": [
     "operator_sequence_after_non_tail_before_sprint4",
@@ -150,10 +151,12 @@
   "independent_repository_builds": "INDEPENDENT_REPOSITORY_BUILDS.json",
   "retained_cli_gate": {
     "required": true,
-    "status": "not_run",
+    "status": "preliminary_public_proof_passed_final_candidate_pending",
     "plan": "LEGACY_PUBLIC_CLI_PARTITION.json",
     "scope": "Public CLI behavior plus authenticated private-owner consumer parity after partition; five-package proof alone is insufficient",
-    "no_legacy_cli_retirement_authorized": true
+    "no_legacy_cli_retirement_authorized": true,
+    "preliminary_record": "PUBLIC_FACADE_CLOSURE.json",
+    "final_candidate_installed_parity": "pending"
   },
   "legacy_cli_parser_proof": {
     "lane": "local_contract",
@@ -248,5 +251,24 @@
     "review": "no remaining actionable findings",
     "record": "PUBLIC_FACADE_CLOSURE.json",
     "limits": "Owner test migration and broad source retirement pending; no blanket cargo test or final CI pass claim."
+  },
+  "prior_six_package_coverage": {
+    "status": "passed_at_recorded_source_not_final_candidate",
+    "source_head": "b4216f40709fde889cc694aee850ad9c97b99720",
+    "evidence_directory": "/Volumes/FastWork/c1223/evidence/public-coverage-full-b4216f4070",
+    "result": {
+      "source_head": "b4216f40709fde889cc694aee850ad9c97b99720",
+      "exit_code": 0,
+      "elapsed_seconds": 146.718,
+      "log_sha256": "9a754be6eb19c8c74d4a2eefb1a470860306b47569b9df26508544e463b1f4b6"
+    },
+    "evidence_sha256": {
+      "INPUT.json": "4779bb21d84a029e96c3caa5e27f58c2aa0a43cb5462182caf52b158f10bc13d",
+      "RESULT.json": "b594d2a833511f0d2835d37bfc2fc87b9b589dff03782d5ab32129e683370279",
+      "run/result.json": "93cc82ec9a0a2c155b6dfadf3e947e9e7dd066f787152dc9413f0a88a2a67ace",
+      "run/executions.json": "7ddf1f8c47b4891956d077a4c1bd23dbb142f9feb39c799ccff37079200b2d8e"
+    },
+    "scope": "Full six-package public coverage including retained CLI; separate from final installed acceptance and clean-clone build.",
+    "no_rerun": true
   }
 }
