@@ -6,12 +6,12 @@
   "execution_authorized": false,
   "original_count": 4134,
   "counts": {
-    "hold_explicit_reconciliation": 182,
+    "hold_explicit_reconciliation": 180,
     "hold_owner_test_reconciliation": 35,
     "preserve_approved_removal": 70,
     "preserve_reviewed_consumer_repair": 18,
     "proposed_historical_retirement_with_caller_repair": 19,
-    "proposed_owner_transfer_with_consumer_qualification": 472,
+    "proposed_owner_transfer_with_consumer_qualification": 474,
     "proposed_remove_construction_qualified_infrastructure": 216,
     "proposed_remove_with_entire_source_family": 1874,
     "proposed_remove_with_entire_tool_family": 718,
@@ -44722,8 +44722,7 @@
         "blob": "30f8c333e253c17336c9d4fae281ab2d675c43ec"
       },
       "existing_action": "retain",
-      "hold_reason": "Original helper is exercised with its original auth-policy test by owner resource test; preserve exception/max-reviewer, no-auth refusal, token redaction and model override behavior. This proves local policy only, not actual review dispatch.",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
         {
           "path": "adl/tools/skills/sprint-conductor/SKILL.md",
@@ -44774,6 +44773,14 @@
         "packet_sha256": "af4ce18ae8978a75ab2fbfd26d5a584710e70f24ec99c89dbb561a950eab314e",
         "proposal": "conditional_owner_fixture_transfer",
         "reason": "Original helper is exercised with its original auth-policy test by owner resource test; preserve exception/max-reviewer, no-auth refusal, token redaction and model override behavior. This proves local policy only, not actual review dispatch."
+      },
+      "prior_proposed_action": "hold_explicit_reconciliation",
+      "historical_hold_reason": "Original helper is exercised with its original auth-policy test by owner resource test; preserve exception/max-reviewer, no-auth refusal, token redaction and model override behavior. This proves local policy only, not actual review dispatch.",
+      "consumer_qualification": {
+        "packet": "CSDLC_REVIEW_SUBAGENT_POLICY_QUALIFICATION.json",
+        "sha256": "34d6b227c88e7557904751ffdb37b83a4087973d2b962e149abd8931732d55b8",
+        "scope": "Exact original local policy behavior only. No real credentials, API/subagent/native calls, actual review dispatch or installed authority. Original untested branches remain explicitly unproven.",
+        "remaining": "Preserve listed original caller obligations and scoped source retirement approval; local policy proof does not establish live review dispatch or untested branches."
       }
     },
     {
@@ -49970,8 +49977,7 @@
         "blob": "edf50a9660baaf0b068b3e2651387845ec2acd97"
       },
       "existing_action": "retain",
-      "hold_reason": "Owner test_original_reviewer_policy_assertions_run_unchanged executes this script from verified resource fixture; token leakage is rejected. Preserve paired validator 1863 and exact local assertion denominator; no API/native review proof.",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
         "Accept per-row disposition and close listed caller/dependency obligations.",
         "For transfers, bind actual owner package/fixture outcomes to the mapped assertion denominator; source availability alone is insufficient.",
@@ -49987,6 +49993,14 @@
         "packet_sha256": "af4ce18ae8978a75ab2fbfd26d5a584710e70f24ec99c89dbb561a950eab314e",
         "proposal": "conditional_owner_fixture_transfer",
         "reason": "Owner test_original_reviewer_policy_assertions_run_unchanged executes this script from verified resource fixture; token leakage is rejected. Preserve paired validator 1863 and exact local assertion denominator; no API/native review proof."
+      },
+      "prior_proposed_action": "hold_explicit_reconciliation",
+      "historical_hold_reason": "Owner test_original_reviewer_policy_assertions_run_unchanged executes this script from verified resource fixture; token leakage is rejected. Preserve paired validator 1863 and exact local assertion denominator; no API/native review proof.",
+      "consumer_qualification": {
+        "packet": "CSDLC_REVIEW_SUBAGENT_POLICY_QUALIFICATION.json",
+        "sha256": "34d6b227c88e7557904751ffdb37b83a4087973d2b962e149abd8931732d55b8",
+        "scope": "Exact original local policy behavior only. No real credentials, API/subagent/native calls, actual review dispatch or installed authority. Original untested branches remain explicitly unproven.",
+        "remaining": "Preserve listed original caller obligations and scoped source retirement approval; local policy proof does not establish live review dispatch or untested branches."
       }
     },
     {
