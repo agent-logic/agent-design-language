@@ -6776,12 +6776,13 @@
         "100644",
         "6d4b847a46c21bf385e1eba845ccafae2cad6522"
       ],
-      "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "action": "consumer_reference_repair",
+      "reason": "reviewed_public_cli_ownership_and_focused_validation_guidance",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "repair_sha256": "9f30372ea3cffb1b608b31f22f2e7f22fb218101d769c9a4c059db5954b483a6"
     },
     {
       "id": "RD07-0325",
@@ -88325,7 +88326,7 @@
     }
   ],
   "previous_observed_main": "f1493c54e4d9f6c5a1da798f48d9f2c361033fa4",
-  "consumer_reference_repair_count": 6,
+  "consumer_reference_repair_count": 7,
   "approved_component_removal_count": 36,
   "resolved_retention_count": 449
 }

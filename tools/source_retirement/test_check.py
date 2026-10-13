@@ -40,6 +40,12 @@ class RetirementNegatives(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'component consumer repair exceeds'):
             check.check_inventory(self.ledger, self.frozen, self.observed, candidate)
 
+    def test_contributor_repair_cannot_hide_another_change(self):
+        candidate = dict(self.candidate)
+        candidate['adl/CONTRIBUTING.md'] = ['100644', '0' * 40]
+        with self.assertRaisesRegex(ValueError, 'consumer repair exceeds'):
+            check.check_inventory(self.ledger, self.frozen, self.observed, candidate)
+
     def test_workspace_repair_cannot_hide_dependency_change(self):
         candidate = dict(self.candidate)
         candidate['adl-v2/Cargo.toml'] = ['100644', '0' * 40]

@@ -26,6 +26,15 @@ INFRA_RUNBOOKS = (
 
 
 def consumer_reference_repair(path, before):
+    if path == 'adl/CONTRIBUTING.md':
+        require(hashlib.sha256(before).hexdigest() ==
+                '05b1ec567794c0c07ac829ef8122fbc8b2a7ca3f5b3133b8f7898f9defdfea67',
+                'public contributor baseline changed')
+        after = (ROOT / path).read_bytes()
+        require(hashlib.sha256(after).hexdigest() ==
+                '9f30372ea3cffb1b608b31f22f2e7f22fb218101d769c9a4c059db5954b483a6',
+                'public contributor repair exceeds reviewed bytes')
+        return after
     if path == 'docs/runtime/RESIDENT_HEALTH_SUPERVISION.md':
         old = b'`infra/aws/csm-runtime-health/shepherd.tf` declares the separate role: scoped'
         require(before.count(old) == 1, 'consumer reference baseline changed')

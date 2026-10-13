@@ -6,11 +6,11 @@
   "execution_authorized": false,
   "original_count": 4134,
   "counts": {
-    "hold_explicit_reconciliation": 233,
+    "hold_explicit_reconciliation": 232,
     "hold_missing_successor_operational_command": 2,
     "hold_owner_test_reconciliation": 35,
     "preserve_approved_removal": 70,
-    "preserve_reviewed_consumer_repair": 17,
+    "preserve_reviewed_consumer_repair": 18,
     "proposed_owner_transfer_with_consumer_qualification": 451,
     "proposed_remove_construction_qualified_infrastructure": 216,
     "proposed_remove_with_entire_source_family": 1874,
@@ -7483,17 +7483,16 @@
         "mode": "100644",
         "blob": "6d4b847a46c21bf385e1eba845ccafae2cad6522"
       },
-      "existing_action": "retain",
+      "existing_action": "consumer_reference_repair",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "preserve_reviewed_consumer_repair",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reason": "Exact independently reviewed contributor correction applied; guard pins before/after SHA256"
     },
     {
       "id": "RD07-0325",
