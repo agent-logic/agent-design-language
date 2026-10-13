@@ -71,7 +71,6 @@ HISTORICAL_TOOL_SCRIPTS = {
     "demo_v087_operational_skills.sh": "Historical bundle-install and inventory contract; original recursive acceptance remains separate from owner resource proof.",
     "test_demo_v0871_real_multi_agent_discussion.sh": "Historical credentialed provider acceptance contract; five real calls remain unqualified.",
     "test_v0916_unity_observatory_unity65_smoke.sh": "Historical Unity editor smoke contract; retained timeout is not a successful scene-validation result.",
-    "validate_issue256_birthday_after_observatory.py": "Historical issue256 acceptance validator tied to frozen issue414/424 evidence; not a current workflow entrypoint.",
 }
 
 HISTORICAL_EVIDENCE = [

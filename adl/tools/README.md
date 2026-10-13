@@ -37,8 +37,9 @@ Keep behavioral and milestone narrative in canonical docs, not here.
 
 ## Canonical Workflow Commands
 
-The original `test_skill_documentation_completeness.sh` checks the historical
-monorepo skill layout. Its 51-family, 205-input inventory and missing Sprint
+The retired original `test_skill_documentation_completeness.sh` checked the
+historical monorepo skill layout; its source and assertions remain in retirement
+custody. Its 51-family, 205-input inventory and missing Sprint
 Review schema are preserved in the [historical disposition](../../docs/milestones/v0.93.1/repository-decomposition/rd07-1223/SKILL_COMPLETENESS_HISTORICAL_DISPOSITION.json);
 no full completeness pass is claimed. Each skill owner must check its declared
 current inventory, manifests, schemas, output contracts, guide coverage, and

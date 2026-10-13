@@ -2894,8 +2894,8 @@ The `repo-review-code`, `repo-review-docs`, `repo-review-security`,
 checked together by
 `adl/tools/test_multi_agent_repo_review_specialist_skill_contracts.sh`.
 
-`adl/tools/test_skill_documentation_completeness.sh` is a historical monorepo-layout
-fixture. The [historical disposition](../../../../docs/milestones/v0.93.1/repository-decomposition/rd07-1223/SKILL_COMPLETENESS_HISTORICAL_DISPOSITION.json)
+The retired `adl/tools/test_skill_documentation_completeness.sh` is preserved in
+retirement custody as a historical monorepo-layout fixture. The [historical disposition](../../../../docs/milestones/v0.93.1/repository-decomposition/rd07-1223/SKILL_COMPLETENESS_HISTORICAL_DISPOSITION.json)
 preserves all 51 skill families and 205 inputs, including the missing Sprint
 Review schema; it does not record a full completeness pass. Each current skill
 owner must verify its declared inventory, manifests, schemas, output contracts,

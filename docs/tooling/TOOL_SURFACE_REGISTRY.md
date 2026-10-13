@@ -30,8 +30,8 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 8
 - `supported shim`: 0
-- `internal helper`: 511
-- `historical evidence`: 44
+- `internal helper`: 510
+- `historical evidence`: 43
 - `archive candidate`: 0
 - `remove candidate`: 0
 
@@ -464,7 +464,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_rust_validation_warm_cache.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_setup_required_coverage_toolchain.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_setup_wp08_s3_obsmem_archive_policy.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_skill_documentation_completeness.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_software_development_polis_packet.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_structured_prompt_validation.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_test_generator_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
@@ -527,7 +526,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/validate_five_agent_music_demo.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_five_minute_html_game_packet.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_five_minute_sprint_console_packet.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
-| `adl/tools/validate_issue256_birthday_after_observatory.py` | tool surface | historical evidence | Historical issue256 acceptance validator tied to frozen issue414/424 evidence; not a current workflow entrypoint. |
 | `adl/tools/validate_issue268_six_resident_uts_plan.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_layer8_authority_observatory_ui.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_merge_readiness_packet.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
