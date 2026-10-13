@@ -223,6 +223,26 @@ class PublicValidationInterfaces(unittest.TestCase):
                 fixture.write_text(invalid)
                 self.assertNotEqual(self.profile('--run').returncode, 0)
 
+    def test_aws_spot_requires_explicit_executable_owner_runner(self):
+        spec = importlib.util.spec_from_file_location('public_manager_owner', self.root / 'adl/tools/validation_manager.py')
+        manager = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(manager)
+        eligibility = dict(command='echo public', status='ready_to_run', escalation_required=False,
+                           runtime_class='medium', deterministic_or_evidence_bound=True)
+        runner = self.root / 'owner runner'
+        runner.write_text('#!/bin/sh\nexit 99\n')
+        for candidate in (None, 'relative/runner', str(self.root / 'missing'), str(self.root), str(runner)):
+            result = manager.aws_spot_platform_candidate({}, eligibility, candidate)
+            self.assertEqual(result['decision'], 'rejected')
+            self.assertFalse(result.get('command'))
+        runner.chmod(0o755)
+        result = manager.aws_spot_platform_candidate({}, eligibility, str(runner))
+        self.assertEqual(result['decision'], 'eligible')
+        self.assertEqual(shlex.split(result['command'])[0], str(runner))
+        self.assertIn('--print-command', shlex.split(result['command']))
+        eligibility['escalation_required'] = True
+        self.assertEqual(manager.aws_spot_platform_candidate({}, eligibility, str(runner))['decision'], 'rejected')
+
 
 if __name__ == '__main__':
     unittest.main()

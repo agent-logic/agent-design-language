@@ -23,7 +23,6 @@ SELECTOR = ROOT / "adl/tools/select_validation_lanes.sh"
 SLOW_PROOF_FAMILIES = ROOT / "adl/config/slow_proof_families.public.v1.json"
 DEFAULT_MANIFEST = ROOT / "adl/config/validation_lane_selector.public.v1.json"
 NESSUS_REMOTE_RUNNER = "bash adl/tools/run_nessus_remote_validation.sh"
-AWS_SPOT_REMOTE_RUNNER = "bash adl/tools/run_aws_spot_remote_validation_lane.sh"
 VALIDATION_PLATFORMS = ("auto", "local", "nessus", "aws_spot", "codebuild", "wuji")
 BUILD_ACTION_LOG_SCHEMA = "adl.build_action_log.v1"
 BUILD_ACTION_LOG_MANIFEST_SCHEMA = "adl.build_action_log_manifest.v1"
@@ -838,7 +837,18 @@ def nessus_platform_candidate(profile: dict[str, Any], eligibility: dict[str, An
     )
 
 
-def aws_spot_platform_candidate(profile: dict[str, Any], eligibility: dict[str, Any]) -> dict[str, Any]:
+def aws_spot_platform_candidate(profile: dict[str, Any], eligibility: dict[str, Any], owner_runner: str | None = None) -> dict[str, Any]:
+    # This validates command availability only, never owner admission or paid-run authority.
+    runner = Path(owner_runner) if owner_runner else None
+    if runner is None or not runner.is_absolute() or not runner.is_file() or not os.access(runner, os.X_OK):
+        return platform_candidate(
+            platform="aws_spot", decision="rejected",
+            reason="AWS Spot requires --aws-spot-owner-runner naming an absolute executable owner runner",
+            cache_posture="warm_ebs_cache:/mnt/adl-cache",
+            cost_posture="aws_spot_instance_plus_retained_ebs_storage",
+            wrapper=None,
+        )
+    wrapper = shell_quote(str(runner))
     command = eligibility["command"]
     if eligibility["status"] != "ready_to_run":
         return platform_candidate(
@@ -847,7 +857,7 @@ def aws_spot_platform_candidate(profile: dict[str, Any], eligibility: dict[str, 
             reason=f"validation profile status {eligibility['status']} is not remote-runnable",
             cache_posture="warm_ebs_cache:/mnt/adl-cache",
             cost_posture="aws_spot_instance_plus_retained_ebs_storage",
-            wrapper=AWS_SPOT_REMOTE_RUNNER,
+            wrapper=wrapper,
         )
     if eligibility["escalation_required"]:
         return platform_candidate(
@@ -856,7 +866,7 @@ def aws_spot_platform_candidate(profile: dict[str, Any], eligibility: dict[str, 
             reason="validation profile already requires escalation",
             cache_posture="warm_ebs_cache:/mnt/adl-cache",
             cost_posture="aws_spot_instance_plus_retained_ebs_storage",
-            wrapper=AWS_SPOT_REMOTE_RUNNER,
+            wrapper=wrapper,
         )
     if eligibility["runtime_class"] in {"none", "tiny", "escalated"}:
         return platform_candidate(
@@ -865,7 +875,7 @@ def aws_spot_platform_candidate(profile: dict[str, Any], eligibility: dict[str, 
             reason=f"runtime_class {eligibility['runtime_class']} is not cost-appropriate for AWS Spot",
             cache_posture="warm_ebs_cache:/mnt/adl-cache",
             cost_posture="aws_spot_instance_plus_retained_ebs_storage",
-            wrapper=AWS_SPOT_REMOTE_RUNNER,
+            wrapper=wrapper,
         )
     if not eligibility["deterministic_or_evidence_bound"]:
         return platform_candidate(
@@ -874,7 +884,7 @@ def aws_spot_platform_candidate(profile: dict[str, Any], eligibility: dict[str, 
             reason="AWS Spot routing supports deterministic or evidence-bound lanes only",
             cache_posture="warm_ebs_cache:/mnt/adl-cache",
             cost_posture="aws_spot_instance_plus_retained_ebs_storage",
-            wrapper=AWS_SPOT_REMOTE_RUNNER,
+            wrapper=wrapper,
             caveats=[f"unsupported_determinism={','.join(eligibility['unsupported_determinism'])}"],
         )
     if not command:
@@ -884,19 +894,19 @@ def aws_spot_platform_candidate(profile: dict[str, Any], eligibility: dict[str, 
             reason="AWS Spot routing requires a validation command",
             cache_posture="warm_ebs_cache:/mnt/adl-cache",
             cost_posture="aws_spot_instance_plus_retained_ebs_storage",
-            wrapper=AWS_SPOT_REMOTE_RUNNER,
+            wrapper=wrapper,
         )
     return platform_candidate(
         platform="aws_spot",
         decision="eligible",
         reason="non-tiny deterministic profile can use the warm-EBS AWS Spot lane when credentials and cache are available",
         command=(
-            f"{AWS_SPOT_REMOTE_RUNNER} --command {shell_quote(command)} "
+            f"{wrapper} --command {shell_quote(command)} "
             "--instance-type m7a.2xlarge --print-command"
         ),
         cache_posture="warm_ebs_cache:/mnt/adl-cache",
         cost_posture="aws_spot_instance_plus_retained_ebs_storage",
-        wrapper=AWS_SPOT_REMOTE_RUNNER,
+        wrapper=wrapper,
         caveats=[
             "requires Agent Logic AWS profile or GitHub OIDC role",
             "requires retained EBS cache attachment for warm-cache proof",
@@ -942,7 +952,7 @@ def platform_routing_decision(profile: dict[str, Any], args: argparse.Namespace)
     candidates = [
         local_platform_candidate(profile, eligibility),
         nessus_platform_candidate(profile, eligibility),
-        aws_spot_platform_candidate(profile, eligibility),
+        aws_spot_platform_candidate(profile, eligibility, getattr(args, "aws_spot_owner_runner", None)),
         codebuild_platform_candidate(profile, eligibility),
         wuji_platform_candidate(profile, eligibility),
     ]
@@ -1263,6 +1273,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--report-out", type=Path)
     parser.add_argument("--run", action="store_true")
     parser.add_argument("--build-action-log-dir", type=Path)
+    parser.add_argument("--aws-spot-owner-runner", help="Absolute executable owner runner for AWS Spot advice; grants no execution authority")
     parser.add_argument("--remote-runner", choices=["nessus"])
     parser.add_argument("--remote-command")
     parser.add_argument("--remote-artifact-dir", type=Path)

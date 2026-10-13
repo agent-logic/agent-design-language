@@ -394,3 +394,11 @@ echo "owner binary stable install: ok"
 # no-write preservation and refusals through the dedicated fixture. Its fake
 # package proves neither native admission nor actual manual rendering.
 "$BASH_BIN" "$ROOT_DIR/docs/csdlc-v3/man/test_install.sh"
+
+# Retired transition source installation must refuse without creating an install.
+transition_dir="$tmpdir/transition-refused"
+if "$BASH_BIN" "$ROOT_DIR/adl/tools/install_owner_binaries.sh" --bin csdlc-transition --stable-bin-dir "$transition_dir" --no-build >"$tmpdir/transition.log" 2>&1; then
+  echo 'retired transition source installation accepted' >&2; exit 1
+fi
+grep -Fq 'qualified C-SDLC owner package' "$tmpdir/transition.log"
+[[ ! -e "$transition_dir" ]]

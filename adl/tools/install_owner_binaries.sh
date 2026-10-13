@@ -31,7 +31,7 @@ directory outside Cargo target. Runtime, CodeFriend and C-SDLC use their owner p
 --bin csdlc only reports manuals for an already selected installed package; it
 does not build, copy or replace C-SDLC. For first installation, use the admitted
 native csdlc package-install --request REVIEWED_REQUEST.json route.
-Use --bin csdlc-transition to install only the separate transition owner.
+csdlc-transition source installation is retired; obtain it from its owner package.
 The csdlc lookup prints MANPATH for that package resource directory.
 It never copies ADL pages into the selected package or edits shell startup files.
 Re-running without relevant source changes is a no-op and does
@@ -79,24 +79,21 @@ fi
 
 for bin in "${BINS[@]}"; do
   case "$bin" in
-    adl|adl-process|csdlc|csdlc-transition) ;;
+    csdlc-transition)
+      echo "install_owner_binaries: csdlc-transition source installation is retired; use the qualified C-SDLC owner package" >&2
+      exit 2 ;;
+    adl|adl-process|csdlc) ;;
     *)
       echo "install_owner_binaries: '$bin' is not a public ADL binary; install product binaries from their qualified owner packages" >&2
       exit 2
       ;;
   esac
-  if [[ "$bin" == "csdlc" || "$bin" == "csdlc-transition" ]]; then
+  if [[ "$bin" == "csdlc" ]]; then
     [[ "${#BINS[@]}" == 1 ]] || { echo 'install_owner_binaries: install csdlc separately from ADL owners' >&2; exit 2; }
-    if [[ "$bin" == "csdlc" ]]; then
-      [[ -z "$SOURCE_BIN_DIR" ]] || { echo 'install_owner_binaries: C-SDLC source binary installation is retired; use native package-install with a reviewed request' >&2; exit 2; }
-      if [[ "$STABLE_BIN_DIR" == "$ROOT_DIR/.adl/bin" ]]; then STABLE_BIN_DIR="$ROOT_DIR/.adl/bin/native-v3"; fi
-      bash "$ROOT_DIR/adl/tools/install_csdlc_man_pages.sh" --stable-bin-dir "$STABLE_BIN_DIR"
-      exit 0
-    fi
-    SOURCE_COMPONENT="csdlc-v3"
-    SOURCE_PATHS=(csdlc-v3/Cargo.toml csdlc-v3/Cargo.lock csdlc-v3/src)
-    MANIFEST="$ROOT_DIR/csdlc-v3/Cargo.toml"
+    [[ -z "$SOURCE_BIN_DIR" ]] || { echo 'install_owner_binaries: C-SDLC source binary installation is retired; use native package-install with a reviewed request' >&2; exit 2; }
     if [[ "$STABLE_BIN_DIR" == "$ROOT_DIR/.adl/bin" ]]; then STABLE_BIN_DIR="$ROOT_DIR/.adl/bin/native-v3"; fi
+    bash "$ROOT_DIR/adl/tools/install_csdlc_man_pages.sh" --stable-bin-dir "$STABLE_BIN_DIR"
+    exit 0
   fi
  done
 
