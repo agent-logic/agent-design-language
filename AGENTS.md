@@ -331,8 +331,10 @@ For a normal tracked issue:
 - Separate local preflight proof from CI integration proof. Local records must
   say what ran locally, what is deferred to GitHub CI, and why that deferral is
   safe for the touched surface.
-- For owner-binary surfaces, prefer the focused lane runner when it matches the
-  change: `bash adl/tools/run_owner_validation_lane.sh csdlc|runtime|review|all`.
+- For public ADL CLI surfaces, use `bash tools/public_adl/run_cli_ci.sh`.
+  Private owner validation belongs to the separately qualified Runtime,
+  CodeFriend, or C-SDLC repository lane; the retired ADL owner aggregate is
+  not a current validation route.
 - Operational ADL owner binaries must be installed into the stable generated
   repo-local directory outside Cargo build output: `.adl/bin/` by default, via
   `bash adl/tools/install_owner_binaries.sh`. Treat `adl/target/` as disposable

@@ -625,46 +625,23 @@ if bash "$SCRIPT" --changed-files "$mixed" --run >"$TMP/mixed-run.out" 2>"$TMP/m
 fi
 assert_has "$TMP/mixed-run.err" "refusing --run for non-runnable profile"
 
-workflow_metrics_backfill="$TMP/workflow-metrics-backfill.txt"
-cat >"$workflow_metrics_backfill" <<'EOF'
-M	adl/config/validation_lane_selector.v0.91.6.json
-M	adl/tools/build_v0916_workflow_metric_backfill_inventory.py
-M	adl/tools/test_build_v0916_workflow_metric_backfill_inventory.py
-M	adl/tools/test_select_validation_lanes.sh
-M	adl/tools/test_validation_manager.sh
-M	csdlc-v2/src/github.rs
-M	csdlc-v2/tests/gate_github_actions.rs
-M	docs/milestones/v0.91.6/review/V0916_WORKFLOW_METRIC_BACKFILL_4441.json
-EOF
-bash "$SCRIPT" --changed-files "$workflow_metrics_backfill" --json >"$TMP/workflow-metrics-backfill.json"
-python3 - <<'PY' "$TMP/workflow-metrics-backfill.json"
-import json
-import sys
-
+# The former workflow/owner aggregate fixture is preserved in #1223 custody.
+# Inventory generation remains a distinct public requirement, not owner proof.
+public_inventory="$TMP/public-inventory.txt"
+printf 'M\tadl/tools/validation_inventory.py\nM\tadl/tools/validation_inventory.sh\n' >"$public_inventory"
+bash "$SCRIPT" --changed-files "$public_inventory" --json >"$TMP/public-inventory.json"
+python3 - <<'PYASSERT' "$TMP/public-inventory.json"
+import json, sys
 profile = json.load(open(sys.argv[1]))
 assert profile["schema_version"] == "adl.validation_profile.v1"
-assert profile["selected_profile"] == "selected_4_lane_profile"
 assert profile["status"] == "ready_to_run"
-assert profile["pr_publication_sufficient"] is True
-assert [item["lane_id"] for item in profile["run"]] == [
-    "ci_path_policy_contracts",
-    "csdlc_owner_lane",
-    "csdlc_v2_standalone",
-    "docs_diff_check",
-]
 assert profile["escalation"]["required"] is False
-assert profile["escalation"]["reasons"] == []
 assert profile["diagnostics"] == []
 lanes = {item["lane_id"]: item for item in profile["run"]}
-assert lanes["csdlc_owner_lane"]["matched_paths"] == [
-    "adl/tools/build_v0916_workflow_metric_backfill_inventory.py",
-    "adl/tools/test_build_v0916_workflow_metric_backfill_inventory.py",
-]
-assert lanes["csdlc_v2_standalone"]["matched_paths"] == [
-    "csdlc-v2/src/github.rs",
-    "csdlc-v2/tests/gate_github_actions.rs",
-]
-PY
+assert set(lanes) == {"public_validation_inventory"}
+assert lanes["public_validation_inventory"]["matched_paths"] == [
+    "adl/tools/validation_inventory.py", "adl/tools/validation_inventory.sh"]
+PYASSERT
 
 typed_csdlc_finish="$TMP/typed-csdlc-finish.txt"
 cat >"$typed_csdlc_finish" <<'EOF'
@@ -774,85 +751,39 @@ assert profile["escalation"]["required"] is False
 assert profile["diagnostics"] == []
 PY
 
-csm_binary_availability="$TMP/csm-binary-availability.txt"
-cat >"$csm_binary_availability" <<'EOF'
-M	adl/src/cli/csm_service_cmd.rs
-M	adl/src/csm_runtime_api.rs
-M	adl/tools/csm_binary_availability.sh
-M	adl/tools/demo_d11_signed_remote.sh
-M	adl/tools/demo_smoke_v07_story.sh
-M	adl/tools/ensure_csm_binary.sh
+# The old mixed private CSM fixture asserted retired source topology.
+# Preserve the actual public installer and refusal obligations independently.
+public_owner_support="$TMP/public-owner-support.txt"
+cat >"$public_owner_support" <<'EOF'
 M	adl/tools/install_owner_binaries.sh
 M	adl/tools/owner_binary_resolution.sh
-M	adl/tools/run_owner_validation_lane.sh
-M	adl/tools/run_v0917_csm_continuity_capsule_4910_proof.sh
-M	adl/tools/run_v0917_csm_otlp_4904_proof.sh
-M	adl/tools/run_v0917_no_sparrow_4909_proof.sh
-M	adl/tools/run_wp08_acip_sns_live_proof.sh
-M	adl/tools/run_wp08_aws_signal_integration_live_proof.sh
-M	adl/tools/run_wp08_cloudfront_control_proof.sh
-M	adl/tools/run_wp08_heartbeat_live_proof.sh
-M	adl/tools/run_wp08_polis_storage_live_proof.sh
-M	adl/tools/test_ensure_csm_binary.sh
 M	adl/tools/test_owner_binary_install.sh
-M	adl/tools/test_owner_validation_lane.sh
-M	adl/tools/test_run_wp08_aws_signal_integration_live_proof.sh
-M	docs/milestones/v0.91.7/review/runtime/csm_binary_availability_4977/README.md
-M	docs/milestones/v0.91.7/review/runtime/csm_binary_availability_4977/restoration.json
-M	docs/tooling/C_SDLC_RESCUE_SPRINT_OPERATING_CONTRACT.md
-M	docs/tooling/RUNTIME_AWS_HEARTBEAT.md
+M	adl/tools/ensure_csm_binary.sh
+M	adl/tools/test_ensure_csm_binary.sh
 EOF
-bash "$SCRIPT" --changed-files "$csm_binary_availability" --json >"$TMP/csm-binary-availability.json"
-python3 - <<'PY' "$TMP/csm-binary-availability.json"
-import json
-import sys
-
+bash "$SCRIPT" --changed-files "$public_owner_support" --json >"$TMP/public-owner-support.json"
+python3 - <<'PYASSERT' "$TMP/public-owner-support.json"
+import json, sys
 profile = json.load(open(sys.argv[1]))
 assert profile["schema_version"] == "adl.validation_profile.v1"
 assert profile["status"] == "ready_to_run"
 assert profile["pr_publication_sufficient"] is True
 assert profile["escalation"]["required"] is False
-assert len(profile["run"]) == 12
-assert not any(
-    diagnostic["code"] in {"unmapped_change_surface", "selected_lane_threshold_exceeded"}
-    for diagnostic in profile["diagnostics"]
-)
+assert profile["diagnostics"] == []
 lanes = {item["lane_id"]: item for item in profile["run"]}
-assert lanes["csdlc_owner_lane"]["matched_paths"] == [
+assert set(lanes) == {"public_adl_distribution", "csm_retired_route_diagnostics"}
+assert lanes["public_adl_distribution"]["matched_paths"] == [
     "adl/tools/install_owner_binaries.sh",
-    "adl/tools/run_owner_validation_lane.sh",
-    "adl/tools/test_owner_validation_lane.sh",
-]
-runtime_owner_paths = lanes["runtime_owner_lane"]["matched_paths"]
-for path in [
-    "adl/tools/csm_binary_availability.sh",
-    "adl/tools/demo_d11_signed_remote.sh",
-    "adl/tools/demo_smoke_v07_story.sh",
-    "adl/tools/ensure_csm_binary.sh",
     "adl/tools/owner_binary_resolution.sh",
-    "adl/tools/test_ensure_csm_binary.sh",
     "adl/tools/test_owner_binary_install.sh",
-]:
-    assert path in runtime_owner_paths
-assert "adl/src/cli/csm_service_cmd.rs" in lanes["rust_pr_fast"]["matched_paths"]
-assert "adl/src/csm_runtime_api.rs" in lanes["rust_pr_fast"]["matched_paths"]
-PY
-
-owner_mix="$TMP/owner-mix.txt"
-printf 'M\tadl/tools/build_v0916_workflow_metric_backfill_inventory.py\nM\tadl/src/bin/adl_runtime.rs\n' >"$owner_mix"
-bash "$SCRIPT" --changed-files "$owner_mix" --json >"$TMP/owner-mix.json"
-python3 - <<'PY' "$TMP/owner-mix.json"
-import json
-import sys
-
-profile = json.load(open(sys.argv[1]))
+]
+assert lanes["csm_retired_route_diagnostics"]["matched_paths"] == [
+    "adl/tools/ensure_csm_binary.sh", "adl/tools/test_ensure_csm_binary.sh"]
 surface_ids = [surface["id"] for surface in profile["behavior_surfaces"]]
-assert "owner_lane_csdlc_owner_lane" in surface_ids
-assert "owner_lane_runtime_owner_lane" in surface_ids
 assert len(surface_ids) == len(set(surface_ids))
 node_ids = [node["behavior_surface"] for node in profile["validation_dag"]["nodes"]]
 assert len(node_ids) == len(set(node_ids))
-PY
+PYASSERT
 
 portable_dir="$TMP/portable"
 mkdir -p "$portable_dir"

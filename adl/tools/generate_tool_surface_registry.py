@@ -152,8 +152,6 @@ def classify_tool_script(path: Path) -> tuple[str, str]:
         return "remove candidate", REMOVE_CANDIDATES[name]
     if name in SUPPORTED_SHIMS:
         return "supported shim", SUPPORTED_SHIMS[name]
-    if name == "run_owner_validation_lane.sh":
-        return "internal helper", "Mixed-owner legacy validation runner; successor test obligations remain separately tracked."
     if name in PRIMARY_TOOL_SCRIPTS:
         return "primary", PRIMARY_TOOL_SCRIPTS[name]
     if name.startswith("test_"):

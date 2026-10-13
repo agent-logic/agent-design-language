@@ -67,8 +67,7 @@ fi
 for runner in \
   "$ROOT_DIR/adl/tools/run_authoritative_coverage_lane.sh" \
   "$ROOT_DIR/adl/tools/run_pr_fast_coverage_lane.sh" \
-  "$ROOT_DIR/adl/tools/run_pr_fast_test_lane.sh" \
-  "$ROOT_DIR/adl/tools/run_owner_validation_lane.sh"
+  "$ROOT_DIR/adl/tools/run_pr_fast_test_lane.sh"
 do
   if ! grep -Fq 'rust_validation_warm_cache.sh' "$runner"; then
     echo "expected runner to invoke shared warm-cache helper: $runner" >&2
@@ -76,10 +75,7 @@ do
   fi
 done
 
-owner_plan="$(bash "$ROOT_DIR/adl/tools/run_owner_validation_lane.sh" csdlc --print-plan)"
-if grep -Fq '"status"' <<<"$owner_plan"; then
-  echo "owner validation --print-plan must not execute warm-cache helper" >&2
-  exit 1
-fi
+# The retired owner aggregate print-plan integration is preserved in #1223 custody.
+# Generic cache safety and the other runner obligations above are unchanged.
 
 echo "PASS test_rust_validation_warm_cache"
