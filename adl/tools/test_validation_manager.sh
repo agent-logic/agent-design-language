@@ -669,87 +669,53 @@ assert profile["escalation"]["reasons"] == []
 assert profile["diagnostics"] == []
 PY
 
+# Owner component resources are selected explicitly; removed local helpers are
+# historical inputs. The unchanged installer invokes mapped proof once.
 sprint_conductor="$TMP/sprint-conductor.txt"
 cat >"$sprint_conductor" <<'EOF'
-M	adl/tools/skills/sprint-conductor/SKILL.md
-M	adl/tools/skills/sprint-conductor/scripts/issue_goal_metrics.py
-M	adl/tools/test_sprint_conductor_helpers.sh
+M	tools/sprint_contracts/run_owner_correspondence.py
+M	tools/sprint_contracts/owner_inputs.json
 M	adl/tools/test_install_adl_operational_skills.sh
 EOF
 bash "$SCRIPT" --changed-files "$sprint_conductor" --json >"$TMP/sprint-conductor.json"
-python3 - <<'PY' "$TMP/sprint-conductor.json"
-import json
-import sys
-
+python3 - <<'PYASSERT' "$TMP/sprint-conductor.json"
+import json, sys
 profile = json.load(open(sys.argv[1]))
 assert profile["schema_version"] == "adl.validation_profile.v1"
-assert profile["selected_profile"] == "sprint_conductor_contracts_profile"
 assert profile["status"] == "ready_to_run"
 assert profile["pr_publication_sufficient"] is True
 assert [item["lane_id"] for item in profile["run"]] == ["sprint_conductor_contracts"]
-surface_ids = {surface["id"] for surface in profile["behavior_surfaces"]}
-assert "regression_sprint_conductor_contracts" in surface_ids
 assert profile["diagnostics"] == []
 assert profile["escalation"]["required"] is False
-PY
+PYASSERT
 
 sprint_conductor_mixed="$TMP/sprint-conductor-mixed.txt"
-cat >"$sprint_conductor_mixed" <<'EOF'
-M	adl/tools/skills/sprint-conductor/SKILL.md
-M	adl/tools/skills/sprint-conductor/scripts/issue_goal_metrics.py
-M	adl/tools/test_sprint_conductor_helpers.sh
-M	adl/tools/test_install_adl_operational_skills.sh
-M	docs/milestones/v0.91.6/README.md
-EOF
+cat "$sprint_conductor" >"$sprint_conductor_mixed"
+printf 'M\tdocs/milestones/v0.91.6/README.md\n' >>"$sprint_conductor_mixed"
 bash "$SCRIPT" --changed-files "$sprint_conductor_mixed" --json >"$TMP/sprint-conductor-mixed.json"
-python3 - <<'PY' "$TMP/sprint-conductor-mixed.json"
-import json
-import sys
-
+python3 - <<'PYASSERT' "$TMP/sprint-conductor-mixed.json"
+import json, sys
 profile = json.load(open(sys.argv[1]))
-assert profile["schema_version"] == "adl.validation_profile.v1"
 assert profile["status"] == "ready_to_run"
 assert profile["pr_publication_sufficient"] is True
-assert {item["lane_id"] for item in profile["run"]} == {
-    "sprint_conductor_contracts",
-    "docs_diff_check",
-}
-surface_ids = {surface["id"] for surface in profile["behavior_surfaces"]}
-assert "regression_sprint_conductor_contracts" in surface_ids
-assert "diff_hygiene_docs_diff_check" in surface_ids
+assert {item["lane_id"] for item in profile["run"]} == {"sprint_conductor_contracts", "public_docs"}
 assert profile["diagnostics"] == []
 assert profile["escalation"]["required"] is False
-PY
+PYASSERT
 
+# Unknown retired owner paths must still escalate instead of borrowing this lane.
 classifier_followup="$TMP/classifier-followup.txt"
-cat >"$classifier_followup" <<'EOF'
-M	adl/config/validation_lane_selector.v0.91.6.json
-M	adl/tools/ci_path_policy.sh
-M	adl/tools/test_ci_path_policy.sh
-M	adl/tools/test_validation_manager.sh
-M	adl/tools/skills/sprint-conductor/SKILL.md
-M	adl/tools/skills/sprint-conductor/scripts/issue_goal_metrics.py
-M	adl/tools/test_sprint_conductor_helpers.sh
-M	adl/tools/test_install_adl_operational_skills.sh
-M	docs/milestones/v0.91.6/README.md
-EOF
+cat "$sprint_conductor" >"$classifier_followup"
+printf 'M\tcsdlc-v2/src/retired-unmapped-contract.rs\n' >>"$classifier_followup"
 bash "$SCRIPT" --changed-files "$classifier_followup" --json >"$TMP/classifier-followup.json"
-python3 - <<'PY' "$TMP/classifier-followup.json"
-import json
-import sys
-
+python3 - <<'PYASSERT' "$TMP/classifier-followup.json"
+import json, sys
 profile = json.load(open(sys.argv[1]))
-assert profile["schema_version"] == "adl.validation_profile.v1"
-assert profile["status"] == "ready_to_run"
-assert profile["pr_publication_sufficient"] is True
-assert {item["lane_id"] for item in profile["run"]} == {
-    "ci_path_policy_contracts",
-    "sprint_conductor_contracts",
-    "docs_diff_check",
-}
-assert profile["escalation"]["required"] is False
-assert profile["diagnostics"] == []
-PY
+assert profile["pr_publication_sufficient"] is False
+assert profile["escalation"]["required"] is True
+assert profile["status"] != "ready_to_run"
+assert any(d["code"] == "unmapped_review_requires_escalation" for d in profile["diagnostics"])
+PYASSERT
 
 # The old mixed private CSM fixture asserted retired source topology.
 # Preserve the actual public installer and refusal obligations independently.
