@@ -110,3 +110,9 @@ the final five-package, seven-consumer, 21-UTS, five-negative proof.
 ## Conversion and CodeFriend skill batches
 
 The six-file conversion and127-file skill batches bring executed retirement actions to2331:2330 files removed from the immutable baseline plus one ADL-only bridge added and then retired. The bridge remains outside the original4134 and separate22 inventories. Its exact f598c071 addition, d293b17 removal and custody are pinned; no other absent-to-absent transition is permitted. Existing owner rehearsal and original skill contracts remain separate from new live acceptance.
+
+## C-SDLC skills, AWS source and planning helpers
+
+Three reviewed source commits add83 C-SDLC skill resources,14 AWS source files and9 planning helpers to the prior2,331 actions. Current execution is2,437 actions:2,436 baseline deletions plus the same one transient ADL bridge. Original4,134 identities,22 additional paths and12 unresolved holds are unchanged. Packet digests, all source/caller Git identities, new-helper absence, exact removal sets and rollback archive bytes/modes are pinned.
+
+The ten skill contracts passed with the initial ASCII-locale failure preserved and only the failed script rerun with UTF-8. AWS adapter compile/install and24 bootstrap cases are retained bounded proof; six dependency-inventory Python cases and five expected routing refusals are separate. Historical Infrastructure exit137 is a process exit code, not a test denominator. These results do not prove full installer completeness, historical CLI equivalence, live AWS execution or new native lifecycle acceptance.

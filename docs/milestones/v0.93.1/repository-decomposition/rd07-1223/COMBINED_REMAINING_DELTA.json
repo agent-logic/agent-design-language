@@ -7,19 +7,19 @@
   "original_count": 4134,
   "counts": {
     "retain_resolved": 527,
-    "proposed_owner_transfer_with_consumer_qualification": 449,
-    "preserve_approved_removal": 2329,
+    "proposed_owner_transfer_with_consumer_qualification": 434,
+    "preserve_approved_removal": 2435,
     "retain_public_source_or_fixture": 124,
     "preserve_reviewed_consumer_repair": 18,
     "proposed_historical_retirement_with_caller_repair": 61,
-    "proposed_remove_with_entire_source_family": 2,
-    "proposed_remove_with_entire_tool_family": 608,
+    "proposed_remove_with_entire_source_family": 1,
+    "proposed_remove_with_entire_tool_family": 518,
     "hold_explicit_reconciliation": 11,
     "hold_owner_test_reconciliation": 1,
     "proposed_remove_construction_qualified_infrastructure": 4
   },
   "additional_current_source_paths": 22,
-  "preservation": "Original4134 identities and separate22 captured paths unchanged. Exact executed retirement actions2331 comprise2330 baseline deletions and one newly-added-then-retired ADL conversion bridge; the bridge is outside both captured inventories. Other proposals remain conditional.",
+  "preservation": "Original4134 identities and separate22 captured paths unchanged. Exact executed retirement actions2437 comprise2436 baseline deletions and one newly-added-then-retired ADL conversion bridge; the bridge is outside both captured inventories. Other proposals remain conditional.",
   "review_boundary": "Exact paths and Git identities are pinned. Proposed removals remain conditional; this is not a claim that caller closure or all successor tests are qualified.",
   "known_prerequisites": {
     "codefriend": "Issue102 e14ff1b08b7ef01f838404bca8ecdf47c1318ac1 passed all39suites409Linux tests,0failed0ignored,174.293s; exacthead and clean source before/after. Evidence FastWork c1223/evidence/codefriend/issue102-e14ff1b0-full, transcriptSHA256c7944f7e0403ba485b377868b1bd85e91eeee0ecce3f79920de3e86c813cfa1a. Focused1 and parallel47 diagnostics also passed; prior dc2 redelivery failure did not reproduce and its cause is not claimed fixed. Earlier failures retained. One macOS-only case, actual hosted installed-acquisition CI proof and owner publication remain separate.",
@@ -128,10 +128,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Assign package/workflow implementation to Infrastructure and pin a reviewed reusable-workflow or installed-adapter consumer route in ADL. Keep workflow/package hold until current local CI build invocation is replaced; retain bootstrap safety contract as a family."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -152,6 +150,17 @@
           ],
           "other_findings": 0
         }
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Assign package/workflow implementation to Infrastructure and pin a reviewed reusable-workflow or installed-adapter consumer route in ADL. Keep workflow/package hold until current local CI build invocation is replaced; retain bootstrap safety contract as a family."
+        ]
+      },
+      "applied_removal": {
+        "packet": "AWS_REMOTE_FAMILY_APPLIED.json",
+        "sha256": "e88324d672c1455fba7e1d521b18e0efd6fa7756215af35dba19b718a1add8e1",
+        "implementation_commit": "1f438d059a37442c85059992c503740aa1bf088e"
       }
     },
     {
@@ -12662,18 +12671,27 @@
         "blob": "ed4f68d77d855c4f4495268bf04aaa0af09df0ee"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_source_family",
-      "required_before_execution": [
-        "qualified_owner_source_and_test_obligations",
-        "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/src/bin/adl_aws_remote_validation.rs"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_source_family",
+        "required_before_execution": [
+          "qualified_owner_source_and_test_obligations",
+          "all_active_caller_and_CI_repairs_in_same_delta",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "AWS_REMOTE_FAMILY_APPLIED.json",
+        "sha256": "e88324d672c1455fba7e1d521b18e0efd6fa7756215af35dba19b718a1add8e1",
+        "implementation_commit": "1f438d059a37442c85059992c503740aa1bf088e"
       }
     },
     {
@@ -47405,12 +47423,8 @@
         "blob": "9dddffe0d1e077362f4123deddc8e821502294dd"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "coherent caller and component disposition",
-        "complete producer delivery acceptance remains separate from pinned local source transports",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -47426,7 +47440,20 @@
         "native_or_complete_family_acceptance": false
       },
       "prior_proposed_action": "hold_explicit_reconciliation",
-      "historical_hold_reason": "hold_no_proven_current_successor_mapping"
+      "historical_hold_reason": "hold_no_proven_current_successor_mapping",
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "coherent caller and component disposition",
+          "complete producer delivery acceptance remains separate from pinned local source transports",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "PLANNING_CONTRACT_FAMILY_APPLIED.json",
+        "sha256": "b500906ed25661a8b4cad66ca462797309b5d50916279aa87c0107663dffd32f",
+        "implementation_commit": "09b73f53b0f85db42b219c7ed7f300f1f11e443e"
+      }
     },
     {
       "id": "RD07-1267",
@@ -47492,18 +47519,27 @@
         "blob": "8e18b8506b789fca99c075363eece7642f5111cc"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "docs/skill-distributions/planning-utilities/original/adl/tools/check_issue_goal_terminal_state.py"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "PLANNING_CONTRACT_FAMILY_APPLIED.json",
+        "sha256": "b500906ed25661a8b4cad66ca462797309b5d50916279aa87c0107663dffd32f",
+        "implementation_commit": "09b73f53b0f85db42b219c7ed7f300f1f11e443e"
       }
     },
     {
@@ -47678,18 +47714,27 @@
         "blob": "d964655c112c088df526792084e3d8519e4cf1bf"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "docs/skill-distributions/planning-utilities/original/adl/tools/check_v090_milestone_state.py"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "PLANNING_CONTRACT_FAMILY_APPLIED.json",
+        "sha256": "b500906ed25661a8b4cad66ca462797309b5d50916279aa87c0107663dffd32f",
+        "implementation_commit": "09b73f53b0f85db42b219c7ed7f300f1f11e443e"
       }
     },
     {
@@ -52190,18 +52235,27 @@
         "blob": "9334a89afdf6cce179c005495b2216a79869cde5"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "docs/skill-distributions/planning-utilities/original/adl/tools/plan_multi_agent_workcell.py"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "PLANNING_CONTRACT_FAMILY_APPLIED.json",
+        "sha256": "b500906ed25661a8b4cad66ca462797309b5d50916279aa87c0107663dffd32f",
+        "implementation_commit": "09b73f53b0f85db42b219c7ed7f300f1f11e443e"
       }
     },
     {
@@ -55601,18 +55655,27 @@
         "blob": "6b6bb653f78cc9e6373a9c72d68ce7b5638da842"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/demo-operator/SKILL.md"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -55625,18 +55688,27 @@
         "blob": "30c7123b0ca3a9ead53068597c54942bd19b3574"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/demo-operator/adl-skill.yaml"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -55649,18 +55721,27 @@
         "blob": "aeeb0cfb5539d3d9763bfa408921514576ddf263"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/demo-operator/agents/openai.yaml"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -55673,18 +55754,27 @@
         "blob": "0f79ba41ce59fbfb25c304f8c9ccce4333ce29bf"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/demo-operator/references/demo-playbook.md"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -55697,18 +55787,27 @@
         "blob": "7418de7132fdf25045578c4f26e92a1fa6a92905"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/demo-operator/references/output-contract.md"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -56227,18 +56326,27 @@
         "blob": "6a7394e0a9fbe1a1e16d48fd77738a911d9c5afe"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/docs/DEMO_OPERATOR_SKILL_INPUT_SCHEMA.md"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -56287,18 +56395,27 @@
         "blob": "83c9bc8f40bedf232abdff950e99c7bccb12d39c"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/docs/DOCUMENTATION_SPECIALIST_SKILL_INPUT_SCHEMA.md"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -56358,18 +56475,27 @@
         "blob": "a149b44fb83d78fece8d566138ca73d880524853"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/docs/GAP_ANALYSIS_SKILL_INPUT_SCHEMA.md"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -56382,18 +56508,27 @@
         "blob": "5a53829dee9e62f09dbfbd4e321e7a9ad464074b"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/docs/ISSUE_FOLDING_SKILL_INPUT_SCHEMA.md"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -56406,18 +56541,27 @@
         "blob": "7556f84bb4cceca62823a907a8a1dfb66cea2fdd"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/docs/ISSUE_SPLITTER_SKILL_INPUT_SCHEMA.md"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -56430,18 +56574,27 @@
         "blob": "e8b8b08f79ebfb280611342c8816ce4fb41549f0"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/docs/ISSUE_WATCHER_SKILL_INPUT_SCHEMA.md"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -56588,18 +56741,27 @@
         "blob": "962173e5855e91ada70d358bbb12ab4d5564c0c0"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/docs/PORTABLE_CONTRACT_NORMALIZER_SKILL_INPUT_SCHEMA.md"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -56898,18 +57060,27 @@
         "blob": "2b5f2d01defc4e1d6f88f6011d3bd036cca21dc2"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/docs/REFACTORING_HELPER_SKILL_INPUT_SCHEMA.md"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -56922,18 +57093,27 @@
         "blob": "314c644d186d9be27f7c37f5e9ad14b792f76e1d"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/docs/RELEASE_EVIDENCE_SKILL_INPUT_SCHEMA.md"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -57350,18 +57530,27 @@
         "blob": "acb55d7ca7df7befc2852aa4df859d78bbd6ae5a"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/docs/REVIEW_COMMENT_TRIAGE_SKILL_INPUT_SCHEMA.md"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -57659,18 +57848,27 @@
         "blob": "7f557fab229a559cf0055d0a3fb6203b9035b671"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/docs/TEST_GENERATOR_SKILL_INPUT_SCHEMA.md"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -57683,18 +57881,27 @@
         "blob": "650fccd1d754c79f341f7c2c784fcd1a383dff1d"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/docs/USE_CASE_WRITER_SKILL_INPUT_SCHEMA.md"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -57707,18 +57914,27 @@
         "blob": "8b3edca82f6d8da28f847c4763a82278288abe03"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/documentation-specialist/SKILL.md"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -57731,18 +57947,27 @@
         "blob": "6328c6765f8155ae7666ccc35977baec0081dab1"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/documentation-specialist/adl-skill.yaml"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -57755,18 +57980,27 @@
         "blob": "e3788df0d48eaa9a29d715e877ae942b097261dd"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/documentation-specialist/agents/openai.yaml"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -57779,18 +58013,27 @@
         "blob": "188fc0ebab13619e3f6d09800595b437919f8b90"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/documentation-specialist/references/output-contract.md"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -57996,18 +58239,27 @@
         "blob": "ae99a5d84701f402fb53c7ff17c927ce5fe21d41"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/gap-analysis/SKILL.md"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -58020,18 +58272,27 @@
         "blob": "aabf69d88226da7dcd9eb358b862ab0386ad0123"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/gap-analysis/adl-skill.yaml"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -58044,18 +58305,27 @@
         "blob": "e669694700b78797b1ab672964962b7febdc4858"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/gap-analysis/agents/openai.yaml"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -58068,18 +58338,27 @@
         "blob": "772ffbb2eb7f747c5fea8604c7db0d3c28fc2e34"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/gap-analysis/references/gap-analysis-playbook.md"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -58092,18 +58371,27 @@
         "blob": "7ab93573c9cf3b5397cc1d360a354971e99d9b8c"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/gap-analysis/references/output-contract.md"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -58116,18 +58404,27 @@
         "blob": "58d9710f553d6fe247a0d12013247d1b93c598c4"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/gap-analysis/scripts/analyze_gaps.py"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -58140,18 +58437,27 @@
         "blob": "a48a0fb8efd4177583692f971a988bdb77403f31"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/issue-folding/SKILL.md"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -58164,18 +58470,27 @@
         "blob": "5f14650aa194f55847f25020ce71af2501525a6f"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/issue-folding/adl-skill.yaml"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -58188,18 +58503,27 @@
         "blob": "4f00e86c3ed0fdeea34d33dc953d250cb0d0a784"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/issue-folding/agents/openai.yaml"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -58212,18 +58536,27 @@
         "blob": "002f40c5e712c65393e85877eb114d3ee5b2a0e2"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/issue-folding/references/issue-folding-playbook.md"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -58236,18 +58569,27 @@
         "blob": "e9f0dd1884761e21d79068743e7d247a66104823"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/issue-folding/references/output-contract.md"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -58260,18 +58602,27 @@
         "blob": "5d9b5153e8276817a123d771e0cfda154b26580c"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/issue-folding/scripts/classify_issue_folding.py"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -58284,18 +58635,27 @@
         "blob": "f32b5302ce18d3757dfd40e474402f52bfdc7e8a"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/issue-splitter/SKILL.md"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -58308,18 +58668,27 @@
         "blob": "b02ebca381241d7ae8ea2568e8933bd2467b527c"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/issue-splitter/adl-skill.yaml"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -58332,18 +58701,27 @@
         "blob": "c116dc85eae854b7d66c4037a76c806e17ae5cea"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/issue-splitter/agents/openai.yaml"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -58356,18 +58734,27 @@
         "blob": "60433d61786a6afd3651db1caa04f7b681992d80"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/issue-splitter/references/issue-splitter-playbook.md"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -58380,18 +58767,27 @@
         "blob": "eeea3713d6030978329659506f353f6a16ba7c32"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/issue-splitter/references/output-contract.md"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -58404,18 +58800,27 @@
         "blob": "e7c53a6c04da171dce055f68ffd80b9d66fe032c"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/issue-splitter/scripts/plan_issue_split.py"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -58428,18 +58833,27 @@
         "blob": "79695efa25c49db95e6d46e476054c88c0b03109"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/issue-watcher/SKILL.md"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -58452,18 +58866,27 @@
         "blob": "a1bac8642875cba3fc76a742a8502b0604db0efa"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/issue-watcher/adl-skill.yaml"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -58476,18 +58899,27 @@
         "blob": "3999776a0893931c48e0ba9c8e2dec16dc43aa7c"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/issue-watcher/agents/openai.yaml"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -58500,18 +58932,27 @@
         "blob": "4d6e06a52f7e7a8947bcd5c22c35f83e28830b92"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/issue-watcher/references/output-contract.md"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -58740,18 +59181,27 @@
         "blob": "f18437e83a9db87772ab3e67f11fc2678e972f65"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/portable-contract-normalizer/SKILL.md"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -58764,18 +59214,27 @@
         "blob": "04a2044bf1271ede82e38a5e628a9ac4babcb752"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/portable-contract-normalizer/adl-skill.yaml"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -58788,18 +59247,27 @@
         "blob": "fd7dc7061c18df9b6602f6071cda85b5b8368df0"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/portable-contract-normalizer/agents/openai.yaml"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -58812,18 +59280,27 @@
         "blob": "12d223309c4fa9ce7d4499cbbee1ead7ab4ddb62"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/portable-contract-normalizer/references/output-contract.md"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -58836,18 +59313,27 @@
         "blob": "db0117fb042076de40b340d94abc856e0cdc2f28"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/portable-contract-normalizer/references/portable-contract-normalizer-playbook.md"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -58860,18 +59346,27 @@
         "blob": "f081438abd78a10cc44c34c19f45419e5d8da9dc"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/portable-contract-normalizer/scripts/normalize_portable_contracts.py"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -60288,18 +60783,27 @@
         "blob": "3bb65ce78ca301b329f2d14c3bb2513af0f03ed5"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/refactoring-helper/SKILL.md"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -60312,18 +60816,27 @@
         "blob": "34c1d8a1953358727604a01770cb9b95e34b4416"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/refactoring-helper/adl-skill.yaml"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -60336,18 +60849,27 @@
         "blob": "d51ebd244a4ea41e9676afe2661eba7bd3dada28"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/refactoring-helper/agents/openai.yaml"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -60360,18 +60882,27 @@
         "blob": "c540de21e9d58e5b4577f4c75d6d956e0d6ed6ed"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/refactoring-helper/references/output-contract.md"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -60384,18 +60915,27 @@
         "blob": "fdf6abe053eb5fb99a5a71c5621470dcbc43ab9d"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/refactoring-helper/references/refactoring-playbook.md"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -60408,18 +60948,27 @@
         "blob": "7729a848f7b73770b275032fcb9d9834e1987b69"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/refactoring-helper/scripts/plan_refactor.py"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -60432,18 +60981,27 @@
         "blob": "ae1ec8ffffd1d7d2d807d9cc254e75dbc16ffe22"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/release-evidence/SKILL.md"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -60456,18 +61014,27 @@
         "blob": "02abe8f10e4f969671f31e1e0f8fd78b37922dc2"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/release-evidence/adl-skill.yaml"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -60480,18 +61047,27 @@
         "blob": "238ca8b201e89b3188a526d724e4700ac988f755"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/release-evidence/agents/openai.yaml"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -60504,18 +61080,27 @@
         "blob": "1ff7a18da0ca489a1d9319b7067e5be3cd1ee2f5"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/release-evidence/references/output-contract.md"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -60528,18 +61113,27 @@
         "blob": "047ebc5ad9980d7b3fc2f266f1fe570e20a571b3"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/release-evidence/references/release-evidence-playbook.md"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -60552,18 +61146,27 @@
         "blob": "8f3b3abbb61905f51455bbb903cf9bfb43742512"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/release-evidence/scripts/assemble_release_evidence.py"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -62599,18 +63202,27 @@
         "blob": "722cad1232cd1e3172eead039cebc448a5f77842"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/review-comment-triage/SKILL.md"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -62623,18 +63235,27 @@
         "blob": "11df2cc6b290c0e576d5a277f95dff71a278262a"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/review-comment-triage/adl-skill.yaml"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -62647,18 +63268,27 @@
         "blob": "c1cca4c6a27143c5f7e2949d52a4b36db6d0ba79"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/review-comment-triage/agents/openai.yaml"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -62671,18 +63301,27 @@
         "blob": "8113ff931caceadd14abff370f187d9385e08a53"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/review-comment-triage/fixtures/actionable_comments.json"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -62695,18 +63334,27 @@
         "blob": "16e6451fd7ea00675a1a356843f1d2f8bc5855e9"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/review-comment-triage/fixtures/already_fixed_comments.json"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -62719,18 +63367,27 @@
         "blob": "27de8d19de5d1cb112248837ea2565bde21bc93d"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/review-comment-triage/fixtures/follow_on_comments.json"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -62743,18 +63400,27 @@
         "blob": "738675bba964ed0325e53891f95553b117ae0002"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/review-comment-triage/fixtures/mixed_comments.json"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -62767,18 +63433,27 @@
         "blob": "38fc1d3f666ddda6696aaf11e375ca4fac683ebb"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/review-comment-triage/fixtures/stale_comments.json"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -62791,18 +63466,27 @@
         "blob": "b23da781d424b3a5cf79eb2cf6e4008fa9468e6b"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/review-comment-triage/references/output-contract.md"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -62815,18 +63499,27 @@
         "blob": "dc3b062b133f6fa26a052a3df190e74537fedee2"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/review-comment-triage/references/review-comment-triage-playbook.md"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -62839,18 +63532,27 @@
         "blob": "ac25d6ee7af24ab314a05948350ffb780073fa3e"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/review-comment-triage/scripts/triage_review_comments.py"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -64906,18 +65608,27 @@
         "blob": "3122536968b4dbc5db5417ffe67bc8a588e58510"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/test-generator/SKILL.md"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -64930,18 +65641,27 @@
         "blob": "3bea949d9b57e3ce35ca82e268b6989a2951ca47"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/test-generator/adl-skill.yaml"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -64954,18 +65674,27 @@
         "blob": "f3a3fcc01e0e0c90f6dcf05545b1c8c952ceede8"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/test-generator/agents/openai.yaml"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -64978,18 +65707,27 @@
         "blob": "ebba5056d3efe2203e8e2971ab178ced1dc2557e"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/test-generator/references/output-contract.md"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -65002,18 +65740,27 @@
         "blob": "18fdc59078caa94377c9bd8b3f2f9323ef0bfe44"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/test-generator/references/test-playbook.md"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -65026,18 +65773,27 @@
         "blob": "d532c6d994f473ffbb0c2e1db3ddf5f3bc9e8c80"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/use-case-writer/SKILL.md"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -65050,18 +65806,27 @@
         "blob": "a765b2bd4936ee2852dda8191260989be9900b2e"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/use-case-writer/adl-skill.yaml"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -65074,18 +65839,27 @@
         "blob": "70fc37b72c1d675b444faa8a4fa508d51df3f850"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/use-case-writer/agents/openai.yaml"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -65098,18 +65872,27 @@
         "blob": "e965de7fde8ac2a041d40cadcca6b3aea17ea9d5"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/use-case-writer/references/output-contract.md"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -65122,18 +65905,27 @@
         "blob": "1877a504e584e7532f428cfbaa577155384c8ad0"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/use-case-writer/references/use-case-writing-playbook.md"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -65146,18 +65938,27 @@
         "blob": "8dee355ffcc2121cf581f1cec11bea80e5aa8303"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/use-case-writer/scripts/write_use_cases.py"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+        "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59"
       }
     },
     {
@@ -66254,12 +67055,8 @@
         "blob": "40eee434c9788574c9c484c04b99b979c8c2c43c"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -66275,6 +67072,19 @@
         "package_revision": "79d6430a89edb350fe1012889650a6b4776912d0",
         "producer_input_boundary": "Exact pinned local source transports; not published remote producer artifacts.",
         "native_or_complete_family_acceptance": false
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "PLANNING_CONTRACT_FAMILY_APPLIED.json",
+        "sha256": "b500906ed25661a8b4cad66ca462797309b5d50916279aa87c0107663dffd32f",
+        "implementation_commit": "09b73f53b0f85db42b219c7ed7f300f1f11e443e"
       }
     },
     {
@@ -68829,12 +69639,8 @@
         "blob": "533cdcedb2279e437e2a38dbf6ad557652d3aedd"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "coherent caller and component disposition",
-        "complete producer delivery acceptance remains separate from pinned local source transports",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -68850,7 +69656,20 @@
         "native_or_complete_family_acceptance": false
       },
       "prior_proposed_action": "hold_explicit_reconciliation",
-      "historical_hold_reason": "hold_no_proven_current_successor_mapping"
+      "historical_hold_reason": "hold_no_proven_current_successor_mapping",
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "coherent caller and component disposition",
+          "complete producer delivery acceptance remains separate from pinned local source transports",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "PLANNING_CONTRACT_FAMILY_APPLIED.json",
+        "sha256": "b500906ed25661a8b4cad66ca462797309b5d50916279aa87c0107663dffd32f",
+        "implementation_commit": "09b73f53b0f85db42b219c7ed7f300f1f11e443e"
+      }
     },
     {
       "id": "RD07-2027",
@@ -69336,12 +70155,8 @@
         "blob": "b5f632417ed961ff7eb46ed7967a24e2cc9a284f"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -69357,6 +70172,19 @@
         "package_revision": "79d6430a89edb350fe1012889650a6b4776912d0",
         "producer_input_boundary": "Exact pinned local source transports; not published remote producer artifacts.",
         "native_or_complete_family_acceptance": false
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "PLANNING_CONTRACT_FAMILY_APPLIED.json",
+        "sha256": "b500906ed25661a8b4cad66ca462797309b5d50916279aa87c0107663dffd32f",
+        "implementation_commit": "09b73f53b0f85db42b219c7ed7f300f1f11e443e"
       }
     },
     {
@@ -72620,12 +73448,8 @@
         "blob": "1e11de034deea9d42987bd9f97c33c75e87c46d8"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -72641,6 +73465,19 @@
         "package_revision": "79d6430a89edb350fe1012889650a6b4776912d0",
         "producer_input_boundary": "Exact pinned local source transports; not published remote producer artifacts.",
         "native_or_complete_family_acceptance": false
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "PLANNING_CONTRACT_FAMILY_APPLIED.json",
+        "sha256": "b500906ed25661a8b4cad66ca462797309b5d50916279aa87c0107663dffd32f",
+        "implementation_commit": "09b73f53b0f85db42b219c7ed7f300f1f11e443e"
       }
     },
     {
@@ -73805,18 +74642,27 @@
         "blob": "1182a10bfce8ad8dae7a4b8048af896e5deeec4b"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "docs/skill-distributions/planning-utilities/original/adl/tools/validate_multi_agent_workcell_state.py"
         ]
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "PLANNING_CONTRACT_FAMILY_APPLIED.json",
+        "sha256": "b500906ed25661a8b4cad66ca462797309b5d50916279aa87c0107663dffd32f",
+        "implementation_commit": "09b73f53b0f85db42b219c7ed7f300f1f11e443e"
       }
     },
     {
@@ -129559,10 +130405,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Assign package/workflow implementation to Infrastructure and pin a reviewed reusable-workflow or installed-adapter consumer route in ADL. Keep workflow/package hold until current local CI build invocation is replaced; retain bootstrap safety contract as a family."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -129583,6 +130427,17 @@
           ],
           "other_findings": 0
         }
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Assign package/workflow implementation to Infrastructure and pin a reviewed reusable-workflow or installed-adapter consumer route in ADL. Keep workflow/package hold until current local CI build invocation is replaced; retain bootstrap safety contract as a family."
+        ]
+      },
+      "applied_removal": {
+        "packet": "AWS_REMOTE_FAMILY_APPLIED.json",
+        "sha256": "e88324d672c1455fba7e1d521b18e0efd6fa7756215af35dba19b718a1add8e1",
+        "implementation_commit": "1f438d059a37442c85059992c503740aa1bf088e"
       }
     },
     {
@@ -129596,10 +130451,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Assign package/workflow implementation to Infrastructure and pin a reviewed reusable-workflow or installed-adapter consumer route in ADL. Keep workflow/package hold until current local CI build invocation is replaced; retain bootstrap safety contract as a family."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -129620,6 +130473,17 @@
           ],
           "other_findings": 0
         }
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Assign package/workflow implementation to Infrastructure and pin a reviewed reusable-workflow or installed-adapter consumer route in ADL. Keep workflow/package hold until current local CI build invocation is replaced; retain bootstrap safety contract as a family."
+        ]
+      },
+      "applied_removal": {
+        "packet": "AWS_REMOTE_FAMILY_APPLIED.json",
+        "sha256": "e88324d672c1455fba7e1d521b18e0efd6fa7756215af35dba19b718a1add8e1",
+        "implementation_commit": "1f438d059a37442c85059992c503740aa1bf088e"
       }
     },
     {
@@ -129633,10 +130497,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Assign package/workflow implementation to Infrastructure and pin a reviewed reusable-workflow or installed-adapter consumer route in ADL. Keep workflow/package hold until current local CI build invocation is replaced; retain bootstrap safety contract as a family."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -129657,6 +130519,17 @@
           ],
           "other_findings": 0
         }
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Assign package/workflow implementation to Infrastructure and pin a reviewed reusable-workflow or installed-adapter consumer route in ADL. Keep workflow/package hold until current local CI build invocation is replaced; retain bootstrap safety contract as a family."
+        ]
+      },
+      "applied_removal": {
+        "packet": "AWS_REMOTE_FAMILY_APPLIED.json",
+        "sha256": "e88324d672c1455fba7e1d521b18e0efd6fa7756215af35dba19b718a1add8e1",
+        "implementation_commit": "1f438d059a37442c85059992c503740aa1bf088e"
       }
     },
     {
@@ -129670,10 +130543,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Assign package/workflow implementation to Infrastructure and pin a reviewed reusable-workflow or installed-adapter consumer route in ADL. Keep workflow/package hold until current local CI build invocation is replaced; retain bootstrap safety contract as a family."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -129694,6 +130565,17 @@
           ],
           "other_findings": 0
         }
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Assign package/workflow implementation to Infrastructure and pin a reviewed reusable-workflow or installed-adapter consumer route in ADL. Keep workflow/package hold until current local CI build invocation is replaced; retain bootstrap safety contract as a family."
+        ]
+      },
+      "applied_removal": {
+        "packet": "AWS_REMOTE_FAMILY_APPLIED.json",
+        "sha256": "e88324d672c1455fba7e1d521b18e0efd6fa7756215af35dba19b718a1add8e1",
+        "implementation_commit": "1f438d059a37442c85059992c503740aa1bf088e"
       }
     },
     {
@@ -129707,10 +130589,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Assign package/workflow implementation to Infrastructure and pin a reviewed reusable-workflow or installed-adapter consumer route in ADL. Keep workflow/package hold until current local CI build invocation is replaced; retain bootstrap safety contract as a family."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -129731,6 +130611,17 @@
           ],
           "other_findings": 0
         }
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Assign package/workflow implementation to Infrastructure and pin a reviewed reusable-workflow or installed-adapter consumer route in ADL. Keep workflow/package hold until current local CI build invocation is replaced; retain bootstrap safety contract as a family."
+        ]
+      },
+      "applied_removal": {
+        "packet": "AWS_REMOTE_FAMILY_APPLIED.json",
+        "sha256": "e88324d672c1455fba7e1d521b18e0efd6fa7756215af35dba19b718a1add8e1",
+        "implementation_commit": "1f438d059a37442c85059992c503740aa1bf088e"
       }
     },
     {
@@ -129744,10 +130635,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Assign package/workflow implementation to Infrastructure and pin a reviewed reusable-workflow or installed-adapter consumer route in ADL. Keep workflow/package hold until current local CI build invocation is replaced; retain bootstrap safety contract as a family."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -129768,6 +130657,17 @@
           ],
           "other_findings": 0
         }
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Assign package/workflow implementation to Infrastructure and pin a reviewed reusable-workflow or installed-adapter consumer route in ADL. Keep workflow/package hold until current local CI build invocation is replaced; retain bootstrap safety contract as a family."
+        ]
+      },
+      "applied_removal": {
+        "packet": "AWS_REMOTE_FAMILY_APPLIED.json",
+        "sha256": "e88324d672c1455fba7e1d521b18e0efd6fa7756215af35dba19b718a1add8e1",
+        "implementation_commit": "1f438d059a37442c85059992c503740aa1bf088e"
       }
     },
     {
@@ -129781,10 +130681,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Assign package/workflow implementation to Infrastructure and pin a reviewed reusable-workflow or installed-adapter consumer route in ADL. Keep workflow/package hold until current local CI build invocation is replaced; retain bootstrap safety contract as a family."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -129805,6 +130703,17 @@
           ],
           "other_findings": 0
         }
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Assign package/workflow implementation to Infrastructure and pin a reviewed reusable-workflow or installed-adapter consumer route in ADL. Keep workflow/package hold until current local CI build invocation is replaced; retain bootstrap safety contract as a family."
+        ]
+      },
+      "applied_removal": {
+        "packet": "AWS_REMOTE_FAMILY_APPLIED.json",
+        "sha256": "e88324d672c1455fba7e1d521b18e0efd6fa7756215af35dba19b718a1add8e1",
+        "implementation_commit": "1f438d059a37442c85059992c503740aa1bf088e"
       }
     },
     {
@@ -129818,10 +130727,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Assign package/workflow implementation to Infrastructure and pin a reviewed reusable-workflow or installed-adapter consumer route in ADL. Keep workflow/package hold until current local CI build invocation is replaced; retain bootstrap safety contract as a family."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -129842,6 +130749,17 @@
           ],
           "other_findings": 0
         }
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Assign package/workflow implementation to Infrastructure and pin a reviewed reusable-workflow or installed-adapter consumer route in ADL. Keep workflow/package hold until current local CI build invocation is replaced; retain bootstrap safety contract as a family."
+        ]
+      },
+      "applied_removal": {
+        "packet": "AWS_REMOTE_FAMILY_APPLIED.json",
+        "sha256": "e88324d672c1455fba7e1d521b18e0efd6fa7756215af35dba19b718a1add8e1",
+        "implementation_commit": "1f438d059a37442c85059992c503740aa1bf088e"
       }
     },
     {
@@ -129855,10 +130773,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Assign package/workflow implementation to Infrastructure and pin a reviewed reusable-workflow or installed-adapter consumer route in ADL. Keep workflow/package hold until current local CI build invocation is replaced; retain bootstrap safety contract as a family."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -129877,6 +130793,17 @@
           ],
           "other_findings": 0
         }
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Assign package/workflow implementation to Infrastructure and pin a reviewed reusable-workflow or installed-adapter consumer route in ADL. Keep workflow/package hold until current local CI build invocation is replaced; retain bootstrap safety contract as a family."
+        ]
+      },
+      "applied_removal": {
+        "packet": "AWS_REMOTE_FAMILY_APPLIED.json",
+        "sha256": "e88324d672c1455fba7e1d521b18e0efd6fa7756215af35dba19b718a1add8e1",
+        "implementation_commit": "1f438d059a37442c85059992c503740aa1bf088e"
       }
     },
     {
@@ -129890,10 +130817,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Assign package/workflow implementation to Infrastructure and pin a reviewed reusable-workflow or installed-adapter consumer route in ADL. Keep workflow/package hold until current local CI build invocation is replaced; retain bootstrap safety contract as a family."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -129914,6 +130839,17 @@
           ],
           "other_findings": 0
         }
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Assign package/workflow implementation to Infrastructure and pin a reviewed reusable-workflow or installed-adapter consumer route in ADL. Keep workflow/package hold until current local CI build invocation is replaced; retain bootstrap safety contract as a family."
+        ]
+      },
+      "applied_removal": {
+        "packet": "AWS_REMOTE_FAMILY_APPLIED.json",
+        "sha256": "e88324d672c1455fba7e1d521b18e0efd6fa7756215af35dba19b718a1add8e1",
+        "implementation_commit": "1f438d059a37442c85059992c503740aa1bf088e"
       }
     },
     {
@@ -129927,10 +130863,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Assign package/workflow implementation to Infrastructure and pin a reviewed reusable-workflow or installed-adapter consumer route in ADL. Keep workflow/package hold until current local CI build invocation is replaced; retain bootstrap safety contract as a family."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -129951,6 +130885,17 @@
           ],
           "other_findings": 0
         }
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Assign package/workflow implementation to Infrastructure and pin a reviewed reusable-workflow or installed-adapter consumer route in ADL. Keep workflow/package hold until current local CI build invocation is replaced; retain bootstrap safety contract as a family."
+        ]
+      },
+      "applied_removal": {
+        "packet": "AWS_REMOTE_FAMILY_APPLIED.json",
+        "sha256": "e88324d672c1455fba7e1d521b18e0efd6fa7756215af35dba19b718a1add8e1",
+        "implementation_commit": "1f438d059a37442c85059992c503740aa1bf088e"
       }
     },
     {
@@ -129964,10 +130909,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Assign package/workflow implementation to Infrastructure and pin a reviewed reusable-workflow or installed-adapter consumer route in ADL. Keep workflow/package hold until current local CI build invocation is replaced; retain bootstrap safety contract as a family."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -129988,6 +130931,17 @@
           ],
           "other_findings": 0
         }
+      },
+      "pre_csdlc83_aws14_planning9_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Assign package/workflow implementation to Infrastructure and pin a reviewed reusable-workflow or installed-adapter consumer route in ADL. Keep workflow/package hold until current local CI build invocation is replaced; retain bootstrap safety contract as a family."
+        ]
+      },
+      "applied_removal": {
+        "packet": "AWS_REMOTE_FAMILY_APPLIED.json",
+        "sha256": "e88324d672c1455fba7e1d521b18e0efd6fa7756215af35dba19b718a1add8e1",
+        "implementation_commit": "1f438d059a37442c85059992c503740aa1bf088e"
       }
     },
     {

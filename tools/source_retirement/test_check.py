@@ -407,5 +407,71 @@ class TransientBridgeTests(unittest.TestCase):
             self.validate()
 
 
+
+class RecentOwnerFamilyTests(unittest.TestCase):
+    # PVF: deterministic local guard regression; small disk/CPU; no owner execution.
+    def batches(self):
+        for spec in check.RECENT_OWNER_BATCHES:
+            yield (spec, check.committed_json(check.PACKET / spec['packet']),
+                   check.tree(spec['commit'] + '^'), check.tree(spec['commit']))
+
+    def test_exact_families_and_custody(self):
+        total = 0
+        for spec, batch, before, after in self.batches():
+            paths = check.check_recent_owner_family(batch, before, after, set(), spec)
+            self.assertEqual(len(paths), spec['removals'])
+            check.check_recent_owner_custody(batch, spec)
+            total += len(paths)
+        self.assertEqual(total, 106)
+
+    def test_expanded_scope_and_repeat_refuse(self):
+        for spec, batch, before, after in self.batches():
+            paths = {r['path'] for r in batch['files'] if r['action'] == 'remove'}
+            with self.assertRaisesRegex(ValueError, 'scope changed'):
+                check.check_recent_owner_family(batch, before, after, paths, spec)
+            altered = copy.deepcopy(batch)
+            altered['files'].append(copy.deepcopy(altered['files'][0]))
+            with self.assertRaisesRegex(ValueError, 'scope changed'):
+                check.check_recent_owner_family(altered, before, after, set(), spec)
+
+    def test_source_resurrection_and_caller_drift_refuse(self):
+        for spec, batch, before, after in self.batches():
+            source = next(r for r in batch['files'] if r['action'] == 'remove')
+            altered = dict(after)
+            altered[source['path']] = before[source['path']]
+            with self.assertRaisesRegex(ValueError, 'identity mismatch'):
+                check.check_recent_owner_family(batch, before, altered, set(), spec)
+            caller = next(r for r in batch['files'] if r['action'] != 'remove')
+            altered = dict(after)
+            altered[caller['path']] = ['100644', '0' * 40]
+            with self.assertRaisesRegex(ValueError, 'identity mismatch'):
+                check.check_recent_owner_family(batch, before, altered, set(), spec)
+
+    def test_added_helper_cannot_replace_existing_file(self):
+        spec, batch, before, after = next(x for x in self.batches()
+                                         if any(r['action'] == 'add' for r in x[1]['files']))
+        helper = next(r for r in batch['files'] if r['action'] == 'add')
+        altered = dict(before)
+        altered[helper['path']] = ['100644', '0' * 40]
+        with self.assertRaisesRegex(ValueError, 'identity mismatch'):
+            check.check_recent_owner_family(batch, altered, after, set(), spec)
+
+    def test_substituted_archive_refuses(self):
+        spec, batch, _, _ = next(self.batches())
+        changed = copy.deepcopy(spec)
+        with tempfile.TemporaryDirectory() as tmp:
+            fake = Path(tmp) / 'substituted.tar'
+            fake.write_bytes(b'not the reviewed archive')
+            changed['archives'][0]['path'] = str(fake)
+            with self.assertRaisesRegex(ValueError, 'archive changed'):
+                check.check_recent_owner_custody(batch, changed)
+
+    def test_wrong_custody_member_bytes_refuse(self):
+        spec, batch, _, _ = next(self.batches())
+        altered = copy.deepcopy(batch)
+        next(r for r in altered['files'] if r['action'] == 'remove')['before']['sha256'] = '0' * 64
+        with self.assertRaisesRegex(ValueError, 'custody identity mismatch'):
+            check.check_recent_owner_custody(altered, spec)
+
 if __name__ == '__main__':
     unittest.main()

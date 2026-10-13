@@ -6,7 +6,7 @@
   "execution_authorized": false,
   "original_inventory_count": 4134,
   "additional_inventory_count": 22,
-  "executed_deletion_count": 2331,
+  "executed_deletion_count": 2437,
   "entries": [
     {
       "path": ".github/workflows/ci.yaml",
@@ -6861,12 +6861,26 @@
       ],
       "after": [
         "100644",
-        "a085c014c3191dc9c9be317cdc1e272a961a0e63"
+        "ca1d1744e7a0f8146f27181237cababd61dfb06d"
       ],
       "implementation_commit": "39a64819e2ccc75a0b09616a7883f5835d047e35",
       "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
       "review_reference": "review_1223_applied_components exact77/112 review",
-      "source_chain_reference": "proposed_reconciled_entries:adl/config/validation_lane_selector.v0.91.6.json"
+      "source_chain_reference": "proposed_reconciled_entries:adl/config/validation_lane_selector.v0.91.6.json",
+      "supplemental_source_chain": [
+        {
+          "commit": "1f438d059a37442c85059992c503740aa1bf088e",
+          "before": [
+            "100644",
+            "a085c014c3191dc9c9be317cdc1e272a961a0e63"
+          ],
+          "after": [
+            "100644",
+            "ca1d1744e7a0f8146f27181237cababd61dfb06d"
+          ],
+          "packet": "AWS_REMOTE_FAMILY_APPLIED.json"
+        }
+      ]
     },
     {
       "path": "adl/src/acc.rs",
@@ -28023,7 +28037,7 @@
       ],
       "after": [
         "100644",
-        "583c98bf66dbc0876ed94a394a926d0f0fb36ca3"
+        "9775e0d99621f8a88d139bd09a5a21eca94d4b1f"
       ],
       "implementation_commit": "666818f2aafdaf4839d1c3de4119b513c4236d3d",
       "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
@@ -28041,6 +28055,18 @@
             "583c98bf66dbc0876ed94a394a926d0f0fb36ca3"
           ],
           "packet": "CODEFRIEND_SKILL_FAMILY_APPLIED.json"
+        },
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "583c98bf66dbc0876ed94a394a926d0f0fb36ca3"
+          ],
+          "after": [
+            "100644",
+            "9775e0d99621f8a88d139bd09a5a21eca94d4b1f"
+          ],
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
         }
       ]
     },
@@ -28557,7 +28583,7 @@
       ],
       "after": [
         "100644",
-        "6af211a07af42cf872d95b1d34737ca4b73f0d4f"
+        "db5146cebd6e168ca5c66aa61f41cf783b0ffde3"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json",
@@ -28604,6 +28630,20 @@
           "implementation_commit": "3383f7f691ec248d6fe87cd18e4e13c5d1e8d900",
           "approval_reference": "RUNTIME_SOURCE_FAMILY_APPLIED.json",
           "review_reference": "review_1223_public_facade exact Runtime896 plus54 caller repair review"
+        }
+      ],
+      "supplemental_source_chain": [
+        {
+          "commit": "1f438d059a37442c85059992c503740aa1bf088e",
+          "before": [
+            "100644",
+            "6af211a07af42cf872d95b1d34737ca4b73f0d4f"
+          ],
+          "after": [
+            "100644",
+            "db5146cebd6e168ca5c66aa61f41cf783b0ffde3"
+          ],
+          "packet": "AWS_REMOTE_FAMILY_APPLIED.json"
         }
       ]
     },
@@ -28967,7 +29007,7 @@
       ],
       "after": [
         "100644",
-        "071291a9df7462addb3daa4144e9939034eff375"
+        "d8b74ea9f40cfd075ea714a3f02a5c2374c1f245"
       ],
       "implementation_commit": "666818f2aafdaf4839d1c3de4119b513c4236d3d",
       "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
@@ -28985,6 +29025,18 @@
             "071291a9df7462addb3daa4144e9939034eff375"
           ],
           "packet": "CODEFRIEND_SKILL_FAMILY_APPLIED.json"
+        },
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "071291a9df7462addb3daa4144e9939034eff375"
+          ],
+          "after": [
+            "100644",
+            "d8b74ea9f40cfd075ea714a3f02a5c2374c1f245"
+          ],
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
         }
       ]
     },
@@ -56324,7 +56376,7 @@
       "before": null,
       "after": [
         "100644",
-        "f328f23dfa2e3f046293cd48b1113bf03cc4fda2"
+        "bf2d751a87f77e84d0c6fa100a581e27c480d7ea"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json",
@@ -56453,6 +56505,42 @@
             "f328f23dfa2e3f046293cd48b1113bf03cc4fda2"
           ],
           "packet": "CODEFRIEND_SKILL_FAMILY_APPLIED.json"
+        },
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "f328f23dfa2e3f046293cd48b1113bf03cc4fda2"
+          ],
+          "after": [
+            "100644",
+            "a144ace290458dc3dc11b3e8e8f37aa901b23b26"
+          ],
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        },
+        {
+          "commit": "1f438d059a37442c85059992c503740aa1bf088e",
+          "before": [
+            "100644",
+            "a144ace290458dc3dc11b3e8e8f37aa901b23b26"
+          ],
+          "after": [
+            "100644",
+            "3ad46b99d92b4fc4b773265d206f1985302acd59"
+          ],
+          "packet": "AWS_REMOTE_FAMILY_APPLIED.json"
+        },
+        {
+          "commit": "09b73f53b0f85db42b219c7ed7f300f1f11e443e",
+          "before": [
+            "100644",
+            "3ad46b99d92b4fc4b773265d206f1985302acd59"
+          ],
+          "after": [
+            "100644",
+            "bf2d751a87f77e84d0c6fa100a581e27c480d7ea"
+          ],
+          "packet": "PLANNING_CONTRACT_FAMILY_APPLIED.json"
         }
       ],
       "prior_execution_provenance": [
@@ -63433,12 +63521,26 @@
       ],
       "after": [
         "100644",
-        "07c8d3e425fd3ceadc70c79ab492b26811aac1dd"
+        "5c31fb69d78c72de8a28246b861bf1b6033fa5b0"
       ],
       "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
       "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
       "review_reference": "review_1223_applied_components exact77/112 review",
-      "source_chain_reference": "proposed_reconciled_entries:tools/groupd_validation/src/lib.rs"
+      "source_chain_reference": "proposed_reconciled_entries:tools/groupd_validation/src/lib.rs",
+      "supplemental_source_chain": [
+        {
+          "commit": "1f438d059a37442c85059992c503740aa1bf088e",
+          "before": [
+            "100644",
+            "07c8d3e425fd3ceadc70c79ab492b26811aac1dd"
+          ],
+          "after": [
+            "100644",
+            "5c31fb69d78c72de8a28246b861bf1b6033fa5b0"
+          ],
+          "packet": "AWS_REMOTE_FAMILY_APPLIED.json"
+        }
+      ]
     },
     {
       "path": "tools/groupd_validation/test_documentation.py",
@@ -63617,7 +63719,7 @@
       "before": null,
       "after": [
         "100644",
-        "1f85d2de8b03bec618837d8b8de4e422baee4c08"
+        "523edd01deda07d36d94e0eb650cf304d3d20696"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "Infrastructure212 source commit guard-documentation accompaniment",
@@ -63674,6 +63776,18 @@
             "1f85d2de8b03bec618837d8b8de4e422baee4c08"
           ],
           "packet": "combined conversion and CF127 guard integration"
+        },
+        {
+          "commit": "pending_reviewed_integration",
+          "before": [
+            "100644",
+            "1f85d2de8b03bec618837d8b8de4e422baee4c08"
+          ],
+          "after": [
+            "100644",
+            "523edd01deda07d36d94e0eb650cf304d3d20696"
+          ],
+          "packet": "CSDL83 AWS14 planning9 guard integration"
         }
       ],
       "prior_execution_provenance": [
@@ -68264,6 +68378,3943 @@
             "6dddbcc42933afe77e0deb985d8c0b1c3155ff67"
           ],
           "packet": "CODEFRIEND_SKILL_FAMILY_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/skills/demo-operator/SKILL.md",
+      "before": [
+        "100644",
+        "6b6bb653f78cc9e6373a9c72d68ce7b5638da842"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "6b6bb653f78cc9e6373a9c72d68ce7b5638da842"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/demo-operator/SKILL.md",
+        "mode": "100644",
+        "blob": "6b6bb653f78cc9e6373a9c72d68ce7b5638da842",
+        "sha256": "bff2d56d08a8003915334d392dedbfe6103c4fb7af33c011138878a39f313391"
+      }
+    },
+    {
+      "path": "adl/tools/skills/demo-operator/adl-skill.yaml",
+      "before": [
+        "100644",
+        "30c7123b0ca3a9ead53068597c54942bd19b3574"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "30c7123b0ca3a9ead53068597c54942bd19b3574"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/demo-operator/adl-skill.yaml",
+        "mode": "100644",
+        "blob": "30c7123b0ca3a9ead53068597c54942bd19b3574",
+        "sha256": "bfa0c1af476bd13cceb56aed4e9c9082a1dbfa2a4dc2ee9fdc64881500a51ab1"
+      }
+    },
+    {
+      "path": "adl/tools/skills/demo-operator/agents/openai.yaml",
+      "before": [
+        "100644",
+        "aeeb0cfb5539d3d9763bfa408921514576ddf263"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "aeeb0cfb5539d3d9763bfa408921514576ddf263"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/demo-operator/agents/openai.yaml",
+        "mode": "100644",
+        "blob": "aeeb0cfb5539d3d9763bfa408921514576ddf263",
+        "sha256": "9d05bac9853bee2f1ef166fceb9fdc7cb2a51dd62fe30558fac27b4be04ffd11"
+      }
+    },
+    {
+      "path": "adl/tools/skills/demo-operator/references/demo-playbook.md",
+      "before": [
+        "100644",
+        "0f79ba41ce59fbfb25c304f8c9ccce4333ce29bf"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "0f79ba41ce59fbfb25c304f8c9ccce4333ce29bf"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/demo-operator/references/demo-playbook.md",
+        "mode": "100644",
+        "blob": "0f79ba41ce59fbfb25c304f8c9ccce4333ce29bf",
+        "sha256": "3c766598ea3fd4ac350c92455877dc27b4eee3962cd7fe65e0f96baf02816043"
+      }
+    },
+    {
+      "path": "adl/tools/skills/demo-operator/references/output-contract.md",
+      "before": [
+        "100644",
+        "7418de7132fdf25045578c4f26e92a1fa6a92905"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "7418de7132fdf25045578c4f26e92a1fa6a92905"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/demo-operator/references/output-contract.md",
+        "mode": "100644",
+        "blob": "7418de7132fdf25045578c4f26e92a1fa6a92905",
+        "sha256": "4821a61a521e69d9fa3b44f6f2f54209c3d6ee21e8173908e29b3c9c293c9d30"
+      }
+    },
+    {
+      "path": "adl/tools/skills/docs/DEMO_OPERATOR_SKILL_INPUT_SCHEMA.md",
+      "before": [
+        "100644",
+        "6a7394e0a9fbe1a1e16d48fd77738a911d9c5afe"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "6a7394e0a9fbe1a1e16d48fd77738a911d9c5afe"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/docs/DEMO_OPERATOR_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "6a7394e0a9fbe1a1e16d48fd77738a911d9c5afe",
+        "sha256": "b29066bece0b09ecbfac7ed10b9d7a195a63f2f43c494ec71c660b9ed24a9ff4"
+      }
+    },
+    {
+      "path": "adl/tools/skills/docs/DOCUMENTATION_SPECIALIST_SKILL_INPUT_SCHEMA.md",
+      "before": [
+        "100644",
+        "83c9bc8f40bedf232abdff950e99c7bccb12d39c"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "83c9bc8f40bedf232abdff950e99c7bccb12d39c"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/docs/DOCUMENTATION_SPECIALIST_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "83c9bc8f40bedf232abdff950e99c7bccb12d39c",
+        "sha256": "4c0f3c1672238408ddfe7e942689afffb0e13e185e5d1a89904c7cbf6dbbaa1a"
+      }
+    },
+    {
+      "path": "adl/tools/skills/docs/GAP_ANALYSIS_SKILL_INPUT_SCHEMA.md",
+      "before": [
+        "100644",
+        "a149b44fb83d78fece8d566138ca73d880524853"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "a149b44fb83d78fece8d566138ca73d880524853"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/docs/GAP_ANALYSIS_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "a149b44fb83d78fece8d566138ca73d880524853",
+        "sha256": "08c9c844b871c1b7b14a29f727557ee599a415e0957419e9c11953c9b92819af"
+      }
+    },
+    {
+      "path": "adl/tools/skills/docs/ISSUE_FOLDING_SKILL_INPUT_SCHEMA.md",
+      "before": [
+        "100644",
+        "5a53829dee9e62f09dbfbd4e321e7a9ad464074b"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "5a53829dee9e62f09dbfbd4e321e7a9ad464074b"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/docs/ISSUE_FOLDING_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "5a53829dee9e62f09dbfbd4e321e7a9ad464074b",
+        "sha256": "a9e6e25fd2712b880dc7f6aeef64540a21aff4b069308e6c114ab52ee94fcded"
+      }
+    },
+    {
+      "path": "adl/tools/skills/docs/ISSUE_SPLITTER_SKILL_INPUT_SCHEMA.md",
+      "before": [
+        "100644",
+        "7556f84bb4cceca62823a907a8a1dfb66cea2fdd"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "7556f84bb4cceca62823a907a8a1dfb66cea2fdd"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/docs/ISSUE_SPLITTER_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "7556f84bb4cceca62823a907a8a1dfb66cea2fdd",
+        "sha256": "03d330e2ae64a0d6ef61349ef08381a06714e49d88f05ab546b060a5709b5731"
+      }
+    },
+    {
+      "path": "adl/tools/skills/docs/ISSUE_WATCHER_SKILL_INPUT_SCHEMA.md",
+      "before": [
+        "100644",
+        "e8b8b08f79ebfb280611342c8816ce4fb41549f0"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "e8b8b08f79ebfb280611342c8816ce4fb41549f0"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/docs/ISSUE_WATCHER_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "e8b8b08f79ebfb280611342c8816ce4fb41549f0",
+        "sha256": "36f133469154375c04cd691eef116bdd01e407947cfb4415bc2b0a99ab26918c"
+      }
+    },
+    {
+      "path": "adl/tools/skills/docs/PORTABLE_CONTRACT_NORMALIZER_SKILL_INPUT_SCHEMA.md",
+      "before": [
+        "100644",
+        "962173e5855e91ada70d358bbb12ab4d5564c0c0"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "962173e5855e91ada70d358bbb12ab4d5564c0c0"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/docs/PORTABLE_CONTRACT_NORMALIZER_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "962173e5855e91ada70d358bbb12ab4d5564c0c0",
+        "sha256": "bf939da0922bda192d9a42bfff673e8b370526ec0d988dc6054d03bcb4ff270e"
+      }
+    },
+    {
+      "path": "adl/tools/skills/docs/REFACTORING_HELPER_SKILL_INPUT_SCHEMA.md",
+      "before": [
+        "100644",
+        "2b5f2d01defc4e1d6f88f6011d3bd036cca21dc2"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "2b5f2d01defc4e1d6f88f6011d3bd036cca21dc2"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/docs/REFACTORING_HELPER_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "2b5f2d01defc4e1d6f88f6011d3bd036cca21dc2",
+        "sha256": "35cf84422c2643c7f90a1e3e00a8e01995963bbac737fe596fd611ac8ec6306e"
+      }
+    },
+    {
+      "path": "adl/tools/skills/docs/RELEASE_EVIDENCE_SKILL_INPUT_SCHEMA.md",
+      "before": [
+        "100644",
+        "314c644d186d9be27f7c37f5e9ad14b792f76e1d"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "314c644d186d9be27f7c37f5e9ad14b792f76e1d"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/docs/RELEASE_EVIDENCE_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "314c644d186d9be27f7c37f5e9ad14b792f76e1d",
+        "sha256": "6cef7898c9b9758c1a099f8f6e7656ce7b9b25542d92895ecd54b95b654a280c"
+      }
+    },
+    {
+      "path": "adl/tools/skills/docs/REVIEW_COMMENT_TRIAGE_SKILL_INPUT_SCHEMA.md",
+      "before": [
+        "100644",
+        "acb55d7ca7df7befc2852aa4df859d78bbd6ae5a"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "acb55d7ca7df7befc2852aa4df859d78bbd6ae5a"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/docs/REVIEW_COMMENT_TRIAGE_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "acb55d7ca7df7befc2852aa4df859d78bbd6ae5a",
+        "sha256": "7348294b4181aef63a2a4765d41757862f391b6986f775a59400f9137678b4e0"
+      }
+    },
+    {
+      "path": "adl/tools/skills/docs/TEST_GENERATOR_SKILL_INPUT_SCHEMA.md",
+      "before": [
+        "100644",
+        "7f557fab229a559cf0055d0a3fb6203b9035b671"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "7f557fab229a559cf0055d0a3fb6203b9035b671"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/docs/TEST_GENERATOR_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "7f557fab229a559cf0055d0a3fb6203b9035b671",
+        "sha256": "5eb4412319c6941b448be316cce845ec34a91a2bced3d6af8866219aba2297a1"
+      }
+    },
+    {
+      "path": "adl/tools/skills/docs/USE_CASE_WRITER_SKILL_INPUT_SCHEMA.md",
+      "before": [
+        "100644",
+        "650fccd1d754c79f341f7c2c784fcd1a383dff1d"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "650fccd1d754c79f341f7c2c784fcd1a383dff1d"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/docs/USE_CASE_WRITER_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "650fccd1d754c79f341f7c2c784fcd1a383dff1d",
+        "sha256": "77940e6bd2d160f49eb9a80c288bd9ea7294503149a75a6086b25c6ecc631d38"
+      }
+    },
+    {
+      "path": "adl/tools/skills/documentation-specialist/SKILL.md",
+      "before": [
+        "100644",
+        "8b3edca82f6d8da28f847c4763a82278288abe03"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "8b3edca82f6d8da28f847c4763a82278288abe03"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/documentation-specialist/SKILL.md",
+        "mode": "100644",
+        "blob": "8b3edca82f6d8da28f847c4763a82278288abe03",
+        "sha256": "ea635c404c3b32facc4ebd691eaef948698ad6bc468c40ba476fc83ff53452ab"
+      }
+    },
+    {
+      "path": "adl/tools/skills/documentation-specialist/adl-skill.yaml",
+      "before": [
+        "100644",
+        "6328c6765f8155ae7666ccc35977baec0081dab1"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "6328c6765f8155ae7666ccc35977baec0081dab1"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/documentation-specialist/adl-skill.yaml",
+        "mode": "100644",
+        "blob": "6328c6765f8155ae7666ccc35977baec0081dab1",
+        "sha256": "398e390e8ca2a4a65bd25e22c3d02f559f67f133d323807a5e4c904fa23a9577"
+      }
+    },
+    {
+      "path": "adl/tools/skills/documentation-specialist/agents/openai.yaml",
+      "before": [
+        "100644",
+        "e3788df0d48eaa9a29d715e877ae942b097261dd"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "e3788df0d48eaa9a29d715e877ae942b097261dd"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/documentation-specialist/agents/openai.yaml",
+        "mode": "100644",
+        "blob": "e3788df0d48eaa9a29d715e877ae942b097261dd",
+        "sha256": "11d5cb1997537e25357c478d04a2832d1913daf3508fcef07d0772c088a801e1"
+      }
+    },
+    {
+      "path": "adl/tools/skills/documentation-specialist/references/output-contract.md",
+      "before": [
+        "100644",
+        "188fc0ebab13619e3f6d09800595b437919f8b90"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "188fc0ebab13619e3f6d09800595b437919f8b90"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/documentation-specialist/references/output-contract.md",
+        "mode": "100644",
+        "blob": "188fc0ebab13619e3f6d09800595b437919f8b90",
+        "sha256": "6f671e2ffdbd06687361070db7ccf4eb2b064ff20aaf0c3f7afca6966845b89c"
+      }
+    },
+    {
+      "path": "adl/tools/skills/gap-analysis/SKILL.md",
+      "before": [
+        "100644",
+        "ae99a5d84701f402fb53c7ff17c927ce5fe21d41"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "ae99a5d84701f402fb53c7ff17c927ce5fe21d41"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/gap-analysis/SKILL.md",
+        "mode": "100644",
+        "blob": "ae99a5d84701f402fb53c7ff17c927ce5fe21d41",
+        "sha256": "afd76637cbcae5e782ce97771bfdc6b8fbd8562dbcb2e9b15524f03225aed1d2"
+      }
+    },
+    {
+      "path": "adl/tools/skills/gap-analysis/adl-skill.yaml",
+      "before": [
+        "100644",
+        "aabf69d88226da7dcd9eb358b862ab0386ad0123"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "aabf69d88226da7dcd9eb358b862ab0386ad0123"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/gap-analysis/adl-skill.yaml",
+        "mode": "100644",
+        "blob": "aabf69d88226da7dcd9eb358b862ab0386ad0123",
+        "sha256": "03c4bf563fa18abf8354faf722794a45624247246a4a5bd6e0fd63e9168ee542"
+      }
+    },
+    {
+      "path": "adl/tools/skills/gap-analysis/agents/openai.yaml",
+      "before": [
+        "100644",
+        "e669694700b78797b1ab672964962b7febdc4858"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "e669694700b78797b1ab672964962b7febdc4858"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/gap-analysis/agents/openai.yaml",
+        "mode": "100644",
+        "blob": "e669694700b78797b1ab672964962b7febdc4858",
+        "sha256": "f4c645460f7b3130dae46b5819cf09f3315cbf67d551d865be1208365be6ab5f"
+      }
+    },
+    {
+      "path": "adl/tools/skills/gap-analysis/references/gap-analysis-playbook.md",
+      "before": [
+        "100644",
+        "772ffbb2eb7f747c5fea8604c7db0d3c28fc2e34"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "772ffbb2eb7f747c5fea8604c7db0d3c28fc2e34"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/gap-analysis/references/gap-analysis-playbook.md",
+        "mode": "100644",
+        "blob": "772ffbb2eb7f747c5fea8604c7db0d3c28fc2e34",
+        "sha256": "579b3af74cb6d1cdd80d1aec51282c7b2dbaf7553fc3b4079126ef6c89785d00"
+      }
+    },
+    {
+      "path": "adl/tools/skills/gap-analysis/references/output-contract.md",
+      "before": [
+        "100644",
+        "7ab93573c9cf3b5397cc1d360a354971e99d9b8c"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "7ab93573c9cf3b5397cc1d360a354971e99d9b8c"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/gap-analysis/references/output-contract.md",
+        "mode": "100644",
+        "blob": "7ab93573c9cf3b5397cc1d360a354971e99d9b8c",
+        "sha256": "280900f454b1ed5251768d3f81ee2f2d4eed546df5de6aaa30411a624fda94cb"
+      }
+    },
+    {
+      "path": "adl/tools/skills/gap-analysis/scripts/analyze_gaps.py",
+      "before": [
+        "100755",
+        "58d9710f553d6fe247a0d12013247d1b93c598c4"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100755",
+            "58d9710f553d6fe247a0d12013247d1b93c598c4"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/gap-analysis/scripts/analyze_gaps.py",
+        "mode": "100755",
+        "blob": "58d9710f553d6fe247a0d12013247d1b93c598c4",
+        "sha256": "40904b2b0186716c5b795a9f2065a564e95d3c15179c717703c7bc3f03956cbc"
+      }
+    },
+    {
+      "path": "adl/tools/skills/issue-folding/SKILL.md",
+      "before": [
+        "100644",
+        "a48a0fb8efd4177583692f971a988bdb77403f31"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "a48a0fb8efd4177583692f971a988bdb77403f31"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/issue-folding/SKILL.md",
+        "mode": "100644",
+        "blob": "a48a0fb8efd4177583692f971a988bdb77403f31",
+        "sha256": "1b2661ad4de79c34e6a2c6fce904e4e2f5ba055bc15690809bf7abb377153740"
+      }
+    },
+    {
+      "path": "adl/tools/skills/issue-folding/adl-skill.yaml",
+      "before": [
+        "100644",
+        "5f14650aa194f55847f25020ce71af2501525a6f"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "5f14650aa194f55847f25020ce71af2501525a6f"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/issue-folding/adl-skill.yaml",
+        "mode": "100644",
+        "blob": "5f14650aa194f55847f25020ce71af2501525a6f",
+        "sha256": "cbece242dc4678094690801981263f26086de7a12ffd08fb69f71916afcfee4f"
+      }
+    },
+    {
+      "path": "adl/tools/skills/issue-folding/agents/openai.yaml",
+      "before": [
+        "100644",
+        "4f00e86c3ed0fdeea34d33dc953d250cb0d0a784"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "4f00e86c3ed0fdeea34d33dc953d250cb0d0a784"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/issue-folding/agents/openai.yaml",
+        "mode": "100644",
+        "blob": "4f00e86c3ed0fdeea34d33dc953d250cb0d0a784",
+        "sha256": "40053fc1f80d8c41cc8401b78df7ae852de5dada018734286828750580979a54"
+      }
+    },
+    {
+      "path": "adl/tools/skills/issue-folding/references/issue-folding-playbook.md",
+      "before": [
+        "100644",
+        "002f40c5e712c65393e85877eb114d3ee5b2a0e2"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "002f40c5e712c65393e85877eb114d3ee5b2a0e2"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/issue-folding/references/issue-folding-playbook.md",
+        "mode": "100644",
+        "blob": "002f40c5e712c65393e85877eb114d3ee5b2a0e2",
+        "sha256": "3eaf6ece161fc5e92e6c2cd779bdb6186f25290488b1ba2b057d61e6422c5b32"
+      }
+    },
+    {
+      "path": "adl/tools/skills/issue-folding/references/output-contract.md",
+      "before": [
+        "100644",
+        "e9f0dd1884761e21d79068743e7d247a66104823"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "e9f0dd1884761e21d79068743e7d247a66104823"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/issue-folding/references/output-contract.md",
+        "mode": "100644",
+        "blob": "e9f0dd1884761e21d79068743e7d247a66104823",
+        "sha256": "1484d6a5e96bd438705f805cff3a57a5f7bac7efe4e256f3ef8eb873bf442711"
+      }
+    },
+    {
+      "path": "adl/tools/skills/issue-folding/scripts/classify_issue_folding.py",
+      "before": [
+        "100755",
+        "5d9b5153e8276817a123d771e0cfda154b26580c"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100755",
+            "5d9b5153e8276817a123d771e0cfda154b26580c"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/issue-folding/scripts/classify_issue_folding.py",
+        "mode": "100755",
+        "blob": "5d9b5153e8276817a123d771e0cfda154b26580c",
+        "sha256": "c8ffa7dfe8c19dabf25e59467dd6450b07774ea1e84d74cd3f7844ea11b0c005"
+      }
+    },
+    {
+      "path": "adl/tools/skills/issue-splitter/SKILL.md",
+      "before": [
+        "100644",
+        "f32b5302ce18d3757dfd40e474402f52bfdc7e8a"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "f32b5302ce18d3757dfd40e474402f52bfdc7e8a"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/issue-splitter/SKILL.md",
+        "mode": "100644",
+        "blob": "f32b5302ce18d3757dfd40e474402f52bfdc7e8a",
+        "sha256": "725ab87c86f6b571d5efd7121e9e85b0f79241849da3a55f329c09dbe00810fb"
+      }
+    },
+    {
+      "path": "adl/tools/skills/issue-splitter/adl-skill.yaml",
+      "before": [
+        "100644",
+        "b02ebca381241d7ae8ea2568e8933bd2467b527c"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "b02ebca381241d7ae8ea2568e8933bd2467b527c"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/issue-splitter/adl-skill.yaml",
+        "mode": "100644",
+        "blob": "b02ebca381241d7ae8ea2568e8933bd2467b527c",
+        "sha256": "c7b29cbc292235e74fc2f3d918ea6e14627c1b2059b606bb940abe60304c052e"
+      }
+    },
+    {
+      "path": "adl/tools/skills/issue-splitter/agents/openai.yaml",
+      "before": [
+        "100644",
+        "c116dc85eae854b7d66c4037a76c806e17ae5cea"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "c116dc85eae854b7d66c4037a76c806e17ae5cea"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/issue-splitter/agents/openai.yaml",
+        "mode": "100644",
+        "blob": "c116dc85eae854b7d66c4037a76c806e17ae5cea",
+        "sha256": "c424bdcb4371b5f9b6a5fe0bb21586836d1aa00ecca0fa2860516e539ad6330c"
+      }
+    },
+    {
+      "path": "adl/tools/skills/issue-splitter/references/issue-splitter-playbook.md",
+      "before": [
+        "100644",
+        "60433d61786a6afd3651db1caa04f7b681992d80"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "60433d61786a6afd3651db1caa04f7b681992d80"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/issue-splitter/references/issue-splitter-playbook.md",
+        "mode": "100644",
+        "blob": "60433d61786a6afd3651db1caa04f7b681992d80",
+        "sha256": "67f2612f6d1a566273a549762fdf36f6d6774083581e8c258d4efbdc2ff9c1bd"
+      }
+    },
+    {
+      "path": "adl/tools/skills/issue-splitter/references/output-contract.md",
+      "before": [
+        "100644",
+        "eeea3713d6030978329659506f353f6a16ba7c32"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "eeea3713d6030978329659506f353f6a16ba7c32"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/issue-splitter/references/output-contract.md",
+        "mode": "100644",
+        "blob": "eeea3713d6030978329659506f353f6a16ba7c32",
+        "sha256": "1437e065fcbad57e2cd6d26d2f4c571f215a5289dfdb55a3dc6ad6e72819cc0d"
+      }
+    },
+    {
+      "path": "adl/tools/skills/issue-splitter/scripts/plan_issue_split.py",
+      "before": [
+        "100755",
+        "e7c53a6c04da171dce055f68ffd80b9d66fe032c"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100755",
+            "e7c53a6c04da171dce055f68ffd80b9d66fe032c"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/issue-splitter/scripts/plan_issue_split.py",
+        "mode": "100755",
+        "blob": "e7c53a6c04da171dce055f68ffd80b9d66fe032c",
+        "sha256": "ab20885adb93e39f83477b62b8d67362afa37d037ac8ad1a1c00a3a15c267d72"
+      }
+    },
+    {
+      "path": "adl/tools/skills/issue-watcher/SKILL.md",
+      "before": [
+        "100644",
+        "79695efa25c49db95e6d46e476054c88c0b03109"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "79695efa25c49db95e6d46e476054c88c0b03109"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/issue-watcher/SKILL.md",
+        "mode": "100644",
+        "blob": "79695efa25c49db95e6d46e476054c88c0b03109",
+        "sha256": "ab34d92f5aafff3b05bd472e84904537857d7847204e850ec90286a483b0ee54"
+      }
+    },
+    {
+      "path": "adl/tools/skills/issue-watcher/adl-skill.yaml",
+      "before": [
+        "100644",
+        "a1bac8642875cba3fc76a742a8502b0604db0efa"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "a1bac8642875cba3fc76a742a8502b0604db0efa"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/issue-watcher/adl-skill.yaml",
+        "mode": "100644",
+        "blob": "a1bac8642875cba3fc76a742a8502b0604db0efa",
+        "sha256": "23107e02666656258e41ad100629610fd650e6d42527ef93fc83c104ceb1a6e0"
+      }
+    },
+    {
+      "path": "adl/tools/skills/issue-watcher/agents/openai.yaml",
+      "before": [
+        "100644",
+        "3999776a0893931c48e0ba9c8e2dec16dc43aa7c"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "3999776a0893931c48e0ba9c8e2dec16dc43aa7c"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/issue-watcher/agents/openai.yaml",
+        "mode": "100644",
+        "blob": "3999776a0893931c48e0ba9c8e2dec16dc43aa7c",
+        "sha256": "8522cce19da93cd855a72fe4053fabfc8fcbe66d7b838ebe8d26f9f65cb7adb7"
+      }
+    },
+    {
+      "path": "adl/tools/skills/issue-watcher/references/output-contract.md",
+      "before": [
+        "100644",
+        "4d6e06a52f7e7a8947bcd5c22c35f83e28830b92"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "4d6e06a52f7e7a8947bcd5c22c35f83e28830b92"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/issue-watcher/references/output-contract.md",
+        "mode": "100644",
+        "blob": "4d6e06a52f7e7a8947bcd5c22c35f83e28830b92",
+        "sha256": "8c8436d51a8d2cd0959dc1c491c86b957f47ccf2ff3fdd82bfd05b4b41c78b60"
+      }
+    },
+    {
+      "path": "adl/tools/skills/portable-contract-normalizer/SKILL.md",
+      "before": [
+        "100644",
+        "f18437e83a9db87772ab3e67f11fc2678e972f65"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "f18437e83a9db87772ab3e67f11fc2678e972f65"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/portable-contract-normalizer/SKILL.md",
+        "mode": "100644",
+        "blob": "f18437e83a9db87772ab3e67f11fc2678e972f65",
+        "sha256": "26532d164fd1abcd8f95f62994f954a64524df89c787c5a47b80b86427314421"
+      }
+    },
+    {
+      "path": "adl/tools/skills/portable-contract-normalizer/adl-skill.yaml",
+      "before": [
+        "100644",
+        "04a2044bf1271ede82e38a5e628a9ac4babcb752"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "04a2044bf1271ede82e38a5e628a9ac4babcb752"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/portable-contract-normalizer/adl-skill.yaml",
+        "mode": "100644",
+        "blob": "04a2044bf1271ede82e38a5e628a9ac4babcb752",
+        "sha256": "2e41547a34870ae22d64e06f89096553cdd6ad0545804fd05d354bdcd1a56151"
+      }
+    },
+    {
+      "path": "adl/tools/skills/portable-contract-normalizer/agents/openai.yaml",
+      "before": [
+        "100644",
+        "fd7dc7061c18df9b6602f6071cda85b5b8368df0"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "fd7dc7061c18df9b6602f6071cda85b5b8368df0"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/portable-contract-normalizer/agents/openai.yaml",
+        "mode": "100644",
+        "blob": "fd7dc7061c18df9b6602f6071cda85b5b8368df0",
+        "sha256": "05a420fef11eb6c7c16cf9ff7df2af2c8c00e987d38115e701a074adb5b87715"
+      }
+    },
+    {
+      "path": "adl/tools/skills/portable-contract-normalizer/references/output-contract.md",
+      "before": [
+        "100644",
+        "12d223309c4fa9ce7d4499cbbee1ead7ab4ddb62"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "12d223309c4fa9ce7d4499cbbee1ead7ab4ddb62"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/portable-contract-normalizer/references/output-contract.md",
+        "mode": "100644",
+        "blob": "12d223309c4fa9ce7d4499cbbee1ead7ab4ddb62",
+        "sha256": "739f1779e03b4607be011fa05abe70c973b99aaf27ddb74a0ba577c90a7e2495"
+      }
+    },
+    {
+      "path": "adl/tools/skills/portable-contract-normalizer/references/portable-contract-normalizer-playbook.md",
+      "before": [
+        "100644",
+        "db0117fb042076de40b340d94abc856e0cdc2f28"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "db0117fb042076de40b340d94abc856e0cdc2f28"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/portable-contract-normalizer/references/portable-contract-normalizer-playbook.md",
+        "mode": "100644",
+        "blob": "db0117fb042076de40b340d94abc856e0cdc2f28",
+        "sha256": "da2d4e503c760fecf72342cc79d5a5a142e8e1ca00492e53bbb0163ccc3dfc04"
+      }
+    },
+    {
+      "path": "adl/tools/skills/portable-contract-normalizer/scripts/normalize_portable_contracts.py",
+      "before": [
+        "100755",
+        "f081438abd78a10cc44c34c19f45419e5d8da9dc"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100755",
+            "f081438abd78a10cc44c34c19f45419e5d8da9dc"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/portable-contract-normalizer/scripts/normalize_portable_contracts.py",
+        "mode": "100755",
+        "blob": "f081438abd78a10cc44c34c19f45419e5d8da9dc",
+        "sha256": "8d11afa50d27450fdb94caaacd87ba87bc3b4cf0a836c16fee53899630bf756f"
+      }
+    },
+    {
+      "path": "adl/tools/skills/refactoring-helper/SKILL.md",
+      "before": [
+        "100644",
+        "3bb65ce78ca301b329f2d14c3bb2513af0f03ed5"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "3bb65ce78ca301b329f2d14c3bb2513af0f03ed5"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/refactoring-helper/SKILL.md",
+        "mode": "100644",
+        "blob": "3bb65ce78ca301b329f2d14c3bb2513af0f03ed5",
+        "sha256": "fec532a8cee353835071e279a1e766c127437b08f75c149de0d6ac7d75699ac5"
+      }
+    },
+    {
+      "path": "adl/tools/skills/refactoring-helper/adl-skill.yaml",
+      "before": [
+        "100644",
+        "34c1d8a1953358727604a01770cb9b95e34b4416"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "34c1d8a1953358727604a01770cb9b95e34b4416"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/refactoring-helper/adl-skill.yaml",
+        "mode": "100644",
+        "blob": "34c1d8a1953358727604a01770cb9b95e34b4416",
+        "sha256": "f0c89162d147983f2d7c0df8a7c9178e08fa578ba542a5ddc369842b4d5716fe"
+      }
+    },
+    {
+      "path": "adl/tools/skills/refactoring-helper/agents/openai.yaml",
+      "before": [
+        "100644",
+        "d51ebd244a4ea41e9676afe2661eba7bd3dada28"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "d51ebd244a4ea41e9676afe2661eba7bd3dada28"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/refactoring-helper/agents/openai.yaml",
+        "mode": "100644",
+        "blob": "d51ebd244a4ea41e9676afe2661eba7bd3dada28",
+        "sha256": "4bc74e90769d48deb2ecf3083ef2aa7714f21c1c52b08ad748e34cd97500cb55"
+      }
+    },
+    {
+      "path": "adl/tools/skills/refactoring-helper/references/output-contract.md",
+      "before": [
+        "100644",
+        "c540de21e9d58e5b4577f4c75d6d956e0d6ed6ed"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "c540de21e9d58e5b4577f4c75d6d956e0d6ed6ed"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/refactoring-helper/references/output-contract.md",
+        "mode": "100644",
+        "blob": "c540de21e9d58e5b4577f4c75d6d956e0d6ed6ed",
+        "sha256": "b658b19413fca51616dadde6e7e88c40eff04f5f500062f419bc9f21aad38369"
+      }
+    },
+    {
+      "path": "adl/tools/skills/refactoring-helper/references/refactoring-playbook.md",
+      "before": [
+        "100644",
+        "fdf6abe053eb5fb99a5a71c5621470dcbc43ab9d"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "fdf6abe053eb5fb99a5a71c5621470dcbc43ab9d"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/refactoring-helper/references/refactoring-playbook.md",
+        "mode": "100644",
+        "blob": "fdf6abe053eb5fb99a5a71c5621470dcbc43ab9d",
+        "sha256": "922ce1b9ae2dd4cd023aa9d379704dbe58dfaaafffaa4532cf04861a2cbccd13"
+      }
+    },
+    {
+      "path": "adl/tools/skills/refactoring-helper/scripts/plan_refactor.py",
+      "before": [
+        "100755",
+        "7729a848f7b73770b275032fcb9d9834e1987b69"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100755",
+            "7729a848f7b73770b275032fcb9d9834e1987b69"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/refactoring-helper/scripts/plan_refactor.py",
+        "mode": "100755",
+        "blob": "7729a848f7b73770b275032fcb9d9834e1987b69",
+        "sha256": "ee2056851cc9038961eae7674ccba35175d6f57b53d47a804729ad7df7e9db22"
+      }
+    },
+    {
+      "path": "adl/tools/skills/release-evidence/SKILL.md",
+      "before": [
+        "100644",
+        "ae1ec8ffffd1d7d2d807d9cc254e75dbc16ffe22"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "ae1ec8ffffd1d7d2d807d9cc254e75dbc16ffe22"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/release-evidence/SKILL.md",
+        "mode": "100644",
+        "blob": "ae1ec8ffffd1d7d2d807d9cc254e75dbc16ffe22",
+        "sha256": "2158f72d43ad4d6be1a39771b370fffacc8040dcfd8cba156eaa7022d402bd16"
+      }
+    },
+    {
+      "path": "adl/tools/skills/release-evidence/adl-skill.yaml",
+      "before": [
+        "100644",
+        "02abe8f10e4f969671f31e1e0f8fd78b37922dc2"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "02abe8f10e4f969671f31e1e0f8fd78b37922dc2"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/release-evidence/adl-skill.yaml",
+        "mode": "100644",
+        "blob": "02abe8f10e4f969671f31e1e0f8fd78b37922dc2",
+        "sha256": "80d87d611a3aefcefc0bc3f6e49c0841a2863765331655b27dab0c519652a1fb"
+      }
+    },
+    {
+      "path": "adl/tools/skills/release-evidence/agents/openai.yaml",
+      "before": [
+        "100644",
+        "238ca8b201e89b3188a526d724e4700ac988f755"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "238ca8b201e89b3188a526d724e4700ac988f755"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/release-evidence/agents/openai.yaml",
+        "mode": "100644",
+        "blob": "238ca8b201e89b3188a526d724e4700ac988f755",
+        "sha256": "139158fb85361d1a4522e0879b019982c9ba699897fcf66bda130d255b7c73f2"
+      }
+    },
+    {
+      "path": "adl/tools/skills/release-evidence/references/output-contract.md",
+      "before": [
+        "100644",
+        "1ff7a18da0ca489a1d9319b7067e5be3cd1ee2f5"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "1ff7a18da0ca489a1d9319b7067e5be3cd1ee2f5"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/release-evidence/references/output-contract.md",
+        "mode": "100644",
+        "blob": "1ff7a18da0ca489a1d9319b7067e5be3cd1ee2f5",
+        "sha256": "d3b77801f30e82c65dbe2373bef99d75186c73bf892b981fdcd3737e826df5af"
+      }
+    },
+    {
+      "path": "adl/tools/skills/release-evidence/references/release-evidence-playbook.md",
+      "before": [
+        "100644",
+        "047ebc5ad9980d7b3fc2f266f1fe570e20a571b3"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "047ebc5ad9980d7b3fc2f266f1fe570e20a571b3"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/release-evidence/references/release-evidence-playbook.md",
+        "mode": "100644",
+        "blob": "047ebc5ad9980d7b3fc2f266f1fe570e20a571b3",
+        "sha256": "053cb9dbe344a05470929749be7f61705e74e0743816f383706c210f25a9695c"
+      }
+    },
+    {
+      "path": "adl/tools/skills/release-evidence/scripts/assemble_release_evidence.py",
+      "before": [
+        "100755",
+        "8f3b3abbb61905f51455bbb903cf9bfb43742512"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100755",
+            "8f3b3abbb61905f51455bbb903cf9bfb43742512"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/release-evidence/scripts/assemble_release_evidence.py",
+        "mode": "100755",
+        "blob": "8f3b3abbb61905f51455bbb903cf9bfb43742512",
+        "sha256": "39a14effd80bb64c676acf0a67b9c0ee4164c993ef75484460bef7292b33687a"
+      }
+    },
+    {
+      "path": "adl/tools/skills/review-comment-triage/SKILL.md",
+      "before": [
+        "100644",
+        "722cad1232cd1e3172eead039cebc448a5f77842"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "722cad1232cd1e3172eead039cebc448a5f77842"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/review-comment-triage/SKILL.md",
+        "mode": "100644",
+        "blob": "722cad1232cd1e3172eead039cebc448a5f77842",
+        "sha256": "67bb43f85477fbe13795bb3588baa48d78ecdc67a5494987a865d66852811f29"
+      }
+    },
+    {
+      "path": "adl/tools/skills/review-comment-triage/adl-skill.yaml",
+      "before": [
+        "100644",
+        "11df2cc6b290c0e576d5a277f95dff71a278262a"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "11df2cc6b290c0e576d5a277f95dff71a278262a"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/review-comment-triage/adl-skill.yaml",
+        "mode": "100644",
+        "blob": "11df2cc6b290c0e576d5a277f95dff71a278262a",
+        "sha256": "ecef80f8ff711a7f0b2f12439fc4f65637abb6400a5ab17c7580d6bdc34f2530"
+      }
+    },
+    {
+      "path": "adl/tools/skills/review-comment-triage/agents/openai.yaml",
+      "before": [
+        "100644",
+        "c1cca4c6a27143c5f7e2949d52a4b36db6d0ba79"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "c1cca4c6a27143c5f7e2949d52a4b36db6d0ba79"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/review-comment-triage/agents/openai.yaml",
+        "mode": "100644",
+        "blob": "c1cca4c6a27143c5f7e2949d52a4b36db6d0ba79",
+        "sha256": "e084d08f602605132eb24f5f40bcb333732bbf81785f41261fcfc77c4fb62966"
+      }
+    },
+    {
+      "path": "adl/tools/skills/review-comment-triage/fixtures/actionable_comments.json",
+      "before": [
+        "100644",
+        "8113ff931caceadd14abff370f187d9385e08a53"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "8113ff931caceadd14abff370f187d9385e08a53"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/review-comment-triage/fixtures/actionable_comments.json",
+        "mode": "100644",
+        "blob": "8113ff931caceadd14abff370f187d9385e08a53",
+        "sha256": "c06864aa08f9d03b9e12f6429da15caa1deadb86b5394fafb878d608ddb3fec3"
+      }
+    },
+    {
+      "path": "adl/tools/skills/review-comment-triage/fixtures/already_fixed_comments.json",
+      "before": [
+        "100644",
+        "16e6451fd7ea00675a1a356843f1d2f8bc5855e9"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "16e6451fd7ea00675a1a356843f1d2f8bc5855e9"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/review-comment-triage/fixtures/already_fixed_comments.json",
+        "mode": "100644",
+        "blob": "16e6451fd7ea00675a1a356843f1d2f8bc5855e9",
+        "sha256": "95da91dd040441dd64cc83cf1419b3526e286b4697a8715339d09cb79e13cc60"
+      }
+    },
+    {
+      "path": "adl/tools/skills/review-comment-triage/fixtures/follow_on_comments.json",
+      "before": [
+        "100644",
+        "27de8d19de5d1cb112248837ea2565bde21bc93d"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "27de8d19de5d1cb112248837ea2565bde21bc93d"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/review-comment-triage/fixtures/follow_on_comments.json",
+        "mode": "100644",
+        "blob": "27de8d19de5d1cb112248837ea2565bde21bc93d",
+        "sha256": "e08e7d455bc9481acd2d2fbff4d38bd6da25c4964b5dbbc5444e1e0b2864ba83"
+      }
+    },
+    {
+      "path": "adl/tools/skills/review-comment-triage/fixtures/mixed_comments.json",
+      "before": [
+        "100644",
+        "738675bba964ed0325e53891f95553b117ae0002"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "738675bba964ed0325e53891f95553b117ae0002"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/review-comment-triage/fixtures/mixed_comments.json",
+        "mode": "100644",
+        "blob": "738675bba964ed0325e53891f95553b117ae0002",
+        "sha256": "f3b93962e094a0add1583d697558e7b0f7e6a49efa44a313bba8f7d105534cd5"
+      }
+    },
+    {
+      "path": "adl/tools/skills/review-comment-triage/fixtures/stale_comments.json",
+      "before": [
+        "100644",
+        "38fc1d3f666ddda6696aaf11e375ca4fac683ebb"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "38fc1d3f666ddda6696aaf11e375ca4fac683ebb"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/review-comment-triage/fixtures/stale_comments.json",
+        "mode": "100644",
+        "blob": "38fc1d3f666ddda6696aaf11e375ca4fac683ebb",
+        "sha256": "5e14611a79b816c7ab22c896be41380e704e55e2e66e2a226020b02e73dd2b35"
+      }
+    },
+    {
+      "path": "adl/tools/skills/review-comment-triage/references/output-contract.md",
+      "before": [
+        "100644",
+        "b23da781d424b3a5cf79eb2cf6e4008fa9468e6b"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "b23da781d424b3a5cf79eb2cf6e4008fa9468e6b"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/review-comment-triage/references/output-contract.md",
+        "mode": "100644",
+        "blob": "b23da781d424b3a5cf79eb2cf6e4008fa9468e6b",
+        "sha256": "d9179406d7a96eca4b7484a8cd60bfc58d728a44747c2db44c1517fc09a529c9"
+      }
+    },
+    {
+      "path": "adl/tools/skills/review-comment-triage/references/review-comment-triage-playbook.md",
+      "before": [
+        "100644",
+        "dc3b062b133f6fa26a052a3df190e74537fedee2"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "dc3b062b133f6fa26a052a3df190e74537fedee2"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/review-comment-triage/references/review-comment-triage-playbook.md",
+        "mode": "100644",
+        "blob": "dc3b062b133f6fa26a052a3df190e74537fedee2",
+        "sha256": "44d950eb70068c5665a7c9d79e1b102865f685b8f89f35d28ab3794158cb5147"
+      }
+    },
+    {
+      "path": "adl/tools/skills/review-comment-triage/scripts/triage_review_comments.py",
+      "before": [
+        "100755",
+        "ac25d6ee7af24ab314a05948350ffb780073fa3e"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100755",
+            "ac25d6ee7af24ab314a05948350ffb780073fa3e"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/review-comment-triage/scripts/triage_review_comments.py",
+        "mode": "100755",
+        "blob": "ac25d6ee7af24ab314a05948350ffb780073fa3e",
+        "sha256": "577cedee80087e527894b499e453239fa699f84c06d048a2d353a07e526c0d14"
+      }
+    },
+    {
+      "path": "adl/tools/skills/test-generator/SKILL.md",
+      "before": [
+        "100644",
+        "3122536968b4dbc5db5417ffe67bc8a588e58510"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "3122536968b4dbc5db5417ffe67bc8a588e58510"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/test-generator/SKILL.md",
+        "mode": "100644",
+        "blob": "3122536968b4dbc5db5417ffe67bc8a588e58510",
+        "sha256": "0d10f9d2ed33ca254d84cdbc651a38f72ba16fb8bb62b768754a9abf343c20a5"
+      }
+    },
+    {
+      "path": "adl/tools/skills/test-generator/adl-skill.yaml",
+      "before": [
+        "100644",
+        "3bea949d9b57e3ce35ca82e268b6989a2951ca47"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "3bea949d9b57e3ce35ca82e268b6989a2951ca47"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/test-generator/adl-skill.yaml",
+        "mode": "100644",
+        "blob": "3bea949d9b57e3ce35ca82e268b6989a2951ca47",
+        "sha256": "8665839a74a86ef9f9192f40ffd7237ab869e83dba915b9ce4015764104e7146"
+      }
+    },
+    {
+      "path": "adl/tools/skills/test-generator/agents/openai.yaml",
+      "before": [
+        "100644",
+        "f3a3fcc01e0e0c90f6dcf05545b1c8c952ceede8"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "f3a3fcc01e0e0c90f6dcf05545b1c8c952ceede8"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/test-generator/agents/openai.yaml",
+        "mode": "100644",
+        "blob": "f3a3fcc01e0e0c90f6dcf05545b1c8c952ceede8",
+        "sha256": "4bc18210c1953740ab6ba57dc995cee8162304bf8b46f3b44aa33b9e88d1810c"
+      }
+    },
+    {
+      "path": "adl/tools/skills/test-generator/references/output-contract.md",
+      "before": [
+        "100644",
+        "ebba5056d3efe2203e8e2971ab178ced1dc2557e"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "ebba5056d3efe2203e8e2971ab178ced1dc2557e"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/test-generator/references/output-contract.md",
+        "mode": "100644",
+        "blob": "ebba5056d3efe2203e8e2971ab178ced1dc2557e",
+        "sha256": "1097986e9ea2574a7ce0bf7e76ede9763f2d63ce56ded8c0daa475986de89fe9"
+      }
+    },
+    {
+      "path": "adl/tools/skills/test-generator/references/test-playbook.md",
+      "before": [
+        "100644",
+        "18fdc59078caa94377c9bd8b3f2f9323ef0bfe44"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "18fdc59078caa94377c9bd8b3f2f9323ef0bfe44"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/test-generator/references/test-playbook.md",
+        "mode": "100644",
+        "blob": "18fdc59078caa94377c9bd8b3f2f9323ef0bfe44",
+        "sha256": "bb1cb8c88a2d6635c59d8a75e611a10dfcd71a216293804eec62e753a5cfa634"
+      }
+    },
+    {
+      "path": "adl/tools/skills/use-case-writer/SKILL.md",
+      "before": [
+        "100644",
+        "d532c6d994f473ffbb0c2e1db3ddf5f3bc9e8c80"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "d532c6d994f473ffbb0c2e1db3ddf5f3bc9e8c80"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/use-case-writer/SKILL.md",
+        "mode": "100644",
+        "blob": "d532c6d994f473ffbb0c2e1db3ddf5f3bc9e8c80",
+        "sha256": "bf352c8a537f950e853da97d9f37d2785e299baec25842a2d3a6ad6a4ecc4479"
+      }
+    },
+    {
+      "path": "adl/tools/skills/use-case-writer/adl-skill.yaml",
+      "before": [
+        "100644",
+        "a765b2bd4936ee2852dda8191260989be9900b2e"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "a765b2bd4936ee2852dda8191260989be9900b2e"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/use-case-writer/adl-skill.yaml",
+        "mode": "100644",
+        "blob": "a765b2bd4936ee2852dda8191260989be9900b2e",
+        "sha256": "97f823d9de362fd7bced99ab4f775c03ebd353e12325400814080d8164dd5005"
+      }
+    },
+    {
+      "path": "adl/tools/skills/use-case-writer/agents/openai.yaml",
+      "before": [
+        "100644",
+        "70fc37b72c1d675b444faa8a4fa508d51df3f850"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "70fc37b72c1d675b444faa8a4fa508d51df3f850"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/use-case-writer/agents/openai.yaml",
+        "mode": "100644",
+        "blob": "70fc37b72c1d675b444faa8a4fa508d51df3f850",
+        "sha256": "19ae7a1fa4492a94aa846adaf14147c434d1c5c5458ee03d234f25aa7d96b85c"
+      }
+    },
+    {
+      "path": "adl/tools/skills/use-case-writer/references/output-contract.md",
+      "before": [
+        "100644",
+        "e965de7fde8ac2a041d40cadcca6b3aea17ea9d5"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "e965de7fde8ac2a041d40cadcca6b3aea17ea9d5"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/use-case-writer/references/output-contract.md",
+        "mode": "100644",
+        "blob": "e965de7fde8ac2a041d40cadcca6b3aea17ea9d5",
+        "sha256": "97c6155515a17da712fd2908fd0b2ef88d670b9ed1454fa53e5edf913f7c7386"
+      }
+    },
+    {
+      "path": "adl/tools/skills/use-case-writer/references/use-case-writing-playbook.md",
+      "before": [
+        "100644",
+        "1877a504e584e7532f428cfbaa577155384c8ad0"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "1877a504e584e7532f428cfbaa577155384c8ad0"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/use-case-writer/references/use-case-writing-playbook.md",
+        "mode": "100644",
+        "blob": "1877a504e584e7532f428cfbaa577155384c8ad0",
+        "sha256": "f4916fd7464e9d62853e210f668e905387ebd7a05f97a865bc053887027f9b3f"
+      }
+    },
+    {
+      "path": "adl/tools/skills/use-case-writer/scripts/write_use_cases.py",
+      "before": [
+        "100755",
+        "8dee355ffcc2121cf581f1cec11bea80e5aa8303"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100755",
+            "8dee355ffcc2121cf581f1cec11bea80e5aa8303"
+          ],
+          "after": null,
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+        "archive_sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+        "member": "source/adl/tools/skills/use-case-writer/scripts/write_use_cases.py",
+        "mode": "100755",
+        "blob": "8dee355ffcc2121cf581f1cec11bea80e5aa8303",
+        "sha256": "074cd563f039c1a33eeac236b8b2a9eb7a6df35952cb2d3d8fbe3b389b084b02"
+      }
+    },
+    {
+      "path": "adl/tools/test_demo_operator_skill_contracts.sh",
+      "before": [
+        "100644",
+        "1eab78f625c5ac3e8d0ed6b6aceaec94b52039f6"
+      ],
+      "after": [
+        "100644",
+        "0029e6ec5ca17a6a9eeccec429ee57b98c5b0300"
+      ],
+      "action": "modify",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "1eab78f625c5ac3e8d0ed6b6aceaec94b52039f6"
+          ],
+          "after": [
+            "100644",
+            "0029e6ec5ca17a6a9eeccec429ee57b98c5b0300"
+          ],
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/test_gap_analysis_skill_contracts.sh",
+      "before": [
+        "100755",
+        "51a1104c2113fbe33a6e9340308e4cd367efc73d"
+      ],
+      "after": [
+        "100755",
+        "cc500c7f19435cdc9dbbebeb814fe6bbd39134af"
+      ],
+      "action": "modify",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100755",
+            "51a1104c2113fbe33a6e9340308e4cd367efc73d"
+          ],
+          "after": [
+            "100755",
+            "cc500c7f19435cdc9dbbebeb814fe6bbd39134af"
+          ],
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/test_issue_folding_skill_contracts.sh",
+      "before": [
+        "100755",
+        "8aa3c0547f19cde821365241d8cc017e147fac63"
+      ],
+      "after": [
+        "100755",
+        "800ef8f999f105beafc3c405bbba59de578569ce"
+      ],
+      "action": "modify",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100755",
+            "8aa3c0547f19cde821365241d8cc017e147fac63"
+          ],
+          "after": [
+            "100755",
+            "800ef8f999f105beafc3c405bbba59de578569ce"
+          ],
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/test_issue_splitter_skill_contracts.sh",
+      "before": [
+        "100755",
+        "96a36a6a93115016faacc461bbccdc68e219a067"
+      ],
+      "after": [
+        "100755",
+        "5d5208fb766672dba482eef4f0198152f0048e31"
+      ],
+      "action": "modify",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100755",
+            "96a36a6a93115016faacc461bbccdc68e219a067"
+          ],
+          "after": [
+            "100755",
+            "5d5208fb766672dba482eef4f0198152f0048e31"
+          ],
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/test_issue_watcher_skill_contracts.sh",
+      "before": [
+        "100755",
+        "9f992625d47e8637a2b050c2dc6eb32baedd876b"
+      ],
+      "after": [
+        "100755",
+        "8f8b143bcf40d4a80a29ad70578745aa312af8b8"
+      ],
+      "action": "modify",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100755",
+            "9f992625d47e8637a2b050c2dc6eb32baedd876b"
+          ],
+          "after": [
+            "100755",
+            "8f8b143bcf40d4a80a29ad70578745aa312af8b8"
+          ],
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/test_portable_contract_normalizer_skill_contracts.sh",
+      "before": [
+        "100755",
+        "cd30d25d6f8db509e4078963648b38f09571fce2"
+      ],
+      "after": [
+        "100755",
+        "aca39fb239009324c8b4556cfe640a1e6b2deca0"
+      ],
+      "action": "modify",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100755",
+            "cd30d25d6f8db509e4078963648b38f09571fce2"
+          ],
+          "after": [
+            "100755",
+            "aca39fb239009324c8b4556cfe640a1e6b2deca0"
+          ],
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/test_refactoring_helper_skill_contracts.sh",
+      "before": [
+        "100755",
+        "c9f5807c922bf40c3492df3e07097e9a348a1e89"
+      ],
+      "after": [
+        "100755",
+        "e9a54d8b9d91145236955b852284b105687f4032"
+      ],
+      "action": "modify",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100755",
+            "c9f5807c922bf40c3492df3e07097e9a348a1e89"
+          ],
+          "after": [
+            "100755",
+            "e9a54d8b9d91145236955b852284b105687f4032"
+          ],
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/test_release_evidence_skill_contracts.sh",
+      "before": [
+        "100755",
+        "dbf5498cd27ca74b6c8e0f5cde8d7d846bb401b5"
+      ],
+      "after": [
+        "100755",
+        "25f15131525916f0738d215e544e08ea97d1422c"
+      ],
+      "action": "modify",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100755",
+            "dbf5498cd27ca74b6c8e0f5cde8d7d846bb401b5"
+          ],
+          "after": [
+            "100755",
+            "25f15131525916f0738d215e544e08ea97d1422c"
+          ],
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/test_review_comment_triage_skill_contracts.sh",
+      "before": [
+        "100644",
+        "7ae4327deabc1021bc7ef6db694064ea27d0890d"
+      ],
+      "after": [
+        "100644",
+        "36fb957e466be5a9d7b2629efdfc1bb8da365c1f"
+      ],
+      "action": "modify",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "7ae4327deabc1021bc7ef6db694064ea27d0890d"
+          ],
+          "after": [
+            "100644",
+            "36fb957e466be5a9d7b2629efdfc1bb8da365c1f"
+          ],
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/test_test_generator_skill_contracts.sh",
+      "before": [
+        "100644",
+        "7d25c69f5e0224850d082ff85c2006b5f42e227a"
+      ],
+      "after": [
+        "100644",
+        "df6699f5e3242fc103d646a1beae80318e784d71"
+      ],
+      "action": "modify",
+      "implementation_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "approval_reference": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+          "before": [
+            "100644",
+            "7d25c69f5e0224850d082ff85c2006b5f42e227a"
+          ],
+          "after": [
+            "100644",
+            "df6699f5e3242fc103d646a1beae80318e784d71"
+          ],
+          "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "tools/aws_remote_validation/BOOTSTRAP_IDENTITIES.md",
+      "before": [
+        "100644",
+        "a9e68ecf17b533bff84039a6ccbc1c3830c13283"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "1f438d059a37442c85059992c503740aa1bf088e",
+      "approval_reference": "AWS_REMOTE_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "1f438d059a37442c85059992c503740aa1bf088e",
+          "before": [
+            "100644",
+            "a9e68ecf17b533bff84039a6ccbc1c3830c13283"
+          ],
+          "after": null,
+          "packet": "AWS_REMOTE_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "AWS_REMOTE_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/aws-remote-family-prepared-patch/preimages.tar",
+        "archive_sha256": "1127b5d479732004da7abbbdd41ecc3be8c34fbd74b392e7ea804e8d59505b8c",
+        "member": "source/tools/aws_remote_validation/BOOTSTRAP_IDENTITIES.md",
+        "mode": "100644",
+        "blob": "a9e68ecf17b533bff84039a6ccbc1c3830c13283",
+        "sha256": "de8b363ea0390badd2d5bc156ff74274b335ae6ce269acfb137404129f56a549"
+      }
+    },
+    {
+      "path": "tools/aws_remote_validation/Cargo.lock",
+      "before": [
+        "100644",
+        "cac161cec38344d57d72fd6ac817be352f74de3a"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "1f438d059a37442c85059992c503740aa1bf088e",
+      "approval_reference": "AWS_REMOTE_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "1f438d059a37442c85059992c503740aa1bf088e",
+          "before": [
+            "100644",
+            "cac161cec38344d57d72fd6ac817be352f74de3a"
+          ],
+          "after": null,
+          "packet": "AWS_REMOTE_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "AWS_REMOTE_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/aws-remote-family-prepared-patch/preimages.tar",
+        "archive_sha256": "1127b5d479732004da7abbbdd41ecc3be8c34fbd74b392e7ea804e8d59505b8c",
+        "member": "source/tools/aws_remote_validation/Cargo.lock",
+        "mode": "100644",
+        "blob": "cac161cec38344d57d72fd6ac817be352f74de3a",
+        "sha256": "1d077118cd96fc78c06530b822e0f7ad750602a3c79369f946cd4fb77d809a9a"
+      }
+    },
+    {
+      "path": "tools/aws_remote_validation/Cargo.toml",
+      "before": [
+        "100644",
+        "9a8916ae12fabfacc124e2cc3c7c2b885c73be37"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "1f438d059a37442c85059992c503740aa1bf088e",
+      "approval_reference": "AWS_REMOTE_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "1f438d059a37442c85059992c503740aa1bf088e",
+          "before": [
+            "100644",
+            "9a8916ae12fabfacc124e2cc3c7c2b885c73be37"
+          ],
+          "after": null,
+          "packet": "AWS_REMOTE_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "AWS_REMOTE_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/aws-remote-family-prepared-patch/preimages.tar",
+        "archive_sha256": "1127b5d479732004da7abbbdd41ecc3be8c34fbd74b392e7ea804e8d59505b8c",
+        "member": "source/tools/aws_remote_validation/Cargo.toml",
+        "mode": "100644",
+        "blob": "9a8916ae12fabfacc124e2cc3c7c2b885c73be37",
+        "sha256": "a99c28520b9ff4bf7e177ffd5b1470b4d51038841380c39214acffe1da7cf8a2"
+      }
+    },
+    {
+      "path": "tools/aws_remote_validation/scripts/remote_validation_runner.sh",
+      "before": [
+        "100644",
+        "fa4b2c0435c5e96807eb8a82294ac9b5015da2e4"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "1f438d059a37442c85059992c503740aa1bf088e",
+      "approval_reference": "AWS_REMOTE_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "1f438d059a37442c85059992c503740aa1bf088e",
+          "before": [
+            "100644",
+            "fa4b2c0435c5e96807eb8a82294ac9b5015da2e4"
+          ],
+          "after": null,
+          "packet": "AWS_REMOTE_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "AWS_REMOTE_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/aws-remote-family-prepared-patch/preimages.tar",
+        "archive_sha256": "1127b5d479732004da7abbbdd41ecc3be8c34fbd74b392e7ea804e8d59505b8c",
+        "member": "source/tools/aws_remote_validation/scripts/remote_validation_runner.sh",
+        "mode": "100644",
+        "blob": "fa4b2c0435c5e96807eb8a82294ac9b5015da2e4",
+        "sha256": "656b940ed773962ab700bed9350fecd04381ecd154fd7f3e1718c8d1a2e365f6"
+      }
+    },
+    {
+      "path": "tools/aws_remote_validation/scripts/ssh_debug_control.sh",
+      "before": [
+        "100755",
+        "d4a7a8fa6cac7a8f6965c7341d239f14f976a754"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "1f438d059a37442c85059992c503740aa1bf088e",
+      "approval_reference": "AWS_REMOTE_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "1f438d059a37442c85059992c503740aa1bf088e",
+          "before": [
+            "100755",
+            "d4a7a8fa6cac7a8f6965c7341d239f14f976a754"
+          ],
+          "after": null,
+          "packet": "AWS_REMOTE_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "AWS_REMOTE_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/aws-remote-family-prepared-patch/preimages.tar",
+        "archive_sha256": "1127b5d479732004da7abbbdd41ecc3be8c34fbd74b392e7ea804e8d59505b8c",
+        "member": "source/tools/aws_remote_validation/scripts/ssh_debug_control.sh",
+        "mode": "100755",
+        "blob": "d4a7a8fa6cac7a8f6965c7341d239f14f976a754",
+        "sha256": "a57a236d9186c769e67ae337e45c21a1b7930d456622a2aee49534086811f71f"
+      }
+    },
+    {
+      "path": "tools/aws_remote_validation/scripts/test_verified_bootstrap.py",
+      "before": [
+        "100644",
+        "5ba28b60a4a84fd860723eb76cdf62621ab7398a"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "1f438d059a37442c85059992c503740aa1bf088e",
+      "approval_reference": "AWS_REMOTE_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "1f438d059a37442c85059992c503740aa1bf088e",
+          "before": [
+            "100644",
+            "5ba28b60a4a84fd860723eb76cdf62621ab7398a"
+          ],
+          "after": null,
+          "packet": "AWS_REMOTE_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "AWS_REMOTE_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/aws-remote-family-prepared-patch/preimages.tar",
+        "archive_sha256": "1127b5d479732004da7abbbdd41ecc3be8c34fbd74b392e7ea804e8d59505b8c",
+        "member": "source/tools/aws_remote_validation/scripts/test_verified_bootstrap.py",
+        "mode": "100644",
+        "blob": "5ba28b60a4a84fd860723eb76cdf62621ab7398a",
+        "sha256": "a4ad414236e0d342768e2ae40dee591efa209173a9aa9efcb51bd8a8e6ddf2d2"
+      }
+    },
+    {
+      "path": "tools/aws_remote_validation/scripts/verified_bootstrap.pvf.json",
+      "before": [
+        "100644",
+        "211b13ca86afe6637027af782f3630e9433cb6e7"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "1f438d059a37442c85059992c503740aa1bf088e",
+      "approval_reference": "AWS_REMOTE_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "1f438d059a37442c85059992c503740aa1bf088e",
+          "before": [
+            "100644",
+            "211b13ca86afe6637027af782f3630e9433cb6e7"
+          ],
+          "after": null,
+          "packet": "AWS_REMOTE_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "AWS_REMOTE_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/aws-remote-family-prepared-patch/preimages.tar",
+        "archive_sha256": "1127b5d479732004da7abbbdd41ecc3be8c34fbd74b392e7ea804e8d59505b8c",
+        "member": "source/tools/aws_remote_validation/scripts/verified_bootstrap.pvf.json",
+        "mode": "100644",
+        "blob": "211b13ca86afe6637027af782f3630e9433cb6e7",
+        "sha256": "34d7212628a35fe3c27d66f89f467feb9596230bd9713c2d6dca4b3f3e202bed"
+      }
+    },
+    {
+      "path": "tools/aws_remote_validation/scripts/verified_bootstrap.py",
+      "before": [
+        "100644",
+        "0721b5532e52a2c18482a21e49886120a2b1ba4e"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "1f438d059a37442c85059992c503740aa1bf088e",
+      "approval_reference": "AWS_REMOTE_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "1f438d059a37442c85059992c503740aa1bf088e",
+          "before": [
+            "100644",
+            "0721b5532e52a2c18482a21e49886120a2b1ba4e"
+          ],
+          "after": null,
+          "packet": "AWS_REMOTE_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "AWS_REMOTE_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/aws-remote-family-prepared-patch/preimages.tar",
+        "archive_sha256": "1127b5d479732004da7abbbdd41ecc3be8c34fbd74b392e7ea804e8d59505b8c",
+        "member": "source/tools/aws_remote_validation/scripts/verified_bootstrap.py",
+        "mode": "100644",
+        "blob": "0721b5532e52a2c18482a21e49886120a2b1ba4e",
+        "sha256": "798c2186498f0ad092597029dd041f1b8f212e46560b418b51485e7dd6cf4643"
+      }
+    },
+    {
+      "path": "tools/aws_remote_validation/src/aws_remote_validation.rs",
+      "before": [
+        "100644",
+        "056990e76a0a7aa2fa964bbb7f04a9f15ff4308d"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "1f438d059a37442c85059992c503740aa1bf088e",
+      "approval_reference": "AWS_REMOTE_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "1f438d059a37442c85059992c503740aa1bf088e",
+          "before": [
+            "100644",
+            "056990e76a0a7aa2fa964bbb7f04a9f15ff4308d"
+          ],
+          "after": null,
+          "packet": "AWS_REMOTE_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "AWS_REMOTE_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/aws-remote-family-prepared-patch/preimages.tar",
+        "archive_sha256": "1127b5d479732004da7abbbdd41ecc3be8c34fbd74b392e7ea804e8d59505b8c",
+        "member": "source/tools/aws_remote_validation/src/aws_remote_validation.rs",
+        "mode": "100644",
+        "blob": "056990e76a0a7aa2fa964bbb7f04a9f15ff4308d",
+        "sha256": "a989931507b3f14feaf11be641630ae6737c6011add64d13596412bcf85e198f"
+      }
+    },
+    {
+      "path": "tools/aws_remote_validation/src/bin/adl_aws_remote_validation.rs",
+      "before": [
+        "100644",
+        "328573f7abf371440aeef719c09971fb93b77353"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "1f438d059a37442c85059992c503740aa1bf088e",
+      "approval_reference": "AWS_REMOTE_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "1f438d059a37442c85059992c503740aa1bf088e",
+          "before": [
+            "100644",
+            "328573f7abf371440aeef719c09971fb93b77353"
+          ],
+          "after": null,
+          "packet": "AWS_REMOTE_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "AWS_REMOTE_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/aws-remote-family-prepared-patch/preimages.tar",
+        "archive_sha256": "1127b5d479732004da7abbbdd41ecc3be8c34fbd74b392e7ea804e8d59505b8c",
+        "member": "source/tools/aws_remote_validation/src/bin/adl_aws_remote_validation.rs",
+        "mode": "100644",
+        "blob": "328573f7abf371440aeef719c09971fb93b77353",
+        "sha256": "b77442dda65d529e15910be9df24572e3d51dd7252be35d0c27da05f09f1e49a"
+      }
+    },
+    {
+      "path": "tools/aws_remote_validation/src/cli/observability.rs",
+      "before": [
+        "100644",
+        "013e4c6af9fef8b8163c065ee2df981391a7bee8"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "1f438d059a37442c85059992c503740aa1bf088e",
+      "approval_reference": "AWS_REMOTE_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "1f438d059a37442c85059992c503740aa1bf088e",
+          "before": [
+            "100644",
+            "013e4c6af9fef8b8163c065ee2df981391a7bee8"
+          ],
+          "after": null,
+          "packet": "AWS_REMOTE_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "AWS_REMOTE_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/aws-remote-family-prepared-patch/preimages.tar",
+        "archive_sha256": "1127b5d479732004da7abbbdd41ecc3be8c34fbd74b392e7ea804e8d59505b8c",
+        "member": "source/tools/aws_remote_validation/src/cli/observability.rs",
+        "mode": "100644",
+        "blob": "013e4c6af9fef8b8163c065ee2df981391a7bee8",
+        "sha256": "ddb157715799c8b1e187ad45f106d103dffddf822116f712023e0f68bab6ddba"
+      }
+    },
+    {
+      "path": "tools/aws_remote_validation/tests/portable_adapter.rs",
+      "before": [
+        "100644",
+        "4344d337657eb54173872a361d4a43bd9582778e"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "1f438d059a37442c85059992c503740aa1bf088e",
+      "approval_reference": "AWS_REMOTE_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "1f438d059a37442c85059992c503740aa1bf088e",
+          "before": [
+            "100644",
+            "4344d337657eb54173872a361d4a43bd9582778e"
+          ],
+          "after": null,
+          "packet": "AWS_REMOTE_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "AWS_REMOTE_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/aws-remote-family-prepared-patch/preimages.tar",
+        "archive_sha256": "1127b5d479732004da7abbbdd41ecc3be8c34fbd74b392e7ea804e8d59505b8c",
+        "member": "source/tools/aws_remote_validation/tests/portable_adapter.rs",
+        "mode": "100644",
+        "blob": "4344d337657eb54173872a361d4a43bd9582778e",
+        "sha256": "89a95f94ed0eff04bf12a796b758a942390f0070ca53da05b696e0fb73902d94"
+      }
+    },
+    {
+      "path": "adl/src/bin/adl_aws_remote_validation.rs",
+      "before": [
+        "100644",
+        "ed4f68d77d855c4f4495268bf04aaa0af09df0ee"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "1f438d059a37442c85059992c503740aa1bf088e",
+      "approval_reference": "AWS_REMOTE_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "1f438d059a37442c85059992c503740aa1bf088e",
+          "before": [
+            "100644",
+            "ed4f68d77d855c4f4495268bf04aaa0af09df0ee"
+          ],
+          "after": null,
+          "packet": "AWS_REMOTE_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "AWS_REMOTE_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/aws-remote-family-prepared-patch/preimages.tar",
+        "archive_sha256": "1127b5d479732004da7abbbdd41ecc3be8c34fbd74b392e7ea804e8d59505b8c",
+        "member": "source/adl/src/bin/adl_aws_remote_validation.rs",
+        "mode": "100644",
+        "blob": "ed4f68d77d855c4f4495268bf04aaa0af09df0ee",
+        "sha256": "1de35b9876f2da6d3e0917c7894072cc224323c813b0219d0b3c4e41363462ae"
+      }
+    },
+    {
+      "path": ".github/workflows/aws-spot-remote-validation.yaml",
+      "before": [
+        "100644",
+        "b9b9ac73592f3d8a784e5b23a7b2e2d03a045ccf"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "1f438d059a37442c85059992c503740aa1bf088e",
+      "approval_reference": "AWS_REMOTE_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "1f438d059a37442c85059992c503740aa1bf088e",
+          "before": [
+            "100644",
+            "b9b9ac73592f3d8a784e5b23a7b2e2d03a045ccf"
+          ],
+          "after": null,
+          "packet": "AWS_REMOTE_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "AWS_REMOTE_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/aws-remote-family-prepared-patch/preimages.tar",
+        "archive_sha256": "1127b5d479732004da7abbbdd41ecc3be8c34fbd74b392e7ea804e8d59505b8c",
+        "member": "source/.github/workflows/aws-spot-remote-validation.yaml",
+        "mode": "100644",
+        "blob": "b9b9ac73592f3d8a784e5b23a7b2e2d03a045ccf",
+        "sha256": "da8ff049f5ef86d578d2a4f5ceacd9788344b1943909fe0d4d1e4f8fc656e878"
+      }
+    },
+    {
+      "path": "adl/tools/install_aws_remote_validation_tool.sh",
+      "before": [
+        "100755",
+        "d25daf5b0c9ac4640b517681d96f60fda7ba7245"
+      ],
+      "after": [
+        "100755",
+        "7a27c084f58560d4d53818f057ac5d6a591f51e1"
+      ],
+      "action": "modify",
+      "implementation_commit": "1f438d059a37442c85059992c503740aa1bf088e",
+      "approval_reference": "AWS_REMOTE_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "1f438d059a37442c85059992c503740aa1bf088e",
+          "before": [
+            "100755",
+            "d25daf5b0c9ac4640b517681d96f60fda7ba7245"
+          ],
+          "after": [
+            "100755",
+            "7a27c084f58560d4d53818f057ac5d6a591f51e1"
+          ],
+          "packet": "AWS_REMOTE_FAMILY_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/run_aws_spot_remote_validation_lane.sh",
+      "before": [
+        "100755",
+        "f2ac6b16f57a64ad18abcfb0854fee8442cd6c10"
+      ],
+      "after": [
+        "100755",
+        "a161ea422dfd2514d4f4f9a55e30abaf178cba0a"
+      ],
+      "action": "modify",
+      "implementation_commit": "1f438d059a37442c85059992c503740aa1bf088e",
+      "approval_reference": "AWS_REMOTE_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "1f438d059a37442c85059992c503740aa1bf088e",
+          "before": [
+            "100755",
+            "f2ac6b16f57a64ad18abcfb0854fee8442cd6c10"
+          ],
+          "after": [
+            "100755",
+            "a161ea422dfd2514d4f4f9a55e30abaf178cba0a"
+          ],
+          "packet": "AWS_REMOTE_FAMILY_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/test_run_aws_spot_ci_profile.sh",
+      "before": [
+        "100755",
+        "a52a866fe27c9fcdc26a657e866ae7ab48394f81"
+      ],
+      "after": [
+        "100755",
+        "91623b22fef5b710eda47416dab7fe9a8c840fbe"
+      ],
+      "action": "modify",
+      "implementation_commit": "1f438d059a37442c85059992c503740aa1bf088e",
+      "approval_reference": "AWS_REMOTE_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "1f438d059a37442c85059992c503740aa1bf088e",
+          "before": [
+            "100755",
+            "a52a866fe27c9fcdc26a657e866ae7ab48394f81"
+          ],
+          "after": [
+            "100755",
+            "91623b22fef5b710eda47416dab7fe9a8c840fbe"
+          ],
+          "packet": "AWS_REMOTE_FAMILY_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/test_run_aws_spot_builder_image_validation.sh",
+      "before": [
+        "100755",
+        "16b94e284732826bb30689eea4e54f037bf7f3fd"
+      ],
+      "after": [
+        "100755",
+        "107af3b83f4c23154d68fcdcc0f1cf09286d217a"
+      ],
+      "action": "modify",
+      "implementation_commit": "1f438d059a37442c85059992c503740aa1bf088e",
+      "approval_reference": "AWS_REMOTE_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "1f438d059a37442c85059992c503740aa1bf088e",
+          "before": [
+            "100755",
+            "16b94e284732826bb30689eea4e54f037bf7f3fd"
+          ],
+          "after": [
+            "100755",
+            "107af3b83f4c23154d68fcdcc0f1cf09286d217a"
+          ],
+          "packet": "AWS_REMOTE_FAMILY_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "tools/groupd_validation/README.md",
+      "before": [
+        "100644",
+        "57fbbda17be899f2f20076e1ae57df57035112f5"
+      ],
+      "after": [
+        "100644",
+        "f3bff9babdca1242eb66b2ab98495e650dcc3bdb"
+      ],
+      "action": "modify",
+      "implementation_commit": "1f438d059a37442c85059992c503740aa1bf088e",
+      "approval_reference": "AWS_REMOTE_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "1f438d059a37442c85059992c503740aa1bf088e",
+          "before": [
+            "100644",
+            "57fbbda17be899f2f20076e1ae57df57035112f5"
+          ],
+          "after": [
+            "100644",
+            "f3bff9babdca1242eb66b2ab98495e650dcc3bdb"
+          ],
+          "packet": "AWS_REMOTE_FAMILY_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/tooling/AWS_SPOT_REMOTE_VALIDATION_LANE.md",
+      "before": [
+        "100644",
+        "16d8b18a30b226073e54e13a4c997a8bef4ad68d"
+      ],
+      "after": [
+        "100644",
+        "d9361c6dd54bc3e5a13827d817f80733f154efb0"
+      ],
+      "action": "modify",
+      "implementation_commit": "1f438d059a37442c85059992c503740aa1bf088e",
+      "approval_reference": "AWS_REMOTE_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "1f438d059a37442c85059992c503740aa1bf088e",
+          "before": [
+            "100644",
+            "16d8b18a30b226073e54e13a4c997a8bef4ad68d"
+          ],
+          "after": [
+            "100644",
+            "d9361c6dd54bc3e5a13827d817f80733f154efb0"
+          ],
+          "packet": "AWS_REMOTE_FAMILY_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "tools/groupd_validation/run_dependency_inventory.py",
+      "before": null,
+      "after": [
+        "100644",
+        "9efdebbd91b4991832f8a45991c436bfb4e223e2"
+      ],
+      "action": "add",
+      "implementation_commit": "1f438d059a37442c85059992c503740aa1bf088e",
+      "approval_reference": "AWS_REMOTE_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "1f438d059a37442c85059992c503740aa1bf088e",
+          "before": null,
+          "after": [
+            "100644",
+            "9efdebbd91b4991832f8a45991c436bfb4e223e2"
+          ],
+          "packet": "AWS_REMOTE_FAMILY_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/check_compression_finish_profiles.sh",
+      "before": [
+        "100755",
+        "9dddffe0d1e077362f4123deddc8e821502294dd"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "09b73f53b0f85db42b219c7ed7f300f1f11e443e",
+      "approval_reference": "PLANNING_CONTRACT_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "09b73f53b0f85db42b219c7ed7f300f1f11e443e",
+          "before": [
+            "100755",
+            "9dddffe0d1e077362f4123deddc8e821502294dd"
+          ],
+          "after": null,
+          "packet": "PLANNING_CONTRACT_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PLANNING_CONTRACT_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/planning-contract-family-preparation/current-preimages.tar",
+        "archive_sha256": "f915a0d901cdcb104c601fd67d1129b80956aa1d6ac118a10a5dd7e4510865c8",
+        "member": "source/adl/tools/check_compression_finish_profiles.sh",
+        "mode": "100755",
+        "blob": "9dddffe0d1e077362f4123deddc8e821502294dd",
+        "sha256": "53dc4f6bb915d0f32677a981a35bed9766a9cce56327d005f18de48d1a62bcd4"
+      }
+    },
+    {
+      "path": "adl/tools/check_issue_goal_terminal_state.py",
+      "before": [
+        "100644",
+        "8e18b8506b789fca99c075363eece7642f5111cc"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "09b73f53b0f85db42b219c7ed7f300f1f11e443e",
+      "approval_reference": "PLANNING_CONTRACT_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "09b73f53b0f85db42b219c7ed7f300f1f11e443e",
+          "before": [
+            "100644",
+            "8e18b8506b789fca99c075363eece7642f5111cc"
+          ],
+          "after": null,
+          "packet": "PLANNING_CONTRACT_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PLANNING_CONTRACT_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/planning-contract-family-preparation/current-preimages.tar",
+        "archive_sha256": "f915a0d901cdcb104c601fd67d1129b80956aa1d6ac118a10a5dd7e4510865c8",
+        "member": "source/adl/tools/check_issue_goal_terminal_state.py",
+        "mode": "100644",
+        "blob": "8e18b8506b789fca99c075363eece7642f5111cc",
+        "sha256": "d297234516f61478209902e85733b5835b6ca578c11e877cfdafdef15f874296"
+      }
+    },
+    {
+      "path": "adl/tools/check_v090_milestone_state.py",
+      "before": [
+        "100644",
+        "d964655c112c088df526792084e3d8519e4cf1bf"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "09b73f53b0f85db42b219c7ed7f300f1f11e443e",
+      "approval_reference": "PLANNING_CONTRACT_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "09b73f53b0f85db42b219c7ed7f300f1f11e443e",
+          "before": [
+            "100644",
+            "d964655c112c088df526792084e3d8519e4cf1bf"
+          ],
+          "after": null,
+          "packet": "PLANNING_CONTRACT_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PLANNING_CONTRACT_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/planning-contract-family-preparation/current-preimages.tar",
+        "archive_sha256": "f915a0d901cdcb104c601fd67d1129b80956aa1d6ac118a10a5dd7e4510865c8",
+        "member": "source/adl/tools/check_v090_milestone_state.py",
+        "mode": "100644",
+        "blob": "d964655c112c088df526792084e3d8519e4cf1bf",
+        "sha256": "49a5acc3721120520436b8f74b0b998c9f1cf02436a1ae9642a016aca6d941b8"
+      }
+    },
+    {
+      "path": "adl/tools/plan_multi_agent_workcell.py",
+      "before": [
+        "100755",
+        "9334a89afdf6cce179c005495b2216a79869cde5"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "09b73f53b0f85db42b219c7ed7f300f1f11e443e",
+      "approval_reference": "PLANNING_CONTRACT_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "09b73f53b0f85db42b219c7ed7f300f1f11e443e",
+          "before": [
+            "100755",
+            "9334a89afdf6cce179c005495b2216a79869cde5"
+          ],
+          "after": null,
+          "packet": "PLANNING_CONTRACT_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PLANNING_CONTRACT_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/planning-contract-family-preparation/current-preimages.tar",
+        "archive_sha256": "f915a0d901cdcb104c601fd67d1129b80956aa1d6ac118a10a5dd7e4510865c8",
+        "member": "source/adl/tools/plan_multi_agent_workcell.py",
+        "mode": "100755",
+        "blob": "9334a89afdf6cce179c005495b2216a79869cde5",
+        "sha256": "1892bffdf7f96a3d17ab38a7bb1c2116bb03776a472f1aa445afd5bbbf66601e"
+      }
+    },
+    {
+      "path": "adl/tools/test_check_v090_milestone_state.sh",
+      "before": [
+        "100644",
+        "40eee434c9788574c9c484c04b99b979c8c2c43c"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "09b73f53b0f85db42b219c7ed7f300f1f11e443e",
+      "approval_reference": "PLANNING_CONTRACT_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "09b73f53b0f85db42b219c7ed7f300f1f11e443e",
+          "before": [
+            "100644",
+            "40eee434c9788574c9c484c04b99b979c8c2c43c"
+          ],
+          "after": null,
+          "packet": "PLANNING_CONTRACT_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PLANNING_CONTRACT_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/planning-contract-family-preparation/current-preimages.tar",
+        "archive_sha256": "f915a0d901cdcb104c601fd67d1129b80956aa1d6ac118a10a5dd7e4510865c8",
+        "member": "source/adl/tools/test_check_v090_milestone_state.sh",
+        "mode": "100644",
+        "blob": "40eee434c9788574c9c484c04b99b979c8c2c43c",
+        "sha256": "373677bf626910340e9ae8dd3e53540593d714fa1102eae74018ea5184d66a23"
+      }
+    },
+    {
+      "path": "adl/tools/test_issue_goal_terminal_state_truth.sh",
+      "before": [
+        "100644",
+        "533cdcedb2279e437e2a38dbf6ad557652d3aedd"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "09b73f53b0f85db42b219c7ed7f300f1f11e443e",
+      "approval_reference": "PLANNING_CONTRACT_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "09b73f53b0f85db42b219c7ed7f300f1f11e443e",
+          "before": [
+            "100644",
+            "533cdcedb2279e437e2a38dbf6ad557652d3aedd"
+          ],
+          "after": null,
+          "packet": "PLANNING_CONTRACT_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PLANNING_CONTRACT_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/planning-contract-family-preparation/current-preimages.tar",
+        "archive_sha256": "f915a0d901cdcb104c601fd67d1129b80956aa1d6ac118a10a5dd7e4510865c8",
+        "member": "source/adl/tools/test_issue_goal_terminal_state_truth.sh",
+        "mode": "100644",
+        "blob": "533cdcedb2279e437e2a38dbf6ad557652d3aedd",
+        "sha256": "27aea68222bfb2e068e71872c98ab33006ca0285e11cf9bb11318ac1a00480ce"
+      }
+    },
+    {
+      "path": "adl/tools/test_plan_multi_agent_workcell.sh",
+      "before": [
+        "100755",
+        "b5f632417ed961ff7eb46ed7967a24e2cc9a284f"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "09b73f53b0f85db42b219c7ed7f300f1f11e443e",
+      "approval_reference": "PLANNING_CONTRACT_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "09b73f53b0f85db42b219c7ed7f300f1f11e443e",
+          "before": [
+            "100755",
+            "b5f632417ed961ff7eb46ed7967a24e2cc9a284f"
+          ],
+          "after": null,
+          "packet": "PLANNING_CONTRACT_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PLANNING_CONTRACT_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/planning-contract-family-preparation/current-preimages.tar",
+        "archive_sha256": "f915a0d901cdcb104c601fd67d1129b80956aa1d6ac118a10a5dd7e4510865c8",
+        "member": "source/adl/tools/test_plan_multi_agent_workcell.sh",
+        "mode": "100755",
+        "blob": "b5f632417ed961ff7eb46ed7967a24e2cc9a284f",
+        "sha256": "895186410cfdea8c0f1829f33211b35a5286b60b63cece5269050bcf4ed10bfd"
+      }
+    },
+    {
+      "path": "adl/tools/test_validate_multi_agent_workcell_state.sh",
+      "before": [
+        "100755",
+        "1e11de034deea9d42987bd9f97c33c75e87c46d8"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "09b73f53b0f85db42b219c7ed7f300f1f11e443e",
+      "approval_reference": "PLANNING_CONTRACT_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "09b73f53b0f85db42b219c7ed7f300f1f11e443e",
+          "before": [
+            "100755",
+            "1e11de034deea9d42987bd9f97c33c75e87c46d8"
+          ],
+          "after": null,
+          "packet": "PLANNING_CONTRACT_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PLANNING_CONTRACT_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/planning-contract-family-preparation/current-preimages.tar",
+        "archive_sha256": "f915a0d901cdcb104c601fd67d1129b80956aa1d6ac118a10a5dd7e4510865c8",
+        "member": "source/adl/tools/test_validate_multi_agent_workcell_state.sh",
+        "mode": "100755",
+        "blob": "1e11de034deea9d42987bd9f97c33c75e87c46d8",
+        "sha256": "32fba6e140c583160bbd894c3a6ca5d801dfd198ee3f550eef162f6bb268fab3"
+      }
+    },
+    {
+      "path": "adl/tools/validate_multi_agent_workcell_state.py",
+      "before": [
+        "100755",
+        "1182a10bfce8ad8dae7a4b8048af896e5deeec4b"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "09b73f53b0f85db42b219c7ed7f300f1f11e443e",
+      "approval_reference": "PLANNING_CONTRACT_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "09b73f53b0f85db42b219c7ed7f300f1f11e443e",
+          "before": [
+            "100755",
+            "1182a10bfce8ad8dae7a4b8048af896e5deeec4b"
+          ],
+          "after": null,
+          "packet": "PLANNING_CONTRACT_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PLANNING_CONTRACT_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/planning-contract-family-preparation/current-preimages.tar",
+        "archive_sha256": "f915a0d901cdcb104c601fd67d1129b80956aa1d6ac118a10a5dd7e4510865c8",
+        "member": "source/adl/tools/validate_multi_agent_workcell_state.py",
+        "mode": "100755",
+        "blob": "1182a10bfce8ad8dae7a4b8048af896e5deeec4b",
+        "sha256": "422247b466f7ddd2c62a54e5a4b7ced48ca971f4b9e91d57b43374147133c157"
+      }
+    },
+    {
+      "path": "adl/tools/run_v0914_multi_agent_workcell_proof.sh",
+      "before": [
+        "100755",
+        "4000d67673c3519745e26d2bf77b5deedea0d2bf"
+      ],
+      "after": [
+        "100755",
+        "7b890b50578126726cb4ddadc3c13c81bea406d2"
+      ],
+      "action": "modify",
+      "implementation_commit": "09b73f53b0f85db42b219c7ed7f300f1f11e443e",
+      "approval_reference": "PLANNING_CONTRACT_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "09b73f53b0f85db42b219c7ed7f300f1f11e443e",
+          "before": [
+            "100755",
+            "4000d67673c3519745e26d2bf77b5deedea0d2bf"
+          ],
+          "after": [
+            "100755",
+            "7b890b50578126726cb4ddadc3c13c81bea406d2"
+          ],
+          "packet": "PLANNING_CONTRACT_FAMILY_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/tooling/ISSUE_BOUND_GOAL_TERMINAL_STATE_POLICY.md",
+      "before": [
+        "100644",
+        "cbef4320254b09d67df90ee7ce82491f4a75c175"
+      ],
+      "after": [
+        "100644",
+        "d6947af0e93d9eb377395bbe7f4b45a1215e3bf5"
+      ],
+      "action": "modify",
+      "implementation_commit": "09b73f53b0f85db42b219c7ed7f300f1f11e443e",
+      "approval_reference": "PLANNING_CONTRACT_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "09b73f53b0f85db42b219c7ed7f300f1f11e443e",
+          "before": [
+            "100644",
+            "cbef4320254b09d67df90ee7ce82491f4a75c175"
+          ],
+          "after": [
+            "100644",
+            "d6947af0e93d9eb377395bbe7f4b45a1215e3bf5"
+          ],
+          "packet": "PLANNING_CONTRACT_FAMILY_APPLIED.json"
         }
       ]
     }
@@ -73992,9 +78043,181 @@
         "docs/tooling/TOOL_SURFACE_REGISTRY.md"
       ],
       "boundary": "Reuses separately bounded owner and original contract qualification; no new runtime/provider/whole-suite acceptance."
+    },
+    {
+      "packet": "CSDLC_SKILL_FAMILY_APPLIED.json",
+      "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699",
+      "commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+      "files": 96,
+      "removals": 83,
+      "scope_sha256": "5f465697e7b2820a530e7d8d5c2ab06b909b67c9b1d96f73545950638bf9fa91",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl/tools/skills/demo-operator/SKILL.md",
+        "adl/tools/skills/demo-operator/adl-skill.yaml",
+        "adl/tools/skills/demo-operator/agents/openai.yaml",
+        "adl/tools/skills/demo-operator/references/demo-playbook.md",
+        "adl/tools/skills/demo-operator/references/output-contract.md",
+        "adl/tools/skills/docs/DEMO_OPERATOR_SKILL_INPUT_SCHEMA.md",
+        "adl/tools/skills/docs/DOCUMENTATION_SPECIALIST_SKILL_INPUT_SCHEMA.md",
+        "adl/tools/skills/docs/GAP_ANALYSIS_SKILL_INPUT_SCHEMA.md",
+        "adl/tools/skills/docs/ISSUE_FOLDING_SKILL_INPUT_SCHEMA.md",
+        "adl/tools/skills/docs/ISSUE_SPLITTER_SKILL_INPUT_SCHEMA.md",
+        "adl/tools/skills/docs/ISSUE_WATCHER_SKILL_INPUT_SCHEMA.md",
+        "adl/tools/skills/docs/PORTABLE_CONTRACT_NORMALIZER_SKILL_INPUT_SCHEMA.md",
+        "adl/tools/skills/docs/REFACTORING_HELPER_SKILL_INPUT_SCHEMA.md",
+        "adl/tools/skills/docs/RELEASE_EVIDENCE_SKILL_INPUT_SCHEMA.md",
+        "adl/tools/skills/docs/REVIEW_COMMENT_TRIAGE_SKILL_INPUT_SCHEMA.md",
+        "adl/tools/skills/docs/TEST_GENERATOR_SKILL_INPUT_SCHEMA.md",
+        "adl/tools/skills/docs/USE_CASE_WRITER_SKILL_INPUT_SCHEMA.md",
+        "adl/tools/skills/documentation-specialist/SKILL.md",
+        "adl/tools/skills/documentation-specialist/adl-skill.yaml",
+        "adl/tools/skills/documentation-specialist/agents/openai.yaml",
+        "adl/tools/skills/documentation-specialist/references/output-contract.md",
+        "adl/tools/skills/gap-analysis/SKILL.md",
+        "adl/tools/skills/gap-analysis/adl-skill.yaml",
+        "adl/tools/skills/gap-analysis/agents/openai.yaml",
+        "adl/tools/skills/gap-analysis/references/gap-analysis-playbook.md",
+        "adl/tools/skills/gap-analysis/references/output-contract.md",
+        "adl/tools/skills/gap-analysis/scripts/analyze_gaps.py",
+        "adl/tools/skills/issue-folding/SKILL.md",
+        "adl/tools/skills/issue-folding/adl-skill.yaml",
+        "adl/tools/skills/issue-folding/agents/openai.yaml",
+        "adl/tools/skills/issue-folding/references/issue-folding-playbook.md",
+        "adl/tools/skills/issue-folding/references/output-contract.md",
+        "adl/tools/skills/issue-folding/scripts/classify_issue_folding.py",
+        "adl/tools/skills/issue-splitter/SKILL.md",
+        "adl/tools/skills/issue-splitter/adl-skill.yaml",
+        "adl/tools/skills/issue-splitter/agents/openai.yaml",
+        "adl/tools/skills/issue-splitter/references/issue-splitter-playbook.md",
+        "adl/tools/skills/issue-splitter/references/output-contract.md",
+        "adl/tools/skills/issue-splitter/scripts/plan_issue_split.py",
+        "adl/tools/skills/issue-watcher/SKILL.md",
+        "adl/tools/skills/issue-watcher/adl-skill.yaml",
+        "adl/tools/skills/issue-watcher/agents/openai.yaml",
+        "adl/tools/skills/issue-watcher/references/output-contract.md",
+        "adl/tools/skills/portable-contract-normalizer/SKILL.md",
+        "adl/tools/skills/portable-contract-normalizer/adl-skill.yaml",
+        "adl/tools/skills/portable-contract-normalizer/agents/openai.yaml",
+        "adl/tools/skills/portable-contract-normalizer/references/output-contract.md",
+        "adl/tools/skills/portable-contract-normalizer/references/portable-contract-normalizer-playbook.md",
+        "adl/tools/skills/portable-contract-normalizer/scripts/normalize_portable_contracts.py",
+        "adl/tools/skills/refactoring-helper/SKILL.md",
+        "adl/tools/skills/refactoring-helper/adl-skill.yaml",
+        "adl/tools/skills/refactoring-helper/agents/openai.yaml",
+        "adl/tools/skills/refactoring-helper/references/output-contract.md",
+        "adl/tools/skills/refactoring-helper/references/refactoring-playbook.md",
+        "adl/tools/skills/refactoring-helper/scripts/plan_refactor.py",
+        "adl/tools/skills/release-evidence/SKILL.md",
+        "adl/tools/skills/release-evidence/adl-skill.yaml",
+        "adl/tools/skills/release-evidence/agents/openai.yaml",
+        "adl/tools/skills/release-evidence/references/output-contract.md",
+        "adl/tools/skills/release-evidence/references/release-evidence-playbook.md",
+        "adl/tools/skills/release-evidence/scripts/assemble_release_evidence.py",
+        "adl/tools/skills/review-comment-triage/SKILL.md",
+        "adl/tools/skills/review-comment-triage/adl-skill.yaml",
+        "adl/tools/skills/review-comment-triage/agents/openai.yaml",
+        "adl/tools/skills/review-comment-triage/fixtures/actionable_comments.json",
+        "adl/tools/skills/review-comment-triage/fixtures/already_fixed_comments.json",
+        "adl/tools/skills/review-comment-triage/fixtures/follow_on_comments.json",
+        "adl/tools/skills/review-comment-triage/fixtures/mixed_comments.json",
+        "adl/tools/skills/review-comment-triage/fixtures/stale_comments.json",
+        "adl/tools/skills/review-comment-triage/references/output-contract.md",
+        "adl/tools/skills/review-comment-triage/references/review-comment-triage-playbook.md",
+        "adl/tools/skills/review-comment-triage/scripts/triage_review_comments.py",
+        "adl/tools/skills/test-generator/SKILL.md",
+        "adl/tools/skills/test-generator/adl-skill.yaml",
+        "adl/tools/skills/test-generator/agents/openai.yaml",
+        "adl/tools/skills/test-generator/references/output-contract.md",
+        "adl/tools/skills/test-generator/references/test-playbook.md",
+        "adl/tools/skills/use-case-writer/SKILL.md",
+        "adl/tools/skills/use-case-writer/adl-skill.yaml",
+        "adl/tools/skills/use-case-writer/agents/openai.yaml",
+        "adl/tools/skills/use-case-writer/references/output-contract.md",
+        "adl/tools/skills/use-case-writer/references/use-case-writing-playbook.md",
+        "adl/tools/skills/use-case-writer/scripts/write_use_cases.py",
+        "adl/tools/test_demo_operator_skill_contracts.sh",
+        "adl/tools/test_gap_analysis_skill_contracts.sh",
+        "adl/tools/test_issue_folding_skill_contracts.sh",
+        "adl/tools/test_issue_splitter_skill_contracts.sh",
+        "adl/tools/test_issue_watcher_skill_contracts.sh",
+        "adl/tools/test_portable_contract_normalizer_skill_contracts.sh",
+        "adl/tools/test_refactoring_helper_skill_contracts.sh",
+        "adl/tools/test_release_evidence_skill_contracts.sh",
+        "adl/tools/test_review_comment_triage_skill_contracts.sh",
+        "adl/tools/test_test_generator_skill_contracts.sh",
+        "adl/tools/README.md",
+        "adl/tools/skills/docs/OPERATIONAL_SKILLS_GUIDE.md",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "AWS_REMOTE_FAMILY_APPLIED.json",
+      "sha256": "e88324d672c1455fba7e1d521b18e0efd6fa7756215af35dba19b718a1add8e1",
+      "commit": "1f438d059a37442c85059992c503740aa1bf088e",
+      "files": 25,
+      "removals": 14,
+      "scope_sha256": "f0ce6bc7d6f5d03dad5203cb518788cf11c5356adff349754df615b3d2dade17",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "tools/aws_remote_validation/BOOTSTRAP_IDENTITIES.md",
+        "tools/aws_remote_validation/Cargo.lock",
+        "tools/aws_remote_validation/Cargo.toml",
+        "tools/aws_remote_validation/scripts/remote_validation_runner.sh",
+        "tools/aws_remote_validation/scripts/ssh_debug_control.sh",
+        "tools/aws_remote_validation/scripts/test_verified_bootstrap.py",
+        "tools/aws_remote_validation/scripts/verified_bootstrap.pvf.json",
+        "tools/aws_remote_validation/scripts/verified_bootstrap.py",
+        "tools/aws_remote_validation/src/aws_remote_validation.rs",
+        "tools/aws_remote_validation/src/bin/adl_aws_remote_validation.rs",
+        "tools/aws_remote_validation/src/cli/observability.rs",
+        "tools/aws_remote_validation/tests/portable_adapter.rs",
+        "adl/src/bin/adl_aws_remote_validation.rs",
+        ".github/workflows/aws-spot-remote-validation.yaml",
+        "adl/tools/install_aws_remote_validation_tool.sh",
+        "adl/tools/run_aws_spot_remote_validation_lane.sh",
+        "adl/tools/test_run_aws_spot_ci_profile.sh",
+        "adl/tools/test_run_aws_spot_builder_image_validation.sh",
+        "tools/groupd_validation/src/lib.rs",
+        "tools/groupd_validation/README.md",
+        "docs/tooling/AWS_SPOT_REMOTE_VALIDATION_LANE.md",
+        "adl/config/validation_lane_selector.v0.91.6.json",
+        "adl/tools/generate_tool_surface_registry.py",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+        "tools/groupd_validation/run_dependency_inventory.py"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "PLANNING_CONTRACT_FAMILY_APPLIED.json",
+      "sha256": "b500906ed25661a8b4cad66ca462797309b5d50916279aa87c0107663dffd32f",
+      "commit": "09b73f53b0f85db42b219c7ed7f300f1f11e443e",
+      "files": 12,
+      "removals": 9,
+      "scope_sha256": "b840e364a3919c41dec1f806460ab21ce2bfe3b66a0eb3069d393466d16b0e36",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl/tools/check_compression_finish_profiles.sh",
+        "adl/tools/check_issue_goal_terminal_state.py",
+        "adl/tools/check_v090_milestone_state.py",
+        "adl/tools/plan_multi_agent_workcell.py",
+        "adl/tools/test_check_v090_milestone_state.sh",
+        "adl/tools/test_issue_goal_terminal_state_truth.sh",
+        "adl/tools/test_plan_multi_agent_workcell.sh",
+        "adl/tools/test_validate_multi_agent_workcell_state.sh",
+        "adl/tools/validate_multi_agent_workcell_state.py",
+        "adl/tools/run_v0914_multi_agent_workcell_proof.sh",
+        "docs/tooling/ISSUE_BOUND_GOAL_TERMINAL_STATE_POLICY.md",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
     }
   ],
-  "baseline_deletion_count": 2330,
+  "baseline_deletion_count": 2436,
   "transient_removed_paths": [
     "adl/tools/test_issue872_historical_manifest.py"
   ]
