@@ -73453,11 +73453,15 @@
         "3581b3cfa979cb6ee3f73d67fac37572897836c8"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_active_adl_planning_policy",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/planning/ADL_MILESTONE_WP_ORDERING_STANDARD.md: active_standard; ADL maintainers; milestone ordering contract"
+      ]
     },
     {
       "id": "RD07-3560",
@@ -73504,7 +73508,7 @@
         "46bbb6f9545fea76f612b221a34f001ab26fffdd"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_reusable_operational_guide_and_inbound_navigation",
       "observed_successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f",
       "exact_content_candidates": [
         "docs/planning/HOW_TO_CREATE_S3_WEBSITE_WITH_TERRAFORM.md"
@@ -73512,6 +73516,11 @@
       "accepted_rd11_revision": "c8b787ce065e2912fe1db88fc778daded7a8ba63",
       "accepted_content_candidates": [
         "docs/planning/HOW_TO_CREATE_S3_WEBSITE_WITH_TERRAFORM.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/planning/HOW_TO_CREATE_S3_WEBSITE_WITH_TERRAFORM.md: reusable ADL/CodeFriend operational pattern",
+        "docs/planning/codefriend/README.md: relative link to reusable guide"
       ]
     },
     {
@@ -73686,11 +73695,15 @@
         "bb37dc9b9ccf1619fff4e65a63a54bec28ad7e89"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_adl_planning_history_and_navigation",
       "observed_successor_revision": "b200caf8668e707ac10b2b47ba7c88441d7af593",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "91ae8c5e4008a07cee8fd3a70a1306d4d971f9b4",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/planning/codefriend/README.md: explicit supersession notice and linked planning family"
+      ]
     },
     {
       "id": "RD07-3573",
@@ -86102,5 +86115,5 @@
   "previous_observed_main": "f1493c54e4d9f6c5a1da798f48d9f2c361033fa4",
   "consumer_reference_repair_count": 6,
   "approved_component_removal_count": 36,
-  "resolved_retention_count": 136
+  "resolved_retention_count": 139
 }
