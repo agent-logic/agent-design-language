@@ -6,12 +6,12 @@
   "execution_authorized": false,
   "original_count": 4134,
   "counts": {
-    "hold_explicit_reconciliation": 183,
+    "hold_explicit_reconciliation": 182,
     "hold_owner_test_reconciliation": 35,
     "preserve_approved_removal": 70,
     "preserve_reviewed_consumer_repair": 18,
     "proposed_historical_retirement_with_caller_repair": 19,
-    "proposed_owner_transfer_with_consumer_qualification": 471,
+    "proposed_owner_transfer_with_consumer_qualification": 472,
     "proposed_remove_construction_qualified_infrastructure": 216,
     "proposed_remove_with_entire_source_family": 1874,
     "proposed_remove_with_entire_tool_family": 718,
@@ -49036,19 +49036,11 @@
         "blob": "e16e3febacdacec89a91305b63c07f15a7a06844"
       },
       "existing_action": "retain",
-      "hold_reason": "Changed activation wrapper invokes contracts/validation/check_audio_policy.py; exact original survives validation/original. Preserve original gemini-native versus openai-surrogate manifests/packet assertions and demo wrapper fixture inputs; require existing owner-driver outcome correspondence, not audio provider execution.",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        {
-          "path": "adl/tools/test_install_adl_operational_skills.sh",
-          "line": 212,
-          "reference": "bash \"${repo_root}/adl/tools/test_multiagent_podcast_audio_policy.sh\"",
-          "kind": "source_or_configuration_reference",
-          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
-        },
-        "Accept per-row disposition and close listed caller/dependency obligations.",
-        "For transfers, bind actual owner package/fixture outcomes to the mapped assertion denominator; source availability alone is insufficient.",
-        "Obtain coherent source-retirement approval and guard qualification."
+        "scoped_operator_retirement_decision",
+        "remaining_current_callers_repaired_or_retired",
+        "native_installed_and_full_original_acceptance_remain_separate"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
@@ -49060,6 +49052,14 @@
         "packet_sha256": "af4ce18ae8978a75ab2fbfd26d5a584710e70f24ec99c89dbb561a950eab314e",
         "proposal": "conditional_owner_mapped_contract_transfer",
         "reason": "Changed activation wrapper invokes contracts/validation/check_audio_policy.py; exact original survives validation/original. Preserve original gemini-native versus openai-surrogate manifests/packet assertions and demo wrapper fixture inputs; require existing owner-driver outcome correspondence, not audio provider execution."
+      },
+      "prior_proposed_action": "hold_explicit_reconciliation",
+      "historical_hold_reason": "Changed activation wrapper invokes contracts/validation/check_audio_policy.py; exact original survives validation/original. Preserve original gemini-native versus openai-surrogate manifests/packet assertions and demo wrapper fixture inputs; require existing owner-driver outcome correspondence, not audio provider execution.",
+      "consumer_qualification": {
+        "packet": "CSDLC_AUDIO_POLICY_SOURCE_CORRESPONDENCE.json",
+        "sha256": "ad7e716ce1c9fb9a2daa4403370be15448e1ee5f1256e53d6e1bca2aeb4e7801",
+        "review": "Planning #12 bounded result and exact source correspondence review PASS",
+        "scope": "Exact original12assertion source proof reused against authenticated PR250 wrapper and unchanged originaltest. No test/provider rerun; native_admissionfalse/installed_executionfalse/fullacceptancefalse. Proposed transfer only; no deletion."
       }
     },
     {
@@ -98094,6 +98094,15 @@
         "review": "CSDLC_COMPOSED_INSTALLER_REVIEW.json",
         "result": "Exact prepared bundle copy and symlink installer component passed1.683s,365declaredfiles and51families in eachmode. Original138assertion-bearinglines preserved:136passed correspondence,2separate conductor/audio behavior obligations.",
         "boundary": "Composed-source package resource proof, not native admission or full original acceptance. Other owners retain exact historical source receipts. No denominator or retirement decision changes."
+      }
+    },
+    {
+      "infrastructure_public_edge": {
+        "record": "INFRASTRUCTURE_PUBLIC_EDGE_DEFAULT_QUALIFICATION.json",
+        "sha256": "8d89366a1d68a42610c71ba129021c7d921dd7cabe6e21d0af1f14d837b0ac3a",
+        "review": "Planning #12 actual default-validator result/stdout/stderr review PASS",
+        "candidate": "52726019f14b790bdabe84b2e8e629fbbb6af7de",
+        "scope": "One original default publicedge validator passed using real Terraform fmt/offlineinit/validate and textguards; exact cachedplatformchecksum, unchanged lock, no download/credentials/cloudapply. Mirror not newly registry-authenticated. Other28rootmatrix obligations remain separate."
       }
     }
   ]
