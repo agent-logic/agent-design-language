@@ -30,7 +30,15 @@ class RetirementNegatives(unittest.TestCase):
                 blob = hashlib.sha1(b'blob ' + str(len(data)).encode() + b'\0' + data).hexdigest()
                 cls.candidate[r['path']] = [cls.observed[r['path']][0], blob]
 
-        cls.candidate.update(check.approved_component_delta()['repairs'])
+        cls.candidate.update({path: check.approved_consumer_identity(path, identity)
+                              for path, identity in check.approved_component_delta()['repairs'].items()})
+
+    def test_public_test_routing_cannot_hide_another_selector_change(self):
+        candidate = dict(self.candidate)
+        path = 'adl/config/validation_lane_selector.v0.91.6.json'
+        candidate[path] = ['100644', '0' * 40]
+        with self.assertRaisesRegex(ValueError, 'component consumer repair exceeds'):
+            check.check_inventory(self.ledger, self.frozen, self.observed, candidate)
 
     def test_workspace_repair_cannot_hide_dependency_change(self):
         candidate = dict(self.candidate)

@@ -32275,11 +32275,19 @@
         "e1dd32b2a1ee5404a497b8b2ad80516dbe7475e3"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "hold_successor_consumer_and_retirement_reconciliation",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/diagram-author/scripts/render_diagrams.sh",
+        "mode": "100755",
+        "blob": "e1dd32b2a1ee5404a497b8b2ad80516dbe7475e3",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
+      }
     },
     {
       "id": "RD07-1578",
@@ -32313,11 +32321,19 @@
         "c92726970c59b090bb5d1738c254b0f9f19d2a39"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "hold_successor_consumer_and_retirement_reconciliation",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/contracts/248f00e3/ADR_CURATOR_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "c92726970c59b090bb5d1738c254b0f9f19d2a39",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
+      }
     },
     {
       "id": "RD07-1580",
@@ -32330,11 +32346,19 @@
         "909b743a3e4cd312f0b8af1ef6eff659139fb228"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "hold_successor_consumer_and_retirement_reconciliation",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/contracts/248f00e3/ARCHITECTURE_DIAGRAM_REVIEWER_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "909b743a3e4cd312f0b8af1ef6eff659139fb228",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
+      }
     },
     {
       "id": "RD07-1581",
@@ -32347,11 +32371,19 @@
         "3f25e0f3f2e03f2d1602dac6460ee6249d24c90a"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "hold_successor_consumer_and_retirement_reconciliation",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/contracts/248f00e3/ARCHITECTURE_FITNESS_FUNCTION_AUTHOR_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "3f25e0f3f2e03f2d1602dac6460ee6249d24c90a",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
+      }
     },
     {
       "id": "RD07-1582",
@@ -32461,11 +32493,19 @@
         "327c2178aaf40cb4335db1786a4aa9bd8b0d0832"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "hold_successor_consumer_and_retirement_reconciliation",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/contracts/248f00e3/FINDING_TO_ISSUE_PLANNER_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "327c2178aaf40cb4335db1786a4aa9bd8b0d0832",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
+      }
     },
     {
       "id": "RD07-1588",
@@ -32579,11 +32619,19 @@
         "9f49bd71b38f3ca4985db316bd780bcef243e27d"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "hold_successor_consumer_and_retirement_reconciliation",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/contracts/248f00e3/MULTI_AGENT_REPO_REVIEW_SKILL_SUITE.md",
+        "mode": "100644",
+        "blob": "9f49bd71b38f3ca4985db316bd780bcef243e27d",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
+      }
     },
     {
       "id": "RD07-1594",
@@ -32661,11 +32709,19 @@
         "09fbc9a0a2365699835fca8f5afc27620682b78e"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "hold_successor_consumer_and_retirement_reconciliation",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/contracts/248f00e3/PRODUCT_REPORT_WRITER_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "09fbc9a0a2365699835fca8f5afc27620682b78e",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
+      }
     },
     {
       "id": "RD07-1598",
@@ -32846,11 +32902,19 @@
         "a21a546c54bdaab90fdd76dfee9cffef46676a0a"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "hold_successor_consumer_and_retirement_reconciliation",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/contracts/248f00e3/REDACTION_AND_EVIDENCE_AUDITOR_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "a21a546c54bdaab90fdd76dfee9cffef46676a0a",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
+      }
     },
     {
       "id": "RD07-1607",
@@ -32905,11 +32969,19 @@
         "c7595f19de07ed845bee50c054af5baa51927bd1"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "hold_successor_consumer_and_retirement_reconciliation",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/contracts/248f00e3/REPO_ARCHITECTURE_REVIEW_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "c7595f19de07ed845bee50c054af5baa51927bd1",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
+      }
     },
     {
       "id": "RD07-1610",
@@ -32939,11 +33011,19 @@
         "9a616189a2f68421c1c53c2fba6fe86fc27b7947"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "hold_successor_consumer_and_retirement_reconciliation",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/contracts/248f00e3/REPO_DEPENDENCY_REVIEW_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "9a616189a2f68421c1c53c2fba6fe86fc27b7947",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
+      }
     },
     {
       "id": "RD07-1612",
@@ -32956,11 +33036,19 @@
         "2110dbfae6610c95b960b0b3ec8ba7d6984b5b73"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "hold_successor_consumer_and_retirement_reconciliation",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/contracts/248f00e3/REPO_DIAGRAM_PLANNER_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "2110dbfae6610c95b960b0b3ec8ba7d6984b5b73",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
+      }
     },
     {
       "id": "RD07-1613",
@@ -32973,11 +33061,19 @@
         "07e954f335347f4de9523d56c43b4cfbaeed7f68"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "hold_successor_consumer_and_retirement_reconciliation",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/contracts/248f00e3/REPO_PACKET_BUILDER_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "07e954f335347f4de9523d56c43b4cfbaeed7f68",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
+      }
     },
     {
       "id": "RD07-1614",
@@ -33096,11 +33192,19 @@
         "0e91e8e8f3d3f9c20c2add83bea07be4696da916"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "hold_successor_consumer_and_retirement_reconciliation",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/contracts/248f00e3/REVIEW_QUALITY_EVALUATOR_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "0e91e8e8f3d3f9c20c2add83bea07be4696da916",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
+      }
     },
     {
       "id": "RD07-1621",
@@ -33113,11 +33217,19 @@
         "fb9dc584563109438f9fd576d80f7029ac10ef8a"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "hold_successor_consumer_and_retirement_reconciliation",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/contracts/248f00e3/REVIEW_READINESS_CLEANUP_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "fb9dc584563109438f9fd576d80f7029ac10ef8a",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
+      }
     },
     {
       "id": "RD07-1622",
@@ -33130,11 +33242,19 @@
         "1f67f6f365576077a9316deb779a60f2ee4f1778"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "hold_successor_consumer_and_retirement_reconciliation",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/contracts/248f00e3/REVIEW_TO_TEST_PLANNER_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "1f67f6f365576077a9316deb779a60f2ee4f1778",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
+      }
     },
     {
       "id": "RD07-1623",
@@ -33479,11 +33599,19 @@
         "20c2a5849a2bbdc4348dfd8fc2ddef35792513c5"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "hold_successor_consumer_and_retirement_reconciliation",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/finding-to-issue-planner/scripts/plan_review_issues.py",
+        "mode": "100755",
+        "blob": "20c2a5849a2bbdc4348dfd8fc2ddef35792513c5",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
+      }
     },
     {
       "id": "RD07-1640",
@@ -35960,11 +36088,19 @@
         "cdd3fa1b8556ffd3d90692942d1a1f2588a85a5e"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "hold_successor_consumer_and_retirement_reconciliation",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/repo-dependency-review/scripts/prepare_dependency_review.py",
+        "mode": "100755",
+        "blob": "cdd3fa1b8556ffd3d90692942d1a1f2588a85a5e",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
+      }
     },
     {
       "id": "RD07-1761",
@@ -36095,11 +36231,19 @@
         "b55d37f52ba4a9ec562619e3ab11e40c45ca86af"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "hold_successor_consumer_and_retirement_reconciliation",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/repo-diagram-planner/scripts/plan_repo_diagrams.py",
+        "mode": "100755",
+        "blob": "b55d37f52ba4a9ec562619e3ab11e40c45ca86af",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
+      }
     },
     {
       "id": "RD07-1768",
@@ -36268,11 +36412,19 @@
         "f652da0f91908d6c384d3a716a5df1aff1d7580a"
       ],
       "action": "retain",
-      "reason": "protect_existing_public_contract_policy_or_control_plane",
+      "reason": "hold_successor_consumer_and_retirement_reconciliation",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/repo-packet-builder/tests/fixtures/issue-520-changed-paths.txt",
+        "mode": "100644",
+        "blob": "f652da0f91908d6c384d3a716a5df1aff1d7580a",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
+      }
     },
     {
       "id": "RD07-1777",
@@ -37141,11 +37293,19 @@
         "c801c4f1aecbeea741065e87857882c7652db8f9"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "hold_successor_consumer_and_retirement_reconciliation",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/review-readiness-cleanup/scripts/inspect_review_readiness.py",
+        "mode": "100755",
+        "blob": "c801c4f1aecbeea741065e87857882c7652db8f9",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
+      }
     },
     {
       "id": "RD07-1822",

@@ -21,13 +21,14 @@
   "preservation": "Original inventory and baseline archive unchanged;70 prior approved removals preserved; no new deletion applied",
   "review_boundary": "Exact paths and Git identities are pinned. Proposed removals remain conditional; this is not a claim that caller closure or all successor tests are qualified.",
   "known_prerequisites": {
-    "codefriend": "Issue102 candidate529e79c6512da1cb01c6a3f987922d4469aaeede executed all39suites409Linux tests:408passed1failed (PDF measured-glyph wrapping), ordered streams and clean source retained. Evidence FastWork c1223/evidence/codefriend/issue102-529e79c6; transcript SHA2561c8974ad955d461ed2773e0378ef49d8c97d0add3d9c54e91ab4386c3a3f32cc. One source macOS-only case remains unqualified. Prior399/10 and original adverse attempts retained. Owner repair pending; installed31+11cases do not replace this obligation.",
-    "runtime": "Runtime149 candidate16f288d2e0f31111403b15a34fff35e1ad654b49 reconnected original31row201declaration CLI tree plus inline module tests: actual runtime_cli_unit379passed17failed1ignored; separate serialcli_smoke84passed10failed. Evidence FastWork c1223/evidence/agent-logic-runtime/issue149-16f288d2 and issue149-16f288d2-remaining. Owner repairs pending, no denominator equivalence or retirement inferred. Mirror148 corrected fe79b428 passed4repairedlibtests; prior c0023ec11lib/bin5/refusal1/readback1/help1/packaging2 and isolatedLinux auxiliary dry-run passes retained. Full package/macOS mirror qualification and owner publication remain separate. Installer147 actual3GiB proof passed; publication pending. CI/coverage denominator unreconciled.",
+    "codefriend": "Issue102 dc2d93e2c531606174f0d624fd0f3edeb117ef86 executed all39suites409Linux tests:408passed1failed (cancelled_redelivery_does_not_reupload_complete_artifact expected4 observed0). PDF suite passes. Evidence FastWork c1223/evidence/codefriend/issue102-dc2d93e; transcript SHA256eab9b7a950a3b0dcb9b6a56afb510a6d61cf80c527fd72bcf77d2a18476eaa4c. One source macOS-only case remains unqualified. Earlier failures preserved; owner repair pending.",
+    "runtime": "Runtime149 candidate315abf70358828a8f4d452532ebd995fb4178389 passed retained CLI harness396/0/1ignored and serial CLI smoke94/0. Evidence FastWork c1223/evidence/agent-logic-runtime/issue149-315abf70-run; logs SHA2567f9842d604b3d9b23e16b25d3ddb44cfce0492868a9e5587105b81bb7bf51184 and a36dd31eb1a78f6be84be39f65c39e7537982fb98fa833d11c15d4761253f973. Authentic pinned Godel contract root and USER derived from actual container identity supplied. Prior failures retained. Original31row201declaration correspondence is separate from actual490passed/1ignored execution. Mirror148 and installer147 prior qualification retained; owner publication and broader CI/coverage denominator closure remain separate.",
     "cognitive_sdlc": "PR244/246 merged candidate artifact verified but shared owner installation/reconciliation pending; preserve repository-bound authority and legacy history",
     "infrastructure": "27/28Terraform roots passed; csm-runtime-alb unsupported arguments require owner repair; no cloud apply authorized",
     "adl": "Five package15sourcegates and installed7consumer/21UTS/5negative proof passed;145publicCLI tests passed on macOS/Linux; finalCI and caller cutover pending",
     "owner_test_correspondence": "OWNER_TEST_CORRESPONDENCE.json preserves1056original rows (651CSDLc+405Runtime).35unique implicated rows explicitly held. No broad test execution or retirement authority inferred.",
-    "csdlc_node_proof": "Cognitive-sdlc247 owns missing original1249Node behavior/scenarios; no retirement or acceptance until repaired and qualified."
+    "csdlc_node_proof": "Cognitive-sdlc247 candidate369cbde1e91efbc15ad72f936080b54aed8e6bb5 passed all5 restored issue1249 scenarios on supported macOS arm64,177filtered,132.075seconds; source clean before/after. Evidence FastWork c1223/evidence/cognitive-sdlc/issue247-369cbde1-macos, logSHA25674cd7cf6b8173b671ea9513999f3c216a4ad33706dc3bf679f62398f5b32ff6c. Node proof/refusals and atomic plan amendment qualified; owner publication/install and retirement remain separate. Prior unsupported Linux arm64 and supported-host atomicity failures preserved.",
+    "public_coverage": "Full exact-head six-package producer passed at5def116e9e:9402/10412lines90.30%, allfiles>=80%; no thresholds reduced. GitHub CI and private owner equivalence remain separate."
   },
   "ci_contract": "COMBINED_CI_CUTOVER.json",
   "rows": [
@@ -35920,15 +35921,26 @@
         "blob": "e1dd32b2a1ee5404a497b8b2ad80516dbe7475e3"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "hold_reason": "hold_successor_consumer_and_retirement_reconciliation",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
         "specific_consumer_or_document_disposition_required"
       ],
       "successor_mapping": {
-        "mapping": "unmapped",
-        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-        "exact_successor_paths": []
+        "mapping": "exact_cross_owner_mode_blob",
+        "successor_owner": "agent-logic/codefriend",
+        "successor_revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "exact_successor_paths": [
+          "review-skills/diagram-author/scripts/render_diagrams.sh"
+        ]
+      },
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/diagram-author/scripts/render_diagrams.sh",
+        "mode": "100755",
+        "blob": "e1dd32b2a1ee5404a497b8b2ad80516dbe7475e3",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
       }
     },
     {
@@ -35965,15 +35977,26 @@
         "blob": "c92726970c59b090bb5d1738c254b0f9f19d2a39"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "hold_reason": "hold_successor_consumer_and_retirement_reconciliation",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
         "specific_consumer_or_document_disposition_required"
       ],
       "successor_mapping": {
-        "mapping": "unmapped",
-        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-        "exact_successor_paths": []
+        "mapping": "exact_cross_owner_mode_blob",
+        "successor_owner": "agent-logic/codefriend",
+        "successor_revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "exact_successor_paths": [
+          "review-skills/contracts/248f00e3/ADR_CURATOR_SKILL_INPUT_SCHEMA.md"
+        ]
+      },
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/contracts/248f00e3/ADR_CURATOR_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "c92726970c59b090bb5d1738c254b0f9f19d2a39",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
       }
     },
     {
@@ -35986,15 +36009,26 @@
         "blob": "909b743a3e4cd312f0b8af1ef6eff659139fb228"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "hold_reason": "hold_successor_consumer_and_retirement_reconciliation",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
         "specific_consumer_or_document_disposition_required"
       ],
       "successor_mapping": {
-        "mapping": "unmapped",
-        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-        "exact_successor_paths": []
+        "mapping": "exact_cross_owner_mode_blob",
+        "successor_owner": "agent-logic/codefriend",
+        "successor_revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "exact_successor_paths": [
+          "review-skills/contracts/248f00e3/ARCHITECTURE_DIAGRAM_REVIEWER_SKILL_INPUT_SCHEMA.md"
+        ]
+      },
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/contracts/248f00e3/ARCHITECTURE_DIAGRAM_REVIEWER_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "909b743a3e4cd312f0b8af1ef6eff659139fb228",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
       }
     },
     {
@@ -36007,15 +36041,26 @@
         "blob": "3f25e0f3f2e03f2d1602dac6460ee6249d24c90a"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "hold_reason": "hold_successor_consumer_and_retirement_reconciliation",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
         "specific_consumer_or_document_disposition_required"
       ],
       "successor_mapping": {
-        "mapping": "unmapped",
-        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-        "exact_successor_paths": []
+        "mapping": "exact_cross_owner_mode_blob",
+        "successor_owner": "agent-logic/codefriend",
+        "successor_revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "exact_successor_paths": [
+          "review-skills/contracts/248f00e3/ARCHITECTURE_FITNESS_FUNCTION_AUTHOR_SKILL_INPUT_SCHEMA.md"
+        ]
+      },
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/contracts/248f00e3/ARCHITECTURE_FITNESS_FUNCTION_AUTHOR_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "3f25e0f3f2e03f2d1602dac6460ee6249d24c90a",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
       }
     },
     {
@@ -36142,15 +36187,26 @@
         "blob": "327c2178aaf40cb4335db1786a4aa9bd8b0d0832"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "hold_reason": "hold_successor_consumer_and_retirement_reconciliation",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
         "specific_consumer_or_document_disposition_required"
       ],
       "successor_mapping": {
-        "mapping": "unmapped",
-        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-        "exact_successor_paths": []
+        "mapping": "exact_cross_owner_mode_blob",
+        "successor_owner": "agent-logic/codefriend",
+        "successor_revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "exact_successor_paths": [
+          "review-skills/contracts/248f00e3/FINDING_TO_ISSUE_PLANNER_SKILL_INPUT_SCHEMA.md"
+        ]
+      },
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/contracts/248f00e3/FINDING_TO_ISSUE_PLANNER_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "327c2178aaf40cb4335db1786a4aa9bd8b0d0832",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
       }
     },
     {
@@ -36280,15 +36336,26 @@
         "blob": "9f49bd71b38f3ca4985db316bd780bcef243e27d"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "hold_reason": "hold_successor_consumer_and_retirement_reconciliation",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
         "specific_consumer_or_document_disposition_required"
       ],
       "successor_mapping": {
-        "mapping": "unmapped",
-        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-        "exact_successor_paths": []
+        "mapping": "exact_cross_owner_mode_blob",
+        "successor_owner": "agent-logic/codefriend",
+        "successor_revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "exact_successor_paths": [
+          "review-skills/contracts/248f00e3/MULTI_AGENT_REPO_REVIEW_SKILL_SUITE.md"
+        ]
+      },
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/contracts/248f00e3/MULTI_AGENT_REPO_REVIEW_SKILL_SUITE.md",
+        "mode": "100644",
+        "blob": "9f49bd71b38f3ca4985db316bd780bcef243e27d",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
       }
     },
     {
@@ -36374,15 +36441,26 @@
         "blob": "09fbc9a0a2365699835fca8f5afc27620682b78e"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "hold_reason": "hold_successor_consumer_and_retirement_reconciliation",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
         "specific_consumer_or_document_disposition_required"
       ],
       "successor_mapping": {
-        "mapping": "unmapped",
-        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-        "exact_successor_paths": []
+        "mapping": "exact_cross_owner_mode_blob",
+        "successor_owner": "agent-logic/codefriend",
+        "successor_revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "exact_successor_paths": [
+          "review-skills/contracts/248f00e3/PRODUCT_REPORT_WRITER_SKILL_INPUT_SCHEMA.md"
+        ]
+      },
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/contracts/248f00e3/PRODUCT_REPORT_WRITER_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "09fbc9a0a2365699835fca8f5afc27620682b78e",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
       }
     },
     {
@@ -36587,15 +36665,26 @@
         "blob": "a21a546c54bdaab90fdd76dfee9cffef46676a0a"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "hold_reason": "hold_successor_consumer_and_retirement_reconciliation",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
         "specific_consumer_or_document_disposition_required"
       ],
       "successor_mapping": {
-        "mapping": "unmapped",
-        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-        "exact_successor_paths": []
+        "mapping": "exact_cross_owner_mode_blob",
+        "successor_owner": "agent-logic/codefriend",
+        "successor_revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "exact_successor_paths": [
+          "review-skills/contracts/248f00e3/REDACTION_AND_EVIDENCE_AUDITOR_SKILL_INPUT_SCHEMA.md"
+        ]
+      },
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/contracts/248f00e3/REDACTION_AND_EVIDENCE_AUDITOR_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "a21a546c54bdaab90fdd76dfee9cffef46676a0a",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
       }
     },
     {
@@ -36656,15 +36745,26 @@
         "blob": "c7595f19de07ed845bee50c054af5baa51927bd1"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "hold_reason": "hold_successor_consumer_and_retirement_reconciliation",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
         "specific_consumer_or_document_disposition_required"
       ],
       "successor_mapping": {
-        "mapping": "unmapped",
-        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-        "exact_successor_paths": []
+        "mapping": "exact_cross_owner_mode_blob",
+        "successor_owner": "agent-logic/codefriend",
+        "successor_revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "exact_successor_paths": [
+          "review-skills/contracts/248f00e3/REPO_ARCHITECTURE_REVIEW_SKILL_INPUT_SCHEMA.md"
+        ]
+      },
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/contracts/248f00e3/REPO_ARCHITECTURE_REVIEW_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "c7595f19de07ed845bee50c054af5baa51927bd1",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
       }
     },
     {
@@ -36698,15 +36798,26 @@
         "blob": "9a616189a2f68421c1c53c2fba6fe86fc27b7947"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "hold_reason": "hold_successor_consumer_and_retirement_reconciliation",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
         "specific_consumer_or_document_disposition_required"
       ],
       "successor_mapping": {
-        "mapping": "unmapped",
-        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-        "exact_successor_paths": []
+        "mapping": "exact_cross_owner_mode_blob",
+        "successor_owner": "agent-logic/codefriend",
+        "successor_revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "exact_successor_paths": [
+          "review-skills/contracts/248f00e3/REPO_DEPENDENCY_REVIEW_SKILL_INPUT_SCHEMA.md"
+        ]
+      },
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/contracts/248f00e3/REPO_DEPENDENCY_REVIEW_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "9a616189a2f68421c1c53c2fba6fe86fc27b7947",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
       }
     },
     {
@@ -36719,15 +36830,26 @@
         "blob": "2110dbfae6610c95b960b0b3ec8ba7d6984b5b73"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "hold_reason": "hold_successor_consumer_and_retirement_reconciliation",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
         "specific_consumer_or_document_disposition_required"
       ],
       "successor_mapping": {
-        "mapping": "unmapped",
-        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-        "exact_successor_paths": []
+        "mapping": "exact_cross_owner_mode_blob",
+        "successor_owner": "agent-logic/codefriend",
+        "successor_revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "exact_successor_paths": [
+          "review-skills/contracts/248f00e3/REPO_DIAGRAM_PLANNER_SKILL_INPUT_SCHEMA.md"
+        ]
+      },
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/contracts/248f00e3/REPO_DIAGRAM_PLANNER_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "2110dbfae6610c95b960b0b3ec8ba7d6984b5b73",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
       }
     },
     {
@@ -36740,15 +36862,26 @@
         "blob": "07e954f335347f4de9523d56c43b4cfbaeed7f68"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "hold_reason": "hold_successor_consumer_and_retirement_reconciliation",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
         "specific_consumer_or_document_disposition_required"
       ],
       "successor_mapping": {
-        "mapping": "unmapped",
-        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-        "exact_successor_paths": []
+        "mapping": "exact_cross_owner_mode_blob",
+        "successor_owner": "agent-logic/codefriend",
+        "successor_revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "exact_successor_paths": [
+          "review-skills/contracts/248f00e3/REPO_PACKET_BUILDER_SKILL_INPUT_SCHEMA.md"
+        ]
+      },
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/contracts/248f00e3/REPO_PACKET_BUILDER_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "07e954f335347f4de9523d56c43b4cfbaeed7f68",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
       }
     },
     {
@@ -36890,15 +37023,26 @@
         "blob": "0e91e8e8f3d3f9c20c2add83bea07be4696da916"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "hold_reason": "hold_successor_consumer_and_retirement_reconciliation",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
         "specific_consumer_or_document_disposition_required"
       ],
       "successor_mapping": {
-        "mapping": "unmapped",
-        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-        "exact_successor_paths": []
+        "mapping": "exact_cross_owner_mode_blob",
+        "successor_owner": "agent-logic/codefriend",
+        "successor_revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "exact_successor_paths": [
+          "review-skills/contracts/248f00e3/REVIEW_QUALITY_EVALUATOR_SKILL_INPUT_SCHEMA.md"
+        ]
+      },
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/contracts/248f00e3/REVIEW_QUALITY_EVALUATOR_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "0e91e8e8f3d3f9c20c2add83bea07be4696da916",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
       }
     },
     {
@@ -36911,15 +37055,26 @@
         "blob": "fb9dc584563109438f9fd576d80f7029ac10ef8a"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "hold_reason": "hold_successor_consumer_and_retirement_reconciliation",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
         "specific_consumer_or_document_disposition_required"
       ],
       "successor_mapping": {
-        "mapping": "unmapped",
-        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-        "exact_successor_paths": []
+        "mapping": "exact_cross_owner_mode_blob",
+        "successor_owner": "agent-logic/codefriend",
+        "successor_revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "exact_successor_paths": [
+          "review-skills/contracts/248f00e3/REVIEW_READINESS_CLEANUP_SKILL_INPUT_SCHEMA.md"
+        ]
+      },
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/contracts/248f00e3/REVIEW_READINESS_CLEANUP_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "fb9dc584563109438f9fd576d80f7029ac10ef8a",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
       }
     },
     {
@@ -36932,15 +37087,26 @@
         "blob": "1f67f6f365576077a9316deb779a60f2ee4f1778"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "hold_reason": "hold_successor_consumer_and_retirement_reconciliation",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
         "specific_consumer_or_document_disposition_required"
       ],
       "successor_mapping": {
-        "mapping": "unmapped",
-        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-        "exact_successor_paths": []
+        "mapping": "exact_cross_owner_mode_blob",
+        "successor_owner": "agent-logic/codefriend",
+        "successor_revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "exact_successor_paths": [
+          "review-skills/contracts/248f00e3/REVIEW_TO_TEST_PLANNER_SKILL_INPUT_SCHEMA.md"
+        ]
+      },
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/contracts/248f00e3/REVIEW_TO_TEST_PLANNER_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "1f67f6f365576077a9316deb779a60f2ee4f1778",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
       }
     },
     {
@@ -37334,15 +37500,26 @@
         "blob": "20c2a5849a2bbdc4348dfd8fc2ddef35792513c5"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "hold_reason": "hold_successor_consumer_and_retirement_reconciliation",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
         "specific_consumer_or_document_disposition_required"
       ],
       "successor_mapping": {
-        "mapping": "unmapped",
-        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-        "exact_successor_paths": []
+        "mapping": "exact_cross_owner_mode_blob",
+        "successor_owner": "agent-logic/codefriend",
+        "successor_revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "exact_successor_paths": [
+          "review-skills/finding-to-issue-planner/scripts/plan_review_issues.py"
+        ]
+      },
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/finding-to-issue-planner/scripts/plan_review_issues.py",
+        "mode": "100755",
+        "blob": "20c2a5849a2bbdc4348dfd8fc2ddef35792513c5",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
       }
     },
     {
@@ -40198,15 +40375,26 @@
         "blob": "cdd3fa1b8556ffd3d90692942d1a1f2588a85a5e"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "hold_reason": "hold_successor_consumer_and_retirement_reconciliation",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
         "specific_consumer_or_document_disposition_required"
       ],
       "successor_mapping": {
-        "mapping": "unmapped",
-        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-        "exact_successor_paths": []
+        "mapping": "exact_cross_owner_mode_blob",
+        "successor_owner": "agent-logic/codefriend",
+        "successor_revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "exact_successor_paths": [
+          "review-skills/repo-dependency-review/scripts/prepare_dependency_review.py"
+        ]
+      },
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/repo-dependency-review/scripts/prepare_dependency_review.py",
+        "mode": "100755",
+        "blob": "cdd3fa1b8556ffd3d90692942d1a1f2588a85a5e",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
       }
     },
     {
@@ -40357,15 +40545,26 @@
         "blob": "b55d37f52ba4a9ec562619e3ab11e40c45ca86af"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "hold_reason": "hold_successor_consumer_and_retirement_reconciliation",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
         "specific_consumer_or_document_disposition_required"
       ],
       "successor_mapping": {
-        "mapping": "unmapped",
-        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-        "exact_successor_paths": []
+        "mapping": "exact_cross_owner_mode_blob",
+        "successor_owner": "agent-logic/codefriend",
+        "successor_revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "exact_successor_paths": [
+          "review-skills/repo-diagram-planner/scripts/plan_repo_diagrams.py"
+        ]
+      },
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/repo-diagram-planner/scripts/plan_repo_diagrams.py",
+        "mode": "100755",
+        "blob": "b55d37f52ba4a9ec562619e3ab11e40c45ca86af",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
       }
     },
     {
@@ -40561,15 +40760,26 @@
         "blob": "f652da0f91908d6c384d3a716a5df1aff1d7580a"
       },
       "existing_action": "retain",
-      "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
+      "hold_reason": "hold_successor_consumer_and_retirement_reconciliation",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
         "specific_consumer_or_document_disposition_required"
       ],
       "successor_mapping": {
-        "mapping": "unmapped",
-        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-        "exact_successor_paths": []
+        "mapping": "exact_cross_owner_mode_blob",
+        "successor_owner": "agent-logic/codefriend",
+        "successor_revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "exact_successor_paths": [
+          "review-skills/repo-packet-builder/tests/fixtures/issue-520-changed-paths.txt"
+        ]
+      },
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/repo-packet-builder/tests/fixtures/issue-520-changed-paths.txt",
+        "mode": "100644",
+        "blob": "f652da0f91908d6c384d3a716a5df1aff1d7580a",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
       }
     },
     {
@@ -41587,15 +41797,26 @@
         "blob": "c801c4f1aecbeea741065e87857882c7652db8f9"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "hold_reason": "hold_successor_consumer_and_retirement_reconciliation",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
         "specific_consumer_or_document_disposition_required"
       ],
       "successor_mapping": {
-        "mapping": "unmapped",
-        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-        "exact_successor_paths": []
+        "mapping": "exact_cross_owner_mode_blob",
+        "successor_owner": "agent-logic/codefriend",
+        "successor_revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "exact_successor_paths": [
+          "review-skills/review-readiness-cleanup/scripts/inspect_review_readiness.py"
+        ]
+      },
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/review-readiness-cleanup/scripts/inspect_review_readiness.py",
+        "mode": "100755",
+        "blob": "c801c4f1aecbeea741065e87857882c7652db8f9",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
       }
     },
     {
@@ -92291,6 +92512,13 @@
         "all_active_callers_repaired",
         "scoped_operator_decision"
       ]
+    }
+  ],
+  "prior_qualification_observations": [
+    {
+      "codefriend": "Issue102 candidate529e79c6512da1cb01c6a3f987922d4469aaeede executed all39suites409Linux tests:408passed1failed (PDF measured-glyph wrapping), ordered streams and clean source retained. Evidence FastWork c1223/evidence/codefriend/issue102-529e79c6; transcript SHA2561c8974ad955d461ed2773e0378ef49d8c97d0add3d9c54e91ab4386c3a3f32cc. One source macOS-only case remains unqualified. Prior399/10 and original adverse attempts retained. Owner repair pending; installed31+11cases do not replace this obligation.",
+      "csdlc_node_proof": "Cognitive-sdlc247 owns missing original1249Node behavior/scenarios; no retirement or acceptance until repaired and qualified.",
+      "runtime": "Runtime149 candidate16f288d2e0f31111403b15a34fff35e1ad654b49 reconnected original31row201declaration CLI tree plus inline module tests: actual runtime_cli_unit379passed17failed1ignored; separate serialcli_smoke84passed10failed. Evidence FastWork c1223/evidence/agent-logic-runtime/issue149-16f288d2 and issue149-16f288d2-remaining. Owner repairs pending, no denominator equivalence or retirement inferred. Mirror148 corrected fe79b428 passed4repairedlibtests; prior c0023ec11lib/bin5/refusal1/readback1/help1/packaging2 and isolatedLinux auxiliary dry-run passes retained. Full package/macOS mirror qualification and owner publication remain separate. Installer147 actual3GiB proof passed; publication pending. CI/coverage denominator unreconciled."
     }
   ]
 }

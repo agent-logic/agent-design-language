@@ -1,0 +1,260 @@
+{
+  "schema": "adl.public_coverage.v1",
+  "source_head": "5def116e9e649071982562a2411a5386b1a514fe",
+  "mode": "full",
+  "base": null,
+  "changed_files": [],
+  "files": {
+    "adl/src/bin/adl_process.rs": {
+      "package": "adl",
+      "count": 17,
+      "covered": 17
+    },
+    "adl/src/cli/codefriend_owner.rs": {
+      "package": "adl",
+      "count": 95,
+      "covered": 79
+    },
+    "adl/src/cli/observability.rs": {
+      "package": "adl",
+      "count": 1472,
+      "covered": 1307
+    },
+    "adl/src/cli/process_cmd.rs": {
+      "package": "adl",
+      "count": 219,
+      "covered": 200
+    },
+    "adl/src/cli/process_cmd/args.rs": {
+      "package": "adl",
+      "count": 227,
+      "covered": 227
+    },
+    "adl/src/cli/public_dispatch.rs": {
+      "package": "adl",
+      "count": 49,
+      "covered": 44
+    },
+    "adl/src/cli/public_workflow.rs": {
+      "package": "adl",
+      "count": 43,
+      "covered": 40
+    },
+    "adl/src/cli/resume_args.rs": {
+      "package": "adl",
+      "count": 52,
+      "covered": 52
+    },
+    "adl/src/cli/runtime_owner.rs": {
+      "package": "adl",
+      "count": 92,
+      "covered": 82
+    },
+    "adl/src/cli/session_cmd.rs": {
+      "package": "adl",
+      "count": 626,
+      "covered": 610
+    },
+    "adl/src/cli/usage.rs": {
+      "package": "adl",
+      "count": 197,
+      "covered": 197
+    },
+    "adl/src/cli/workflow_args.rs": {
+      "package": "adl",
+      "count": 92,
+      "covered": 86
+    },
+    "adl/src/cli/workflow_display.rs": {
+      "package": "adl",
+      "count": 13,
+      "covered": 12
+    },
+    "adl/src/control_plane.rs": {
+      "package": "adl",
+      "count": 341,
+      "covered": 339
+    },
+    "adl/src/main.rs": {
+      "package": "adl",
+      "count": 3,
+      "covered": 3
+    },
+    "adl/src/session_ledger.rs": {
+      "package": "adl",
+      "count": 780,
+      "covered": 717
+    },
+    "adl-schema/src/model_identity.rs": {
+      "package": "adl-schema",
+      "count": 113,
+      "covered": 99
+    },
+    "adl-schema/src/syntax.rs": {
+      "package": "adl-schema",
+      "count": 20,
+      "covered": 20
+    },
+    "adl-uts/src/conformance.rs": {
+      "package": "adl-uts",
+      "count": 487,
+      "covered": 468
+    },
+    "adl-uts/src/lib.rs": {
+      "package": "adl-uts",
+      "count": 878,
+      "covered": 737
+    },
+    "adl-v2/crates/adl-language/src/canonical.rs": {
+      "package": "adl-language",
+      "count": 8,
+      "covered": 8
+    },
+    "adl-v2/crates/adl-language/src/diagnostic.rs": {
+      "package": "adl-language",
+      "count": 14,
+      "covered": 14
+    },
+    "adl-v2/crates/adl-language/src/lib.rs": {
+      "package": "adl-language",
+      "count": 9,
+      "covered": 9
+    },
+    "adl-v2/crates/adl-language/src/parse.rs": {
+      "package": "adl-language",
+      "count": 98,
+      "covered": 85
+    },
+    "adl-v2/crates/adl-language/src/validate.rs": {
+      "package": "adl-language",
+      "count": 311,
+      "covered": 262
+    },
+    "adl-v2/crates/adl-compiler/src/lib.rs": {
+      "package": "adl-compiler",
+      "count": 420,
+      "covered": 378
+    },
+    "adl-legacy-contracts/src/adl.rs": {
+      "package": "adl-legacy-contracts",
+      "count": 16,
+      "covered": 13
+    },
+    "adl-legacy-contracts/src/adl/loading.rs": {
+      "package": "adl-legacy-contracts",
+      "count": 231,
+      "covered": 220
+    },
+    "adl-legacy-contracts/src/adl/types.rs": {
+      "package": "adl-legacy-contracts",
+      "count": 160,
+      "covered": 144
+    },
+    "adl-legacy-contracts/src/adl/validation.rs": {
+      "package": "adl-legacy-contracts",
+      "count": 320,
+      "covered": 269
+    },
+    "adl-legacy-contracts/src/cognitive_transition_schema.rs": {
+      "package": "adl-legacy-contracts",
+      "count": 366,
+      "covered": 317
+    },
+    "adl-legacy-contracts/src/execution_plan.rs": {
+      "package": "adl-legacy-contracts",
+      "count": 616,
+      "covered": 576
+    },
+    "adl-legacy-contracts/src/lib.rs": {
+      "package": "adl-legacy-contracts",
+      "count": 22,
+      "covered": 22
+    },
+    "adl-legacy-contracts/src/plan.rs": {
+      "package": "adl-legacy-contracts",
+      "count": 17,
+      "covered": 17
+    },
+    "adl-legacy-contracts/src/prompt.rs": {
+      "package": "adl-legacy-contracts",
+      "count": 100,
+      "covered": 100
+    },
+    "adl-legacy-contracts/src/resolve.rs": {
+      "package": "adl-legacy-contracts",
+      "count": 650,
+      "covered": 554
+    },
+    "adl-legacy-contracts/src/schema.rs": {
+      "package": "adl-legacy-contracts",
+      "count": 70,
+      "covered": 70
+    },
+    "adl-legacy-contracts/src/trace_schema_v1.rs": {
+      "package": "adl-legacy-contracts",
+      "count": 1168,
+      "covered": 1008
+    }
+  },
+  "source_sha256": {
+    "adl-legacy-contracts/src/adl.rs": "7cc79365feb1f990eacc88738a602adcd72dc2e1d3a6ea14ddeb40efb4ae0ef4",
+    "adl-legacy-contracts/src/adl/loading.rs": "8809baf5df809979871f0fb2fa8b015ae764334e361e91a24e56916b1136b944",
+    "adl-legacy-contracts/src/adl/types.rs": "c423454d1ebd553312a8a2d4a4b20977b0c62ee7559c50bb11ad2ba012de7f89",
+    "adl-legacy-contracts/src/adl/validation.rs": "0d1130cefe0531302e59d6f4496313592cd4c2e0d3269b5e8b71cb2ce3e358c9",
+    "adl-legacy-contracts/src/cognitive_transition_schema.rs": "94b13e105c1b8790f9b20de3f6bb986afb42ef739962ce903051638c9561975f",
+    "adl-legacy-contracts/src/execution_plan.rs": "380755000d8d1395e8e3832c54e221bef046c1218e3634fbb563bf2cadafa21f",
+    "adl-legacy-contracts/src/lib.rs": "ddefe372bd69775dd4f0d3dfd15660d48309bd3bcb51da821363fba9a2fb8951",
+    "adl-legacy-contracts/src/plan.rs": "fbbf08371806559e82ff54a85cc64217949ae92d9e4685bb470ea958acc434c1",
+    "adl-legacy-contracts/src/prompt.rs": "ac9e69bd32fdc6718fa05a0f366749cf3e78c61f0287ab79ce6d6a3d2b664918",
+    "adl-legacy-contracts/src/resolve.rs": "63a49a13917a48ddf8b64533714b7af72ae4926d93c3bdc8aecc04adf0713c93",
+    "adl-legacy-contracts/src/schema.rs": "7894acdd10063b4c608c8fc6fc1930b072549e8c4c8f436346f7008445ba55f3",
+    "adl-legacy-contracts/src/trace_schema_v1.rs": "e4aebba20dd926af7638b206972c0c6d17317df480ce061d739e1b9944ef4b51",
+    "adl-schema/src/lib.rs": "a97526fea96931451e900aef821c090d0d9bfdb82c9f6f383888b5335cd957a4",
+    "adl-schema/src/model_identity.rs": "4b4cfb4c2a727581fc87535752fc17bdaffe0e27415752d9262217728184359b",
+    "adl-schema/src/provider.rs": "fbcc3916a50c9bba5276073f75dcf61c228a949ed4e7980d429eb6bdb692d8c4",
+    "adl-schema/src/syntax.rs": "a480a6721893106a754b83145006418325981aac07209f96f7381d17e1a6b729",
+    "adl-uts/src/conformance.rs": "2c2a129b034cd794c3d05bec4fcc85364dba756c14c3a26ad3778ed09aa8919c",
+    "adl-uts/src/lib.rs": "3d5225a8ca394f658e66e03499dcf6881c73e5734047a3d3234eea7ddaf0ce1a",
+    "adl-v2/crates/adl-compiler/src/lib.rs": "b12af369f1a970f8354b516a340e9f0e6955a0dfaf7710c1af73e4724ce32cf6",
+    "adl-v2/crates/adl-language/src/canonical.rs": "75d9fa6fe8cf579498d020567a3cf7595cb23d61381a39b28fd4187ebe7992f3",
+    "adl-v2/crates/adl-language/src/diagnostic.rs": "9143f7dcf2610bf170f6811ea7c307c074dc29d7b33fbd5829bb1efdce00e2c5",
+    "adl-v2/crates/adl-language/src/lib.rs": "c5e5cbc091e3c76dfc81fb2130f299ec15fbc7fcc3ecdd5560aa2e7a37560689",
+    "adl-v2/crates/adl-language/src/model.rs": "14a839c40606dcc000b70fff4fca6b49a6f3376ac779b9fdbc109c0dde70a60b",
+    "adl-v2/crates/adl-language/src/parse.rs": "a094994549f3466b0d7c675817087d7bf8ab02e83a224efbd62f437a1dbf8bd0",
+    "adl-v2/crates/adl-language/src/validate.rs": "f75f6e3ac250344822197160b1f6fb941de2d535a47799c104ddb0204dd94fdd",
+    "adl/src/bin/adl_process.rs": "006357e31b15da94d13d68aa0dd1628929fd482b13dca0e40bde2a283e5c4c42",
+    "adl/src/cli/codefriend_owner.rs": "4fc5d4d1901cf348a8e01a01a7fb74c11f78da77a40cf1d43f8bc7026228e4b0",
+    "adl/src/cli/observability.rs": "0512ca05cfb664dc1a572f66ab93c5f736ad8467589484beedb4846ef6d9132d",
+    "adl/src/cli/process_cmd.rs": "b8a82745dc1d54f0cc922e40fd4515ec4f3cb6b12c16bcf7b47b1473a21a1f9c",
+    "adl/src/cli/process_cmd/args.rs": "ab64ba234d81bf23ef3bcf2430c7369fecc38449d3feed9235843e99f4578c74",
+    "adl/src/cli/public_dispatch.rs": "1bba6365e36fbeb1b59cf8e4c3d4fa95636bb92839f7af5d1d9aea91ac258d2b",
+    "adl/src/cli/public_workflow.rs": "28e810bd37f9618ea43e303e5c986c49ebb57f7ab753eaffb932029f4025076d",
+    "adl/src/cli/resume_args.rs": "59578b71372422927d9245e344a9f6c9c78fdf376a0247adb239a57cc0c69df2",
+    "adl/src/cli/runtime_owner.rs": "7369201422e76164c1ec1106f3e2d4f6d46dd26f52fe256c38acd63be5a5101b",
+    "adl/src/cli/session_cmd.rs": "32d45f9b308eef11135bf523ca2afd13a8fe89ea8ddd5f44777778f2e0013d2f",
+    "adl/src/cli/usage.rs": "73dbbc071dd675667364eff564dcab4fc53708ca5ca22a5c4cf36181e78d9847",
+    "adl/src/cli/workflow_args.rs": "312216947a3a54dac2764fe3bcce4a405f45149c347bf66bb84138b80f3aac71",
+    "adl/src/cli/workflow_display.rs": "d0f80bc25f1a5be5488af34301361c6cb2c0cb0b5afd6ac0f5cdc8e5d2773a22",
+    "adl/src/control_plane.rs": "5433852b8bff40b09eb6b0729c7258967c8eb34afd12df480d59ee446903e132",
+    "adl/src/lib.rs": "9cb671bf2bf8917bd791d8c1e933329ce8527b30443cee02303881df24307492",
+    "adl/src/main.rs": "bbde80598d338d89679b02f7a856ac06228d8af1b71e25288341802553462614",
+    "adl/src/session_ledger.rs": "ba0cd324aa680190444ac446215623d60e552ee14afdde3ff533e925231197bc"
+  },
+  "declaration_only_without_measurement": [
+    "adl-schema/src/lib.rs",
+    "adl-schema/src/provider.rs",
+    "adl-v2/crates/adl-language/src/model.rs",
+    "adl/src/lib.rs"
+  ],
+  "line_count": 10412,
+  "covered_lines": 9402,
+  "thresholds": {
+    "changed_file": 80,
+    "full_file": 80,
+    "full_aggregate": 90
+  },
+  "inventory_sha256": "a793f1df2c7dc304ce8333b5b65fe02e4cccfdc8b540c5fc68cfdd0710662aac",
+  "toolchain": "rustc 1.92.0 (ded5c06cf 2025-12-08)\nbinary: rustc\ncommit-hash: ded5c06cf21d2b93bffd5d884aa6e96934ee4234\ncommit-date: 2025-12-08\nhost: aarch64-apple-darwin\nrelease: 1.92.0\nLLVM version: 21.1.3\n",
+  "failures": [],
+  "status": "passed"
+}
