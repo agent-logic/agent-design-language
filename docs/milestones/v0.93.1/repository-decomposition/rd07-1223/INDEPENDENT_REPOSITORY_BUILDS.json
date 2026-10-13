@@ -55,8 +55,8 @@
       "repository": "agent-logic/agent-logic-infrastructure",
       "observed_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
       "execution_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
-      "status": "not_run",
-      "kind": "infrastructure_source",
+      "status": "failed",
+      "kind": "infrastructure_and_rust_tooling",
       "commands": [
         [
           "python3",
@@ -69,10 +69,71 @@
           "-p",
           "test_*.py",
           "-v"
+        ],
+        [
+          "bash",
+          "adl/tools/install_aws_remote_validation_tool.sh"
         ]
       ],
       "source": "README.md and .github/workflows/product-ci.yaml",
-      "note": "No application compiler. In addition to contract tests, inventory all in-scope Terraform roots and run init -backend=false and validate with locked providers; record each root. No plan/apply/cloud credentials. Unit tests alone do not qualify every Terraform component."
+      "note": "Container construction tests and 27/28 Terraform roots passed after documented toolchain/platform corrections; csm-runtime-alb has unsupported module arguments. Infrastructure-owned Rust adapter compilation remains running. No cloud plan/apply.",
+      "terraform_result": {
+        "repository": "agent-logic/agent-logic-infrastructure",
+        "revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+        "status": "failed",
+        "validated_roots": [
+          "infra/aws/account-foundation",
+          "infra/aws/bootstrap",
+          "infra/aws/csm-public-edge",
+          "infra/aws/csm-runtime-health",
+          "infra/aws/csm-runtime-spot",
+          "infra/aws/observatory",
+          "infra/aws/runtime/agent-checkpoint-archive",
+          "infra/aws/runtime/alb-origin",
+          "infra/aws/runtime/gpu-proof",
+          "infra/aws/runtime/gpu-proof/warm-storage",
+          "infra/aws/runtime/gpu-proof/warm-storage/preparation",
+          "infra/aws/runtime/log-archive",
+          "infra/aws/runtime/private-node",
+          "infra/aws/runtime/xcl-01",
+          "infra/ddns",
+          "infra/gcp/bootstrap",
+          "infra/gcp/organization",
+          "infra/gcp/platform",
+          "infra/gcp/workloads/drt-d-six-resident",
+          "infra/gcp/workloads/gpu-smoke-instance",
+          "infra/gcp/workloads/gpu-smoke-support",
+          "infra/gcp/workloads/modules/two-node-ollama-runtime",
+          "infra/gcp/workloads/warm-polis",
+          "infra/gcp/workloads/warm-polis/preparation",
+          "infra/gcp/workloads/warm-polis/snapshot-catalog",
+          "infra/gcp/workloads/xcl-01",
+          "tools/codefriend_host/terraform"
+        ],
+        "validated_root_count": 27,
+        "total_root_count": 28,
+        "failure": {
+          "root": "infra/aws/csm-runtime-alb",
+          "reason": "Caller passes hosted_zone_id, create_dns_record, create_certificate absent from child module interface",
+          "phase": "terraform get",
+          "source_changed": false
+        },
+        "environment_corrections": [
+          "Signed same-version Linux ARM64 provider hash additions",
+          "Initialize local modules before provider lock",
+          "Python3.12 for tarfile filter extraction contract test"
+        ],
+        "limitations": [
+          "No cloud plan or apply",
+          "Source defect remains unresolved",
+          "AWS adapter compile remains running"
+        ],
+        "logs": {
+          "modules-build.log": "3d0271640feaf27697b24a92e963bb28c2b29c90fef44f47d0eaf9c625a01bb4",
+          "arm64-build.log": "451e164a8687c9d09a73b053c34ab504c4167eca2362a79d3266e5018de932aa"
+        }
+      },
+      "adapter_build_status": "running"
     },
     {
       "repository": "agent-logic/agent-logic-runtime",

@@ -147,5 +147,12 @@
   ],
   "proof_executed_by_this_document": false,
   "package_selection": "Explicit member --manifest-path selects full package tests including integration tests and doctests. No --lib filter; native admitted form omits unsupported --package flag.",
-  "independent_repository_builds": "INDEPENDENT_REPOSITORY_BUILDS.json"
+  "independent_repository_builds": "INDEPENDENT_REPOSITORY_BUILDS.json",
+  "retained_cli_gate": {
+    "required": true,
+    "status": "not_run",
+    "plan": "LEGACY_PUBLIC_CLI_PARTITION.json",
+    "scope": "Public CLI behavior plus authenticated private-owner consumer parity after partition; five-package proof alone is insufficient",
+    "no_legacy_cli_retirement_authorized": true
+  }
 }
