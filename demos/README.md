@@ -22,11 +22,9 @@ If you want the historical `v0.8` flagship demo surface:
 cargo run --manifest-path demos/transpiler_demo/Cargo.toml --quiet
 ```
 
-If you want the current `v0.89.1` quality-gate proof package:
-
-```bash
-bash adl/tools/demo_v0891_quality_gate.sh
-```
+The historical `v0.89.1` quality-gate aggregate and its original companion
+contract are retained in #1223 custody. Its monolithic ADL execution route is
+retired; this is not a claim that its independent product checks passed.
 
 If you want the current `v0.89.1` integration demo package:
 
@@ -162,7 +160,7 @@ Use these categories consistently:
 
 Current heavyweight proof-package examples:
 - `bash adl/tools/demo_v088_review_surface.sh`
-- `bash adl/tools/demo_v0891_quality_gate.sh`
+- Historical `v0.89.1` quality-gate package (retired aggregate; retained evidence).
 - `bash adl/tools/demo_v0891_wp13_demo_integration.sh`
 
 When planning a demo sweep, do not assume every proof-package command above belongs in the ordinary demo lane.
@@ -261,8 +259,9 @@ manifest, claim matrix, revision requests, and a clearer reviewer brief.
 - `v0.89.1/deep_agents_comparative_wave_follow_on_demo.md`
 - `v0.89.1/long_lived_stock_league_demo.md`
 
-Use `bash adl/tools/demo_v0891_quality_gate.sh` for the current release-tail
-quality-gate proof package.
+The `v0.89.1` release-tail quality-gate aggregate is historical after #1223.
+Use the current public ADL and separately qualified owner checks for their
+respective scopes; no single replacement claims its old combined denominator.
 
 Use `bash adl/tools/demo_v0891_wp13_demo_integration.sh` for the integrated
 `v0.89.1` demo package.

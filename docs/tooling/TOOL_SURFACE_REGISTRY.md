@@ -30,7 +30,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 9
 - `supported shim`: 0
-- `internal helper`: 527
+- `internal helper`: 519
 - `historical evidence`: 45
 - `archive candidate`: 0
 - `remove candidate`: 0
@@ -122,7 +122,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/demo_v0891_five_agent_hey_jude.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v0891_gemini_provider_harmony_roundtable.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v0891_long_lived_stock_league.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
-| `adl/tools/demo_v0891_quality_gate.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v0891_wp13_demo_integration.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v089_deep_agents_comparative_wave.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v089_gemini_in_the_loop.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
@@ -131,13 +130,10 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/demo_v089_medium_article_writing.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v089_multi_agent_repo_code_review.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v089_proof_entrypoints.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
-| `adl/tools/demo_v089_quality_gate.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v089_review_surface.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v0901_csm_observatory.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
-| `adl/tools/demo_v0901_quality_gate.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v0902_multi_agent_repo_review_proof.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v0902_paper_sonata_expansion.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
-| `adl/tools/demo_v0902_review_quality_gate.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v090_architecture_document_generation.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v090_codebuddy_review_showcase.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v0911_five_agent_hey_jude_audio.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
@@ -352,7 +348,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_demo_v0891_five_agent_hey_jude.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v0891_gemini_provider_harmony_roundtable.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v0891_long_lived_stock_league.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_demo_v0891_quality_gate.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v0891_wp13_demo_integration.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v089_deep_agents_comparative_wave.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v089_gemini_in_the_loop.sh` | tool surface | internal helper | Focused regression or contract test helper. |
@@ -361,15 +356,12 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_demo_v089_medium_article_writing.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v089_multi_agent_repo_code_review.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v089_proof_entrypoints.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_demo_v089_quality_gate.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v089_review_surface.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v0901_csm_observatory_operator_report.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v0901_csm_observatory_static_console.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_demo_v0901_quality_gate.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v0902_arxiv_writer_field_test.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v0902_multi_agent_repo_review_proof.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v0902_paper_sonata_expansion.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_demo_v0902_review_quality_gate.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v0904_csm_observatory_governed_prototype.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v090_architecture_document_generation.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v090_codebuddy_review_showcase.sh` | tool surface | internal helper | Focused regression or contract test helper. |

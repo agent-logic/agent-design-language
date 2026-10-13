@@ -23,7 +23,7 @@ Keep behavioral and milestone narrative in canonical docs, not here.
 - `worktree_doctor.sh`, `worktree_prune.sh`: deterministic worktree governance and safe cleanup helpers.
 - `archive_run_artifacts.sh`: dry-run/apply helper that inventories local run roots, copies unique run artifacts into `.adl/trace-archive/milestones/<milestone>/runs/`, and can move archived active `.adl/runs` entries into `.adl/trace-archive/source-roots/`.
 - `release_ceremony.sh`: nonmutating native v3 release candidate preflight; requires an exact typed candidate request and stable owner. See `docs/csdlc-v3/RELEASE_PREFLIGHT.md`.
-- `demo_v089_quality_gate.sh`: canonical `v0.89` D11 quality-gate walkthrough that aggregates the bounded local gate and proof-package checks into one reviewer-facing manifest.
+- Historical `v0.89` D11 quality-gate aggregate: retired with its monolithic source route under #1223; original scripts and assertions remain in retirement custody. Independent public and owner checks remain separate.
 - Native v3 `csdlc edit` and `csdlc validate` own current typed card edits and
   validation.
 - Issue execution uses the selected native C-SDLC owner and bound FastWork worktrees.
@@ -110,8 +110,8 @@ python3 adl/tools/validate_multi_agent_transcript.py artifacts/v0871/multi_agent
 # run standard checks
 ./adl/tools/batched_checks.sh
 
-# build the bounded v0.89 D11 quality-gate walkthrough package
-bash adl/tools/demo_v089_quality_gate.sh
+# Historical v0.89 D11 aggregate retired under #1223; original proof is retained.
+# Current public CLI checks: bash tools/public_adl/run_cli_ci.sh
 
 # audit root + milestone reviewer-facing docs for current-milestone staleness
 python3 ./adl/tools/check_repo_quality_staleness.py --milestone v0.91.6
