@@ -1,3 +1,5 @@
+> The ADL `run_issue345_aws_gpu_shepherd_proof.sh` and its companion test were unconditional retirement refusals and have now been removed. The command examples below describe the historical owner procedure; they are not executable ADL commands. Use the Infrastructure checkout named below with its independently qualified inputs. Original source assertions remain in #1223 retirement custody; this removal does not establish GPU, native Runtime, cloud or installed acceptance.
+
 > Infrastructure source and execution for the Terraform paths below moved to [agent-logic-infrastructure](https://github.com/agent-logic/agent-logic-infrastructure/tree/61c2806b6274b1003aa42f02adec99faf5f2a74b/infra). Run applicable commands from that owner checkout with its reviewed inputs. These retained procedures and historical outcomes do not establish new cloud or deployment acceptance.
 
 # AWS two-node Runtime and GPU proof

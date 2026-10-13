@@ -31,7 +31,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 - `primary`: 8
 - `supported shim`: 0
 - `internal helper`: 503
-- `historical evidence`: 43
+- `historical evidence`: 31
 - `archive candidate`: 0
 - `remove candidate`: 0
 
@@ -239,7 +239,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/run_issue268_remote_resident_qualification.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_issue268_six_hour_spot_qualification.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_issue268_six_resident_uts_cycle.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
-| `adl/tools/run_issue345_aws_gpu_shepherd_proof.sh` | tool surface | historical evidence | Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing. |
 | `adl/tools/run_issue414_llama_baseline.sh` | tool surface | historical evidence | Historical ADL live-model baseline route retired by #1223; refuses execution. Original model, CSM and restore assertions remain unqualified and preserved in custody. |
 | `adl/tools/run_issue509_gcp_drt_d_qualification.sh` | tool surface | historical evidence | Historical Infrastructure source route retired by #1223; command refuses execution. Original assertions remain in Git and retirement custody; run the reviewed owner route. |
 | `adl/tools/run_issue607_warm_polis.sh` | tool surface | historical evidence | Historical Infrastructure source route retired by #1223; command refuses execution. Original assertions remain in Git and retirement custody; run the reviewed owner route. |
@@ -254,7 +253,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/run_pvf_validation_lane.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_runtime_gateway_owner_contract.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_runtime_v3_guardian_soak.sh` | tool surface | historical evidence | Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing. |
-| `adl/tools/run_runtime_v3_operational_proof.sh` | tool surface | historical evidence | Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing. |
 | `adl/tools/run_uts_benchmark.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_v0913_proof_validation_lane.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_v0914_multi_agent_workcell_proof.sh` | tool surface | historical evidence | Historical model-backed v0.91.4 workcell rehearsal; retained manifest and review artifacts do not qualify a new execution, including its provider-active dry-run path. |
@@ -276,7 +274,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/run_wp08_local_polis_ssm_proof.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_wp08_local_polis_ssm_proof.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_wp08_polis_storage_live_proof.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
-| `adl/tools/run_wp5795_aws_gpu_proof.sh` | tool surface | historical evidence | Historical single-node SSM GPU proof with pinned artifacts and owner-bound cleanup; no new execution qualified, and the two-node issue345 proof is not an equivalent replacement. |
 | `adl/tools/runtime_v3_generation.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/runtime_v3_operational_selector.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/rust_cache_env.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
@@ -319,7 +316,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_csdlc_prompt_editor.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_csdlc_v2_supply_chain.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_csmctl_linux_backend.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_csmctl_observatory_origins.sh` | tool surface | historical evidence | Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing. |
 | `adl/tools/test_demo_codex_ollama_operational_skills.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_codex_ollama_semantic_fallback.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_operator_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
@@ -383,9 +379,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_install_adl_operational_skills.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_install_issue268_runtime_volume.py` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_issue268_runtime_qualification_cloudformation.py` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_issue607_warm_polis.sh` | tool surface | historical evidence | Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing. |
-| `adl/tools/test_issue694_conversation_history_reload.sh` | tool surface | historical evidence | Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing. |
-| `adl/tools/test_issue713_a2a_history.sh` | tool surface | historical evidence | Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing. |
 | `adl/tools/test_issue905_runtime_speculative_retest.py` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_issue_folding_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_issue_lifecycle_shepherd_contract.sh` | tool surface | internal helper | Focused regression or contract test helper. |
@@ -431,14 +424,11 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_run_authoritative_coverage_lane.sh` | tool surface | historical evidence | Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing. |
 | `adl/tools/test_run_aws_spot_builder_image_validation.sh` | tool surface | historical evidence | Historical Infrastructure source route retired by #1223; command refuses execution. Original assertions remain in Git and retirement custody; run the reviewed owner route. |
 | `adl/tools/test_run_aws_spot_ci_profile.sh` | tool surface | historical evidence | Historical Infrastructure source route retired by #1223; command refuses execution. Original assertions remain in Git and retirement custody; run the reviewed owner route. |
-| `adl/tools/test_run_aws_spot_remote_validation_lane.sh` | tool surface | historical evidence | Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing. |
 | `adl/tools/test_run_cargo_validation.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_run_ci_step_with_log.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_run_issue268_continuity_uts_qualification.py` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_run_issue268_remote_resident_qualification.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_run_issue268_six_hour_spot_qualification.sh` | tool surface | historical evidence | Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing. |
 | `adl/tools/test_run_issue268_six_resident_uts_cycle.py` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh` | tool surface | historical evidence | Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing. |
 | `adl/tools/test_run_issue901_provider_recovery_qualification.py` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_run_issue901_runtime_recovery_qualification.py` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_run_local_authoritative_coverage_gate.sh` | tool surface | internal helper | Focused regression or contract test helper. |
@@ -532,7 +522,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/validate_polis_status_for_ssm_qts.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_polis_status_for_ssm_windows.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_pvf_manifest.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
-| `adl/tools/validate_runtime_hardening_5408.py` | tool surface | historical evidence | Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing. |
 | `adl/tools/validate_skill_frontmatter.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_software_development_polis_packet.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_transition_dag_packet.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
@@ -567,7 +556,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/validate_v092_durable_history_parent_integration.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_v092_governed_room_observatory.mjs` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_v092_html_observatory_roster.mjs` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
-| `adl/tools/validate_v092_observatory_restart_reconnect.sh` | tool surface | historical evidence | Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing. |
 | `adl/tools/validate_v092_observatory_transcript_history.mjs` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_v092_provider_neutral_proof.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_v092_runtime_guardian_lifecycle.sh` | tool surface | historical evidence | Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing. |
