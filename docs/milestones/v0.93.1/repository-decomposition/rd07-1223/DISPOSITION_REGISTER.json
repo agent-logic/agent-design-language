@@ -52,7 +52,7 @@
         "4ed8820c35574e6d134e5d3aed8e5488328d3f2d"
       ],
       "action": "retain",
-      "reason": "retain_repository_local_configuration_not_duplicate_product_implementation",
+      "reason": "retain_repository_local_execution_policy",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
@@ -69,7 +69,12 @@
           "required_parent": "/Volumes/FastWork/adl-worktrees"
         },
         "implementation_owner": "cognitive-sdlc"
-      }
+      },
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: bound worktree policy",
+        ".adl/worktree-policy.json"
+      ]
     },
     {
       "id": "RD07-0003",
@@ -46005,7 +46010,7 @@
         "9cae93095991097681e5a58a6cabef21f52645b3"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_immutable_cutover_and_rollback_evidence",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "csdlc-v2/operator/coexistence.json"
@@ -46013,6 +46018,11 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "csdlc-v2/operator/coexistence.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: historical Gate 10A-D2 records remain immutable",
+        "docs/csdlc-v3/CURRENT_AUTHORITY.md: Historical evidence"
       ]
     },
     {
@@ -46026,7 +46036,7 @@
         "fc7c3c4a795046292173fde53d5f302fbcfdba58"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_immutable_cutover_and_rollback_evidence",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "csdlc-v2/operator/cutover-request.json"
@@ -46034,6 +46044,11 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "csdlc-v2/operator/cutover-request.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: historical Gate 10A-D2 records remain immutable",
+        "docs/csdlc-v3/CURRENT_AUTHORITY.md: Historical evidence"
       ]
     },
     {
@@ -46047,7 +46062,7 @@
         "826cd503a101a4fa717b7981c3b3db15397b0fdf"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_immutable_cutover_and_rollback_evidence",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "csdlc-v2/operator/eligibility-request.json"
@@ -46055,6 +46070,11 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "csdlc-v2/operator/eligibility-request.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: historical Gate 10A-D2 records remain immutable",
+        "docs/csdlc-v3/CURRENT_AUTHORITY.md: Historical evidence"
       ]
     },
     {
@@ -46173,7 +46193,7 @@
         "83b92c7e2b531fb96580774056c15505ebb0d2b7"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_immutable_cutover_and_rollback_evidence",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "csdlc-v2/operator/generation-selector.json"
@@ -46181,6 +46201,11 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "csdlc-v2/operator/generation-selector.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: historical Gate 10A-D2 records remain immutable",
+        "docs/csdlc-v3/CURRENT_AUTHORITY.md: Historical evidence"
       ]
     },
     {
@@ -46194,7 +46219,7 @@
         "7e6689dfcfa76038842fda8d78df783166a401ac"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_referenced_template_shape_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "csdlc-v2/operator/native-card-shape.json"
@@ -46202,6 +46227,10 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "csdlc-v2/operator/native-card-shape.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/templates/prompts/current.json: generations.csdlc_v2_native.shape_manifest_path"
       ]
     },
     {
@@ -46215,11 +46244,16 @@
         "d539e8d0abbc63ed6fa4862fab44d3268ad86203"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_immutable_cutover_and_rollback_evidence",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: historical Gate 10A-D2 records remain immutable",
+        "docs/csdlc-v3/CURRENT_AUTHORITY.md: Historical evidence"
+      ]
     },
     {
       "id": "RD07-2286",
@@ -46232,7 +46266,7 @@
         "95a862527500f8269a4d794d81f0eea95dcd5657"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_immutable_cutover_and_rollback_evidence",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "csdlc-v2/operator/pre-switch-proof.json"
@@ -46240,6 +46274,11 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "csdlc-v2/operator/pre-switch-proof.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: historical Gate 10A-D2 records remain immutable",
+        "docs/csdlc-v3/CURRENT_AUTHORITY.md: Historical evidence"
       ]
     },
     {
@@ -48271,7 +48310,7 @@
         "7918c4a7a85ec8334a18cb2eef1de397e05024af"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_repository_bound_authority_evidence",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "csdlc-v3/tests/fixtures/legacy505/csdlc-v3/operator/authority-selector.json"
@@ -48279,6 +48318,11 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "csdlc-v3/tests/fixtures/legacy505/csdlc-v3/operator/authority-selector.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: canonical selector and authenticated reconciliation receipt",
+        "docs/csdlc-v3/CURRENT_AUTHORITY.md"
       ]
     },
     {
@@ -48292,7 +48336,7 @@
         "cc13ba1e9afc0f7cd9fa68b46fff847ba4b1858c"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_repository_bound_authority_evidence",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "csdlc-v3/operator/native-authority-pr-observation.json",
@@ -48302,6 +48346,11 @@
       "accepted_content_candidates": [
         "csdlc-v3/operator/native-authority-pr-observation.json",
         "csdlc-v3/tests/fixtures/legacy505/csdlc-v3/operator/native-authority-pr-observation.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: canonical selector and authenticated reconciliation receipt",
+        "docs/csdlc-v3/CURRENT_AUTHORITY.md"
       ]
     },
     {
@@ -48315,7 +48364,7 @@
         "28a16774fd74239a5b74485ace6b60e53c299582"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_repository_bound_authority_evidence",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "csdlc-v3/operator/native-authority-receipt.json",
@@ -48325,6 +48374,11 @@
       "accepted_content_candidates": [
         "csdlc-v3/operator/native-authority-receipt.json",
         "csdlc-v3/tests/fixtures/legacy505/csdlc-v3/operator/native-authority-receipt.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: canonical selector and authenticated reconciliation receipt",
+        "docs/csdlc-v3/CURRENT_AUTHORITY.md"
       ]
     },
     {
@@ -74044,11 +74098,17 @@
         "067eba063e1a8672356d71c030adebf2b409bb09"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
     },
     {
       "id": "RD07-3593",
@@ -74061,11 +74121,17 @@
         "896c7f37d0ae4ddfa94a623f74aca4db030613a8"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
     },
     {
       "id": "RD07-3594",
@@ -74078,11 +74144,17 @@
         "eb2f07c5ade58ce4702463d921165ef2abee33ff"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
     },
     {
       "id": "RD07-3595",
@@ -74095,11 +74167,17 @@
         "5e3f7d6f152263b7aa180af571075a6e8b827fda"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
     },
     {
       "id": "RD07-3596",
@@ -74112,11 +74190,17 @@
         "9ccaa0d08f258605838bed5f1213fdf0f24b2000"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
     },
     {
       "id": "RD07-3597",
@@ -74129,11 +74213,17 @@
         "63154a8d1b9f3f6cc4eecdf6d4f6f2b27c4f3da4"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
     },
     {
       "id": "RD07-3598",
@@ -74146,11 +74236,17 @@
         "dea08c0a317e2883b749fa14e60ca86e40009699"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
     },
     {
       "id": "RD07-3599",
@@ -74163,11 +74259,17 @@
         "edb03a579b7a3fcc335749a235af301aa2de772b"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
     },
     {
       "id": "RD07-3600",
@@ -74180,11 +74282,17 @@
         "f5f7edd6d700a8401e4913e2a2c9b8f9d66f9208"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
     },
     {
       "id": "RD07-3601",
@@ -74197,11 +74305,17 @@
         "5483b850760f598370d543deba0101570a89ebd9"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
     },
     {
       "id": "RD07-3602",
@@ -74214,11 +74328,17 @@
         "5a4db652e28bc82f85745a7b1b0d33cede582dcc"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
     },
     {
       "id": "RD07-3603",
@@ -74231,11 +74351,17 @@
         "d8eee09cbee895bff10e10e798c812f3d66002eb"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
     },
     {
       "id": "RD07-3604",
@@ -74248,11 +74374,17 @@
         "48721ed92319cdb74a829730f7aa95e66078148d"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
     },
     {
       "id": "RD07-3605",
@@ -74265,11 +74397,17 @@
         "22047982ac65dc83dbd7e026138778d87be8b9f2"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
     },
     {
       "id": "RD07-3606",
@@ -74282,11 +74420,17 @@
         "99a54976366bd19625314c8bbec62bb83dc85bc2"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
     },
     {
       "id": "RD07-3607",
@@ -74299,11 +74443,17 @@
         "c58be9b8e74aa401efc3c06950d1317e1ee04154"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
     },
     {
       "id": "RD07-3608",
@@ -74316,7 +74466,7 @@
         "d3b37e2ea6954a21812e1c18328796a33dc6327a"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/skill-distributions/planning-utilities/original/docs/templates/planning/1.1.0/decisions.md"
@@ -74324,6 +74474,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/skill-distributions/planning-utilities/original/docs/templates/planning/1.1.0/decisions.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -74337,7 +74493,7 @@
         "c3c954eac831d01c6ca6da6a2211b6f19c1e27be"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/skill-distributions/planning-utilities/original/docs/templates/planning/1.1.0/demo_matrix.md"
@@ -74345,6 +74501,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/skill-distributions/planning-utilities/original/docs/templates/planning/1.1.0/demo_matrix.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -74358,7 +74520,7 @@
         "2b0901288a32e7bb7d4ba71b4aff34f5ec9a79f8"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/skill-distributions/planning-utilities/original/docs/templates/planning/1.1.0/design.md"
@@ -74366,6 +74528,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/skill-distributions/planning-utilities/original/docs/templates/planning/1.1.0/design.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -74379,7 +74547,7 @@
         "c8dfaffa766cf2ceb4ff529a1bf2a98e150ce103"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/skill-distributions/planning-utilities/original/docs/templates/planning/1.1.0/feature_doc.md"
@@ -74387,6 +74555,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/skill-distributions/planning-utilities/original/docs/templates/planning/1.1.0/feature_doc.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -74400,7 +74574,7 @@
         "50355ec15203a28aa0bc69c94ea440d86a185d86"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/skill-distributions/planning-utilities/original/docs/templates/planning/1.1.0/milestone_checklist.md"
@@ -74408,6 +74582,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/skill-distributions/planning-utilities/original/docs/templates/planning/1.1.0/milestone_checklist.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -74421,11 +74601,17 @@
         "67f42649e8e9d868d1cf55b4674f750244d87aa7"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
     },
     {
       "id": "RD07-3614",
@@ -74438,7 +74624,7 @@
         "7a9a2e4f8b5a76685a7ea9c06fccfcda0844dada"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/skill-distributions/planning-utilities/original/docs/templates/planning/1.1.0/release_notes.md"
@@ -74446,6 +74632,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/skill-distributions/planning-utilities/original/docs/templates/planning/1.1.0/release_notes.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -74459,7 +74651,7 @@
         "60ba37ec2039cb3211914227f853c295f7424358"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/skill-distributions/planning-utilities/original/docs/templates/planning/1.1.0/release_plan.md"
@@ -74467,6 +74659,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/skill-distributions/planning-utilities/original/docs/templates/planning/1.1.0/release_plan.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -74480,7 +74678,7 @@
         "06251cf700a1c2d272ef97150f1dfb3a267286cd"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/skill-distributions/planning-utilities/original/docs/templates/planning/1.1.0/sprint.md"
@@ -74488,6 +74686,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/skill-distributions/planning-utilities/original/docs/templates/planning/1.1.0/sprint.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -74501,7 +74705,7 @@
         "8d5a744714ada9dd0fd6cde2744f2b01605cd0fb"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/skill-distributions/planning-utilities/original/docs/templates/planning/1.1.0/vision.md"
@@ -74509,6 +74713,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/skill-distributions/planning-utilities/original/docs/templates/planning/1.1.0/vision.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -74522,7 +74732,7 @@
         "331a223bd27e1a6f538631177df2f5512e22804b"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/skill-distributions/planning-utilities/original/docs/templates/planning/1.1.0/wbs.md"
@@ -74530,6 +74740,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/skill-distributions/planning-utilities/original/docs/templates/planning/1.1.0/wbs.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -74543,7 +74759,7 @@
         "d3b37e2ea6954a21812e1c18328796a33dc6327a"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/skill-distributions/planning-utilities/original/docs/templates/planning/1.1.0/decisions.md"
@@ -74551,6 +74767,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/skill-distributions/planning-utilities/original/docs/templates/planning/1.1.0/decisions.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -74564,7 +74786,7 @@
         "c3c954eac831d01c6ca6da6a2211b6f19c1e27be"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/skill-distributions/planning-utilities/original/docs/templates/planning/1.1.0/demo_matrix.md"
@@ -74572,6 +74794,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/skill-distributions/planning-utilities/original/docs/templates/planning/1.1.0/demo_matrix.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -74585,7 +74813,7 @@
         "2b0901288a32e7bb7d4ba71b4aff34f5ec9a79f8"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/skill-distributions/planning-utilities/original/docs/templates/planning/1.1.0/design.md"
@@ -74593,6 +74821,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/skill-distributions/planning-utilities/original/docs/templates/planning/1.1.0/design.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -74606,7 +74840,7 @@
         "c8dfaffa766cf2ceb4ff529a1bf2a98e150ce103"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/skill-distributions/planning-utilities/original/docs/templates/planning/1.1.0/feature_doc.md"
@@ -74614,6 +74848,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/skill-distributions/planning-utilities/original/docs/templates/planning/1.1.0/feature_doc.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -74627,7 +74867,7 @@
         "50355ec15203a28aa0bc69c94ea440d86a185d86"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/skill-distributions/planning-utilities/original/docs/templates/planning/1.1.0/milestone_checklist.md"
@@ -74635,6 +74875,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/skill-distributions/planning-utilities/original/docs/templates/planning/1.1.0/milestone_checklist.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -74648,7 +74894,7 @@
         "97a76708aba4f712cae892b81adb0a40032f5bea"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/skill-distributions/planning-utilities/original/docs/templates/planning/1.1.0/readme.md"
@@ -74656,6 +74902,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/skill-distributions/planning-utilities/original/docs/templates/planning/1.1.0/readme.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -74669,7 +74921,7 @@
         "7a9a2e4f8b5a76685a7ea9c06fccfcda0844dada"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/skill-distributions/planning-utilities/original/docs/templates/planning/1.1.0/release_notes.md"
@@ -74677,6 +74929,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/skill-distributions/planning-utilities/original/docs/templates/planning/1.1.0/release_notes.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -74690,7 +74948,7 @@
         "60ba37ec2039cb3211914227f853c295f7424358"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/skill-distributions/planning-utilities/original/docs/templates/planning/1.1.0/release_plan.md"
@@ -74698,6 +74956,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/skill-distributions/planning-utilities/original/docs/templates/planning/1.1.0/release_plan.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -74711,7 +74975,7 @@
         "06251cf700a1c2d272ef97150f1dfb3a267286cd"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/skill-distributions/planning-utilities/original/docs/templates/planning/1.1.0/sprint.md"
@@ -74719,6 +74983,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/skill-distributions/planning-utilities/original/docs/templates/planning/1.1.0/sprint.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -74732,7 +75002,7 @@
         "8d5a744714ada9dd0fd6cde2744f2b01605cd0fb"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/skill-distributions/planning-utilities/original/docs/templates/planning/1.1.0/vision.md"
@@ -74740,6 +75010,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/skill-distributions/planning-utilities/original/docs/templates/planning/1.1.0/vision.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -74753,7 +75029,7 @@
         "331a223bd27e1a6f538631177df2f5512e22804b"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/skill-distributions/planning-utilities/original/docs/templates/planning/1.1.0/wbs.md"
@@ -74761,6 +75037,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/skill-distributions/planning-utilities/original/docs/templates/planning/1.1.0/wbs.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -74774,11 +75056,17 @@
         "436a24867589f1c30d44a87ce84577bbd8967c3d"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
     },
     {
       "id": "RD07-3631",
@@ -74791,11 +75079,17 @@
         "d290b5933abe184a43d9d738f607f0d54a8a6cf9"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
     },
     {
       "id": "RD07-3632",
@@ -74808,7 +75102,7 @@
         "2e5477162216736396cdf42159db8addabcb8c8b"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/skill-distributions/planning-utilities/original/docs/templates/planning/current.json"
@@ -74816,6 +75110,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/skill-distributions/planning-utilities/original/docs/templates/planning/current.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -74829,11 +75129,17 @@
         "86f7010f7bd12eca5a52ad0b92ba8173bcb71e3f"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
     },
     {
       "id": "RD07-3634",
@@ -74846,11 +75152,17 @@
         "223958ede1eef987f9fe17817ce5b7581bd89d43"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
     },
     {
       "id": "RD07-3635",
@@ -74863,11 +75175,17 @@
         "1d7908cd0de318fea3c45eb5924f7b0fa0810724"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
     },
     {
       "id": "RD07-3636",
@@ -74880,11 +75198,17 @@
         "e3931638e9b69d711bedabeab3151738a24953bb"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
     },
     {
       "id": "RD07-3637",
@@ -74897,11 +75221,17 @@
         "4bd3a81b520b6199d292e64d6bdff7648a047066"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
     },
     {
       "id": "RD07-3638",
@@ -74914,11 +75244,17 @@
         "edee51a16884c2297eb65e493bbaf734d62442e2"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
     },
     {
       "id": "RD07-3639",
@@ -74931,7 +75267,7 @@
         "358960f045e5b2ab2f57464446f5676bc733c26c"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.0/schemas/sip.structure.json"
@@ -74939,6 +75275,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.0/schemas/sip.structure.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -74952,7 +75294,7 @@
         "58e96e8e5cf7389e955946e479d5eed285e52a06"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.0/schemas/sor.structure.json"
@@ -74960,6 +75302,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.0/schemas/sor.structure.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -74973,7 +75321,7 @@
         "3bd7d3ebfb901da416d84bb3d82e62794bd9a06d"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.0/schemas/spp.structure.json"
@@ -74981,6 +75329,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.0/schemas/spp.structure.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -74994,7 +75348,7 @@
         "eeb37673b2636aac2cb01150c6f659f88c0f3dbd"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.0/schemas/srp.structure.json"
@@ -75002,6 +75356,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.0/schemas/srp.structure.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -75015,7 +75375,7 @@
         "a5590639e0c9a6e65a432cd4a2b4515e023df046"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.0/schemas/stp.structure.json"
@@ -75023,6 +75383,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.0/schemas/stp.structure.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -75036,7 +75402,7 @@
         "42ea742800a803f2633155035afbd1a2d3f7fe92"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.0/sip.md"
@@ -75044,6 +75410,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.0/sip.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -75057,7 +75429,7 @@
         "83f38974fd1f8add7d8aa98097c90db5afcd5c8f"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.0/sor.md"
@@ -75065,6 +75437,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.0/sor.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -75078,7 +75456,7 @@
         "8b3194c79a5a529acd4a712a6e61fb3cad5563e0"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.0/spp.md"
@@ -75086,6 +75464,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.0/spp.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -75099,7 +75483,7 @@
         "3f002ea140e9ffe4dd911683584b3a5d42e1675f"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.0/srp.md"
@@ -75107,6 +75491,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.0/srp.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -75120,7 +75510,7 @@
         "a32dad2d6abbbadddaa9644a9b4f7bfbfcc017df"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.0/stp.md"
@@ -75128,6 +75518,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.0/stp.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -75141,7 +75537,7 @@
         "fad043429fe851b30627a3560bb5fe4548a2792d"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.1/schemas/sip.structure.json"
@@ -75149,6 +75545,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.1/schemas/sip.structure.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -75162,7 +75564,7 @@
         "cba38451a815b02b6a0af1848cae68bcbf32420e"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.1/schemas/sor.structure.json"
@@ -75170,6 +75572,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.1/schemas/sor.structure.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -75183,7 +75591,7 @@
         "162b108e5295244825ab54e1034b1075b010245a"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.1/schemas/spp.structure.json"
@@ -75191,6 +75599,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.1/schemas/spp.structure.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -75204,7 +75618,7 @@
         "cf0aa61652b041c2d0bd60768b889375f671459f"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.1/schemas/srp.structure.json"
@@ -75212,6 +75626,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.1/schemas/srp.structure.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -75225,7 +75645,7 @@
         "66e0fcdb2db7422c9fe626872d29f6c124f40529"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.1/schemas/stp.structure.json"
@@ -75233,6 +75653,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.1/schemas/stp.structure.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -75246,7 +75672,7 @@
         "026ace62610cd38b0bd3182681d3a4621fbdbfe1"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.1/sip.md"
@@ -75254,6 +75680,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.1/sip.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -75267,7 +75699,7 @@
         "64c802a61eb55d69be9a269b39bb64bc92e68e01"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.1/sor.md"
@@ -75275,6 +75707,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.1/sor.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -75288,7 +75726,7 @@
         "32823cd80653df384427366ace509c5a3477695c"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.1/spp.md"
@@ -75296,6 +75734,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.1/spp.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -75309,7 +75753,7 @@
         "40f06fde0aab39934f2eddb7802587fd5d5b08eb"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.1/srp.md"
@@ -75317,6 +75761,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.1/srp.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -75330,7 +75780,7 @@
         "4a76399a1c74ba10e135bf7a86c263d5211b5b47"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.1/stp.md"
@@ -75338,6 +75788,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.1/stp.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -75351,7 +75807,7 @@
         "24f99631dc2c051c583bb60d0504c3297836016c"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.2/pvf_lane_policy.json",
@@ -75365,6 +75821,12 @@
         "docs/templates/prompts/1.0.3/pvf_lane_policy.json",
         "docs/templates/prompts/1.0.4/pvf_lane_policy.json",
         "docs/templates/prompts/1.0.5/pvf_lane_policy.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -75378,7 +75840,7 @@
         "c44f5a5a45f6406c05014c1a7f629753a0900e23"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.2/schemas/sip.structure.json"
@@ -75386,6 +75848,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.2/schemas/sip.structure.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -75399,7 +75867,7 @@
         "c600e9de6844616a5c1ad08e90605af5a3c66705"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.2/schemas/sor.structure.json"
@@ -75407,6 +75875,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.2/schemas/sor.structure.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -75420,7 +75894,7 @@
         "4515332335d5a0bef9ccfd5474abebdecb2a8282"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.2/schemas/spp.structure.json"
@@ -75428,6 +75902,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.2/schemas/spp.structure.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -75441,7 +75921,7 @@
         "dea7ae7eea304bfe0d9e1acf7df196a7b39a15cf"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.2/schemas/srp.structure.json"
@@ -75449,6 +75929,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.2/schemas/srp.structure.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -75462,7 +75948,7 @@
         "9c6dd78b4ead59e8c7421ca045353f11eccd5708"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.2/schemas/stp.structure.json"
@@ -75470,6 +75956,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.2/schemas/stp.structure.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -75483,7 +75975,7 @@
         "4510b2a322d10bee8a9471f184974975a10fc8da"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.2/sip.md"
@@ -75491,6 +75983,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.2/sip.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -75504,7 +76002,7 @@
         "818b81d36055a9c32df647fedfd7cef4dcf3c982"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.2/sor.md"
@@ -75512,6 +76010,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.2/sor.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -75525,7 +76029,7 @@
         "ec581c82e5c6eeab86d198a5d47ff5dced35b95d"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.2/spp.md"
@@ -75533,6 +76037,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.2/spp.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -75546,7 +76056,7 @@
         "9efa1d888b5d9336b2ad17ecac5b1ae073ef9297"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.2/srp.md"
@@ -75554,6 +76064,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.2/srp.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -75567,7 +76083,7 @@
         "1d4022c6b30cc63a65a8294c609396dcfd5f2820"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.2/stp.md"
@@ -75575,6 +76091,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.2/stp.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -75588,7 +76110,7 @@
         "24f99631dc2c051c583bb60d0504c3297836016c"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.2/pvf_lane_policy.json",
@@ -75602,6 +76124,12 @@
         "docs/templates/prompts/1.0.3/pvf_lane_policy.json",
         "docs/templates/prompts/1.0.4/pvf_lane_policy.json",
         "docs/templates/prompts/1.0.5/pvf_lane_policy.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -75615,7 +76143,7 @@
         "d465669cf6ab1dc3181a1f5194a908add2e9010b"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.3/schemas/sip.structure.json"
@@ -75623,6 +76151,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.3/schemas/sip.structure.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -75636,7 +76170,7 @@
         "62c9f2c6b0077b0be0b59d7c0520c7bc0be690c2"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.3/schemas/sor.structure.json"
@@ -75644,6 +76178,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.3/schemas/sor.structure.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -75657,7 +76197,7 @@
         "4d89825ad79807b4baff00061d3e61cfeec7bea5"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.3/schemas/spp.structure.json"
@@ -75665,6 +76205,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.3/schemas/spp.structure.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -75678,7 +76224,7 @@
         "6df902d937dd0f62c991bd92d75a562b3fea822d"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.3/schemas/srp.structure.json"
@@ -75686,6 +76232,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.3/schemas/srp.structure.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -75699,7 +76251,7 @@
         "9b5b73fcdee82b70353a66320343d0397e16d17d"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.3/schemas/stp.structure.json"
@@ -75707,6 +76259,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.3/schemas/stp.structure.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -75720,7 +76278,7 @@
         "c583a048080a00c8e87b8cf1c4e74cdf26744dda"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.3/schemas/vpp.structure.json"
@@ -75728,6 +76286,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.3/schemas/vpp.structure.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -75741,7 +76305,7 @@
         "7e66773ed2c0ea866dfc4e5062c3f222a379f1d8"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.3/sip.md"
@@ -75749,6 +76313,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.3/sip.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -75762,7 +76332,7 @@
         "b1d6fcd8fc6b9531b3e560d861e59a12f43d8caf"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.3/sor.md"
@@ -75770,6 +76340,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.3/sor.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -75783,7 +76359,7 @@
         "45b6923decdd73207ca0e0bf716d8c7878627cdc"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.3/spp.md"
@@ -75791,6 +76367,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.3/spp.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -75804,7 +76386,7 @@
         "ca7945db2da922306fc369a42759fb712e54ddd8"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.3/srp.md"
@@ -75812,6 +76394,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.3/srp.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -75825,7 +76413,7 @@
         "f413c319d020bec654a0354ffc196df7b1950d60"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.3/stp.md"
@@ -75833,6 +76421,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.3/stp.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -75846,7 +76440,7 @@
         "38b0a6eb816df5417269ebfa0d3dbe75e0f59dea"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.3/vpp.md"
@@ -75854,6 +76448,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.3/vpp.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -75867,7 +76467,7 @@
         "24f99631dc2c051c583bb60d0504c3297836016c"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.2/pvf_lane_policy.json",
@@ -75881,6 +76481,12 @@
         "docs/templates/prompts/1.0.3/pvf_lane_policy.json",
         "docs/templates/prompts/1.0.4/pvf_lane_policy.json",
         "docs/templates/prompts/1.0.5/pvf_lane_policy.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -75894,7 +76500,7 @@
         "dbc3558abcf221204a0805ce39e0b2c59c8ea8f0"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.4/schemas/sip.structure.json"
@@ -75902,6 +76508,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.4/schemas/sip.structure.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -75915,7 +76527,7 @@
         "94ec802cc1d29d37eda42c16fee8e44a415ca2d0"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.4/schemas/sor.structure.json"
@@ -75923,6 +76535,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.4/schemas/sor.structure.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -75936,7 +76554,7 @@
         "850ce4ef15b7eb2ea03c4a58be6ab65611385a1e"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.4/schemas/spp.structure.json"
@@ -75944,6 +76562,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.4/schemas/spp.structure.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -75957,7 +76581,7 @@
         "e01d750babf0c753ccc387675163969697966ffe"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.4/schemas/srp.structure.json"
@@ -75965,6 +76589,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.4/schemas/srp.structure.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -75978,7 +76608,7 @@
         "94b3fd6f44fd91986e16e4fc78b69e807ead0a2d"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.4/schemas/stp.structure.json"
@@ -75986,6 +76616,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.4/schemas/stp.structure.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -75999,7 +76635,7 @@
         "ebaf42177286a78b21bea59e044a4738966d123e"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.4/schemas/vpp.structure.json"
@@ -76007,6 +76643,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.4/schemas/vpp.structure.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -76020,7 +76662,7 @@
         "554c04131f2f9fbc0f8fc2a82638dc68c59123c5"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.4/sip.md"
@@ -76028,6 +76670,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.4/sip.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -76041,7 +76689,7 @@
         "b5aaae32f88504c1b0d2faaf973c99f0ae5b0dda"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.4/sor.md"
@@ -76049,6 +76697,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.4/sor.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -76062,7 +76716,7 @@
         "5bd8d922cecc3e8cfe5b699bf51ea8e3f5c1700b"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.4/spp.md"
@@ -76070,6 +76724,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.4/spp.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -76083,7 +76743,7 @@
         "312970121dd2d34d217f5a4b459ddffd1c30ee3d"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.4/srp.md"
@@ -76091,6 +76751,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.4/srp.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -76104,7 +76770,7 @@
         "967fcb80b065f20446a4a769118b1f8bdeb72545"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.4/stp.md"
@@ -76112,6 +76778,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.4/stp.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -76125,7 +76797,7 @@
         "cec52ee33f122c53be81728f474351de3894c920"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.4/vpp.md"
@@ -76133,6 +76805,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.4/vpp.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -76146,7 +76824,7 @@
         "24f99631dc2c051c583bb60d0504c3297836016c"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.2/pvf_lane_policy.json",
@@ -76160,6 +76838,12 @@
         "docs/templates/prompts/1.0.3/pvf_lane_policy.json",
         "docs/templates/prompts/1.0.4/pvf_lane_policy.json",
         "docs/templates/prompts/1.0.5/pvf_lane_policy.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -76173,7 +76857,7 @@
         "05c04e1695e15ac9ad9932051fe34fd61cbdaef9"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.5/schemas/sip.structure.json"
@@ -76181,6 +76865,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.5/schemas/sip.structure.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -76194,7 +76884,7 @@
         "a6931fb02cb67da3c1eb25c1f511953a7eeee748"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.5/schemas/sor.structure.json"
@@ -76202,6 +76892,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.5/schemas/sor.structure.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -76215,7 +76911,7 @@
         "f1420bcb130514e133dab92322cb0470fca42da4"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.5/schemas/spp.structure.json"
@@ -76223,6 +76919,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.5/schemas/spp.structure.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -76236,7 +76938,7 @@
         "044e380e89e84d69e3f355f9c98ba148c215d0d6"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.5/schemas/srp.structure.json"
@@ -76244,6 +76946,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.5/schemas/srp.structure.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -76257,7 +76965,7 @@
         "bf3dbcb26249b114ea1669184e90cc730809254f"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.5/schemas/stp.structure.json"
@@ -76265,6 +76973,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.5/schemas/stp.structure.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -76278,7 +76992,7 @@
         "681442a797a0f16f75072ae7bccebd9cf3220e03"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.5/schemas/vpp.structure.json"
@@ -76286,6 +77000,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.5/schemas/vpp.structure.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -76299,7 +77019,7 @@
         "b024d0f0fe90ab79bc5daef2c010bac3e370acbd"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.5/sip.md"
@@ -76307,6 +77027,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.5/sip.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -76320,7 +77046,7 @@
         "be40daa5102911506c85e2bafb040e53604d436a"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.5/sor.md"
@@ -76328,6 +77054,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.5/sor.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -76341,7 +77073,7 @@
         "05e964774ba9dcc1e4e501543ffaee52604d7d3b"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.5/spp.md"
@@ -76349,6 +77081,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.5/spp.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -76362,7 +77100,7 @@
         "10e88838941017bdf1c3477aaab13480bbdb84ab"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.5/srp.md"
@@ -76370,6 +77108,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.5/srp.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -76383,7 +77127,7 @@
         "6369ace2ecc55a85bd39031f021bbe3f6624ca82"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.5/stp.md"
@@ -76391,6 +77135,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.5/stp.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -76404,7 +77154,7 @@
         "6d8d9a0341355c01218ecb1ab74f085305af963e"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/1.0.5/vpp.md"
@@ -76412,6 +77162,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/1.0.5/vpp.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -76425,7 +77181,7 @@
         "a50c476780a8ed3dc6575c983b9a1f36a53c3ebd"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/README.md"
@@ -76433,6 +77189,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/README.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -76446,7 +77208,7 @@
         "3dd3ce091ec9fdb2ab5adf7eac7611086aad948f"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "docs/templates/prompts/current.json"
@@ -76454,6 +77216,12 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "docs/templates/prompts/current.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
       ]
     },
     {
@@ -76467,11 +77235,17 @@
         "c750f7b837021be33d48114d4f95ca178bd8278b"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
     },
     {
       "id": "RD07-3712",
@@ -76484,11 +77258,17 @@
         "b168202e7f1a28b8285510161b3009fbb79747c3"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
     },
     {
       "id": "RD07-3713",
@@ -76501,11 +77281,17 @@
         "a028642b9c824a010fc45099dd7df50ae0adf603"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
     },
     {
       "id": "RD07-3714",
@@ -84944,11 +85730,15 @@
         "a78d9dc7783f7d2c00219dfac600537138a0f8b4"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_outside_operator_code_repository_scope",
       "observed_successor_revision": "8b0c5fd12423494c7fed27059321b217d7dff430",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8b0c5fd12423494c7fed27059321b217d7dff430",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "Operator: do not worry about website or other non-code repos; only repos affected by split"
+      ]
     },
     {
       "id": "RD07-4117",
@@ -84961,11 +85751,15 @@
         "1ed713971926a883cc40ed4ec2b3b8fe702430bc"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_outside_operator_code_repository_scope",
       "observed_successor_revision": "8b0c5fd12423494c7fed27059321b217d7dff430",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8b0c5fd12423494c7fed27059321b217d7dff430",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "Operator: do not worry about website or other non-code repos; only repos affected by split"
+      ]
     },
     {
       "id": "RD07-4118",
@@ -85130,11 +85924,15 @@
         "34d4853df57e6faf0735e8e313848e9fb2d64d73"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_outside_operator_code_repository_scope",
       "observed_successor_revision": "8b0c5fd12423494c7fed27059321b217d7dff430",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8b0c5fd12423494c7fed27059321b217d7dff430",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "Operator: do not worry about website or other non-code repos; only repos affected by split"
+      ]
     },
     {
       "id": "RD07-4127",
@@ -85303,5 +86101,6 @@
   ],
   "previous_observed_main": "f1493c54e4d9f6c5a1da798f48d9f2c361033fa4",
   "consumer_reference_repair_count": 6,
-  "approved_component_removal_count": 36
+  "approved_component_removal_count": 36,
+  "resolved_retention_count": 136
 }

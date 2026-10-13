@@ -1,0 +1,1351 @@
+{
+  "schema": "adl.source_retirement.resolved_retention.v1",
+  "issue": 1223,
+  "count": 136,
+  "scope": "Required ADL contract/state/history or operator-excluded website assets; no implementation removal and no active-tool hold declared resolved",
+  "all_holds_resolved": false,
+  "rows": [
+    {
+      "id": "RD07-0002",
+      "path": ".adl/worktree-policy.json",
+      "reason": "retain_repository_local_execution_policy",
+      "evidence": [
+        "AGENTS.md: bound worktree policy",
+        ".adl/worktree-policy.json"
+      ]
+    },
+    {
+      "id": "RD07-2275",
+      "path": "csdlc-v2/operator/coexistence.json",
+      "reason": "retain_immutable_cutover_and_rollback_evidence",
+      "evidence": [
+        "AGENTS.md: historical Gate 10A-D2 records remain immutable",
+        "docs/csdlc-v3/CURRENT_AUTHORITY.md: Historical evidence"
+      ]
+    },
+    {
+      "id": "RD07-2276",
+      "path": "csdlc-v2/operator/cutover-request.json",
+      "reason": "retain_immutable_cutover_and_rollback_evidence",
+      "evidence": [
+        "AGENTS.md: historical Gate 10A-D2 records remain immutable",
+        "docs/csdlc-v3/CURRENT_AUTHORITY.md: Historical evidence"
+      ]
+    },
+    {
+      "id": "RD07-2277",
+      "path": "csdlc-v2/operator/eligibility-request.json",
+      "reason": "retain_immutable_cutover_and_rollback_evidence",
+      "evidence": [
+        "AGENTS.md: historical Gate 10A-D2 records remain immutable",
+        "docs/csdlc-v3/CURRENT_AUTHORITY.md: Historical evidence"
+      ]
+    },
+    {
+      "id": "RD07-2283",
+      "path": "csdlc-v2/operator/generation-selector.json",
+      "reason": "retain_immutable_cutover_and_rollback_evidence",
+      "evidence": [
+        "AGENTS.md: historical Gate 10A-D2 records remain immutable",
+        "docs/csdlc-v3/CURRENT_AUTHORITY.md: Historical evidence"
+      ]
+    },
+    {
+      "id": "RD07-2284",
+      "path": "csdlc-v2/operator/native-card-shape.json",
+      "reason": "retain_referenced_template_shape_contract",
+      "evidence": [
+        "docs/templates/prompts/current.json: generations.csdlc_v2_native.shape_manifest_path"
+      ]
+    },
+    {
+      "id": "RD07-2285",
+      "path": "csdlc-v2/operator/owner-source-set.json",
+      "reason": "retain_immutable_cutover_and_rollback_evidence",
+      "evidence": [
+        "AGENTS.md: historical Gate 10A-D2 records remain immutable",
+        "docs/csdlc-v3/CURRENT_AUTHORITY.md: Historical evidence"
+      ]
+    },
+    {
+      "id": "RD07-2286",
+      "path": "csdlc-v2/operator/pre-switch-proof.json",
+      "reason": "retain_immutable_cutover_and_rollback_evidence",
+      "evidence": [
+        "AGENTS.md: historical Gate 10A-D2 records remain immutable",
+        "docs/csdlc-v3/CURRENT_AUTHORITY.md: Historical evidence"
+      ]
+    },
+    {
+      "id": "RD07-2385",
+      "path": "csdlc-v3/operator/authority-selector.json",
+      "reason": "retain_repository_bound_authority_evidence",
+      "evidence": [
+        "AGENTS.md: canonical selector and authenticated reconciliation receipt",
+        "docs/csdlc-v3/CURRENT_AUTHORITY.md"
+      ]
+    },
+    {
+      "id": "RD07-2386",
+      "path": "csdlc-v3/operator/native-authority-pr-observation.json",
+      "reason": "retain_repository_bound_authority_evidence",
+      "evidence": [
+        "AGENTS.md: canonical selector and authenticated reconciliation receipt",
+        "docs/csdlc-v3/CURRENT_AUTHORITY.md"
+      ]
+    },
+    {
+      "id": "RD07-2387",
+      "path": "csdlc-v3/operator/native-authority-receipt.json",
+      "reason": "retain_repository_bound_authority_evidence",
+      "evidence": [
+        "AGENTS.md: canonical selector and authenticated reconciliation receipt",
+        "docs/csdlc-v3/CURRENT_AUTHORITY.md"
+      ]
+    },
+    {
+      "id": "RD07-3592",
+      "path": "docs/templates/CARD_LIFECYCLE_TEMPLATE_TARGETS.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3593",
+      "path": "docs/templates/DECISIONS_TEMPLATE.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3594",
+      "path": "docs/templates/DEMO_MATRIX_TEMPLATE.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3595",
+      "path": "docs/templates/DESIGN_TEMPLATE.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3596",
+      "path": "docs/templates/FEATURE_DOC_TEMPLATE.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3597",
+      "path": "docs/templates/MILESTONE_CHECKLIST_TEMPLATE.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3598",
+      "path": "docs/templates/PR_INIT_INVOCATION_TEMPLATE.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3599",
+      "path": "docs/templates/README_TEMPLATE.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3600",
+      "path": "docs/templates/RELEASE_NOTES_TEMPLATE.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3601",
+      "path": "docs/templates/RELEASE_PLAN_TEMPLATE.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3602",
+      "path": "docs/templates/SPRINT_EXECUTION_PACKET_TEMPLATE.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3603",
+      "path": "docs/templates/SPRINT_TEMPLATE.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3604",
+      "path": "docs/templates/STRUCTURED_PLAN_PROMPT_TEMPLATE.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3605",
+      "path": "docs/templates/STRUCTURED_REVIEW_POLICY_TEMPLATE.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3606",
+      "path": "docs/templates/VISION_TEMPLATE.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3607",
+      "path": "docs/templates/WBS_TEMPLATE.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3608",
+      "path": "docs/templates/planning/1.0.0/decisions.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3609",
+      "path": "docs/templates/planning/1.0.0/demo_matrix.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3610",
+      "path": "docs/templates/planning/1.0.0/design.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3611",
+      "path": "docs/templates/planning/1.0.0/feature_doc.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3612",
+      "path": "docs/templates/planning/1.0.0/milestone_checklist.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3613",
+      "path": "docs/templates/planning/1.0.0/readme.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3614",
+      "path": "docs/templates/planning/1.0.0/release_notes.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3615",
+      "path": "docs/templates/planning/1.0.0/release_plan.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3616",
+      "path": "docs/templates/planning/1.0.0/sprint.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3617",
+      "path": "docs/templates/planning/1.0.0/vision.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3618",
+      "path": "docs/templates/planning/1.0.0/wbs.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3619",
+      "path": "docs/templates/planning/1.1.0/decisions.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3620",
+      "path": "docs/templates/planning/1.1.0/demo_matrix.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3621",
+      "path": "docs/templates/planning/1.1.0/design.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3622",
+      "path": "docs/templates/planning/1.1.0/feature_doc.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3623",
+      "path": "docs/templates/planning/1.1.0/milestone_checklist.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3624",
+      "path": "docs/templates/planning/1.1.0/readme.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3625",
+      "path": "docs/templates/planning/1.1.0/release_notes.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3626",
+      "path": "docs/templates/planning/1.1.0/release_plan.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3627",
+      "path": "docs/templates/planning/1.1.0/sprint.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3628",
+      "path": "docs/templates/planning/1.1.0/vision.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3629",
+      "path": "docs/templates/planning/1.1.0/wbs.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3630",
+      "path": "docs/templates/planning/MILESTONE_WP_ORDERING_STANDARD_TEMPLATE.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3631",
+      "path": "docs/templates/planning/README.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3632",
+      "path": "docs/templates/planning/current.json",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3633",
+      "path": "docs/templates/planning/fixtures/minimal/milestone_checklist.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3634",
+      "path": "docs/templates/planning/fixtures/minimal/readme.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3635",
+      "path": "docs/templates/planning/fixtures/minimal/readme_generated.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3636",
+      "path": "docs/templates/planning/fixtures/minimal/readme_values.json",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3637",
+      "path": "docs/templates/planning/fixtures/minimal/sprint.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3638",
+      "path": "docs/templates/planning/fixtures/minimal/wbs.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3639",
+      "path": "docs/templates/prompts/1.0.0/schemas/sip.structure.json",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3640",
+      "path": "docs/templates/prompts/1.0.0/schemas/sor.structure.json",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3641",
+      "path": "docs/templates/prompts/1.0.0/schemas/spp.structure.json",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3642",
+      "path": "docs/templates/prompts/1.0.0/schemas/srp.structure.json",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3643",
+      "path": "docs/templates/prompts/1.0.0/schemas/stp.structure.json",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3644",
+      "path": "docs/templates/prompts/1.0.0/sip.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3645",
+      "path": "docs/templates/prompts/1.0.0/sor.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3646",
+      "path": "docs/templates/prompts/1.0.0/spp.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3647",
+      "path": "docs/templates/prompts/1.0.0/srp.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3648",
+      "path": "docs/templates/prompts/1.0.0/stp.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3649",
+      "path": "docs/templates/prompts/1.0.1/schemas/sip.structure.json",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3650",
+      "path": "docs/templates/prompts/1.0.1/schemas/sor.structure.json",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3651",
+      "path": "docs/templates/prompts/1.0.1/schemas/spp.structure.json",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3652",
+      "path": "docs/templates/prompts/1.0.1/schemas/srp.structure.json",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3653",
+      "path": "docs/templates/prompts/1.0.1/schemas/stp.structure.json",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3654",
+      "path": "docs/templates/prompts/1.0.1/sip.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3655",
+      "path": "docs/templates/prompts/1.0.1/sor.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3656",
+      "path": "docs/templates/prompts/1.0.1/spp.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3657",
+      "path": "docs/templates/prompts/1.0.1/srp.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3658",
+      "path": "docs/templates/prompts/1.0.1/stp.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3659",
+      "path": "docs/templates/prompts/1.0.2/pvf_lane_policy.json",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3660",
+      "path": "docs/templates/prompts/1.0.2/schemas/sip.structure.json",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3661",
+      "path": "docs/templates/prompts/1.0.2/schemas/sor.structure.json",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3662",
+      "path": "docs/templates/prompts/1.0.2/schemas/spp.structure.json",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3663",
+      "path": "docs/templates/prompts/1.0.2/schemas/srp.structure.json",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3664",
+      "path": "docs/templates/prompts/1.0.2/schemas/stp.structure.json",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3665",
+      "path": "docs/templates/prompts/1.0.2/sip.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3666",
+      "path": "docs/templates/prompts/1.0.2/sor.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3667",
+      "path": "docs/templates/prompts/1.0.2/spp.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3668",
+      "path": "docs/templates/prompts/1.0.2/srp.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3669",
+      "path": "docs/templates/prompts/1.0.2/stp.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3670",
+      "path": "docs/templates/prompts/1.0.3/pvf_lane_policy.json",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3671",
+      "path": "docs/templates/prompts/1.0.3/schemas/sip.structure.json",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3672",
+      "path": "docs/templates/prompts/1.0.3/schemas/sor.structure.json",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3673",
+      "path": "docs/templates/prompts/1.0.3/schemas/spp.structure.json",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3674",
+      "path": "docs/templates/prompts/1.0.3/schemas/srp.structure.json",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3675",
+      "path": "docs/templates/prompts/1.0.3/schemas/stp.structure.json",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3676",
+      "path": "docs/templates/prompts/1.0.3/schemas/vpp.structure.json",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3677",
+      "path": "docs/templates/prompts/1.0.3/sip.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3678",
+      "path": "docs/templates/prompts/1.0.3/sor.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3679",
+      "path": "docs/templates/prompts/1.0.3/spp.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3680",
+      "path": "docs/templates/prompts/1.0.3/srp.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3681",
+      "path": "docs/templates/prompts/1.0.3/stp.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3682",
+      "path": "docs/templates/prompts/1.0.3/vpp.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3683",
+      "path": "docs/templates/prompts/1.0.4/pvf_lane_policy.json",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3684",
+      "path": "docs/templates/prompts/1.0.4/schemas/sip.structure.json",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3685",
+      "path": "docs/templates/prompts/1.0.4/schemas/sor.structure.json",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3686",
+      "path": "docs/templates/prompts/1.0.4/schemas/spp.structure.json",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3687",
+      "path": "docs/templates/prompts/1.0.4/schemas/srp.structure.json",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3688",
+      "path": "docs/templates/prompts/1.0.4/schemas/stp.structure.json",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3689",
+      "path": "docs/templates/prompts/1.0.4/schemas/vpp.structure.json",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3690",
+      "path": "docs/templates/prompts/1.0.4/sip.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3691",
+      "path": "docs/templates/prompts/1.0.4/sor.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3692",
+      "path": "docs/templates/prompts/1.0.4/spp.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3693",
+      "path": "docs/templates/prompts/1.0.4/srp.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3694",
+      "path": "docs/templates/prompts/1.0.4/stp.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3695",
+      "path": "docs/templates/prompts/1.0.4/vpp.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3696",
+      "path": "docs/templates/prompts/1.0.5/pvf_lane_policy.json",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3697",
+      "path": "docs/templates/prompts/1.0.5/schemas/sip.structure.json",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3698",
+      "path": "docs/templates/prompts/1.0.5/schemas/sor.structure.json",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3699",
+      "path": "docs/templates/prompts/1.0.5/schemas/spp.structure.json",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3700",
+      "path": "docs/templates/prompts/1.0.5/schemas/srp.structure.json",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3701",
+      "path": "docs/templates/prompts/1.0.5/schemas/stp.structure.json",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3702",
+      "path": "docs/templates/prompts/1.0.5/schemas/vpp.structure.json",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3703",
+      "path": "docs/templates/prompts/1.0.5/sip.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3704",
+      "path": "docs/templates/prompts/1.0.5/sor.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3705",
+      "path": "docs/templates/prompts/1.0.5/spp.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3706",
+      "path": "docs/templates/prompts/1.0.5/srp.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3707",
+      "path": "docs/templates/prompts/1.0.5/stp.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3708",
+      "path": "docs/templates/prompts/1.0.5/vpp.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3709",
+      "path": "docs/templates/prompts/README.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3710",
+      "path": "docs/templates/prompts/current.json",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3711",
+      "path": "docs/templates/sprints/1.0.0/sprint_execution_packet.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3712",
+      "path": "docs/templates/sprints/README.md",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3713",
+      "path": "docs/templates/sprints/current.json",
+      "reason": "retain_adl_public_planning_and_prompt_contract",
+      "evidence": [
+        "AGENTS.md: active versioned templates and tracked schemas are shape authority",
+        "docs/templates/prompts/current.json",
+        "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-4116",
+      "path": "tools/codefriend_host/proxy/README.md",
+      "reason": "retain_outside_operator_code_repository_scope",
+      "evidence": [
+        "Operator: do not worry about website or other non-code repos; only repos affected by split"
+      ]
+    },
+    {
+      "id": "RD07-4117",
+      "path": "tools/codefriend_host/proxy/nginx.conf",
+      "reason": "retain_outside_operator_code_repository_scope",
+      "evidence": [
+        "Operator: do not worry about website or other non-code repos; only repos affected by split"
+      ]
+    },
+    {
+      "id": "RD07-4126",
+      "path": "tools/codefriend_host/systemd/codefriend-website.service",
+      "reason": "retain_outside_operator_code_repository_scope",
+      "evidence": [
+        "Operator: do not worry about website or other non-code repos; only repos affected by split"
+      ]
+    }
+  ]
+}

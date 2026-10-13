@@ -55,3 +55,15 @@ This is one consolidated proposal, not additional deletion authority. Every orig
 ## Remaining evidence limits
 
 Producer build success does not discharge ADL consumer acceptance. The packet does not claim all consumer references have been audited, all holds resolved, or all 4,134 files should be deleted. Native review/publication/finish and final public-package proof remain required.
+
+## Resolved retention
+
+`RESOLVED_RETENTION.json` resolves 136 original rows as required retained
+ADL contract/state/history or excluded website assets: 122 planning/prompt contract
+files, three v3 authority records, six historical cutover/rollback records, one
+registry-referenced native card shape, one repository worktree policy, and three
+website assets. Each row records its specific reason and evidence.
+
+The remaining 18 v2 operator skill/example files are still unresolved; their location
+in an operator directory alone does not establish immutable-record status. Active
+tool holds also remain unresolved. This changes dispositions only, not source bytes.
