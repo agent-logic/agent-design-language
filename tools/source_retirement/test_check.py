@@ -261,5 +261,60 @@ class CsdlcFamilyTests(unittest.TestCase):
                 check.check_csdlc_custody(batch, Path(tmp) / 'unused-original.tar.gz')
 
 
+class RuntimeFamilyTests(unittest.TestCase):
+    # PVF: deterministic source guard; local lightweight unit proof, no owner execution.
+    @classmethod
+    def setUpClass(cls):
+        cls.batch = check.committed_json(check.PACKET / 'RUNTIME_SOURCE_FAMILY_APPLIED.json')
+        cls.before = check.tree(check.RUNTIME_FAMILY_IMPLEMENTATION + '^')
+        cls.after = check.tree(check.RUNTIME_FAMILY_IMPLEMENTATION)
+
+    def test_exact_scope_and_repeat_refusal(self):
+        paths = check.check_runtime_family(self.batch, self.before, self.after, set())
+        self.assertEqual(len(paths), 896)
+        with self.assertRaisesRegex(ValueError, 'removal scope changed'):
+            check.check_runtime_family(self.batch, self.before, self.after, paths)
+
+    def test_protected_paths_refuse(self):
+        for path in sorted(check.RUNTIME_PUBLIC_RETAINS) + ['.csdlc/state.json',
+                'docs/templates/prompts/current.json', 'csdlc-v3/operator/authority-selector.json',
+                'csdlc-v2/operator/authority-selector.json']:
+            batch = copy.deepcopy(self.batch)
+            next(r for r in batch['files'] if r['action'] == 'remove')['path'] = path
+            with self.assertRaisesRegex(ValueError, 'protected path'):
+                check.check_runtime_family(batch, self.before, self.after, set())
+
+    def test_preimage_and_custody_refuse(self):
+        row = next(r for r in self.batch['files'] if r['action'] == 'remove')
+        before = dict(self.before)
+        before[row['path']] = ['100755', '0' * 40]
+        with self.assertRaisesRegex(ValueError, 'applied identity mismatch'):
+            check.check_runtime_family(self.batch, before, self.after, set())
+        batch = copy.deepcopy(self.batch)
+        batch['prepared_patch']['deletions'][0]['current_sha256'] = '0' * 64
+        with self.assertRaisesRegex(ValueError, 'custody identity mismatch'):
+            check.check_runtime_family(batch, self.before, self.after, set())
+        batch['prepared_patch']['deletions'][0]['id'] = 'RD07-9999'
+        with self.assertRaisesRegex(ValueError, 'custody scope changed'):
+            check.check_runtime_family(batch, self.before, self.after, set())
+
+    def test_retained_public_identity_refuses(self):
+        after = dict(self.after)
+        after[next(iter(check.RUNTIME_PUBLIC_RETAINS))] = ['100644', '0' * 40]
+        with self.assertRaisesRegex(ValueError, 'retained identity changed'):
+            check.check_runtime_family(self.batch, self.before, after, set())
+
+    def test_substituted_supplement_refuses(self):
+        batch = copy.deepcopy(self.batch)
+        expected = {r['path'] for r in batch['prepared_patch']['deletions'] if not r['rollback']['matches_current']}
+        supplement = next(a for a in batch['prepared_patch']['custody'] if {r['path'] for r in a['entries']} == expected)
+        with tempfile.TemporaryDirectory() as tmp:
+            fake = Path(tmp) / 'bad.tar'
+            fake.write_bytes(b'not the pinned archive')
+            supplement['path'] = str(fake)
+            with self.assertRaisesRegex(ValueError, 'supplement changed'):
+                check.check_runtime_custody(batch, Path(tmp) / 'unused-original.tar.gz')
+
+
 if __name__ == '__main__':
     unittest.main()

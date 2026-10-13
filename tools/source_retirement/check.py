@@ -16,7 +16,7 @@ INVENTORY_SHA256 = 'a22fa6306245ddb3916cf4cb3021286a2d91ebfe77ca719eb7b1039d9f6d
 CAPTURED_IDENTITIES_SHA256 = 'e306e5a70ae7792fd2fef91449a0285d665126375a28c0dd05914724fe1bdebe'
 ARCHIVE_SHA256 = '12205043566913435c25ea414b1fd9148b46727821f7bfefd5d452cfe47a1c17'
 # Independently reviewed existing execution overlay; changing this pin requires review.
-EXECUTION_APPROVAL_SHA256 = '316d0f1fc306fbd7217ee538667f8d94b7bfeedfe36e24a75de7f3f5674f01ae'
+EXECUTION_APPROVAL_SHA256 = 'e2f65d7480e96ff7130d3d0bebe7ce03e719df0e4faef9387cf084c594f09c4e'
 COMPONENTS = ('infra/ddns', 'infra/aws/runtime/log-archive', 'infra/aws/runtime/agent-checkpoint-archive')
 PROTECTED = ('csdlc-v3/operator/authority-selector.json', 'csdlc-v3/operator/native-authority-receipt.json',
              'docs/templates/prompts/current.json', 'adl/tools/install_owner_binaries.sh',
@@ -342,6 +342,79 @@ def check_csdlc_custody(batch, original_path):
                     'C-SDLC family archive bytes changed')
 
 
+RUNTIME_FAMILY_SHA256 = '9600a1fb0ee1a58508069b5847f5b8cf475805cf9b0059bc3f3f5ee3b51fd486'
+RUNTIME_FAMILY_IMPLEMENTATION = '3383f7f691ec248d6fe87cd18e4e13c5d1e8d900'
+RUNTIME_REMOVAL_SCOPE_SHA256 = '761a90bcfbc11496b1a55dab3c497ca86af17bd83e73f01b9b6c8d370bd022d9'
+RUNTIME_PUBLIC_RETAINS = {
+    'adl/src/bin/adl_process.rs', 'adl/src/cli/observability.rs',
+    'adl/src/cli/process_cmd.rs', 'adl/src/cli/process_cmd/args.rs',
+    'adl/src/control_plane.rs', 'adl/tests/cli_smoke/process_status.rs',
+    'adl/tests/fixtures/cli_smoke.adl.yaml',
+    'adl/tests/fixtures/scheduler/economics_inputs_v1.json',
+}
+
+
+def check_runtime_family(batch, before_tree, after_tree, prior_removed):
+    rows = [r for r in batch['files'] if r['action'] == 'remove']
+    paths = {r['path'] for r in rows}
+    require(not paths.intersection(RUNTIME_PUBLIC_RETAINS) and
+            not any(p.startswith(('.csdlc/', 'docs/templates/', 'csdlc-v3/operator/',
+                                  'csdlc-v2/operator/')) for p in paths),
+            'Runtime protected path removal')
+    require(len(rows) == len(paths) == 896 and not paths.intersection(prior_removed),
+            'Runtime family removal scope changed')
+    require(batch['counts'] == {'source_removals': 896, 'caller_changes': 54, 'public_retains': 8},
+            'Runtime family denominator changed')
+    custody_rows = batch['prepared_patch']['deletions']
+    custody = {r['path']: r for r in custody_rows}
+    scope = hashlib.sha256(json.dumps(sorted((r['id'], r['path']) for r in custody_rows),
+                                     separators=(',', ':')).encode()).hexdigest()
+    require(len(custody_rows) == 896 and set(custody) == paths and
+            scope == RUNTIME_REMOVAL_SCOPE_SHA256, 'Runtime family custody scope changed')
+    retained = batch['prepared_patch']['retains']
+    require(len(retained) == 8 and {r['path'] for r in retained} == RUNTIME_PUBLIC_RETAINS,
+            'Runtime public retain scope changed')
+    for r in retained:
+        require(before_tree.get(r['path']) == r['before'] == after_tree.get(r['path']),
+                'Runtime public retained identity changed')
+    for row in rows:
+        path, before = row['path'], row['before']
+        require(before_tree.get(path) == [before['mode'], before['blob']] and
+                row['after'] is None and path not in after_tree,
+                'Runtime family applied identity mismatch')
+        c = custody[path]
+        require(c['id'] == row['id'] and c['before'] == [before['mode'], before['blob']] and
+                c['current_sha256'] == before['sha256'] and
+                c['rollback']['member'] == 'source/' + path,
+                'Runtime family custody identity mismatch')
+    return paths
+
+
+def check_runtime_custody(batch, original_path):
+    rows = {r['path']: r for r in batch['files'] if r['action'] == 'remove'}
+    expected = {r['path'] for r in batch['prepared_patch']['deletions']
+                if not r['rollback']['matches_current']}
+    archives = batch['prepared_patch']['custody']
+    supplements = [a for a in archives if {r['path'] for r in a['entries']} == expected]
+    require(len(supplements) == 1, 'Runtime supplement scope changed')
+    supplement = supplements[0]
+    supplement_path = Path(supplement['path'])
+    require(hashlib.sha256(supplement_path.read_bytes()).hexdigest() == supplement['sha256'],
+            'Runtime supplement changed')
+    with tarfile.open(original_path, 'r:gz') as original, tarfile.open(supplement_path) as extra:
+        members = extra.getmembers()
+        require(len(members) == len(expected) and {m.name for m in members} == expected,
+                'Runtime supplemental member scope changed')
+        for path, row in rows.items():
+            archive = extra if path in expected else original
+            member = archive.getmember(path if path in expected else 'source/' + path)
+            before = row['before']
+            require(member.isfile() and member.mode == int(before['mode'][-3:], 8),
+                    'Runtime archive mode changed')
+            require(hashlib.sha256(archive.extractfile(member).read()).hexdigest() == before['sha256'],
+                    'Runtime archive bytes changed')
+
+
 def run():
     ledger = committed_json(PACKET / 'DISPOSITION_REGISTER.json')
     observed = tree(ledger['observed_main'])
@@ -381,7 +454,13 @@ def run():
     csdlc = json.loads(csdlc_bytes)
     removed.update(check_csdlc_family(csdlc, tree(CSDLC_FAMILY_IMPLEMENTATION + '^'),
                                     tree(CSDLC_FAMILY_IMPLEMENTATION), removed))
-    require(len(removed) == 1090, 'executed removal count changed')
+    runtime_bytes = committed_bytes(PACKET / 'RUNTIME_SOURCE_FAMILY_APPLIED.json')
+    require(hashlib.sha256(runtime_bytes).hexdigest() == RUNTIME_FAMILY_SHA256,
+            'Runtime family applied packet changed')
+    runtime = json.loads(runtime_bytes)
+    removed.update(check_runtime_family(runtime, tree(RUNTIME_FAMILY_IMPLEMENTATION + '^'),
+                                      tree(RUNTIME_FAMILY_IMPLEMENTATION), removed))
+    require(len(removed) == 1986, 'executed removal count changed')
     overlay_bytes = committed_bytes(PACKET / 'EXECUTION_OVERLAY.json')
     overlay = json.loads(overlay_bytes)
     require(overlay['status'] == 'complete' and not overlay['missing_entries'],
@@ -422,6 +501,7 @@ def run():
             require(hashlib.sha256(archive.extractfile(member).read()).hexdigest() == before['sha256'],
                     'CodeFriend family archive bytes changed')
     check_csdlc_custody(csdlc, archive_path)
+    check_runtime_custody(runtime, archive_path)
     scanned = {}
     for component in COMPONENTS:
         names = ('RETIREMENT_BATCH_01_DDNS', 'RETIREMENT_BATCH_02_LOG_ARCHIVE',
