@@ -6,17 +6,17 @@
   "execution_authorized": false,
   "original_count": 4134,
   "counts": {
-    "hold_explicit_reconciliation": 216,
+    "hold_explicit_reconciliation": 207,
     "hold_owner_test_reconciliation": 35,
     "preserve_approved_removal": 70,
     "preserve_reviewed_consumer_repair": 18,
-    "proposed_historical_retirement_with_caller_repair": 14,
+    "proposed_historical_retirement_with_caller_repair": 17,
     "proposed_owner_transfer_with_consumer_qualification": 453,
     "proposed_remove_construction_qualified_infrastructure": 216,
     "proposed_remove_with_entire_source_family": 1874,
     "proposed_remove_with_entire_tool_family": 719,
     "retain_public_source_or_fixture": 68,
-    "retain_resolved": 451
+    "retain_resolved": 457
   },
   "additional_current_source_paths": 19,
   "preservation": "Original inventory and baseline archive unchanged;70 prior approved removals preserved; no new deletion applied",
@@ -29211,15 +29211,22 @@
         "blob": "0cee74d5cfceb32afd52e7f4f21368479a3d14ca"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "hold_reason": "Legacy branch cleanup fetches/prunes and offers local force/remote branch deletion directly, without typed finish/clean. Full110line source read; bounded existing caller scan has no references.",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Retire only by explicit sunset decision and preserve Git history; absence of callers is not deletion authorization; no new replacement branch-management feature.",
+        "Explicit coherent retirement approval; preserve original identities and historical evidence"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "PUBLIC_LEGACY_HELPER_DISPOSITIONS.json",
+        "packet_sha256": "19c401eb8c113e49d7b5751af38a8188731cf7b4094e9794c7a234d6c5a4eaed",
+        "proposal": "proposed_historical_retirement_with_caller_repair",
+        "reason": "Legacy branch cleanup fetches/prunes and offers local force/remote branch deletion directly, without typed finish/clean. Full110line source read; bounded existing caller scan has no references."
       }
     },
     {
@@ -29512,15 +29519,20 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reviewed_disposition": {
+        "packet": "PUBLIC_LEGACY_HELPER_DISPOSITIONS.json",
+        "packet_sha256": "19c401eb8c113e49d7b5751af38a8188731cf7b4094e9794c7a234d6c5a4eaed",
+        "proposal": "retain_public_repository_guard",
+        "reason": "Checks tracked ADL legacy live-card residue using repository Git inventory. The split does not remove ADL repository hygiene; owner fixture copy explicitly does not provide an installed subject-root audit."
+      },
+      "reason": "Checks tracked ADL legacy live-card residue using repository Git inventory. The split does not remove ADL repository hygiene; owner fixture copy explicitly does not provide an installed subject-root audit."
     },
     {
       "id": "RD07-1272",
@@ -29651,15 +29663,20 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reviewed_disposition": {
+        "packet": "PUBLIC_LEGACY_HELPER_DISPOSITIONS.json",
+        "packet_sha256": "19c401eb8c113e49d7b5751af38a8188731cf7b4094e9794c7a234d6c5a4eaed",
+        "proposal": "retain_public_build_utility",
+        "reason": "Removes generated ADL LLVM profiles and summaries; retained public ADL package continues to generate these files. README documents helper."
+      },
+      "reason": "Removes generated ADL LLVM profiles and summaries; retained public ADL package continues to generate these files. README documents helper."
     },
     {
       "id": "RD07-1278",
@@ -30121,15 +30138,22 @@
         "blob": "89b025c49a478bc353841b4a3f12330ec66c52e5"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "hold_reason": "Seven-line unscoped cargo llvm-cov/genhtml/open wrapper is superseded for retained public package proof by explicit six-package coverage producer. Existing basename hits were substrings of other test names, not calls.",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Record explicit retirement and use tools/public_adl coverage path; no threshold reduction or assertion that old private denominator transferred.",
+        "Explicit coherent retirement approval; preserve original identities and historical evidence"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "PUBLIC_LEGACY_HELPER_DISPOSITIONS.json",
+        "packet_sha256": "19c401eb8c113e49d7b5751af38a8188731cf7b4094e9794c7a234d6c5a4eaed",
+        "proposal": "proposed_historical_retirement_with_caller_repair",
+        "reason": "Seven-line unscoped cargo llvm-cov/genhtml/open wrapper is superseded for retained public package proof by explicit six-package coverage producer. Existing basename hits were substrings of other test names, not calls."
       }
     },
     {
@@ -33593,15 +33617,21 @@
         "blob": "bde621fa5660e4f6fdec637b739885e1a28220ac"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "hold_reason": "Shell library defines redaction, stdout/stderr compatibility, timed stages and heartbeat settings; Runtime-labelled component alone does not establish owner succession. Existing Rust observability.shutdown hits are false literal matches.",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Reconcile sole source test_control_plane_observability.sh and run_owner_validation_lane.sh before transfer/retirement; preserve all sanitization/compatibility assertions; no new logging feature."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "PUBLIC_LEGACY_HELPER_DISPOSITIONS.json",
+        "packet_sha256": "19c401eb8c113e49d7b5751af38a8188731cf7b4094e9794c7a234d6c5a4eaed",
+        "proposal": "hold_specific_shell_observability_contract",
+        "reason": "Shell library defines redaction, stdout/stderr compatibility, timed stages and heartbeat settings; Runtime-labelled component alone does not establish owner succession. Existing Rust observability.shutdown hits are false literal matches."
       }
     },
     {
@@ -33614,15 +33644,22 @@
         "blob": "7d0c52ce3208e3a47beec206b37c8dfeec78ed88"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "hold_reason": "Legacy card/burst opener depends on card_paths.sh and input/output card conventions; full94line source read.",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Repair adl/tools/README.md opener recommendation together with legacy card_paths dependency disposition; preserve historical usage.",
+        "Explicit coherent retirement approval; preserve original identities and historical evidence"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "PUBLIC_LEGACY_HELPER_DISPOSITIONS.json",
+        "packet_sha256": "19c401eb8c113e49d7b5751af38a8188731cf7b4094e9794c7a234d6c5a4eaed",
+        "proposal": "proposed_historical_retirement_with_caller_repair",
+        "reason": "Legacy card/burst opener depends on card_paths.sh and input/output card conventions; full94line source read."
       }
     },
     {
@@ -44427,15 +44464,58 @@
         "blob": "30f8c333e253c17336c9d4fae281ab2d675c43ec"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "hold_reason": "Original helper is exercised with its original auth-policy test by owner resource test; preserve exception/max-reviewer, no-auth refusal, token redaction and model override behavior. This proves local policy only, not actual review dispatch.",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        {
+          "path": "adl/tools/skills/sprint-conductor/SKILL.md",
+          "line": 81,
+          "reference": "- `scripts/validate_review_subagent_policy.py`",
+          "kind": "documentation_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        {
+          "path": "adl/tools/skills/sprint-conductor/adl-skill.yaml",
+          "line": 128,
+          "reference": "    - \"python3 adl/tools/skills/sprint-conductor/scripts/validate_review_subagent_policy.py --allow-review-subagent-exception <bool> --max-review-subagents 1\"",
+          "kind": "source_or_configuration_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        {
+          "path": "adl/tools/skills/sprint-conductor/references/conductor-playbook.md",
+          "line": 190,
+          "reference": "  - `python3 adl/tools/skills/sprint-conductor/scripts/validate_review_subagent_policy.py --allow-review-subagent-exception <bool> --max-review-subagents 1 --require-responses-auth`",
+          "kind": "documentation_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        {
+          "path": "adl/tools/test_install_adl_operational_skills.sh",
+          "line": 80,
+          "reference": "  [[ -x \"${root}/skills/sprint-conductor/scripts/validate_review_subagent_policy.py\" ]]",
+          "kind": "source_or_configuration_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        {
+          "path": "adl/tools/test_review_subagent_auth_policy.sh",
+          "line": 5,
+          "reference": "SCRIPT=\"$ROOT/adl/tools/skills/sprint-conductor/scripts/validate_review_subagent_policy.py\"",
+          "kind": "source_or_configuration_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        "Accept per-row disposition and close listed caller/dependency obligations.",
+        "For transfers, bind actual owner package/fixture outcomes to the mapped assertion denominator; source availability alone is insufficient.",
+        "Obtain coherent source-retirement approval and guard qualification."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_EXACT_COPY_TEST_DISPOSITIONS.json",
+        "packet_sha256": "af4ce18ae8978a75ab2fbfd26d5a584710e70f24ec99c89dbb561a950eab314e",
+        "proposal": "conditional_owner_fixture_transfer",
+        "reason": "Original helper is exercised with its original auth-policy test by owner resource test; preserve exception/max-reviewer, no-auth refusal, token redaction and model override behavior. This proves local policy only, not actual review dispatch."
       }
     },
     {
@@ -45336,15 +45416,30 @@
         "blob": "da12b4aacdabfe2b13c025591b7e67393b4a1efe"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "hold_reason": "Milestone skill files, manifest/schema IDs, planning-package policy, output contract, host-path/TODO checks must be reconciled with current owner skill; passive resource integrity is not equivalent.",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        {
+          "path": "adl/tools/batched_checks.sh",
+          "line": 59,
+          "reference": "run_step \"adl-milestone-creator contract check\" bash \"$ROOT/adl/tools/test_adl_milestone_creator_skill_contracts.sh\"",
+          "kind": "source_or_configuration_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        "Accept per-row disposition and close listed caller/dependency obligations.",
+        "For transfers, bind actual owner package/fixture outcomes to the mapped assertion denominator; source availability alone is insufficient.",
+        "Obtain coherent source-retirement approval and guard qualification."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_EXACT_COPY_TEST_DISPOSITIONS.json",
+        "packet_sha256": "af4ce18ae8978a75ab2fbfd26d5a584710e70f24ec99c89dbb561a950eab314e",
+        "proposal": "archive_only_assertion_mapping_needed",
+        "reason": "Milestone skill files, manifest/schema IDs, planning-package policy, output contract, host-path/TODO checks must be reconciled with current owner skill; passive resource integrity is not equivalent."
       }
     },
     {
@@ -45685,15 +45780,37 @@
         "blob": "fd809615828bad0ae1828f1fa578709a9cf5ceae"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "hold_reason": "Original script makes sixteen real csdlc-v2 edit requests through gate2 fixtures and checks sunset wrapper absence. Owner active-lifecycle README explicitly keeps this compatibility obligation distinct; resource verification is not replacement.",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        {
+          "path": "adl/tools/run_owner_validation_lane.sh",
+          "line": 118,
+          "reference": "    bash adl/tools/test_card_editor_repair_examples.sh",
+          "kind": "source_or_configuration_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        {
+          "path": "adl/tools/test_card_editor_skill_contracts.sh",
+          "line": 41,
+          "reference": "bash \"$repo_root/adl/tools/test_card_editor_repair_examples.sh\"",
+          "kind": "source_or_configuration_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        "Accept per-row disposition and close listed caller/dependency obligations.",
+        "For transfers, bind actual owner package/fixture outcomes to the mapped assertion denominator; source availability alone is insufficient.",
+        "Obtain coherent source-retirement approval and guard qualification."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_EXACT_COPY_TEST_DISPOSITIONS.json",
+        "packet_sha256": "af4ce18ae8978a75ab2fbfd26d5a584710e70f24ec99c89dbb561a950eab314e",
+        "proposal": "archive_only_assertion_mapping_needed",
+        "reason": "Original script makes sixteen real csdlc-v2 edit requests through gate2 fixtures and checks sunset wrapper absence. Owner active-lifecycle README explicitly keeps this compatibility obligation distinct; resource verification is not replacement."
       }
     },
     {
@@ -45706,15 +45823,51 @@
         "blob": "88dc643670670bed129b8de8b8f874a34af21aa1"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "hold_reason": "Card-editor manifest/schema and documentation assertions include executing test_card_editor_repair_examples.sh; preserve the sixteen-edit fixture separately from resource checks.",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        {
+          "path": "adl/tools/skills/docs/OPERATIONAL_SKILLS_GUIDE.md",
+          "line": 2066,
+          "reference": "    - bash adl/tools/test_card_editor_skill_contracts.sh",
+          "kind": "documentation_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        {
+          "path": "adl/tools/skills/docs/OPERATIONAL_SKILLS_GUIDE.md",
+          "line": 2879,
+          "reference": "`adl/tools/test_card_editor_skill_contracts.sh`; they do not each need a",
+          "kind": "documentation_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        {
+          "path": "adl/tools/test_five_command_regression_suite.sh",
+          "line": 25,
+          "reference": "run_check adl/tools/test_card_editor_skill_contracts.sh",
+          "kind": "source_or_configuration_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        {
+          "path": "adl/tools/test_skill_documentation_completeness.sh",
+          "line": 35,
+          "reference": "    grep -Fq \"${skill}\" \"${repo_root}/adl/tools/test_card_editor_skill_contracts.sh\" \\",
+          "kind": "source_or_configuration_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        "Accept per-row disposition and close listed caller/dependency obligations.",
+        "For transfers, bind actual owner package/fixture outcomes to the mapped assertion denominator; source availability alone is insufficient.",
+        "Obtain coherent source-retirement approval and guard qualification."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_EXACT_COPY_TEST_DISPOSITIONS.json",
+        "packet_sha256": "af4ce18ae8978a75ab2fbfd26d5a584710e70f24ec99c89dbb561a950eab314e",
+        "proposal": "archive_only_assertion_mapping_needed",
+        "reason": "Card-editor manifest/schema and documentation assertions include executing test_card_editor_repair_examples.sh; preserve the sixteen-edit fixture separately from resource checks."
       }
     },
     {
@@ -45772,15 +45925,23 @@
         "blob": "e218a5bf7c87c9a61b55d33633c5d3fc4c590414"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "hold_reason": "Owner verifier explicitly executes original thirteen-field/order/evidence-state fixture checks from authenticated package members; preserve issue661 input/output/expected YAML, rg and private Git fixture dependencies.",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Accept per-row disposition and close listed caller/dependency obligations.",
+        "For transfers, bind actual owner package/fixture outcomes to the mapped assertion denominator; source availability alone is insufficient.",
+        "Obtain coherent source-retirement approval and guard qualification."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_EXACT_COPY_TEST_DISPOSITIONS.json",
+        "packet_sha256": "af4ce18ae8978a75ab2fbfd26d5a584710e70f24ec99c89dbb561a950eab314e",
+        "proposal": "conditional_owner_fixture_transfer",
+        "reason": "Owner verifier explicitly executes original thirteen-field/order/evidence-state fixture checks from authenticated package members; preserve issue661 input/output/expected YAML, rg and private Git fixture dependencies."
       }
     },
     {
@@ -45881,15 +46042,20 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_EXACT_COPY_TEST_DISPOSITIONS.json",
+        "packet_sha256": "af4ce18ae8978a75ab2fbfd26d5a584710e70f24ec99c89dbb561a950eab314e",
+        "proposal": "propose_retain_public_unchanged",
+        "reason": "Retain with RD07-1271: original test ends by auditing the actual ADL checkout after its private pass/fail fixtures. Owner original-contract verifier runs those bytes inside a separate fixture and explicitly does not claim general installed subject-root audit. Owner fixture correspondence is preserved but does not replace this local repository guard."
+      },
+      "reason": "Retain with RD07-1271: original test ends by auditing the actual ADL checkout after its private pass/fail fixtures. Owner original-contract verifier runs those bytes inside a separate fixture and explicitly does not claim general installed subject-root audit. Owner fixture correspondence is preserved but does not replace this local repository guard."
     },
     {
       "id": "RD07-1926",
@@ -48524,15 +48690,30 @@
         "blob": "e16e3febacdacec89a91305b63c07f15a7a06844"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "hold_reason": "Changed activation wrapper invokes contracts/validation/check_audio_policy.py; exact original survives validation/original. Preserve original gemini-native versus openai-surrogate manifests/packet assertions and demo wrapper fixture inputs; require existing owner-driver outcome correspondence, not audio provider execution.",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        {
+          "path": "adl/tools/test_install_adl_operational_skills.sh",
+          "line": 212,
+          "reference": "bash \"${repo_root}/adl/tools/test_multiagent_podcast_audio_policy.sh\"",
+          "kind": "source_or_configuration_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        "Accept per-row disposition and close listed caller/dependency obligations.",
+        "For transfers, bind actual owner package/fixture outcomes to the mapped assertion denominator; source availability alone is insufficient.",
+        "Obtain coherent source-retirement approval and guard qualification."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_EXACT_COPY_TEST_DISPOSITIONS.json",
+        "packet_sha256": "af4ce18ae8978a75ab2fbfd26d5a584710e70f24ec99c89dbb561a950eab314e",
+        "proposal": "conditional_owner_mapped_contract_transfer",
+        "reason": "Changed activation wrapper invokes contracts/validation/check_audio_policy.py; exact original survives validation/original. Preserve original gemini-native versus openai-surrogate manifests/packet assertions and demo wrapper fixture inputs; require existing owner-driver outcome correspondence, not audio provider execution."
       }
     },
     {
@@ -48545,15 +48726,23 @@
         "blob": "5bbcbf7fcdc25ed366a82ddc3fd02c2a3f816d01"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "hold_reason": "Original duplicate .adl root/worktree materialization and compatibility symlinks are explicitly unsupported by current native rebuild. Preserve exact evidence and decide historical retirement with callers; do not call native rebuild equivalent or restore old symlink behavior.",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Accept per-row disposition and close listed caller/dependency obligations.",
+        "For transfers, bind actual owner package/fixture outcomes to the mapped assertion denominator; source availability alone is insufficient.",
+        "Obtain coherent source-retirement approval and guard qualification."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_EXACT_COPY_TEST_DISPOSITIONS.json",
+        "packet_sha256": "af4ce18ae8978a75ab2fbfd26d5a584710e70f24ec99c89dbb561a950eab314e",
+        "proposal": "historical_compatibility_disposition_needed",
+        "reason": "Original duplicate .adl root/worktree materialization and compatibility symlinks are explicitly unsupported by current native rebuild. Preserve exact evidence and decide historical retirement with callers; do not call native rebuild equivalent or restore old symlink behavior."
       }
     },
     {
@@ -48699,15 +48888,30 @@
         "blob": "0e39b8299d9dc4f6c1dd032831725b8a2d472b84"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "hold_reason": "Planning-doc editor policy.no_card_edits, input/output schema and path/TODO assertions need current-owner contract mapping, not just an archived copy.",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        {
+          "path": "adl/tools/batched_checks.sh",
+          "line": 60,
+          "reference": "run_step \"planning-doc-editor contract check\" bash \"$ROOT/adl/tools/test_planning_doc_editor_skill_contracts.sh\"",
+          "kind": "source_or_configuration_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        "Accept per-row disposition and close listed caller/dependency obligations.",
+        "For transfers, bind actual owner package/fixture outcomes to the mapped assertion denominator; source availability alone is insufficient.",
+        "Obtain coherent source-retirement approval and guard qualification."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_EXACT_COPY_TEST_DISPOSITIONS.json",
+        "packet_sha256": "af4ce18ae8978a75ab2fbfd26d5a584710e70f24ec99c89dbb561a950eab314e",
+        "proposal": "archive_only_assertion_mapping_needed",
+        "reason": "Planning-doc editor policy.no_card_edits, input/output schema and path/TODO assertions need current-owner contract mapping, not just an archived copy."
       }
     },
     {
@@ -48978,15 +49182,51 @@
         "blob": "e85539d6ffa83006dd7a0bacb903a1553aa280cf"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "hold_reason": "Owner verifier runs original session telemetry assertions with only fixed /tmp output redirected into private tmpdir. Preserve record_session_issue_metrics and pinned issue_goal_metrics dependency; readiness remains nonterminal.",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        {
+          "path": "adl/config/validation_lane_selector.v0.91.6.json",
+          "line": 817,
+          "reference": "        \"adl/tools/test_readiness_prep_metrics_non_terminal.sh\",",
+          "kind": "source_or_configuration_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        {
+          "path": "adl/config/validation_lane_selector.v0.91.6.json",
+          "line": 830,
+          "reference": "        \"adl/tools/test_readiness_prep_metrics_non_terminal.sh\",",
+          "kind": "source_or_configuration_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        {
+          "path": "adl/tools/test_select_validation_lanes.sh",
+          "line": 316,
+          "reference": "  \"adl/tools/test_readiness_prep_metrics_non_terminal.sh\"",
+          "kind": "source_or_configuration_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        {
+          "path": "adl/tools/test_select_validation_lanes.sh",
+          "line": 351,
+          "reference": "    \"adl/tools/test_readiness_prep_metrics_non_terminal.sh\",",
+          "kind": "source_or_configuration_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        "Accept per-row disposition and close listed caller/dependency obligations.",
+        "For transfers, bind actual owner package/fixture outcomes to the mapped assertion denominator; source availability alone is insufficient.",
+        "Obtain coherent source-retirement approval and guard qualification."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_EXACT_COPY_TEST_DISPOSITIONS.json",
+        "packet_sha256": "af4ce18ae8978a75ab2fbfd26d5a584710e70f24ec99c89dbb561a950eab314e",
+        "proposal": "conditional_owner_fixture_transfer",
+        "reason": "Owner verifier runs original session telemetry assertions with only fixed /tmp output redirected into private tmpdir. Preserve record_session_issue_metrics and pinned issue_goal_metrics dependency; readiness remains nonterminal."
       }
     },
     {
@@ -49241,15 +49481,20 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_EXACT_COPY_TEST_DISPOSITIONS.json",
+        "packet_sha256": "af4ce18ae8978a75ab2fbfd26d5a584710e70f24ec99c89dbb561a950eab314e",
+        "proposal": "propose_retain_public_unchanged",
+        "reason": "Generic revision validation plus git diff --check accepts explicit base/head arguments and has no private source dependency. Owner contract explicitly says retain unchanged; current native proof freshness is not a replacement."
+      },
+      "reason": "Generic revision validation plus git diff --check accepts explicit base/head arguments and has no private source dependency. Owner contract explicitly says retain unchanged; current native proof freshness is not a replacement."
     },
     {
       "id": "RD07-2071",
@@ -49371,15 +49616,23 @@
         "blob": "edf50a9660baaf0b068b3e2651387845ec2acd97"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "hold_reason": "Owner test_original_reviewer_policy_assertions_run_unchanged executes this script from verified resource fixture; token leakage is rejected. Preserve paired validator 1863 and exact local assertion denominator; no API/native review proof.",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Accept per-row disposition and close listed caller/dependency obligations.",
+        "For transfers, bind actual owner package/fixture outcomes to the mapped assertion denominator; source availability alone is insufficient.",
+        "Obtain coherent source-retirement approval and guard qualification."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_EXACT_COPY_TEST_DISPOSITIONS.json",
+        "packet_sha256": "af4ce18ae8978a75ab2fbfd26d5a584710e70f24ec99c89dbb561a950eab314e",
+        "proposal": "conditional_owner_fixture_transfer",
+        "reason": "Owner test_original_reviewer_policy_assertions_run_unchanged executes this script from verified resource fixture; token leakage is rejected. Preserve paired validator 1863 and exact local assertion denominator; no API/native review proof."
       }
     },
     {
@@ -50529,15 +50782,135 @@
         "blob": "1110a47cb26b31537b4e8e442730434538e6785d"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "hold_reason": "Changed current-conductor activation and check_conductor_correspondence.py map explicit readiness/card exports, metrics, parity, lifecycle and closeout portions. Native transport doubles and full_original_acceptance=false are explicit; preserve CONDUCTOR_ASSERTION_MAP denominator and unmatched bootstrap/native admission obligations.",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        {
+          "path": "adl/config/validation_lane_selector.v0.91.6.json",
+          "line": 1508,
+          "reference": "        \"adl/tools/test_sprint_conductor_helpers.sh\",",
+          "kind": "source_or_configuration_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        {
+          "path": "adl/config/validation_lane_selector.v0.91.6.json",
+          "line": 1513,
+          "reference": "        \"adl/tools/test_sprint_conductor_helpers.sh\",",
+          "kind": "source_or_configuration_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        {
+          "path": "adl/config/validation_lane_selector.v0.91.6.json",
+          "line": 1516,
+          "reference": "      \"command\": \"bash adl/tools/test_sprint_conductor_helpers.sh && bash adl/tools/test_install_adl_operational_skills.sh\",",
+          "kind": "source_or_configuration_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        {
+          "path": "adl/config/validation_lane_selector.v0.91.6.json",
+          "line": 1517,
+          "reference": "      \"run_command\": \"bash adl/tools/test_sprint_conductor_helpers.sh && bash adl/tools/test_install_adl_operational_skills.sh\",",
+          "kind": "source_or_configuration_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        {
+          "path": "adl/tools/skills/sprint-review/SKILL.md",
+          "line": 172,
+          "reference": "    - adl/tools/test_sprint_conductor_helpers.sh",
+          "kind": "documentation_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        {
+          "path": "adl/tools/test_ci_path_policy.sh",
+          "line": 875,
+          "reference": "  printf '#!/usr/bin/env bash\\nexit 0\\n' > adl/tools/test_sprint_conductor_helpers.sh",
+          "kind": "source_or_configuration_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        {
+          "path": "adl/tools/test_ci_path_policy.sh",
+          "line": 880,
+          "reference": "    adl/tools/test_sprint_conductor_helpers.sh \\",
+          "kind": "source_or_configuration_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        {
+          "path": "adl/tools/test_ci_path_policy.sh",
+          "line": 906,
+          "reference": "  printf '#!/usr/bin/env bash\\nexit 0\\n' > adl/tools/test_sprint_conductor_helpers.sh",
+          "kind": "source_or_configuration_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        {
+          "path": "adl/tools/test_ci_path_policy.sh",
+          "line": 910,
+          "reference": "    adl/tools/test_sprint_conductor_helpers.sh \\",
+          "kind": "source_or_configuration_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        {
+          "path": "adl/tools/test_ci_path_policy.sh",
+          "line": 1056,
+          "reference": "  printf '#!/usr/bin/env bash\\nexit 0\\n' > adl/tools/test_sprint_conductor_helpers.sh",
+          "kind": "source_or_configuration_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        {
+          "path": "adl/tools/test_ci_path_policy.sh",
+          "line": 1069,
+          "reference": "    adl/tools/test_sprint_conductor_helpers.sh \\",
+          "kind": "source_or_configuration_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        {
+          "path": "adl/tools/test_install_adl_operational_skills.sh",
+          "line": 211,
+          "reference": "bash \"${repo_root}/adl/tools/test_sprint_conductor_helpers.sh\"",
+          "kind": "source_or_configuration_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        {
+          "path": "adl/tools/test_process_drift_regressions.sh",
+          "line": 8,
+          "reference": "bash adl/tools/test_sprint_conductor_helpers.sh",
+          "kind": "source_or_configuration_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        {
+          "path": "adl/tools/test_validation_manager.sh",
+          "line": 699,
+          "reference": "M\tadl/tools/test_sprint_conductor_helpers.sh",
+          "kind": "source_or_configuration_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        {
+          "path": "adl/tools/test_validation_manager.sh",
+          "line": 723,
+          "reference": "M\tadl/tools/test_sprint_conductor_helpers.sh",
+          "kind": "source_or_configuration_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        {
+          "path": "adl/tools/test_validation_manager.sh",
+          "line": 755,
+          "reference": "M\tadl/tools/test_sprint_conductor_helpers.sh",
+          "kind": "source_or_configuration_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        "Accept per-row disposition and close listed caller/dependency obligations.",
+        "For transfers, bind actual owner package/fixture outcomes to the mapped assertion denominator; source availability alone is insufficient.",
+        "Obtain coherent source-retirement approval and guard qualification."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_EXACT_COPY_TEST_DISPOSITIONS.json",
+        "packet_sha256": "af4ce18ae8978a75ab2fbfd26d5a584710e70f24ec99c89dbb561a950eab314e",
+        "proposal": "partial_owner_correspondence_remaining_hold",
+        "reason": "Changed current-conductor activation and check_conductor_correspondence.py map explicit readiness/card exports, metrics, parity, lifecycle and closeout portions. Native transport doubles and full_original_acceptance=false are explicit; preserve CONDUCTOR_ASSERTION_MAP denominator and unmatched bootstrap/native admission obligations."
       }
     },
     {
@@ -51539,15 +51912,23 @@
         "blob": "f0520fffe90414cb60b2055bff467843130153ac"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "hold_reason": "Current worktree_doctor.py resource maps six topology observations, but owner README explicitly leaves original A07 removable-count and A08 prune dry-run unresolved. Preserve those obligations jointly with 2165; no cleanup authority inferred.",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Accept per-row disposition and close listed caller/dependency obligations.",
+        "For transfers, bind actual owner package/fixture outcomes to the mapped assertion denominator; source availability alone is insufficient.",
+        "Obtain coherent source-retirement approval and guard qualification."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_EXACT_COPY_TEST_DISPOSITIONS.json",
+        "packet_sha256": "af4ce18ae8978a75ab2fbfd26d5a584710e70f24ec99c89dbb561a950eab314e",
+        "proposal": "partial_owner_correspondence_remaining_hold",
+        "reason": "Current worktree_doctor.py resource maps six topology observations, but owner README explicitly leaves original A07 removable-count and A08 prune dry-run unresolved. Preserve those obligations jointly with 2165; no cleanup authority inferred."
       }
     },
     {
@@ -51560,15 +51941,23 @@
         "blob": "a1e1ae54d1f46a6ea2e55aab2a3e505a7ac575c2"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "hold_reason": "Original doctor/prune behavior includes bulk limit/report/open/dirty handling. Exact original is inert evidence; current native clean or read-only report is not equivalent. Requires explicit historical retirement decision or assertion mapping, never restoration of unqualified destructive helper.",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Accept per-row disposition and close listed caller/dependency obligations.",
+        "For transfers, bind actual owner package/fixture outcomes to the mapped assertion denominator; source availability alone is insufficient.",
+        "Obtain coherent source-retirement approval and guard qualification."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_EXACT_COPY_TEST_DISPOSITIONS.json",
+        "packet_sha256": "af4ce18ae8978a75ab2fbfd26d5a584710e70f24ec99c89dbb561a950eab314e",
+        "proposal": "archive_only_assertion_mapping_needed",
+        "reason": "Original doctor/prune behavior includes bulk limit/report/open/dirty handling. Exact original is inert evidence; current native clean or read-only report is not equivalent. Requires explicit historical retirement decision or assertion mapping, never restoration of unqualified destructive helper."
       }
     },
     {
@@ -51624,15 +52013,20 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reviewed_disposition": {
+        "packet": "PUBLIC_LEGACY_HELPER_DISPOSITIONS.json",
+        "packet_sha256": "19c401eb8c113e49d7b5751af38a8188731cf7b4094e9794c7a234d6c5a4eaed",
+        "proposal": "retain_historical_report_utility",
+        "reason": "35line helper only writes LATEST pointers under existing automation/pr-cycle report families; not lifecycle authority or private implementation."
+      },
+      "reason": "35line helper only writes LATEST pointers under existing automation/pr-cycle report families; not lifecycle authority or private implementation."
     },
     {
       "id": "RD07-2169",
@@ -51645,15 +52039,20 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reviewed_disposition": {
+        "packet": "PUBLIC_LEGACY_HELPER_DISPOSITIONS.json",
+        "packet_sha256": "19c401eb8c113e49d7b5751af38a8188731cf7b4094e9794c7a234d6c5a4eaed",
+        "proposal": "retain_historical_report_utility",
+        "reason": "42line helper indexes existing automation/burst/pr-cycle report directories through2168."
+      },
+      "reason": "42line helper indexes existing automation/burst/pr-cycle report directories through2168."
     },
     {
       "id": "RD07-2170",

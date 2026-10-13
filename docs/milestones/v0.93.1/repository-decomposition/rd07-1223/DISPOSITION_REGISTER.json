@@ -26295,11 +26295,16 @@
         "42c81cd9041b51009fb21f021c0b6d8a8afa7eb3"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "Checks tracked ADL legacy live-card residue using repository Git inventory. The split does not remove ADL repository hygiene; owner fixture copy explicitly does not provide an installed subject-root audit.",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "PUBLIC_LEGACY_HELPER_DISPOSITIONS.json: RD07-1271",
+        "Checks tracked ADL legacy live-card residue using repository Git inventory. The split does not remove ADL repository hygiene; owner fixture copy explicitly does not provide an installed subject-root audit."
+      ]
     },
     {
       "id": "RD07-1272",
@@ -26413,11 +26418,16 @@
         "72e537ab255906258488b95f6edb2e3ac262655f"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "Removes generated ADL LLVM profiles and summaries; retained public ADL package continues to generate these files. README documents helper.",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "PUBLIC_LEGACY_HELPER_DISPOSITIONS.json: RD07-1277",
+        "Removes generated ADL LLVM profiles and summaries; retained public ADL package continues to generate these files. README documents helper."
+      ]
     },
     {
       "id": "RD07-1278",
@@ -39419,11 +39429,16 @@
         "d291894de3e511f73f05463ae7e480aaace23ecd"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "Retain with RD07-1271: original test ends by auditing the actual ADL checkout after its private pass/fail fixtures. Owner original-contract verifier runs those bytes inside a separate fixture and explicitly does not claim general installed subject-root audit. Owner fixture correspondence is preserved but does not replace this local repository guard.",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "CSDLC_EXACT_COPY_TEST_DISPOSITIONS.json: RD07-1925",
+        "Retain with RD07-1271: original test ends by auditing the actual ADL checkout after its private pass/fail fixtures. Owner original-contract verifier runs those bytes inside a separate fixture and explicitly does not claim general installed subject-root audit. Owner fixture correspondence is preserved but does not replace this local repository guard."
+      ]
     },
     {
       "id": "RD07-1926",
@@ -42228,11 +42243,16 @@
         "1170b5153f25ccd32e240cc823f92c39ae260bc6"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "Generic revision validation plus git diff --check accepts explicit base/head arguments and has no private source dependency. Owner contract explicitly says retain unchanged; current native proof freshness is not a replacement.",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "CSDLC_EXACT_COPY_TEST_DISPOSITIONS.json: RD07-2070",
+        "Generic revision validation plus git diff --check accepts explicit base/head arguments and has no private source dependency. Owner contract explicitly says retain unchanged; current native proof freshness is not a replacement."
+      ]
     },
     {
       "id": "RD07-2071",
@@ -44144,11 +44164,16 @@
         "0cb1030c2ec20650fb072ffd55408501b24902bd"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "35line helper only writes LATEST pointers under existing automation/pr-cycle report families; not lifecycle authority or private implementation.",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "PUBLIC_LEGACY_HELPER_DISPOSITIONS.json: RD07-2168",
+        "35line helper only writes LATEST pointers under existing automation/pr-cycle report families; not lifecycle authority or private implementation."
+      ]
     },
     {
       "id": "RD07-2169",
@@ -44161,11 +44186,16 @@
         "485ef996701b95eba6bc97e192f2188e080f0234"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "42line helper indexes existing automation/burst/pr-cycle report directories through2168.",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "PUBLIC_LEGACY_HELPER_DISPOSITIONS.json: RD07-2169",
+        "42line helper indexes existing automation/burst/pr-cycle report directories through2168."
+      ]
     },
     {
       "id": "RD07-2170",
@@ -88338,5 +88368,5 @@
   "previous_observed_main": "f1493c54e4d9f6c5a1da798f48d9f2c361033fa4",
   "consumer_reference_repair_count": 7,
   "approved_component_removal_count": 36,
-  "resolved_retention_count": 451
+  "resolved_retention_count": 457
 }
