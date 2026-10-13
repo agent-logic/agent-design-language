@@ -431,7 +431,7 @@ impl PendingOperation {
     pub fn observed_truth(&self) -> Option<EffectTruth> {
         self.observed.as_ref().map(|o| o.truth)
     }
-    fn retained_dispatch_is_consistent(&self) -> bool {
+    pub(super) fn retained_dispatch_is_consistent(&self) -> bool {
         self.dispatch != Some(RetainedDispatch::Reserved) || self.observed.is_none()
     }
 }
@@ -2482,6 +2482,17 @@ pub(super) mod tests {
             let decoded: PendingOperation = serde_json::from_value(retained.clone()).unwrap();
             assert_eq!(serde_json::to_value(decoded).unwrap(), retained);
         }
+
+        for dispatch in [RetainedDispatch::Reserved, RetainedDispatch::Started] {
+            let mut retained = f.snapshot();
+            retained.payload.pending.as_mut().unwrap().dispatch = Some(dispatch);
+            retained.audit.after.digest = hash("semantic-state-v1", &retained.payload).unwrap();
+            retained.audit_digest = hash("semantic-audit-v1", &retained.audit).unwrap();
+            let bytes = retained.canonical_bytes().unwrap();
+            let decoded = Snapshot::from_bytes(&bytes).unwrap();
+            assert_eq!(decoded.canonical_bytes().unwrap(), bytes);
+            assert!(decoded.pending().is_some());
+        }
     }
 
     #[test]
@@ -2498,6 +2509,23 @@ pub(super) mod tests {
             retained["dispatch"] = dispatch;
             assert!(serde_json::from_value::<PendingOperation>(retained).is_err());
         }
+
+        let mut contradictory = f.snapshot();
+        let pending = contradictory.payload.pending.as_mut().unwrap();
+        pending.dispatch = Some(RetainedDispatch::Reserved);
+        pending.observed = Some(RetainedOutcome {
+            kind: OutcomeKind::Success,
+            truth: EffectTruth::Performed,
+            native: pending.native.clone(),
+            evidence: pending.request.clone(),
+        });
+        contradictory.audit.after.digest =
+            hash("semantic-state-v1", &contradictory.payload).unwrap();
+        contradictory.audit_digest = hash("semantic-audit-v1", &contradictory.audit).unwrap();
+        assert!(matches!(
+            Snapshot::from_bytes(&contradictory.canonical_bytes().unwrap()),
+            Err(Error::InvalidDigest)
+        ));
     }
 }
 
