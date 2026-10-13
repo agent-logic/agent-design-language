@@ -6,7 +6,7 @@
   "execution_authorized": false,
   "original_inventory_count": 4134,
   "additional_inventory_count": 22,
-  "executed_deletion_count": 2821,
+  "executed_deletion_count": 2823,
   "entries": [
     {
       "path": ".github/workflows/ci.yaml",
@@ -28238,7 +28238,7 @@
       ],
       "after": [
         "100644",
-        "39b3eeaea7cdbba19a8406231ce216e25349bdc3"
+        "4867f7e9394abf65eceac3378aeffb80fb38efbb"
       ],
       "implementation_commit": "666818f2aafdaf4839d1c3de4119b513c4236d3d",
       "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
@@ -28340,6 +28340,18 @@
             "39b3eeaea7cdbba19a8406231ce216e25349bdc3"
           ],
           "packet": "HISTORICAL_QUALITY_EIGHT_APPLIED.json"
+        },
+        {
+          "commit": "19840ec8ebcfb46b5e52201f037969f0ab487914",
+          "before": [
+            "100644",
+            "39b3eeaea7cdbba19a8406231ce216e25349bdc3"
+          ],
+          "after": [
+            "100644",
+            "4867f7e9394abf65eceac3378aeffb80fb38efbb"
+          ],
+          "packet": "CSDLC_HISTORICAL_WRAPPER_TWO_APPLIED.json"
         }
       ]
     },
@@ -28890,7 +28902,7 @@
       ],
       "after": [
         "100644",
-        "93c5bf775ffc18be1bac052d46764ea1076f3170"
+        "235174824fd93b4ccb85454fbbaf880beb067fa9"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json",
@@ -29023,6 +29035,18 @@
             "93c5bf775ffc18be1bac052d46764ea1076f3170"
           ],
           "packet": "HISTORICAL_SLOW_THREE_APPLIED.json"
+        },
+        {
+          "commit": "19840ec8ebcfb46b5e52201f037969f0ab487914",
+          "before": [
+            "100644",
+            "93c5bf775ffc18be1bac052d46764ea1076f3170"
+          ],
+          "after": [
+            "100644",
+            "235174824fd93b4ccb85454fbbaf880beb067fa9"
+          ],
+          "packet": "CSDLC_HISTORICAL_WRAPPER_TWO_APPLIED.json"
         }
       ]
     },
@@ -29403,7 +29427,7 @@
       ],
       "after": [
         "100644",
-        "27db13138274a8c649df05fc50310be0d83b7593"
+        "aa072f0f6077e82b6122848ade8a2bb226b03e65"
       ],
       "implementation_commit": "666818f2aafdaf4839d1c3de4119b513c4236d3d",
       "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
@@ -29469,6 +29493,18 @@
             "27db13138274a8c649df05fc50310be0d83b7593"
           ],
           "packet": "FINISH_CLOSEOUT_SPRINT_REVIEW_SIXTEEN_APPLIED.json"
+        },
+        {
+          "commit": "19840ec8ebcfb46b5e52201f037969f0ab487914",
+          "before": [
+            "100644",
+            "27db13138274a8c649df05fc50310be0d83b7593"
+          ],
+          "after": [
+            "100644",
+            "aa072f0f6077e82b6122848ade8a2bb226b03e65"
+          ],
+          "packet": "CSDLC_HISTORICAL_WRAPPER_TWO_APPLIED.json"
         }
       ]
     },
@@ -30465,18 +30501,35 @@
     },
     {
       "path": "adl/tools/validate_issue256_birthday_after_observatory.py",
-      "action": "modify",
+      "action": "remove",
       "before": [
         "100755",
         "d66561b3db254528f40a8470be1e19551c1e701d"
       ],
-      "after": [
-        "100755",
-        "13a26f3e003df330febc0810603479330c7df84a"
-      ],
+      "after": null,
       "implementation_commit": "3383f7f691ec248d6fe87cd18e4e13c5d1e8d900",
       "approval_reference": "RUNTIME_SOURCE_FAMILY_APPLIED.json",
-      "review_reference": "review_1223_public_facade exact Runtime896 plus54 caller repair review"
+      "review_reference": "review_1223_public_facade exact Runtime896 plus54 caller repair review",
+      "supplemental_source_chain": [
+        {
+          "commit": "19840ec8ebcfb46b5e52201f037969f0ab487914",
+          "before": [
+            "100755",
+            "13a26f3e003df330febc0810603479330c7df84a"
+          ],
+          "after": null,
+          "packet": "CSDLC_HISTORICAL_WRAPPER_TWO_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_HISTORICAL_WRAPPER_TWO_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc-historical-wrapper-two/original-current-preimages.tar",
+        "archive_sha256": "626830f857f92add6a301de55829d25db536b89bcf8536bd3a80bfbedeb7eed2",
+        "member": "current/adl/tools/validate_issue256_birthday_after_observatory.py",
+        "mode": "100755",
+        "blob": "13a26f3e003df330febc0810603479330c7df84a",
+        "sha256": "58fb44f9da186655466c53b082f05787bef12ab1f90b9f3eacd7a0509572fc25"
+      }
     },
     {
       "path": "adl/tools/validate_runtime_hardening_5408.py",
@@ -56970,7 +57023,7 @@
       "before": null,
       "after": [
         "100644",
-        "565d7ba746384947f73dcbbc02f8ad8ed4f3153e"
+        "45f1e3f270733cf9ad6573f740728eb062bd9e34"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json",
@@ -57411,6 +57464,18 @@
             "565d7ba746384947f73dcbbc02f8ad8ed4f3153e"
           ],
           "packet": "INFRASTRUCTURE_PARSER_SIX_APPLIED.json"
+        },
+        {
+          "commit": "19840ec8ebcfb46b5e52201f037969f0ab487914",
+          "before": [
+            "100644",
+            "565d7ba746384947f73dcbbc02f8ad8ed4f3153e"
+          ],
+          "after": [
+            "100644",
+            "45f1e3f270733cf9ad6573f740728eb062bd9e34"
+          ],
+          "packet": "CSDLC_HISTORICAL_WRAPPER_TWO_APPLIED.json"
         }
       ],
       "prior_execution_provenance": [
@@ -64652,7 +64717,7 @@
       "before": null,
       "after": [
         "100644",
-        "b03090a5f57de1ec865da2f7373089c75a06f807"
+        "15ee5706a756181dd79c445bafac46c43f6ea3f9"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "Infrastructure212 source commit guard-documentation accompaniment",
@@ -64901,6 +64966,18 @@
             "b03090a5f57de1ec865da2f7373089c75a06f807"
           ],
           "packet": "Infrastructure parser six integration"
+        },
+        {
+          "commit": "pending_reviewed_integration",
+          "before": [
+            "100644",
+            "b03090a5f57de1ec865da2f7373089c75a06f807"
+          ],
+          "after": [
+            "100644",
+            "15ee5706a756181dd79c445bafac46c43f6ea3f9"
+          ],
+          "packet": "Historical wrapper two integration"
         }
       ],
       "prior_execution_provenance": [
@@ -69369,11 +69446,8 @@
         "100755",
         "945ef8cf18dd691d35a403b7a29959972b5fdea3"
       ],
-      "after": [
-        "100755",
-        "0e00a2541c3a1092bd2acc3cd1d26c9f458145d5"
-      ],
-      "action": "modify",
+      "after": null,
+      "action": "remove",
       "implementation_commit": "beea825590544b5412d4dcbbdf599d03837e1148",
       "approval_reference": "CODEFRIEND_SKILL_FAMILY_APPLIED.json",
       "review_reference": "public_facade independent source/caller review PASS and parent exact application review",
@@ -69390,7 +69464,27 @@
           ],
           "packet": "CODEFRIEND_SKILL_FAMILY_APPLIED.json"
         }
-      ]
+      ],
+      "supplemental_source_chain": [
+        {
+          "commit": "19840ec8ebcfb46b5e52201f037969f0ab487914",
+          "before": [
+            "100755",
+            "0e00a2541c3a1092bd2acc3cd1d26c9f458145d5"
+          ],
+          "after": null,
+          "packet": "CSDLC_HISTORICAL_WRAPPER_TWO_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSDLC_HISTORICAL_WRAPPER_TWO_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc-historical-wrapper-two/original-current-preimages.tar",
+        "archive_sha256": "626830f857f92add6a301de55829d25db536b89bcf8536bd3a80bfbedeb7eed2",
+        "member": "current/adl/tools/test_skill_documentation_completeness.sh",
+        "mode": "100755",
+        "blob": "0e00a2541c3a1092bd2acc3cd1d26c9f458145d5",
+        "sha256": "5458cc0f6dd9c8011fd6474cd7063567790f8c018bac83c8346e13649cb2d9e6"
+      }
     },
     {
       "path": "adl/tools/test_documentation_specialist_skill_contracts.sh",
@@ -93687,9 +93781,28 @@
         "docs/tooling/TOOL_SURFACE_REGISTRY.md"
       ],
       "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "CSDLC_HISTORICAL_WRAPPER_TWO_APPLIED.json",
+      "sha256": "d9aa76da1ea995932e0607d9685c7056e3b1377f43df656bcaa3010f37aabf62",
+      "commit": "19840ec8ebcfb46b5e52201f037969f0ab487914",
+      "files": 6,
+      "removals": 2,
+      "scope_sha256": "a6a91c6781386cf64105de9c2522d4e59a1d1bfdbb64357a8f6b3b4eca4bfe4b",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl/tools/test_skill_documentation_completeness.sh",
+        "adl/tools/validate_issue256_birthday_after_observatory.py",
+        "adl/tools/README.md",
+        "adl/tools/skills/docs/OPERATIONAL_SKILLS_GUIDE.md",
+        "adl/tools/generate_tool_surface_registry.py",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
     }
   ],
-  "baseline_deletion_count": 2820,
+  "baseline_deletion_count": 2822,
   "transient_removed_paths": [
     "adl/tools/test_issue872_historical_manifest.py"
   ],
@@ -93702,6 +93815,6 @@
     "adl/tools/test_demo_v0901_quality_gate.sh",
     "adl/tools/test_demo_v0902_review_quality_gate.sh"
   ],
-  "inventory_baseline_deletion_count": 2813,
+  "inventory_baseline_deletion_count": 2815,
   "supplemental_baseline_deletion_count": 7
 }

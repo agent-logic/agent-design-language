@@ -7,11 +7,11 @@
   "original_count": 4134,
   "counts": {
     "retain_resolved": 527,
-    "preserve_approved_removal": 2812,
+    "preserve_approved_removal": 2814,
     "proposed_owner_transfer_with_consumer_qualification": 225,
     "retain_public_source_or_fixture": 195,
     "preserve_reviewed_consumer_repair": 18,
-    "proposed_historical_retirement_with_caller_repair": 18,
+    "proposed_historical_retirement_with_caller_repair": 16,
     "proposed_remove_with_entire_source_family": 1,
     "proposed_remove_with_entire_tool_family": 324,
     "hold_explicit_reconciliation": 9,
@@ -19,7 +19,7 @@
     "proposed_remove_construction_qualified_infrastructure": 4
   },
   "additional_current_source_paths": 22,
-  "preservation": "Original 4134 identities and separate 22 captured paths unchanged. Exact executed retirement actions 2821 comprise 2820 baseline deletions and one newly-added-then-retired ADL conversion bridge; the bridge is outside both captured inventories. The baseline count includes the same seven separately enumerated supplemental paths outside the immutable inventories. Other proposals remain conditional.",
+  "preservation": "Original 4134 identities and separate 22 captured paths unchanged. Exact executed retirement actions 2823 comprise 2822 baseline deletions and one newly-added-then-retired ADL conversion bridge; the bridge is outside both captured inventories. The baseline count includes the same seven separately enumerated supplemental paths outside the immutable inventories. Other proposals remain conditional.",
   "review_boundary": "Exact paths and Git identities are pinned. Proposed removals remain conditional; this is not a claim that caller closure or all successor tests are qualified.",
   "known_prerequisites": {
     "codefriend": "Issue102 e14ff1b08b7ef01f838404bca8ecdf47c1318ac1 passed all39suites409Linux tests,0failed0ignored,174.293s; exacthead and clean source before/after. Evidence FastWork c1223/evidence/codefriend/issue102-e14ff1b0-full, transcriptSHA256c7944f7e0403ba485b377868b1bd85e91eeee0ecce3f79920de3e86c813cfa1a. Focused1 and parallel47 diagnostics also passed; prior dc2 redelivery failure did not reproduce and its cause is not claimed fixed. Earlier failures retained. One macOS-only case, actual hosted installed-acquisition CI proof and owner publication remain separate.",
@@ -75244,15 +75244,8 @@
         "blob": "945ef8cf18dd691d35a403b7a29959972b5fdea3"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_historical_retirement_with_caller_repair",
-      "required_before_execution": [
-        "Mixed skill distributions: preserve SKILL/manifest/schema completeness, card-editor exceptions, guide coverage and installer checks; exact CSDLc original-v1 archive is not active replacement.",
-        "Repair retained tools README and operational skills guide claims of current complete-inventory validation.",
-        "Reconcile1368 demo_v0902_review_quality_gate.sh caller and generated registry.",
-        "Preserve installer/completeness obligations under exact owner-specific current layouts.",
-        "Do not drop missing schema/family or synthesize input to manufacture pass.",
-        "Exact scoped retirement decision."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -75265,7 +75258,23 @@
         "reason": "Historical monorepo-layout wrapper retirement; no unchanged full-pass claim. Preserve all51families and205inputs including missing SprintReview schema and65ADL-only inputs.",
         "review": "Bounded independent source and exact evidence review; limits retained."
       },
-      "prior_hold_reason": "protect_existing_public_contract_policy_or_control_plane"
+      "prior_hold_reason": "protect_existing_public_contract_policy_or_control_plane",
+      "pre_historical_wrapper_two_execution_classification": {
+        "proposed_action": "proposed_historical_retirement_with_caller_repair",
+        "required_before_execution": [
+          "Mixed skill distributions: preserve SKILL/manifest/schema completeness, card-editor exceptions, guide coverage and installer checks; exact CSDLc original-v1 archive is not active replacement.",
+          "Repair retained tools README and operational skills guide claims of current complete-inventory validation.",
+          "Reconcile1368 demo_v0902_review_quality_gate.sh caller and generated registry.",
+          "Preserve installer/completeness obligations under exact owner-specific current layouts.",
+          "Do not drop missing schema/family or synthesize input to manufacture pass.",
+          "Exact scoped retirement decision."
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_HISTORICAL_WRAPPER_TWO_APPLIED.json",
+        "sha256": "d9aa76da1ea995932e0607d9685c7056e3b1377f43df656bcaa3010f37aabf62",
+        "implementation_commit": "19840ec8ebcfb46b5e52201f037969f0ab487914"
+      }
     },
     {
       "id": "RD07-2118",
@@ -77487,14 +77496,8 @@
         "blob": "d66561b3db254528f40a8470be1e19551c1e701d"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_historical_retirement_with_caller_repair",
-      "required_before_execution": [
-        "Reuse reviewed issue256 historical disposition with paired config and old evidence; do not turn fixed historical acceptance into a new Runtime feature.",
-        "Reconcile generated TOOL_SURFACE_REGISTRY.md entry that still advertises primary workflow use.",
-        "3733/3734 remain conditional Runtime configuration transfers, with operational config qualification independent.",
-        "Preserve original validator and historical evidence at pinned Git baseline.",
-        "Exact scoped retirement decision."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -77510,7 +77513,22 @@
           "result": "No executable invocation found in bounded current-source search; generated registry caller identified and retained as obligation."
         }
       },
-      "prior_hold_reason": "protect_existing_public_contract_policy_or_control_plane"
+      "prior_hold_reason": "protect_existing_public_contract_policy_or_control_plane",
+      "pre_historical_wrapper_two_execution_classification": {
+        "proposed_action": "proposed_historical_retirement_with_caller_repair",
+        "required_before_execution": [
+          "Reuse reviewed issue256 historical disposition with paired config and old evidence; do not turn fixed historical acceptance into a new Runtime feature.",
+          "Reconcile generated TOOL_SURFACE_REGISTRY.md entry that still advertises primary workflow use.",
+          "3733/3734 remain conditional Runtime configuration transfers, with operational config qualification independent.",
+          "Preserve original validator and historical evidence at pinned Git baseline.",
+          "Exact scoped retirement decision."
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSDLC_HISTORICAL_WRAPPER_TWO_APPLIED.json",
+        "sha256": "d9aa76da1ea995932e0607d9685c7056e3b1377f43df656bcaa3010f37aabf62",
+        "implementation_commit": "19840ec8ebcfb46b5e52201f037969f0ab487914"
+      }
     },
     {
       "id": "RD07-2190",
