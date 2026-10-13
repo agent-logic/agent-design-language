@@ -6,12 +6,12 @@
   "execution_authorized": false,
   "original_count": 4134,
   "counts": {
-    "hold_explicit_reconciliation": 58,
+    "hold_explicit_reconciliation": 52,
     "hold_owner_test_reconciliation": 35,
     "preserve_approved_removal": 70,
     "preserve_reviewed_consumer_repair": 18,
-    "proposed_historical_retirement_with_caller_repair": 51,
-    "proposed_owner_transfer_with_consumer_qualification": 497,
+    "proposed_historical_retirement_with_caller_repair": 55,
+    "proposed_owner_transfer_with_consumer_qualification": 499,
     "proposed_remove_construction_qualified_infrastructure": 216,
     "proposed_remove_with_entire_source_family": 1874,
     "proposed_remove_with_entire_tool_family": 678,
@@ -46,7 +46,8 @@
       "native_merge_sha256": "5bb0c21c9cbcc3ffe80ecfe29e7dbc4a5babc59d6c428efe65a8b38c22d67d0b",
       "boundary": "Native authenticated merge/closed readback verified; focused8cases and genuine3resolution proof reported by owner separately. No cloud deployment or unrelated ALB acceptance."
     },
-    "codefriend_owner104_delivery": "CODEFRIEND_OWNER_MERGE_RECEIPT.json records authenticated PR105 merge at e93a457 source,23eca64 merge. Existing original consumer evidence reused; no native finish or new test execution inferred."
+    "codefriend_owner104_delivery": "CODEFRIEND_OWNER_MERGE_RECEIPT.json records authenticated PR105 merge at e93a457 source,23eca64 merge. Existing original consumer evidence reused; no native finish or new test execution inferred.",
+    "infrastructure_alb_delivery": "Infrastructure23/PR24 merged d0e9ea2e1c80f3c4bc13a920f6b9df95201187cd at exact head3f0583978b3d7810071b54257824257cf4965127; authenticated receipt adopted in INFRASTRUCTURE_ALB_OWNER_MERGE_RECEIPT.json. No cloud qualification or native finish inferred."
   },
   "ci_contract": "COMBINED_CI_CUTOVER.json",
   "rows": [
@@ -45976,8 +45977,7 @@
         "blob": "da12b4aacdabfe2b13c025591b7e67393b4a1efe"
       },
       "existing_action": "retain",
-      "hold_reason": "Milestone skill files, manifest/schema IDs, planning-package policy, output contract, host-path/TODO checks must be reconciled with current owner skill; passive resource integrity is not equivalent.",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
         {
           "path": "adl/tools/batched_checks.sh",
@@ -45988,7 +45988,9 @@
         },
         "Accept per-row disposition and close listed caller/dependency obligations.",
         "For transfers, bind actual owner package/fixture outcomes to the mapped assertion denominator; source availability alone is insufficient.",
-        "Obtain coherent source-retirement approval and guard qualification."
+        "Obtain coherent source-retirement approval and guard qualification.",
+        "Reconcile active callers and registry inventory coherently.",
+        "Explicit scoped retirement decision."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
@@ -45996,11 +45998,13 @@
         "exact_successor_paths": []
       },
       "reviewed_disposition": {
-        "packet": "CSDLC_EXACT_COPY_TEST_DISPOSITIONS.json",
-        "packet_sha256": "af4ce18ae8978a75ab2fbfd26d5a584710e70f24ec99c89dbb561a950eab314e",
-        "proposal": "archive_only_assertion_mapping_needed",
-        "reason": "Milestone skill files, manifest/schema IDs, planning-package policy, output contract, host-path/TODO checks must be reconciled with current owner skill; passive resource integrity is not equivalent."
-      }
+        "packet": "REMAINING_PLANNING_RESOURCE_QUALIFICATION.json",
+        "packet_sha256": "40a95a8d46e9d029cfbf9728baa091f67c068c19606878365b2c693a2b04ce4b",
+        "proposal": "proposed_owner_transfer_with_consumer_qualification",
+        "reason": "Archived original-resource contracts only. Current active skills explicitly declare legacy_equivalence false; active milestone/planning operations are not qualified.",
+        "review": "Independent exact resource closure review; original scripts passed unchanged against owner archive."
+      },
+      "prior_hold_reason": "Milestone skill files, manifest/schema IDs, planning-package policy, output contract, host-path/TODO checks must be reconciled with current owner skill; passive resource integrity is not equivalent."
     },
     {
       "id": "RD07-1902",
@@ -46421,8 +46425,7 @@
         "blob": "fd809615828bad0ae1828f1fa578709a9cf5ceae"
       },
       "existing_action": "retain",
-      "hold_reason": "Original script makes sixteen real csdlc-v2 edit requests through gate2 fixtures and checks sunset wrapper absence. Owner active-lifecycle README explicitly keeps this compatibility obligation distinct; resource verification is not replacement.",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
         {
           "path": "adl/tools/run_owner_validation_lane.sh",
@@ -46441,7 +46444,10 @@
         "Accept per-row disposition and close listed caller/dependency obligations.",
         "For transfers, bind actual owner package/fixture outcomes to the mapped assertion denominator; source availability alone is insufficient.",
         "Obtain coherent source-retirement approval and guard qualification.",
-        "Resolve four obsolete Gate2 exact filters removed by52e0be6f; zero selected tests are not qualification."
+        "Resolve four obsolete Gate2 exact filters removed by52e0be6f; zero selected tests are not qualification.",
+        "Reconcile active owner-lane, aggregate, registry and documentation callers.",
+        "Preserve independent source-family and behavioral obligations.",
+        "Exact scoped retirement decision."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
@@ -46449,17 +46455,19 @@
         "exact_successor_paths": []
       },
       "reviewed_disposition": {
-        "packet": "CSDLC_EXACT_COPY_TEST_DISPOSITIONS.json",
-        "packet_sha256": "af4ce18ae8978a75ab2fbfd26d5a584710e70f24ec99c89dbb561a950eab314e",
-        "proposal": "archive_only_assertion_mapping_needed",
-        "reason": "Original script makes sixteen real csdlc-v2 edit requests through gate2 fixtures and checks sunset wrapper absence. Owner active-lifecycle README explicitly keeps this compatibility obligation distinct; resource verification is not replacement."
+        "packet": "LEGACY_CARD_VALIDATION_RETIREMENT.json",
+        "packet_sha256": "2957a6ff27d7f693205eb387d122fca5908f487c092fcbb5ad7f4a1e2b11e1ba",
+        "proposal": "proposed_historical_retirement_with_caller_repair",
+        "reason": "Explicit historical interface disposition with surviving assertions and callers preserved.",
+        "review": "review_1223_historical_retention"
       },
       "qualification_followup": {
         "record": "LEGACY_TYPED_WRAPPER_DISPOSITION.json",
         "scope": "exact_source_obligation_and_removed_filter_lineage",
         "execution_proven": false,
         "changes_removal_authority": false
-      }
+      },
+      "prior_hold_reason": "Original script makes sixteen real csdlc-v2 edit requests through gate2 fixtures and checks sunset wrapper absence. Owner active-lifecycle README explicitly keeps this compatibility obligation distinct; resource verification is not replacement."
     },
     {
       "id": "RD07-1917",
@@ -49852,8 +49860,7 @@
         "blob": "0e39b8299d9dc4f6c1dd032831725b8a2d472b84"
       },
       "existing_action": "retain",
-      "hold_reason": "Planning-doc editor policy.no_card_edits, input/output schema and path/TODO assertions need current-owner contract mapping, not just an archived copy.",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
         {
           "path": "adl/tools/batched_checks.sh",
@@ -49864,7 +49871,9 @@
         },
         "Accept per-row disposition and close listed caller/dependency obligations.",
         "For transfers, bind actual owner package/fixture outcomes to the mapped assertion denominator; source availability alone is insufficient.",
-        "Obtain coherent source-retirement approval and guard qualification."
+        "Obtain coherent source-retirement approval and guard qualification.",
+        "Reconcile active callers and registry inventory coherently.",
+        "Explicit scoped retirement decision."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
@@ -49872,11 +49881,13 @@
         "exact_successor_paths": []
       },
       "reviewed_disposition": {
-        "packet": "CSDLC_EXACT_COPY_TEST_DISPOSITIONS.json",
-        "packet_sha256": "af4ce18ae8978a75ab2fbfd26d5a584710e70f24ec99c89dbb561a950eab314e",
-        "proposal": "archive_only_assertion_mapping_needed",
-        "reason": "Planning-doc editor policy.no_card_edits, input/output schema and path/TODO assertions need current-owner contract mapping, not just an archived copy."
-      }
+        "packet": "REMAINING_PLANNING_RESOURCE_QUALIFICATION.json",
+        "packet_sha256": "40a95a8d46e9d029cfbf9728baa091f67c068c19606878365b2c693a2b04ce4b",
+        "proposal": "proposed_owner_transfer_with_consumer_qualification",
+        "reason": "Archived original-resource contracts only. Current active skills explicitly declare legacy_equivalence false; active milestone/planning operations are not qualified.",
+        "review": "Independent exact resource closure review; original scripts passed unchanged against owner archive."
+      },
+      "prior_hold_reason": "Planning-doc editor policy.no_card_edits, input/output schema and path/TODO assertions need current-owner contract mapping, not just an archived copy."
     },
     {
       "id": "RD07-2047",
@@ -51714,10 +51725,12 @@
         "blob": "fd041dd56f43f5ed680cea688efda8c40cbf2d25"
       },
       "existing_action": "retain",
-      "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "Map Runtime installer generation selection, predecessor receipts, stale stable-launcher repair, rollback and missing-active-CSM refusals to current installer tests."
+        "Map Runtime installer generation selection, predecessor receipts, stale stable-launcher repair, rollback and missing-active-CSM refusals to current installer tests.",
+        "Reconcile active owner-lane, aggregate, registry and documentation callers.",
+        "Preserve independent source-family and behavioral obligations.",
+        "Exact scoped retirement decision."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
@@ -51725,11 +51738,13 @@
         "exact_successor_paths": []
       },
       "reviewed_disposition": {
-        "packet": "ACTIVE_19_TOOL_DISPOSITIONS.json",
-        "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
-        "proposal": "specific_family_reconciliation",
-        "reason": "Map Runtime installer generation selection, predecessor receipts, stale stable-launcher repair, rollback and missing-active-CSM refusals to current installer tests."
-      }
+        "packet": "LEGACY_GENERATION_INSTALLER_RETIREMENT.json",
+        "packet_sha256": "df1ded611615be1a67a37804dca446943e9cd4c2f18999c1348d9143d6171a48",
+        "proposal": "proposed_historical_retirement_with_caller_repair",
+        "reason": "Explicit historical interface disposition with surviving assertions and callers preserved.",
+        "review": "review_1223_public_facade"
+      },
+      "prior_hold_reason": "protect_existing_public_contract_policy_or_control_plane"
     },
     {
       "id": "RD07-2110",
@@ -52135,11 +52150,13 @@
         "blob": "e5856eebd81805e50b3eeced3d7172b333c01109"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
         "specific_consumer_or_document_disposition_required",
-        "Resolve four obsolete Gate2 exact filters removed by52e0be6f; zero selected tests are not qualification."
+        "Resolve four obsolete Gate2 exact filters removed by52e0be6f; zero selected tests are not qualification.",
+        "Reconcile active owner-lane, aggregate, registry and documentation callers.",
+        "Preserve independent source-family and behavioral obligations.",
+        "Exact scoped retirement decision."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
@@ -52151,6 +52168,14 @@
         "scope": "exact_source_obligation_and_removed_filter_lineage",
         "execution_proven": false,
         "changes_removal_authority": false
+      },
+      "prior_hold_reason": "hold_no_proven_current_successor_mapping",
+      "reviewed_disposition": {
+        "packet": "LEGACY_CARD_VALIDATION_RETIREMENT.json",
+        "packet_sha256": "2957a6ff27d7f693205eb387d122fca5908f487c092fcbb5ad7f4a1e2b11e1ba",
+        "proposal": "proposed_historical_retirement_with_caller_repair",
+        "reason": "Explicit historical interface disposition with surviving assertions and callers preserved.",
+        "review": "review_1223_historical_retention"
       }
     },
     {
@@ -53896,10 +53921,13 @@
         "blob": "d66561b3db254528f40a8470be1e19551c1e701d"
       },
       "existing_action": "retain",
-      "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "Reuse reviewed issue256 historical disposition with paired config and old evidence; do not turn fixed historical acceptance into a new Runtime feature."
+        "Reuse reviewed issue256 historical disposition with paired config and old evidence; do not turn fixed historical acceptance into a new Runtime feature.",
+        "Reconcile generated TOOL_SURFACE_REGISTRY.md entry that still advertises primary workflow use.",
+        "3733/3734 remain conditional Runtime configuration transfers, with operational config qualification independent.",
+        "Preserve original validator and historical evidence at pinned Git baseline.",
+        "Exact scoped retirement decision."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
@@ -53907,11 +53935,16 @@
         "exact_successor_paths": []
       },
       "reviewed_disposition": {
-        "packet": "ACTIVE_19_TOOL_DISPOSITIONS.json",
-        "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
-        "proposal": "specific_family_reconciliation",
-        "reason": "Reuse reviewed issue256 historical disposition with paired config and old evidence; do not turn fixed historical acceptance into a new Runtime feature."
-      }
+        "packet": "ISSUE256_HISTORICAL_VALIDATOR_DISPOSITION.json",
+        "packet_sha256": "0413b937b1415da85c7fb2eb386387b8751fa1f85e6820c7c34b0b2ce9a5d556",
+        "proposal": "proposed_historical_retirement_with_caller_repair",
+        "reason": "PRODUCT_DOCUMENT_FOLLOWUP.json reviewed issue256-historical-consumer-proposal; fixed issue256/414/424 evidence acceptance, not a portable ongoing Runtime validator.",
+        "review": {
+          "reviewer": "review_1223_historical_retention",
+          "result": "No executable invocation found in bounded current-source search; generated registry caller identified and retained as obligation."
+        }
+      },
+      "prior_hold_reason": "protect_existing_public_contract_policy_or_control_plane"
     },
     {
       "id": "RD07-2190",

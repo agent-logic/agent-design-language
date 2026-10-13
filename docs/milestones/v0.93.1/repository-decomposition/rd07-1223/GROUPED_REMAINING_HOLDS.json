@@ -1,16 +1,16 @@
 {
   "schema": "adl.source_retirement.grouped_holds.v1",
-  "source_head": "df7aea57ab44762ed710133bc21b5287933ce43b",
-  "ledger_sha256": "6ed9e6500c4674ad203c46ad2bd3a984eb815a3f5ae1816ca40f29423f8d93b2",
+  "source_head": "261186964c8780486a7b75e13f4de1f9df505a86",
+  "ledger_sha256": "ed5d88e40486543a4df5b46c306c92628fe12453a5a1e4af0ec47e7d3ee2ad29",
   "original_count": 4134,
-  "held_count": 93,
+  "held_count": 87,
   "additional_paths_separate": 22,
   "execution_authorized": false,
   "boundary": "Grouping preserves every original row and prerequisite verbatim. It does not resolve holds, authorize removal, or imply full issue readiness. Other proposed removals remain conditional.",
   "cross_cutting_prerequisites": [
     "Planning #12 owns shared native package admission policy repair; no parallel installer replacement.",
     "Runtime149 publication and authentic current acceptance remain separate from490 passing tests.",
-    "Infrastructure ALB28th-root repair has no issue, bound worktree, implementation or PR. Exact native issue-creation recovery authorization remains pending after automatic approval rejection; preserve promised DNS alias and certificate creation, not just delete unsupported arguments. See /Volumes/FastWork/c1223/repairs/infrastructure/diagnosis.md.",
+    "Infrastructure23/PR24 merged d0e9ea2e1c80f3c4bc13a920f6b9df95201187cd at exact head3f0583978b3d7810071b54257824257cf4965127; authenticated receipt adopted in INFRASTRUCTURE_ALB_OWNER_MERGE_RECEIPT.json. No cloud qualification or native finish inferred.",
     "Final coherent removal decision, five public package qualification at final source, independent review, native publication, finish and cleanup remain."
   ],
   "groups": [
@@ -1414,99 +1414,13 @@
     {
       "id": "skill-contracts",
       "title": "Skill and operational contract consumers",
-      "count": 9,
+      "count": 5,
       "next_action": "Resolve remaining skill producer/contract obligations using existing proof. Main-sync helper and restoration test now have explicit conditional historical retirement; native closeout policy guard retained.",
       "evidence": [
         "CSDLC_PLANNING_ORIGINAL_CONTRACT_QUALIFICATION.json",
         "CSDLC_OPERATIONAL_COMPONENT_QUALIFICATION.json"
       ],
       "rows": [
-        {
-          "id": "RD07-1901",
-          "path": "adl/tools/test_adl_milestone_creator_skill_contracts.sh",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "da12b4aacdabfe2b13c025591b7e67393b4a1efe"
-          },
-          "existing_action": "retain",
-          "hold_reason": "Milestone skill files, manifest/schema IDs, planning-package policy, output contract, host-path/TODO checks must be reconciled with current owner skill; passive resource integrity is not equivalent.",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            {
-              "path": "adl/tools/batched_checks.sh",
-              "line": 59,
-              "reference": "run_step \"adl-milestone-creator contract check\" bash \"$ROOT/adl/tools/test_adl_milestone_creator_skill_contracts.sh\"",
-              "kind": "source_or_configuration_reference",
-              "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
-            },
-            "Accept per-row disposition and close listed caller/dependency obligations.",
-            "For transfers, bind actual owner package/fixture outcomes to the mapped assertion denominator; source availability alone is insufficient.",
-            "Obtain coherent source-retirement approval and guard qualification."
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          },
-          "reviewed_disposition": {
-            "packet": "CSDLC_EXACT_COPY_TEST_DISPOSITIONS.json",
-            "packet_sha256": "af4ce18ae8978a75ab2fbfd26d5a584710e70f24ec99c89dbb561a950eab314e",
-            "proposal": "archive_only_assertion_mapping_needed",
-            "reason": "Milestone skill files, manifest/schema IDs, planning-package policy, output contract, host-path/TODO checks must be reconciled with current owner skill; passive resource integrity is not equivalent."
-          }
-        },
-        {
-          "id": "RD07-1916",
-          "path": "adl/tools/test_card_editor_repair_examples.sh",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "fd809615828bad0ae1828f1fa578709a9cf5ceae"
-          },
-          "existing_action": "retain",
-          "hold_reason": "Original script makes sixteen real csdlc-v2 edit requests through gate2 fixtures and checks sunset wrapper absence. Owner active-lifecycle README explicitly keeps this compatibility obligation distinct; resource verification is not replacement.",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            {
-              "path": "adl/tools/run_owner_validation_lane.sh",
-              "line": 118,
-              "reference": "    bash adl/tools/test_card_editor_repair_examples.sh",
-              "kind": "source_or_configuration_reference",
-              "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
-            },
-            {
-              "path": "adl/tools/test_card_editor_skill_contracts.sh",
-              "line": 41,
-              "reference": "bash \"$repo_root/adl/tools/test_card_editor_repair_examples.sh\"",
-              "kind": "source_or_configuration_reference",
-              "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
-            },
-            "Accept per-row disposition and close listed caller/dependency obligations.",
-            "For transfers, bind actual owner package/fixture outcomes to the mapped assertion denominator; source availability alone is insufficient.",
-            "Obtain coherent source-retirement approval and guard qualification.",
-            "Resolve four obsolete Gate2 exact filters removed by52e0be6f; zero selected tests are not qualification."
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          },
-          "reviewed_disposition": {
-            "packet": "CSDLC_EXACT_COPY_TEST_DISPOSITIONS.json",
-            "packet_sha256": "af4ce18ae8978a75ab2fbfd26d5a584710e70f24ec99c89dbb561a950eab314e",
-            "proposal": "archive_only_assertion_mapping_needed",
-            "reason": "Original script makes sixteen real csdlc-v2 edit requests through gate2 fixtures and checks sunset wrapper absence. Owner active-lifecycle README explicitly keeps this compatibility obligation distinct; resource verification is not replacement."
-          },
-          "qualification_followup": {
-            "record": "LEGACY_TYPED_WRAPPER_DISPOSITION.json",
-            "scope": "exact_source_obligation_and_removed_filter_lineage",
-            "execution_proven": false,
-            "changes_removal_authority": false
-          }
-        },
         {
           "id": "RD07-1917",
           "path": "adl/tools/test_card_editor_skill_contracts.sh",
@@ -1619,42 +1533,6 @@
             "mapping": "unmapped",
             "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
             "exact_successor_paths": []
-          }
-        },
-        {
-          "id": "RD07-2046",
-          "path": "adl/tools/test_planning_doc_editor_skill_contracts.sh",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "0e39b8299d9dc4f6c1dd032831725b8a2d472b84"
-          },
-          "existing_action": "retain",
-          "hold_reason": "Planning-doc editor policy.no_card_edits, input/output schema and path/TODO assertions need current-owner contract mapping, not just an archived copy.",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            {
-              "path": "adl/tools/batched_checks.sh",
-              "line": 60,
-              "reference": "run_step \"planning-doc-editor contract check\" bash \"$ROOT/adl/tools/test_planning_doc_editor_skill_contracts.sh\"",
-              "kind": "source_or_configuration_reference",
-              "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
-            },
-            "Accept per-row disposition and close listed caller/dependency obligations.",
-            "For transfers, bind actual owner package/fixture outcomes to the mapped assertion denominator; source availability alone is insufficient.",
-            "Obtain coherent source-retirement approval and guard qualification."
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          },
-          "reviewed_disposition": {
-            "packet": "CSDLC_EXACT_COPY_TEST_DISPOSITIONS.json",
-            "packet_sha256": "af4ce18ae8978a75ab2fbfd26d5a584710e70f24ec99c89dbb561a950eab314e",
-            "proposal": "archive_only_assertion_mapping_needed",
-            "reason": "Planning-doc editor policy.no_card_edits, input/output schema and path/TODO assertions need current-owner contract mapping, not just an archived copy."
           }
         },
         {
@@ -1824,41 +1702,13 @@
             "proposal": "partial_owner_correspondence_remaining_hold",
             "reason": "Changed current-conductor activation and check_conductor_correspondence.py map explicit readiness/card exports, metrics, parity, lifecycle and closeout portions. Native transport doubles and full_original_acceptance=false are explicit; preserve CONDUCTOR_ASSERTION_MAP denominator and unmatched bootstrap/native admission obligations."
           }
-        },
-        {
-          "id": "RD07-2121",
-          "path": "adl/tools/test_structured_prompt_validation.sh",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "e5856eebd81805e50b3eeced3d7172b333c01109"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_no_proven_current_successor_mapping",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "specific_consumer_or_document_disposition_required",
-            "Resolve four obsolete Gate2 exact filters removed by52e0be6f; zero selected tests are not qualification."
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          },
-          "qualification_followup": {
-            "record": "LEGACY_TYPED_WRAPPER_DISPOSITION.json",
-            "scope": "exact_source_obligation_and_removed_filter_lineage",
-            "execution_proven": false,
-            "changes_removal_authority": false
-          }
         }
       ]
     },
     {
       "id": "validation-remainder",
       "title": "Remaining ADL validation routing",
-      "count": 12,
+      "count": 10,
       "next_action": "After reviewed caller cutover, reconcile each retained runner, selector, coverage/PVF policy and configuration against five public packages and original assertions. Retain historical private lanes explicitly; do not silently drop inventory rows.",
       "evidence": [],
       "rows": [
@@ -2045,33 +1895,6 @@
           }
         },
         {
-          "id": "RD07-2109",
-          "path": "adl/tools/test_runtime_v3_generation_install.sh",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-active-tool-contracts",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "fd041dd56f43f5ed680cea688efda8c40cbf2d25"
-          },
-          "existing_action": "retain",
-          "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "Map Runtime installer generation selection, predecessor receipts, stale stable-launcher repair, rollback and missing-active-CSM refusals to current installer tests."
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          },
-          "reviewed_disposition": {
-            "packet": "ACTIVE_19_TOOL_DISPOSITIONS.json",
-            "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
-            "proposal": "specific_family_reconciliation",
-            "reason": "Map Runtime installer generation selection, predecessor receipts, stale stable-launcher repair, rollback and missing-active-CSM refusals to current installer tests."
-          }
-        },
-        {
           "id": "RD07-2110",
           "path": "adl/tools/test_runtime_v3_operational_selector.sh",
           "owner": "cognitive-sdlc",
@@ -2123,33 +1946,6 @@
             "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
             "proposal": "specific_family_reconciliation",
             "reason": "Historical Observatory proof bundle includes assets/config, SNS resources, service/heartbeat/SNS validators and HTML checks; not current Observatory qualification."
-          }
-        },
-        {
-          "id": "RD07-2189",
-          "path": "adl/tools/validate_issue256_birthday_after_observatory.py",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-active-tool-contracts",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "d66561b3db254528f40a8470be1e19551c1e701d"
-          },
-          "existing_action": "retain",
-          "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "Reuse reviewed issue256 historical disposition with paired config and old evidence; do not turn fixed historical acceptance into a new Runtime feature."
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          },
-          "reviewed_disposition": {
-            "packet": "ACTIVE_19_TOOL_DISPOSITIONS.json",
-            "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
-            "proposal": "specific_family_reconciliation",
-            "reason": "Reuse reviewed issue256 historical disposition with paired config and old evidence; do not turn fixed historical acceptance into a new Runtime feature."
           }
         },
         {
