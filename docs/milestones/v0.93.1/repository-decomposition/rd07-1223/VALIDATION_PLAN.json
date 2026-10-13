@@ -182,6 +182,7 @@
     "test_methods": 7,
     "result": "passed",
     "limits": "Synthetic package metadata is not owner qualification; production dispatch is unchanged. Real Runtime install and command parity remain required.",
-    "installed_transport_preflight": "RUNTIME_CONSUMER_PREFLIGHT.json"
+    "installed_transport_preflight": "RUNTIME_CONSUMER_PREFLIGHT.json",
+    "mode_followup": "Focused missing-receipt/executable/mode test passed after rejecting setuid/setgid/sticky mode bits; no repeated installed suite."
   }
 }

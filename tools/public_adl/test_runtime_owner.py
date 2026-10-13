@@ -124,8 +124,9 @@ serde_json = "1"
         (self.package / 'archive.tar').unlink()
         self.refused(self.invoke())
         (self.package / 'archive.tar').write_bytes(b'synthetic')
-        self.executable.chmod(0o644)
-        self.refused(self.invoke())
+        for mode in (0o644, 0o4755):
+            self.executable.chmod(mode)
+            self.refused(self.invoke())
         self.executable.unlink()
         self.refused(self.invoke())
 

@@ -89,7 +89,7 @@ impl SelectedRuntime {
         #[cfg(unix)]
         {
             use std::os::unix::fs::PermissionsExt;
-            if metadata.permissions().mode() & 0o777 != 0o755 {
+            if metadata.permissions().mode() & 0o7777 != 0o755 {
                 bail!("Runtime executable mode mismatch");
             }
         }
