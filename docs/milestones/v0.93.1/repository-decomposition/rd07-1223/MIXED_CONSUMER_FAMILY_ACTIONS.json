@@ -1,0 +1,393 @@
+{
+  "schema": "adl1223.mixed_family_action_map.v1",
+  "original_mixed_count": 36,
+  "groups": [
+    {
+      "family": "private-recovery",
+      "routing_candidate": "Runtime / infrastructure coordination",
+      "count": 8,
+      "next_action": "Preserve private AWS recovery and resident continuity behavior as one closure. Original194/414 scripts refer to private recovery qualifier, S3 bootstrap and old source-built continuity/CSM paths; identify published owner interface before rewriting. No live AWS or model run.",
+      "rows": [
+        {
+          "id": "RD07-1410",
+          "original_path": "adl/tools/issue194_model_health_command.py",
+          "basename_candidates": [],
+          "boundary": "Literal basename candidates only; absence is not semantic absence, presence is not qualification"
+        },
+        {
+          "id": "RD07-1411",
+          "original_path": "adl/tools/issue194_private_network.cloudformation.json",
+          "basename_candidates": [],
+          "boundary": "Literal basename candidates only; absence is not semantic absence, presence is not qualification"
+        },
+        {
+          "id": "RD07-1412",
+          "original_path": "adl/tools/issue194_private_wuji_aws_runner.sh",
+          "basename_candidates": [],
+          "boundary": "Literal basename candidates only; absence is not semantic absence, presence is not qualification"
+        },
+        {
+          "id": "RD07-1417",
+          "original_path": "adl/tools/issue414_restore_and_admit.sh",
+          "basename_candidates": [],
+          "boundary": "Literal basename candidates only; absence is not semantic absence, presence is not qualification"
+        },
+        {
+          "id": "RD07-1418",
+          "original_path": "adl/tools/issue414_s3_linux_bootstrap.py",
+          "basename_candidates": [],
+          "boundary": "Literal basename candidates only; absence is not semantic absence, presence is not qualification"
+        },
+        {
+          "id": "RD07-1487",
+          "original_path": "adl/tools/run_issue414_cpu_shepherd_continuity.sh",
+          "basename_candidates": [],
+          "boundary": "Literal basename candidates only; absence is not semantic absence, presence is not qualification"
+        },
+        {
+          "id": "RD07-1488",
+          "original_path": "adl/tools/run_issue414_llama_baseline.sh",
+          "basename_candidates": [],
+          "boundary": "Literal basename candidates only; absence is not semantic absence, presence is not qualification"
+        },
+        {
+          "id": "RD07-2050",
+          "original_path": "adl/tools/test_private_wuji_aws_recovery_qualification.sh",
+          "basename_candidates": [],
+          "boundary": "Literal basename candidates only; absence is not semantic absence, presence is not qualification"
+        }
+      ]
+    },
+    {
+      "family": "runtime-demo",
+      "routing_candidate": "Runtime",
+      "count": 7,
+      "next_action": "Resolve complete demo inputs, original mock/provider setup, installed Runtime commands and suite children; signed remote demo still invokes old Cargo ADL/remote CLI. Do not treat installed Runtime presence as equivalent scenarios.",
+      "rows": [
+        {
+          "id": "RD07-1306",
+          "original_path": "adl/tools/demo_d11_signed_remote.sh",
+          "basename_candidates": [],
+          "boundary": "Literal basename candidates only; absence is not semantic absence, presence is not qualification"
+        },
+        {
+          "id": "RD07-1322",
+          "original_path": "adl/tools/demo_v0871_operator_surface.sh",
+          "basename_candidates": [],
+          "boundary": "Literal basename candidates only; absence is not semantic absence, presence is not qualification"
+        },
+        {
+          "id": "RD07-1332",
+          "original_path": "adl/tools/demo_v0871_runtime_state.sh",
+          "basename_candidates": [],
+          "boundary": "Literal basename candidates only; absence is not semantic absence, presence is not qualification"
+        },
+        {
+          "id": "RD07-1334",
+          "original_path": "adl/tools/demo_v0871_suite.sh",
+          "basename_candidates": [],
+          "boundary": "Literal basename candidates only; absence is not semantic absence, presence is not qualification"
+        },
+        {
+          "id": "RD07-1335",
+          "original_path": "adl/tools/demo_v0871_trace_runtime.sh",
+          "basename_candidates": [],
+          "boundary": "Literal basename candidates only; absence is not semantic absence, presence is not qualification"
+        },
+        {
+          "id": "RD07-1336",
+          "original_path": "adl/tools/demo_v087_control_plane.sh",
+          "basename_candidates": [],
+          "boundary": "Literal basename candidates only; absence is not semantic absence, presence is not qualification"
+        },
+        {
+          "id": "RD07-1957",
+          "original_path": "adl/tools/test_demo_v0871_real_multi_agent_discussion.sh",
+          "basename_candidates": [],
+          "boundary": "Literal basename candidates only; absence is not semantic absence, presence is not qualification"
+        }
+      ]
+    },
+    {
+      "family": "unity-observatory",
+      "routing_candidate": "Runtime Observatory",
+      "count": 3,
+      "next_action": "Three original Unity contracts include actualUnity6000.5.1f1 smoke and source/assets assertions. Static HTML or resident CLI qualification does not discharge Unity execution; no Unity launch.",
+      "rows": [
+        {
+          "id": "RD07-2142",
+          "original_path": "adl/tools/test_v0916_unity_observatory_baseline.sh",
+          "basename_candidates": [],
+          "boundary": "Literal basename candidates only; absence is not semantic absence, presence is not qualification"
+        },
+        {
+          "id": "RD07-2143",
+          "original_path": "adl/tools/test_v0916_unity_observatory_contract.sh",
+          "basename_candidates": [],
+          "boundary": "Literal basename candidates only; absence is not semantic absence, presence is not qualification"
+        },
+        {
+          "id": "RD07-2146",
+          "original_path": "adl/tools/test_v0916_unity_observatory_unity65_smoke.sh",
+          "basename_candidates": [],
+          "boundary": "Literal basename candidates only; absence is not semantic absence, presence is not qualification"
+        }
+      ]
+    },
+    {
+      "family": "historical-workcell",
+      "routing_candidate": "C-SDLC historical planning",
+      "count": 1,
+      "next_action": "Runner invokes delivered planner/state validator but also writes historical review artifacts. Existing two planner/validator passes do not prove complete runner. Retain exact historical output meaning or explicitly retire source-era orchestration.",
+      "rows": [
+        {
+          "id": "RD07-1507",
+          "original_path": "adl/tools/run_v0914_multi_agent_workcell_proof.sh",
+          "basename_candidates": [],
+          "boundary": "Literal basename candidates only; absence is not semantic absence, presence is not qualification"
+        }
+      ]
+    },
+    {
+      "family": "signal-caller-test",
+      "routing_candidate": "Infrastructure",
+      "count": 1,
+      "next_action": "Original fake-AWS integration test belongs with merged Infrastructure18 signal caller and its two validators. Preserve explicit non-CSM ACIP branch and refusal paths; no cloud execution.",
+      "rows": [
+        {
+          "id": "RD07-2103",
+          "original_path": "adl/tools/test_run_wp08_aws_signal_integration_live_proof.sh",
+          "basename_candidates": [],
+          "boundary": "Literal basename candidates only; absence is not semantic absence, presence is not qualification"
+        }
+      ]
+    },
+    {
+      "family": "guardrail-demo-contract",
+      "routing_candidate": "ADL retained historical consumer",
+      "count": 1,
+      "next_action": "Original follow-on test calls recently repaired guardrail demo; inspect original expectations against new explicit native input contract before claiming compatibility.",
+      "rows": [
+        {
+          "id": "RD07-2166",
+          "original_path": "adl/tools/test_wp17a_demo_follow_ons.sh",
+          "basename_candidates": [],
+          "boundary": "Literal basename candidates only; absence is not semantic absence, presence is not qualification"
+        }
+      ]
+    },
+    {
+      "family": "distributed-receipts",
+      "routing_candidate": "ADL historical receipt policy / Runtime",
+      "count": 1,
+      "next_action": "Preserve original distributed receipt verifier expected argv and recorded scenario denominator. Read-only validator acceptance is distinct from new distributed execution.",
+      "rows": [
+        {
+          "id": "RD07-2236",
+          "original_path": "adl/tools/validate_v092_distributed_native_receipts.rb",
+          "basename_candidates": [],
+          "boundary": "Literal basename candidates only; absence is not semantic absence, presence is not qualification"
+        }
+      ]
+    },
+    {
+      "family": "delivered-browser-and-conductor",
+      "routing_candidate": "C-SDLC",
+      "count": 2,
+      "next_action": "Delivered basename candidates exist but source changed. Browser input acceptance and original-conductor421assertion coverage remain separate.",
+      "rows": [
+        {
+          "id": "RD07-1268",
+          "original_path": "adl/tools/check_csdlc_prompt_editor_browser.js",
+          "basename_candidates": [
+            {
+              "repo": "cognitive-sdlc",
+              "revision": "45b67de10545bb5c7540ca94629b3879805304ab",
+              "path": "docs/skill-distributions/planning-utilities/original/adl/tools/check_csdlc_prompt_editor_browser.js"
+            }
+          ],
+          "boundary": "Literal basename candidates only; absence is not semantic absence, presence is not qualification"
+        },
+        {
+          "id": "RD07-1337",
+          "original_path": "adl/tools/demo_v087_operational_skills.sh",
+          "basename_candidates": [
+            {
+              "repo": "cognitive-sdlc",
+              "revision": "45b67de10545bb5c7540ca94629b3879805304ab",
+              "path": "docs/skill-distributions/original-contracts/current-conductor/activation/demo_v087_operational_skills.sh"
+            }
+          ],
+          "boundary": "Literal basename candidates only; absence is not semantic absence, presence is not qualification"
+        }
+      ]
+    },
+    {
+      "family": "delivered-infrastructure-family",
+      "routing_candidate": "Infrastructure",
+      "count": 11,
+      "next_action": "Exact11source delivery mapping in INFRASTRUCTURE_FAMILY_HANDOFF; existing resolver proof covers default/explicit/mismatch, not liveCSM/cloud scenarios.",
+      "rows": [
+        {
+          "id": "RD07-1299",
+          "original_path": "adl/tools/csm_binary_availability.sh",
+          "basename_candidates": [
+            {
+              "repo": "agent-logic-infrastructure",
+              "revision": "a5838b0748cd6fb13b8d30afb02da1088167c9fe",
+              "path": "adl/tools/csm_binary_availability.sh"
+            }
+          ],
+          "boundary": "Literal basename candidates only; absence is not semantic absence, presence is not qualification"
+        },
+        {
+          "id": "RD07-1514",
+          "original_path": "adl/tools/run_v0917_csm_continuity_capsule_4910_proof.sh",
+          "basename_candidates": [
+            {
+              "repo": "agent-logic-infrastructure",
+              "revision": "a5838b0748cd6fb13b8d30afb02da1088167c9fe",
+              "path": "adl/tools/run_v0917_csm_continuity_capsule_4910_proof.sh"
+            }
+          ],
+          "boundary": "Literal basename candidates only; absence is not semantic absence, presence is not qualification"
+        },
+        {
+          "id": "RD07-1515",
+          "original_path": "adl/tools/run_v0917_csm_otlp_4904_proof.sh",
+          "basename_candidates": [
+            {
+              "repo": "agent-logic-infrastructure",
+              "revision": "a5838b0748cd6fb13b8d30afb02da1088167c9fe",
+              "path": "adl/tools/run_v0917_csm_otlp_4904_proof.sh"
+            }
+          ],
+          "boundary": "Literal basename candidates only; absence is not semantic absence, presence is not qualification"
+        },
+        {
+          "id": "RD07-1516",
+          "original_path": "adl/tools/run_v0917_no_sparrow_4909_proof.sh",
+          "basename_candidates": [
+            {
+              "repo": "agent-logic-infrastructure",
+              "revision": "a5838b0748cd6fb13b8d30afb02da1088167c9fe",
+              "path": "adl/tools/run_v0917_no_sparrow_4909_proof.sh"
+            }
+          ],
+          "boundary": "Literal basename candidates only; absence is not semantic absence, presence is not qualification"
+        },
+        {
+          "id": "RD07-1519",
+          "original_path": "adl/tools/run_wp08_acip_sns_live_proof.sh",
+          "basename_candidates": [
+            {
+              "repo": "agent-logic-infrastructure",
+              "revision": "a5838b0748cd6fb13b8d30afb02da1088167c9fe",
+              "path": "adl/tools/run_wp08_acip_sns_live_proof.sh"
+            }
+          ],
+          "boundary": "Literal basename candidates only; absence is not semantic absence, presence is not qualification"
+        },
+        {
+          "id": "RD07-1520",
+          "original_path": "adl/tools/run_wp08_aws_signal_integration_live_proof.sh",
+          "basename_candidates": [
+            {
+              "repo": "agent-logic-infrastructure",
+              "revision": "a5838b0748cd6fb13b8d30afb02da1088167c9fe",
+              "path": "adl/tools/run_wp08_aws_signal_integration_live_proof.sh"
+            }
+          ],
+          "boundary": "Literal basename candidates only; absence is not semantic absence, presence is not qualification"
+        },
+        {
+          "id": "RD07-1522",
+          "original_path": "adl/tools/run_wp08_heartbeat_live_proof.sh",
+          "basename_candidates": [
+            {
+              "repo": "agent-logic-infrastructure",
+              "revision": "a5838b0748cd6fb13b8d30afb02da1088167c9fe",
+              "path": "adl/tools/run_wp08_heartbeat_live_proof.sh"
+            }
+          ],
+          "boundary": "Literal basename candidates only; absence is not semantic absence, presence is not qualification"
+        },
+        {
+          "id": "RD07-1525",
+          "original_path": "adl/tools/run_wp08_polis_storage_live_proof.sh",
+          "basename_candidates": [
+            {
+              "repo": "agent-logic-infrastructure",
+              "revision": "a5838b0748cd6fb13b8d30afb02da1088167c9fe",
+              "path": "adl/tools/run_wp08_polis_storage_live_proof.sh"
+            }
+          ],
+          "boundary": "Literal basename candidates only; absence is not semantic absence, presence is not qualification"
+        },
+        {
+          "id": "RD07-2224",
+          "original_path": "adl/tools/validate_v0917_csm_continuity_capsule_4910_status.sh",
+          "basename_candidates": [
+            {
+              "repo": "agent-logic-infrastructure",
+              "revision": "a5838b0748cd6fb13b8d30afb02da1088167c9fe",
+              "path": "adl/tools/validate_v0917_csm_continuity_capsule_4910_status.sh"
+            }
+          ],
+          "boundary": "Literal basename candidates only; absence is not semantic absence, presence is not qualification"
+        },
+        {
+          "id": "RD07-2245",
+          "original_path": "adl/tools/validate_wp08_acip_sns_live_proof.py",
+          "basename_candidates": [
+            {
+              "repo": "agent-logic-infrastructure",
+              "revision": "a5838b0748cd6fb13b8d30afb02da1088167c9fe",
+              "path": "adl/tools/validate_wp08_acip_sns_live_proof.py"
+            }
+          ],
+          "boundary": "Literal basename candidates only; absence is not semantic absence, presence is not qualification"
+        },
+        {
+          "id": "RD07-2246",
+          "original_path": "adl/tools/validate_wp08_aws_signal_integration_live_proof.py",
+          "basename_candidates": [
+            {
+              "repo": "agent-logic-infrastructure",
+              "revision": "a5838b0748cd6fb13b8d30afb02da1088167c9fe",
+              "path": "adl/tools/validate_wp08_aws_signal_integration_live_proof.py"
+            }
+          ],
+          "boundary": "Literal basename candidates only; absence is not semantic absence, presence is not qualification"
+        }
+      ]
+    },
+    {
+      "family": "delivered-archive-caller",
+      "routing_candidate": "Runtime",
+      "count": 1,
+      "next_action": "Runtime150 source dc88ec20 contains unchanged original common helper, independently reviewed with existing four-case archive/caller proof and mergedPR151 receipt. Full suite caller closure remains.",
+      "rows": [
+        {
+          "id": "RD07-2171",
+          "original_path": "adl/tools/v0871_demo_common.sh",
+          "basename_candidates": [
+            {
+              "repo": "agent-logic-runtime",
+              "revision": "dc88ec20b91a9375823808d633029a0d02f095b3",
+              "path": "adl/tools/v0871_demo_common.sh",
+              "observation": "Merged PR151 source head retained locally; merge object unavailable, no fetch"
+            }
+          ],
+          "boundary": "Literal basename candidates only; absence is not semantic absence, presence is not qualification"
+        }
+      ]
+    }
+  ],
+  "source_observation": "Current ADL scripts inspected for direct invocations; known delivered source heads reused. Primary repository snapshots may lag delivered heads; absence from those snapshots is not a delivery failure.",
+  "owner_routing_is_not_authority": true,
+  "no_new_tests_or_builds": true,
+  "no_disposition_or_deletion_authority": true,
+  "source_packet_sha256": "0078ac6289ab5a3d9f8d34b1544a7b6b981fc82c7b127b737c36bc8fd9bcf574",
+  "current_note": "Historical36-row grouping;2166 subsequently repaired and retained via ADL_CALLER_CONTRACT_REPAIR.json. Infrastructure11 source mapping adopted; routing alone does not resolve holds."
+}

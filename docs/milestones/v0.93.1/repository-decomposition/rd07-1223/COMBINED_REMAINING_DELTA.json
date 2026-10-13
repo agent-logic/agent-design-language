@@ -35405,6 +35405,11 @@
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "qualification_followup": {
+        "record": "HISTORICAL_CONSUMER_CLOSURE_GAPS.json",
+        "status": "full_effectful_contract_not_executed",
+        "changes_removal_authority": false
       }
     },
     {
@@ -51324,12 +51329,19 @@
       "hold_reason": "hold_no_proven_current_successor_mapping",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "specific_consumer_or_document_disposition_required",
+        "Deliver original adapted test with Infrastructure signal caller family; passing private fixture is not owner test publication or ADL caller closure."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "qualification_followup": {
+        "record": "SIGNAL_ORIGINAL_CONSUMER_QUALIFICATION.json",
+        "status": "original_orchestration_fixture_passed",
+        "native_or_live_aws_acceptance": false,
+        "changes_removal_authority": false
       }
     },
     {
@@ -52596,6 +52608,11 @@
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "qualification_followup": {
+        "record": "HISTORICAL_CONSUMER_CLOSURE_GAPS.json",
+        "status": "current_input_generation_mismatch",
+        "changes_removal_authority": false
       }
     },
     {
@@ -54739,6 +54756,11 @@
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "qualification_followup": {
+        "record": "HISTORICAL_CONSUMER_CLOSURE_GAPS.json",
+        "status": "current_input_generation_mismatch",
+        "changes_removal_authority": false
       }
     },
     {
@@ -54787,6 +54809,11 @@
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "qualification_followup": {
+        "record": "HISTORICAL_CONSUMER_CLOSURE_GAPS.json",
+        "status": "full_effectful_contract_not_executed",
+        "changes_removal_authority": false
       }
     },
     {
