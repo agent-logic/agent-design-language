@@ -92,6 +92,17 @@ class ScratchSandboxTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(result.stdout, 'public fixture')
 
+    def test_scratch_ancestor_metadata_without_sibling_content(self):
+        sibling = self.base / 'unrelated-source'
+        sibling.write_text('must remain unreadable')
+        profile = self.profile.read_text().replace(
+            '(allow default)',
+            '(allow default)\n(deny file-read* (subpath ' + json.dumps(str(self.base)) + '))')
+        self.profile.write_text(profile)
+        result = self.execute('/usr/bin/stat', '-f', '%i', str(self.base))
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.denied('/bin/cat', str(sibling))
+
     def test_private_sentinel_stays_denied_inside_scratch(self):
         self.denied('/bin/cat', str(self.secret))
 

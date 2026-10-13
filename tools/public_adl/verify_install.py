@@ -52,6 +52,11 @@ def consumer_sandbox_profile(work, original_home, toolchain, cache, secret, prod
     profile += (f'(allow file-read* (require-all (subpath {quote(work)}) '
                 f'(require-not (subpath {quote(secret)}))))\n')
     profile += f'(allow file-read-metadata (subpath {quote(original_home)}))\n'
+    # Cargo canonicalizes scratch paths while reading compiler dep-info. It
+    # needs metadata on each ancestor, even when the scratch tree is readable.
+    # Literal metadata grants do not expose sibling contents on denied volumes.
+    profile += ''.join(f'(allow file-read-metadata (literal {quote(path)}))\n'
+                       for path in work.parents)
     return profile
 
 def main():
