@@ -30,7 +30,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 8
 - `supported shim`: 0
-- `internal helper`: 485
+- `internal helper`: 483
 - `historical evidence`: 31
 - `archive candidate`: 0
 - `remove candidate`: 0
@@ -63,7 +63,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/batched_checks.sh` | tool surface | primary | Local validation entrypoint; use the current declared public validation contract. |
 | `adl/tools/benchmark` | tool surface | internal helper | Directory containing bounded helper assets, scripts, or proof inputs. |
 | `adl/tools/build_issue509_runtime_bundle_on_relay.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
-| `adl/tools/build_v0916_workflow_metric_backfill_inventory.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/build_v0917_closeout_register.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/build_v0917_execution_outlier_analysis.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/check_coverage_impact.sh` | tool surface | primary | Primary local coverage-impact gate for risky changed files. |
@@ -282,7 +281,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_archive_run_artifacts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_arxiv_paper_writer_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_batched_checks_no_codexpr_usage_banner.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_build_v0916_workflow_metric_backfill_inventory.py` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_card_editor_repair_examples.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_card_editor_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_card_prompt.sh` | tool surface | internal helper | Focused regression or contract test helper. |
