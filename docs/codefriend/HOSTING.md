@@ -1,5 +1,12 @@
 # Invited beta hosting and idle shutdown
 
+> Repository split: infrastructure source and maintained deployment instructions now belong to
+> [agent-logic-infrastructure at the reviewed revision](https://github.com/agent-logic/agent-logic-infrastructure/tree/61c2806b6274b1003aa42f02adec99faf5f2a74b/tools/codefriend_host).
+> The retained description below records the original hosting contract. Run Terraform only
+> from that separately reviewed owner checkout. The ADL release assembly recipe is superseded
+> by pinned artifact inputs in the owner; four offline fixture tests and Terraform validation
+> do not establish actual Linux installation, website/gateway integration, or live shutdown.
+
 Tracked implementation: [#1077](https://github.com/agent-logic/agent-design-language/issues/1077).
 
 The operator selected `beta.codefriend.ai` in the Agent Logic AWS account, with
@@ -29,7 +36,7 @@ plan. Supply these reviewed values in a private file outside tracked paths:
   The module checks publisher, image family and architecture; it does not select
   a changing latest image during apply.
 
-Run from the bound issue worktree, with the private variable file under the
+Run from the bound Infrastructure issue worktree, with the private variable file under the
 issue evidence directory:
 
 ```sh
@@ -99,17 +106,17 @@ replay a stale drain/resume command. Same-UID services are not isolated from eac
 other by these filesystem permissions.
 
 Prepare the offline release with the
-[release assembly instructions](../../tools/codefriend_host/release/README.md),
-using reviewed source revisions and explicitly supplied Linux executables.
+[release assembly instructions](https://github.com/agent-logic/agent-logic-infrastructure/blob/61c2806b6274b1003aa42f02adec99faf5f2a74b/tools/codefriend_host/release/README.md),
+using reviewed, digest-pinned product artifact inputs. The original ADL source-clone recipe is historical.
 Checksums and ELF-format checks establish packet integrity, not authenticated
 build provenance; actual binary provenance and installation remain separate
 acceptance requirements. The
-[HTTPS proxy configuration](../../tools/codefriend_host/proxy/README.md) forwards
+[HTTPS proxy configuration](https://github.com/agent-logic/agent-logic-infrastructure/blob/61c2806b6274b1003aa42f02adec99faf5f2a74b/tools/codefriend_host/proxy/README.md) forwards
 only to the website listener. Certificate issuance/renewal and the authoritative
 beta DNS record remain deployment inputs.
 
 The Linux controller and fixed systemd units are under
-[`tools/codefriend_host`](../../tools/codefriend_host/README.md). The website's
+[`tools/codefriend_host`](https://github.com/agent-logic/agent-logic-infrastructure/blob/61c2806b6274b1003aa42f02adec99faf5f2a74b/tools/codefriend_host/README.md). The website's
 private control reports authenticated inactivity and pending request/maintenance
 work. Both services must identify their exact installed candidates and current
 process instances. The controller verifies Linux peer PIDs against systemd,

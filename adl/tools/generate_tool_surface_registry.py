@@ -34,6 +34,7 @@ PRIMARY_TOOL_SCRIPTS = {
 }
 
 HISTORICAL_TOOL_SCRIPTS = {
+    'run_issue414_llama_baseline.sh': 'Historical ADL live-model baseline route retired by #1223; refuses execution. Original model, CSM and restore assertions remain unqualified and preserved in custody.',
     'install_aws_remote_validation_tool.sh': 'Historical Infrastructure source route retired by #1223; command refuses execution. Original assertions remain in Git and retirement custody; run the reviewed owner route.',
     'run_aws_spot_remote_validation_lane.sh': 'Historical Infrastructure source route retired by #1223; command refuses execution. Original assertions remain in Git and retirement custody; run the reviewed owner route.',
     'test_run_aws_spot_ci_profile.sh': 'Historical Infrastructure source route retired by #1223; command refuses execution. Original assertions remain in Git and retirement custody; run the reviewed owner route.',
