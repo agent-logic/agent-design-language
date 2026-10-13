@@ -1394,6 +1394,36 @@
       "approval_reference": "PUBLIC_WORKSPACE_CLOSURE.json",
       "review_reference": "review_1223_applied_components six-file PASS",
       "source_chain_reference": "PUBLIC_WORKSPACE_CLOSURE.json:tools/source_retirement/README.md"
+    },
+    {
+      "path": "adl/src/lib.rs",
+      "action": "modify",
+      "before": [
+        "100644",
+        "28263f961667016c0060286e9ef4e1c294508733"
+      ],
+      "after": [
+        "100644",
+        "73e00c2bb1d8f81a52eda36b9efcaa915ed3471d"
+      ],
+      "implementation_commit": "8117efe160c394d5cf785d1f53b28b2681bf291e",
+      "approval_reference": "PUBLIC_LIB_FORMAT_CLOSURE.json",
+      "review_reference": "review_1223_public_facade exact formatting PASS",
+      "source_chain_reference": "PUBLIC_LIB_FORMAT_CLOSURE.json",
+      "prior_reviewed_transitions": [
+        {
+          "implementation_commit": "bbc65b59bc0ce65aa48173b23e3dd84d7106bf77",
+          "before": [
+            "100644",
+            "28263f961667016c0060286e9ef4e1c294508733"
+          ],
+          "after": [
+            "100644",
+            "2e172355f99d929d90fd621d5cf5340bb0159cdb"
+          ],
+          "review_reference": "prior bounded public facade review and public package qualification"
+        }
+      ]
     }
   ],
   "missing_entries": [],
@@ -5467,6 +5497,15 @@
         "tools/source_retirement/README.md"
       ],
       "reviewer": "review_1223_applied_components",
+      "verdict": "PASS"
+    },
+    {
+      "packet": "PUBLIC_LIB_FORMAT_CLOSURE.json",
+      "implementation_commit": "8117efe160c394d5cf785d1f53b28b2681bf291e",
+      "paths": [
+        "adl/src/lib.rs"
+      ],
+      "reviewer": "review_1223_public_facade",
       "verdict": "PASS"
     }
   ]

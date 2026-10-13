@@ -15,7 +15,7 @@ INVENTORY_SHA256 = 'a22fa6306245ddb3916cf4cb3021286a2d91ebfe77ca719eb7b1039d9f6d
 CAPTURED_IDENTITIES_SHA256 = 'e306e5a70ae7792fd2fef91449a0285d665126375a28c0dd05914724fe1bdebe'
 ARCHIVE_SHA256 = '12205043566913435c25ea414b1fd9148b46727821f7bfefd5d452cfe47a1c17'
 # Independently reviewed existing execution overlay; changing this pin requires review.
-EXECUTION_APPROVAL_SHA256 = '0921865acb9b361e15143f4815faec18951049519ae56799ff556d7d1359428f'
+EXECUTION_APPROVAL_SHA256 = 'd11ef9efb98faf0001ee6c9350b33c38e7578771fdc4a1361bf37c8c229e2a03'
 COMPONENTS = ('infra/ddns', 'infra/aws/runtime/log-archive', 'infra/aws/runtime/agent-checkpoint-archive')
 PROTECTED = ('csdlc-v3/operator/authority-selector.json', 'csdlc-v3/operator/native-authority-receipt.json',
              'docs/templates/prompts/current.json', 'adl/tools/install_owner_binaries.sh',

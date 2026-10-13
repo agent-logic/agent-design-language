@@ -1,0 +1,29 @@
+{
+  "schema": "adl.rd07.public-lib-format-closure.v1",
+  "implementation_commit": "8117efe160c394d5cf785d1f53b28b2681bf291e",
+  "path": "adl/src/lib.rs",
+  "before": [
+    "100644",
+    "2e172355f99d929d90fd621d5cf5340bb0159cdb"
+  ],
+  "after": [
+    "100644",
+    "73e00c2bb1d8f81a52eda36b9efcaa915ed3471d"
+  ],
+  "observed_main_identity": [
+    "100644",
+    "28263f961667016c0060286e9ef4e1c294508733"
+  ],
+  "prior_public_facade_commit": "bbc65b59bc0ce65aa48173b23e3dd84d7106bf77",
+  "independent_review": {
+    "reviewer": "review_1223_public_facade",
+    "result": "PASS",
+    "scope": "Exact seven-symbol reexport formatting, including trailing comma; no API or behavior change"
+  },
+  "validation": {
+    "root_reported": "rustfmt --check skip_children passed",
+    "linux_cli_continuation": "Formatting passed; subsequent clippy failed at codefriend_owner.rs nonminimal_bool. No overall CLI pass claimed.",
+    "result_path": "/Volumes/FastWork/c1223/final-linux-public/cli-continuation-8117efe160/RESULT.json"
+  },
+  "boundary": "Existing public facade source transition remains prior reviewed work; this supplement approves only the exact formatting commit. No new removal or owner acceptance."
+}
