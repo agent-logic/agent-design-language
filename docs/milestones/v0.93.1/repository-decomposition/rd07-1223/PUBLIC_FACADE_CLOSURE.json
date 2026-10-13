@@ -114,5 +114,22 @@
       ],
       "limits": "Private successor integration suite migration and whole-repository CI remain pending."
     }
+  },
+  "linux_public_source_closure": {
+    "source_revision": "bbc65b59bc0ce65aa48173b23e3dd84d7106bf77",
+    "status": "passed",
+    "test_count": 145,
+    "source_members": 130,
+    "source_archive_bytes": 942080,
+    "rustc": "1.92.0",
+    "network": "none",
+    "private_source_in_extracted_tree": false,
+    "smoke": [
+      "version",
+      "local workflow plan",
+      "adl-process help"
+    ],
+    "evidence": "/Volumes/FastWork/c1223/evidence/public-adl-bbc65b59bc/RESULT.json",
+    "limits": "Public CLI and two dependencies; remaining three public packages and final installed-artifact gate are separate. Initial post-test smoke path typo retained and corrected without test replay."
   }
 }
