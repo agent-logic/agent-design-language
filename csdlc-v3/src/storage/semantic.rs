@@ -534,6 +534,11 @@ impl Snapshot {
             || self.audit.after.generation != self.payload.generation
             || self.audit.after.digest != hash("semantic-state-v1", &self.payload)?
             || self.audit_digest != hash("semantic-audit-v1", &self.audit)?
+            || self
+                .payload
+                .pending
+                .as_ref()
+                .is_some_and(|pending| !pending.retained_dispatch_is_consistent())
         {
             return Err(Error::InvalidDigest);
         }
