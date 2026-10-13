@@ -6,7 +6,7 @@
   "classification": "partial_consumer_qualification_with_adverse_observations",
   "result": {
     "path": "/Volumes/FastWork/c1223/csm-otlp-original-qualification/result.json",
-    "sha256": "b31f4e93bc814d9a1f136fe5a8263acba7906c4f7d619335f40150ece5e67b32"
+    "sha256": "922498e583457bf605ec551edbe948f83a8e0ad9087aefcf96db0f15953600e8"
   },
   "observed": {
     "collector_requests": 8,
@@ -44,7 +44,7 @@
   "limits": [
     "Runner succeeded and OTLP loopback delivery is observed; this is not complete daemon or runtime acceptance.",
     "Embedded runtime API bind failed at 127.0.0.1:19997; original stderr retained, no retry or port override.",
-    "Although workflow declares allow_network:false, runtime status reports active SNTP sampling time.cloudflare.com. Execution had no OS network isolation; strict loopback-only execution is NOT established.",
+    "Workflow declares allow_network:false, while runtime status self-reports active SNTP peer time.cloudflare.com, observed_at and measured offset. No packet capture or transport observation establishes an actual outbound request. With no OS network isolation, strict loopback-only execution is NOT established.",
     "No credentials inherited; no build/download/AWS/model-provider command invoked by runner.",
     "Original summary references negative unit tests, but this attempt did not execute malformed-endpoint, unavailable-collector, or redaction unit tests.",
     "No hosted telemetry, OTLP/gRPC or metrics acceptance."
@@ -52,5 +52,7 @@
   "independent_review": "review_1223_public_facade verified hashes and bounded result; no repeated run required for truthful disposition.",
   "hold_preserved": true,
   "next_action": "Keep original protocol obligation; owner assessment of API bind and SNTP behavior is separate from successful eight-request HTTP-JSON export. No speculative rerun or full-runtime claim.",
-  "execution_authorized": false
+  "execution_authorized": false,
+  "prior_result_sha256": "b31f4e93bc814d9a1f136fe5a8263acba7906c4f7d619335f40150ece5e67b32",
+  "result_annotation_update": "Clarifies self-reported SNTP sampling versus unobserved network transport; adds exact original assertions and API bind-failure effect. Logs and proof unchanged, no rerun."
 }
