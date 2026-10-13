@@ -6,6 +6,8 @@ The goal of this directory is to make ADL’s tooling surfaces understandable an
 
 ## Start Here
 
+- [Infrastructure CI report and producer-result helpers](https://github.com/agent-logic/agent-logic-infrastructure/tree/025850d265cbd1a55b28a8e9b238b2fe0bfcaf1d/adl/tools) — `summarize_ci_runtime.py`, `summarize_nextest_timings.py` and `verify_coverage_producer_results.sh` and their original tests now belong to the owner. The three unchanged fixture tests passed offline (29 assertion events); this does not qualify live CI, real nextest execution or cloud coverage producers.
+
 - [Runtime owner guide references](RUNTIME_OWNER_GUIDES.md) — preserved documentation for Runtime-owned APIs and operations.
 
 - [Runtime contract-market fixture owner](RUNTIME_CONTRACT_MARKET_OWNER.md) — qualified deterministic fixture, runner and summary source route.
