@@ -6,7 +6,7 @@
   "execution_authorized": false,
   "original_count": 4134,
   "counts": {
-    "hold_explicit_reconciliation": 172,
+    "hold_explicit_reconciliation": 168,
     "hold_owner_test_reconciliation": 35,
     "preserve_approved_removal": 70,
     "preserve_reviewed_consumer_repair": 18,
@@ -16,7 +16,7 @@
     "proposed_remove_with_entire_source_family": 1874,
     "proposed_remove_with_entire_tool_family": 715,
     "retain_public_source_or_fixture": 68,
-    "retain_resolved": 470
+    "retain_resolved": 474
   },
   "additional_current_source_paths": 19,
   "preservation": "Original inventory and baseline archive unchanged;70 prior approved removals preserved; no new deletion applied",
@@ -52313,12 +52313,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "Current worktree_doctor.py resource maps six topology observations, but owner README explicitly leaves original A07 removable-count and A08 prune dry-run unresolved. Preserve those obligations jointly with 2165; no cleanup authority inferred.",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "Accept per-row disposition and close listed caller/dependency obligations.",
-        "For transfers, bind actual owner package/fixture outcomes to the mapped assertion denominator; source availability alone is insufficient.",
-        "Obtain coherent source-retirement approval and guard qualification."
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -52329,6 +52325,11 @@
         "packet_sha256": "af4ce18ae8978a75ab2fbfd26d5a584710e70f24ec99c89dbb561a950eab314e",
         "proposal": "partial_owner_correspondence_remaining_hold",
         "reason": "Current worktree_doctor.py resource maps six topology observations, but owner README explicitly leaves original A07 removable-count and A08 prune dry-run unresolved. Preserve those obligations jointly with 2165; no cleanup authority inferred."
+      },
+      "consumer_disposition": {
+        "decision": "Retain unchanged historical Git utility/test closure; do not substitute for native cleanup.",
+        "evidence": "WORKTREE_HELPER_HISTORICAL_RETENTION.json",
+        "successor_equivalence_claimed": false
       }
     },
     {
@@ -52342,12 +52343,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "Original doctor/prune behavior includes bulk limit/report/open/dirty handling. Exact original is inert evidence; current native clean or read-only report is not equivalent. Requires explicit historical retirement decision or assertion mapping, never restoration of unqualified destructive helper.",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "Accept per-row disposition and close listed caller/dependency obligations.",
-        "For transfers, bind actual owner package/fixture outcomes to the mapped assertion denominator; source availability alone is insufficient.",
-        "Obtain coherent source-retirement approval and guard qualification."
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -52358,6 +52355,11 @@
         "packet_sha256": "af4ce18ae8978a75ab2fbfd26d5a584710e70f24ec99c89dbb561a950eab314e",
         "proposal": "archive_only_assertion_mapping_needed",
         "reason": "Original doctor/prune behavior includes bulk limit/report/open/dirty handling. Exact original is inert evidence; current native clean or read-only report is not equivalent. Requires explicit historical retirement decision or assertion mapping, never restoration of unqualified destructive helper."
+      },
+      "consumer_disposition": {
+        "decision": "Retain unchanged historical Git utility/test closure; do not substitute for native cleanup.",
+        "evidence": "WORKTREE_HELPER_HISTORICAL_RETENTION.json",
+        "successor_equivalence_claimed": false
       }
     },
     {
@@ -54856,14 +54858,17 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "consumer_disposition": {
+        "decision": "Retain unchanged historical Git utility/test closure; do not substitute for native cleanup.",
+        "evidence": "WORKTREE_HELPER_HISTORICAL_RETENTION.json",
+        "successor_equivalence_claimed": false
       }
     },
     {
@@ -54877,14 +54882,17 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "consumer_disposition": {
+        "decision": "Retain unchanged historical Git utility/test closure; do not substitute for native cleanup.",
+        "evidence": "WORKTREE_HELPER_HISTORICAL_RETENTION.json",
+        "successor_equivalence_claimed": false
       }
     },
     {
