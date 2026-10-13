@@ -155,5 +155,75 @@
     "determinism": "synthetic credentials/local fixture providers",
     "resources": "existing7GiBLinuxARM64container; no build or external network",
     "gate": "required installed consumer preflight"
+  },
+  "legacy_local_ingestion": {
+    "status": "passed",
+    "packet_semantic_equal": true,
+    "revision": "22efa11d3b4e49e91d3c8dacf0978a10b58378d6",
+    "legacy_exit": 0,
+    "owner_exit": 0,
+    "fixture_corrections": [
+      "added required synthetic origin URL",
+      "copied fixture owned by host UID; changed only synthetic container fixture to container root ownership"
+    ],
+    "limits": "Local immutable Git ingestion only; no model/network. Existing successful legacy invocation reused."
+  },
+  "legacy_refusal_comparison": {
+    "cases": [
+      {
+        "case": "packet-missing",
+        "legacy_exit": 1,
+        "owner_exit": 1,
+        "stdout_equal": true,
+        "stderr_equal": false
+      },
+      {
+        "case": "ingest-args",
+        "legacy_exit": 1,
+        "owner_exit": 1,
+        "stdout_equal": true,
+        "stderr_equal": false
+      },
+      {
+        "case": "review-args",
+        "legacy_exit": 1,
+        "owner_exit": 1,
+        "stdout_equal": true,
+        "stderr_equal": false
+      },
+      {
+        "case": "remediation-args",
+        "legacy_exit": 1,
+        "owner_exit": 1,
+        "stdout_equal": true,
+        "stderr_equal": false
+      },
+      {
+        "case": "fitness-args",
+        "legacy_exit": 2,
+        "owner_exit": 2,
+        "stdout_equal": false,
+        "stderr_equal": true
+      },
+      {
+        "case": "memory-args",
+        "legacy_exit": 1,
+        "owner_exit": 1,
+        "stdout_equal": true,
+        "stderr_equal": false
+      }
+    ],
+    "limits": "Six argument/missing-file refusals; not successful ingestion or model-backed review; no provider credentials passed to owner"
+  },
+  "diagnostic_distinctions": [
+    "Standalone owner omits legacy Error: prefix on human errors; identifiers, channels and exit statuses preserved.",
+    "Fitness error JSON has different key order; parsed object is equivalent."
+  ],
+  "prior_distribution_contract": {
+    "candidate": "e4c7e25660d779791e7c81ad75ba5fff4c86b697",
+    "archive_sha256": "1ecc2c49e11fc63b719cdc21fb70fd0b18f47beca72bd5b6f645331b8865f1d1",
+    "manifest_sha256": "01e8d29df0fdbdf6de0b03060634b253caf5d8fab9fa9cc1d2bf36ea973d3a73",
+    "platform": "Linux x86_64, distinct from current ARM64 build",
+    "purpose": "Existing owner receipt contract evidence only; not executed or equated with current source"
   }
 }
