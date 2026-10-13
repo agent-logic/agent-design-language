@@ -6,7 +6,7 @@
   "execution_authorized": false,
   "original_count": 4134,
   "counts": {
-    "hold_explicit_reconciliation": 180,
+    "hold_explicit_reconciliation": 179,
     "hold_owner_test_reconciliation": 35,
     "preserve_approved_removal": 70,
     "preserve_reviewed_consumer_repair": 18,
@@ -14,9 +14,9 @@
     "proposed_owner_transfer_with_consumer_qualification": 474,
     "proposed_remove_construction_qualified_infrastructure": 216,
     "proposed_remove_with_entire_source_family": 1874,
-    "proposed_remove_with_entire_tool_family": 718,
+    "proposed_remove_with_entire_tool_family": 716,
     "retain_public_source_or_fixture": 68,
-    "retain_resolved": 462
+    "retain_resolved": 465
   },
   "additional_current_source_paths": 19,
   "preservation": "Original inventory and baseline archive unchanged;70 prior approved removals preserved; no new deletion applied",
@@ -31989,18 +31989,21 @@
         "blob": "941465a9528d42d04dea460fbfc0b9887f117011"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/demo_v090_codebuddy_review_showcase.sh"
         ]
+      },
+      "prior_proposed_action": "proposed_remove_with_entire_tool_family",
+      "retention_disposition": {
+        "packet": "SHOWCASE_HISTORICAL_FIXTURE_RETENTION.json",
+        "sha256": "c08764049d794c39da1819f98c908c15d29e5d3af5bbf6886e3b9216c9fccb7a",
+        "scope": "Retain unchanged ADL historical staged fixture/demo/validator. Output remains non_proving, publicationfalse and stagedpending2070; artifact checks and three leak refusals preserved. No actual multi-agent review, CodeFriend/Runtime product, provider or native lifecycle qualification.",
+        "source_changes": "None; no source removal or test rerun."
       }
     },
     {
@@ -47862,15 +47865,20 @@
         "blob": "dec775cb67a796eb9d10c18fd3127188c9b1d014"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "prior_proposed_action": "hold_explicit_reconciliation",
+      "historical_hold_reason": "hold_no_proven_current_successor_mapping",
+      "retention_disposition": {
+        "packet": "SHOWCASE_HISTORICAL_FIXTURE_RETENTION.json",
+        "sha256": "c08764049d794c39da1819f98c908c15d29e5d3af5bbf6886e3b9216c9fccb7a",
+        "scope": "Retain unchanged ADL historical staged fixture/demo/validator. Output remains non_proving, publicationfalse and stagedpending2070; artifact checks and three leak refusals preserved. No actual multi-agent review, CodeFriend/Runtime product, provider or native lifecycle qualification.",
+        "source_changes": "None; no source removal or test rerun."
       }
     },
     {
@@ -52551,18 +52559,21 @@
         "blob": "c2ea66fb32b7f8f06358c036b6238c15c187eeb2"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
         "exact_successor_paths": [
           "adl/tools/validate_codebuddy_review_showcase_demo.py"
         ]
+      },
+      "prior_proposed_action": "proposed_remove_with_entire_tool_family",
+      "retention_disposition": {
+        "packet": "SHOWCASE_HISTORICAL_FIXTURE_RETENTION.json",
+        "sha256": "c08764049d794c39da1819f98c908c15d29e5d3af5bbf6886e3b9216c9fccb7a",
+        "scope": "Retain unchanged ADL historical staged fixture/demo/validator. Output remains non_proving, publicationfalse and stagedpending2070; artifact checks and three leak refusals preserved. No actual multi-agent review, CodeFriend/Runtime product, provider or native lifecycle qualification.",
+        "source_changes": "None; no source removal or test rerun."
       }
     },
     {
