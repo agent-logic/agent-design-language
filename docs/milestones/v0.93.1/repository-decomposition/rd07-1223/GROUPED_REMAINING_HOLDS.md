@@ -1,6 +1,6 @@
 # #1223 remaining hold groups
 
-Snapshot of all **161 holds** based on `ea85e76550b49b4dade170e1da054d26b0e8d441` plus the reviewed consumer-batch adoption. All 4,134 original identities remain in the ledger; 19 additional current paths remain separately tracked. No deletion is authorized by this grouping.
+Snapshot of all **160 holds** based on `ea85e76550b49b4dade170e1da054d26b0e8d441` plus the reviewed consumer-batch adoption. All 4,134 original identities remain in the ledger; 22 additional current paths remain separately tracked. No deletion is authorized by this grouping.
 
 | Group | Held paths | Next action |
 | --- | ---: | --- |
@@ -17,7 +17,7 @@ Snapshot of all **161 holds** based on `ea85e76550b49b4dade170e1da054d26b0e8d441
 | agent-logic-runtime remaining consumers | 1 | Resolve the exact per-row required_before_execution entries preserved below as one owner consumer batch: map current caller and qualified successor or choose explicit historical retention/retirement. Reuse existing owner evidence; source presence alone does not close behavior. Cloud/live operations require their own existing authorization. |
 | agent-logic-infrastructure remaining consumers | 1 | Resolve the exact per-row required_before_execution entries preserved below as one owner consumer batch: map current caller and qualified successor or choose explicit historical retention/retirement. Reuse existing owner evidence; source presence alone does not close behavior. Cloud/live operations require their own existing authorization. |
 | codefriend remaining consumers | 1 | Resolve the exact per-row required_before_execution entries preserved below as one owner consumer batch: map current caller and qualified successor or choose explicit historical retention/retirement. Reuse existing owner evidence; source presence alone does not close behavior. Cloud/live operations require their own existing authorization. |
-| Mixed consumers (inherited inventory owner) | 35 | Resolve the exact per-row required_before_execution entries preserved below as one owner consumer batch: map current caller and qualified successor or choose explicit historical retention/retirement. Reuse existing owner evidence; source presence alone does not close behavior. Cloud/live operations require their own existing authorization. |
+| Mixed consumers (inherited inventory owner) | 34 | Resolve the exact per-row required_before_execution entries preserved below as one owner consumer batch: map current caller and qualified successor or choose explicit historical retention/retirement. Reuse existing owner evidence; source presence alone does not close behavior. Cloud/live operations require their own existing authorization. |
 
 The accompanying `GROUPED_REMAINING_HOLDS.json` preserves every held row, exact identity, prior review and execution prerequisite verbatim. Its group membership is disjoint and complete. Counts for pending patches are intersections with held original rows, not patch file totals.
 
@@ -32,10 +32,14 @@ Historical2150/2234 are retained together. Original13-input suite passed two pos
 
 Infrastructure ALB remains a separate owner implementation gap: no repair issue, worktree, implementation or PR exists. Native creation recovery was rejected by automatic approval review and awaits exact authorization. The repair must preserve documented DNS alias and certificate creation behavior; dropping three unsupported arguments would not satisfy it. Diagnosis: `/Volumes/FastWork/c1223/repairs/infrastructure/diagnosis.md`.
 
-Reviewed original consumer batches qualified 14 formerly held rows (12 CodeFriend individual scripts and two C-SDLC fixture scripts). They moved to conditional owner-transfer proposals; no files were removed. Current complete held rows after historical retention and legacy proposals: 161. See `ORIGINAL_CONSUMER_BATCH_QUALIFICATION.json`.
+Reviewed original consumer batches qualified 14 formerly held rows (12 CodeFriend individual scripts and two C-SDLC fixture scripts). They moved to conditional owner-transfer proposals; no files were removed. Current complete held rows after historical retention and legacy proposals: 160. See `ORIGINAL_CONSUMER_BATCH_QUALIFICATION.json`.
 
 Current ADL caller repairs retain three more rows (1924,2054,2166). Four other passing caller tests remain held because their producers are still proposed for removal; source-pass evidence is preserved without claiming final closure.
 
 Five legacy helper rows now have explicit conditional retirement proposals, not removal approval. Caller cutover and the exact scoped decision remain outstanding; see `LEGACY_HELPERS_RETIREMENT_PROPOSAL.json`.
 
 Three HTTP profile wrappers and one historical provider input are retained with exact source closure. HTTP checks do not prove browser or audio playback; retaining static provider input does not execute a model.
+
+Three additional legacy coverage callers were independently reviewed as conditional retirement scope. They are outside the original4,134 and outside the pending38-path cutover; no deletion is authorized. See `ADDITIONAL_COVERAGE_CALLER_RETIREMENT.json`.
+
+Original2171 has exact merged Runtime source and reviewed archive-function proof; its conditional owner transfer still requires all six ADL callers to move or retire coherently. Full demo suite acceptance is not claimed.
