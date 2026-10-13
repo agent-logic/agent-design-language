@@ -52,11 +52,24 @@
         "4ed8820c35574e6d134e5d3aed8e5488328d3f2d"
       ],
       "action": "retain",
-      "reason": "protect_existing_public_contract_policy_or_control_plane",
+      "reason": "retain_repository_local_configuration_not_duplicate_product_implementation",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "retention_decision": {
+        "status": "resolved_retain",
+        "basis": "RD02 D-ROOT expressly retains each repository policy instance; AGENTS.md requires this instance for native bind; successor repository has its own configuration",
+        "evidence": [
+          "AGENTS.md",
+          "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/ownership.jsonl.gz"
+        ],
+        "value_verified": {
+          "schema": "adl.worktree_policy.v1",
+          "required_parent": "/Volumes/FastWork/adl-worktrees"
+        },
+        "implementation_owner": "cognitive-sdlc"
+      }
     },
     {
       "id": "RD07-0003",
