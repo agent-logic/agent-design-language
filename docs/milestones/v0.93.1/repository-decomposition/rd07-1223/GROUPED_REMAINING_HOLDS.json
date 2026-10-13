@@ -1,9 +1,9 @@
 {
   "schema": "adl.source_retirement.grouped_holds.v1",
-  "source_head": "261186964c8780486a7b75e13f4de1f9df505a86",
-  "ledger_sha256": "4683bdbb9455fe83d20f49dec27c3c8f7fd63834a234aa7f06d318c3c414a633",
+  "source_head": "8ae73ceccf87e8aa99aab21854e18fc2a41a2bdf",
+  "ledger_sha256": "028d538f24e4f5714c25d1947b31c20aeed9ca9d525ca1ebaeac4777091d2a90",
   "original_count": 4134,
-  "held_count": 81,
+  "held_count": 78,
   "additional_paths_separate": 22,
   "execution_authorized": false,
   "boundary": "Grouping preserves every original row and prerequisite verbatim. It does not resolve holds, authorize removal, or imply full issue readiness. Other proposed removals remain conditional.",
@@ -1414,42 +1414,13 @@
     {
       "id": "skill-contracts",
       "title": "Skill and operational contract consumers",
-      "count": 3,
+      "count": 1,
       "next_action": "Resolve remaining skill producer/contract obligations using existing proof. Main-sync helper and restoration test now have explicit conditional historical retirement; native closeout policy guard retained.",
       "evidence": [
         "CSDLC_PLANNING_ORIGINAL_CONTRACT_QUALIFICATION.json",
         "CSDLC_OPERATIONAL_COMPONENT_QUALIFICATION.json"
       ],
       "rows": [
-        {
-          "id": "RD07-1931",
-          "path": "adl/tools/test_cli_owner_command_guidance.sh",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "b9e4ff839bdfa5fafc1077df4d99b4697aa1fd83"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_no_proven_current_successor_mapping",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "specific_consumer_or_document_disposition_required",
-            "Resolve final producer disposition: CLI guidance scanner requires surfaces pending final retirement including private CLI sources"
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          },
-          "qualification_followup": {
-            "record": "ADL_CALLER_CONTRACT_REPAIR.json",
-            "scope": "current_adl_source_contract",
-            "passed": true,
-            "native_execution": false,
-            "changes_removal_authority": false
-          }
-        },
         {
           "id": "RD07-2117",
           "path": "adl/tools/test_skill_documentation_completeness.sh",
@@ -1476,154 +1447,13 @@
             "proposal": "specific_family_reconciliation",
             "reason": "Mixed skill distributions: preserve SKILL/manifest/schema completeness, card-editor exceptions, guide coverage and installer checks; exact CSDLc original-v1 archive is not active replacement."
           }
-        },
-        {
-          "id": "RD07-2120",
-          "path": "adl/tools/test_sprint_conductor_helpers.sh",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "1110a47cb26b31537b4e8e442730434538e6785d"
-          },
-          "existing_action": "retain",
-          "hold_reason": "Changed current-conductor activation and check_conductor_correspondence.py map explicit readiness/card exports, metrics, parity, lifecycle and closeout portions. Native transport doubles and full_original_acceptance=false are explicit; preserve CONDUCTOR_ASSERTION_MAP denominator and unmatched bootstrap/native admission obligations.",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            {
-              "path": "adl/config/validation_lane_selector.v0.91.6.json",
-              "line": 1508,
-              "reference": "        \"adl/tools/test_sprint_conductor_helpers.sh\",",
-              "kind": "source_or_configuration_reference",
-              "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
-            },
-            {
-              "path": "adl/config/validation_lane_selector.v0.91.6.json",
-              "line": 1513,
-              "reference": "        \"adl/tools/test_sprint_conductor_helpers.sh\",",
-              "kind": "source_or_configuration_reference",
-              "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
-            },
-            {
-              "path": "adl/config/validation_lane_selector.v0.91.6.json",
-              "line": 1516,
-              "reference": "      \"command\": \"bash adl/tools/test_sprint_conductor_helpers.sh && bash adl/tools/test_install_adl_operational_skills.sh\",",
-              "kind": "source_or_configuration_reference",
-              "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
-            },
-            {
-              "path": "adl/config/validation_lane_selector.v0.91.6.json",
-              "line": 1517,
-              "reference": "      \"run_command\": \"bash adl/tools/test_sprint_conductor_helpers.sh && bash adl/tools/test_install_adl_operational_skills.sh\",",
-              "kind": "source_or_configuration_reference",
-              "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
-            },
-            {
-              "path": "adl/tools/skills/sprint-review/SKILL.md",
-              "line": 172,
-              "reference": "    - adl/tools/test_sprint_conductor_helpers.sh",
-              "kind": "documentation_reference",
-              "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
-            },
-            {
-              "path": "adl/tools/test_ci_path_policy.sh",
-              "line": 875,
-              "reference": "  printf '#!/usr/bin/env bash\\nexit 0\\n' > adl/tools/test_sprint_conductor_helpers.sh",
-              "kind": "source_or_configuration_reference",
-              "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
-            },
-            {
-              "path": "adl/tools/test_ci_path_policy.sh",
-              "line": 880,
-              "reference": "    adl/tools/test_sprint_conductor_helpers.sh \\",
-              "kind": "source_or_configuration_reference",
-              "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
-            },
-            {
-              "path": "adl/tools/test_ci_path_policy.sh",
-              "line": 906,
-              "reference": "  printf '#!/usr/bin/env bash\\nexit 0\\n' > adl/tools/test_sprint_conductor_helpers.sh",
-              "kind": "source_or_configuration_reference",
-              "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
-            },
-            {
-              "path": "adl/tools/test_ci_path_policy.sh",
-              "line": 910,
-              "reference": "    adl/tools/test_sprint_conductor_helpers.sh \\",
-              "kind": "source_or_configuration_reference",
-              "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
-            },
-            {
-              "path": "adl/tools/test_ci_path_policy.sh",
-              "line": 1056,
-              "reference": "  printf '#!/usr/bin/env bash\\nexit 0\\n' > adl/tools/test_sprint_conductor_helpers.sh",
-              "kind": "source_or_configuration_reference",
-              "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
-            },
-            {
-              "path": "adl/tools/test_ci_path_policy.sh",
-              "line": 1069,
-              "reference": "    adl/tools/test_sprint_conductor_helpers.sh \\",
-              "kind": "source_or_configuration_reference",
-              "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
-            },
-            {
-              "path": "adl/tools/test_install_adl_operational_skills.sh",
-              "line": 211,
-              "reference": "bash \"${repo_root}/adl/tools/test_sprint_conductor_helpers.sh\"",
-              "kind": "source_or_configuration_reference",
-              "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
-            },
-            {
-              "path": "adl/tools/test_process_drift_regressions.sh",
-              "line": 8,
-              "reference": "bash adl/tools/test_sprint_conductor_helpers.sh",
-              "kind": "source_or_configuration_reference",
-              "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
-            },
-            {
-              "path": "adl/tools/test_validation_manager.sh",
-              "line": 699,
-              "reference": "M\tadl/tools/test_sprint_conductor_helpers.sh",
-              "kind": "source_or_configuration_reference",
-              "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
-            },
-            {
-              "path": "adl/tools/test_validation_manager.sh",
-              "line": 723,
-              "reference": "M\tadl/tools/test_sprint_conductor_helpers.sh",
-              "kind": "source_or_configuration_reference",
-              "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
-            },
-            {
-              "path": "adl/tools/test_validation_manager.sh",
-              "line": 755,
-              "reference": "M\tadl/tools/test_sprint_conductor_helpers.sh",
-              "kind": "source_or_configuration_reference",
-              "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
-            },
-            "Accept per-row disposition and close listed caller/dependency obligations.",
-            "For transfers, bind actual owner package/fixture outcomes to the mapped assertion denominator; source availability alone is insufficient.",
-            "Obtain coherent source-retirement approval and guard qualification."
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          },
-          "reviewed_disposition": {
-            "packet": "CSDLC_EXACT_COPY_TEST_DISPOSITIONS.json",
-            "packet_sha256": "af4ce18ae8978a75ab2fbfd26d5a584710e70f24ec99c89dbb561a950eab314e",
-            "proposal": "partial_owner_correspondence_remaining_hold",
-            "reason": "Changed current-conductor activation and check_conductor_correspondence.py map explicit readiness/card exports, metrics, parity, lifecycle and closeout portions. Native transport doubles and full_original_acceptance=false are explicit; preserve CONDUCTOR_ASSERTION_MAP denominator and unmatched bootstrap/native admission obligations."
-          }
         }
       ]
     },
     {
       "id": "validation-remainder",
       "title": "Remaining ADL validation routing",
-      "count": 10,
+      "count": 9,
       "next_action": "After reviewed caller cutover, reconcile each retained runner, selector, coverage/PVF policy and configuration against five public packages and original assertions. Retain historical private lanes explicitly; do not silently drop inventory rows.",
       "evidence": [],
       "rows": [
@@ -1834,33 +1664,6 @@
             "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
             "proposal": "specific_family_reconciliation",
             "reason": "Runtime selector plus historical issue5590 transition script: retain historical fixture or explicit assertion map; no new native state fabrication."
-          }
-        },
-        {
-          "id": "RD07-2147",
-          "path": "adl/tools/test_v0917_html_observatory_integrated_proof.sh",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-active-tool-contracts",
-          "current_identity": {
-            "mode": "100644",
-            "blob": "c6a17789d39df00306120c6d187d4e096e59f36e"
-          },
-          "existing_action": "retain",
-          "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "Historical Observatory proof bundle includes assets/config, SNS resources, service/heartbeat/SNS validators and HTML checks; not current Observatory qualification."
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          },
-          "reviewed_disposition": {
-            "packet": "ACTIVE_19_TOOL_DISPOSITIONS.json",
-            "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
-            "proposal": "specific_family_reconciliation",
-            "reason": "Historical Observatory proof bundle includes assets/config, SNS resources, service/heartbeat/SNS validators and HTML checks; not current Observatory qualification."
           }
         },
         {

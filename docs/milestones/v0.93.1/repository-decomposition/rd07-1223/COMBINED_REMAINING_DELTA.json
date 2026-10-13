@@ -6,16 +6,16 @@
   "execution_authorized": false,
   "original_count": 4134,
   "counts": {
-    "hold_explicit_reconciliation": 46,
+    "hold_explicit_reconciliation": 43,
     "hold_owner_test_reconciliation": 35,
     "preserve_approved_removal": 70,
     "preserve_reviewed_consumer_repair": 18,
-    "proposed_historical_retirement_with_caller_repair": 56,
+    "proposed_historical_retirement_with_caller_repair": 58,
     "proposed_owner_transfer_with_consumer_qualification": 500,
     "proposed_remove_construction_qualified_infrastructure": 216,
     "proposed_remove_with_entire_source_family": 1874,
     "proposed_remove_with_entire_tool_family": 678,
-    "retain_public_source_or_fixture": 114,
+    "retain_public_source_or_fixture": 115,
     "retain_resolved": 527
   },
   "additional_current_source_paths": 22,
@@ -46936,11 +46936,11 @@
         "blob": "b9e4ff839bdfa5fafc1077df4d99b4697aa1fd83"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "retain_public_source_or_fixture",
       "required_before_execution": [
         "specific_consumer_or_document_disposition_required",
-        "Resolve final producer disposition: CLI guidance scanner requires surfaces pending final retirement including private CLI sources"
+        "Resolve final producer disposition: CLI guidance scanner requires surfaces pending final retirement including private CLI sources",
+        "Retain guard and public guidance producers."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
@@ -46953,6 +46953,14 @@
         "passed": true,
         "native_execution": false,
         "changes_removal_authority": false
+      },
+      "prior_hold_reason": "hold_no_proven_current_successor_mapping",
+      "reviewed_disposition": {
+        "packet": "PUBLIC_COMMAND_GUIDANCE_REPAIR.json",
+        "packet_sha256": "3095cbb85915bafaa534353c9ceb9c89b28f6f1ad30da8808bd97b878c5b9d20",
+        "proposal": "retain_public_source_or_fixture",
+        "reason": "Retain current ADL native-authority guidance protection after private product source transfer.",
+        "review": "review_1223_public_facade"
       }
     },
     {
@@ -52059,8 +52067,7 @@
         "blob": "1110a47cb26b31537b4e8e442730434538e6785d"
       },
       "existing_action": "retain",
-      "hold_reason": "Changed current-conductor activation and check_conductor_correspondence.py map explicit readiness/card exports, metrics, parity, lifecycle and closeout portions. Native transport doubles and full_original_acceptance=false are explicit; preserve CONDUCTOR_ASSERTION_MAP denominator and unmatched bootstrap/native admission obligations.",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
         {
           "path": "adl/config/validation_lane_selector.v0.91.6.json",
@@ -52176,7 +52183,11 @@
         },
         "Accept per-row disposition and close listed caller/dependency obligations.",
         "For transfers, bind actual owner package/fixture outcomes to the mapped assertion denominator; source availability alone is insufficient.",
-        "Obtain coherent source-retirement approval and guard qualification."
+        "Obtain coherent source-retirement approval and guard qualification.",
+        "Reconcile selector, aggregate, installer-child and documentation callers to exact owner component contracts.",
+        "Preserve421-expression assertion map and retired ABI dispositions.",
+        "Native admission remains separate and unproven by transport doubles.",
+        "Exact scoped retirement decision."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
@@ -52184,11 +52195,13 @@
         "exact_successor_paths": []
       },
       "reviewed_disposition": {
-        "packet": "CSDLC_EXACT_COPY_TEST_DISPOSITIONS.json",
-        "packet_sha256": "af4ce18ae8978a75ab2fbfd26d5a584710e70f24ec99c89dbb561a950eab314e",
-        "proposal": "partial_owner_correspondence_remaining_hold",
-        "reason": "Changed current-conductor activation and check_conductor_correspondence.py map explicit readiness/card exports, metrics, parity, lifecycle and closeout portions. Native transport doubles and full_original_acceptance=false are explicit; preserve CONDUCTOR_ASSERTION_MAP denominator and unmatched bootstrap/native admission obligations."
-      }
+        "packet": "CONDUCTOR_WRAPPER_HISTORICAL_DISPOSITION.json",
+        "packet_sha256": "74215108b875e13a217d829ad44dc226321df7de410a8f03fbd859c95fac8039",
+        "proposal": "proposed_historical_retirement_with_caller_repair",
+        "reason": "Retire original wrapper transport/card-directory ABI explicitly; preserve mapped component assertions and independent native-admission requirement.",
+        "review": "review_1223_public_facade"
+      },
+      "prior_hold_reason": "Changed current-conductor activation and check_conductor_correspondence.py map explicit readiness/card exports, metrics, parity, lifecycle and closeout portions. Native transport doubles and full_original_acceptance=false are explicit; preserve CONDUCTOR_ASSERTION_MAP denominator and unmatched bootstrap/native admission obligations."
     },
     {
       "id": "RD07-2121",
@@ -52863,10 +52876,12 @@
         "blob": "c6a17789d39df00306120c6d187d4e096e59f36e"
       },
       "existing_action": "retain",
-      "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "Historical Observatory proof bundle includes assets/config, SNS resources, service/heartbeat/SNS validators and HTML checks; not current Observatory qualification."
+        "Historical Observatory proof bundle includes assets/config, SNS resources, service/heartbeat/SNS validators and HTML checks; not current Observatory qualification.",
+        "Reconcile historical selectors, release-proof gate Markdown/JSON, Observatory-consumption JSON and tool registry.",
+        "Preserve all child and fixture identities in pinned baseline; no silent child retirement.",
+        "Exact scoped retirement decision."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
@@ -52874,11 +52889,16 @@
         "exact_successor_paths": []
       },
       "reviewed_disposition": {
-        "packet": "ACTIVE_19_TOOL_DISPOSITIONS.json",
-        "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
-        "proposal": "specific_family_reconciliation",
-        "reason": "Historical Observatory proof bundle includes assets/config, SNS resources, service/heartbeat/SNS validators and HTML checks; not current Observatory qualification."
-      }
+        "packet": "HISTORICAL_OBSERVATORY_AGGREGATE_RETIREMENT.json",
+        "packet_sha256": "90566a8dfd2b08adb49eeaf78ce3da0032f61ccff5c42132c675ecc9afefcb5b",
+        "proposal": "proposed_historical_retirement_with_caller_repair",
+        "reason": "Retire historical v0.91.7 aggregate topology while preserving each child obligation; not current Observatory qualification.",
+        "review": {
+          "reviewer": "review_1223_historical_retention",
+          "result": "Source review supports conditional aggregate retirement only with every child obligation separately preserved."
+        }
+      },
+      "prior_hold_reason": "protect_existing_public_contract_policy_or_control_plane"
     },
     {
       "id": "RD07-2148",
