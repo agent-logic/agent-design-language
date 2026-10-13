@@ -125,8 +125,11 @@ serde_json = "1"
         self.refused(self.invoke())
         (self.package / 'archive.tar').write_bytes(b'synthetic')
         for mode in (0o644, 0o4755):
-            self.executable.chmod(mode)
-            self.refused(self.invoke())
+            with self.subTest(mode=oct(mode)):
+                self.executable.chmod(mode)
+                if self.executable.stat().st_mode & 0o7777 != mode:
+                    self.skipTest("filesystem does not retain requested permission bits")
+                self.refused(self.invoke())
         self.executable.unlink()
         self.refused(self.invoke())
 

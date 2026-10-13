@@ -183,6 +183,18 @@
     "result": "passed",
     "limits": "Synthetic package metadata is not owner qualification; production dispatch is unchanged. Real Runtime install and command parity remain required.",
     "installed_transport_preflight": "RUNTIME_CONSUMER_PREFLIGHT.json",
-    "mode_followup": "Focused missing-receipt/executable/mode test passed after rejecting setuid/setgid/sticky mode bits; no repeated installed suite."
+    "mode_followup": "Initial macOS special-bit test failed because FastWork did not retain those bits; fixture now explicitly skips unsupported filesystem subcases. Focused Linux missing-receipt/executable/mode test passed, including setuid rejection. No installed suite repeated."
+  },
+  "legacy_resume_diagnostic_proof": {
+    "lane": "local_contract",
+    "role": "preserve_public_diagnostics_before_owner_forwarding",
+    "determinism": "six literal argument cases; explicit frozen legacy binary",
+    "resources": "rustc and local subprocess only; FastWork temporary storage",
+    "gate": "required CLI-02 compatibility",
+    "command": "python3 -B tools/public_adl/compare_resume_args.py --baseline <retained-legacy-adl>",
+    "result": "passed",
+    "cases": 6,
+    "limits": "No successful resume execution in this parser test; real installed resume proof recorded separately",
+    "integration": "Full retained CLI cargo check passed after extraction (14s)"
   }
 }

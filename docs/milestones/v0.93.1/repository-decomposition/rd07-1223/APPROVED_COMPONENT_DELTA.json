@@ -71,7 +71,7 @@
     ],
     "adl/src/cli/run.rs": [
       "100644",
-      "379dbbef5d5e09279041530c9d715608b98ae35b"
+      "9d43c8fcb600fe21a6c43de7819a40aedc6f525d"
     ],
     "adl/src/cli/workflow_args.rs": [
       "100644",
@@ -84,6 +84,10 @@
     "adl/src/cli/runtime_owner.rs": [
       "100644",
       "4e53c77c88a568f84e9935afaa246567fdf9ac37"
+    ],
+    "adl/src/cli/resume_args.rs": [
+      "100644",
+      "d915762aac1b5b8d7f379955213d6000b14e1054"
     ]
   },
   "surgical_followup": "CLI-01 parser/rendering extraction and CLI-02 unconnected installed-owner selection/transport under operator finish1223 instruction; no further removals or production dispatch change"

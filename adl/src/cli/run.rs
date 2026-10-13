@@ -12,6 +12,9 @@ use super::run_artifacts::{
 };
 use super::{resume_usage, usage};
 
+#[path = "resume_args.rs"]
+mod resume_args;
+
 #[path = "workflow_args.rs"]
 mod workflow_args;
 #[path = "workflow_display.rs"]
@@ -322,58 +325,11 @@ pub(crate) fn run_workflow(args: &[String]) -> Result<()> {
 }
 
 pub(crate) fn real_resume(args: &[String]) -> Result<()> {
-    if matches!(args.first().map(|s| s.as_str()), Some("--help" | "-h")) {
-        println!("{}", resume_usage());
+    let Some(resume_args::ResumeArgs { run_id, adl_path, steer_path }) =
+        resume_args::parse(args, resume_usage())
+    else {
         return Ok(());
-    }
-
-    let Some(run_id) = args.first() else {
-        eprintln!("resume requires <run_id>");
-        eprintln!("{}", resume_usage());
-        std::process::exit(2);
     };
-    let mut adl_path: Option<PathBuf> = None;
-    let mut steer_path: Option<PathBuf> = None;
-    let mut i = 1;
-    while i < args.len() {
-        match args[i].as_str() {
-            "--adl" => {
-                let Some(path) = args.get(i + 1) else {
-                    eprintln!("resume --adl requires a path to the ADL document");
-                    eprintln!("{}", resume_usage());
-                    std::process::exit(2);
-                };
-                adl_path = Some(PathBuf::from(path));
-                i += 1;
-            }
-            "--steer" => {
-                let Some(path) = args.get(i + 1) else {
-                    eprintln!("resume --steer requires a path to steering patch JSON");
-                    eprintln!("{}", resume_usage());
-                    std::process::exit(2);
-                };
-                steer_path = Some(PathBuf::from(path));
-                i += 1;
-            }
-            other => {
-                if args.len() > 1
-                    && args
-                        .iter()
-                        .skip(1)
-                        .all(|arg| arg != "--adl" && arg != "--steer")
-                {
-                    eprintln!("resume requires <run_id> plus --adl <path>");
-                } else {
-                    eprintln!(
-                        "resume accepts <run_id> --adl <path> [--steer <steering.json>] (unknown arg: {other})"
-                    );
-                }
-                eprintln!("{}", resume_usage());
-                std::process::exit(2);
-            }
-        }
-        i += 1;
-    }
     let pause_path = resume_state_path_for_run_id(run_id)?;
     if !pause_path.exists() {
         return Err(anyhow::anyhow!(
