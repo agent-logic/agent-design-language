@@ -248,3 +248,9 @@ The v0.91.6 issue4441 regeneration helper and companion typed-v2 test retire und
 Provider-neutral twelve resources transfer after one unchanged original Bash fixture test passed: nine Python expressions, one producer, one valid validator, five negative validator cases and one feed emission. Eight inert adapter cases passed separately. Seven historical JSON resources remain custody rather than new live receipt acceptance; no provider, browser, HTTPS, native or installed acceptance is implied.
 
 Current total: 2,915 actions, 2,914 baseline deletions including seven prior supplemental and three separately observed paths, plus one transient bridge. Immutable 4,134 identities and separate 22 paths remain unchanged. Seven prior supplemental paths remain unchanged; three governed-room paths absent from the frozen inventory but present at the observed baseline are separately enumerated. Exactly seven Observatory holds resolve, leaving three holds. The 21 Node, 16 selector and 8 Layer8 results remain separate; browser/live/installed acceptance remains unexecuted and transferred, not claimed.
+
+## Runtime operational selector pair
+
+The exact reviewed selector and original companion test transfer with pinned custody and the applied packet proof limits. Only hold2110 resolves; distributed2235/2236 remain unresolved. No new execution or native admission is inferred by ledger integration.
+
+Current total: 2,917 actions and 2,916 baseline deletions including seven prior supplemental and three separately observed paths, plus one transient bridge. Immutable4,134 identities and22 additional paths remain unchanged; two holds remain.
