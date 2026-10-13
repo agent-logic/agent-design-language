@@ -204,3 +204,9 @@ Three exact historical paths retire the old four-family monolithic slow-proof co
 The public manager keeps empty family arrays and its nonempty-private-config refusal. Only unreachable removed-runner command generation is removed; direct helper calls also fail closed on nonempty private families. Existing public interfaces passed 12 cases, direct helper checks passed 2, and actual registry verification passed in the source application; those receipts are reused, not rerun here. Coverage producer/companion and the v0.92 evidence-validator twelve negatives remain unchanged.
 
 Current total is 2,815 retirement actions, 2,814 baseline deletions and one transient bridge, including the same seven supplemental paths. Original 4,134 identities and 22 additional identities and ten holds remain unchanged.
+
+## Infrastructure parser and producer-result resources
+
+Six exact owner source/test resources transfer with their original consumer proof: CI timing, nextest timing and coverage producer-result verification. Current execution is 2,821 actions: 2,820 baseline deletions, including the same seven supplemental paths, plus one transient bridge. The original 4,134 identities, 22 additional paths and ten holds remain unchanged.
+
+All three unchanged original scripts passed once against six authentic owner Git inputs in a network-isolated container without host mounts or credentials. The denominator is 12 producer process invocations and 29 assertion events (11 CI timing, 10 nextest timing and eight result-routing cases). Source bytes and modes matched before and after; stdout, empty stderr, durations and container evidence remain pinned. Synthetic nextest events are fixture data, not executed Runtime tests. The conditional toolchain test was excluded; no live CI, coverage production, cloud, provider, native lifecycle or product acceptance is claimed. Historical selector hints and owner navigation were repaired, and the actual registry was regenerated.

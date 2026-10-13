@@ -128,3 +128,5 @@ Six remaining Sprint helpers transfer under existing mapped component proof: 279
 Two Runtime resources and sixteen finish/closeout/review skill resources are retired under their independently reviewed source contracts: 2812 actions, 2811 baseline deletions plus the transient bridge. Seven supplemental paths and ten holds remain unchanged. Native lifecycle behavior and full original installer acceptance remain separate.
 
 Historical slow-family closure records three exact removals and explicitly supersedes the stale RD07-2118 retain disposition after Runtime896 reduced that command to a refusal. Original four-family selection and assertion custody remain preserved, not reported as passing. Current total 2815 actions/2814 baseline deletions; seven supplemental paths and ten holds unchanged.
+
+Six Infrastructure parser/result resources transfer after three unchanged original fixture tests passed: 2821 actions, 2820 baseline deletions plus the transient bridge. Seven supplemental paths and ten holds remain unchanged. No live CI, real nextest or cloud producer acceptance is implied.

@@ -7,19 +7,19 @@
   "original_count": 4134,
   "counts": {
     "retain_resolved": 527,
-    "preserve_approved_removal": 2806,
+    "preserve_approved_removal": 2812,
     "proposed_owner_transfer_with_consumer_qualification": 225,
     "retain_public_source_or_fixture": 195,
     "preserve_reviewed_consumer_repair": 18,
     "proposed_historical_retirement_with_caller_repair": 18,
     "proposed_remove_with_entire_source_family": 1,
-    "proposed_remove_with_entire_tool_family": 330,
+    "proposed_remove_with_entire_tool_family": 324,
     "hold_explicit_reconciliation": 9,
     "hold_owner_test_reconciliation": 1,
     "proposed_remove_construction_qualified_infrastructure": 4
   },
   "additional_current_source_paths": 22,
-  "preservation": "Original 4134 identities and separate 22 captured paths unchanged. Exact executed retirement actions 2815 comprise 2814 baseline deletions and one newly-added-then-retired ADL conversion bridge; the bridge is outside both captured inventories. The baseline count includes the same seven separately enumerated supplemental paths outside the immutable inventories. Other proposals remain conditional.",
+  "preservation": "Original 4134 identities and separate 22 captured paths unchanged. Exact executed retirement actions 2821 comprise 2820 baseline deletions and one newly-added-then-retired ADL conversion bridge; the bridge is outside both captured inventories. The baseline count includes the same seven separately enumerated supplemental paths outside the immutable inventories. Other proposals remain conditional.",
   "review_boundary": "Exact paths and Git identities are pinned. Proposed removals remain conditional; this is not a claim that caller closure or all successor tests are qualified.",
   "known_prerequisites": {
     "codefriend": "Issue102 e14ff1b08b7ef01f838404bca8ecdf47c1318ac1 passed all39suites409Linux tests,0failed0ignored,174.293s; exacthead and clean source before/after. Evidence FastWork c1223/evidence/codefriend/issue102-e14ff1b0-full, transcriptSHA256c7944f7e0403ba485b377868b1bd85e91eeee0ecce3f79920de3e86c813cfa1a. Focused1 and parallel47 diagnostics also passed; prior dc2 redelivery failure did not reproduce and its cause is not claimed fixed. Earlier failures retained. One macOS-only case, actual hosted installed-acquisition CI proof and owner publication remain separate.",
@@ -68116,18 +68116,27 @@
         "blob": "9a95f4b7c1e25f27717c5097cdfa9c42da696fa1"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/summarize_ci_runtime.py"
         ]
+      },
+      "pre_infrastructure_parser_six_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "INFRASTRUCTURE_PARSER_SIX_APPLIED.json",
+        "sha256": "2355dce836080bacc860973b748366e3717ecce9bcb37c35711268593ce5fd49",
+        "implementation_commit": "66c43a965dfd5b4aafadf45a6977f4fd81e75372"
       }
     },
     {
@@ -68140,18 +68149,27 @@
         "blob": "503f1d226266c9dc1709a111f74cee8b8638d95b"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/summarize_nextest_timings.py"
         ]
+      },
+      "pre_infrastructure_parser_six_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "INFRASTRUCTURE_PARSER_SIX_APPLIED.json",
+        "sha256": "2355dce836080bacc860973b748366e3717ecce9bcb37c35711268593ce5fd49",
+        "implementation_commit": "66c43a965dfd5b4aafadf45a6977f4fd81e75372"
       }
     },
     {
@@ -75556,18 +75574,27 @@
         "blob": "c78721c298626e9743715c80c2b0207b0f5487d1"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/test_summarize_ci_runtime.sh"
         ]
+      },
+      "pre_infrastructure_parser_six_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "INFRASTRUCTURE_PARSER_SIX_APPLIED.json",
+        "sha256": "2355dce836080bacc860973b748366e3717ecce9bcb37c35711268593ce5fd49",
+        "implementation_commit": "66c43a965dfd5b4aafadf45a6977f4fd81e75372"
       }
     },
     {
@@ -75580,18 +75607,27 @@
         "blob": "01c9441b37abc083fb472a0ec6151b2f5bdcec45"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/test_summarize_nextest_timings.sh"
         ]
+      },
+      "pre_infrastructure_parser_six_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "INFRASTRUCTURE_PARSER_SIX_APPLIED.json",
+        "sha256": "2355dce836080bacc860973b748366e3717ecce9bcb37c35711268593ce5fd49",
+        "implementation_commit": "66c43a965dfd5b4aafadf45a6977f4fd81e75372"
       }
     },
     {
@@ -76544,18 +76580,27 @@
         "blob": "2ba3dfea1796a4b1c8e379c764542697315ac96d"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/test_verify_coverage_producer_results.sh"
         ]
+      },
+      "pre_infrastructure_parser_six_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "INFRASTRUCTURE_PARSER_SIX_APPLIED.json",
+        "sha256": "2355dce836080bacc860973b748366e3717ecce9bcb37c35711268593ce5fd49",
+        "implementation_commit": "66c43a965dfd5b4aafadf45a6977f4fd81e75372"
       }
     },
     {
@@ -79333,18 +79378,27 @@
         "blob": "03b326d6993dfb736cca6bf0f54c7343dd3c491c"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/verify_coverage_producer_results.sh"
         ]
+      },
+      "pre_infrastructure_parser_six_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "INFRASTRUCTURE_PARSER_SIX_APPLIED.json",
+        "sha256": "2355dce836080bacc860973b748366e3717ecce9bcb37c35711268593ce5fd49",
+        "implementation_commit": "66c43a965dfd5b4aafadf45a6977f4fd81e75372"
       }
     },
     {
