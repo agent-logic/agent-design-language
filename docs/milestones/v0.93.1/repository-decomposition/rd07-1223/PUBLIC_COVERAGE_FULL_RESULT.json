@@ -1,6 +1,6 @@
 {
   "schema": "adl.public_coverage.v1",
-  "source_head": "5def116e9e649071982562a2411a5386b1a514fe",
+  "source_head": "b4216f40709fde889cc694aee850ad9c97b99720",
   "mode": "full",
   "base": null,
   "changed_files": [],
@@ -72,8 +72,8 @@
     },
     "adl/src/control_plane.rs": {
       "package": "adl",
-      "count": 341,
-      "covered": 339
+      "count": 292,
+      "covered": 286
     },
     "adl/src/main.rs": {
       "package": "adl",
@@ -82,8 +82,8 @@
     },
     "adl/src/session_ledger.rs": {
       "package": "adl",
-      "count": 780,
-      "covered": 717
+      "count": 734,
+      "covered": 661
     },
     "adl-schema/src/model_identity.rs": {
       "package": "adl-schema",
@@ -235,10 +235,10 @@
     "adl/src/cli/usage.rs": "73dbbc071dd675667364eff564dcab4fc53708ca5ca22a5c4cf36181e78d9847",
     "adl/src/cli/workflow_args.rs": "312216947a3a54dac2764fe3bcce4a405f45149c347bf66bb84138b80f3aac71",
     "adl/src/cli/workflow_display.rs": "d0f80bc25f1a5be5488af34301361c6cb2c0cb0b5afd6ac0f5cdc8e5d2773a22",
-    "adl/src/control_plane.rs": "5433852b8bff40b09eb6b0729c7258967c8eb34afd12df480d59ee446903e132",
+    "adl/src/control_plane.rs": "d24d0bfac7b7b20df8d060961e844a001c7880851e59d8f63afb7c8f468175f6",
     "adl/src/lib.rs": "9cb671bf2bf8917bd791d8c1e933329ce8527b30443cee02303881df24307492",
     "adl/src/main.rs": "bbde80598d338d89679b02f7a856ac06228d8af1b71e25288341802553462614",
-    "adl/src/session_ledger.rs": "ba0cd324aa680190444ac446215623d60e552ee14afdde3ff533e925231197bc"
+    "adl/src/session_ledger.rs": "340e99ad367e2b27388eb68b197756bbcafc2a793e5086a5140893023fea3f18"
   },
   "declaration_only_without_measurement": [
     "adl-schema/src/lib.rs",
@@ -246,14 +246,14 @@
     "adl-v2/crates/adl-language/src/model.rs",
     "adl/src/lib.rs"
   ],
-  "line_count": 10412,
-  "covered_lines": 9402,
+  "line_count": 10317,
+  "covered_lines": 9293,
   "thresholds": {
     "changed_file": 80,
     "full_file": 80,
     "full_aggregate": 90
   },
-  "inventory_sha256": "a793f1df2c7dc304ce8333b5b65fe02e4cccfdc8b540c5fc68cfdd0710662aac",
+  "inventory_sha256": "b8a23a9ed753e92b2c2af309151c7799751f146cdcf007e078881d570073343a",
   "toolchain": "rustc 1.92.0 (ded5c06cf 2025-12-08)\nbinary: rustc\ncommit-hash: ded5c06cf21d2b93bffd5d884aa6e96934ee4234\ncommit-date: 2025-12-08\nhost: aarch64-apple-darwin\nrelease: 1.92.0\nLLVM version: 21.1.3\n",
   "failures": [],
   "status": "passed"

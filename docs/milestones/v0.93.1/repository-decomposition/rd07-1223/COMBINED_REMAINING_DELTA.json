@@ -28,7 +28,7 @@
     "adl": "Five package15sourcegates and installed7consumer/21UTS/5negative proof passed;145publicCLI tests passed on macOS/Linux; finalCI and caller cutover pending",
     "owner_test_correspondence": "OWNER_TEST_CORRESPONDENCE.json preserves1056original rows (651CSDLc+405Runtime).35unique implicated rows explicitly held. No broad test execution or retirement authority inferred.",
     "csdlc_node_proof": "Cognitive-sdlc247 candidate369cbde1e91efbc15ad72f936080b54aed8e6bb5 passed all5 restored issue1249 scenarios on supported macOS arm64,177filtered,132.075seconds; source clean before/after. Evidence FastWork c1223/evidence/cognitive-sdlc/issue247-369cbde1-macos, logSHA25674cd7cf6b8173b671ea9513999f3c216a4ad33706dc3bf679f62398f5b32ff6c. Node proof/refusals and atomic plan amendment qualified; owner publication/install and retirement remain separate. Prior unsupported Linux arm64 and supported-host atomicity failures preserved.",
-    "public_coverage": "Full exact-head six-package producer passed at5def116e9e:9402/10412lines90.30%, allfiles>=80%; no thresholds reduced. GitHub CI and private owner equivalence remain separate."
+    "public_coverage": "Full exact-head six-package producer passed atb4216f4070:9293/10317lines90.07%, allmeasuredfiles>=80%; thresholds unchanged. Public observation integration target restores immutable held source. GitHub CI and private owner equivalence remain separate."
   },
   "ci_contract": "COMBINED_CI_CUTOVER.json",
   "rows": [
