@@ -124,3 +124,5 @@ Five Runtime guides, two Infrastructure offline lifecycle/redaction sources, and
 Runtime API resource transfer adds three captured removals: 2788 actions, 2787 baseline deletions plus the transient bridge. Seven supplemental paths and ten holds remain unchanged. Existing eleven owner source-contract cases qualify schema correspondence, not live HTTP service behavior.
 
 Six remaining Sprint helpers transfer under existing mapped component proof: 2794 actions, 2793 baseline deletions plus the transient bridge. Seven supplemental paths and ten holds remain unchanged. The README mode correction adds no removal and preserves its original add-then-correct source chain. Native/full installer acceptance remains separate.
+
+Two Runtime resources and sixteen finish/closeout/review skill resources are retired under their independently reviewed source contracts: 2812 actions, 2811 baseline deletions plus the transient bridge. Seven supplemental paths and ten holds remain unchanged. Native lifecycle behavior and full original installer acceptance remain separate.

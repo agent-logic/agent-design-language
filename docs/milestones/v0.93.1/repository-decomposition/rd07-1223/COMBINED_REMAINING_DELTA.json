@@ -7,19 +7,19 @@
   "original_count": 4134,
   "counts": {
     "retain_resolved": 527,
-    "preserve_approved_removal": 2785,
-    "proposed_owner_transfer_with_consumer_qualification": 227,
+    "preserve_approved_removal": 2803,
+    "proposed_owner_transfer_with_consumer_qualification": 225,
     "retain_public_source_or_fixture": 196,
     "preserve_reviewed_consumer_repair": 18,
     "proposed_historical_retirement_with_caller_repair": 20,
     "proposed_remove_with_entire_source_family": 1,
-    "proposed_remove_with_entire_tool_family": 346,
+    "proposed_remove_with_entire_tool_family": 330,
     "hold_explicit_reconciliation": 9,
     "hold_owner_test_reconciliation": 1,
     "proposed_remove_construction_qualified_infrastructure": 4
   },
   "additional_current_source_paths": 22,
-  "preservation": "Original 4134 identities and separate 22 captured paths unchanged. Exact executed retirement actions 2794 comprise 2793 baseline deletions and one newly-added-then-retired ADL conversion bridge; the bridge is outside both captured inventories. The baseline count includes the same seven separately enumerated supplemental paths outside the immutable inventories. Other proposals remain conditional.",
+  "preservation": "Original 4134 identities and separate 22 captured paths unchanged. Exact executed retirement actions 2812 comprise 2811 baseline deletions and one newly-added-then-retired ADL conversion bridge; the bridge is outside both captured inventories. The baseline count includes the same seven separately enumerated supplemental paths outside the immutable inventories. Other proposals remain conditional.",
   "review_boundary": "Exact paths and Git identities are pinned. Proposed removals remain conditional; this is not a claim that caller closure or all successor tests are qualified.",
   "known_prerequisites": {
     "codefriend": "Issue102 e14ff1b08b7ef01f838404bca8ecdf47c1318ac1 passed all39suites409Linux tests,0failed0ignored,174.293s; exacthead and clean source before/after. Evidence FastWork c1223/evidence/codefriend/issue102-e14ff1b0-full, transcriptSHA256c7944f7e0403ba485b377868b1bd85e91eeee0ecce3f79920de3e86c813cfa1a. Focused1 and parallel47 diagnostics also passed; prior dc2 redelivery failure did not reproduce and its cause is not claimed fixed. Earlier failures retained. One macOS-only case, actual hosted installed-acquisition CI proof and owner publication remain separate.",
@@ -57710,18 +57710,27 @@
         "blob": "099333745bc03b233e3b1cde1cd35e2a82802d0b"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/docs/PR_CLOSEOUT_SKILL_INPUT_SCHEMA.md"
         ]
+      },
+      "pre_runtime_two_skills_sixteen_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "FINISH_CLOSEOUT_SPRINT_REVIEW_SIXTEEN_APPLIED.json",
+        "sha256": "a2f8c1e9868ba2f441d5283f4621e4f7e4ee27579d5e1b405155e1f79cb2a5c9",
+        "implementation_commit": "22acbc4c140036ca0d5c0c673a3a5c28c43bb959"
       }
     },
     {
@@ -57734,18 +57743,27 @@
         "blob": "db255f1535abf56623e40f4e5af93f27adc3e093"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/docs/PR_FINISH_SKILL_INPUT_SCHEMA.md"
         ]
+      },
+      "pre_runtime_two_skills_sixteen_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "FINISH_CLOSEOUT_SPRINT_REVIEW_SIXTEEN_APPLIED.json",
+        "sha256": "a2f8c1e9868ba2f441d5283f4621e4f7e4ee27579d5e1b405155e1f79cb2a5c9",
+        "implementation_commit": "22acbc4c140036ca0d5c0c673a3a5c28c43bb959"
       }
     },
     {
@@ -60538,16 +60556,25 @@
         "blob": "268b2da7488c9fb25c219d2e8367954e26983823"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "pre_runtime_two_skills_sixteen_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "FINISH_CLOSEOUT_SPRINT_REVIEW_SIXTEEN_APPLIED.json",
+        "sha256": "a2f8c1e9868ba2f441d5283f4621e4f7e4ee27579d5e1b405155e1f79cb2a5c9",
+        "implementation_commit": "22acbc4c140036ca0d5c0c673a3a5c28c43bb959"
       }
     },
     {
@@ -60560,16 +60587,25 @@
         "blob": "6afb403af23e9ec6801a1236bca6fbfc5269c787"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "pre_runtime_two_skills_sixteen_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "FINISH_CLOSEOUT_SPRINT_REVIEW_SIXTEEN_APPLIED.json",
+        "sha256": "a2f8c1e9868ba2f441d5283f4621e4f7e4ee27579d5e1b405155e1f79cb2a5c9",
+        "implementation_commit": "22acbc4c140036ca0d5c0c673a3a5c28c43bb959"
       }
     },
     {
@@ -60582,18 +60618,27 @@
         "blob": "e9158ad17fd363415f459aad4ec6d9c96567c9e2"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/pr-closeout/agents/openai.yaml"
         ]
+      },
+      "pre_runtime_two_skills_sixteen_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "FINISH_CLOSEOUT_SPRINT_REVIEW_SIXTEEN_APPLIED.json",
+        "sha256": "a2f8c1e9868ba2f441d5283f4621e4f7e4ee27579d5e1b405155e1f79cb2a5c9",
+        "implementation_commit": "22acbc4c140036ca0d5c0c673a3a5c28c43bb959"
       }
     },
     {
@@ -60606,16 +60651,25 @@
         "blob": "3b540fb979a2a9b4ed777c969a4bf1eee6b56b7c"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "pre_runtime_two_skills_sixteen_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "FINISH_CLOSEOUT_SPRINT_REVIEW_SIXTEEN_APPLIED.json",
+        "sha256": "a2f8c1e9868ba2f441d5283f4621e4f7e4ee27579d5e1b405155e1f79cb2a5c9",
+        "implementation_commit": "22acbc4c140036ca0d5c0c673a3a5c28c43bb959"
       }
     },
     {
@@ -60628,18 +60682,27 @@
         "blob": "6736ec5c8c04d0fbda821843177060a7a367e342"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/pr-closeout/references/output-contract.md"
         ]
+      },
+      "pre_runtime_two_skills_sixteen_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "FINISH_CLOSEOUT_SPRINT_REVIEW_SIXTEEN_APPLIED.json",
+        "sha256": "a2f8c1e9868ba2f441d5283f4621e4f7e4ee27579d5e1b405155e1f79cb2a5c9",
+        "implementation_commit": "22acbc4c140036ca0d5c0c673a3a5c28c43bb959"
       }
     },
     {
@@ -60685,16 +60748,25 @@
         "blob": "1ab1ef7088fd41cd81b1043d66f17d8b47ef10ae"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "pre_runtime_two_skills_sixteen_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "FINISH_CLOSEOUT_SPRINT_REVIEW_SIXTEEN_APPLIED.json",
+        "sha256": "a2f8c1e9868ba2f441d5283f4621e4f7e4ee27579d5e1b405155e1f79cb2a5c9",
+        "implementation_commit": "22acbc4c140036ca0d5c0c673a3a5c28c43bb959"
       }
     },
     {
@@ -60707,18 +60779,27 @@
         "blob": "77ac02985bc85bca099a84aaee8f38aea7c9fa26"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/pr-finish/agents/openai.yaml"
         ]
+      },
+      "pre_runtime_two_skills_sixteen_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "FINISH_CLOSEOUT_SPRINT_REVIEW_SIXTEEN_APPLIED.json",
+        "sha256": "a2f8c1e9868ba2f441d5283f4621e4f7e4ee27579d5e1b405155e1f79cb2a5c9",
+        "implementation_commit": "22acbc4c140036ca0d5c0c673a3a5c28c43bb959"
       }
     },
     {
@@ -60731,16 +60812,25 @@
         "blob": "08f49137772e3a0ee26f356aba4de8124d94301e"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "pre_runtime_two_skills_sixteen_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "FINISH_CLOSEOUT_SPRINT_REVIEW_SIXTEEN_APPLIED.json",
+        "sha256": "a2f8c1e9868ba2f441d5283f4621e4f7e4ee27579d5e1b405155e1f79cb2a5c9",
+        "implementation_commit": "22acbc4c140036ca0d5c0c673a3a5c28c43bb959"
       }
     },
     {
@@ -60753,18 +60843,27 @@
         "blob": "3c47e54ec627062f72912780b77d8ba40042d3d4"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/pr-finish/references/output-contract.md"
         ]
+      },
+      "pre_runtime_two_skills_sixteen_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "FINISH_CLOSEOUT_SPRINT_REVIEW_SIXTEEN_APPLIED.json",
+        "sha256": "a2f8c1e9868ba2f441d5283f4621e4f7e4ee27579d5e1b405155e1f79cb2a5c9",
+        "implementation_commit": "22acbc4c140036ca0d5c0c673a3a5c28c43bb959"
       }
     },
     {
@@ -67038,18 +67137,27 @@
         "blob": "da651d8c92a41b5314e88255862e1f437a412dc1"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/sprint-review/SKILL.md"
         ]
+      },
+      "pre_runtime_two_skills_sixteen_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "FINISH_CLOSEOUT_SPRINT_REVIEW_SIXTEEN_APPLIED.json",
+        "sha256": "a2f8c1e9868ba2f441d5283f4621e4f7e4ee27579d5e1b405155e1f79cb2a5c9",
+        "implementation_commit": "22acbc4c140036ca0d5c0c673a3a5c28c43bb959"
       }
     },
     {
@@ -67062,18 +67170,27 @@
         "blob": "3253353dd6a2562593b4d60d5ab1b3908717d603"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/sprint-review/adl-skill.yaml"
         ]
+      },
+      "pre_runtime_two_skills_sixteen_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "FINISH_CLOSEOUT_SPRINT_REVIEW_SIXTEEN_APPLIED.json",
+        "sha256": "a2f8c1e9868ba2f441d5283f4621e4f7e4ee27579d5e1b405155e1f79cb2a5c9",
+        "implementation_commit": "22acbc4c140036ca0d5c0c673a3a5c28c43bb959"
       }
     },
     {
@@ -67086,18 +67203,27 @@
         "blob": "02808f66ec7fbbeeef6fb5f9477d48651da02865"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/sprint-review/agents/openai.yaml"
         ]
+      },
+      "pre_runtime_two_skills_sixteen_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "FINISH_CLOSEOUT_SPRINT_REVIEW_SIXTEEN_APPLIED.json",
+        "sha256": "a2f8c1e9868ba2f441d5283f4621e4f7e4ee27579d5e1b405155e1f79cb2a5c9",
+        "implementation_commit": "22acbc4c140036ca0d5c0c673a3a5c28c43bb959"
       }
     },
     {
@@ -67110,18 +67236,27 @@
         "blob": "30d73f07220923dd0bc9296834677f64c6544f57"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/sprint-review/docs/SPRINT_REVIEW_SKILL_INPUT_SCHEMA.md"
         ]
+      },
+      "pre_runtime_two_skills_sixteen_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "FINISH_CLOSEOUT_SPRINT_REVIEW_SIXTEEN_APPLIED.json",
+        "sha256": "a2f8c1e9868ba2f441d5283f4621e4f7e4ee27579d5e1b405155e1f79cb2a5c9",
+        "implementation_commit": "22acbc4c140036ca0d5c0c673a3a5c28c43bb959"
       }
     },
     {
@@ -67134,18 +67269,27 @@
         "blob": "7f84861599a6b54637487933d6e5eee9f056dae0"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/skills/sprint-review/references/output-contract.md"
         ]
+      },
+      "pre_runtime_two_skills_sixteen_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "FINISH_CLOSEOUT_SPRINT_REVIEW_SIXTEEN_APPLIED.json",
+        "sha256": "a2f8c1e9868ba2f441d5283f4621e4f7e4ee27579d5e1b405155e1f79cb2a5c9",
+        "implementation_commit": "22acbc4c140036ca0d5c0c673a3a5c28c43bb959"
       }
     },
     {
@@ -115537,12 +115681,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "active ADL navigation and source consumers reconciled",
-        "reuse applicable owner proof; source presence alone not execution",
-        "scoped retirement approval"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
@@ -115555,6 +115695,19 @@
         "packet_sha256": "2ae4a55dbaee23c4367e3503cd4f94378f6eec43ea42d8fec40f750296335dc1",
         "proposal": "conditional_machine_resource_or_executable_transfer_with_explicit_consumer_gate",
         "review": "Source specialist and root finite-disposition review; no execution or owner acceptance inferred"
+      },
+      "pre_runtime_two_skills_sixteen_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "active ADL navigation and source consumers reconciled",
+          "reuse applicable owner proof; source presence alone not execution",
+          "scoped retirement approval"
+        ]
+      },
+      "applied_removal": {
+        "packet": "RUNTIME_TWO_RESOURCES_APPLIED.json",
+        "sha256": "78f8fec1b84629648befb223e2bf600ed32528dfcb6f6bfe3d3100b3a5281def",
+        "implementation_commit": "2b0612c55ac46b7ca178c912d64824046f517722"
       }
     },
     {
@@ -121342,12 +121495,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "active ADL navigation and source consumers reconciled",
-        "reuse applicable owner proof; source presence alone not execution",
-        "scoped retirement approval"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
@@ -121360,6 +121509,19 @@
         "packet_sha256": "2ae4a55dbaee23c4367e3503cd4f94378f6eec43ea42d8fec40f750296335dc1",
         "proposal": "conditional_machine_resource_or_executable_transfer_with_explicit_consumer_gate",
         "review": "Source specialist and root finite-disposition review; no execution or owner acceptance inferred"
+      },
+      "pre_runtime_two_skills_sixteen_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "active ADL navigation and source consumers reconciled",
+          "reuse applicable owner proof; source presence alone not execution",
+          "scoped retirement approval"
+        ]
+      },
+      "applied_removal": {
+        "packet": "RUNTIME_TWO_RESOURCES_APPLIED.json",
+        "sha256": "78f8fec1b84629648befb223e2bf600ed32528dfcb6f6bfe3d3100b3a5281def",
+        "implementation_commit": "2b0612c55ac46b7ca178c912d64824046f517722"
       }
     },
     {
