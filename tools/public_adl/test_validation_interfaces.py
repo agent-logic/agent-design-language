@@ -178,6 +178,37 @@ class PublicValidationInterfaces(unittest.TestCase):
         self.assertNotEqual(self.tool('validation_inventory', '--slow-proof-families', missing, '--format', 'json').returncode, 0)
         self.assertNotEqual(self.profile('--slow-proof-families', missing).returncode, 0)
 
+    def test_historical_dispositions_cannot_bypass_public_escalation(self):
+        spec = importlib.util.spec_from_file_location('public_manager', self.root / 'adl/tools/validation_manager.py')
+        manager = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(manager)
+        guardrails = manager.manager_guardrails(self.manifest(), 8)
+        plans = [
+            {'release_gate_review': {'status': 'release_gate_required'}},
+            {'rust_pr_fast': {'status': 'escalated', 'mode': 'contract_only',
+                             'reason': 'slow_proof_inventory_change_covered_by_contract_check'},
+             'slow_proof_review': {'status': 'release_gate_required'}},
+        ]
+        for lanes in plans:
+            with self.subTest(lanes=lanes):
+                paths = ['.github/workflows/ci.yaml', 'adl/tools/test_ci_runtime_contracts.sh']
+                for lane in lanes.values():
+                    lane['matched_paths'] = paths
+                plan = {'lanes': lanes, 'changed_paths': paths, 'aggregate_status': 'escalated',
+                        'pr_publication_sufficient': False}
+                profile = manager.build_profile(plan, guardrails, self.manifest_path)
+                self.assertEqual(profile['status'], 'escalation_required')
+                self.assertFalse(profile['pr_publication_sufficient'])
+                self.assertEqual(profile['run'], [])
+        # The fixture deliberately contains no private source, old workflows or
+        # monorepo contract scripts: escalation must not try to read them.
+        historical = self.root / 'historical-families.json'
+        historical.write_text(json.dumps({'schema_version': 'adl.slow_proof_families.v1',
+                                          'families': [{'id': 'private-runtime'}]}))
+        result = self.profile('--slow-proof-families', str(historical))
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('retired private slow-proof families', result.stderr)
+
     def test_real_shell_and_javascript_syntax_failures_propagate(self):
         self.assertIsNotNone(shutil.which('node'), 'Node required for preserved JavaScript syntax contract')
         for program, name, valid, invalid in [('bash -n', 'syntax.sh', 'true\n', 'if then\n'),

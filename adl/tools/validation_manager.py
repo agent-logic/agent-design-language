@@ -40,6 +40,8 @@ def load_slow_proof_families(path: Path = SLOW_PROOF_FAMILIES) -> dict[str, Any]
         fail("slow-proof families config returned unsupported schema_version")
     if not isinstance(payload.get("families"), list):
         fail("slow-proof families config must expose a families array")
+    if payload["families"]:
+        fail("retired private slow-proof families; use product owner validation routes")
     return payload
 
 
@@ -334,118 +336,6 @@ def docs_only_paths(paths: list[str]) -> bool:
     return all(path.endswith(".md") or path.startswith("docs/") for path in paths)
 
 
-def slow_proof_pr_fanout_workflow_disposition(changed_paths: list[str]) -> bool:
-    changed = set(changed_paths)
-    allowed = {
-        ".github/workflows/ci.yaml",
-        "adl/config/slow_proof_families.v0.91.6.json",
-        "adl/config/validation_lane_selector.v0.91.6.json",
-        "adl/src/runtime_v2/private_state_observatory.rs",
-        "adl/src/runtime_v2/tests.rs",
-        "adl/tools/check_coverage_impact.sh",
-        "adl/tools/ci_path_policy.sh",
-        "adl/tools/run_pr_fast_test_lane.sh",
-        "adl/tools/run_slow_proof_family.sh",
-        "adl/tools/skills/docs/CI_RUNTIME_POLICY_GUIDE.md",
-        "adl/tools/test_check_coverage_impact.sh",
-        "adl/tools/test_ci_runtime_contracts.sh",
-        "adl/tools/test_run_pr_fast_test_lane.sh",
-        "adl/tools/test_slow_proof_lane_contract.sh",
-        "adl/tools/validation_manager.py",
-        "adl/tools/test_validation_manager.sh",
-    }
-    if not changed or not changed <= allowed:
-        return False
-    if ".github/workflows/ci.yaml" not in changed:
-        return False
-    if "adl/tools/test_ci_runtime_contracts.sh" not in changed:
-        return False
-
-    workflow = (ROOT / ".github/workflows/ci.yaml").read_text()
-    contract = (ROOT / "adl/tools/test_ci_runtime_contracts.sh").read_text()
-    manager = (ROOT / "adl/tools/validation_manager.py").read_text()
-    manager_contract = (ROOT / "adl/tools/test_validation_manager.sh").read_text()
-    slow_config = (ROOT / "adl/config/slow_proof_families.v0.91.6.json").read_text()
-    coverage_impact = (ROOT / "adl/tools/check_coverage_impact.sh").read_text()
-    coverage_impact_contract = (ROOT / "adl/tools/test_check_coverage_impact.sh").read_text()
-    slow_runner = (ROOT / "adl/tools/run_slow_proof_family.sh").read_text()
-    slow_contract = (ROOT / "adl/tools/test_slow_proof_lane_contract.sh").read_text()
-    runtime_tests = (ROOT / "adl/src/runtime_v2/tests.rs").read_text()
-    required_workflow_fragments = [
-        "adl-slow-proof:",
-        "needs: adl_path_policy",
-        "needs.adl_path_policy.outputs.slow_proof_contract_required == 'true'",
-        "shard: [1, 2, 3, 4]",
-        'bash tools/run_slow_proof_family.sh --family all --run --partition "count:${{ matrix.shard }}/4"',
-    ]
-    required_contract_fragments = [
-        'job_block("adl-slow-proof")',
-        "slow_proof_contract_required == 'true'",
-        "shard: [1, 2, 3, 4]",
-        'bash tools/run_slow_proof_family.sh --family all --run --partition "count:${{ matrix.shard }}/4"',
-        "must not use a broad slow-proof-tests run",
-    ]
-    required_slow_config_fragments = [
-        '"module_selectors"',
-        "runtime_v2::tests::governed_learning_substrate::",
-        "runtime_v2::tests::intelligence_metric_architecture::",
-        "runtime_v2::tests::memory_identity_architecture::",
-        "runtime_v2::tests::private_state_observatory::",
-        "runtime_v2::tests::observatory_flagship::",
-    ]
-    required_slow_runner_fragments = [
-        'family_id == "all"',
-        "module_selectors",
-        'command_run=(cargo nextest run --lib --features "$feature" -E "$filter_expression")',
-        "--partition",
-    ]
-    required_coverage_impact_fragments = [
-        "adl/src/runtime_v2/private_state_observatory.rs",
-        "private_state_observatory",
-    ]
-    required_coverage_impact_contract_fragments = [
-        "private-state-observatory-changed.txt",
-        "private_state_observatory",
-    ]
-    required_slow_contract_fragments = [
-        "all-family slow-proof filter missing selector",
-        "all-family slow-proof run must not use the broad runtime_v2_ substring filter",
-        "slow runtime_v2 module is not gated",
-    ]
-    required_runtime_test_fragments = [
-        'feature = "slow-proof-runtime"',
-        'feature = "slow-proof-private-state"',
-        'feature = "slow-proof-observatory"',
-        "mod governed_learning_substrate;",
-        "mod intelligence_metric_architecture;",
-        "mod memory_identity_architecture;",
-        "mod private_state_observatory;",
-        "mod observatory_flagship;",
-    ]
-    required_manager_fragments = [
-        "release_gate_slow_proof_pr_fanout_disposition",
-        "slow_proof_pr_fanout_workflow_disposition(changed_paths)",
-        'node["status"] = "disposition_recorded"',
-    ]
-    required_manager_contract_fragments = [
-        "slow-proof-workflow.txt",
-        "pr_publication_sufficient",
-        "disposition_recorded",
-    ]
-    return (
-        all(fragment in workflow for fragment in required_workflow_fragments)
-        and all(fragment in contract for fragment in required_contract_fragments)
-        and all(fragment in slow_config for fragment in required_slow_config_fragments)
-        and all(fragment in coverage_impact for fragment in required_coverage_impact_fragments)
-        and all(fragment in coverage_impact_contract for fragment in required_coverage_impact_contract_fragments)
-        and all(fragment in slow_runner for fragment in required_slow_runner_fragments)
-        and all(fragment in slow_contract for fragment in required_slow_contract_fragments)
-        and all(fragment in runtime_tests for fragment in required_runtime_test_fragments)
-        and all(fragment in manager for fragment in required_manager_fragments)
-        and all(fragment in manager_contract for fragment in required_manager_contract_fragments)
-    )
-
-
 def build_profile(plan: dict[str, Any], guardrails: dict[str, Any], manifest_path: Path, *, slow_proof_families_path: Path = SLOW_PROOF_FAMILIES) -> dict[str, Any]:
     slow_proof_config = load_slow_proof_families(slow_proof_families_path)
     slow_proof_families = slow_proof_config.get("families", [])
@@ -467,37 +357,6 @@ def build_profile(plan: dict[str, Any], guardrails: dict[str, Any], manifest_pat
         for lane_id, lane in lanes.items()
         if lane.get("status") in {"escalated", "release_gate_required"}
     ]
-    blocked_lane_ids = {lane_id for lane_id, _lane in blocked}
-    rust_lane_for_disposition = lanes.get("rust_pr_fast")
-    slow_proof_contract_only_disposition = (
-        blocked_lane_ids <= {"rust_pr_fast", "slow_proof_review", "release_gate_review"}
-        and "rust_pr_fast" in blocked_lane_ids
-        and "slow_proof_review" in blocked_lane_ids
-        and isinstance(rust_lane_for_disposition, dict)
-        and str(rust_lane_for_disposition.get("mode", "")).strip() == "contract_only"
-        and str(rust_lane_for_disposition.get("reason", "")).strip()
-        == "slow_proof_inventory_change_covered_by_contract_check"
-    )
-    release_gate_slow_proof_pr_fanout_disposition = (
-        bool(blocked_lane_ids)
-        and blocked_lane_ids <= {"release_gate_review", "slow_proof_review", "rust_pr_fast"}
-        and "release_gate_review" in blocked_lane_ids
-        and slow_proof_pr_fanout_workflow_disposition(changed_paths)
-    )
-    soft_disposition_recorded = (
-        (
-            slow_proof_contract_only_disposition
-            and (
-                "release_gate_review" not in blocked_lane_ids
-                or release_gate_slow_proof_pr_fanout_disposition
-            )
-        )
-        or (
-            release_gate_slow_proof_pr_fanout_disposition
-            and blocked_lane_ids <= {"release_gate_review", "slow_proof_review"}
-        )
-    )
-    effective_blocked = [] if soft_disposition_recorded else blocked
 
     run = []
     behavior_surfaces = []
@@ -560,7 +419,7 @@ def build_profile(plan: dict[str, Any], guardrails: dict[str, Any], manifest_pat
     )
 
     escalation_required = (
-        bool(effective_blocked)
+        bool(blocked)
         or len(selected) > selected_lane_limit
         or unmapped_change_gap
     )
@@ -568,17 +427,6 @@ def build_profile(plan: dict[str, Any], guardrails: dict[str, Any], manifest_pat
     for lane_id, lane in blocked:
         behavior = lane_behavior_surface(lane_id, lane)
         behavior_surfaces.append(behavior)
-        if (
-            slow_proof_contract_only_disposition
-            and lane_id in {"rust_pr_fast", "slow_proof_review"}
-        ) or (
-            release_gate_slow_proof_pr_fanout_disposition
-            and lane_id in {"release_gate_review", "slow_proof_review"}
-        ):
-            node = validation_dag_node(lane_id, lane, behavior["id"])
-            node["status"] = "disposition_recorded"
-            dag_nodes.append(node)
-            continue
         dag_nodes.append(validation_dag_node(lane_id, lane, behavior["id"]))
         manifest_rule = manifest_rule_for(lane)
         matched_paths = lane.get("matched_paths", [])
@@ -681,9 +529,7 @@ def build_profile(plan: dict[str, Any], guardrails: dict[str, Any], manifest_pat
         filter_tokens = split_csv(rust_lane.get("filter_tokens", ""))
         mode = str(rust_lane.get("mode", "")).strip()
         matched_paths = rust_lane.get("matched_paths", [])
-        if mode in pr_fast_guardrails["blocked_modes"] and not (
-            slow_proof_contract_only_disposition and mode == "contract_only"
-        ):
+        if mode in pr_fast_guardrails["blocked_modes"]:
             escalation_required = True
             add_diagnostic(
                 diagnostics,
@@ -771,11 +617,11 @@ def build_profile(plan: dict[str, Any], guardrails: dict[str, Any], manifest_pat
         status = "no_validation_needed"
     elif escalation_required:
         status = "escalation_required"
-    elif plan.get("aggregate_status") != "selected" and not soft_disposition_recorded:
+    elif plan.get("aggregate_status") != "selected":
         status = "not_runnable"
 
     pr_publication_sufficient = (
-        (bool(plan.get("pr_publication_sufficient")) or soft_disposition_recorded)
+        bool(plan.get("pr_publication_sufficient"))
         and not unmapped_change_gap
         and not escalation_required
         and status == "ready_to_run"
@@ -818,7 +664,7 @@ def build_profile(plan: dict[str, Any], guardrails: dict[str, Any], manifest_pat
             }
             for family in slow_proof_families
         ],
-        "estimated_cost": estimate_cost(selected, effective_blocked),
+        "estimated_cost": estimate_cost(selected, blocked),
         "escalation": {
             "required": escalation_required,
             "reasons": escalation_reasons,

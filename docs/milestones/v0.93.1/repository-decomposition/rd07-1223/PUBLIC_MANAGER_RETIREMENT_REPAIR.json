@@ -1,0 +1,37 @@
+{
+  "schema": "adl.rd07.public-manager-retirement.v1",
+  "issue": 1223,
+  "source_base": "a23cf1a817d42511dd5c67edd662ce09a2a192c8",
+  "files": [
+    {
+      "path": "adl/tools/validation_manager.py",
+      "sha256": "79298ad2e9fa4e4bcb225049646174d8578464b2a66ded72d2f2f3d460db27f1"
+    },
+    {
+      "path": "tools/public_adl/test_validation_interfaces.py",
+      "sha256": "fc0ac0b86b038bd41d1b6fa610e6e30345f6cbf7165425a4d49605d69c2e97fc"
+    }
+  ],
+  "change": "Remove private slow-proof soft-disposition bypasses and their direct source reads; nonempty historical slow-family manifests refuse before command generation. Blocked lanes remain escalation, non-runnable and not publication-sufficient.",
+  "validation": {
+    "command": "TMPDIR=/Volumes/FastWork/c1223/public-manager-retirement/tmp python3 -B tools/public_adl/test_validation_interfaces.py",
+    "result": "10 tests PASS",
+    "seconds": 2.775,
+    "initial_failure": "First run failed due remaining estimate_cost reference to removed effective_blocked; fixed to blocked before passing rerun.",
+    "negative_cases": [
+      "historical fanout disposition with private source absent",
+      "contract-only soft disposition cannot waive blocked lanes",
+      "caller-selected nonempty historical slow-family config refuses"
+    ]
+  },
+  "independent_review": {
+    "reviewer": "review_1223_public_facade",
+    "result": "no actionable findings"
+  },
+  "pvf": "Existing deterministic offline local_contract required public-routing gate; no Cargo/provider/cloud execution",
+  "limits": [
+    "Does not qualify original private product suites",
+    "Historical test_validation_manager and inventory companion disposition remains separate",
+    "No original file removal authorized by this caller repair"
+  ]
+}
