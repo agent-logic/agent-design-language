@@ -6,17 +6,17 @@
   "execution_authorized": false,
   "original_count": 4134,
   "counts": {
-    "hold_explicit_reconciliation": 349,
+    "hold_explicit_reconciliation": 279,
     "hold_missing_successor_operational_command": 2,
     "hold_owner_test_reconciliation": 35,
     "preserve_approved_removal": 70,
     "preserve_reviewed_consumer_repair": 17,
-    "proposed_owner_transfer_with_consumer_qualification": 355,
+    "proposed_owner_transfer_with_consumer_qualification": 423,
     "proposed_remove_construction_qualified_infrastructure": 216,
     "proposed_remove_with_entire_source_family": 1874,
     "proposed_remove_with_entire_tool_family": 719,
     "retain_public_source_or_fixture": 68,
-    "retain_resolved": 429
+    "retain_resolved": 431
   },
   "additional_current_source_paths": 19,
   "preservation": "Original inventory and baseline archive unchanged;70 prior approved removals preserved; no new deletion applied",
@@ -82491,14 +82491,20 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Keep an ADL navigation bridge for retained authority/history readers, directing operational use to the selected installed csdlc help/man pages and the reviewed documentation of that exact owner release. Retarget active CURRENT_AUTHORITY.md links (PULL_REQUEST_MERGE at13, INTENT_COMMANDS at49) and links among transferred guides. Preserve historical ADR/receipt references through immutable source or a durable historical link; do not rewrite old evidence. Owner acceptance must resolve any changed mapping before local removal."
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -82540,9 +82546,10 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Keep an ADL navigation bridge for retained authority/history readers, directing operational use to the selected installed csdlc help/man pages and the reviewed documentation of that exact owner release. Retarget active CURRENT_AUTHORITY.md links (PULL_REQUEST_MERGE at13, INTENT_COMMANDS at49) and links among transferred guides. Preserve historical ADR/receipt references through immutable source or a durable historical link; do not rewrite old evidence. Owner acceptance must resolve any changed mapping before local removal.",
+        "reconcile-history is a transition-owner procedure. Keep its no-new-authority/no-cleanup boundary; do not advertise it as an ordinary issue lifecycle command or infer operational availability from its copied guide."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -82550,6 +82557,12 @@
         "exact_successor_paths": [
           "docs/csdlc-v3/HISTORICAL_COPY_RECONCILIATION.md"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -82563,14 +82576,20 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Keep an ADL navigation bridge for retained authority/history readers, directing operational use to the selected installed csdlc help/man pages and the reviewed documentation of that exact owner release. Retarget active CURRENT_AUTHORITY.md links (PULL_REQUEST_MERGE at13, INTENT_COMMANDS at49) and links among transferred guides. Preserve historical ADR/receipt references through immutable source or a durable historical link; do not rewrite old evidence. Owner acceptance must resolve any changed mapping before local removal."
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -82584,9 +82603,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Keep an ADL navigation bridge for retained authority/history readers, directing operational use to the selected installed csdlc help/man pages and the reviewed documentation of that exact owner release. Retarget active CURRENT_AUTHORITY.md links (PULL_REQUEST_MERGE at13, INTENT_COMMANDS at49) and links among transferred guides. Preserve historical ADR/receipt references through immutable source or a durable historical link; do not rewrite old evidence. Owner acceptance must resolve any changed mapping before local removal."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -82594,6 +82613,12 @@
         "exact_successor_paths": [
           "docs/csdlc-v3/NO_PR_CLOSEOUT.md"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -82607,14 +82632,20 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Keep an ADL navigation bridge for retained authority/history readers, directing operational use to the selected installed csdlc help/man pages and the reviewed documentation of that exact owner release. Retarget active CURRENT_AUTHORITY.md links (PULL_REQUEST_MERGE at13, INTENT_COMMANDS at49) and links among transferred guides. Preserve historical ADR/receipt references through immutable source or a durable historical link; do not rewrite old evidence. Owner acceptance must resolve any changed mapping before local removal."
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -82628,9 +82659,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Keep an ADL navigation bridge for retained authority/history readers, directing operational use to the selected installed csdlc help/man pages and the reviewed documentation of that exact owner release. Retarget active CURRENT_AUTHORITY.md links (PULL_REQUEST_MERGE at13, INTENT_COMMANDS at49) and links among transferred guides. Preserve historical ADR/receipt references through immutable source or a durable historical link; do not rewrite old evidence. Owner acceptance must resolve any changed mapping before local removal."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -82638,6 +82669,12 @@
         "exact_successor_paths": [
           "docs/csdlc-v3/PULL_REQUEST_MERGE.md"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -82693,9 +82730,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer with owner code/tests, not as a prose-only deletion. Resolve commands/contract.rs include of v3-command-manifest.json and command_manifest.rs/operator_man_pages.rs/support/validate_intent_content_schema.py readers under the existing test/source cutover. Do not substitute a navigation page for a JSON schema or compiled manifest."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -82703,6 +82740,12 @@
         "exact_successor_paths": [
           "docs/csdlc-v3/command-result.schema.json"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -82758,14 +82801,21 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer with owner code/tests, not as a prose-only deletion. Resolve commands/contract.rs include of v3-command-manifest.json and command_manifest.rs/operator_man_pages.rs/support/validate_intent_content_schema.py readers under the existing test/source cutover. Do not substitute a navigation page for a JSON schema or compiled manifest.",
+        "Preserve the published schema $id at line3 until the owner explicitly accepts its stable identifier/compatibility and any actual URL hosting/redirect obligation. A $id is not proof that the URL currently serves content. Retain compatibility schema bytes where a retained reader requires them; no blanket URL rewrite."
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -82779,9 +82829,10 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer with owner code/tests, not as a prose-only deletion. Resolve commands/contract.rs include of v3-command-manifest.json and command_manifest.rs/operator_man_pages.rs/support/validate_intent_content_schema.py readers under the existing test/source cutover. Do not substitute a navigation page for a JSON schema or compiled manifest.",
+        "Preserve the published schema $id at line3 until the owner explicitly accepts its stable identifier/compatibility and any actual URL hosting/redirect obligation. A $id is not proof that the URL currently serves content. Retain compatibility schema bytes where a retained reader requires them; no blanket URL rewrite."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -82789,6 +82840,12 @@
         "exact_successor_paths": [
           "docs/csdlc-v3/issue-edit.schema.json"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -82802,14 +82859,20 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -82823,9 +82886,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -82833,6 +82896,12 @@
         "exact_successor_paths": [
           "docs/csdlc-v3/man/examples/clean.json"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -82846,9 +82915,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -82856,6 +82925,12 @@
         "exact_successor_paths": [
           "docs/csdlc-v3/man/examples/cutover.json"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -82869,9 +82944,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -82879,6 +82954,12 @@
         "exact_successor_paths": [
           "docs/csdlc-v3/man/examples/finish-primary.json"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -82892,9 +82973,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -82902,6 +82983,12 @@
         "exact_successor_paths": [
           "docs/csdlc-v3/man/examples/finish.json"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -82915,9 +83002,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -82925,6 +83012,12 @@
         "exact_successor_paths": [
           "docs/csdlc-v3/man/examples/install.json"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -82938,9 +83031,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -82948,6 +83041,12 @@
         "exact_successor_paths": [
           "docs/csdlc-v3/man/examples/local.json"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -82961,9 +83060,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -82971,6 +83070,12 @@
         "exact_successor_paths": [
           "docs/csdlc-v3/man/examples/merge.json"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -82984,9 +83089,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -82994,6 +83099,12 @@
         "exact_successor_paths": [
           "docs/csdlc-v3/man/examples/mutation.json"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -83007,9 +83118,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -83017,6 +83128,12 @@
         "exact_successor_paths": [
           "docs/csdlc-v3/man/examples/pr-create.json"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -83030,9 +83147,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -83040,6 +83157,12 @@
         "exact_successor_paths": [
           "docs/csdlc-v3/man/examples/proof.json"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -83053,9 +83176,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -83063,6 +83186,12 @@
         "exact_successor_paths": [
           "docs/csdlc-v3/man/examples/release.json"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -83076,9 +83205,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -83086,6 +83215,12 @@
         "exact_successor_paths": [
           "docs/csdlc-v3/man/examples/remote.json"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -83099,9 +83234,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -83109,6 +83244,12 @@
         "exact_successor_paths": [
           "docs/csdlc-v3/man/examples/review.json"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -83122,9 +83263,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -83132,6 +83273,12 @@
         "exact_successor_paths": [
           "docs/csdlc-v3/man/examples/rollback.json"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -83145,9 +83292,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -83156,6 +83303,12 @@
           "docs/csdlc-v3/man/examples/shadow.json",
           "docs/csdlc-v3/man/examples/soak.json"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -83169,9 +83322,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -83180,6 +83333,12 @@
           "docs/csdlc-v3/man/examples/shadow.json",
           "docs/csdlc-v3/man/examples/soak.json"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -83193,9 +83352,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -83203,6 +83362,12 @@
         "exact_successor_paths": [
           "docs/csdlc-v3/man/examples/sprint.json"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -83216,9 +83381,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -83226,6 +83391,12 @@
         "exact_successor_paths": [
           "docs/csdlc-v3/man/examples/typed-review.json"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -83239,14 +83410,20 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_current_source_changes_not_covered_by_frozen_rollback",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -83260,9 +83437,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -83270,6 +83447,12 @@
         "exact_successor_paths": [
           "docs/csdlc-v3/man/man1/csdlc-bind.1"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -83283,9 +83466,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -83293,6 +83476,12 @@
         "exact_successor_paths": [
           "docs/csdlc-v3/man/man1/csdlc-clean.1"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -83306,9 +83495,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -83316,6 +83505,12 @@
         "exact_successor_paths": [
           "docs/csdlc-v3/man/man1/csdlc-cutover.1"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -83329,9 +83524,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -83339,6 +83534,12 @@
         "exact_successor_paths": [
           "docs/csdlc-v3/man/man1/csdlc-doctor.1"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -83352,14 +83553,20 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -83373,9 +83580,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -83383,6 +83590,12 @@
         "exact_successor_paths": [
           "docs/csdlc-v3/man/man1/csdlc-eligibility.1"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -83396,14 +83609,20 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_current_source_changes_not_covered_by_frozen_rollback",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -83417,9 +83636,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -83427,6 +83646,12 @@
         "exact_successor_paths": [
           "docs/csdlc-v3/man/man1/csdlc-foundation.1"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -83440,9 +83665,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -83450,6 +83675,12 @@
         "exact_successor_paths": [
           "docs/csdlc-v3/man/man1/csdlc-github-issue.1"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -83463,9 +83694,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -83473,6 +83704,12 @@
         "exact_successor_paths": [
           "docs/csdlc-v3/man/man1/csdlc-github-pr.1"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -83486,9 +83723,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -83496,6 +83733,12 @@
         "exact_successor_paths": [
           "docs/csdlc-v3/man/man1/csdlc-github.1"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -83509,9 +83752,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -83519,6 +83762,12 @@
         "exact_successor_paths": [
           "docs/csdlc-v3/man/man1/csdlc-install.1"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -83532,9 +83781,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -83542,6 +83791,12 @@
         "exact_successor_paths": [
           "docs/csdlc-v3/man/man1/csdlc-issue.1"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -83555,9 +83810,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -83565,6 +83820,12 @@
         "exact_successor_paths": [
           "docs/csdlc-v3/man/man1/csdlc-local.1"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -83578,9 +83839,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -83588,6 +83849,12 @@
         "exact_successor_paths": [
           "docs/csdlc-v3/man/man1/csdlc-pr-state.1"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -83601,14 +83868,20 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -83622,14 +83895,20 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -83643,9 +83922,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -83653,6 +83932,12 @@
         "exact_successor_paths": [
           "docs/csdlc-v3/man/man1/csdlc-publish.1"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -83666,9 +83951,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -83676,6 +83961,12 @@
         "exact_successor_paths": [
           "docs/csdlc-v3/man/man1/csdlc-rebuild.1"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -83689,14 +83980,20 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -83710,9 +84007,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -83720,6 +84017,12 @@
         "exact_successor_paths": [
           "docs/csdlc-v3/man/man1/csdlc-release-preflight.1"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -83733,9 +84036,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -83743,6 +84046,12 @@
         "exact_successor_paths": [
           "docs/csdlc-v3/man/man1/csdlc-remote.1"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -83756,14 +84065,20 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_current_source_changes_not_covered_by_frozen_rollback",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -83777,9 +84092,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -83787,6 +84102,12 @@
         "exact_successor_paths": [
           "docs/csdlc-v3/man/man1/csdlc-review.1"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -83800,9 +84121,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -83810,6 +84131,12 @@
         "exact_successor_paths": [
           "docs/csdlc-v3/man/man1/csdlc-rollback.1"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -83823,9 +84150,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -83833,6 +84160,12 @@
         "exact_successor_paths": [
           "docs/csdlc-v3/man/man1/csdlc-schedule.1"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -83846,9 +84179,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -83856,6 +84189,12 @@
         "exact_successor_paths": [
           "docs/csdlc-v3/man/man1/csdlc-shadow.1"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -83869,9 +84208,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -83879,6 +84218,12 @@
         "exact_successor_paths": [
           "docs/csdlc-v3/man/man1/csdlc-shepherd.1"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -83892,9 +84237,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -83902,6 +84247,12 @@
         "exact_successor_paths": [
           "docs/csdlc-v3/man/man1/csdlc-soak.1"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -83915,9 +84266,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -83925,6 +84276,12 @@
         "exact_successor_paths": [
           "docs/csdlc-v3/man/man1/csdlc-sprint.1"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -83938,9 +84295,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -83948,6 +84305,12 @@
         "exact_successor_paths": [
           "docs/csdlc-v3/man/man1/csdlc-status.1"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -83961,9 +84324,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -83971,6 +84334,12 @@
         "exact_successor_paths": [
           "docs/csdlc-v3/man/man1/csdlc-validate.1"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -83984,14 +84353,20 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -84005,14 +84380,20 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -84026,14 +84407,20 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_current_source_changes_not_covered_by_frozen_rollback",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -84047,14 +84434,20 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -84068,9 +84461,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -84078,6 +84471,12 @@
         "exact_successor_paths": [
           "docs/csdlc-v3/man/render.py"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -84091,14 +84490,20 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -84210,14 +84615,20 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer with owner code/tests, not as a prose-only deletion. Resolve commands/contract.rs include of v3-command-manifest.json and command_manifest.rs/operator_man_pages.rs/support/validate_intent_content_schema.py readers under the existing test/source cutover. Do not substitute a navigation page for a JSON schema or compiled manifest."
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -86916,15 +87327,22 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "retain_resolved",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Retain ADL-specific canonical-source, one-way/no-delete mirror, approved credential-source, repository seed/readback and configured destination policy (lines3,13\u201324,39\u201354). Replace source-era install/test instructions (7,61\u201363) with Runtime148 accepted package/entrypoint documentation after delivery acceptance; link current Runtime command behavior rather than importing its implementation. Keep RD07-0402/0432 operational-command dependency visible; this proposal does not declare Runtime148 publication, installed acceptance or live Drive qualification."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "retain_adl_policy_with_runtime_navigation_repair",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      },
+      "reason": "retain_adl_policy_with_runtime_navigation_repair"
     },
     {
       "id": "RD07-3718",
@@ -87508,12 +87926,18 @@
       "hold_reason": "hold_no_proven_current_successor_mapping",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Retain the collector/privacy/archive guide until an accepted command owner or explicit retirement decision exists for adl tooling issue-resource-telemetry collect/archive. Preserve redaction and private-evidence rules; archive --upload is an effectful optional operation, not authorized by this document disposition. No same-path guide exists at inspected C-SDLC c0dacd3d."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "hold_specific_missing_owner_contract",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -88030,12 +88454,18 @@
       "hold_reason": "hold_no_proven_current_successor_mapping",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Retain ADL milestone WBS/SPRINT planning semantics and docs/tooling/README.md:109 navigation. Obtain an accepted owner command/guide for deterministic issue-wave derivation or explicitly retire the command with historical labeling; remove source-era cargo examples only in that concrete repair. No same-path guide exists at inspected C-SDLC c0dacd3d; lack of mapping does not authorize a newly invented replacement."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "hold_specific_missing_owner_contract",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -88625,12 +89055,18 @@
       "hold_reason": "hold_no_proven_current_successor_mapping",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Obtain owner acceptance/migration of the exact completed-Publish transport-recovery contract, including authenticated matching, no semantic-history reopening, no new retry budget, and refusal on ambiguity (lines19\u201332). No same-path guide exists at inspected C-SDLC c0dacd3d. Keep this bounded recovery guidance until an installed-owner reference covers the behavior; generic recover help is not assumed equivalent."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "hold_specific_missing_owner_contract",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
       }
     },
     {
@@ -88770,15 +89206,22 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "retain_resolved",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Retain ADL VPP lane identifiers/schema and historical generated-card references. This is an ADL project validation policy (source_registry line5), not a universal C-SDLC command manual. Reconcile default_validation entries for prompt_template/tooling/owner_binary/runtime with accepted ADL facade or explicit owner proof contracts before their adl/tools targets retire. Hand off these caller repairs to the existing tool-group owner; do not silently preserve unavailable source tests or substitute owner execution for ADL consumer proof."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "retain_adl_lane_registry_with_caller_repair",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      },
+      "reason": "retain_adl_lane_registry_with_caller_repair"
     },
     {
       "id": "RD07-3832",

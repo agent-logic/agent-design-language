@@ -78789,11 +78789,16 @@
         "e69300f6c5218b8f3076cab8161fc03c36a91678"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_adl_policy_with_runtime_navigation_repair",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "CSDLC_73_DOCUMENT_DISPOSITIONS.json: RD07-3717",
+        "Retain ADL-specific canonical-source, one-way/no-delete mirror, approved credential-source, repository seed/readback and configured destination policy (lines3,13\u201324,39\u201354). Replace source-era install/test instructions (7,61\u201363) with Runtime148 accepted package/entrypoint documentation after delivery acceptance; link current Runtime command behavior rather than importing its implementation. Keep RD07-0402/0432 operational-command dependency visible; this proposal does not declare Runtime148 publication, installed acceptance or live Drive qualification."
+      ]
     },
     {
       "id": "RD07-3718",
@@ -81565,11 +81570,16 @@
         "6ff8cf7110227b8809a3842b7952a35b82ebefe3"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_adl_lane_registry_with_caller_repair",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "CSDLC_73_DOCUMENT_DISPOSITIONS.json: RD07-3831",
+        "Retain ADL VPP lane identifiers/schema and historical generated-card references. This is an ADL project validation policy (source_registry line5), not a universal C-SDLC command manual. Reconcile default_validation entries for prompt_template/tooling/owner_binary/runtime with accepted ADL facade or explicit owner proof contracts before their adl/tools targets retire. Hand off these caller repairs to the existing tool-group owner; do not silently preserve unavailable source tests or substitute owner execution for ADL consumer proof."
+      ]
     },
     {
       "id": "RD07-3832",
@@ -88174,5 +88184,5 @@
   "previous_observed_main": "f1493c54e4d9f6c5a1da798f48d9f2c361033fa4",
   "consumer_reference_repair_count": 6,
   "approved_component_removal_count": 36,
-  "resolved_retention_count": 429
+  "resolved_retention_count": 431
 }
