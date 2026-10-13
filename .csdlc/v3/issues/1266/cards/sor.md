@@ -57,7 +57,7 @@ Repair authenticated replay of historical external closeout after the consumer c
 - Goal metrics source ref: `<actual_metrics_source_ref>`
 - Data-source confidence: `<actual_metrics_confidence>`
 - Estimate error percent: `<estimate_error_percent>`
-- Completion state: `implementation_validated_pending_review_and_publication`
+- Completion state: `implementation_validated_pending_exact_head_review_and_publication`
 - Issue goal ref: `<issue_goal_ref>`
 - Sprint goal ref: `<sprint_goal_ref>`
 - Goal metrics rollup ref: `<goal_metrics_rollup_ref>`
@@ -76,12 +76,12 @@ Repair authenticated replay of historical external closeout after the consumer c
 ## Artifacts produced
 - Local ignored output-card scaffold at `<output_card>`
 - Tracked implementation artifacts: `csdlc-v3/src/application/intent/terminal.rs; csdlc-v3/tests/installed_intent_commands.rs; .csdlc/evidence/1266/*.json`
-- Additional proof artifacts: `.csdlc/evidence/1266/v0931-consumer-denominator.v1.json; .csdlc/evidence/1266/infrastructure-reconciliation.v1.json`
+- Additional proof artifacts: `.csdlc/evidence/1266/v0931-consumer-denominator.v1.json; .csdlc/evidence/1266/preexisting-terminal-receipts.v1.json; .csdlc/evidence/1266/consumer-authority-observations.v1.json; .csdlc/evidence/1266/infrastructure-reconciliation.v1.json`
 
 ## Actions taken
 - `Retain the immutable closing PR head when replaying a valid legacy merged terminal receipt after the invoking checkout advances.`
 - `Cross-check receipt schema, repository, issue, PR, head, publication repository and disposition against the digest-bound terminal state before authenticated replay.`
-- `Reconciled Infrastructure #26 canonically; preserved Infrastructure #27's stale bound semantic authority as a fail-closed residual instead of bypassing it.`
+- `Reconciled both eligible Infrastructure issues canonically and preserved all 35 pre-existing terminal receipts byte-identically.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none`
@@ -110,7 +110,7 @@ Rules:
   - `cargo test --manifest-path csdlc-v3/Cargo.toml --test installed_intent_commands external_pr_finish -- --nocapture; cargo check --manifest-path csdlc-v3/Cargo.toml --all-targets; cargo clippy --manifest-path csdlc-v3/Cargo.toml --all-targets -- -D warnings; git diff --check`
     `Proves external recordless closeout admission, fail-closed conflicts and receipt/state identity tamper rejection, replay after checkout advance, compilation, lint and diff hygiene.`
 - Results:
-  - `Focused external-pr tests passed before the review repair; fresh validation required after receipt/state identity checks are added.`
+  - `Focused external-pr tests passed 2/2; formatting, strict clippy, JSON validation and diff hygiene passed after complete-denominator evidence was recorded.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -123,7 +123,7 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: in_progress
+    status: passed
     checks_run:
       - "<verification_check_1>"
   determinism:
@@ -136,8 +136,8 @@ verification_summary:
     prompt_or_tool_arg_leakage_detected: false
     absolute_path_leakage_detected: false
   artifacts:
-    status: partial
-    required_artifacts_present: false
+    status: passed
+    required_artifacts_present: true
     schema_changes:
       present: <verification_schema_changes_present>
       approved: <verification_schema_changes_approved>
@@ -163,8 +163,8 @@ verification_summary:
 - Replay result: `<replay_result>`
 
 ## Artifact Verification
-- Primary proof surface: `.csdlc/evidence/1266/infrastructure-reconciliation.v1.json`
-- Required artifacts present: `partial`
+- Primary proof surface: `.csdlc/evidence/1266/v0931-consumer-denominator.v1.json`
+- Required artifacts present: `true`
 - Artifact schema/version checks: `<artifact_schema_checks>`
 - Hash/byte-stability checks: `<hash_byte_stability_checks>`
 - Missing/optional artifacts and rationale: `<missing_optional_artifacts_rationale>`
@@ -174,5 +174,5 @@ verification_summary:
 - `<decision_or_deviation_2>`
 
 ## Follow-ups / Deferred work
-- `Reconcile Infrastructure #27's bound semantic authority through its native controller; do not bypass or delete the binding.`
-- `Obtain fresh exact-head review, publish, and require green CI before merge authority is considered.`
+- `Obtain fresh exact-head independent review and record its disposition through the native review route.`
+- `Publish the reviewed exact head and require green CI; do not merge without separate authority.`
