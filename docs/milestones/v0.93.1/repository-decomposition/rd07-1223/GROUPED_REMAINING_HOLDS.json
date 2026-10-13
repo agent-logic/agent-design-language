@@ -1,9 +1,9 @@
 {
   "schema": "adl.source_retirement.grouped_holds.v1",
-  "source_head": "2a392518dd0afd4b8eb239e561ef4591bdb604b8",
-  "ledger_sha256": "6f86f589792f09ee824231a39d36d3a761762ba66ee48af858daf169b03864c8",
+  "source_head": "bc3324635521987bd0c9315b1c62459c4f1d3578",
+  "ledger_sha256": "591ae3776b28c0ddfd724ba8e333b296b6d2eb1c16504296c515c338f73374ba",
   "original_count": 4134,
-  "held_count": 124,
+  "held_count": 114,
   "additional_paths_separate": 22,
   "execution_authorized": false,
   "boundary": "Grouping preserves every original row and prerequisite verbatim. It does not resolve holds, authorize removal, or imply full issue readiness. Other proposed removals remain conditional.",
@@ -2157,95 +2157,10 @@
     {
       "id": "validation-remainder",
       "title": "Remaining ADL validation routing",
-      "count": 25,
+      "count": 15,
       "next_action": "After reviewed caller cutover, reconcile each retained runner, selector, coverage/PVF policy and configuration against five public packages and original assertions. Retain historical private lanes explicitly; do not silently drop inventory rows.",
       "evidence": [],
       "rows": [
-        {
-          "id": "RD07-0322",
-          "path": "adl/.config/nextest.toml",
-          "owner": "agent-logic-infrastructure",
-          "component": "agent-logic-infrastructure-other-consumers",
-          "current_identity": {
-            "mode": "100644",
-            "blob": "425dd17e5efa4ce2a27bc03af164449542627a4e"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "Retain exact paths with ADL CI owner until replacement CI contract removes or redirects current calls and preserves surviving tests. Classify source-policy tests together with their runners; no transfer based on copy alone."
-          ],
-          "successor_mapping": {
-            "mapping": "exact_successor",
-            "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
-            "exact_successor_paths": [
-              "adl/.config/nextest.toml"
-            ]
-          },
-          "reviewed_disposition": {
-            "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
-            "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
-            "proposal": "retain_adl_ci_contract_pending_explicit_ci_cutover",
-            "family": "ADL repository CI and coverage control",
-            "review": {
-              "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
-              "fixed_ids": [
-                "RD07-2243",
-                "RD07-1483"
-              ],
-              "other_findings": 0
-            }
-          }
-        },
-        {
-          "id": "RD07-0327",
-          "path": "adl/config/slow_proof_families.v0.91.6.json",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-other-consumers",
-          "current_identity": {
-            "mode": "100644",
-            "blob": "8e0e864bc5eb93baa4d90b5922e47b342388d2a8"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_no_proven_current_successor_mapping",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "specific_consumer_or_document_disposition_required"
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          }
-        },
-        {
-          "id": "RD07-1267",
-          "path": "adl/tools/check_coverage_impact.sh",
-          "owner": "agent-logic-runtime",
-          "component": "agent-logic-runtime-active-tool-contracts",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "b366a3821f0b996955dfc892bc42b47d3b63a419"
-          },
-          "existing_action": "retain",
-          "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "Coverage guard invoked by ADL ci.yaml444/1447/1796/1818 and merge readiness policy42; not Runtime-only ownership. Public coverage cutover must preserve required coverage outcomes."
-          ],
-          "successor_mapping": {
-            "mapping": "same_path_changed",
-            "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
-            "exact_successor_paths": []
-          },
-          "reviewed_disposition": {
-            "packet": "RUNTIME_4_TOOL_DISPOSITIONS.json",
-            "packet_sha256": "c34decfbb256f52049b17ffbada76497eb857c2d4d52a528293e90cb99007a60",
-            "proposal": "retain_ADL_CI_consumer_until_public_CI_cutover",
-            "review": "Source specialist and root finite-disposition review; no execution or owner acceptance inferred"
-          }
-        },
         {
           "id": "RD07-1278",
           "path": "adl/tools/codefriend/ci_select.py",
@@ -2305,43 +2220,6 @@
           }
         },
         {
-          "id": "RD07-1473",
-          "path": "adl/tools/run_authoritative_coverage_lane.sh",
-          "owner": "agent-logic-infrastructure",
-          "component": "agent-logic-infrastructure-active-tool-contracts",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "86522bed74536718197dac34d3b55dfe601b78e8"
-          },
-          "existing_action": "retain",
-          "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "Retain exact paths with ADL CI owner until replacement CI contract removes or redirects current calls and preserves surviving tests. Classify source-policy tests together with their runners; no transfer based on copy alone."
-          ],
-          "successor_mapping": {
-            "mapping": "exact_successor",
-            "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
-            "exact_successor_paths": [
-              "adl/tools/run_authoritative_coverage_lane.sh"
-            ]
-          },
-          "reviewed_disposition": {
-            "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
-            "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
-            "proposal": "retain_adl_ci_contract_pending_explicit_ci_cutover",
-            "family": "ADL repository CI and coverage control",
-            "review": {
-              "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
-              "fixed_ids": [
-                "RD07-2243",
-                "RD07-1483"
-              ],
-              "other_findings": 0
-            }
-          }
-        },
-        {
           "id": "RD07-1490",
           "path": "adl/tools/run_issue607_warm_polis.sh",
           "owner": "cognitive-sdlc",
@@ -2366,80 +2244,6 @@
             "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
             "proposal": "specific_family_reconciliation",
             "reason": "Mixed Runtime/Infrastructure manual family with2021: pinned artifact manifest, gpu-proof warm-storage/preparation Terraform and control-wait/checkpoint/recovery assertions."
-          }
-        },
-        {
-          "id": "RD07-1498",
-          "path": "adl/tools/run_pr_fast_test_lane.sh",
-          "owner": "agent-logic-infrastructure",
-          "component": "agent-logic-infrastructure-active-tool-contracts",
-          "current_identity": {
-            "mode": "100644",
-            "blob": "9a929c1953ff7682bb23fe1d6eec0f69493fdd0b"
-          },
-          "existing_action": "retain",
-          "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "Retain exact paths with ADL CI owner until replacement CI contract removes or redirects current calls and preserves surviving tests. Classify source-policy tests together with their runners; no transfer based on copy alone."
-          ],
-          "successor_mapping": {
-            "mapping": "exact_successor",
-            "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
-            "exact_successor_paths": [
-              "adl/tools/run_pr_fast_test_lane.sh"
-            ]
-          },
-          "reviewed_disposition": {
-            "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
-            "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
-            "proposal": "retain_adl_ci_contract_pending_explicit_ci_cutover",
-            "family": "ADL repository CI and coverage control",
-            "review": {
-              "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
-              "fixed_ids": [
-                "RD07-2243",
-                "RD07-1483"
-              ],
-              "other_findings": 0
-            }
-          }
-        },
-        {
-          "id": "RD07-1503",
-          "path": "adl/tools/run_slow_proof_family.sh",
-          "owner": "agent-logic-infrastructure",
-          "component": "agent-logic-infrastructure-active-tool-contracts",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "3ff9adeb0658d049856e822851f978f3bd50f468"
-          },
-          "existing_action": "retain",
-          "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "Retain exact paths with ADL CI owner until replacement CI contract removes or redirects current calls and preserves surviving tests. Classify source-policy tests together with their runners; no transfer based on copy alone."
-          ],
-          "successor_mapping": {
-            "mapping": "exact_successor",
-            "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
-            "exact_successor_paths": [
-              "adl/tools/run_slow_proof_family.sh"
-            ]
-          },
-          "reviewed_disposition": {
-            "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
-            "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
-            "proposal": "retain_adl_ci_contract_pending_explicit_ci_cutover",
-            "family": "ADL repository CI and coverage control",
-            "review": {
-              "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
-              "fixed_ids": [
-                "RD07-2243",
-                "RD07-1483"
-              ],
-              "other_findings": 0
-            }
           }
         },
         {
@@ -2524,80 +2328,6 @@
           }
         },
         {
-          "id": "RD07-2079",
-          "path": "adl/tools/test_run_authoritative_coverage_lane.sh",
-          "owner": "agent-logic-infrastructure",
-          "component": "agent-logic-infrastructure-active-tool-contracts",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "60ada319d396e9ae9ca51e56df28cfac992e1435"
-          },
-          "existing_action": "retain",
-          "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "Retain exact paths with ADL CI owner until replacement CI contract removes or redirects current calls and preserves surviving tests. Classify source-policy tests together with their runners; no transfer based on copy alone."
-          ],
-          "successor_mapping": {
-            "mapping": "exact_successor",
-            "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
-            "exact_successor_paths": [
-              "adl/tools/test_run_authoritative_coverage_lane.sh"
-            ]
-          },
-          "reviewed_disposition": {
-            "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
-            "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
-            "proposal": "retain_adl_ci_contract_pending_explicit_ci_cutover",
-            "family": "ADL repository CI and coverage control",
-            "review": {
-              "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
-              "fixed_ids": [
-                "RD07-2243",
-                "RD07-1483"
-              ],
-              "other_findings": 0
-            }
-          }
-        },
-        {
-          "id": "RD07-2084",
-          "path": "adl/tools/test_run_cargo_validation.sh",
-          "owner": "agent-logic-infrastructure",
-          "component": "agent-logic-infrastructure-active-tool-contracts",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "3809d108866ca476db7b6d07ae47294737b467ed"
-          },
-          "existing_action": "retain",
-          "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "Retain exact paths with ADL CI owner until replacement CI contract removes or redirects current calls and preserves surviving tests. Classify source-policy tests together with their runners; no transfer based on copy alone."
-          ],
-          "successor_mapping": {
-            "mapping": "exact_successor",
-            "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
-            "exact_successor_paths": [
-              "adl/tools/test_run_cargo_validation.sh"
-            ]
-          },
-          "reviewed_disposition": {
-            "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
-            "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
-            "proposal": "retain_adl_ci_contract_pending_explicit_ci_cutover",
-            "family": "ADL repository CI and coverage control",
-            "review": {
-              "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
-              "fixed_ids": [
-                "RD07-2243",
-                "RD07-1483"
-              ],
-              "other_findings": 0
-            }
-          }
-        },
-        {
           "id": "RD07-2090",
           "path": "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
           "owner": "cognitive-sdlc",
@@ -2622,43 +2352,6 @@
             "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
             "proposal": "specific_family_reconciliation",
             "reason": "Mixed Infrastructure/Runtime: issue345runner, gpu-proof Terraform, emitted scripts, source/authorization checks and Git-free archive assertions must transfer together."
-          }
-        },
-        {
-          "id": "RD07-2095",
-          "path": "adl/tools/test_run_pr_fast_coverage_lane.sh",
-          "owner": "agent-logic-infrastructure",
-          "component": "agent-logic-infrastructure-active-tool-contracts",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "d61b93f866bae51e0ca70ff8cbe217cd9bea2b71"
-          },
-          "existing_action": "retain",
-          "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "Retain exact paths with ADL CI owner until replacement CI contract removes or redirects current calls and preserves surviving tests. Classify source-policy tests together with their runners; no transfer based on copy alone."
-          ],
-          "successor_mapping": {
-            "mapping": "exact_successor",
-            "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
-            "exact_successor_paths": [
-              "adl/tools/test_run_pr_fast_coverage_lane.sh"
-            ]
-          },
-          "reviewed_disposition": {
-            "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
-            "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
-            "proposal": "retain_adl_ci_contract_pending_explicit_ci_cutover",
-            "family": "ADL repository CI and coverage control",
-            "review": {
-              "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
-              "fixed_ids": [
-                "RD07-2243",
-                "RD07-1483"
-              ],
-              "other_findings": 0
-            }
           }
         },
         {
@@ -2787,43 +2480,6 @@
             "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
             "proposal": "specific_family_reconciliation",
             "reason": "Runtime selector plus historical issue5590 transition script: retain historical fixture or explicit assertion map; no new native state fabrication."
-          }
-        },
-        {
-          "id": "RD07-2118",
-          "path": "adl/tools/test_slow_proof_lane_contract.sh",
-          "owner": "agent-logic-infrastructure",
-          "component": "agent-logic-infrastructure-active-tool-contracts",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "9e545f009bfef123c265e487eab06fc9d41031d2"
-          },
-          "existing_action": "retain",
-          "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "Retain exact paths with ADL CI owner until replacement CI contract removes or redirects current calls and preserves surviving tests. Classify source-policy tests together with their runners; no transfer based on copy alone."
-          ],
-          "successor_mapping": {
-            "mapping": "exact_successor",
-            "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
-            "exact_successor_paths": [
-              "adl/tools/test_slow_proof_lane_contract.sh"
-            ]
-          },
-          "reviewed_disposition": {
-            "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
-            "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
-            "proposal": "retain_adl_ci_contract_pending_explicit_ci_cutover",
-            "family": "ADL repository CI and coverage control",
-            "review": {
-              "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
-              "fixed_ids": [
-                "RD07-2243",
-                "RD07-1483"
-              ],
-              "other_findings": 0
-            }
           }
         },
         {

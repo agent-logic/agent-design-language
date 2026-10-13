@@ -1,6 +1,6 @@
 # #1223 remaining hold groups
 
-Snapshot of all **124 holds** after independently reviewed cutover commit `951a4c097f`. All 4,134 original identities remain in the ledger; 22 additional current paths remain separately tracked. No deletion is authorized by this grouping.
+Snapshot of all **114 holds** after independently reviewed cutover commit `951a4c097f`. All 4,134 original identities remain in the ledger; 22 additional current paths remain separately tracked. No deletion is authorized by this grouping.
 
 | Group | Held paths | Next action |
 | --- | ---: | --- |
@@ -11,7 +11,7 @@ Snapshot of all **124 holds** after independently reviewed cutover commit `951a4
 | Installed C-SDLC node and plan proof | 1 | Reuse five restored passing scenarios and native proof; reconcile exact delivered artifact and installed admission before authorizing source/test removal. |
 | Skill and operational contract consumers | 17 | Twenty-two rows remain, including four tested current caller contracts whose producer retirement is unresolved. Original12CodeFriend and2CSDLc fixture proofs remain qualified; current milestone/schema tests retained. Preserve separate native, caller and scoped retirement gates. |
 | Historical podcast generation and playback | 4 | Resolve four generation/fulltest helpers and their real source-era runner dependencies. Three HTTP profile wrappers retained with exact16-file closure; they do not use browsers, devices or audio decoding. |
-| Remaining ADL validation routing | 25 | After reviewed caller cutover, reconcile each retained runner, selector, coverage/PVF policy and configuration against five public packages and original assertions. Retain historical private lanes explicitly; do not silently drop inventory rows. |
+| Remaining ADL validation routing | 15 | After reviewed caller cutover, reconcile each retained runner, selector, coverage/PVF policy and configuration against five public packages and original assertions. Retain historical private lanes explicitly; do not silently drop inventory rows. |
 | agent-logic-runtime remaining consumers | 1 | Resolve the exact per-row required_before_execution entries preserved below as one owner consumer batch: map current caller and qualified successor or choose explicit historical retention/retirement. Reuse existing owner evidence; source presence alone does not close behavior. Cloud/live operations require their own existing authorization. |
 | Mixed consumers (inherited inventory owner) | 31 | Resolve the exact per-row required_before_execution entries preserved below as one owner consumer batch: map current caller and qualified successor or choose explicit historical retention/retirement. Reuse existing owner evidence; source presence alone does not close behavior. Cloud/live operations require their own existing authorization. |
 
@@ -53,3 +53,5 @@ Five generic PVF helper/test rows are retained together with their existing hist
 Reviewed aggregate and review-compatibility dispositions move four rows to conditional historical retirement; Nessus runner and companion remain public dependencies. All original identities are preserved.
 
 Runtime153 source delivery closes the two static Unity transfer holds; the failed editor smoke remains explicitly held with its retained timeout evidence.
+
+Ten reviewed validation rows are dispositioned: nextest policy and Cargo-wrapper companion retained; eight private runners/contracts conditionally retired with explicit caller obligations. Nightly coverage caller repair is committed separately.

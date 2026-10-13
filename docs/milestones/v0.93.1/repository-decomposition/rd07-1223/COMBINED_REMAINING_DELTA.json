@@ -1,21 +1,21 @@
 {
   "schema": "adl.source_retirement.combined_remaining_delta.v1",
   "issue": 1223,
-  "source_head": "2a392518dd0afd4b8eb239e561ef4591bdb604b8",
+  "source_head": "bc3324635521987bd0c9315b1c62459c4f1d3578",
   "status": "prepared_scope_not_ready_for_execution",
   "execution_authorized": false,
   "original_count": 4134,
   "counts": {
-    "hold_explicit_reconciliation": 89,
+    "hold_explicit_reconciliation": 79,
     "hold_owner_test_reconciliation": 35,
     "preserve_approved_removal": 70,
     "preserve_reviewed_consumer_repair": 18,
-    "proposed_historical_retirement_with_caller_repair": 33,
+    "proposed_historical_retirement_with_caller_repair": 41,
     "proposed_owner_transfer_with_consumer_qualification": 491,
     "proposed_remove_construction_qualified_infrastructure": 216,
     "proposed_remove_with_entire_source_family": 1874,
     "proposed_remove_with_entire_tool_family": 687,
-    "retain_public_source_or_fixture": 94,
+    "retain_public_source_or_fixture": 96,
     "retain_resolved": 527
   },
   "additional_current_source_paths": 22,
@@ -7442,11 +7442,8 @@
         "blob": "425dd17e5efa4ce2a27bc03af164449542627a4e"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "Retain exact paths with ADL CI owner until replacement CI contract removes or redirects current calls and preserves surviving tests. Classify source-policy tests together with their runners; no transfer based on copy alone."
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -7455,18 +7452,11 @@
         ]
       },
       "reviewed_disposition": {
-        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
-        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
-        "proposal": "retain_adl_ci_contract_pending_explicit_ci_cutover",
-        "family": "ADL repository CI and coverage control",
-        "review": {
-          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
-          "fixed_ids": [
-            "RD07-2243",
-            "RD07-1483"
-          ],
-          "other_findings": 0
-        }
+        "packet": "PRIVATE_VALIDATION_DISPOSITION.json",
+        "packet_sha256": "83d564c94d156a163eff640614a35a0de3c51648988d61cdb3abf48de4a75c14",
+        "proposal": "retain_public_source_or_fixture",
+        "reason": "Automatically consumed nextest policy: zero retries, coverage timeout exceptions and issue208 leak detection. Current runners1498/1503 still consume it.",
+        "review": "Independent source-only disposition and exact packet review passed"
       }
     },
     {
@@ -7579,15 +7569,24 @@
         "blob": "8e0e864bc5eb93baa4d90b5922e47b342388d2a8"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "coherent mandatory caller repairs",
+        "preserve original child test obligations independently",
+        "scoped retirement decision",
+        "Resolve remaining caller repairs enumerated in PRIVATE_VALIDATION_DISPOSITION.json"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "PRIVATE_VALIDATION_DISPOSITION.json",
+        "packet_sha256": "83d564c94d156a163eff640614a35a0de3c51648988d61cdb3abf48de4a75c14",
+        "proposal": "proposed_historical_retirement_with_caller_repair",
+        "reason": "Four-family feature/module inventory; preserve exact slow-test gating and family selector contract as historical.",
+        "review": "Independent source-only disposition and exact packet review passed"
       }
     },
     {
@@ -29479,10 +29478,12 @@
         "blob": "b366a3821f0b996955dfc892bc42b47d3b63a419"
       },
       "existing_action": "retain",
-      "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "Coverage guard invoked by ADL ci.yaml444/1447/1796/1818 and merge readiness policy42; not Runtime-only ownership. Public coverage cutover must preserve required coverage outcomes."
+        "coherent mandatory caller repairs",
+        "preserve original child test obligations independently",
+        "scoped retirement decision",
+        "Resolve remaining caller repairs enumerated in PRIVATE_VALIDATION_DISPOSITION.json"
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
@@ -29490,10 +29491,11 @@
         "exact_successor_paths": []
       },
       "reviewed_disposition": {
-        "packet": "RUNTIME_4_TOOL_DISPOSITIONS.json",
-        "packet_sha256": "c34decfbb256f52049b17ffbada76497eb857c2d4d52a528293e90cb99007a60",
-        "proposal": "retain_ADL_CI_consumer_until_public_CI_cutover",
-        "review": "Source specialist and root finite-disposition review; no execution or owner acceptance inferred"
+        "packet": "PRIVATE_VALIDATION_DISPOSITION.json",
+        "packet_sha256": "83d564c94d156a163eff640614a35a0de3c51648988d61cdb3abf48de4a75c14",
+        "proposal": "proposed_historical_retirement_with_caller_repair",
+        "reason": "Multi-product changed-source risk classification, threshold/summary requirements, focused expressions and mechanical-change evidence.",
+        "review": "Independent source-only disposition and exact packet review passed"
       }
     },
     {
@@ -34500,10 +34502,12 @@
         "blob": "86522bed74536718197dac34d3b55dfe601b78e8"
       },
       "existing_action": "retain",
-      "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "Retain exact paths with ADL CI owner until replacement CI contract removes or redirects current calls and preserves surviving tests. Classify source-policy tests together with their runners; no transfer based on copy alone."
+        "coherent mandatory caller repairs",
+        "preserve original child test obligations independently",
+        "scoped retirement decision",
+        "Resolve remaining caller repairs enumerated in PRIVATE_VALIDATION_DISPOSITION.json"
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -34513,18 +34517,11 @@
         ]
       },
       "reviewed_disposition": {
-        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
-        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
-        "proposal": "retain_adl_ci_contract_pending_explicit_ci_cutover",
-        "family": "ADL repository CI and coverage control",
-        "review": {
-          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
-          "fixed_ids": [
-            "RD07-2243",
-            "RD07-1483"
-          ],
-          "other_findings": 0
-        }
+        "packet": "PRIVATE_VALIDATION_DISPOSITION.json",
+        "packet_sha256": "83d564c94d156a163eff640614a35a0de3c51648988d61cdb3abf48de4a75c14",
+        "proposal": "proposed_historical_retirement_with_caller_repair",
+        "reason": "Private workspace/runtime coverage collection and merging, isolated evidence outputs, partition/report separation and failure propagation.",
+        "review": "Independent source-only disposition and exact packet review passed"
       }
     },
     {
@@ -35145,10 +35142,12 @@
         "blob": "9a929c1953ff7682bb23fe1d6eec0f69493fdd0b"
       },
       "existing_action": "retain",
-      "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "Retain exact paths with ADL CI owner until replacement CI contract removes or redirects current calls and preserves surviving tests. Classify source-policy tests together with their runners; no transfer based on copy alone."
+        "coherent mandatory caller repairs",
+        "preserve original child test obligations independently",
+        "scoped retirement decision",
+        "Resolve remaining caller repairs enumerated in PRIVATE_VALIDATION_DISPOSITION.json"
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -35158,18 +35157,11 @@
         ]
       },
       "reviewed_disposition": {
-        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
-        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
-        "proposal": "retain_adl_ci_contract_pending_explicit_ci_cutover",
-        "family": "ADL repository CI and coverage control",
-        "review": {
-          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
-          "fixed_ids": [
-            "RD07-2243",
-            "RD07-1483"
-          ],
-          "other_findings": 0
-        }
+        "packet": "PRIVATE_VALIDATION_DISPOSITION.json",
+        "packet_sha256": "83d564c94d156a163eff640614a35a0de3c51648988d61cdb3abf48de4a75c14",
+        "proposal": "proposed_historical_retirement_with_caller_repair",
+        "reason": "Focused/family/mixed-workspace routing and ambiguous scope refusal except explicit full-suite opt-in.",
+        "review": "Independent source-only disposition and exact packet review passed"
       }
     },
     {
@@ -35317,10 +35309,12 @@
         "blob": "3ff9adeb0658d049856e822851f978f3bd50f468"
       },
       "existing_action": "retain",
-      "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "Retain exact paths with ADL CI owner until replacement CI contract removes or redirects current calls and preserves surviving tests. Classify source-policy tests together with their runners; no transfer based on copy alone."
+        "coherent mandatory caller repairs",
+        "preserve original child test obligations independently",
+        "scoped retirement decision",
+        "Resolve remaining caller repairs enumerated in PRIVATE_VALIDATION_DISPOSITION.json"
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -35330,18 +35324,11 @@
         ]
       },
       "reviewed_disposition": {
-        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
-        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
-        "proposal": "retain_adl_ci_contract_pending_explicit_ci_cutover",
-        "family": "ADL repository CI and coverage control",
-        "review": {
-          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
-          "fixed_ids": [
-            "RD07-2243",
-            "RD07-1483"
-          ],
-          "other_findings": 0
-        }
+        "packet": "PRIVATE_VALIDATION_DISPOSITION.json",
+        "packet_sha256": "83d564c94d156a163eff640614a35a0de3c51648988d61cdb3abf48de4a75c14",
+        "proposal": "proposed_historical_retirement_with_caller_repair",
+        "reason": "Historical family nextest expression and partition planning; public routing is not private product execution equivalence.",
+        "review": "Independent source-only disposition and exact packet review passed"
       }
     },
     {
@@ -50809,10 +50796,12 @@
         "blob": "60ada319d396e9ae9ca51e56df28cfac992e1435"
       },
       "existing_action": "retain",
-      "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "Retain exact paths with ADL CI owner until replacement CI contract removes or redirects current calls and preserves surviving tests. Classify source-policy tests together with their runners; no transfer based on copy alone."
+        "coherent mandatory caller repairs",
+        "preserve original child test obligations independently",
+        "scoped retirement decision",
+        "Resolve remaining caller repairs enumerated in PRIVATE_VALIDATION_DISPOSITION.json"
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -50822,18 +50811,11 @@
         ]
       },
       "reviewed_disposition": {
-        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
-        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
-        "proposal": "retain_adl_ci_contract_pending_explicit_ci_cutover",
-        "family": "ADL repository CI and coverage control",
-        "review": {
-          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
-          "fixed_ids": [
-            "RD07-2243",
-            "RD07-1483"
-          ],
-          "other_findings": 0
-        }
+        "packet": "PRIVATE_VALIDATION_DISPOSITION.json",
+        "packet_sha256": "83d564c94d156a163eff640614a35a0de3c51648988d61cdb3abf48de4a75c14",
+        "proposal": "proposed_historical_retirement_with_caller_repair",
+        "reason": "Coverage runner companion includes actual installed cargo-llvm-cov parser check plus fake-tool cases; not wholly fixture-only.",
+        "review": "Independent source-only disposition and exact packet review passed"
       }
     },
     {
@@ -50941,11 +50923,8 @@
         "blob": "3809d108866ca476db7b6d07ae47294737b467ed"
       },
       "existing_action": "retain",
-      "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "Retain exact paths with ADL CI owner until replacement CI contract removes or redirects current calls and preserves surviving tests. Classify source-policy tests together with their runners; no transfer based on copy alone."
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -50954,18 +50933,11 @@
         ]
       },
       "reviewed_disposition": {
-        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
-        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
-        "proposal": "retain_adl_ci_contract_pending_explicit_ci_cutover",
-        "family": "ADL repository CI and coverage control",
-        "review": {
-          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
-          "fixed_ids": [
-            "RD07-2243",
-            "RD07-1483"
-          ],
-          "other_findings": 0
-        }
+        "packet": "PRIVATE_VALIDATION_DISPOSITION.json",
+        "packet_sha256": "83d564c94d156a163eff640614a35a0de3c51648988d61cdb3abf48de4a75c14",
+        "proposal": "retain_public_source_or_fixture",
+        "reason": "Companion to retained1479 run_cargo_validation: external build containment, symlink refusal, locked builds, caller Git identity and exact lockfile restoration. Fake private-manifest argument needs no private source.",
+        "review": "Independent source-only disposition and exact packet review passed"
       }
     },
     {
@@ -51234,10 +51206,12 @@
         "blob": "d61b93f866bae51e0ca70ff8cbe217cd9bea2b71"
       },
       "existing_action": "retain",
-      "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "Retain exact paths with ADL CI owner until replacement CI contract removes or redirects current calls and preserves surviving tests. Classify source-policy tests together with their runners; no transfer based on copy alone."
+        "coherent mandatory caller repairs",
+        "preserve original child test obligations independently",
+        "scoped retirement decision",
+        "Resolve remaining caller repairs enumerated in PRIVATE_VALIDATION_DISPOSITION.json"
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -51247,18 +51221,11 @@
         ]
       },
       "reviewed_disposition": {
-        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
-        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
-        "proposal": "retain_adl_ci_contract_pending_explicit_ci_cutover",
-        "family": "ADL repository CI and coverage control",
-        "review": {
-          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
-          "fixed_ids": [
-            "RD07-2243",
-            "RD07-1483"
-          ],
-          "other_findings": 0
-        }
+        "packet": "PRIVATE_VALIDATION_DISPOSITION.json",
+        "packet_sha256": "83d564c94d156a163eff640614a35a0de3c51648988d61cdb3abf48de4a75c14",
+        "proposal": "proposed_historical_retirement_with_caller_repair",
+        "reason": "Focused coverage routing, runtime companion selection, summary merging and selector controls; producer disposition remains independent.",
+        "review": "Independent source-only disposition and exact packet review passed"
       }
     },
     {
@@ -51866,10 +51833,12 @@
         "blob": "9e545f009bfef123c265e487eab06fc9d41031d2"
       },
       "existing_action": "retain",
-      "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "Retain exact paths with ADL CI owner until replacement CI contract removes or redirects current calls and preserves surviving tests. Classify source-policy tests together with their runners; no transfer based on copy alone."
+        "coherent mandatory caller repairs",
+        "preserve original child test obligations independently",
+        "scoped retirement decision",
+        "Resolve remaining caller repairs enumerated in PRIVATE_VALIDATION_DISPOSITION.json"
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -51879,18 +51848,11 @@
         ]
       },
       "reviewed_disposition": {
-        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
-        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
-        "proposal": "retain_adl_ci_contract_pending_explicit_ci_cutover",
-        "family": "ADL repository CI and coverage control",
-        "review": {
-          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
-          "fixed_ids": [
-            "RD07-2243",
-            "RD07-1483"
-          ],
-          "other_findings": 0
-        }
+        "packet": "PRIVATE_VALIDATION_DISPOSITION.json",
+        "packet_sha256": "83d564c94d156a163eff640614a35a0de3c51648988d61cdb3abf48de4a75c14",
+        "proposal": "proposed_historical_retirement_with_caller_repair",
+        "reason": "Manifest/source/command contract assertions, not actual private Rust suite execution.",
+        "review": "Independent source-only disposition and exact packet review passed"
       }
     },
     {
