@@ -1,10 +1,9 @@
 # #1223 remaining hold groups
 
-Snapshot of all **54 holds** after reviewed owner deliveries and conditional historical disposition of the review wrapper. All 4,134 original identities remain in the ledger; 22 additional current paths remain separately tracked. No deletion is authorized by this grouping.
+Snapshot of all **21 holds** after reviewed owner deliveries, conditional historical review-wrapper disposition and exact-candidate Runtime test reconciliation. All 4,134 original identities remain in the ledger; 22 additional current paths remain separately tracked. No deletion is authorized by this grouping.
 
 | Group | Held paths | Next action |
 | --- | ---: | --- |
-| Runtime test transfer | 33 | Reconcile published owner artifact and CI with existing original declaration correspondence; preserve ignored case and distinct smoke denominator. Then include coherent caller repairs in scoped retirement decision. Do not rerun490 passing cases. |
 | Native conversion rehearsal closure | 5 | Deliver missing five helpers as coherent owner support; preserve authentic505 receipt, pinned old binary and generation9 inputs; qualify isolated real conversion route before transfer. Source-only native CLI correspondence is insufficient. |
 | Runtime Observatory behavior and CI | 6 | Reconcile room selection, mobile controls and incident assertions with owner journal additions; preserve extra governed-room test. Reconcile live-only CI denominator separately. Reuse existing owner proof where exact. |
 | Installed C-SDLC node and plan proof | 1 | Reuse five restored passing scenarios and native proof; reconcile exact delivered artifact and installed admission before authorizing source/test removal. |
@@ -91,3 +90,5 @@ Infrastructure #32 / PR #33 delivers RD07-2090 at source `c91799dc`, merged `f8b
 CodeFriend source reconciliation preserves all 414 original declarations (391 suite and 23 support), with 19 async declarations outside that historical count. Existing Linux409, macOS1 and focused185 proofs remain non-additive and pinned to their own heads. 196 rows now carry conditional owner-transfer mappings; misclassified RD07-0426 is separately held for the review owner. Lexical correspondence is not behavioral equivalence; no files deleted. Current holds:55. See `CODEFRIEND_SOURCE_FAMILY_RECONCILIATION.json`.
 
 RD07-0426 now has conditional historical-wrapper retirement with caller repair. Five verifier functions match CodeFriend `8236ee8e` byte-for-byte; retained staged showcase sources preserve its fixture route. Original CodeFriend misclassification and later review-owner hold remain historical. The four installed verifier cases remain reported from the prior packet, not newly independently verified: its external RESULT location is unspecified. See `REVIEW_WRAPPER_0426_DISPOSITION.json`. No deletion authorized; current holds:54.
+
+Runtime #149 / PR #156 exact candidate `ebfc8d84` now supplies conditional owner-transfer mappings for33 rows. Actual macOS ARM64 CI passed397 unit cases with1 unchanged ignored D12 case and94 smoke cases. Original201 maps200PASS+1ignored; historical109 splits91same-name RuntimePASS+1current-help replacementPASS+16unchanged public ADL processPASS+1historical undeclared-remote case. Two additional owner-boundary tests bring Runtime smoke to94. Counts are not interchangeable. Merge, native finish, installed acceptance and coherent removal approval remain separate. See `RUNTIME_149_33_TEST_RECONCILIATION.json`. No source removed; current holds:21.

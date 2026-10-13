@@ -7,15 +7,15 @@
   "original_count": 4134,
   "counts": {
     "retain_resolved": 527,
-    "proposed_owner_transfer_with_consumer_qualification": 509,
+    "proposed_owner_transfer_with_consumer_qualification": 542,
     "preserve_approved_removal": 274,
     "proposed_remove_with_entire_source_family": 1677,
     "retain_public_source_or_fixture": 124,
     "preserve_reviewed_consumer_repair": 18,
     "proposed_historical_retirement_with_caller_repair": 61,
-    "hold_owner_test_reconciliation": 35,
     "proposed_remove_with_entire_tool_family": 674,
     "hold_explicit_reconciliation": 19,
+    "hold_owner_test_reconciliation": 2,
     "proposed_remove_construction_qualified_infrastructure": 216
   },
   "additional_current_source_paths": 22,
@@ -11070,12 +11070,9 @@
         "blob": "4fd5f1b84bd20de0e6f1da986be2c8899fb659ea"
       },
       "existing_action": "retain",
-      "proposed_action": "hold_owner_test_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "qualified_owner_source_and_test_obligations",
-        "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision",
-        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        "Owner source merge/delivery and exact caller/rollback removal review; no deletion authorized."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -11089,6 +11086,38 @@
         "scope": "original_cli_declarations_200_pass_1_existing_ignore",
         "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
         "changes_removal_authority": false
+      },
+      "prior_runtime_test_hold": {
+        "proposed_action": "hold_owner_test_reconciliation",
+        "required_before_execution": [
+          "qualified_owner_source_and_test_obligations",
+          "all_active_caller_and_CI_repairs_in_same_delta",
+          "scoped_operator_decision",
+          "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        ],
+        "successor_mapping": {
+          "mapping": "exact_successor",
+          "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+          "exact_successor_paths": [
+            "adl/src/cli/identity_cmd/tests.rs"
+          ]
+        }
+      },
+      "runtime149_reconciliation": {
+        "packet": "RUNTIME_149_33_TEST_RECONCILIATION.json",
+        "sha256": "ee5e203fee7deb4e0ccb1936449c960d341dedf5fdca2141866de4c353386b0a",
+        "owner_repository": "agent-logic/agent-logic-runtime",
+        "source_revision": "ebfc8d841ac9593400e68ef65f903d7bca0a4983",
+        "successor_path": "adl/src/cli/identity_cmd/tests.rs",
+        "successor_git_identity": [
+          "100644",
+          "4fd5f1b84bd20de0e6f1da986be2c8899fb659ea"
+        ],
+        "ci_run": 38442074993,
+        "ci_job": 115450918728,
+        "status": "exact_candidate_source_and_named_CI_qualification_reconciled",
+        "limits": "Conditional transfer only;397unitPASS1ignored and94smokePASS remain distinct from original201/109. Merge, lifecycle finish and installed acceptance not inferred.",
+        "execution_authorized": false
       }
     },
     {
@@ -11101,12 +11130,9 @@
         "blob": "f09dab10b332a8c8b7058553f15659521d14523e"
       },
       "existing_action": "retain",
-      "proposed_action": "hold_owner_test_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "qualified_owner_source_and_test_obligations",
-        "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision",
-        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        "Owner source merge/delivery and exact caller/rollback removal review; no deletion authorized."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -11120,6 +11146,38 @@
         "scope": "original_cli_declarations_200_pass_1_existing_ignore",
         "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
         "changes_removal_authority": false
+      },
+      "prior_runtime_test_hold": {
+        "proposed_action": "hold_owner_test_reconciliation",
+        "required_before_execution": [
+          "qualified_owner_source_and_test_obligations",
+          "all_active_caller_and_CI_repairs_in_same_delta",
+          "scoped_operator_decision",
+          "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        ],
+        "successor_mapping": {
+          "mapping": "exact_successor",
+          "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+          "exact_successor_paths": [
+            "adl/src/cli/identity_cmd/tests/adversarial_contracts.rs"
+          ]
+        }
+      },
+      "runtime149_reconciliation": {
+        "packet": "RUNTIME_149_33_TEST_RECONCILIATION.json",
+        "sha256": "ee5e203fee7deb4e0ccb1936449c960d341dedf5fdca2141866de4c353386b0a",
+        "owner_repository": "agent-logic/agent-logic-runtime",
+        "source_revision": "ebfc8d841ac9593400e68ef65f903d7bca0a4983",
+        "successor_path": "adl/src/cli/identity_cmd/tests/adversarial_contracts.rs",
+        "successor_git_identity": [
+          "100644",
+          "f09dab10b332a8c8b7058553f15659521d14523e"
+        ],
+        "ci_run": 38442074993,
+        "ci_job": 115450918728,
+        "status": "exact_candidate_source_and_named_CI_qualification_reconciled",
+        "limits": "Conditional transfer only;397unitPASS1ignored and94smokePASS remain distinct from original201/109. Merge, lifecycle finish and installed acceptance not inferred.",
+        "execution_authorized": false
       }
     },
     {
@@ -11132,12 +11190,9 @@
         "blob": "8a60b6e65ecad602b7e33d0fa1410bb070162e4f"
       },
       "existing_action": "retain",
-      "proposed_action": "hold_owner_test_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "qualified_owner_source_and_test_obligations",
-        "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision",
-        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        "Owner source merge/delivery and exact caller/rollback removal review; no deletion authorized."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -11151,6 +11206,38 @@
         "scope": "original_cli_declarations_200_pass_1_existing_ignore",
         "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
         "changes_removal_authority": false
+      },
+      "prior_runtime_test_hold": {
+        "proposed_action": "hold_owner_test_reconciliation",
+        "required_before_execution": [
+          "qualified_owner_source_and_test_obligations",
+          "all_active_caller_and_CI_repairs_in_same_delta",
+          "scoped_operator_decision",
+          "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        ],
+        "successor_mapping": {
+          "mapping": "exact_successor",
+          "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+          "exact_successor_paths": [
+            "adl/src/cli/identity_cmd/tests/dispatch.rs"
+          ]
+        }
+      },
+      "runtime149_reconciliation": {
+        "packet": "RUNTIME_149_33_TEST_RECONCILIATION.json",
+        "sha256": "ee5e203fee7deb4e0ccb1936449c960d341dedf5fdca2141866de4c353386b0a",
+        "owner_repository": "agent-logic/agent-logic-runtime",
+        "source_revision": "ebfc8d841ac9593400e68ef65f903d7bca0a4983",
+        "successor_path": "adl/src/cli/identity_cmd/tests/dispatch.rs",
+        "successor_git_identity": [
+          "100644",
+          "8a60b6e65ecad602b7e33d0fa1410bb070162e4f"
+        ],
+        "ci_run": 38442074993,
+        "ci_job": 115450918728,
+        "status": "exact_candidate_source_and_named_CI_qualification_reconciled",
+        "limits": "Conditional transfer only;397unitPASS1ignored and94smokePASS remain distinct from original201/109. Merge, lifecycle finish and installed acceptance not inferred.",
+        "execution_authorized": false
       }
     },
     {
@@ -11163,12 +11250,9 @@
         "blob": "4d1a999b2084585d8cae7c351f3eeda493f677a5"
       },
       "existing_action": "retain",
-      "proposed_action": "hold_owner_test_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "qualified_owner_source_and_test_obligations",
-        "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision",
-        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        "Owner source merge/delivery and exact caller/rollback removal review; no deletion authorized."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -11182,6 +11266,38 @@
         "scope": "original_cli_declarations_200_pass_1_existing_ignore",
         "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
         "changes_removal_authority": false
+      },
+      "prior_runtime_test_hold": {
+        "proposed_action": "hold_owner_test_reconciliation",
+        "required_before_execution": [
+          "qualified_owner_source_and_test_obligations",
+          "all_active_caller_and_CI_repairs_in_same_delta",
+          "scoped_operator_decision",
+          "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        ],
+        "successor_mapping": {
+          "mapping": "exact_successor",
+          "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+          "exact_successor_paths": [
+            "adl/src/cli/identity_cmd/tests/helper_functions.rs"
+          ]
+        }
+      },
+      "runtime149_reconciliation": {
+        "packet": "RUNTIME_149_33_TEST_RECONCILIATION.json",
+        "sha256": "ee5e203fee7deb4e0ccb1936449c960d341dedf5fdca2141866de4c353386b0a",
+        "owner_repository": "agent-logic/agent-logic-runtime",
+        "source_revision": "ebfc8d841ac9593400e68ef65f903d7bca0a4983",
+        "successor_path": "adl/src/cli/identity_cmd/tests/helper_functions.rs",
+        "successor_git_identity": [
+          "100644",
+          "4d1a999b2084585d8cae7c351f3eeda493f677a5"
+        ],
+        "ci_run": 38442074993,
+        "ci_job": 115450918728,
+        "status": "exact_candidate_source_and_named_CI_qualification_reconciled",
+        "limits": "Conditional transfer only;397unitPASS1ignored and94smokePASS remain distinct from original201/109. Merge, lifecycle finish and installed acceptance not inferred.",
+        "execution_authorized": false
       }
     },
     {
@@ -11194,12 +11310,9 @@
         "blob": "39c330b9ec7b19b9c8e135596ea7713fef8e3d93"
       },
       "existing_action": "retain",
-      "proposed_action": "hold_owner_test_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "qualified_owner_source_and_test_obligations",
-        "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision",
-        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        "Owner source merge/delivery and exact caller/rollback removal review; no deletion authorized."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -11213,6 +11326,38 @@
         "scope": "original_cli_declarations_200_pass_1_existing_ignore",
         "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
         "changes_removal_authority": false
+      },
+      "prior_runtime_test_hold": {
+        "proposed_action": "hold_owner_test_reconciliation",
+        "required_before_execution": [
+          "qualified_owner_source_and_test_obligations",
+          "all_active_caller_and_CI_repairs_in_same_delta",
+          "scoped_operator_decision",
+          "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        ],
+        "successor_mapping": {
+          "mapping": "exact_successor",
+          "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+          "exact_successor_paths": [
+            "adl/src/cli/identity_cmd/tests/profile.rs"
+          ]
+        }
+      },
+      "runtime149_reconciliation": {
+        "packet": "RUNTIME_149_33_TEST_RECONCILIATION.json",
+        "sha256": "ee5e203fee7deb4e0ccb1936449c960d341dedf5fdca2141866de4c353386b0a",
+        "owner_repository": "agent-logic/agent-logic-runtime",
+        "source_revision": "ebfc8d841ac9593400e68ef65f903d7bca0a4983",
+        "successor_path": "adl/src/cli/identity_cmd/tests/profile.rs",
+        "successor_git_identity": [
+          "100644",
+          "39c330b9ec7b19b9c8e135596ea7713fef8e3d93"
+        ],
+        "ci_run": 38442074993,
+        "ci_job": 115450918728,
+        "status": "exact_candidate_source_and_named_CI_qualification_reconciled",
+        "limits": "Conditional transfer only;397unitPASS1ignored and94smokePASS remain distinct from original201/109. Merge, lifecycle finish and installed acceptance not inferred.",
+        "execution_authorized": false
       }
     },
     {
@@ -11225,12 +11370,9 @@
         "blob": "69e68e7bbbe65a8648fdff8fd0baaf7b08c476ab"
       },
       "existing_action": "retain",
-      "proposed_action": "hold_owner_test_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "qualified_owner_source_and_test_obligations",
-        "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision",
-        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        "Owner source merge/delivery and exact caller/rollback removal review; no deletion authorized."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -11244,6 +11386,38 @@
         "scope": "original_cli_declarations_200_pass_1_existing_ignore",
         "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
         "changes_removal_authority": false
+      },
+      "prior_runtime_test_hold": {
+        "proposed_action": "hold_owner_test_reconciliation",
+        "required_before_execution": [
+          "qualified_owner_source_and_test_obligations",
+          "all_active_caller_and_CI_repairs_in_same_delta",
+          "scoped_operator_decision",
+          "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        ],
+        "successor_mapping": {
+          "mapping": "exact_successor",
+          "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+          "exact_successor_paths": [
+            "adl/src/cli/identity_cmd/tests/skill_contracts.rs"
+          ]
+        }
+      },
+      "runtime149_reconciliation": {
+        "packet": "RUNTIME_149_33_TEST_RECONCILIATION.json",
+        "sha256": "ee5e203fee7deb4e0ccb1936449c960d341dedf5fdca2141866de4c353386b0a",
+        "owner_repository": "agent-logic/agent-logic-runtime",
+        "source_revision": "ebfc8d841ac9593400e68ef65f903d7bca0a4983",
+        "successor_path": "adl/src/cli/identity_cmd/tests/skill_contracts.rs",
+        "successor_git_identity": [
+          "100644",
+          "69e68e7bbbe65a8648fdff8fd0baaf7b08c476ab"
+        ],
+        "ci_run": 38442074993,
+        "ci_job": 115450918728,
+        "status": "exact_candidate_source_and_named_CI_qualification_reconciled",
+        "limits": "Conditional transfer only;397unitPASS1ignored and94smokePASS remain distinct from original201/109. Merge, lifecycle finish and installed acceptance not inferred.",
+        "execution_authorized": false
       }
     },
     {
@@ -11256,12 +11430,9 @@
         "blob": "b195a1fac559ab64d0637b5c015b3bf8786c15d7"
       },
       "existing_action": "retain",
-      "proposed_action": "hold_owner_test_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "qualified_owner_source_and_test_obligations",
-        "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision",
-        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        "Owner source merge/delivery and exact caller/rollback removal review; no deletion authorized."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -11275,6 +11446,38 @@
         "scope": "original_cli_declarations_200_pass_1_existing_ignore",
         "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
         "changes_removal_authority": false
+      },
+      "prior_runtime_test_hold": {
+        "proposed_action": "hold_owner_test_reconciliation",
+        "required_before_execution": [
+          "qualified_owner_source_and_test_obligations",
+          "all_active_caller_and_CI_repairs_in_same_delta",
+          "scoped_operator_decision",
+          "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        ],
+        "successor_mapping": {
+          "mapping": "exact_successor",
+          "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+          "exact_successor_paths": [
+            "adl/src/cli/identity_cmd/tests/temporal_contracts.rs"
+          ]
+        }
+      },
+      "runtime149_reconciliation": {
+        "packet": "RUNTIME_149_33_TEST_RECONCILIATION.json",
+        "sha256": "ee5e203fee7deb4e0ccb1936449c960d341dedf5fdca2141866de4c353386b0a",
+        "owner_repository": "agent-logic/agent-logic-runtime",
+        "source_revision": "ebfc8d841ac9593400e68ef65f903d7bca0a4983",
+        "successor_path": "adl/src/cli/identity_cmd/tests/temporal_contracts.rs",
+        "successor_git_identity": [
+          "100644",
+          "b195a1fac559ab64d0637b5c015b3bf8786c15d7"
+        ],
+        "ci_run": 38442074993,
+        "ci_job": 115450918728,
+        "status": "exact_candidate_source_and_named_CI_qualification_reconciled",
+        "limits": "Conditional transfer only;397unitPASS1ignored and94smokePASS remain distinct from original201/109. Merge, lifecycle finish and installed acceptance not inferred.",
+        "execution_authorized": false
       }
     },
     {
@@ -11796,12 +11999,10 @@
         "blob": "fa911266561a280471a88c88b0ce7b5bb8e7f6e2"
       },
       "existing_action": "retain",
-      "proposed_action": "hold_owner_test_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "qualified_owner_source_and_test_obligations",
-        "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision",
-        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        "Owner source merge/delivery and exact caller/rollback removal review; no deletion authorized.",
+        "Preserve original fullD12 ignored obligation unchanged; no claim of pass."
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
@@ -11813,6 +12014,44 @@
         "scope": "original_cli_declarations_200_pass_1_existing_ignore",
         "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
         "changes_removal_authority": false
+      },
+      "prior_runtime_test_hold": {
+        "proposed_action": "hold_owner_test_reconciliation",
+        "required_before_execution": [
+          "qualified_owner_source_and_test_obligations",
+          "all_active_caller_and_CI_repairs_in_same_delta",
+          "scoped_operator_decision",
+          "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        ],
+        "successor_mapping": {
+          "mapping": "same_path_changed",
+          "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+          "exact_successor_paths": []
+        }
+      },
+      "runtime149_reconciliation": {
+        "packet": "RUNTIME_149_33_TEST_RECONCILIATION.json",
+        "sha256": "ee5e203fee7deb4e0ccb1936449c960d341dedf5fdca2141866de4c353386b0a",
+        "owner_repository": "agent-logic/agent-logic-runtime",
+        "source_revision": "ebfc8d841ac9593400e68ef65f903d7bca0a4983",
+        "successor_path": "adl/src/cli/runtime_v2_cmd/tests.rs",
+        "successor_git_identity": [
+          "100644",
+          "41c7e4ced7861a186442c0e5468746b8fc5f9744"
+        ],
+        "ci_run": 38442074993,
+        "ci_job": 115450918728,
+        "status": "exact_candidate_source_and_named_CI_qualification_reconciled",
+        "limits": "Conditional transfer only;397unitPASS1ignored and94smokePASS remain distinct from original201/109. Merge, lifecycle finish and installed acceptance not inferred.",
+        "execution_authorized": false,
+        "ignored_obligation": {
+          "row": "RD07-0505",
+          "name": "cli::runtime_v2_cmd::tests::trace_runtime_v2_observatory_flagship_demo_writes_proof_bundle",
+          "reason": "full D12 CLI filesystem smoke validated by explicit observatory-flagship-demo command; current CI keeps bounded always-on coverage",
+          "discharged": false,
+          "disposition": "Conditionally transfer unchanged explicit ignored obligation with owner source; not a newly introduced regression or an executed pass.",
+          "retirement_requirement": "Keep source ignore reason and historical fullD12 obligation visible in transfer; do not require generic rerun merely to relabel known ignore."
+        }
       }
     },
     {
@@ -11887,12 +12126,9 @@
         "blob": "f806ca160b0078cba50edb40b7328e1473b3dc3f"
       },
       "existing_action": "retain",
-      "proposed_action": "hold_owner_test_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "qualified_owner_source_and_test_obligations",
-        "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision",
-        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        "Owner source merge/delivery and exact caller/rollback removal review; no deletion authorized."
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
@@ -11904,6 +12140,36 @@
         "scope": "original_cli_declarations_200_pass_1_existing_ignore",
         "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
         "changes_removal_authority": false
+      },
+      "prior_runtime_test_hold": {
+        "proposed_action": "hold_owner_test_reconciliation",
+        "required_before_execution": [
+          "qualified_owner_source_and_test_obligations",
+          "all_active_caller_and_CI_repairs_in_same_delta",
+          "scoped_operator_decision",
+          "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        ],
+        "successor_mapping": {
+          "mapping": "same_path_changed",
+          "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+          "exact_successor_paths": []
+        }
+      },
+      "runtime149_reconciliation": {
+        "packet": "RUNTIME_149_33_TEST_RECONCILIATION.json",
+        "sha256": "ee5e203fee7deb4e0ccb1936449c960d341dedf5fdca2141866de4c353386b0a",
+        "owner_repository": "agent-logic/agent-logic-runtime",
+        "source_revision": "ebfc8d841ac9593400e68ef65f903d7bca0a4983",
+        "successor_path": "adl/src/cli/tests/artifact_builders/agency_execution.rs",
+        "successor_git_identity": [
+          "100644",
+          "aa1e9f8fe47399b2689cddc2407574c576a22ae1"
+        ],
+        "ci_run": 38442074993,
+        "ci_job": 115450918728,
+        "status": "exact_candidate_source_and_named_CI_qualification_reconciled",
+        "limits": "Conditional transfer only;397unitPASS1ignored and94smokePASS remain distinct from original201/109. Merge, lifecycle finish and installed acceptance not inferred.",
+        "execution_authorized": false
       }
     },
     {
@@ -11916,12 +12182,9 @@
         "blob": "209e50e6c4d4641eeea3ec92eac203ad263b16ca"
       },
       "existing_action": "retain",
-      "proposed_action": "hold_owner_test_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "qualified_owner_source_and_test_obligations",
-        "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision",
-        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        "Owner source merge/delivery and exact caller/rollback removal review; no deletion authorized."
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
@@ -11933,6 +12196,36 @@
         "scope": "original_cli_declarations_200_pass_1_existing_ignore",
         "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
         "changes_removal_authority": false
+      },
+      "prior_runtime_test_hold": {
+        "proposed_action": "hold_owner_test_reconciliation",
+        "required_before_execution": [
+          "qualified_owner_source_and_test_obligations",
+          "all_active_caller_and_CI_repairs_in_same_delta",
+          "scoped_operator_decision",
+          "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        ],
+        "successor_mapping": {
+          "mapping": "same_path_changed",
+          "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+          "exact_successor_paths": []
+        }
+      },
+      "runtime149_reconciliation": {
+        "packet": "RUNTIME_149_33_TEST_RECONCILIATION.json",
+        "sha256": "ee5e203fee7deb4e0ccb1936449c960d341dedf5fdca2141866de4c353386b0a",
+        "owner_repository": "agent-logic/agent-logic-runtime",
+        "source_revision": "ebfc8d841ac9593400e68ef65f903d7bca0a4983",
+        "successor_path": "adl/src/cli/tests/artifact_builders/cognitive.rs",
+        "successor_git_identity": [
+          "100644",
+          "b85b327a85ba8ccadfce390a3c1fca925c9253d7"
+        ],
+        "ci_run": 38442074993,
+        "ci_job": 115450918728,
+        "status": "exact_candidate_source_and_named_CI_qualification_reconciled",
+        "limits": "Conditional transfer only;397unitPASS1ignored and94smokePASS remain distinct from original201/109. Merge, lifecycle finish and installed acceptance not inferred.",
+        "execution_authorized": false
       }
     },
     {
@@ -11945,12 +12238,9 @@
         "blob": "1cd0afec1820a1d7629d2694825757eb251dadc5"
       },
       "existing_action": "retain",
-      "proposed_action": "hold_owner_test_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "qualified_owner_source_and_test_obligations",
-        "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision",
-        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        "Owner source merge/delivery and exact caller/rollback removal review; no deletion authorized."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -11964,6 +12254,38 @@
         "scope": "original_cli_declarations_200_pass_1_existing_ignore",
         "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
         "changes_removal_authority": false
+      },
+      "prior_runtime_test_hold": {
+        "proposed_action": "hold_owner_test_reconciliation",
+        "required_before_execution": [
+          "qualified_owner_source_and_test_obligations",
+          "all_active_caller_and_CI_repairs_in_same_delta",
+          "scoped_operator_decision",
+          "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        ],
+        "successor_mapping": {
+          "mapping": "exact_successor",
+          "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+          "exact_successor_paths": [
+            "adl/src/cli/tests/artifact_builders/learning_runtime.rs"
+          ]
+        }
+      },
+      "runtime149_reconciliation": {
+        "packet": "RUNTIME_149_33_TEST_RECONCILIATION.json",
+        "sha256": "ee5e203fee7deb4e0ccb1936449c960d341dedf5fdca2141866de4c353386b0a",
+        "owner_repository": "agent-logic/agent-logic-runtime",
+        "source_revision": "ebfc8d841ac9593400e68ef65f903d7bca0a4983",
+        "successor_path": "adl/src/cli/tests/artifact_builders/learning_runtime.rs",
+        "successor_git_identity": [
+          "100644",
+          "1cd0afec1820a1d7629d2694825757eb251dadc5"
+        ],
+        "ci_run": 38442074993,
+        "ci_job": 115450918728,
+        "status": "exact_candidate_source_and_named_CI_qualification_reconciled",
+        "limits": "Conditional transfer only;397unitPASS1ignored and94smokePASS remain distinct from original201/109. Merge, lifecycle finish and installed acceptance not inferred.",
+        "execution_authorized": false
       }
     },
     {
@@ -11976,12 +12298,9 @@
         "blob": "ad4eb1e4eb111162a70cc52be4c5efe49467639a"
       },
       "existing_action": "retain",
-      "proposed_action": "hold_owner_test_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "qualified_owner_source_and_test_obligations",
-        "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision",
-        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        "Owner source merge/delivery and exact caller/rollback removal review; no deletion authorized."
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
@@ -11993,6 +12312,36 @@
         "scope": "original_cli_declarations_200_pass_1_existing_ignore",
         "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
         "changes_removal_authority": false
+      },
+      "prior_runtime_test_hold": {
+        "proposed_action": "hold_owner_test_reconciliation",
+        "required_before_execution": [
+          "qualified_owner_source_and_test_obligations",
+          "all_active_caller_and_CI_repairs_in_same_delta",
+          "scoped_operator_decision",
+          "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        ],
+        "successor_mapping": {
+          "mapping": "same_path_changed",
+          "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+          "exact_successor_paths": []
+        }
+      },
+      "runtime149_reconciliation": {
+        "packet": "RUNTIME_149_33_TEST_RECONCILIATION.json",
+        "sha256": "ee5e203fee7deb4e0ccb1936449c960d341dedf5fdca2141866de4c353386b0a",
+        "owner_repository": "agent-logic/agent-logic-runtime",
+        "source_revision": "ebfc8d841ac9593400e68ef65f903d7bca0a4983",
+        "successor_path": "adl/src/cli/tests/artifact_builders/learning_runtime/artifact_models.rs",
+        "successor_git_identity": [
+          "100644",
+          "91d66322d70e7e3dc401531e5ed8307e80a48c64"
+        ],
+        "ci_run": 38442074993,
+        "ci_job": 115450918728,
+        "status": "exact_candidate_source_and_named_CI_qualification_reconciled",
+        "limits": "Conditional transfer only;397unitPASS1ignored and94smokePASS remain distinct from original201/109. Merge, lifecycle finish and installed acceptance not inferred.",
+        "execution_authorized": false
       }
     },
     {
@@ -12005,12 +12354,9 @@
         "blob": "ad7121d59ba51d75c1828fa0cf5cbe1b1a86e01f"
       },
       "existing_action": "retain",
-      "proposed_action": "hold_owner_test_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "qualified_owner_source_and_test_obligations",
-        "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision",
-        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        "Owner source merge/delivery and exact caller/rollback removal review; no deletion authorized."
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
@@ -12022,6 +12368,36 @@
         "scope": "original_cli_declarations_200_pass_1_existing_ignore",
         "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
         "changes_removal_authority": false
+      },
+      "prior_runtime_test_hold": {
+        "proposed_action": "hold_owner_test_reconciliation",
+        "required_before_execution": [
+          "qualified_owner_source_and_test_obligations",
+          "all_active_caller_and_CI_repairs_in_same_delta",
+          "scoped_operator_decision",
+          "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        ],
+        "successor_mapping": {
+          "mapping": "same_path_changed",
+          "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+          "exact_successor_paths": []
+        }
+      },
+      "runtime149_reconciliation": {
+        "packet": "RUNTIME_149_33_TEST_RECONCILIATION.json",
+        "sha256": "ee5e203fee7deb4e0ccb1936449c960d341dedf5fdca2141866de4c353386b0a",
+        "owner_repository": "agent-logic/agent-logic-runtime",
+        "source_revision": "ebfc8d841ac9593400e68ef65f903d7bca0a4983",
+        "successor_path": "adl/src/cli/tests/artifact_builders/learning_runtime/decision_surfaces.rs",
+        "successor_git_identity": [
+          "100644",
+          "160d5a410fa7a4487b9eb3b9ed64497d08558f35"
+        ],
+        "ci_run": 38442074993,
+        "ci_job": 115450918728,
+        "status": "exact_candidate_source_and_named_CI_qualification_reconciled",
+        "limits": "Conditional transfer only;397unitPASS1ignored and94smokePASS remain distinct from original201/109. Merge, lifecycle finish and installed acceptance not inferred.",
+        "execution_authorized": false
       }
     },
     {
@@ -12034,12 +12410,9 @@
         "blob": "1dd5413decf62b92d672b6f44896a88c059465ab"
       },
       "existing_action": "retain",
-      "proposed_action": "hold_owner_test_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "qualified_owner_source_and_test_obligations",
-        "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision",
-        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        "Owner source merge/delivery and exact caller/rollback removal review; no deletion authorized."
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
@@ -12051,6 +12424,36 @@
         "scope": "original_cli_declarations_200_pass_1_existing_ignore",
         "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
         "changes_removal_authority": false
+      },
+      "prior_runtime_test_hold": {
+        "proposed_action": "hold_owner_test_reconciliation",
+        "required_before_execution": [
+          "qualified_owner_source_and_test_obligations",
+          "all_active_caller_and_CI_repairs_in_same_delta",
+          "scoped_operator_decision",
+          "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        ],
+        "successor_mapping": {
+          "mapping": "same_path_changed",
+          "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+          "exact_successor_paths": []
+        }
+      },
+      "runtime149_reconciliation": {
+        "packet": "RUNTIME_149_33_TEST_RECONCILIATION.json",
+        "sha256": "ee5e203fee7deb4e0ccb1936449c960d341dedf5fdca2141866de4c353386b0a",
+        "owner_repository": "agent-logic/agent-logic-runtime",
+        "source_revision": "ebfc8d841ac9593400e68ef65f903d7bca0a4983",
+        "successor_path": "adl/src/cli/tests/artifact_builders/learning_runtime/run_status.rs",
+        "successor_git_identity": [
+          "100644",
+          "a0332666b382804452db17daf54af37a7f725e8e"
+        ],
+        "ci_run": 38442074993,
+        "ci_job": 115450918728,
+        "status": "exact_candidate_source_and_named_CI_qualification_reconciled",
+        "limits": "Conditional transfer only;397unitPASS1ignored and94smokePASS remain distinct from original201/109. Merge, lifecycle finish and installed acceptance not inferred.",
+        "execution_authorized": false
       }
     },
     {
@@ -12063,12 +12466,9 @@
         "blob": "765703764dff6e81e8b56cff16946a596fff0b1e"
       },
       "existing_action": "retain",
-      "proposed_action": "hold_owner_test_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "qualified_owner_source_and_test_obligations",
-        "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision",
-        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        "Owner source merge/delivery and exact caller/rollback removal review; no deletion authorized."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -12082,6 +12482,38 @@
         "scope": "original_cli_declarations_200_pass_1_existing_ignore",
         "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
         "changes_removal_authority": false
+      },
+      "prior_runtime_test_hold": {
+        "proposed_action": "hold_owner_test_reconciliation",
+        "required_before_execution": [
+          "qualified_owner_source_and_test_obligations",
+          "all_active_caller_and_CI_repairs_in_same_delta",
+          "scoped_operator_decision",
+          "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        ],
+        "successor_mapping": {
+          "mapping": "exact_successor",
+          "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+          "exact_successor_paths": [
+            "adl/src/cli/tests/artifact_builders/learning_runtime/scores_io.rs"
+          ]
+        }
+      },
+      "runtime149_reconciliation": {
+        "packet": "RUNTIME_149_33_TEST_RECONCILIATION.json",
+        "sha256": "ee5e203fee7deb4e0ccb1936449c960d341dedf5fdca2141866de4c353386b0a",
+        "owner_repository": "agent-logic/agent-logic-runtime",
+        "source_revision": "ebfc8d841ac9593400e68ef65f903d7bca0a4983",
+        "successor_path": "adl/src/cli/tests/artifact_builders/learning_runtime/scores_io.rs",
+        "successor_git_identity": [
+          "100644",
+          "765703764dff6e81e8b56cff16946a596fff0b1e"
+        ],
+        "ci_run": 38442074993,
+        "ci_job": 115450918728,
+        "status": "exact_candidate_source_and_named_CI_qualification_reconciled",
+        "limits": "Conditional transfer only;397unitPASS1ignored and94smokePASS remain distinct from original201/109. Merge, lifecycle finish and installed acceptance not inferred.",
+        "execution_authorized": false
       }
     },
     {
@@ -12094,12 +12526,9 @@
         "blob": "f870f08dc81d0299a2506d68969865358a6df7aa"
       },
       "existing_action": "retain",
-      "proposed_action": "hold_owner_test_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "qualified_owner_source_and_test_obligations",
-        "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision",
-        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        "Owner source merge/delivery and exact caller/rollback removal review; no deletion authorized."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -12113,6 +12542,38 @@
         "scope": "original_cli_declarations_200_pass_1_existing_ignore",
         "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
         "changes_removal_authority": false
+      },
+      "prior_runtime_test_hold": {
+        "proposed_action": "hold_owner_test_reconciliation",
+        "required_before_execution": [
+          "qualified_owner_source_and_test_obligations",
+          "all_active_caller_and_CI_repairs_in_same_delta",
+          "scoped_operator_decision",
+          "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        ],
+        "successor_mapping": {
+          "mapping": "exact_successor",
+          "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+          "exact_successor_paths": [
+            "adl/src/cli/tests/artifact_builders/mod.rs"
+          ]
+        }
+      },
+      "runtime149_reconciliation": {
+        "packet": "RUNTIME_149_33_TEST_RECONCILIATION.json",
+        "sha256": "ee5e203fee7deb4e0ccb1936449c960d341dedf5fdca2141866de4c353386b0a",
+        "owner_repository": "agent-logic/agent-logic-runtime",
+        "source_revision": "ebfc8d841ac9593400e68ef65f903d7bca0a4983",
+        "successor_path": "adl/src/cli/tests/artifact_builders/mod.rs",
+        "successor_git_identity": [
+          "100644",
+          "f870f08dc81d0299a2506d68969865358a6df7aa"
+        ],
+        "ci_run": 38442074993,
+        "ci_job": 115450918728,
+        "status": "exact_candidate_source_and_named_CI_qualification_reconciled",
+        "limits": "Conditional transfer only;397unitPASS1ignored and94smokePASS remain distinct from original201/109. Merge, lifecycle finish and installed acceptance not inferred.",
+        "execution_authorized": false
       }
     },
     {
@@ -12125,12 +12586,9 @@
         "blob": "a7543fe8139a0b36b7c2a04f8a118ef97eea610a"
       },
       "existing_action": "retain",
-      "proposed_action": "hold_owner_test_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "qualified_owner_source_and_test_obligations",
-        "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision",
-        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        "Owner source merge/delivery and exact caller/rollback removal review; no deletion authorized."
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
@@ -12142,6 +12600,36 @@
         "scope": "original_cli_declarations_200_pass_1_existing_ignore",
         "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
         "changes_removal_authority": false
+      },
+      "prior_runtime_test_hold": {
+        "proposed_action": "hold_owner_test_reconciliation",
+        "required_before_execution": [
+          "qualified_owner_source_and_test_obligations",
+          "all_active_caller_and_CI_repairs_in_same_delta",
+          "scoped_operator_decision",
+          "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        ],
+        "successor_mapping": {
+          "mapping": "same_path_changed",
+          "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+          "exact_successor_paths": []
+        }
+      },
+      "runtime149_reconciliation": {
+        "packet": "RUNTIME_149_33_TEST_RECONCILIATION.json",
+        "sha256": "ee5e203fee7deb4e0ccb1936449c960d341dedf5fdca2141866de4c353386b0a",
+        "owner_repository": "agent-logic/agent-logic-runtime",
+        "source_revision": "ebfc8d841ac9593400e68ef65f903d7bca0a4983",
+        "successor_path": "adl/src/cli/tests/artifact_builders/summary.rs",
+        "successor_git_identity": [
+          "100644",
+          "477d1100ba0b10da18a425c2ba83fddc1b3253b3"
+        ],
+        "ci_run": 38442074993,
+        "ci_job": 115450918728,
+        "status": "exact_candidate_source_and_named_CI_qualification_reconciled",
+        "limits": "Conditional transfer only;397unitPASS1ignored and94smokePASS remain distinct from original201/109. Merge, lifecycle finish and installed acceptance not inferred.",
+        "execution_authorized": false
       }
     },
     {
@@ -12154,12 +12642,9 @@
         "blob": "24a4bc20c5343dbbf4ec886f68a1f5790cede9dc"
       },
       "existing_action": "retain",
-      "proposed_action": "hold_owner_test_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "qualified_owner_source_and_test_obligations",
-        "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision",
-        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        "Owner source merge/delivery and exact caller/rollback removal review; no deletion authorized."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -12173,6 +12658,38 @@
         "scope": "original_cli_declarations_200_pass_1_existing_ignore",
         "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
         "changes_removal_authority": false
+      },
+      "prior_runtime_test_hold": {
+        "proposed_action": "hold_owner_test_reconciliation",
+        "required_before_execution": [
+          "qualified_owner_source_and_test_obligations",
+          "all_active_caller_and_CI_repairs_in_same_delta",
+          "scoped_operator_decision",
+          "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        ],
+        "successor_mapping": {
+          "mapping": "exact_successor",
+          "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+          "exact_successor_paths": [
+            "adl/src/cli/tests/godel.rs"
+          ]
+        }
+      },
+      "runtime149_reconciliation": {
+        "packet": "RUNTIME_149_33_TEST_RECONCILIATION.json",
+        "sha256": "ee5e203fee7deb4e0ccb1936449c960d341dedf5fdca2141866de4c353386b0a",
+        "owner_repository": "agent-logic/agent-logic-runtime",
+        "source_revision": "ebfc8d841ac9593400e68ef65f903d7bca0a4983",
+        "successor_path": "adl/src/cli/tests/godel.rs",
+        "successor_git_identity": [
+          "100644",
+          "24a4bc20c5343dbbf4ec886f68a1f5790cede9dc"
+        ],
+        "ci_run": 38442074993,
+        "ci_job": 115450918728,
+        "status": "exact_candidate_source_and_named_CI_qualification_reconciled",
+        "limits": "Conditional transfer only;397unitPASS1ignored and94smokePASS remain distinct from original201/109. Merge, lifecycle finish and installed acceptance not inferred.",
+        "execution_authorized": false
       }
     },
     {
@@ -12185,12 +12702,9 @@
         "blob": "0ced1633db9aac77e2a0ab534f270160e7b2f314"
       },
       "existing_action": "retain",
-      "proposed_action": "hold_owner_test_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "qualified_owner_source_and_test_obligations",
-        "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision",
-        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        "Owner source merge/delivery and exact caller/rollback removal review; no deletion authorized."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -12204,6 +12718,38 @@
         "scope": "original_cli_declarations_200_pass_1_existing_ignore",
         "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
         "changes_removal_authority": false
+      },
+      "prior_runtime_test_hold": {
+        "proposed_action": "hold_owner_test_reconciliation",
+        "required_before_execution": [
+          "qualified_owner_source_and_test_obligations",
+          "all_active_caller_and_CI_repairs_in_same_delta",
+          "scoped_operator_decision",
+          "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        ],
+        "successor_mapping": {
+          "mapping": "exact_successor",
+          "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+          "exact_successor_paths": [
+            "adl/src/cli/tests/internal_commands.rs"
+          ]
+        }
+      },
+      "runtime149_reconciliation": {
+        "packet": "RUNTIME_149_33_TEST_RECONCILIATION.json",
+        "sha256": "ee5e203fee7deb4e0ccb1936449c960d341dedf5fdca2141866de4c353386b0a",
+        "owner_repository": "agent-logic/agent-logic-runtime",
+        "source_revision": "ebfc8d841ac9593400e68ef65f903d7bca0a4983",
+        "successor_path": "adl/src/cli/tests/internal_commands.rs",
+        "successor_git_identity": [
+          "100644",
+          "0ced1633db9aac77e2a0ab534f270160e7b2f314"
+        ],
+        "ci_run": 38442074993,
+        "ci_job": 115450918728,
+        "status": "exact_candidate_source_and_named_CI_qualification_reconciled",
+        "limits": "Conditional transfer only;397unitPASS1ignored and94smokePASS remain distinct from original201/109. Merge, lifecycle finish and installed acceptance not inferred.",
+        "execution_authorized": false
       }
     },
     {
@@ -12216,12 +12762,9 @@
         "blob": "90d4d880d146adcd9c1cb3d2c1ad60fec639486d"
       },
       "existing_action": "retain",
-      "proposed_action": "hold_owner_test_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "qualified_owner_source_and_test_obligations",
-        "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision",
-        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        "Owner source merge/delivery and exact caller/rollback removal review; no deletion authorized."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -12235,6 +12778,38 @@
         "scope": "original_cli_declarations_200_pass_1_existing_ignore",
         "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
         "changes_removal_authority": false
+      },
+      "prior_runtime_test_hold": {
+        "proposed_action": "hold_owner_test_reconciliation",
+        "required_before_execution": [
+          "qualified_owner_source_and_test_obligations",
+          "all_active_caller_and_CI_repairs_in_same_delta",
+          "scoped_operator_decision",
+          "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        ],
+        "successor_mapping": {
+          "mapping": "exact_successor",
+          "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+          "exact_successor_paths": [
+            "adl/src/cli/tests/internal_commands/control_path.rs"
+          ]
+        }
+      },
+      "runtime149_reconciliation": {
+        "packet": "RUNTIME_149_33_TEST_RECONCILIATION.json",
+        "sha256": "ee5e203fee7deb4e0ccb1936449c960d341dedf5fdca2141866de4c353386b0a",
+        "owner_repository": "agent-logic/agent-logic-runtime",
+        "source_revision": "ebfc8d841ac9593400e68ef65f903d7bca0a4983",
+        "successor_path": "adl/src/cli/tests/internal_commands/control_path.rs",
+        "successor_git_identity": [
+          "100644",
+          "90d4d880d146adcd9c1cb3d2c1ad60fec639486d"
+        ],
+        "ci_run": 38442074993,
+        "ci_job": 115450918728,
+        "status": "exact_candidate_source_and_named_CI_qualification_reconciled",
+        "limits": "Conditional transfer only;397unitPASS1ignored and94smokePASS remain distinct from original201/109. Merge, lifecycle finish and installed acceptance not inferred.",
+        "execution_authorized": false
       }
     },
     {
@@ -12247,12 +12822,9 @@
         "blob": "d8a62880e4b8b3ffadb4cf45e29a4460baff07a1"
       },
       "existing_action": "retain",
-      "proposed_action": "hold_owner_test_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "qualified_owner_source_and_test_obligations",
-        "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision",
-        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        "Owner source merge/delivery and exact caller/rollback removal review; no deletion authorized."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -12266,6 +12838,38 @@
         "scope": "original_cli_declarations_200_pass_1_existing_ignore",
         "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
         "changes_removal_authority": false
+      },
+      "prior_runtime_test_hold": {
+        "proposed_action": "hold_owner_test_reconciliation",
+        "required_before_execution": [
+          "qualified_owner_source_and_test_obligations",
+          "all_active_caller_and_CI_repairs_in_same_delta",
+          "scoped_operator_decision",
+          "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        ],
+        "successor_mapping": {
+          "mapping": "exact_successor",
+          "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+          "exact_successor_paths": [
+            "adl/src/cli/tests/internal_commands/demo.rs"
+          ]
+        }
+      },
+      "runtime149_reconciliation": {
+        "packet": "RUNTIME_149_33_TEST_RECONCILIATION.json",
+        "sha256": "ee5e203fee7deb4e0ccb1936449c960d341dedf5fdca2141866de4c353386b0a",
+        "owner_repository": "agent-logic/agent-logic-runtime",
+        "source_revision": "ebfc8d841ac9593400e68ef65f903d7bca0a4983",
+        "successor_path": "adl/src/cli/tests/internal_commands/demo.rs",
+        "successor_git_identity": [
+          "100644",
+          "d8a62880e4b8b3ffadb4cf45e29a4460baff07a1"
+        ],
+        "ci_run": 38442074993,
+        "ci_job": 115450918728,
+        "status": "exact_candidate_source_and_named_CI_qualification_reconciled",
+        "limits": "Conditional transfer only;397unitPASS1ignored and94smokePASS remain distinct from original201/109. Merge, lifecycle finish and installed acceptance not inferred.",
+        "execution_authorized": false
       }
     },
     {
@@ -12278,12 +12882,9 @@
         "blob": "7d5a86fa7da202240c9ee05db4dd9361536e3c3d"
       },
       "existing_action": "retain",
-      "proposed_action": "hold_owner_test_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "qualified_owner_source_and_test_obligations",
-        "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision",
-        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        "Owner source merge/delivery and exact caller/rollback removal review; no deletion authorized."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -12297,6 +12898,38 @@
         "scope": "original_cli_declarations_200_pass_1_existing_ignore",
         "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
         "changes_removal_authority": false
+      },
+      "prior_runtime_test_hold": {
+        "proposed_action": "hold_owner_test_reconciliation",
+        "required_before_execution": [
+          "qualified_owner_source_and_test_obligations",
+          "all_active_caller_and_CI_repairs_in_same_delta",
+          "scoped_operator_decision",
+          "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        ],
+        "successor_mapping": {
+          "mapping": "exact_successor",
+          "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+          "exact_successor_paths": [
+            "adl/src/cli/tests/internal_commands/instrumentation.rs"
+          ]
+        }
+      },
+      "runtime149_reconciliation": {
+        "packet": "RUNTIME_149_33_TEST_RECONCILIATION.json",
+        "sha256": "ee5e203fee7deb4e0ccb1936449c960d341dedf5fdca2141866de4c353386b0a",
+        "owner_repository": "agent-logic/agent-logic-runtime",
+        "source_revision": "ebfc8d841ac9593400e68ef65f903d7bca0a4983",
+        "successor_path": "adl/src/cli/tests/internal_commands/instrumentation.rs",
+        "successor_git_identity": [
+          "100644",
+          "7d5a86fa7da202240c9ee05db4dd9361536e3c3d"
+        ],
+        "ci_run": 38442074993,
+        "ci_job": 115450918728,
+        "status": "exact_candidate_source_and_named_CI_qualification_reconciled",
+        "limits": "Conditional transfer only;397unitPASS1ignored and94smokePASS remain distinct from original201/109. Merge, lifecycle finish and installed acceptance not inferred.",
+        "execution_authorized": false
       }
     },
     {
@@ -12309,12 +12942,9 @@
         "blob": "52979723e4b577e33ceef844c99f584efbe15229"
       },
       "existing_action": "retain",
-      "proposed_action": "hold_owner_test_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "qualified_owner_source_and_test_obligations",
-        "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision",
-        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        "Owner source merge/delivery and exact caller/rollback removal review; no deletion authorized."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -12328,6 +12958,38 @@
         "scope": "original_cli_declarations_200_pass_1_existing_ignore",
         "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
         "changes_removal_authority": false
+      },
+      "prior_runtime_test_hold": {
+        "proposed_action": "hold_owner_test_reconciliation",
+        "required_before_execution": [
+          "qualified_owner_source_and_test_obligations",
+          "all_active_caller_and_CI_repairs_in_same_delta",
+          "scoped_operator_decision",
+          "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        ],
+        "successor_mapping": {
+          "mapping": "exact_successor",
+          "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+          "exact_successor_paths": [
+            "adl/src/cli/tests/internal_commands/learn.rs"
+          ]
+        }
+      },
+      "runtime149_reconciliation": {
+        "packet": "RUNTIME_149_33_TEST_RECONCILIATION.json",
+        "sha256": "ee5e203fee7deb4e0ccb1936449c960d341dedf5fdca2141866de4c353386b0a",
+        "owner_repository": "agent-logic/agent-logic-runtime",
+        "source_revision": "ebfc8d841ac9593400e68ef65f903d7bca0a4983",
+        "successor_path": "adl/src/cli/tests/internal_commands/learn.rs",
+        "successor_git_identity": [
+          "100644",
+          "52979723e4b577e33ceef844c99f584efbe15229"
+        ],
+        "ci_run": 38442074993,
+        "ci_job": 115450918728,
+        "status": "exact_candidate_source_and_named_CI_qualification_reconciled",
+        "limits": "Conditional transfer only;397unitPASS1ignored and94smokePASS remain distinct from original201/109. Merge, lifecycle finish and installed acceptance not inferred.",
+        "execution_authorized": false
       }
     },
     {
@@ -12340,12 +13002,9 @@
         "blob": "f42990a274959f3defb39f601d617bd0c9300090"
       },
       "existing_action": "retain",
-      "proposed_action": "hold_owner_test_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "qualified_owner_source_and_test_obligations",
-        "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision",
-        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        "Owner source merge/delivery and exact caller/rollback removal review; no deletion authorized."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -12359,6 +13018,38 @@
         "scope": "original_cli_declarations_200_pass_1_existing_ignore",
         "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
         "changes_removal_authority": false
+      },
+      "prior_runtime_test_hold": {
+        "proposed_action": "hold_owner_test_reconciliation",
+        "required_before_execution": [
+          "qualified_owner_source_and_test_obligations",
+          "all_active_caller_and_CI_repairs_in_same_delta",
+          "scoped_operator_decision",
+          "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        ],
+        "successor_mapping": {
+          "mapping": "exact_successor",
+          "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+          "exact_successor_paths": [
+            "adl/src/cli/tests/internal_commands/runtime_state.rs"
+          ]
+        }
+      },
+      "runtime149_reconciliation": {
+        "packet": "RUNTIME_149_33_TEST_RECONCILIATION.json",
+        "sha256": "ee5e203fee7deb4e0ccb1936449c960d341dedf5fdca2141866de4c353386b0a",
+        "owner_repository": "agent-logic/agent-logic-runtime",
+        "source_revision": "ebfc8d841ac9593400e68ef65f903d7bca0a4983",
+        "successor_path": "adl/src/cli/tests/internal_commands/runtime_state.rs",
+        "successor_git_identity": [
+          "100644",
+          "f42990a274959f3defb39f601d617bd0c9300090"
+        ],
+        "ci_run": 38442074993,
+        "ci_job": 115450918728,
+        "status": "exact_candidate_source_and_named_CI_qualification_reconciled",
+        "limits": "Conditional transfer only;397unitPASS1ignored and94smokePASS remain distinct from original201/109. Merge, lifecycle finish and installed acceptance not inferred.",
+        "execution_authorized": false
       }
     },
     {
@@ -12371,12 +13062,9 @@
         "blob": "88018b8b0b25d801ab10759d59c177b573bd03a0"
       },
       "existing_action": "retain",
-      "proposed_action": "hold_owner_test_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "qualified_owner_source_and_test_obligations",
-        "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision",
-        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        "Owner source merge/delivery and exact caller/rollback removal review; no deletion authorized."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -12390,6 +13078,38 @@
         "scope": "original_cli_declarations_200_pass_1_existing_ignore",
         "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
         "changes_removal_authority": false
+      },
+      "prior_runtime_test_hold": {
+        "proposed_action": "hold_owner_test_reconciliation",
+        "required_before_execution": [
+          "qualified_owner_source_and_test_obligations",
+          "all_active_caller_and_CI_repairs_in_same_delta",
+          "scoped_operator_decision",
+          "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        ],
+        "successor_mapping": {
+          "mapping": "exact_successor",
+          "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+          "exact_successor_paths": [
+            "adl/src/cli/tests/internal_commands/signing.rs"
+          ]
+        }
+      },
+      "runtime149_reconciliation": {
+        "packet": "RUNTIME_149_33_TEST_RECONCILIATION.json",
+        "sha256": "ee5e203fee7deb4e0ccb1936449c960d341dedf5fdca2141866de4c353386b0a",
+        "owner_repository": "agent-logic/agent-logic-runtime",
+        "source_revision": "ebfc8d841ac9593400e68ef65f903d7bca0a4983",
+        "successor_path": "adl/src/cli/tests/internal_commands/signing.rs",
+        "successor_git_identity": [
+          "100644",
+          "88018b8b0b25d801ab10759d59c177b573bd03a0"
+        ],
+        "ci_run": 38442074993,
+        "ci_job": 115450918728,
+        "status": "exact_candidate_source_and_named_CI_qualification_reconciled",
+        "limits": "Conditional transfer only;397unitPASS1ignored and94smokePASS remain distinct from original201/109. Merge, lifecycle finish and installed acceptance not inferred.",
+        "execution_authorized": false
       }
     },
     {
@@ -12402,12 +13122,9 @@
         "blob": "228aca3756b957b87c3c088581d5fb5b9c2bb24d"
       },
       "existing_action": "retain",
-      "proposed_action": "hold_owner_test_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "qualified_owner_source_and_test_obligations",
-        "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision",
-        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        "Owner source merge/delivery and exact caller/rollback removal review; no deletion authorized."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -12421,6 +13138,38 @@
         "scope": "original_cli_declarations_200_pass_1_existing_ignore",
         "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
         "changes_removal_authority": false
+      },
+      "prior_runtime_test_hold": {
+        "proposed_action": "hold_owner_test_reconciliation",
+        "required_before_execution": [
+          "qualified_owner_source_and_test_obligations",
+          "all_active_caller_and_CI_repairs_in_same_delta",
+          "scoped_operator_decision",
+          "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        ],
+        "successor_mapping": {
+          "mapping": "exact_successor",
+          "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+          "exact_successor_paths": [
+            "adl/src/cli/tests/open_usage.rs"
+          ]
+        }
+      },
+      "runtime149_reconciliation": {
+        "packet": "RUNTIME_149_33_TEST_RECONCILIATION.json",
+        "sha256": "ee5e203fee7deb4e0ccb1936449c960d341dedf5fdca2141866de4c353386b0a",
+        "owner_repository": "agent-logic/agent-logic-runtime",
+        "source_revision": "ebfc8d841ac9593400e68ef65f903d7bca0a4983",
+        "successor_path": "adl/src/cli/tests/open_usage.rs",
+        "successor_git_identity": [
+          "100644",
+          "c266b36e1482aa798668c5591ed023bd1846c452"
+        ],
+        "ci_run": 38442074993,
+        "ci_job": 115450918728,
+        "status": "exact_candidate_source_and_named_CI_qualification_reconciled",
+        "limits": "Conditional transfer only;397unitPASS1ignored and94smokePASS remain distinct from original201/109. Merge, lifecycle finish and installed acceptance not inferred.",
+        "execution_authorized": false
       }
     },
     {
@@ -12433,12 +13182,9 @@
         "blob": "c0c52bfe48fdd6fa35162e5a961ef65408f1299e"
       },
       "existing_action": "retain",
-      "proposed_action": "hold_owner_test_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "qualified_owner_source_and_test_obligations",
-        "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision",
-        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        "Owner source merge/delivery and exact caller/rollback removal review; no deletion authorized."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -12452,6 +13198,38 @@
         "scope": "original_cli_declarations_200_pass_1_existing_ignore",
         "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
         "changes_removal_authority": false
+      },
+      "prior_runtime_test_hold": {
+        "proposed_action": "hold_owner_test_reconciliation",
+        "required_before_execution": [
+          "qualified_owner_source_and_test_obligations",
+          "all_active_caller_and_CI_repairs_in_same_delta",
+          "scoped_operator_decision",
+          "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        ],
+        "successor_mapping": {
+          "mapping": "exact_successor",
+          "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+          "exact_successor_paths": [
+            "adl/src/cli/tests/run_state/basics.rs"
+          ]
+        }
+      },
+      "runtime149_reconciliation": {
+        "packet": "RUNTIME_149_33_TEST_RECONCILIATION.json",
+        "sha256": "ee5e203fee7deb4e0ccb1936449c960d341dedf5fdca2141866de4c353386b0a",
+        "owner_repository": "agent-logic/agent-logic-runtime",
+        "source_revision": "ebfc8d841ac9593400e68ef65f903d7bca0a4983",
+        "successor_path": "adl/src/cli/tests/run_state/basics.rs",
+        "successor_git_identity": [
+          "100644",
+          "c0c52bfe48fdd6fa35162e5a961ef65408f1299e"
+        ],
+        "ci_run": 38442074993,
+        "ci_job": 115450918728,
+        "status": "exact_candidate_source_and_named_CI_qualification_reconciled",
+        "limits": "Conditional transfer only;397unitPASS1ignored and94smokePASS remain distinct from original201/109. Merge, lifecycle finish and installed acceptance not inferred.",
+        "execution_authorized": false
       }
     },
     {
@@ -12464,12 +13242,9 @@
         "blob": "4d610b89ce62b1d128afb8bc42cfd18de41006c8"
       },
       "existing_action": "retain",
-      "proposed_action": "hold_owner_test_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "qualified_owner_source_and_test_obligations",
-        "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision",
-        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        "Owner source merge/delivery and exact caller/rollback removal review; no deletion authorized."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -12483,6 +13258,38 @@
         "scope": "original_cli_declarations_200_pass_1_existing_ignore",
         "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
         "changes_removal_authority": false
+      },
+      "prior_runtime_test_hold": {
+        "proposed_action": "hold_owner_test_reconciliation",
+        "required_before_execution": [
+          "qualified_owner_source_and_test_obligations",
+          "all_active_caller_and_CI_repairs_in_same_delta",
+          "scoped_operator_decision",
+          "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        ],
+        "successor_mapping": {
+          "mapping": "exact_successor",
+          "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+          "exact_successor_paths": [
+            "adl/src/cli/tests/run_state/failure_taxonomy.rs"
+          ]
+        }
+      },
+      "runtime149_reconciliation": {
+        "packet": "RUNTIME_149_33_TEST_RECONCILIATION.json",
+        "sha256": "ee5e203fee7deb4e0ccb1936449c960d341dedf5fdca2141866de4c353386b0a",
+        "owner_repository": "agent-logic/agent-logic-runtime",
+        "source_revision": "ebfc8d841ac9593400e68ef65f903d7bca0a4983",
+        "successor_path": "adl/src/cli/tests/run_state/failure_taxonomy.rs",
+        "successor_git_identity": [
+          "100644",
+          "4d610b89ce62b1d128afb8bc42cfd18de41006c8"
+        ],
+        "ci_run": 38442074993,
+        "ci_job": 115450918728,
+        "status": "exact_candidate_source_and_named_CI_qualification_reconciled",
+        "limits": "Conditional transfer only;397unitPASS1ignored and94smokePASS remain distinct from original201/109. Merge, lifecycle finish and installed acceptance not inferred.",
+        "execution_authorized": false
       }
     },
     {
@@ -12495,12 +13302,9 @@
         "blob": "49e5b36a9696895c6e75f92a9879a867e2ecd9fc"
       },
       "existing_action": "retain",
-      "proposed_action": "hold_owner_test_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "qualified_owner_source_and_test_obligations",
-        "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision",
-        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        "Owner source merge/delivery and exact caller/rollback removal review; no deletion authorized."
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
@@ -12512,6 +13316,36 @@
         "scope": "original_cli_declarations_200_pass_1_existing_ignore",
         "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
         "changes_removal_authority": false
+      },
+      "prior_runtime_test_hold": {
+        "proposed_action": "hold_owner_test_reconciliation",
+        "required_before_execution": [
+          "qualified_owner_source_and_test_obligations",
+          "all_active_caller_and_CI_repairs_in_same_delta",
+          "scoped_operator_decision",
+          "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        ],
+        "successor_mapping": {
+          "mapping": "same_path_changed",
+          "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+          "exact_successor_paths": []
+        }
+      },
+      "runtime149_reconciliation": {
+        "packet": "RUNTIME_149_33_TEST_RECONCILIATION.json",
+        "sha256": "ee5e203fee7deb4e0ccb1936449c960d341dedf5fdca2141866de4c353386b0a",
+        "owner_repository": "agent-logic/agent-logic-runtime",
+        "source_revision": "ebfc8d841ac9593400e68ef65f903d7bca0a4983",
+        "successor_path": "adl/src/cli/tests/run_state/mod.rs",
+        "successor_git_identity": [
+          "100644",
+          "711909b5e5b12fce0d49e69324d3a20c5592c4c2"
+        ],
+        "ci_run": 38442074993,
+        "ci_job": 115450918728,
+        "status": "exact_candidate_source_and_named_CI_qualification_reconciled",
+        "limits": "Conditional transfer only;397unitPASS1ignored and94smokePASS remain distinct from original201/109. Merge, lifecycle finish and installed acceptance not inferred.",
+        "execution_authorized": false
       }
     },
     {
@@ -12524,12 +13358,9 @@
         "blob": "d17b6532fb3bb3981077b43b12f4f8cee97c05c0"
       },
       "existing_action": "retain",
-      "proposed_action": "hold_owner_test_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "qualified_owner_source_and_test_obligations",
-        "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision",
-        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        "Owner source merge/delivery and exact caller/rollback removal review; no deletion authorized."
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
@@ -12541,6 +13372,36 @@
         "scope": "original_cli_declarations_200_pass_1_existing_ignore",
         "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
         "changes_removal_authority": false
+      },
+      "prior_runtime_test_hold": {
+        "proposed_action": "hold_owner_test_reconciliation",
+        "required_before_execution": [
+          "qualified_owner_source_and_test_obligations",
+          "all_active_caller_and_CI_repairs_in_same_delta",
+          "scoped_operator_decision",
+          "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        ],
+        "successor_mapping": {
+          "mapping": "same_path_changed",
+          "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+          "exact_successor_paths": []
+        }
+      },
+      "runtime149_reconciliation": {
+        "packet": "RUNTIME_149_33_TEST_RECONCILIATION.json",
+        "sha256": "ee5e203fee7deb4e0ccb1936449c960d341dedf5fdca2141866de4c353386b0a",
+        "owner_repository": "agent-logic/agent-logic-runtime",
+        "source_revision": "ebfc8d841ac9593400e68ef65f903d7bca0a4983",
+        "successor_path": "adl/src/cli/tests/run_state/persistence.rs",
+        "successor_git_identity": [
+          "100644",
+          "f852f12f9a8125abd9736001998a0863c2faeda8"
+        ],
+        "ci_run": 38442074993,
+        "ci_job": 115450918728,
+        "status": "exact_candidate_source_and_named_CI_qualification_reconciled",
+        "limits": "Conditional transfer only;397unitPASS1ignored and94smokePASS remain distinct from original201/109. Merge, lifecycle finish and installed acceptance not inferred.",
+        "execution_authorized": false
       }
     },
     {
@@ -12553,12 +13414,9 @@
         "blob": "66df6f0f1aa361564e52fbb271e2773297dddee4"
       },
       "existing_action": "retain",
-      "proposed_action": "hold_owner_test_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "qualified_owner_source_and_test_obligations",
-        "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision",
-        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        "Owner source merge/delivery and exact caller/rollback removal review; no deletion authorized."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -12572,6 +13430,38 @@
         "scope": "original_cli_declarations_200_pass_1_existing_ignore",
         "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
         "changes_removal_authority": false
+      },
+      "prior_runtime_test_hold": {
+        "proposed_action": "hold_owner_test_reconciliation",
+        "required_before_execution": [
+          "qualified_owner_source_and_test_obligations",
+          "all_active_caller_and_CI_repairs_in_same_delta",
+          "scoped_operator_decision",
+          "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        ],
+        "successor_mapping": {
+          "mapping": "exact_successor",
+          "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+          "exact_successor_paths": [
+            "adl/src/cli/tests/run_state/runtime_control.rs"
+          ]
+        }
+      },
+      "runtime149_reconciliation": {
+        "packet": "RUNTIME_149_33_TEST_RECONCILIATION.json",
+        "sha256": "ee5e203fee7deb4e0ccb1936449c960d341dedf5fdca2141866de4c353386b0a",
+        "owner_repository": "agent-logic/agent-logic-runtime",
+        "source_revision": "ebfc8d841ac9593400e68ef65f903d7bca0a4983",
+        "successor_path": "adl/src/cli/tests/run_state/runtime_control.rs",
+        "successor_git_identity": [
+          "100644",
+          "66df6f0f1aa361564e52fbb271e2773297dddee4"
+        ],
+        "ci_run": 38442074993,
+        "ci_job": 115450918728,
+        "status": "exact_candidate_source_and_named_CI_qualification_reconciled",
+        "limits": "Conditional transfer only;397unitPASS1ignored and94smokePASS remain distinct from original201/109. Merge, lifecycle finish and installed acceptance not inferred.",
+        "execution_authorized": false
       }
     },
     {
@@ -25448,12 +26338,10 @@
         "blob": "c78e8b4cdbff4560c58ce5190a90937439042b2b"
       },
       "existing_action": "retain",
-      "proposed_action": "hold_owner_test_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "qualified_owner_source_and_test_obligations",
-        "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision",
-        "Resolve RT-CI-DENOMINATOR with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        "Owner source merge/delivery and exact caller/rollback removal review; no deletion authorized.",
+        "Preserve historical109 split:91same-name RuntimePASS,1current-help replacementPASS,16exact ADLprocessPASS,1historical undeclaredremote;94Runtime includes2additional owner-boundary tests."
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
@@ -25465,6 +26353,50 @@
         "scope": "serial_cli_smoke_94_pass",
         "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
         "changes_removal_authority": false
+      },
+      "prior_runtime_test_hold": {
+        "proposed_action": "hold_owner_test_reconciliation",
+        "required_before_execution": [
+          "qualified_owner_source_and_test_obligations",
+          "all_active_caller_and_CI_repairs_in_same_delta",
+          "scoped_operator_decision",
+          "Resolve RT-CI-DENOMINATOR with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        ],
+        "successor_mapping": {
+          "mapping": "same_path_changed",
+          "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+          "exact_successor_paths": []
+        }
+      },
+      "runtime149_reconciliation": {
+        "packet": "RUNTIME_149_33_TEST_RECONCILIATION.json",
+        "sha256": "ee5e203fee7deb4e0ccb1936449c960d341dedf5fdca2141866de4c353386b0a",
+        "owner_repository": "agent-logic/agent-logic-runtime",
+        "source_revision": "ebfc8d841ac9593400e68ef65f903d7bca0a4983",
+        "successor_path": "adl/tests/cli_smoke.rs",
+        "successor_git_identity": [
+          "100644",
+          "c62d28b1c1ef7dc7a62bf804f4434f85b324d78e"
+        ],
+        "ci_run": 38442074993,
+        "ci_job": 115450918728,
+        "status": "exact_candidate_source_and_named_CI_qualification_reconciled",
+        "limits": "Conditional transfer only;397unitPASS1ignored and94smokePASS remain distinct from original201/109. Merge, lifecycle finish and installed acceptance not inferred.",
+        "execution_authorized": false,
+        "original109_disposition": {
+          "same_name_runtime_cases_passed": 91,
+          "replacement_current_help_case_passed": 1,
+          "external_ADL_process_cases": 16,
+          "undeclared_remote_binary_historical_case": 1
+        },
+        "remote_historical_obligation": {
+          "row": "RD07-0961",
+          "case": "adl_remote_rejects_invalid_bind_deterministically",
+          "status": "explicit_historical_undeclared_binary_obligation",
+          "source_evidence": "Exact Runtime CLI_TARGET_REQUIREMENTS at recorded candidate identifies formerly silent-skipping undeclared adl-remote test; current owner-boundary test rejects remote command.",
+          "equivalence_claim": false,
+          "retirement_requirement": "Retain original negative-bind assertion as historical unqualified standalone-binary contract; transfer five actual exports tests and explicitly retire obsolete binary test, not relabel owner-refusal proof as bind behavior."
+        }
       }
     },
     {
@@ -25523,12 +26455,10 @@
         "blob": "a099c74f912dfd87079cd9972dff6762fdce8f28"
       },
       "existing_action": "retain",
-      "proposed_action": "hold_owner_test_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "qualified_owner_source_and_test_obligations",
-        "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision",
-        "Resolve RT-CI-DENOMINATOR with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        "Owner source merge/delivery and exact caller/rollback removal review; no deletion authorized.",
+        "Preserve historical109 split:91same-name RuntimePASS,1current-help replacementPASS,16exact ADLprocessPASS,1historical undeclaredremote;94Runtime includes2additional owner-boundary tests."
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
@@ -25540,6 +26470,50 @@
         "scope": "serial_cli_smoke_94_pass",
         "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
         "changes_removal_authority": false
+      },
+      "prior_runtime_test_hold": {
+        "proposed_action": "hold_owner_test_reconciliation",
+        "required_before_execution": [
+          "qualified_owner_source_and_test_obligations",
+          "all_active_caller_and_CI_repairs_in_same_delta",
+          "scoped_operator_decision",
+          "Resolve RT-CI-DENOMINATOR with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
+        ],
+        "successor_mapping": {
+          "mapping": "same_path_changed",
+          "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+          "exact_successor_paths": []
+        }
+      },
+      "runtime149_reconciliation": {
+        "packet": "RUNTIME_149_33_TEST_RECONCILIATION.json",
+        "sha256": "ee5e203fee7deb4e0ccb1936449c960d341dedf5fdca2141866de4c353386b0a",
+        "owner_repository": "agent-logic/agent-logic-runtime",
+        "source_revision": "ebfc8d841ac9593400e68ef65f903d7bca0a4983",
+        "successor_path": "adl/tests/cli_smoke/exports_and_remote.rs",
+        "successor_git_identity": [
+          "100644",
+          "82dcb0f965edf429277f72bff4f56def8783a674"
+        ],
+        "ci_run": 38442074993,
+        "ci_job": 115450918728,
+        "status": "exact_candidate_source_and_named_CI_qualification_reconciled",
+        "limits": "Conditional transfer only;397unitPASS1ignored and94smokePASS remain distinct from original201/109. Merge, lifecycle finish and installed acceptance not inferred.",
+        "execution_authorized": false,
+        "original109_disposition": {
+          "same_name_runtime_cases_passed": 91,
+          "replacement_current_help_case_passed": 1,
+          "external_ADL_process_cases": 16,
+          "undeclared_remote_binary_historical_case": 1
+        },
+        "remote_historical_obligation": {
+          "row": "RD07-0961",
+          "case": "adl_remote_rejects_invalid_bind_deterministically",
+          "status": "explicit_historical_undeclared_binary_obligation",
+          "source_evidence": "Exact Runtime CLI_TARGET_REQUIREMENTS at recorded candidate identifies formerly silent-skipping undeclared adl-remote test; current owner-boundary test rejects remote command.",
+          "equivalence_claim": false,
+          "retirement_requirement": "Retain original negative-bind assertion as historical unqualified standalone-binary contract; transfer five actual exports tests and explicitly retire obsolete binary test, not relabel owner-refusal proof as bind behavior."
+        }
       }
     },
     {
