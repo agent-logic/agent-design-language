@@ -80,7 +80,11 @@
     "adl/src/cli/workflow_display.rs": [
       "100644",
       "50828cc3d3267fedc8334f6139a1a325ea834a6c"
+    ],
+    "adl/src/cli/runtime_owner.rs": [
+      "100644",
+      "4fc0f58b202d1c2ef506dbee6a96b9fce9b218d2"
     ]
   },
-  "surgical_followup": "CLI-01 behavior-preserving parser and portable rendering extraction under operator finish1223 instruction; no further removals"
+  "surgical_followup": "CLI-01 parser/rendering extraction and CLI-02 unconnected installed-owner selection/transport under operator finish1223 instruction; no further removals or production dispatch change"
 }

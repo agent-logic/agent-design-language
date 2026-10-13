@@ -171,5 +171,16 @@
       "resources": "FastWork target, single Cargo job",
       "claim": "Compilation of current complete retained CLI; not execution or final package proof"
     }
+  },
+  "runtime_owner_selection_proof": {
+    "lane": "local_contract",
+    "role": "explicit_installed_selection_and_process_transport",
+    "determinism": "synthetic owner layout; exact argv, cwd, environment, stdout, stderr, exit and Unix signal",
+    "resources": "small CPU and FastWork disk; offline Cargo; no provider or installation",
+    "gate": "required CLI-02 preflight; does not satisfy installed parity",
+    "command": "TMPDIR=/Volumes/FastWork/c1223/tmp python3 -B tools/public_adl/test_runtime_owner.py",
+    "test_methods": 7,
+    "result": "passed",
+    "limits": "Synthetic package metadata is not owner qualification; production dispatch is unchanged. Real Runtime install and command parity remain required."
   }
 }

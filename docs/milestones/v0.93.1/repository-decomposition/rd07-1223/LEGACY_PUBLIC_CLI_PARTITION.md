@@ -130,3 +130,13 @@ status, aliases, option-like operands and literal metacharacters. The parser ext
 rendering extraction calls the same portable contract functions in the same order.
 The full retained `adl` binary passes `cargo check --locked`; end-to-end CLI
 behavior and installed product parity remain required before final retirement.
+
+## CLI-02 selection preflight
+
+The Runtime adapter selects an explicitly pinned installation using the existing
+Runtime package layout after owner qualification. It checks selection and metadata
+without rehashing the payload on each command. Seven synthetic contract tests pass,
+including exact argument boundaries, standard streams, exit status, working
+directory, environment and Unix signal propagation through process replacement.
+This module is not connected to production dispatch yet. Real installed command
+parity remains required; synthetic receipts do not establish qualification.
