@@ -423,7 +423,7 @@
     },
     {
       "component": "agent-logic-infrastructure-historical-docs",
-      "proposal": "Propose retaining ADL planning/history with explicit successor ownership links. Do not reinterpret historical examples as active production commands.",
+      "proposal": "Retain the reusable S3/Terraform operational guide and its inbound ADL planning link. Historical grouping is not a claim that these operational instructions are immutable history.",
       "rows": [
         {
           "id": "RD07-3562",
@@ -436,7 +436,13 @@
             "docs/planning/HOW_TO_CREATE_S3_WEBSITE_WITH_TERRAFORM.md"
           ],
           "consumer_audit": "not_covered_by_429_row_consumer_packet",
-          "finding_reference": null
+          "finding_reference": null,
+          "disposition_status": "resolved_retention",
+          "retention_reason": "retain_reusable_operational_guide_and_inbound_navigation",
+          "retention_evidence": [
+            "docs/planning/HOW_TO_CREATE_S3_WEBSITE_WITH_TERRAFORM.md: reusable ADL/CodeFriend operational pattern",
+            "docs/planning/codefriend/README.md: relative link to reusable guide"
+          ]
         }
       ],
       "count": 1,
@@ -449,7 +455,7 @@
         "Exact component removal and all retained caller changes must be reviewed together.",
         "Existing source mapping is correspondence, not installed replacement acceptance."
       ],
-      "resolved_retention_count": 0
+      "resolved_retention_count": 1
     },
     {
       "component": "agent-logic-infrastructure-infrastructure",
@@ -26599,7 +26605,12 @@
           "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
           "exact_successor_paths": [],
           "consumer_audit": "retained_existing_findings",
-          "finding_reference": "RD07-3572"
+          "finding_reference": "RD07-3572",
+          "disposition_status": "resolved_retention",
+          "retention_reason": "retain_adl_planning_history_and_navigation",
+          "retention_evidence": [
+            "docs/planning/codefriend/README.md: explicit supersession notice and linked planning family"
+          ]
         }
       ],
       "count": 5,
@@ -26612,7 +26623,7 @@
         "Exact component removal and all retained caller changes must be reviewed together.",
         "Existing source mapping is correspondence, not installed replacement acceptance."
       ],
-      "resolved_retention_count": 0
+      "resolved_retention_count": 1
     },
     {
       "component": "codefriend-mapped-tools",
@@ -31763,7 +31774,7 @@
     },
     {
       "component": "cognitive-sdlc-historical-docs",
-      "proposal": "Propose retaining ADL planning/history with explicit successor ownership links. Do not reinterpret historical examples as active production commands.",
+      "proposal": "Retain ADL planning documents after per-file classification: the milestone ordering standard is active ADL policy; historical plans retain their explicit supersession and navigation.",
       "rows": [
         {
           "id": "RD07-3559",
@@ -31774,7 +31785,12 @@
           "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
           "exact_successor_paths": [],
           "consumer_audit": "retained_existing_findings",
-          "finding_reference": "RD07-3559"
+          "finding_reference": "RD07-3559",
+          "disposition_status": "resolved_retention",
+          "retention_reason": "retain_active_adl_planning_policy",
+          "retention_evidence": [
+            "docs/planning/ADL_MILESTONE_WP_ORDERING_STANDARD.md: active_standard; ADL maintainers; milestone ordering contract"
+          ]
         },
         {
           "id": "RD07-3560",
@@ -31842,7 +31858,7 @@
         "Exact component removal and all retained caller changes must be reviewed together.",
         "Existing source mapping is correspondence, not installed replacement acceptance."
       ],
-      "resolved_retention_count": 0
+      "resolved_retention_count": 1
     },
     {
       "component": "cognitive-sdlc-mapped-tools",
@@ -54137,5 +54153,5 @@
       "resolved_retention_count": 1
     }
   ],
-  "resolved_retention_count": 136
+  "resolved_retention_count": 139
 }

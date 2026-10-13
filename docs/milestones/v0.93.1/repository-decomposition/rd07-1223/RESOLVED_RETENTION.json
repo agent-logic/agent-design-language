@@ -1,7 +1,7 @@
 {
   "schema": "adl.source_retirement.resolved_retention.v1",
   "issue": 1223,
-  "count": 136,
+  "count": 139,
   "scope": "Required ADL contract/state/history or operator-excluded website assets; no implementation removal and no active-tool hold declared resolved",
   "all_holds_resolved": false,
   "rows": [
@@ -101,6 +101,31 @@
       "evidence": [
         "AGENTS.md: canonical selector and authenticated reconciliation receipt",
         "docs/csdlc-v3/CURRENT_AUTHORITY.md"
+      ]
+    },
+    {
+      "id": "RD07-3559",
+      "path": "docs/planning/ADL_MILESTONE_WP_ORDERING_STANDARD.md",
+      "reason": "retain_active_adl_planning_policy",
+      "evidence": [
+        "docs/planning/ADL_MILESTONE_WP_ORDERING_STANDARD.md: active_standard; ADL maintainers; milestone ordering contract"
+      ]
+    },
+    {
+      "id": "RD07-3562",
+      "path": "docs/planning/HOW_TO_CREATE_S3_WEBSITE_WITH_TERRAFORM.md",
+      "reason": "retain_reusable_operational_guide_and_inbound_navigation",
+      "evidence": [
+        "docs/planning/HOW_TO_CREATE_S3_WEBSITE_WITH_TERRAFORM.md: reusable ADL/CodeFriend operational pattern",
+        "docs/planning/codefriend/README.md: relative link to reusable guide"
+      ]
+    },
+    {
+      "id": "RD07-3572",
+      "path": "docs/planning/codefriend/README.md",
+      "reason": "retain_adl_planning_history_and_navigation",
+      "evidence": [
+        "docs/planning/codefriend/README.md: explicit supersession notice and linked planning family"
       ]
     },
     {

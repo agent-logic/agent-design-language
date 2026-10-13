@@ -7,7 +7,7 @@ This is one consolidated proposal, not additional deletion authority. Every orig
 | Component | Original rows | Proposal |
 |---|---:|---|
 | agent-logic-infrastructure-active-tool-contracts | 31 | Retain current ADL validation/installation/control-plane consumer until its replacement is implemented; owner assignment alone does not remove this consumer. |
-| agent-logic-infrastructure-historical-docs | 1 | Propose retaining ADL planning/history with explicit successor ownership links. Do not reinterpret historical examples as active production commands. |
+| agent-logic-infrastructure-historical-docs | 1 | Retain the reusable operational guide and its ADL planning navigation; the grouping does not imply historical-only instructions. |
 | agent-logic-infrastructure-infrastructure | 212 | Propose whole Terraform/deployment components with their scripts and docs after independent construction validation and exact consumer routing. No cloud apply or deletion is part of this decision. |
 | agent-logic-infrastructure-mapped-tools | 118 | Propose complete tool-family retirement with caller routing to its qualified successor; changed mappings require behavioral review. Keep tools still required to validate retained ADL code until the caller cutover. |
 | agent-logic-infrastructure-mixed-code | 2 | Resolve through the CLI/library/manifest component partition; preserve public behavior and qualify owner command adapters before deleting private implementation or tests. |
@@ -28,7 +28,7 @@ This is one consolidated proposal, not additional deletion authority. Every orig
 | codefriend-product-docs | 41 | Propose successor-owned active instructions plus ADL migration links; inspect each current inbound link and retain ADL-specific contracts/history. Unmapped pages require explicit destination or retention rationale. |
 | codefriend-unmapped-tools | 52 | Require explicit successor mapping or a specific obsolete-tool retirement rationale, then repair executable callers as one tool family. No byte-correspondence removal is proposed for these rows. |
 | cognitive-sdlc-active-tool-contracts | 19 | Retain current ADL validation/installation/control-plane consumer until its replacement is implemented; owner assignment alone does not remove this consumer. |
-| cognitive-sdlc-historical-docs | 6 | Propose retaining ADL planning/history with explicit successor ownership links. Do not reinterpret historical examples as active production commands. |
+| cognitive-sdlc-historical-docs | 6 | Retain the active ADL milestone ordering standard as current policy; classify remaining plans by their explicit status and preserve navigation. |
 | cognitive-sdlc-mapped-tools | 258 | Propose complete tool-family retirement with caller routing to its qualified successor; changed mappings require behavioral review. Keep tools still required to validate retained ADL code until the caller cutover. |
 | cognitive-sdlc-mixed-code | 4 | Resolve through the CLI/library/manifest component partition; preserve public behavior and qualify owner command adapters before deleting private implementation or tests. |
 | cognitive-sdlc-other-consumers | 52 | Reconcile component ownership and current callers; propose exact removal only with successor qualification or explicit retained ADL contract disposition. |
@@ -58,11 +58,14 @@ Producer build success does not discharge ADL consumer acceptance. The packet do
 
 ## Resolved retention
 
-`RESOLVED_RETENTION.json` resolves 136 original rows as required retained
+`RESOLVED_RETENTION.json` resolves 139 original rows as required retained
 ADL contract/state/history or excluded website assets: 122 planning/prompt contract
 files, three v3 authority records, six historical cutover/rollback records, one
 registry-referenced native card shape, one repository worktree policy, and three
-website assets. Each row records its specific reason and evidence.
+website assets, plus one active ADL milestone ordering standard, one reusable
+operational guide, and its ADL planning navigation page. Each row records its
+specific reason and evidence. The operational guide and active standard are
+retained for their current purpose, not classified as immutable history.
 
 The remaining 18 v2 operator skill/example files are still unresolved; their location
 in an operator directory alone does not establish immutable-record status. Active

@@ -46,16 +46,16 @@
     "missing_owner_case": 1
   },
   "limits": [
-    "39 CodeFriend integration suites retain 391 unresolved owner-migration obligations. Their source is intact; no autotests=false or suite pass claim.",
-    "Whole-repository CI/source removal and final five-public-package proof remain required.",
+    "39 CodeFriend integration suites have391 mapped obligations plus19 async executable tests; owner issue102 qualification remains pending. Source intact; no autotests=false or suite pass claim.",
+    "Whole-repository CI/source removal remains required. Five-public-package local proof passed; see PUBLIC_PACKAGE_QUALIFICATION.json for exact source attribution.",
     "Actual installed Runtime/CodeFriend execution evidence remains separate from synthetic facade tests."
   ],
   "next_changes": [
     "Complete successor test migration and exact source/caller removal decision.",
     "Complete C-SDLC external installer and owner CI cutover after qualified package availability.",
-    "Run final public package and independent ADL container acceptance."
+    "Preserve completed public package and independent Linux public CLI proof; revalidate only material changes and final required CI."
   ],
-  "entrypoint_applied": "adl/src/main.rs now selects the proved public_dispatch module; tracked library/manifest remain pending atomic cutover",
+  "entrypoint_applied": "adl/src/main.rs selects public_dispatch; tracked public library/manifest/lockfile cutover applied at bbc65b59bc. Private source remains pending owner migration and coherent removal.",
   "actual_main_check": {
     "status": "passed",
     "seconds": 7.11,
