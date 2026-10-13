@@ -44,10 +44,14 @@ done
 [[ -n "$EXPECTED_PR_STATE" ]] || die "missing --expected-pr-state"
 [[ -d "$REPO_ROOT" ]] || die "repo root not found: $REPO_ROOT"
 
+if [[ "${ADL_OPERATIONAL_SKILLS_SOURCE_ROOT:-}" != /* || ! -d "${ADL_OPERATIONAL_SKILLS_SOURCE_ROOT:-}" ]]; then
+  die "select an explicit complete owner skill source via ADL_OPERATIONAL_SKILLS_SOURCE_ROOT before attaching janitor"
+fi
+
 command -v codex >/dev/null 2>&1 || die "codex CLI not found in PATH"
 codex exec --help >/dev/null 2>&1 || die "codex exec --help failed"
 
-bash "$REPO_ROOT/adl/tools/install_adl_operational_skills.sh" >/dev/null
+ADL_OPERATIONAL_SKILLS_SOURCE_ROOT="$ADL_OPERATIONAL_SKILLS_SOURCE_ROOT" bash "$REPO_ROOT/adl/tools/install_adl_operational_skills.sh" >/dev/null
 
 ARTIFACT_ROOT="$REPO_ROOT/.adl/logs/pr-janitor/issue-${ISSUE}"
 mkdir -p "$ARTIFACT_ROOT"

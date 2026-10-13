@@ -1,0 +1,2768 @@
+{
+  "schema": "adl1223.codefriend_skill_family_applied.v1",
+  "status": "applied_local_reversible_implementation",
+  "source_head_before": "d293b17fe05f70633826017eb581f5315359f80f",
+  "implementation_commit": "pending_parent_commit",
+  "authorization_basis": "Renewed user instruction to finish issue1223 coherent repository-split retirement; parent delegated exact reviewed127 removal plus16caller batch. No invented separate path-specific user approval, broader removal or publication authority.",
+  "proposal": {
+    "path": "/Volumes/FastWork/c1223/codefriend-skill-family-preparation/PROPOSAL.json",
+    "sha256": "f7417b226721a5c468ae23fbf363192f05c5967eaf54fbdebe28618cc575f064"
+  },
+  "reviewed_patch": {
+    "path": "/Volumes/FastWork/c1223/codefriend-skill-family-preparation/127-skills-and-callers.patch",
+    "sha256": "90483c0b3e09cefb5e4e0a56432edfea9a1fc4fa07b5a5f89ccba280bd2bc1a5",
+    "apply_check": "PASS currentworktree"
+  },
+  "scope": {
+    "skill_files": 115,
+    "families": [
+      "adr-curator",
+      "architecture-diagram-reviewer",
+      "architecture-fitness-function-author",
+      "diagram-author",
+      "finding-to-issue-planner",
+      "product-report-writer",
+      "redaction-and-evidence-auditor",
+      "repo-architecture-review",
+      "repo-code-review",
+      "repo-dependency-review",
+      "repo-diagram-planner",
+      "repo-packet-builder",
+      "repo-review-code",
+      "repo-review-docs",
+      "repo-review-security",
+      "repo-review-synthesis",
+      "repo-review-tests",
+      "review-quality-evaluator",
+      "review-readiness-cleanup",
+      "review-to-test-planner"
+    ],
+    "original_consumer_scripts": 12,
+    "total_original_inventory_paths": 127,
+    "retained_exception": "RD07-1776 issue-520-changed-paths.txt remains original independent historical scan fixture; not removed with its surrounding family."
+  },
+  "files": [
+    {
+      "path": "adl/tools/skills/adr-curator/SKILL.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "462044d1445efa2b9e094b0ada0745f4acb0610b",
+        "sha256": "2ba7d242aff65aa558b18e02d1819d60712e5dc775f3cde71a439dc2125d597e"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/adr-curator/adl-skill.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "9d2236fa966a2ef40c10512b791d7adf0814b82f",
+        "sha256": "edb86e649e5ed993bbaaa6151a1458315770d2eb078d19de0a451b645224088b"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/adr-curator/agents/openai.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "6121c3cefb24206cd5dc34a40235846a9c43f2ba",
+        "sha256": "3c59f9460ac4fb82961f5485566e8330f436fd1de5e11aa31d49bf15147ea80d"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/adr-curator/references/adr-curation-playbook.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "8c985337bccee9537920638eff93cc06897f2475",
+        "sha256": "c964c2b15a223e9e648d96396fbd2b694022fe9093e0c83866639d275910cccc"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/adr-curator/references/output-contract.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "80952dcb864f23613314b78f322d36ba69bebf69",
+        "sha256": "907a4b6d78c0dfdd7e96cb4beaf0a7e53177dfa7511bc6acb672ca1870a706b5"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/adr-curator/scripts/curate_adrs.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "7833ee0d7aa97a224b15f97c31a22d10fb03a210",
+        "sha256": "060c4dd7ca4093fd45ed228d2637817a08f354dedb562ade3277de9b35eb6d79"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/architecture-diagram-reviewer/SKILL.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "947dad7cd8028af511070159eddd7a03d1b64c3a",
+        "sha256": "6268a9bac51cc58a748a051e879d8bef9ed931ddc3edd93f0719fc7fecfc36ff"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/architecture-diagram-reviewer/adl-skill.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "8223e3f51abde5110515b75ad080b76e3a2bc442",
+        "sha256": "c02a3351c0316055ba4ea2a566e5c083981c473179f302aa0994bf1ae30b99c1"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/architecture-diagram-reviewer/agents/openai.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "35b4d8e3bd77be0583b16e9c28fe77cc6a8394db",
+        "sha256": "d03d210ea94fbdfabb4c85b92e3aecc006466c505061e143d48e9c9ae4451ccf"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/architecture-diagram-reviewer/references/diagram-review-playbook.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "51e53d4831405a86959b1d08ed2680a50e9420f7",
+        "sha256": "a948cb67f5f1a83b3e6c3aa2268d2cd5d009871c41693cf614a1496b55ad0ea2"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/architecture-diagram-reviewer/references/output-contract.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "bcef381700b45a43336d2157cdeb814e2ddde92c",
+        "sha256": "ac46405ce285767eeaef0870303c38a63ace2bacfacd8666f6ccdade023d5b89"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/architecture-diagram-reviewer/scripts/review_architecture_diagrams.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "8019d81fa0fe8d5d9e72e6bd80a6165e66c63059",
+        "sha256": "82a9053d8f48a2b6e981b3cb23bdf24161acdbd811b042c22d509af14cae61ac"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/architecture-fitness-function-author/SKILL.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "c31b9446d5d4f38157713d3f18b5e391fcc84a51",
+        "sha256": "313182f34fef58802ef4ca1eaee83d26d5da2262ba2d6b5f482b43ca0cd37aa1"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/architecture-fitness-function-author/adl-skill.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "726c2152dc7a98b65ab48418484aa253361025c5",
+        "sha256": "ce799c91b5b8320a6043ce1a7a6647549a8e357c302ddaeb123c65da1cb0bc06"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/architecture-fitness-function-author/agents/openai.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "856d98e6f7345cdd10351c8c09a7c430266cc2a9",
+        "sha256": "15ba6be46f70f68361121fbd4d1ff63f94b5ecedcc154d38debe6ca257b7c31f"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/architecture-fitness-function-author/references/fitness-function-playbook.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "f50ce96e9f06a42b4f363241a0f26321a2905841",
+        "sha256": "e6343de4f35998d136cfc4011431e9a6dd7918a12f55c82cb091ebe32881b120"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/architecture-fitness-function-author/references/output-contract.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "a4da7ab0a08301d6e07709c09e42441f208524af",
+        "sha256": "d15cf9902034fd8e9c827181a507931a0e0da5e515a639390182b6231fe161dd"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/architecture-fitness-function-author/scripts/author_architecture_fitness_functions.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "905214f0ff222dfac420a71d0ed7feb173206325",
+        "sha256": "9026e8dd59089ba9c2ffc23074e98c5a88500e4e2566c0a8fb27eef795863a12"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/diagram-author/SKILL.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "8775e138dbf1d60ed32bf39539bf425dfb960123",
+        "sha256": "196a7159db42c47c41095a96ddedaad6267c9f6358e002042aa666082561eb36"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/diagram-author/adl-skill.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "41037c777aa502228d0b47e7fb18f83189b56d1c",
+        "sha256": "60038c82e174bef7bc4209c099c124f1bd483d4e301958dd55dca97c5d9a86d0"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/diagram-author/agents/openai.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "14e5fb667f2c6d6777cdb4c4f6f66dc3bc0ed6a8",
+        "sha256": "1863784d54f0663bdb4c0b6f517fca84f780fef407858fa65a12e65d2a283534"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/diagram-author/references/diagram-playbook.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "fc690fbc462d8624209c331c975ace18150da49a",
+        "sha256": "7877429594eda2bc43f8fb031f3899581dbb68902f70587608f55c9f20ba28f8"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/diagram-author/references/output-contract.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "3288210cfffe9bee028c4144ae0c0d7b8e9059b3",
+        "sha256": "abe8b8ddf421c731da2bb09d6aa687fd02b71ce542ca15049f15dbe79301e881"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/diagram-author/references/renderer-setup.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "82c3f6956559550a7af510cf0640544ed323686e",
+        "sha256": "60c52669dbe1b930e12d59881ba119fd369942d75b735974238072937527f2d6"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/diagram-author/scripts/render_diagrams.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "e1dd32b2a1ee5404a497b8b2ad80516dbe7475e3",
+        "sha256": "cbd230c513c250ddd4583dac8c014dfbbd72e747cf449985fdd554e0ed7a78ee"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/finding-to-issue-planner/SKILL.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "659b2587706094dd5fe60a512a48f01a1a4e145e",
+        "sha256": "f591467c96161c9a98a5e46a9398557d4b88fe3103d5edb30f68313328b0517c"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/finding-to-issue-planner/adl-skill.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "c7c04bcc041841db5289ca253d17d39a6b7a504a",
+        "sha256": "7d3d8b8501cbae4d24aca7f5507df625d73bb2adc397896a35e9ed8339dcb679"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/finding-to-issue-planner/agents/openai.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "b5f5c0c85f4a8f61d09d2e993afcda2809fe6171",
+        "sha256": "2e124a0e7a371e2a448f9d9254197ca3d9b482b7e802d25f8d4fade3fa4f45d5"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/finding-to-issue-planner/references/output-contract.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "1b0e30966ac9338d07bd8a3056951045abe854f2",
+        "sha256": "e796c4c3eff8db8d8a8cd74204266952a27fc3c6d6c79f386d6ce7135fcc53ea"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/finding-to-issue-planner/scripts/plan_review_issues.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "20c2a5849a2bbdc4348dfd8fc2ddef35792513c5",
+        "sha256": "d711a9c17f98de6aeaf93552901b7eca104f63b12b516affa6315643c7ba476a"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/product-report-writer/SKILL.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "fa9647658efe82283e5c57accba83bbc9530fc7f",
+        "sha256": "e99da9a7e4af200ecbfc765493444d975c67360372029e43ef052b515b360214"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/product-report-writer/adl-skill.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "0151df69df594d631706adf07c10f8fe698e28b7",
+        "sha256": "9cdceee6c75c6720f5c9b136a509621701a76da90aaa8c10a26725a1a74645f2"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/product-report-writer/agents/openai.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "b56afc5656171f69dbde4685e861b607f65d497d",
+        "sha256": "c2f5e881443fcf120fd8782a613639b8583114f158ba383374820c7069bec09e"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/product-report-writer/references/output-contract.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "fa70c6149becc99b70c2ecb93ac228b69f2ee277",
+        "sha256": "af3e22525ead04482b720b05b6e7f4925b7b62f86874db0a7d2804a87772a73a"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/product-report-writer/references/report-writing-playbook.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "d1d70399a0c6979b902905e3f664ac62b0d44370",
+        "sha256": "acd4d4b884011d971fe5c890b0781de183a31147d86df50cb690e82ffb89fa00"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/product-report-writer/scripts/write_product_report.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "c5a0a0141248de40b98bbb40e46cfe5739063089",
+        "sha256": "220bd83a5cd0a49fc62741fc444215beb2a4a616393cb5ea7ae638a7a9040f9b"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/redaction-and-evidence-auditor/SKILL.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "6e4fbc1dd8fc03aa204f4828e837538ed81a9c7d",
+        "sha256": "38608047e57113972502f9ccc101b21871f580b59991879e3e0654c81af24382"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/redaction-and-evidence-auditor/adl-skill.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "85ee1b079b4a28560c80edd8351dde6ba4b19e1e",
+        "sha256": "12c6f7bc4643c4c57ba6ec93e4e8a4799c0f848b56ec92dc3688d95989e19480"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/redaction-and-evidence-auditor/agents/openai.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "ca733984602cde9538d53c427ab00f3d422b7297",
+        "sha256": "595d4e82f67f9d4dff6912f40eae755b488ded668d656a6a14b57214805484d4"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/redaction-and-evidence-auditor/references/output-contract.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "466e2ffe39e23595d56e16c4f84e58c5e1915e6c",
+        "sha256": "e0d67ca2af0faa18aa00f76281ee44d31d742f2ff9f9b9b053866c6c8f3effb8"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/redaction-and-evidence-auditor/references/redaction-playbook.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "faad0478d71de3e3270f0daaf82f137a1c973281",
+        "sha256": "5fdcf13dbc96b309851135a41954ae80562365385195dc4b5005736d34b42e51"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/redaction-and-evidence-auditor/scripts/audit_review_packet.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "7f36f7ba6eb9243e0c2dc04a1641c3305eb62195",
+        "sha256": "d609932891d781481b50bd308f5adfd5adbf20a44ca14069e7df5e4a0197d3bb"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-architecture-review/SKILL.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "2f7ce602d739c7d6640276f87e74dddf8f2f31fc",
+        "sha256": "c5aeb007fe99875da8126e921380521ab167b082e1a34972097d41d72ba2dbd3"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-architecture-review/adl-skill.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "981309b6d0ef3aaef52fbf31e981e079ba452bf5",
+        "sha256": "83ec1ad7eca451cd671d97394fe04ef4bb1fdfff96de2fe850717d11b72353fd"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-architecture-review/agents/openai.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "f980b866000f09c21a1c2aae9cf1cb186a7ea784",
+        "sha256": "548e9bcddce9b7df2b1a144f5fd19e7ac00e4a004962b60b5209353f5c87d6c3"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-architecture-review/references/architecture-playbook.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "617ea03fbfe281ce153d41759d21cc8bb4cc2e59",
+        "sha256": "b20e0c64fe6554932efd1f701c3ecf5452fc33cc880daf152b2bb3bf6afedf86"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-architecture-review/references/output-contract.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "fc26df8e568bbe564c126711590353cc91536c90",
+        "sha256": "9ddc3e058e8a047d9b6df6499355a9769c45de77ac0770f31861e6ccd9a5d897"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-architecture-review/scripts/prepare_architecture_review.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "a7e222ee6ab67a5077bd6828267ff0a791d43c8a",
+        "sha256": "90abd4034fd9dd7bb62cef2d4f23d027371707da9ba4ef3f36da48011038d5e9"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-code-review/SKILL.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "a56df1624e93902f52c26d1a41986116a0596c41",
+        "sha256": "e1e00bf28b4286b6a0574a8f422e29f0e41a520a8a8958466fe584f77d70f98e"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-code-review/adl-skill.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "57a32cba573f77592a534b76e61aed937b4fcb02",
+        "sha256": "cd2387ffa1041aca7a20d9cafb779a13dfe264b107ce516294b7549eb3ba4272"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-code-review/agents/openai.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "b7598a43e9efb76f682506b7407845368a148d9c",
+        "sha256": "7113924ad4c08f740e77704ca5fab6f4e37f707eb40cb9f5f89270ea3f3324fd"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-code-review/references/output-contract.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "047bbb83c9a24536b98da2aaf43918d7abc4b39c",
+        "sha256": "6dbf6ae2b72958c075ca4196b042744402f118e1cbdd2c999e76267ccde17b4f"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-code-review/references/review-playbook.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "495b35f057951c5d80ea35f0db61b6a3ec0335e5",
+        "sha256": "05871e657e8f0b524a5cce3da0b1ee65a92b191dd6fb95e7f7a3b6ec167c25b0"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-code-review/scripts/repo_inventory.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "126553c358ed5a7a61a8f39818f39f514eb161f2",
+        "sha256": "370b606ba3827e2e8dda69945c1ebc5c9b2d7c44e44316527229a6ba14be5142"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-dependency-review/SKILL.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "6e812ab7e4c652f8f8013ca45eba5c25e462cb87",
+        "sha256": "50c773c817a5b90a604b38e20d0a43acbb2f8058c7c72e0f694dcd0e5a590f9f"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-dependency-review/adl-skill.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "c8cbbf407b52fc51518075e96d046be2ae2d18d8",
+        "sha256": "0e2e8ea1a045508b2ce4a66d9b8f67f4ab8c425ad284620257a574a204dde1c9"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-dependency-review/agents/openai.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "c84476859d41e646fedb57a1a812a2ef6aa4dc08",
+        "sha256": "047e87eb6e867f45288ab2f83ec3dc4f1036a15de7d9dc6399345a4b351cf9ce"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-dependency-review/references/dependency-playbook.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "7f56a43378caaaa6476c0c7a78948dff481b7c8e",
+        "sha256": "1ee5ed9f6ee506f6c7c8c8619cf25ac404952d63105579ae73bc640161df7348"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-dependency-review/references/output-contract.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "0705447f68d3a6388b7eba805023702108312275",
+        "sha256": "7148e4fb8dddffab6291de368dc3a2afe06165b5ea9ce3d3b7147abfa50ac03a"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-dependency-review/scripts/prepare_dependency_review.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "cdd3fa1b8556ffd3d90692942d1a1f2588a85a5e",
+        "sha256": "626cc3f275d7f0409014a9b6561d4ade236cf69e1ffcde899e5d6708e1545a18"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-dependency-review/scripts/test_prepare_dependency_review.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "def59a9f35be8b3451f63f1a24e3b630b20b0b40",
+        "sha256": "15dd9382577b65df82c078dd43eec091eede972fa4ff51739e329107e599a4b1"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-diagram-planner/SKILL.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "0a97dd16e6ff96d3bc633c151657de4b7bb7803f",
+        "sha256": "25cf10a1bdaf7e08ae0c4616470f3f6e1dac0a77cb0a6beeef7a17dbd7844ed9"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-diagram-planner/adl-skill.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "adeed72ef6c445ac3025ddfd2d7cc148bf5d6ba2",
+        "sha256": "98a2759eda416f9b7e0b3a7af478df42f7a25e7491fced26e66caed1cf0a937c"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-diagram-planner/agents/openai.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "4999b54434daf873a08141c199737ab355d825d3",
+        "sha256": "0bc1e57cde0cd45c86c993b89a49720ea7eda475ad580a39d8fefcc521864dfe"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-diagram-planner/references/diagram-planning-playbook.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "53ff3f1ed8322fb439b6412ebe9fe984511b9703",
+        "sha256": "bba9d775a5269f8d5965e3ba9436ccc351236fc58353db980364bb932258c0e0"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-diagram-planner/references/output-contract.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "ded15586823035e09e604439297c2484a352b159",
+        "sha256": "c1df3e73f48c3b40d34cfd65fdf525658855cd08eb5d397d311daab6ad8c16fa"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-diagram-planner/scripts/plan_repo_diagrams.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "b55d37f52ba4a9ec562619e3ab11e40c45ca86af",
+        "sha256": "f97a26b212951845211de8c050c19bbc2985866ace1cb024bad1bf480b45880e"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-packet-builder/SKILL.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "26786cb52f3d6b7012e17330cf6b35f5cb8bdf7c",
+        "sha256": "92c69bdd907e30478c14f2ae4010511501549be2c4c9a5fd635edab59ed6d4f8"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-packet-builder/adl-skill.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "2833c33eda9ccee19fd1c4bc64a253cce51bc1a5",
+        "sha256": "7411db9ded0a5b7ce6b96211339e977168368a2ac908bff3d554731c41a43571"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-packet-builder/agents/openai.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "a1d0e6d4b2299ddd1e7be105ee4ddd1c427c7e3c",
+        "sha256": "6308da2fb41f88a17c7e2e08027f85fd1f6869fee6697cf9570d45ed23aaea17"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-packet-builder/references/output-contract.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "efed9bb4e671b4955f7e1c4a834b42c5458d2e01",
+        "sha256": "8ca30b02ef25923f4e1a6b4191b2b7682f68db82737c3e591779f46a3076404d"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-packet-builder/references/packet-playbook.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "8dfb3f9f84e3820d321e2e34bba5c1201be36e53",
+        "sha256": "6a9deae389dfa821f955f95e5b8ea3f41c3530ee2f8b85fffdd6ce4d4eb6e8d2"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-packet-builder/scripts/build_repo_packet.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "97604c091ef53fa5cd97d62c399215ea9b8f55a0",
+        "sha256": "afd45c8651e1696af9253a29bcdd9efc09e33d02db06c2368fa6e4185f5c064d"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-packet-builder/scripts/validate_repo_packet.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "33941117449164e37557669bfa58d0c927bc5b25",
+        "sha256": "5a3369b55e8e0f6151b010adec780d20f11fff52729fa00d539dc202fb9d4b2f"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-packet-builder/tests/README.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "38d64e62be7f77fb4b47a3827af6cc54b73ed308",
+        "sha256": "60053171641f4de1805c67bd61b54471677d9087ca8127bf1ce9e009357bd156"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-packet-builder/tests/fixtures/issue-520-fixture-provenance.json",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "be350b422f89a281f7000c80f71deba76d8fef83",
+        "sha256": "0f116cc4671ffc167b9afe8a82ed21742a94a3475940f08f6b6be5e55c68d5d4"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-packet-builder/tests/test_denominators.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "f2da5e4433ee069ef9cd65bc6701af9550b1614d",
+        "sha256": "4e5ccd52400c9db631910856d7c0f852669da85ee5b245e8b61467f7b61a2726"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-review-code/SKILL.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "8f04e1c7f72ba1a03c422d7932148b630f6550b8",
+        "sha256": "c5afde537bb8476fdfa370fca5aaf9cf1e3853c74eecedadf9c7a18b42caf49c"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-review-code/adl-skill.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "ff1e3fa872128195e0831150aa901507da8b3bbe",
+        "sha256": "7fbd8aa81de31b775d4c074c5a3f842b83dad751eafffe334f9fd8d6e1fb7ebd"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-review-code/agents/openai.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "902c6285ff48a438d4dc95870439350f26e41dbe",
+        "sha256": "ccb81bd260a091ff24633ff9094f67727fcf543bfcfbd3bfb03952d582e8730f"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-review-code/references/output-contract.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "df40b8f3b5ec2aa4663439cbfdd32c5e33690d4d",
+        "sha256": "9ac3b02f81c43adecb5fee8d88677c93f4fd0445deae88096d34ca08a1e60a2b"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-review-docs/SKILL.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "b0cbbba41b65dba07dab2fbbbde86e0ede3913af",
+        "sha256": "c0480cd51470b03830df23282522e80458e6996ca701a539b661d31331142a85"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-review-docs/adl-skill.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "278c3215a46265bdf169c03495307ec01cbcd3f7",
+        "sha256": "ace733cc95cdf7addf47806a6c8ee8b4e68477c496794af448cd83c5350bb7b0"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-review-docs/agents/openai.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "f54f6dfa2246985da0cfc39909a5c159b8bf59f6",
+        "sha256": "538f2424adf60dd18600df73eecfc5bc5822d4a30a99c1de99830b2b515f9140"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-review-docs/references/output-contract.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "fa51ae8f3925355561e278f777e26b63a76a9d59",
+        "sha256": "8405fa0ede7f2c5e8a6d294448e74d412ad1b83e01450a19c2bd8c865348e09b"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-review-security/SKILL.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "5a9a5400fb0e067f2458d7dddc961aaa2207260f",
+        "sha256": "e6780583f70176412139ff001e54285fb1adf701e3904d7cc039ce38031ea3f6"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-review-security/adl-skill.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "88dedf098e10001ac6cecb29f291173f6f9fe0fa",
+        "sha256": "dcd50683f5476f5dc8bb37eec4f324494249b46ad3b81a0a5c026d9bd1739ae3"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-review-security/agents/openai.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "c04eac3a1a5578f245e54c895ee5fb5f509cd0c4",
+        "sha256": "f7d6289da76950dfba992f99883cdf5ee01234a2745a0abd3c9bf63c2ed1cd88"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-review-security/references/output-contract.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "7ffc4ce85a78e770c3184a11cbb4ca6a58888cb0",
+        "sha256": "f701a8fb18bf75b2cddd0ba824c15bc9d30778274bcd0eb7e51fb48ee7d79d44"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-review-synthesis/SKILL.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "2dfaf683ccbd70208c36a5279941a491aa39c023",
+        "sha256": "73051a48c89d96f112e541a92ec2b511c1b2ef8223585fa919e8d7ce3d412673"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-review-synthesis/adl-skill.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "bf09ccb25c144618aa54661252514909b38b1ab8",
+        "sha256": "d4d4a62e9acdf49ce6fa18de71cb3632c7444ffab99fe9cda00833b767dd7037"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-review-synthesis/agents/openai.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "d8c404262d373905c09d951e333dc6e17357c0e7",
+        "sha256": "caf1784d4671658bb62d3c979f0901e7a6ececc5421c64c4f530112c6ae627c1"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-review-synthesis/references/output-contract.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "7ea56f74608849fce3ec447dad32cacf04ae9bda",
+        "sha256": "dbc713ce645be9810a123fb1360a28ee9278646f11779bad3c749efddc9b53d0"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-review-tests/SKILL.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "bbb875e25163ffba5d7f38061d1a910e7241073b",
+        "sha256": "bc7f82718035ed3d0db219e1f01a5b04dc0150ed82831ff2aaab0333f30b760a"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-review-tests/adl-skill.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "b29958ae9d258696e8e9efceece0944be509a324",
+        "sha256": "fb0bb0ad317c01556be6af5afab2f041f1170e53cc7fc39a2cdd62d33474a27a"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-review-tests/agents/openai.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "dd6d6804e582e9efaf8cea6ffedeabbc3ceb7170",
+        "sha256": "03568c90578eeb76ecddf69d8be663ebeb84abd98c765d910e671f33cd37566f"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/repo-review-tests/references/output-contract.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "ac035b7ff114b25bc554e677b048af569671e694",
+        "sha256": "e5d2600a03a18869c4f57de623e379bb4ec724a506db419e47ad042e8927c530"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/review-quality-evaluator/SKILL.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "ba14095e4b13284145c01a605d13250bfdc39021",
+        "sha256": "8012700b26b63b6c68114b004a2eefba42bde8502a974fb198c4671edc3de00e"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/review-quality-evaluator/adl-skill.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "e42f2613d385092719d9d940e5db6437267cb348",
+        "sha256": "21fe880d4305480d4f546b0cfc6a257a2b2f1227c50f98c5b4a0cc488d59d5f1"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/review-quality-evaluator/agents/openai.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "e5ce2ae80de593146daba6111b069950f1e80e80",
+        "sha256": "828db2e06e09395f015ee33ace7c62715cdfc6d2aac6e62f12e5cd521c4e2fba"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/review-quality-evaluator/references/evaluation-playbook.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "0708926c51cc81302e00afb6593d4c47d73b19fa",
+        "sha256": "d2082243109f10d910856362e8af4e2127d75e75dc20059195fc67608f00f4c8"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/review-quality-evaluator/references/output-contract.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "ea33ce7adee083e0d9388efc30ad2e4dfe6c65f8",
+        "sha256": "0784e9c3d3e01111f908d98a168e296f9463ecccf74cef7e3891e2be5bbf349e"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/review-quality-evaluator/scripts/evaluate_review_quality.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "5909649c83cf4638621ef9d7d98aaa560a76ac2f",
+        "sha256": "01449179fac54f9986c9c312b4f1056fe092d87f07fd31f2b40a5c1f395e60cd"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/review-readiness-cleanup/SKILL.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "3f3afaa47688e7b397145333cebd4542325a059a",
+        "sha256": "be231279212188baaeea14ff8a0369f4c4aaf5b8b09213163a4d8af465068776"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/review-readiness-cleanup/adl-skill.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "a9cbc95de43d6e4d324a8a10ad3405bbff249caf",
+        "sha256": "193e677413418594eba42ad88e43b46ff7e7644bd4a0892babe6ba04665ac2a8"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/review-readiness-cleanup/agents/openai.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "b0ff2f940f37b2852af0c76f9cbf359fa7c9ac82",
+        "sha256": "159e12bf491f465514a34e19175cc03de911879ef448e20905520ba37f21988d"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/review-readiness-cleanup/references/output-contract.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "e7ac80cf41750bd9c5e2b77f9688d1b231014bf9",
+        "sha256": "af00ba818096a9c6413c5d9c717a9a5d665604cec61708dc96dd453ae896c29d"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/review-readiness-cleanup/references/review-readiness-cleanup-playbook.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "6d6ab1c84a4f5ff9260f27eaa86f8c2ffc1f60a8",
+        "sha256": "a767f5f0c3813b3e7cb4ddb77ee2c725f304f2659e45741c266138d5bd05c5f0"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/review-readiness-cleanup/scripts/inspect_review_readiness.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "c801c4f1aecbeea741065e87857882c7652db8f9",
+        "sha256": "d42d38a92b222fb70eba27fe922011d1213ba427c378f359f0c6a38dacd3e39c"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/review-to-test-planner/SKILL.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "b0c7cf8d5ca7d5918d918bcad45a467a4ba0f42a",
+        "sha256": "218aee986a3964ecb27085aee7da463ec51e3c0f0d772c5acf39582c12c05e43"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/review-to-test-planner/adl-skill.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "42bb15614ff7c28adc2d70b1de63d2f82355bf2f",
+        "sha256": "7a84e6f1d7dcc0d9d95979dfcb0ab46bb79f98659078f5d68b6ade5ee0dca98e"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/review-to-test-planner/agents/openai.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "5c93c5fd5d72ed3ccb128308f9d4749685f7faca",
+        "sha256": "56b6486d7690ec319450df1061a92ef3c6ae95cdff2c0d4511fbe5e97844e894"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/review-to-test-planner/references/output-contract.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "5890084ce85b840c34a739a318015239c8870ed8",
+        "sha256": "749086a0294da3186e57092864c61770afbc5408391de7f62dae4e7c28fe9a3a"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/review-to-test-planner/references/test-planning-playbook.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "b7297f0e47a514315c23868f1bb84fb62c4b583d",
+        "sha256": "28778a3258c0c9eae30621d094646346f53c3feab18da982e6db9700eb80546c"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/review-to-test-planner/scripts/plan_review_tests.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "fd7aa83f2594d6f60a81274829625e7a763c37b4",
+        "sha256": "3580dbe23e66e1bf5f65fc0f414ea4ae67009d23907ec9596068d361bbfbebe8"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_adr_curator_skill_contracts.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "6aa012e0186625366bf1b330471ca052cbfe399d",
+        "sha256": "6e2ea860ee4c8601a7a4fa58dbad023661ab9b4d7be4a2e6c08ab85973cb63f7"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_architecture_diagram_reviewer_skill_contracts.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "f77cc813d2f6d866cd525463161831db80fcc18d",
+        "sha256": "a7151801a3e6519ee60ef4be19b10b0dc13c31e88dfe8d9cefe108215d189f00"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_architecture_fitness_function_author_skill_contracts.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "afe88166149f0d8c034426f3d46418075ea3e32a",
+        "sha256": "443cc3400195db79233971c5276d4cf821165e69dfc1803e56a0aff499a1cfd6"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_diagram_author_skill_contracts.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "2a76c3ccd970b67387a3d7b9f7d7f3ab294e6430",
+        "sha256": "4c457863a8fa0bbe621c7e85d98ed3b72e30f80ad83185e9f2c101f17cd6a40b"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_finding_to_issue_planner_skill_contracts.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "ebe4a84541a5a1e08128240db0da5e404c4d7c01",
+        "sha256": "2ff9093d022a063a9fdfad0db7b15f3b9a2169cf98c06daa57e1077ac641c6da"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_redaction_and_evidence_auditor_skill_contracts.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "deab7a12da7b21b183a51d9f96b6c09870140674",
+        "sha256": "5a1a0790b46130da70875227d68bd10f2297aea5095a660cf5a838b9f3cc29ea"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_repo_architecture_review_skill_contracts.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "1ca6bffa9d2024d5a8f2e05e6beb28b97bc2cc3f",
+        "sha256": "005f4670fed437bdc5486d288de3cefb143be91a881b8d676f88b0b72135789f"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_repo_dependency_review_skill_contracts.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "aae7f67e78a30c1f51f8f00dec43dab4eb0e0b1e",
+        "sha256": "817ae4a8c87404cd14ec3669966c11a9f75c5bf9edc7d0cfea01722340625e67"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_repo_diagram_planner_skill_contracts.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "886c1efb69126a6d5a0dd82590227421f747cfe8",
+        "sha256": "d46ba4420f817eeb3d192a1461701df1a106be3765616c8ccbcd782941fdd25e"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_repo_packet_builder_skill_contracts.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "605386c0786571211f20d10f5787c0a81ae4c161",
+        "sha256": "af63d0bbdd69b60938532a79e74d25e150fddaee294d618a4b4ffbc01d1117ea"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_review_readiness_cleanup_skill_contracts.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "b3f906ccf923836d856babdacfdd1bc84bc53945",
+        "sha256": "cd15746389e88ea32dcd87e3c79edc4cfe2bcfb477d6bbad145188a9722aa46d"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_review_to_test_planner_skill_contracts.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "b587bcb4269d394afaef92665e9e0f92e59c7d4a",
+        "sha256": "84c1f1c725a669d83510284fc510c46bd01b14e24f3526f51b3fe4aa5f3c3691"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/demo_v089_multi_agent_repo_code_review.sh",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "80db573f58a00d6cef7abb47edc556f5405c20c5",
+        "sha256": "5f93b327667eb44d2e115c3c27302c972ad70e17cf8ad7a92552d7f7057e33ba"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "5f602db2d799dc94486ae4d841fbc4ff42428d75",
+        "sha256": "f7c4e3d145edd6d50a867dfef5231113489c72ef303652b9599531f50cacd20a"
+      }
+    },
+    {
+      "path": "adl/tools/install_adl_operational_skills.sh",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "5550dd137ad2e304629ded3d21c0c3bcba23dd24",
+        "sha256": "1bec56019cc343810563807ade91844bd13e7de12e639fb370d1dfb5039288c4"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "8a27be44d46928838422b93a4b01de1544cb7ee8",
+        "sha256": "957079f44e4d2d1b1330e314bd1e336a1e823955c588736333e065f4792c85ac"
+      }
+    },
+    {
+      "path": "adl/tools/test_multi_agent_repo_review_skill_suite_contracts.sh",
+      "action": "modify",
+      "before": {
+        "mode": "100755",
+        "blob": "2c665aeb0a89ae26945ac48c9c84b5fa6ed0e583",
+        "sha256": "cfd4c042e34d22ac70a2ebb7b205c35d6c998526f01674c93505b82ad5f8063c"
+      },
+      "after": {
+        "mode": "100755",
+        "blob": "a48686041b69d20d50cf735395e67ad34264fc02",
+        "sha256": "d446f6dde3b96ab554d9d15ac69d9fe4e6686a4976f22db8c4ae590e9f09bb72"
+      }
+    },
+    {
+      "path": "adl/tools/test_multi_agent_repo_review_specialist_skill_contracts.sh",
+      "action": "modify",
+      "before": {
+        "mode": "100755",
+        "blob": "6da4174c535cc5ab4a5b97402bf21449e92a14d4",
+        "sha256": "3846c4e49506edcfcf4870b286e42f638128943830911d55bec098b17d01dc65"
+      },
+      "after": {
+        "mode": "100755",
+        "blob": "c62df3b26df751e8dbdb65d9b529786113983bb6",
+        "sha256": "9ace1dbc2f5a16b1b93aa6406022ff0ce82c89a928911e4f81d5d11c8ec29095"
+      }
+    },
+    {
+      "path": "adl/tools/test_product_report_writer_skill_contracts.sh",
+      "action": "modify",
+      "before": {
+        "mode": "100755",
+        "blob": "9ecd6e5d7f1c141ea9e3bea06753c180c8df7223",
+        "sha256": "19ad604dec59641c89852f3c23d7fe7c2e2d4e53cd7dc773e512826d14b849cb"
+      },
+      "after": {
+        "mode": "100755",
+        "blob": "5686e29354d4bf7e8e44274d6e1420a416416152",
+        "sha256": "625591d173cabb0852012b8985b209e3b509602df218d2a05b4810695859cbbb"
+      }
+    },
+    {
+      "path": "adl/tools/test_repo_code_review_skill_contracts.sh",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "39edcdf08c4d8de6bc81a783925b6d5fc8eca283",
+        "sha256": "38db321c548b446870d80eda17d09f1c27cadaa3cb37c1738c1579150f2b3c23"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "781da5abf507b7d7b5d9666a54df87619c6e7960",
+        "sha256": "779cf664cade23723a59ebe1e600d647e8f65050700b2719a9f1b497bc70d70f"
+      }
+    },
+    {
+      "path": "adl/tools/test_review_quality_evaluator_skill_contracts.sh",
+      "action": "modify",
+      "before": {
+        "mode": "100755",
+        "blob": "3406554f5c575c40f632b5885587b71d0ae0779f",
+        "sha256": "517ad19d7d207a9152963485d50a30e15c975d4ed58a9432af454472216d379f"
+      },
+      "after": {
+        "mode": "100755",
+        "blob": "66d023c86d779ca9b2b14cdd9eaf158069feffcb",
+        "sha256": "ec4ac930216a5b23c12467c5450f287700ed15ae5d55b6cd39d189389abdedc1"
+      }
+    },
+    {
+      "path": "adl/tools/test_install_adl_operational_skills.sh",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "8e426c334ebc780b4c43086aefdc76058db94233",
+        "sha256": "62261f6ae0b1c2454d92421a4a13117068445898a0fabe68f5b4d07b5e996f9a"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "5f8b588e25bf3996af3b1350b44548996eae756e",
+        "sha256": "791113312b1e248e001a70ec1a83161d651694919191b370186d47b1cb5750c9"
+      }
+    },
+    {
+      "path": "adl/tools/test_skill_documentation_completeness.sh",
+      "action": "modify",
+      "before": {
+        "mode": "100755",
+        "blob": "945ef8cf18dd691d35a403b7a29959972b5fdea3",
+        "sha256": "0562024675c4bfa670030500b3d0395ae144c090b3d91c348eac8adb7529f64b"
+      },
+      "after": {
+        "mode": "100755",
+        "blob": "0e00a2541c3a1092bd2acc3cd1d26c9f458145d5",
+        "sha256": "5458cc0f6dd9c8011fd6474cd7063567790f8c018bac83c8346e13649cb2d9e6"
+      }
+    },
+    {
+      "path": "adl/tools/test_documentation_specialist_skill_contracts.sh",
+      "action": "modify",
+      "before": {
+        "mode": "100755",
+        "blob": "747def844e522847e7972941dedc6e3f95425b4b",
+        "sha256": "443e7b64925b0ddf159a7bde5c44ed86b521a2896185e7957262ab490d6ebbef"
+      },
+      "after": {
+        "mode": "100755",
+        "blob": "19bab6269e36048734778621916251f3a050edd1",
+        "sha256": "9fe1e7e844715bd29dc481067aeac42b09a6ff157e9c73b76a12578caa5db24b"
+      }
+    },
+    {
+      "path": "adl/tools/test_records_hygiene_skill_contracts.sh",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "661ac4a0958ba9bf913d5063d976390631152849",
+        "sha256": "7560fe6717178a5d37d9da388a539dacf272cee32fbbdca256a6a6610f97f963"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "aca4fe4e6f48ee30618761d7c62b0c297e935e93",
+        "sha256": "2e07e4b20c8af54e55f0b20b1edd376f0b4db9debe5e193005e3e2a0af4aef08"
+      }
+    },
+    {
+      "path": "adl/tools/test_use_case_writer_skill_contracts.sh",
+      "action": "modify",
+      "before": {
+        "mode": "100755",
+        "blob": "94d791c6fa588c6285aae3e0be6170ca6f5e84c6",
+        "sha256": "9f0e2f3a99654d1f122456f0dcaa281f09f264cc774c75125811e0d100395faf"
+      },
+      "after": {
+        "mode": "100755",
+        "blob": "b161edb8b271000d37e2d4b66c06572687918bf4",
+        "sha256": "60bfa27c1a9afae2993f152966283cb1310103236df6352e1ff064ff6f00fdec"
+      }
+    },
+    {
+      "path": "adl/tools/attach_pr_janitor.sh",
+      "action": "modify",
+      "before": {
+        "mode": "100755",
+        "blob": "20899fca98124e2063abead86a3c98bdc232b5f7",
+        "sha256": "e44b13307ce07a5fd8bae961b1939011fd7065e6a497ba4e48e58cd54eec042f"
+      },
+      "after": {
+        "mode": "100755",
+        "blob": "6dddbcc42933afe77e0deb985d8c0b1c3155ff67",
+        "sha256": "c2a724923804d248ea807ba294c38e8d2c4e29c6c944570028cb1b438cdb6813"
+      }
+    },
+    {
+      "path": "adl/tools/README.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "c319da9f23657c721612b00f1ffe3d87f4f28bc3",
+        "sha256": "9202736a21f81d88aaeab8345d5eecdaf2c2e0b0ba0ed0a1220d80468de6de33"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "583c98bf66dbc0876ed94a394a926d0f0fb36ca3",
+        "sha256": "9a6a95b7f2bfe276ef454ee1539beb43b154447a24be5580c15f475b1576b7bc"
+      }
+    },
+    {
+      "path": "adl/tools/skills/docs/OPERATIONAL_SKILLS_GUIDE.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "1005e27b18920921fc29dbec3ef39901e8ebcbc4",
+        "sha256": "a87b7a1c9ad8e65ce06d694a5acbbea98012667d6728a1959f3323c442d2b849"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "071291a9df7462addb3daa4144e9939034eff375",
+        "sha256": "efe2d28d6afa2541d4fc6ad2d7d6d223fee8b0faf25f9e208c361fa2aaf24fdc"
+      }
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "93d456c8f06304fa1a2790a30650d555161448ee",
+        "sha256": "4757f08e7515d7904181e921e1c43c1322853fae7fb01d1b0522c7f09e3e8a22"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "f328f23dfa2e3f046293cd48b1113bf03cc4fda2",
+        "sha256": "ee16a22af0af2e90b1e5c457b5d43ee0bc28cccfda1bfcb3153d6d8fec0ecdda"
+      }
+    }
+  ],
+  "rows": [
+    {
+      "id": "RD07-1543",
+      "path": "adl/tools/skills/adr-curator/SKILL.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "462044d1445efa2b9e094b0ada0745f4acb0610b"
+      },
+      "current_sha256": "2ba7d242aff65aa558b18e02d1819d60712e5dc775f3cde71a439dc2125d597e"
+    },
+    {
+      "id": "RD07-1544",
+      "path": "adl/tools/skills/adr-curator/adl-skill.yaml",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "9d2236fa966a2ef40c10512b791d7adf0814b82f"
+      },
+      "current_sha256": "edb86e649e5ed993bbaaa6151a1458315770d2eb078d19de0a451b645224088b"
+    },
+    {
+      "id": "RD07-1545",
+      "path": "adl/tools/skills/adr-curator/agents/openai.yaml",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "6121c3cefb24206cd5dc34a40235846a9c43f2ba"
+      },
+      "current_sha256": "3c59f9460ac4fb82961f5485566e8330f436fd1de5e11aa31d49bf15147ea80d"
+    },
+    {
+      "id": "RD07-1546",
+      "path": "adl/tools/skills/adr-curator/references/adr-curation-playbook.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "8c985337bccee9537920638eff93cc06897f2475"
+      },
+      "current_sha256": "c964c2b15a223e9e648d96396fbd2b694022fe9093e0c83866639d275910cccc"
+    },
+    {
+      "id": "RD07-1547",
+      "path": "adl/tools/skills/adr-curator/references/output-contract.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "80952dcb864f23613314b78f322d36ba69bebf69"
+      },
+      "current_sha256": "907a4b6d78c0dfdd7e96cb4beaf0a7e53177dfa7511bc6acb672ca1870a706b5"
+    },
+    {
+      "id": "RD07-1548",
+      "path": "adl/tools/skills/adr-curator/scripts/curate_adrs.py",
+      "captured_identity": {
+        "mode": "100755",
+        "blob": "7833ee0d7aa97a224b15f97c31a22d10fb03a210"
+      },
+      "current_sha256": "060c4dd7ca4093fd45ed228d2637817a08f354dedb562ade3277de9b35eb6d79"
+    },
+    {
+      "id": "RD07-1549",
+      "path": "adl/tools/skills/architecture-diagram-reviewer/SKILL.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "947dad7cd8028af511070159eddd7a03d1b64c3a"
+      },
+      "current_sha256": "6268a9bac51cc58a748a051e879d8bef9ed931ddc3edd93f0719fc7fecfc36ff"
+    },
+    {
+      "id": "RD07-1550",
+      "path": "adl/tools/skills/architecture-diagram-reviewer/adl-skill.yaml",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "8223e3f51abde5110515b75ad080b76e3a2bc442"
+      },
+      "current_sha256": "c02a3351c0316055ba4ea2a566e5c083981c473179f302aa0994bf1ae30b99c1"
+    },
+    {
+      "id": "RD07-1551",
+      "path": "adl/tools/skills/architecture-diagram-reviewer/agents/openai.yaml",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "35b4d8e3bd77be0583b16e9c28fe77cc6a8394db"
+      },
+      "current_sha256": "d03d210ea94fbdfabb4c85b92e3aecc006466c505061e143d48e9c9ae4451ccf"
+    },
+    {
+      "id": "RD07-1552",
+      "path": "adl/tools/skills/architecture-diagram-reviewer/references/diagram-review-playbook.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "51e53d4831405a86959b1d08ed2680a50e9420f7"
+      },
+      "current_sha256": "a948cb67f5f1a83b3e6c3aa2268d2cd5d009871c41693cf614a1496b55ad0ea2"
+    },
+    {
+      "id": "RD07-1553",
+      "path": "adl/tools/skills/architecture-diagram-reviewer/references/output-contract.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "bcef381700b45a43336d2157cdeb814e2ddde92c"
+      },
+      "current_sha256": "ac46405ce285767eeaef0870303c38a63ace2bacfacd8666f6ccdade023d5b89"
+    },
+    {
+      "id": "RD07-1554",
+      "path": "adl/tools/skills/architecture-diagram-reviewer/scripts/review_architecture_diagrams.py",
+      "captured_identity": {
+        "mode": "100755",
+        "blob": "8019d81fa0fe8d5d9e72e6bd80a6165e66c63059"
+      },
+      "current_sha256": "82a9053d8f48a2b6e981b3cb23bdf24161acdbd811b042c22d509af14cae61ac"
+    },
+    {
+      "id": "RD07-1555",
+      "path": "adl/tools/skills/architecture-fitness-function-author/SKILL.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "c31b9446d5d4f38157713d3f18b5e391fcc84a51"
+      },
+      "current_sha256": "313182f34fef58802ef4ca1eaee83d26d5da2262ba2d6b5f482b43ca0cd37aa1"
+    },
+    {
+      "id": "RD07-1556",
+      "path": "adl/tools/skills/architecture-fitness-function-author/adl-skill.yaml",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "726c2152dc7a98b65ab48418484aa253361025c5"
+      },
+      "current_sha256": "ce799c91b5b8320a6043ce1a7a6647549a8e357c302ddaeb123c65da1cb0bc06"
+    },
+    {
+      "id": "RD07-1557",
+      "path": "adl/tools/skills/architecture-fitness-function-author/agents/openai.yaml",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "856d98e6f7345cdd10351c8c09a7c430266cc2a9"
+      },
+      "current_sha256": "15ba6be46f70f68361121fbd4d1ff63f94b5ecedcc154d38debe6ca257b7c31f"
+    },
+    {
+      "id": "RD07-1558",
+      "path": "adl/tools/skills/architecture-fitness-function-author/references/fitness-function-playbook.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "f50ce96e9f06a42b4f363241a0f26321a2905841"
+      },
+      "current_sha256": "e6343de4f35998d136cfc4011431e9a6dd7918a12f55c82cb091ebe32881b120"
+    },
+    {
+      "id": "RD07-1559",
+      "path": "adl/tools/skills/architecture-fitness-function-author/references/output-contract.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "a4da7ab0a08301d6e07709c09e42441f208524af"
+      },
+      "current_sha256": "d15cf9902034fd8e9c827181a507931a0e0da5e515a639390182b6231fe161dd"
+    },
+    {
+      "id": "RD07-1560",
+      "path": "adl/tools/skills/architecture-fitness-function-author/scripts/author_architecture_fitness_functions.py",
+      "captured_identity": {
+        "mode": "100755",
+        "blob": "905214f0ff222dfac420a71d0ed7feb173206325"
+      },
+      "current_sha256": "9026e8dd59089ba9c2ffc23074e98c5a88500e4e2566c0a8fb27eef795863a12"
+    },
+    {
+      "id": "RD07-1571",
+      "path": "adl/tools/skills/diagram-author/SKILL.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "8775e138dbf1d60ed32bf39539bf425dfb960123"
+      },
+      "current_sha256": "196a7159db42c47c41095a96ddedaad6267c9f6358e002042aa666082561eb36"
+    },
+    {
+      "id": "RD07-1572",
+      "path": "adl/tools/skills/diagram-author/adl-skill.yaml",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "41037c777aa502228d0b47e7fb18f83189b56d1c"
+      },
+      "current_sha256": "60038c82e174bef7bc4209c099c124f1bd483d4e301958dd55dca97c5d9a86d0"
+    },
+    {
+      "id": "RD07-1573",
+      "path": "adl/tools/skills/diagram-author/agents/openai.yaml",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "14e5fb667f2c6d6777cdb4c4f6f66dc3bc0ed6a8"
+      },
+      "current_sha256": "1863784d54f0663bdb4c0b6f517fca84f780fef407858fa65a12e65d2a283534"
+    },
+    {
+      "id": "RD07-1574",
+      "path": "adl/tools/skills/diagram-author/references/diagram-playbook.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "fc690fbc462d8624209c331c975ace18150da49a"
+      },
+      "current_sha256": "7877429594eda2bc43f8fb031f3899581dbb68902f70587608f55c9f20ba28f8"
+    },
+    {
+      "id": "RD07-1575",
+      "path": "adl/tools/skills/diagram-author/references/output-contract.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "3288210cfffe9bee028c4144ae0c0d7b8e9059b3"
+      },
+      "current_sha256": "abe8b8ddf421c731da2bb09d6aa687fd02b71ce542ca15049f15dbe79301e881"
+    },
+    {
+      "id": "RD07-1576",
+      "path": "adl/tools/skills/diagram-author/references/renderer-setup.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "82c3f6956559550a7af510cf0640544ed323686e"
+      },
+      "current_sha256": "60c52669dbe1b930e12d59881ba119fd369942d75b735974238072937527f2d6"
+    },
+    {
+      "id": "RD07-1577",
+      "path": "adl/tools/skills/diagram-author/scripts/render_diagrams.sh",
+      "captured_identity": {
+        "mode": "100755",
+        "blob": "e1dd32b2a1ee5404a497b8b2ad80516dbe7475e3"
+      },
+      "current_sha256": "cbd230c513c250ddd4583dac8c014dfbbd72e747cf449985fdd554e0ed7a78ee"
+    },
+    {
+      "id": "RD07-1635",
+      "path": "adl/tools/skills/finding-to-issue-planner/SKILL.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "659b2587706094dd5fe60a512a48f01a1a4e145e"
+      },
+      "current_sha256": "f591467c96161c9a98a5e46a9398557d4b88fe3103d5edb30f68313328b0517c"
+    },
+    {
+      "id": "RD07-1636",
+      "path": "adl/tools/skills/finding-to-issue-planner/adl-skill.yaml",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "c7c04bcc041841db5289ca253d17d39a6b7a504a"
+      },
+      "current_sha256": "7d3d8b8501cbae4d24aca7f5507df625d73bb2adc397896a35e9ed8339dcb679"
+    },
+    {
+      "id": "RD07-1637",
+      "path": "adl/tools/skills/finding-to-issue-planner/agents/openai.yaml",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "b5f5c0c85f4a8f61d09d2e993afcda2809fe6171"
+      },
+      "current_sha256": "2e124a0e7a371e2a448f9d9254197ca3d9b482b7e802d25f8d4fade3fa4f45d5"
+    },
+    {
+      "id": "RD07-1638",
+      "path": "adl/tools/skills/finding-to-issue-planner/references/output-contract.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "1b0e30966ac9338d07bd8a3056951045abe854f2"
+      },
+      "current_sha256": "e796c4c3eff8db8d8a8cd74204266952a27fc3c6d6c79f386d6ce7135fcc53ea"
+    },
+    {
+      "id": "RD07-1639",
+      "path": "adl/tools/skills/finding-to-issue-planner/scripts/plan_review_issues.py",
+      "captured_identity": {
+        "mode": "100755",
+        "blob": "20c2a5849a2bbdc4348dfd8fc2ddef35792513c5"
+      },
+      "current_sha256": "d711a9c17f98de6aeaf93552901b7eca104f63b12b516affa6315643c7ba476a"
+    },
+    {
+      "id": "RD07-1713",
+      "path": "adl/tools/skills/product-report-writer/SKILL.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "fa9647658efe82283e5c57accba83bbc9530fc7f"
+      },
+      "current_sha256": "e99da9a7e4af200ecbfc765493444d975c67360372029e43ef052b515b360214"
+    },
+    {
+      "id": "RD07-1714",
+      "path": "adl/tools/skills/product-report-writer/adl-skill.yaml",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "0151df69df594d631706adf07c10f8fe698e28b7"
+      },
+      "current_sha256": "9cdceee6c75c6720f5c9b136a509621701a76da90aaa8c10a26725a1a74645f2"
+    },
+    {
+      "id": "RD07-1715",
+      "path": "adl/tools/skills/product-report-writer/agents/openai.yaml",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "b56afc5656171f69dbde4685e861b607f65d497d"
+      },
+      "current_sha256": "c2f5e881443fcf120fd8782a613639b8583114f158ba383374820c7069bec09e"
+    },
+    {
+      "id": "RD07-1716",
+      "path": "adl/tools/skills/product-report-writer/references/output-contract.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "fa70c6149becc99b70c2ecb93ac228b69f2ee277"
+      },
+      "current_sha256": "af3e22525ead04482b720b05b6e7f4925b7b62f86874db0a7d2804a87772a73a"
+    },
+    {
+      "id": "RD07-1717",
+      "path": "adl/tools/skills/product-report-writer/references/report-writing-playbook.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "d1d70399a0c6979b902905e3f664ac62b0d44370"
+      },
+      "current_sha256": "acd4d4b884011d971fe5c890b0781de183a31147d86df50cb690e82ffb89fa00"
+    },
+    {
+      "id": "RD07-1718",
+      "path": "adl/tools/skills/product-report-writer/scripts/write_product_report.py",
+      "captured_identity": {
+        "mode": "100755",
+        "blob": "c5a0a0141248de40b98bbb40e46cfe5739063089"
+      },
+      "current_sha256": "220bd83a5cd0a49fc62741fc444215beb2a4a616393cb5ea7ae638a7a9040f9b"
+    },
+    {
+      "id": "RD07-1725",
+      "path": "adl/tools/skills/redaction-and-evidence-auditor/SKILL.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "6e4fbc1dd8fc03aa204f4828e837538ed81a9c7d"
+      },
+      "current_sha256": "38608047e57113972502f9ccc101b21871f580b59991879e3e0654c81af24382"
+    },
+    {
+      "id": "RD07-1726",
+      "path": "adl/tools/skills/redaction-and-evidence-auditor/adl-skill.yaml",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "85ee1b079b4a28560c80edd8351dde6ba4b19e1e"
+      },
+      "current_sha256": "12c6f7bc4643c4c57ba6ec93e4e8a4799c0f848b56ec92dc3688d95989e19480"
+    },
+    {
+      "id": "RD07-1727",
+      "path": "adl/tools/skills/redaction-and-evidence-auditor/agents/openai.yaml",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "ca733984602cde9538d53c427ab00f3d422b7297"
+      },
+      "current_sha256": "595d4e82f67f9d4dff6912f40eae755b488ded668d656a6a14b57214805484d4"
+    },
+    {
+      "id": "RD07-1728",
+      "path": "adl/tools/skills/redaction-and-evidence-auditor/references/output-contract.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "466e2ffe39e23595d56e16c4f84e58c5e1915e6c"
+      },
+      "current_sha256": "e0d67ca2af0faa18aa00f76281ee44d31d742f2ff9f9b9b053866c6c8f3effb8"
+    },
+    {
+      "id": "RD07-1729",
+      "path": "adl/tools/skills/redaction-and-evidence-auditor/references/redaction-playbook.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "faad0478d71de3e3270f0daaf82f137a1c973281"
+      },
+      "current_sha256": "5fdcf13dbc96b309851135a41954ae80562365385195dc4b5005736d34b42e51"
+    },
+    {
+      "id": "RD07-1730",
+      "path": "adl/tools/skills/redaction-and-evidence-auditor/scripts/audit_review_packet.py",
+      "captured_identity": {
+        "mode": "100755",
+        "blob": "7f36f7ba6eb9243e0c2dc04a1641c3305eb62195"
+      },
+      "current_sha256": "d609932891d781481b50bd308f5adfd5adbf20a44ca14069e7df5e4a0197d3bb"
+    },
+    {
+      "id": "RD07-1743",
+      "path": "adl/tools/skills/repo-architecture-review/SKILL.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "2f7ce602d739c7d6640276f87e74dddf8f2f31fc"
+      },
+      "current_sha256": "c5aeb007fe99875da8126e921380521ab167b082e1a34972097d41d72ba2dbd3"
+    },
+    {
+      "id": "RD07-1744",
+      "path": "adl/tools/skills/repo-architecture-review/adl-skill.yaml",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "981309b6d0ef3aaef52fbf31e981e079ba452bf5"
+      },
+      "current_sha256": "83ec1ad7eca451cd671d97394fe04ef4bb1fdfff96de2fe850717d11b72353fd"
+    },
+    {
+      "id": "RD07-1745",
+      "path": "adl/tools/skills/repo-architecture-review/agents/openai.yaml",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "f980b866000f09c21a1c2aae9cf1cb186a7ea784"
+      },
+      "current_sha256": "548e9bcddce9b7df2b1a144f5fd19e7ac00e4a004962b60b5209353f5c87d6c3"
+    },
+    {
+      "id": "RD07-1746",
+      "path": "adl/tools/skills/repo-architecture-review/references/architecture-playbook.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "617ea03fbfe281ce153d41759d21cc8bb4cc2e59"
+      },
+      "current_sha256": "b20e0c64fe6554932efd1f701c3ecf5452fc33cc880daf152b2bb3bf6afedf86"
+    },
+    {
+      "id": "RD07-1747",
+      "path": "adl/tools/skills/repo-architecture-review/references/output-contract.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "fc26df8e568bbe564c126711590353cc91536c90"
+      },
+      "current_sha256": "9ddc3e058e8a047d9b6df6499355a9769c45de77ac0770f31861e6ccd9a5d897"
+    },
+    {
+      "id": "RD07-1748",
+      "path": "adl/tools/skills/repo-architecture-review/scripts/prepare_architecture_review.py",
+      "captured_identity": {
+        "mode": "100755",
+        "blob": "a7e222ee6ab67a5077bd6828267ff0a791d43c8a"
+      },
+      "current_sha256": "90abd4034fd9dd7bb62cef2d4f23d027371707da9ba4ef3f36da48011038d5e9"
+    },
+    {
+      "id": "RD07-1749",
+      "path": "adl/tools/skills/repo-code-review/SKILL.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "a56df1624e93902f52c26d1a41986116a0596c41"
+      },
+      "current_sha256": "e1e00bf28b4286b6a0574a8f422e29f0e41a520a8a8958466fe584f77d70f98e"
+    },
+    {
+      "id": "RD07-1750",
+      "path": "adl/tools/skills/repo-code-review/adl-skill.yaml",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "57a32cba573f77592a534b76e61aed937b4fcb02"
+      },
+      "current_sha256": "cd2387ffa1041aca7a20d9cafb779a13dfe264b107ce516294b7549eb3ba4272"
+    },
+    {
+      "id": "RD07-1751",
+      "path": "adl/tools/skills/repo-code-review/agents/openai.yaml",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "b7598a43e9efb76f682506b7407845368a148d9c"
+      },
+      "current_sha256": "7113924ad4c08f740e77704ca5fab6f4e37f707eb40cb9f5f89270ea3f3324fd"
+    },
+    {
+      "id": "RD07-1752",
+      "path": "adl/tools/skills/repo-code-review/references/output-contract.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "047bbb83c9a24536b98da2aaf43918d7abc4b39c"
+      },
+      "current_sha256": "6dbf6ae2b72958c075ca4196b042744402f118e1cbdd2c999e76267ccde17b4f"
+    },
+    {
+      "id": "RD07-1753",
+      "path": "adl/tools/skills/repo-code-review/references/review-playbook.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "495b35f057951c5d80ea35f0db61b6a3ec0335e5"
+      },
+      "current_sha256": "05871e657e8f0b524a5cce3da0b1ee65a92b191dd6fb95e7f7a3b6ec167c25b0"
+    },
+    {
+      "id": "RD07-1754",
+      "path": "adl/tools/skills/repo-code-review/scripts/repo_inventory.py",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "126553c358ed5a7a61a8f39818f39f514eb161f2"
+      },
+      "current_sha256": "370b606ba3827e2e8dda69945c1ebc5c9b2d7c44e44316527229a6ba14be5142"
+    },
+    {
+      "id": "RD07-1755",
+      "path": "adl/tools/skills/repo-dependency-review/SKILL.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "6e812ab7e4c652f8f8013ca45eba5c25e462cb87"
+      },
+      "current_sha256": "50c773c817a5b90a604b38e20d0a43acbb2f8058c7c72e0f694dcd0e5a590f9f"
+    },
+    {
+      "id": "RD07-1756",
+      "path": "adl/tools/skills/repo-dependency-review/adl-skill.yaml",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "c8cbbf407b52fc51518075e96d046be2ae2d18d8"
+      },
+      "current_sha256": "0e2e8ea1a045508b2ce4a66d9b8f67f4ab8c425ad284620257a574a204dde1c9"
+    },
+    {
+      "id": "RD07-1757",
+      "path": "adl/tools/skills/repo-dependency-review/agents/openai.yaml",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "c84476859d41e646fedb57a1a812a2ef6aa4dc08"
+      },
+      "current_sha256": "047e87eb6e867f45288ab2f83ec3dc4f1036a15de7d9dc6399345a4b351cf9ce"
+    },
+    {
+      "id": "RD07-1758",
+      "path": "adl/tools/skills/repo-dependency-review/references/dependency-playbook.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "7f56a43378caaaa6476c0c7a78948dff481b7c8e"
+      },
+      "current_sha256": "1ee5ed9f6ee506f6c7c8c8619cf25ac404952d63105579ae73bc640161df7348"
+    },
+    {
+      "id": "RD07-1759",
+      "path": "adl/tools/skills/repo-dependency-review/references/output-contract.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "0705447f68d3a6388b7eba805023702108312275"
+      },
+      "current_sha256": "7148e4fb8dddffab6291de368dc3a2afe06165b5ea9ce3d3b7147abfa50ac03a"
+    },
+    {
+      "id": "RD07-1760",
+      "path": "adl/tools/skills/repo-dependency-review/scripts/prepare_dependency_review.py",
+      "captured_identity": {
+        "mode": "100755",
+        "blob": "cdd3fa1b8556ffd3d90692942d1a1f2588a85a5e"
+      },
+      "current_sha256": "626cc3f275d7f0409014a9b6561d4ade236cf69e1ffcde899e5d6708e1545a18"
+    },
+    {
+      "id": "RD07-1761",
+      "path": "adl/tools/skills/repo-dependency-review/scripts/test_prepare_dependency_review.py",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "def59a9f35be8b3451f63f1a24e3b630b20b0b40"
+      },
+      "current_sha256": "15dd9382577b65df82c078dd43eec091eede972fa4ff51739e329107e599a4b1"
+    },
+    {
+      "id": "RD07-1762",
+      "path": "adl/tools/skills/repo-diagram-planner/SKILL.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "0a97dd16e6ff96d3bc633c151657de4b7bb7803f"
+      },
+      "current_sha256": "25cf10a1bdaf7e08ae0c4616470f3f6e1dac0a77cb0a6beeef7a17dbd7844ed9"
+    },
+    {
+      "id": "RD07-1763",
+      "path": "adl/tools/skills/repo-diagram-planner/adl-skill.yaml",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "adeed72ef6c445ac3025ddfd2d7cc148bf5d6ba2"
+      },
+      "current_sha256": "98a2759eda416f9b7e0b3a7af478df42f7a25e7491fced26e66caed1cf0a937c"
+    },
+    {
+      "id": "RD07-1764",
+      "path": "adl/tools/skills/repo-diagram-planner/agents/openai.yaml",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "4999b54434daf873a08141c199737ab355d825d3"
+      },
+      "current_sha256": "0bc1e57cde0cd45c86c993b89a49720ea7eda475ad580a39d8fefcc521864dfe"
+    },
+    {
+      "id": "RD07-1765",
+      "path": "adl/tools/skills/repo-diagram-planner/references/diagram-planning-playbook.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "53ff3f1ed8322fb439b6412ebe9fe984511b9703"
+      },
+      "current_sha256": "bba9d775a5269f8d5965e3ba9436ccc351236fc58353db980364bb932258c0e0"
+    },
+    {
+      "id": "RD07-1766",
+      "path": "adl/tools/skills/repo-diagram-planner/references/output-contract.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "ded15586823035e09e604439297c2484a352b159"
+      },
+      "current_sha256": "c1df3e73f48c3b40d34cfd65fdf525658855cd08eb5d397d311daab6ad8c16fa"
+    },
+    {
+      "id": "RD07-1767",
+      "path": "adl/tools/skills/repo-diagram-planner/scripts/plan_repo_diagrams.py",
+      "captured_identity": {
+        "mode": "100755",
+        "blob": "b55d37f52ba4a9ec562619e3ab11e40c45ca86af"
+      },
+      "current_sha256": "f97a26b212951845211de8c050c19bbc2985866ace1cb024bad1bf480b45880e"
+    },
+    {
+      "id": "RD07-1768",
+      "path": "adl/tools/skills/repo-packet-builder/SKILL.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "26786cb52f3d6b7012e17330cf6b35f5cb8bdf7c"
+      },
+      "current_sha256": "92c69bdd907e30478c14f2ae4010511501549be2c4c9a5fd635edab59ed6d4f8"
+    },
+    {
+      "id": "RD07-1769",
+      "path": "adl/tools/skills/repo-packet-builder/adl-skill.yaml",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "2833c33eda9ccee19fd1c4bc64a253cce51bc1a5"
+      },
+      "current_sha256": "7411db9ded0a5b7ce6b96211339e977168368a2ac908bff3d554731c41a43571"
+    },
+    {
+      "id": "RD07-1770",
+      "path": "adl/tools/skills/repo-packet-builder/agents/openai.yaml",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "a1d0e6d4b2299ddd1e7be105ee4ddd1c427c7e3c"
+      },
+      "current_sha256": "6308da2fb41f88a17c7e2e08027f85fd1f6869fee6697cf9570d45ed23aaea17"
+    },
+    {
+      "id": "RD07-1771",
+      "path": "adl/tools/skills/repo-packet-builder/references/output-contract.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "efed9bb4e671b4955f7e1c4a834b42c5458d2e01"
+      },
+      "current_sha256": "8ca30b02ef25923f4e1a6b4191b2b7682f68db82737c3e591779f46a3076404d"
+    },
+    {
+      "id": "RD07-1772",
+      "path": "adl/tools/skills/repo-packet-builder/references/packet-playbook.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "8dfb3f9f84e3820d321e2e34bba5c1201be36e53"
+      },
+      "current_sha256": "6a9deae389dfa821f955f95e5b8ea3f41c3530ee2f8b85fffdd6ce4d4eb6e8d2"
+    },
+    {
+      "id": "RD07-1773",
+      "path": "adl/tools/skills/repo-packet-builder/scripts/build_repo_packet.py",
+      "captured_identity": {
+        "mode": "100755",
+        "blob": "97604c091ef53fa5cd97d62c399215ea9b8f55a0"
+      },
+      "current_sha256": "afd45c8651e1696af9253a29bcdd9efc09e33d02db06c2368fa6e4185f5c064d"
+    },
+    {
+      "id": "RD07-1774",
+      "path": "adl/tools/skills/repo-packet-builder/scripts/validate_repo_packet.py",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "33941117449164e37557669bfa58d0c927bc5b25"
+      },
+      "current_sha256": "5a3369b55e8e0f6151b010adec780d20f11fff52729fa00d539dc202fb9d4b2f"
+    },
+    {
+      "id": "RD07-1775",
+      "path": "adl/tools/skills/repo-packet-builder/tests/README.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "38d64e62be7f77fb4b47a3827af6cc54b73ed308"
+      },
+      "current_sha256": "60053171641f4de1805c67bd61b54471677d9087ca8127bf1ce9e009357bd156"
+    },
+    {
+      "id": "RD07-1777",
+      "path": "adl/tools/skills/repo-packet-builder/tests/fixtures/issue-520-fixture-provenance.json",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "be350b422f89a281f7000c80f71deba76d8fef83"
+      },
+      "current_sha256": "0f116cc4671ffc167b9afe8a82ed21742a94a3475940f08f6b6be5e55c68d5d4"
+    },
+    {
+      "id": "RD07-1778",
+      "path": "adl/tools/skills/repo-packet-builder/tests/test_denominators.py",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "f2da5e4433ee069ef9cd65bc6701af9550b1614d"
+      },
+      "current_sha256": "4e5ccd52400c9db631910856d7c0f852669da85ee5b245e8b61467f7b61a2726"
+    },
+    {
+      "id": "RD07-1779",
+      "path": "adl/tools/skills/repo-review-code/SKILL.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "8f04e1c7f72ba1a03c422d7932148b630f6550b8"
+      },
+      "current_sha256": "c5afde537bb8476fdfa370fca5aaf9cf1e3853c74eecedadf9c7a18b42caf49c"
+    },
+    {
+      "id": "RD07-1780",
+      "path": "adl/tools/skills/repo-review-code/adl-skill.yaml",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "ff1e3fa872128195e0831150aa901507da8b3bbe"
+      },
+      "current_sha256": "7fbd8aa81de31b775d4c074c5a3f842b83dad751eafffe334f9fd8d6e1fb7ebd"
+    },
+    {
+      "id": "RD07-1781",
+      "path": "adl/tools/skills/repo-review-code/agents/openai.yaml",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "902c6285ff48a438d4dc95870439350f26e41dbe"
+      },
+      "current_sha256": "ccb81bd260a091ff24633ff9094f67727fcf543bfcfbd3bfb03952d582e8730f"
+    },
+    {
+      "id": "RD07-1782",
+      "path": "adl/tools/skills/repo-review-code/references/output-contract.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "df40b8f3b5ec2aa4663439cbfdd32c5e33690d4d"
+      },
+      "current_sha256": "9ac3b02f81c43adecb5fee8d88677c93f4fd0445deae88096d34ca08a1e60a2b"
+    },
+    {
+      "id": "RD07-1783",
+      "path": "adl/tools/skills/repo-review-docs/SKILL.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "b0cbbba41b65dba07dab2fbbbde86e0ede3913af"
+      },
+      "current_sha256": "c0480cd51470b03830df23282522e80458e6996ca701a539b661d31331142a85"
+    },
+    {
+      "id": "RD07-1784",
+      "path": "adl/tools/skills/repo-review-docs/adl-skill.yaml",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "278c3215a46265bdf169c03495307ec01cbcd3f7"
+      },
+      "current_sha256": "ace733cc95cdf7addf47806a6c8ee8b4e68477c496794af448cd83c5350bb7b0"
+    },
+    {
+      "id": "RD07-1785",
+      "path": "adl/tools/skills/repo-review-docs/agents/openai.yaml",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "f54f6dfa2246985da0cfc39909a5c159b8bf59f6"
+      },
+      "current_sha256": "538f2424adf60dd18600df73eecfc5bc5822d4a30a99c1de99830b2b515f9140"
+    },
+    {
+      "id": "RD07-1786",
+      "path": "adl/tools/skills/repo-review-docs/references/output-contract.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "fa51ae8f3925355561e278f777e26b63a76a9d59"
+      },
+      "current_sha256": "8405fa0ede7f2c5e8a6d294448e74d412ad1b83e01450a19c2bd8c865348e09b"
+    },
+    {
+      "id": "RD07-1787",
+      "path": "adl/tools/skills/repo-review-security/SKILL.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "5a9a5400fb0e067f2458d7dddc961aaa2207260f"
+      },
+      "current_sha256": "e6780583f70176412139ff001e54285fb1adf701e3904d7cc039ce38031ea3f6"
+    },
+    {
+      "id": "RD07-1788",
+      "path": "adl/tools/skills/repo-review-security/adl-skill.yaml",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "88dedf098e10001ac6cecb29f291173f6f9fe0fa"
+      },
+      "current_sha256": "dcd50683f5476f5dc8bb37eec4f324494249b46ad3b81a0a5c026d9bd1739ae3"
+    },
+    {
+      "id": "RD07-1789",
+      "path": "adl/tools/skills/repo-review-security/agents/openai.yaml",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "c04eac3a1a5578f245e54c895ee5fb5f509cd0c4"
+      },
+      "current_sha256": "f7d6289da76950dfba992f99883cdf5ee01234a2745a0abd3c9bf63c2ed1cd88"
+    },
+    {
+      "id": "RD07-1790",
+      "path": "adl/tools/skills/repo-review-security/references/output-contract.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "7ffc4ce85a78e770c3184a11cbb4ca6a58888cb0"
+      },
+      "current_sha256": "f701a8fb18bf75b2cddd0ba824c15bc9d30778274bcd0eb7e51fb48ee7d79d44"
+    },
+    {
+      "id": "RD07-1791",
+      "path": "adl/tools/skills/repo-review-synthesis/SKILL.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "2dfaf683ccbd70208c36a5279941a491aa39c023"
+      },
+      "current_sha256": "73051a48c89d96f112e541a92ec2b511c1b2ef8223585fa919e8d7ce3d412673"
+    },
+    {
+      "id": "RD07-1792",
+      "path": "adl/tools/skills/repo-review-synthesis/adl-skill.yaml",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "bf09ccb25c144618aa54661252514909b38b1ab8"
+      },
+      "current_sha256": "d4d4a62e9acdf49ce6fa18de71cb3632c7444ffab99fe9cda00833b767dd7037"
+    },
+    {
+      "id": "RD07-1793",
+      "path": "adl/tools/skills/repo-review-synthesis/agents/openai.yaml",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "d8c404262d373905c09d951e333dc6e17357c0e7"
+      },
+      "current_sha256": "caf1784d4671658bb62d3c979f0901e7a6ececc5421c64c4f530112c6ae627c1"
+    },
+    {
+      "id": "RD07-1794",
+      "path": "adl/tools/skills/repo-review-synthesis/references/output-contract.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "7ea56f74608849fce3ec447dad32cacf04ae9bda"
+      },
+      "current_sha256": "dbc713ce645be9810a123fb1360a28ee9278646f11779bad3c749efddc9b53d0"
+    },
+    {
+      "id": "RD07-1795",
+      "path": "adl/tools/skills/repo-review-tests/SKILL.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "bbb875e25163ffba5d7f38061d1a910e7241073b"
+      },
+      "current_sha256": "bc7f82718035ed3d0db219e1f01a5b04dc0150ed82831ff2aaab0333f30b760a"
+    },
+    {
+      "id": "RD07-1796",
+      "path": "adl/tools/skills/repo-review-tests/adl-skill.yaml",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "b29958ae9d258696e8e9efceece0944be509a324"
+      },
+      "current_sha256": "fb0bb0ad317c01556be6af5afab2f041f1170e53cc7fc39a2cdd62d33474a27a"
+    },
+    {
+      "id": "RD07-1797",
+      "path": "adl/tools/skills/repo-review-tests/agents/openai.yaml",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "dd6d6804e582e9efaf8cea6ffedeabbc3ceb7170"
+      },
+      "current_sha256": "03568c90578eeb76ecddf69d8be663ebeb84abd98c765d910e671f33cd37566f"
+    },
+    {
+      "id": "RD07-1798",
+      "path": "adl/tools/skills/repo-review-tests/references/output-contract.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "ac035b7ff114b25bc554e677b048af569671e694"
+      },
+      "current_sha256": "e5d2600a03a18869c4f57de623e379bb4ec724a506db419e47ad042e8927c530"
+    },
+    {
+      "id": "RD07-1810",
+      "path": "adl/tools/skills/review-quality-evaluator/SKILL.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "ba14095e4b13284145c01a605d13250bfdc39021"
+      },
+      "current_sha256": "8012700b26b63b6c68114b004a2eefba42bde8502a974fb198c4671edc3de00e"
+    },
+    {
+      "id": "RD07-1811",
+      "path": "adl/tools/skills/review-quality-evaluator/adl-skill.yaml",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "e42f2613d385092719d9d940e5db6437267cb348"
+      },
+      "current_sha256": "21fe880d4305480d4f546b0cfc6a257a2b2f1227c50f98c5b4a0cc488d59d5f1"
+    },
+    {
+      "id": "RD07-1812",
+      "path": "adl/tools/skills/review-quality-evaluator/agents/openai.yaml",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "e5ce2ae80de593146daba6111b069950f1e80e80"
+      },
+      "current_sha256": "828db2e06e09395f015ee33ace7c62715cdfc6d2aac6e62f12e5cd521c4e2fba"
+    },
+    {
+      "id": "RD07-1813",
+      "path": "adl/tools/skills/review-quality-evaluator/references/evaluation-playbook.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "0708926c51cc81302e00afb6593d4c47d73b19fa"
+      },
+      "current_sha256": "d2082243109f10d910856362e8af4e2127d75e75dc20059195fc67608f00f4c8"
+    },
+    {
+      "id": "RD07-1814",
+      "path": "adl/tools/skills/review-quality-evaluator/references/output-contract.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "ea33ce7adee083e0d9388efc30ad2e4dfe6c65f8"
+      },
+      "current_sha256": "0784e9c3d3e01111f908d98a168e296f9463ecccf74cef7e3891e2be5bbf349e"
+    },
+    {
+      "id": "RD07-1815",
+      "path": "adl/tools/skills/review-quality-evaluator/scripts/evaluate_review_quality.py",
+      "captured_identity": {
+        "mode": "100755",
+        "blob": "5909649c83cf4638621ef9d7d98aaa560a76ac2f"
+      },
+      "current_sha256": "01449179fac54f9986c9c312b4f1056fe092d87f07fd31f2b40a5c1f395e60cd"
+    },
+    {
+      "id": "RD07-1816",
+      "path": "adl/tools/skills/review-readiness-cleanup/SKILL.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "3f3afaa47688e7b397145333cebd4542325a059a"
+      },
+      "current_sha256": "be231279212188baaeea14ff8a0369f4c4aaf5b8b09213163a4d8af465068776"
+    },
+    {
+      "id": "RD07-1817",
+      "path": "adl/tools/skills/review-readiness-cleanup/adl-skill.yaml",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "a9cbc95de43d6e4d324a8a10ad3405bbff249caf"
+      },
+      "current_sha256": "193e677413418594eba42ad88e43b46ff7e7644bd4a0892babe6ba04665ac2a8"
+    },
+    {
+      "id": "RD07-1818",
+      "path": "adl/tools/skills/review-readiness-cleanup/agents/openai.yaml",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "b0ff2f940f37b2852af0c76f9cbf359fa7c9ac82"
+      },
+      "current_sha256": "159e12bf491f465514a34e19175cc03de911879ef448e20905520ba37f21988d"
+    },
+    {
+      "id": "RD07-1819",
+      "path": "adl/tools/skills/review-readiness-cleanup/references/output-contract.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "e7ac80cf41750bd9c5e2b77f9688d1b231014bf9"
+      },
+      "current_sha256": "af00ba818096a9c6413c5d9c717a9a5d665604cec61708dc96dd453ae896c29d"
+    },
+    {
+      "id": "RD07-1820",
+      "path": "adl/tools/skills/review-readiness-cleanup/references/review-readiness-cleanup-playbook.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "6d6ab1c84a4f5ff9260f27eaa86f8c2ffc1f60a8"
+      },
+      "current_sha256": "a767f5f0c3813b3e7cb4ddb77ee2c725f304f2659e45741c266138d5bd05c5f0"
+    },
+    {
+      "id": "RD07-1821",
+      "path": "adl/tools/skills/review-readiness-cleanup/scripts/inspect_review_readiness.py",
+      "captured_identity": {
+        "mode": "100755",
+        "blob": "c801c4f1aecbeea741065e87857882c7652db8f9"
+      },
+      "current_sha256": "d42d38a92b222fb70eba27fe922011d1213ba427c378f359f0c6a38dacd3e39c"
+    },
+    {
+      "id": "RD07-1822",
+      "path": "adl/tools/skills/review-to-test-planner/SKILL.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "b0c7cf8d5ca7d5918d918bcad45a467a4ba0f42a"
+      },
+      "current_sha256": "218aee986a3964ecb27085aee7da463ec51e3c0f0d772c5acf39582c12c05e43"
+    },
+    {
+      "id": "RD07-1823",
+      "path": "adl/tools/skills/review-to-test-planner/adl-skill.yaml",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "42bb15614ff7c28adc2d70b1de63d2f82355bf2f"
+      },
+      "current_sha256": "7a84e6f1d7dcc0d9d95979dfcb0ab46bb79f98659078f5d68b6ade5ee0dca98e"
+    },
+    {
+      "id": "RD07-1824",
+      "path": "adl/tools/skills/review-to-test-planner/agents/openai.yaml",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "5c93c5fd5d72ed3ccb128308f9d4749685f7faca"
+      },
+      "current_sha256": "56b6486d7690ec319450df1061a92ef3c6ae95cdff2c0d4511fbe5e97844e894"
+    },
+    {
+      "id": "RD07-1825",
+      "path": "adl/tools/skills/review-to-test-planner/references/output-contract.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "5890084ce85b840c34a739a318015239c8870ed8"
+      },
+      "current_sha256": "749086a0294da3186e57092864c61770afbc5408391de7f62dae4e7c28fe9a3a"
+    },
+    {
+      "id": "RD07-1826",
+      "path": "adl/tools/skills/review-to-test-planner/references/test-planning-playbook.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "b7297f0e47a514315c23868f1bb84fb62c4b583d"
+      },
+      "current_sha256": "28778a3258c0c9eae30621d094646346f53c3feab18da982e6db9700eb80546c"
+    },
+    {
+      "id": "RD07-1827",
+      "path": "adl/tools/skills/review-to-test-planner/scripts/plan_review_tests.py",
+      "captured_identity": {
+        "mode": "100755",
+        "blob": "fd7aa83f2594d6f60a81274829625e7a763c37b4"
+      },
+      "current_sha256": "3580dbe23e66e1bf5f65fc0f414ea4ae67009d23907ec9596068d361bbfbebe8"
+    },
+    {
+      "id": "RD07-1904",
+      "path": "adl/tools/test_adr_curator_skill_contracts.sh",
+      "captured_identity": {
+        "mode": "100755",
+        "blob": "6aa012e0186625366bf1b330471ca052cbfe399d"
+      },
+      "current_sha256": "6e2ea860ee4c8601a7a4fa58dbad023661ab9b4d7be4a2e6c08ab85973cb63f7"
+    },
+    {
+      "id": "RD07-1905",
+      "path": "adl/tools/test_architecture_diagram_reviewer_skill_contracts.sh",
+      "captured_identity": {
+        "mode": "100755",
+        "blob": "f77cc813d2f6d866cd525463161831db80fcc18d"
+      },
+      "current_sha256": "a7151801a3e6519ee60ef4be19b10b0dc13c31e88dfe8d9cefe108215d189f00"
+    },
+    {
+      "id": "RD07-1906",
+      "path": "adl/tools/test_architecture_fitness_function_author_skill_contracts.sh",
+      "captured_identity": {
+        "mode": "100755",
+        "blob": "afe88166149f0d8c034426f3d46418075ea3e32a"
+      },
+      "current_sha256": "443cc3400195db79233971c5276d4cf821165e69dfc1803e56a0aff499a1cfd6"
+    },
+    {
+      "id": "RD07-1995",
+      "path": "adl/tools/test_diagram_author_skill_contracts.sh",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "2a76c3ccd970b67387a3d7b9f7d7f3ab294e6430"
+      },
+      "current_sha256": "4c457863a8fa0bbe621c7e85d98ed3b72e30f80ad83185e9f2c101f17cd6a40b"
+    },
+    {
+      "id": "RD07-2002",
+      "path": "adl/tools/test_finding_to_issue_planner_skill_contracts.sh",
+      "captured_identity": {
+        "mode": "100755",
+        "blob": "ebe4a84541a5a1e08128240db0da5e404c4d7c01"
+      },
+      "current_sha256": "2ff9093d022a063a9fdfad0db7b15f3b9a2169cf98c06daa57e1077ac641c6da"
+    },
+    {
+      "id": "RD07-2060",
+      "path": "adl/tools/test_redaction_and_evidence_auditor_skill_contracts.sh",
+      "captured_identity": {
+        "mode": "100755",
+        "blob": "deab7a12da7b21b183a51d9f96b6c09870140674"
+      },
+      "current_sha256": "5a1a0790b46130da70875227d68bd10f2297aea5095a660cf5a838b9f3cc29ea"
+    },
+    {
+      "id": "RD07-2064",
+      "path": "adl/tools/test_repo_architecture_review_skill_contracts.sh",
+      "captured_identity": {
+        "mode": "100755",
+        "blob": "1ca6bffa9d2024d5a8f2e05e6beb28b97bc2cc3f"
+      },
+      "current_sha256": "005f4670fed437bdc5486d288de3cefb143be91a881b8d676f88b0b72135789f"
+    },
+    {
+      "id": "RD07-2066",
+      "path": "adl/tools/test_repo_dependency_review_skill_contracts.sh",
+      "captured_identity": {
+        "mode": "100755",
+        "blob": "aae7f67e78a30c1f51f8f00dec43dab4eb0e0b1e"
+      },
+      "current_sha256": "817ae4a8c87404cd14ec3669966c11a9f75c5bf9edc7d0cfea01722340625e67"
+    },
+    {
+      "id": "RD07-2067",
+      "path": "adl/tools/test_repo_diagram_planner_skill_contracts.sh",
+      "captured_identity": {
+        "mode": "100755",
+        "blob": "886c1efb69126a6d5a0dd82590227421f747cfe8"
+      },
+      "current_sha256": "d46ba4420f817eeb3d192a1461701df1a106be3765616c8ccbcd782941fdd25e"
+    },
+    {
+      "id": "RD07-2068",
+      "path": "adl/tools/test_repo_packet_builder_skill_contracts.sh",
+      "captured_identity": {
+        "mode": "100755",
+        "blob": "605386c0786571211f20d10f5787c0a81ae4c161"
+      },
+      "current_sha256": "af63d0bbdd69b60938532a79e74d25e150fddaee294d618a4b4ffbc01d1117ea"
+    },
+    {
+      "id": "RD07-2075",
+      "path": "adl/tools/test_review_readiness_cleanup_skill_contracts.sh",
+      "captured_identity": {
+        "mode": "100755",
+        "blob": "b3f906ccf923836d856babdacfdd1bc84bc53945"
+      },
+      "current_sha256": "cd15746389e88ea32dcd87e3c79edc4cfe2bcfb477d6bbad145188a9722aa46d"
+    },
+    {
+      "id": "RD07-2077",
+      "path": "adl/tools/test_review_to_test_planner_skill_contracts.sh",
+      "captured_identity": {
+        "mode": "100755",
+        "blob": "b587bcb4269d394afaef92665e9e0f92e59c7d4a"
+      },
+      "current_sha256": "84c1f1c725a669d83510284fc510c46bd01b14e24f3526f51b3fe4aa5f3c3691"
+    }
+  ],
+  "custody": {
+    "path": "/Volumes/FastWork/c1223/codefriend-skill-family-preparation/127-current-preimages.tar",
+    "sha256": "59926b761e503b89d23b39c7d7e81eb95f07871b3439ce816403f14b9c4683b2",
+    "members": 127
+  },
+  "caller_custody": {
+    "path": "/Volumes/FastWork/c1223/codefriend-skill-family-preparation/caller-current-preimages.tar",
+    "sha256": "3ee9735e2a9c7441296e780c5fc418b6310e0e5eeb524023005089ae59ea95e2"
+  },
+  "actual_registry_preimage_custody": {
+    "path": "/Volumes/FastWork/c1223/codefriend-skill-family-preparation/actual-registry-preimage-d293.tar",
+    "sha256": "81c5f46451ae065585c3182f9ee607c6ecfa2dadfc18de3688bfe4aec81d88b3"
+  },
+  "registry_composition": {
+    "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+    "old_proposal_before": {
+      "mode": "100644",
+      "blob": "480b3e5fb4d7498d4705617699062733e87b0352",
+      "sha256": "3fe757f502040236772f4b92f660d93a1ff8d42156ca18f3a74a290f83fe21ab"
+    },
+    "actual_before": {
+      "mode": "100644",
+      "blob": "93d456c8f06304fa1a2790a30650d555161448ee",
+      "sha256": "4757f08e7515d7904181e921e1c43c1322853fae7fb01d1b0522c7f09e3e8a22"
+    },
+    "actual_after": {
+      "mode": "100644",
+      "blob": "f328f23dfa2e3f046293cd48b1113bf03cc4fda2",
+      "sha256": "ee16a22af0af2e90b1e5c457b5d43ee0bc28cccfda1bfcb3153d6d8fec0ecdda"
+    },
+    "method": "Ran actual generate_tool_surface_registry.py after reviewed removals on committed conversion+Infrastructure topology; stale proposal registry hunk excluded."
+  },
+  "review": {
+    "reviewer": "/root/review_1223_public_facade",
+    "result": "PASS source/caller review; duplicate same-value assignments removed as requested without behavioral rerun"
+  },
+  "owner_artifact": {
+    "path": "/Volumes/FastWork/c1223/evidence/codefriend/issue104-installed-preparation/codefriend-review-skills-v1.tar",
+    "sha256": "4ae4847f60a4b2cfd0504deb30fa01ae31db781f6a29ebad2255bbcba81113c4",
+    "artifact": 11803531674,
+    "candidate": "e93a457ad6325017627a66a2abe31a3376fa28fd",
+    "exact": 71,
+    "changed": 44,
+    "missing": 0
+  },
+  "original_contract_proof": {
+    "packet": "ORIGINAL_CONSUMER_BATCH_QUALIFICATION.json",
+    "sha256": "9284cb5d06020294a9c2606e19cc58249dbaf0e23cbe6ddc242bce6e71514daa",
+    "result": "/Volumes/FastWork/c1223/evidence/codefriend/issue104-installed-preparation/original-contract-batch12-r2/RESULT.json",
+    "result_sha256": "2331e0578449c0ef920d9372810ec7505517c38c7ece90131b2a998587fde3f7",
+    "original_test_count": 12,
+    "status": "existingPASS; not rerun",
+    "limits": "Twelve individual original scripts plus separate specialist/installed consumer records do not imply every installer or live review workflow passed."
+  },
+  "focused_routing_validation": {
+    "path": "/Volumes/FastWork/c1223/codefriend-skill-family-preparation/routing-r2/RESULT.json",
+    "sha256": "5da0183b8c96d9387942f70da96acb404110add1b0572c06d68833bc1dafbd34",
+    "status": "PASS",
+    "scope": "12 actual shell invocations plus51-family copy readback and original assertion-body comparison. Includes original specialist suite with one selected root propagated into installer. Not12original-contract reruns."
+  },
+  "final_cosmetic_change": {
+    "changed_postimages_since_r2": [
+      "adl/tools/test_documentation_specialist_skill_contracts.sh",
+      "adl/tools/test_records_hygiene_skill_contracts.sh"
+    ],
+    "meaning": "Only duplicate same-value source-root assignments removed; preceding original continued assignments retained. Reviewer explicitly says no rerun needed.",
+    "proof_patch": "f78f5f1599132a5f6e47dd1aee4d6752f4556e56dc43445891a717640c73ae85",
+    "current_patch": "90483c0b3e09cefb5e4e0a56432edfea9a1fc4fa07b5a5f89ccba280bd2bc1a5"
+  },
+  "validation": "Exact current preimages/modes/custody and reviewed postimages verified; registry regenerated. Prior12original contracts and bounded routing proof reused, no new build/provider/native execution.",
+  "original_proposal_limits": [
+    "No shared source/ledger/card edits, source apply, tests, builds or provider calls.",
+    "Denominator4134+22 unchanged; this127scope uses existing original rows only.",
+    "Excluded Runtime holds and in-flight Runtime896/Infrastructure212/conversion6.",
+    "Focused local routing/specialist suite executed under FastWork scratch; no original12-contract rerun, full138assertion installer suite, native lifecycle, providers or builds.",
+    "No changed caller tests rerun: explicit-root routing must receive focused offline validation before application acceptance; authentic historical full installer/completeness equivalence not asserted."
+  ],
+  "limits": [
+    "Applied local source/caller retirement; no final package qualification or native publication claim.",
+    "Original4134 and existing22 identities remain separate and unchanged;127removed paths are original inventory rows.",
+    "Focused routing proof is limited to its recorded cases; no rerun or new equivalence claim for original12 contracts or full138assertion installer suite.",
+    "Original proposal statements are preserved separately as historical preparation evidence; they do not describe the applied state."
+  ]
+}

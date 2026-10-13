@@ -3,6 +3,11 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 OUT_DIR="${1:-$ROOT_DIR/artifacts/v089/multi_agent_repo_code_review}"
+SKILLS_ROOT="${CODEFRIEND_REVIEW_SKILLS_ROOT:-}"
+if [[ "$SKILLS_ROOT" != /* || ! -f "$SKILLS_ROOT/repo-code-review/scripts/repo_inventory.py" ]]; then
+  echo "Set CODEFRIEND_REVIEW_SKILLS_ROOT to the explicit installed CodeFriend review-skills root; local skill source retired in ADL #1223." >&2
+  exit 2
+fi
 TMP_RAW_INVENTORY="$(mktemp)"
 trap 'rm -f "$TMP_RAW_INVENTORY"' EXIT
 
@@ -29,7 +34,7 @@ mkdir -p "$PACKET_DIR" "$REVIEWERS_DIR" "$SYNTHESIS_DIR"
 
 cd "$ROOT_DIR"
 
-python3 adl/tools/skills/repo-code-review/scripts/repo_inventory.py "$ROOT_DIR" >"$TMP_RAW_INVENTORY"
+python3 "$SKILLS_ROOT/repo-code-review/scripts/repo_inventory.py" "$ROOT_DIR" >"$TMP_RAW_INVENTORY"
 
 cat >"$SELECTED_PATHS" <<'EOF'
 README.md

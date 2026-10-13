@@ -30,7 +30,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 15
 - `supported shim`: 6
-- `internal helper`: 675
+- `internal helper`: 643
 - `historical evidence`: 40
 - `archive candidate`: 0
 - `remove candidate`: 2
@@ -357,9 +357,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_adl_milestone_creator_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_adl_review_compatibility.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_adl_runtime_compatibility.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_adr_curator_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_architecture_diagram_reviewer_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_architecture_fitness_function_author_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_archive_codex_sessions_to_fastwork.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_archive_run_artifacts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_arxiv_paper_writer_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
@@ -456,14 +453,12 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_demo_v0914_codex_only_complete_issue_workcell.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v0914_multi_agent_repo_review_serious_proof.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_developer_throughput_fast_lane.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_diagram_author_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_documentation_specialist_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_editor_action.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_ensure_csm_binary.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_ensure_final_merge_gate.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_evidence_bundle_packet.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_fable5_uts_acceptance.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_finding_to_issue_planner_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_first_proof_demo_packet.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_first_proof_readiness_packet.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_five_command_regression_suite.sh` | tool surface | internal helper | Focused regression or contract test helper. |
@@ -522,24 +517,17 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_pvf_ci_release_policy.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_readiness_prep_metrics_non_terminal.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_records_hygiene_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_redaction_and_evidence_auditor_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_refactoring_helper_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_release_ceremony.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_release_evidence_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_repo_architecture_review_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_repo_code_review_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_repo_dependency_review_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_repo_diagram_planner_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_repo_packet_builder_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_repo_review_contract.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_retained_diff_proof_contract.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_review_card_surface.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_review_comment_triage_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_review_output_provenance.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_review_quality_evaluator_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_review_readiness_cleanup_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_review_subagent_auth_policy.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_review_to_test_planner_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_revision_validation_inventory.py` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_run_authoritative_coverage_lane.sh` | tool surface | historical evidence | Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing. |
 | `adl/tools/test_run_aws_spot_builder_image_validation.sh` | tool surface | internal helper | Focused regression or contract test helper. |
@@ -740,14 +728,9 @@ Source skill directories only; installed skill admission is not inventoried here
 | Surface | Kind | Classification | Notes |
 | --- | --- | --- | --- |
 | `adl/tools/skills/adl-milestone-creator` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
-| `adl/tools/skills/adr-curator` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
-| `adl/tools/skills/architecture-diagram-reviewer` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
-| `adl/tools/skills/architecture-fitness-function-author` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
 | `adl/tools/skills/arxiv-paper-writer` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
 | `adl/tools/skills/demo-operator` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
-| `adl/tools/skills/diagram-author` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
 | `adl/tools/skills/documentation-specialist` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
-| `adl/tools/skills/finding-to-issue-planner` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
 | `adl/tools/skills/gap-analysis` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
 | `adl/tools/skills/issue-folding` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
 | `adl/tools/skills/issue-splitter` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
@@ -762,25 +745,10 @@ Source skill directories only; installed skill admission is not inventoried here
 | `adl/tools/skills/pr-ready` | skill | primary | Primary skill in the governed issue/sprint lifecycle. |
 | `adl/tools/skills/pr-run` | skill | primary | Primary skill in the governed issue/sprint lifecycle. |
 | `adl/tools/skills/pr-stack-manager` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
-| `adl/tools/skills/product-report-writer` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
 | `adl/tools/skills/records-hygiene` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
-| `adl/tools/skills/redaction-and-evidence-auditor` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
 | `adl/tools/skills/refactoring-helper` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
 | `adl/tools/skills/release-evidence` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
-| `adl/tools/skills/repo-architecture-review` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
-| `adl/tools/skills/repo-code-review` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
-| `adl/tools/skills/repo-dependency-review` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
-| `adl/tools/skills/repo-diagram-planner` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
-| `adl/tools/skills/repo-packet-builder` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
-| `adl/tools/skills/repo-review-code` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
-| `adl/tools/skills/repo-review-docs` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
-| `adl/tools/skills/repo-review-security` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
-| `adl/tools/skills/repo-review-synthesis` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
-| `adl/tools/skills/repo-review-tests` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
 | `adl/tools/skills/review-comment-triage` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
-| `adl/tools/skills/review-quality-evaluator` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
-| `adl/tools/skills/review-readiness-cleanup` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
-| `adl/tools/skills/review-to-test-planner` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
 | `adl/tools/skills/sip-editor` | skill | supported shim | Lifecycle editor skill used to normalize durable card truth. |
 | `adl/tools/skills/sor-editor` | skill | supported shim | Lifecycle editor skill used to normalize durable card truth. |
 | `adl/tools/skills/spp-editor` | skill | supported shim | Lifecycle editor skill used to normalize durable card truth. |

@@ -2,6 +2,11 @@
 set -euo pipefail
 
 repo_root="$(git rev-parse --show-toplevel)"
+source_root="${ADL_OPERATIONAL_SKILLS_SOURCE_ROOT:-}"
+if [[ "$source_root" != /* || ! -d "$source_root" ]]; then
+  echo "Select an authentic complete original skill fixture via ADL_OPERATIONAL_SKILLS_SOURCE_ROOT; all original installer assertions remain required." >&2
+  exit 2
+fi
 tmpdir="$(mktemp -d)"
 trap 'rm -rf "${tmpdir}"' EXIT
 
@@ -185,11 +190,11 @@ assert_skill_bundle "${CODEX_HOME}"
 [[ -L "${CODEX_HOME}/skills/portable-contract-normalizer" ]]
 [[ -L "${CODEX_HOME}/skills/arxiv-paper-writer" ]]
 [[ -L "${CODEX_HOME}/skills/diagram-author" ]]
-[[ "$(cd "${CODEX_HOME}/skills/pr-init" && pwd -P)" == "${repo_root}/adl/tools/skills/pr-init" ]]
-[[ "$(cd "${CODEX_HOME}/skills/issue-watcher" && pwd -P)" == "${repo_root}/adl/tools/skills/issue-watcher" ]]
+[[ "$(cd "${CODEX_HOME}/skills/pr-init" && pwd -P)" == "${source_root}/pr-init" ]]
+[[ "$(cd "${CODEX_HOME}/skills/issue-watcher" && pwd -P)" == "${source_root}/issue-watcher" ]]
 
 malformed_root="${tmpdir}/malformed-skills"
-cp -R "${repo_root}/adl/tools/skills" "${malformed_root}"
+cp -R "${source_root}" "${malformed_root}"
 cat >"${malformed_root}/issue-watcher/SKILL.md" <<'EOF'
 ---
 name: broken

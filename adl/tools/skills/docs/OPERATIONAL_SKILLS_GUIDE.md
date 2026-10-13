@@ -1,5 +1,7 @@
 # Operational Skills Guide
 
+> CodeFriend review-skill sources now belong to [the CodeFriend owner](https://github.com/agent-logic/codefriend/tree/e93a457ad6325017627a66a2abe31a3376fa28fd/review-skills). Select its authenticated installed distribution for operational use. Retained original-layout tests require explicitly selected authentic historical fixtures; the partial ADL skill tree is not a complete installer input.
+
 ## Purpose
 
 This document explains the operational skills in the tracked PR tooling

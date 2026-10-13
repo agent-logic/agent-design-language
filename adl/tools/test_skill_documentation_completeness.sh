@@ -2,7 +2,11 @@
 set -euo pipefail
 
 repo_root="$(git rev-parse --show-toplevel)"
-skills_root="${repo_root}/adl/tools/skills"
+skills_root="${ADL_SKILL_COMPLETENESS_SOURCE_ROOT:-}"
+if [[ "$skills_root" != /* || ! -d "$skills_root" ]]; then
+  echo "Select the authentic original51-family layout with ADL_SKILL_COMPLETENESS_SOURCE_ROOT; partial ADL skill enumeration is not completeness proof." >&2
+  exit 2
+fi
 docs_root="${skills_root}/docs"
 guide="${docs_root}/OPERATIONAL_SKILLS_GUIDE.md"
 
