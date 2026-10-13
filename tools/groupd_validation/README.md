@@ -7,7 +7,7 @@ handoff. It does not rewrite the frozen #918/#919 candidate.
 | Finding | Repair | Proving surface |
 | --- | --- | --- |
 | DEP-002 / SYN-005 | Digest-pinned Ubuntu index, exact Rust/rustup/AWS/Cargo tool versions, verification before direct extraction/execution, complete toolchain record | `adl/docker/adl-builder/test_builder_inputs.py`: 4 tests, including changed bytes/missing hashes/mutable inputs |
-| DEP-003 / SYN-004 | Reviewed raw-host identities; no latest/unchecked URL/unversioned S3 fallback; safe archive admission | `tools/aws_remote_validation/scripts/test_verified_bootstrap.py`: 24 tests |
+| DEP-003 / SYN-004 | Reviewed raw-host identities; no latest/unchecked URL/unversioned S3 fallback; safe archive admission | Infrastructure `tools/aws_remote_validation/scripts/test_verified_bootstrap.py`: 24 retained tests, removed from this ADL adapter by #1223 |
 | DEP-004 / SYN-007 | Ecosystem inventory without lifecycle-lock pollution or 80-item truncation; explicit packet denominator | `adl/tools/skills/repo-dependency-review/scripts/test_prepare_dependency_review.py`: 6 CLI tests |
 | SYN-006 | Three explicit Cargo CI jobs, mixed-path ownership, fail-closed aggregate result checks | Selector + CI path-policy suites; 24 aggregate combinations and real Git path fixtures; affected crates below |
 | DOC-001 | Current incomplete/deferred qualification routing; #1148/#1149 then #1150 in v0.93.1; Runtime v4 in v0.93.2 | `test_documentation.py`: 3 tests, including rejected stale routing |
@@ -35,8 +35,9 @@ in the frozen packet and excluded 102 ordinary locks. It does not invent missing
 manifests or claim a full repository dependency audit. Installed skill files were
 not replaced; the fix is in the reviewed repository skill source.
 
-The native Cargo adapter executes the actual shell/Python suites as seven Rust
-tests. The three Cargo crate suites are separately retained local proof; Linux CI
+The native Cargo adapter executes the actual shell/Python suites as six Rust
+tests after the #1223 Infrastructure bootstrap transfer. The original seven-test
+adapter remains historical evidence; its bootstrap test is not a current ADL pass. The three Cargo crate suites are separately retained local proof; Linux CI
 runs the three new jobs. No zero-test success is treated as proof. The historical
 #1151 comparison can be skipped in shallow CI when its objects are absent; the
 portable synthetic-Git positive/negative gate cases remain mandatory.
@@ -56,3 +57,13 @@ cold hosts need approved identities or an approved preinstalled toolchain.
 release overlays; their worktrees and retained historical evidence are unchanged.
 Local validation and reviewed draft publication are not merge, release acceptance,
 Beta 1 qualification, or cloud execution evidence.
+
+## CodeFriend dependency contract resources
+
+The dependency-inventory adapter requires an explicit absolute
+`CODEFRIEND_REVIEW_SKILLS_ROOT` pointing to `review-skills/` extracted from the
+authenticated CodeFriend artifact11803531674 (candidate
+`e93a457ad6325017627a66a2abe31a3376fa28fd`). The local adapter verifies all seven
+files of the dependency-review family against that artifact before running its
+original six Python cases. Missing or changed resources fail the test; they are
+never skipped. This is owner-fixture qualification, not a current dependency audit.

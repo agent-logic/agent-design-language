@@ -1124,8 +1124,8 @@
         "tools/aws_remote_validation/scripts/**",
         "tools/aws_remote_validation/src/**"
       ],
-      "command": "bash adl/tools/test_run_aws_spot_remote_validation_lane.sh && bash adl/tools/test_run_aws_spot_builder_image_validation.sh && bash adl/tools/test_aws_spot_artifact_finalize.sh && bash adl/tools/test_aws_spot_lifecycle_controls.sh && bash -n tools/aws_remote_validation/scripts/remote_validation_runner.sh && bash -n tools/aws_remote_validation/scripts/ssh_debug_control.sh && cargo check --manifest-path tools/aws_remote_validation/Cargo.toml --bin adl-aws-remote-validation && cargo test --manifest-path tools/aws_remote_validation/Cargo.toml --bin adl-aws-remote-validation -- --nocapture",
-      "run_command": "bash adl/tools/test_run_aws_spot_remote_validation_lane.sh && bash adl/tools/test_run_aws_spot_builder_image_validation.sh && bash adl/tools/test_aws_spot_artifact_finalize.sh && bash adl/tools/test_aws_spot_lifecycle_controls.sh && bash -n tools/aws_remote_validation/scripts/remote_validation_runner.sh && bash -n tools/aws_remote_validation/scripts/ssh_debug_control.sh && cargo check --manifest-path tools/aws_remote_validation/Cargo.toml --bin adl-aws-remote-validation && cargo test --manifest-path tools/aws_remote_validation/Cargo.toml --bin adl-aws-remote-validation -- --nocapture",
+      "command": "bash adl/tools/run_aws_spot_remote_validation_lane.sh",
+      "run_command": "bash adl/tools/run_aws_spot_remote_validation_lane.sh",
       "reason": "aws_remote_validation_tool_surface_requires_focused_tooling_regression_checks"
     },
     {

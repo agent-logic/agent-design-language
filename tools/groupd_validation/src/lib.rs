@@ -30,7 +30,7 @@ mod tests {
     fn dependency_inventory() {
         run(
             "python3",
-            "adl/tools/skills/repo-dependency-review/scripts/test_prepare_dependency_review.py",
+            "tools/groupd_validation/run_dependency_inventory.py",
         );
     }
     #[test]
@@ -45,13 +45,8 @@ mod tests {
     fn ci_routing() {
         run("bash", "adl/tools/test_ci_path_policy.sh");
     }
-    #[test]
-    fn verified_bootstrap() {
-        run(
-            "python3",
-            "tools/aws_remote_validation/scripts/test_verified_bootstrap.py",
-        );
-    }
+    // Bootstrap safety tests moved with the Infrastructure package (#1223).
+    // Their 24 original assertions are not counted as ADL adapter executions.
     #[test]
     fn lane_selector() {
         run("python3", "tools/public_adl/test_validation_interfaces.py");
