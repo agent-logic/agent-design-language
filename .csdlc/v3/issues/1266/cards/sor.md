@@ -110,7 +110,7 @@ Rules:
   - `cargo test --manifest-path csdlc-v3/Cargo.toml --test installed_intent_commands external_pr_finish -- --nocapture; cargo check --manifest-path csdlc-v3/Cargo.toml --all-targets; cargo clippy --manifest-path csdlc-v3/Cargo.toml --all-targets -- -D warnings; git diff --check`
     `Proves external recordless closeout admission, fail-closed conflicts and receipt/state identity tamper rejection, replay after checkout advance, compilation, lint and diff hygiene.`
 - Results:
-  - `Focused external-pr tests passed 2/2, including live remote-head drift rejection; formatting, strict clippy, JSON validation and diff hygiene passed. Native issue validation remains blocked by legacy SRP projection drift, and the complete live preview found retained receipt replay blockers.`
+  - `Focused external-pr tests passed 2/2 and the distinct external-publication first-close regression passed 1/1; formatting, strict clippy, JSON validation and diff hygiene passed. Native issue validation remains blocked by legacy SRP projection drift, and the complete live preview found retained receipt replay blockers.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -125,7 +125,7 @@ verification_summary:
   validation:
     status: blocked
     checks_run:
-      - "Focused external_pr_finish tests 2/2; cargo fmt check; strict cargo clippy; jq evidence parse; git diff check"
+      - "Focused external_pr_finish tests 2/2; external-publication first-close regression 1/1; cargo fmt check; strict cargo clippy; jq evidence parse; git diff check"
   determinism:
     status: passed
     replay_verified: true
@@ -160,7 +160,7 @@ verification_summary:
 - Trace bundle path(s): `<trace_bundle_paths>`
 - Run artifact root: `<run_artifact_root>`
 - Replay command used for verification: `<replay_command>`
-- Replay result: `Complete live read-only preview blocked: 34 retained cases report intent_terminal_receipt_mismatch and Infrastructure #27 requires its canonical bound controller.`
+- Replay result: `Complete live read-only preview blocked across 37 terminal-record cases: 36 intent_terminal_receipt_mismatch results and Infrastructure #27 intent_bound_checkout_mismatch; two no-closing-PR cases remain excluded.`
 
 ## Artifact Verification
 - Primary proof surface: `.csdlc/evidence/1266/v0931-consumer-denominator.v1.json`
