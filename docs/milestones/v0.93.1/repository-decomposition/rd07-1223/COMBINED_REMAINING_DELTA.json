@@ -7,19 +7,19 @@
   "original_count": 4134,
   "counts": {
     "retain_resolved": 527,
-    "proposed_owner_transfer_with_consumer_qualification": 270,
-    "preserve_approved_removal": 2710,
-    "retain_public_source_or_fixture": 191,
+    "preserve_approved_removal": 2718,
+    "proposed_owner_transfer_with_consumer_qualification": 261,
+    "retain_public_source_or_fixture": 196,
     "preserve_reviewed_consumer_repair": 18,
     "proposed_historical_retirement_with_caller_repair": 29,
     "proposed_remove_with_entire_source_family": 1,
-    "proposed_remove_with_entire_tool_family": 374,
+    "proposed_remove_with_entire_tool_family": 370,
     "hold_explicit_reconciliation": 9,
     "hold_owner_test_reconciliation": 1,
     "proposed_remove_construction_qualified_infrastructure": 4
   },
   "additional_current_source_paths": 22,
-  "preservation": "Original 4134 identities and separate 22 captured paths unchanged. Exact executed retirement actions 2715 comprise 2714 baseline deletions and one newly-added-then-retired ADL conversion bridge; the bridge is outside both captured inventories. Three separately enumerated supplemental source paths are included in the baseline deletion count, outside the immutable inventories. Other proposals remain conditional.",
+  "preservation": "Original 4134 identities and separate 22 captured paths unchanged. Exact executed retirement actions 2723 comprise 2722 baseline deletions and one newly-added-then-retired ADL conversion bridge; the bridge is outside both captured inventories. The baseline count includes the same three separately enumerated supplemental paths outside the immutable inventories. Other proposals remain conditional.",
   "review_boundary": "Exact paths and Git identities are pinned. Proposed removals remain conditional; this is not a claim that caller closure or all successor tests are qualified.",
   "known_prerequisites": {
     "codefriend": "Issue102 e14ff1b08b7ef01f838404bca8ecdf47c1318ac1 passed all39suites409Linux tests,0failed0ignored,174.293s; exacthead and clean source before/after. Evidence FastWork c1223/evidence/codefriend/issue102-e14ff1b0-full, transcriptSHA256c7944f7e0403ba485b377868b1bd85e91eeee0ecce3f79920de3e86c813cfa1a. Focused1 and parallel47 diagnostics also passed; prior dc2 redelivery failure did not reproduce and its cause is not claimed fixed. Earlier failures retained. One macOS-only case, actual hosted installed-acquisition CI proof and owner publication remain separate.",
@@ -90,11 +90,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Owner has artifact-consuming candidate/pass/fail/error lane and original source inventory. Require existing outcome/assertion evidence and caller cutover, not new broad build.",
-        "coherent caller and component disposition; no source-only qualification claim"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
@@ -105,6 +102,18 @@
         "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
         "proposal": "Owner has artifact-consuming candidate/pass/fail/error lane and original source inventory. Require existing outcome/assertion evidence and caller cutover, not new broad build.",
         "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
+      },
+      "pre_cf_fitness_host_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Owner has artifact-consuming candidate/pass/fail/error lane and original source inventory. Require existing outcome/assertion evidence and caller cutover, not new broad build.",
+          "coherent caller and component disposition; no source-only qualification claim"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CODEFRIEND_FITNESS_FAMILY_APPLIED.json",
+        "sha256": "0b14486a55e667e4907e953ddd44432b864bb3015cea4c5ff54d645c546cb9c3",
+        "implementation_commit": "eb0cd79d88b65ba5633a53e12e396ee832e9e527"
       }
     },
     {
@@ -47944,11 +47953,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "e14 native publication and hosted installed-product acquisition gate passed run38368320407/artifact11798686377. Preserve exact candidate scope and final successor CI, no standalone rerun.",
-        "coherent caller and component disposition; no source-only qualification claim"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
@@ -47959,6 +47965,18 @@
         "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
         "proposal": "e14 native publication and hosted installed-product acquisition gate passed run38368320407/artifact11798686377. Preserve exact candidate scope and final successor CI, no standalone rerun.",
         "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
+      },
+      "pre_cf_fitness_host_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "e14 native publication and hosted installed-product acquisition gate passed run38368320407/artifact11798686377. Preserve exact candidate scope and final successor CI, no standalone rerun.",
+          "coherent caller and component disposition; no source-only qualification claim"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CODEFRIEND_CI_ACQUISITION_APPLIED.json",
+        "sha256": "6a8fd4b5a415d558c7998a19abb88a5d1ffbff4e32c65a9aa48967a28c7d35ec",
+        "implementation_commit": "b9721bcc8715293e8ff21fc144e1305de6a8481e"
       }
     },
     {
@@ -48052,16 +48070,25 @@
         "blob": "f25f7a9165e89a264824a0e84ebfeffdb055665d"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
         "exact_successor_paths": []
+      },
+      "pre_cf_fitness_host_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CODEFRIEND_FITNESS_FAMILY_APPLIED.json",
+        "sha256": "0b14486a55e667e4907e953ddd44432b864bb3015cea4c5ff54d645c546cb9c3",
+        "implementation_commit": "eb0cd79d88b65ba5633a53e12e396ee832e9e527"
       }
     },
     {
@@ -48074,16 +48101,25 @@
         "blob": "99f730b7755771d6552d624443dccea29c0bd077"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
         "exact_successor_paths": []
+      },
+      "pre_cf_fitness_host_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CODEFRIEND_FITNESS_FAMILY_APPLIED.json",
+        "sha256": "0b14486a55e667e4907e953ddd44432b864bb3015cea4c5ff54d645c546cb9c3",
+        "implementation_commit": "eb0cd79d88b65ba5633a53e12e396ee832e9e527"
       }
     },
     {
@@ -48096,16 +48132,25 @@
         "blob": "d6ca95b361b853baa21405f46a0458df6a39fa2e"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
         "exact_successor_paths": []
+      },
+      "pre_cf_fitness_host_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CODEFRIEND_FITNESS_FAMILY_APPLIED.json",
+        "sha256": "0b14486a55e667e4907e953ddd44432b864bb3015cea4c5ff54d645c546cb9c3",
+        "implementation_commit": "eb0cd79d88b65ba5633a53e12e396ee832e9e527"
       }
     },
     {
@@ -48118,18 +48163,27 @@
         "blob": "583b6efe1ce455c9552c8bf59ddae5f8ce16bf00"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
         "exact_successor_paths": [
           "adl/tools/codefriend_fitness_ci_proof.py"
         ]
+      },
+      "pre_cf_fitness_host_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CODEFRIEND_FITNESS_FAMILY_APPLIED.json",
+        "sha256": "0b14486a55e667e4907e953ddd44432b864bb3015cea4c5ff54d645c546cb9c3",
+        "implementation_commit": "eb0cd79d88b65ba5633a53e12e396ee832e9e527"
       }
     },
     {
@@ -69016,11 +69070,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Owner has artifact-consuming candidate/pass/fail/error lane and original source inventory. Require existing outcome/assertion evidence and caller cutover, not new broad build.",
-        "coherent caller and component disposition; no source-only qualification claim"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
@@ -69031,6 +69082,23 @@
         "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
         "proposal": "Owner has artifact-consuming candidate/pass/fail/error lane and original source inventory. Require existing outcome/assertion evidence and caller cutover, not new broad build.",
         "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
+      },
+      "pre_cf_fitness_host_retention_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Owner has artifact-consuming candidate/pass/fail/error lane and original source inventory. Require existing outcome/assertion evidence and caller cutover, not new broad build.",
+          "coherent caller and component disposition; no source-only qualification claim"
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "CODEFRIEND_FITNESS_FAMILY_APPLIED.json",
+        "packet_sha256": "0b14486a55e667e4907e953ddd44432b864bb3015cea4c5ff54d645c546cb9c3",
+        "implementation_commit": "eb0cd79d88b65ba5633a53e12e396ee832e9e527",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "ff5bd97ec67600fc6a6485929cb315163a5912f2"
+        },
+        "reason": "Retain original transport assertions with explicit reviewed owner parser routing; owner fitness source transfer does not replace or skip this test."
       }
     },
     {
@@ -134216,11 +134284,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
-        "coherent caller and component disposition; no source-only qualification claim"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
@@ -134231,6 +134296,23 @@
         "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
         "proposal": "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
         "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
+      },
+      "pre_cf_fitness_host_retention_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
+          "coherent caller and component disposition; no source-only qualification claim"
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "CODEFRIEND_HOST_SMOKE_APPLIED.json",
+        "packet_sha256": "bd71b6cf5afdebaa507f916cb2bd484fe693e0ad9fa3c2e0afbd4a9bf6609970",
+        "implementation_commit": "706f09177df569da542bfde52da14e9f2ca85b19",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "4e54a1e4c069bb68eb45c7826dc7737672c947b5"
+        },
+        "reason": "Explicit current owner source commands and installation/validation boundary navigation repaired in qualified12; original16 obligations remain historical and separate. Retain useful current descriptors, not missing-path fallback."
       }
     },
     {
@@ -134244,11 +134326,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
-        "coherent caller and component disposition; no source-only qualification claim"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
@@ -134259,6 +134338,23 @@
         "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
         "proposal": "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
         "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
+      },
+      "pre_cf_fitness_host_retention_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
+          "coherent caller and component disposition; no source-only qualification claim"
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "CODEFRIEND_HOST_SMOKE_APPLIED.json",
+        "packet_sha256": "bd71b6cf5afdebaa507f916cb2bd484fe693e0ad9fa3c2e0afbd4a9bf6609970",
+        "implementation_commit": "706f09177df569da542bfde52da14e9f2ca85b19",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "490010273a001473134c56c79e79e7a80773861f"
+        },
+        "reason": "Explicit current owner source commands and installation/validation boundary navigation repaired in qualified12; original16 obligations remain historical and separate. Retain useful current descriptors, not missing-path fallback."
       }
     },
     {
@@ -134272,12 +134368,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "coherent component and caller cutover",
-        "qualified owner adoption; exact source correspondence alone is insufficient",
-        "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
@@ -134290,6 +134382,19 @@
         "packet_sha256": "7c32a923f22ebfd0c3069d1f051f7201a8e97f27a6fba8343f4c2e91f5668648",
         "proposal": "conditional_owner_transfer",
         "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      },
+      "pre_cf_fitness_host_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "coherent component and caller cutover",
+          "qualified owner adoption; exact source correspondence alone is insufficient",
+          "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CODEFRIEND_HOST_SMOKE_APPLIED.json",
+        "sha256": "bd71b6cf5afdebaa507f916cb2bd484fe693e0ad9fa3c2e0afbd4a9bf6609970",
+        "implementation_commit": "706f09177df569da542bfde52da14e9f2ca85b19"
       }
     },
     {
@@ -134340,11 +134445,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
-        "coherent caller and component disposition; no source-only qualification claim"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
@@ -134355,6 +134457,18 @@
         "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
         "proposal": "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
         "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
+      },
+      "pre_cf_fitness_host_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
+          "coherent caller and component disposition; no source-only qualification claim"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CODEFRIEND_HOST_SMOKE_APPLIED.json",
+        "sha256": "bd71b6cf5afdebaa507f916cb2bd484fe693e0ad9fa3c2e0afbd4a9bf6609970",
+        "implementation_commit": "706f09177df569da542bfde52da14e9f2ca85b19"
       }
     },
     {
@@ -134405,11 +134519,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
-        "coherent caller and component disposition; no source-only qualification claim"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
@@ -134420,6 +134531,23 @@
         "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
         "proposal": "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
         "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
+      },
+      "pre_cf_fitness_host_retention_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
+          "coherent caller and component disposition; no source-only qualification claim"
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "CODEFRIEND_HOST_SMOKE_APPLIED.json",
+        "packet_sha256": "bd71b6cf5afdebaa507f916cb2bd484fe693e0ad9fa3c2e0afbd4a9bf6609970",
+        "implementation_commit": "706f09177df569da542bfde52da14e9f2ca85b19",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "f80a6bb217bb9a6f6e3103d932da892616ad9a61"
+        },
+        "reason": "Explicit current owner source commands and installation/validation boundary navigation repaired in qualified12; original16 obligations remain historical and separate. Retain useful current descriptors, not missing-path fallback."
       }
     },
     {
@@ -135241,11 +135369,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
-        "coherent caller and component disposition; no source-only qualification claim"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
@@ -135256,6 +135381,23 @@
         "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
         "proposal": "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
         "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
+      },
+      "pre_cf_fitness_host_retention_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
+          "coherent caller and component disposition; no source-only qualification claim"
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "CODEFRIEND_HOST_SMOKE_APPLIED.json",
+        "packet_sha256": "bd71b6cf5afdebaa507f916cb2bd484fe693e0ad9fa3c2e0afbd4a9bf6609970",
+        "implementation_commit": "706f09177df569da542bfde52da14e9f2ca85b19",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "33e598f4e89a560c5d4a652e0fb4bb27bf8c333f"
+        },
+        "reason": "Explicit current owner source commands and installation/validation boundary navigation repaired in qualified12; original16 obligations remain historical and separate. Retain useful current descriptors, not missing-path fallback."
       }
     }
   ],

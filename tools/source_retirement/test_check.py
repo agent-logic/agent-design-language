@@ -422,7 +422,7 @@ class RecentOwnerFamilyTests(unittest.TestCase):
             self.assertEqual(len(paths), spec['removals'])
             check.check_recent_owner_custody(batch, spec)
             total += len(paths)
-        self.assertEqual(total, 384)
+        self.assertEqual(total, 392)
 
     def test_expanded_scope_and_repeat_refuse(self):
         for spec, batch, before, after in self.batches():
@@ -444,11 +444,13 @@ class RecentOwnerFamilyTests(unittest.TestCase):
                 altered[source['path']] = before[source['path']]
                 with self.assertRaisesRegex(ValueError, 'identity mismatch'):
                     check.check_recent_owner_family(batch, before, altered, set(), spec)
-            caller = next(r for r in batch['files'] if r['action'] != 'remove')
-            altered = dict(after)
-            altered[caller['path']] = ['100644', '0' * 40]
-            with self.assertRaisesRegex(ValueError, 'identity mismatch'):
-                check.check_recent_owner_family(batch, before, altered, set(), spec)
+            callers = [r for r in batch['files'] if r['action'] != 'remove']
+            if callers:
+                caller = callers[0]
+                altered = dict(after)
+                altered[caller['path']] = ['100644', '0' * 40]
+                with self.assertRaisesRegex(ValueError, 'identity mismatch'):
+                    check.check_recent_owner_family(batch, before, altered, set(), spec)
 
     def test_zero_removal_caller_repair_has_no_removal_authority(self):
         spec, batch, before, after = next(x for x in self.batches()

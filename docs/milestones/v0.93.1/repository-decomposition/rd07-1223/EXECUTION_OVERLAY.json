@@ -6,7 +6,7 @@
   "execution_authorized": false,
   "original_inventory_count": 4134,
   "additional_inventory_count": 22,
-  "executed_deletion_count": 2715,
+  "executed_deletion_count": 2723,
   "entries": [
     {
       "path": ".github/workflows/ci.yaml",
@@ -28258,15 +28258,12 @@
     },
     {
       "path": "adl/tools/codefriend/ci_smoke.py",
-      "action": "modify",
+      "action": "remove",
       "before": [
         "100644",
         "341498bd46ce1c93d80da70aa48fcd78235be969"
       ],
-      "after": [
-        "100644",
-        "83b39b5e405f04fd6b65f60c600e2a2ec1eff121"
-      ],
+      "after": null,
       "implementation_commit": "5fa701e8e12f87dce7c8e100eacfa04dc1828c22",
       "approval_reference": "CODEFRIEND_FAMILY_APPLIED.json",
       "review_reference": "review_1223_public_facade exact family patch PASS",
@@ -28282,7 +28279,27 @@
             "83b39b5e405f04fd6b65f60c600e2a2ec1eff121"
           ]
         }
-      ]
+      ],
+      "supplemental_source_chain": [
+        {
+          "commit": "b9721bcc8715293e8ff21fc144e1305de6a8481e",
+          "before": [
+            "100644",
+            "83b39b5e405f04fd6b65f60c600e2a2ec1eff121"
+          ],
+          "after": null,
+          "packet": "CODEFRIEND_CI_ACQUISITION_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CODEFRIEND_CI_ACQUISITION_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/ci1279-transfer/rollback-preimages.tar",
+        "archive_sha256": "2c48556192e68d2f4914ba159f901713778004024b64531021fca24a524d7466",
+        "member": "adl/tools/codefriend/ci_smoke.py",
+        "mode": "100644",
+        "blob": "83b39b5e405f04fd6b65f60c600e2a2ec1eff121",
+        "sha256": "f877887ce857af9f5ee2d7e37a3f8bcecc67885d52de2456e15eb0ac373ccca9"
+      }
     },
     {
       "path": "adl/tools/codefriend/test_ci_contract.rb",
@@ -56599,7 +56616,7 @@
       "before": null,
       "after": [
         "100644",
-        "ca8c5316dfd630f390b337ce9008ce084564d852"
+        "5cc8378114cb63ad0329ba162119b6a2a067a649"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json",
@@ -56908,6 +56925,18 @@
             "ca8c5316dfd630f390b337ce9008ce084564d852"
           ],
           "packet": "V0871_AGGREGATE_FAMILY_APPLIED.json"
+        },
+        {
+          "commit": "eb0cd79d88b65ba5633a53e12e396ee832e9e527",
+          "before": [
+            "100644",
+            "ca8c5316dfd630f390b337ce9008ce084564d852"
+          ],
+          "after": [
+            "100644",
+            "5cc8378114cb63ad0329ba162119b6a2a067a649"
+          ],
+          "packet": "CODEFRIEND_FITNESS_FAMILY_APPLIED.json"
         }
       ],
       "prior_execution_provenance": [
@@ -63820,15 +63849,12 @@
     },
     {
       "path": "tools/codefriend_host/ci/smoke.py",
-      "action": "modify",
+      "action": "remove",
       "before": [
         "100644",
         "da8e5e713d027002fa52b6dbc5847d441ea56a59"
       ],
-      "after": [
-        "100644",
-        "f455624d60ad391e56a56698bd70ae0020f79d6d"
-      ],
+      "after": null,
       "implementation_commit": "5fa701e8e12f87dce7c8e100eacfa04dc1828c22",
       "approval_reference": "CODEFRIEND_FAMILY_APPLIED.json",
       "review_reference": "review_1223_public_facade exact family patch PASS",
@@ -63844,7 +63870,27 @@
             "f455624d60ad391e56a56698bd70ae0020f79d6d"
           ]
         }
-      ]
+      ],
+      "supplemental_source_chain": [
+        {
+          "commit": "706f09177df569da542bfde52da14e9f2ca85b19",
+          "before": [
+            "100644",
+            "f455624d60ad391e56a56698bd70ae0020f79d6d"
+          ],
+          "after": null,
+          "packet": "CODEFRIEND_HOST_SMOKE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CODEFRIEND_HOST_SMOKE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/host-smoke-two/rollback-preimages.tar",
+        "archive_sha256": "a83b30bf89ef035dfe89763671320c3292d529e02ce541d7b88d88223389f5fb",
+        "member": "tools/codefriend_host/ci/smoke.py",
+        "mode": "100644",
+        "blob": "f455624d60ad391e56a56698bd70ae0020f79d6d",
+        "sha256": "33658aa5f124df3d957168c23170b1e8166189967607f7bad2e406e0cb04a7c5"
+      }
     },
     {
       "path": "tools/codefriend_host/release/assemble.py",
@@ -64132,7 +64178,7 @@
       "before": null,
       "after": [
         "100644",
-        "aceb0281b3ab6ee7cebe6c45ed91746da1891734"
+        "0f97c238c75491da55ea5787b76cbd4d63e687f4"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "Infrastructure212 source commit guard-documentation accompaniment",
@@ -64285,6 +64331,18 @@
             "aceb0281b3ab6ee7cebe6c45ed91746da1891734"
           ],
           "packet": "Sprint, CodeFriend and v0871 supplemental integration"
+        },
+        {
+          "commit": "pending_reviewed_integration",
+          "before": [
+            "100644",
+            "aceb0281b3ab6ee7cebe6c45ed91746da1891734"
+          ],
+          "after": [
+            "100644",
+            "0f97c238c75491da55ea5787b76cbd4d63e687f4"
+          ],
+          "packet": "CodeFriend fitness, host and CI contract integration"
         }
       ],
       "prior_execution_provenance": [
@@ -82028,7 +82086,7 @@
       ],
       "after": [
         "100644",
-        "ea4ed4e7fdb13f8db4db18a2383cbf30e0bcf684"
+        "4e54a1e4c069bb68eb45c7826dc7737672c947b5"
       ],
       "action": "modify",
       "implementation_commit": "9707731d50f4209c07e3f7193d8be254ab6b9167",
@@ -82047,6 +82105,20 @@
           ],
           "packet": "CODEFRIEND_HOST_MEMORY_APPLIED.json"
         }
+      ],
+      "supplemental_source_chain": [
+        {
+          "commit": "706f09177df569da542bfde52da14e9f2ca85b19",
+          "before": [
+            "100644",
+            "ea4ed4e7fdb13f8db4db18a2383cbf30e0bcf684"
+          ],
+          "after": [
+            "100644",
+            "4e54a1e4c069bb68eb45c7826dc7737672c947b5"
+          ],
+          "packet": "CODEFRIEND_HOST_SMOKE_APPLIED.json"
+        }
       ]
     },
     {
@@ -82057,7 +82129,7 @@
       ],
       "after": [
         "100644",
-        "f3f5eb5e1fbae10002450f84a6abcf43883025dc"
+        "490010273a001473134c56c79e79e7a80773861f"
       ],
       "action": "modify",
       "implementation_commit": "9707731d50f4209c07e3f7193d8be254ab6b9167",
@@ -82075,6 +82147,20 @@
             "f3f5eb5e1fbae10002450f84a6abcf43883025dc"
           ],
           "packet": "CODEFRIEND_HOST_MEMORY_APPLIED.json"
+        }
+      ],
+      "supplemental_source_chain": [
+        {
+          "commit": "706f09177df569da542bfde52da14e9f2ca85b19",
+          "before": [
+            "100644",
+            "f3f5eb5e1fbae10002450f84a6abcf43883025dc"
+          ],
+          "after": [
+            "100644",
+            "490010273a001473134c56c79e79e7a80773861f"
+          ],
+          "packet": "CODEFRIEND_HOST_SMOKE_APPLIED.json"
         }
       ]
     },
@@ -82115,7 +82201,7 @@
       ],
       "after": [
         "100644",
-        "3d8de177ce00182413ced98b026c7fd522360682"
+        "f80a6bb217bb9a6f6e3103d932da892616ad9a61"
       ],
       "action": "modify",
       "implementation_commit": "9707731d50f4209c07e3f7193d8be254ab6b9167",
@@ -82133,6 +82219,20 @@
             "3d8de177ce00182413ced98b026c7fd522360682"
           ],
           "packet": "CODEFRIEND_HOST_MEMORY_APPLIED.json"
+        }
+      ],
+      "supplemental_source_chain": [
+        {
+          "commit": "706f09177df569da542bfde52da14e9f2ca85b19",
+          "before": [
+            "100644",
+            "3d8de177ce00182413ced98b026c7fd522360682"
+          ],
+          "after": [
+            "100644",
+            "f80a6bb217bb9a6f6e3103d932da892616ad9a61"
+          ],
+          "packet": "CODEFRIEND_HOST_SMOKE_APPLIED.json"
         }
       ]
     },
@@ -82629,6 +82729,227 @@
           "packet": "V0871_AGGREGATE_FAMILY_APPLIED.json"
         }
       ]
+    },
+    {
+      "path": ".github/codefriend-fitness-policy.json",
+      "before": [
+        "100644",
+        "790ec0d103ec47eed4f69562ae42b2a511350ea1"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "eb0cd79d88b65ba5633a53e12e396ee832e9e527",
+      "approval_reference": "CODEFRIEND_FITNESS_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "eb0cd79d88b65ba5633a53e12e396ee832e9e527",
+          "before": [
+            "100644",
+            "790ec0d103ec47eed4f69562ae42b2a511350ea1"
+          ],
+          "after": null,
+          "packet": "CODEFRIEND_FITNESS_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CODEFRIEND_FITNESS_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/fitness-five/rollback-preimages.tar",
+        "archive_sha256": "9739945bd4cd95ddfbf38159ec76d2893eaab84f094e1fb7a62279aa4ac0552b",
+        "member": ".github/codefriend-fitness-policy.json",
+        "mode": "100644",
+        "blob": "790ec0d103ec47eed4f69562ae42b2a511350ea1",
+        "sha256": "808f39bd0cc58e2140722dbd8b593afbe225e5a08a8ea8ff20e59403c61422d6"
+      }
+    },
+    {
+      "path": "adl/tools/codefriend_fitness_ci.sh",
+      "before": [
+        "100644",
+        "f25f7a9165e89a264824a0e84ebfeffdb055665d"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "eb0cd79d88b65ba5633a53e12e396ee832e9e527",
+      "approval_reference": "CODEFRIEND_FITNESS_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "eb0cd79d88b65ba5633a53e12e396ee832e9e527",
+          "before": [
+            "100644",
+            "f25f7a9165e89a264824a0e84ebfeffdb055665d"
+          ],
+          "after": null,
+          "packet": "CODEFRIEND_FITNESS_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CODEFRIEND_FITNESS_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/fitness-five/rollback-preimages.tar",
+        "archive_sha256": "9739945bd4cd95ddfbf38159ec76d2893eaab84f094e1fb7a62279aa4ac0552b",
+        "member": "adl/tools/codefriend_fitness_ci.sh",
+        "mode": "100644",
+        "blob": "f25f7a9165e89a264824a0e84ebfeffdb055665d",
+        "sha256": "eb3717b68e047c66f0f8e8e8cddb5cf540910622a5095105e4810ba601ccf4ea"
+      }
+    },
+    {
+      "path": "adl/tools/codefriend_fitness_ci_artifacts.py",
+      "before": [
+        "100644",
+        "99f730b7755771d6552d624443dccea29c0bd077"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "eb0cd79d88b65ba5633a53e12e396ee832e9e527",
+      "approval_reference": "CODEFRIEND_FITNESS_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "eb0cd79d88b65ba5633a53e12e396ee832e9e527",
+          "before": [
+            "100644",
+            "99f730b7755771d6552d624443dccea29c0bd077"
+          ],
+          "after": null,
+          "packet": "CODEFRIEND_FITNESS_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CODEFRIEND_FITNESS_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/fitness-five/rollback-preimages.tar",
+        "archive_sha256": "9739945bd4cd95ddfbf38159ec76d2893eaab84f094e1fb7a62279aa4ac0552b",
+        "member": "adl/tools/codefriend_fitness_ci_artifacts.py",
+        "mode": "100644",
+        "blob": "99f730b7755771d6552d624443dccea29c0bd077",
+        "sha256": "83d7b303193d3d21abe81e539c52faab1a9523122e6277fa39764fe5675da3f1"
+      }
+    },
+    {
+      "path": "adl/tools/codefriend_fitness_ci_fixture.py",
+      "before": [
+        "100644",
+        "d6ca95b361b853baa21405f46a0458df6a39fa2e"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "eb0cd79d88b65ba5633a53e12e396ee832e9e527",
+      "approval_reference": "CODEFRIEND_FITNESS_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "eb0cd79d88b65ba5633a53e12e396ee832e9e527",
+          "before": [
+            "100644",
+            "d6ca95b361b853baa21405f46a0458df6a39fa2e"
+          ],
+          "after": null,
+          "packet": "CODEFRIEND_FITNESS_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CODEFRIEND_FITNESS_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/fitness-five/rollback-preimages.tar",
+        "archive_sha256": "9739945bd4cd95ddfbf38159ec76d2893eaab84f094e1fb7a62279aa4ac0552b",
+        "member": "adl/tools/codefriend_fitness_ci_fixture.py",
+        "mode": "100644",
+        "blob": "d6ca95b361b853baa21405f46a0458df6a39fa2e",
+        "sha256": "350577c153d78c6246b400f102e7a3c5a9869902e3836d524ddedfe305141fed"
+      }
+    },
+    {
+      "path": "adl/tools/codefriend_fitness_ci_proof.py",
+      "before": [
+        "100644",
+        "583b6efe1ce455c9552c8bf59ddae5f8ce16bf00"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "eb0cd79d88b65ba5633a53e12e396ee832e9e527",
+      "approval_reference": "CODEFRIEND_FITNESS_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "eb0cd79d88b65ba5633a53e12e396ee832e9e527",
+          "before": [
+            "100644",
+            "583b6efe1ce455c9552c8bf59ddae5f8ce16bf00"
+          ],
+          "after": null,
+          "packet": "CODEFRIEND_FITNESS_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CODEFRIEND_FITNESS_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/fitness-five/rollback-preimages.tar",
+        "archive_sha256": "9739945bd4cd95ddfbf38159ec76d2893eaab84f094e1fb7a62279aa4ac0552b",
+        "member": "adl/tools/codefriend_fitness_ci_proof.py",
+        "mode": "100644",
+        "blob": "583b6efe1ce455c9552c8bf59ddae5f8ce16bf00",
+        "sha256": "75a93cc75682f3b0197e644d3fdec4a454d593d3886fa08e43ae3821d27d5876"
+      }
+    },
+    {
+      "path": "adl/tools/test_codefriend_fitness_ci_artifacts.py",
+      "before": [
+        "100644",
+        "f0a6f9f7f806a696f778550ebc0e56b66b32d5f5"
+      ],
+      "after": [
+        "100644",
+        "ff5bd97ec67600fc6a6485929cb315163a5912f2"
+      ],
+      "action": "modify",
+      "implementation_commit": "eb0cd79d88b65ba5633a53e12e396ee832e9e527",
+      "approval_reference": "CODEFRIEND_FITNESS_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "eb0cd79d88b65ba5633a53e12e396ee832e9e527",
+          "before": [
+            "100644",
+            "f0a6f9f7f806a696f778550ebc0e56b66b32d5f5"
+          ],
+          "after": [
+            "100644",
+            "ff5bd97ec67600fc6a6485929cb315163a5912f2"
+          ],
+          "packet": "CODEFRIEND_FITNESS_FAMILY_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "tools/codefriend_host/ci/interrupted-report.json",
+      "before": [
+        "100644",
+        "135ab8a6657a9b9a010b3bd9367c4e8092670e91"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "706f09177df569da542bfde52da14e9f2ca85b19",
+      "approval_reference": "CODEFRIEND_HOST_SMOKE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "706f09177df569da542bfde52da14e9f2ca85b19",
+          "before": [
+            "100644",
+            "135ab8a6657a9b9a010b3bd9367c4e8092670e91"
+          ],
+          "after": null,
+          "packet": "CODEFRIEND_HOST_SMOKE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CODEFRIEND_HOST_SMOKE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/host-smoke-two/rollback-preimages.tar",
+        "archive_sha256": "a83b30bf89ef035dfe89763671320c3292d529e02ce541d7b88d88223389f5fb",
+        "member": "tools/codefriend_host/ci/interrupted-report.json",
+        "mode": "100644",
+        "blob": "135ab8a6657a9b9a010b3bd9367c4e8092670e91",
+        "sha256": "85ac5d982bd2c7185101ed0204964f258399ba263aeabc2a85ad147a96a6b263"
+      }
     }
   ],
   "missing_entries": [],
@@ -89096,9 +89417,61 @@
         "docs/tooling/reviewer-surface.md"
       ],
       "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "CODEFRIEND_FITNESS_FAMILY_APPLIED.json",
+      "sha256": "0b14486a55e667e4907e953ddd44432b864bb3015cea4c5ff54d645c546cb9c3",
+      "commit": "eb0cd79d88b65ba5633a53e12e396ee832e9e527",
+      "files": 7,
+      "removals": 5,
+      "scope_sha256": "c37e9532a329aced92ee1857eea5e854450d439fc6d41d3e787306af0099bbc7",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        ".github/codefriend-fitness-policy.json",
+        "adl/tools/codefriend_fitness_ci.sh",
+        "adl/tools/codefriend_fitness_ci_artifacts.py",
+        "adl/tools/codefriend_fitness_ci_fixture.py",
+        "adl/tools/codefriend_fitness_ci_proof.py",
+        "adl/tools/test_codefriend_fitness_ci_artifacts.py",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "CODEFRIEND_HOST_SMOKE_APPLIED.json",
+      "sha256": "bd71b6cf5afdebaa507f916cb2bd484fe693e0ad9fa3c2e0afbd4a9bf6609970",
+      "commit": "706f09177df569da542bfde52da14e9f2ca85b19",
+      "files": 5,
+      "removals": 2,
+      "scope_sha256": "e51c3f0d3dd27d1eec001d98e87fb4ec51036de367ec85fb45f64f329a36b942",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "tools/codefriend_host/ci/smoke.py",
+        "tools/codefriend_host/ci/interrupted-report.json",
+        "tools/codefriend_host/README.md",
+        "tools/codefriend_host/ci/README.md",
+        "tools/codefriend_host/ci/validation.json"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "CODEFRIEND_CI_ACQUISITION_APPLIED.json",
+      "sha256": "6a8fd4b5a415d558c7998a19abb88a5d1ffbff4e32c65a9aa48967a28c7d35ec",
+      "commit": "b9721bcc8715293e8ff21fc144e1305de6a8481e",
+      "files": 1,
+      "removals": 1,
+      "scope_sha256": "6a1cb0a138424639c14a0c18ecd72994247a29149dd13cf9fe08d0362ced3f6e",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl/tools/codefriend/ci_smoke.py"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
     }
   ],
-  "baseline_deletion_count": 2714,
+  "baseline_deletion_count": 2722,
   "transient_removed_paths": [
     "adl/tools/test_issue872_historical_manifest.py"
   ],
@@ -89107,6 +89480,6 @@
     "adl/tools/demo_v0871_release_review_package.sh",
     "adl/tools/test_demo_v0871_suite.sh"
   ],
-  "inventory_baseline_deletion_count": 2711,
+  "inventory_baseline_deletion_count": 2719,
   "supplemental_baseline_deletion_count": 3
 }

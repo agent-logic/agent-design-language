@@ -114,3 +114,5 @@ Readiness metrics caller application adds no removals and reconciles 2 explicitl
 Runtime164 two-contract source application resolves only RD07-2100 and RD07-2108. Ten holds remain. Existing original failures, pre-stub 2108 custody and live 1513/2223 obligations remain separate; 2,674 actions comprise 2,673 baseline deletions and one transient bridge.
 
 Sprint-conductor, CodeFriend host/memory and v0.87.1 aggregate source applications add 41 removals: 38 immutable-inventory rows and three separately enumerated supplemental paths. Ten holds remain unchanged. Current 2715 actions comprise 2714 baseline deletions (including those three supplemental paths) plus the one existing transient ADL bridge. No native, full421, live-provider or historical aggregate acceptance is inferred.
+
+CodeFriend fitness, host smoke and CI contract closure adds 8 captured source removals and five explicit public test/navigation retentions. Ten holds and the three separately enumerated supplemental source paths remain unchanged. Current 2723 actions comprise 2722 baseline deletions and the existing transient bridge; no new live/native acceptance is inferred.
