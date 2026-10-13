@@ -34,6 +34,7 @@ PRIMARY_TOOL_SCRIPTS = {
 }
 
 HISTORICAL_TOOL_SCRIPTS = {
+    "run_wp5795_aws_gpu_proof.sh": "Historical single-node SSM GPU proof with pinned artifacts and owner-bound cleanup; no new execution qualified, and the two-node issue345 proof is not an equivalent replacement.",
     "run_v0914_multi_agent_workcell_proof.sh": "Historical model-backed v0.91.4 workcell rehearsal; retained manifest and review artifacts do not qualify a new execution, including its provider-active dry-run path.",
     "demo_d11_signed_remote.sh": "Historical signed-remote contract; current public ADL does not supply its Runtime binary or test interfaces.",
     "demo_v087_operational_skills.sh": "Historical bundle-install and inventory contract; original recursive acceptance remains separate from owner resource proof.",

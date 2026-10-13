@@ -1,9 +1,9 @@
 {
   "schema": "adl.source_retirement.grouped_holds.v1",
-  "source_head": "666818f2aafdaf4839d1c3de4119b513c4236d3d",
-  "ledger_sha256": "957365a1794d00b673add22d2682b4388fca832bf949fd7cc0fa3a708df786d6",
+  "source_head": "5edd4bf7452227fbfa83e990ffd496baeba6a3c0",
+  "ledger_sha256": "83a9a3ffe58bb2d8aa2db25a9551b8b3a80d09d39261734841b0d2f43b95d907",
   "original_count": 4134,
-  "held_count": 65,
+  "held_count": 64,
   "additional_paths_separate": 22,
   "execution_authorized": false,
   "boundary": "Grouping preserves every original row and prerequisite verbatim. It does not resolve holds, authorize removal, or imply full issue readiness. Other proposed removals remain conditional.",
@@ -1376,7 +1376,7 @@
     {
       "id": "validation-remainder",
       "title": "Remaining ADL validation routing",
-      "count": 9,
+      "count": 8,
       "next_action": "After reviewed caller cutover, reconcile each retained runner, selector, coverage/PVF policy and configuration against five public packages and original assertions. Retain historical private lanes explicitly; do not silently drop inventory rows.",
       "evidence": [],
       "rows": [
@@ -1405,33 +1405,6 @@
             "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
             "proposal": "specific_family_reconciliation",
             "reason": "Mixed Runtime/Infrastructure manual family with2021: pinned artifact manifest, gpu-proof warm-storage/preparation Terraform and control-wait/checkpoint/recovery assertions."
-          }
-        },
-        {
-          "id": "RD07-1526",
-          "path": "adl/tools/run_wp5795_aws_gpu_proof.sh",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-active-tool-contracts",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "49a3b697269008d4254df234da9034addb1a9e19"
-          },
-          "existing_action": "retain",
-          "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "Manual GPU proof requires pinned artifact manifest, account-verification evidence, remote build/extraction and repair of machine-local state default; historical receipts unchanged."
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          },
-          "reviewed_disposition": {
-            "packet": "ACTIVE_19_TOOL_DISPOSITIONS.json",
-            "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
-            "proposal": "specific_family_reconciliation",
-            "reason": "Manual GPU proof requires pinned artifact manifest, account-verification evidence, remote build/extraction and repair of machine-local state default; historical receipts unchanged."
           }
         },
         {

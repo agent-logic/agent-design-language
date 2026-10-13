@@ -6,7 +6,7 @@
   "execution_authorized": false,
   "original_count": 4134,
   "counts": {
-    "hold_explicit_reconciliation": 30,
+    "hold_explicit_reconciliation": 29,
     "hold_owner_test_reconciliation": 35,
     "preserve_approved_removal": 70,
     "preserve_reviewed_consumer_repair": 18,
@@ -15,7 +15,7 @@
     "proposed_remove_construction_qualified_infrastructure": 216,
     "proposed_remove_with_entire_source_family": 1874,
     "proposed_remove_with_entire_tool_family": 678,
-    "retain_public_source_or_fixture": 118,
+    "retain_public_source_or_fixture": 119,
     "retain_resolved": 527
   },
   "additional_current_source_paths": 22,
@@ -36173,9 +36173,10 @@
       },
       "existing_action": "retain",
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "retain_public_source_or_fixture",
       "required_before_execution": [
-        "Manual GPU proof requires pinned artifact manifest, account-verification evidence, remote build/extraction and repair of machine-local state default; historical receipts unchanged."
+        "Preserve original historical source/evidence and independent artifact dependencies.",
+        "Future operational continuation requires coherent owner delivery and separate explicit execution scope."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
@@ -36183,11 +36184,24 @@
         "exact_successor_paths": []
       },
       "reviewed_disposition": {
-        "packet": "ACTIVE_19_TOOL_DISPOSITIONS.json",
-        "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
-        "proposal": "specific_family_reconciliation",
-        "reason": "Manual GPU proof requires pinned artifact manifest, account-verification evidence, remote build/extraction and repair of machine-local state default; historical receipts unchanged."
-      }
+        "packet": "GPU5795_HISTORICAL_SOURCE_RETENTION.json",
+        "packet_sha256": "d64b9f592a032771ae8a91f160778c98e38e5ac75db8585b09894deab67c2b7f",
+        "proposal": "retain_historical_source_unqualified"
+      },
+      "prior_dispositions": [
+        {
+          "proposed_action": "hold_explicit_reconciliation",
+          "required_before_execution": [
+            "Manual GPU proof requires pinned artifact manifest, account-verification evidence, remote build/extraction and repair of machine-local state default; historical receipts unchanged."
+          ],
+          "reviewed_disposition": {
+            "packet": "ACTIVE_19_TOOL_DISPOSITIONS.json",
+            "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
+            "proposal": "specific_family_reconciliation",
+            "reason": "Manual GPU proof requires pinned artifact manifest, account-verification evidence, remote build/extraction and repair of machine-local state default; historical receipts unchanged."
+          }
+        }
+      ]
     },
     {
       "id": "RD07-1527",

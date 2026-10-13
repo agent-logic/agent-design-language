@@ -30,8 +30,8 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 15
 - `supported shim`: 6
-- `internal helper`: 714
-- `historical evidence`: 10
+- `internal helper`: 713
+- `historical evidence`: 11
 - `archive candidate`: 0
 - `remove candidate`: 2
 
@@ -341,7 +341,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/run_wp08_local_polis_ssm_proof.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_wp08_local_polis_ssm_proof.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_wp08_polis_storage_live_proof.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
-| `adl/tools/run_wp5795_aws_gpu_proof.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
+| `adl/tools/run_wp5795_aws_gpu_proof.sh` | tool surface | historical evidence | Historical single-node SSM GPU proof with pinned artifacts and owner-bound cleanup; no new execution qualified, and the two-node issue345 proof is not an equivalent replacement. |
 | `adl/tools/runtime_v3_generation.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/runtime_v3_operational_selector.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/rust_cache_env.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
