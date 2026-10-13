@@ -1,12 +1,12 @@
 {
   "schema": "adl.source_retirement.combined_remaining_delta.v1",
   "issue": 1223,
-  "source_head": "c9e305eddee18c9162560da5cd67b57a5addfafc",
+  "source_head": "7b7b34df92a217d42ce485466b85bc716f24a067",
   "status": "prepared_scope_not_ready_for_execution",
   "execution_authorized": false,
   "original_count": 4134,
   "counts": {
-    "hold_explicit_reconciliation": 67,
+    "hold_explicit_reconciliation": 66,
     "hold_owner_test_reconciliation": 35,
     "preserve_approved_removal": 70,
     "preserve_reviewed_consumer_repair": 18,
@@ -14,8 +14,8 @@
     "proposed_owner_transfer_with_consumer_qualification": 496,
     "proposed_remove_construction_qualified_infrastructure": 216,
     "proposed_remove_with_entire_source_family": 1874,
-    "proposed_remove_with_entire_tool_family": 682,
-    "retain_public_source_or_fixture": 105,
+    "proposed_remove_with_entire_tool_family": 679,
+    "retain_public_source_or_fixture": 109,
     "retain_resolved": 527
   },
   "additional_current_source_paths": 22,
@@ -32499,18 +32499,20 @@
         "blob": "00cc7297fa55bb96bc95cacfab3dbcecea5c224e"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/editor_action.sh"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "SHARED_EDITOR_GUIDANCE_RETENTION.json",
+        "packet_sha256": "6f9553c6db4a1d24eabc647b7a1bc6d083a916f24796c3d63ecba5bcd0686cea",
+        "proposal": "retain_public_source_or_fixture",
+        "review": "Two producer/test pairs independently reviewed; existing proof reused; guide routing followup explicit"
       }
     },
     {
@@ -32648,16 +32650,21 @@
         "blob": "6b2454d588949dad759f095b6778c9f45941e631"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
+        "Repair helper and prove actual cleanup without primary residue, or explicitly retire helper and caller coherently",
+        "Existing source-string test is not execution qualification"
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "hold_reason": "source_confirmed_temporary_worktree_cleanup_and_primary_residue_bugs",
+      "reviewed_disposition": {
+        "packet": "MAIN_SYNC_HELPER_BUG.json",
+        "packet_sha256": "fc684502d486e2ff4d3604faa612b31aea7ac6e508d0eaac376d3e6d8622937c",
+        "review": "Independent source findings retained; no live sync invoked"
       }
     },
     {
@@ -37903,12 +37910,8 @@
         "blob": "263bca3ba1e112c387b9b139c6f0fe5ac4a2f744"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -37916,6 +37919,12 @@
           "adl/tools/skills/docs/OPERATIONAL_SKILLS_GUIDE.md",
           "docs/skill-distributions/active-lifecycle/original-v1/adl/tools/skills/docs/OPERATIONAL_SKILLS_GUIDE.md"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "SHARED_EDITOR_GUIDANCE_RETENTION.json",
+        "packet_sha256": "6f9553c6db4a1d24eabc647b7a1bc6d083a916f24796c3d63ecba5bcd0686cea",
+        "proposal": "retain_public_source_or_fixture",
+        "review": "Two producer/test pairs independently reviewed; existing proof reused; guide routing followup explicit"
       }
     },
     {
@@ -46653,12 +46662,8 @@
         "blob": "d629491ec2de7e368c2284a1dacec208c585fc91"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required",
-        "Resolve final producer disposition: RD07-1594 operational skills guide remains proposed removal"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -46670,6 +46675,12 @@
         "passed": true,
         "native_execution": false,
         "changes_removal_authority": false
+      },
+      "reviewed_disposition": {
+        "packet": "SHARED_EDITOR_GUIDANCE_RETENTION.json",
+        "packet_sha256": "6f9553c6db4a1d24eabc647b7a1bc6d083a916f24796c3d63ecba5bcd0686cea",
+        "proposal": "retain_public_source_or_fixture",
+        "review": "Two producer/test pairs independently reviewed; existing proof reused; guide routing followup explicit"
       }
     },
     {
@@ -46929,11 +46940,11 @@
         "blob": "5858192817bd6f1772a1e3b385a022ceb88048b5"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "hold_reason": "source_confirmed_temporary_worktree_cleanup_and_primary_residue_bugs",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required",
-        "Resolve final producer disposition: RD07-1394 main-sync utility remains proposed removal"
+        "Repair helper and prove actual cleanup without primary residue, or explicitly retire helper and caller coherently",
+        "Existing source-string test is not execution qualification"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
@@ -46946,6 +46957,11 @@
         "passed": true,
         "native_execution": false,
         "changes_removal_authority": false
+      },
+      "reviewed_disposition": {
+        "packet": "MAIN_SYNC_HELPER_BUG.json",
+        "packet_sha256": "fc684502d486e2ff4d3604faa612b31aea7ac6e508d0eaac376d3e6d8622937c",
+        "review": "Independent source findings retained; no live sync invoked"
       }
     },
     {
@@ -48527,12 +48543,8 @@
         "blob": "49c622ed521dc7cfe0c1c4afb71ba315259e5dc7"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required",
-        "Resolve final producer disposition: RD07-1388 editor_action remains proposed removal"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -48544,6 +48556,12 @@
         "passed": true,
         "native_execution": false,
         "changes_removal_authority": false
+      },
+      "reviewed_disposition": {
+        "packet": "SHARED_EDITOR_GUIDANCE_RETENTION.json",
+        "packet_sha256": "6f9553c6db4a1d24eabc647b7a1bc6d083a916f24796c3d63ecba5bcd0686cea",
+        "proposal": "retain_public_source_or_fixture",
+        "review": "Two producer/test pairs independently reviewed; existing proof reused; guide routing followup explicit"
       }
     },
     {

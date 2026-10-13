@@ -1,9 +1,9 @@
 {
   "schema": "adl.source_retirement.grouped_holds.v1",
-  "source_head": "c9e305eddee18c9162560da5cd67b57a5addfafc",
-  "ledger_sha256": "27c2fa67ad8fd6b6c1d993c6a9875eacf70daf56e214e5a145576c0ca9a74d4b",
+  "source_head": "7b7b34df92a217d42ce485466b85bc716f24a067",
+  "ledger_sha256": "77510884907d534efd8896a02ae0e2a5c5b9a57e937ec31fb9f623af5311f904",
   "original_count": 4134,
-  "held_count": 102,
+  "held_count": 101,
   "additional_paths_separate": 22,
   "execution_authorized": false,
   "boundary": "Grouping preserves every original row and prerequisite verbatim. It does not resolve holds, authorize removal, or imply full issue readiness. Other proposed removals remain conditional.",
@@ -1414,8 +1414,8 @@
     {
       "id": "skill-contracts",
       "title": "Skill and operational contract consumers",
-      "count": 12,
-      "next_action": "Twelve remaining skill contracts retain their exact producer and original-assertion obligations; use existing passing component proofs and resolve shared producer retention before any new test execution.",
+      "count": 11,
+      "next_action": "Resolve remaining skill producer/contract obligations using existing proof. Main-sync helper and caller remain held for the source-confirmed cleanup/residue defects or coherent historical retirement.",
       "evidence": [
         "CSDLC_PLANNING_ORIGINAL_CONTRACT_QUALIFICATION.json",
         "CSDLC_OPERATIONAL_COMPONENT_QUALIFICATION.json"
@@ -1572,35 +1572,6 @@
           }
         },
         {
-          "id": "RD07-1923",
-          "path": "adl/tools/test_check_issue_metadata_parity.sh",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100644",
-            "blob": "d629491ec2de7e368c2284a1dacec208c585fc91"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_no_proven_current_successor_mapping",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "specific_consumer_or_document_disposition_required",
-            "Resolve final producer disposition: RD07-1594 operational skills guide remains proposed removal"
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          },
-          "qualification_followup": {
-            "record": "ADL_CALLER_CONTRACT_REPAIR.json",
-            "scope": "current_adl_source_contract",
-            "passed": true,
-            "native_execution": false,
-            "changes_removal_authority": false
-          }
-        },
-        {
           "id": "RD07-1931",
           "path": "adl/tools/test_cli_owner_command_guidance.sh",
           "owner": "cognitive-sdlc",
@@ -1639,11 +1610,11 @@
             "blob": "5858192817bd6f1772a1e3b385a022ceb88048b5"
           },
           "existing_action": "retain",
-          "hold_reason": "hold_no_proven_current_successor_mapping",
+          "hold_reason": "source_confirmed_temporary_worktree_cleanup_and_primary_residue_bugs",
           "proposed_action": "hold_explicit_reconciliation",
           "required_before_execution": [
-            "specific_consumer_or_document_disposition_required",
-            "Resolve final producer disposition: RD07-1394 main-sync utility remains proposed removal"
+            "Repair helper and prove actual cleanup without primary residue, or explicitly retire helper and caller coherently",
+            "Existing source-string test is not execution qualification"
           ],
           "successor_mapping": {
             "mapping": "unmapped",
@@ -1656,35 +1627,11 @@
             "passed": true,
             "native_execution": false,
             "changes_removal_authority": false
-          }
-        },
-        {
-          "id": "RD07-1997",
-          "path": "adl/tools/test_editor_action.sh",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "49c622ed521dc7cfe0c1c4afb71ba315259e5dc7"
           },
-          "existing_action": "retain",
-          "hold_reason": "hold_no_proven_current_successor_mapping",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "specific_consumer_or_document_disposition_required",
-            "Resolve final producer disposition: RD07-1388 editor_action remains proposed removal"
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          },
-          "qualification_followup": {
-            "record": "ADL_CALLER_CONTRACT_REPAIR.json",
-            "scope": "current_adl_source_contract",
-            "passed": true,
-            "native_execution": false,
-            "changes_removal_authority": false
+          "reviewed_disposition": {
+            "packet": "MAIN_SYNC_HELPER_BUG.json",
+            "packet_sha256": "fc684502d486e2ff4d3604faa612b31aea7ac6e508d0eaac376d3e6d8622937c",
+            "review": "Independent source findings retained; no live sync invoked"
           }
         },
         {
@@ -1938,6 +1885,33 @@
             "scope": "exact_source_obligation_and_removed_filter_lineage",
             "execution_proven": false,
             "changes_removal_authority": false
+          }
+        },
+        {
+          "id": "RD07-1394",
+          "path": "adl/tools/fix_git_main_sync_preserve_local_adl.sh",
+          "owner": "cognitive-sdlc",
+          "component": "cognitive-sdlc-mapped-tools",
+          "current_identity": {
+            "mode": "100755",
+            "blob": "6b2454d588949dad759f095b6778c9f45941e631"
+          },
+          "existing_action": "retain",
+          "proposed_action": "hold_explicit_reconciliation",
+          "required_before_execution": [
+            "Repair helper and prove actual cleanup without primary residue, or explicitly retire helper and caller coherently",
+            "Existing source-string test is not execution qualification"
+          ],
+          "successor_mapping": {
+            "mapping": "same_path_changed",
+            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+            "exact_successor_paths": []
+          },
+          "hold_reason": "source_confirmed_temporary_worktree_cleanup_and_primary_residue_bugs",
+          "reviewed_disposition": {
+            "packet": "MAIN_SYNC_HELPER_BUG.json",
+            "packet_sha256": "fc684502d486e2ff4d3604faa612b31aea7ac6e508d0eaac376d3e6d8622937c",
+            "review": "Independent source findings retained; no live sync invoked"
           }
         }
       ]
