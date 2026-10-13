@@ -1,0 +1,213 @@
+{
+  "schema": "adl1223.original_installer_component_qualification.v1",
+  "status": "passed_composed_bundle_component_only",
+  "candidate": "92779b3a8376182b691aad45258435ffb9c095f0",
+  "bundle_manifest_sha256": "7c42dd06234bf7033d1a5a3af2f24d75ec5ebdeef5968a587402d65402a19795",
+  "result": {
+    "command": [
+      "python3",
+      "-B",
+      "/Volumes/FastWork/c1223/evidence/cognitive-sdlc/bundle-92779b3/composition/candidate-bundle/contracts/validation/check_complete_install.py",
+      "--bundle",
+      "/Volumes/FastWork/c1223/evidence/cognitive-sdlc/bundle-92779b3/composition/candidate-bundle",
+      "--manifest-sha256",
+      "7c42dd06234bf7033d1a5a3af2f24d75ec5ebdeef5968a587402d65402a19795",
+      "--installer",
+      "/Volumes/FastWork/c1223/evidence/cognitive-sdlc/bundle-92779b3/composition/candidate-bundle/tools/install_adl_operational_skills.sh",
+      "--installer-sha256",
+      "31867ab4101af7ba5f3db4191d57ab0f43f8a7bbe5e4c195f8fef830ff1b157a",
+      "--demo",
+      "/Volumes/FastWork/c1223/evidence/cognitive-sdlc/bundle-92779b3/composition/candidate-bundle/tools/demo_v087_operational_skills.sh",
+      "--demo-sha256",
+      "e0b489e9ecd41784d753d36a459dd9aa0d4f2d3623347254eca80ff3f466d7d3",
+      "--out",
+      "/Volumes/FastWork/c1223/evidence/cognitive-sdlc/bundle-92779b3/installer-proof"
+    ],
+    "exit": 0,
+    "seconds": 1.6829841250000754,
+    "native_admission": false,
+    "full_original_acceptance": false
+  },
+  "original_denominator": {
+    "assertion_bearing_lines": 138,
+    "named_skills": 33,
+    "direct_paths": 84,
+    "recursive_entrypoints": 17
+  },
+  "assertion_outcomes": {
+    "passed_current_correspondence": 136,
+    "separate_behavior_evidence_required": 2
+  },
+  "separate_behavior_rows": [
+    211,
+    212
+  ],
+  "copy_symlink_observations": [
+    {
+      "mode": "copy",
+      "families": [
+        "adl-milestone-creator",
+        "adr-curator",
+        "architecture-diagram-reviewer",
+        "architecture-fitness-function-author",
+        "arxiv-paper-writer",
+        "demo-operator",
+        "diagram-author",
+        "documentation-specialist",
+        "finding-to-issue-planner",
+        "gap-analysis",
+        "issue-folding",
+        "issue-splitter",
+        "issue-watcher",
+        "medium-article-writer",
+        "planning-doc-editor",
+        "portable-contract-normalizer",
+        "pr-closeout",
+        "pr-finish",
+        "pr-init",
+        "pr-janitor",
+        "pr-ready",
+        "pr-run",
+        "pr-stack-manager",
+        "product-report-writer",
+        "records-hygiene",
+        "redaction-and-evidence-auditor",
+        "refactoring-helper",
+        "release-evidence",
+        "repo-architecture-review",
+        "repo-code-review",
+        "repo-dependency-review",
+        "repo-diagram-planner",
+        "repo-packet-builder",
+        "repo-review-code",
+        "repo-review-docs",
+        "repo-review-security",
+        "repo-review-synthesis",
+        "repo-review-tests",
+        "review-comment-triage",
+        "review-quality-evaluator",
+        "review-readiness-cleanup",
+        "review-to-test-planner",
+        "sip-editor",
+        "sor-editor",
+        "spp-editor",
+        "sprint-conductor",
+        "sprint-review",
+        "srp-editor",
+        "stp-editor",
+        "test-generator",
+        "use-case-writer"
+      ],
+      "files_verified": 365,
+      "receipt_sha256": "9bf4931666e3651ab9081b1d80db49eb13a9576ca4fb266c9f0a573dbb92254b"
+    },
+    {
+      "mode": "symlink",
+      "families": [
+        "adl-milestone-creator",
+        "adr-curator",
+        "architecture-diagram-reviewer",
+        "architecture-fitness-function-author",
+        "arxiv-paper-writer",
+        "demo-operator",
+        "diagram-author",
+        "documentation-specialist",
+        "finding-to-issue-planner",
+        "gap-analysis",
+        "issue-folding",
+        "issue-splitter",
+        "issue-watcher",
+        "medium-article-writer",
+        "planning-doc-editor",
+        "portable-contract-normalizer",
+        "pr-closeout",
+        "pr-finish",
+        "pr-init",
+        "pr-janitor",
+        "pr-ready",
+        "pr-run",
+        "pr-stack-manager",
+        "product-report-writer",
+        "records-hygiene",
+        "redaction-and-evidence-auditor",
+        "refactoring-helper",
+        "release-evidence",
+        "repo-architecture-review",
+        "repo-code-review",
+        "repo-dependency-review",
+        "repo-diagram-planner",
+        "repo-packet-builder",
+        "repo-review-code",
+        "repo-review-docs",
+        "repo-review-security",
+        "repo-review-synthesis",
+        "repo-review-tests",
+        "review-comment-triage",
+        "review-quality-evaluator",
+        "review-readiness-cleanup",
+        "review-to-test-planner",
+        "sip-editor",
+        "sor-editor",
+        "spp-editor",
+        "sprint-conductor",
+        "sprint-review",
+        "srp-editor",
+        "stp-editor",
+        "test-generator",
+        "use-case-writer"
+      ],
+      "files_verified": 365,
+      "receipt_sha256": "be0f0659115ec4a0c86258d1ed483bf624cc97f3faa63dcab8f19813c3c1962d"
+    }
+  ],
+  "original_direct_paths": 84,
+  "original_recursive_entrypoints": 17,
+  "original_required_skills": 33,
+  "native_admission": false,
+  "full_original_acceptance": false,
+  "prior_adverse_or_partial_evidence_preserved": true,
+  "boundaries": [
+    "Source/composed bundle installability and mapped original copy/symlink assertions only.",
+    "No unadmitted C-SDLC binary, native transport, remote/provider call, conductor component or audio policy execution.",
+    "Previous136/138 evidence remains historical; this is current composition result with138 total and2separate behavior obligations.",
+    "Runtime/CodeFriend/history source input receipts retain their explicit historical revisions. No silent current-owner acceptance."
+  ],
+  "evidence": [
+    {
+      "path": "inputs.json",
+      "sha256": "3758e2d358ec2bf2c95632d81e87d09ba4364230cb0e7a57a8e4b2bfb3bc5ba6"
+    },
+    {
+      "path": "SOURCE_CORRESPONDENCE.json",
+      "sha256": "aed5cc2f9644ccb4c7a6c43ac0d48edef8f2ce1ee686ce95f413836889943154"
+    },
+    {
+      "path": "composition/COMPOSITION_PREFLIGHT.json",
+      "sha256": "d0cec0c5bbe992f97dd1973ec580d66322bee22e15fa9f0bec2af7bf7378a77e"
+    },
+    {
+      "path": "INSTALLER_EXECUTION_SCOPE.json",
+      "sha256": "4b3f630bcf8d3f416922e8cea0fbb160418ed753b6f564fa63699110024a2535"
+    },
+    {
+      "path": "INSTALLER_RESULT.json",
+      "sha256": "7b082b99c4c1f5c096ae1298ad29c627386c6e768a67d88f390a04d77f0f0355"
+    },
+    {
+      "path": "installer.stdout",
+      "sha256": "679305ae8da8605f1475be5741aa504b552fdcb69986c0d69b743cf5540175c0"
+    },
+    {
+      "path": "installer.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "installer-proof/installer-correspondence.json",
+      "sha256": "25763ddd35df4bca33d59dd656b01ea470e7bed1e7c4b46b5a98a279c1497994"
+    },
+    {
+      "path": "installer-proof/demo/demo-result.json",
+      "sha256": "971eb194c72f0861ddf3b9b26f10566f6df4cf1cdcbb27c4882e31483e981d10"
+    }
+  ]
+}
