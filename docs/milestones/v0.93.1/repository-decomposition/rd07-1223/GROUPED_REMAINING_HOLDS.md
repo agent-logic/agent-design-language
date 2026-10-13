@@ -1,6 +1,6 @@
 # #1223 remaining hold groups
 
-Snapshot of all **172 holds** based on `ea85e76550b49b4dade170e1da054d26b0e8d441` plus the reviewed consumer-batch adoption. All 4,134 original identities remain in the ledger; 19 additional current paths remain separately tracked. No deletion is authorized by this grouping.
+Snapshot of all **161 holds** based on `ea85e76550b49b4dade170e1da054d26b0e8d441` plus the reviewed consumer-batch adoption. All 4,134 original identities remain in the ledger; 19 additional current paths remain separately tracked. No deletion is authorized by this grouping.
 
 | Group | Held paths | Next action |
 | --- | ---: | --- |
@@ -9,15 +9,11 @@ Snapshot of all **172 holds** based on `ea85e76550b49b4dade170e1da054d26b0e8d441
 | Prepared manual, Nessus and historical guides | 7 | Apply exact reviewed11-path supplement after scoped acceptance. Native installed manual acceptance remains separate. Count is held original intersection, not11. |
 | Native conversion rehearsal closure | 5 | Deliver missing five helpers as coherent owner support; preserve authentic505 receipt, pinned old binary and generation9 inputs; qualify isolated real conversion route before transfer. Source-only native CLI correspondence is insufficient. |
 | Deleted legacy assertion contract | 1 | Map all four missing Rust-filter behaviors to actual owner assertions or explicitly disposition historical semantics. Do not accept zero-match Cargo execution. |
-| Shell and validator observability contract | 2 | Restore or disposition original validator bad-sink behavior with shell library/test as one unit; preserve stdout/stderr and redaction assertions. No partial shell pass establishes original whole-test equivalence. |
-| Historical metric backfill and caller | 2 | Resolve original historical producer/test together with run_owner_validation_lane caller; use scoped historical disposition or actual successor behavior. |
-| Historical janitor attachment | 1 | Disposition original v1 real_pr_finish auto-attachment and failure behavior explicitly; modern skill existence is not equivalent launcher proof. |
 | Runtime Observatory behavior and CI | 6 | Reconcile room selection, mobile controls and incident assertions with owner journal additions; preserve extra governed-room test. Reconcile live-only CI denominator separately. Reuse existing owner proof where exact. |
 | Installed C-SDLC node and plan proof | 1 | Reuse five restored passing scenarios and native proof; reconcile exact delivered artifact and installed admission before authorizing source/test removal. |
 | Skill and operational contract consumers | 22 | Twenty-two rows remain, including four tested current caller contracts whose producer retirement is unresolved. Original12CodeFriend and2CSDLc fixture proofs remain qualified; current milestone/schema tests retained. Preserve separate native, caller and scoped retirement gates. |
-| Historical demo coverage validator | 2 | Choose coherent historical retention/consumer closure for validator and original negative fixture. No new fixture campaign started; any later execution must isolate generated evidence. Frozen docs and predecessor records remain required inputs. |
-| Historical podcast generation and playback | 7 | Resolve static packet generation/validation separately from browser/native playback and source-era runner calls. Retain frozen evidence; no provider/playback run implied. |
-| Remaining ADL validation routing | 36 | After reviewed caller cutover, reconcile each retained runner, selector, coverage/PVF policy and configuration against five public packages and original assertions. Retain historical private lanes explicitly; do not silently drop inventory rows. |
+| Historical podcast generation and playback | 4 | Resolve four generation/fulltest helpers and their real source-era runner dependencies. Three HTTP profile wrappers retained with exact16-file closure; they do not use browsers, devices or audio decoding. |
+| Remaining ADL validation routing | 35 | After reviewed caller cutover, reconcile each retained runner, selector, coverage/PVF policy and configuration against five public packages and original assertions. Retain historical private lanes explicitly; do not silently drop inventory rows. |
 | agent-logic-runtime remaining consumers | 1 | Resolve the exact per-row required_before_execution entries preserved below as one owner consumer batch: map current caller and qualified successor or choose explicit historical retention/retirement. Reuse existing owner evidence; source presence alone does not close behavior. Cloud/live operations require their own existing authorization. |
 | agent-logic-infrastructure remaining consumers | 1 | Resolve the exact per-row required_before_execution entries preserved below as one owner consumer batch: map current caller and qualified successor or choose explicit historical retention/retirement. Reuse existing owner evidence; source presence alone does not close behavior. Cloud/live operations require their own existing authorization. |
 | codefriend remaining consumers | 1 | Resolve the exact per-row required_before_execution entries preserved below as one owner consumer batch: map current caller and qualified successor or choose explicit historical retention/retirement. Reuse existing owner evidence; source presence alone does not close behavior. Cloud/live operations require their own existing authorization. |
@@ -32,10 +28,14 @@ The accompanying `GROUPED_REMAINING_HOLDS.json` preserves every held row, exact 
 3. Reconcile remaining consumer batches and prepare one coherent exact-path retirement decision, preserving rollback evidence.
 4. Apply only accepted removal scope, qualify final public packages, independently review and complete native publication, finish and cleanup.
 
-No standalone 2150/2234 fixture run or additional build was started for this grouping.
+Historical2150/2234 are retained together. Original13-input suite passed two positive validations and twelve expected refusals; later current-document failure remains recorded. See HISTORICAL_DEMO_COVERAGE_RETENTION.md. No duplicate run was performed during adoption.
 
 Infrastructure ALB remains a separate owner implementation gap: no repair issue, worktree, implementation or PR exists. Native creation recovery was rejected by automatic approval review and awaits exact authorization. The repair must preserve documented DNS alias and certificate creation behavior; dropping three unsupported arguments would not satisfy it. Diagnosis: `/Volumes/FastWork/c1223/repairs/infrastructure/diagnosis.md`.
 
-Reviewed original consumer batches qualified 14 formerly held rows (12 CodeFriend individual scripts and two C-SDLC fixture scripts). They moved to conditional owner-transfer proposals; no files were removed. Current complete held rows: 172. See `ORIGINAL_CONSUMER_BATCH_QUALIFICATION.json`.
+Reviewed original consumer batches qualified 14 formerly held rows (12 CodeFriend individual scripts and two C-SDLC fixture scripts). They moved to conditional owner-transfer proposals; no files were removed. Current complete held rows after historical retention and legacy proposals: 161. See `ORIGINAL_CONSUMER_BATCH_QUALIFICATION.json`.
 
 Current ADL caller repairs retain three more rows (1924,2054,2166). Four other passing caller tests remain held because their producers are still proposed for removal; source-pass evidence is preserved without claiming final closure.
+
+Five legacy helper rows now have explicit conditional retirement proposals, not removal approval. Caller cutover and the exact scoped decision remain outstanding; see `LEGACY_HELPERS_RETIREMENT_PROPOSAL.json`.
+
+Three HTTP profile wrappers and one historical provider input are retained with exact source closure. HTTP checks do not prove browser or audio playback; retaining static provider input does not execute a model.

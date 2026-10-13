@@ -1,9 +1,9 @@
 {
   "schema": "adl.source_retirement.grouped_holds.v1",
   "source_head": "ea85e76550b49b4dade170e1da054d26b0e8d441",
-  "ledger_sha256": "241729c9e1b11557a40b12a2c4ea10dffe79f39190013c02fc2fe500eb6491d4",
+  "ledger_sha256": "d035843eb6ad052c780f33ba4557e08783761c971ff78306ef9da4f3606009cf",
   "original_count": 4134,
-  "held_count": 172,
+  "held_count": 161,
   "additional_paths_separate": 19,
   "execution_authorized": false,
   "boundary": "Grouping preserves every original row and prerequisite verbatim. It does not resolve holds, authorize removal, or imply full issue readiness. Other proposed removals remain conditional.",
@@ -1677,159 +1677,6 @@
       ]
     },
     {
-      "id": "observability",
-      "title": "Shell and validator observability contract",
-      "count": 2,
-      "next_action": "Restore or disposition original validator bad-sink behavior with shell library/test as one unit; preserve stdout/stderr and redaction assertions. No partial shell pass establishes original whole-test equivalence.",
-      "evidence": [],
-      "rows": [
-        {
-          "id": "RD07-1444",
-          "path": "adl/tools/observability.sh",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "bde621fa5660e4f6fdec637b739885e1a28220ac"
-          },
-          "existing_action": "retain",
-          "hold_reason": "Shell library defines redaction, stdout/stderr compatibility, timed stages and heartbeat settings; Runtime-labelled component alone does not establish owner succession. Existing Rust observability.shutdown hits are false literal matches.",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "Reconcile sole source test_control_plane_observability.sh and run_owner_validation_lane.sh before transfer/retirement; preserve all sanitization/compatibility assertions; no new logging feature."
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          },
-          "reviewed_disposition": {
-            "packet": "PUBLIC_LEGACY_HELPER_DISPOSITIONS.json",
-            "packet_sha256": "19c401eb8c113e49d7b5751af38a8188731cf7b4094e9794c7a234d6c5a4eaed",
-            "proposal": "hold_specific_shell_observability_contract",
-            "reason": "Shell library defines redaction, stdout/stderr compatibility, timed stages and heartbeat settings; Runtime-labelled component alone does not establish owner succession. Existing Rust observability.shutdown hits are false literal matches."
-          }
-        },
-        {
-          "id": "RD07-1936",
-          "path": "adl/tools/test_control_plane_observability.sh",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "2205d79ca53b7b7d22a260e7e03222a80eb7af3d"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_no_proven_current_successor_mapping",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "specific_consumer_or_document_disposition_required"
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          }
-        }
-      ]
-    },
-    {
-      "id": "metric-backfill",
-      "title": "Historical metric backfill and caller",
-      "count": 2,
-      "next_action": "Resolve original historical producer/test together with run_owner_validation_lane caller; use scoped historical disposition or actual successor behavior.",
-      "evidence": [
-        "/Volumes/FastWork/c1223/workflow-metric-backfill-disposition/PROPOSAL.json"
-      ],
-      "rows": [
-        {
-          "id": "RD07-1262",
-          "path": "adl/tools/build_v0916_workflow_metric_backfill_inventory.py",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100644",
-            "blob": "25b385fb23efea0a23af3ad3b40750bbcf410b7e"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_no_proven_current_successor_mapping",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "specific_consumer_or_document_disposition_required"
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          },
-          "reviewed_disposition": {
-            "packet": "VALIDATION_ROUTING_DISPOSITIONS.json",
-            "packet_sha256": "0c3e169b260c77503071139e7424907dfa4007477b149cb3e0c3f94627c6f1b3",
-            "proposal": "historical_backfill_producer_requires_explicit_disposition"
-          }
-        },
-        {
-          "id": "RD07-1915",
-          "path": "adl/tools/test_build_v0916_workflow_metric_backfill_inventory.py",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100644",
-            "blob": "4e50fc41f5a57f79202a6ecd46d39e618fb9e024"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_no_proven_current_successor_mapping",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "specific_consumer_or_document_disposition_required"
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          }
-        }
-      ]
-    },
-    {
-      "id": "janitor",
-      "title": "Historical janitor attachment",
-      "count": 1,
-      "next_action": "Disposition original v1 real_pr_finish auto-attachment and failure behavior explicitly; modern skill existence is not equivalent launcher proof.",
-      "evidence": [
-        "/Volumes/FastWork/c1223/janitor-launcher-disposition/PROPOSAL.json"
-      ],
-      "rows": [
-        {
-          "id": "RD07-1239",
-          "path": "adl/tools/attach_pr_janitor.sh",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "20899fca98124e2063abead86a3c98bdc232b5f7"
-          },
-          "existing_action": "retain",
-          "hold_reason": "Full source runs copy installer, writes janitor schema/prompt/logs, spawns codex exec once with inspect-only input. It is not the already-retired post-merge attachment wrapper.",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "Choose explicit retirement of this launcher or adapt installed passive pr-janitor resource/installer paths; preserve one-pass inspect-only checks, adl-ci/adl-coverage and no inference. No agent process execution.",
-            "Explicit coherent retirement approval; no operational acceptance inferred"
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          },
-          "reviewed_disposition": {
-            "packet": "CSDLC_PRODUCTION_HELPER_DISPOSITIONS.json",
-            "packet_sha256": "f88bf93a189b79d3835cc6c4479fbc3564ee4e41d66bbab72c87987692762584",
-            "proposal": "hold_exact_janitor_launcher_consumer"
-          }
-        }
-      ]
-    },
-    {
       "id": "observatory",
       "title": "Runtime Observatory behavior and CI",
       "count": 6,
@@ -2832,71 +2679,10 @@
       ]
     },
     {
-      "id": "demo-coverage",
-      "title": "Historical demo coverage validator",
-      "count": 2,
-      "next_action": "Choose coherent historical retention/consumer closure for validator and original negative fixture. No new fixture campaign started; any later execution must isolate generated evidence. Frozen docs and predecessor records remain required inputs.",
-      "evidence": [],
-      "rows": [
-        {
-          "id": "RD07-2150",
-          "path": "adl/tools/test_v092_demo_proof_coverage.sh",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "19b7efb884c87678aa1f15baa83ae9d9da4151bc"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_no_proven_current_successor_mapping",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "specific_consumer_or_document_disposition_required"
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          },
-          "qualification_followup": {
-            "record": "HISTORICAL_CONSUMER_CLOSURE_GAPS.json",
-            "status": "current_input_generation_mismatch",
-            "changes_removal_authority": false
-          }
-        },
-        {
-          "id": "RD07-2234",
-          "path": "adl/tools/validate_v092_demo_proof_coverage.py",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "37985a5300f26139a308c4dddeae914806cdf4c8"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_no_proven_current_successor_mapping",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "specific_consumer_or_document_disposition_required"
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          },
-          "qualification_followup": {
-            "record": "HISTORICAL_CONSUMER_CLOSURE_GAPS.json",
-            "status": "current_input_generation_mismatch",
-            "changes_removal_authority": false
-          }
-        }
-      ]
-    },
-    {
       "id": "podcast",
       "title": "Historical podcast generation and playback",
-      "count": 7,
-      "next_action": "Resolve static packet generation/validation separately from browser/native playback and source-era runner calls. Retain frozen evidence; no provider/playback run implied.",
+      "count": 4,
+      "next_action": "Resolve four generation/fulltest helpers and their real source-era runner dependencies. Three HTTP profile wrappers retained with exact16-file closure; they do not use browsers, devices or audio decoding.",
       "evidence": [],
       "rows": [
         {
@@ -2928,69 +2714,6 @@
           "current_identity": {
             "mode": "100755",
             "blob": "4a6caf7b6b61cd73e8805e7ae66392b0f0110cb5"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_no_proven_current_successor_mapping",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "specific_consumer_or_document_disposition_required"
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          }
-        },
-        {
-          "id": "RD07-1462",
-          "path": "adl/tools/record_podcast_browser_playback.mjs",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "ff7459fa591144d85b111cf893f6b36cf0c9033a"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_no_proven_current_successor_mapping",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "specific_consumer_or_document_disposition_required"
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          }
-        },
-        {
-          "id": "RD07-1463",
-          "path": "adl/tools/record_podcast_ios_safari_playback.sh",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "ad406d376cce856bd43c0026943533aec68ade3f"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_no_proven_current_successor_mapping",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "specific_consumer_or_document_disposition_required"
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          }
-        },
-        {
-          "id": "RD07-1464",
-          "path": "adl/tools/record_podcast_native_playback.sh",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "2540266f8fc03064afd89c0f6351b70a33f276f2"
           },
           "existing_action": "retain",
           "hold_reason": "hold_no_proven_current_successor_mapping",
@@ -3051,7 +2774,7 @@
     {
       "id": "validation-remainder",
       "title": "Remaining ADL validation routing",
-      "count": 36,
+      "count": 35,
       "next_action": "After reviewed caller cutover, reconcile each retained runner, selector, coverage/PVF policy and configuration against five public packages and original assertions. Retain historical private lanes explicitly; do not silently drop inventory rows.",
       "evidence": [],
       "rows": [
@@ -3487,35 +3210,6 @@
             "packet": "VALIDATION_ROUTING_DISPOSITIONS.json",
             "packet_sha256": "0c3e169b260c77503071139e7424907dfa4007477b149cb3e0c3f94627c6f1b3",
             "proposal": "retain_routing_entrypoint_pending_manifest_reconciliation"
-          }
-        },
-        {
-          "id": "RD07-1893",
-          "path": "adl/tools/suitability_specs/deepseek_csdlc_panel_4096.json",
-          "owner": "agent-logic-runtime",
-          "component": "agent-logic-runtime-active-tool-contracts",
-          "current_identity": {
-            "mode": "100644",
-            "blob": "31996d82ceedc5ab37f327aa4fbdfd92cfedd7d4"
-          },
-          "existing_action": "retain",
-          "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "Five-task issue4096 provider suitability input, including CSDLc-themed text prompts, is data not lifecycle authority; preserve original prompt/outcome contract and manual/paid execution boundary. No provider execution required by this mapping."
-          ],
-          "successor_mapping": {
-            "mapping": "exact_successor",
-            "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
-            "exact_successor_paths": [
-              "adl/tools/suitability_specs/deepseek_csdlc_panel_4096.json"
-            ]
-          },
-          "reviewed_disposition": {
-            "packet": "RUNTIME_4_TOOL_DISPOSITIONS.json",
-            "packet_sha256": "c34decfbb256f52049b17ffbada76497eb857c2d4d52a528293e90cb99007a60",
-            "proposal": "conditional_manual_Runtime_suitability_fixture_transfer",
-            "review": "Source specialist and root finite-disposition review; no execution or owner acceptance inferred"
           }
         },
         {

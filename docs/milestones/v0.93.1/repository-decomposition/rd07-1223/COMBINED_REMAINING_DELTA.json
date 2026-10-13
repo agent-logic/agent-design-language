@@ -6,16 +6,16 @@
   "execution_authorized": false,
   "original_count": 4134,
   "counts": {
-    "hold_explicit_reconciliation": 137,
+    "hold_explicit_reconciliation": 126,
     "hold_owner_test_reconciliation": 35,
     "preserve_approved_removal": 70,
     "preserve_reviewed_consumer_repair": 18,
-    "proposed_historical_retirement_with_caller_repair": 17,
+    "proposed_historical_retirement_with_caller_repair": 22,
     "proposed_owner_transfer_with_consumer_qualification": 487,
     "proposed_remove_construction_qualified_infrastructure": 216,
     "proposed_remove_with_entire_source_family": 1874,
     "proposed_remove_with_entire_tool_family": 690,
-    "retain_public_source_or_fixture": 71,
+    "retain_public_source_or_fixture": 77,
     "retain_resolved": 519
   },
   "additional_current_source_paths": 19,
@@ -28757,10 +28757,11 @@
       },
       "existing_action": "retain",
       "hold_reason": "Full source runs copy installer, writes janitor schema/prompt/logs, spawns codex exec once with inspect-only input. It is not the already-retired post-merge attachment wrapper.",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
         "Choose explicit retirement of this launcher or adapt installed passive pr-janitor resource/installer paths; preserve one-pass inspect-only checks, adl-ci/adl-coverage and no inference. No agent process execution.",
-        "Explicit coherent retirement approval; no operational acceptance inferred"
+        "Explicit coherent retirement approval; no operational acceptance inferred",
+        "Apply coherent owner-lane/selector/manager caller retirement and obtain exact scoped decision; preserve historical outputs and explicit changed-contract distinction."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
@@ -28771,7 +28772,9 @@
         "packet": "CSDLC_PRODUCTION_HELPER_DISPOSITIONS.json",
         "packet_sha256": "f88bf93a189b79d3835cc6c4479fbc3564ee4e41d66bbab72c87987692762584",
         "proposal": "hold_exact_janitor_launcher_consumer"
-      }
+      },
+      "prior_proposed_action": "hold_explicit_reconciliation",
+      "disposition_evidence": "LEGACY_HELPERS_RETIREMENT_PROPOSAL.json"
     },
     {
       "id": "RD07-1240",
@@ -29329,9 +29332,10 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "specific_consumer_or_document_disposition_required",
+        "Apply coherent owner-lane/selector/manager caller retirement and obtain exact scoped decision; preserve historical outputs and explicit changed-contract distinction."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
@@ -29342,7 +29346,9 @@
         "packet": "VALIDATION_ROUTING_DISPOSITIONS.json",
         "packet_sha256": "0c3e169b260c77503071139e7424907dfa4007477b149cb3e0c3f94627c6f1b3",
         "proposal": "historical_backfill_producer_requires_explicit_disposition"
-      }
+      },
+      "prior_proposed_action": "hold_explicit_reconciliation",
+      "disposition_evidence": "LEGACY_HELPERS_RETIREMENT_PROPOSAL.json"
     },
     {
       "id": "RD07-1263",
@@ -33794,9 +33800,10 @@
       },
       "existing_action": "retain",
       "hold_reason": "Shell library defines redaction, stdout/stderr compatibility, timed stages and heartbeat settings; Runtime-labelled component alone does not establish owner succession. Existing Rust observability.shutdown hits are false literal matches.",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "Reconcile sole source test_control_plane_observability.sh and run_owner_validation_lane.sh before transfer/retirement; preserve all sanitization/compatibility assertions; no new logging feature."
+        "Reconcile sole source test_control_plane_observability.sh and run_owner_validation_lane.sh before transfer/retirement; preserve all sanitization/compatibility assertions; no new logging feature.",
+        "Apply coherent owner-lane/selector/manager caller retirement and obtain exact scoped decision; preserve historical outputs and explicit changed-contract distinction."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
@@ -33808,7 +33815,9 @@
         "packet_sha256": "19c401eb8c113e49d7b5751af38a8188731cf7b4094e9794c7a234d6c5a4eaed",
         "proposal": "hold_specific_shell_observability_contract",
         "reason": "Shell library defines redaction, stdout/stderr compatibility, timed stages and heartbeat settings; Runtime-labelled component alone does not establish owner succession. Existing Rust observability.shutdown hits are false literal matches."
-      }
+      },
+      "prior_proposed_action": "hold_explicit_reconciliation",
+      "disposition_evidence": "LEGACY_HELPERS_RETIREMENT_PROPOSAL.json"
     },
     {
       "id": "RD07-1445",
@@ -34226,7 +34235,7 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "retain_public_source_or_fixture",
       "required_before_execution": [
         "specific_consumer_or_document_disposition_required"
       ],
@@ -34234,7 +34243,9 @@
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "prior_proposed_action": "hold_explicit_reconciliation",
+      "retention_basis": "PODCAST_HTTP_RETENTION.json"
     },
     {
       "id": "RD07-1463",
@@ -34247,7 +34258,7 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "retain_public_source_or_fixture",
       "required_before_execution": [
         "specific_consumer_or_document_disposition_required"
       ],
@@ -34255,7 +34266,9 @@
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "prior_proposed_action": "hold_explicit_reconciliation",
+      "retention_basis": "PODCAST_HTTP_RETENTION.json"
     },
     {
       "id": "RD07-1464",
@@ -34268,7 +34281,7 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "retain_public_source_or_fixture",
       "required_before_execution": [
         "specific_consumer_or_document_disposition_required"
       ],
@@ -34276,7 +34289,9 @@
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "prior_proposed_action": "hold_explicit_reconciliation",
+      "retention_basis": "PODCAST_HTTP_RETENTION.json"
     },
     {
       "id": "RD07-1465",
@@ -45685,7 +45700,7 @@
       },
       "existing_action": "retain",
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "retain_public_source_or_fixture",
       "required_before_execution": [
         "Five-task issue4096 provider suitability input, including CSDLc-themed text prompts, is data not lifecycle authority; preserve original prompt/outcome contract and manual/paid execution boundary. No provider execution required by this mapping."
       ],
@@ -45701,7 +45716,9 @@
         "packet_sha256": "c34decfbb256f52049b17ffbada76497eb857c2d4d52a528293e90cb99007a60",
         "proposal": "conditional_manual_Runtime_suitability_fixture_transfer",
         "review": "Source specialist and root finite-disposition review; no execution or owner acceptance inferred"
-      }
+      },
+      "prior_proposed_action": "hold_explicit_reconciliation",
+      "retention_basis": "STATIC_PANEL_RETENTION.json"
     },
     {
       "id": "RD07-1894",
@@ -46298,15 +46315,18 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "specific_consumer_or_document_disposition_required",
+        "Apply coherent owner-lane/selector/manager caller retirement and obtain exact scoped decision; preserve historical outputs and explicit changed-contract distinction."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "prior_proposed_action": "hold_explicit_reconciliation",
+      "disposition_evidence": "LEGACY_HELPERS_RETIREMENT_PROPOSAL.json"
     },
     {
       "id": "RD07-1916",
@@ -46928,15 +46948,18 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "specific_consumer_or_document_disposition_required",
+        "Apply coherent owner-lane/selector/manager caller retirement and obtain exact scoped decision; preserve historical outputs and explicit changed-contract distinction."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "prior_proposed_action": "hold_explicit_reconciliation",
+      "disposition_evidence": "LEGACY_HELPERS_RETIREMENT_PROPOSAL.json"
     },
     {
       "id": "RD07-1937",
@@ -52651,7 +52674,7 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "retain_public_source_or_fixture",
       "required_before_execution": [
         "specific_consumer_or_document_disposition_required"
       ],
@@ -52664,7 +52687,10 @@
         "record": "HISTORICAL_CONSUMER_CLOSURE_GAPS.json",
         "status": "current_input_generation_mismatch",
         "changes_removal_authority": false
-      }
+      },
+      "prior_proposed_action": "hold_explicit_reconciliation",
+      "retention_basis": "Retain historical WP20 validator and negative suite together with Git-pinned 13-input reproduction documented in HISTORICAL_DEMO_COVERAGE_RETENTION.md. Current-document failure preserved.",
+      "historical_qualification": "HISTORICAL_DEMO_COVERAGE_RETENTION.json"
     },
     {
       "id": "RD07-2151",
@@ -54799,7 +54825,7 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "retain_public_source_or_fixture",
       "required_before_execution": [
         "specific_consumer_or_document_disposition_required"
       ],
@@ -54812,7 +54838,10 @@
         "record": "HISTORICAL_CONSUMER_CLOSURE_GAPS.json",
         "status": "current_input_generation_mismatch",
         "changes_removal_authority": false
-      }
+      },
+      "prior_proposed_action": "hold_explicit_reconciliation",
+      "retention_basis": "Retain historical WP20 validator and negative suite together with Git-pinned 13-input reproduction documented in HISTORICAL_DEMO_COVERAGE_RETENTION.md. Current-document failure preserved.",
+      "historical_qualification": "HISTORICAL_DEMO_COVERAGE_RETENTION.json"
     },
     {
       "id": "RD07-2235",

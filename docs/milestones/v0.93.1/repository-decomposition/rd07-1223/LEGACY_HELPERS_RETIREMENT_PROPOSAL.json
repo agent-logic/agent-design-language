@@ -1,0 +1,92 @@
+{
+  "schema": "adl1223.legacy_helpers_retirement_proposal.v1",
+  "reviewer": "WorkerBee18",
+  "independent_source_review": "Original scripts, owner operational_cli_commands.rs344-375 and current owner-lane/selector/manager callsites inspected. Changed native logging contract is explicitly not equivalent. No execution, deletion, or native admission claim.",
+  "packets": [
+    {
+      "source": "/Volumes/FastWork/c1223/observability-contract-disposition/PROPOSAL.json",
+      "sha256": "a590849a54cd204a8989bd450fe9d614e0d04985cb57fdd7187dfa902a2650c6",
+      "proposal": {
+        "schema": "adl.retirement.observability_disposition.v1",
+        "ids": [
+          "RD07-1444",
+          "RD07-1936"
+        ],
+        "adl_head": "0918ca3a2750cf08a547581379548a4a0afd2b8d",
+        "owner_head": "c0dacd3d3a12a854f1c8cff3fa15fa3ec97c655a",
+        "original_contracts": {
+          "shell": "Event schema, command/stage/result, repository-path normalization, secret/temp redaction, disabling and stderr suppression with durable log preserved.",
+          "validator": "Retired adl-validate-structured-prompt succeeds on historical SOR despite invalid compatibility log sink; suppressed stderr empty; human PASS text preserved."
+        },
+        "current_owner_evidence": {
+          "path": "csdlc-v3/tests/operational_cli_commands.rs",
+          "test": "installed_diagnostics_preserve_healthy_missing_and_corrupt_state",
+          "lines": [
+            344,
+            375
+          ],
+          "contract": "Native v3 intentionally ignores legacy observability overrides; no legacy-compat.log; diagnostic JSON parsed, healthy authority true, no lifecycle/Git state changes. This is a changed contract, not original validator equivalence.",
+          "executed_this_turn": false
+        },
+        "caller_observation": {
+          "shell_tools_scan": "Only run_owner_validation_lane.sh:142 invokes original combined test; no other adl/tools shell references.",
+          "bounded_tracked_code_scan": "No source/functional references outside excluded historical docs, .adl/.csdlc records, csdlc-v3 and original pair.",
+          "limitation": "Not a whole-history or every documentation-reference scan."
+        },
+        "proposed_disposition": "Include both original paths as explicit legacy shell/validator retirement in final scoped delta, contingent on reviewed public validation-lane cutover. Preserve original Git identities and historical evidence. Do not manufacture a native equivalent or retain obsolete shell code solely to pass its test.",
+        "required_before_removal": [
+          "Verify validation-lane cutover removes original combined test invocation and invokes the real native owner contract where applicable.",
+          "Record explicit non-equivalence and obtain scoped retirement approval for both original identities.",
+          "Retain existing source and no deletion until approval."
+        ],
+        "new_execution_or_removal_authorized": false
+      }
+    },
+    {
+      "source": "/Volumes/FastWork/c1223/legacy-janitor-metrics-disposition/PROPOSAL.json",
+      "sha256": "63735a95411f997e51c0ea900dde2f9dea22e0fce6102c437438a6f8b98442d3",
+      "proposal": {
+        "source_head": "0918ca3a2750cf08a547581379548a4a0afd2b8d",
+        "ids": [
+          "RD07-1239",
+          "RD07-1262",
+          "RD07-1915"
+        ],
+        "identities": {
+          "adl/tools/attach_pr_janitor.sh": "20899fca98124e2063abead86a3c98bdc232b5f7",
+          "adl/tools/build_v0916_workflow_metric_backfill_inventory.py": "25b385fb23efea0a23af3ad3b40750bbcf410b7e",
+          "adl/tools/test_build_v0916_workflow_metric_backfill_inventory.py": "4e50fc41f5a57f79202a6ecd46d39e618fb9e024"
+        },
+        "janitor": {
+          "behavior": "Installs operational skills, writes .adl/logs input/prompt/PID, starts nohup codex exec with historical expected adl-ci/adl-coverage checks. Mere modern skill presence is not equivalent automatic attachment.",
+          "callers": "No matches in current adl/tools (excluding definition), adl/src, adl/tests, csdlc-v3, .github or tools. Historical real_pr_finish caller already sunset.",
+          "proposal": "Explicitly retire obsolete automatic launcher without launching Codex, reinstalling skills, or claiming modern automatic attachment."
+        },
+        "metrics": {
+          "scope": "Historical #4441 v0.91.6 primary-local task corpus only; report separates forward capture #4431.",
+          "behavior": "One old typed v2 issue_read per task, temporaries in git metadata, writes historical CSV/JSON/Markdown; unit test uses fake GitHub owner and checks cycle time/request cleanup.",
+          "existing_records": [
+            "docs/milestones/v0.91.6/review/V0916_WORKFLOW_METRIC_BACKFILL_4441.json",
+            "docs/milestones/v0.91.6/review/V0916_WORKFLOW_METRIC_BACKFILL_4441.md",
+            "docs/milestones/v0.91.6/review/V0916_WORKFLOW_METRIC_BACKFILL_INVENTORY_4441.csv"
+          ],
+          "callers": [
+            "adl/tools/run_owner_validation_lane.sh:108",
+            "adl/tools/test_select_validation_lanes.sh:310",
+            "adl/tools/test_validation_manager.sh:631"
+          ],
+          "proposal": "Retire historical regeneration helper and coupled test as one unit; preserve original generated records and source history, explicitly mark old refresh command historical in current retirement guide. Do not port to v3 solely to regenerate closed historical metrics."
+        },
+        "required_before_removal": [
+          "Scoped approval of these exact original identities and intentional retired behavior.",
+          "Coherent validation-lane/selector/manager disposition: reviewed public cutover removes selector references; remaining owner-lane and manager references must be included, never left dangling.",
+          "Keep original historical outputs unchanged; no GitHub enumeration or generator execution required."
+        ],
+        "execution_performed": false,
+        "deletion_authorized": false
+      }
+    }
+  ],
+  "execution_authorized": false,
+  "remaining_obligations": "Exact caller edits and scoped retirement decision remain mandatory; original source and generated historical metrics remain unchanged."
+}
