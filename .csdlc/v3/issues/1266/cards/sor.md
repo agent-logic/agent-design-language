@@ -57,7 +57,7 @@ Repair authenticated replay of historical external closeout after the consumer c
 - Goal metrics source ref: `<actual_metrics_source_ref>`
 - Data-source confidence: `<actual_metrics_confidence>`
 - Estimate error percent: `<estimate_error_percent>`
-- Completion state: `implementation_validated_pending_exact_head_review_and_publication`
+- Completion state: `implementation_validated_with_live_acceptance_blockers_pending_repair`
 - Issue goal ref: `<issue_goal_ref>`
 - Sprint goal ref: `<sprint_goal_ref>`
 - Goal metrics rollup ref: `<goal_metrics_rollup_ref>`
@@ -76,7 +76,7 @@ Repair authenticated replay of historical external closeout after the consumer c
 ## Artifacts produced
 - Local ignored output-card scaffold at `<output_card>`
 - Tracked implementation artifacts: `csdlc-v3/src/application/intent/terminal.rs; csdlc-v3/tests/installed_intent_commands.rs; .csdlc/evidence/1266/*.json`
-- Additional proof artifacts: `.csdlc/evidence/1266/v0931-consumer-denominator.v1.json; .csdlc/evidence/1266/preexisting-terminal-receipts.v1.json; .csdlc/evidence/1266/consumer-authority-observations.v1.json; .csdlc/evidence/1266/infrastructure-reconciliation.v1.json`
+- Additional proof artifacts: `.csdlc/evidence/1266/v0931-consumer-denominator.v1.json; .csdlc/evidence/1266/preexisting-terminal-receipts.v1.json; .csdlc/evidence/1266/consumer-authority-observations.v1.json; .csdlc/evidence/1266/complete-denominator-preview.v1.json; .csdlc/evidence/1266/infrastructure-reconciliation.v1.json`
 
 ## Actions taken
 - `Retain the immutable closing PR head when replaying a valid legacy merged terminal receipt after the invoking checkout advances.`
@@ -110,7 +110,7 @@ Rules:
   - `cargo test --manifest-path csdlc-v3/Cargo.toml --test installed_intent_commands external_pr_finish -- --nocapture; cargo check --manifest-path csdlc-v3/Cargo.toml --all-targets; cargo clippy --manifest-path csdlc-v3/Cargo.toml --all-targets -- -D warnings; git diff --check`
     `Proves external recordless closeout admission, fail-closed conflicts and receipt/state identity tamper rejection, replay after checkout advance, compilation, lint and diff hygiene.`
 - Results:
-  - `Focused external-pr tests passed 2/2; formatting, strict clippy, JSON validation and diff hygiene passed after complete-denominator evidence was recorded.`
+  - `Focused external-pr tests passed 2/2, including live remote-head drift rejection; formatting, strict clippy, JSON validation and diff hygiene passed. Native issue validation remains blocked by legacy SRP projection drift, and the complete live preview found retained receipt replay blockers.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -123,9 +123,9 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: passed
+    status: blocked
     checks_run:
-      - "<verification_check_1>"
+      - "Focused external_pr_finish tests 2/2; cargo fmt check; strict cargo clippy; jq evidence parse; git diff check"
   determinism:
     status: passed
     replay_verified: true
@@ -136,8 +136,8 @@ verification_summary:
     prompt_or_tool_arg_leakage_detected: false
     absolute_path_leakage_detected: false
   artifacts:
-    status: passed
-    required_artifacts_present: true
+    status: partial
+    required_artifacts_present: false
     schema_changes:
       present: <verification_schema_changes_present>
       approved: <verification_schema_changes_approved>
@@ -148,7 +148,7 @@ verification_summary:
 - Fixtures or scripts used: `<fixtures_or_scripts_used>`
 - Replay verification (same inputs -> same artifacts/order): `Synthetic installed external-consumer replay advances the checkout and requires expected_noop with byte-identical inventory.`
 - Ordering guarantees (sorting / tie-break rules used): `<ordering_guarantees>`
-- Artifact stability notes: `<artifact_stability_notes>`
+- Artifact stability notes: `Existing receipt bytes remain unchanged; the preview failure is retained as adverse evidence rather than repaired by hand.`
 
 ## Security / Privacy Checks
 - Secret leakage scan performed: `<secret_leakage_scan_performed>`
@@ -160,13 +160,13 @@ verification_summary:
 - Trace bundle path(s): `<trace_bundle_paths>`
 - Run artifact root: `<run_artifact_root>`
 - Replay command used for verification: `<replay_command>`
-- Replay result: `<replay_result>`
+- Replay result: `Complete live read-only preview blocked: 34 retained cases report intent_terminal_receipt_mismatch and Infrastructure #27 requires its canonical bound controller.`
 
 ## Artifact Verification
 - Primary proof surface: `.csdlc/evidence/1266/v0931-consumer-denominator.v1.json`
-- Required artifacts present: `true`
-- Artifact schema/version checks: `<artifact_schema_checks>`
-- Hash/byte-stability checks: `<hash_byte_stability_checks>`
+- Required artifacts present: `false`
+- Artifact schema/version checks: `All five issue #1266 evidence JSON files parse; semantic card projection reports healthy after typed edits.`
+- Hash/byte-stability checks: `All 35 pre-existing terminal receipt hashes match the pre-reconciliation ledger; no receipt was rewritten.`
 - Missing/optional artifacts and rationale: `<missing_optional_artifacts_rationale>`
 
 ## Decisions / Deviations
