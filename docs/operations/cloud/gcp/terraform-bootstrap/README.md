@@ -1,5 +1,7 @@
 # GCP-B Terraform bootstrap runbook
 
+The maintained [runbook and Terraform source](https://github.com/agent-logic/agent-logic-infrastructure/blob/main/docs/operations/cloud/gcp/terraform-bootstrap/README.md) belong to `agent-logic-infrastructure`. Run the infrastructure commands below from that repository. This ADL copy preserves the migration context; infrastructure changes belong in the successor repository.
+
 This runbook starts the recoverable Terraform backend for ADL in the company GCP host project.
 
 ## Identity

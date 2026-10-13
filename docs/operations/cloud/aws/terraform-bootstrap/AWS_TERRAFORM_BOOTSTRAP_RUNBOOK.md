@@ -1,5 +1,7 @@
 # AWS Terraform bootstrap runbook
 
+The maintained [runbook and Terraform source](https://github.com/agent-logic/agent-logic-infrastructure/blob/main/docs/operations/cloud/aws/terraform-bootstrap/AWS_TERRAFORM_BOOTSTRAP_RUNBOOK.md) belong to `agent-logic-infrastructure`. Run the infrastructure commands below from that repository. This ADL copy preserves the migration context; infrastructure changes belong in the successor repository.
+
 Issue: #486
 
 This runbook brings up the small, persistent Terraform backend foundation for

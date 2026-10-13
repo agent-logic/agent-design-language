@@ -72976,8 +72976,8 @@
         "100644",
         "01186542e8fca478e2408241deb6a44f529d482a"
       ],
-      "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "action": "consumer_reference_repair",
+      "reason": "retained_public_navigation_and_migration_context_with_explicit_successor_implementation_owner",
       "observed_successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f",
       "exact_content_candidates": [
         "docs/operations/cloud/aws/audit-security/AWS_AUDIT_SECURITY_BASELINE.md"
@@ -73186,8 +73186,8 @@
         "100644",
         "959a8519250e9d71fc385e10452e7910095bb78a"
       ],
-      "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "action": "consumer_reference_repair",
+      "reason": "retained_public_navigation_and_migration_context_with_explicit_successor_implementation_owner",
       "observed_successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f",
       "exact_content_candidates": [
         "docs/operations/cloud/aws/terraform-bootstrap/AWS_TERRAFORM_BOOTSTRAP_RUNBOOK.md"
@@ -73249,8 +73249,8 @@
         "100644",
         "95171f811ba6b604fe20c4ee56dc749f58bc476d"
       ],
-      "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "action": "consumer_reference_repair",
+      "reason": "retained_public_navigation_and_migration_context_with_explicit_successor_implementation_owner",
       "observed_successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f",
       "exact_content_candidates": [
         "docs/operations/cloud/gcp/organization-billing/README.md"
@@ -73270,8 +73270,8 @@
         "100644",
         "27824016237e1ecc9fb89617d80e21424a7009be"
       ],
-      "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "action": "consumer_reference_repair",
+      "reason": "retained_public_navigation_and_migration_context_with_explicit_successor_implementation_owner",
       "observed_successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f",
       "exact_content_candidates": [
         "docs/operations/cloud/gcp/platform-foundation/README.md"
@@ -73312,8 +73312,8 @@
         "100644",
         "2c06e980112d905cefeff3b481873cb60952f358"
       ],
-      "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "action": "consumer_reference_repair",
+      "reason": "retained_public_navigation_and_migration_context_with_explicit_successor_implementation_owner",
       "observed_successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f",
       "exact_content_candidates": [
         "docs/operations/cloud/gcp/terraform-bootstrap/README.md"
@@ -73835,8 +73835,8 @@
         "100644",
         "d0dc12f51856f3341137bbbfafef6a731260f64e"
       ],
-      "action": "retain",
-      "reason": "hold_current_source_changes_not_covered_by_frozen_rollback",
+      "action": "consumer_reference_repair",
+      "reason": "retained_public_navigation_and_migration_context_with_explicit_successor_implementation_owner",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
@@ -85216,5 +85216,6 @@
       "accepted_content_candidates": []
     }
   ],
-  "previous_observed_main": "f1493c54e4d9f6c5a1da798f48d9f2c361033fa4"
+  "previous_observed_main": "f1493c54e4d9f6c5a1da798f48d9f2c361033fa4",
+  "consumer_reference_repair_count": 6
 }

@@ -16,6 +16,28 @@ PROTECTED = ('csdlc-v3/operator/authority-selector.json', 'csdlc-v3/operator/nat
              'docs/templates/prompts/current.json', 'adl/tools/install_owner_binaries.sh',
              'adl-schema/Cargo.toml', 'adl-uts/Cargo.toml', 'adl-v2/crates/adl-language/Cargo.toml',
              'adl-v2/crates/adl-compiler/Cargo.toml', 'adl-legacy-contracts/Cargo.toml')
+INFRA_RUNBOOKS = (
+    'docs/operations/cloud/gcp/terraform-bootstrap/README.md',
+    'docs/operations/cloud/gcp/platform-foundation/README.md',
+    'docs/operations/cloud/gcp/organization-billing/README.md',
+    'docs/operations/cloud/aws/terraform-bootstrap/AWS_TERRAFORM_BOOTSTRAP_RUNBOOK.md',
+    'docs/operations/cloud/aws/audit-security/AWS_AUDIT_SECURITY_BASELINE.md',
+)
+
+
+def consumer_reference_repair(path, before):
+    if path == 'docs/runtime/RESIDENT_HEALTH_SUPERVISION.md':
+        old = b'`infra/aws/csm-runtime-health/shepherd.tf` declares the separate role: scoped'
+        require(before.count(old) == 1, 'consumer reference baseline changed')
+        return before.replace(old, b"The agent-logic-infrastructure repository's " + old)
+    require(path in INFRA_RUNBOOKS, 'unapproved consumer repair path: ' + path)
+    title, remainder = before.split(b'\n', 1)
+    notice = ('\nThe maintained [runbook and Terraform source]('
+              'https://github.com/agent-logic/agent-logic-infrastructure/blob/main/' + path +
+              ') belong to `agent-logic-infrastructure`. Run the infrastructure commands below '
+              'from that repository. This ADL copy preserves the migration context; '
+              'infrastructure changes belong in the successor repository.\n')
+    return title + b'\n' + notice.encode() + remainder
 
 
 def require(condition, reason):
@@ -62,6 +84,11 @@ def check_inventory(ledger, frozen, observed, candidate):
                                    b"# S3 archive values come from the agent-logic-infrastructure repository's\n# infra/aws/runtime/agent-checkpoint-archive outputs.")
             expected = hashlib.sha1(b'blob ' + str(len(after)).encode() + b'\0' + after).hexdigest()
             require(after != before and candidate.get(p) == [observed[p][0], expected], 'surgical change exceeds reviewed comment')
+        elif r['action'] == 'consumer_reference_repair':
+            before = subprocess.check_output(['git', '--no-optional-locks', 'show', ledger['observed_main'] + ':' + p], cwd=ROOT)
+            after = consumer_reference_repair(p, before)
+            expected = hashlib.sha1(b'blob ' + str(len(after)).encode() + b'\0' + after).hexdigest()
+            require(candidate.get(p) == [observed[p][0], expected], 'consumer repair exceeds exact ownership notice: ' + p)
         else:
             require(r['action'] == 'retain', 'unknown action: ' + p)
             require(candidate.get(p) == observed.get(p), 'held source removed or altered: ' + p)

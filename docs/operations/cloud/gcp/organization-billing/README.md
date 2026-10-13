@@ -1,5 +1,7 @@
 # GCP organization and billing baseline runbook
 
+The maintained [runbook and Terraform source](https://github.com/agent-logic/agent-logic-infrastructure/blob/main/docs/operations/cloud/gcp/organization-billing/README.md) belong to `agent-logic-infrastructure`. Run the infrastructure commands below from that repository. This ADL copy preserves the migration context; infrastructure changes belong in the successor repository.
+
 Issue #492 turns the #490/#491 GCP decisions into an operational baseline for organization and billing control.
 
 ## What this starts

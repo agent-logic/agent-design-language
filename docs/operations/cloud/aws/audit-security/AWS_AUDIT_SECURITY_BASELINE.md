@@ -1,5 +1,7 @@
 # AWS audit and security baseline
 
+The maintained [runbook and Terraform source](https://github.com/agent-logic/agent-logic-infrastructure/blob/main/docs/operations/cloud/aws/audit-security/AWS_AUDIT_SECURITY_BASELINE.md) belong to `agent-logic-infrastructure`. Run the infrastructure commands below from that repository. This ADL copy preserves the migration context; infrastructure changes belong in the successor repository.
+
 Issue #487 owns the reusable AWS-D account-foundation audit/security baseline.
 It is applied after the #486 Terraform backend exists and before later runtime
 or provider stacks depend on durable account evidence.

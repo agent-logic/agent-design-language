@@ -1,0 +1,212 @@
+{
+  "schema": "adl.source_retirement.independent_repository_builds.v1",
+  "issue": 1223,
+  "requirement": "Before acceptance, freshly clone each code repository affected by the split into its own isolated container and build it separately.",
+  "acceptance_gate": "required",
+  "repository_count": 5,
+  "repositories": [
+    {
+      "repository": "agent-logic/agent-design-language",
+      "observed_revision": "9cfd035aac2a44637b3c8026bd40b669579a8c7f",
+      "execution_revision": null,
+      "status": "not_run",
+      "kind": "rust_public_packages",
+      "commands": [
+        [
+          "cargo",
+          "build",
+          "--locked",
+          "--manifest-path",
+          "adl-schema/Cargo.toml"
+        ],
+        [
+          "cargo",
+          "build",
+          "--locked",
+          "--manifest-path",
+          "adl-uts/Cargo.toml"
+        ],
+        [
+          "cargo",
+          "build",
+          "--locked",
+          "--manifest-path",
+          "adl-v2/crates/adl-language/Cargo.toml"
+        ],
+        [
+          "cargo",
+          "build",
+          "--locked",
+          "--manifest-path",
+          "adl-v2/crates/adl-compiler/Cargo.toml"
+        ],
+        [
+          "cargo",
+          "build",
+          "--locked",
+          "--manifest-path",
+          "adl-legacy-contracts/Cargo.toml"
+        ]
+      ],
+      "source": "PUBLIC_PACKAGE_PATH_CLOSURE.json",
+      "note": "Use final committed retirement candidate; also run the separate package and isolated-consumer proof."
+    },
+    {
+      "repository": "agent-logic/agent-logic-infrastructure",
+      "observed_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+      "execution_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+      "status": "not_run",
+      "kind": "infrastructure_source",
+      "commands": [
+        [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tools/artifacts",
+          "-p",
+          "test_*.py",
+          "-v"
+        ]
+      ],
+      "source": "README.md and .github/workflows/product-ci.yaml",
+      "note": "No application compiler. In addition to contract tests, inventory all in-scope Terraform roots and run init -backend=false and validate with locked providers; record each root. No plan/apply/cloud credentials. Unit tests alone do not qualify every Terraform component."
+    },
+    {
+      "repository": "agent-logic/agent-logic-runtime",
+      "observed_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+      "execution_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+      "status": "not_run",
+      "kind": "rust_product",
+      "commands": [
+        [
+          "cargo",
+          "build",
+          "--locked",
+          "--manifest-path",
+          "adl-runtime-kernel/Cargo.toml",
+          "--bin",
+          "adl-runtime-kernel"
+        ],
+        [
+          "cargo",
+          "build",
+          "--locked",
+          "--manifest-path",
+          "adl-runtime/Cargo.toml",
+          "--bin",
+          "adl-runtime-guardian",
+          "--bin",
+          "adl-observatory-static"
+        ],
+        [
+          "cargo",
+          "build",
+          "--locked",
+          "--manifest-path",
+          "adl/Cargo.toml",
+          "--bin",
+          "adl-runtime",
+          "--bin",
+          "csm",
+          "--bin",
+          "csmctl"
+        ],
+        [
+          "cargo",
+          "build",
+          "--locked",
+          "--all-features",
+          "--manifest-path",
+          "agent-product-support/Cargo.toml"
+        ]
+      ],
+      "source": "tools/packaging/ci_package.py BUILDS and README.md at observed_revision",
+      "note": "Compile all six product binaries plus the shared library in the isolated Linux container with Rust 1.92.0. Commands use the documented product build graph. The macOS-only packaging wrapper is not used or relabelled as Linux package qualification. Do not activate or replace Runtime."
+    },
+    {
+      "repository": "agent-logic/codefriend",
+      "observed_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
+      "execution_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
+      "status": "not_run",
+      "kind": "rust_product",
+      "commands": [
+        [
+          "cargo",
+          "check",
+          "--offline",
+          "--locked",
+          "--workspace",
+          "--all-targets"
+        ],
+        [
+          "cargo",
+          "build",
+          "--offline",
+          "--locked",
+          "--release",
+          "-p",
+          "codefriend",
+          "--bins"
+        ]
+      ],
+      "source": "README.md",
+      "note": "First acquire and verify the independently authenticated agent-product-support source archive using tools/shared_library_artifact.py; record exact archive and producer identity. Download locked public dependencies inside this container before offline build. No sibling Runtime checkout."
+    },
+    {
+      "repository": "agent-logic/cognitive-sdlc",
+      "observed_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+      "execution_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+      "status": "not_run",
+      "kind": "rust_product",
+      "commands": [
+        [
+          "cargo",
+          "+1.92.0",
+          "build",
+          "--release",
+          "--locked",
+          "--manifest-path",
+          "csdlc-v3/Cargo.toml",
+          "--bin",
+          "csdlc"
+        ]
+      ],
+      "source": ".github/workflows/owner-package.yml",
+      "note": "Build only. No owner installation or lifecycle commands in the container."
+    }
+  ],
+  "isolation": {
+    "one_fresh_container_and_clone_per_repository": true,
+    "host_source_mounts": false,
+    "sibling_checkouts": false,
+    "host_target_directories": false,
+    "prebuilt_project_outputs": false,
+    "declared_external_dependencies": "allowed; pin source/artifact identity and record acquisition",
+    "credential_handling": "ephemeral clone/acquisition credential only; no image, log, remote URL or retained filesystem credential",
+    "storage": "Docker data, builds, caches, temporary files and evidence on FastWork",
+    "runtime_activation": false,
+    "csdlc_lifecycle_execution": false
+  },
+  "execution_policy": "Run once per selected final candidate. Fix independence failures and rerun affected repositories only. Record all failed attempts.",
+  "required_evidence": [
+    "repository and exact clone commit",
+    "container image digest and platform",
+    "toolchain versions",
+    "dependency identity and acquisition provenance",
+    "exact commands and exit codes",
+    "stdout/stderr logs without credentials",
+    "container mount inspection",
+    "produced artifact inventory and hashes",
+    "per-repository result including explicit no-compiler disposition"
+  ],
+  "proof_executed": false,
+  "cards_sync": "Pending supported native authority; this packet records the acceptance requirement now and does not claim a successful native card update.",
+  "scope_clarification": "Operator excludes websites and unrelated non-code repositories. Infrastructure remains in scope for split Terraform and executable tooling; validation does not deploy cloud resources.",
+  "excluded_repositories": [
+    "agent-logic/codefriend.ai",
+    "agent-logic/agent-logic.ai"
+  ]
+}

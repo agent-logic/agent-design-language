@@ -1,5 +1,7 @@
 # GCP-D private platform foundation
 
+The maintained [runbook and Terraform source](https://github.com/agent-logic/agent-logic-infrastructure/blob/main/docs/operations/cloud/gcp/platform-foundation/README.md) belong to `agent-logic-infrastructure`. Run the infrastructure commands below from that repository. This ADL copy preserves the migration context; infrastructure changes belong in the successor repository.
+
 This runbook brings up the private GCP foundation for disposable CSM workloads.
 It is intentionally boring: one custom-mode VPC, one private subnet, IAP and OS
 Login for operator access, one workload service account, separate storage-owner

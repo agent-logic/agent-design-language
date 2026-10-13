@@ -107,24 +107,34 @@
       "determinism": "sandboxed_real_consumer",
       "resources": "macos_cpu_disk_public_cargo_cache_no_paid_services",
       "gate": "required_final_candidate"
+    },
+    "independent-repository-builds": {
+      "lane": "isolated_integration",
+      "role": "split_repository_clean_build_independence",
+      "determinism": "exact_commits_and_recorded_dependency_inputs",
+      "resources": "isolated_containers_fastwork_disk_cpu_declared_dependency_downloads_no_paid_services",
+      "gate": "required_final_candidate"
     }
   },
   "required_counts": {
     "original_rows": 4134,
     "existing_removals": 34,
-    "regression_cases": 12,
+    "regression_cases": 14,
     "public_packages": 5,
     "consumer_cases": 7,
     "uts_fixtures": 21,
-    "installed_negative_cases": 5
+    "installed_negative_cases": 5,
+    "independent_repositories": 5
   },
   "remaining_execution_gates": [
     "operator_sequence_after_non_tail_before_sprint4",
     "coherent_component_consumer_and_qualified_replacement_decisions",
+    "independent_fresh_clone_container_build_each_split_repository",
     "final_candidate_installed_proof",
     "independent_exact_head_review",
     "native_publication_integration_finish"
   ],
   "proof_executed_by_this_document": false,
-  "package_selection": "Explicit member --manifest-path selects full package tests including integration tests and doctests. No --lib filter; native admitted form omits unsupported --package flag."
+  "package_selection": "Explicit member --manifest-path selects full package tests including integration tests and doctests. No --lib filter; native admitted form omits unsupported --package flag.",
+  "independent_repository_builds": "INDEPENDENT_REPOSITORY_BUILDS.json"
 }

@@ -1,8 +1,9 @@
 # Issue 1223 preparation guards
 
 These checks protect the existing 34-removal branch and the complete original
-4,134-path inventory. They do not approve additional removals or mark the 4,100
-retained holds resolved. Exact content in a destination tree is candidate
+4,134-path inventory. They admit six exact consumer ownership notices while
+preserving the remaining retained holds. They do not approve additional removals.
+Exact content in a destination tree is candidate
 correspondence, not evidence of an accepted functional replacement.
 
 `check.py` reads committed Git trees and the issue disposition register. It
@@ -20,7 +21,7 @@ No host path, archive download, provider credential, or cloud execution is
 embedded in the check. A new host without rollback custody must fail closed.
 The archive digest check is separate from the isolated restoration rehearsal.
 
-Run the focused guard and its twelve regression scenarios with:
+Run the focused guard and its fourteen regression scenarios with:
 
 ```sh
 CARGO_TARGET_DIR=target/source-retirement cargo test --offline --locked --manifest-path tools/source_retirement/validator/Cargo.toml --test retirement_contract
@@ -45,3 +46,9 @@ the retirement set requires a separately reviewed exact manifest, appropriate
 consumer repairs and preservation; changing a constant merely to make a failing
 check pass is not approval. Missing storage, evidence, proof or review remains a
 failure or hold, never a skipped pass.
+
+The six consumer reference repairs change only the named successor or add a
+fixed repository-scope notice to five preserved infrastructure runbooks. The
+guard derives their expected content from the observed baseline and rejects
+other source paths, altered runbook instructions, mode changes, or missing files.
+These repairs do not authorize the proposed Runtime-health component removal.

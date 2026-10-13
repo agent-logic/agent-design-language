@@ -135,7 +135,7 @@ exact assumed-role identity/account and topic region before publishing. Ambient
 access-key environment variables and custom endpoint overrides are not used.
 Each AWS subprocess has a ten-second timeout and is killed when cancelled.
 
-`infra/aws/csm-runtime-health/shepherd.tf` declares the separate role: scoped
+The agent-logic-infrastructure repository's `infra/aws/csm-runtime-health/shepherd.tf` declares the separate role: scoped
 CloudWatch log reads, regional metric/alarm reads and `sns:Publish` to the single
 health topic. It grants no SQS, IAM, SSM or CloudWatch write permissions. SNS alone
 may send to the encrypted 14-day dedicated SQS queue, restricted by source topic

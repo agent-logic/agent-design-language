@@ -1,4 +1,5 @@
 import copy
+import hashlib
 import importlib.util
 import json
 from pathlib import Path
@@ -24,6 +25,10 @@ class RetirementNegatives(unittest.TestCase):
                 del cls.candidate[r['path']]
             elif r['action'] == 'existing_branch_surgical':
                 cls.candidate[r['path']] = r['expected_surgical_identity']
+            elif r['action'] == 'consumer_reference_repair':
+                data = (check.ROOT / r['path']).read_bytes()
+                blob = hashlib.sha1(b'blob ' + str(len(data)).encode() + b'\0' + data).hexdigest()
+                cls.candidate[r['path']] = [cls.observed[r['path']][0], blob]
 
     def test_complete_original_denominator_and_existing_delta(self):
         self.assertEqual(len(check.check_inventory(self.ledger, self.frozen, self.observed, self.candidate)), 34)
@@ -89,6 +94,16 @@ class RetirementNegatives(unittest.TestCase):
         ledger = dict(self.ledger, new_removals_authorized=True)
         with self.assertRaisesRegex(ValueError, 'approval'):
             check.check_inventory(ledger, self.frozen, self.observed, self.candidate)
+
+    def test_consumer_notice_cannot_hide_runbook_changes(self):
+        candidate = dict(self.candidate)
+        candidate[check.INFRA_RUNBOOKS[0]] = ['100644', '0' * 40]
+        with self.assertRaisesRegex(ValueError, 'consumer repair exceeds'):
+            check.check_inventory(self.ledger, self.frozen, self.observed, candidate)
+
+    def test_consumer_repair_cannot_authorize_another_path(self):
+        with self.assertRaisesRegex(ValueError, 'unapproved consumer repair'):
+            check.consumer_reference_repair('adl/src/live.rs', b'live source\n')
 
     def test_missing_rollback_rejected(self):
         with tempfile.TemporaryDirectory() as directory:
