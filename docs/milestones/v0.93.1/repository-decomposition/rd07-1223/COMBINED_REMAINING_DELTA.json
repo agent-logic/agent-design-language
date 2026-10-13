@@ -7,19 +7,19 @@
   "original_count": 4134,
   "counts": {
     "retain_resolved": 527,
-    "proposed_owner_transfer_with_consumer_qualification": 294,
-    "preserve_approved_removal": 2672,
+    "proposed_owner_transfer_with_consumer_qualification": 270,
+    "preserve_approved_removal": 2710,
     "retain_public_source_or_fixture": 191,
     "preserve_reviewed_consumer_repair": 18,
-    "proposed_historical_retirement_with_caller_repair": 32,
+    "proposed_historical_retirement_with_caller_repair": 29,
     "proposed_remove_with_entire_source_family": 1,
-    "proposed_remove_with_entire_tool_family": 385,
+    "proposed_remove_with_entire_tool_family": 374,
     "hold_explicit_reconciliation": 9,
     "hold_owner_test_reconciliation": 1,
     "proposed_remove_construction_qualified_infrastructure": 4
   },
   "additional_current_source_paths": 22,
-  "preservation": "Original 4134 identities and separate 22 captured paths unchanged. Exact executed retirement actions 2674 comprise 2673 baseline deletions and one newly-added-then-retired ADL conversion bridge; the bridge is outside both captured inventories. Other proposals remain conditional.",
+  "preservation": "Original 4134 identities and separate 22 captured paths unchanged. Exact executed retirement actions 2715 comprise 2714 baseline deletions and one newly-added-then-retired ADL conversion bridge; the bridge is outside both captured inventories. Three separately enumerated supplemental source paths are included in the baseline deletion count, outside the immutable inventories. Other proposals remain conditional.",
   "review_boundary": "Exact paths and Git identities are pinned. Proposed removals remain conditional; this is not a claim that caller closure or all successor tests are qualified.",
   "known_prerequisites": {
     "codefriend": "Issue102 e14ff1b08b7ef01f838404bca8ecdf47c1318ac1 passed all39suites409Linux tests,0failed0ignored,174.293s; exacthead and clean source before/after. Evidence FastWork c1223/evidence/codefriend/issue102-e14ff1b0-full, transcriptSHA256c7944f7e0403ba485b377868b1bd85e91eeee0ecce3f79920de3e86c813cfa1a. Focused1 and parallel47 diagnostics also passed; prior dc2 redelivery failure did not reproduce and its cause is not claimed fixed. Earlier failures retained. One macOS-only case, actual hosted installed-acquisition CI proof and owner publication remain separate.",
@@ -48245,11 +48245,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Existing owner installed consumer route; preserve original scenarios and producer dependency identity through existing evidence.",
-        "coherent caller and component disposition; no source-only qualification claim"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
@@ -48260,6 +48257,18 @@
         "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
         "proposal": "Existing owner installed consumer route; preserve original scenarios and producer dependency identity through existing evidence.",
         "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
+      },
+      "pre_sprint_cf_v0871_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Existing owner installed consumer route; preserve original scenarios and producer dependency identity through existing evidence.",
+          "coherent caller and component disposition; no source-only qualification claim"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CODEFRIEND_HOST_MEMORY_APPLIED.json",
+        "sha256": "457c7fb7bf8792d73a11df41549ec5dfdec371dc5597c3c3601c1a800c10a74e",
+        "implementation_commit": "9707731d50f4209c07e3f7193d8be254ab6b9167"
       }
     },
     {
@@ -49123,18 +49132,27 @@
         "blob": "e665e6abb213ab6516ddeeac7bcde9e62c3e984a"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/demo_v0871_docs_review.sh"
         ]
+      },
+      "pre_sprint_cf_v0871_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "V0871_AGGREGATE_FAMILY_APPLIED.json",
+        "sha256": "6a34b3d2e1db9108c7502bfa0bdd7bb60fc78e3700c69bffe6f3e38d902f3f73",
+        "implementation_commit": "9d98857c60448cd1af48508e2377e6bc3649b75b"
       }
     },
     {
@@ -49147,18 +49165,27 @@
         "blob": "608d5698aac535db9911b0866839146e26106499"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/demo_v0871_integrated_runtime.sh"
         ]
+      },
+      "pre_sprint_cf_v0871_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "V0871_AGGREGATE_FAMILY_APPLIED.json",
+        "sha256": "6a34b3d2e1db9108c7502bfa0bdd7bb60fc78e3700c69bffe6f3e38d902f3f73",
+        "implementation_commit": "9d98857c60448cd1af48508e2377e6bc3649b75b"
       }
     },
     {
@@ -49171,18 +49198,27 @@
         "blob": "f47558b0325275bab2015763b53666d342fa6c8d"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/demo_v0871_lifecycle.sh"
         ]
+      },
+      "pre_sprint_cf_v0871_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "V0871_AGGREGATE_FAMILY_APPLIED.json",
+        "sha256": "6a34b3d2e1db9108c7502bfa0bdd7bb60fc78e3700c69bffe6f3e38d902f3f73",
+        "implementation_commit": "9d98857c60448cd1af48508e2377e6bc3649b75b"
       }
     },
     {
@@ -49371,18 +49407,27 @@
         "blob": "5efb6f7dbcc9b6e4af8f99b4020c4f02fb48f07e"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/demo_v0871_resilience_failure.sh"
         ]
+      },
+      "pre_sprint_cf_v0871_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "V0871_AGGREGATE_FAMILY_APPLIED.json",
+        "sha256": "6a34b3d2e1db9108c7502bfa0bdd7bb60fc78e3700c69bffe6f3e38d902f3f73",
+        "implementation_commit": "9d98857c60448cd1af48508e2377e6bc3649b75b"
       }
     },
     {
@@ -49395,18 +49440,27 @@
         "blob": "b55e0f426409129eaaf4a274756ba3042bd6f686"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/demo_v0871_restartability.sh"
         ]
+      },
+      "pre_sprint_cf_v0871_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "V0871_AGGREGATE_FAMILY_APPLIED.json",
+        "sha256": "6a34b3d2e1db9108c7502bfa0bdd7bb60fc78e3700c69bffe6f3e38d902f3f73",
+        "implementation_commit": "9d98857c60448cd1af48508e2377e6bc3649b75b"
       }
     },
     {
@@ -49419,18 +49473,27 @@
         "blob": "5030b07bed7fc0d83a02709d0186c58906d6b10d"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/demo_v0871_review_surface.sh"
         ]
+      },
+      "pre_sprint_cf_v0871_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "V0871_AGGREGATE_FAMILY_APPLIED.json",
+        "sha256": "6a34b3d2e1db9108c7502bfa0bdd7bb60fc78e3700c69bffe6f3e38d902f3f73",
+        "implementation_commit": "9d98857c60448cd1af48508e2377e6bc3649b75b"
       }
     },
     {
@@ -49443,18 +49506,27 @@
         "blob": "92daef6f349a370103de233828362cc86c32e95b"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/demo_v0871_runtime_environment.sh"
         ]
+      },
+      "pre_sprint_cf_v0871_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "V0871_AGGREGATE_FAMILY_APPLIED.json",
+        "sha256": "6a34b3d2e1db9108c7502bfa0bdd7bb60fc78e3700c69bffe6f3e38d902f3f73",
+        "implementation_commit": "9d98857c60448cd1af48508e2377e6bc3649b75b"
       }
     },
     {
@@ -49503,18 +49575,27 @@
         "blob": "76be369e1fd70ef1c8bf4b38b492748925333efd"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/demo_v0871_shepherd_recovery.sh"
         ]
+      },
+      "pre_sprint_cf_v0871_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "V0871_AGGREGATE_FAMILY_APPLIED.json",
+        "sha256": "6a34b3d2e1db9108c7502bfa0bdd7bb60fc78e3700c69bffe6f3e38d902f3f73",
+        "implementation_commit": "9d98857c60448cd1af48508e2377e6bc3649b75b"
       }
     },
     {
@@ -49527,11 +49608,8 @@
         "blob": "6ce0abce43908d79285a2c68f89c1e692bdc1512"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_historical_retirement_with_caller_repair",
-      "required_before_execution": [
-        "Reconcile exact active callers and every child obligation",
-        "Scoped retirement decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -49543,6 +49621,18 @@
         "proposal": "proposed_historical_retirement_with_caller_repair",
         "reason": "Retire historical16child aggregate topology, preserving each child and manifest/index/README obligations separately.",
         "review": "Bounded independent source and exact packet/caller review; conditional disposition, no broad equivalence claim"
+      },
+      "pre_sprint_cf_v0871_execution_classification": {
+        "proposed_action": "proposed_historical_retirement_with_caller_repair",
+        "required_before_execution": [
+          "Reconcile exact active callers and every child obligation",
+          "Scoped retirement decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "V0871_AGGREGATE_FAMILY_APPLIED.json",
+        "sha256": "6a34b3d2e1db9108c7502bfa0bdd7bb60fc78e3700c69bffe6f3e38d902f3f73",
+        "implementation_commit": "9d98857c60448cd1af48508e2377e6bc3649b75b"
       }
     },
     {
@@ -49555,11 +49645,8 @@
         "blob": "7bcf897f0d37e1861934d3d60651faf4e7d634b3"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_historical_retirement_with_caller_repair",
-      "required_before_execution": [
-        "Reconcile exact active callers and every child obligation",
-        "Scoped retirement decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -49571,6 +49658,18 @@
         "proposal": "proposed_historical_retirement_with_caller_repair",
         "reason": "First workflow call reaches explicit retired return2 before trace archive/manifest creation; retain historical trace/summary/archive/event expectations.",
         "review": "Bounded independent source and exact packet/caller review; conditional disposition, no broad equivalence claim"
+      },
+      "pre_sprint_cf_v0871_execution_classification": {
+        "proposed_action": "proposed_historical_retirement_with_caller_repair",
+        "required_before_execution": [
+          "Reconcile exact active callers and every child obligation",
+          "Scoped retirement decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "V0871_AGGREGATE_FAMILY_APPLIED.json",
+        "sha256": "6a34b3d2e1db9108c7502bfa0bdd7bb60fc78e3700c69bffe6f3e38d902f3f73",
+        "implementation_commit": "9d98857c60448cd1af48508e2377e6bc3649b75b"
       }
     },
     {
@@ -66048,13 +66147,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "Existing owner composition maps implementation; authentic installed qualification and native admission remain required.",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Authenticate actual owner distribution and dependency composition; source manifest is not producer authentication",
-        "Execute or reuse exact existing mapped original assertions with complete installer/conductor denominator",
-        "For lifecycle helper effects require real admitted native owner evidence separately from transport doubles",
-        "Reconcile ADL caller/selector removal with final coherent retirement approval"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "reviewed_owner_composition",
         "successor_revision": "b3dc3d7dd8f89e38a3ff410be3bf0c9045d4b3ca",
@@ -66066,6 +66160,20 @@
         "packet": "CONDUCTOR_11_DISPOSITIONS.json",
         "packet_sha256": "db3c46fa4275ad569a56c5423f8f8a4f34bd489189b3177b7e5dad58d9a98b9c",
         "proposal": "proposed_owner_transfer_with_consumer_qualification"
+      },
+      "pre_sprint_cf_v0871_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Authenticate actual owner distribution and dependency composition; source manifest is not producer authentication",
+          "Execute or reuse exact existing mapped original assertions with complete installer/conductor denominator",
+          "For lifecycle helper effects require real admitted native owner evidence separately from transport doubles",
+          "Reconcile ADL caller/selector removal with final coherent retirement approval"
+        ]
+      },
+      "applied_removal": {
+        "packet": "SPRINT_CONDUCTOR_FAMILY_APPLIED.json",
+        "sha256": "31280e5aa3c1d6b304facb2ea37d6a6430e18c58f1f0ad9499d456d260cb978a",
+        "implementation_commit": "14706c14b12090a4d354755387b0b49997f6c0a7"
       }
     },
     {
@@ -66079,13 +66187,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "Existing owner composition maps implementation; authentic installed qualification and native admission remain required.",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Authenticate actual owner distribution and dependency composition; source manifest is not producer authentication",
-        "Execute or reuse exact existing mapped original assertions with complete installer/conductor denominator",
-        "For lifecycle helper effects require real admitted native owner evidence separately from transport doubles",
-        "Reconcile ADL caller/selector removal with final coherent retirement approval"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "reviewed_owner_composition",
         "successor_revision": "b3dc3d7dd8f89e38a3ff410be3bf0c9045d4b3ca",
@@ -66097,6 +66200,20 @@
         "packet": "CONDUCTOR_11_DISPOSITIONS.json",
         "packet_sha256": "db3c46fa4275ad569a56c5423f8f8a4f34bd489189b3177b7e5dad58d9a98b9c",
         "proposal": "proposed_owner_transfer_with_consumer_qualification"
+      },
+      "pre_sprint_cf_v0871_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Authenticate actual owner distribution and dependency composition; source manifest is not producer authentication",
+          "Execute or reuse exact existing mapped original assertions with complete installer/conductor denominator",
+          "For lifecycle helper effects require real admitted native owner evidence separately from transport doubles",
+          "Reconcile ADL caller/selector removal with final coherent retirement approval"
+        ]
+      },
+      "applied_removal": {
+        "packet": "SPRINT_CONDUCTOR_FAMILY_APPLIED.json",
+        "sha256": "31280e5aa3c1d6b304facb2ea37d6a6430e18c58f1f0ad9499d456d260cb978a",
+        "implementation_commit": "14706c14b12090a4d354755387b0b49997f6c0a7"
       }
     },
     {
@@ -66110,13 +66227,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "Existing owner composition maps implementation; authentic installed qualification and native admission remain required.",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Authenticate actual owner distribution and dependency composition; source manifest is not producer authentication",
-        "Execute or reuse exact existing mapped original assertions with complete installer/conductor denominator",
-        "For lifecycle helper effects require real admitted native owner evidence separately from transport doubles",
-        "Reconcile ADL caller/selector removal with final coherent retirement approval"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "reviewed_owner_composition",
         "successor_revision": "b3dc3d7dd8f89e38a3ff410be3bf0c9045d4b3ca",
@@ -66128,6 +66240,20 @@
         "packet": "CONDUCTOR_11_DISPOSITIONS.json",
         "packet_sha256": "db3c46fa4275ad569a56c5423f8f8a4f34bd489189b3177b7e5dad58d9a98b9c",
         "proposal": "proposed_owner_transfer_with_consumer_qualification"
+      },
+      "pre_sprint_cf_v0871_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Authenticate actual owner distribution and dependency composition; source manifest is not producer authentication",
+          "Execute or reuse exact existing mapped original assertions with complete installer/conductor denominator",
+          "For lifecycle helper effects require real admitted native owner evidence separately from transport doubles",
+          "Reconcile ADL caller/selector removal with final coherent retirement approval"
+        ]
+      },
+      "applied_removal": {
+        "packet": "SPRINT_CONDUCTOR_FAMILY_APPLIED.json",
+        "sha256": "31280e5aa3c1d6b304facb2ea37d6a6430e18c58f1f0ad9499d456d260cb978a",
+        "implementation_commit": "14706c14b12090a4d354755387b0b49997f6c0a7"
       }
     },
     {
@@ -66141,13 +66267,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "Existing owner composition maps implementation; authentic installed qualification and native admission remain required.",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Authenticate actual owner distribution and dependency composition; source manifest is not producer authentication",
-        "Execute or reuse exact existing mapped original assertions with complete installer/conductor denominator",
-        "For lifecycle helper effects require real admitted native owner evidence separately from transport doubles",
-        "Reconcile ADL caller/selector removal with final coherent retirement approval"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "reviewed_owner_composition",
         "successor_revision": "b3dc3d7dd8f89e38a3ff410be3bf0c9045d4b3ca",
@@ -66159,6 +66280,20 @@
         "packet": "CONDUCTOR_11_DISPOSITIONS.json",
         "packet_sha256": "db3c46fa4275ad569a56c5423f8f8a4f34bd489189b3177b7e5dad58d9a98b9c",
         "proposal": "proposed_owner_transfer_with_consumer_qualification"
+      },
+      "pre_sprint_cf_v0871_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Authenticate actual owner distribution and dependency composition; source manifest is not producer authentication",
+          "Execute or reuse exact existing mapped original assertions with complete installer/conductor denominator",
+          "For lifecycle helper effects require real admitted native owner evidence separately from transport doubles",
+          "Reconcile ADL caller/selector removal with final coherent retirement approval"
+        ]
+      },
+      "applied_removal": {
+        "packet": "SPRINT_CONDUCTOR_FAMILY_APPLIED.json",
+        "sha256": "31280e5aa3c1d6b304facb2ea37d6a6430e18c58f1f0ad9499d456d260cb978a",
+        "implementation_commit": "14706c14b12090a4d354755387b0b49997f6c0a7"
       }
     },
     {
@@ -66172,13 +66307,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "Existing owner composition maps implementation; authentic installed qualification and native admission remain required.",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Authenticate actual owner distribution and dependency composition; source manifest is not producer authentication",
-        "Execute or reuse exact existing mapped original assertions with complete installer/conductor denominator",
-        "For lifecycle helper effects require real admitted native owner evidence separately from transport doubles",
-        "Reconcile ADL caller/selector removal with final coherent retirement approval"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "reviewed_owner_composition",
         "successor_revision": "b3dc3d7dd8f89e38a3ff410be3bf0c9045d4b3ca",
@@ -66190,6 +66320,20 @@
         "packet": "CONDUCTOR_11_DISPOSITIONS.json",
         "packet_sha256": "db3c46fa4275ad569a56c5423f8f8a4f34bd489189b3177b7e5dad58d9a98b9c",
         "proposal": "proposed_owner_transfer_with_consumer_qualification"
+      },
+      "pre_sprint_cf_v0871_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Authenticate actual owner distribution and dependency composition; source manifest is not producer authentication",
+          "Execute or reuse exact existing mapped original assertions with complete installer/conductor denominator",
+          "For lifecycle helper effects require real admitted native owner evidence separately from transport doubles",
+          "Reconcile ADL caller/selector removal with final coherent retirement approval"
+        ]
+      },
+      "applied_removal": {
+        "packet": "SPRINT_CONDUCTOR_FAMILY_APPLIED.json",
+        "sha256": "31280e5aa3c1d6b304facb2ea37d6a6430e18c58f1f0ad9499d456d260cb978a",
+        "implementation_commit": "14706c14b12090a4d354755387b0b49997f6c0a7"
       }
     },
     {
@@ -66203,13 +66347,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "Existing owner composition maps implementation; authentic installed qualification and native admission remain required.",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Authenticate actual owner distribution and dependency composition; source manifest is not producer authentication",
-        "Execute or reuse exact existing mapped original assertions with complete installer/conductor denominator",
-        "For lifecycle helper effects require real admitted native owner evidence separately from transport doubles",
-        "Reconcile ADL caller/selector removal with final coherent retirement approval"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "reviewed_owner_composition",
         "successor_revision": "b3dc3d7dd8f89e38a3ff410be3bf0c9045d4b3ca",
@@ -66221,6 +66360,20 @@
         "packet": "CONDUCTOR_11_DISPOSITIONS.json",
         "packet_sha256": "db3c46fa4275ad569a56c5423f8f8a4f34bd489189b3177b7e5dad58d9a98b9c",
         "proposal": "proposed_owner_transfer_with_consumer_qualification"
+      },
+      "pre_sprint_cf_v0871_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Authenticate actual owner distribution and dependency composition; source manifest is not producer authentication",
+          "Execute or reuse exact existing mapped original assertions with complete installer/conductor denominator",
+          "For lifecycle helper effects require real admitted native owner evidence separately from transport doubles",
+          "Reconcile ADL caller/selector removal with final coherent retirement approval"
+        ]
+      },
+      "applied_removal": {
+        "packet": "SPRINT_CONDUCTOR_FAMILY_APPLIED.json",
+        "sha256": "31280e5aa3c1d6b304facb2ea37d6a6430e18c58f1f0ad9499d456d260cb978a",
+        "implementation_commit": "14706c14b12090a4d354755387b0b49997f6c0a7"
       }
     },
     {
@@ -66258,13 +66411,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "Existing owner composition maps implementation; authentic installed qualification and native admission remain required.",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Authenticate actual owner distribution and dependency composition; source manifest is not producer authentication",
-        "Execute or reuse exact existing mapped original assertions with complete installer/conductor denominator",
-        "For lifecycle helper effects require real admitted native owner evidence separately from transport doubles",
-        "Reconcile ADL caller/selector removal with final coherent retirement approval"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "reviewed_owner_composition",
         "successor_revision": "b3dc3d7dd8f89e38a3ff410be3bf0c9045d4b3ca",
@@ -66276,6 +66424,20 @@
         "packet": "CONDUCTOR_11_DISPOSITIONS.json",
         "packet_sha256": "db3c46fa4275ad569a56c5423f8f8a4f34bd489189b3177b7e5dad58d9a98b9c",
         "proposal": "proposed_owner_transfer_with_consumer_qualification"
+      },
+      "pre_sprint_cf_v0871_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Authenticate actual owner distribution and dependency composition; source manifest is not producer authentication",
+          "Execute or reuse exact existing mapped original assertions with complete installer/conductor denominator",
+          "For lifecycle helper effects require real admitted native owner evidence separately from transport doubles",
+          "Reconcile ADL caller/selector removal with final coherent retirement approval"
+        ]
+      },
+      "applied_removal": {
+        "packet": "SPRINT_CONDUCTOR_FAMILY_APPLIED.json",
+        "sha256": "31280e5aa3c1d6b304facb2ea37d6a6430e18c58f1f0ad9499d456d260cb978a",
+        "implementation_commit": "14706c14b12090a4d354755387b0b49997f6c0a7"
       }
     },
     {
@@ -66289,13 +66451,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "Existing owner composition maps implementation; authentic installed qualification and native admission remain required.",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Authenticate actual owner distribution and dependency composition; source manifest is not producer authentication",
-        "Execute or reuse exact existing mapped original assertions with complete installer/conductor denominator",
-        "For lifecycle helper effects require real admitted native owner evidence separately from transport doubles",
-        "Reconcile ADL caller/selector removal with final coherent retirement approval"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "reviewed_owner_composition",
         "successor_revision": "b3dc3d7dd8f89e38a3ff410be3bf0c9045d4b3ca",
@@ -66307,6 +66464,20 @@
         "packet": "CONDUCTOR_11_DISPOSITIONS.json",
         "packet_sha256": "db3c46fa4275ad569a56c5423f8f8a4f34bd489189b3177b7e5dad58d9a98b9c",
         "proposal": "proposed_owner_transfer_with_consumer_qualification"
+      },
+      "pre_sprint_cf_v0871_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Authenticate actual owner distribution and dependency composition; source manifest is not producer authentication",
+          "Execute or reuse exact existing mapped original assertions with complete installer/conductor denominator",
+          "For lifecycle helper effects require real admitted native owner evidence separately from transport doubles",
+          "Reconcile ADL caller/selector removal with final coherent retirement approval"
+        ]
+      },
+      "applied_removal": {
+        "packet": "SPRINT_CONDUCTOR_FAMILY_APPLIED.json",
+        "sha256": "31280e5aa3c1d6b304facb2ea37d6a6430e18c58f1f0ad9499d456d260cb978a",
+        "implementation_commit": "14706c14b12090a4d354755387b0b49997f6c0a7"
       }
     },
     {
@@ -66368,13 +66539,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "Existing owner composition maps implementation; authentic installed qualification and native admission remain required.",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Authenticate actual owner distribution and dependency composition; source manifest is not producer authentication",
-        "Execute or reuse exact existing mapped original assertions with complete installer/conductor denominator",
-        "For lifecycle helper effects require real admitted native owner evidence separately from transport doubles",
-        "Reconcile ADL caller/selector removal with final coherent retirement approval"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "reviewed_owner_composition",
         "successor_revision": "b3dc3d7dd8f89e38a3ff410be3bf0c9045d4b3ca",
@@ -66386,6 +66552,20 @@
         "packet": "CONDUCTOR_11_DISPOSITIONS.json",
         "packet_sha256": "db3c46fa4275ad569a56c5423f8f8a4f34bd489189b3177b7e5dad58d9a98b9c",
         "proposal": "proposed_owner_transfer_with_consumer_qualification"
+      },
+      "pre_sprint_cf_v0871_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Authenticate actual owner distribution and dependency composition; source manifest is not producer authentication",
+          "Execute or reuse exact existing mapped original assertions with complete installer/conductor denominator",
+          "For lifecycle helper effects require real admitted native owner evidence separately from transport doubles",
+          "Reconcile ADL caller/selector removal with final coherent retirement approval"
+        ]
+      },
+      "applied_removal": {
+        "packet": "SPRINT_CONDUCTOR_FAMILY_APPLIED.json",
+        "sha256": "31280e5aa3c1d6b304facb2ea37d6a6430e18c58f1f0ad9499d456d260cb978a",
+        "implementation_commit": "14706c14b12090a4d354755387b0b49997f6c0a7"
       }
     },
     {
@@ -66423,13 +66603,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "Existing owner composition maps implementation; authentic installed qualification and native admission remain required.",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Authenticate actual owner distribution and dependency composition; source manifest is not producer authentication",
-        "Execute or reuse exact existing mapped original assertions with complete installer/conductor denominator",
-        "For lifecycle helper effects require real admitted native owner evidence separately from transport doubles",
-        "Reconcile ADL caller/selector removal with final coherent retirement approval"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "reviewed_owner_composition",
         "successor_revision": "b3dc3d7dd8f89e38a3ff410be3bf0c9045d4b3ca",
@@ -66441,6 +66616,20 @@
         "packet": "CONDUCTOR_11_DISPOSITIONS.json",
         "packet_sha256": "db3c46fa4275ad569a56c5423f8f8a4f34bd489189b3177b7e5dad58d9a98b9c",
         "proposal": "proposed_owner_transfer_with_consumer_qualification"
+      },
+      "pre_sprint_cf_v0871_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Authenticate actual owner distribution and dependency composition; source manifest is not producer authentication",
+          "Execute or reuse exact existing mapped original assertions with complete installer/conductor denominator",
+          "For lifecycle helper effects require real admitted native owner evidence separately from transport doubles",
+          "Reconcile ADL caller/selector removal with final coherent retirement approval"
+        ]
+      },
+      "applied_removal": {
+        "packet": "SPRINT_CONDUCTOR_FAMILY_APPLIED.json",
+        "sha256": "31280e5aa3c1d6b304facb2ea37d6a6430e18c58f1f0ad9499d456d260cb978a",
+        "implementation_commit": "14706c14b12090a4d354755387b0b49997f6c0a7"
       }
     },
     {
@@ -66534,13 +66723,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "Existing owner composition maps implementation; authentic installed qualification and native admission remain required.",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Authenticate actual owner distribution and dependency composition; source manifest is not producer authentication",
-        "Execute or reuse exact existing mapped original assertions with complete installer/conductor denominator",
-        "For lifecycle helper effects require real admitted native owner evidence separately from transport doubles",
-        "Reconcile ADL caller/selector removal with final coherent retirement approval"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "reviewed_owner_composition",
         "successor_revision": "b3dc3d7dd8f89e38a3ff410be3bf0c9045d4b3ca",
@@ -66552,6 +66736,20 @@
         "packet": "CONDUCTOR_11_DISPOSITIONS.json",
         "packet_sha256": "db3c46fa4275ad569a56c5423f8f8a4f34bd489189b3177b7e5dad58d9a98b9c",
         "proposal": "proposed_owner_transfer_with_consumer_qualification"
+      },
+      "pre_sprint_cf_v0871_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Authenticate actual owner distribution and dependency composition; source manifest is not producer authentication",
+          "Execute or reuse exact existing mapped original assertions with complete installer/conductor denominator",
+          "For lifecycle helper effects require real admitted native owner evidence separately from transport doubles",
+          "Reconcile ADL caller/selector removal with final coherent retirement approval"
+        ]
+      },
+      "applied_removal": {
+        "packet": "SPRINT_CONDUCTOR_FAMILY_APPLIED.json",
+        "sha256": "31280e5aa3c1d6b304facb2ea37d6a6430e18c58f1f0ad9499d456d260cb978a",
+        "implementation_commit": "14706c14b12090a4d354755387b0b49997f6c0a7"
       }
     },
     {
@@ -69494,18 +69692,27 @@
         "blob": "9bb54f3b8518e20b5f55dcae7846c5e80d9f1ca5"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/test_demo_v0871_review_surface.sh"
         ]
+      },
+      "pre_sprint_cf_v0871_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "V0871_AGGREGATE_FAMILY_APPLIED.json",
+        "sha256": "6a34b3d2e1db9108c7502bfa0bdd7bb60fc78e3700c69bffe6f3e38d902f3f73",
+        "implementation_commit": "9d98857c60448cd1af48508e2377e6bc3649b75b"
       }
     },
     {
@@ -69518,18 +69725,27 @@
         "blob": "3019ee374389b53099649fb1e96f229f16533649"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/test_demo_v0871_review_tail_rows.sh"
         ]
+      },
+      "pre_sprint_cf_v0871_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "V0871_AGGREGATE_FAMILY_APPLIED.json",
+        "sha256": "6a34b3d2e1db9108c7502bfa0bdd7bb60fc78e3700c69bffe6f3e38d902f3f73",
+        "implementation_commit": "9d98857c60448cd1af48508e2377e6bc3649b75b"
       }
     },
     {
@@ -69542,18 +69758,27 @@
         "blob": "2f2c2868eac3d547d78b26f82c67378d0342d1ad"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/test_demo_v0871_runtime_rows.sh"
         ]
+      },
+      "pre_sprint_cf_v0871_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "V0871_AGGREGATE_FAMILY_APPLIED.json",
+        "sha256": "6a34b3d2e1db9108c7502bfa0bdd7bb60fc78e3700c69bffe6f3e38d902f3f73",
+        "implementation_commit": "9d98857c60448cd1af48508e2377e6bc3649b75b"
       }
     },
     {
@@ -74595,128 +74820,8 @@
         "blob": "1110a47cb26b31537b4e8e442730434538e6785d"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_historical_retirement_with_caller_repair",
-      "required_before_execution": [
-        {
-          "path": "adl/config/validation_lane_selector.v0.91.6.json",
-          "line": 1508,
-          "reference": "        \"adl/tools/test_sprint_conductor_helpers.sh\",",
-          "kind": "source_or_configuration_reference",
-          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
-        },
-        {
-          "path": "adl/config/validation_lane_selector.v0.91.6.json",
-          "line": 1513,
-          "reference": "        \"adl/tools/test_sprint_conductor_helpers.sh\",",
-          "kind": "source_or_configuration_reference",
-          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
-        },
-        {
-          "path": "adl/config/validation_lane_selector.v0.91.6.json",
-          "line": 1516,
-          "reference": "      \"command\": \"bash adl/tools/test_sprint_conductor_helpers.sh && bash adl/tools/test_install_adl_operational_skills.sh\",",
-          "kind": "source_or_configuration_reference",
-          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
-        },
-        {
-          "path": "adl/config/validation_lane_selector.v0.91.6.json",
-          "line": 1517,
-          "reference": "      \"run_command\": \"bash adl/tools/test_sprint_conductor_helpers.sh && bash adl/tools/test_install_adl_operational_skills.sh\",",
-          "kind": "source_or_configuration_reference",
-          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
-        },
-        {
-          "path": "adl/tools/skills/sprint-review/SKILL.md",
-          "line": 172,
-          "reference": "    - adl/tools/test_sprint_conductor_helpers.sh",
-          "kind": "documentation_reference",
-          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
-        },
-        {
-          "path": "adl/tools/test_ci_path_policy.sh",
-          "line": 875,
-          "reference": "  printf '#!/usr/bin/env bash\\nexit 0\\n' > adl/tools/test_sprint_conductor_helpers.sh",
-          "kind": "source_or_configuration_reference",
-          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
-        },
-        {
-          "path": "adl/tools/test_ci_path_policy.sh",
-          "line": 880,
-          "reference": "    adl/tools/test_sprint_conductor_helpers.sh \\",
-          "kind": "source_or_configuration_reference",
-          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
-        },
-        {
-          "path": "adl/tools/test_ci_path_policy.sh",
-          "line": 906,
-          "reference": "  printf '#!/usr/bin/env bash\\nexit 0\\n' > adl/tools/test_sprint_conductor_helpers.sh",
-          "kind": "source_or_configuration_reference",
-          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
-        },
-        {
-          "path": "adl/tools/test_ci_path_policy.sh",
-          "line": 910,
-          "reference": "    adl/tools/test_sprint_conductor_helpers.sh \\",
-          "kind": "source_or_configuration_reference",
-          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
-        },
-        {
-          "path": "adl/tools/test_ci_path_policy.sh",
-          "line": 1056,
-          "reference": "  printf '#!/usr/bin/env bash\\nexit 0\\n' > adl/tools/test_sprint_conductor_helpers.sh",
-          "kind": "source_or_configuration_reference",
-          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
-        },
-        {
-          "path": "adl/tools/test_ci_path_policy.sh",
-          "line": 1069,
-          "reference": "    adl/tools/test_sprint_conductor_helpers.sh \\",
-          "kind": "source_or_configuration_reference",
-          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
-        },
-        {
-          "path": "adl/tools/test_install_adl_operational_skills.sh",
-          "line": 211,
-          "reference": "bash \"${repo_root}/adl/tools/test_sprint_conductor_helpers.sh\"",
-          "kind": "source_or_configuration_reference",
-          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
-        },
-        {
-          "path": "adl/tools/test_process_drift_regressions.sh",
-          "line": 8,
-          "reference": "bash adl/tools/test_sprint_conductor_helpers.sh",
-          "kind": "source_or_configuration_reference",
-          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
-        },
-        {
-          "path": "adl/tools/test_validation_manager.sh",
-          "line": 699,
-          "reference": "M\tadl/tools/test_sprint_conductor_helpers.sh",
-          "kind": "source_or_configuration_reference",
-          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
-        },
-        {
-          "path": "adl/tools/test_validation_manager.sh",
-          "line": 723,
-          "reference": "M\tadl/tools/test_sprint_conductor_helpers.sh",
-          "kind": "source_or_configuration_reference",
-          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
-        },
-        {
-          "path": "adl/tools/test_validation_manager.sh",
-          "line": 755,
-          "reference": "M\tadl/tools/test_sprint_conductor_helpers.sh",
-          "kind": "source_or_configuration_reference",
-          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
-        },
-        "Accept per-row disposition and close listed caller/dependency obligations.",
-        "For transfers, bind actual owner package/fixture outcomes to the mapped assertion denominator; source availability alone is insufficient.",
-        "Obtain coherent source-retirement approval and guard qualification.",
-        "Reconcile selector, aggregate, installer-child and documentation callers to exact owner component contracts.",
-        "Preserve421-expression assertion map and retired ABI dispositions.",
-        "Native admission remains separate and unproven by transport doubles.",
-        "Exact scoped retirement decision."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -74729,7 +74834,136 @@
         "reason": "Retire original wrapper transport/card-directory ABI explicitly; preserve mapped component assertions and independent native-admission requirement.",
         "review": "review_1223_public_facade"
       },
-      "prior_hold_reason": "Changed current-conductor activation and check_conductor_correspondence.py map explicit readiness/card exports, metrics, parity, lifecycle and closeout portions. Native transport doubles and full_original_acceptance=false are explicit; preserve CONDUCTOR_ASSERTION_MAP denominator and unmatched bootstrap/native admission obligations."
+      "prior_hold_reason": "Changed current-conductor activation and check_conductor_correspondence.py map explicit readiness/card exports, metrics, parity, lifecycle and closeout portions. Native transport doubles and full_original_acceptance=false are explicit; preserve CONDUCTOR_ASSERTION_MAP denominator and unmatched bootstrap/native admission obligations.",
+      "pre_sprint_cf_v0871_execution_classification": {
+        "proposed_action": "proposed_historical_retirement_with_caller_repair",
+        "required_before_execution": [
+          {
+            "path": "adl/config/validation_lane_selector.v0.91.6.json",
+            "line": 1508,
+            "reference": "        \"adl/tools/test_sprint_conductor_helpers.sh\",",
+            "kind": "source_or_configuration_reference",
+            "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+          },
+          {
+            "path": "adl/config/validation_lane_selector.v0.91.6.json",
+            "line": 1513,
+            "reference": "        \"adl/tools/test_sprint_conductor_helpers.sh\",",
+            "kind": "source_or_configuration_reference",
+            "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+          },
+          {
+            "path": "adl/config/validation_lane_selector.v0.91.6.json",
+            "line": 1516,
+            "reference": "      \"command\": \"bash adl/tools/test_sprint_conductor_helpers.sh && bash adl/tools/test_install_adl_operational_skills.sh\",",
+            "kind": "source_or_configuration_reference",
+            "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+          },
+          {
+            "path": "adl/config/validation_lane_selector.v0.91.6.json",
+            "line": 1517,
+            "reference": "      \"run_command\": \"bash adl/tools/test_sprint_conductor_helpers.sh && bash adl/tools/test_install_adl_operational_skills.sh\",",
+            "kind": "source_or_configuration_reference",
+            "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+          },
+          {
+            "path": "adl/tools/skills/sprint-review/SKILL.md",
+            "line": 172,
+            "reference": "    - adl/tools/test_sprint_conductor_helpers.sh",
+            "kind": "documentation_reference",
+            "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+          },
+          {
+            "path": "adl/tools/test_ci_path_policy.sh",
+            "line": 875,
+            "reference": "  printf '#!/usr/bin/env bash\\nexit 0\\n' > adl/tools/test_sprint_conductor_helpers.sh",
+            "kind": "source_or_configuration_reference",
+            "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+          },
+          {
+            "path": "adl/tools/test_ci_path_policy.sh",
+            "line": 880,
+            "reference": "    adl/tools/test_sprint_conductor_helpers.sh \\",
+            "kind": "source_or_configuration_reference",
+            "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+          },
+          {
+            "path": "adl/tools/test_ci_path_policy.sh",
+            "line": 906,
+            "reference": "  printf '#!/usr/bin/env bash\\nexit 0\\n' > adl/tools/test_sprint_conductor_helpers.sh",
+            "kind": "source_or_configuration_reference",
+            "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+          },
+          {
+            "path": "adl/tools/test_ci_path_policy.sh",
+            "line": 910,
+            "reference": "    adl/tools/test_sprint_conductor_helpers.sh \\",
+            "kind": "source_or_configuration_reference",
+            "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+          },
+          {
+            "path": "adl/tools/test_ci_path_policy.sh",
+            "line": 1056,
+            "reference": "  printf '#!/usr/bin/env bash\\nexit 0\\n' > adl/tools/test_sprint_conductor_helpers.sh",
+            "kind": "source_or_configuration_reference",
+            "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+          },
+          {
+            "path": "adl/tools/test_ci_path_policy.sh",
+            "line": 1069,
+            "reference": "    adl/tools/test_sprint_conductor_helpers.sh \\",
+            "kind": "source_or_configuration_reference",
+            "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+          },
+          {
+            "path": "adl/tools/test_install_adl_operational_skills.sh",
+            "line": 211,
+            "reference": "bash \"${repo_root}/adl/tools/test_sprint_conductor_helpers.sh\"",
+            "kind": "source_or_configuration_reference",
+            "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+          },
+          {
+            "path": "adl/tools/test_process_drift_regressions.sh",
+            "line": 8,
+            "reference": "bash adl/tools/test_sprint_conductor_helpers.sh",
+            "kind": "source_or_configuration_reference",
+            "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+          },
+          {
+            "path": "adl/tools/test_validation_manager.sh",
+            "line": 699,
+            "reference": "M\tadl/tools/test_sprint_conductor_helpers.sh",
+            "kind": "source_or_configuration_reference",
+            "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+          },
+          {
+            "path": "adl/tools/test_validation_manager.sh",
+            "line": 723,
+            "reference": "M\tadl/tools/test_sprint_conductor_helpers.sh",
+            "kind": "source_or_configuration_reference",
+            "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+          },
+          {
+            "path": "adl/tools/test_validation_manager.sh",
+            "line": 755,
+            "reference": "M\tadl/tools/test_sprint_conductor_helpers.sh",
+            "kind": "source_or_configuration_reference",
+            "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+          },
+          "Accept per-row disposition and close listed caller/dependency obligations.",
+          "For transfers, bind actual owner package/fixture outcomes to the mapped assertion denominator; source availability alone is insufficient.",
+          "Obtain coherent source-retirement approval and guard qualification.",
+          "Reconcile selector, aggregate, installer-child and documentation callers to exact owner component contracts.",
+          "Preserve421-expression assertion map and retired ABI dispositions.",
+          "Native admission remains separate and unproven by transport doubles.",
+          "Exact scoped retirement decision."
+        ]
+      },
+      "applied_removal": {
+        "packet": "SPRINT_CONDUCTOR_FAMILY_APPLIED.json",
+        "sha256": "31280e5aa3c1d6b304facb2ea37d6a6430e18c58f1f0ad9499d456d260cb978a",
+        "implementation_commit": "14706c14b12090a4d354755387b0b49997f6c0a7"
+      }
     },
     {
       "id": "RD07-2121",
@@ -76115,12 +76349,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required",
-        "Coherently transfer or retire all6callers: RD07-1329, RD07-1333, RD07-1320, RD07-1335, RD07-1331, RD07-1328",
-        "Scoped operator decision; component archive proof is not complete Runtime/demo acceptance"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_repository": "agent-logic/agent-logic-runtime",
@@ -76135,7 +76365,20 @@
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
       },
-      "disposition_evidence": "RUNTIME_ARCHIVE_CALLER_TRANSFER.json"
+      "disposition_evidence": "RUNTIME_ARCHIVE_CALLER_TRANSFER.json",
+      "pre_sprint_cf_v0871_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "specific_consumer_or_document_disposition_required",
+          "Coherently transfer or retire all6callers: RD07-1329, RD07-1333, RD07-1320, RD07-1335, RD07-1331, RD07-1328",
+          "Scoped operator decision; component archive proof is not complete Runtime/demo acceptance"
+        ]
+      },
+      "applied_removal": {
+        "packet": "V0871_AGGREGATE_FAMILY_APPLIED.json",
+        "sha256": "6a34b3d2e1db9108c7502bfa0bdd7bb60fc78e3700c69bffe6f3e38d902f3f73",
+        "implementation_commit": "9d98857c60448cd1af48508e2377e6bc3649b75b"
+      }
     },
     {
       "id": "RD07-2172",
@@ -134060,11 +134303,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
-        "coherent caller and component disposition; no source-only qualification claim"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
@@ -134075,6 +134315,18 @@
         "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
         "proposal": "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
         "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
+      },
+      "pre_sprint_cf_v0871_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
+          "coherent caller and component disposition; no source-only qualification claim"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CODEFRIEND_HOST_MEMORY_APPLIED.json",
+        "sha256": "457c7fb7bf8792d73a11df41549ec5dfdec371dc5597c3c3601c1a800c10a74e",
+        "implementation_commit": "9707731d50f4209c07e3f7193d8be254ab6b9167"
       }
     },
     {
@@ -134116,11 +134368,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
-        "coherent caller and component disposition; no source-only qualification claim"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
@@ -134131,6 +134380,18 @@
         "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
         "proposal": "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
         "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
+      },
+      "pre_sprint_cf_v0871_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
+          "coherent caller and component disposition; no source-only qualification claim"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CODEFRIEND_HOST_MEMORY_APPLIED.json",
+        "sha256": "457c7fb7bf8792d73a11df41549ec5dfdec371dc5597c3c3601c1a800c10a74e",
+        "implementation_commit": "9707731d50f4209c07e3f7193d8be254ab6b9167"
       }
     },
     {
@@ -134172,12 +134433,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "coherent component and caller cutover",
-        "qualified owner adoption; exact source correspondence alone is insufficient",
-        "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
@@ -134190,6 +134447,19 @@
         "packet_sha256": "7c32a923f22ebfd0c3069d1f051f7201a8e97f27a6fba8343f4c2e91f5668648",
         "proposal": "conditional_owner_transfer",
         "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      },
+      "pre_sprint_cf_v0871_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "coherent component and caller cutover",
+          "qualified owner adoption; exact source correspondence alone is insufficient",
+          "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CODEFRIEND_HOST_MEMORY_APPLIED.json",
+        "sha256": "457c7fb7bf8792d73a11df41549ec5dfdec371dc5597c3c3601c1a800c10a74e",
+        "implementation_commit": "9707731d50f4209c07e3f7193d8be254ab6b9167"
       }
     },
     {
@@ -134203,12 +134473,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "coherent component and caller cutover",
-        "qualified owner adoption; exact source correspondence alone is insufficient",
-        "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
@@ -134221,6 +134487,19 @@
         "packet_sha256": "7c32a923f22ebfd0c3069d1f051f7201a8e97f27a6fba8343f4c2e91f5668648",
         "proposal": "conditional_owner_transfer",
         "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      },
+      "pre_sprint_cf_v0871_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "coherent component and caller cutover",
+          "qualified owner adoption; exact source correspondence alone is insufficient",
+          "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CODEFRIEND_HOST_MEMORY_APPLIED.json",
+        "sha256": "457c7fb7bf8792d73a11df41549ec5dfdec371dc5597c3c3601c1a800c10a74e",
+        "implementation_commit": "9707731d50f4209c07e3f7193d8be254ab6b9167"
       }
     },
     {
@@ -134234,12 +134513,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "coherent component and caller cutover",
-        "qualified owner adoption; exact source correspondence alone is insufficient",
-        "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
@@ -134252,6 +134527,19 @@
         "packet_sha256": "7c32a923f22ebfd0c3069d1f051f7201a8e97f27a6fba8343f4c2e91f5668648",
         "proposal": "conditional_owner_transfer",
         "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      },
+      "pre_sprint_cf_v0871_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "coherent component and caller cutover",
+          "qualified owner adoption; exact source correspondence alone is insufficient",
+          "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CODEFRIEND_HOST_MEMORY_APPLIED.json",
+        "sha256": "457c7fb7bf8792d73a11df41549ec5dfdec371dc5597c3c3601c1a800c10a74e",
+        "implementation_commit": "9707731d50f4209c07e3f7193d8be254ab6b9167"
       }
     },
     {
@@ -134515,12 +134803,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "coherent component and caller cutover",
-        "qualified owner adoption; exact source correspondence alone is insufficient",
-        "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
@@ -134533,6 +134817,19 @@
         "packet_sha256": "7c32a923f22ebfd0c3069d1f051f7201a8e97f27a6fba8343f4c2e91f5668648",
         "proposal": "conditional_owner_transfer",
         "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      },
+      "pre_sprint_cf_v0871_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "coherent component and caller cutover",
+          "qualified owner adoption; exact source correspondence alone is insufficient",
+          "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CODEFRIEND_HOST_MEMORY_APPLIED.json",
+        "sha256": "457c7fb7bf8792d73a11df41549ec5dfdec371dc5597c3c3601c1a800c10a74e",
+        "implementation_commit": "9707731d50f4209c07e3f7193d8be254ab6b9167"
       }
     },
     {
@@ -134546,12 +134843,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "coherent component and caller cutover",
-        "qualified owner adoption; exact source correspondence alone is insufficient",
-        "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
@@ -134564,6 +134857,19 @@
         "packet_sha256": "7c32a923f22ebfd0c3069d1f051f7201a8e97f27a6fba8343f4c2e91f5668648",
         "proposal": "conditional_owner_transfer",
         "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      },
+      "pre_sprint_cf_v0871_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "coherent component and caller cutover",
+          "qualified owner adoption; exact source correspondence alone is insufficient",
+          "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CODEFRIEND_HOST_MEMORY_APPLIED.json",
+        "sha256": "457c7fb7bf8792d73a11df41549ec5dfdec371dc5597c3c3601c1a800c10a74e",
+        "implementation_commit": "9707731d50f4209c07e3f7193d8be254ab6b9167"
       }
     },
     {
@@ -134577,12 +134883,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "coherent component and caller cutover",
-        "qualified owner adoption; exact source correspondence alone is insufficient",
-        "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
@@ -134595,6 +134897,19 @@
         "packet_sha256": "7c32a923f22ebfd0c3069d1f051f7201a8e97f27a6fba8343f4c2e91f5668648",
         "proposal": "conditional_owner_transfer",
         "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      },
+      "pre_sprint_cf_v0871_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "coherent component and caller cutover",
+          "qualified owner adoption; exact source correspondence alone is insufficient",
+          "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CODEFRIEND_HOST_MEMORY_APPLIED.json",
+        "sha256": "457c7fb7bf8792d73a11df41549ec5dfdec371dc5597c3c3601c1a800c10a74e",
+        "implementation_commit": "9707731d50f4209c07e3f7193d8be254ab6b9167"
       }
     },
     {
@@ -134806,12 +135121,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "coherent component and caller cutover",
-        "qualified owner adoption; exact source correspondence alone is insufficient",
-        "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
@@ -134824,6 +135135,19 @@
         "packet_sha256": "7c32a923f22ebfd0c3069d1f051f7201a8e97f27a6fba8343f4c2e91f5668648",
         "proposal": "conditional_owner_transfer",
         "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      },
+      "pre_sprint_cf_v0871_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "coherent component and caller cutover",
+          "qualified owner adoption; exact source correspondence alone is insufficient",
+          "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CODEFRIEND_HOST_MEMORY_APPLIED.json",
+        "sha256": "457c7fb7bf8792d73a11df41549ec5dfdec371dc5597c3c3601c1a800c10a74e",
+        "implementation_commit": "9707731d50f4209c07e3f7193d8be254ab6b9167"
       }
     },
     {
@@ -134837,12 +135161,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "coherent component and caller cutover",
-        "qualified owner adoption; exact source correspondence alone is insufficient",
-        "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
@@ -134855,6 +135175,19 @@
         "packet_sha256": "7c32a923f22ebfd0c3069d1f051f7201a8e97f27a6fba8343f4c2e91f5668648",
         "proposal": "conditional_owner_transfer",
         "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      },
+      "pre_sprint_cf_v0871_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "coherent component and caller cutover",
+          "qualified owner adoption; exact source correspondence alone is insufficient",
+          "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CODEFRIEND_HOST_MEMORY_APPLIED.json",
+        "sha256": "457c7fb7bf8792d73a11df41549ec5dfdec371dc5597c3c3601c1a800c10a74e",
+        "implementation_commit": "9707731d50f4209c07e3f7193d8be254ab6b9167"
       }
     },
     {
@@ -134868,12 +135201,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "coherent component and caller cutover",
-        "qualified owner adoption; exact source correspondence alone is insufficient",
-        "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
@@ -134886,6 +135215,19 @@
         "packet_sha256": "7c32a923f22ebfd0c3069d1f051f7201a8e97f27a6fba8343f4c2e91f5668648",
         "proposal": "conditional_owner_transfer",
         "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      },
+      "pre_sprint_cf_v0871_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "coherent component and caller cutover",
+          "qualified owner adoption; exact source correspondence alone is insufficient",
+          "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CODEFRIEND_HOST_MEMORY_APPLIED.json",
+        "sha256": "457c7fb7bf8792d73a11df41549ec5dfdec371dc5597c3c3601c1a800c10a74e",
+        "implementation_commit": "9707731d50f4209c07e3f7193d8be254ab6b9167"
       }
     },
     {
@@ -135287,6 +135629,71 @@
         "review": "Planning #12 actual default-validator result/stdout/stderr review PASS",
         "candidate": "52726019f14b790bdabe84b2e8e629fbbb6af7de",
         "scope": "One original default publicedge validator passed using real Terraform fmt/offlineinit/validate and textguards; exact cachedplatformchecksum, unchanged lock, no download/credentials/cloudapply. Mirror not newly registry-authenticated. Other28rootmatrix obligations remain separate."
+      }
+    }
+  ],
+  "supplemental_retirements": [
+    {
+      "path": "adl/tools/demo_v0871_quality_gate.sh",
+      "classification": "reviewed_supplemental_source_retirement_outside_immutable_inventories",
+      "applied_removal": {
+        "packet": "V0871_AGGREGATE_FAMILY_APPLIED.json",
+        "sha256": "6a34b3d2e1db9108c7502bfa0bdd7bb60fc78e3700c69bffe6f3e38d902f3f73",
+        "implementation_commit": "9d98857c60448cd1af48508e2377e6bc3649b75b"
+      },
+      "before": {
+        "mode": "100755",
+        "blob": "554c5a6844834c27208ede903ac92a020b859282",
+        "sha256": "555e5bb16013d3a6c9f84794f2b12d968625e228498f5678efe52dae8460ad8f"
+      },
+      "frozen_original": {
+        "revision": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+        "mode": "100755",
+        "blob": "50b7d40fa0f9494ca962c765b66497a2d0eda4f7",
+        "sha256": "8f8aa1415e45bd500b2f5ffe57d01d03582cd642075db510d98123366936d997",
+        "custody_member": "frozen-original/adl/tools/demo_v0871_quality_gate.sh"
+      }
+    },
+    {
+      "path": "adl/tools/demo_v0871_release_review_package.sh",
+      "classification": "reviewed_supplemental_source_retirement_outside_immutable_inventories",
+      "applied_removal": {
+        "packet": "V0871_AGGREGATE_FAMILY_APPLIED.json",
+        "sha256": "6a34b3d2e1db9108c7502bfa0bdd7bb60fc78e3700c69bffe6f3e38d902f3f73",
+        "implementation_commit": "9d98857c60448cd1af48508e2377e6bc3649b75b"
+      },
+      "before": {
+        "mode": "100755",
+        "blob": "987e4086b43d40228bdd6b194698f58097318a16",
+        "sha256": "5b79f75452c70c1642fc4012f58828c297ab222ff4ca9b525281d7ca17ab15a6"
+      },
+      "frozen_original": {
+        "revision": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+        "mode": "100755",
+        "blob": "987e4086b43d40228bdd6b194698f58097318a16",
+        "sha256": "5b79f75452c70c1642fc4012f58828c297ab222ff4ca9b525281d7ca17ab15a6",
+        "custody_member": "frozen-original/adl/tools/demo_v0871_release_review_package.sh"
+      }
+    },
+    {
+      "path": "adl/tools/test_demo_v0871_suite.sh",
+      "classification": "reviewed_supplemental_source_retirement_outside_immutable_inventories",
+      "applied_removal": {
+        "packet": "V0871_AGGREGATE_FAMILY_APPLIED.json",
+        "sha256": "6a34b3d2e1db9108c7502bfa0bdd7bb60fc78e3700c69bffe6f3e38d902f3f73",
+        "implementation_commit": "9d98857c60448cd1af48508e2377e6bc3649b75b"
+      },
+      "before": {
+        "mode": "100755",
+        "blob": "f7acc7314f8013e018c22137131fb1035051e767",
+        "sha256": "74cb6ac60266124a933dd6a710bafeb3f8276cfd27af79bdcbd2e228e3a4fb37"
+      },
+      "frozen_original": {
+        "revision": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+        "mode": "100755",
+        "blob": "f7acc7314f8013e018c22137131fb1035051e767",
+        "sha256": "74cb6ac60266124a933dd6a710bafeb3f8276cfd27af79bdcbd2e228e3a4fb37",
+        "custody_member": "frozen-original/adl/tools/test_demo_v0871_suite.sh"
       }
     }
   ]

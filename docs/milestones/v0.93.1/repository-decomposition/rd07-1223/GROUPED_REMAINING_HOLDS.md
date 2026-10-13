@@ -112,3 +112,5 @@ Mixed CI, builder and native sunset applications add 21 exact original-row remov
 Readiness metrics caller application adds no removals and reconciles 2 explicitly reviewed local fixture retentions. Twelve holds remain unchanged; 2672 executed actions comprise 2671 baseline deletions and one separately retired ADL bridge. Owner acceptance remains separately bounded.
 
 Runtime164 two-contract source application resolves only RD07-2100 and RD07-2108. Ten holds remain. Existing original failures, pre-stub 2108 custody and live 1513/2223 obligations remain separate; 2,674 actions comprise 2,673 baseline deletions and one transient bridge.
+
+Sprint-conductor, CodeFriend host/memory and v0.87.1 aggregate source applications add 41 removals: 38 immutable-inventory rows and three separately enumerated supplemental paths. Ten holds remain unchanged. Current 2715 actions comprise 2714 baseline deletions (including those three supplemental paths) plus the one existing transient ADL bridge. No native, full421, live-provider or historical aggregate acceptance is inferred.

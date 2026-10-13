@@ -148,3 +148,9 @@ The reviewed readiness-metrics repair adds no removals. RD07-2058 preserves its 
 ## Runtime164 gateway and generation contracts
 
 Two reviewed source removals bring execution to 2,674 actions: 2,673 baseline deletions and one transient bridge. RD07-2100 and 2108 leave the held set; ten holds remain. Original 4,134 identities and 22 additional paths are unchanged. Current source custody and original pre-stub 2108 custody are both pinned. Actual Runtime164 CI preserves original mock gateway and real cross-binary config assertions; the ADL caller requires exact owner Git resources and an explicit executable without Cargo fallback. No selected-binary authentication, live 1513/2223 proof or native runtime acceptance is inferred.
+
+## Sprint, CodeFriend and historical v0.87.1 closure
+
+Reviewed source commits add 12 sprint-conductor resources, 12 CodeFriend host/memory resources and 17 historical v0.87.1 aggregate resources. These 41 deletions comprise 38 original inventory rows and three separately enumerated supplemental source paths. Current execution is 2,715 actions: 2,714 baseline deletions (including the three supplemental paths), plus the same single transient ADL bridge. Original 4,134 identities and 22 additional paths remain unchanged; ten unresolved holds remain. The supplemental paths are not silently added to either immutable inventory.
+
+The sprint caller explicitly changes from original aggregate ABI to pinned mapped owner components; 421 assertion expressions are preserved without claiming full original or native acceptance. CodeFriend host/memory proof and changed interfaces remain separately bounded by their applied packet. Historical v0.87.1 aggregates are retired deliberately; provider and multi-agent children remain under independent dispositions, with no replacement equivalence or new execution claimed. Exact source transitions and both current/original rollback custody remain pinned.
