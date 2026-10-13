@@ -7,12 +7,11 @@
   "original_count": 4134,
   "counts": {
     "hold_explicit_reconciliation": 216,
-    "hold_missing_successor_operational_command": 2,
     "hold_owner_test_reconciliation": 35,
     "preserve_approved_removal": 70,
     "preserve_reviewed_consumer_repair": 18,
     "proposed_historical_retirement_with_caller_repair": 14,
-    "proposed_owner_transfer_with_consumer_qualification": 451,
+    "proposed_owner_transfer_with_consumer_qualification": 453,
     "proposed_remove_construction_qualified_infrastructure": 216,
     "proposed_remove_with_entire_source_family": 1874,
     "proposed_remove_with_entire_tool_family": 719,
@@ -8830,11 +8829,11 @@
         "blob": "c480f27a5b98708310008cd1ace80c8bebf3f22b"
       },
       "existing_action": "retain",
-      "hold_reason": "Source mapping exists but qualified Runtime manifest/CLI has no executable mirror entrypoint",
-      "proposed_action": "hold_missing_successor_operational_command",
+      "hold_reason": "Runtime148 implements and packages the real mirror command; owner delivery and qualification obligations remain conditional.",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "Runtime must expose and package adl-gws-context-mirror or operator retires this command",
-        "route RD07-3717 runbook and bounded no-network command qualification"
+        "Complete owner Runtime148 delivery and confirm installed package command qualification from existing retained receipts",
+        "Reconcile RD07-3717 runbook consumer with owner command and final coherent removal approval; no live Drive run implied"
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -8842,6 +8841,22 @@
         "exact_successor_paths": [
           "adl/src/adl_gws_context_mirror.rs"
         ]
+      },
+      "operational_successor_evidence": {
+        "head": "c2ac14d78b2fae637dfa360bd34b6f062ad8d17a",
+        "manifest": "adl/Cargo.toml",
+        "binary": "adl-gws-context-mirror",
+        "package_surfaces": [
+          "tools/packaging/ci_package.py",
+          "tools/packaging/build_package.py",
+          "tools/packaging/README.md"
+        ],
+        "native_proof": "completed, evidence persisted, four actual Python receipt verification checks",
+        "native_review": "completed",
+        "publication_status": "approval_required",
+        "pull_request_created": false,
+        "installed_acceptance_claimed": false,
+        "receipt_sha256": "5c221bda4aefad1a95e3b388febcd04b49e6f79b2b250a7c55dcf2ee272d0528"
       }
     },
     {
@@ -9534,11 +9549,11 @@
         "blob": "64411e967952b8bd4c2631e4d6fc7d5f30ec175a"
       },
       "existing_action": "retain",
-      "hold_reason": "Source mapping exists but qualified Runtime manifest/CLI has no executable mirror entrypoint",
-      "proposed_action": "hold_missing_successor_operational_command",
+      "hold_reason": "Runtime148 implements and packages the real mirror command; owner delivery and qualification obligations remain conditional.",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "Runtime must expose and package adl-gws-context-mirror or operator retires this command",
-        "route RD07-3717 runbook and bounded no-network command qualification"
+        "Complete owner Runtime148 delivery and confirm installed package command qualification from existing retained receipts",
+        "Reconcile RD07-3717 runbook consumer with owner command and final coherent removal approval; no live Drive run implied"
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -9546,6 +9561,22 @@
         "exact_successor_paths": [
           "adl/src/bin/demo_adl_gws_context_mirror.rs"
         ]
+      },
+      "operational_successor_evidence": {
+        "head": "c2ac14d78b2fae637dfa360bd34b6f062ad8d17a",
+        "manifest": "adl/Cargo.toml",
+        "binary": "adl-gws-context-mirror",
+        "package_surfaces": [
+          "tools/packaging/ci_package.py",
+          "tools/packaging/build_package.py",
+          "tools/packaging/README.md"
+        ],
+        "native_proof": "completed, evidence persisted, four actual Python receipt verification checks",
+        "native_review": "completed",
+        "publication_status": "approval_required",
+        "pull_request_created": false,
+        "installed_acceptance_claimed": false,
+        "receipt_sha256": "5c221bda4aefad1a95e3b388febcd04b49e6f79b2b250a7c55dcf2ee272d0528"
       }
     },
     {
