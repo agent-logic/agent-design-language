@@ -1,0 +1,58 @@
+{
+  "status": "reviewed_unchanged_historical_fixture_closure",
+  "proof": {
+    "status": "PASS",
+    "exit": 0,
+    "seconds": 0.3801676250004675,
+    "inputs": [
+      {
+        "path": "adl/tools/compute_ccc_v0.py",
+        "blob": "84a395739d2f1884d20651208ed8b9c7fb85b271",
+        "exact_bytes": true
+      },
+      {
+        "path": "adl/tools/test_ccc_v0_instrumentation.sh",
+        "blob": "a009bbe2c9ece2bb1299e1efbca0c9710a9dd989",
+        "exact_bytes": true
+      },
+      {
+        "path": "demos/fixtures/ccc_v0/clean_framed_docs_task.json",
+        "blob": "e7f6ac338104a60d0ef5c08d8726319664ca34cd",
+        "exact_bytes": true
+      },
+      {
+        "path": "demos/fixtures/ccc_v0/search_heavy_implementation_task.json",
+        "blob": "c58cc40bf5360e51ed07b0bdc152ea8df9df20a9",
+        "exact_bytes": true
+      },
+      {
+        "path": "demos/fixtures/ccc_v0/validation_churn_task.json",
+        "blob": "4a199144a88daad16a29c3db011cb678d40fc243",
+        "exact_bytes": true
+      },
+      {
+        "path": "demos/fixtures/ccc_v0_invalid/missing_required_counter.json",
+        "blob": "c570c2b34d083094dd4c26bac547a0dd972e6fd8",
+        "exact_bytes": true
+      }
+    ],
+    "scope": "Original deterministic fixture counter/report test; full original assertions retained, no live instrumentation, provider, product binary or pricing claim. Explicit mktemp FastWork template reused."
+  },
+  "review": "Six exact source blobs match current and isolated executed files. Original full shell test reviewed: determinism, totals14/47/71 and drivers, invalidcounter refusal, pathredaction and allclaimboundaries.",
+  "imports": [
+    "from __future__ import annotations",
+    "import argparse",
+    "import json",
+    "import re",
+    "import sys",
+    "from collections import Counter",
+    "from pathlib import Path",
+    "from typing import Any"
+  ],
+  "logs": {
+    "stdout": "5bd6fabb8824abf9492895a9e6c1eafdd8c45fd4b7ab5476d62cca8921d41763",
+    "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "live_instrumentation_or_product_acceptance": false,
+  "retirement_authorized": false
+}
