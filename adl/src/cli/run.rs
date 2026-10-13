@@ -21,6 +21,14 @@ mod workflow_args;
 mod workflow_display;
 
 pub(crate) fn run_workflow(args: &[String]) -> Result<()> {
+    run_workflow_with_owner(args, false)
+}
+
+pub(crate) fn run_public_workflow(args: &[String]) -> Result<()> {
+    run_workflow_with_owner(args, true)
+}
+
+fn run_workflow_with_owner(args: &[String], external_runtime: bool) -> Result<()> {
     let Some(workflow_args::WorkflowArgs {
         adl_path,
         mut print_plan,
@@ -63,6 +71,16 @@ pub(crate) fn run_workflow(args: &[String]) -> Result<()> {
             return Err(err);
         }
     };
+
+    // Admission and side effects belong to the qualified Runtime. Pure local
+    // presentation keeps the existing public path and requires no installation.
+    let implicit_execution = !(print_plan || print_prompts || do_trace || do_run)
+        && doc.version.trim() != "0.1";
+    if external_runtime && (do_run || implicit_execution) {
+        let mut forwarded = vec!["run".to_string()];
+        forwarded.extend_from_slice(args);
+        return super::runtime_owner::SelectedRuntime::from_environment()?.exec(&forwarded);
+    }
 
     let applied_overlay = if let Some(path) = overlay_path.as_deref() {
         let spec = overlay::load_overlay(path)?;
@@ -322,6 +340,15 @@ pub(crate) fn run_workflow(args: &[String]) -> Result<()> {
     }
 
     Ok(())
+}
+
+pub(crate) fn run_public_resume(args: &[String]) -> Result<()> {
+    if resume_args::parse(args, resume_usage()).is_none() {
+        return Ok(());
+    }
+    let mut forwarded = vec!["resume".to_string()];
+    forwarded.extend_from_slice(args);
+    super::runtime_owner::SelectedRuntime::from_environment()?.exec(&forwarded)
 }
 
 pub(crate) fn real_resume(args: &[String]) -> Result<()> {

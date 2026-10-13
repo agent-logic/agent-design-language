@@ -196,5 +196,17 @@
     "cases": 6,
     "limits": "No successful resume execution in this parser test; real installed resume proof recorded separately",
     "integration": "Full retained CLI cargo check passed after extraction (14s)"
+  },
+  "public_runtime_dispatch_proof": {
+    "lane": "local_contract",
+    "role": "actual_public_cli_dispatch_and_logging_controls",
+    "determinism": "synthetic qualified layout and fixed child exit17; no real provider",
+    "resources": "local built CLI and small FastWork fixture",
+    "gate": "required for CLI-02 wiring",
+    "command": "python3 -B tools/public_adl/test_public_runtime_dispatch.py --binary <built-adl>",
+    "result": "passed",
+    "cases": 9,
+    "integration": "cargo check and cargo build --locked --offline --manifest-path adl/Cargo.toml --bin adl passed",
+    "limits": "Synthetic layout tests wiring, not owner qualification; real installed proof remains in RUNTIME_CONSUMER_PREFLIGHT.json"
   }
 }

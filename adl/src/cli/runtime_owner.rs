@@ -47,6 +47,15 @@ fn archive_identity(value: &str) -> bool {
 }
 
 impl SelectedRuntime {
+    pub(super) fn from_environment() -> Result<Self> {
+        let prefix = std::env::var_os("ADL_RUNTIME_INSTALL_PREFIX")
+            .filter(|value| !value.is_empty())
+            .context("set ADL_RUNTIME_INSTALL_PREFIX to an owner-qualified Runtime installation")?;
+        let identity = std::env::var("ADL_RUNTIME_ARCHIVE_SHA256")
+            .context("set ADL_RUNTIME_ARCHIVE_SHA256 to the qualified Runtime archive identity")?;
+        Self::from_installation(Path::new(&prefix), &identity)
+    }
+
     /// Select only an explicitly pinned, previously qualified owner installation.
     /// The owner-managed installation directory must remain trusted after qualification.
     pub(super) fn from_installation(prefix: &Path, expected_archive: &str) -> Result<Self> {
@@ -110,6 +119,12 @@ impl SelectedRuntime {
         Err(self.command(args).exec()).context("selected Runtime invocation failed")
     }
 
+    #[cfg(not(unix))]
+    pub(super) fn exec(&self, _args: &[String]) -> Result<()> {
+        bail!("Runtime package execution is supported only on Unix hosts")
+    }
+
+    #[allow(dead_code)] // Non-replacing transport is exercised by the standalone contract probe.
     pub(super) fn invoke(&self, args: &[String]) -> Result<ExitStatus> {
         self.command(args)
             .status()

@@ -71,7 +71,7 @@
     ],
     "adl/src/cli/run.rs": [
       "100644",
-      "9d43c8fcb600fe21a6c43de7819a40aedc6f525d"
+      "a610e522dc05c0d8f034c03bcf717422b2ee4959"
     ],
     "adl/src/cli/workflow_args.rs": [
       "100644",
@@ -83,12 +83,16 @@
     ],
     "adl/src/cli/runtime_owner.rs": [
       "100644",
-      "4e53c77c88a568f84e9935afaa246567fdf9ac37"
+      "417120da28c7b50c8562e6c71b1cc23c298406e2"
     ],
     "adl/src/cli/resume_args.rs": [
       "100644",
       "d915762aac1b5b8d7f379955213d6000b14e1054"
+    ],
+    "adl/src/cli/mod.rs": [
+      "100644",
+      "f43bb539193f183ebd200dbb16ad16bbbc282897"
     ]
   },
-  "surgical_followup": "CLI-01 parser/rendering extraction and CLI-02 unconnected installed-owner selection/transport under operator finish1223 instruction; no further removals or production dispatch change"
+  "surgical_followup": "CLI-01 parser/rendering extraction and CLI-02 pinned Runtime workflow/resume delegation with preserved ADL diagnostics and explicit owner logging; no further removals"
 }

@@ -26,6 +26,7 @@ mod run;
 pub(crate) mod run_artifacts;
 #[allow(dead_code)]
 mod run_artifacts_types;
+mod runtime_owner;
 mod runtime_v2_cmd;
 mod runtime_v3_cmd;
 mod scheduler_cmd;
@@ -44,7 +45,7 @@ use godel_cmd::real_godel;
 use identity_cmd::real_identity;
 use process_cmd::real_process;
 use provider_cmd::real_provider;
-use run::{real_resume, run_workflow};
+use run::{real_resume, run_public_resume, run_public_workflow, run_workflow};
 use runtime_v2_cmd::real_runtime_v2;
 use runtime_v3_cmd::real_runtime_v3;
 use scheduler_cmd::real_scheduler;
@@ -214,8 +215,8 @@ fn dispatch_args(args: &[String]) -> Result<()> {
             "the v1 tooling multiplexer was removed; use the independent C-SDLC v2 binaries"
         )),
         Some("verify") => real_verify(&args[1..]),
-        Some("resume") => real_resume(&args[1..]),
-        _ => run_workflow(args),
+        Some("resume") => run_public_resume(&args[1..]),
+        _ => run_public_workflow(args),
     }
 }
 
