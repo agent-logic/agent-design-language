@@ -10262,6 +10262,12 @@
         "exact_successor_paths": [
           "adl/src/cli/identity_cmd/tests.rs"
         ]
+      },
+      "qualification_followup": {
+        "record": "QUALIFIED_OWNER_HOLD_MAPPING.json",
+        "scope": "original_cli_declarations_200_pass_1_existing_ignore",
+        "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
+        "changes_removal_authority": false
       }
     },
     {
@@ -10287,6 +10293,12 @@
         "exact_successor_paths": [
           "adl/src/cli/identity_cmd/tests/adversarial_contracts.rs"
         ]
+      },
+      "qualification_followup": {
+        "record": "QUALIFIED_OWNER_HOLD_MAPPING.json",
+        "scope": "original_cli_declarations_200_pass_1_existing_ignore",
+        "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
+        "changes_removal_authority": false
       }
     },
     {
@@ -10312,6 +10324,12 @@
         "exact_successor_paths": [
           "adl/src/cli/identity_cmd/tests/dispatch.rs"
         ]
+      },
+      "qualification_followup": {
+        "record": "QUALIFIED_OWNER_HOLD_MAPPING.json",
+        "scope": "original_cli_declarations_200_pass_1_existing_ignore",
+        "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
+        "changes_removal_authority": false
       }
     },
     {
@@ -10337,6 +10355,12 @@
         "exact_successor_paths": [
           "adl/src/cli/identity_cmd/tests/helper_functions.rs"
         ]
+      },
+      "qualification_followup": {
+        "record": "QUALIFIED_OWNER_HOLD_MAPPING.json",
+        "scope": "original_cli_declarations_200_pass_1_existing_ignore",
+        "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
+        "changes_removal_authority": false
       }
     },
     {
@@ -10362,6 +10386,12 @@
         "exact_successor_paths": [
           "adl/src/cli/identity_cmd/tests/profile.rs"
         ]
+      },
+      "qualification_followup": {
+        "record": "QUALIFIED_OWNER_HOLD_MAPPING.json",
+        "scope": "original_cli_declarations_200_pass_1_existing_ignore",
+        "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
+        "changes_removal_authority": false
       }
     },
     {
@@ -10387,6 +10417,12 @@
         "exact_successor_paths": [
           "adl/src/cli/identity_cmd/tests/skill_contracts.rs"
         ]
+      },
+      "qualification_followup": {
+        "record": "QUALIFIED_OWNER_HOLD_MAPPING.json",
+        "scope": "original_cli_declarations_200_pass_1_existing_ignore",
+        "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
+        "changes_removal_authority": false
       }
     },
     {
@@ -10412,6 +10448,12 @@
         "exact_successor_paths": [
           "adl/src/cli/identity_cmd/tests/temporal_contracts.rs"
         ]
+      },
+      "qualification_followup": {
+        "record": "QUALIFIED_OWNER_HOLD_MAPPING.json",
+        "scope": "original_cli_declarations_200_pass_1_existing_ignore",
+        "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
+        "changes_removal_authority": false
       }
     },
     {
@@ -10944,6 +10986,12 @@
         "mapping": "same_path_changed",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": []
+      },
+      "qualification_followup": {
+        "record": "QUALIFIED_OWNER_HOLD_MAPPING.json",
+        "scope": "original_cli_declarations_200_pass_1_existing_ignore",
+        "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
+        "changes_removal_authority": false
       }
     },
     {
@@ -11029,6 +11077,12 @@
         "mapping": "same_path_changed",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": []
+      },
+      "qualification_followup": {
+        "record": "QUALIFIED_OWNER_HOLD_MAPPING.json",
+        "scope": "original_cli_declarations_200_pass_1_existing_ignore",
+        "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
+        "changes_removal_authority": false
       }
     },
     {
@@ -11052,6 +11106,12 @@
         "mapping": "same_path_changed",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": []
+      },
+      "qualification_followup": {
+        "record": "QUALIFIED_OWNER_HOLD_MAPPING.json",
+        "scope": "original_cli_declarations_200_pass_1_existing_ignore",
+        "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
+        "changes_removal_authority": false
       }
     },
     {
@@ -11077,6 +11137,12 @@
         "exact_successor_paths": [
           "adl/src/cli/tests/artifact_builders/learning_runtime.rs"
         ]
+      },
+      "qualification_followup": {
+        "record": "QUALIFIED_OWNER_HOLD_MAPPING.json",
+        "scope": "original_cli_declarations_200_pass_1_existing_ignore",
+        "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
+        "changes_removal_authority": false
       }
     },
     {
@@ -11100,6 +11166,12 @@
         "mapping": "same_path_changed",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": []
+      },
+      "qualification_followup": {
+        "record": "QUALIFIED_OWNER_HOLD_MAPPING.json",
+        "scope": "original_cli_declarations_200_pass_1_existing_ignore",
+        "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
+        "changes_removal_authority": false
       }
     },
     {
@@ -11123,6 +11195,12 @@
         "mapping": "same_path_changed",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": []
+      },
+      "qualification_followup": {
+        "record": "QUALIFIED_OWNER_HOLD_MAPPING.json",
+        "scope": "original_cli_declarations_200_pass_1_existing_ignore",
+        "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
+        "changes_removal_authority": false
       }
     },
     {
@@ -11146,6 +11224,12 @@
         "mapping": "same_path_changed",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": []
+      },
+      "qualification_followup": {
+        "record": "QUALIFIED_OWNER_HOLD_MAPPING.json",
+        "scope": "original_cli_declarations_200_pass_1_existing_ignore",
+        "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
+        "changes_removal_authority": false
       }
     },
     {
@@ -11171,6 +11255,12 @@
         "exact_successor_paths": [
           "adl/src/cli/tests/artifact_builders/learning_runtime/scores_io.rs"
         ]
+      },
+      "qualification_followup": {
+        "record": "QUALIFIED_OWNER_HOLD_MAPPING.json",
+        "scope": "original_cli_declarations_200_pass_1_existing_ignore",
+        "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
+        "changes_removal_authority": false
       }
     },
     {
@@ -11196,6 +11286,12 @@
         "exact_successor_paths": [
           "adl/src/cli/tests/artifact_builders/mod.rs"
         ]
+      },
+      "qualification_followup": {
+        "record": "QUALIFIED_OWNER_HOLD_MAPPING.json",
+        "scope": "original_cli_declarations_200_pass_1_existing_ignore",
+        "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
+        "changes_removal_authority": false
       }
     },
     {
@@ -11219,6 +11315,12 @@
         "mapping": "same_path_changed",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": []
+      },
+      "qualification_followup": {
+        "record": "QUALIFIED_OWNER_HOLD_MAPPING.json",
+        "scope": "original_cli_declarations_200_pass_1_existing_ignore",
+        "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
+        "changes_removal_authority": false
       }
     },
     {
@@ -11244,6 +11346,12 @@
         "exact_successor_paths": [
           "adl/src/cli/tests/godel.rs"
         ]
+      },
+      "qualification_followup": {
+        "record": "QUALIFIED_OWNER_HOLD_MAPPING.json",
+        "scope": "original_cli_declarations_200_pass_1_existing_ignore",
+        "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
+        "changes_removal_authority": false
       }
     },
     {
@@ -11269,6 +11377,12 @@
         "exact_successor_paths": [
           "adl/src/cli/tests/internal_commands.rs"
         ]
+      },
+      "qualification_followup": {
+        "record": "QUALIFIED_OWNER_HOLD_MAPPING.json",
+        "scope": "original_cli_declarations_200_pass_1_existing_ignore",
+        "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
+        "changes_removal_authority": false
       }
     },
     {
@@ -11294,6 +11408,12 @@
         "exact_successor_paths": [
           "adl/src/cli/tests/internal_commands/control_path.rs"
         ]
+      },
+      "qualification_followup": {
+        "record": "QUALIFIED_OWNER_HOLD_MAPPING.json",
+        "scope": "original_cli_declarations_200_pass_1_existing_ignore",
+        "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
+        "changes_removal_authority": false
       }
     },
     {
@@ -11319,6 +11439,12 @@
         "exact_successor_paths": [
           "adl/src/cli/tests/internal_commands/demo.rs"
         ]
+      },
+      "qualification_followup": {
+        "record": "QUALIFIED_OWNER_HOLD_MAPPING.json",
+        "scope": "original_cli_declarations_200_pass_1_existing_ignore",
+        "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
+        "changes_removal_authority": false
       }
     },
     {
@@ -11344,6 +11470,12 @@
         "exact_successor_paths": [
           "adl/src/cli/tests/internal_commands/instrumentation.rs"
         ]
+      },
+      "qualification_followup": {
+        "record": "QUALIFIED_OWNER_HOLD_MAPPING.json",
+        "scope": "original_cli_declarations_200_pass_1_existing_ignore",
+        "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
+        "changes_removal_authority": false
       }
     },
     {
@@ -11369,6 +11501,12 @@
         "exact_successor_paths": [
           "adl/src/cli/tests/internal_commands/learn.rs"
         ]
+      },
+      "qualification_followup": {
+        "record": "QUALIFIED_OWNER_HOLD_MAPPING.json",
+        "scope": "original_cli_declarations_200_pass_1_existing_ignore",
+        "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
+        "changes_removal_authority": false
       }
     },
     {
@@ -11394,6 +11532,12 @@
         "exact_successor_paths": [
           "adl/src/cli/tests/internal_commands/runtime_state.rs"
         ]
+      },
+      "qualification_followup": {
+        "record": "QUALIFIED_OWNER_HOLD_MAPPING.json",
+        "scope": "original_cli_declarations_200_pass_1_existing_ignore",
+        "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
+        "changes_removal_authority": false
       }
     },
     {
@@ -11419,6 +11563,12 @@
         "exact_successor_paths": [
           "adl/src/cli/tests/internal_commands/signing.rs"
         ]
+      },
+      "qualification_followup": {
+        "record": "QUALIFIED_OWNER_HOLD_MAPPING.json",
+        "scope": "original_cli_declarations_200_pass_1_existing_ignore",
+        "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
+        "changes_removal_authority": false
       }
     },
     {
@@ -11444,6 +11594,12 @@
         "exact_successor_paths": [
           "adl/src/cli/tests/open_usage.rs"
         ]
+      },
+      "qualification_followup": {
+        "record": "QUALIFIED_OWNER_HOLD_MAPPING.json",
+        "scope": "original_cli_declarations_200_pass_1_existing_ignore",
+        "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
+        "changes_removal_authority": false
       }
     },
     {
@@ -11469,6 +11625,12 @@
         "exact_successor_paths": [
           "adl/src/cli/tests/run_state/basics.rs"
         ]
+      },
+      "qualification_followup": {
+        "record": "QUALIFIED_OWNER_HOLD_MAPPING.json",
+        "scope": "original_cli_declarations_200_pass_1_existing_ignore",
+        "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
+        "changes_removal_authority": false
       }
     },
     {
@@ -11494,6 +11656,12 @@
         "exact_successor_paths": [
           "adl/src/cli/tests/run_state/failure_taxonomy.rs"
         ]
+      },
+      "qualification_followup": {
+        "record": "QUALIFIED_OWNER_HOLD_MAPPING.json",
+        "scope": "original_cli_declarations_200_pass_1_existing_ignore",
+        "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
+        "changes_removal_authority": false
       }
     },
     {
@@ -11517,6 +11685,12 @@
         "mapping": "same_path_changed",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": []
+      },
+      "qualification_followup": {
+        "record": "QUALIFIED_OWNER_HOLD_MAPPING.json",
+        "scope": "original_cli_declarations_200_pass_1_existing_ignore",
+        "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
+        "changes_removal_authority": false
       }
     },
     {
@@ -11540,6 +11714,12 @@
         "mapping": "same_path_changed",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": []
+      },
+      "qualification_followup": {
+        "record": "QUALIFIED_OWNER_HOLD_MAPPING.json",
+        "scope": "original_cli_declarations_200_pass_1_existing_ignore",
+        "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
+        "changes_removal_authority": false
       }
     },
     {
@@ -11565,6 +11745,12 @@
         "exact_successor_paths": [
           "adl/src/cli/tests/run_state/runtime_control.rs"
         ]
+      },
+      "qualification_followup": {
+        "record": "QUALIFIED_OWNER_HOLD_MAPPING.json",
+        "scope": "original_cli_declarations_200_pass_1_existing_ignore",
+        "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
+        "changes_removal_authority": false
       }
     },
     {
@@ -21682,6 +21868,12 @@
         "mapping": "same_path_changed",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": []
+      },
+      "qualification_followup": {
+        "record": "QUALIFIED_OWNER_HOLD_MAPPING.json",
+        "scope": "serial_cli_smoke_94_pass",
+        "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
+        "changes_removal_authority": false
       }
     },
     {
@@ -21751,6 +21943,12 @@
         "mapping": "same_path_changed",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": []
+      },
+      "qualification_followup": {
+        "record": "QUALIFIED_OWNER_HOLD_MAPPING.json",
+        "scope": "serial_cli_smoke_94_pass",
+        "source_candidate": "315abf70358828a8f4d452532ebd995fb4178389",
+        "changes_removal_authority": false
       }
     },
     {
@@ -71618,6 +71816,12 @@
         "mapping": "same_path_changed",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "qualification_followup": {
+        "record": "QUALIFIED_OWNER_HOLD_MAPPING.json",
+        "scope": "restored_node_and_atomic_plan_5_pass_177_filtered",
+        "source_candidate": "369cbde1e91efbc15ad72f936080b54aed8e6bb5",
+        "changes_removal_authority": false
       }
     },
     {

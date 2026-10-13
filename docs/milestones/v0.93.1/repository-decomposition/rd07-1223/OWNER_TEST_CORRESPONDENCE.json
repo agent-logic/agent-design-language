@@ -87404,8 +87404,28 @@
   "adoption": "Read-only correspondence evidence; does not grant removal, prove executed tests, or replace current owner qualification.",
   "owner_followups": {
     "RT-CLI-HARNESS": "https://github.com/agent-logic/agent-logic-runtime/issues/149",
-    "CS-NODE-PROOF": "owner prerequisite being prepared",
-    "CS-PLAN-AMENDMENT": "explicit assertion comparison pending",
+    "CS-NODE-PROOF": "https://github.com/agent-logic/cognitive-sdlc/issues/247",
+    "CS-PLAN-AMENDMENT": "https://github.com/agent-logic/cognitive-sdlc/issues/247",
     "RT-CI-DENOMINATOR": "owner selection/transfer mapping pending"
+  },
+  "qualification_followup": {
+    "record": "QUALIFIED_OWNER_HOLD_MAPPING.json",
+    "sha256": "efef24e1caa421f2a6aed736443108e26d09cb967ee6f58c6e39e776f33081f7",
+    "runtime_original_declarations": {
+      "passed": 200,
+      "existing_ignored": 1
+    },
+    "runtime_total_harness": {
+      "passed": 396,
+      "existing_ignored": 1
+    },
+    "runtime_serial_smoke": {
+      "passed": 94
+    },
+    "csdlc_restored_cases": {
+      "passed": 5,
+      "filtered": 177
+    },
+    "scope": "Named harness and Node/atomic-plan findings only; original source correspondence, broader owner acceptance, publication and deletion remain separate."
   }
 }
