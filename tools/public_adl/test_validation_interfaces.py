@@ -92,6 +92,17 @@ class PublicValidationInterfaces(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(json.loads(result.stdout)['run_status'], 'passed')
 
+    def test_workspace_only_changes_select_public_rust_proof(self):
+        for path in ('adl-v2/Cargo.toml', 'adl-v2/Cargo.lock'):
+            with self.subTest(path=path):
+                self.changed.write_text(path + '\n')
+                result = self.profile()
+                self.assertEqual(result.returncode, 0, result.stderr)
+                profile = json.loads(result.stdout)
+                self.assertEqual(profile['status'], 'ready_to_run')
+                self.assertEqual([row['command'] for row in profile['run']],
+                                 ['bash adl/tools/batched_checks.sh'])
+
     def test_unknown_and_private_paths_refuse_execution(self):
         for paths in ['unmapped.bin\n', 'adl/src/runtime_v2/mod.rs\n', 'adl/src/main.rs\nunmapped.bin\n']:
             with self.subTest(paths=paths):

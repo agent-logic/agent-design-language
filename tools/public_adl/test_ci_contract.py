@@ -15,6 +15,8 @@ ROOT = Path(__file__).resolve().parents[2]
 PUBLIC_ROOTS = [
     "adl-schema/**",
     "adl-uts/**",
+    "adl-v2/Cargo.toml",
+    "adl-v2/Cargo.lock",
     "adl-v2/crates/adl-language/**",
     "adl-v2/crates/adl-compiler/**",
     "adl-legacy-contracts/**",

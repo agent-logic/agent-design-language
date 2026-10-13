@@ -13,9 +13,11 @@ Dirty files cannot override committed approval inputs.
 
 ## Reviewed execution reconciliation
 
-`EXECUTION_OVERLAY.json` records 77 existing retained-path changes through 112
-immutable Git transitions, independently reviewed against baseline and final
-identities, 25 packet references and rollback custody. Its 38 original public
+`EXECUTION_OVERLAY.json` preserves the reviewed baseline of 77 retained-path
+changes through 112 immutable Git transitions, with 25 packet references and
+rollback custody. The supplemental five-file public caller repair extends the
+overlay to 78 paths; its exact before/after identities and review are recorded
+in `PUBLIC_OWNER_CALLER_REPAIR.json`. Its 38 original public
 cutover entries preserve actual applied hashes, separately from prepared hashes.
 The completed manifest is pinned by `EXECUTION_APPROVAL_SHA256` in the guard.
 

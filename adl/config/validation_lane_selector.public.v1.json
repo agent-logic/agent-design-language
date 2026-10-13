@@ -18,6 +18,8 @@
         "adl/**",
         "adl-schema/**",
         "adl-uts/**",
+        "adl-v2/Cargo.toml",
+        "adl-v2/Cargo.lock",
         "adl-v2/crates/adl-language/**",
         "adl-v2/crates/adl-compiler/**",
         "adl-legacy-contracts/**"
@@ -51,6 +53,8 @@
   "rust_path_hints": [
     "adl-schema/**",
     "adl-uts/**",
+    "adl-v2/Cargo.toml",
+    "adl-v2/Cargo.lock",
     "adl-v2/crates/adl-language/**",
     "adl-v2/crates/adl-compiler/**",
     "adl-legacy-contracts/**",
@@ -101,6 +105,8 @@
       "path_selectors": [
         "adl-schema/**",
         "adl-uts/**",
+        "adl-v2/Cargo.toml",
+        "adl-v2/Cargo.lock",
         "adl-v2/crates/adl-language/**",
         "adl-v2/crates/adl-compiler/**",
         "adl-legacy-contracts/**",
@@ -146,6 +152,8 @@
       "path_hints": [
         "adl-schema/**",
         "adl-uts/**",
+        "adl-v2/Cargo.toml",
+        "adl-v2/Cargo.lock",
         "adl-v2/crates/adl-language/**",
         "adl-v2/crates/adl-compiler/**",
         "adl-legacy-contracts/**",
