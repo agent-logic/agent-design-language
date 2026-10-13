@@ -254,3 +254,9 @@ Current total: 2,915 actions, 2,914 baseline deletions including seven prior sup
 The exact reviewed selector and original companion test transfer with pinned custody and the applied packet proof limits. Only hold2110 resolves; distributed2235/2236 remain unresolved. No new execution or native admission is inferred by ledger integration.
 
 Current total: 2,917 actions and 2,916 baseline deletions including seven prior supplemental and three separately observed paths, plus one transient bridge. Immutable4,134 identities and22 additional paths remain unchanged; two holds remain.
+
+## Infrastructure packet, arXiv resources and serious review fixture
+
+These three separately qualified families retire 7 Infrastructure packet tools, 6 arXiv resources and 3 CodeFriend serious-review fixture tools. Infrastructure proof is three unchanged offline Bash consumers. ArXiv proof is the unchanged retained ADL consumer with its shared frontmatter validator, not a standalone Runtime suite. CodeFriend proof is one unchanged original script: 14 required artifact paths, 8 grep assertions, 2 producer invocations, 3 leak-negative validator calls, and existing-output refusal/sentinel preservation. Its producer narrows temporary-output deletion; no byte-equivalence claim is made for that change. Documentary Cargo/skill commands were not executed. No live skill/provider, native lifecycle, installed binary, publication or product-build acceptance is inferred.
+
+Current total: 2,933 actions and 2,932 baseline deletions, including seven prior supplemental and three separately observed paths, plus one transient bridge. Original 4,134 identities and 22 additional paths are unchanged; distributed holds2235/2236 remain.

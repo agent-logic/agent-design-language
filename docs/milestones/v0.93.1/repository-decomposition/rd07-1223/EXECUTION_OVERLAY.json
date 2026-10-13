@@ -6,7 +6,7 @@
   "execution_authorized": false,
   "original_inventory_count": 4134,
   "additional_inventory_count": 22,
-  "executed_deletion_count": 2917,
+  "executed_deletion_count": 2933,
   "entries": [
     {
       "path": ".github/workflows/ci.yaml",
@@ -29502,7 +29502,7 @@
       ],
       "after": [
         "100644",
-        "4c727676265d7809fe0821edd7e2323cff789c90"
+        "58efb746bef29b143a173bb3bb64811c5f6b4221"
       ],
       "implementation_commit": "666818f2aafdaf4839d1c3de4119b513c4236d3d",
       "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
@@ -29592,6 +29592,18 @@
             "4c727676265d7809fe0821edd7e2323cff789c90"
           ],
           "packet": "MEDIUM_SIX_RESOURCES_APPLIED.json"
+        },
+        {
+          "commit": "761238bd61642ba8954817b73f44df0aaaa2de43",
+          "before": [
+            "100644",
+            "4c727676265d7809fe0821edd7e2323cff789c90"
+          ],
+          "after": [
+            "100644",
+            "58efb746bef29b143a173bb3bb64811c5f6b4221"
+          ],
+          "packet": "ARXIV_SIX_RESOURCES_APPLIED.json"
         }
       ]
     },
@@ -56301,12 +56313,26 @@
       ],
       "after": [
         "100644",
-        "dca0e07487b080548036472f75ae5eaf77bcbc4b"
+        "341f33ad9b56134842b85d6b8e76915a020d4026"
       ],
       "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
       "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
       "review_reference": "review_1223_applied_components exact77/112 review",
-      "source_chain_reference": "proposed_reconciled_entries:demos/v0.89/multi_agent_repo_code_review_demo.md"
+      "source_chain_reference": "proposed_reconciled_entries:demos/v0.89/multi_agent_repo_code_review_demo.md",
+      "supplemental_source_chain": [
+        {
+          "commit": "251d42922db494100c986f4775fe1dc8fcd58679",
+          "before": [
+            "100644",
+            "dca0e07487b080548036472f75ae5eaf77bcbc4b"
+          ],
+          "after": [
+            "100644",
+            "341f33ad9b56134842b85d6b8e76915a020d4026"
+          ],
+          "packet": "CODEFRIEND_SERIOUS_THREE_APPLIED.json"
+        }
+      ]
     },
     {
       "path": "demos/v0.90.1/csm_observatory_operator_report.md",
@@ -56332,12 +56358,26 @@
       ],
       "after": [
         "100644",
-        "f89920064566dcbd9a550601eaf14088fd8a66bd"
+        "7448a30c8871eb9a73baf1e7df87d5100a8faddc"
       ],
       "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
       "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
       "review_reference": "review_1223_applied_components exact77/112 review",
-      "source_chain_reference": "proposed_reconciled_entries:demos/v0.90.2/multi_agent_repo_review_proof_demo.md"
+      "source_chain_reference": "proposed_reconciled_entries:demos/v0.90.2/multi_agent_repo_review_proof_demo.md",
+      "supplemental_source_chain": [
+        {
+          "commit": "d064f658fbbdc464931075972a5d45b218a36c40",
+          "before": [
+            "100644",
+            "f89920064566dcbd9a550601eaf14088fd8a66bd"
+          ],
+          "after": [
+            "100644",
+            "7448a30c8871eb9a73baf1e7df87d5100a8faddc"
+          ],
+          "packet": "INFRASTRUCTURE_PACKET_SEVEN_APPLIED.json"
+        }
+      ]
     },
     {
       "path": "demos/v0.90.4/csm_observatory_governed_prototype.html",
@@ -56409,12 +56449,26 @@
       ],
       "after": [
         "100644",
-        "c9bf8d14f389f83e0d09cc2ae781f9bbf145dc6d"
+        "434c66b750bec386b0a69fe2c7ad08fadb15d18a"
       ],
       "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
       "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
       "review_reference": "review_1223_applied_components exact77/112 review",
-      "source_chain_reference": "proposed_reconciled_entries:demos/v0.91.4/multi_agent_repo_review_serious_proof_demo.md"
+      "source_chain_reference": "proposed_reconciled_entries:demos/v0.91.4/multi_agent_repo_review_serious_proof_demo.md",
+      "supplemental_source_chain": [
+        {
+          "commit": "251d42922db494100c986f4775fe1dc8fcd58679",
+          "before": [
+            "100644",
+            "c9bf8d14f389f83e0d09cc2ae781f9bbf145dc6d"
+          ],
+          "after": [
+            "100644",
+            "434c66b750bec386b0a69fe2c7ad08fadb15d18a"
+          ],
+          "packet": "CODEFRIEND_SERIOUS_THREE_APPLIED.json"
+        }
+      ]
     },
     {
       "path": "demos/v0.91.6/unity-observatory/PROOF_PACKET.md",
@@ -57291,7 +57345,7 @@
       "before": null,
       "after": [
         "100644",
-        "c707e13f1ed1fe8d3ac677cac6d0b1cb63b20ea0"
+        "9e5f349efd60e3f03f11f4b878c001705c186ed8"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json",
@@ -57864,6 +57918,42 @@
             "c707e13f1ed1fe8d3ac677cac6d0b1cb63b20ea0"
           ],
           "packet": "RUNTIME_SELECTOR_PAIR_APPLIED.json"
+        },
+        {
+          "commit": "d064f658fbbdc464931075972a5d45b218a36c40",
+          "before": [
+            "100644",
+            "c707e13f1ed1fe8d3ac677cac6d0b1cb63b20ea0"
+          ],
+          "after": [
+            "100644",
+            "874e21ebcec69b09c2985e415b8e3a54c29904ac"
+          ],
+          "packet": "INFRASTRUCTURE_PACKET_SEVEN_APPLIED.json"
+        },
+        {
+          "commit": "761238bd61642ba8954817b73f44df0aaaa2de43",
+          "before": [
+            "100644",
+            "874e21ebcec69b09c2985e415b8e3a54c29904ac"
+          ],
+          "after": [
+            "100644",
+            "51028b3489dea771d22763f421001777529c3adf"
+          ],
+          "packet": "ARXIV_SIX_RESOURCES_APPLIED.json"
+        },
+        {
+          "commit": "251d42922db494100c986f4775fe1dc8fcd58679",
+          "before": [
+            "100644",
+            "51028b3489dea771d22763f421001777529c3adf"
+          ],
+          "after": [
+            "100644",
+            "9e5f349efd60e3f03f11f4b878c001705c186ed8"
+          ],
+          "packet": "CODEFRIEND_SERIOUS_THREE_APPLIED.json"
         }
       ],
       "prior_execution_provenance": [
@@ -65105,7 +65195,7 @@
       "before": null,
       "after": [
         "100644",
-        "c548f51945a59d822296c62f93ae90e226b8250c"
+        "83f7a88426f8cbd807039902a2302a6f8d8d58ac"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "Infrastructure212 source commit guard-documentation accompaniment",
@@ -65426,6 +65516,18 @@
             "c548f51945a59d822296c62f93ae90e226b8250c"
           ],
           "packet": "Runtime selector pair integration"
+        },
+        {
+          "commit": "pending_reviewed_integration",
+          "before": [
+            "100644",
+            "c548f51945a59d822296c62f93ae90e226b8250c"
+          ],
+          "after": [
+            "100644",
+            "83f7a88426f8cbd807039902a2302a6f8d8d58ac"
+          ],
+          "packet": "Infrastructure arxiv CodeFriend sixteen integration"
         }
       ],
       "prior_execution_provenance": [
@@ -83922,7 +84024,7 @@
       ],
       "after": [
         "100644",
-        "9a17d3829d30024ddd5c28d365b4b1a6b98d1cc3"
+        "e4007b82e6946a01ff9618c26463c28cd5ccd027"
       ],
       "action": "modify",
       "implementation_commit": "9d98857c60448cd1af48508e2377e6bc3649b75b",
@@ -83966,6 +84068,18 @@
             "9a17d3829d30024ddd5c28d365b4b1a6b98d1cc3"
           ],
           "packet": "STOCK_LEAGUE_SIX_APPLIED.json"
+        },
+        {
+          "commit": "d064f658fbbdc464931075972a5d45b218a36c40",
+          "before": [
+            "100644",
+            "9a17d3829d30024ddd5c28d365b4b1a6b98d1cc3"
+          ],
+          "after": [
+            "100644",
+            "e4007b82e6946a01ff9618c26463c28cd5ccd027"
+          ],
+          "packet": "INFRASTRUCTURE_PACKET_SEVEN_APPLIED.json"
         }
       ]
     },
@@ -90321,6 +90435,576 @@
         "mode": "100755",
         "sha256": "1d7a7e4fd4857913d5f6db448bbcbb275c6d0c0d50c4f463502571b9ec35d331",
         "blob": "9be41ac140f0c4417bfd077a1e5dc5d59b093461"
+      }
+    },
+    {
+      "path": "adl/tools/demo_v089_proof_entrypoints.sh",
+      "before": [
+        "100644",
+        "706ceeabf5a1986afde670d38707776e00240c0b"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "d064f658fbbdc464931075972a5d45b218a36c40",
+      "approval_reference": "INFRASTRUCTURE_PACKET_SEVEN_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "d064f658fbbdc464931075972a5d45b218a36c40",
+          "before": [
+            "100644",
+            "706ceeabf5a1986afde670d38707776e00240c0b"
+          ],
+          "after": null,
+          "packet": "INFRASTRUCTURE_PACKET_SEVEN_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "INFRASTRUCTURE_PACKET_SEVEN_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/infrastructure-offline-packet-seven-plan/retirement/current-and-original-preimages.tar",
+        "archive_sha256": "ece579cee2c79f90ac331d8a0b151bcc0319a4f7b4de2b51d5f21ce86771f418",
+        "member": "current/adl/tools/demo_v089_proof_entrypoints.sh",
+        "mode": "100644",
+        "blob": "706ceeabf5a1986afde670d38707776e00240c0b",
+        "sha256": "ee8ed579868f055cb210cd78f834384ec68f633694bfaee3dcc9c534841dc6bc"
+      }
+    },
+    {
+      "path": "adl/tools/demo_v089_review_surface.sh",
+      "before": [
+        "100644",
+        "726164a490b7d12e7c5868650fa7592bedfff37a"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "d064f658fbbdc464931075972a5d45b218a36c40",
+      "approval_reference": "INFRASTRUCTURE_PACKET_SEVEN_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "d064f658fbbdc464931075972a5d45b218a36c40",
+          "before": [
+            "100644",
+            "726164a490b7d12e7c5868650fa7592bedfff37a"
+          ],
+          "after": null,
+          "packet": "INFRASTRUCTURE_PACKET_SEVEN_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "INFRASTRUCTURE_PACKET_SEVEN_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/infrastructure-offline-packet-seven-plan/retirement/current-and-original-preimages.tar",
+        "archive_sha256": "ece579cee2c79f90ac331d8a0b151bcc0319a4f7b4de2b51d5f21ce86771f418",
+        "member": "current/adl/tools/demo_v089_review_surface.sh",
+        "mode": "100644",
+        "blob": "726164a490b7d12e7c5868650fa7592bedfff37a",
+        "sha256": "d08f36a2118cd2c02d4199008e92f749c3914c99567f4b19eed3d2445422b3e3"
+      }
+    },
+    {
+      "path": "adl/tools/test_demo_v089_proof_entrypoints.sh",
+      "before": [
+        "100644",
+        "2c1f8cd90d90ba393572ca7c40afed709158f856"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "d064f658fbbdc464931075972a5d45b218a36c40",
+      "approval_reference": "INFRASTRUCTURE_PACKET_SEVEN_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "d064f658fbbdc464931075972a5d45b218a36c40",
+          "before": [
+            "100644",
+            "2c1f8cd90d90ba393572ca7c40afed709158f856"
+          ],
+          "after": null,
+          "packet": "INFRASTRUCTURE_PACKET_SEVEN_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "INFRASTRUCTURE_PACKET_SEVEN_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/infrastructure-offline-packet-seven-plan/retirement/current-and-original-preimages.tar",
+        "archive_sha256": "ece579cee2c79f90ac331d8a0b151bcc0319a4f7b4de2b51d5f21ce86771f418",
+        "member": "current/adl/tools/test_demo_v089_proof_entrypoints.sh",
+        "mode": "100644",
+        "blob": "2c1f8cd90d90ba393572ca7c40afed709158f856",
+        "sha256": "fa43e4f368482988bf2de83a79ce7aa63fcad9601c1a9b1b2369964e20ae8597"
+      }
+    },
+    {
+      "path": "adl/tools/test_demo_v089_review_surface.sh",
+      "before": [
+        "100644",
+        "b9eb8915d1fa75f94709f35ebade5886aa9ed741"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "d064f658fbbdc464931075972a5d45b218a36c40",
+      "approval_reference": "INFRASTRUCTURE_PACKET_SEVEN_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "d064f658fbbdc464931075972a5d45b218a36c40",
+          "before": [
+            "100644",
+            "b9eb8915d1fa75f94709f35ebade5886aa9ed741"
+          ],
+          "after": null,
+          "packet": "INFRASTRUCTURE_PACKET_SEVEN_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "INFRASTRUCTURE_PACKET_SEVEN_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/infrastructure-offline-packet-seven-plan/retirement/current-and-original-preimages.tar",
+        "archive_sha256": "ece579cee2c79f90ac331d8a0b151bcc0319a4f7b4de2b51d5f21ce86771f418",
+        "member": "current/adl/tools/test_demo_v089_review_surface.sh",
+        "mode": "100644",
+        "blob": "b9eb8915d1fa75f94709f35ebade5886aa9ed741",
+        "sha256": "69cc153d6add4bf8885cac6da0e7244bdf29b29068b8b95f85eba8a983a9f73b"
+      }
+    },
+    {
+      "path": "adl/tools/demo_v0902_multi_agent_repo_review_proof.sh",
+      "before": [
+        "100644",
+        "e43c1c9b569d712034e25c3a1a5d9d24035e0f7c"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "d064f658fbbdc464931075972a5d45b218a36c40",
+      "approval_reference": "INFRASTRUCTURE_PACKET_SEVEN_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "d064f658fbbdc464931075972a5d45b218a36c40",
+          "before": [
+            "100644",
+            "e43c1c9b569d712034e25c3a1a5d9d24035e0f7c"
+          ],
+          "after": null,
+          "packet": "INFRASTRUCTURE_PACKET_SEVEN_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "INFRASTRUCTURE_PACKET_SEVEN_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/infrastructure-offline-packet-seven-plan/retirement/current-and-original-preimages.tar",
+        "archive_sha256": "ece579cee2c79f90ac331d8a0b151bcc0319a4f7b4de2b51d5f21ce86771f418",
+        "member": "current/adl/tools/demo_v0902_multi_agent_repo_review_proof.sh",
+        "mode": "100644",
+        "blob": "e43c1c9b569d712034e25c3a1a5d9d24035e0f7c",
+        "sha256": "d5c88c7113008384cb6677a06dd98ad455640c3de7a21eba790c3d0df5ec6a37"
+      }
+    },
+    {
+      "path": "adl/tools/test_demo_v0902_multi_agent_repo_review_proof.sh",
+      "before": [
+        "100644",
+        "06ae1b466bd98189ad614fc99827c74208555764"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "d064f658fbbdc464931075972a5d45b218a36c40",
+      "approval_reference": "INFRASTRUCTURE_PACKET_SEVEN_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "d064f658fbbdc464931075972a5d45b218a36c40",
+          "before": [
+            "100644",
+            "06ae1b466bd98189ad614fc99827c74208555764"
+          ],
+          "after": null,
+          "packet": "INFRASTRUCTURE_PACKET_SEVEN_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "INFRASTRUCTURE_PACKET_SEVEN_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/infrastructure-offline-packet-seven-plan/retirement/current-and-original-preimages.tar",
+        "archive_sha256": "ece579cee2c79f90ac331d8a0b151bcc0319a4f7b4de2b51d5f21ce86771f418",
+        "member": "current/adl/tools/test_demo_v0902_multi_agent_repo_review_proof.sh",
+        "mode": "100644",
+        "blob": "06ae1b466bd98189ad614fc99827c74208555764",
+        "sha256": "f8887c4a19fc74614eeb5fd6845086b0d6807b89f32043694476c61f28a2bb1f"
+      }
+    },
+    {
+      "path": "adl/tools/validate_v0902_multi_agent_repo_review_proof.py",
+      "before": [
+        "100644",
+        "318cf8ffe28a2675f9426afe222b7589dc6797bc"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "d064f658fbbdc464931075972a5d45b218a36c40",
+      "approval_reference": "INFRASTRUCTURE_PACKET_SEVEN_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "d064f658fbbdc464931075972a5d45b218a36c40",
+          "before": [
+            "100644",
+            "318cf8ffe28a2675f9426afe222b7589dc6797bc"
+          ],
+          "after": null,
+          "packet": "INFRASTRUCTURE_PACKET_SEVEN_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "INFRASTRUCTURE_PACKET_SEVEN_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/infrastructure-offline-packet-seven-plan/retirement/current-and-original-preimages.tar",
+        "archive_sha256": "ece579cee2c79f90ac331d8a0b151bcc0319a4f7b4de2b51d5f21ce86771f418",
+        "member": "current/adl/tools/validate_v0902_multi_agent_repo_review_proof.py",
+        "mode": "100644",
+        "blob": "318cf8ffe28a2675f9426afe222b7589dc6797bc",
+        "sha256": "dcd6b542dcadafbe1fe1b33473de6326155c0403939e92499b55c664498c46d0"
+      }
+    },
+    {
+      "path": "demos/v0.89/v089_demo_program.md",
+      "before": [
+        "100644",
+        "3ea9cfeb5e89f2f7470b23cd7abdebe24054de9f"
+      ],
+      "after": [
+        "100644",
+        "b82bbac1dabfc59181c042d9eb3085d7e1cab611"
+      ],
+      "action": "modify",
+      "implementation_commit": "d064f658fbbdc464931075972a5d45b218a36c40",
+      "approval_reference": "INFRASTRUCTURE_PACKET_SEVEN_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "d064f658fbbdc464931075972a5d45b218a36c40",
+          "before": [
+            "100644",
+            "3ea9cfeb5e89f2f7470b23cd7abdebe24054de9f"
+          ],
+          "after": [
+            "100644",
+            "b82bbac1dabfc59181c042d9eb3085d7e1cab611"
+          ],
+          "packet": "INFRASTRUCTURE_PACKET_SEVEN_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/skills/arxiv-paper-writer/SKILL.md",
+      "before": [
+        "100644",
+        "4f09baf65daae8dc66890518cc305d99a24ffc8b"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "761238bd61642ba8954817b73f44df0aaaa2de43",
+      "approval_reference": "ARXIV_SIX_RESOURCES_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "761238bd61642ba8954817b73f44df0aaaa2de43",
+          "before": [
+            "100644",
+            "4f09baf65daae8dc66890518cc305d99a24ffc8b"
+          ],
+          "after": null,
+          "packet": "ARXIV_SIX_RESOURCES_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "ARXIV_SIX_RESOURCES_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-arxiv-six-plan/current-and-owner-custody.tar",
+        "archive_sha256": "32e22cab22daa229a441722ad1d774b195740df61292b9194400723e406acd49",
+        "member": "current/adl/tools/skills/arxiv-paper-writer/SKILL.md",
+        "mode": "100644",
+        "blob": "4f09baf65daae8dc66890518cc305d99a24ffc8b",
+        "sha256": "686bddca88d2542b7fc79185cee917d8dcc4ccc8306acb0549913671348ca711"
+      }
+    },
+    {
+      "path": "adl/tools/skills/arxiv-paper-writer/adl-skill.yaml",
+      "before": [
+        "100644",
+        "6d093624217eb4e807d95fd4c567b51944b3a575"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "761238bd61642ba8954817b73f44df0aaaa2de43",
+      "approval_reference": "ARXIV_SIX_RESOURCES_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "761238bd61642ba8954817b73f44df0aaaa2de43",
+          "before": [
+            "100644",
+            "6d093624217eb4e807d95fd4c567b51944b3a575"
+          ],
+          "after": null,
+          "packet": "ARXIV_SIX_RESOURCES_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "ARXIV_SIX_RESOURCES_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-arxiv-six-plan/current-and-owner-custody.tar",
+        "archive_sha256": "32e22cab22daa229a441722ad1d774b195740df61292b9194400723e406acd49",
+        "member": "current/adl/tools/skills/arxiv-paper-writer/adl-skill.yaml",
+        "mode": "100644",
+        "blob": "6d093624217eb4e807d95fd4c567b51944b3a575",
+        "sha256": "cbb5e90dd32648bb5cfd9d8960c44bb94be6d957c0515119fcc071eeefcf01d3"
+      }
+    },
+    {
+      "path": "adl/tools/skills/arxiv-paper-writer/agents/openai.yaml",
+      "before": [
+        "100644",
+        "0a3a7b645925349ffa2aee1597734073704c5d75"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "761238bd61642ba8954817b73f44df0aaaa2de43",
+      "approval_reference": "ARXIV_SIX_RESOURCES_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "761238bd61642ba8954817b73f44df0aaaa2de43",
+          "before": [
+            "100644",
+            "0a3a7b645925349ffa2aee1597734073704c5d75"
+          ],
+          "after": null,
+          "packet": "ARXIV_SIX_RESOURCES_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "ARXIV_SIX_RESOURCES_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-arxiv-six-plan/current-and-owner-custody.tar",
+        "archive_sha256": "32e22cab22daa229a441722ad1d774b195740df61292b9194400723e406acd49",
+        "member": "current/adl/tools/skills/arxiv-paper-writer/agents/openai.yaml",
+        "mode": "100644",
+        "blob": "0a3a7b645925349ffa2aee1597734073704c5d75",
+        "sha256": "3b133c476a743b5fc98ea79785baabe5ee8bb66a8f93a2d61011c601817a235a"
+      }
+    },
+    {
+      "path": "adl/tools/skills/arxiv-paper-writer/references/arxiv-writing-playbook.md",
+      "before": [
+        "100644",
+        "05116161c1ca3aaa4c35449f7ed02da4ec7db436"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "761238bd61642ba8954817b73f44df0aaaa2de43",
+      "approval_reference": "ARXIV_SIX_RESOURCES_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "761238bd61642ba8954817b73f44df0aaaa2de43",
+          "before": [
+            "100644",
+            "05116161c1ca3aaa4c35449f7ed02da4ec7db436"
+          ],
+          "after": null,
+          "packet": "ARXIV_SIX_RESOURCES_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "ARXIV_SIX_RESOURCES_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-arxiv-six-plan/current-and-owner-custody.tar",
+        "archive_sha256": "32e22cab22daa229a441722ad1d774b195740df61292b9194400723e406acd49",
+        "member": "current/adl/tools/skills/arxiv-paper-writer/references/arxiv-writing-playbook.md",
+        "mode": "100644",
+        "blob": "05116161c1ca3aaa4c35449f7ed02da4ec7db436",
+        "sha256": "07c24e6ff3410208d10747a52e217d7ebf1aa04115d6ed6f92da46779a381279"
+      }
+    },
+    {
+      "path": "adl/tools/skills/arxiv-paper-writer/references/output-contract.md",
+      "before": [
+        "100644",
+        "82016d6bd6d3c904749a4e74e4ec223b6be416c6"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "761238bd61642ba8954817b73f44df0aaaa2de43",
+      "approval_reference": "ARXIV_SIX_RESOURCES_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "761238bd61642ba8954817b73f44df0aaaa2de43",
+          "before": [
+            "100644",
+            "82016d6bd6d3c904749a4e74e4ec223b6be416c6"
+          ],
+          "after": null,
+          "packet": "ARXIV_SIX_RESOURCES_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "ARXIV_SIX_RESOURCES_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-arxiv-six-plan/current-and-owner-custody.tar",
+        "archive_sha256": "32e22cab22daa229a441722ad1d774b195740df61292b9194400723e406acd49",
+        "member": "current/adl/tools/skills/arxiv-paper-writer/references/output-contract.md",
+        "mode": "100644",
+        "blob": "82016d6bd6d3c904749a4e74e4ec223b6be416c6",
+        "sha256": "b24eb097fe8d8be8ba1fdb69e55d4f4f3b02fefb8cfc03118851549f957f3f05"
+      }
+    },
+    {
+      "path": "adl/tools/skills/docs/ARXIV_PAPER_WRITER_SKILL_INPUT_SCHEMA.md",
+      "before": [
+        "100644",
+        "ecd1800f3a9e6475fb12f4aa8d820e0893e0489f"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "761238bd61642ba8954817b73f44df0aaaa2de43",
+      "approval_reference": "ARXIV_SIX_RESOURCES_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "761238bd61642ba8954817b73f44df0aaaa2de43",
+          "before": [
+            "100644",
+            "ecd1800f3a9e6475fb12f4aa8d820e0893e0489f"
+          ],
+          "after": null,
+          "packet": "ARXIV_SIX_RESOURCES_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "ARXIV_SIX_RESOURCES_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-arxiv-six-plan/current-and-owner-custody.tar",
+        "archive_sha256": "32e22cab22daa229a441722ad1d774b195740df61292b9194400723e406acd49",
+        "member": "current/adl/tools/skills/docs/ARXIV_PAPER_WRITER_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "ecd1800f3a9e6475fb12f4aa8d820e0893e0489f",
+        "sha256": "80ff3b2829aa0d8d67845a4b69eaeede76ece43642857f6e1af7e98970d306b1"
+      }
+    },
+    {
+      "path": "adl/tools/test_arxiv_paper_writer_skill_contracts.sh",
+      "before": [
+        "100755",
+        "c8ed77fcc08c09a7a57092355e94b53c940ae56d"
+      ],
+      "after": [
+        "100755",
+        "f10163794d04188be58f912ce35aa64e9483551c"
+      ],
+      "action": "modify",
+      "implementation_commit": "761238bd61642ba8954817b73f44df0aaaa2de43",
+      "approval_reference": "ARXIV_SIX_RESOURCES_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "761238bd61642ba8954817b73f44df0aaaa2de43",
+          "before": [
+            "100755",
+            "c8ed77fcc08c09a7a57092355e94b53c940ae56d"
+          ],
+          "after": [
+            "100755",
+            "f10163794d04188be58f912ce35aa64e9483551c"
+          ],
+          "packet": "ARXIV_SIX_RESOURCES_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/demo_v0914_multi_agent_repo_review_serious_proof.sh",
+      "before": [
+        "100755",
+        "4098ddd2ef0db076abcb1423893186cfd1f76ea0"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "251d42922db494100c986f4775fe1dc8fcd58679",
+      "approval_reference": "CODEFRIEND_SERIOUS_THREE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "251d42922db494100c986f4775fe1dc8fcd58679",
+          "before": [
+            "100755",
+            "4098ddd2ef0db076abcb1423893186cfd1f76ea0"
+          ],
+          "after": null,
+          "packet": "CODEFRIEND_SERIOUS_THREE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CODEFRIEND_SERIOUS_THREE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/codefriend-serious-proof-plan/retirement-arxiv-composed/current-and-original-preimages.tar",
+        "archive_sha256": "82a04d0407f407bf5335cb943254de9929a813d548d21c3177edf8a715d1b601",
+        "member": "current/adl/tools/demo_v0914_multi_agent_repo_review_serious_proof.sh",
+        "mode": "100755",
+        "blob": "4098ddd2ef0db076abcb1423893186cfd1f76ea0",
+        "sha256": "c5166510b527bfe9768dd6c85c03b64fcaaa593c4143cfeefd5f7da88c947dbf"
+      }
+    },
+    {
+      "path": "adl/tools/test_demo_v0914_multi_agent_repo_review_serious_proof.sh",
+      "before": [
+        "100755",
+        "0716c10d577710f23e69050aaa05e9abdc36ed11"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "251d42922db494100c986f4775fe1dc8fcd58679",
+      "approval_reference": "CODEFRIEND_SERIOUS_THREE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "251d42922db494100c986f4775fe1dc8fcd58679",
+          "before": [
+            "100755",
+            "0716c10d577710f23e69050aaa05e9abdc36ed11"
+          ],
+          "after": null,
+          "packet": "CODEFRIEND_SERIOUS_THREE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CODEFRIEND_SERIOUS_THREE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/codefriend-serious-proof-plan/retirement-arxiv-composed/current-and-original-preimages.tar",
+        "archive_sha256": "82a04d0407f407bf5335cb943254de9929a813d548d21c3177edf8a715d1b601",
+        "member": "current/adl/tools/test_demo_v0914_multi_agent_repo_review_serious_proof.sh",
+        "mode": "100755",
+        "blob": "0716c10d577710f23e69050aaa05e9abdc36ed11",
+        "sha256": "93a2940e3b4a295e6ed25babed3c09553a454b86e842cdc52457501bb94bcac4"
+      }
+    },
+    {
+      "path": "adl/tools/validate_v0914_multi_agent_repo_review_serious_proof.py",
+      "before": [
+        "100755",
+        "4f8860ad10cfe0ab7854993f179aa20f5521f788"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "251d42922db494100c986f4775fe1dc8fcd58679",
+      "approval_reference": "CODEFRIEND_SERIOUS_THREE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "251d42922db494100c986f4775fe1dc8fcd58679",
+          "before": [
+            "100755",
+            "4f8860ad10cfe0ab7854993f179aa20f5521f788"
+          ],
+          "after": null,
+          "packet": "CODEFRIEND_SERIOUS_THREE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CODEFRIEND_SERIOUS_THREE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/codefriend-serious-proof-plan/retirement-arxiv-composed/current-and-original-preimages.tar",
+        "archive_sha256": "82a04d0407f407bf5335cb943254de9929a813d548d21c3177edf8a715d1b601",
+        "member": "current/adl/tools/validate_v0914_multi_agent_repo_review_serious_proof.py",
+        "mode": "100755",
+        "blob": "4f8860ad10cfe0ab7854993f179aa20f5521f788",
+        "sha256": "a1c2f54fa8eeee2c318b7224715a470ea6a89395c73a3833781e9ecb903eb2f6"
       }
     }
   ],
@@ -97497,9 +98181,74 @@
         "docs/tooling/TOOL_SURFACE_REGISTRY.md"
       ],
       "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "INFRASTRUCTURE_PACKET_SEVEN_APPLIED.json",
+      "sha256": "76107dc1a52d6215434d33849b892617c89102d0f80cfa07f069ee8bf8fff47f",
+      "commit": "d064f658fbbdc464931075972a5d45b218a36c40",
+      "files": 11,
+      "removals": 7,
+      "scope_sha256": "009736b41fc1e4c0658151363e92f5ee51a56296b18ce24df90815f570f289be",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl/tools/demo_v089_proof_entrypoints.sh",
+        "adl/tools/demo_v089_review_surface.sh",
+        "adl/tools/test_demo_v089_proof_entrypoints.sh",
+        "adl/tools/test_demo_v089_review_surface.sh",
+        "adl/tools/demo_v0902_multi_agent_repo_review_proof.sh",
+        "adl/tools/test_demo_v0902_multi_agent_repo_review_proof.sh",
+        "adl/tools/validate_v0902_multi_agent_repo_review_proof.py",
+        "demos/README.md",
+        "demos/v0.89/v089_demo_program.md",
+        "demos/v0.90.2/multi_agent_repo_review_proof_demo.md",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "ARXIV_SIX_RESOURCES_APPLIED.json",
+      "sha256": "8df0303d4af9b8aebe29ecabfa0670c89f9681a434d4e60612a27a4d36ae3b5a",
+      "commit": "761238bd61642ba8954817b73f44df0aaaa2de43",
+      "files": 9,
+      "removals": 6,
+      "scope_sha256": "d35b7c20440d724966a074f5da23b5d6f1205c806d706be5d6d6218a3e680036",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl/tools/skills/arxiv-paper-writer/SKILL.md",
+        "adl/tools/skills/arxiv-paper-writer/adl-skill.yaml",
+        "adl/tools/skills/arxiv-paper-writer/agents/openai.yaml",
+        "adl/tools/skills/arxiv-paper-writer/references/arxiv-writing-playbook.md",
+        "adl/tools/skills/arxiv-paper-writer/references/output-contract.md",
+        "adl/tools/skills/docs/ARXIV_PAPER_WRITER_SKILL_INPUT_SCHEMA.md",
+        "adl/tools/skills/docs/OPERATIONAL_SKILLS_GUIDE.md",
+        "adl/tools/test_arxiv_paper_writer_skill_contracts.sh",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "CODEFRIEND_SERIOUS_THREE_APPLIED.json",
+      "sha256": "11f8ac6ee0fdf59af4058f0d13319416d3e891f6aefb3489412548cb7513f5c7",
+      "commit": "251d42922db494100c986f4775fe1dc8fcd58679",
+      "files": 6,
+      "removals": 3,
+      "scope_sha256": "ec7af3536cbc4790c09621f841f04e093413d6d52f14a1e674dbf7cd13199df4",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl/tools/demo_v0914_multi_agent_repo_review_serious_proof.sh",
+        "adl/tools/test_demo_v0914_multi_agent_repo_review_serious_proof.sh",
+        "adl/tools/validate_v0914_multi_agent_repo_review_serious_proof.py",
+        "demos/v0.89/multi_agent_repo_code_review_demo.md",
+        "demos/v0.91.4/multi_agent_repo_review_serious_proof_demo.md",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
     }
   ],
-  "baseline_deletion_count": 2916,
+  "baseline_deletion_count": 2932,
   "transient_removed_paths": [
     "adl/tools/test_issue872_historical_manifest.py"
   ],
@@ -97512,7 +98261,7 @@
     "adl/tools/test_demo_v0901_quality_gate.sh",
     "adl/tools/test_demo_v0902_review_quality_gate.sh"
   ],
-  "inventory_baseline_deletion_count": 2906,
+  "inventory_baseline_deletion_count": 2922,
   "supplemental_baseline_deletion_count": 7,
   "separately_observed_baseline_deletion_count": 3,
   "separately_observed_retired_paths": [
