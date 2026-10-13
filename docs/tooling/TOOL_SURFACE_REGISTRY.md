@@ -30,7 +30,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 15
 - `supported shim`: 6
-- `internal helper`: 643
+- `internal helper`: 631
 - `historical evidence`: 40
 - `archive candidate`: 0
 - `remove candidate`: 2
@@ -729,15 +729,8 @@ Source skill directories only; installed skill admission is not inventoried here
 | --- | --- | --- | --- |
 | `adl/tools/skills/adl-milestone-creator` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
 | `adl/tools/skills/arxiv-paper-writer` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
-| `adl/tools/skills/demo-operator` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
-| `adl/tools/skills/documentation-specialist` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
-| `adl/tools/skills/gap-analysis` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
-| `adl/tools/skills/issue-folding` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
-| `adl/tools/skills/issue-splitter` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
-| `adl/tools/skills/issue-watcher` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
 | `adl/tools/skills/medium-article-writer` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
 | `adl/tools/skills/planning-doc-editor` | skill | supported shim | Lifecycle editor skill used to normalize durable card truth. |
-| `adl/tools/skills/portable-contract-normalizer` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
 | `adl/tools/skills/pr-closeout` | skill | primary | Primary skill in the governed issue/sprint lifecycle. |
 | `adl/tools/skills/pr-finish` | skill | primary | Primary skill in the governed issue/sprint lifecycle. |
 | `adl/tools/skills/pr-init` | skill | primary | Primary skill in the governed issue/sprint lifecycle. |
@@ -746,9 +739,6 @@ Source skill directories only; installed skill admission is not inventoried here
 | `adl/tools/skills/pr-run` | skill | primary | Primary skill in the governed issue/sprint lifecycle. |
 | `adl/tools/skills/pr-stack-manager` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
 | `adl/tools/skills/records-hygiene` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
-| `adl/tools/skills/refactoring-helper` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
-| `adl/tools/skills/release-evidence` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
-| `adl/tools/skills/review-comment-triage` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
 | `adl/tools/skills/sip-editor` | skill | supported shim | Lifecycle editor skill used to normalize durable card truth. |
 | `adl/tools/skills/sor-editor` | skill | supported shim | Lifecycle editor skill used to normalize durable card truth. |
 | `adl/tools/skills/spp-editor` | skill | supported shim | Lifecycle editor skill used to normalize durable card truth. |
@@ -756,8 +746,6 @@ Source skill directories only; installed skill admission is not inventoried here
 | `adl/tools/skills/sprint-review` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
 | `adl/tools/skills/srp-editor` | skill | supported shim | Lifecycle editor skill used to normalize durable card truth. |
 | `adl/tools/skills/stp-editor` | skill | supported shim | Lifecycle editor skill used to normalize durable card truth. |
-| `adl/tools/skills/test-generator` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
-| `adl/tools/skills/use-case-writer` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
 
 ## Historical Evidence Artifacts
 

@@ -1,5 +1,7 @@
 # adl/tools
 
+> The twelve C-SDLC skill families retired from this checkout by #1223 are owned by the authenticated installed C-SDLC package: demo-operator, documentation-specialist, gap-analysis, issue-folding, issue-splitter, issue-watcher, portable-contract-normalizer, refactoring-helper, release-evidence, review-comment-triage, test-generator and use-case-writer. For the ten direct resource contract scripts, set `CSDLC_SKILL_CONTRACT_ROOT` to the verified package's absolute `resources/adl/tools/skills` directory. The documentation-specialist and use-case-writer contracts instead require `ADL_OPERATIONAL_SKILLS_SOURCE_ROOT` selecting an authentic complete original layout, because they retain full-layout installer assertions. A directory path alone does not authenticate its contents. These scripts preserve the original assertions and refuse a missing or relative root. The former source layout below is historical where explicitly marked; it is not current installation authority.
+
 > CodeFriend review-skill sources now belong to [the CodeFriend owner](https://github.com/agent-logic/codefriend/tree/e93a457ad6325017627a66a2abe31a3376fa28fd/review-skills). Select its authenticated installed distribution for operational use. Retained original-layout tests require explicitly selected authentic historical fixtures; the partial ADL skill tree is not a complete installer input.
 
 Utility scripts for ADL development workflows, PR hygiene, burst execution, and report maintenance.
@@ -46,20 +48,20 @@ establish complete owner coverage.
 From repo root:
 
 ```bash
-# install or resync the canonical operational skill bundles into $CODEX_HOME/skills (default: copy mode)
+# Historical full-layout compatibility installer: requires explicit complete reviewed ADL_OPERATIONAL_SKILLS_SOURCE_ROOT; not the partial ADL tree
 bash adl/tools/install_adl_operational_skills.sh
 
-# install the same bundles as symlinks so Codex reads the tracked repo copies directly
+# Same explicit complete root, symlink mode; not the partial ADL source tree
 ADL_OPERATIONAL_SKILLS_INSTALL_MODE=symlink bash adl/tools/install_adl_operational_skills.sh
 
-# verify install/resync behavior in an isolated temporary CODEX_HOME
+# Original full-layout contract only: select authentic complete ADL_OPERATIONAL_SKILLS_SOURCE_ROOT first; not a current whole-owner acceptance claim
 bash adl/tools/test_install_adl_operational_skills.sh
 
 # verify the multi-agent repo-review specialist skill contracts
 bash adl/tools/test_multi_agent_repo_review_specialist_skill_contracts.sh
 
-# verify a deployed skill copy matches the tracked bundle; no output means identical
-diff -qr adl/tools/skills/test-generator "$CODEX_HOME/skills/test-generator"
+# Compare a deployed skill with verified installed owner resources; no output means identical bytes
+diff -qr "$CSDLC_SKILL_CONTRACT_ROOT/test-generator" "$CODEX_HOME/skills/test-generator"
 
 # normalize compatibility card links for existing task bundles
 bash adl/tools/normalize_adl_cards.sh --root "$(pwd)" --version v0.87.1
@@ -177,3 +179,14 @@ current regression-test surfaces:
 - `default.rules.profiles.example`
 - `demo_v0_4.sh`
 - `pr_smoke.sh`
+
+## Historical original-layout diff recipe
+
+The original monorepo documentation contract requires this exact recipe. It is
+retained as historical evidence only; the source directory has been retired. Use
+the explicit authenticated owner resource comparison above for current copies.
+
+```bash
+# Historical only; not executable against the split ADL checkout.
+diff -qr adl/tools/skills/test-generator "$CODEX_HOME/skills/test-generator"
+```

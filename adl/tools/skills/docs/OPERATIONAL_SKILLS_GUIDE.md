@@ -1,5 +1,7 @@
 # Operational Skills Guide
 
+> The twelve C-SDLC skill families retired from this checkout by #1223 are owned by the authenticated installed C-SDLC package: demo-operator, documentation-specialist, gap-analysis, issue-folding, issue-splitter, issue-watcher, portable-contract-normalizer, refactoring-helper, release-evidence, review-comment-triage, test-generator and use-case-writer. For the ten direct resource contract scripts, set `CSDLC_SKILL_CONTRACT_ROOT` to the verified package's absolute `resources/adl/tools/skills` directory. The documentation-specialist and use-case-writer contracts instead require `ADL_OPERATIONAL_SKILLS_SOURCE_ROOT` selecting an authentic complete original layout, because they retain full-layout installer assertions. A directory path alone does not authenticate its contents. These scripts preserve the original assertions and refuse a missing or relative root. The former source layout below is historical where explicitly marked; it is not current installation authority.
+
 > CodeFriend review-skill sources now belong to [the CodeFriend owner](https://github.com/agent-logic/codefriend/tree/e93a457ad6325017627a66a2abe31a3376fa28fd/review-skills). Select its authenticated installed distribution for operational use. Retained original-layout tests require explicitly selected authentic historical fixtures; the partial ADL skill tree is not a complete installer input.
 
 ## Purpose
@@ -14,7 +16,7 @@ scratch.
 
 ## Current Skill Set
 
-The tracked skill set is:
+The historical monorepo skill inventory is (ownership now follows the split owner distributions):
 
 - `adl-milestone-creator`
 - `adr-curator`
@@ -245,33 +247,33 @@ Installed Codex skill bundles live under:
 
 - `$CODEX_HOME/skills`
 
-To install or resync the tracked ADL skill bundles:
+For the historical full-layout compatibility installer, explicitly select a complete reviewed `ADL_OPERATIONAL_SKILLS_SOURCE_ROOT`. The partial ADL tree is not an installation input:
 
 ```bash
 bash adl/tools/install_adl_operational_skills.sh
 ```
 
-To install the tracked bundles as symlinks instead of copies:
+To install that explicitly selected complete distribution as symlinks instead of copies:
 
 ```bash
 ADL_OPERATIONAL_SKILLS_INSTALL_MODE=symlink bash adl/tools/install_adl_operational_skills.sh
 ```
 
-To verify installation behavior without mutating your real Codex home:
+To exercise the original installation assertions without mutating your real Codex home, explicitly select an authentic complete original `ADL_OPERATIONAL_SKILLS_SOURCE_ROOT`. This is historical contract proof, not full current owner acceptance:
 
 ```bash
 bash adl/tools/test_install_adl_operational_skills.sh
 ```
 
-To verify a real deployed copy of one skill against the tracked bundle, compare
-the two directories:
+To compare a deployed copy with authenticated installed owner resources, select
+`CSDLC_SKILL_CONTRACT_ROOT` as described above and compare the two directories:
 
 ```bash
-diff -qr adl/tools/skills/test-generator "$CODEX_HOME/skills/test-generator"
+diff -qr "$CSDLC_SKILL_CONTRACT_ROOT/test-generator" "$CODEX_HOME/skills/test-generator"
 ```
 
 Replace `test-generator` with the skill being checked. No output means the
-deployed copy matches the tracked bundle.
+deployed copy matches the selected owner resource bytes.
 
 ## General Invocation Pattern
 
@@ -353,7 +355,7 @@ Do not use it for:
 
 Structured schema:
 
-- `adl/tools/skills/docs/ISSUE_WATCHER_SKILL_INPUT_SCHEMA.md`
+- `${CSDLC_SKILL_CONTRACT_ROOT}/docs/ISSUE_WATCHER_SKILL_INPUT_SCHEMA.md`
 - schema id: `issue_watcher.v1`
 
 Supported modes:
@@ -1526,13 +1528,13 @@ uncertainty, and current-issue scope.
 
 Structured schema:
 
-- `adl/tools/skills/docs/REVIEW_COMMENT_TRIAGE_SKILL_INPUT_SCHEMA.md`
+- `${CSDLC_SKILL_CONTRACT_ROOT}/docs/REVIEW_COMMENT_TRIAGE_SKILL_INPUT_SCHEMA.md`
 - schema id: `review_comment_triage.v1`
 
 Deterministic fixture analyzer:
 
 ```bash
-python3 adl/tools/skills/review-comment-triage/scripts/triage_review_comments.py <payload-path>
+python3 "${CSDLC_SKILL_CONTRACT_ROOT}/review-comment-triage/scripts/triage_review_comments.py" <payload-path>
 ```
 
 ### Typical Handoff
@@ -1610,13 +1612,13 @@ Do not use it for:
 
 Structured schema:
 
-- `adl/tools/skills/docs/ISSUE_FOLDING_SKILL_INPUT_SCHEMA.md`
+- `${CSDLC_SKILL_CONTRACT_ROOT}/docs/ISSUE_FOLDING_SKILL_INPUT_SCHEMA.md`
 - schema id: `issue_folding.v1`
 
 Deterministic fixture analyzer:
 
 ```bash
-python3 adl/tools/skills/issue-folding/scripts/classify_issue_folding.py --task-bundle <path> --source-prompt <path> --out <artifact-root> --run-id <run-id>
+python3 "${CSDLC_SKILL_CONTRACT_ROOT}/issue-folding/scripts/classify_issue_folding.py" --task-bundle <path> --source-prompt <path> --out <artifact-root> --run-id <run-id>
 ```
 
 ### Typical Handoff
@@ -1652,13 +1654,13 @@ Do not use it for:
 
 Structured schema:
 
-- `adl/tools/skills/docs/ISSUE_SPLITTER_SKILL_INPUT_SCHEMA.md`
+- `${CSDLC_SKILL_CONTRACT_ROOT}/docs/ISSUE_SPLITTER_SKILL_INPUT_SCHEMA.md`
 - schema id: `issue_splitter.v1`
 
 Deterministic fixture analyzer:
 
 ```bash
-python3 adl/tools/skills/issue-splitter/scripts/plan_issue_split.py --task-bundle <path> --source-prompt <path> --out <artifact-root> --run-id <run-id>
+python3 "${CSDLC_SKILL_CONTRACT_ROOT}/issue-splitter/scripts/plan_issue_split.py" --task-bundle <path> --source-prompt <path> --out <artifact-root> --run-id <run-id>
 ```
 
 ### Typical Handoff
@@ -1697,13 +1699,13 @@ Do not use it for:
 
 Structured schema:
 
-- `adl/tools/skills/docs/PORTABLE_CONTRACT_NORMALIZER_SKILL_INPUT_SCHEMA.md`
+- `${CSDLC_SKILL_CONTRACT_ROOT}/docs/PORTABLE_CONTRACT_NORMALIZER_SKILL_INPUT_SCHEMA.md`
 - schema id: `portable_contract_normalizer.v1`
 
 Deterministic fixture analyzer:
 
 ```bash
-python3 adl/tools/skills/portable-contract-normalizer/scripts/normalize_portable_contracts.py --root <path> --out <artifact-root> --run-id <run-id>
+python3 "${CSDLC_SKILL_CONTRACT_ROOT}/portable-contract-normalizer/scripts/normalize_portable_contracts.py" --root <path> --out <artifact-root> --run-id <run-id>
 ```
 
 ### Typical Handoff
@@ -2241,7 +2243,7 @@ Minimum:
 
 Canonical schema:
 
-- `adl/tools/skills/docs/TEST_GENERATOR_SKILL_INPUT_SCHEMA.md`
+- `${CSDLC_SKILL_CONTRACT_ROOT}/docs/TEST_GENERATOR_SKILL_INPUT_SCHEMA.md`
 
 Schema id:
 
@@ -2285,7 +2287,7 @@ It must stop before broader implementation, janitoring, or finish.
 ### Example Invocation
 
 ```yaml
-Use $test-generator at <repo-root>/adl/tools/skills/test-generator/SKILL.md with:
+Use $test-generator at ${CSDLC_SKILL_CONTRACT_ROOT}/test-generator/SKILL.md with:
 skill_input_schema: test_generator.v1
 mode: generate_for_issue
 repo_root: <repo-root>
@@ -2343,7 +2345,7 @@ Minimum:
 
 Canonical schema:
 
-- `adl/tools/skills/docs/DEMO_OPERATOR_SKILL_INPUT_SCHEMA.md`
+- `${CSDLC_SKILL_CONTRACT_ROOT}/docs/DEMO_OPERATOR_SKILL_INPUT_SCHEMA.md`
 
 Schema id:
 
@@ -2385,7 +2387,7 @@ It must stop before demo implementation, release-evidence assembly, or unrelated
 ### Example Invocation
 
 ```yaml
-Use $demo-operator at <repo-root>/adl/tools/skills/demo-operator/SKILL.md with:
+Use $demo-operator at ${CSDLC_SKILL_CONTRACT_ROOT}/demo-operator/SKILL.md with:
 skill_input_schema: demo_operator.v1
 mode: operate_named_demo
 repo_root: <repo-root>
@@ -2442,7 +2444,7 @@ Minimum:
 
 Canonical schema:
 
-- `adl/tools/skills/docs/RELEASE_EVIDENCE_SKILL_INPUT_SCHEMA.md`
+- `${CSDLC_SKILL_CONTRACT_ROOT}/docs/RELEASE_EVIDENCE_SKILL_INPUT_SCHEMA.md`
 
 Schema id:
 
@@ -2894,3 +2896,14 @@ owner must verify its declared inventory, manifests, schemas, output contracts,
 guide coverage, and installation contract against its own layout. Preserve
 explicit shared-contract exceptions and unresolved inputs; individual transferred
 resource checks do not establish complete owner coverage.
+
+## Historical original-layout diff recipe
+
+The original monorepo documentation contract requires this exact recipe. It is
+retained as historical evidence only; the source directory has been retired. Use
+the explicit authenticated owner resource comparison above for current copies.
+
+```bash
+# Historical only; not executable against the split ADL checkout.
+diff -qr adl/tools/skills/test-generator "$CODEX_HOME/skills/test-generator"
+```
