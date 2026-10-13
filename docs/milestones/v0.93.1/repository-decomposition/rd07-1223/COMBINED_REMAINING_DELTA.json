@@ -6,12 +6,12 @@
   "execution_authorized": false,
   "original_count": 4134,
   "counts": {
-    "hold_explicit_reconciliation": 207,
+    "hold_explicit_reconciliation": 194,
     "hold_owner_test_reconciliation": 35,
     "preserve_approved_removal": 70,
     "preserve_reviewed_consumer_repair": 18,
-    "proposed_historical_retirement_with_caller_repair": 17,
-    "proposed_owner_transfer_with_consumer_qualification": 453,
+    "proposed_historical_retirement_with_caller_repair": 19,
+    "proposed_owner_transfer_with_consumer_qualification": 464,
     "proposed_remove_construction_qualified_infrastructure": 216,
     "proposed_remove_with_entire_source_family": 1874,
     "proposed_remove_with_entire_tool_family": 719,
@@ -28737,15 +28737,21 @@
         "blob": "20899fca98124e2063abead86a3c98bdc232b5f7"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "hold_reason": "Full source runs copy installer, writes janitor schema/prompt/logs, spawns codex exec once with inspect-only input. It is not the already-retired post-merge attachment wrapper.",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Choose explicit retirement of this launcher or adapt installed passive pr-janitor resource/installer paths; preserve one-pass inspect-only checks, adl-ci/adl-coverage and no inference. No agent process execution.",
+        "Explicit coherent retirement approval; no operational acceptance inferred"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_PRODUCTION_HELPER_DISPOSITIONS.json",
+        "packet_sha256": "f88bf93a189b79d3835cc6c4479fbc3564ee4e41d66bbab72c87987692762584",
+        "proposal": "hold_exact_janitor_launcher_consumer"
       }
     },
     {
@@ -28815,6 +28821,11 @@
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "VALIDATION_ROUTING_DISPOSITIONS.json",
+        "packet_sha256": "0c3e169b260c77503071139e7424907dfa4007477b149cb3e0c3f94627c6f1b3",
+        "proposal": "retain_public_entrypoint_with_split_repair"
       }
     },
     {
@@ -29307,6 +29318,11 @@
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "VALIDATION_ROUTING_DISPOSITIONS.json",
+        "packet_sha256": "0c3e169b260c77503071139e7424907dfa4007477b149cb3e0c3f94627c6f1b3",
+        "proposal": "historical_backfill_producer_requires_explicit_disposition"
       }
     },
     {
@@ -30190,15 +30206,21 @@
         "blob": "557711032425158e884bf41f1c4a5818d71a8a55"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "hold_reason": "Thin wrapper calls run_issue872_conversion_rehearsal.py directly.",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer or preserve together with1491/2152/2191/2192, exact authentic input closure and manifest. Isolated fixture rehearsal does not establish live native conversion.",
+        "Explicit coherent retirement approval; no operational acceptance inferred"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_PRODUCTION_HELPER_DISPOSITIONS.json",
+        "packet_sha256": "f88bf93a189b79d3835cc6c4479fbc3564ee4e41d66bbab72c87987692762584",
+        "proposal": "hold_conversion_rehearsal_family"
       }
     },
     {
@@ -32656,15 +32678,21 @@
         "blob": "6adbd02f4ffa240803599a712e61326a116e6e2a"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "hold_reason": "Full source copies docs/csdlc-v3/man/man1 to explicit stable bin path; refuses symlink directories/pages, preserves equal bytes, stages rename and mode0644.",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Owner package manual must replace source-copy consumer; identify install_owner_binaries caller and preserve installed manual bytes/provenance checks. Do not replace shared binary for docs lookup.",
+        "Explicit coherent retirement approval; no operational acceptance inferred"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_PRODUCTION_HELPER_DISPOSITIONS.json",
+        "packet_sha256": "f88bf93a189b79d3835cc6c4479fbc3564ee4e41d66bbab72c87987692762584",
+        "proposal": "hold_installed_manual_producer_boundary"
       }
     },
     {
@@ -33596,15 +33624,21 @@
         "blob": "3e4998218aeaf348b9c1db55b69ef0d5192f0b0c"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "hold_reason": "Legacy v0.87.1 normalizer directly renders Markdown bootstrap SOR and rewrites old task trees; current instructions route card edits through native semantic editor.",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Retire writer and companion test_normalize_adl_cards.sh only with explicit historical disposition and caller repair. Preserve originals as evidence; do not port direct live-card writer.",
+        "Explicit coherent retirement approval; no operational acceptance inferred"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_PRODUCTION_HELPER_DISPOSITIONS.json",
+        "packet_sha256": "f88bf93a189b79d3835cc6c4479fbc3564ee4e41d66bbab72c87987692762584",
+        "proposal": "proposed_historical_retirement_with_caller_repair"
       }
     },
     {
@@ -33814,6 +33848,11 @@
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "VALIDATION_ROUTING_DISPOSITIONS.json",
+        "packet_sha256": "0c3e169b260c77503071139e7424907dfa4007477b149cb3e0c3f94627c6f1b3",
+        "proposal": "retain_public_entrypoint_with_split_repair"
       }
     },
     {
@@ -34761,15 +34800,21 @@
         "blob": "bdd77f17ddf75da284dd679f3114d2fb1a210f11"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "hold_reason": "Source defines seven phases, twelve scenarios and fifteen fault points, durable fixture writes, source/executable restore guards and imported generation9 verifier.",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Keep complete exact scenario/fault denominator with authentic generation9 fixture and validators; existing pre-effect sandbox evidence deletion is unrelated preexisting work and must not be staged.",
+        "Explicit coherent retirement approval; no operational acceptance inferred"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_PRODUCTION_HELPER_DISPOSITIONS.json",
+        "packet_sha256": "f88bf93a189b79d3835cc6c4479fbc3564ee4e41d66bbab72c87987692762584",
+        "proposal": "hold_conversion_rehearsal_family"
       }
     },
     {
@@ -34887,6 +34932,11 @@
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "VALIDATION_ROUTING_DISPOSITIONS.json",
+        "packet_sha256": "0c3e169b260c77503071139e7424907dfa4007477b149cb3e0c3f94627c6f1b3",
+        "proposal": "hold_mixed_owner_runner_until_caller_cutover"
       }
     },
     {
@@ -35801,6 +35851,11 @@
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "VALIDATION_ROUTING_DISPOSITIONS.json",
+        "packet_sha256": "0c3e169b260c77503071139e7424907dfa4007477b149cb3e0c3f94627c6f1b3",
+        "proposal": "retain_routing_entrypoint_pending_manifest_reconciliation"
       }
     },
     {
@@ -44158,15 +44213,25 @@
         "blob": "6f2df70070726fe781ef92a1f89fb354075a3a09"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "hold_reason": "Existing owner composition maps implementation; authentic installed qualification and native admission remain required.",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Authenticate actual owner distribution and dependency composition; source manifest is not producer authentication",
+        "Execute or reuse exact existing mapped original assertions with complete installer/conductor denominator",
+        "For lifecycle helper effects require real admitted native owner evidence separately from transport doubles",
+        "Reconcile ADL caller/selector removal with final coherent retirement approval"
       ],
       "successor_mapping": {
-        "mapping": "unmapped",
-        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-        "exact_successor_paths": []
+        "mapping": "reviewed_owner_composition",
+        "successor_revision": "b3dc3d7dd8f89e38a3ff410be3bf0c9045d4b3ca",
+        "source_path": "docs/skill-distributions/original-contracts/current-conductor/check_sprint_closeout_readiness.py",
+        "installed_path": "skills/sprint-conductor/scripts/check_sprint_closeout_readiness.py",
+        "sha256": "f53209eab9f5dd034d368c4dad8f4a16f6a98f81d9e25ff05384ac681027b1db"
+      },
+      "reviewed_disposition": {
+        "packet": "CONDUCTOR_11_DISPOSITIONS.json",
+        "packet_sha256": "db3c46fa4275ad569a56c5423f8f8a4f34bd489189b3177b7e5dad58d9a98b9c",
+        "proposal": "proposed_owner_transfer_with_consumer_qualification"
       }
     },
     {
@@ -44179,15 +44244,25 @@
         "blob": "97fb46119f7df7c4612dcb8df0b645ebee7b72fb"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "hold_reason": "Existing owner composition maps implementation; authentic installed qualification and native admission remain required.",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Authenticate actual owner distribution and dependency composition; source manifest is not producer authentication",
+        "Execute or reuse exact existing mapped original assertions with complete installer/conductor denominator",
+        "For lifecycle helper effects require real admitted native owner evidence separately from transport doubles",
+        "Reconcile ADL caller/selector removal with final coherent retirement approval"
       ],
       "successor_mapping": {
-        "mapping": "unmapped",
-        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-        "exact_successor_paths": []
+        "mapping": "reviewed_owner_composition",
+        "successor_revision": "b3dc3d7dd8f89e38a3ff410be3bf0c9045d4b3ca",
+        "source_path": "docs/skill-distributions/original-contracts/current-conductor/check_sprint_readiness.py",
+        "installed_path": "skills/sprint-conductor/scripts/check_sprint_readiness.py",
+        "sha256": "d6346aa6a4776736dbdba156f4aa5265473d6a9deb8e777c300ad7f0927f6325"
+      },
+      "reviewed_disposition": {
+        "packet": "CONDUCTOR_11_DISPOSITIONS.json",
+        "packet_sha256": "db3c46fa4275ad569a56c5423f8f8a4f34bd489189b3177b7e5dad58d9a98b9c",
+        "proposal": "proposed_owner_transfer_with_consumer_qualification"
       }
     },
     {
@@ -44200,15 +44275,25 @@
         "blob": "257b5abbf209bb1108f5281a3b3ebffaff12b0e4"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "hold_reason": "Existing owner composition maps implementation; authentic installed qualification and native admission remain required.",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Authenticate actual owner distribution and dependency composition; source manifest is not producer authentication",
+        "Execute or reuse exact existing mapped original assertions with complete installer/conductor denominator",
+        "For lifecycle helper effects require real admitted native owner evidence separately from transport doubles",
+        "Reconcile ADL caller/selector removal with final coherent retirement approval"
       ],
       "successor_mapping": {
-        "mapping": "unmapped",
-        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-        "exact_successor_paths": []
+        "mapping": "reviewed_owner_composition",
+        "successor_revision": "b3dc3d7dd8f89e38a3ff410be3bf0c9045d4b3ca",
+        "source_path": "docs/skill-distributions/original-contracts/current-conductor/check_sprint_structured_prompt_readiness.py",
+        "installed_path": "skills/sprint-conductor/scripts/check_sprint_structured_prompt_readiness.py",
+        "sha256": "1d6c0dda842c0563fdf409e5d9f5d8c7eb9cc4ce9e0938dbe50f07bb0a98f356"
+      },
+      "reviewed_disposition": {
+        "packet": "CONDUCTOR_11_DISPOSITIONS.json",
+        "packet_sha256": "db3c46fa4275ad569a56c5423f8f8a4f34bd489189b3177b7e5dad58d9a98b9c",
+        "proposal": "proposed_owner_transfer_with_consumer_qualification"
       }
     },
     {
@@ -44221,15 +44306,25 @@
         "blob": "989b5643968aa824f2e37857c97a40063915b30c"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "hold_reason": "Existing owner composition maps implementation; authentic installed qualification and native admission remain required.",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Authenticate actual owner distribution and dependency composition; source manifest is not producer authentication",
+        "Execute or reuse exact existing mapped original assertions with complete installer/conductor denominator",
+        "For lifecycle helper effects require real admitted native owner evidence separately from transport doubles",
+        "Reconcile ADL caller/selector removal with final coherent retirement approval"
       ],
       "successor_mapping": {
-        "mapping": "unmapped",
-        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-        "exact_successor_paths": []
+        "mapping": "reviewed_owner_composition",
+        "successor_revision": "b3dc3d7dd8f89e38a3ff410be3bf0c9045d4b3ca",
+        "source_path": "docs/skill-distributions/original-contracts/current-conductor/check_sprint_truth.py",
+        "installed_path": "skills/sprint-conductor/scripts/check_sprint_truth.py",
+        "sha256": "332a334060cb6b260fd7ac43d67214d75d6974f9bd3a8015d6bc3944f4ce6416"
+      },
+      "reviewed_disposition": {
+        "packet": "CONDUCTOR_11_DISPOSITIONS.json",
+        "packet_sha256": "db3c46fa4275ad569a56c5423f8f8a4f34bd489189b3177b7e5dad58d9a98b9c",
+        "proposal": "proposed_owner_transfer_with_consumer_qualification"
       }
     },
     {
@@ -44242,15 +44337,25 @@
         "blob": "474a7aca355892a9e9afc3fe6c9b6049d2fff57e"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "hold_reason": "Existing owner composition maps implementation; authentic installed qualification and native admission remain required.",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Authenticate actual owner distribution and dependency composition; source manifest is not producer authentication",
+        "Execute or reuse exact existing mapped original assertions with complete installer/conductor denominator",
+        "For lifecycle helper effects require real admitted native owner evidence separately from transport doubles",
+        "Reconcile ADL caller/selector removal with final coherent retirement approval"
       ],
       "successor_mapping": {
-        "mapping": "unmapped",
-        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-        "exact_successor_paths": []
+        "mapping": "reviewed_owner_composition",
+        "successor_revision": "b3dc3d7dd8f89e38a3ff410be3bf0c9045d4b3ca",
+        "source_path": "docs/skill-distributions/original-contracts/current-conductor/close_sprint_issue.py",
+        "installed_path": "skills/sprint-conductor/scripts/close_sprint_issue.py",
+        "sha256": "e627a3a97d73e0127a2a6b37d1f53d5680cfe3fb00aacf4c8db7d9df6f3674cb"
+      },
+      "reviewed_disposition": {
+        "packet": "CONDUCTOR_11_DISPOSITIONS.json",
+        "packet_sha256": "db3c46fa4275ad569a56c5423f8f8a4f34bd489189b3177b7e5dad58d9a98b9c",
+        "proposal": "proposed_owner_transfer_with_consumer_qualification"
       }
     },
     {
@@ -44263,15 +44368,25 @@
         "blob": "da172ebc8c58c5e128a1296b23e2235dcec7a4e4"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "hold_reason": "Existing owner composition maps implementation; authentic installed qualification and native admission remain required.",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Authenticate actual owner distribution and dependency composition; source manifest is not producer authentication",
+        "Execute or reuse exact existing mapped original assertions with complete installer/conductor denominator",
+        "For lifecycle helper effects require real admitted native owner evidence separately from transport doubles",
+        "Reconcile ADL caller/selector removal with final coherent retirement approval"
       ],
       "successor_mapping": {
-        "mapping": "unmapped",
-        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-        "exact_successor_paths": []
+        "mapping": "reviewed_owner_composition",
+        "successor_revision": "b3dc3d7dd8f89e38a3ff410be3bf0c9045d4b3ca",
+        "source_path": "docs/skill-distributions/original-contracts/current-conductor/create_missing_sprint_issue.py",
+        "installed_path": "skills/sprint-conductor/scripts/create_missing_sprint_issue.py",
+        "sha256": "85b6a7613e5f3fb6a5dd5fbe88ccdc955bcc5f41990c643e66eef4935322e2ca"
+      },
+      "reviewed_disposition": {
+        "packet": "CONDUCTOR_11_DISPOSITIONS.json",
+        "packet_sha256": "db3c46fa4275ad569a56c5423f8f8a4f34bd489189b3177b7e5dad58d9a98b9c",
+        "proposal": "proposed_owner_transfer_with_consumer_qualification"
       }
     },
     {
@@ -44308,15 +44423,25 @@
         "blob": "3caf11889e7935a3e1389434bf77439de317e7da"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "hold_reason": "Existing owner composition maps implementation; authentic installed qualification and native admission remain required.",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Authenticate actual owner distribution and dependency composition; source manifest is not producer authentication",
+        "Execute or reuse exact existing mapped original assertions with complete installer/conductor denominator",
+        "For lifecycle helper effects require real admitted native owner evidence separately from transport doubles",
+        "Reconcile ADL caller/selector removal with final coherent retirement approval"
       ],
       "successor_mapping": {
-        "mapping": "unmapped",
-        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-        "exact_successor_paths": []
+        "mapping": "reviewed_owner_composition",
+        "successor_revision": "b3dc3d7dd8f89e38a3ff410be3bf0c9045d4b3ca",
+        "source_path": "docs/skill-distributions/original-contracts/original/adl/tools/skills/sprint-conductor/scripts/predict_issue_execution_metrics.py",
+        "installed_path": "adl/tools/skills/sprint-conductor/scripts/predict_issue_execution_metrics.py",
+        "sha256": "631ae4b30a7f781b0a7c87ed2b92419b93c544539ea38c2a4f025b47c4d5df4a"
+      },
+      "reviewed_disposition": {
+        "packet": "CONDUCTOR_11_DISPOSITIONS.json",
+        "packet_sha256": "db3c46fa4275ad569a56c5423f8f8a4f34bd489189b3177b7e5dad58d9a98b9c",
+        "proposal": "proposed_owner_transfer_with_consumer_qualification"
       }
     },
     {
@@ -44329,15 +44454,25 @@
         "blob": "c706abd03a0f0970961687ff81d035c4e55644f3"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "hold_reason": "Existing owner composition maps implementation; authentic installed qualification and native admission remain required.",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Authenticate actual owner distribution and dependency composition; source manifest is not producer authentication",
+        "Execute or reuse exact existing mapped original assertions with complete installer/conductor denominator",
+        "For lifecycle helper effects require real admitted native owner evidence separately from transport doubles",
+        "Reconcile ADL caller/selector removal with final coherent retirement approval"
       ],
       "successor_mapping": {
-        "mapping": "unmapped",
-        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-        "exact_successor_paths": []
+        "mapping": "reviewed_owner_composition",
+        "successor_revision": "b3dc3d7dd8f89e38a3ff410be3bf0c9045d4b3ca",
+        "source_path": "docs/skill-distributions/original-contracts/current-conductor/record_child_issue_closeout.py",
+        "installed_path": "skills/sprint-conductor/scripts/record_child_issue_closeout.py",
+        "sha256": "113d89472aa51e9b4b2e89c01b67f21db758777dd6c7b0cc217d75a03019f853"
+      },
+      "reviewed_disposition": {
+        "packet": "CONDUCTOR_11_DISPOSITIONS.json",
+        "packet_sha256": "db3c46fa4275ad569a56c5423f8f8a4f34bd489189b3177b7e5dad58d9a98b9c",
+        "proposal": "proposed_owner_transfer_with_consumer_qualification"
       }
     },
     {
@@ -44398,15 +44533,25 @@
         "blob": "a269f205fe536bac2039cd26c8025c69523aae95"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "hold_reason": "Existing owner composition maps implementation; authentic installed qualification and native admission remain required.",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Authenticate actual owner distribution and dependency composition; source manifest is not producer authentication",
+        "Execute or reuse exact existing mapped original assertions with complete installer/conductor denominator",
+        "For lifecycle helper effects require real admitted native owner evidence separately from transport doubles",
+        "Reconcile ADL caller/selector removal with final coherent retirement approval"
       ],
       "successor_mapping": {
-        "mapping": "unmapped",
-        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-        "exact_successor_paths": []
+        "mapping": "reviewed_owner_composition",
+        "successor_revision": "b3dc3d7dd8f89e38a3ff410be3bf0c9045d4b3ca",
+        "source_path": "docs/skill-distributions/original-contracts/original/adl/tools/skills/sprint-conductor/scripts/record_issue_goal_stage_artifacts.py",
+        "installed_path": "adl/tools/skills/sprint-conductor/scripts/record_issue_goal_stage_artifacts.py",
+        "sha256": "b0c2b8ff84bd7eb2528aead54bc6301d352b058eac364ab38ee70d29a692ba50"
+      },
+      "reviewed_disposition": {
+        "packet": "CONDUCTOR_11_DISPOSITIONS.json",
+        "packet_sha256": "db3c46fa4275ad569a56c5423f8f8a4f34bd489189b3177b7e5dad58d9a98b9c",
+        "proposal": "proposed_owner_transfer_with_consumer_qualification"
       }
     },
     {
@@ -44443,15 +44588,25 @@
         "blob": "761b8b57c85b91ef8ec3280f638fe84de48dfaec"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "hold_reason": "Existing owner composition maps implementation; authentic installed qualification and native admission remain required.",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Authenticate actual owner distribution and dependency composition; source manifest is not producer authentication",
+        "Execute or reuse exact existing mapped original assertions with complete installer/conductor denominator",
+        "For lifecycle helper effects require real admitted native owner evidence separately from transport doubles",
+        "Reconcile ADL caller/selector removal with final coherent retirement approval"
       ],
       "successor_mapping": {
-        "mapping": "unmapped",
-        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-        "exact_successor_paths": []
+        "mapping": "reviewed_owner_composition",
+        "successor_revision": "b3dc3d7dd8f89e38a3ff410be3bf0c9045d4b3ca",
+        "source_path": "docs/skill-distributions/original-contracts/current-conductor/update_sprint_state.py",
+        "installed_path": "skills/sprint-conductor/scripts/update_sprint_state.py",
+        "sha256": "a227c7f452dd3c514ad609623e47db92ab62957e53d814b7cf4860360866a4e3"
+      },
+      "reviewed_disposition": {
+        "packet": "CONDUCTOR_11_DISPOSITIONS.json",
+        "packet_sha256": "db3c46fa4275ad569a56c5423f8f8a4f34bd489189b3177b7e5dad58d9a98b9c",
+        "proposal": "proposed_owner_transfer_with_consumer_qualification"
       }
     },
     {
@@ -44528,15 +44683,25 @@
         "blob": "14cf4b75c7ce4e23b16df145800b7a2d32be16cf"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "hold_reason": "Existing owner composition maps implementation; authentic installed qualification and native admission remain required.",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Authenticate actual owner distribution and dependency composition; source manifest is not producer authentication",
+        "Execute or reuse exact existing mapped original assertions with complete installer/conductor denominator",
+        "For lifecycle helper effects require real admitted native owner evidence separately from transport doubles",
+        "Reconcile ADL caller/selector removal with final coherent retirement approval"
       ],
       "successor_mapping": {
-        "mapping": "unmapped",
-        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-        "exact_successor_paths": []
+        "mapping": "reviewed_owner_composition",
+        "successor_revision": "b3dc3d7dd8f89e38a3ff410be3bf0c9045d4b3ca",
+        "source_path": "docs/skill-distributions/original-contracts/original/adl/tools/skills/sprint-conductor/scripts/write_issue_goal_metrics_report.py",
+        "installed_path": "adl/tools/skills/sprint-conductor/scripts/write_issue_goal_metrics_report.py",
+        "sha256": "4809a13f1064d64cdbef25bf8c435350acee28c8b874001c561c8069cdd3b388"
+      },
+      "reviewed_disposition": {
+        "packet": "CONDUCTOR_11_DISPOSITIONS.json",
+        "packet_sha256": "db3c46fa4275ad569a56c5423f8f8a4f34bd489189b3177b7e5dad58d9a98b9c",
+        "proposal": "proposed_owner_transfer_with_consumer_qualification"
       }
     },
     {
@@ -48726,12 +48891,11 @@
         "blob": "5bbcbf7fcdc25ed366a82ddc3fd02c2a3f816d01"
       },
       "existing_action": "retain",
-      "hold_reason": "Original duplicate .adl root/worktree materialization and compatibility symlinks are explicitly unsupported by current native rebuild. Preserve exact evidence and decide historical retirement with callers; do not call native rebuild equivalent or restore old symlink behavior.",
-      "proposed_action": "hold_explicit_reconciliation",
+      "hold_reason": "Reviewed exact copy preserves legacy normalization assertions; current card authority is native semantic editing.",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "Accept per-row disposition and close listed caller/dependency obligations.",
-        "For transfers, bind actual owner package/fixture outcomes to the mapped assertion denominator; source availability alone is insufficient.",
-        "Obtain coherent source-retirement approval and guard qualification."
+        "Explicit historical retirement decision with RD07-1443 legacy Markdown writer and all active caller repair",
+        "Preserve original assertions as historical evidence; do not reintroduce a live direct card writer"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
@@ -54128,6 +54292,11 @@
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "VALIDATION_ROUTING_DISPOSITIONS.json",
+        "packet_sha256": "0c3e169b260c77503071139e7424907dfa4007477b149cb3e0c3f94627c6f1b3",
+        "proposal": "retain_public_inventory_with_owner_boundary_repair"
       }
     },
     {
@@ -54162,6 +54331,11 @@
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "VALIDATION_ROUTING_DISPOSITIONS.json",
+        "packet_sha256": "0c3e169b260c77503071139e7424907dfa4007477b149cb3e0c3f94627c6f1b3",
+        "proposal": "retain_routing_entrypoint_pending_manifest_reconciliation"
       }
     },
     {
