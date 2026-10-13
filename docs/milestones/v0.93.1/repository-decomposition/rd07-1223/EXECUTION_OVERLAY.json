@@ -6,7 +6,7 @@
   "execution_authorized": false,
   "original_inventory_count": 4134,
   "additional_inventory_count": 22,
-  "executed_deletion_count": 2785,
+  "executed_deletion_count": 2788,
   "entries": [
     {
       "path": ".github/workflows/ci.yaml",
@@ -64513,7 +64513,7 @@
       "before": null,
       "after": [
         "100644",
-        "d1c0f68c015abf6319bcbe6f9e45e15ea66b3e8b"
+        "9117c057f4d0da865f3e3753d5b43b5f761edaef"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "Infrastructure212 source commit guard-documentation accompaniment",
@@ -64702,6 +64702,18 @@
             "d1c0f68c015abf6319bcbe6f9e45e15ea66b3e8b"
           ],
           "packet": "Runtime guides, Infrastructure lifecycle/redaction and legacy card-wrapper integration"
+        },
+        {
+          "commit": "pending_reviewed_integration",
+          "before": [
+            "100644",
+            "d1c0f68c015abf6319bcbe6f9e45e15ea66b3e8b"
+          ],
+          "after": [
+            "100644",
+            "9117c057f4d0da865f3e3753d5b43b5f761edaef"
+          ],
+          "packet": "Runtime API three-resource integration"
         }
       ],
       "prior_execution_provenance": [
@@ -85372,6 +85384,125 @@
         "blob": "3ca7e547c595bdd96bf651734bb7ed67b985c85e",
         "sha256": "cd274d4c94dc07e2aef9a06deb800f26c089e3bf5e2c544c812acd650c75bf72"
       }
+    },
+    {
+      "path": "docs/api/runtime-v3/v1/API_VERSIONING.md",
+      "before": [
+        "100644",
+        "48d74682519afe9bd8b84000e8e532ec62c91fa0"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "bd52e40e2c776b279d41129d084804d200a13c84",
+      "approval_reference": "RUNTIME_API_THREE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "bd52e40e2c776b279d41129d084804d200a13c84",
+          "before": [
+            "100644",
+            "48d74682519afe9bd8b84000e8e532ec62c91fa0"
+          ],
+          "after": null,
+          "packet": "RUNTIME_API_THREE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_API_THREE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-api-three-preparation/current-preimages.tar",
+        "archive_sha256": "e33518a2251fe093f4436d5c387d08a9b8d93c0ec98c0cc88447e9dee7ca8d47",
+        "member": "docs/api/runtime-v3/v1/API_VERSIONING.md",
+        "mode": "100644",
+        "blob": "48d74682519afe9bd8b84000e8e532ec62c91fa0",
+        "sha256": "5528cb3b2c685f3e1fdd1d79b5f6be7ec6f274e3a48954ec65fdffdba12c8684"
+      }
+    },
+    {
+      "path": "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "before": [
+        "100644",
+        "5636f691814632ea5fe094a4875b1ab51032fdc6"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "bd52e40e2c776b279d41129d084804d200a13c84",
+      "approval_reference": "RUNTIME_API_THREE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "bd52e40e2c776b279d41129d084804d200a13c84",
+          "before": [
+            "100644",
+            "5636f691814632ea5fe094a4875b1ab51032fdc6"
+          ],
+          "after": null,
+          "packet": "RUNTIME_API_THREE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_API_THREE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-api-three-preparation/current-preimages.tar",
+        "archive_sha256": "e33518a2251fe093f4436d5c387d08a9b8d93c0ec98c0cc88447e9dee7ca8d47",
+        "member": "docs/api/runtime-v3/v1/observatory.openapi.json",
+        "mode": "100644",
+        "blob": "5636f691814632ea5fe094a4875b1ab51032fdc6",
+        "sha256": "fcae197e3239f3b6d37d9c9b3f31ac088b30414f193f258eff22b02827cbec5a"
+      }
+    },
+    {
+      "path": "docs/api/runtime-v3/v1/openapi.json",
+      "before": [
+        "100644",
+        "809d3a3b09befe434c7ad3103d1dabf355a8c94e"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "bd52e40e2c776b279d41129d084804d200a13c84",
+      "approval_reference": "RUNTIME_API_THREE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "bd52e40e2c776b279d41129d084804d200a13c84",
+          "before": [
+            "100644",
+            "809d3a3b09befe434c7ad3103d1dabf355a8c94e"
+          ],
+          "after": null,
+          "packet": "RUNTIME_API_THREE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_API_THREE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-api-three-preparation/current-preimages.tar",
+        "archive_sha256": "e33518a2251fe093f4436d5c387d08a9b8d93c0ec98c0cc88447e9dee7ca8d47",
+        "member": "docs/api/runtime-v3/v1/openapi.json",
+        "mode": "100644",
+        "blob": "809d3a3b09befe434c7ad3103d1dabf355a8c94e",
+        "sha256": "1edd822730d48381e121d9ee7a0303f53005e64668a328d02a8882692841cbc8"
+      }
+    },
+    {
+      "path": "docs/api/runtime-v3/v1/README.md",
+      "before": null,
+      "after": [
+        "100644",
+        "39d9a645f045e44afde77ffad9e77ae4df6769dd"
+      ],
+      "action": "add",
+      "implementation_commit": "bd52e40e2c776b279d41129d084804d200a13c84",
+      "approval_reference": "RUNTIME_API_THREE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "bd52e40e2c776b279d41129d084804d200a13c84",
+          "before": null,
+          "after": [
+            "100644",
+            "39d9a645f045e44afde77ffad9e77ae4df6769dd"
+          ],
+          "packet": "RUNTIME_API_THREE_APPLIED.json"
+        }
+      ]
     }
   ],
   "missing_entries": [],
@@ -92116,9 +92247,26 @@
         "docs/tooling/TOOL_SURFACE_REGISTRY.md"
       ],
       "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "RUNTIME_API_THREE_APPLIED.json",
+      "sha256": "899e03b0d2d21e52cb53677a321a65ea1ac99d45e413b93a8ddaeab62ef210b3",
+      "commit": "bd52e40e2c776b279d41129d084804d200a13c84",
+      "files": 4,
+      "removals": 3,
+      "scope_sha256": "352561a67bf86ceba2a61e8c4257fd6d6900755878238c460c391e586116f86a",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "docs/api/runtime-v3/v1/API_VERSIONING.md",
+        "docs/api/runtime-v3/v1/observatory.openapi.json",
+        "docs/api/runtime-v3/v1/openapi.json",
+        "docs/api/runtime-v3/v1/README.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
     }
   ],
-  "baseline_deletion_count": 2784,
+  "baseline_deletion_count": 2787,
   "transient_removed_paths": [
     "adl/tools/test_issue872_historical_manifest.py"
   ],
@@ -92131,6 +92279,6 @@
     "adl/tools/test_demo_v0901_quality_gate.sh",
     "adl/tools/test_demo_v0902_review_quality_gate.sh"
   ],
-  "inventory_baseline_deletion_count": 2777,
+  "inventory_baseline_deletion_count": 2780,
   "supplemental_baseline_deletion_count": 7
 }
