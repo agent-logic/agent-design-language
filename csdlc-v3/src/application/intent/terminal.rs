@@ -503,7 +503,7 @@ fn native_request(
     explicit: Option<u64>,
     publication_repository: Option<&str>,
     receipt_path: &std::path::Path,
-) -> Result<(TerminalRouteRequest, bool), String> {
+) -> Result<(TerminalRouteRequest, bool, bool), String> {
     let mut missing_state_repair = false;
     let mut retained_head = None;
     let mut retained_publication_repository = None;
@@ -653,6 +653,7 @@ fn native_request(
             || legacy_explicit
             || missing_state_repair
             || (retained.is_some() && semantic_migration),
+        retained.is_some(),
     ))
 }
 fn attach_terminal_observation(
@@ -1348,7 +1349,7 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
     }
     let mut legacy_merged_compatibility = false;
     let mut missing_semantic_no_pr_compatibility = false;
-    let retained_terminal_receipt = receipt_path.exists();
+    let mut retained_terminal_receipt = false;
     let mut native = if request.command == "finish"
         && !request.content.is_null()
         && explicit_pr.is_none()
@@ -1439,13 +1440,14 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
         serde_json::from_value(json!({"repository":context.repository,"publication_repository":receipt.publication_repository,"issue":context.issue,"expected_head_sha":cleanup_head,"pull_request":receipt.pull_request,
             "mode":if receipt.no_pr_closeout.is_some(){Value::Null}else{json!("closing")},"no_pr_closeout":receipt.no_pr_closeout,"credential_names":["GITHUB_TOKEN"]})).map_err(|_|"intent_terminal_request_invalid")?
     } else {
-        let (native, compatibility) = native_request(
+        let (native, compatibility, retained) = native_request(
             context,
             explicit_pr,
             publication_repository.as_deref(),
             &receipt_path,
         )?;
         legacy_merged_compatibility = compatibility;
+        retained_terminal_receipt = retained;
         native
     };
     let legacy_coordination_compatibility = native
