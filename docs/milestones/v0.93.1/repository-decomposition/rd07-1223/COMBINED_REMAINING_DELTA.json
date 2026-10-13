@@ -12,10 +12,10 @@
     "proposed_remove_with_entire_source_family": 1677,
     "retain_public_source_or_fixture": 124,
     "preserve_reviewed_consumer_repair": 18,
-    "proposed_historical_retirement_with_caller_repair": 60,
-    "hold_explicit_reconciliation": 20,
+    "proposed_historical_retirement_with_caller_repair": 61,
     "hold_owner_test_reconciliation": 35,
     "proposed_remove_with_entire_tool_family": 674,
+    "hold_explicit_reconciliation": 19,
     "proposed_remove_construction_qualified_infrastructure": 216
   },
   "additional_current_source_paths": 22,
@@ -9426,14 +9426,21 @@
         "blob": "40e34e399ca67b7d2832da4a008f88edb72e247d"
       },
       "existing_action": "retain",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "actual_review_owner_source_mapping_and_original_fixture_and_contract_disposition",
-        "coherent_review_caller_closure_and_scoped_removal_decision"
+        "Coherently retire or repair compatibility test RD07-1902, owner validation lane RD07-1496 and five-command caller RD07-2005; retain each independent child obligation.",
+        "Repair active ADL taxonomy/installation docs and repo-code-review output-contract guidance; coordinate the stale adl-review example in CodeFriend review-skills/repo-code-review/references/output-contract.md. Regenerate affected inventories with actual approved changes.",
+        "Preserve original verifier fixtures and direct staged-showcase sources/tests (1369/1989/2174). Preserve old help/version/retired-subcommand/v2-handoff/ownership diagnostics as historical compatibility assertions; do not claim modern CodeFriend reproduces them.",
+        "Preserve exact source rollback custody and obtain scoped removal review/approval. No source deletion or execution authority is conferred by this classification."
       ],
       "successor_mapping": {
-        "mapping": "review_owner_mapping_required",
-        "codefriend_mapping_rejected": true
+        "mapping": "historical_wrapper_with_verified_verifier_source_and_retained_fixture_route",
+        "successor_repository": "agent-logic/codefriend",
+        "successor_revision": "8236ee8e8ae7e31efdd391904d3f8d75b30693fb",
+        "exact_successor_paths": [
+          "crates/codefriend/src/bin/cli/review_contract_cmd.rs"
+        ],
+        "exact_compatibility_cli_equivalence": false
       },
       "pre_reconciliation_classification": {
         "owner": "codefriend",
@@ -9458,7 +9465,28 @@
         "owner_blob": null,
         "lexical_equivalence_claim": false
       },
-      "hold_reason": "misclassified_CodeFriend_wrapper_requires_review_owner_mapping"
+      "prior_review_owner_hold": {
+        "proposed_action": "hold_explicit_reconciliation",
+        "hold_reason": "misclassified_CodeFriend_wrapper_requires_review_owner_mapping",
+        "required_before_execution": [
+          "actual_review_owner_source_mapping_and_original_fixture_and_contract_disposition",
+          "coherent_review_caller_closure_and_scoped_removal_decision"
+        ],
+        "successor_mapping": {
+          "mapping": "review_owner_mapping_required",
+          "codefriend_mapping_rejected": true
+        }
+      },
+      "historical_hold_reason": "misclassified_CodeFriend_wrapper_requires_review_owner_mapping",
+      "review_wrapper_disposition": {
+        "packet": "REVIEW_WRAPPER_0426_DISPOSITION.json",
+        "sha256": "81093df3ca5940cf87749e2fb8e422e860d204e2c759c3b16a195aa75860f859",
+        "owner_revision": "8236ee8e8ae7e31efdd391904d3f8d75b30693fb",
+        "verifier_source": "crates/codefriend/src/bin/cli/review_contract_cmd.rs",
+        "five_functions_byte_identical": true,
+        "four_installed_cases_independently_verified_this_review": false,
+        "execution_authorized": false
+      }
     },
     {
       "id": "RD07-0427",
@@ -56602,7 +56630,7 @@
       },
       "owner_delivery": {
         "packet": "INFRASTRUCTURE_32_GPU345_OWNER_DISPOSITION.json",
-        "sha256": "a86f29d6e2f5e0fae9c13e14cea8eb82b5aa9f3809a911f962337c777e38ff80",
+        "sha256": "7bbd494847a10b19662f2d98fe66d3437c6d2dbf2586a9eebe3a9cf0658a4777",
         "repository": "agent-logic/agent-logic-infrastructure",
         "issue": 32,
         "pull_request": 33,

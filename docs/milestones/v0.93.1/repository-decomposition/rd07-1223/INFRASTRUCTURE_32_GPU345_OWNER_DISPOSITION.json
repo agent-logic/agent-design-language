@@ -194,8 +194,8 @@
       "successor": "Guard source retained and post-preflight call statically checked; original fixture exercises not reproduced."
     },
     {
-      "original": "deadline exact two-node Lambda shutdown",
-      "successor": "Changed to terminate-on-guest-shutdown and runner deadline timer; explicit behavioral difference, not live equivalence."
+      "original": "Historical exact two-node EventBridge Scheduler shutdown assertion remained in the ADL test after the implementation had changed.",
+      "successor": "Guest shutdown termination and runner deadline timer were already introduced by ADL #657 before Infrastructure #32. The stale test does not establish a new #32 regression or current safety equivalence."
     }
   ],
   "current_adl_callers": [
@@ -226,7 +226,7 @@
   "remaining_conditions": [
     "Before removal, adopt a coherent issue345 runner, Terraform, generated guest scripts and test caller disposition; current ADL runner review_state_sha256 still hashes this test, and operations README/registry still advertise it.",
     "Preserve original test bytes and original negative_cases:24 as historical source evidence. New native proof has two Rust tests, including four Python test methods invoked both directly and within the shell test; do not add these counts or claim original24 equivalence.",
-    "Explicitly resolve changed/dropped original contracts before treating transfer as fully qualified: exact-node deadline Lambda is replaced by guest shutdown termination and guest timer; Terraform validate, complete fake authorization/cost/AMI/review-state drift exercises, generated user-data SSM recovery and Vector setup assertions are not all reproduced by new offline test.",
+    "Explicitly resolve changed/dropped original contracts before treating transfer as fully qualified: the prior exact-node EventBridge Scheduler was removed by ADL #657 in favor of guest shutdown termination and guest timer before Infrastructure #32; Terraform validate, complete fake authorization/cost/AMI/review-state drift exercises, generated user-data SSM recovery and Vector setup assertions are not all reproduced by new offline test.",
     "Record source-build/Git-free Cargo archive checks as intentionally historical and replaced by pinned Runtime artifact contracts; do not silently equate removed build assertions with artifact acceptance.",
     "Genuine pinned x86_64-unknown-linux-gnu Runtime artifact acceptance and live GPU/model/AWS behavior remain unqualified; use existing owner delivery evidence where exact and obtain separate execution authorization if those acceptance lanes are required.",
     "Retain immutable inventory identities and baseline rollback custody; exact scoped removal review and caller repair are required. This packet authorizes no source deletion."
@@ -262,5 +262,13 @@
     "No tests, builds, cloud, model, provider, deployment or genuine artifact acceptance executed in this review.",
     "No overlay/guard update or removal approval.",
     "Native issue finish/cleanup is not inferred from merged/closed remote state."
-  ]
+  ],
+  "shutdown_history_correction": {
+    "prior_packet_sha256": "a86f29d6e2f5e0fae9c13e14cea8eb82b5aa9f3809a911f962337c777e38ff80",
+    "scheduler_added_commit": "44ec88dbafb405edf28ba41275149c54d03f83ab",
+    "scheduler_removed_commit": "1e55b3c6708ae09cd0e1d92ce358b6fb18de1372",
+    "path": "infra/aws/runtime/gpu-proof/main.tf",
+    "verified": "Added aws_scheduler_schedule.terminate with EC2 TerminateInstances exact two-node input; later source has instance_initiated_shutdown_behavior=terminate for both nodes. This was EventBridge Scheduler, not Lambda.",
+    "remaining_risk": "Guest failure before timer setup still needs current owner design assessment; no live equivalence claimed."
+  }
 }

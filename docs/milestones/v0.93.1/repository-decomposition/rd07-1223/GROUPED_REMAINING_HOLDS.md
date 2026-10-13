@@ -1,6 +1,6 @@
 # #1223 remaining hold groups
 
-Snapshot of all **55 holds** after reviewed owner deliveries and correction of the misclassified review wrapper. All 4,134 original identities remain in the ledger; 22 additional current paths remain separately tracked. No deletion is authorized by this grouping.
+Snapshot of all **54 holds** after reviewed owner deliveries and conditional historical disposition of the review wrapper. All 4,134 original identities remain in the ledger; 22 additional current paths remain separately tracked. No deletion is authorized by this grouping.
 
 | Group | Held paths | Next action |
 | --- | ---: | --- |
@@ -10,7 +10,6 @@ Snapshot of all **55 holds** after reviewed owner deliveries and correction of t
 | Installed C-SDLC node and plan proof | 1 | Reuse five restored passing scenarios and native proof; reconcile exact delivered artifact and installed admission before authorizing source/test removal. |
 | Remaining ADL validation routing | 5 | After reviewed caller cutover, reconcile each retained runner, selector, coverage/PVF policy and configuration against five public packages and original assertions. Retain historical private lanes explicitly; do not silently drop inventory rows. |
 | Mixed consumers (inherited inventory owner) | 4 | Resolve the exact per-row required_before_execution entries preserved below as one owner consumer batch: map current caller and qualified successor or choose explicit historical retention/retirement. Reuse existing owner evidence; source presence alone does not close behavior. Cloud/live operations require their own existing authorization. |
-| Review owner compatibility wrapper | 1 | Map RD07-0426 to the actual review owner; current public autobins=false excludes this wrapper. |
 
 The accompanying `GROUPED_REMAINING_HOLDS.json` preserves every held row, exact identity, prior review and execution prerequisite verbatim. Its group membership is disjoint and complete. Counts for pending patches are intersections with held original rows, not patch file totals.
 
@@ -90,3 +89,5 @@ Infrastructure #26 / PR #28 and #30 / PR #31 deliver original1490/2021 and1417/1
 Infrastructure #32 / PR #33 delivers RD07-2090 at source `c91799dc`, merged `f8b03ea4`. Its conditional transfer preserves historical24 versus new2 native tests (nested Python4 non-additive), active ADL runner/hash and documentation callers, original assertion gaps and unqualified genuine Linux/live GPU acceptance. See `INFRASTRUCTURE_32_GPU345_OWNER_DISPOSITION.json`. No source removal authorized; 54 holds remain.
 
 CodeFriend source reconciliation preserves all 414 original declarations (391 suite and 23 support), with 19 async declarations outside that historical count. Existing Linux409, macOS1 and focused185 proofs remain non-additive and pinned to their own heads. 196 rows now carry conditional owner-transfer mappings; misclassified RD07-0426 is separately held for the review owner. Lexical correspondence is not behavioral equivalence; no files deleted. Current holds:55. See `CODEFRIEND_SOURCE_FAMILY_RECONCILIATION.json`.
+
+RD07-0426 now has conditional historical-wrapper retirement with caller repair. Five verifier functions match CodeFriend `8236ee8e` byte-for-byte; retained staged showcase sources preserve its fixture route. Original CodeFriend misclassification and later review-owner hold remain historical. The four installed verifier cases remain reported from the prior packet, not newly independently verified: its external RESULT location is unspecified. See `REVIEW_WRAPPER_0426_DISPOSITION.json`. No deletion authorized; current holds:54.
