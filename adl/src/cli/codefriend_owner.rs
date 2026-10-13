@@ -67,9 +67,9 @@ impl SelectedCodeFriend {
             ("workflow_sha", "GITHUB_WORKFLOW_SHA"),
             ("job_name", "GITHUB_JOB"),
         ] {
-            if !receipt[receipt_key]
+            if receipt[receipt_key]
                 .as_str()
-                .is_some_and(|value| !value.is_empty())
+                .is_none_or(|value| value.is_empty())
                 || receipt[receipt_key] != context[context_key]
             {
                 bail!("CodeFriend installed producer metadata mismatch");
