@@ -36,3 +36,19 @@ The #1223 evidence packet records actual Runtime package installation, installed
 transport and pause/resume checks, legacy behavior comparison, and focused public
 CLI dispatch tests. Those are distinct from the remaining manifest/source removal
 and final public package acceptance.
+
+## CodeFriend commands
+
+`adl codefriend ...` consumes a CodeFriend installation qualified by the product's
+`tools/product_distribution.py` installer. Set `ADL_CODEFRIEND_INSTALL_PREFIX`,
+`ADL_CODEFRIEND_ARCHIVE_SHA256` and `ADL_CODEFRIEND_CANDIDATE` from the independently
+authenticated owner package. ADL checks the existing `INSTALLATION.json` and
+`manifest.json` identities and executable metadata in that trusted directory.
+The installation must contain a binary compatible with the executing host.
+
+CodeFriend receives the original argument boundaries and inherited streams and
+returns its own exit status. Its human errors omit the old ADL `Error: ` prefix;
+error identifiers and channels are preserved. JSON objects may use a different
+key order. The older x86 distribution used to check the receipt-selection contract
+is distinct from the newer ARM64 binaries used for current installed execution
+proof; neither evidence record is relabeled as the other.

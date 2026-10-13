@@ -208,5 +208,18 @@
     "cases": 9,
     "integration": "cargo check and cargo build --locked --offline --manifest-path adl/Cargo.toml --bin adl passed",
     "limits": "Synthetic layout tests wiring, not owner qualification; real installed proof remains in RUNTIME_CONSUMER_PREFLIGHT.json"
+  },
+  "codefriend_owner_selection_proof": {
+    "lane": "local_contract",
+    "role": "existing_product_receipt_selection_and_public_cli_forwarding",
+    "determinism": "synthetic receipt/resource fixtures and fixed child exit17",
+    "resources": "offline small Cargo probe and already-built public CLI",
+    "gate": "required CLI-02 CodeFriend wiring",
+    "selector_tests": 5,
+    "facade_tests": 5,
+    "result": "passed",
+    "real_receipt_fixture": "prior qualified e4c7e25 INSTALLATION and manifest selected without executing foreign-platform binary",
+    "integration": "Full retained CLI cargo check and build passed",
+    "limits": "Selection proof is not a reauthentication of package payload; current installed smoke and successful ingestion parity recorded separately"
   }
 }

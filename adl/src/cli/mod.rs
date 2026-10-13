@@ -4,10 +4,7 @@ use std::process::Command;
 
 mod agent_cmd;
 mod artifact_cmd;
-mod codefriend_ci_cmd;
-mod codefriend_cmd;
-mod codefriend_publication_cmd;
-mod codefriend_structure_cmd;
+mod codefriend_owner;
 mod commands;
 mod csm_cmd;
 mod csm_runtime_v3_cmd;
@@ -77,9 +74,6 @@ fn print_error_chain(err: &anyhow::Error) {
 
 pub fn run_main() {
     if let Err(err) = real_main() {
-        if let Some(exit) = err.downcast_ref::<codefriend_fitness_cmd::FitnessExit>() {
-            std::process::exit(exit.0);
-        }
         print_error_chain(&err);
         std::process::exit(1);
     }
@@ -191,7 +185,7 @@ fn dispatch_args(args: &[String]) -> Result<()> {
     );
 
     match args.first().map(|s| s.as_str()) {
-        Some("codefriend") => codefriend_cmd::real_codefriend(&args[1..]),
+        Some("codefriend") => codefriend_owner::SelectedCodeFriend::from_environment()?.exec(&args[1..]),
         Some("artifact") => real_artifact(&args[1..]),
         Some("agent") => real_agent(&args[1..]),
         Some("csm") => real_csm(&args[1..]),
@@ -738,7 +732,3 @@ mod tests {
     }
 }
 
-mod codefriend_evidence_cmd;
-mod codefriend_fitness_ci_cmd;
-mod codefriend_fitness_cmd;
-mod codefriend_memory_cmd;

@@ -91,8 +91,12 @@
     ],
     "adl/src/cli/mod.rs": [
       "100644",
-      "f43bb539193f183ebd200dbb16ad16bbbc282897"
+      "02cb253d6f1281a03e6ea17902e859b3324b4591"
+    ],
+    "adl/src/cli/codefriend_owner.rs": [
+      "100644",
+      "c4b00fe6c63a04eaba08eb33c3fc0085a2db8b03"
     ]
   },
-  "surgical_followup": "CLI-01 parser/rendering extraction and CLI-02 pinned Runtime workflow/resume delegation with preserved ADL diagnostics and explicit owner logging; no further removals"
+  "surgical_followup": "CLI-01 parser/rendering extraction and CLI-02 qualified Runtime workflow/resume plus CodeFriend owner delegation; public diagnostics and explicit owner logging retained; no further source removals"
 }
