@@ -33,6 +33,14 @@ PRIMARY_TOOL_SCRIPTS = {
     "check_coverage_impact.sh": "Primary local coverage-impact gate for risky changed files.",
 }
 
+HISTORICAL_TOOL_SCRIPTS = {
+    "demo_d11_signed_remote.sh": "Historical signed-remote contract; current public ADL does not supply its Runtime binary or test interfaces.",
+    "demo_v087_operational_skills.sh": "Historical bundle-install and inventory contract; original recursive acceptance remains separate from owner resource proof.",
+    "test_demo_v0871_real_multi_agent_discussion.sh": "Historical credentialed provider acceptance contract; five real calls remain unqualified.",
+    "test_v0916_unity_observatory_unity65_smoke.sh": "Historical Unity editor smoke contract; retained timeout is not a successful scene-validation result.",
+    "validate_issue256_birthday_after_observatory.py": "Historical issue256 acceptance validator tied to frozen issue414/424 evidence; not a current workflow entrypoint.",
+}
+
 HISTORICAL_EVIDENCE = [
     (
         "docs/milestones/v0.91.5/CLI_COMMAND_INVENTORY_3594.md",
@@ -96,6 +104,8 @@ def parse_bin_names() -> list[str]:
 
 def classify_tool_script(path: Path) -> tuple[str, str]:
     name = path.name
+    if name in HISTORICAL_TOOL_SCRIPTS:
+        return "historical evidence", HISTORICAL_TOOL_SCRIPTS[name]
     if name in REMOVE_CANDIDATES:
         return "remove candidate", REMOVE_CANDIDATES[name]
     if name in SUPPORTED_SHIMS:
@@ -156,7 +166,7 @@ def build_document() -> str:
 
     tool_rows: list[tuple[str, str, str, str]] = []
     for path in sorted(TOOLS_DIR.iterdir()):
-        if path.name == "skills":
+        if path.name in {"skills", "__pycache__"}:
             continue
         if path.is_dir():
             classification = "internal helper"

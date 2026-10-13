@@ -30,8 +30,8 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 15
 - `supported shim`: 6
-- `internal helper`: 721
-- `historical evidence`: 4
+- `internal helper`: 715
+- `historical evidence`: 9
 - `archive candidate`: 0
 - `remove candidate`: 2
 
@@ -112,7 +112,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/demo_affect_godel_vertical_slice.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_codex_ollama_operational_skills.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_cross_workflow_learning.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
-| `adl/tools/demo_d11_signed_remote.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
+| `adl/tools/demo_d11_signed_remote.sh` | tool surface | historical evidence | Historical signed-remote contract; current public ADL does not supply its Runtime binary or test interfaces. |
 | `adl/tools/demo_experiment_prioritization.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_five_command_editing.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_five_command_run.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
@@ -145,7 +145,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/demo_v0871_suite.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v0871_trace_runtime.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v087_control_plane.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
-| `adl/tools/demo_v087_operational_skills.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
+| `adl/tools/demo_v087_operational_skills.sh` | tool surface | historical evidence | Historical bundle-install and inventory contract; original recursive acceptance remains separate from owner resource proof. |
 | `adl/tools/demo_v087_provider_portability.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v087_reviewer_package.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v087_shared_obsmem.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
@@ -416,7 +416,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_demo_v0871_provider_local_ollama.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v0871_provider_mock.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v0871_provider_parallel.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_demo_v0871_real_multi_agent_discussion.sh` | tool surface | internal helper | Focused regression or contract test helper. |
+| `adl/tools/test_demo_v0871_real_multi_agent_discussion.sh` | tool surface | historical evidence | Historical credentialed provider acceptance contract; five real calls remain unqualified. |
 | `adl/tools/test_demo_v0871_review_surface.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v0871_review_tail_rows.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v0871_runtime_rows.sh` | tool surface | internal helper | Focused regression or contract test helper. |
@@ -580,7 +580,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_runtime_v3_operational_selector.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_rust_cache_env.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_rust_validation_warm_cache.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_select_validation_lanes.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_setup_required_coverage_toolchain.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_setup_wp08_s3_obsmem_archive_policy.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_shell_wrapper_inventory.sh` | tool surface | internal helper | Focused regression or contract test helper. |
@@ -613,7 +612,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_v0916_unity_observatory_contract.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_v0916_unity_observatory_unity65_smoke.sh` | tool surface | internal helper | Focused regression or contract test helper. |
+| `adl/tools/test_v0916_unity_observatory_unity65_smoke.sh` | tool surface | historical evidence | Historical Unity editor smoke contract; retained timeout is not a successful scene-validation result. |
 | `adl/tools/test_v0917_html_observatory_integrated_proof.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_v0917_unity_observatory_integrated_proof.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_v0918_unity_ilpp_diagnostic_matrix.sh` | tool surface | internal helper | Focused regression or contract test helper. |
@@ -660,7 +659,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/validate_five_agent_music_demo.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_five_minute_html_game_packet.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_five_minute_sprint_console_packet.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
-| `adl/tools/validate_issue256_birthday_after_observatory.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
+| `adl/tools/validate_issue256_birthday_after_observatory.py` | tool surface | historical evidence | Historical issue256 acceptance validator tied to frozen issue414/424 evidence; not a current workflow entrypoint. |
 | `adl/tools/validate_issue268_six_resident_uts_plan.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_issue872_conversion_rehearsal.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_issue872_generation9_fixture.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
