@@ -56,8 +56,8 @@ active users as well as Git's dirty flag.
 ## Supported closeout route
 
 Use the installed native v3 owner selected under the repository contract, normally
-`.adl/bin/native-v3/csdlc`. See the [operator workflow](../csdlc-v3/man/man1/csdlc-workflow.1)
-and [clean manual](../csdlc-v3/man/man1/csdlc-clean.1).
+`.adl/bin/native-v3/csdlc`. See the [installed operator manual lookup](../csdlc-v3/man/README.md),
+then read `man csdlc-workflow` and `man csdlc-clean` from the selected package.
 
 1. Reconcile the exact closed issue and merged delivery, or an explicitly
    authorized no-PR disposition, through `csdlc finish ISSUE`.

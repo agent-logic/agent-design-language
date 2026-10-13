@@ -1,17 +1,15 @@
 # Native operator manual
 
-`manual.json` is the reviewed source for the installable roff suite in `man1/`.
-Read `man csdlc`, `man csdlc-workflow`, `man csdlc-requests`, or a command page
-such as `man csdlc-finish`. The historical ADL source suite contains 34 pages covering its
-30 root-help commands, the supported `rollback` alias and both simple issue
-forms. This extends the frozen 27 predecessor dispositions with `status`,
-`prepare`, `recover` and `rebuild`; it does not change that historical denominator. `inventory.json` binds options
-and request fields to their source contracts. Source/manual coverage is
-separate from installed-binary provenance, exact-head review and activation.
-The selected owner package has its own versioned page inventory; derive its
-page count and supported commands from that package, not this historical count.
-See [issue intent commands](../INTENT_COMMANDS.md) for the ordinary interface and
-shared advanced request.
+Operational manuals and request examples are delivered by the authenticated
+Cognitive-SDLC owner package. This ADL directory retains package lookup guidance
+and its isolated lookup/refusal test; the historical 34-page source suite,
+18 example fixtures and their generator inputs moved out of ADL in #1223.
+Their exact original bytes remain in Git and retirement custody.
+
+The selected package determines its command and page inventory. The earlier
+11808226974 package had 42 pages whose actual manual lookup and rendering passed;
+that does not execute request examples or establish native lifecycle authority.
+See [issue intent commands](../INTENT_COMMANDS.md) for repository routing.
 
 ## Installed owner manuals
 
@@ -55,42 +53,25 @@ manual directory, successful lookup, or local source build alone does not grant
 operational authority. New package revisions deliver new paired manuals atomically;
 do not edit an installed package to refresh documentation.
 
-## Retained source authoring reference
+## Owner authoring and historical examples
 
-Edit the JSON source, then run `python3 docs/csdlc-v3/man/render.py`. Do not edit
-generated roff directly. The renderer uses only Python's standard library;
-installation needs Bash and ordinary POSIX file utilities. Lookup needs the
-host's `man` implementation. macOS ships `man` and `mandoc`; Linux distributions
-may require their `man-db`/`man` and roff formatter packages.
+Manual authoring and renderer tests belong to
+[Cognitive-SDLC](https://github.com/agent-logic/cognitive-sdlc/tree/fa5e22e818f9eb5478faac298877f188492cd879/docs/csdlc-v3/man).
+Use that owner's source and validation instructions; do not regenerate private
+manual sources or compile the retired C-SDLC crate in ADL.
 
-The optional `csdlc-v3/examples/operator_manual.rs` helper reads native digests
-and registrations using public APIs. It requires the repository Rust toolchain
-and Cargo dependencies, is not installed by the owner installer, and grants no
-lifecycle or authentication authority:
+The 18 original request examples are byte-identical in the verified owner
+resource set. They are fixtures, not approved operational targets. Resource
+presence and manual rendering do not execute a request or authorize a live
+GitHub operation. New owner commands and documented policy changes do not
+establish behavioral equivalence with the historical ADL manual.
 
-```sh
-cargo run --quiet --manifest-path csdlc-v3/Cargo.toml --example operator_manual -- selector-digest .
-cargo run --quiet --manifest-path csdlc-v3/Cargo.toml --example operator_manual -- review-digest docs/csdlc-v3/man/examples/typed-review.json
-```
-
-Examples are fixtures, not approved operational targets. Tests deserialize every
-request family and exercise actual native plan/guard contracts. They do not
-claim a live GitHub end-to-end delivery. Current diagnostic side effects,
-credential-file requirements and the post-creation publication-readback gate
-are described explicitly. Direct issue-writer and administrative-writer
-`--request` forms are retained only as retired discovery surfaces; current
-execution uses semantic issue intents or exact generated `--intent-request`
-snapshots.
-
-Validation:
+The retained ADL lookup contract is checked with:
 
 ```sh
-cargo test --manifest-path csdlc-v3/Cargo.toml --test operator_man_pages
-cargo test --manifest-path csdlc-v3/Cargo.toml --example operator_manual
 bash docs/csdlc-v3/man/test_install.sh
 TMPDIR="$PWD/target" bash adl/tools/test_owner_binary_install.sh
-git diff --check
 ```
 
-PVF classification is in `pvf.json`. Platform results and exact command outcomes
-belong in the issue evidence packet. A test run on macOS is not Linux proof.
+These local fixture checks do not install or activate an owner. Actual platform
+results belong in their evidence packet; a macOS result is not Linux proof.

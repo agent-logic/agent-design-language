@@ -1,0 +1,3035 @@
+{
+  "schema": "adl1223.manual_family_applied.v1",
+  "status": "applied_local_reversible_implementation",
+  "source_head_before": "c49dad50b6e6c5df08ca5e7e467be699c6bdc5e8",
+  "implementation_commit": "pending_parent_commit",
+  "authorization_basis": "User-directed coherent source retirement for ADL1223; exact reviewed owner transfer and bounded caller repair.",
+  "proposal": {
+    "path": "/Volumes/FastWork/c1223/manual-family-preparation/PROPOSAL.json",
+    "sha256": "75cd4f02610d3ea537d4788f18586ec18920e3a7ff6c15a547581f1d4a3d8688"
+  },
+  "reviewed_patch": {
+    "path": "/Volumes/FastWork/c1223/manual-family-preparation/manual-fifty-six.patch",
+    "sha256": "6e885b0414331788da8d85e15a9221fe1a3f2caa2a9943033fa4cfffbef7c125"
+  },
+  "counts": {
+    "original_conditional_paths": 56,
+    "roff_pages": 34,
+    "example_fixtures": 18,
+    "generator_and_data": 4,
+    "retained_caller_repairs": 2
+  },
+  "rows": [
+    {
+      "id": "RD07-3469",
+      "path": "docs/csdlc-v3/man/examples/clean.json",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "0dbc3a6fa832cebcfe589f47967112fecf67a09d"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/csdlc-v3/man/examples/clean.json"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3470",
+      "path": "docs/csdlc-v3/man/examples/cutover.json",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "2a15cdf02e492c9e08510f79e0e7de6f6d88af6d"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/csdlc-v3/man/examples/cutover.json"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3471",
+      "path": "docs/csdlc-v3/man/examples/finish-primary.json",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "23c8f23400ea9d5e67c15afd6283be630e26fff6"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/csdlc-v3/man/examples/finish-primary.json"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3472",
+      "path": "docs/csdlc-v3/man/examples/finish.json",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "7a696410487ba26be0ffb81fdf110df10f14be8f"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/csdlc-v3/man/examples/finish.json"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3473",
+      "path": "docs/csdlc-v3/man/examples/install.json",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "a9acaf68b1ac6071643e087722e871f9c711809a"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/csdlc-v3/man/examples/install.json"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3474",
+      "path": "docs/csdlc-v3/man/examples/local.json",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "5621eec9d0436f099f8e1d6a347bc7e5fbe87a41"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/csdlc-v3/man/examples/local.json"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3475",
+      "path": "docs/csdlc-v3/man/examples/merge.json",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "e8351bbdcac0ce2c84b088770acb92eac158f3e8"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/csdlc-v3/man/examples/merge.json"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3476",
+      "path": "docs/csdlc-v3/man/examples/mutation.json",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "3151f6a853b1ea0ec74e358aa8275db5df864c67"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/csdlc-v3/man/examples/mutation.json"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3477",
+      "path": "docs/csdlc-v3/man/examples/pr-create.json",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "4d070498d13a2f7efd2a3e2b7b8f2fb3729ad1e3"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/csdlc-v3/man/examples/pr-create.json"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3478",
+      "path": "docs/csdlc-v3/man/examples/proof.json",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "90757321dd98623a537232a6a76dbc57b6300854"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/csdlc-v3/man/examples/proof.json"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3479",
+      "path": "docs/csdlc-v3/man/examples/release.json",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "bf626f1033e28417a40892c2bcaef1aca0efe1e6"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/csdlc-v3/man/examples/release.json"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3480",
+      "path": "docs/csdlc-v3/man/examples/remote.json",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "6b11a8384b1bf8759900cf27ba3b74e8494492e3"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/csdlc-v3/man/examples/remote.json"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3481",
+      "path": "docs/csdlc-v3/man/examples/review.json",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "218834eea8f793309ef6123b081592115b2e75d5"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/csdlc-v3/man/examples/review.json"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3482",
+      "path": "docs/csdlc-v3/man/examples/rollback.json",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "955dd14b0d38bf64433ab988e605dd252a779b06"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/csdlc-v3/man/examples/rollback.json"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3483",
+      "path": "docs/csdlc-v3/man/examples/shadow.json",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "6a7059d1c8493fc921da245dfde12260a3a05ddd"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/csdlc-v3/man/examples/shadow.json",
+          "docs/csdlc-v3/man/examples/soak.json"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3484",
+      "path": "docs/csdlc-v3/man/examples/soak.json",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "6a7059d1c8493fc921da245dfde12260a3a05ddd"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/csdlc-v3/man/examples/shadow.json",
+          "docs/csdlc-v3/man/examples/soak.json"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3485",
+      "path": "docs/csdlc-v3/man/examples/sprint.json",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "7fd6e13ee9e4297e137d590a2974c57e250f89a5"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/csdlc-v3/man/examples/sprint.json"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3486",
+      "path": "docs/csdlc-v3/man/examples/typed-review.json",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "782f08f02152becd56c0a721d19849e0f5e34470"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/csdlc-v3/man/examples/typed-review.json"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3487",
+      "path": "docs/csdlc-v3/man/inventory.json",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "6cb67cc701948bff647caf571abdbd4fe2584e84"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_current_source_changes_not_covered_by_frozen_rollback",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "same_path_changed",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3488",
+      "path": "docs/csdlc-v3/man/man1/csdlc-bind.1",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "e7ab203159883afdca479167888ec0a79eb08d47"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/csdlc-v3/man/man1/csdlc-bind.1"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3489",
+      "path": "docs/csdlc-v3/man/man1/csdlc-clean.1",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "90286c1a77d996cfbfdb07d60336656113d18f86"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/csdlc-v3/man/man1/csdlc-clean.1"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3490",
+      "path": "docs/csdlc-v3/man/man1/csdlc-cutover.1",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "00eeb7a9ecdc1dac2a638c9f28304cb529cd6dad"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/csdlc-v3/man/man1/csdlc-cutover.1"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3491",
+      "path": "docs/csdlc-v3/man/man1/csdlc-doctor.1",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "913763fee87a9cf1cee4dd23b202e24d3d064396"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/csdlc-v3/man/man1/csdlc-doctor.1"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3492",
+      "path": "docs/csdlc-v3/man/man1/csdlc-edit.1",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "bea27655558dc216b6bc338f1062af833e227506"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "same_path_changed",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3493",
+      "path": "docs/csdlc-v3/man/man1/csdlc-eligibility.1",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "a1859afe78186324d274db5352d88ffebd191661"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/csdlc-v3/man/man1/csdlc-eligibility.1"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3494",
+      "path": "docs/csdlc-v3/man/man1/csdlc-finish.1",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "f5cbace5c4a7ba0d7b21dae86a39ae043c9a0587"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_current_source_changes_not_covered_by_frozen_rollback",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "same_path_changed",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3495",
+      "path": "docs/csdlc-v3/man/man1/csdlc-foundation.1",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "1fb5382fb5cb3b6f9a820af8a4e78e9dd478c0a0"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/csdlc-v3/man/man1/csdlc-foundation.1"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3496",
+      "path": "docs/csdlc-v3/man/man1/csdlc-github-issue.1",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "98c6dbcb97945bc391e66d721a742912ab4cca9b"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/csdlc-v3/man/man1/csdlc-github-issue.1"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3497",
+      "path": "docs/csdlc-v3/man/man1/csdlc-github-pr.1",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "5256e3e0077f83e22c3e1a497d71a66bf543b9f0"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/csdlc-v3/man/man1/csdlc-github-pr.1"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3498",
+      "path": "docs/csdlc-v3/man/man1/csdlc-github.1",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "0cdabe9b2ce2bcd9a19c7e35b8804732d54655a2"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/csdlc-v3/man/man1/csdlc-github.1"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3499",
+      "path": "docs/csdlc-v3/man/man1/csdlc-install.1",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "73f9afb0dcec9f3212306c07f1feac36492c2624"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/csdlc-v3/man/man1/csdlc-install.1"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3500",
+      "path": "docs/csdlc-v3/man/man1/csdlc-issue.1",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "3c00aedb84ca8439fa52ecc9a761dc1f60757468"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/csdlc-v3/man/man1/csdlc-issue.1"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3501",
+      "path": "docs/csdlc-v3/man/man1/csdlc-local.1",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "7946bc82e455f2369783d1eb195552f512bb68cd"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/csdlc-v3/man/man1/csdlc-local.1"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3502",
+      "path": "docs/csdlc-v3/man/man1/csdlc-pr-state.1",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "31fc0b01695930ed262ff2ea6c8285e2274c1cdc"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/csdlc-v3/man/man1/csdlc-pr-state.1"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3503",
+      "path": "docs/csdlc-v3/man/man1/csdlc-prepare.1",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "8470e9c0b22aa51b9427d442fa1e4e0374d5f952"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "same_path_changed",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3504",
+      "path": "docs/csdlc-v3/man/man1/csdlc-proof.1",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "8382d8dff6e15661b8eaa5903144b688afbca0d8"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "same_path_changed",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3505",
+      "path": "docs/csdlc-v3/man/man1/csdlc-publish.1",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "d2cab149bd2799d0e3d229be32903b34ffa32ed9"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/csdlc-v3/man/man1/csdlc-publish.1"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3506",
+      "path": "docs/csdlc-v3/man/man1/csdlc-rebuild.1",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "a3abe7eaac27eaa75526670e396067fd18819708"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/csdlc-v3/man/man1/csdlc-rebuild.1"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3507",
+      "path": "docs/csdlc-v3/man/man1/csdlc-recover.1",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "a8d854711d4a1eda47614aee1303336812b1d292"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "same_path_changed",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3508",
+      "path": "docs/csdlc-v3/man/man1/csdlc-release-preflight.1",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "a9bfc4a2d1ddba5e6610f37d15d10e4058c8ca16"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/csdlc-v3/man/man1/csdlc-release-preflight.1"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3509",
+      "path": "docs/csdlc-v3/man/man1/csdlc-remote.1",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "2dca3ebd88e72bfd81074d6fac618c70bc864f95"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/csdlc-v3/man/man1/csdlc-remote.1"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3510",
+      "path": "docs/csdlc-v3/man/man1/csdlc-requests.1",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "3df2aedcb311ff81de08f2e324bb9fdcef68ecab"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_current_source_changes_not_covered_by_frozen_rollback",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "same_path_changed",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3511",
+      "path": "docs/csdlc-v3/man/man1/csdlc-review.1",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "4472a947fc7f3f3c925120b8c3447240a6cac31a"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/csdlc-v3/man/man1/csdlc-review.1"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3512",
+      "path": "docs/csdlc-v3/man/man1/csdlc-rollback.1",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "08441b5dccd4e840c5da812395d8d8e440f4493a"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/csdlc-v3/man/man1/csdlc-rollback.1"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3513",
+      "path": "docs/csdlc-v3/man/man1/csdlc-schedule.1",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "83d7a85c5206b45a47f4d9da2ab43e6e46294045"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/csdlc-v3/man/man1/csdlc-schedule.1"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3514",
+      "path": "docs/csdlc-v3/man/man1/csdlc-shadow.1",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "2acb47d7b1f87fd46ed6fa04bcade964ee9ced31"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/csdlc-v3/man/man1/csdlc-shadow.1"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3515",
+      "path": "docs/csdlc-v3/man/man1/csdlc-shepherd.1",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "3ea7dd314c1b9087426c42692a223d771c9ff1e7"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/csdlc-v3/man/man1/csdlc-shepherd.1"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3516",
+      "path": "docs/csdlc-v3/man/man1/csdlc-soak.1",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "a544ef6410da068cf28325614381c3de0d8aed34"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/csdlc-v3/man/man1/csdlc-soak.1"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3517",
+      "path": "docs/csdlc-v3/man/man1/csdlc-sprint.1",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "df208b62644b9161e69222f4d684299deb81caa7"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/csdlc-v3/man/man1/csdlc-sprint.1"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3518",
+      "path": "docs/csdlc-v3/man/man1/csdlc-status.1",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "2fbb2c602c1fd7cecd1fe0a07386d399738c6cba"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/csdlc-v3/man/man1/csdlc-status.1"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3519",
+      "path": "docs/csdlc-v3/man/man1/csdlc-validate.1",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "f00e629aae65e3e4ecf3c9bd141681b039f5b5a4"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/csdlc-v3/man/man1/csdlc-validate.1"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3520",
+      "path": "docs/csdlc-v3/man/man1/csdlc-workflow.1",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "30bb58fda44a56c79f2c9f3d6743415c56deb950"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "same_path_changed",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3521",
+      "path": "docs/csdlc-v3/man/man1/csdlc.1",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "0939095e875f8c1aa2f7a276edc008bb3d2d3f2f"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "same_path_changed",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3522",
+      "path": "docs/csdlc-v3/man/manual.json",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "3844777e574ebc872e904c9523ab64a9dddd6317"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_current_source_changes_not_covered_by_frozen_rollback",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "same_path_changed",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3523",
+      "path": "docs/csdlc-v3/man/pvf.json",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "15976971c73bf14f61c7dea5652c7a7a163f4042"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "same_path_changed",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    },
+    {
+      "id": "RD07-3524",
+      "path": "docs/csdlc-v3/man/render.py",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "083c7e1069ed665c64e6c56a68b59d7d96296bcf"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/csdlc-v3/man/render.py"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+        "proposal": "conditional_owner_document_transfer",
+        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "docs/csdlc-v3/man/examples/clean.json",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "0dbc3a6fa832cebcfe589f47967112fecf67a09d",
+        "sha256": "beb38614b31aca23fabf23d145b9739f5a5be826e2bfb92bcbe298b598ecb837"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/examples/clean.json"
+    },
+    {
+      "path": "docs/csdlc-v3/man/examples/cutover.json",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "2a15cdf02e492c9e08510f79e0e7de6f6d88af6d",
+        "sha256": "6401fb6963ad19b0339c00c929fbbc47bcb5909dc8b0b8ae27eed1f24ba27e0e"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/examples/cutover.json"
+    },
+    {
+      "path": "docs/csdlc-v3/man/examples/finish-primary.json",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "23c8f23400ea9d5e67c15afd6283be630e26fff6",
+        "sha256": "c0da1bcc3bc2844b325f3ddc6f42168a1da738db790669bcf40ff3da2f16df18"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/examples/finish-primary.json"
+    },
+    {
+      "path": "docs/csdlc-v3/man/examples/finish.json",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "7a696410487ba26be0ffb81fdf110df10f14be8f",
+        "sha256": "543568ab0ffe0a11652f11af716bc7fa03d2dc7add0f3ee64651da6805436db6"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/examples/finish.json"
+    },
+    {
+      "path": "docs/csdlc-v3/man/examples/install.json",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "a9acaf68b1ac6071643e087722e871f9c711809a",
+        "sha256": "bc81fdbe86be723a64763d01bd21df14b98f7664bff0c7bcb7a0975adc3a7194"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/examples/install.json"
+    },
+    {
+      "path": "docs/csdlc-v3/man/examples/local.json",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "5621eec9d0436f099f8e1d6a347bc7e5fbe87a41",
+        "sha256": "f37dc1d89e523a4607fc521cae951342463c9b13bc25230167912b3170296040"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/examples/local.json"
+    },
+    {
+      "path": "docs/csdlc-v3/man/examples/merge.json",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "e8351bbdcac0ce2c84b088770acb92eac158f3e8",
+        "sha256": "4e5528ec4a7c52d4e08a037fa8dddbd6213d0bba797587381fac734b87fb628a"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/examples/merge.json"
+    },
+    {
+      "path": "docs/csdlc-v3/man/examples/mutation.json",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "3151f6a853b1ea0ec74e358aa8275db5df864c67",
+        "sha256": "4afc1f29702de60bcb2f96362f3de867f2ab68962b49772df2045f87dff1d324"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/examples/mutation.json"
+    },
+    {
+      "path": "docs/csdlc-v3/man/examples/pr-create.json",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "4d070498d13a2f7efd2a3e2b7b8f2fb3729ad1e3",
+        "sha256": "06a73aa2373cafebd56a85c054f974ba6be1406ff1a09012da0858e9beb44c36"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/examples/pr-create.json"
+    },
+    {
+      "path": "docs/csdlc-v3/man/examples/proof.json",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "90757321dd98623a537232a6a76dbc57b6300854",
+        "sha256": "96e54189a04add1c31cf85dcea0de0e457ca53bfaf5da1845b3597d68fe47d9a"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/examples/proof.json"
+    },
+    {
+      "path": "docs/csdlc-v3/man/examples/release.json",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "bf626f1033e28417a40892c2bcaef1aca0efe1e6",
+        "sha256": "ccf0d0a892d5ae7f0d9ccbeb4c3d68d69aba4c43309b531949ac4c3784548ce9"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/examples/release.json"
+    },
+    {
+      "path": "docs/csdlc-v3/man/examples/remote.json",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "6b11a8384b1bf8759900cf27ba3b74e8494492e3",
+        "sha256": "fe0d64fe3bd8298bfe2dcc548bb104fe1a6f136f6c526b976caad28ea86ec8f5"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/examples/remote.json"
+    },
+    {
+      "path": "docs/csdlc-v3/man/examples/review.json",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "218834eea8f793309ef6123b081592115b2e75d5",
+        "sha256": "46ac527a196f7ebfcf369510c66b9e9176ed895faab26c86ce11ad6000e6826b"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/examples/review.json"
+    },
+    {
+      "path": "docs/csdlc-v3/man/examples/rollback.json",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "955dd14b0d38bf64433ab988e605dd252a779b06",
+        "sha256": "93ede32ef4971af44fdbb910a3f59be5c6de7721589b07999a6e941d27cf8669"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/examples/rollback.json"
+    },
+    {
+      "path": "docs/csdlc-v3/man/examples/shadow.json",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "6a7059d1c8493fc921da245dfde12260a3a05ddd",
+        "sha256": "3bb23dd3ef201542627f30e4c4bcc333cffd8119c4e09c27c22128e487cd5dd9"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/examples/shadow.json"
+    },
+    {
+      "path": "docs/csdlc-v3/man/examples/soak.json",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "6a7059d1c8493fc921da245dfde12260a3a05ddd",
+        "sha256": "3bb23dd3ef201542627f30e4c4bcc333cffd8119c4e09c27c22128e487cd5dd9"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/examples/soak.json"
+    },
+    {
+      "path": "docs/csdlc-v3/man/examples/sprint.json",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "7fd6e13ee9e4297e137d590a2974c57e250f89a5",
+        "sha256": "e39ba658918125337c35e9ef4502054dc6a6e5ecd154b343d6d22ec029d035a6"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/examples/sprint.json"
+    },
+    {
+      "path": "docs/csdlc-v3/man/examples/typed-review.json",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "782f08f02152becd56c0a721d19849e0f5e34470",
+        "sha256": "1add12864d22def8264ac058df21d04c0084d38d84a21d6722828b3ae0d47c6f"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/examples/typed-review.json"
+    },
+    {
+      "path": "docs/csdlc-v3/man/inventory.json",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "6cb67cc701948bff647caf571abdbd4fe2584e84",
+        "sha256": "44739fb028f30e971b4b2bf5ef9f5ea128db705ecde8e5d2a3e72e1a93fa648b"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/inventory.json"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-bind.1",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "e7ab203159883afdca479167888ec0a79eb08d47",
+        "sha256": "727e0b2199b525aabe06362dba247c647a17209df4d32c0d7a798828f8e776d5"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/man1/csdlc-bind.1"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-clean.1",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "90286c1a77d996cfbfdb07d60336656113d18f86",
+        "sha256": "25ba1383f0d3e8410517c07e2219f3d601d47fafb3f432aed45943808b2eb286"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/man1/csdlc-clean.1"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-cutover.1",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "00eeb7a9ecdc1dac2a638c9f28304cb529cd6dad",
+        "sha256": "a4718b8aa7f933af58d8229ae0616b58b775c24919d57a57150b35755c569aa7"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/man1/csdlc-cutover.1"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-doctor.1",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "913763fee87a9cf1cee4dd23b202e24d3d064396",
+        "sha256": "241ebe75030de0019d892c69baeb1ac69b809559ec7f26a76882800e6d66aafd"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/man1/csdlc-doctor.1"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-edit.1",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "bea27655558dc216b6bc338f1062af833e227506",
+        "sha256": "fe5cd44ee145d77c53f235c3a65d54746a681c28db3f21fdd49e9597f9149e85"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/man1/csdlc-edit.1"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-eligibility.1",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "a1859afe78186324d274db5352d88ffebd191661",
+        "sha256": "92f81a0095bebd1dc12de4a2ccf9f2ff1fde0f3b58d0b03aa5c6e403abbd30e6"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/man1/csdlc-eligibility.1"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-finish.1",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "f5cbace5c4a7ba0d7b21dae86a39ae043c9a0587",
+        "sha256": "62833d0cee11cad97e3c2a24e7847299f5489aab7d1acfa41fa3d410a4d79db5"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/man1/csdlc-finish.1"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-foundation.1",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "1fb5382fb5cb3b6f9a820af8a4e78e9dd478c0a0",
+        "sha256": "671ac35071df31bb0ccd1038bfc1f85c27991c719a48a0f4d6440311967f95d2"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/man1/csdlc-foundation.1"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-github-issue.1",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "98c6dbcb97945bc391e66d721a742912ab4cca9b",
+        "sha256": "ead783f324b8c668be27d45ed0ca367bd3858073503b1485529f6d0c41ebe2f2"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/man1/csdlc-github-issue.1"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-github-pr.1",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "5256e3e0077f83e22c3e1a497d71a66bf543b9f0",
+        "sha256": "5d34c9159233a03232fcacf108d835048e6306eb774fe2a3aad552f50c0bc548"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/man1/csdlc-github-pr.1"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-github.1",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "0cdabe9b2ce2bcd9a19c7e35b8804732d54655a2",
+        "sha256": "1399631c23e9cfb65a6178521ef863f0a85225aad93073189210e864068dc63e"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/man1/csdlc-github.1"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-install.1",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "73f9afb0dcec9f3212306c07f1feac36492c2624",
+        "sha256": "9be69c307d490a127b43844c9c0c3f245531666262bfb67c3ea80882f33f1e47"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/man1/csdlc-install.1"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-issue.1",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "3c00aedb84ca8439fa52ecc9a761dc1f60757468",
+        "sha256": "279cd256916a32ac27554422d23b126cb436ac5ddf4e5551eba5bdbb6baf0370"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/man1/csdlc-issue.1"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-local.1",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "7946bc82e455f2369783d1eb195552f512bb68cd",
+        "sha256": "b6a31fce0ae8d3f27a3dbd16954b02d6a257b2a2ad319e45f024a4b7aaaf7ba8"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/man1/csdlc-local.1"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-pr-state.1",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "31fc0b01695930ed262ff2ea6c8285e2274c1cdc",
+        "sha256": "dd6795b570e34ca576cc6e4693a481caed74dc579c576a3c59de19ae0fae0683"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/man1/csdlc-pr-state.1"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-prepare.1",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "8470e9c0b22aa51b9427d442fa1e4e0374d5f952",
+        "sha256": "8e4bd37d4e214bf48f0ad73e69c4c17fc922c5a977dcad3b99a28054a6f1317f"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/man1/csdlc-prepare.1"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-proof.1",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "8382d8dff6e15661b8eaa5903144b688afbca0d8",
+        "sha256": "4586e0983192b4404fe9d992ab0ce143c4c71d41431acc8a7f6330d29cf0c470"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/man1/csdlc-proof.1"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-publish.1",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "d2cab149bd2799d0e3d229be32903b34ffa32ed9",
+        "sha256": "bb38808c410e3d474c10f22f1c58f2d71d576ec0f3847a6d372521a73680fa11"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/man1/csdlc-publish.1"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-rebuild.1",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "a3abe7eaac27eaa75526670e396067fd18819708",
+        "sha256": "541e4c5c4a7953b1f75cd5b8f7f13c3e89820875e6134e3474ca30a8391d5ef2"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/man1/csdlc-rebuild.1"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-recover.1",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "a8d854711d4a1eda47614aee1303336812b1d292",
+        "sha256": "448c28c2e6773be3a5fc1823e9b3c2b60a20f949ddf4b262335051347dd677f3"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/man1/csdlc-recover.1"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-release-preflight.1",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "a9bfc4a2d1ddba5e6610f37d15d10e4058c8ca16",
+        "sha256": "4efe4dac1cda72f8afc8638a1b25290bbaa0e348c60c83cfd147d73ede5b5019"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/man1/csdlc-release-preflight.1"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-remote.1",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "2dca3ebd88e72bfd81074d6fac618c70bc864f95",
+        "sha256": "21c5f2495d9db039d3df4f0ba447f4a6b3de92a6bf58ac46c95ebd8f19ad76ca"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/man1/csdlc-remote.1"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-requests.1",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "3df2aedcb311ff81de08f2e324bb9fdcef68ecab",
+        "sha256": "4565af3beb0ad89bd8ca4c00699e967d9795031c2de53adadff35224f367338b"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/man1/csdlc-requests.1"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-review.1",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "4472a947fc7f3f3c925120b8c3447240a6cac31a",
+        "sha256": "74b8db986c2554ba606abb3471a8087c42901061953d61d63ae8652befdc67ad"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/man1/csdlc-review.1"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-rollback.1",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "08441b5dccd4e840c5da812395d8d8e440f4493a",
+        "sha256": "6c51b4becfa1780c9508076676423ca3129479e1f9c1ad3e7a2aee0cd851856e"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/man1/csdlc-rollback.1"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-schedule.1",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "83d7a85c5206b45a47f4d9da2ab43e6e46294045",
+        "sha256": "027c3688303b6e11723f336794f956b79f92537bf3955ec4fd4969ded04e9869"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/man1/csdlc-schedule.1"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-shadow.1",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "2acb47d7b1f87fd46ed6fa04bcade964ee9ced31",
+        "sha256": "edb42a98fe1ec4dead0f21fc12c348a5baa55e2c18eafb438a83e4a0b8c70a68"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/man1/csdlc-shadow.1"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-shepherd.1",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "3ea7dd314c1b9087426c42692a223d771c9ff1e7",
+        "sha256": "eaf3a09b0799e42218848209eb7c64f4fba6af3eceb937f8455bc8b36d393fb7"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/man1/csdlc-shepherd.1"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-soak.1",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "a544ef6410da068cf28325614381c3de0d8aed34",
+        "sha256": "b72fcb194da12096aa4e2258cb06a2968f7f0f8c2e863f0fd0361cb1abed272c"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/man1/csdlc-soak.1"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-sprint.1",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "df208b62644b9161e69222f4d684299deb81caa7",
+        "sha256": "cab7a2f8371e7f793edf55df6bd4266da0784597360250aafc929dca147a4ed9"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/man1/csdlc-sprint.1"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-status.1",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "2fbb2c602c1fd7cecd1fe0a07386d399738c6cba",
+        "sha256": "1bf3fee2ca4b8c8887ccb33d2b94a59ea3380095a2e9510e72a770f788e025a9"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/man1/csdlc-status.1"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-validate.1",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "f00e629aae65e3e4ecf3c9bd141681b039f5b5a4",
+        "sha256": "120485e4277b9803789f169a4a518290ae0255ff51838e9b6b75e069d6c0018c"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/man1/csdlc-validate.1"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-workflow.1",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "30bb58fda44a56c79f2c9f3d6743415c56deb950",
+        "sha256": "4a805554f35108a6439db4a3a8402e07ba4ee6b765ee9ae38ddfdb40e9ce5607"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/man1/csdlc-workflow.1"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc.1",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "0939095e875f8c1aa2f7a276edc008bb3d2d3f2f",
+        "sha256": "7e3d4cec1d755c9ae6a5c6eed5086f4b40416f069395755ec725b6a276f81ab5"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/man1/csdlc.1"
+    },
+    {
+      "path": "docs/csdlc-v3/man/manual.json",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "3844777e574ebc872e904c9523ab64a9dddd6317",
+        "sha256": "ff70625c7f7b2bb7fa5c095e5a494949e23c6a98f3d2bcaaf796fe7e48e71074"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/manual.json"
+    },
+    {
+      "path": "docs/csdlc-v3/man/pvf.json",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "15976971c73bf14f61c7dea5652c7a7a163f4042",
+        "sha256": "7bdde96ffef5881f5804099fbf584d5bacc431039037458297423bfd67de8916"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/pvf.json"
+    },
+    {
+      "path": "docs/csdlc-v3/man/render.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "083c7e1069ed665c64e6c56a68b59d7d96296bcf",
+        "sha256": "6c272c90d9b3dd8b2bda790bdcf881c913beb7551534967738ef0ea26756e881"
+      },
+      "after": null,
+      "archive_member": "source/docs/csdlc-v3/man/render.py"
+    },
+    {
+      "path": "docs/csdlc-v3/man/README.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "bbc61a787742a8552117f56a2d4f559559797186",
+        "sha256": "4a5546a0663ae847e807d6306a67066a7da2906bcc405b3dc944509a871b760c"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "00287e7fa83fd1b34188341562d49e822005c0bf",
+        "sha256": "d33858e93eb23c9c3e83a6e87e9dbc7ba532ef8d3414491f18901022f9aa94a3"
+      },
+      "archive_member": "source/docs/csdlc-v3/man/README.md"
+    },
+    {
+      "path": "docs/tooling/worktree_governance.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "34bfd7188d263d3daf1cc61991d59fc0b647cec9",
+        "sha256": "04babe5051e19bdd53c2dd5c3ac8c1611ec7c8b38c5ffbab7612dd7a91750884"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "70a1799fdd73614e66c9c56c19bf1ea169adda79",
+        "sha256": "3bd1ea00f11e5f3822fd4e6eecaa7b3b28e9f3a47429b70723a85b064e63c19a"
+      },
+      "archive_member": "source/docs/tooling/worktree_governance.md"
+    }
+  ],
+  "custody": {
+    "path": "/Volumes/FastWork/c1223/manual-family-preparation/current-preimages.tar",
+    "sha256": "50b15efb58650072708e6de791af67e3b1c0aeb8484c9760c3bce632dd62245a",
+    "members": 58
+  },
+  "owner_correspondence": [
+    {
+      "id": "RD07-3469",
+      "path": "docs/csdlc-v3/man/examples/clean.json",
+      "current_sha256": "beb38614b31aca23fabf23d145b9739f5a5be826e2bfb92bcbe298b598ecb837",
+      "qualified_resource_sha256": "beb38614b31aca23fabf23d145b9739f5a5be826e2bfb92bcbe298b598ecb837",
+      "admitted_resource_sha256": "beb38614b31aca23fabf23d145b9739f5a5be826e2bfb92bcbe298b598ecb837",
+      "current_equals_qualified": true,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3470",
+      "path": "docs/csdlc-v3/man/examples/cutover.json",
+      "current_sha256": "6401fb6963ad19b0339c00c929fbbc47bcb5909dc8b0b8ae27eed1f24ba27e0e",
+      "qualified_resource_sha256": "6401fb6963ad19b0339c00c929fbbc47bcb5909dc8b0b8ae27eed1f24ba27e0e",
+      "admitted_resource_sha256": "6401fb6963ad19b0339c00c929fbbc47bcb5909dc8b0b8ae27eed1f24ba27e0e",
+      "current_equals_qualified": true,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3471",
+      "path": "docs/csdlc-v3/man/examples/finish-primary.json",
+      "current_sha256": "c0da1bcc3bc2844b325f3ddc6f42168a1da738db790669bcf40ff3da2f16df18",
+      "qualified_resource_sha256": "c0da1bcc3bc2844b325f3ddc6f42168a1da738db790669bcf40ff3da2f16df18",
+      "admitted_resource_sha256": "c0da1bcc3bc2844b325f3ddc6f42168a1da738db790669bcf40ff3da2f16df18",
+      "current_equals_qualified": true,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3472",
+      "path": "docs/csdlc-v3/man/examples/finish.json",
+      "current_sha256": "543568ab0ffe0a11652f11af716bc7fa03d2dc7add0f3ee64651da6805436db6",
+      "qualified_resource_sha256": "543568ab0ffe0a11652f11af716bc7fa03d2dc7add0f3ee64651da6805436db6",
+      "admitted_resource_sha256": "543568ab0ffe0a11652f11af716bc7fa03d2dc7add0f3ee64651da6805436db6",
+      "current_equals_qualified": true,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3473",
+      "path": "docs/csdlc-v3/man/examples/install.json",
+      "current_sha256": "bc81fdbe86be723a64763d01bd21df14b98f7664bff0c7bcb7a0975adc3a7194",
+      "qualified_resource_sha256": "bc81fdbe86be723a64763d01bd21df14b98f7664bff0c7bcb7a0975adc3a7194",
+      "admitted_resource_sha256": "bc81fdbe86be723a64763d01bd21df14b98f7664bff0c7bcb7a0975adc3a7194",
+      "current_equals_qualified": true,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3474",
+      "path": "docs/csdlc-v3/man/examples/local.json",
+      "current_sha256": "f37dc1d89e523a4607fc521cae951342463c9b13bc25230167912b3170296040",
+      "qualified_resource_sha256": "f37dc1d89e523a4607fc521cae951342463c9b13bc25230167912b3170296040",
+      "admitted_resource_sha256": "f37dc1d89e523a4607fc521cae951342463c9b13bc25230167912b3170296040",
+      "current_equals_qualified": true,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3475",
+      "path": "docs/csdlc-v3/man/examples/merge.json",
+      "current_sha256": "4e5528ec4a7c52d4e08a037fa8dddbd6213d0bba797587381fac734b87fb628a",
+      "qualified_resource_sha256": "4e5528ec4a7c52d4e08a037fa8dddbd6213d0bba797587381fac734b87fb628a",
+      "admitted_resource_sha256": "4e5528ec4a7c52d4e08a037fa8dddbd6213d0bba797587381fac734b87fb628a",
+      "current_equals_qualified": true,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3476",
+      "path": "docs/csdlc-v3/man/examples/mutation.json",
+      "current_sha256": "4afc1f29702de60bcb2f96362f3de867f2ab68962b49772df2045f87dff1d324",
+      "qualified_resource_sha256": "4afc1f29702de60bcb2f96362f3de867f2ab68962b49772df2045f87dff1d324",
+      "admitted_resource_sha256": "4afc1f29702de60bcb2f96362f3de867f2ab68962b49772df2045f87dff1d324",
+      "current_equals_qualified": true,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3477",
+      "path": "docs/csdlc-v3/man/examples/pr-create.json",
+      "current_sha256": "06a73aa2373cafebd56a85c054f974ba6be1406ff1a09012da0858e9beb44c36",
+      "qualified_resource_sha256": "06a73aa2373cafebd56a85c054f974ba6be1406ff1a09012da0858e9beb44c36",
+      "admitted_resource_sha256": "06a73aa2373cafebd56a85c054f974ba6be1406ff1a09012da0858e9beb44c36",
+      "current_equals_qualified": true,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3478",
+      "path": "docs/csdlc-v3/man/examples/proof.json",
+      "current_sha256": "96e54189a04add1c31cf85dcea0de0e457ca53bfaf5da1845b3597d68fe47d9a",
+      "qualified_resource_sha256": "96e54189a04add1c31cf85dcea0de0e457ca53bfaf5da1845b3597d68fe47d9a",
+      "admitted_resource_sha256": "96e54189a04add1c31cf85dcea0de0e457ca53bfaf5da1845b3597d68fe47d9a",
+      "current_equals_qualified": true,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3479",
+      "path": "docs/csdlc-v3/man/examples/release.json",
+      "current_sha256": "ccf0d0a892d5ae7f0d9ccbeb4c3d68d69aba4c43309b531949ac4c3784548ce9",
+      "qualified_resource_sha256": "ccf0d0a892d5ae7f0d9ccbeb4c3d68d69aba4c43309b531949ac4c3784548ce9",
+      "admitted_resource_sha256": "ccf0d0a892d5ae7f0d9ccbeb4c3d68d69aba4c43309b531949ac4c3784548ce9",
+      "current_equals_qualified": true,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3480",
+      "path": "docs/csdlc-v3/man/examples/remote.json",
+      "current_sha256": "fe0d64fe3bd8298bfe2dcc548bb104fe1a6f136f6c526b976caad28ea86ec8f5",
+      "qualified_resource_sha256": "fe0d64fe3bd8298bfe2dcc548bb104fe1a6f136f6c526b976caad28ea86ec8f5",
+      "admitted_resource_sha256": "fe0d64fe3bd8298bfe2dcc548bb104fe1a6f136f6c526b976caad28ea86ec8f5",
+      "current_equals_qualified": true,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3481",
+      "path": "docs/csdlc-v3/man/examples/review.json",
+      "current_sha256": "46ac527a196f7ebfcf369510c66b9e9176ed895faab26c86ce11ad6000e6826b",
+      "qualified_resource_sha256": "46ac527a196f7ebfcf369510c66b9e9176ed895faab26c86ce11ad6000e6826b",
+      "admitted_resource_sha256": "46ac527a196f7ebfcf369510c66b9e9176ed895faab26c86ce11ad6000e6826b",
+      "current_equals_qualified": true,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3482",
+      "path": "docs/csdlc-v3/man/examples/rollback.json",
+      "current_sha256": "93ede32ef4971af44fdbb910a3f59be5c6de7721589b07999a6e941d27cf8669",
+      "qualified_resource_sha256": "93ede32ef4971af44fdbb910a3f59be5c6de7721589b07999a6e941d27cf8669",
+      "admitted_resource_sha256": "93ede32ef4971af44fdbb910a3f59be5c6de7721589b07999a6e941d27cf8669",
+      "current_equals_qualified": true,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3483",
+      "path": "docs/csdlc-v3/man/examples/shadow.json",
+      "current_sha256": "3bb23dd3ef201542627f30e4c4bcc333cffd8119c4e09c27c22128e487cd5dd9",
+      "qualified_resource_sha256": "3bb23dd3ef201542627f30e4c4bcc333cffd8119c4e09c27c22128e487cd5dd9",
+      "admitted_resource_sha256": "3bb23dd3ef201542627f30e4c4bcc333cffd8119c4e09c27c22128e487cd5dd9",
+      "current_equals_qualified": true,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3484",
+      "path": "docs/csdlc-v3/man/examples/soak.json",
+      "current_sha256": "3bb23dd3ef201542627f30e4c4bcc333cffd8119c4e09c27c22128e487cd5dd9",
+      "qualified_resource_sha256": "3bb23dd3ef201542627f30e4c4bcc333cffd8119c4e09c27c22128e487cd5dd9",
+      "admitted_resource_sha256": "3bb23dd3ef201542627f30e4c4bcc333cffd8119c4e09c27c22128e487cd5dd9",
+      "current_equals_qualified": true,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3485",
+      "path": "docs/csdlc-v3/man/examples/sprint.json",
+      "current_sha256": "e39ba658918125337c35e9ef4502054dc6a6e5ecd154b343d6d22ec029d035a6",
+      "qualified_resource_sha256": "e39ba658918125337c35e9ef4502054dc6a6e5ecd154b343d6d22ec029d035a6",
+      "admitted_resource_sha256": "e39ba658918125337c35e9ef4502054dc6a6e5ecd154b343d6d22ec029d035a6",
+      "current_equals_qualified": true,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3486",
+      "path": "docs/csdlc-v3/man/examples/typed-review.json",
+      "current_sha256": "1add12864d22def8264ac058df21d04c0084d38d84a21d6722828b3ae0d47c6f",
+      "qualified_resource_sha256": "1add12864d22def8264ac058df21d04c0084d38d84a21d6722828b3ae0d47c6f",
+      "admitted_resource_sha256": "1add12864d22def8264ac058df21d04c0084d38d84a21d6722828b3ae0d47c6f",
+      "current_equals_qualified": true,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3487",
+      "path": "docs/csdlc-v3/man/inventory.json",
+      "current_sha256": "44739fb028f30e971b4b2bf5ef9f5ea128db705ecde8e5d2a3e72e1a93fa648b",
+      "qualified_resource_sha256": "ac1d25e4e28a769ea961af2209461e7f24cc4c5465c8f47b4ee1cd31f7040adb",
+      "admitted_resource_sha256": "ac1d25e4e28a769ea961af2209461e7f24cc4c5465c8f47b4ee1cd31f7040adb",
+      "current_equals_qualified": false,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3488",
+      "path": "docs/csdlc-v3/man/man1/csdlc-bind.1",
+      "current_sha256": "727e0b2199b525aabe06362dba247c647a17209df4d32c0d7a798828f8e776d5",
+      "qualified_resource_sha256": "727e0b2199b525aabe06362dba247c647a17209df4d32c0d7a798828f8e776d5",
+      "admitted_resource_sha256": "727e0b2199b525aabe06362dba247c647a17209df4d32c0d7a798828f8e776d5",
+      "current_equals_qualified": true,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3489",
+      "path": "docs/csdlc-v3/man/man1/csdlc-clean.1",
+      "current_sha256": "25ba1383f0d3e8410517c07e2219f3d601d47fafb3f432aed45943808b2eb286",
+      "qualified_resource_sha256": "25ba1383f0d3e8410517c07e2219f3d601d47fafb3f432aed45943808b2eb286",
+      "admitted_resource_sha256": "25ba1383f0d3e8410517c07e2219f3d601d47fafb3f432aed45943808b2eb286",
+      "current_equals_qualified": true,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3490",
+      "path": "docs/csdlc-v3/man/man1/csdlc-cutover.1",
+      "current_sha256": "a4718b8aa7f933af58d8229ae0616b58b775c24919d57a57150b35755c569aa7",
+      "qualified_resource_sha256": "a4718b8aa7f933af58d8229ae0616b58b775c24919d57a57150b35755c569aa7",
+      "admitted_resource_sha256": "a4718b8aa7f933af58d8229ae0616b58b775c24919d57a57150b35755c569aa7",
+      "current_equals_qualified": true,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3491",
+      "path": "docs/csdlc-v3/man/man1/csdlc-doctor.1",
+      "current_sha256": "241ebe75030de0019d892c69baeb1ac69b809559ec7f26a76882800e6d66aafd",
+      "qualified_resource_sha256": "241ebe75030de0019d892c69baeb1ac69b809559ec7f26a76882800e6d66aafd",
+      "admitted_resource_sha256": "241ebe75030de0019d892c69baeb1ac69b809559ec7f26a76882800e6d66aafd",
+      "current_equals_qualified": true,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3492",
+      "path": "docs/csdlc-v3/man/man1/csdlc-edit.1",
+      "current_sha256": "fe5cd44ee145d77c53f235c3a65d54746a681c28db3f21fdd49e9597f9149e85",
+      "qualified_resource_sha256": "314846a0877907355fa3ce9a4d765e4102921dd21e8b8796647ee0f712df5f65",
+      "admitted_resource_sha256": "314846a0877907355fa3ce9a4d765e4102921dd21e8b8796647ee0f712df5f65",
+      "current_equals_qualified": false,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3493",
+      "path": "docs/csdlc-v3/man/man1/csdlc-eligibility.1",
+      "current_sha256": "92f81a0095bebd1dc12de4a2ccf9f2ff1fde0f3b58d0b03aa5c6e403abbd30e6",
+      "qualified_resource_sha256": "92f81a0095bebd1dc12de4a2ccf9f2ff1fde0f3b58d0b03aa5c6e403abbd30e6",
+      "admitted_resource_sha256": "92f81a0095bebd1dc12de4a2ccf9f2ff1fde0f3b58d0b03aa5c6e403abbd30e6",
+      "current_equals_qualified": true,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3494",
+      "path": "docs/csdlc-v3/man/man1/csdlc-finish.1",
+      "current_sha256": "62833d0cee11cad97e3c2a24e7847299f5489aab7d1acfa41fa3d410a4d79db5",
+      "qualified_resource_sha256": "d647401c64a57b1e07b2ba0887cfafa8af7b2b6f7c3a8eb2e6a12ff47be2b1a0",
+      "admitted_resource_sha256": "d647401c64a57b1e07b2ba0887cfafa8af7b2b6f7c3a8eb2e6a12ff47be2b1a0",
+      "current_equals_qualified": false,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3495",
+      "path": "docs/csdlc-v3/man/man1/csdlc-foundation.1",
+      "current_sha256": "671ac35071df31bb0ccd1038bfc1f85c27991c719a48a0f4d6440311967f95d2",
+      "qualified_resource_sha256": "671ac35071df31bb0ccd1038bfc1f85c27991c719a48a0f4d6440311967f95d2",
+      "admitted_resource_sha256": "671ac35071df31bb0ccd1038bfc1f85c27991c719a48a0f4d6440311967f95d2",
+      "current_equals_qualified": true,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3496",
+      "path": "docs/csdlc-v3/man/man1/csdlc-github-issue.1",
+      "current_sha256": "ead783f324b8c668be27d45ed0ca367bd3858073503b1485529f6d0c41ebe2f2",
+      "qualified_resource_sha256": "ead783f324b8c668be27d45ed0ca367bd3858073503b1485529f6d0c41ebe2f2",
+      "admitted_resource_sha256": "ead783f324b8c668be27d45ed0ca367bd3858073503b1485529f6d0c41ebe2f2",
+      "current_equals_qualified": true,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3497",
+      "path": "docs/csdlc-v3/man/man1/csdlc-github-pr.1",
+      "current_sha256": "5d34c9159233a03232fcacf108d835048e6306eb774fe2a3aad552f50c0bc548",
+      "qualified_resource_sha256": "5d34c9159233a03232fcacf108d835048e6306eb774fe2a3aad552f50c0bc548",
+      "admitted_resource_sha256": "5d34c9159233a03232fcacf108d835048e6306eb774fe2a3aad552f50c0bc548",
+      "current_equals_qualified": true,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3498",
+      "path": "docs/csdlc-v3/man/man1/csdlc-github.1",
+      "current_sha256": "1399631c23e9cfb65a6178521ef863f0a85225aad93073189210e864068dc63e",
+      "qualified_resource_sha256": "1399631c23e9cfb65a6178521ef863f0a85225aad93073189210e864068dc63e",
+      "admitted_resource_sha256": "1399631c23e9cfb65a6178521ef863f0a85225aad93073189210e864068dc63e",
+      "current_equals_qualified": true,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3499",
+      "path": "docs/csdlc-v3/man/man1/csdlc-install.1",
+      "current_sha256": "9be69c307d490a127b43844c9c0c3f245531666262bfb67c3ea80882f33f1e47",
+      "qualified_resource_sha256": "9be69c307d490a127b43844c9c0c3f245531666262bfb67c3ea80882f33f1e47",
+      "admitted_resource_sha256": "9be69c307d490a127b43844c9c0c3f245531666262bfb67c3ea80882f33f1e47",
+      "current_equals_qualified": true,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3500",
+      "path": "docs/csdlc-v3/man/man1/csdlc-issue.1",
+      "current_sha256": "279cd256916a32ac27554422d23b126cb436ac5ddf4e5551eba5bdbb6baf0370",
+      "qualified_resource_sha256": "279cd256916a32ac27554422d23b126cb436ac5ddf4e5551eba5bdbb6baf0370",
+      "admitted_resource_sha256": "279cd256916a32ac27554422d23b126cb436ac5ddf4e5551eba5bdbb6baf0370",
+      "current_equals_qualified": true,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3501",
+      "path": "docs/csdlc-v3/man/man1/csdlc-local.1",
+      "current_sha256": "b6a31fce0ae8d3f27a3dbd16954b02d6a257b2a2ad319e45f024a4b7aaaf7ba8",
+      "qualified_resource_sha256": "b6a31fce0ae8d3f27a3dbd16954b02d6a257b2a2ad319e45f024a4b7aaaf7ba8",
+      "admitted_resource_sha256": "b6a31fce0ae8d3f27a3dbd16954b02d6a257b2a2ad319e45f024a4b7aaaf7ba8",
+      "current_equals_qualified": true,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3502",
+      "path": "docs/csdlc-v3/man/man1/csdlc-pr-state.1",
+      "current_sha256": "dd6795b570e34ca576cc6e4693a481caed74dc579c576a3c59de19ae0fae0683",
+      "qualified_resource_sha256": "dd6795b570e34ca576cc6e4693a481caed74dc579c576a3c59de19ae0fae0683",
+      "admitted_resource_sha256": "dd6795b570e34ca576cc6e4693a481caed74dc579c576a3c59de19ae0fae0683",
+      "current_equals_qualified": true,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3503",
+      "path": "docs/csdlc-v3/man/man1/csdlc-prepare.1",
+      "current_sha256": "8e4bd37d4e214bf48f0ad73e69c4c17fc922c5a977dcad3b99a28054a6f1317f",
+      "qualified_resource_sha256": "2f11fe8ab2058387b206525b2e0fa718b9cc0d7303850ed23348f0013a1b7926",
+      "admitted_resource_sha256": "2f11fe8ab2058387b206525b2e0fa718b9cc0d7303850ed23348f0013a1b7926",
+      "current_equals_qualified": false,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3504",
+      "path": "docs/csdlc-v3/man/man1/csdlc-proof.1",
+      "current_sha256": "4586e0983192b4404fe9d992ab0ce143c4c71d41431acc8a7f6330d29cf0c470",
+      "qualified_resource_sha256": "40011edcabf16bdb06cd00ded2ff1e6a915b0a0bf164e031f26cacc94a69c32c",
+      "admitted_resource_sha256": "40011edcabf16bdb06cd00ded2ff1e6a915b0a0bf164e031f26cacc94a69c32c",
+      "current_equals_qualified": false,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3505",
+      "path": "docs/csdlc-v3/man/man1/csdlc-publish.1",
+      "current_sha256": "bb38808c410e3d474c10f22f1c58f2d71d576ec0f3847a6d372521a73680fa11",
+      "qualified_resource_sha256": "bb38808c410e3d474c10f22f1c58f2d71d576ec0f3847a6d372521a73680fa11",
+      "admitted_resource_sha256": "bb38808c410e3d474c10f22f1c58f2d71d576ec0f3847a6d372521a73680fa11",
+      "current_equals_qualified": true,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3506",
+      "path": "docs/csdlc-v3/man/man1/csdlc-rebuild.1",
+      "current_sha256": "541e4c5c4a7953b1f75cd5b8f7f13c3e89820875e6134e3474ca30a8391d5ef2",
+      "qualified_resource_sha256": "541e4c5c4a7953b1f75cd5b8f7f13c3e89820875e6134e3474ca30a8391d5ef2",
+      "admitted_resource_sha256": "541e4c5c4a7953b1f75cd5b8f7f13c3e89820875e6134e3474ca30a8391d5ef2",
+      "current_equals_qualified": true,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3507",
+      "path": "docs/csdlc-v3/man/man1/csdlc-recover.1",
+      "current_sha256": "448c28c2e6773be3a5fc1823e9b3c2b60a20f949ddf4b262335051347dd677f3",
+      "qualified_resource_sha256": "820a13fce3979bd4851ba5214d8e2401814de5cd013719a2bc9dca38bc4180a1",
+      "admitted_resource_sha256": "820a13fce3979bd4851ba5214d8e2401814de5cd013719a2bc9dca38bc4180a1",
+      "current_equals_qualified": false,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3508",
+      "path": "docs/csdlc-v3/man/man1/csdlc-release-preflight.1",
+      "current_sha256": "4efe4dac1cda72f8afc8638a1b25290bbaa0e348c60c83cfd147d73ede5b5019",
+      "qualified_resource_sha256": "4efe4dac1cda72f8afc8638a1b25290bbaa0e348c60c83cfd147d73ede5b5019",
+      "admitted_resource_sha256": "4efe4dac1cda72f8afc8638a1b25290bbaa0e348c60c83cfd147d73ede5b5019",
+      "current_equals_qualified": true,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3509",
+      "path": "docs/csdlc-v3/man/man1/csdlc-remote.1",
+      "current_sha256": "21c5f2495d9db039d3df4f0ba447f4a6b3de92a6bf58ac46c95ebd8f19ad76ca",
+      "qualified_resource_sha256": "21c5f2495d9db039d3df4f0ba447f4a6b3de92a6bf58ac46c95ebd8f19ad76ca",
+      "admitted_resource_sha256": "21c5f2495d9db039d3df4f0ba447f4a6b3de92a6bf58ac46c95ebd8f19ad76ca",
+      "current_equals_qualified": true,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3510",
+      "path": "docs/csdlc-v3/man/man1/csdlc-requests.1",
+      "current_sha256": "4565af3beb0ad89bd8ca4c00699e967d9795031c2de53adadff35224f367338b",
+      "qualified_resource_sha256": "666a2ab95aeecbe0b40ee2c9b528ec71b1ca2d707eeb96ddf5e73cf909e6a9b7",
+      "admitted_resource_sha256": "666a2ab95aeecbe0b40ee2c9b528ec71b1ca2d707eeb96ddf5e73cf909e6a9b7",
+      "current_equals_qualified": false,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3511",
+      "path": "docs/csdlc-v3/man/man1/csdlc-review.1",
+      "current_sha256": "74b8db986c2554ba606abb3471a8087c42901061953d61d63ae8652befdc67ad",
+      "qualified_resource_sha256": "74b8db986c2554ba606abb3471a8087c42901061953d61d63ae8652befdc67ad",
+      "admitted_resource_sha256": "74b8db986c2554ba606abb3471a8087c42901061953d61d63ae8652befdc67ad",
+      "current_equals_qualified": true,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3512",
+      "path": "docs/csdlc-v3/man/man1/csdlc-rollback.1",
+      "current_sha256": "6c51b4becfa1780c9508076676423ca3129479e1f9c1ad3e7a2aee0cd851856e",
+      "qualified_resource_sha256": "6c51b4becfa1780c9508076676423ca3129479e1f9c1ad3e7a2aee0cd851856e",
+      "admitted_resource_sha256": "6c51b4becfa1780c9508076676423ca3129479e1f9c1ad3e7a2aee0cd851856e",
+      "current_equals_qualified": true,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3513",
+      "path": "docs/csdlc-v3/man/man1/csdlc-schedule.1",
+      "current_sha256": "027c3688303b6e11723f336794f956b79f92537bf3955ec4fd4969ded04e9869",
+      "qualified_resource_sha256": "027c3688303b6e11723f336794f956b79f92537bf3955ec4fd4969ded04e9869",
+      "admitted_resource_sha256": "027c3688303b6e11723f336794f956b79f92537bf3955ec4fd4969ded04e9869",
+      "current_equals_qualified": true,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3514",
+      "path": "docs/csdlc-v3/man/man1/csdlc-shadow.1",
+      "current_sha256": "edb42a98fe1ec4dead0f21fc12c348a5baa55e2c18eafb438a83e4a0b8c70a68",
+      "qualified_resource_sha256": "edb42a98fe1ec4dead0f21fc12c348a5baa55e2c18eafb438a83e4a0b8c70a68",
+      "admitted_resource_sha256": "edb42a98fe1ec4dead0f21fc12c348a5baa55e2c18eafb438a83e4a0b8c70a68",
+      "current_equals_qualified": true,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3515",
+      "path": "docs/csdlc-v3/man/man1/csdlc-shepherd.1",
+      "current_sha256": "eaf3a09b0799e42218848209eb7c64f4fba6af3eceb937f8455bc8b36d393fb7",
+      "qualified_resource_sha256": "eaf3a09b0799e42218848209eb7c64f4fba6af3eceb937f8455bc8b36d393fb7",
+      "admitted_resource_sha256": "eaf3a09b0799e42218848209eb7c64f4fba6af3eceb937f8455bc8b36d393fb7",
+      "current_equals_qualified": true,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3516",
+      "path": "docs/csdlc-v3/man/man1/csdlc-soak.1",
+      "current_sha256": "b72fcb194da12096aa4e2258cb06a2968f7f0f8c2e863f0fd0361cb1abed272c",
+      "qualified_resource_sha256": "b72fcb194da12096aa4e2258cb06a2968f7f0f8c2e863f0fd0361cb1abed272c",
+      "admitted_resource_sha256": "b72fcb194da12096aa4e2258cb06a2968f7f0f8c2e863f0fd0361cb1abed272c",
+      "current_equals_qualified": true,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3517",
+      "path": "docs/csdlc-v3/man/man1/csdlc-sprint.1",
+      "current_sha256": "cab7a2f8371e7f793edf55df6bd4266da0784597360250aafc929dca147a4ed9",
+      "qualified_resource_sha256": "cab7a2f8371e7f793edf55df6bd4266da0784597360250aafc929dca147a4ed9",
+      "admitted_resource_sha256": "cab7a2f8371e7f793edf55df6bd4266da0784597360250aafc929dca147a4ed9",
+      "current_equals_qualified": true,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3518",
+      "path": "docs/csdlc-v3/man/man1/csdlc-status.1",
+      "current_sha256": "1bf3fee2ca4b8c8887ccb33d2b94a59ea3380095a2e9510e72a770f788e025a9",
+      "qualified_resource_sha256": "1bf3fee2ca4b8c8887ccb33d2b94a59ea3380095a2e9510e72a770f788e025a9",
+      "admitted_resource_sha256": "1bf3fee2ca4b8c8887ccb33d2b94a59ea3380095a2e9510e72a770f788e025a9",
+      "current_equals_qualified": true,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3519",
+      "path": "docs/csdlc-v3/man/man1/csdlc-validate.1",
+      "current_sha256": "120485e4277b9803789f169a4a518290ae0255ff51838e9b6b75e069d6c0018c",
+      "qualified_resource_sha256": "120485e4277b9803789f169a4a518290ae0255ff51838e9b6b75e069d6c0018c",
+      "admitted_resource_sha256": "120485e4277b9803789f169a4a518290ae0255ff51838e9b6b75e069d6c0018c",
+      "current_equals_qualified": true,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3520",
+      "path": "docs/csdlc-v3/man/man1/csdlc-workflow.1",
+      "current_sha256": "4a805554f35108a6439db4a3a8402e07ba4ee6b765ee9ae38ddfdb40e9ce5607",
+      "qualified_resource_sha256": "477a8fe1bb85e37443685ff131c7656b61d229c38e757baee2b9c06f6f4b44d2",
+      "admitted_resource_sha256": "944f487855240b9b510ba6408f0b9adb5dd7f33d905120397726c084b6ff7925",
+      "current_equals_qualified": false,
+      "qualified_equals_admitted": false
+    },
+    {
+      "id": "RD07-3521",
+      "path": "docs/csdlc-v3/man/man1/csdlc.1",
+      "current_sha256": "7e3d4cec1d755c9ae6a5c6eed5086f4b40416f069395755ec725b6a276f81ab5",
+      "qualified_resource_sha256": "af53f13e37ca776ad94fb1337f067b59cbf7bfc8cf93ddfb48f5d668a7d57749",
+      "admitted_resource_sha256": "af53f13e37ca776ad94fb1337f067b59cbf7bfc8cf93ddfb48f5d668a7d57749",
+      "current_equals_qualified": false,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3522",
+      "path": "docs/csdlc-v3/man/manual.json",
+      "current_sha256": "ff70625c7f7b2bb7fa5c095e5a494949e23c6a98f3d2bcaaf796fe7e48e71074",
+      "qualified_resource_sha256": "9c0711f62bc8d1d041bb73a89fdf15638587fc720a34e2c8325d891103beae8f",
+      "admitted_resource_sha256": "1c89dfbe554153b426071e4f4542dc44d4a01f128fee00ea3c2db130aaf2c924",
+      "current_equals_qualified": false,
+      "qualified_equals_admitted": false
+    },
+    {
+      "id": "RD07-3523",
+      "path": "docs/csdlc-v3/man/pvf.json",
+      "current_sha256": "7bdde96ffef5881f5804099fbf584d5bacc431039037458297423bfd67de8916",
+      "qualified_resource_sha256": "4e6ed4cdab306848119dfbb8dbe3ba767b93fa5750b455a5279b96f67c507ce9",
+      "admitted_resource_sha256": "4e6ed4cdab306848119dfbb8dbe3ba767b93fa5750b455a5279b96f67c507ce9",
+      "current_equals_qualified": false,
+      "qualified_equals_admitted": true
+    },
+    {
+      "id": "RD07-3524",
+      "path": "docs/csdlc-v3/man/render.py",
+      "current_sha256": "6c272c90d9b3dd8b2bda790bdcf881c913beb7551534967738ef0ea26756e881",
+      "qualified_resource_sha256": "6c272c90d9b3dd8b2bda790bdcf881c913beb7551534967738ef0ea26756e881",
+      "admitted_resource_sha256": "6c272c90d9b3dd8b2bda790bdcf881c913beb7551534967738ef0ea26756e881",
+      "current_equals_qualified": true,
+      "qualified_equals_admitted": true
+    }
+  ],
+  "qualified_render": {
+    "path": "/Volumes/FastWork/c1223/actual-installed-manual-qualification/result.json",
+    "sha256": "d42a41fd06af20b1a7b7f4d34da48a3a7520edc39cffe9cd121b6cd2149dbbdc",
+    "actual_pages_passed": 42,
+    "original_named_pages_covered": [
+      {
+        "id": "RD07-3488",
+        "page": "csdlc-bind.1",
+        "qualified_render_pass": true,
+        "admitted_bytes_equal_qualified": true
+      },
+      {
+        "id": "RD07-3489",
+        "page": "csdlc-clean.1",
+        "qualified_render_pass": true,
+        "admitted_bytes_equal_qualified": true
+      },
+      {
+        "id": "RD07-3490",
+        "page": "csdlc-cutover.1",
+        "qualified_render_pass": true,
+        "admitted_bytes_equal_qualified": true
+      },
+      {
+        "id": "RD07-3491",
+        "page": "csdlc-doctor.1",
+        "qualified_render_pass": true,
+        "admitted_bytes_equal_qualified": true
+      },
+      {
+        "id": "RD07-3492",
+        "page": "csdlc-edit.1",
+        "qualified_render_pass": true,
+        "admitted_bytes_equal_qualified": true
+      },
+      {
+        "id": "RD07-3493",
+        "page": "csdlc-eligibility.1",
+        "qualified_render_pass": true,
+        "admitted_bytes_equal_qualified": true
+      },
+      {
+        "id": "RD07-3494",
+        "page": "csdlc-finish.1",
+        "qualified_render_pass": true,
+        "admitted_bytes_equal_qualified": true
+      },
+      {
+        "id": "RD07-3495",
+        "page": "csdlc-foundation.1",
+        "qualified_render_pass": true,
+        "admitted_bytes_equal_qualified": true
+      },
+      {
+        "id": "RD07-3496",
+        "page": "csdlc-github-issue.1",
+        "qualified_render_pass": true,
+        "admitted_bytes_equal_qualified": true
+      },
+      {
+        "id": "RD07-3497",
+        "page": "csdlc-github-pr.1",
+        "qualified_render_pass": true,
+        "admitted_bytes_equal_qualified": true
+      },
+      {
+        "id": "RD07-3498",
+        "page": "csdlc-github.1",
+        "qualified_render_pass": true,
+        "admitted_bytes_equal_qualified": true
+      },
+      {
+        "id": "RD07-3499",
+        "page": "csdlc-install.1",
+        "qualified_render_pass": true,
+        "admitted_bytes_equal_qualified": true
+      },
+      {
+        "id": "RD07-3500",
+        "page": "csdlc-issue.1",
+        "qualified_render_pass": true,
+        "admitted_bytes_equal_qualified": true
+      },
+      {
+        "id": "RD07-3501",
+        "page": "csdlc-local.1",
+        "qualified_render_pass": true,
+        "admitted_bytes_equal_qualified": true
+      },
+      {
+        "id": "RD07-3502",
+        "page": "csdlc-pr-state.1",
+        "qualified_render_pass": true,
+        "admitted_bytes_equal_qualified": true
+      },
+      {
+        "id": "RD07-3503",
+        "page": "csdlc-prepare.1",
+        "qualified_render_pass": true,
+        "admitted_bytes_equal_qualified": true
+      },
+      {
+        "id": "RD07-3504",
+        "page": "csdlc-proof.1",
+        "qualified_render_pass": true,
+        "admitted_bytes_equal_qualified": true
+      },
+      {
+        "id": "RD07-3505",
+        "page": "csdlc-publish.1",
+        "qualified_render_pass": true,
+        "admitted_bytes_equal_qualified": true
+      },
+      {
+        "id": "RD07-3506",
+        "page": "csdlc-rebuild.1",
+        "qualified_render_pass": true,
+        "admitted_bytes_equal_qualified": true
+      },
+      {
+        "id": "RD07-3507",
+        "page": "csdlc-recover.1",
+        "qualified_render_pass": true,
+        "admitted_bytes_equal_qualified": true
+      },
+      {
+        "id": "RD07-3508",
+        "page": "csdlc-release-preflight.1",
+        "qualified_render_pass": true,
+        "admitted_bytes_equal_qualified": true
+      },
+      {
+        "id": "RD07-3509",
+        "page": "csdlc-remote.1",
+        "qualified_render_pass": true,
+        "admitted_bytes_equal_qualified": true
+      },
+      {
+        "id": "RD07-3510",
+        "page": "csdlc-requests.1",
+        "qualified_render_pass": true,
+        "admitted_bytes_equal_qualified": true
+      },
+      {
+        "id": "RD07-3511",
+        "page": "csdlc-review.1",
+        "qualified_render_pass": true,
+        "admitted_bytes_equal_qualified": true
+      },
+      {
+        "id": "RD07-3512",
+        "page": "csdlc-rollback.1",
+        "qualified_render_pass": true,
+        "admitted_bytes_equal_qualified": true
+      },
+      {
+        "id": "RD07-3513",
+        "page": "csdlc-schedule.1",
+        "qualified_render_pass": true,
+        "admitted_bytes_equal_qualified": true
+      },
+      {
+        "id": "RD07-3514",
+        "page": "csdlc-shadow.1",
+        "qualified_render_pass": true,
+        "admitted_bytes_equal_qualified": true
+      },
+      {
+        "id": "RD07-3515",
+        "page": "csdlc-shepherd.1",
+        "qualified_render_pass": true,
+        "admitted_bytes_equal_qualified": true
+      },
+      {
+        "id": "RD07-3516",
+        "page": "csdlc-soak.1",
+        "qualified_render_pass": true,
+        "admitted_bytes_equal_qualified": true
+      },
+      {
+        "id": "RD07-3517",
+        "page": "csdlc-sprint.1",
+        "qualified_render_pass": true,
+        "admitted_bytes_equal_qualified": true
+      },
+      {
+        "id": "RD07-3518",
+        "page": "csdlc-status.1",
+        "qualified_render_pass": true,
+        "admitted_bytes_equal_qualified": true
+      },
+      {
+        "id": "RD07-3519",
+        "page": "csdlc-validate.1",
+        "qualified_render_pass": true,
+        "admitted_bytes_equal_qualified": true
+      },
+      {
+        "id": "RD07-3520",
+        "page": "csdlc-workflow.1",
+        "qualified_render_pass": true,
+        "admitted_bytes_equal_qualified": false
+      },
+      {
+        "id": "RD07-3521",
+        "page": "csdlc.1",
+        "qualified_render_pass": true,
+        "admitted_bytes_equal_qualified": true
+      }
+    ],
+    "current_admitted_original_named_pages_same_rendered_bytes": 33,
+    "remaining_page": "csdlc-workflow adds PR250 bridge disclaimer after prior render; source-inspected only, no new render claim."
+  },
+  "source_review": {
+    "original_to_qualified_exact_files": 45,
+    "changed_files": 11,
+    "changed_source_diff": "/Volumes/FastWork/c1223/manual-family-preparation/OWNER_EVOLUTION.diff",
+    "changed_source_diff_sha256": "edff2f8a32648bc78e91bb2b8da52e9174b55d1ff4cba9809db000c827b9a2eb",
+    "boundary": "Explicit retirement of historical ADL command documentation in favor of selected owner manuals, not exact old/new command equivalence. Owner documents newer edit/proof/recovery/finish/package contracts and42page inventory.",
+    "qualified_to_admitted_exact": 54,
+    "qualified_to_admitted_changed": [
+      "man1/csdlc-workflow.1",
+      "manual.json"
+    ],
+    "later_delta": "Only ONE-TIME PR250 POLICY BRIDGE section appended; no historical paragraph removed."
+  },
+  "retained": [
+    "docs/csdlc-v3/man/README.md",
+    "docs/csdlc-v3/man/test_install.sh",
+    "adl/tools/install_csdlc_man_pages.sh",
+    "canonical selectors/receipts",
+    "docs/csdlc-v3/evidence/issue-1161/REMEDIATION.md as immutable earlier proof"
+  ],
+  "caller_closure": {
+    "README": "Remove local source authoring/build/fixture instructions; preserve actual selected-package lookup and bounded ADL fixture tests.",
+    "worktree_governance": "Replace two removed roff links with retained installed-manual navigation.",
+    "test_install": "All source-looking paths are independently created temporary negative fixtures; no read of removed actual ADL resources.",
+    "former_Rust_consumers": "Retired in reviewed CSDLC815 source family; not claimed reexecuted here."
+  },
+  "limits": [
+    "No examples executed;18example fixture source preservation only.",
+    "42page actual lookup/render proof is exact historical package proof, not native authority or current workflow-page render.",
+    "No binaries, package resources, shared installation, cards, canonical authority or history modified.",
+    "No original Rust assertion deletion is implied by manual retirement; existing CSDLC815 disposition remains independent.",
+    "No tests/builds/cloud/reruns in this preparation."
+  ],
+  "independent_review": "Applied-components reviewer PASS on final patch6e885b04; source/custody and original proof boundaries verified, no actionable findings.",
+  "application_verification": "58current preimages/modes and patch/archive digests verified;56removed and2modified afterimages verified. No tests or builds rerun."
+}
