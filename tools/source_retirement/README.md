@@ -52,3 +52,19 @@ fixed repository-scope notice to five preserved infrastructure runbooks. The
 guard derives their expected content from the observed baseline and rejects
 other source paths, altered runbook instructions, mode changes, or missing files.
 These repairs do not authorize the proposed Runtime-health component removal.
+
+## Proof storage
+
+The installed proof honors `TMPDIR` for its fresh scratch and Cargo target.
+Set it to an existing directory on the selected build volume. Evidence defaults
+to this worktree's ignored `target/public-adl-proof/<issue>/<run>`;
+`ADL_PUBLIC_ADL_PROOF_ROOT` can select a different evidence root. Neither path
+is derived from the linked worktree's common Git directory.
+
+The scratch exception in the macOS sandbox permits only the fresh proof
+directory, excluding the synthetic credential sentinel. Producer checkout and
+network access remain denied. Run the six small storage/sandbox regressions with
+`python3 -B tools/public_adl/test_install_storage.py` under the same `TMPDIR`.
+These are PVF `local_contract` path-isolation tests (small CPU/disk, no build or
+external service); the four OS sandbox cases require macOS. They do not replace
+the final five-package, seven-consumer, 21-UTS, five-negative proof.

@@ -114,6 +114,14 @@
       "determinism": "exact_commits_and_recorded_dependency_inputs",
       "resources": "isolated_containers_fastwork_disk_cpu_declared_dependency_downloads_no_paid_services",
       "gate": "required_final_candidate"
+    },
+    "install-storage": {
+      "lane": "local_contract",
+      "role": "scratch_and_evidence_location_with_real_sandbox_denials",
+      "determinism": "synthetic_local_files_and_denied_localhost_connection",
+      "resources": "small_cpu_disk_no_build_no_external_service",
+      "gate": "required_for_storage_change",
+      "platform": "storage_cases_portable; sandbox_cases_macos_required"
     }
   },
   "required_counts": {
@@ -124,7 +132,8 @@
     "consumer_cases": 7,
     "uts_fixtures": 21,
     "installed_negative_cases": 5,
-    "independent_repositories": 5
+    "independent_repositories": 5,
+    "install_storage_regressions": 6
   },
   "remaining_execution_gates": [
     "operator_sequence_after_non_tail_before_sprint4",
