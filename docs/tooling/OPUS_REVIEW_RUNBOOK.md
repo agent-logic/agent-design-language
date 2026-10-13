@@ -1,3 +1,5 @@
+> Runtime source paths and in-tree build commands below are historical references after ADL #1223. Current execution requires the separately qualified Runtime owner; retaining this document does not qualify the original procedure.
+
 # Historical Opus review procedure
 
 This page preserves the pre-split `adl-provider-adapter` request and review

@@ -1,3 +1,5 @@
+> Runtime source paths and in-tree build commands below are historical references after ADL #1223. Current execution requires the separately qualified Runtime owner; retaining this document does not qualify the original procedure.
+
 # Unity Observatory
 
 ## Status
@@ -55,7 +57,7 @@ Observatory bundle as `unity_observatory_contract.json`.
 Update for `#4548`: the Unity 6.5 proof lane now also verifies one explicitly
 local runtime-derived contract path by generating a fresh
 `unity_observatory_contract.json` from
-`adl/tests/fixtures/runtime_v2/observatory/visibility_packet.json`, staging it
+`demos/fixtures/csm_observatory/runtime-v2-visibility-packet.json`, staging it
 into a disposable Unity project copy, and proving the runtime shell renders the
 runtime-derived title, packet ref, artifact root, report ref, and evidence
 level instead of the older canned seeded contract.
@@ -130,7 +132,7 @@ Canonical packet schema consumed by the Unity lane:
 Runtime-backed golden fixture family that later issues may consume without
 introducing hidden local state:
 
-- `adl/tests/fixtures/runtime_v2/observatory/visibility_packet.json`
+- `demos/fixtures/csm_observatory/runtime-v2-visibility-packet.json`
 
 ### Current contract-backed wiring
 
@@ -220,12 +222,12 @@ Current contract-backed behavior:
 Current local-runtime proof behavior for `#4548`:
 
 - ADL generates a fresh Unity Observatory contract bundle from
-  `adl/tests/fixtures/runtime_v2/observatory/visibility_packet.json`
+  `demos/fixtures/csm_observatory/runtime-v2-visibility-packet.json`
 - the Unity smoke lane stages that generated contract into a disposable Unity
   project copy
 - the batch validator proves the runtime shell rendered:
   - title `Prototype CSM 01`
-  - packet ref `adl/tests/fixtures/runtime_v2/observatory/visibility_packet.json`
+  - packet ref `demos/fixtures/csm_observatory/runtime-v2-visibility-packet.json`
   - artifact root `runtime_v2`
   - operator report ref `runtime_v2/observatory/operator_report.md`
   - evidence-level note `artifact_backed_fixture`

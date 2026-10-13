@@ -1,3 +1,5 @@
+> Runtime source paths and in-tree build commands below are historical references after ADL #1223. Current execution requires the separately qualified Runtime owner; retaining this document does not qualify the original procedure.
+
 # v0.8 Demo: Gödel CLI Failure -> Hypothesis -> Experiment
 
 ## Purpose

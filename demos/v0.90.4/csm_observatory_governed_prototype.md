@@ -1,3 +1,5 @@
+> Runtime source paths and in-tree build commands below are historical references after ADL #1223. Current execution requires the separately qualified Runtime owner; retaining this document does not qualify the original procedure.
+
 # CSM Observatory Governed Prototype
 
 ## What This Is
@@ -19,7 +21,7 @@ static console line into a richer reviewer-facing and mobile-capable surface:
 It consumes the bounded runtime visibility artifact at:
 
 ```text
-adl/tests/fixtures/runtime_v2/observatory/visibility_packet.json
+demos/fixtures/csm_observatory/runtime-v2-visibility-packet.json
 ```
 
 and overlays governed prototype UI metadata for rooms, lenses, classification,
@@ -40,7 +42,7 @@ demos/v0.90.4/csm_observatory_governed_prototype.html
 The HTML records the current bounded runtime visibility packet:
 
 ```text
-adl/tests/fixtures/runtime_v2/observatory/visibility_packet.json
+demos/fixtures/csm_observatory/runtime-v2-visibility-packet.json
 ```
 
 If browser file restrictions block `fetch`, the page falls back to a

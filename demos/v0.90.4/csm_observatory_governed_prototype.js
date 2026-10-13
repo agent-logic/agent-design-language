@@ -161,7 +161,7 @@ const fallbackPacket = {
   },
   review: {
     primary_artifacts: [
-      "adl/tests/fixtures/runtime_v2/observatory/visibility_packet.json",
+      "demos/fixtures/csm_observatory/runtime-v2-visibility-packet.json",
       "docs/milestones/v0.91.6/features/OBSERVATORY_UNITY_CONSUMPTION_CLASSIFICATION_v0.91.6.md",
       "docs/milestones/v0.91.6/review/observatory/WP09_WORKING_UNITY_OBSERVATORY_CLOSEOUT_4035.md",
       "docs/milestones/v0.91.6/review/security/UNITY_OBSERVATORY_INHABITANT_READINESS_SECURITY_REVIEW_4023.md"
@@ -173,7 +173,7 @@ const fallbackPacket = {
     ],
     demo_classification: "fixture_backed_governed_mobile_surface",
     current_inputs: [
-      "../../adl/tests/fixtures/runtime_v2/observatory/visibility_packet.json",
+      "../../demos/fixtures/csm_observatory/runtime-v2-visibility-packet.json",
       "docs/milestones/v0.91.6/features/OBSERVATORY_UNITY_CONSUMPTION_CLASSIFICATION_v0.91.6.md",
       "docs/milestones/v0.91.6/review/observatory/WP09_WORKING_UNITY_OBSERVATORY_CLOSEOUT_4035.md"
     ],
@@ -184,7 +184,7 @@ const fallbackPacket = {
         state: "active",
         summary:
           "Runtime visibility packet, review artifacts, and trace-backed packet references are consumable proof surfaces.",
-        artifact_ref: "adl/tests/fixtures/runtime_v2/observatory/visibility_packet.json"
+        artifact_ref: "demos/fixtures/csm_observatory/runtime-v2-visibility-packet.json"
       },
       {
         surface_id: "rehearsal",

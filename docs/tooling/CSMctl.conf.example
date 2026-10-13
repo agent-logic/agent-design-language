@@ -61,13 +61,13 @@ ADL_CSM_API_TLS_TRUST_ROOTS='/Users/daniel/Library/Application Support/mkcert/ro
 
 # Private Runtime continuity TLS. These defaults use repo test fixtures unless
 # an operator intentionally swaps them for another local trust bundle.
-ADL_CSM_TLS_FIXTURE_ROOT=/path/to/agent-design-language/adl-runtime/tests/support/tls-fixtures
-ADL_CSM_TLS_CERT=/path/to/agent-design-language/adl-runtime/tests/support/tls-fixtures/server-cert.pem
-ADL_CSM_TLS_KEY=/path/to/agent-design-language/adl-runtime/tests/support/tls-fixtures/server-key.pem
-ADL_CSM_TLS_TRUST_ROOTS=/path/to/agent-design-language/adl-runtime/tests/support/tls-fixtures/root-ca.pem
-ADL_CSM_TLS_INTERMEDIATE=/path/to/agent-design-language/adl-runtime/tests/support/tls-fixtures/intermediate-ca.pem
-ADL_CSM_GUARDIAN_TLS_CERT=/path/to/agent-design-language/adl-runtime/tests/support/tls-fixtures/client-cert.pem
-ADL_CSM_GUARDIAN_TLS_KEY=/path/to/agent-design-language/adl-runtime/tests/support/tls-fixtures/client-key.pem
+ADL_CSM_TLS_FIXTURE_ROOT=/path/to/agent-logic-runtime/adl-runtime/tests/support/tls-fixtures
+ADL_CSM_TLS_CERT=/path/to/agent-logic-runtime/adl-runtime/tests/support/tls-fixtures/server-cert.pem
+ADL_CSM_TLS_KEY=/path/to/agent-logic-runtime/adl-runtime/tests/support/tls-fixtures/server-key.pem
+ADL_CSM_TLS_TRUST_ROOTS=/path/to/agent-logic-runtime/adl-runtime/tests/support/tls-fixtures/root-ca.pem
+ADL_CSM_TLS_INTERMEDIATE=/path/to/agent-logic-runtime/adl-runtime/tests/support/tls-fixtures/intermediate-ca.pem
+ADL_CSM_GUARDIAN_TLS_CERT=/path/to/agent-logic-runtime/adl-runtime/tests/support/tls-fixtures/client-cert.pem
+ADL_CSM_GUARDIAN_TLS_KEY=/path/to/agent-logic-runtime/adl-runtime/tests/support/tls-fixtures/client-key.pem
 
 # Probe and recovery policy.
 ADL_CSM_PROBE_INSECURE_TLS=0

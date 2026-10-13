@@ -1,3 +1,5 @@
+> Runtime source paths and in-tree build commands below are historical references after ADL #1223. Current execution requires the separately qualified Runtime owner; retaining this document does not qualify the original procedure.
+
 # CSM Observatory Operator Report: Prototype CSM 01
 
 ## Report Identity

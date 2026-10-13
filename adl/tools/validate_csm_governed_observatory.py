@@ -200,7 +200,7 @@ def main() -> int:
     assert_contains(
         "HTML packet reference",
         html,
-        "data-packet-ref=\"../../adl/tests/fixtures/runtime_v2/observatory/visibility_packet.json\"",
+        "data-packet-ref=\"../../demos/fixtures/csm_observatory/runtime-v2-visibility-packet.json\"",
     )
     assert_equal("packet schema", packet["schema"], "adl.csm_visibility_packet.v1")
     assert_equal("fallback schema", fallback["schema"], packet["schema"])
@@ -208,7 +208,7 @@ def main() -> int:
     assert_contains(
         "fallback current input ref",
         smoke["currentInputs"],
-        "adl/tests/fixtures/runtime_v2/observatory/visibility_packet.json",
+        "demos/fixtures/csm_observatory/runtime-v2-visibility-packet.json",
     )
     assert_equal("default room", fallback["observatory_ui"]["default_room"], "world")
     assert_equal("default lens", fallback["observatory_ui"]["default_lens"], "operator")

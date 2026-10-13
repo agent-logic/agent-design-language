@@ -1,3 +1,5 @@
+> Runtime source paths and in-tree build commands below are historical references after ADL #1223. Current execution requires the separately qualified Runtime owner; retaining this document does not qualify the original procedure.
+
 # Unity Observatory Bounded Proof Packet
 
 ## Runtime v3 TLS proof boundary
@@ -237,13 +239,13 @@ Deterministic Unity 6.5 local-runtime consumption proof: passed by
 which:
 
 - generates a fresh Observatory bundle from
-  `adl/tests/fixtures/runtime_v2/observatory/visibility_packet.json`
+  `demos/fixtures/csm_observatory/runtime-v2-visibility-packet.json`
 - stages `unity_observatory_contract.json` into a disposable Unity project copy
 - runs the Unity batch validator against that staged project
 - asserts the runtime shell renders:
   - title `Prototype CSM 01`
   - packet ref
-    `adl/tests/fixtures/runtime_v2/observatory/visibility_packet.json`
+    `demos/fixtures/csm_observatory/runtime-v2-visibility-packet.json`
   - artifact root `runtime_v2`
   - report ref `runtime_v2/observatory/operator_report.md`
   - evidence-level note `artifact_backed_fixture`

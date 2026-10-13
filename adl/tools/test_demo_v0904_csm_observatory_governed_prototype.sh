@@ -7,7 +7,7 @@ CSS="${ROOT_DIR}/demos/v0.90.4/csm_observatory_governed_prototype.css"
 JS="${ROOT_DIR}/demos/v0.90.4/csm_observatory_governed_prototype.js"
 DOC="${ROOT_DIR}/demos/v0.90.4/csm_observatory_governed_prototype.md"
 PACKET="${ROOT_DIR}/demos/fixtures/csm_observatory/proto-csm-02-governed-observatory-packet.json"
-RUNTIME_PACKET="${ROOT_DIR}/adl/tests/fixtures/runtime_v2/observatory/visibility_packet.json"
+RUNTIME_PACKET="${ROOT_DIR}/demos/fixtures/csm_observatory/runtime-v2-visibility-packet.json"
 
 for path in "${HTML}" "${CSS}" "${JS}" "${DOC}" "${PACKET}" "${RUNTIME_PACKET}"; do
   [[ -f "${path}" ]] || {
@@ -32,13 +32,13 @@ grep -Fq "World / Reality" "${HTML}"
 grep -Fq "Operator / Governance" "${HTML}"
 grep -Fq "Review / Export Surface" "${HTML}"
 grep -Fq "No live mutation" "${HTML}"
-grep -Fq "../../adl/tests/fixtures/runtime_v2/observatory/visibility_packet.json" "${HTML}"
+grep -Fq "../../demos/fixtures/csm_observatory/runtime-v2-visibility-packet.json" "${HTML}"
 
 grep -Fq "proposal-only" "${DOC}"
 grep -Fq "Corporate Investor mode" "${DOC}"
 grep -Fq "fixture_backed_governed_mobile_surface" "${DOC}"
 grep -Fq "HTML versus Unity lane split" "${DOC}"
-grep -Fq "adl/tests/fixtures/runtime_v2/observatory/visibility_packet.json" "${DOC}"
+grep -Fq "demos/fixtures/csm_observatory/runtime-v2-visibility-packet.json" "${DOC}"
 
 grep -Fq "surface_classification" "${JS}"
 grep -Fq "lane_split" "${JS}"

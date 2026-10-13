@@ -307,6 +307,8 @@ def load_runtime_module_family_map(
     if not family_feature_map:
         return {}
     tests_root = ROOT / "adl/src/runtime_v2/tests.rs"
+    if not tests_root.is_file():
+        raise ValueError("Historical Runtime source inventory is unavailable after #1223; use the public inventory configuration or the Runtime owner inventory.")
     cfg_line = ""
     mapping: dict[str, list[str]] = {}
     for raw_line in tests_root.read_text(encoding="utf-8").splitlines():

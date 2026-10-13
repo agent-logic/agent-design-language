@@ -120,7 +120,7 @@ done
   echo "fake adl missing --out" >&2
   exit 64
 }
-[[ "${packet_ref}" == "adl/tests/fixtures/runtime_v2/observatory/visibility_packet.json" ]] || {
+[[ "${packet_ref}" == "demos/fixtures/csm_observatory/runtime-v2-visibility-packet.json" ]] || {
   echo "fake adl requires the repository-relative packet reference" >&2
   exit 65
 }
@@ -128,7 +128,7 @@ mkdir -p "${out_dir}"
 cat >"${out_dir}/unity_observatory_contract.json" <<'JSON'
 {
   "manifold": {"display_name": "Prototype CSM 01"},
-  "source_packet_ref": "adl/tests/fixtures/runtime_v2/observatory/visibility_packet.json",
+  "source_packet_ref": "demos/fixtures/csm_observatory/runtime-v2-visibility-packet.json",
   "runtime_artifact_root": "runtime_v2",
   "review": {"operator_report_ref": "runtime_v2/observatory/operator_report.md"},
   "evidence_level": "artifact_backed_fixture"
