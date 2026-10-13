@@ -331,12 +331,25 @@
       ],
       "after": [
         "100644",
-        "f93953c6ca36b7484675724455ee85f594649e57"
+        "7c629e24816d068f94591ad411971ea99ef73d70"
       ],
-      "implementation_commit": "d1a18b5758a80ffcfa6acce0be436637e4c76e0d",
-      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
-      "review_reference": "review_1223_applied_components exact77/112 review",
-      "source_chain_reference": "proposed_reconciled_entries:adl/tools/generate_tool_surface_registry.py"
+      "implementation_commit": "ffbf9dae35fa7e24d99bd8c3547c9fd9d59ab226",
+      "approval_reference": "CSM_MANUAL_CALLER_RECONCILIATION.json",
+      "review_reference": "review_1223_public_facade author; WorkerBee18 independent exact caller/source review",
+      "source_chain_reference": "proposed_reconciled_entries:adl/tools/generate_tool_surface_registry.py",
+      "source_chain": [
+        {
+          "commit": "ffbf9dae35fa7e24d99bd8c3547c9fd9d59ab226",
+          "before": [
+            "100644",
+            "f93953c6ca36b7484675724455ee85f594649e57"
+          ],
+          "after": [
+            "100644",
+            "7c629e24816d068f94591ad411971ea99ef73d70"
+          ]
+        }
+      ]
     },
     {
       "path": "adl/tools/install_csdlc_man_pages.sh",
@@ -1955,11 +1968,11 @@
       "before": null,
       "after": [
         "100644",
-        "eff5d80e20903d0ee0bf5188bb95088b7f31e5ef"
+        "a5b92e53b54fe3ba16f3d79fb3ab376435118068"
       ],
-      "implementation_commit": "40dd5b4ce90d6f5fc89db77501788ad30505a292",
-      "approval_reference": "CODEFRIEND_SIX_HELPER_APPLIED.json",
-      "review_reference": "review_1223_applied_components exact six removals and eight callers PASS",
+      "implementation_commit": "ffbf9dae35fa7e24d99bd8c3547c9fd9d59ab226",
+      "approval_reference": "CSM_MANUAL_CALLER_RECONCILIATION.json",
+      "review_reference": "review_1223_public_facade author; WorkerBee18 independent exact caller/source review",
       "source_chain": [
         {
           "commit": "387ca92b99f04cd9f73c45d23711fa9cfecccaae",
@@ -2011,6 +2024,17 @@
           "after": [
             "100644",
             "eff5d80e20903d0ee0bf5188bb95088b7f31e5ef"
+          ]
+        },
+        {
+          "commit": "ffbf9dae35fa7e24d99bd8c3547c9fd9d59ab226",
+          "before": [
+            "100644",
+            "eff5d80e20903d0ee0bf5188bb95088b7f31e5ef"
+          ],
+          "after": [
+            "100644",
+            "a5b92e53b54fe3ba16f3d79fb3ab376435118068"
           ]
         }
       ]
