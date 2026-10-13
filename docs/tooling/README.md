@@ -216,3 +216,20 @@ regression tests. The `v0.87` bounded cleanup retired:
 - `default.rules.profiles.example`
 - `demo_v0_4.sh`
 - `pr_smoke.sh`
+
+## Runtime provider-neutral local contract
+
+The provider-neutral birthday sources and their historical trace/matrix resources
+are owned by `agent-logic-runtime`. The retained explicit validation lane requires
+`ADL_PROVIDER_NEUTRAL_SOURCE_ROOT` to select the reviewed Runtime source root:
+
+```bash
+ADL_PROVIDER_NEUTRAL_SOURCE_ROOT="/absolute/path/to/agent-logic-runtime" \
+  python3 tools/runtime_contracts/run_provider_neutral_proof.py
+```
+
+The adapter verifies all four resource identities before invoking the original
+local-proof test. This exercises local ACIP and feed serialization; the recorded
+qualification ran in an isolated container. The route grants no paid-provider,
+hosted Observatory, HTTPS, or native admission claim.
+Existing positive/Observatory matrices and traces remain historical owner evidence.

@@ -754,17 +754,19 @@
         "adl/tools/serve_v092_provider_neutral_observatory_api.py",
         "adl/tools/test_v092_provider_neutral_proof.sh",
         "adl/tools/validate_v092_provider_neutral_proof.py",
-        "demos/v0.92/provider-neutral-birthday/**"
+        "demos/v0.92/provider-neutral-birthday/**",
+        "tools/runtime_contracts/run_provider_neutral_proof.py"
       ],
       "path_hints": [
         "adl/tools/demo_v092_provider_neutral_birthday.sh",
         "adl/tools/serve_v092_provider_neutral_observatory_api.py",
         "adl/tools/test_v092_provider_neutral_proof.sh",
         "adl/tools/validate_v092_provider_neutral_proof.py",
-        "demos/v0.92/provider-neutral-birthday/"
+        "demos/v0.92/provider-neutral-birthday/",
+        "tools/runtime_contracts/run_provider_neutral_proof.py"
       ],
-      "command": "bash adl/tools/test_v092_provider_neutral_proof.sh",
-      "run_command": "bash adl/tools/test_v092_provider_neutral_proof.sh",
+      "command": "python3 tools/runtime_contracts/run_provider_neutral_proof.py",
+      "run_command": "python3 tools/runtime_contracts/run_provider_neutral_proof.py",
       "reason": "provider_neutral_multi_agent_proof_surface_requires_focused_demo_packet_validation"
     },
     {
