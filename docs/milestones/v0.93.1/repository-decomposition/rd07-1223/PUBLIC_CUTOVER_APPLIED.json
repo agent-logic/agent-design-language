@@ -357,6 +357,11 @@
       "command": "ruby adl/tools/validate_ci_workflow_policy.rb",
       "result": "PASS",
       "workflows": 19
+    },
+    {
+      "command": "bash adl/tools/test_batched_checks_no_codexpr_usage_banner.sh",
+      "result": "PASS",
+      "boundary": "fake Cargo and public CLI fixture; no build"
     }
   ],
   "remaining": "Final retirement scope, owner deliveries, native authority reconciliation, final candidate build and lifecycle completion remain separate.",
@@ -366,8 +371,10 @@
     "scope": "Applied 38 paths and focused wiring/default-status corrections; not full issue acceptance"
   },
   "original_removal_accounting": {
-    "committed_before_cutover": 70,
-    "additional_uncommitted_candidate_deletion": "RD07-2113 adl/tools/test_select_validation_lanes.sh",
+    "committed_original_removals_after_cutover": 71,
+    "cutover_deletion": "RD07-2113 adl/tools/test_select_validation_lanes.sh",
+    "ledger_disposition": "preserve_reviewed_consumer_repair; original identity and historical proof preserved",
     "not_a_final_retirement_claim": true
-  }
+  },
+  "implementation_commit": "951a4c097f"
 }

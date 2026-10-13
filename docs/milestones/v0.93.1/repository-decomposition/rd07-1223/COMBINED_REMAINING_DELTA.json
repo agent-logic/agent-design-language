@@ -1,12 +1,12 @@
 {
   "schema": "adl.source_retirement.combined_remaining_delta.v1",
   "issue": 1223,
-  "source_head": "5646981a1751253e885cbe5b5c25295d7d650f2e",
+  "source_head": "951a4c097fde039319c5b508ade9645c748e1fb5",
   "status": "prepared_scope_not_ready_for_execution",
   "execution_authorized": false,
   "original_count": 4134,
   "counts": {
-    "hold_explicit_reconciliation": 124,
+    "hold_explicit_reconciliation": 107,
     "hold_owner_test_reconciliation": 35,
     "preserve_approved_removal": 70,
     "preserve_reviewed_consumer_repair": 18,
@@ -15,8 +15,8 @@
     "proposed_remove_construction_qualified_infrastructure": 216,
     "proposed_remove_with_entire_source_family": 1874,
     "proposed_remove_with_entire_tool_family": 689,
-    "retain_public_source_or_fixture": 78,
-    "retain_resolved": 519
+    "retain_public_source_or_fixture": 87,
+    "retain_resolved": 527
   },
   "additional_current_source_paths": 22,
   "preservation": "Original inventory and baseline archive unchanged;70 prior approved removals preserved; no new deletion applied",
@@ -28835,10 +28835,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -28848,7 +28846,11 @@
         "packet": "VALIDATION_ROUTING_DISPOSITIONS.json",
         "packet_sha256": "0c3e169b260c77503071139e7424907dfa4007477b149cb3e0c3f94627c6f1b3",
         "proposal": "retain_public_entrypoint_with_split_repair"
-      }
+      },
+      "prior_execution_prerequisites": [
+        "specific_consumer_or_document_disposition_required"
+      ],
+      "disposition_evidence": "PUBLIC_CUTOVER_APPLIED.json; independently reviewed applied commit 951a4c097f; retention only, no downstream dependency removal or native owner admission inferred."
     },
     {
       "id": "RD07-1243",
@@ -33994,10 +33996,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -34007,7 +34007,11 @@
         "packet": "VALIDATION_ROUTING_DISPOSITIONS.json",
         "packet_sha256": "0c3e169b260c77503071139e7424907dfa4007477b149cb3e0c3f94627c6f1b3",
         "proposal": "retain_public_entrypoint_with_split_repair"
-      }
+      },
+      "prior_execution_prerequisites": [
+        "specific_consumer_or_document_disposition_required"
+      ],
+      "disposition_evidence": "PUBLIC_CUTOVER_APPLIED.json; independently reviewed applied commit 951a4c097f; retention only, no downstream dependency removal or native owner admission inferred."
     },
     {
       "id": "RD07-1453",
@@ -35732,10 +35736,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "Retain runner/test/runbook under ADL consumer contract until an explicit owner-local validation-manager route replaces it. Infrastructure copy is not standalone replacement."
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -35756,7 +35758,11 @@
           ],
           "other_findings": 0
         }
-      }
+      },
+      "prior_execution_prerequisites": [
+        "Retain runner/test/runbook under ADL consumer contract until an explicit owner-local validation-manager route replaces it. Infrastructure copy is not standalone replacement."
+      ],
+      "disposition_evidence": "PUBLIC_CUTOVER_APPLIED.json; independently reviewed applied commit 951a4c097f; retention only, no downstream dependency removal or native owner admission inferred."
     },
     {
       "id": "RD07-1519",
@@ -36155,10 +36161,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -36168,7 +36172,11 @@
         "packet": "VALIDATION_ROUTING_DISPOSITIONS.json",
         "packet_sha256": "0c3e169b260c77503071139e7424907dfa4007477b149cb3e0c3f94627c6f1b3",
         "proposal": "retain_routing_entrypoint_pending_manifest_reconciliation"
-      }
+      },
+      "prior_execution_prerequisites": [
+        "specific_consumer_or_document_disposition_required"
+      ],
+      "disposition_evidence": "PUBLIC_CUTOVER_APPLIED.json; independently reviewed unchanged shell wrappers exercised by actual public interface tests; no owner admission or downstream dependency removal inferred."
     },
     {
       "id": "RD07-1533",
@@ -46276,15 +46284,17 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "prior_execution_prerequisites": [
+        "specific_consumer_or_document_disposition_required"
+      ],
+      "disposition_evidence": "PUBLIC_CUTOVER_APPLIED.json; independently reviewed applied commit 951a4c097f; retention only, no downstream dependency removal or native owner admission inferred."
     },
     {
       "id": "RD07-1914",
@@ -51339,10 +51349,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "Retain runner/test/runbook under ADL consumer contract until an explicit owner-local validation-manager route replaces it. Infrastructure copy is not standalone replacement."
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -51363,7 +51371,11 @@
           ],
           "other_findings": 0
         }
-      }
+      },
+      "prior_execution_prerequisites": [
+        "Retain runner/test/runbook under ADL consumer contract until an explicit owner-local validation-manager route replaces it. Infrastructure copy is not standalone replacement."
+      ],
+      "disposition_evidence": "PUBLIC_CUTOVER_APPLIED.json; independently reviewed applied commit 951a4c097f; retention only, no downstream dependency removal or native owner admission inferred."
     },
     {
       "id": "RD07-2102",
@@ -51663,7 +51675,13 @@
       },
       "existing_action": "approved_component_consumer_repair",
       "proposed_action": "preserve_reviewed_consumer_repair",
-      "required_before_execution": []
+      "required_before_execution": [],
+      "applied_outcome": {
+        "commit": "951a4c097f",
+        "action": "obsolete_monorepo_contract_removed",
+        "evidence": "PUBLIC_CUTOVER_APPLIED.json",
+        "original_identity_preserved": true
+      }
     },
     {
       "id": "RD07-2114",
@@ -53291,10 +53309,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "Retain exact paths with ADL CI owner until replacement CI contract removes or redirects current calls and preserves surviving tests. Classify source-policy tests together with their runners; no transfer based on copy alone."
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -53313,7 +53329,11 @@
           ],
           "other_findings": 0
         }
-      }
+      },
+      "prior_execution_prerequisites": [
+        "Retain exact paths with ADL CI owner until replacement CI contract removes or redirects current calls and preserves surviving tests. Classify source-policy tests together with their runners; no transfer based on copy alone."
+      ],
+      "disposition_evidence": "PUBLIC_CUTOVER_APPLIED.json; independently reviewed applied commit 951a4c097f; retention only, no downstream dependency removal or native owner admission inferred."
     },
     {
       "id": "RD07-2174",
@@ -55409,10 +55429,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -55422,7 +55440,11 @@
         "packet": "VALIDATION_ROUTING_DISPOSITIONS.json",
         "packet_sha256": "0c3e169b260c77503071139e7424907dfa4007477b149cb3e0c3f94627c6f1b3",
         "proposal": "retain_public_inventory_with_owner_boundary_repair"
-      }
+      },
+      "prior_execution_prerequisites": [
+        "specific_consumer_or_document_disposition_required"
+      ],
+      "disposition_evidence": "PUBLIC_CUTOVER_APPLIED.json; independently reviewed applied commit 951a4c097f; retention only, no downstream dependency removal or native owner admission inferred."
     },
     {
       "id": "RD07-2256",
@@ -55448,10 +55470,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -55461,7 +55481,11 @@
         "packet": "VALIDATION_ROUTING_DISPOSITIONS.json",
         "packet_sha256": "0c3e169b260c77503071139e7424907dfa4007477b149cb3e0c3f94627c6f1b3",
         "proposal": "retain_routing_entrypoint_pending_manifest_reconciliation"
-      }
+      },
+      "prior_execution_prerequisites": [
+        "specific_consumer_or_document_disposition_required"
+      ],
+      "disposition_evidence": "PUBLIC_CUTOVER_APPLIED.json; independently reviewed unchanged shell wrappers exercised by actual public interface tests; no owner admission or downstream dependency removal inferred."
     },
     {
       "id": "RD07-2258",
@@ -79131,11 +79155,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "Preserve historical scenario/docs boundary. Link archived or owner execution routes; original035 remains non-proving. Do not claim historical fixture is live review.",
-        "coherent caller and component disposition; no source-only qualification claim"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
@@ -79146,7 +79167,12 @@
         "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
         "proposal": "Preserve historical scenario/docs boundary. Link archived or owner execution routes; original035 remains non-proving. Do not claim historical fixture is live review.",
         "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
-      }
+      },
+      "prior_execution_prerequisites": [
+        "Preserve historical scenario/docs boundary. Link archived or owner execution routes; original035 remains non-proving. Do not claim historical fixture is live review.",
+        "coherent caller and component disposition; no source-only qualification claim"
+      ],
+      "disposition_evidence": "PUBLIC_CUTOVER_APPLIED.json; independently reviewed applied commit 951a4c097f; retention only, no downstream dependency removal or native owner admission inferred."
     },
     {
       "id": "RD07-3210",
@@ -79427,11 +79453,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "Preserve historical scenario/docs boundary. Link archived or owner execution routes; original035 remains non-proving. Do not claim historical fixture is live review.",
-        "coherent caller and component disposition; no source-only qualification claim"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
@@ -79442,7 +79465,12 @@
         "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
         "proposal": "Preserve historical scenario/docs boundary. Link archived or owner execution routes; original035 remains non-proving. Do not claim historical fixture is live review.",
         "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
-      }
+      },
+      "prior_execution_prerequisites": [
+        "Preserve historical scenario/docs boundary. Link archived or owner execution routes; original035 remains non-proving. Do not claim historical fixture is live review.",
+        "coherent caller and component disposition; no source-only qualification claim"
+      ],
+      "disposition_evidence": "PUBLIC_CUTOVER_APPLIED.json; independently reviewed applied commit 951a4c097f; retention only, no downstream dependency removal or native owner admission inferred."
     },
     {
       "id": "RD07-3220",
@@ -79665,11 +79693,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "Preserve historical scenario/docs boundary. Link archived or owner execution routes; original035 remains non-proving. Do not claim historical fixture is live review.",
-        "coherent caller and component disposition; no source-only qualification claim"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
@@ -79680,7 +79705,12 @@
         "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
         "proposal": "Preserve historical scenario/docs boundary. Link archived or owner execution routes; original035 remains non-proving. Do not claim historical fixture is live review.",
         "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
-      }
+      },
+      "prior_execution_prerequisites": [
+        "Preserve historical scenario/docs boundary. Link archived or owner execution routes; original035 remains non-proving. Do not claim historical fixture is live review.",
+        "coherent caller and component disposition; no source-only qualification claim"
+      ],
+      "disposition_evidence": "PUBLIC_CUTOVER_APPLIED.json; independently reviewed applied commit 951a4c097f; retention only, no downstream dependency removal or native owner admission inferred."
     },
     {
       "id": "RD07-3228",
@@ -80565,11 +80595,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "Preserve historical scenario/docs boundary. Link archived or owner execution routes; original035 remains non-proving. Do not claim historical fixture is live review.",
-        "coherent caller and component disposition; no source-only qualification claim"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
@@ -80580,7 +80607,12 @@
         "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
         "proposal": "Preserve historical scenario/docs boundary. Link archived or owner execution routes; original035 remains non-proving. Do not claim historical fixture is live review.",
         "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
-      }
+      },
+      "prior_execution_prerequisites": [
+        "Preserve historical scenario/docs boundary. Link archived or owner execution routes; original035 remains non-proving. Do not claim historical fixture is live review.",
+        "coherent caller and component disposition; no source-only qualification claim"
+      ],
+      "disposition_evidence": "PUBLIC_CUTOVER_APPLIED.json; independently reviewed applied commit 951a4c097f; retention only, no downstream dependency removal or native owner admission inferred."
     },
     {
       "id": "RD07-3269",
@@ -90156,17 +90188,19 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "docs/tooling/GITHUB_LARGER_RUNNER_PREFLIGHT.md"
         ]
-      }
+      },
+      "prior_execution_prerequisites": [
+        "specific_consumer_or_document_disposition_required"
+      ],
+      "disposition_evidence": "PUBLIC_CUTOVER_APPLIED.json; independently reviewed applied commit 951a4c097f; retention only, no downstream dependency removal or native owner admission inferred."
     },
     {
       "id": "RD07-3744",
@@ -90249,10 +90283,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "Retain the collector/privacy/archive guide until an accepted command owner or explicit retirement decision exists for adl tooling issue-resource-telemetry collect/archive. Preserve redaction and private-evidence rules; archive --upload is an effectful optional operation, not authorized by this document disposition. No same-path guide exists at inspected C-SDLC c0dacd3d."
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -90263,7 +90295,11 @@
         "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
         "proposal": "hold_specific_missing_owner_contract",
         "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
-      }
+      },
+      "prior_execution_prerequisites": [
+        "Retain the collector/privacy/archive guide until an accepted command owner or explicit retirement decision exists for adl tooling issue-resource-telemetry collect/archive. Preserve redaction and private-evidence rules; archive --upload is an effectful optional operation, not authorized by this document disposition. No same-path guide exists at inspected C-SDLC c0dacd3d."
+      ],
+      "disposition_evidence": "PUBLIC_CUTOVER_APPLIED.json; independently reviewed applied commit 951a4c097f; retention only, no downstream dependency removal or native owner admission inferred."
     },
     {
       "id": "RD07-3750",
@@ -90335,10 +90371,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "Retain runner/test/runbook under ADL consumer contract until an explicit owner-local validation-manager route replaces it. Infrastructure copy is not standalone replacement."
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -90359,7 +90393,11 @@
           ],
           "other_findings": 0
         }
-      }
+      },
+      "prior_execution_prerequisites": [
+        "Retain runner/test/runbook under ADL consumer contract until an explicit owner-local validation-manager route replaces it. Infrastructure copy is not standalone replacement."
+      ],
+      "disposition_evidence": "PUBLIC_CUTOVER_APPLIED.json; independently reviewed applied commit 951a4c097f; retention only, no downstream dependency removal or native owner admission inferred."
     },
     {
       "id": "RD07-3754",
@@ -90841,10 +90879,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "Retain ADL milestone WBS/SPRINT planning semantics and docs/tooling/README.md:109 navigation. Obtain an accepted owner command/guide for deterministic issue-wave derivation or explicitly retire the command with historical labeling; remove source-era cargo examples only in that concrete repair. No same-path guide exists at inspected C-SDLC c0dacd3d; lack of mapping does not authorize a newly invented replacement."
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -90855,7 +90891,11 @@
         "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
         "proposal": "hold_specific_missing_owner_contract",
         "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
-      }
+      },
+      "prior_execution_prerequisites": [
+        "Retain ADL milestone WBS/SPRINT planning semantics and docs/tooling/README.md:109 navigation. Obtain an accepted owner command/guide for deterministic issue-wave derivation or explicitly retire the command with historical labeling; remove source-era cargo examples only in that concrete repair. No same-path guide exists at inspected C-SDLC c0dacd3d; lack of mapping does not authorize a newly invented replacement."
+      ],
+      "disposition_evidence": "PUBLIC_CUTOVER_APPLIED.json; independently reviewed applied commit 951a4c097f; retention only, no downstream dependency removal or native owner admission inferred."
     },
     {
       "id": "RD07-3780",
