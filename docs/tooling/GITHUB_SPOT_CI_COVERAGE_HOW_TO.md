@@ -7,6 +7,18 @@
 > Their two unchanged offline fixture consumers passed; this does not establish
 > live AWS cleanup, current Spot deployment, or broad owner acceptance.
 
+## Retained offline contract evidence
+
+The Infrastructure owner also retains `aws_spot_artifact_redaction_verify.py`
+and `test_aws_spot_lifecycle_controls.sh`. The unchanged lifecycle consumer
+passed its six fake-AWS/SSH invocations using the genuine retained adapter
+for the required help contract. The exact redaction assertion block from
+`test_run_aws_spot_ci_profile.sh` passed separately, preserving numeric
+metrics while refusing or sanitizing identifier-bearing JSON and partial logs.
+This subset does not establish a pass of the mixed CI script: its 23 historical
+backend snapshot assertions and other CI/route clauses remain separate
+original obligations in owner and #1223 custody. No live AWS action was run.
+
 ## Rollout Model
 
 GitHub Actions remains the control plane. A small hosted runner authenticates
