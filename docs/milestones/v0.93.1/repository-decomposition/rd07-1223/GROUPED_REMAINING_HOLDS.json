@@ -1,7 +1,7 @@
 {
   "schema": "adl.source_retirement.grouped_holds.v1",
   "source_head": "ea85e76550b49b4dade170e1da054d26b0e8d441",
-  "ledger_sha256": "2ee65f8a84d8642812694bb3fef26dc1760e9a67613f949559bd9a0dbc2c98a0",
+  "ledger_sha256": "241729c9e1b11557a40b12a2c4ea10dffe79f39190013c02fc2fe500eb6491d4",
   "original_count": 4134,
   "held_count": 172,
   "additional_paths_separate": 19,
@@ -2192,7 +2192,8 @@
             },
             "Accept per-row disposition and close listed caller/dependency obligations.",
             "For transfers, bind actual owner package/fixture outcomes to the mapped assertion denominator; source availability alone is insufficient.",
-            "Obtain coherent source-retirement approval and guard qualification."
+            "Obtain coherent source-retirement approval and guard qualification.",
+            "Resolve four obsolete Gate2 exact filters removed by52e0be6f; zero selected tests are not qualification."
           ],
           "successor_mapping": {
             "mapping": "unmapped",
@@ -2204,6 +2205,12 @@
             "packet_sha256": "af4ce18ae8978a75ab2fbfd26d5a584710e70f24ec99c89dbb561a950eab314e",
             "proposal": "archive_only_assertion_mapping_needed",
             "reason": "Original script makes sixteen real csdlc-v2 edit requests through gate2 fixtures and checks sunset wrapper absence. Owner active-lifecycle README explicitly keeps this compatibility obligation distinct; resource verification is not replacement."
+          },
+          "qualification_followup": {
+            "record": "LEGACY_TYPED_WRAPPER_DISPOSITION.json",
+            "scope": "exact_source_obligation_and_removed_filter_lineage",
+            "execution_proven": false,
+            "changes_removal_authority": false
           }
         },
         {
@@ -2249,7 +2256,8 @@
             },
             "Accept per-row disposition and close listed caller/dependency obligations.",
             "For transfers, bind actual owner package/fixture outcomes to the mapped assertion denominator; source availability alone is insufficient.",
-            "Obtain coherent source-retirement approval and guard qualification."
+            "Obtain coherent source-retirement approval and guard qualification.",
+            "Resolve four obsolete Gate2 exact filters removed by52e0be6f; zero selected tests are not qualification."
           ],
           "successor_mapping": {
             "mapping": "unmapped",
@@ -2261,6 +2269,12 @@
             "packet_sha256": "af4ce18ae8978a75ab2fbfd26d5a584710e70f24ec99c89dbb561a950eab314e",
             "proposal": "archive_only_assertion_mapping_needed",
             "reason": "Card-editor manifest/schema and documentation assertions include executing test_card_editor_repair_examples.sh; preserve the sixteen-edit fixture separately from resource checks."
+          },
+          "qualification_followup": {
+            "record": "LEGACY_TYPED_WRAPPER_DISPOSITION.json",
+            "scope": "exact_source_obligation_and_removed_filter_lineage",
+            "execution_proven": false,
+            "changes_removal_authority": false
           }
         },
         {
@@ -2282,6 +2296,12 @@
             "mapping": "unmapped",
             "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
             "exact_successor_paths": []
+          },
+          "qualification_followup": {
+            "record": "LEGACY_TYPED_WRAPPER_DISPOSITION.json",
+            "scope": "exact_source_obligation_and_removed_filter_lineage",
+            "execution_proven": false,
+            "changes_removal_authority": false
           }
         },
         {
@@ -2361,6 +2381,12 @@
             "mapping": "unmapped",
             "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
             "exact_successor_paths": []
+          },
+          "qualification_followup": {
+            "record": "LEGACY_TYPED_WRAPPER_DISPOSITION.json",
+            "scope": "exact_source_obligation_and_removed_filter_lineage",
+            "execution_proven": false,
+            "changes_removal_authority": false
           }
         },
         {
@@ -2411,6 +2437,12 @@
             "mapping": "unmapped",
             "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
             "exact_successor_paths": []
+          },
+          "qualification_followup": {
+            "record": "LEGACY_TYPED_WRAPPER_DISPOSITION.json",
+            "scope": "exact_source_obligation_and_removed_filter_lineage",
+            "execution_proven": false,
+            "changes_removal_authority": false
           }
         },
         {
@@ -2566,6 +2598,12 @@
             "mapping": "unmapped",
             "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
             "exact_successor_paths": []
+          },
+          "qualification_followup": {
+            "record": "LEGACY_TYPED_WRAPPER_DISPOSITION.json",
+            "scope": "exact_source_obligation_and_removed_filter_lineage",
+            "execution_proven": false,
+            "changes_removal_authority": false
           }
         },
         {
@@ -2587,6 +2625,12 @@
             "mapping": "unmapped",
             "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
             "exact_successor_paths": []
+          },
+          "qualification_followup": {
+            "record": "LEGACY_TYPED_WRAPPER_DISPOSITION.json",
+            "scope": "exact_source_obligation_and_removed_filter_lineage",
+            "execution_proven": false,
+            "changes_removal_authority": false
           }
         },
         {
@@ -2770,12 +2814,19 @@
           "hold_reason": "hold_no_proven_current_successor_mapping",
           "proposed_action": "hold_explicit_reconciliation",
           "required_before_execution": [
-            "specific_consumer_or_document_disposition_required"
+            "specific_consumer_or_document_disposition_required",
+            "Resolve four obsolete Gate2 exact filters removed by52e0be6f; zero selected tests are not qualification."
           ],
           "successor_mapping": {
             "mapping": "unmapped",
             "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
             "exact_successor_paths": []
+          },
+          "qualification_followup": {
+            "record": "LEGACY_TYPED_WRAPPER_DISPOSITION.json",
+            "scope": "exact_source_obligation_and_removed_filter_lineage",
+            "execution_proven": false,
+            "changes_removal_authority": false
           }
         }
       ]
