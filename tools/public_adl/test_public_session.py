@@ -40,6 +40,9 @@ def main():
 
         assert invoke(['status'])['active_claims'] == 0
         assert not ledger.exists(), 'read-only status must not materialize a ledger'
+        for command in [[], ['status'], ['claim'], ['heartbeat'], ['release']]:
+            assert 'Usage:' in invoke([*command, '--help'], structured=False)
+            assert not ledger.exists(), 'help must not materialize a ledger'
         claim_args = ['claim', '--session-id', 'fixture-session', '--owner', 'fixture',
                       '--resource', 'test:portable', '--purpose', 'isolated contract',
                       '--ttl-secs', '3600']
@@ -50,6 +53,12 @@ def main():
         assert invoke(['status'])['active_claims'] == 1
         assert identity in invoke(['status'], structured=False)
         saved = ledger.read_bytes()
+        invoke([*claim_args, '--unknown'], failure='unknown session claim option')
+        assert ledger.read_bytes() == saved
+        invoke([*claim_args, '--owner', ''], failure='owner cannot be empty')
+        assert ledger.read_bytes() == saved
+        invoke([*claim_args, '--ttl-secs', '0'], failure='ttl seconds must be greater than zero')
+        assert ledger.read_bytes() == saved
         invoke(claim_args, failure='already has active claim')
         assert ledger.read_bytes() == saved
         invoke(['heartbeat', '--claim-id', identity, '--ttl-secs', '0'],
@@ -85,6 +94,10 @@ def main():
         ledger.write_text('{invalid')
         invoke(['status'], failure='parse session ledger')
         assert ledger.read_text() == '{invalid'
+        ledger.unlink()
+        ledger.mkdir()
+        invoke(['status'], failure='read session ledger')
+        assert ledger.is_dir()
     print(json.dumps({'status': 'passed', 'commands': count,
                       'scope': 'isolated occupancy contract; no lifecycle authority'}))
 
