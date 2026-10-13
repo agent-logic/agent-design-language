@@ -18,7 +18,9 @@
         "--test",
         "public_process",
         "--test",
-        "issue_327_removed_tooling"
+        "issue_327_removed_tooling",
+        "--test",
+        "public_observation"
       ],
       "sources": [
         "adl/src/bin/adl_process.rs",
