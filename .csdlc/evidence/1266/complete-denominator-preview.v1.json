@@ -16,9 +16,11 @@
   ],
   "summary": {
     "closed_milestone_issues": 39,
-    "previewed_receipt_cases": 35,
+    "previewed_terminal_record_cases": 37,
     "preview_passed": 0,
-    "preview_blocked": 35,
+    "preview_blocked": 37,
+    "receipt_state_mismatch": 36,
+    "bound_checkout_mismatch": 1,
     "excluded_without_closing_pr": 2,
     "canonical_new_reconciliations": 2
   },

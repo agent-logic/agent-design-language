@@ -290,6 +290,10 @@ pub struct VerifiedTerminalReadback {
 }
 
 impl VerifiedTerminalReadback {
+    pub(crate) fn head_sha(&self) -> &str {
+        &self.head_sha
+    }
+
     #[allow(clippy::too_many_arguments)]
     pub(crate) fn from_typed_adapter_receipt(
         producer: &str,

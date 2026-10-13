@@ -1348,6 +1348,7 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
     }
     let mut legacy_merged_compatibility = false;
     let mut missing_semantic_no_pr_compatibility = false;
+    let retained_terminal_receipt = receipt_path.exists();
     let mut native = if request.command == "finish"
         && !request.content.is_null()
         && explicit_pr.is_none()
@@ -1468,6 +1469,13 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
             let state_path = output_root.join(format!("v3/issues/{}/terminal.json", context.issue));
             context.fresh()?;
             let mut process = RealProcessAdapter::new(EnvironmentCredentialResolver);
+            if !retained_terminal_receipt
+                && (legacy_merged_compatibility || native.publication_repository.is_some())
+            {
+                let observed = observe_terminal_github_readback(&native, &mut process)
+                    .map_err(|finding| finding.code)?;
+                native.expected_head_sha = Some(observed.head_sha().to_owned());
+            }
             // Authentication and terminal admission are observational before reservation.
             let staged = prepare_terminal_finish_with_github_observation(&native, &mut process)
                 .map_err(|finding| finding.code)?;

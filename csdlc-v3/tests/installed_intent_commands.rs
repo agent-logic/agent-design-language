@@ -617,10 +617,12 @@ fn issue_1092_installed_finish_accepts_explicit_authenticated_legacy_target() {
     fixture.enable_pr_transport(&bound);
     fixture.enable_external_pr_transport();
     let head = git(&bound, &["rev-parse", "HEAD"]);
+    let external_head = "1111111111111111111111111111111111111111";
+    assert_ne!(head, external_head);
     fs::write(
         primary.join(".git/installed-candidate/remote-pr-638.json"),
         serde_json::to_vec(&json!({
-            "number":638,"head":{"sha":head},"merged":true,"state":"closed",
+            "number":638,"head":{"sha":external_head},"merged":true,"state":"closed",
             "body":"Closes agent-logic/agent-design-language#505"
         }))
         .unwrap(),
@@ -652,6 +654,7 @@ fn issue_1092_installed_finish_accepts_explicit_authenticated_legacy_target() {
         receipt["publication_repository"],
         "agent-logic/codefriend.ai"
     );
+    assert_eq!(receipt["head_sha"], external_head);
     let state_path = primary.join(".git/csdlc-v3/local/v3/issues/505/terminal.json");
     fs::remove_file(&state_path).unwrap();
     let repaired = success(fixture.run(&primary, &["finish", "505"]));
