@@ -1,6 +1,26 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# #1223: transferred demo producers are selected explicitly before any effects.
+ADL_RUNTIME_BIN="${ADL_RUNTIME_BIN:-}"
+if [[ "$ADL_RUNTIME_BIN" != /* || ! -x "$ADL_RUNTIME_BIN" ]]; then
+  echo "Select the reviewed Runtime executable with absolute executable ADL_RUNTIME_BIN before running retained demo callers." >&2
+  exit 2
+fi
+RUNTIME_DEMO_SOURCE_ROOT="${RUNTIME_DEMO_SOURCE_ROOT:-}"
+if [[ "$RUNTIME_DEMO_SOURCE_ROOT" != /* ]]; then
+  echo "Select the reviewed Runtime source checkout with absolute RUNTIME_DEMO_SOURCE_ROOT; ADL no longer owns these demo producers." >&2
+  exit 2
+fi
+if [[ ! -f "$RUNTIME_DEMO_SOURCE_ROOT/adl/tools/demo_v0871_operator_surface.sh" ]]; then
+  echo "Missing selected Runtime demo resource: demo_v0871_operator_surface.sh" >&2
+  exit 2
+fi
+if [[ ! -f "$RUNTIME_DEMO_SOURCE_ROOT/adl/tools/demo_v0871_runtime_state.sh" ]]; then
+  echo "Missing selected Runtime demo resource: demo_v0871_runtime_state.sh" >&2
+  exit 2
+fi
+
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 OUT_DIR="${1:-$ROOT_DIR/artifacts/v0871/integrated_runtime}"
 MANIFEST="$OUT_DIR/demo_manifest.json"
@@ -15,8 +35,8 @@ bash "$ROOT_DIR/adl/tools/demo_v0871_trace_runtime.sh" "$OUT_DIR/d3_trace_runtim
 bash "$ROOT_DIR/adl/tools/demo_v0871_resilience_failure.sh" "$OUT_DIR/d4_resilience_failure" >/dev/null
 bash "$ROOT_DIR/adl/tools/demo_v0871_shepherd_recovery.sh" "$OUT_DIR/d4a_shepherd_recovery" >/dev/null
 bash "$ROOT_DIR/adl/tools/demo_v0871_restartability.sh" "$OUT_DIR/d5_restartability" >/dev/null
-bash "$ROOT_DIR/adl/tools/demo_v0871_operator_surface.sh" "$OUT_DIR/d6_operator_surface" >/dev/null
-bash "$ROOT_DIR/adl/tools/demo_v0871_runtime_state.sh" "$OUT_DIR/d7_runtime_state" >/dev/null
+bash "$RUNTIME_DEMO_SOURCE_ROOT/adl/tools/demo_v0871_operator_surface.sh" "$OUT_DIR/d6_operator_surface" >/dev/null
+bash "$RUNTIME_DEMO_SOURCE_ROOT/adl/tools/demo_v0871_runtime_state.sh" "$OUT_DIR/d7_runtime_state" >/dev/null
 bash "$ROOT_DIR/adl/tools/demo_v0871_review_surface.sh" "$OUT_DIR/d8_review_surface" >/dev/null
 
 python3 - "$ROOT_DIR" "$OUT_DIR" "$MANIFEST" <<'PY'

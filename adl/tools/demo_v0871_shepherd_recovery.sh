@@ -1,6 +1,22 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# #1223: transferred demo producers are selected explicitly before any effects.
+ADL_RUNTIME_BIN="${ADL_RUNTIME_BIN:-}"
+if [[ "$ADL_RUNTIME_BIN" != /* || ! -x "$ADL_RUNTIME_BIN" ]]; then
+  echo "Select the reviewed Runtime executable with absolute executable ADL_RUNTIME_BIN before running retained demo callers." >&2
+  exit 2
+fi
+RUNTIME_DEMO_SOURCE_ROOT="${RUNTIME_DEMO_SOURCE_ROOT:-}"
+if [[ "$RUNTIME_DEMO_SOURCE_ROOT" != /* ]]; then
+  echo "Select the reviewed Runtime source checkout with absolute RUNTIME_DEMO_SOURCE_ROOT; ADL no longer owns these demo producers." >&2
+  exit 2
+fi
+if [[ ! -f "$RUNTIME_DEMO_SOURCE_ROOT/adl/tools/demo_v0871_runtime_state.sh" ]]; then
+  echo "Missing selected Runtime demo resource: demo_v0871_runtime_state.sh" >&2
+  exit 2
+fi
+
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/v0871_demo_common.sh"
 
 ROOT_DIR="$(v0871_demo_repo_root)"
@@ -12,7 +28,7 @@ TRACE_FILE="$OUT_DIR/runtime/runs/$RUN_ID/logs/trace_v1.json"
 SUMMARY_FILE="$OUT_DIR/shepherd_recovery_summary.json"
 
 rm -rf "$OUT_DIR"
-bash "$ROOT_DIR/adl/tools/demo_v0871_runtime_state.sh" "$OUT_DIR" >/dev/null
+bash "$RUNTIME_DEMO_SOURCE_ROOT/adl/tools/demo_v0871_runtime_state.sh" "$OUT_DIR" >/dev/null
 
 python3 - "$STATUS_FILE" "$PAUSE_FILE" "$SUMMARY_FILE" <<'PY'
 import json

@@ -1,6 +1,34 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# #1223: transferred demo producers are selected explicitly before any effects.
+ADL_RUNTIME_BIN="${ADL_RUNTIME_BIN:-}"
+if [[ "$ADL_RUNTIME_BIN" != /* || ! -x "$ADL_RUNTIME_BIN" ]]; then
+  echo "Select the reviewed Runtime executable with absolute executable ADL_RUNTIME_BIN before running retained demo callers." >&2
+  exit 2
+fi
+RUNTIME_DEMO_SOURCE_ROOT="${RUNTIME_DEMO_SOURCE_ROOT:-}"
+if [[ "$RUNTIME_DEMO_SOURCE_ROOT" != /* ]]; then
+  echo "Select the reviewed Runtime source checkout with absolute RUNTIME_DEMO_SOURCE_ROOT; ADL no longer owns these demo producers." >&2
+  exit 2
+fi
+if [[ ! -f "$RUNTIME_DEMO_SOURCE_ROOT/adl/tools/demo_v0871_operator_surface.sh" ]]; then
+  echo "Missing selected Runtime demo resource: demo_v0871_operator_surface.sh" >&2
+  exit 2
+fi
+if [[ ! -f "$RUNTIME_DEMO_SOURCE_ROOT/adl/tools/demo_v0871_runtime_state.sh" ]]; then
+  echo "Missing selected Runtime demo resource: demo_v0871_runtime_state.sh" >&2
+  exit 2
+fi
+if [[ ! -f "$RUNTIME_DEMO_SOURCE_ROOT/adl/tools/test_demo_v0871_operator_surface.sh" ]]; then
+  echo "Missing selected Runtime demo resource: test_demo_v0871_operator_surface.sh" >&2
+  exit 2
+fi
+if [[ ! -f "$RUNTIME_DEMO_SOURCE_ROOT/adl/tools/test_demo_v0871_runtime_state.sh" ]]; then
+  echo "Missing selected Runtime demo resource: test_demo_v0871_runtime_state.sh" >&2
+  exit 2
+fi
+
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 OUT_DIR="${1:-$ROOT_DIR/artifacts/v0871/quality_gate}"
 MANIFEST="$OUT_DIR/quality_gate_record.json"
@@ -27,8 +55,8 @@ checks_json+="$(run_check coverage_gate bash -lc "cd \"$ROOT_DIR/adl\" && cargo 
 checks_json+="$(run_check legacy_guardrail bash "$ROOT_DIR/adl/tools/check_no_new_legacy_swarm_refs.sh"),"
 checks_json+="$(run_check release_notes_commands bash "$ROOT_DIR/adl/tools/check_release_notes_commands.sh"),"
 checks_json+="$(run_check runtime_rows bash "$ROOT_DIR/adl/tools/test_demo_v0871_runtime_rows.sh"),"
-checks_json+="$(run_check operator_surface bash "$ROOT_DIR/adl/tools/test_demo_v0871_operator_surface.sh"),"
-checks_json+="$(run_check runtime_state bash "$ROOT_DIR/adl/tools/test_demo_v0871_runtime_state.sh"),"
+checks_json+="$(run_check operator_surface bash "$RUNTIME_DEMO_SOURCE_ROOT/adl/tools/test_demo_v0871_operator_surface.sh"),"
+checks_json+="$(run_check runtime_state bash "$RUNTIME_DEMO_SOURCE_ROOT/adl/tools/test_demo_v0871_runtime_state.sh"),"
 checks_json+="$(run_check review_surface bash "$ROOT_DIR/adl/tools/test_demo_v0871_review_surface.sh"),"
 checks_json+="$(run_check rust_module_watch bash "$ROOT_DIR/adl/tools/report_large_rust_modules.sh" --format tsv)"
 checks_json+="}"

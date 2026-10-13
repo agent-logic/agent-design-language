@@ -30,7 +30,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 9
 - `supported shim`: 0
-- `internal helper`: 615
+- `internal helper`: 610
 - `historical evidence`: 45
 - `archive candidate`: 0
 - `remove candidate`: 2
@@ -119,7 +119,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/demo_v0871_integrated_runtime.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v0871_lifecycle.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v0871_multi_agent_discussion.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
-| `adl/tools/demo_v0871_operator_surface.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v0871_provider_chatgpt.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v0871_provider_http.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v0871_provider_local_ollama.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
@@ -131,11 +130,9 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/demo_v0871_restartability.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v0871_review_surface.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v0871_runtime_environment.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
-| `adl/tools/demo_v0871_runtime_state.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v0871_shepherd_recovery.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v0871_suite.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v0871_trace_runtime.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
-| `adl/tools/demo_v087_control_plane.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v087_operational_skills.sh` | tool surface | historical evidence | Historical bundle-install and inventory contract; original recursive acceptance remains separate from owner resource proof. |
 | `adl/tools/demo_v087_provider_portability.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v087_reviewer_package.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
@@ -396,7 +393,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_demo_five_command_editing.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_operator_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v0871_multi_agent_discussion.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_demo_v0871_operator_surface.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v0871_provider_chatgpt.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v0871_provider_http.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v0871_provider_local_ollama.sh` | tool surface | internal helper | Focused regression or contract test helper. |
@@ -406,7 +402,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_demo_v0871_review_surface.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v0871_review_tail_rows.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v0871_runtime_rows.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_demo_v0871_runtime_state.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v0871_suite.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v088_deep_agents_comparative_proof.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v088_instinct_review_surface.sh` | tool surface | internal helper | Focused regression or contract test helper. |
