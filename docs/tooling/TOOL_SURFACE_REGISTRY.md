@@ -30,7 +30,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 9
 - `supported shim`: 0
-- `internal helper`: 571
+- `internal helper`: 570
 - `historical evidence`: 45
 - `archive candidate`: 0
 - `remove candidate`: 2
@@ -517,7 +517,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_skill_documentation_completeness.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_slow_proof_lane_contract.sh` | tool surface | historical evidence | Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing. |
 | `adl/tools/test_software_development_polis_packet.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_sprint_conductor_helpers.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_structured_prompt_validation.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_summarize_ci_runtime.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_summarize_nextest_timings.sh` | tool surface | internal helper | Focused regression or contract test helper. |
@@ -674,11 +673,11 @@ Source skill directories only; installed skill admission is not inventoried here
 
 | Surface | Kind | Classification | Notes |
 | --- | --- | --- | --- |
-| `adl/tools/arxiv-paper-writer` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
-| `adl/tools/medium-article-writer` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
-| `adl/tools/pr-closeout` | skill | primary | Primary skill in the governed issue/sprint lifecycle. |
-| `adl/tools/pr-run` | skill | historical evidence | Partial historical ADL compatibility reference; use the selected native owner for current lifecycle commands. |
-| `adl/tools/sprint-review` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
+| `adl/tools/skills/arxiv-paper-writer` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
+| `adl/tools/skills/medium-article-writer` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
+| `adl/tools/skills/pr-closeout` | skill | primary | Primary skill in the governed issue/sprint lifecycle. |
+| `adl/tools/skills/pr-run` | skill | historical evidence | Partial historical ADL compatibility reference; use the selected native owner for current lifecycle commands. |
+| `adl/tools/skills/sprint-review` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
 
 ## Historical Evidence Artifacts
 

@@ -7,6 +7,8 @@ if [[ "$source_root" != /* || ! -d "$source_root" ]]; then
   echo "Select an authentic complete original skill fixture via ADL_OPERATIONAL_SKILLS_SOURCE_ROOT; all original installer assertions remain required." >&2
   exit 2
 fi
+# Exact mapped owner inputs must be available before installation effects.
+python3 "$repo_root/tools/sprint_contracts/run_owner_correspondence.py" --check-inputs
 tmpdir="$(mktemp -d)"
 trap 'rm -rf "${tmpdir}"' EXIT
 
@@ -213,7 +215,9 @@ if ADL_OPERATIONAL_SKILLS_INSTALL_MODE=bogus bash "${repo_root}/adl/tools/instal
   exit 1
 fi
 
-bash "${repo_root}/adl/tools/test_sprint_conductor_helpers.sh"
+# Original 421-expression child ABI is historically retired; run reviewed mapped
+# components here. This does not claim full original/native acceptance.
+python3 "$repo_root/tools/sprint_contracts/run_owner_correspondence.py"
 bash "${repo_root}/adl/tools/test_multiagent_podcast_audio_policy.sh"
 
 echo "PASS test_install_adl_operational_skills"
