@@ -30,7 +30,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 9
 - `supported shim`: 0
-- `internal helper`: 588
+- `internal helper`: 587
 - `historical evidence`: 46
 - `archive candidate`: 0
 - `remove candidate`: 2
@@ -353,7 +353,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_check_milestone_closed_issue_sor_truth.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_check_no_tracked_adl_issue_record_residue.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_check_repo_quality_staleness.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_ci_cache_linker_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_ci_path_policy.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_ci_runtime_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_cli_owner_command_guidance.sh` | tool surface | internal helper | Focused regression or contract test helper. |
