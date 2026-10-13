@@ -1,0 +1,62 @@
+{
+  "schema": "adl1223.codefriend_focused_qualification.v1",
+  "cases": [
+    {
+      "evidence_directory": "/Volumes/FastWork/c1223/evidence/codefriend/issue102-e1b2f1aa-native",
+      "classification": "native_preflight_refused_before_validator",
+      "result": {
+        "exit_code": 2,
+        "seconds": 0.721,
+        "head_after": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+        "stdout_sha256": "43060f61be21c6b674a046969d114582ffbbfa8de55630130a05b2c64f1fdeb1",
+        "stderr_sha256": "4c754e83e35aaa6e63150d2136af6b44db83b5be76a6735fd8134dca146aea43"
+      },
+      "counts": {
+        "executed_tests": 0
+      },
+      "result_sha256": "c3aff97a5201211d1c71bb86b8b78e353bd7dfe90ef3cc2a5fd544c5dac1d936"
+    },
+    {
+      "evidence_directory": "/Volumes/FastWork/c1223/evidence/codefriend/issue102-e1b2f1aa-direct",
+      "classification": "actual_lib_template_pin_failure",
+      "result": {
+        "exit_code": 101,
+        "seconds": 259.756,
+        "head_after": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+        "log_sha256": "55009470711ba90deb4074467f761ee175f971c2d6f1c7031e0694e7cd119f09",
+        "native_acceptance": false
+      },
+      "counts": {
+        "passed": 170,
+        "failed": 7,
+        "ignored": 0,
+        "publication_tests_not_reached": 8
+      },
+      "result_sha256": "804fb8db8ad2a4a02c0038991930e4eaa6bf9533fafe33a5a66691267e7e5960"
+    },
+    {
+      "evidence_directory": "/Volumes/FastWork/c1223/evidence/codefriend/issue102-69c9e76-direct",
+      "classification": "focused_repaired_candidate_pass",
+      "result": {
+        "exit_code": 0,
+        "seconds": 37.88,
+        "head_after": "69c9e76de44a27e4d4329ca4f652c1e291d67ed9",
+        "log_sha256": "312c853861076dc66d7ce637c35b81ff95b093b931499def54c9173d6e225982",
+        "native_acceptance": false
+      },
+      "counts": {
+        "lib_passed": 177,
+        "publication_passed": 8,
+        "failed": 0,
+        "ignored": 0
+      },
+      "result_sha256": "4327d5571bdfdf7b02127a19cd179ab47266f137a1afac711e98c741b2cd8b72"
+    }
+  ],
+  "limits": [
+    "Native input_not_tracked admission refusal is not test execution or native acceptance",
+    "e1 template source pins drifted after earlier markdown/HTML behavior repairs; owner updated seven source pins and four manifest member hashes in five JSON files",
+    "69c9e76 actual focused185PASS is separate from e14 Linux409PASS",
+    "No full409 rerun, macOS-only journey run, installed artifact acceptance or final CI claim"
+  ]
+}
