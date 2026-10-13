@@ -1,6 +1,6 @@
 # #1223 remaining hold groups
 
-Snapshot of all **189 holds** at `7dec38d263bb9f40907e17c4ab9ff93a9d8f9729`. All 4,134 original identities remain in the ledger; 19 additional current paths remain separately tracked. This grouping does not authorize deletion or change any disposition.
+Snapshot of all **175 holds** based on `ea85e76550b49b4dade170e1da054d26b0e8d441` plus the reviewed consumer-batch adoption. All 4,134 original identities remain in the ledger; 19 additional current paths remain separately tracked. No deletion is authorized by this grouping.
 
 | Group | Held paths | Next action |
 | --- | ---: | --- |
@@ -14,7 +14,7 @@ Snapshot of all **189 holds** at `7dec38d263bb9f40907e17c4ab9ff93a9d8f9729`. All
 | Historical janitor attachment | 1 | Disposition original v1 real_pr_finish auto-attachment and failure behavior explicitly; modern skill existence is not equivalent launcher proof. |
 | Runtime Observatory behavior and CI | 6 | Reconcile room selection, mobile controls and incident assertions with owner journal additions; preserve extra governed-room test. Reconcile live-only CI denominator separately. Reuse existing owner proof where exact. |
 | Installed C-SDLC node and plan proof | 1 | Reuse five restored passing scenarios and native proof; reconcile exact delivered artifact and installed admission before authorizing source/test removal. |
-| Skill and operational contract consumers | 38 | Map exact original assertions against delivered CodeFriend and C-SDLC resources, reusing existing13-contract and planning/component proofs. Close remaining original conductor421-expression obligations and native admission separately; preserve archive-only assertions with explicit historical disposition. |
+| Skill and operational contract consumers | 24 | Twenty-four rows remain: legacy typed CLI gates, ADL caller/doc contracts, provider demo pair, analysis helpers, and conductor original421-expression closure. Twelve CodeFriend individual scripts and two delivered C-SDLC fixture rows now have reviewed component proof; retain separate caller and retirement gates in their conditional proposals. |
 | Historical demo coverage validator | 2 | Choose coherent historical retention/consumer closure for validator and original negative fixture. No new fixture campaign started; any later execution must isolate generated evidence. Frozen docs and predecessor records remain required inputs. |
 | Historical podcast generation and playback | 7 | Resolve static packet generation/validation separately from browser/native playback and source-era runner calls. Retain frozen evidence; no provider/playback run implied. |
 | Remaining ADL validation routing | 36 | After reviewed caller cutover, reconcile each retained runner, selector, coverage/PVF policy and configuration against five public packages and original assertions. Retain historical private lanes explicitly; do not silently drop inventory rows. |
@@ -35,3 +35,5 @@ The accompanying `GROUPED_REMAINING_HOLDS.json` preserves every held row, exact 
 No standalone 2150/2234 fixture run or additional build was started for this grouping.
 
 Infrastructure ALB remains a separate owner implementation gap: no repair issue, worktree, implementation or PR exists. Native creation recovery was rejected by automatic approval review and awaits exact authorization. The repair must preserve documented DNS alias and certificate creation behavior; dropping three unsupported arguments would not satisfy it. Diagnosis: `/Volumes/FastWork/c1223/repairs/infrastructure/diagnosis.md`.
+
+Reviewed original consumer batches qualified 14 formerly held rows (12 CodeFriend individual scripts and two C-SDLC fixture scripts). They moved to conditional owner-transfer proposals; no files were removed. Current complete held rows: 175. See `ORIGINAL_CONSUMER_BATCH_QUALIFICATION.json`.

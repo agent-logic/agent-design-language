@@ -6,12 +6,12 @@
   "execution_authorized": false,
   "original_count": 4134,
   "counts": {
-    "hold_explicit_reconciliation": 154,
+    "hold_explicit_reconciliation": 140,
     "hold_owner_test_reconciliation": 35,
     "preserve_approved_removal": 70,
     "preserve_reviewed_consumer_repair": 18,
     "proposed_historical_retirement_with_caller_repair": 17,
-    "proposed_owner_transfer_with_consumer_qualification": 473,
+    "proposed_owner_transfer_with_consumer_qualification": 487,
     "proposed_remove_construction_qualified_infrastructure": 216,
     "proposed_remove_with_entire_source_family": 1874,
     "proposed_remove_with_entire_tool_family": 690,
@@ -45962,12 +45962,36 @@
         "blob": "6aa012e0186625366bf1b330471ca052cbfe399d"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Reconcile all active ADL inbound callers and CI with the delivered owner family in the same retirement delta.",
+        "Preserve original test assertions and historical rollback inventory.",
+        "Obtain exact scoped operator retirement decision; this component proof does not authorize deletion.",
+        "Retain separate current owner delivery/native acceptance boundaries; no whole-product acceptance inferred."
       ],
       "successor_mapping": {
+        "mapping": "reviewed_owner_path_adaptation",
+        "successor_repository": "agent-logic/codefriend",
+        "successor_revision": "e93a457ad6325017627a66a2abe31a3376fa28fd",
+        "successor_paths": [
+          "tools/retained_skill_contracts/test_adr_curator_skill_contracts.sh"
+        ],
+        "full_source_correspondence": "SKILL_OPERATIONAL_HOLD_MAPPING.json"
+      },
+      "prior_hold": {
+        "hold_reason": "hold_no_proven_current_successor_mapping",
+        "required_before_execution": [
+          "specific_consumer_or_document_disposition_required"
+        ]
+      },
+      "qualification_followup": {
+        "record": "ORIGINAL_CONSUMER_BATCH_QUALIFICATION.json",
+        "scope": "original_individual_installed_skill_contract",
+        "passed": true,
+        "native_lifecycle_acceptance": false,
+        "changes_removal_authority": false
+      },
+      "prior_successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
@@ -45983,12 +46007,36 @@
         "blob": "f77cc813d2f6d866cd525463161831db80fcc18d"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Reconcile all active ADL inbound callers and CI with the delivered owner family in the same retirement delta.",
+        "Preserve original test assertions and historical rollback inventory.",
+        "Obtain exact scoped operator retirement decision; this component proof does not authorize deletion.",
+        "Retain separate current owner delivery/native acceptance boundaries; no whole-product acceptance inferred."
       ],
       "successor_mapping": {
+        "mapping": "reviewed_owner_path_adaptation",
+        "successor_repository": "agent-logic/codefriend",
+        "successor_revision": "e93a457ad6325017627a66a2abe31a3376fa28fd",
+        "successor_paths": [
+          "tools/retained_skill_contracts/test_architecture_diagram_reviewer_skill_contracts.sh"
+        ],
+        "full_source_correspondence": "SKILL_OPERATIONAL_HOLD_MAPPING.json"
+      },
+      "prior_hold": {
+        "hold_reason": "hold_no_proven_current_successor_mapping",
+        "required_before_execution": [
+          "specific_consumer_or_document_disposition_required"
+        ]
+      },
+      "qualification_followup": {
+        "record": "ORIGINAL_CONSUMER_BATCH_QUALIFICATION.json",
+        "scope": "original_individual_installed_skill_contract",
+        "passed": true,
+        "native_lifecycle_acceptance": false,
+        "changes_removal_authority": false
+      },
+      "prior_successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
@@ -46004,12 +46052,36 @@
         "blob": "afe88166149f0d8c034426f3d46418075ea3e32a"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Reconcile all active ADL inbound callers and CI with the delivered owner family in the same retirement delta.",
+        "Preserve original test assertions and historical rollback inventory.",
+        "Obtain exact scoped operator retirement decision; this component proof does not authorize deletion.",
+        "Retain separate current owner delivery/native acceptance boundaries; no whole-product acceptance inferred."
       ],
       "successor_mapping": {
+        "mapping": "reviewed_owner_path_adaptation",
+        "successor_repository": "agent-logic/codefriend",
+        "successor_revision": "e93a457ad6325017627a66a2abe31a3376fa28fd",
+        "successor_paths": [
+          "tools/retained_skill_contracts/test_architecture_fitness_function_author_skill_contracts.sh"
+        ],
+        "full_source_correspondence": "SKILL_OPERATIONAL_HOLD_MAPPING.json"
+      },
+      "prior_hold": {
+        "hold_reason": "hold_no_proven_current_successor_mapping",
+        "required_before_execution": [
+          "specific_consumer_or_document_disposition_required"
+        ]
+      },
+      "qualification_followup": {
+        "record": "ORIGINAL_CONSUMER_BATCH_QUALIFICATION.json",
+        "scope": "original_individual_installed_skill_contract",
+        "passed": true,
+        "native_lifecycle_acceptance": false,
+        "changes_removal_authority": false
+      },
+      "prior_successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
@@ -46386,12 +46458,12 @@
         "blob": "e218a5bf7c87c9a61b55d33633c5d3fc4c590414"
       },
       "existing_action": "retain",
-      "hold_reason": "Owner verifier explicitly executes original thirteen-field/order/evidence-state fixture checks from authenticated package members; preserve issue661 input/output/expected YAML, rg and private Git fixture dependencies.",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "Accept per-row disposition and close listed caller/dependency obligations.",
-        "For transfers, bind actual owner package/fixture outcomes to the mapped assertion denominator; source availability alone is insufficient.",
-        "Obtain coherent source-retirement approval and guard qualification."
+        "Reconcile all active ADL inbound callers and CI with the delivered owner family in the same retirement delta.",
+        "Preserve original test assertions and historical rollback inventory.",
+        "Obtain exact scoped operator retirement decision; this component proof does not authorize deletion.",
+        "Retain separate current owner delivery/native acceptance boundaries; no whole-product acceptance inferred."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
@@ -46403,6 +46475,21 @@
         "packet_sha256": "af4ce18ae8978a75ab2fbfd26d5a584710e70f24ec99c89dbb561a950eab314e",
         "proposal": "conditional_owner_fixture_transfer",
         "reason": "Owner verifier explicitly executes original thirteen-field/order/evidence-state fixture checks from authenticated package members; preserve issue661 input/output/expected YAML, rg and private Git fixture dependencies."
+      },
+      "prior_hold": {
+        "hold_reason": "Owner verifier explicitly executes original thirteen-field/order/evidence-state fixture checks from authenticated package members; preserve issue661 input/output/expected YAML, rg and private Git fixture dependencies.",
+        "required_before_execution": [
+          "Accept per-row disposition and close listed caller/dependency obligations.",
+          "For transfers, bind actual owner package/fixture outcomes to the mapped assertion denominator; source availability alone is insufficient.",
+          "Obtain coherent source-retirement approval and guard qualification."
+        ]
+      },
+      "qualification_followup": {
+        "record": "ORIGINAL_CONSUMER_BATCH_QUALIFICATION.json",
+        "scope": "original_delivered_fixture_contract",
+        "passed": true,
+        "native_lifecycle_acceptance": false,
+        "changes_removal_authority": false
       }
     },
     {
@@ -48193,12 +48280,36 @@
         "blob": "2a76c3ccd970b67387a3d7b9f7d7f3ab294e6430"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Reconcile all active ADL inbound callers and CI with the delivered owner family in the same retirement delta.",
+        "Preserve original test assertions and historical rollback inventory.",
+        "Obtain exact scoped operator retirement decision; this component proof does not authorize deletion.",
+        "Retain separate current owner delivery/native acceptance boundaries; no whole-product acceptance inferred."
       ],
       "successor_mapping": {
+        "mapping": "reviewed_owner_path_adaptation",
+        "successor_repository": "agent-logic/codefriend",
+        "successor_revision": "e93a457ad6325017627a66a2abe31a3376fa28fd",
+        "successor_paths": [
+          "tools/retained_skill_contracts/test_diagram_author_skill_contracts.sh"
+        ],
+        "full_source_correspondence": "SKILL_OPERATIONAL_HOLD_MAPPING.json"
+      },
+      "prior_hold": {
+        "hold_reason": "hold_no_proven_current_successor_mapping",
+        "required_before_execution": [
+          "specific_consumer_or_document_disposition_required"
+        ]
+      },
+      "qualification_followup": {
+        "record": "ORIGINAL_CONSUMER_BATCH_QUALIFICATION.json",
+        "scope": "original_individual_installed_skill_contract",
+        "passed": true,
+        "native_lifecycle_acceptance": false,
+        "changes_removal_authority": false
+      },
+      "prior_successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
@@ -48362,12 +48473,36 @@
         "blob": "ebe4a84541a5a1e08128240db0da5e404c4d7c01"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Reconcile all active ADL inbound callers and CI with the delivered owner family in the same retirement delta.",
+        "Preserve original test assertions and historical rollback inventory.",
+        "Obtain exact scoped operator retirement decision; this component proof does not authorize deletion.",
+        "Retain separate current owner delivery/native acceptance boundaries; no whole-product acceptance inferred."
       ],
       "successor_mapping": {
+        "mapping": "reviewed_owner_path_adaptation",
+        "successor_repository": "agent-logic/codefriend",
+        "successor_revision": "e93a457ad6325017627a66a2abe31a3376fa28fd",
+        "successor_paths": [
+          "tools/retained_skill_contracts/test_finding_to_issue_planner_skill_contracts.sh"
+        ],
+        "full_source_correspondence": "SKILL_OPERATIONAL_HOLD_MAPPING.json"
+      },
+      "prior_hold": {
+        "hold_reason": "hold_no_proven_current_successor_mapping",
+        "required_before_execution": [
+          "specific_consumer_or_document_disposition_required"
+        ]
+      },
+      "qualification_followup": {
+        "record": "ORIGINAL_CONSUMER_BATCH_QUALIFICATION.json",
+        "scope": "original_individual_installed_skill_contract",
+        "passed": true,
+        "native_lifecycle_acceptance": false,
+        "changes_removal_authority": false
+      },
+      "prior_successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
@@ -49766,40 +49901,12 @@
         "blob": "e85539d6ffa83006dd7a0bacb903a1553aa280cf"
       },
       "existing_action": "retain",
-      "hold_reason": "Owner verifier runs original session telemetry assertions with only fixed /tmp output redirected into private tmpdir. Preserve record_session_issue_metrics and pinned issue_goal_metrics dependency; readiness remains nonterminal.",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        {
-          "path": "adl/config/validation_lane_selector.v0.91.6.json",
-          "line": 817,
-          "reference": "        \"adl/tools/test_readiness_prep_metrics_non_terminal.sh\",",
-          "kind": "source_or_configuration_reference",
-          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
-        },
-        {
-          "path": "adl/config/validation_lane_selector.v0.91.6.json",
-          "line": 830,
-          "reference": "        \"adl/tools/test_readiness_prep_metrics_non_terminal.sh\",",
-          "kind": "source_or_configuration_reference",
-          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
-        },
-        {
-          "path": "adl/tools/test_select_validation_lanes.sh",
-          "line": 316,
-          "reference": "  \"adl/tools/test_readiness_prep_metrics_non_terminal.sh\"",
-          "kind": "source_or_configuration_reference",
-          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
-        },
-        {
-          "path": "adl/tools/test_select_validation_lanes.sh",
-          "line": 351,
-          "reference": "    \"adl/tools/test_readiness_prep_metrics_non_terminal.sh\",",
-          "kind": "source_or_configuration_reference",
-          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
-        },
-        "Accept per-row disposition and close listed caller/dependency obligations.",
-        "For transfers, bind actual owner package/fixture outcomes to the mapped assertion denominator; source availability alone is insufficient.",
-        "Obtain coherent source-retirement approval and guard qualification."
+        "Reconcile all active ADL inbound callers and CI with the delivered owner family in the same retirement delta.",
+        "Preserve original test assertions and historical rollback inventory.",
+        "Obtain exact scoped operator retirement decision; this component proof does not authorize deletion.",
+        "Retain separate current owner delivery/native acceptance boundaries; no whole-product acceptance inferred."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
@@ -49811,6 +49918,49 @@
         "packet_sha256": "af4ce18ae8978a75ab2fbfd26d5a584710e70f24ec99c89dbb561a950eab314e",
         "proposal": "conditional_owner_fixture_transfer",
         "reason": "Owner verifier runs original session telemetry assertions with only fixed /tmp output redirected into private tmpdir. Preserve record_session_issue_metrics and pinned issue_goal_metrics dependency; readiness remains nonterminal."
+      },
+      "prior_hold": {
+        "hold_reason": "Owner verifier runs original session telemetry assertions with only fixed /tmp output redirected into private tmpdir. Preserve record_session_issue_metrics and pinned issue_goal_metrics dependency; readiness remains nonterminal.",
+        "required_before_execution": [
+          {
+            "path": "adl/config/validation_lane_selector.v0.91.6.json",
+            "line": 817,
+            "reference": "        \"adl/tools/test_readiness_prep_metrics_non_terminal.sh\",",
+            "kind": "source_or_configuration_reference",
+            "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+          },
+          {
+            "path": "adl/config/validation_lane_selector.v0.91.6.json",
+            "line": 830,
+            "reference": "        \"adl/tools/test_readiness_prep_metrics_non_terminal.sh\",",
+            "kind": "source_or_configuration_reference",
+            "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+          },
+          {
+            "path": "adl/tools/test_select_validation_lanes.sh",
+            "line": 316,
+            "reference": "  \"adl/tools/test_readiness_prep_metrics_non_terminal.sh\"",
+            "kind": "source_or_configuration_reference",
+            "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+          },
+          {
+            "path": "adl/tools/test_select_validation_lanes.sh",
+            "line": 351,
+            "reference": "    \"adl/tools/test_readiness_prep_metrics_non_terminal.sh\",",
+            "kind": "source_or_configuration_reference",
+            "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+          },
+          "Accept per-row disposition and close listed caller/dependency obligations.",
+          "For transfers, bind actual owner package/fixture outcomes to the mapped assertion denominator; source availability alone is insufficient.",
+          "Obtain coherent source-retirement approval and guard qualification."
+        ]
+      },
+      "qualification_followup": {
+        "record": "ORIGINAL_CONSUMER_BATCH_QUALIFICATION.json",
+        "scope": "original_delivered_fixture_contract",
+        "passed": true,
+        "native_lifecycle_acceptance": false,
+        "changes_removal_authority": false
       }
     },
     {
@@ -49847,12 +49997,36 @@
         "blob": "deab7a12da7b21b183a51d9f96b6c09870140674"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Reconcile all active ADL inbound callers and CI with the delivered owner family in the same retirement delta.",
+        "Preserve original test assertions and historical rollback inventory.",
+        "Obtain exact scoped operator retirement decision; this component proof does not authorize deletion.",
+        "Retain separate current owner delivery/native acceptance boundaries; no whole-product acceptance inferred."
       ],
       "successor_mapping": {
+        "mapping": "reviewed_owner_path_adaptation",
+        "successor_repository": "agent-logic/codefriend",
+        "successor_revision": "e93a457ad6325017627a66a2abe31a3376fa28fd",
+        "successor_paths": [
+          "tools/retained_skill_contracts/test_redaction_and_evidence_auditor_skill_contracts.sh"
+        ],
+        "full_source_correspondence": "SKILL_OPERATIONAL_HOLD_MAPPING.json"
+      },
+      "prior_hold": {
+        "hold_reason": "hold_no_proven_current_successor_mapping",
+        "required_before_execution": [
+          "specific_consumer_or_document_disposition_required"
+        ]
+      },
+      "qualification_followup": {
+        "record": "ORIGINAL_CONSUMER_BATCH_QUALIFICATION.json",
+        "scope": "original_individual_installed_skill_contract",
+        "passed": true,
+        "native_lifecycle_acceptance": false,
+        "changes_removal_authority": false
+      },
+      "prior_successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
@@ -49936,12 +50110,36 @@
         "blob": "1ca6bffa9d2024d5a8f2e05e6beb28b97bc2cc3f"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Reconcile all active ADL inbound callers and CI with the delivered owner family in the same retirement delta.",
+        "Preserve original test assertions and historical rollback inventory.",
+        "Obtain exact scoped operator retirement decision; this component proof does not authorize deletion.",
+        "Retain separate current owner delivery/native acceptance boundaries; no whole-product acceptance inferred."
       ],
       "successor_mapping": {
+        "mapping": "reviewed_owner_path_adaptation",
+        "successor_repository": "agent-logic/codefriend",
+        "successor_revision": "e93a457ad6325017627a66a2abe31a3376fa28fd",
+        "successor_paths": [
+          "tools/retained_skill_contracts/test_repo_architecture_review_skill_contracts.sh"
+        ],
+        "full_source_correspondence": "SKILL_OPERATIONAL_HOLD_MAPPING.json"
+      },
+      "prior_hold": {
+        "hold_reason": "hold_no_proven_current_successor_mapping",
+        "required_before_execution": [
+          "specific_consumer_or_document_disposition_required"
+        ]
+      },
+      "qualification_followup": {
+        "record": "ORIGINAL_CONSUMER_BATCH_QUALIFICATION.json",
+        "scope": "original_individual_installed_skill_contract",
+        "passed": true,
+        "native_lifecycle_acceptance": false,
+        "changes_removal_authority": false
+      },
+      "prior_successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
@@ -49979,12 +50177,36 @@
         "blob": "aae7f67e78a30c1f51f8f00dec43dab4eb0e0b1e"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Reconcile all active ADL inbound callers and CI with the delivered owner family in the same retirement delta.",
+        "Preserve original test assertions and historical rollback inventory.",
+        "Obtain exact scoped operator retirement decision; this component proof does not authorize deletion.",
+        "Retain separate current owner delivery/native acceptance boundaries; no whole-product acceptance inferred."
       ],
       "successor_mapping": {
+        "mapping": "reviewed_owner_path_adaptation",
+        "successor_repository": "agent-logic/codefriend",
+        "successor_revision": "e93a457ad6325017627a66a2abe31a3376fa28fd",
+        "successor_paths": [
+          "tools/retained_skill_contracts/test_repo_dependency_review_skill_contracts.sh"
+        ],
+        "full_source_correspondence": "SKILL_OPERATIONAL_HOLD_MAPPING.json"
+      },
+      "prior_hold": {
+        "hold_reason": "hold_no_proven_current_successor_mapping",
+        "required_before_execution": [
+          "specific_consumer_or_document_disposition_required"
+        ]
+      },
+      "qualification_followup": {
+        "record": "ORIGINAL_CONSUMER_BATCH_QUALIFICATION.json",
+        "scope": "original_individual_installed_skill_contract",
+        "passed": true,
+        "native_lifecycle_acceptance": false,
+        "changes_removal_authority": false
+      },
+      "prior_successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
@@ -50000,12 +50222,36 @@
         "blob": "886c1efb69126a6d5a0dd82590227421f747cfe8"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Reconcile all active ADL inbound callers and CI with the delivered owner family in the same retirement delta.",
+        "Preserve original test assertions and historical rollback inventory.",
+        "Obtain exact scoped operator retirement decision; this component proof does not authorize deletion.",
+        "Retain separate current owner delivery/native acceptance boundaries; no whole-product acceptance inferred."
       ],
       "successor_mapping": {
+        "mapping": "reviewed_owner_path_adaptation",
+        "successor_repository": "agent-logic/codefriend",
+        "successor_revision": "e93a457ad6325017627a66a2abe31a3376fa28fd",
+        "successor_paths": [
+          "tools/retained_skill_contracts/test_repo_diagram_planner_skill_contracts.sh"
+        ],
+        "full_source_correspondence": "SKILL_OPERATIONAL_HOLD_MAPPING.json"
+      },
+      "prior_hold": {
+        "hold_reason": "hold_no_proven_current_successor_mapping",
+        "required_before_execution": [
+          "specific_consumer_or_document_disposition_required"
+        ]
+      },
+      "qualification_followup": {
+        "record": "ORIGINAL_CONSUMER_BATCH_QUALIFICATION.json",
+        "scope": "original_individual_installed_skill_contract",
+        "passed": true,
+        "native_lifecycle_acceptance": false,
+        "changes_removal_authority": false
+      },
+      "prior_successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
@@ -50021,12 +50267,36 @@
         "blob": "605386c0786571211f20d10f5787c0a81ae4c161"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Reconcile all active ADL inbound callers and CI with the delivered owner family in the same retirement delta.",
+        "Preserve original test assertions and historical rollback inventory.",
+        "Obtain exact scoped operator retirement decision; this component proof does not authorize deletion.",
+        "Retain separate current owner delivery/native acceptance boundaries; no whole-product acceptance inferred."
       ],
       "successor_mapping": {
+        "mapping": "reviewed_owner_path_adaptation",
+        "successor_repository": "agent-logic/codefriend",
+        "successor_revision": "e93a457ad6325017627a66a2abe31a3376fa28fd",
+        "successor_paths": [
+          "tools/retained_skill_contracts/test_repo_packet_builder_skill_contracts.sh"
+        ],
+        "full_source_correspondence": "SKILL_OPERATIONAL_HOLD_MAPPING.json"
+      },
+      "prior_hold": {
+        "hold_reason": "hold_no_proven_current_successor_mapping",
+        "required_before_execution": [
+          "specific_consumer_or_document_disposition_required"
+        ]
+      },
+      "qualification_followup": {
+        "record": "ORIGINAL_CONSUMER_BATCH_QUALIFICATION.json",
+        "scope": "original_individual_installed_skill_contract",
+        "passed": true,
+        "native_lifecycle_acceptance": false,
+        "changes_removal_authority": false
+      },
+      "prior_successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
@@ -50180,12 +50450,36 @@
         "blob": "b3f906ccf923836d856babdacfdd1bc84bc53945"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Reconcile all active ADL inbound callers and CI with the delivered owner family in the same retirement delta.",
+        "Preserve original test assertions and historical rollback inventory.",
+        "Obtain exact scoped operator retirement decision; this component proof does not authorize deletion.",
+        "Retain separate current owner delivery/native acceptance boundaries; no whole-product acceptance inferred."
       ],
       "successor_mapping": {
+        "mapping": "reviewed_owner_path_adaptation",
+        "successor_repository": "agent-logic/codefriend",
+        "successor_revision": "e93a457ad6325017627a66a2abe31a3376fa28fd",
+        "successor_paths": [
+          "tools/retained_skill_contracts/test_review_readiness_cleanup_skill_contracts.sh"
+        ],
+        "full_source_correspondence": "SKILL_OPERATIONAL_HOLD_MAPPING.json"
+      },
+      "prior_hold": {
+        "hold_reason": "hold_no_proven_current_successor_mapping",
+        "required_before_execution": [
+          "specific_consumer_or_document_disposition_required"
+        ]
+      },
+      "qualification_followup": {
+        "record": "ORIGINAL_CONSUMER_BATCH_QUALIFICATION.json",
+        "scope": "original_individual_installed_skill_contract",
+        "passed": true,
+        "native_lifecycle_acceptance": false,
+        "changes_removal_authority": false
+      },
+      "prior_successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
@@ -50237,12 +50531,36 @@
         "blob": "b587bcb4269d394afaef92665e9e0f92e59c7d4a"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Reconcile all active ADL inbound callers and CI with the delivered owner family in the same retirement delta.",
+        "Preserve original test assertions and historical rollback inventory.",
+        "Obtain exact scoped operator retirement decision; this component proof does not authorize deletion.",
+        "Retain separate current owner delivery/native acceptance boundaries; no whole-product acceptance inferred."
       ],
       "successor_mapping": {
+        "mapping": "reviewed_owner_path_adaptation",
+        "successor_repository": "agent-logic/codefriend",
+        "successor_revision": "e93a457ad6325017627a66a2abe31a3376fa28fd",
+        "successor_paths": [
+          "tools/retained_skill_contracts/test_review_to_test_planner_skill_contracts.sh"
+        ],
+        "full_source_correspondence": "SKILL_OPERATIONAL_HOLD_MAPPING.json"
+      },
+      "prior_hold": {
+        "hold_reason": "hold_no_proven_current_successor_mapping",
+        "required_before_execution": [
+          "specific_consumer_or_document_disposition_required"
+        ]
+      },
+      "qualification_followup": {
+        "record": "ORIGINAL_CONSUMER_BATCH_QUALIFICATION.json",
+        "scope": "original_individual_installed_skill_contract",
+        "passed": true,
+        "native_lifecycle_acceptance": false,
+        "changes_removal_authority": false
+      },
+      "prior_successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []

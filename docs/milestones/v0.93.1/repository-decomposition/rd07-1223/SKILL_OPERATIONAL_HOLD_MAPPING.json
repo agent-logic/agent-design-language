@@ -2,8 +2,7 @@
   "schema": "adl1223.skill_operational_hold_mapping.v1",
   "source_head": "e7bde8ade96a4624291b0d9f4922800f16fe7d3f",
   "scope": 38,
-  "source_only": true,
-  "new_tests_or_builds": 0,
+  "source_only": false,
   "removal_authorized": false,
   "ledger_disposition_changes": 0,
   "correction": "Prior13-individual-CodeFriend-contract-pass shorthand is unsupported. Existing evidence proves one specialist suite and installed Rust consumer; it does not execute these12 held original individual scripts. Planning12 confirmed no separate13-contract receipt.",
@@ -327,7 +326,7 @@
       ],
       "csdlc250_same_basename_manifest_members": [],
       "family": "codefriend_original_contracts",
-      "status": "source_correspondence_verified_execution_missing",
+      "status": "reviewed_original_component_execution_passed",
       "owner_source": "e93a457ad6325017627a66a2abe31a3376fa28fd",
       "owner_path": "tools/retained_skill_contracts/test_adr_curator_skill_contracts.sh",
       "owner_sha256": "a5c84a393fd196d1a1bb46abdd4e31fec7ba8212b5773d701e8399f913a9a56a",
@@ -340,7 +339,7 @@
         "blank lines"
       ],
       "source_diff": "--- adl/tools/test_adr_curator_skill_contracts.sh\n\n+++ tools/retained_skill_contracts/test_adr_curator_skill_contracts.sh\n\n@@ -3,5 +3,5 @@\n\n \n-repo_root=\"$(git rev-parse --show-toplevel)\"\n-skills_root=\"${repo_root}/adl/tools/skills\"\n-tmpdir=\"$(mktemp -d)\"\n+repo_root=\"$(cd \"$(dirname \"${BASH_SOURCE[0]}\")/../..\" && pwd)\"\n+skills_root=\"${CODEFRIEND_REVIEW_SKILLS_ROOT:-${repo_root}/review-skills}\"\n+tmpdir=\"$(mktemp -d \"${TMPDIR:?set TMPDIR to approved scratch}/cf-skill-contract.XXXXXX\")\"\n trap 'rm -rf \"${tmpdir}\"' EXIT\n@@ -14,3 +14,3 @@\n\n [[ -x \"${skills_root}/adr-curator/scripts/curate_adrs.py\" ]]\n-[[ -f \"${skills_root}/docs/ADR_CURATOR_SKILL_INPUT_SCHEMA.md\" ]]\n+[[ -f \"${skills_root}/contracts/248f00e3/ADR_CURATOR_SKILL_INPUT_SCHEMA.md\" ]]\n \n@@ -18,3 +18,3 @@\n\n grep -Fq 'id: \"adr_curator.v1\"' \"${skills_root}/adr-curator/adl-skill.yaml\"\n-grep -Fq 'reference_doc: \"../docs/ADR_CURATOR_SKILL_INPUT_SCHEMA.md\"' \"${skills_root}/adr-curator/adl-skill.yaml\"\n+grep -Fq 'reference_doc: \"../contracts/248f00e3/ADR_CURATOR_SKILL_INPUT_SCHEMA.md\"' \"${skills_root}/adr-curator/adl-skill.yaml\"\n grep -Fq \"policy.stop_before_acceptance_must_be_true\" \"${skills_root}/adr-curator/adl-skill.yaml\"\n@@ -23,4 +23,4 @@\n\n grep -Fq \"Do not accept, reject, supersede, publish, or commit ADRs.\" \"${skills_root}/adr-curator/references/output-contract.md\"\n-grep -Fq \"Schema id: \\`adr_curator.v1\\`\" \"${skills_root}/docs/ADR_CURATOR_SKILL_INPUT_SCHEMA.md\"\n-grep -Fq \"adr-curator\" \"${skills_root}/docs/MULTI_AGENT_REPO_REVIEW_SKILL_SUITE.md\"\n+grep -Fq \"Schema id: \\`adr_curator.v1\\`\" \"${skills_root}/contracts/248f00e3/ADR_CURATOR_SKILL_INPUT_SCHEMA.md\"\n+grep -Fq \"adr-curator\" \"${skills_root}/contracts/248f00e3/MULTI_AGENT_REPO_REVIEW_SKILL_SUITE.md\"\n \n@@ -82,3 +82,3 @@\n\n python3 \"${skills_root}/adr-curator/scripts/curate_adrs.py\" \\\n-  \"${packet_root}\" --out \"${out_root}\" --max-adrs 8 >/tmp/adr-curator.out\n+  \"${packet_root}\" --out \"${out_root}\" --max-adrs 8 >\"${tmpdir}/adr-curator.out\"\n \n@@ -103,3 +103,3 @@\n\n \n-bash \"${repo_root}/adl/tools/validate_skill_frontmatter.sh\" \\\n+bash \"${repo_root}/tools/retained_skill_contracts/validate_skill_frontmatter.sh\" \\\n   \"${skills_root}/adr-curator/SKILL.md\"",
-      "next_action": "One bounded batch of these12 original contracts against already authenticated installed skills, after input/consumer composition review. Reuse existing installation; no product build. Existing specialist aggregate does not execute these scripts.",
+      "next_action": "Coherent ADL inbound caller/CI retirement and scoped decision; retain separate owner delivery and native acceptance boundaries.",
       "source_command_and_assertion_locations": [
         {
           "line": 9,
@@ -458,7 +457,8 @@
           "line": 99,
           "text": "if find \"${out_root}\" -name '*.rs' -o -name '*.sh' -o -name '*.yml' | grep -q .; then"
         }
-      ]
+      ],
+      "execution_evidence": "ORIGINAL_CONSUMER_BATCH_QUALIFICATION.json"
     },
     {
       "id": "RD07-1905",
@@ -474,7 +474,7 @@
       ],
       "csdlc250_same_basename_manifest_members": [],
       "family": "codefriend_original_contracts",
-      "status": "source_correspondence_verified_execution_missing",
+      "status": "reviewed_original_component_execution_passed",
       "owner_source": "e93a457ad6325017627a66a2abe31a3376fa28fd",
       "owner_path": "tools/retained_skill_contracts/test_architecture_diagram_reviewer_skill_contracts.sh",
       "owner_sha256": "03c4fc18027b91057e27746a87b7d925d184418a437d47388cc3cedaf28ba2c3",
@@ -487,7 +487,7 @@
         "blank lines"
       ],
       "source_diff": "--- adl/tools/test_architecture_diagram_reviewer_skill_contracts.sh\n\n+++ tools/retained_skill_contracts/test_architecture_diagram_reviewer_skill_contracts.sh\n\n@@ -3,5 +3,5 @@\n\n \n-repo_root=\"$(git rev-parse --show-toplevel)\"\n-skills_root=\"${repo_root}/adl/tools/skills\"\n-tmpdir=\"$(mktemp -d)\"\n+repo_root=\"$(cd \"$(dirname \"${BASH_SOURCE[0]}\")/../..\" && pwd)\"\n+skills_root=\"${CODEFRIEND_REVIEW_SKILLS_ROOT:-${repo_root}/review-skills}\"\n+tmpdir=\"$(mktemp -d \"${TMPDIR:?set TMPDIR to approved scratch}/cf-skill-contract.XXXXXX\")\"\n trap 'rm -rf \"${tmpdir}\"' EXIT\n@@ -14,3 +14,3 @@\n\n [[ -x \"${skills_root}/architecture-diagram-reviewer/scripts/review_architecture_diagrams.py\" ]]\n-[[ -f \"${skills_root}/docs/ARCHITECTURE_DIAGRAM_REVIEWER_SKILL_INPUT_SCHEMA.md\" ]]\n+[[ -f \"${skills_root}/contracts/248f00e3/ARCHITECTURE_DIAGRAM_REVIEWER_SKILL_INPUT_SCHEMA.md\" ]]\n \n@@ -18,3 +18,3 @@\n\n grep -Fq 'id: \"architecture_diagram_reviewer.v1\"' \"${skills_root}/architecture-diagram-reviewer/adl-skill.yaml\"\n-grep -Fq 'reference_doc: \"../docs/ARCHITECTURE_DIAGRAM_REVIEWER_SKILL_INPUT_SCHEMA.md\"' \"${skills_root}/architecture-diagram-reviewer/adl-skill.yaml\"\n+grep -Fq 'reference_doc: \"../contracts/248f00e3/ARCHITECTURE_DIAGRAM_REVIEWER_SKILL_INPUT_SCHEMA.md\"' \"${skills_root}/architecture-diagram-reviewer/adl-skill.yaml\"\n grep -Fq \"review_diagram_against_packet_requires_target.review_packet_path\" \"${skills_root}/architecture-diagram-reviewer/adl-skill.yaml\"\n@@ -23,4 +23,4 @@\n\n grep -Fq \"Do not author or edit diagram source\" \"${skills_root}/architecture-diagram-reviewer/references/output-contract.md\"\n-grep -Fq \"Schema id: \\`architecture_diagram_reviewer.v1\\`\" \"${skills_root}/docs/ARCHITECTURE_DIAGRAM_REVIEWER_SKILL_INPUT_SCHEMA.md\"\n-grep -Fq \"architecture-diagram-reviewer\" \"${skills_root}/docs/MULTI_AGENT_REPO_REVIEW_SKILL_SUITE.md\"\n+grep -Fq \"Schema id: \\`architecture_diagram_reviewer.v1\\`\" \"${skills_root}/contracts/248f00e3/ARCHITECTURE_DIAGRAM_REVIEWER_SKILL_INPUT_SCHEMA.md\"\n+grep -Fq \"architecture-diagram-reviewer\" \"${skills_root}/contracts/248f00e3/MULTI_AGENT_REPO_REVIEW_SKILL_SUITE.md\"\n \n@@ -73,3 +73,3 @@\n\n python3 \"${skills_root}/architecture-diagram-reviewer/scripts/review_architecture_diagrams.py\" \\\n-  \"${packet_root}\" \"${diagram_root}\" --out \"${review_root}\" >/tmp/architecture-diagram-reviewer.out\n+  \"${packet_root}\" \"${diagram_root}\" --out \"${review_root}\" >\"${tmpdir}/architecture-diagram-reviewer.out\"\n [[ -f \"${review_root}/architecture_diagram_review_scaffold.json\" ]]\n@@ -91,3 +91,3 @@\n\n \n-bash \"${repo_root}/adl/tools/validate_skill_frontmatter.sh\" \\\n+bash \"${repo_root}/tools/retained_skill_contracts/validate_skill_frontmatter.sh\" \\\n   \"${skills_root}/architecture-diagram-reviewer/SKILL.md\"\n@@ -95,2 +95 @@\n\n echo \"PASS test_architecture_diagram_reviewer_skill_contracts\"\n-",
-      "next_action": "One bounded batch of these12 original contracts against already authenticated installed skills, after input/consumer composition review. Reuse existing installation; no product build. Existing specialist aggregate does not execute these scripts.",
+      "next_action": "Coherent ADL inbound caller/CI retirement and scoped decision; retain separate owner delivery and native acceptance boundaries.",
       "source_command_and_assertion_locations": [
         {
           "line": 9,
@@ -597,7 +597,8 @@
           "line": 87,
           "text": "if find \"${review_root}\" -name '*.svg' -o -name '*.png' | grep -q .; then"
         }
-      ]
+      ],
+      "execution_evidence": "ORIGINAL_CONSUMER_BATCH_QUALIFICATION.json"
     },
     {
       "id": "RD07-1906",
@@ -613,7 +614,7 @@
       ],
       "csdlc250_same_basename_manifest_members": [],
       "family": "codefriend_original_contracts",
-      "status": "source_correspondence_verified_execution_missing",
+      "status": "reviewed_original_component_execution_passed",
       "owner_source": "e93a457ad6325017627a66a2abe31a3376fa28fd",
       "owner_path": "tools/retained_skill_contracts/test_architecture_fitness_function_author_skill_contracts.sh",
       "owner_sha256": "4a471632bd9bfb8d7f2f76ee1edc2658b29a7b723ce9f2db2eabfe2e894af524",
@@ -626,7 +627,7 @@
         "blank lines"
       ],
       "source_diff": "--- adl/tools/test_architecture_fitness_function_author_skill_contracts.sh\n\n+++ tools/retained_skill_contracts/test_architecture_fitness_function_author_skill_contracts.sh\n\n@@ -3,5 +3,5 @@\n\n \n-repo_root=\"$(git rev-parse --show-toplevel)\"\n-skills_root=\"${repo_root}/adl/tools/skills\"\n-tmpdir=\"$(mktemp -d)\"\n+repo_root=\"$(cd \"$(dirname \"${BASH_SOURCE[0]}\")/../..\" && pwd)\"\n+skills_root=\"${CODEFRIEND_REVIEW_SKILLS_ROOT:-${repo_root}/review-skills}\"\n+tmpdir=\"$(mktemp -d \"${TMPDIR:?set TMPDIR to approved scratch}/cf-skill-contract.XXXXXX\")\"\n trap 'rm -rf \"${tmpdir}\"' EXIT\n@@ -14,3 +14,3 @@\n\n [[ -x \"${skills_root}/architecture-fitness-function-author/scripts/author_architecture_fitness_functions.py\" ]]\n-[[ -f \"${skills_root}/docs/ARCHITECTURE_FITNESS_FUNCTION_AUTHOR_SKILL_INPUT_SCHEMA.md\" ]]\n+[[ -f \"${skills_root}/contracts/248f00e3/ARCHITECTURE_FITNESS_FUNCTION_AUTHOR_SKILL_INPUT_SCHEMA.md\" ]]\n \n@@ -18,3 +18,3 @@\n\n grep -Fq 'id: \"architecture_fitness_function_author.v1\"' \"${skills_root}/architecture-fitness-function-author/adl-skill.yaml\"\n-grep -Fq 'reference_doc: \"../docs/ARCHITECTURE_FITNESS_FUNCTION_AUTHOR_SKILL_INPUT_SCHEMA.md\"' \"${skills_root}/architecture-fitness-function-author/adl-skill.yaml\"\n+grep -Fq 'reference_doc: \"../contracts/248f00e3/ARCHITECTURE_FITNESS_FUNCTION_AUTHOR_SKILL_INPUT_SCHEMA.md\"' \"${skills_root}/architecture-fitness-function-author/adl-skill.yaml\"\n grep -Fq \"author_from_review_packet_requires_target.review_packet_path\" \"${skills_root}/architecture-fitness-function-author/adl-skill.yaml\"\n@@ -23,4 +23,4 @@\n\n grep -Fq \"Do not edit tests\" \"${skills_root}/architecture-fitness-function-author/references/output-contract.md\"\n-grep -Fq \"Schema id: \\`architecture_fitness_function_author.v1\\`\" \"${skills_root}/docs/ARCHITECTURE_FITNESS_FUNCTION_AUTHOR_SKILL_INPUT_SCHEMA.md\"\n-grep -Fq \"architecture-fitness-function-author\" \"${skills_root}/docs/MULTI_AGENT_REPO_REVIEW_SKILL_SUITE.md\"\n+grep -Fq \"Schema id: \\`architecture_fitness_function_author.v1\\`\" \"${skills_root}/contracts/248f00e3/ARCHITECTURE_FITNESS_FUNCTION_AUTHOR_SKILL_INPUT_SCHEMA.md\"\n+grep -Fq \"architecture-fitness-function-author\" \"${skills_root}/contracts/248f00e3/MULTI_AGENT_REPO_REVIEW_SKILL_SUITE.md\"\n \n@@ -73,3 +73,3 @@\n\n python3 \"${skills_root}/architecture-fitness-function-author/scripts/author_architecture_fitness_functions.py\" \\\n-  \"${packet_root}\" --out \"${plan_root}\" --max-rules 6 >/tmp/architecture-fitness-function-author.out\n+  \"${packet_root}\" --out \"${plan_root}\" --max-rules 6 >\"${tmpdir}/architecture-fitness-function-author.out\"\n [[ -f \"${plan_root}/architecture_fitness_functions.json\" ]]\n@@ -93,3 +93,3 @@\n\n \n-bash \"${repo_root}/adl/tools/validate_skill_frontmatter.sh\" \\\n+bash \"${repo_root}/tools/retained_skill_contracts/validate_skill_frontmatter.sh\" \\\n   \"${skills_root}/architecture-fitness-function-author/SKILL.md\"",
-      "next_action": "One bounded batch of these12 original contracts against already authenticated installed skills, after input/consumer composition review. Reuse existing installation; no product build. Existing specialist aggregate does not execute these scripts.",
+      "next_action": "Coherent ADL inbound caller/CI retirement and scoped decision; retain separate owner delivery and native acceptance boundaries.",
       "source_command_and_assertion_locations": [
         {
           "line": 9,
@@ -744,7 +745,8 @@
           "line": 89,
           "text": "if find \"${plan_root}\" -name '*.rs' -o -name '*.sh' -o -name '*.yml' | grep -q .; then"
         }
-      ]
+      ],
+      "execution_evidence": "ORIGINAL_CONSUMER_BATCH_QUALIFICATION.json"
     },
     {
       "id": "RD07-1916",
@@ -1043,8 +1045,8 @@
         }
       ],
       "family": "delivered_original_fixture_closure",
-      "status": "delivered_original_source_run_not_located",
-      "next_action": "Use delivered verify_original_contract_closure.py four-script package as one bounded future unit; preserve original fixture key ordering/evidence-state/path hygiene and metrics nonterminal/rejection assertions. Existing planning ten-script run does not include these two.",
+      "status": "reviewed_original_component_execution_passed",
+      "next_action": "Coherent ADL inbound caller/CI retirement and scoped decision; retain separate owner delivery and native acceptance boundaries.",
       "source_command_and_assertion_locations": [
         {
           "line": 8,
@@ -1074,7 +1076,8 @@
           "line": 46,
           "text": "rg -n \"/Users/|/home/\" \"$EXPECTED\" >/dev/null && {"
         }
-      ]
+      ],
+      "execution_evidence": "ORIGINAL_CONSUMER_BATCH_QUALIFICATION.json"
     },
     {
       "id": "RD07-1923",
@@ -1369,7 +1372,7 @@
       ],
       "csdlc250_same_basename_manifest_members": [],
       "family": "codefriend_original_contracts",
-      "status": "source_correspondence_verified_execution_missing",
+      "status": "reviewed_original_component_execution_passed",
       "owner_source": "e93a457ad6325017627a66a2abe31a3376fa28fd",
       "owner_path": "tools/retained_skill_contracts/test_diagram_author_skill_contracts.sh",
       "owner_sha256": "490d40a931b63b75344eaf9ce29bc78f4a910c71ef798edf761442b104d38883",
@@ -1382,7 +1385,7 @@
         "blank lines"
       ],
       "source_diff": "--- adl/tools/test_diagram_author_skill_contracts.sh\n\n+++ tools/retained_skill_contracts/test_diagram_author_skill_contracts.sh\n\n@@ -3,4 +3,6 @@\n\n \n-repo_root=\"$(git rev-parse --show-toplevel)\"\n-skills_root=\"${repo_root}/adl/tools/skills\"\n+repo_root=\"$(cd \"$(dirname \"${BASH_SOURCE[0]}\")/../..\" && pwd)\"\n+skills_root=\"${CODEFRIEND_REVIEW_SKILLS_ROOT:-${repo_root}/review-skills}\"\n+tmpdir=\"$(mktemp -d \"${TMPDIR:?set TMPDIR to approved scratch}/cf-skill-contract.XXXXXX\")\"\n+trap 'rm -rf \"${tmpdir}\"' EXIT\n \n@@ -13,6 +15,6 @@\n\n [[ -x \"${skills_root}/diagram-author/scripts/render_diagrams.sh\" ]]\n-[[ -f \"${skills_root}/docs/DIAGRAM_AUTHOR_SKILL_INPUT_SCHEMA.md\" ]]\n+[[ -f \"${skills_root}/contracts/248f00e3/DIAGRAM_AUTHOR_SKILL_INPUT_SCHEMA.md\" ]]\n \n grep -Fq 'id: \"diagram_author.v1\"' \"${skills_root}/diagram-author/adl-skill.yaml\"\n-grep -Fq 'reference_doc: \"../docs/DIAGRAM_AUTHOR_SKILL_INPUT_SCHEMA.md\"' \"${skills_root}/diagram-author/adl-skill.yaml\"\n+grep -Fq 'reference_doc: \"../contracts/248f00e3/DIAGRAM_AUTHOR_SKILL_INPUT_SCHEMA.md\"' \"${skills_root}/diagram-author/adl-skill.yaml\"\n grep -Fq \"policy.backend_policy_must_be_explicit\" \"${skills_root}/diagram-author/adl-skill.yaml\"\n@@ -27,6 +29,6 @@\n\n grep -Fq \"Rendered Artifacts\" \"${skills_root}/diagram-author/references/output-contract.md\"\n-grep -Fq 'Schema id: `diagram_author.v1`' \"${skills_root}/docs/DIAGRAM_AUTHOR_SKILL_INPUT_SCHEMA.md\"\n-grep -Fq \"output_formats\" \"${skills_root}/docs/DIAGRAM_AUTHOR_SKILL_INPUT_SCHEMA.md\"\n+grep -Fq 'Schema id: `diagram_author.v1`' \"${skills_root}/contracts/248f00e3/DIAGRAM_AUTHOR_SKILL_INPUT_SCHEMA.md\"\n+grep -Fq \"output_formats\" \"${skills_root}/contracts/248f00e3/DIAGRAM_AUTHOR_SKILL_INPUT_SCHEMA.md\"\n \n-\"${skills_root}/diagram-author/scripts/render_diagrams.sh\" --check-tools >/tmp/diagram-author-render-tools.tsv\n+\"${skills_root}/diagram-author/scripts/render_diagrams.sh\" --check-tools >\"${tmpdir}/diagram-author-render-tools.tsv\"\n \"${skills_root}/diagram-author/scripts/render_diagrams.sh\" --help | grep -Fq \"Supported inputs:\"\n@@ -34,3 +36,3 @@\n\n \n-bash \"${repo_root}/adl/tools/validate_skill_frontmatter.sh\" \\\n+bash \"${repo_root}/tools/retained_skill_contracts/validate_skill_frontmatter.sh\" \\\n   \"${skills_root}/diagram-author/SKILL.md\"",
-      "next_action": "One bounded batch of these12 original contracts against already authenticated installed skills, after input/consumer composition review. Reuse existing installation; no product build. Existing specialist aggregate does not execute these scripts.",
+      "next_action": "Coherent ADL inbound caller/CI retirement and scoped decision; retain separate owner delivery and native acceptance boundaries.",
       "source_command_and_assertion_locations": [
         {
           "line": 7,
@@ -1480,7 +1483,8 @@
           "line": 33,
           "text": "\"${skills_root}/diagram-author/scripts/render_diagrams.sh\" --help | grep -Fq \"skip-backends\""
         }
-      ]
+      ],
+      "execution_evidence": "ORIGINAL_CONSUMER_BATCH_QUALIFICATION.json"
     },
     {
       "id": "RD07-1997",
@@ -1571,7 +1575,7 @@
       ],
       "csdlc250_same_basename_manifest_members": [],
       "family": "codefriend_original_contracts",
-      "status": "source_correspondence_verified_execution_missing",
+      "status": "reviewed_original_component_execution_passed",
       "owner_source": "e93a457ad6325017627a66a2abe31a3376fa28fd",
       "owner_path": "tools/retained_skill_contracts/test_finding_to_issue_planner_skill_contracts.sh",
       "owner_sha256": "f4fb8065c2fe8f38353674dd0efafdeb72d79b6c09fc5bc4fb83aea942e710d8",
@@ -1584,7 +1588,7 @@
         "blank lines"
       ],
       "source_diff": "--- adl/tools/test_finding_to_issue_planner_skill_contracts.sh\n\n+++ tools/retained_skill_contracts/test_finding_to_issue_planner_skill_contracts.sh\n\n@@ -3,5 +3,5 @@\n\n \n-repo_root=\"$(git rev-parse --show-toplevel)\"\n-skills_root=\"${repo_root}/adl/tools/skills\"\n-tmpdir=\"$(mktemp -d)\"\n+repo_root=\"$(cd \"$(dirname \"${BASH_SOURCE[0]}\")/../..\" && pwd)\"\n+skills_root=\"${CODEFRIEND_REVIEW_SKILLS_ROOT:-${repo_root}/review-skills}\"\n+tmpdir=\"$(mktemp -d \"${TMPDIR:?set TMPDIR to approved scratch}/cf-skill-contract.XXXXXX\")\"\n trap 'rm -rf \"${tmpdir}\"' EXIT\n@@ -13,3 +13,3 @@\n\n [[ -x \"${skills_root}/finding-to-issue-planner/scripts/plan_review_issues.py\" ]]\n-[[ -f \"${skills_root}/docs/FINDING_TO_ISSUE_PLANNER_SKILL_INPUT_SCHEMA.md\" ]]\n+[[ -f \"${skills_root}/contracts/248f00e3/FINDING_TO_ISSUE_PLANNER_SKILL_INPUT_SCHEMA.md\" ]]\n \n@@ -17,3 +17,3 @@\n\n grep -Fq 'id: \"finding_to_issue_planner.v1\"' \"${skills_root}/finding-to-issue-planner/adl-skill.yaml\"\n-grep -Fq 'reference_doc: \"../docs/FINDING_TO_ISSUE_PLANNER_SKILL_INPUT_SCHEMA.md\"' \"${skills_root}/finding-to-issue-planner/adl-skill.yaml\"\n+grep -Fq 'reference_doc: \"../contracts/248f00e3/FINDING_TO_ISSUE_PLANNER_SKILL_INPUT_SCHEMA.md\"' \"${skills_root}/finding-to-issue-planner/adl-skill.yaml\"\n grep -Fq \"tracker_creation_allowed_must_be_false\" \"${skills_root}/finding-to-issue-planner/adl-skill.yaml\"\n@@ -21,4 +21,4 @@\n\n grep -Fq \"Do not create issues, PRs, remediation branches, tests, or tracker items.\" \"${skills_root}/finding-to-issue-planner/references/output-contract.md\"\n-grep -Fq \"Schema id: \\`finding_to_issue_planner.v1\\`\" \"${skills_root}/docs/FINDING_TO_ISSUE_PLANNER_SKILL_INPUT_SCHEMA.md\"\n-grep -Fq \"finding-to-issue-planner\" \"${skills_root}/docs/MULTI_AGENT_REPO_REVIEW_SKILL_SUITE.md\"\n+grep -Fq \"Schema id: \\`finding_to_issue_planner.v1\\`\" \"${skills_root}/contracts/248f00e3/FINDING_TO_ISSUE_PLANNER_SKILL_INPUT_SCHEMA.md\"\n+grep -Fq \"finding-to-issue-planner\" \"${skills_root}/contracts/248f00e3/MULTI_AGENT_REPO_REVIEW_SKILL_SUITE.md\"\n \n@@ -55,3 +55,3 @@\n\n python3 \"${skills_root}/finding-to-issue-planner/scripts/plan_review_issues.py\" \\\n-  \"${review_path}\" --out \"${out_root}\" --tracker github >/tmp/finding-to-issue-planner.out\n+  \"${review_path}\" --out \"${out_root}\" --tracker github >\"${tmpdir}/finding-to-issue-planner.out\"\n \n@@ -119,3 +119,3 @@\n\n python3 \"${skills_root}/finding-to-issue-planner/scripts/plan_review_issues.py\" \\\n-  \"${packet_root}\" --out \"${packet_out}\" --tracker github >/tmp/finding-to-issue-planner-packet.out\n+  \"${packet_root}\" --out \"${packet_out}\" --tracker github >\"${tmpdir}/finding-to-issue-planner-packet.out\"\n grep -Fq '\"candidate_count\": 1' \"${packet_out}/issue_candidates.json\"\n@@ -127,3 +127,3 @@\n\n \n-bash \"${repo_root}/adl/tools/validate_skill_frontmatter.sh\" \\\n+bash \"${repo_root}/tools/retained_skill_contracts/validate_skill_frontmatter.sh\" \\\n   \"${skills_root}/finding-to-issue-planner/SKILL.md\"",
-      "next_action": "One bounded batch of these12 original contracts against already authenticated installed skills, after input/consumer composition review. Reuse existing installation; no product build. Existing specialist aggregate does not execute these scripts.",
+      "next_action": "Coherent ADL inbound caller/CI retirement and scoped decision; retain separate owner delivery and native acceptance boundaries.",
       "source_command_and_assertion_locations": [
         {
           "line": 9,
@@ -1706,7 +1710,8 @@
           "line": 123,
           "text": "if grep -Fq '\"C-001\"' \"${packet_out}/issue_candidates.json\" || grep -Fq '\"S-002\"' \"${packet_out}/issue_candidates.json\"; then"
         }
-      ]
+      ],
+      "execution_evidence": "ORIGINAL_CONSUMER_BATCH_QUALIFICATION.json"
     },
     {
       "id": "RD07-2027",
@@ -2097,8 +2102,8 @@
         }
       ],
       "family": "delivered_original_fixture_closure",
-      "status": "delivered_original_source_run_not_located",
-      "next_action": "Use delivered verify_original_contract_closure.py four-script package as one bounded future unit; preserve original fixture key ordering/evidence-state/path hygiene and metrics nonterminal/rejection assertions. Existing planning ten-script run does not include these two.",
+      "status": "reviewed_original_component_execution_passed",
+      "next_action": "Coherent ADL inbound caller/CI retirement and scoped decision; retain separate owner delivery and native acceptance boundaries.",
       "source_command_and_assertion_locations": [
         {
           "line": 20,
@@ -2136,7 +2141,8 @@
           "line": 56,
           "text": "grep -q \"issue goal cannot be recorded as completed\" \"${tmpdir}/issue-start.err\""
         }
-      ]
+      ],
+      "execution_evidence": "ORIGINAL_CONSUMER_BATCH_QUALIFICATION.json"
     },
     {
       "id": "RD07-2060",
@@ -2152,7 +2158,7 @@
       ],
       "csdlc250_same_basename_manifest_members": [],
       "family": "codefriend_original_contracts",
-      "status": "source_correspondence_verified_execution_missing",
+      "status": "reviewed_original_component_execution_passed",
       "owner_source": "e93a457ad6325017627a66a2abe31a3376fa28fd",
       "owner_path": "tools/retained_skill_contracts/test_redaction_and_evidence_auditor_skill_contracts.sh",
       "owner_sha256": "fa0383a43a22f44e3b4278fbf7746943200accdbb4f46cd88a9cac21773c811c",
@@ -2165,7 +2171,7 @@
         "blank lines"
       ],
       "source_diff": "--- adl/tools/test_redaction_and_evidence_auditor_skill_contracts.sh\n\n+++ tools/retained_skill_contracts/test_redaction_and_evidence_auditor_skill_contracts.sh\n\n@@ -3,5 +3,5 @@\n\n \n-repo_root=\"$(git rev-parse --show-toplevel)\"\n-skills_root=\"${repo_root}/adl/tools/skills\"\n-tmpdir=\"$(mktemp -d)\"\n+repo_root=\"$(cd \"$(dirname \"${BASH_SOURCE[0]}\")/../..\" && pwd)\"\n+skills_root=\"${CODEFRIEND_REVIEW_SKILLS_ROOT:-${repo_root}/review-skills}\"\n+tmpdir=\"$(mktemp -d \"${TMPDIR:?set TMPDIR to approved scratch}/cf-skill-contract.XXXXXX\")\"\n trap 'rm -rf \"${tmpdir}\"' EXIT\n@@ -14,3 +14,3 @@\n\n [[ -x \"${skills_root}/redaction-and-evidence-auditor/scripts/audit_review_packet.py\" ]]\n-[[ -f \"${skills_root}/docs/REDACTION_AND_EVIDENCE_AUDITOR_SKILL_INPUT_SCHEMA.md\" ]]\n+[[ -f \"${skills_root}/contracts/248f00e3/REDACTION_AND_EVIDENCE_AUDITOR_SKILL_INPUT_SCHEMA.md\" ]]\n \n@@ -18,3 +18,3 @@\n\n grep -Fq 'id: \"redaction_and_evidence_auditor.v1\"' \"${skills_root}/redaction-and-evidence-auditor/adl-skill.yaml\"\n-grep -Fq 'reference_doc: \"../docs/REDACTION_AND_EVIDENCE_AUDITOR_SKILL_INPUT_SCHEMA.md\"' \"${skills_root}/redaction-and-evidence-auditor/adl-skill.yaml\"\n+grep -Fq 'reference_doc: \"../contracts/248f00e3/REDACTION_AND_EVIDENCE_AUDITOR_SKILL_INPUT_SCHEMA.md\"' \"${skills_root}/redaction-and-evidence-auditor/adl-skill.yaml\"\n grep -Fq \"policy.stop_before_mutation_must_be_true\" \"${skills_root}/redaction-and-evidence-auditor/adl-skill.yaml\"\n@@ -23,3 +23,3 @@\n\n grep -Fq \"Do not include full secret values\" \"${skills_root}/redaction-and-evidence-auditor/references/output-contract.md\"\n-grep -Fq \"Schema id: \\`redaction_and_evidence_auditor.v1\\`\" \"${skills_root}/docs/REDACTION_AND_EVIDENCE_AUDITOR_SKILL_INPUT_SCHEMA.md\"\n+grep -Fq \"Schema id: \\`redaction_and_evidence_auditor.v1\\`\" \"${skills_root}/contracts/248f00e3/REDACTION_AND_EVIDENCE_AUDITOR_SKILL_INPUT_SCHEMA.md\"\n \n@@ -43,3 +43,3 @@\n\n python3 \"${skills_root}/redaction-and-evidence-auditor/scripts/audit_review_packet.py\" \\\n-  \"${packet_root}\" --out \"${audit_root}\" >/tmp/redaction-auditor-pass.out\n+  \"${packet_root}\" --out \"${audit_root}\" >\"${tmpdir}/redaction-auditor-pass.out\"\n [[ -f \"${audit_root}/redaction_report.json\" ]]\n@@ -71,3 +71,3 @@\n\n python3 \"${skills_root}/redaction-and-evidence-auditor/scripts/audit_review_packet.py\" \\\n-  \"${unsafe_packet}\" --out \"${unsafe_audit}\" --audience customer_private >/tmp/redaction-auditor-fail.out\n+  \"${unsafe_packet}\" --out \"${unsafe_audit}\" --audience customer_private >\"${tmpdir}/redaction-auditor-fail.out\"\n grep -Fq '\"status\": \"fail\"' \"${unsafe_audit}/redaction_report.json\"\n@@ -83,3 +83,3 @@\n\n \n-bash \"${repo_root}/adl/tools/validate_skill_frontmatter.sh\" \\\n+bash \"${repo_root}/tools/retained_skill_contracts/validate_skill_frontmatter.sh\" \\\n   \"${skills_root}/redaction-and-evidence-auditor/SKILL.md\"",
-      "next_action": "One bounded batch of these12 original contracts against already authenticated installed skills, after input/consumer composition review. Reuse existing installation; no product build. Existing specialist aggregate does not execute these scripts.",
+      "next_action": "Coherent ADL inbound caller/CI retirement and scoped decision; retain separate owner delivery and native acceptance boundaries.",
       "source_command_and_assertion_locations": [
         {
           "line": 9,
@@ -2283,7 +2289,8 @@
           "line": 82,
           "text": "[[ -f \"${unsafe_audit}/blocked_publication_note.md\" ]]"
         }
-      ]
+      ],
+      "execution_evidence": "ORIGINAL_CONSUMER_BATCH_QUALIFICATION.json"
     },
     {
       "id": "RD07-2064",
@@ -2299,7 +2306,7 @@
       ],
       "csdlc250_same_basename_manifest_members": [],
       "family": "codefriend_original_contracts",
-      "status": "source_correspondence_verified_execution_missing",
+      "status": "reviewed_original_component_execution_passed",
       "owner_source": "e93a457ad6325017627a66a2abe31a3376fa28fd",
       "owner_path": "tools/retained_skill_contracts/test_repo_architecture_review_skill_contracts.sh",
       "owner_sha256": "292de5526d75c9a00d4dc6530539c7d99ca803ca53efefc6a3f2a6cea50e9d60",
@@ -2312,7 +2319,7 @@
         "blank lines"
       ],
       "source_diff": "--- adl/tools/test_repo_architecture_review_skill_contracts.sh\n\n+++ tools/retained_skill_contracts/test_repo_architecture_review_skill_contracts.sh\n\n@@ -3,5 +3,5 @@\n\n \n-repo_root=\"$(git rev-parse --show-toplevel)\"\n-skills_root=\"${repo_root}/adl/tools/skills\"\n-tmpdir=\"$(mktemp -d)\"\n+repo_root=\"$(cd \"$(dirname \"${BASH_SOURCE[0]}\")/../..\" && pwd)\"\n+skills_root=\"${CODEFRIEND_REVIEW_SKILLS_ROOT:-${repo_root}/review-skills}\"\n+tmpdir=\"$(mktemp -d \"${TMPDIR:?set TMPDIR to approved scratch}/cf-skill-contract.XXXXXX\")\"\n trap 'rm -rf \"${tmpdir}\"' EXIT\n@@ -14,3 +14,3 @@\n\n [[ -x \"${skills_root}/repo-architecture-review/scripts/prepare_architecture_review.py\" ]]\n-[[ -f \"${skills_root}/docs/REPO_ARCHITECTURE_REVIEW_SKILL_INPUT_SCHEMA.md\" ]]\n+[[ -f \"${skills_root}/contracts/248f00e3/REPO_ARCHITECTURE_REVIEW_SKILL_INPUT_SCHEMA.md\" ]]\n \n@@ -18,3 +18,3 @@\n\n grep -Fq 'id: \"repo_architecture_review.v1\"' \"${skills_root}/repo-architecture-review/adl-skill.yaml\"\n-grep -Fq 'reference_doc: \"../docs/REPO_ARCHITECTURE_REVIEW_SKILL_INPUT_SCHEMA.md\"' \"${skills_root}/repo-architecture-review/adl-skill.yaml\"\n+grep -Fq 'reference_doc: \"../contracts/248f00e3/REPO_ARCHITECTURE_REVIEW_SKILL_INPUT_SCHEMA.md\"' \"${skills_root}/repo-architecture-review/adl-skill.yaml\"\n grep -Fq \"review_packet_mode_requires_target.review_packet_path\" \"${skills_root}/repo-architecture-review/adl-skill.yaml\"\n@@ -23,4 +23,4 @@\n\n grep -Fq \"Do not author diagrams, ADRs, fitness-function code, issues, or synthesis\" \"${skills_root}/repo-architecture-review/references/output-contract.md\"\n-grep -Fq \"Schema id: \\`repo_architecture_review.v1\\`\" \"${skills_root}/docs/REPO_ARCHITECTURE_REVIEW_SKILL_INPUT_SCHEMA.md\"\n-grep -Fq \"repo-architecture-review\" \"${skills_root}/docs/MULTI_AGENT_REPO_REVIEW_SKILL_SUITE.md\"\n+grep -Fq \"Schema id: \\`repo_architecture_review.v1\\`\" \"${skills_root}/contracts/248f00e3/REPO_ARCHITECTURE_REVIEW_SKILL_INPUT_SCHEMA.md\"\n+grep -Fq \"repo-architecture-review\" \"${skills_root}/contracts/248f00e3/MULTI_AGENT_REPO_REVIEW_SKILL_SUITE.md\"\n \n@@ -67,3 +67,3 @@\n\n python3 \"${skills_root}/repo-architecture-review/scripts/prepare_architecture_review.py\" \\\n-  \"${packet_root}\" --out \"${scaffold_root}\" >/tmp/repo-architecture-review.out\n+  \"${packet_root}\" --out \"${scaffold_root}\" >\"${tmpdir}/repo-architecture-review.out\"\n [[ -f \"${scaffold_root}/architecture_review_scaffold.json\" ]]\n@@ -82,3 +82,3 @@\n\n \n-bash \"${repo_root}/adl/tools/validate_skill_frontmatter.sh\" \\\n+bash \"${repo_root}/tools/retained_skill_contracts/validate_skill_frontmatter.sh\" \\\n   \"${skills_root}/repo-architecture-review/SKILL.md\"",
-      "next_action": "One bounded batch of these12 original contracts against already authenticated installed skills, after input/consumer composition review. Reuse existing installation; no product build. Existing specialist aggregate does not execute these scripts.",
+      "next_action": "Coherent ADL inbound caller/CI retirement and scoped decision; retain separate owner delivery and native acceptance boundaries.",
       "source_command_and_assertion_locations": [
         {
           "line": 9,
@@ -2422,7 +2429,8 @@
           "line": 78,
           "text": "if grep -R \"${tmpdir}\" \"${scaffold_root}\" >/dev/null; then"
         }
-      ]
+      ],
+      "execution_evidence": "ORIGINAL_CONSUMER_BATCH_QUALIFICATION.json"
     },
     {
       "id": "RD07-2066",
@@ -2438,7 +2446,7 @@
       ],
       "csdlc250_same_basename_manifest_members": [],
       "family": "codefriend_original_contracts",
-      "status": "source_correspondence_verified_execution_missing",
+      "status": "reviewed_original_component_execution_passed",
       "owner_source": "e93a457ad6325017627a66a2abe31a3376fa28fd",
       "owner_path": "tools/retained_skill_contracts/test_repo_dependency_review_skill_contracts.sh",
       "owner_sha256": "6f75f8841bd17f91f9a45d7f784944f6169179eeb90529ecf117f9cedb03cae0",
@@ -2451,7 +2459,7 @@
         "blank lines"
       ],
       "source_diff": "--- adl/tools/test_repo_dependency_review_skill_contracts.sh\n\n+++ tools/retained_skill_contracts/test_repo_dependency_review_skill_contracts.sh\n\n@@ -3,5 +3,5 @@\n\n \n-repo_root=\"$(git rev-parse --show-toplevel)\"\n-skills_root=\"${repo_root}/adl/tools/skills\"\n-tmpdir=\"$(mktemp -d)\"\n+repo_root=\"$(cd \"$(dirname \"${BASH_SOURCE[0]}\")/../..\" && pwd)\"\n+skills_root=\"${CODEFRIEND_REVIEW_SKILLS_ROOT:-${repo_root}/review-skills}\"\n+tmpdir=\"$(mktemp -d \"${TMPDIR:?set TMPDIR to approved scratch}/cf-skill-contract.XXXXXX\")\"\n trap 'rm -rf \"${tmpdir}\"' EXIT\n@@ -14,3 +14,3 @@\n\n [[ -x \"${skills_root}/repo-dependency-review/scripts/prepare_dependency_review.py\" ]]\n-[[ -f \"${skills_root}/docs/REPO_DEPENDENCY_REVIEW_SKILL_INPUT_SCHEMA.md\" ]]\n+[[ -f \"${skills_root}/contracts/248f00e3/REPO_DEPENDENCY_REVIEW_SKILL_INPUT_SCHEMA.md\" ]]\n \n@@ -18,3 +18,3 @@\n\n grep -Fq 'id: \"repo_dependency_review.v1\"' \"${skills_root}/repo-dependency-review/adl-skill.yaml\"\n-grep -Fq 'reference_doc: \"../docs/REPO_DEPENDENCY_REVIEW_SKILL_INPUT_SCHEMA.md\"' \"${skills_root}/repo-dependency-review/adl-skill.yaml\"\n+grep -Fq 'reference_doc: \"../contracts/248f00e3/REPO_DEPENDENCY_REVIEW_SKILL_INPUT_SCHEMA.md\"' \"${skills_root}/repo-dependency-review/adl-skill.yaml\"\n grep -Fq \"review_packet_mode_requires_target.review_packet_path\" \"${skills_root}/repo-dependency-review/adl-skill.yaml\"\n@@ -23,4 +23,4 @@\n\n grep -Fq \"Do not install, upgrade, downgrade, pin, unpin, vendor, or remove dependencies\" \"${skills_root}/repo-dependency-review/references/output-contract.md\"\n-grep -Fq \"Schema id: \\`repo_dependency_review.v1\\`\" \"${skills_root}/docs/REPO_DEPENDENCY_REVIEW_SKILL_INPUT_SCHEMA.md\"\n-grep -Fq \"repo-dependency-review\" \"${skills_root}/docs/MULTI_AGENT_REPO_REVIEW_SKILL_SUITE.md\"\n+grep -Fq \"Schema id: \\`repo_dependency_review.v1\\`\" \"${skills_root}/contracts/248f00e3/REPO_DEPENDENCY_REVIEW_SKILL_INPUT_SCHEMA.md\"\n+grep -Fq \"repo-dependency-review\" \"${skills_root}/contracts/248f00e3/MULTI_AGENT_REPO_REVIEW_SKILL_SUITE.md\"\n \n@@ -88,3 +88,3 @@\n\n python3 \"${skills_root}/repo-dependency-review/scripts/prepare_dependency_review.py\" \\\n-  \"${packet_root}\" --out \"${scaffold_root}\" >/tmp/repo-dependency-review.out\n+  \"${packet_root}\" --out \"${scaffold_root}\" >\"${tmpdir}/repo-dependency-review.out\"\n [[ -f \"${scaffold_root}/dependency_review_scaffold.json\" ]]\n@@ -104,3 +104,3 @@\n\n \n-bash \"${repo_root}/adl/tools/validate_skill_frontmatter.sh\" \\\n+bash \"${repo_root}/tools/retained_skill_contracts/validate_skill_frontmatter.sh\" \\\n   \"${skills_root}/repo-dependency-review/SKILL.md\"",
-      "next_action": "One bounded batch of these12 original contracts against already authenticated installed skills, after input/consumer composition review. Reuse existing installation; no product build. Existing specialist aggregate does not execute these scripts.",
+      "next_action": "Coherent ADL inbound caller/CI retirement and scoped decision; retain separate owner delivery and native acceptance boundaries.",
       "source_command_and_assertion_locations": [
         {
           "line": 9,
@@ -2565,7 +2573,8 @@
           "line": 100,
           "text": "if grep -R \"${tmpdir}\" \"${scaffold_root}\" >/dev/null; then"
         }
-      ]
+      ],
+      "execution_evidence": "ORIGINAL_CONSUMER_BATCH_QUALIFICATION.json"
     },
     {
       "id": "RD07-2067",
@@ -2581,7 +2590,7 @@
       ],
       "csdlc250_same_basename_manifest_members": [],
       "family": "codefriend_original_contracts",
-      "status": "source_correspondence_verified_execution_missing",
+      "status": "reviewed_original_component_execution_passed",
       "owner_source": "e93a457ad6325017627a66a2abe31a3376fa28fd",
       "owner_path": "tools/retained_skill_contracts/test_repo_diagram_planner_skill_contracts.sh",
       "owner_sha256": "a197eed414417ee8dcc7126bc3ccf0f122f0cc3a47d3caabd4f6613faa393989",
@@ -2594,7 +2603,7 @@
         "blank lines"
       ],
       "source_diff": "--- adl/tools/test_repo_diagram_planner_skill_contracts.sh\n\n+++ tools/retained_skill_contracts/test_repo_diagram_planner_skill_contracts.sh\n\n@@ -3,5 +3,5 @@\n\n \n-repo_root=\"$(git rev-parse --show-toplevel)\"\n-skills_root=\"${repo_root}/adl/tools/skills\"\n-tmpdir=\"$(mktemp -d)\"\n+repo_root=\"$(cd \"$(dirname \"${BASH_SOURCE[0]}\")/../..\" && pwd)\"\n+skills_root=\"${CODEFRIEND_REVIEW_SKILLS_ROOT:-${repo_root}/review-skills}\"\n+tmpdir=\"$(mktemp -d \"${TMPDIR:?set TMPDIR to approved scratch}/cf-skill-contract.XXXXXX\")\"\n trap 'rm -rf \"${tmpdir}\"' EXIT\n@@ -14,3 +14,3 @@\n\n [[ -x \"${skills_root}/repo-diagram-planner/scripts/plan_repo_diagrams.py\" ]]\n-[[ -f \"${skills_root}/docs/REPO_DIAGRAM_PLANNER_SKILL_INPUT_SCHEMA.md\" ]]\n+[[ -f \"${skills_root}/contracts/248f00e3/REPO_DIAGRAM_PLANNER_SKILL_INPUT_SCHEMA.md\" ]]\n \n@@ -18,3 +18,3 @@\n\n grep -Fq 'id: \"repo_diagram_planner.v1\"' \"${skills_root}/repo-diagram-planner/adl-skill.yaml\"\n-grep -Fq 'reference_doc: \"../docs/REPO_DIAGRAM_PLANNER_SKILL_INPUT_SCHEMA.md\"' \"${skills_root}/repo-diagram-planner/adl-skill.yaml\"\n+grep -Fq 'reference_doc: \"../contracts/248f00e3/REPO_DIAGRAM_PLANNER_SKILL_INPUT_SCHEMA.md\"' \"${skills_root}/repo-diagram-planner/adl-skill.yaml\"\n grep -Fq \"plan_from_review_packet_requires_target.review_packet_path\" \"${skills_root}/repo-diagram-planner/adl-skill.yaml\"\n@@ -23,4 +23,4 @@\n\n grep -Fq \"Do not author diagram source or rendered diagram assets\" \"${skills_root}/repo-diagram-planner/references/output-contract.md\"\n-grep -Fq \"Schema id: \\`repo_diagram_planner.v1\\`\" \"${skills_root}/docs/REPO_DIAGRAM_PLANNER_SKILL_INPUT_SCHEMA.md\"\n-grep -Fq \"repo-diagram-planner\" \"${skills_root}/docs/MULTI_AGENT_REPO_REVIEW_SKILL_SUITE.md\"\n+grep -Fq \"Schema id: \\`repo_diagram_planner.v1\\`\" \"${skills_root}/contracts/248f00e3/REPO_DIAGRAM_PLANNER_SKILL_INPUT_SCHEMA.md\"\n+grep -Fq \"repo-diagram-planner\" \"${skills_root}/contracts/248f00e3/MULTI_AGENT_REPO_REVIEW_SKILL_SUITE.md\"\n \n@@ -81,3 +81,3 @@\n\n python3 \"${skills_root}/repo-diagram-planner/scripts/plan_repo_diagrams.py\" \\\n-  \"${packet_root}\" --out \"${plan_root}\" --max-tasks 4 >/tmp/repo-diagram-planner.out\n+  \"${packet_root}\" --out \"${plan_root}\" --max-tasks 4 >\"${tmpdir}/repo-diagram-planner.out\"\n [[ -f \"${plan_root}/repo_diagram_plan.json\" ]]\n@@ -102,3 +102,3 @@\n\n \n-bash \"${repo_root}/adl/tools/validate_skill_frontmatter.sh\" \\\n+bash \"${repo_root}/tools/retained_skill_contracts/validate_skill_frontmatter.sh\" \\\n   \"${skills_root}/repo-diagram-planner/SKILL.md\"",
-      "next_action": "One bounded batch of these12 original contracts against already authenticated installed skills, after input/consumer composition review. Reuse existing installation; no product build. Existing specialist aggregate does not execute these scripts.",
+      "next_action": "Coherent ADL inbound caller/CI retirement and scoped decision; retain separate owner delivery and native acceptance boundaries.",
       "source_command_and_assertion_locations": [
         {
           "line": 9,
@@ -2716,7 +2725,8 @@
           "line": 98,
           "text": "if grep -R '```mermaid\\|@startuml\\|<svg\\|\\.png' \"${plan_root}\" >/dev/null; then"
         }
-      ]
+      ],
+      "execution_evidence": "ORIGINAL_CONSUMER_BATCH_QUALIFICATION.json"
     },
     {
       "id": "RD07-2068",
@@ -2732,7 +2742,7 @@
       ],
       "csdlc250_same_basename_manifest_members": [],
       "family": "codefriend_original_contracts",
-      "status": "source_correspondence_verified_execution_missing",
+      "status": "reviewed_original_component_execution_passed",
       "owner_source": "e93a457ad6325017627a66a2abe31a3376fa28fd",
       "owner_path": "tools/retained_skill_contracts/test_repo_packet_builder_skill_contracts.sh",
       "owner_sha256": "5a6a5458da7a1ecf6a953850721d6286106f27793f7d9d7fed506ce24ec98399",
@@ -2745,7 +2755,7 @@
         "blank lines"
       ],
       "source_diff": "--- adl/tools/test_repo_packet_builder_skill_contracts.sh\n\n+++ tools/retained_skill_contracts/test_repo_packet_builder_skill_contracts.sh\n\n@@ -3,5 +3,5 @@\n\n \n-repo_root=\"$(git rev-parse --show-toplevel)\"\n-skills_root=\"${repo_root}/adl/tools/skills\"\n-tmpdir=\"$(mktemp -d)\"\n+repo_root=\"$(cd \"$(dirname \"${BASH_SOURCE[0]}\")/../..\" && pwd)\"\n+skills_root=\"${CODEFRIEND_REVIEW_SKILLS_ROOT:-${repo_root}/review-skills}\"\n+tmpdir=\"$(mktemp -d \"${TMPDIR:?set TMPDIR to approved scratch}/cf-skill-contract.XXXXXX\")\"\n trap 'rm -rf \"${tmpdir}\"' EXIT\n@@ -14,3 +14,3 @@\n\n [[ -x \"${skills_root}/repo-packet-builder/scripts/build_repo_packet.py\" ]]\n-[[ -f \"${skills_root}/docs/REPO_PACKET_BUILDER_SKILL_INPUT_SCHEMA.md\" ]]\n+[[ -f \"${skills_root}/contracts/248f00e3/REPO_PACKET_BUILDER_SKILL_INPUT_SCHEMA.md\" ]]\n \n@@ -18,3 +18,3 @@\n\n grep -Fq 'id: \"repo_packet_builder.v1\"' \"${skills_root}/repo-packet-builder/adl-skill.yaml\"\n-grep -Fq 'reference_doc: \"../docs/REPO_PACKET_BUILDER_SKILL_INPUT_SCHEMA.md\"' \"${skills_root}/repo-packet-builder/adl-skill.yaml\"\n+grep -Fq 'reference_doc: \"../contracts/248f00e3/REPO_PACKET_BUILDER_SKILL_INPUT_SCHEMA.md\"' \"${skills_root}/repo-packet-builder/adl-skill.yaml\"\n grep -Fq \"policy.stop_before_review_must_be_true\" \"${skills_root}/repo-packet-builder/adl-skill.yaml\"\n@@ -25,6 +25,6 @@\n\n grep -Fq \"run_manifest.json\" \"${skills_root}/repo-packet-builder/references/output-contract.md\"\n-grep -Fq \"Schema id: \\`repo_packet_builder.v1\\`\" \"${skills_root}/docs/REPO_PACKET_BUILDER_SKILL_INPUT_SCHEMA.md\"\n+grep -Fq \"Schema id: \\`repo_packet_builder.v1\\`\" \"${skills_root}/contracts/248f00e3/REPO_PACKET_BUILDER_SKILL_INPUT_SCHEMA.md\"\n \n packet_root=\"${tmpdir}/packet\"\n-python3 \"${skills_root}/repo-packet-builder/scripts/build_repo_packet.py\" \"${repo_root}\" --out \"${packet_root}\" >/tmp/repo-packet-builder.out\n+python3 \"${skills_root}/repo-packet-builder/scripts/build_repo_packet.py\" \"${repo_root}\" --out \"${packet_root}\" >\"${tmpdir}/repo-packet-builder.out\"\n [[ -f \"${packet_root}/run_manifest.json\" ]]\n@@ -44,3 +44,3 @@\n\n \n-bash \"${repo_root}/adl/tools/validate_skill_frontmatter.sh\" \\\n+bash \"${repo_root}/tools/retained_skill_contracts/validate_skill_frontmatter.sh\" \\\n   \"${skills_root}/repo-packet-builder/SKILL.md\"",
-      "next_action": "One bounded batch of these12 original contracts against already authenticated installed skills, after input/consumer composition review. Reuse existing installation; no product build. Existing specialist aggregate does not execute these scripts.",
+      "next_action": "Coherent ADL inbound caller/CI retirement and scoped decision; retain separate owner delivery and native acceptance boundaries.",
       "source_command_and_assertion_locations": [
         {
           "line": 9,
@@ -2863,7 +2873,8 @@
           "line": 40,
           "text": "if grep -R \"${repo_root}\" \"${packet_root}\" >/dev/null; then"
         }
-      ]
+      ],
+      "execution_evidence": "ORIGINAL_CONSUMER_BATCH_QUALIFICATION.json"
     },
     {
       "id": "RD07-2071",
@@ -2907,7 +2918,7 @@
       ],
       "csdlc250_same_basename_manifest_members": [],
       "family": "codefriend_original_contracts",
-      "status": "source_correspondence_verified_execution_missing",
+      "status": "reviewed_original_component_execution_passed",
       "owner_source": "e93a457ad6325017627a66a2abe31a3376fa28fd",
       "owner_path": "tools/retained_skill_contracts/test_review_readiness_cleanup_skill_contracts.sh",
       "owner_sha256": "e0390e81eea6244d5bd1fa58da39a22920779a04b6457c61ce96655088b691b1",
@@ -2920,7 +2931,7 @@
         "blank lines"
       ],
       "source_diff": "--- adl/tools/test_review_readiness_cleanup_skill_contracts.sh\n\n+++ tools/retained_skill_contracts/test_review_readiness_cleanup_skill_contracts.sh\n\n@@ -3,5 +3,5 @@\n\n \n-repo_root=\"$(git rev-parse --show-toplevel)\"\n-skills_root=\"${repo_root}/adl/tools/skills\"\n-tmpdir=\"$(mktemp -d)\"\n+repo_root=\"$(cd \"$(dirname \"${BASH_SOURCE[0]}\")/../..\" && pwd)\"\n+skills_root=\"${CODEFRIEND_REVIEW_SKILLS_ROOT:-${repo_root}/review-skills}\"\n+tmpdir=\"$(mktemp -d \"${TMPDIR:?set TMPDIR to approved scratch}/cf-skill-contract.XXXXXX\")\"\n trap 'rm -rf \"${tmpdir}\"' EXIT\n@@ -17,3 +17,3 @@\n\n [[ -x \"${python_script}\" ]]\n-[[ -f \"${skills_root}/docs/REVIEW_READINESS_CLEANUP_SKILL_INPUT_SCHEMA.md\" ]]\n+[[ -f \"${skills_root}/contracts/248f00e3/REVIEW_READINESS_CLEANUP_SKILL_INPUT_SCHEMA.md\" ]]\n \n@@ -21,3 +21,3 @@\n\n grep -Fq 'id: \"review_readiness_cleanup.v1\"' \"${skill_root}/adl-skill.yaml\"\n-grep -Fq 'reference_doc: \"../docs/REVIEW_READINESS_CLEANUP_SKILL_INPUT_SCHEMA.md\"' \"${skill_root}/adl-skill.yaml\"\n+grep -Fq 'reference_doc: \"../contracts/248f00e3/REVIEW_READINESS_CLEANUP_SKILL_INPUT_SCHEMA.md\"' \"${skill_root}/adl-skill.yaml\"\n grep -Fq \"stop_before_review_approval_must_be_true\" \"${skill_root}/adl-skill.yaml\"\n@@ -25,3 +25,3 @@\n\n grep -Fq \"review_approved: false\" \"${skill_root}/references/output-contract.md\"\n-grep -Fq \"Schema id: \\`review_readiness_cleanup.v1\\`\" \"${skills_root}/docs/REVIEW_READINESS_CLEANUP_SKILL_INPUT_SCHEMA.md\"\n+grep -Fq \"Schema id: \\`review_readiness_cleanup.v1\\`\" \"${skills_root}/contracts/248f00e3/REVIEW_READINESS_CLEANUP_SKILL_INPUT_SCHEMA.md\"\n \n@@ -51,3 +51,3 @@\n\n   --out \"${report_root}\" \\\n-  --run-id review-readiness-contract-test >/tmp/review-readiness.out\n+  --run-id review-readiness-contract-test >\"${tmpdir}/review-readiness.out\"\n \n@@ -73,3 +73,3 @@\n\n   --out \"${missing_report}\" \\\n-  --run-id review-readiness-missing-test >/tmp/review-readiness-missing.out\n+  --run-id review-readiness-missing-test >\"${tmpdir}/review-readiness-missing.out\"\n grep -Fq '\"status\": \"skipped\"' \"${missing_report}/review_readiness_cleanup_report.json\"\n@@ -82,3 +82,3 @@\n\n \n-bash \"${repo_root}/adl/tools/validate_skill_frontmatter.sh\" \\\n+bash \"${repo_root}/tools/retained_skill_contracts/validate_skill_frontmatter.sh\" \\\n   \"${skill_root}/SKILL.md\"\n@@ -86,2 +86 @@\n\n echo \"PASS test_review_readiness_cleanup_skill_contracts\"\n-",
-      "next_action": "One bounded batch of these12 original contracts against already authenticated installed skills, after input/consumer composition review. Reuse existing installation; no product build. Existing specialist aggregate does not execute these scripts.",
+      "next_action": "Coherent ADL inbound caller/CI retirement and scoped decision; retain separate owner delivery and native acceptance boundaries.",
       "source_command_and_assertion_locations": [
         {
           "line": 12,
@@ -3058,7 +3069,8 @@
           "line": 78,
           "text": "if grep -R \"${tmpdir}\" \"${report_root}\" \"${missing_report}\" >/dev/null; then"
         }
-      ]
+      ],
+      "execution_evidence": "ORIGINAL_CONSUMER_BATCH_QUALIFICATION.json"
     },
     {
       "id": "RD07-2077",
@@ -3074,7 +3086,7 @@
       ],
       "csdlc250_same_basename_manifest_members": [],
       "family": "codefriend_original_contracts",
-      "status": "source_correspondence_verified_execution_missing",
+      "status": "reviewed_original_component_execution_passed",
       "owner_source": "e93a457ad6325017627a66a2abe31a3376fa28fd",
       "owner_path": "tools/retained_skill_contracts/test_review_to_test_planner_skill_contracts.sh",
       "owner_sha256": "99a09021c1387f42e53e73fe3f25973f97d35990f6a43add6081f425b4e5487e",
@@ -3087,7 +3099,7 @@
         "blank lines"
       ],
       "source_diff": "--- adl/tools/test_review_to_test_planner_skill_contracts.sh\n\n+++ tools/retained_skill_contracts/test_review_to_test_planner_skill_contracts.sh\n\n@@ -3,5 +3,5 @@\n\n \n-repo_root=\"$(git rev-parse --show-toplevel)\"\n-skills_root=\"${repo_root}/adl/tools/skills\"\n-tmpdir=\"$(mktemp -d)\"\n+repo_root=\"$(cd \"$(dirname \"${BASH_SOURCE[0]}\")/../..\" && pwd)\"\n+skills_root=\"${CODEFRIEND_REVIEW_SKILLS_ROOT:-${repo_root}/review-skills}\"\n+tmpdir=\"$(mktemp -d \"${TMPDIR:?set TMPDIR to approved scratch}/cf-skill-contract.XXXXXX\")\"\n trap 'rm -rf \"${tmpdir}\"' EXIT\n@@ -14,3 +14,3 @@\n\n [[ -x \"${skills_root}/review-to-test-planner/scripts/plan_review_tests.py\" ]]\n-[[ -f \"${skills_root}/docs/REVIEW_TO_TEST_PLANNER_SKILL_INPUT_SCHEMA.md\" ]]\n+[[ -f \"${skills_root}/contracts/248f00e3/REVIEW_TO_TEST_PLANNER_SKILL_INPUT_SCHEMA.md\" ]]\n \n@@ -18,3 +18,3 @@\n\n grep -Fq 'id: \"review_to_test_planner.v1\"' \"${skills_root}/review-to-test-planner/adl-skill.yaml\"\n-grep -Fq 'reference_doc: \"../docs/REVIEW_TO_TEST_PLANNER_SKILL_INPUT_SCHEMA.md\"' \"${skills_root}/review-to-test-planner/adl-skill.yaml\"\n+grep -Fq 'reference_doc: \"../contracts/248f00e3/REVIEW_TO_TEST_PLANNER_SKILL_INPUT_SCHEMA.md\"' \"${skills_root}/review-to-test-planner/adl-skill.yaml\"\n grep -Fq \"plan_from_review_packet_requires_target.review_packet_path\" \"${skills_root}/review-to-test-planner/adl-skill.yaml\"\n@@ -23,4 +23,4 @@\n\n grep -Fq \"Do not write tests\" \"${skills_root}/review-to-test-planner/references/output-contract.md\"\n-grep -Fq \"Schema id: \\`review_to_test_planner.v1\\`\" \"${skills_root}/docs/REVIEW_TO_TEST_PLANNER_SKILL_INPUT_SCHEMA.md\"\n-grep -Fq \"review-to-test-planner\" \"${skills_root}/docs/MULTI_AGENT_REPO_REVIEW_SKILL_SUITE.md\"\n+grep -Fq \"Schema id: \\`review_to_test_planner.v1\\`\" \"${skills_root}/contracts/248f00e3/REVIEW_TO_TEST_PLANNER_SKILL_INPUT_SCHEMA.md\"\n+grep -Fq \"review-to-test-planner\" \"${skills_root}/contracts/248f00e3/MULTI_AGENT_REPO_REVIEW_SKILL_SUITE.md\"\n \n@@ -79,3 +79,3 @@\n\n python3 \"${skills_root}/review-to-test-planner/scripts/plan_review_tests.py\" \\\n-  \"${review_root}\" --out \"${plan_root}\" --max-tasks 4 >/tmp/review-to-test-planner.out\n+  \"${review_root}\" --out \"${plan_root}\" --max-tasks 4 >\"${tmpdir}/review-to-test-planner.out\"\n [[ -f \"${plan_root}/review_to_test_plan.json\" ]]\n@@ -100,3 +100,3 @@\n\n \n-bash \"${repo_root}/adl/tools/validate_skill_frontmatter.sh\" \\\n+bash \"${repo_root}/tools/retained_skill_contracts/validate_skill_frontmatter.sh\" \\\n   \"${skills_root}/review-to-test-planner/SKILL.md\"",
-      "next_action": "One bounded batch of these12 original contracts against already authenticated installed skills, after input/consumer composition review. Reuse existing installation; no product build. Existing specialist aggregate does not execute these scripts.",
+      "next_action": "Coherent ADL inbound caller/CI retirement and scoped decision; retain separate owner delivery and native acceptance boundaries.",
       "source_command_and_assertion_locations": [
         {
           "line": 9,
@@ -3209,7 +3221,8 @@
           "line": 96,
           "text": "if find \"${plan_root}\" -name '*_test.rs' -o -name 'test_*.py' -o -name '*.test.ts' | grep -q .; then"
         }
-      ]
+      ],
+      "execution_evidence": "ORIGINAL_CONSUMER_BATCH_QUALIFICATION.json"
     },
     {
       "id": "RD07-2117",
@@ -5609,5 +5622,13 @@
         }
       ]
     }
-  ]
+  ],
+  "subsequent_execution": {
+    "record": "ORIGINAL_CONSUMER_BATCH_QUALIFICATION.json",
+    "reviewed_qualified_rows": 14,
+    "still_held_rows": 24,
+    "prior_source_only_mapping_preserved": true
+  },
+  "initial_mapping_tests_or_builds": 0,
+  "execution_summary": "Subsequent reviewed batches qualify14rows; see subsequent_execution and evidence record. No builds."
 }
