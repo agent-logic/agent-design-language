@@ -1,7 +1,8 @@
-//! PVF: public-contract regression; deterministic, small CPU/memory, no I/O.
+//! PVF: public-contract regression; deterministic, small CPU/memory, no network.
+//! One test captures stdout from one child of this same test executable; no file writes.
 //! Release proof role: portable validation/refusal and schema diagnostics.
 //! Release gate: required public source validation; packaged-consumer proof is separate.
-use adl_legacy_contracts::{adl::AdlDoc, schema, validate_run_id_path_segment};
+use adl_legacy_contracts::{adl::AdlDoc, prompt, resolve, schema, validate_run_id_path_segment};
 use serde_json::{json, Value};
 
 fn document() -> Value {
@@ -259,4 +260,158 @@ fn schema_errors_reject_unknown_root_keys_and_remain_bounded() {
         "unbounded schema diagnostics: {error}"
     );
     assert!(error.contains("more schema errors omitted"), "{error}");
+}
+
+#[test]
+fn structured_prompt_preserves_role_order_unicode_and_unknown_placeholders() {
+    let spec = serde_json::from_value(json!({
+        "system":"Policy {{name}}", "developer":"Keep {{unknown}} literal",
+        "user":"Résumé {{name}}", "context":"Context {{name}}", "output":"JSON only"
+    }))
+    .unwrap();
+    let inputs = [("name".to_string(), "Ada".to_string())]
+        .into_iter()
+        .collect();
+    let rendered = prompt::trace_prompt_assembly(&spec, &inputs);
+    assert_eq!(rendered,
+        "SYSTEM:\nPolicy Ada\n\nDEVELOPER:\nKeep {{unknown}} literal\n\nUSER:\nRésumé Ada\n\nCONTEXT:\nContext Ada\n\nOUTPUT:\nJSON only");
+    assert_eq!(
+        prompt::trace_prompt_assembly(&Default::default(), &inputs),
+        ""
+    );
+    assert_eq!(
+        prompt::hash_prompt(&rendered),
+        prompt::hash_prompt(&rendered)
+    );
+    assert_ne!(
+        prompt::hash_prompt(&rendered),
+        prompt::hash_prompt("different role content")
+    );
+}
+
+#[test]
+fn portable_resolution_preserves_prompt_precedence_and_provider_ambiguity() {
+    let mut value = document();
+    value["providers"] = json!({"p":{"type":"mock"},"q":{"type":"mock"}});
+    value["agents"] = json!({"a":{"provider":"p","model":"m","prompt":{"user":"agent"}}});
+    value["tasks"] = json!({"task":{"agent_ref":"a","prompt":{"user":"task"}}});
+    value["run"]["defaults"] = json!({"system":"default policy"});
+    value["run"]["workflow"]["steps"] = json!([
+        {"id":"override","task":"task","prompt":{"system":"step policy","user":"step"}},
+        {"id":"task","task":"task"}, {"id":"agent","agent":"a"}, {"id":"unbound"}
+    ]);
+    let doc: AdlDoc = serde_json::from_value(value).unwrap();
+    doc.validate().unwrap();
+    let resolved = resolve::resolve_run(&doc).unwrap();
+    for (index, expected_user, expected_system) in [
+        (0, "step", "step policy"),
+        (1, "task", "default policy"),
+        (2, "agent", "default policy"),
+    ] {
+        let step = &resolved.steps[index];
+        assert_eq!(step.provider.as_deref(), Some("p"));
+        assert_eq!(step.agent.as_deref(), Some("a"));
+        let effective = step.effective_prompt_with_defaults(&resolved).unwrap();
+        assert_eq!(effective.user.as_deref(), Some(expected_user));
+        assert_eq!(effective.system.as_deref(), Some(expected_system));
+    }
+    assert!(
+        resolved.steps[3].provider.is_none(),
+        "two providers must not be chosen arbitrarily"
+    );
+    assert!(resolved.steps[3]
+        .effective_prompt_with_defaults(&resolved)
+        .is_none());
+}
+
+#[test]
+fn portable_resolution_rejects_unmaterialized_authority_and_unsafe_run_names() {
+    for version in ["0.1", "0.2", "0.3", "0.4", "0.5"] {
+        let mut value = document();
+        value["version"] = json!(version);
+        let doc: AdlDoc = serde_json::from_value(value).unwrap();
+        assert!(resolve::resolve_run(&doc).is_ok(), "{version}");
+    }
+    for (version, expected) in [
+        ("", "missing required field: version"),
+        ("9.0", "unsupported ADL version"),
+    ] {
+        let mut value = document();
+        value["version"] = json!(version);
+        let doc: AdlDoc = serde_json::from_value(value).unwrap();
+        assert!(resolve::resolve_run(&doc)
+            .unwrap_err()
+            .to_string()
+            .contains(expected));
+    }
+    let mut value = document();
+    value["providers"]["p"] = json!({"profile":"configured-on-runtime"});
+    let doc: AdlDoc = serde_json::from_value(value).unwrap();
+    assert!(resolve::resolve_run(&doc)
+        .unwrap_err()
+        .to_string()
+        .contains("Runtime expansion"));
+    let mut value = document();
+    value["run"]["name"] = json!("../escape");
+    let doc: AdlDoc = serde_json::from_value(value).unwrap();
+    assert!(resolve::resolve_run(&doc)
+        .unwrap_err()
+        .to_string()
+        .contains("safe artifact path segment"));
+}
+
+#[test]
+fn plan_and_prompt_stdout_preserve_order_and_missing_prompt_diagnostics() {
+    const CHILD: &str = "ADL_RETAINED_CONTRACT_STDOUT_CHILD";
+    if std::env::var(CHILD).as_deref() == Ok("capture") {
+        let mut value = document();
+        value["run"]["name"] = json!("review-run");
+        value["run"]["defaults"] = json!({"system":"base policy"});
+        value["run"]["workflow"] = json!({"id":"review-flow","steps":[
+            {"id":"first","prompt":{"user":"Hello {{name}}"},"inputs":{"name":"Ada"}},
+            {"id":"second"}, {"id":"nested","call":"child","as":"ns"}
+        ]});
+        let doc: AdlDoc = serde_json::from_value(value).unwrap();
+        let resolved = resolve::resolve_run(&doc).unwrap();
+        println!("BEGIN_RETAINED_OUTPUT");
+        resolve::print_resolved_plan(&resolved);
+        prompt::print_prompts(&resolved).unwrap();
+        println!("END_RETAINED_OUTPUT");
+        return;
+    }
+    let output = std::process::Command::new(std::env::current_exe().unwrap())
+        .args([
+            "--exact",
+            "plan_and_prompt_stdout_preserve_order_and_missing_prompt_diagnostics",
+            "--nocapture",
+        ])
+        .env(CHILD, "capture")
+        .output()
+        .unwrap();
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    let stdout = String::from_utf8(output.stdout).unwrap();
+    let text = stdout
+        .split_once("BEGIN_RETAINED_OUTPUT\n")
+        .unwrap()
+        .1
+        .split_once("END_RETAINED_OUTPUT")
+        .unwrap()
+        .0;
+    assert!(
+        text.starts_with("Resolved run: review-run\nWorkflow:     review-flow\nSteps:        3\n"),
+        "{text}"
+    );
+    for line in [
+        "  0. first  agent=<unresolved-agent> provider=<unresolved-provider> task=<unresolved-task>\n",
+        "  1. second  agent=<unresolved-agent> provider=<unresolved-provider> task=<unresolved-task>\n",
+        "  2. nested  call=child as=ns\n",
+        "--- step 0: first ---\nSYSTEM:\nbase policy\n\nUSER:\nHello Ada\n\n",
+        "Step 1 (second) has no prompt.\n", "Step 2 (nested) has no prompt.\n"
+    ] { assert!(text.contains(line), "missing {line:?} in {text:?}"); }
+    assert!(text.find("  0. first").unwrap() < text.find("  1. second").unwrap());
+    assert!(text.find("  1. second").unwrap() < text.find("  2. nested").unwrap());
 }
