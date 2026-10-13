@@ -1,21 +1,21 @@
 {
   "schema": "adl.source_retirement.combined_remaining_delta.v1",
   "issue": 1223,
-  "source_head": "bc3324635521987bd0c9315b1c62459c4f1d3578",
+  "source_head": "c9e305eddee18c9162560da5cd67b57a5addfafc",
   "status": "prepared_scope_not_ready_for_execution",
   "execution_authorized": false,
   "original_count": 4134,
   "counts": {
-    "hold_explicit_reconciliation": 79,
+    "hold_explicit_reconciliation": 67,
     "hold_owner_test_reconciliation": 35,
     "preserve_approved_removal": 70,
     "preserve_reviewed_consumer_repair": 18,
-    "proposed_historical_retirement_with_caller_repair": 41,
-    "proposed_owner_transfer_with_consumer_qualification": 491,
+    "proposed_historical_retirement_with_caller_repair": 44,
+    "proposed_owner_transfer_with_consumer_qualification": 496,
     "proposed_remove_construction_qualified_infrastructure": 216,
     "proposed_remove_with_entire_source_family": 1874,
-    "proposed_remove_with_entire_tool_family": 687,
-    "retain_public_source_or_fixture": 96,
+    "proposed_remove_with_entire_tool_family": 682,
+    "retain_public_source_or_fixture": 105,
     "retain_resolved": 527
   },
   "additional_current_source_paths": 22,
@@ -30516,10 +30516,12 @@
         "blob": "bb1258773814bddebb3c4538792c87e58a3dc4d4"
       },
       "existing_action": "retain",
-      "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "CSDLc exact demo copy plus1946dryrun require fixture workspace, local_model_capabilities.v1.json, installer, provider selection and codex; dryrun is not liveprovider proof."
+        "Repair registry/demo/skill guidance and surviving caller expectations",
+        "Retire1304and1946together",
+        "Retain3748Shepherd contract independently;2027retirement does not delete that document",
+        "Scoped retirement decision"
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -30529,10 +30531,10 @@
         ]
       },
       "reviewed_disposition": {
-        "packet": "ACTIVE_19_TOOL_DISPOSITIONS.json",
-        "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
-        "proposal": "specific_family_reconciliation",
-        "reason": "CSDLc exact demo copy plus1946dryrun require fixture workspace, local_model_capabilities.v1.json, installer, provider selection and codex; dryrun is not liveprovider proof."
+        "packet": "SKILL_HELPER_RETIREMENT_DISPOSITION.json",
+        "packet_sha256": "5dcd880bd1490834a83eb649fd20c7620300334efdf1fe32f49adc25353729ca",
+        "proposal": "proposed_historical_retirement_with_caller_repair",
+        "review": "Bounded independent source/delivery review; no additional execution claimed"
       }
     },
     {
@@ -30940,15 +30942,21 @@
         "blob": "a90c5273cc33120d4307192ae181e0ccc7052341"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Independent original-consumer/delivery review",
+        "Coherent ADL caller repairs and scoped retirement decision"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_DEMO_OWNER_DELIVERY_RESULT.json",
+        "packet_sha256": "aeb5d250052a2771b11dae144f77a7e0fe84f9e2520f51f4afc8f84a907e5735",
+        "proposal": "proposed_owner_transfer_with_consumer_qualification",
+        "review": "Bounded independent source/delivery review; no additional execution claimed"
       }
     },
     {
@@ -31175,15 +31183,21 @@
         "blob": "6cfda577374af99516488e340ef2856302a20d45"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Independent original-consumer/delivery review",
+        "Coherent ADL caller repairs and scoped retirement decision"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_DEMO_OWNER_DELIVERY_RESULT.json",
+        "packet_sha256": "aeb5d250052a2771b11dae144f77a7e0fe84f9e2520f51f4afc8f84a907e5735",
+        "proposal": "proposed_owner_transfer_with_consumer_qualification",
+        "review": "Bounded independent source/delivery review; no additional execution claimed"
       }
     },
     {
@@ -31262,15 +31276,21 @@
         "blob": "72c8d31a6a5221339ebd4a3372a279788bb71e66"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Independent original-consumer/delivery review",
+        "Coherent ADL caller repairs and scoped retirement decision"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_DEMO_OWNER_DELIVERY_RESULT.json",
+        "packet_sha256": "aeb5d250052a2771b11dae144f77a7e0fe84f9e2520f51f4afc8f84a907e5735",
+        "proposal": "proposed_owner_transfer_with_consumer_qualification",
+        "review": "Bounded independent source/delivery review; no additional execution claimed"
       }
     },
     {
@@ -32073,18 +32093,20 @@
         "blob": "c76c208399902654cf113b81d7e1c9a309ffbfac"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/demo_v0911_multiagent_podcast_audio.sh"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "PODCAST_GENERATION_RETENTION.json",
+        "packet_sha256": "5c4b2c071435c099c405a9f7a77d15c6d70dd4c6fbf0dba35d21856e02e65730",
+        "proposal": "retain_public_source_or_fixture",
+        "review": "Bounded independent source/delivery review; no additional execution claimed"
       }
     },
     {
@@ -32097,16 +32119,18 @@
         "blob": "d1867b78f4ad48491d3421df9b9cbae5f4bd63ef"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "PODCAST_GENERATION_RETENTION.json",
+        "packet_sha256": "5c4b2c071435c099c405a9f7a77d15c6d70dd4c6fbf0dba35d21856e02e65730",
+        "proposal": "retain_public_source_or_fixture",
+        "review": "Bounded independent source/delivery review; no additional execution claimed"
       }
     },
     {
@@ -32315,15 +32339,18 @@
         "blob": "a5247c3397fa9cd7f80c4a324649cccef887f6c9"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "PODCAST_GENERATION_RETENTION.json",
+        "packet_sha256": "5c4b2c071435c099c405a9f7a77d15c6d70dd4c6fbf0dba35d21856e02e65730",
+        "proposal": "retain_public_source_or_fixture",
+        "review": "Bounded independent source/delivery review; no additional execution claimed"
       }
     },
     {
@@ -32667,15 +32694,18 @@
         "blob": "4a6caf7b6b61cd73e8805e7ae66392b0f0110cb5"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "PODCAST_GENERATION_RETENTION.json",
+        "packet_sha256": "5c4b2c071435c099c405a9f7a77d15c6d70dd4c6fbf0dba35d21856e02e65730",
+        "proposal": "retain_public_source_or_fixture",
+        "review": "Bounded independent source/delivery review; no additional execution claimed"
       }
     },
     {
@@ -34171,18 +34201,20 @@
         "blob": "3353168fae5d30816291ac6cd3a180f0ee6cf9ba"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/real_chatgpt_gemini_claude_provider_adapter.py"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "PODCAST_GENERATION_RETENTION.json",
+        "packet_sha256": "5c4b2c071435c099c405a9f7a77d15c6d70dd4c6fbf0dba35d21856e02e65730",
+        "proposal": "retain_public_source_or_fixture",
+        "review": "Bounded independent source/delivery review; no additional execution claimed"
       }
     },
     {
@@ -41001,15 +41033,18 @@
         "blob": "ef2bd328daeca9154ebdb68408b08558e46b5958"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "SKILL_HELPER_RETIREMENT_DISPOSITION.json",
+        "packet_sha256": "5dcd880bd1490834a83eb649fd20c7620300334efdf1fe32f49adc25353729ca",
+        "proposal": "retain_public_source_or_fixture",
+        "review": "Bounded independent source/delivery review; no additional execution claimed"
       }
     },
     {
@@ -41291,15 +41326,18 @@
         "blob": "7d9d8785bb6063f855113f127916daaa62748639"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "SKILL_HELPER_RETIREMENT_DISPOSITION.json",
+        "packet_sha256": "5dcd880bd1490834a83eb649fd20c7620300334efdf1fe32f49adc25353729ca",
+        "proposal": "retain_public_source_or_fixture",
+        "review": "Bounded independent source/delivery review; no additional execution claimed"
       }
     },
     {
@@ -47235,10 +47273,12 @@
         "blob": "86a12e4e16873fff762e315ea3c41c5db8934b8c"
       },
       "existing_action": "retain",
-      "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "Preserve original dryrun assertions jointly with1304; exact executable replacement not yet verified."
+        "Repair registry/demo/skill guidance and surviving caller expectations",
+        "Retire1304and1946together",
+        "Retain3748Shepherd contract independently;2027retirement does not delete that document",
+        "Scoped retirement decision"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
@@ -47246,10 +47286,10 @@
         "exact_successor_paths": []
       },
       "reviewed_disposition": {
-        "packet": "ACTIVE_19_TOOL_DISPOSITIONS.json",
-        "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
-        "proposal": "specific_family_reconciliation",
-        "reason": "Preserve original dryrun assertions jointly with1304; exact executable replacement not yet verified."
+        "packet": "SKILL_HELPER_RETIREMENT_DISPOSITION.json",
+        "packet_sha256": "5dcd880bd1490834a83eb649fd20c7620300334efdf1fe32f49adc25353729ca",
+        "proposal": "proposed_historical_retirement_with_caller_repair",
+        "review": "Bounded independent source/delivery review; no additional execution claimed"
       }
     },
     {
@@ -47359,11 +47399,10 @@
         "blob": "a062fcb2911308be656089b0654290202c291cd4"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
+        "Independent original-consumer/delivery review",
+        "Coherent ADL caller repairs and scoped retirement decision"
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -47371,6 +47410,12 @@
         "exact_successor_paths": [
           "adl/tools/test_demo_v0871_operator_surface.sh"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_DEMO_OWNER_DELIVERY_RESULT.json",
+        "packet_sha256": "aeb5d250052a2771b11dae144f77a7e0fe84f9e2520f51f4afc8f84a907e5735",
+        "proposal": "proposed_owner_transfer_with_consumer_qualification",
+        "review": "Bounded independent source/delivery review; no additional execution claimed"
       }
     },
     {
@@ -47596,11 +47641,10 @@
         "blob": "140cc800a54458c4d09fbf2db201f67b8fdfb627"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
+        "Independent original-consumer/delivery review",
+        "Coherent ADL caller repairs and scoped retirement decision"
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -47608,6 +47652,12 @@
         "exact_successor_paths": [
           "adl/tools/test_demo_v0871_runtime_state.sh"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_DEMO_OWNER_DELIVERY_RESULT.json",
+        "packet_sha256": "aeb5d250052a2771b11dae144f77a7e0fe84f9e2520f51f4afc8f84a907e5735",
+        "proposal": "proposed_owner_transfer_with_consumer_qualification",
+        "review": "Bounded independent source/delivery review; no additional execution claimed"
       }
     },
     {
@@ -49262,15 +49312,23 @@
         "blob": "75f326613dd7db9cf739a03cd0a28e4fbde988a4"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Repair registry/demo/skill guidance and surviving caller expectations",
+        "Retire1304and1946together",
+        "Retain3748Shepherd contract independently;2027retirement does not delete that document",
+        "Scoped retirement decision"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "SKILL_HELPER_RETIREMENT_DISPOSITION.json",
+        "packet_sha256": "5dcd880bd1490834a83eb649fd20c7620300334efdf1fe32f49adc25353729ca",
+        "proposal": "proposed_historical_retirement_with_caller_repair",
+        "review": "Bounded independent source/delivery review; no additional execution claimed"
       }
     },
     {
@@ -49786,15 +49844,18 @@
         "blob": "f454a5632e93672a36d36a017012035c03ba36d8"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "PODCAST_GENERATION_RETENTION.json",
+        "packet_sha256": "5c4b2c071435c099c405a9f7a77d15c6d70dd4c6fbf0dba35d21856e02e65730",
+        "proposal": "retain_public_source_or_fixture",
+        "review": "Bounded independent source/delivery review; no additional execution claimed"
       }
     },
     {
@@ -54059,15 +54120,18 @@
         "blob": "bb3c6ae5a69d49371edbbea4219bc6ef351ad0e7"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "PODCAST_GENERATION_RETENTION.json",
+        "packet_sha256": "5c4b2c071435c099c405a9f7a77d15c6d70dd4c6fbf0dba35d21856e02e65730",
+        "proposal": "retain_public_source_or_fixture",
+        "review": "Bounded independent source/delivery review; no additional execution claimed"
       }
     },
     {

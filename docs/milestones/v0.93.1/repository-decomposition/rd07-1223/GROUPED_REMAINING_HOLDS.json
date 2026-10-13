@@ -1,9 +1,9 @@
 {
   "schema": "adl.source_retirement.grouped_holds.v1",
-  "source_head": "bc3324635521987bd0c9315b1c62459c4f1d3578",
-  "ledger_sha256": "591ae3776b28c0ddfd724ba8e333b296b6d2eb1c16504296c515c338f73374ba",
+  "source_head": "c9e305eddee18c9162560da5cd67b57a5addfafc",
+  "ledger_sha256": "27c2fa67ad8fd6b6c1d993c6a9875eacf70daf56e214e5a145576c0ca9a74d4b",
   "original_count": 4134,
-  "held_count": 114,
+  "held_count": 102,
   "additional_paths_separate": 22,
   "execution_authorized": false,
   "boundary": "Grouping preserves every original row and prerequisite verbatim. It does not resolve holds, authorize removal, or imply full issue readiness. Other proposed removals remain conditional.",
@@ -1414,84 +1414,13 @@
     {
       "id": "skill-contracts",
       "title": "Skill and operational contract consumers",
-      "count": 17,
-      "next_action": "Twenty-two rows remain, including four tested current caller contracts whose producer retirement is unresolved. Original12CodeFriend and2CSDLc fixture proofs remain qualified; current milestone/schema tests retained. Preserve separate native, caller and scoped retirement gates.",
+      "count": 12,
+      "next_action": "Twelve remaining skill contracts retain their exact producer and original-assertion obligations; use existing passing component proofs and resolve shared producer retention before any new test execution.",
       "evidence": [
         "CSDLC_PLANNING_ORIGINAL_CONTRACT_QUALIFICATION.json",
         "CSDLC_OPERATIONAL_COMPONENT_QUALIFICATION.json"
       ],
       "rows": [
-        {
-          "id": "RD07-1304",
-          "path": "adl/tools/demo_codex_ollama_operational_skills.sh",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-active-tool-contracts",
-          "current_identity": {
-            "mode": "100644",
-            "blob": "bb1258773814bddebb3c4538792c87e58a3dc4d4"
-          },
-          "existing_action": "retain",
-          "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "CSDLc exact demo copy plus1946dryrun require fixture workspace, local_model_capabilities.v1.json, installer, provider selection and codex; dryrun is not liveprovider proof."
-          ],
-          "successor_mapping": {
-            "mapping": "exact_successor",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": [
-              "adl/tools/demo_codex_ollama_operational_skills.sh"
-            ]
-          },
-          "reviewed_disposition": {
-            "packet": "ACTIVE_19_TOOL_DISPOSITIONS.json",
-            "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
-            "proposal": "specific_family_reconciliation",
-            "reason": "CSDLc exact demo copy plus1946dryrun require fixture workspace, local_model_capabilities.v1.json, installer, provider selection and codex; dryrun is not liveprovider proof."
-          }
-        },
-        {
-          "id": "RD07-1712",
-          "path": "adl/tools/skills/pr-stack-manager/scripts/analyze_pr_stack.py",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "ef2bd328daeca9154ebdb68408b08558e46b5958"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_no_proven_current_successor_mapping",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "specific_consumer_or_document_disposition_required"
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          }
-        },
-        {
-          "id": "RD07-1724",
-          "path": "adl/tools/skills/records-hygiene/scripts/analyze_records_hygiene.py",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "7d9d8785bb6063f855113f127916daaa62748639"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_no_proven_current_successor_mapping",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "specific_consumer_or_document_disposition_required"
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          }
-        },
         {
           "id": "RD07-1901",
           "path": "adl/tools/test_adl_milestone_creator_skill_contracts.sh",
@@ -1730,33 +1659,6 @@
           }
         },
         {
-          "id": "RD07-1946",
-          "path": "adl/tools/test_demo_codex_ollama_operational_skills.sh",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-active-tool-contracts",
-          "current_identity": {
-            "mode": "100644",
-            "blob": "86a12e4e16873fff762e315ea3c41c5db8934b8c"
-          },
-          "existing_action": "retain",
-          "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "Preserve original dryrun assertions jointly with1304; exact executable replacement not yet verified."
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          },
-          "reviewed_disposition": {
-            "packet": "ACTIVE_19_TOOL_DISPOSITIONS.json",
-            "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
-            "proposal": "specific_family_reconciliation",
-            "reason": "Preserve original dryrun assertions jointly with1304; exact executable replacement not yet verified."
-          }
-        },
-        {
           "id": "RD07-1997",
           "path": "adl/tools/test_editor_action.sh",
           "owner": "cognitive-sdlc",
@@ -1783,27 +1685,6 @@
             "passed": true,
             "native_execution": false,
             "changes_removal_authority": false
-          }
-        },
-        {
-          "id": "RD07-2027",
-          "path": "adl/tools/test_issue_lifecycle_shepherd_contract.sh",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100644",
-            "blob": "75f326613dd7db9cf739a03cd0a28e4fbde988a4"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_no_proven_current_successor_mapping",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "specific_consumer_or_document_disposition_required"
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
           }
         },
         {
@@ -2057,99 +1938,6 @@
             "scope": "exact_source_obligation_and_removed_filter_lineage",
             "execution_proven": false,
             "changes_removal_authority": false
-          }
-        }
-      ]
-    },
-    {
-      "id": "podcast",
-      "title": "Historical podcast generation and playback",
-      "count": 4,
-      "next_action": "Resolve four generation/fulltest helpers and their real source-era runner dependencies. Three HTTP profile wrappers retained with exact16-file closure; they do not use browsers, devices or audio decoding.",
-      "evidence": [],
-      "rows": [
-        {
-          "id": "RD07-1381",
-          "path": "adl/tools/demo_v0918_podcast_launch.sh",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "a5247c3397fa9cd7f80c4a324649cccef887f6c9"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_no_proven_current_successor_mapping",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "specific_consumer_or_document_disposition_required"
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          }
-        },
-        {
-          "id": "RD07-1396",
-          "path": "adl/tools/generate_podcast_launch_packet.py",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "4a6caf7b6b61cd73e8805e7ae66392b0f0110cb5"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_no_proven_current_successor_mapping",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "specific_consumer_or_document_disposition_required"
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          }
-        },
-        {
-          "id": "RD07-2047",
-          "path": "adl/tools/test_podcast_launch_packet.sh",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "f454a5632e93672a36d36a017012035c03ba36d8"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_no_proven_current_successor_mapping",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "specific_consumer_or_document_disposition_required"
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          }
-        },
-        {
-          "id": "RD07-2200",
-          "path": "adl/tools/validate_podcast_launch_packet.py",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "bb3c6ae5a69d49371edbbea4219bc6ef351ad0e7"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_no_proven_current_successor_mapping",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "specific_consumer_or_document_disposition_required"
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
           }
         }
       ]
@@ -2635,7 +2423,7 @@
     {
       "id": "cognitive-sdlc-remaining",
       "title": "Mixed consumers (inherited inventory owner)",
-      "count": 31,
+      "count": 28,
       "next_action": "Resolve the exact per-row required_before_execution entries preserved below as one owner consumer batch: map current caller and qualified successor or choose explicit historical retention/retirement. Reuse existing owner evidence; source presence alone does not close behavior. Cloud/live operations require their own existing authorization.",
       "evidence": [],
       "rows": [
@@ -2702,48 +2490,6 @@
           }
         },
         {
-          "id": "RD07-1322",
-          "path": "adl/tools/demo_v0871_operator_surface.sh",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "a90c5273cc33120d4307192ae181e0ccc7052341"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_no_proven_current_successor_mapping",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "specific_consumer_or_document_disposition_required"
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          }
-        },
-        {
-          "id": "RD07-1332",
-          "path": "adl/tools/demo_v0871_runtime_state.sh",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "6cfda577374af99516488e340ef2856302a20d45"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_no_proven_current_successor_mapping",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "specific_consumer_or_document_disposition_required"
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          }
-        },
-        {
           "id": "RD07-1334",
           "path": "adl/tools/demo_v0871_suite.sh",
           "owner": "cognitive-sdlc",
@@ -2772,27 +2518,6 @@
           "current_identity": {
             "mode": "100755",
             "blob": "7bcf897f0d37e1861934d3d60651faf4e7d634b3"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_no_proven_current_successor_mapping",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "specific_consumer_or_document_disposition_required"
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          }
-        },
-        {
-          "id": "RD07-1336",
-          "path": "adl/tools/demo_v087_control_plane.sh",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "72c8d31a6a5221339ebd4a3372a279788bb71e66"
           },
           "existing_action": "retain",
           "hold_reason": "hold_no_proven_current_successor_mapping",

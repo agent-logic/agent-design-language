@@ -1,0 +1,126 @@
+{
+  "schema": "adl.rd07.runtime-demo-owner-delivery.v1",
+  "rows": [
+    "RD07-1322",
+    "RD07-1332",
+    "RD07-1336",
+    "RD07-1951",
+    "RD07-1961"
+  ],
+  "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+  "owner_issue": "https://github.com/agent-logic/agent-logic-runtime/issues/152",
+  "pull_request": "https://github.com/agent-logic/agent-logic-runtime/pull/154",
+  "source_head": "f2a8137779320963bbfb103e9006a43ad660a5b9",
+  "merge_commit": "ddaf2ae4b2b70ad45dd83cebaf90b5bca3d17d82",
+  "reconciliation_digest": "693e2d4d6713f573c959d0f75856a03e75c1330f38c3e34ed9d2ec6659d21328",
+  "files": [
+    {
+      "path": "adl/tools/demo_v0871_operator_surface.sh",
+      "owner_sha256": "5f26ac70b31db3f9b1d1dd2276b39ed8ef519b18e938bd4bf98771b34cd63e83",
+      "proposed_sha256": "5f26ac70b31db3f9b1d1dd2276b39ed8ef519b18e938bd4bf98771b34cd63e83",
+      "same_as_proposal": true
+    },
+    {
+      "path": "adl/tools/demo_v0871_runtime_state.sh",
+      "owner_sha256": "f3cb2fae7aec79544d2e09c05304577bf76b2190b65205799e19009dd4a6bea6",
+      "proposed_sha256": "f3cb2fae7aec79544d2e09c05304577bf76b2190b65205799e19009dd4a6bea6",
+      "same_as_proposal": true
+    },
+    {
+      "path": "adl/tools/demo_v087_control_plane.sh",
+      "owner_sha256": "9f8ed3612ed2d0123ad946a4c78a7f0267fcd2b3f9bf0971c9a0185966b35e1d",
+      "proposed_sha256": "7e91a0edb54791c2bd158fbe9d60b9a072ab163e4462bb78d7addf8a0f2b441c",
+      "same_as_proposal": false
+    },
+    {
+      "path": "adl/examples/v0-4-demo-deterministic-replay.adl.yaml",
+      "owner_sha256": "0eea46c81879acd430296b9d3737cb4b4581b99b20213c924c3ca05d497333fb",
+      "proposed_sha256": "0eea46c81879acd430296b9d3737cb4b4581b99b20213c924c3ca05d497333fb",
+      "same_as_proposal": true
+    },
+    {
+      "path": "adl/tools/test_demo_v0871_operator_surface.sh",
+      "owner_sha256": "f323d3f0e31a394389a2b45bd341e1d07c24aa59f1b6434c755dd5a9cc7255a3",
+      "proposed_sha256": "f323d3f0e31a394389a2b45bd341e1d07c24aa59f1b6434c755dd5a9cc7255a3",
+      "same_as_proposal": true
+    },
+    {
+      "path": "adl/tools/test_demo_v0871_runtime_state.sh",
+      "owner_sha256": "5559354f1aa90140fb2f7aedb4655f5f1ab81a4fec92a5526ea8729aa7f4a472",
+      "proposed_sha256": "5559354f1aa90140fb2f7aedb4655f5f1ab81a4fec92a5526ea8729aa7f4a472",
+      "same_as_proposal": true
+    }
+  ],
+  "qualification": {
+    "status": "passed",
+    "scenarios": [
+      "original operator consumer",
+      "original runtime-state consumer",
+      "control-plane status/summary/trace"
+    ],
+    "source_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+    "package_sha256": "ab6dd32d9a5bba7b754f74a0321e466150154578cc819803e93ef1ebcc57d3f6",
+    "fixture": "installer147/installed-fixture.tar",
+    "binary_member_bytes": 822645616,
+    "container": "issue1223-runtime-11ce6614",
+    "context": "colima-split-build",
+    "selected_executable_removed_after_qualification": true,
+    "stdout": "qualification.stdout",
+    "stderr": "qualification.stderr",
+    "build": false,
+    "download": false,
+    "shared_runtime_changed": false
+  },
+  "source_proof": {
+    "tests_passed": 3,
+    "tests_failed": 0
+  },
+  "ci": {
+    "run": 38413165160,
+    "job": 115350521265,
+    "status": "completed_success"
+  },
+  "evidence": [
+    {
+      "path": "/Volumes/FastWork/c1223/runtime152-delivery/HANDOFF.json",
+      "sha256": "a9cbefe3d0c277f7fbf0440e29ef321554f0f1b2a68c778a041116928673ed52"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime152-delivery/merge-result-r2.json",
+      "sha256": "603ee031b4efb1fd1e4016d92cf19417a6a8bcc64cc30b1f85e3ea77e7740994"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime152-delivery/proof-r2.json",
+      "sha256": "7b7206cfc947a04698249e56ddb99f6e32447265412e67aa0454eef5c496003d"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime152-delivery/review-final.json",
+      "sha256": "b8d96ad20c7cb01c1ef6acb3efb326e03ca8bea67fe8020427237f6d0d2f93af"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime152-delivery/qualification.stdout",
+      "sha256": "018619d7e08caac5145b0a1efdcabc2d1c7937aa7b051349d4ff81cb7cfed32d"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime152-delivery/qualification.stderr",
+      "sha256": "e238204596392ffe673f762cd338708e32f6961a63e4af319e7faf0fa2755090"
+    }
+  ],
+  "native_finish": "Not executed: automatic approval review rejected terminal closeout in the owner session; no retry/bypass. Merged product proof is separate.",
+  "required_before_retirement": [
+    "Independent original-consumer/delivery review",
+    "Coherent ADL caller repairs and scoped retirement decision"
+  ],
+  "exclusions": {
+    "RD07-1306": "Signed remote keygen/server/client/tamper proof; not covered.",
+    "RD07-1334": "Historical16child suite, includes retired workflow and absent children; not covered.",
+    "RD07-1335": "Calls explicit retired mock_workflow return2; not equivalent to new native demo.",
+    "RD07-1957": "Five actual credentialed provider invocations; not run or substituted."
+  },
+  "execution_authorized": false,
+  "additional_delivery_delta": "Control-plane invocation now sets ADL_RUNTIME_ROOT=$OUT_DIR/runtime to isolate state under selected output; no commands/assertions removed. Other5files exactproposal.",
+  "independent_review": {
+    "reviewer": "review_1223_public_facade",
+    "result": "Evidence and six source hashes verified; source3pass/container3pass and mergedhead confirmed; delta noted; no remaining findings"
+  }
+}

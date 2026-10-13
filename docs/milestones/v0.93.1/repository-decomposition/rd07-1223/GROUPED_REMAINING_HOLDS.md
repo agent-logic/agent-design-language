@@ -1,6 +1,6 @@
 # #1223 remaining hold groups
 
-Snapshot of all **114 holds** after independently reviewed cutover commit `951a4c097f`. All 4,134 original identities remain in the ledger; 22 additional current paths remain separately tracked. No deletion is authorized by this grouping.
+Snapshot of all **102 holds** after independently reviewed cutover commit `951a4c097f`. All 4,134 original identities remain in the ledger; 22 additional current paths remain separately tracked. No deletion is authorized by this grouping.
 
 | Group | Held paths | Next action |
 | --- | ---: | --- |
@@ -9,11 +9,10 @@ Snapshot of all **114 holds** after independently reviewed cutover commit `951a4
 | Native conversion rehearsal closure | 5 | Deliver missing five helpers as coherent owner support; preserve authentic505 receipt, pinned old binary and generation9 inputs; qualify isolated real conversion route before transfer. Source-only native CLI correspondence is insufficient. |
 | Runtime Observatory behavior and CI | 6 | Reconcile room selection, mobile controls and incident assertions with owner journal additions; preserve extra governed-room test. Reconcile live-only CI denominator separately. Reuse existing owner proof where exact. |
 | Installed C-SDLC node and plan proof | 1 | Reuse five restored passing scenarios and native proof; reconcile exact delivered artifact and installed admission before authorizing source/test removal. |
-| Skill and operational contract consumers | 17 | Twenty-two rows remain, including four tested current caller contracts whose producer retirement is unresolved. Original12CodeFriend and2CSDLc fixture proofs remain qualified; current milestone/schema tests retained. Preserve separate native, caller and scoped retirement gates. |
-| Historical podcast generation and playback | 4 | Resolve four generation/fulltest helpers and their real source-era runner dependencies. Three HTTP profile wrappers retained with exact16-file closure; they do not use browsers, devices or audio decoding. |
+| Skill and operational contract consumers | 12 | Twelve remaining skill contracts retain their exact producer and original-assertion obligations; use existing passing component proofs and resolve shared producer retention before any new test execution. |
 | Remaining ADL validation routing | 15 | After reviewed caller cutover, reconcile each retained runner, selector, coverage/PVF policy and configuration against five public packages and original assertions. Retain historical private lanes explicitly; do not silently drop inventory rows. |
 | agent-logic-runtime remaining consumers | 1 | Resolve the exact per-row required_before_execution entries preserved below as one owner consumer batch: map current caller and qualified successor or choose explicit historical retention/retirement. Reuse existing owner evidence; source presence alone does not close behavior. Cloud/live operations require their own existing authorization. |
-| Mixed consumers (inherited inventory owner) | 31 | Resolve the exact per-row required_before_execution entries preserved below as one owner consumer batch: map current caller and qualified successor or choose explicit historical retention/retirement. Reuse existing owner evidence; source presence alone does not close behavior. Cloud/live operations require their own existing authorization. |
+| Mixed consumers (inherited inventory owner) | 28 | Resolve the exact per-row required_before_execution entries preserved below as one owner consumer batch: map current caller and qualified successor or choose explicit historical retention/retirement. Reuse existing owner evidence; source presence alone does not close behavior. Cloud/live operations require their own existing authorization. |
 
 The accompanying `GROUPED_REMAINING_HOLDS.json` preserves every held row, exact identity, prior review and execution prerequisite verbatim. Its group membership is disjoint and complete. Counts for pending patches are intersections with held original rows, not patch file totals.
 
@@ -55,3 +54,5 @@ Reviewed aggregate and review-compatibility dispositions move four rows to condi
 Runtime153 source delivery closes the two static Unity transfer holds; the failed editor smoke remains explicitly held with its retained timeout evidence.
 
 Ten reviewed validation rows are dispositioned: nextest policy and Cargo-wrapper companion retained; eight private runners/contracts conditionally retired with explicit caller obligations. Nightly coverage caller repair is committed separately.
+
+Reviewed podcast source closure retained; five skill helpers dispositioned; Runtime152 merged delivery and three actual container consumer passes resolve three demo holds. Native owner finish remains explicitly unexecuted.
