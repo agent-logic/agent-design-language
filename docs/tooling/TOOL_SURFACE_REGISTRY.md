@@ -30,7 +30,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 9
 - `supported shim`: 0
-- `internal helper`: 570
+- `internal helper`: 569
 - `historical evidence`: 45
 - `archive candidate`: 0
 - `remove candidate`: 2
@@ -83,7 +83,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/codefriend_fitness_ci_artifacts.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/codefriend_fitness_ci_fixture.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/codefriend_fitness_ci_proof.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
-| `adl/tools/codefriend_memory_installed_proof.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/codex_pr.sh` | tool surface | remove candidate | Retired fail-closed wrapper kept only for migration guidance until final deletion. |
 | `adl/tools/codexw.sh` | tool surface | remove candidate | Retired fail-closed wrapper kept only for migration guidance until final deletion. |
 | `adl/tools/compute_ccc_v0.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |

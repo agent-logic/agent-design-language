@@ -1,11 +1,12 @@
+> Source ownership after the repository split: controller, registry, probe, unit files, and host manifest tests are delivered by [CodeFriend at e93a457](https://github.com/agent-logic/codefriend/tree/e93a457ad6325017627a66a2abe31a3376fa28fd/tools/codefriend_host), authenticated product artifact `11804671827`. ADL no longer supplies these local source files. The installation discussion below describes the installed layout and its separate deployment obligations. The retained legacy `ci/smoke.py` uses the historical ADL CLI and is not a qualified successor smoke command. Source qualification covers 36 original host methods plus one added owner method; it does not establish live systemd, website, provider, or host acceptance.
+
 # Candidate Linux host artifacts (#1077)
 
-`codefriend-host-candidate.yml` is a reusable lane selected by the canonical
+The retired ADL `codefriend-host-candidate.yml` was a reusable lane selected by the former
 `ci.yaml` pull-request classifier, with read-only
 repository permission, explicit full PR-head checkout (or exact dispatched commit), pinned actions and Rust
-1.92.0, Ubuntu 24.04 x86_64, and a 45-minute timeout. Its standalone `workflow_dispatch` entry remains available as repository policy
-requires; this implementation does not invoke it. The main `adl-ci` aggregate
-requires success when selected and skip when unselected, rejecting failures and
+1.92.0, Ubuntu 24.04 x86_64, and a 45-minute timeout. Its former standalone `workflow_dispatch` entry is historical; it is no longer an ADL entrypoint. The former main `adl-ci` aggregate
+required success when selected and skip when unselected, rejecting failures and
 cancellation. It does not dispatch workflows,
 use AWS or provider credentials, publish releases, deploy, or invoke poweroff.
 The binaries are built together using the declared **dev profile with debug
@@ -42,13 +43,17 @@ signed attestation.** Installer `--no-build` metadata alone is not provenance.
 The manifest retains `ready_for_deployment:false`; systemd, actual product
 journeys and deployed shutdown acceptance remain separate requirements.
 
-Local validation:
+Current owner source validation (select an authenticated CodeFriend checkout explicitly):
 
 ```
-PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tools/codefriend_host/ci -p 'test_*.py' -v
+case "$CODEFRIEND_HOST_SOURCE_ROOT" in /*) ;; *) exit 2;; esac
+cd "$CODEFRIEND_HOST_SOURCE_ROOT/tools/codefriend_host/ci"
+python3 -B -m unittest -v test_manifest.BinaryProof
+# Separate added owner contract, outside the six original methods:
+python3 -B -m unittest -v test_manifest.InstalledContentContract
 ```
 
-Run smoke only against explicitly trusted installed binaries and a new private
+Historical smoke contract (not a current successor instruction): the original smoke required explicitly trusted installed binaries and a new private
 output path. Its default is a real bounded binary execution, not a dry-run. A
 macOS smoke validates script/CLI behavior but does not claim Linux artifact proof.
 The fixed fixture and smoke script are versioned build inputs, not customer data.
