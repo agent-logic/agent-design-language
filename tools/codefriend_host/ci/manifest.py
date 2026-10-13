@@ -80,6 +80,7 @@ def assemble(args):
     print(json.dumps({'status':'retained_build_evidence','candidate':args.candidate,'attestation':False}))
 
 if __name__=='__main__':
+    raise SystemExit("Retired ADL CodeFriend source route: use separately qualified owner artifacts; historical implementation below is not current host acceptance.")
     parser=argparse.ArgumentParser(description=__doc__)
     for name in ('built','installed','smoke','output'):parser.add_argument('--'+name,type=Path,required=True)
     parser.add_argument('--candidate',required=True)

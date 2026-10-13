@@ -136,6 +136,7 @@ def run(installed, candidate, output):
         provider.close();os.chdir(old_cwd)
 
 if __name__=='__main__':
+    raise SystemExit("Retired ADL CodeFriend source route: use separately qualified owner artifacts; historical implementation below is not current host acceptance.")
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--installed',type=Path,required=True);parser.add_argument('--candidate',required=True)
     parser.add_argument('--output',type=Path,required=True);args=parser.parse_args()

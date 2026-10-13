@@ -1,0 +1,15 @@
+{
+  "schema": "adl.historical_parser_bounds.v1",
+  "source_revision": "2cfff5d19b884fff59dce2dfee55b3b4fc67adf8",
+  "source_path": "adl/src/codefriend/rust_parse.rs",
+  "source_blob": "115c352e13a8115c464cf58b0514fe2b9f894783",
+  "source_sha256": "daa6025e6fc085c0d9d5299cb7f22ee8fe1d878a31b8c38438d64adbe7599211",
+  "bounds": {
+    "MAX_SOURCE_BYTES": 409600,
+    "MAX_TOKENS": 32768,
+    "MAX_DEPTH": 32,
+    "MAX_PATH_UNITS": 2048
+  },
+  "current_owner_qualification": false,
+  "boundary": "Historical ADL documentation contract only. Original parser assertions and owner source correspondence remain in CODEFRIEND_SOURCE_FAMILY_RECONCILIATION.json; this small fixture does not implement or qualify a parser."
+}

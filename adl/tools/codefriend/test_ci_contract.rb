@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 # PVF contract: actual aggregate shell outcomes and job transport wiring, no network.
+abort "Retired ADL CodeFriend aggregate contract; original assertions below are historical, not a passing current CI test."
 require 'yaml'
 require 'open3'
 require 'pathname'

@@ -137,6 +137,20 @@ changed_source_rows="$(
       '
 )"
 
+# Private CodeFriend source coverage belongs to its owner. Refuse obsolete
+# selectors instead of returning a passing empty suite. The public selector stays local.
+while IFS=$'\t' read -r _status path; do
+  case "$path" in
+    adl/src/cli/codefriend_owner.rs) ;;
+    adl/src/codefriend/*|adl/src/cli/codefriend*|adl/src/bin/codefriend_*.rs)
+      echo "retired_codefriend_source_coverage: use qualified agent-logic/codefriend owner proof" >&2
+      exit 2
+      ;;
+  esac
+done <<EOF
+$changed_source_rows
+EOF
+
 if [ -z "$changed_source_rows" ]; then
   if [ "$PRINT_RISK_FILTERS" = true ] || [ "$PRINT_RISK_NEXTEST_EXPRESSION" = true ]; then
     exit 0

@@ -17,4 +17,5 @@ def selected(path):
                         'adl/src/bin/codefriend_server.rs', 'adl/src/bin/codefriend_agent.rs', 'adl/build.rs'})
 
 if __name__ == '__main__':
+    raise SystemExit("Retired ADL CodeFriend source route: use separately qualified owner artifacts; historical implementation below is not current host acceptance.")
     print('true' if any(selected(p.strip()) for p in sys.stdin) else 'false')

@@ -94,4 +94,5 @@ def main():
 
 
 if __name__ == '__main__':
+    raise SystemExit("Retired ADL CodeFriend source route: use separately qualified owner artifacts; historical implementation below is not current host acceptance.")
     main()
