@@ -30,7 +30,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 8
 - `supported shim`: 0
-- `internal helper`: 483
+- `internal helper`: 480
 - `historical evidence`: 31
 - `archive candidate`: 0
 - `remove candidate`: 0
@@ -492,7 +492,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/validate_five_agent_music_demo.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_five_minute_html_game_packet.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_five_minute_sprint_console_packet.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
-| `adl/tools/validate_layer8_authority_observatory_ui.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_merge_readiness_packet.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_multi_agent_repo_review_demo.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_multi_agent_transcript.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
@@ -535,9 +534,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/validate_v092_distributed_guardian.sh` | tool surface | historical evidence | Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing. |
 | `adl/tools/validate_v092_distributed_native_receipts.rb` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_v092_durable_history_parent_integration.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
-| `adl/tools/validate_v092_governed_room_observatory.mjs` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_v092_html_observatory_roster.mjs` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
-| `adl/tools/validate_v092_observatory_transcript_history.mjs` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_v092_provider_neutral_proof.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_v092_runtime_guardian_lifecycle.sh` | tool surface | historical evidence | Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing. |
 | `adl/tools/validate_v092_runtime_native_receipts.rb` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
