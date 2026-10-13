@@ -1,0 +1,1389 @@
+{
+  "schema": "adl1223.csdlc_v2_history_disposition.v1",
+  "original_inventory_denominator": 4134,
+  "scope_count": 18,
+  "input_ledger_source_head": "5646981a1751253e885cbe5b5c25295d7d650f2e",
+  "adl_head_observed": "9dfc701440fd208e23ed25a95d191a9b08f35c6f",
+  "owner_archive_presence_observed_at": "c0dacd3d3a12a854f1c8cff3fa15fa3ec97c655a",
+  "existing_exact_correspondence_source": "ledger successor_mapping at d316340c212800ff523f957b1bf290db68d8efad; preserved without rehashing",
+  "counts": {
+    "historical_skill_index": 2,
+    "historical_shepherd_fixture": 5,
+    "historical_skill_contract": 11
+  },
+  "boundary": "18 historical retentions, not new operational v2 routes. No change to previously delivered 73 product-doc dispositions.",
+  "limits": [
+    "Bounded literal and dynamic-reader inspection in csdlc-v2, csdlc-v3 source/tests, adl/tools and active documentation; excludes historical evidence corpus and build trees.",
+    "Owner tree presence checked with Git objects only; existing blob correspondence reused, no hashes or new parity/qualification claim.",
+    "No source edits, tests, builds, remote operations or installation. Tool/source reader repairs remain with their existing sole writer."
+  ],
+  "rows": [
+    {
+      "id": "RD07-2274",
+      "path": "csdlc-v2/operator/SKILLS.md",
+      "family": "historical_skill_index",
+      "recommendation": "retain_immutable_adl_history_with_owner_archive_correspondence",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "9d3aada75443d4b9619bf4d8ffd98746a7370a4f"
+      },
+      "existing_successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "csdlc-v2/operator/SKILLS.md"
+        ]
+      },
+      "source_role_evidence": [
+        {
+          "line": 1,
+          "text": "# C-SDLC v2 operator skills"
+        },
+        {
+          "line": 2,
+          "text": ""
+        },
+        {
+          "line": 3,
+          "text": "The eleven skills in `skills.json` are thin typed routes. Skills select a"
+        },
+        {
+          "line": 4,
+          "text": "binary/subcommand, collect typed input, and display typed output. They never"
+        },
+        {
+          "line": 5,
+          "text": "edit Markdown, mutate canonical state directly, invoke shell/Python lifecycle"
+        },
+        {
+          "line": 6,
+          "text": "logic, or infer success from prose."
+        },
+        {
+          "line": 7,
+          "text": ""
+        },
+        {
+          "line": 8,
+          "text": "C-SDLC v2 remains the live lifecycle authority until explicit"
+        },
+        {
+          "line": 9,
+          "text": "operator-reviewed V3-F/#505 cutover. Before that cutover, `csdlc-v3/**` is"
+        },
+        {
+          "line": 10,
+          "text": "non-authoritative construction and cutover-readiness evidence; it must not bind,"
+        },
+        {
+          "line": 11,
+          "text": "publish, finish, clean, mutate GitHub, or retire v2."
+        },
+        {
+          "line": 12,
+          "text": ""
+        }
+      ],
+      "concrete_consumers": [],
+      "required_boundary_steps": [
+        "Retain immutable pre-#505 history at the original ADL path for the current disposition. Existing owner correspondence supplies an archive location only; it does not make these files operational or authorize source removal.",
+        "Route current ADL navigation through docs/csdlc-v3/CURRENT_AUTHORITY.md and documentation of the selected installed native v3 owner. Do not register/install these skill names, select their v2 generation, execute fixture decisions, or infer rollback authorization from retention. Explicitly approved bounded v2 exceptions remain separate.",
+        "Preserve source-time wording and historical references in TOOLING_CHANGEOVER_NOTICE.md:14 and adl_pr_cycle_skill.md:18; current navigation may identify them as history without rewriting old claims/receipts."
+      ],
+      "deletion_authorized": false,
+      "operational_authority": false
+    },
+    {
+      "id": "RD07-2278",
+      "path": "csdlc-v2/operator/examples/shepherd/operator_required.json",
+      "family": "historical_shepherd_fixture",
+      "recommendation": "retain_immutable_adl_history_with_owner_archive_correspondence",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "26cf67e8c7fc8b7e57590cc97e4345a4d4b2c8f0"
+      },
+      "existing_successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "csdlc-v2/operator/examples/shepherd/operator_required.json"
+        ]
+      },
+      "source_role_evidence": [
+        {
+          "line": 1,
+          "text": "{"
+        },
+        {
+          "line": 2,
+          "text": "  \"validation\": \"failed\","
+        },
+        {
+          "line": 3,
+          "text": "  \"dependency_wait\": false,"
+        },
+        {
+          "line": 4,
+          "text": "  \"retryable_failure\": false,"
+        },
+        {
+          "line": 5,
+          "text": "  \"repair_needed\": false,"
+        },
+        {
+          "line": 6,
+          "text": "  \"operator_decision_needed\": true"
+        },
+        {
+          "line": 7,
+          "text": "}"
+        }
+      ],
+      "concrete_consumers": [
+        {
+          "path": "csdlc-v2/tests/gate4.rs",
+          "line": 960,
+          "role": "dynamic example JSON reader; retain five named cases with original gate test disposition"
+        }
+      ],
+      "required_boundary_steps": [
+        "Retain immutable pre-#505 history at the original ADL path for the current disposition. Existing owner correspondence supplies an archive location only; it does not make these files operational or authorize source removal.",
+        "Route current ADL navigation through docs/csdlc-v3/CURRENT_AUTHORITY.md and documentation of the selected installed native v3 owner. Do not register/install these skill names, select their v2 generation, execute fixture decisions, or infer rollback authorization from retention. Explicitly approved bounded v2 exceptions remain separate.",
+        "Preserve source-time wording and historical references in TOOLING_CHANGEOVER_NOTICE.md:14 and adl_pr_cycle_skill.md:18; current navigation may identify them as history without rewriting old claims/receipts.",
+        "Keep listed readers coherent: if the reader is archived or removed under its separately accepted source/tool disposition, preserve the historical fixture/skill package in the owner archive; if retained as an ADL machine consumer, retain its required local path or explicitly port the assertion. Do not count file correspondence as execution proof."
+      ],
+      "deletion_authorized": false,
+      "operational_authority": false
+    },
+    {
+      "id": "RD07-2279",
+      "path": "csdlc-v2/operator/examples/shepherd/ready.json",
+      "family": "historical_shepherd_fixture",
+      "recommendation": "retain_immutable_adl_history_with_owner_archive_correspondence",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "2dbe54abc45678af77103f57be2df2b5e6dac9fd"
+      },
+      "existing_successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "csdlc-v2/operator/examples/shepherd/ready.json"
+        ]
+      },
+      "source_role_evidence": [
+        {
+          "line": 1,
+          "text": "{"
+        },
+        {
+          "line": 2,
+          "text": "  \"validation\": \"local_pass\","
+        },
+        {
+          "line": 3,
+          "text": "  \"dependency_wait\": false,"
+        },
+        {
+          "line": 4,
+          "text": "  \"retryable_failure\": false,"
+        },
+        {
+          "line": 5,
+          "text": "  \"repair_needed\": false,"
+        },
+        {
+          "line": 6,
+          "text": "  \"operator_decision_needed\": false"
+        },
+        {
+          "line": 7,
+          "text": "}"
+        }
+      ],
+      "concrete_consumers": [
+        {
+          "path": "csdlc-v2/tests/gate4.rs",
+          "line": 960,
+          "role": "dynamic example JSON reader; retain five named cases with original gate test disposition"
+        }
+      ],
+      "required_boundary_steps": [
+        "Retain immutable pre-#505 history at the original ADL path for the current disposition. Existing owner correspondence supplies an archive location only; it does not make these files operational or authorize source removal.",
+        "Route current ADL navigation through docs/csdlc-v3/CURRENT_AUTHORITY.md and documentation of the selected installed native v3 owner. Do not register/install these skill names, select their v2 generation, execute fixture decisions, or infer rollback authorization from retention. Explicitly approved bounded v2 exceptions remain separate.",
+        "Preserve source-time wording and historical references in TOOLING_CHANGEOVER_NOTICE.md:14 and adl_pr_cycle_skill.md:18; current navigation may identify them as history without rewriting old claims/receipts.",
+        "Keep listed readers coherent: if the reader is archived or removed under its separately accepted source/tool disposition, preserve the historical fixture/skill package in the owner archive; if retained as an ADL machine consumer, retain its required local path or explicitly port the assertion. Do not count file correspondence as execution proof."
+      ],
+      "deletion_authorized": false,
+      "operational_authority": false
+    },
+    {
+      "id": "RD07-2280",
+      "path": "csdlc-v2/operator/examples/shepherd/repair_required.json",
+      "family": "historical_shepherd_fixture",
+      "recommendation": "retain_immutable_adl_history_with_owner_archive_correspondence",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "4c35b29a96cfe56ddbed3916446d24c9d22fa569"
+      },
+      "existing_successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "csdlc-v2/operator/examples/shepherd/repair_required.json"
+        ]
+      },
+      "source_role_evidence": [
+        {
+          "line": 1,
+          "text": "{"
+        },
+        {
+          "line": 2,
+          "text": "  \"validation\": \"failed\","
+        },
+        {
+          "line": 3,
+          "text": "  \"dependency_wait\": false,"
+        },
+        {
+          "line": 4,
+          "text": "  \"retryable_failure\": false,"
+        },
+        {
+          "line": 5,
+          "text": "  \"repair_needed\": true,"
+        },
+        {
+          "line": 6,
+          "text": "  \"operator_decision_needed\": false"
+        },
+        {
+          "line": 7,
+          "text": "}"
+        }
+      ],
+      "concrete_consumers": [
+        {
+          "path": "csdlc-v2/tests/gate4.rs",
+          "line": 960,
+          "role": "dynamic example JSON reader; retain five named cases with original gate test disposition"
+        }
+      ],
+      "required_boundary_steps": [
+        "Retain immutable pre-#505 history at the original ADL path for the current disposition. Existing owner correspondence supplies an archive location only; it does not make these files operational or authorize source removal.",
+        "Route current ADL navigation through docs/csdlc-v3/CURRENT_AUTHORITY.md and documentation of the selected installed native v3 owner. Do not register/install these skill names, select their v2 generation, execute fixture decisions, or infer rollback authorization from retention. Explicitly approved bounded v2 exceptions remain separate.",
+        "Preserve source-time wording and historical references in TOOLING_CHANGEOVER_NOTICE.md:14 and adl_pr_cycle_skill.md:18; current navigation may identify them as history without rewriting old claims/receipts.",
+        "Keep listed readers coherent: if the reader is archived or removed under its separately accepted source/tool disposition, preserve the historical fixture/skill package in the owner archive; if retained as an ADL machine consumer, retain its required local path or explicitly port the assertion. Do not count file correspondence as execution proof."
+      ],
+      "deletion_authorized": false,
+      "operational_authority": false
+    },
+    {
+      "id": "RD07-2281",
+      "path": "csdlc-v2/operator/examples/shepherd/retryable.json",
+      "family": "historical_shepherd_fixture",
+      "recommendation": "retain_immutable_adl_history_with_owner_archive_correspondence",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "04c12ecb53040321068ddfa88bbe42859ea39f73"
+      },
+      "existing_successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "csdlc-v2/operator/examples/shepherd/retryable.json"
+        ]
+      },
+      "source_role_evidence": [
+        {
+          "line": 1,
+          "text": "{"
+        },
+        {
+          "line": 2,
+          "text": "  \"validation\": \"failed\","
+        },
+        {
+          "line": 3,
+          "text": "  \"dependency_wait\": false,"
+        },
+        {
+          "line": 4,
+          "text": "  \"retryable_failure\": true,"
+        },
+        {
+          "line": 5,
+          "text": "  \"repair_needed\": false,"
+        },
+        {
+          "line": 6,
+          "text": "  \"operator_decision_needed\": false"
+        },
+        {
+          "line": 7,
+          "text": "}"
+        }
+      ],
+      "concrete_consumers": [
+        {
+          "path": "csdlc-v2/tests/gate4.rs",
+          "line": 960,
+          "role": "dynamic example JSON reader; retain five named cases with original gate test disposition"
+        }
+      ],
+      "required_boundary_steps": [
+        "Retain immutable pre-#505 history at the original ADL path for the current disposition. Existing owner correspondence supplies an archive location only; it does not make these files operational or authorize source removal.",
+        "Route current ADL navigation through docs/csdlc-v3/CURRENT_AUTHORITY.md and documentation of the selected installed native v3 owner. Do not register/install these skill names, select their v2 generation, execute fixture decisions, or infer rollback authorization from retention. Explicitly approved bounded v2 exceptions remain separate.",
+        "Preserve source-time wording and historical references in TOOLING_CHANGEOVER_NOTICE.md:14 and adl_pr_cycle_skill.md:18; current navigation may identify them as history without rewriting old claims/receipts.",
+        "Keep listed readers coherent: if the reader is archived or removed under its separately accepted source/tool disposition, preserve the historical fixture/skill package in the owner archive; if retained as an ADL machine consumer, retain its required local path or explicitly port the assertion. Do not count file correspondence as execution proof."
+      ],
+      "deletion_authorized": false,
+      "operational_authority": false
+    },
+    {
+      "id": "RD07-2282",
+      "path": "csdlc-v2/operator/examples/shepherd/waiting.json",
+      "family": "historical_shepherd_fixture",
+      "recommendation": "retain_immutable_adl_history_with_owner_archive_correspondence",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "15613ea22794f01ffff17df11925d56b6d05a518"
+      },
+      "existing_successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "csdlc-v2/operator/examples/shepherd/waiting.json"
+        ]
+      },
+      "source_role_evidence": [
+        {
+          "line": 1,
+          "text": "{"
+        },
+        {
+          "line": 2,
+          "text": "  \"validation\": null,"
+        },
+        {
+          "line": 3,
+          "text": "  \"dependency_wait\": true,"
+        },
+        {
+          "line": 4,
+          "text": "  \"retryable_failure\": false,"
+        },
+        {
+          "line": 5,
+          "text": "  \"repair_needed\": false,"
+        },
+        {
+          "line": 6,
+          "text": "  \"operator_decision_needed\": false"
+        },
+        {
+          "line": 7,
+          "text": "}"
+        }
+      ],
+      "concrete_consumers": [
+        {
+          "path": "csdlc-v2/tests/gate4.rs",
+          "line": 960,
+          "role": "dynamic example JSON reader; retain five named cases with original gate test disposition"
+        }
+      ],
+      "required_boundary_steps": [
+        "Retain immutable pre-#505 history at the original ADL path for the current disposition. Existing owner correspondence supplies an archive location only; it does not make these files operational or authorize source removal.",
+        "Route current ADL navigation through docs/csdlc-v3/CURRENT_AUTHORITY.md and documentation of the selected installed native v3 owner. Do not register/install these skill names, select their v2 generation, execute fixture decisions, or infer rollback authorization from retention. Explicitly approved bounded v2 exceptions remain separate.",
+        "Preserve source-time wording and historical references in TOOLING_CHANGEOVER_NOTICE.md:14 and adl_pr_cycle_skill.md:18; current navigation may identify them as history without rewriting old claims/receipts.",
+        "Keep listed readers coherent: if the reader is archived or removed under its separately accepted source/tool disposition, preserve the historical fixture/skill package in the owner archive; if retained as an ADL machine consumer, retain its required local path or explicitly port the assertion. Do not count file correspondence as execution proof."
+      ],
+      "deletion_authorized": false,
+      "operational_authority": false
+    },
+    {
+      "id": "RD07-2287",
+      "path": "csdlc-v2/operator/skills.json",
+      "family": "historical_skill_index",
+      "recommendation": "retain_immutable_adl_history_with_owner_archive_correspondence",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "d65889443fe4ec1a0e61b891661d0d037e964269"
+      },
+      "existing_successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "csdlc-v2/operator/skills.json"
+        ]
+      },
+      "source_role_evidence": [
+        {
+          "line": 1,
+          "text": "{"
+        },
+        {
+          "line": 2,
+          "text": "  \"schema\": \"csdlc.operator_skills.v1\","
+        },
+        {
+          "line": 3,
+          "text": "  \"generation\": \"v2\","
+        },
+        {
+          "line": 4,
+          "text": "  \"generation_selector\": \"csdlc-v2/operator/generation-selector.json\","
+        },
+        {
+          "line": 5,
+          "text": "  \"operational_binaries\": ["
+        },
+        {
+          "line": 6,
+          "text": "    \"csdlc-clean\","
+        },
+        {
+          "line": 7,
+          "text": "    \"csdlc-finish\","
+        },
+        {
+          "line": 8,
+          "text": "    \"csdlc-github-issue\","
+        },
+        {
+          "line": 9,
+          "text": "    \"csdlc-github-pr\","
+        },
+        {
+          "line": 10,
+          "text": "    \"csdlc-pr-state\","
+        },
+        {
+          "line": 11,
+          "text": "    \"csdlc-shadow\","
+        },
+        {
+          "line": 12,
+          "text": "    \"csdlc-soak\","
+        }
+      ],
+      "concrete_consumers": [
+        {
+          "path": "csdlc-v2/tests/gate10a.rs",
+          "line": 240,
+          "role": "historical gate reads manifest or manifest-derived skill path; archive/migrate as coherent family"
+        },
+        {
+          "path": "csdlc-v2/tests/gate_terminal_authority_deletion.rs",
+          "line": 23,
+          "role": "manifest reader; terminal route exclusion history"
+        }
+      ],
+      "required_boundary_steps": [
+        "Retain immutable pre-#505 history at the original ADL path for the current disposition. Existing owner correspondence supplies an archive location only; it does not make these files operational or authorize source removal.",
+        "Route current ADL navigation through docs/csdlc-v3/CURRENT_AUTHORITY.md and documentation of the selected installed native v3 owner. Do not register/install these skill names, select their v2 generation, execute fixture decisions, or infer rollback authorization from retention. Explicitly approved bounded v2 exceptions remain separate.",
+        "Preserve source-time wording and historical references in TOOLING_CHANGEOVER_NOTICE.md:14 and adl_pr_cycle_skill.md:18; current navigation may identify them as history without rewriting old claims/receipts.",
+        "Keep listed readers coherent: if the reader is archived or removed under its separately accepted source/tool disposition, preserve the historical fixture/skill package in the owner archive; if retained as an ADL machine consumer, retain its required local path or explicitly port the assertion. Do not count file correspondence as execution proof."
+      ],
+      "deletion_authorized": false,
+      "operational_authority": false
+    },
+    {
+      "id": "RD07-2288",
+      "path": "csdlc-v2/operator/skills/csdlc-v2-bind/SKILL.md",
+      "family": "historical_skill_contract",
+      "recommendation": "retain_immutable_adl_history_with_owner_archive_correspondence",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "6a33d0789d59b33283ec206351a76b24a3098b07"
+      },
+      "existing_successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "csdlc-v2/operator/skills/csdlc-v2-bind/SKILL.md"
+        ]
+      },
+      "source_role_evidence": [
+        {
+          "line": 1,
+          "text": "---"
+        },
+        {
+          "line": 2,
+          "text": "name: csdlc-v2-bind"
+        },
+        {
+          "line": 3,
+          "text": "description: Bind an execution-ready C-SDLC v2 issue to one branch and worktree."
+        },
+        {
+          "line": 4,
+          "text": "---"
+        },
+        {
+          "line": 5,
+          "text": "C-SDLC v2 remains the live lifecycle authority only until explicit V3-F/#505"
+        },
+        {
+          "line": 6,
+          "text": "cutover. Before that cutover, `csdlc-v3/**` is non-authoritative construction"
+        },
+        {
+          "line": 7,
+          "text": "evidence and must not mutate lifecycle state."
+        },
+        {
+          "line": 8,
+          "text": ""
+        },
+        {
+          "line": 9,
+          "text": "Invoke `csdlc-bind --root <repo> --request <json>` and report its typed result."
+        },
+        {
+          "line": 10,
+          "text": "The request names the issue, base branch, issue branch, and worktree. For a"
+        },
+        {
+          "line": 11,
+          "text": "split-authority route, it must also name `code_repository`; bind verifies that"
+        },
+        {
+          "line": 12,
+          "text": "identity against the effective `origin` and records it in canonical issue"
+        }
+      ],
+      "concrete_consumers": [
+        {
+          "path": "csdlc-v2/tests/gate10a.rs",
+          "line": 257,
+          "role": "historical gate reads manifest or manifest-derived skill path; archive/migrate as coherent family"
+        }
+      ],
+      "required_boundary_steps": [
+        "Retain immutable pre-#505 history at the original ADL path for the current disposition. Existing owner correspondence supplies an archive location only; it does not make these files operational or authorize source removal.",
+        "Route current ADL navigation through docs/csdlc-v3/CURRENT_AUTHORITY.md and documentation of the selected installed native v3 owner. Do not register/install these skill names, select their v2 generation, execute fixture decisions, or infer rollback authorization from retention. Explicitly approved bounded v2 exceptions remain separate.",
+        "Preserve source-time wording and historical references in TOOLING_CHANGEOVER_NOTICE.md:14 and adl_pr_cycle_skill.md:18; current navigation may identify them as history without rewriting old claims/receipts.",
+        "Keep listed readers coherent: if the reader is archived or removed under its separately accepted source/tool disposition, preserve the historical fixture/skill package in the owner archive; if retained as an ADL machine consumer, retain its required local path or explicitly port the assertion. Do not count file correspondence as execution proof."
+      ],
+      "deletion_authorized": false,
+      "operational_authority": false
+    },
+    {
+      "id": "RD07-2289",
+      "path": "csdlc-v2/operator/skills/csdlc-v2-card-editor/SKILL.md",
+      "family": "historical_skill_contract",
+      "recommendation": "retain_immutable_adl_history_with_owner_archive_correspondence",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "87380454a5d84fbb0e2a052147b5c5cc0e2bfd70"
+      },
+      "existing_successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "csdlc-v2/operator/skills/csdlc-v2-card-editor/SKILL.md"
+        ]
+      },
+      "source_role_evidence": [
+        {
+          "line": 1,
+          "text": "---"
+        },
+        {
+          "line": 2,
+          "text": "name: csdlc-v2-card-editor"
+        },
+        {
+          "line": 3,
+          "text": "description: Apply typed semantic card operations through the canonical v2 record."
+        },
+        {
+          "line": 4,
+          "text": "---"
+        },
+        {
+          "line": 5,
+          "text": "C-SDLC v2 remains the live lifecycle authority only until explicit V3-F/#505"
+        },
+        {
+          "line": 6,
+          "text": "cutover. Before that cutover, `csdlc-v3/**` is non-authoritative construction"
+        },
+        {
+          "line": 7,
+          "text": "evidence and must not mutate lifecycle state."
+        },
+        {
+          "line": 8,
+          "text": ""
+        },
+        {
+          "line": 9,
+          "text": "Invoke `csdlc-edit apply`. Never patch rendered Markdown directly; markdown.rs AST validation and atomic regeneration remain binary-owned."
+        }
+      ],
+      "concrete_consumers": [
+        {
+          "path": "csdlc-v2/tests/gate10a.rs",
+          "line": 257,
+          "role": "historical gate reads manifest or manifest-derived skill path; archive/migrate as coherent family"
+        },
+        {
+          "path": "adl/tools/test_card_prompt.sh",
+          "line": 14,
+          "role": "retained shell assertion reads skill; explicit tool-owner cutover required"
+        }
+      ],
+      "required_boundary_steps": [
+        "Retain immutable pre-#505 history at the original ADL path for the current disposition. Existing owner correspondence supplies an archive location only; it does not make these files operational or authorize source removal.",
+        "Route current ADL navigation through docs/csdlc-v3/CURRENT_AUTHORITY.md and documentation of the selected installed native v3 owner. Do not register/install these skill names, select their v2 generation, execute fixture decisions, or infer rollback authorization from retention. Explicitly approved bounded v2 exceptions remain separate.",
+        "Preserve source-time wording and historical references in TOOLING_CHANGEOVER_NOTICE.md:14 and adl_pr_cycle_skill.md:18; current navigation may identify them as history without rewriting old claims/receipts.",
+        "Keep listed readers coherent: if the reader is archived or removed under its separately accepted source/tool disposition, preserve the historical fixture/skill package in the owner archive; if retained as an ADL machine consumer, retain its required local path or explicitly port the assertion. Do not count file correspondence as execution proof."
+      ],
+      "deletion_authorized": false,
+      "operational_authority": false
+    },
+    {
+      "id": "RD07-2290",
+      "path": "csdlc-v2/operator/skills/csdlc-v2-clean/SKILL.md",
+      "family": "historical_skill_contract",
+      "recommendation": "retain_immutable_adl_history_with_owner_archive_correspondence",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "28bfa32353e55cfb8a5b07a6dd992930b1286680"
+      },
+      "existing_successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "csdlc-v2/operator/skills/csdlc-v2-clean/SKILL.md"
+        ]
+      },
+      "source_role_evidence": [
+        {
+          "line": 1,
+          "text": "---"
+        },
+        {
+          "line": 2,
+          "text": "name: csdlc-v2-clean"
+        },
+        {
+          "line": 3,
+          "text": "description: Safely classify or remove one exact issue worktree, and inspect legacy terminal compatibility without making delivery truth depend on cleanup."
+        },
+        {
+          "line": 4,
+          "text": "---"
+        },
+        {
+          "line": 5,
+          "text": ""
+        },
+        {
+          "line": 6,
+          "text": "# C-SDLC v2 Clean"
+        },
+        {
+          "line": 7,
+          "text": ""
+        },
+        {
+          "line": 8,
+          "text": "C-SDLC v2 remains the live lifecycle authority only until explicit V3-F/#505"
+        },
+        {
+          "line": 9,
+          "text": "cutover. Before that cutover, `csdlc-v3/**` is non-authoritative construction"
+        },
+        {
+          "line": 10,
+          "text": "evidence and must not mutate lifecycle state, clean worktrees, or retire v2."
+        },
+        {
+          "line": 11,
+          "text": ""
+        },
+        {
+          "line": 12,
+          "text": "Use `csdlc-install resolve` to locate the active `csdlc-clean` binary."
+        }
+      ],
+      "concrete_consumers": [
+        {
+          "path": "csdlc-v2/tests/gate10a.rs",
+          "line": 257,
+          "role": "historical gate reads manifest or manifest-derived skill path; archive/migrate as coherent family"
+        }
+      ],
+      "required_boundary_steps": [
+        "Retain immutable pre-#505 history at the original ADL path for the current disposition. Existing owner correspondence supplies an archive location only; it does not make these files operational or authorize source removal.",
+        "Route current ADL navigation through docs/csdlc-v3/CURRENT_AUTHORITY.md and documentation of the selected installed native v3 owner. Do not register/install these skill names, select their v2 generation, execute fixture decisions, or infer rollback authorization from retention. Explicitly approved bounded v2 exceptions remain separate.",
+        "Preserve source-time wording and historical references in TOOLING_CHANGEOVER_NOTICE.md:14 and adl_pr_cycle_skill.md:18; current navigation may identify them as history without rewriting old claims/receipts.",
+        "Keep listed readers coherent: if the reader is archived or removed under its separately accepted source/tool disposition, preserve the historical fixture/skill package in the owner archive; if retained as an ADL machine consumer, retain its required local path or explicitly port the assertion. Do not count file correspondence as execution proof."
+      ],
+      "deletion_authorized": false,
+      "operational_authority": false
+    },
+    {
+      "id": "RD07-2291",
+      "path": "csdlc-v2/operator/skills/csdlc-v2-doctor/SKILL.md",
+      "family": "historical_skill_contract",
+      "recommendation": "retain_immutable_adl_history_with_owner_archive_correspondence",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "7889a11b1cc3643b9aea1d3d260bd79bdf09285b"
+      },
+      "existing_successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "csdlc-v2/operator/skills/csdlc-v2-doctor/SKILL.md"
+        ]
+      },
+      "source_role_evidence": [
+        {
+          "line": 1,
+          "text": "---"
+        },
+        {
+          "line": 2,
+          "text": "name: csdlc-v2-doctor"
+        },
+        {
+          "line": 3,
+          "text": "description: Diagnose canonical v2 state without mutation or network access."
+        },
+        {
+          "line": 4,
+          "text": "---"
+        },
+        {
+          "line": 5,
+          "text": "C-SDLC v2 remains the live lifecycle authority only until explicit V3-F/#505"
+        },
+        {
+          "line": 6,
+          "text": "cutover. Before that cutover, `csdlc-v3/**` is non-authoritative construction"
+        },
+        {
+          "line": 7,
+          "text": "evidence and must not mutate lifecycle state or replace v2 doctor authority."
+        },
+        {
+          "line": 8,
+          "text": ""
+        },
+        {
+          "line": 9,
+          "text": "Invoke `csdlc-doctor` and preserve its typed status/error category. Doctor"
+        },
+        {
+          "line": 10,
+          "text": "accepts same-repository records directly. When issue and effective `origin`"
+        },
+        {
+          "line": 11,
+          "text": "repositories differ, it accepts only the explicit `code_repository` recorded"
+        },
+        {
+          "line": 12,
+          "text": "by typed bind; an absent or mismatched split identity is"
+        }
+      ],
+      "concrete_consumers": [
+        {
+          "path": "csdlc-v2/tests/gate10a.rs",
+          "line": 257,
+          "role": "historical gate reads manifest or manifest-derived skill path; archive/migrate as coherent family"
+        }
+      ],
+      "required_boundary_steps": [
+        "Retain immutable pre-#505 history at the original ADL path for the current disposition. Existing owner correspondence supplies an archive location only; it does not make these files operational or authorize source removal.",
+        "Route current ADL navigation through docs/csdlc-v3/CURRENT_AUTHORITY.md and documentation of the selected installed native v3 owner. Do not register/install these skill names, select their v2 generation, execute fixture decisions, or infer rollback authorization from retention. Explicitly approved bounded v2 exceptions remain separate.",
+        "Preserve source-time wording and historical references in TOOLING_CHANGEOVER_NOTICE.md:14 and adl_pr_cycle_skill.md:18; current navigation may identify them as history without rewriting old claims/receipts.",
+        "Keep listed readers coherent: if the reader is archived or removed under its separately accepted source/tool disposition, preserve the historical fixture/skill package in the owner archive; if retained as an ADL machine consumer, retain its required local path or explicitly port the assertion. Do not count file correspondence as execution proof."
+      ],
+      "deletion_authorized": false,
+      "operational_authority": false
+    },
+    {
+      "id": "RD07-2292",
+      "path": "csdlc-v2/operator/skills/csdlc-v2-finish/SKILL.md",
+      "family": "historical_skill_contract",
+      "recommendation": "retain_immutable_adl_history_with_owner_archive_correspondence",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "46585c0b63eac38a84d8c2a83f2bea89ac27f94b"
+      },
+      "existing_successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "csdlc-v2/operator/skills/csdlc-v2-finish/SKILL.md"
+        ]
+      },
+      "source_role_evidence": [
+        {
+          "line": 1,
+          "text": "---"
+        },
+        {
+          "line": 2,
+          "text": "name: csdlc-v2-finish"
+        },
+        {
+          "line": 3,
+          "text": "description: Finish one reviewed and published C-SDLC v2 issue by merging its exact green reviewed PR head, or by recognizing an already-terminal GitHub state, without a second closeout PR."
+        },
+        {
+          "line": 4,
+          "text": "---"
+        },
+        {
+          "line": 5,
+          "text": ""
+        },
+        {
+          "line": 6,
+          "text": "# C-SDLC v2 Finish"
+        },
+        {
+          "line": 7,
+          "text": ""
+        },
+        {
+          "line": 8,
+          "text": "C-SDLC v2 remains the live lifecycle authority only until explicit V3-F/#505"
+        },
+        {
+          "line": 9,
+          "text": "cutover. Before that cutover, `csdlc-v3/**` is non-authoritative construction"
+        },
+        {
+          "line": 10,
+          "text": "evidence and must not finish issues, derive terminal truth, clean worktrees, or"
+        },
+        {
+          "line": 11,
+          "text": "retire v2."
+        },
+        {
+          "line": 12,
+          "text": ""
+        }
+      ],
+      "concrete_consumers": [
+        {
+          "path": "csdlc-v2/tests/gate10a.rs",
+          "line": 257,
+          "role": "historical gate reads manifest or manifest-derived skill path; archive/migrate as coherent family"
+        }
+      ],
+      "required_boundary_steps": [
+        "Retain immutable pre-#505 history at the original ADL path for the current disposition. Existing owner correspondence supplies an archive location only; it does not make these files operational or authorize source removal.",
+        "Route current ADL navigation through docs/csdlc-v3/CURRENT_AUTHORITY.md and documentation of the selected installed native v3 owner. Do not register/install these skill names, select their v2 generation, execute fixture decisions, or infer rollback authorization from retention. Explicitly approved bounded v2 exceptions remain separate.",
+        "Preserve source-time wording and historical references in TOOLING_CHANGEOVER_NOTICE.md:14 and adl_pr_cycle_skill.md:18; current navigation may identify them as history without rewriting old claims/receipts.",
+        "Keep listed readers coherent: if the reader is archived or removed under its separately accepted source/tool disposition, preserve the historical fixture/skill package in the owner archive; if retained as an ADL machine consumer, retain its required local path or explicitly port the assertion. Do not count file correspondence as execution proof."
+      ],
+      "deletion_authorized": false,
+      "operational_authority": false
+    },
+    {
+      "id": "RD07-2293",
+      "path": "csdlc-v2/operator/skills/csdlc-v2-github/SKILL.md",
+      "family": "historical_skill_contract",
+      "recommendation": "retain_immutable_adl_history_with_owner_archive_correspondence",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "65ebfaad45457ad4323acb12f550cd07df0e5f8c"
+      },
+      "existing_successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "csdlc-v2/operator/skills/csdlc-v2-github/SKILL.md"
+        ]
+      },
+      "source_role_evidence": [
+        {
+          "line": 1,
+          "text": "---"
+        },
+        {
+          "line": 2,
+          "text": "name: csdlc-v2-github"
+        },
+        {
+          "line": 3,
+          "text": "description: Execute repo-native C-SDLC v2 GitHub issue and PR actions through the split typed Rust command surface."
+        },
+        {
+          "line": 4,
+          "text": "---"
+        },
+        {
+          "line": 5,
+          "text": ""
+        },
+        {
+          "line": 6,
+          "text": "C-SDLC v2 remains the live lifecycle authority only until explicit V3-F/#505"
+        },
+        {
+          "line": 7,
+          "text": "cutover. Before that cutover, `csdlc-v3/**` is non-authoritative construction"
+        },
+        {
+          "line": 8,
+          "text": "evidence and must not mutate GitHub, publish PRs, finish issues, or retire v2."
+        },
+        {
+          "line": 9,
+          "text": ""
+        },
+        {
+          "line": 10,
+          "text": "Prefer the split owner binaries:"
+        },
+        {
+          "line": 11,
+          "text": ""
+        },
+        {
+          "line": 12,
+          "text": "- Invoke `csdlc-github-issue run --request <request.json>` for"
+        }
+      ],
+      "concrete_consumers": [
+        {
+          "path": "csdlc-v2/tests/gate10a.rs",
+          "line": 257,
+          "role": "historical gate reads manifest or manifest-derived skill path; archive/migrate as coherent family"
+        }
+      ],
+      "required_boundary_steps": [
+        "Retain immutable pre-#505 history at the original ADL path for the current disposition. Existing owner correspondence supplies an archive location only; it does not make these files operational or authorize source removal.",
+        "Route current ADL navigation through docs/csdlc-v3/CURRENT_AUTHORITY.md and documentation of the selected installed native v3 owner. Do not register/install these skill names, select their v2 generation, execute fixture decisions, or infer rollback authorization from retention. Explicitly approved bounded v2 exceptions remain separate.",
+        "Preserve source-time wording and historical references in TOOLING_CHANGEOVER_NOTICE.md:14 and adl_pr_cycle_skill.md:18; current navigation may identify them as history without rewriting old claims/receipts.",
+        "Keep listed readers coherent: if the reader is archived or removed under its separately accepted source/tool disposition, preserve the historical fixture/skill package in the owner archive; if retained as an ADL machine consumer, retain its required local path or explicitly port the assertion. Do not count file correspondence as execution proof."
+      ],
+      "deletion_authorized": false,
+      "operational_authority": false
+    },
+    {
+      "id": "RD07-2294",
+      "path": "csdlc-v2/operator/skills/csdlc-v2-init/SKILL.md",
+      "family": "historical_skill_contract",
+      "recommendation": "retain_immutable_adl_history_with_owner_archive_correspondence",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "92e0f98d3998cb7aceba198de64cf46954238f66"
+      },
+      "existing_successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "csdlc-v2/operator/skills/csdlc-v2-init/SKILL.md"
+        ]
+      },
+      "source_role_evidence": [
+        {
+          "line": 1,
+          "text": "---"
+        },
+        {
+          "line": 2,
+          "text": "name: csdlc-v2-init"
+        },
+        {
+          "line": 3,
+          "text": "description: Create all six C-SDLC v2 cards and canonical issue state from typed input."
+        },
+        {
+          "line": 4,
+          "text": "---"
+        },
+        {
+          "line": 5,
+          "text": "C-SDLC v2 remains the live lifecycle authority only until explicit V3-F/#505"
+        },
+        {
+          "line": 6,
+          "text": "cutover. Before that cutover, `csdlc-v3/**` is non-authoritative construction"
+        },
+        {
+          "line": 7,
+          "text": "evidence and must not create, initialize, repair, or mutate live lifecycle"
+        },
+        {
+          "line": 8,
+          "text": "state."
+        },
+        {
+          "line": 9,
+          "text": ""
+        },
+        {
+          "line": 10,
+          "text": "Invoke `csdlc-issue --root <repo> create --request <json>`. Do not edit"
+        },
+        {
+          "line": 11,
+          "text": "Markdown/state, invoke shell/Python lifecycle logic, bind a worktree, or infer"
+        },
+        {
+          "line": 12,
+          "text": "success from prose. The installed v2 generation remains the sole operational"
+        }
+      ],
+      "concrete_consumers": [
+        {
+          "path": "csdlc-v2/tests/gate10a.rs",
+          "line": 257,
+          "role": "historical gate reads manifest or manifest-derived skill path; archive/migrate as coherent family"
+        }
+      ],
+      "required_boundary_steps": [
+        "Retain immutable pre-#505 history at the original ADL path for the current disposition. Existing owner correspondence supplies an archive location only; it does not make these files operational or authorize source removal.",
+        "Route current ADL navigation through docs/csdlc-v3/CURRENT_AUTHORITY.md and documentation of the selected installed native v3 owner. Do not register/install these skill names, select their v2 generation, execute fixture decisions, or infer rollback authorization from retention. Explicitly approved bounded v2 exceptions remain separate.",
+        "Preserve source-time wording and historical references in TOOLING_CHANGEOVER_NOTICE.md:14 and adl_pr_cycle_skill.md:18; current navigation may identify them as history without rewriting old claims/receipts.",
+        "Keep listed readers coherent: if the reader is archived or removed under its separately accepted source/tool disposition, preserve the historical fixture/skill package in the owner archive; if retained as an ADL machine consumer, retain its required local path or explicitly port the assertion. Do not count file correspondence as execution proof."
+      ],
+      "deletion_authorized": false,
+      "operational_authority": false
+    },
+    {
+      "id": "RD07-2295",
+      "path": "csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md",
+      "family": "historical_skill_contract",
+      "recommendation": "retain_immutable_adl_history_with_owner_archive_correspondence",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "dfd835a67446c7086ede3b43cc63aa8f43f3f00a"
+      },
+      "existing_successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md"
+        ]
+      },
+      "source_role_evidence": [
+        {
+          "line": 1,
+          "text": "---"
+        },
+        {
+          "line": 2,
+          "text": "name: csdlc-v2-publish"
+        },
+        {
+          "line": 3,
+          "text": "description: Publish only after current pre-publication review truth."
+        },
+        {
+          "line": 4,
+          "text": "---"
+        },
+        {
+          "line": 5,
+          "text": "C-SDLC v2 remains the live lifecycle authority only until explicit V3-F/#505"
+        },
+        {
+          "line": 6,
+          "text": "cutover. Before that cutover, `csdlc-v3/**` is non-authoritative construction"
+        },
+        {
+          "line": 7,
+          "text": "evidence and must not publish PRs, mutate GitHub, finish issues, or retire v2."
+        },
+        {
+          "line": 8,
+          "text": ""
+        },
+        {
+          "line": 9,
+          "text": "Invoke `csdlc-publish publish` with `draft: false` for the routine path; it creates and records one exact ready PR directly. Existing governed draft publications may use `csdlc-publish ready --request <json>` to mark the exact observed draft PR ready, or `csdlc-publish reconcile-ready --request <json>` after an uncertain ready mutation when live readback already proves the exact open non-draft PR at the expected head. New routine work must not create a draft first unless the issue explicitly tests draft reconciliation. Keep the one-shot request at the Git-common path `.git/csdlc-v2/requests/<issue>.json` and overwrite it. Do not publish on missing/stale review, ambiguous remote state, or prose-only approval."
+        },
+        {
+          "line": 10,
+          "text": ""
+        },
+        {
+          "line": 11,
+          "text": "`repository` is always the issue-tracker repository recorded by the issue. Set"
+        },
+        {
+          "line": 12,
+          "text": "the optional `code_repository` only when the PR belongs to a different"
+        }
+      ],
+      "concrete_consumers": [
+        {
+          "path": "csdlc-v2/tests/gate10a.rs",
+          "line": 257,
+          "role": "historical gate reads manifest or manifest-derived skill path; archive/migrate as coherent family"
+        }
+      ],
+      "required_boundary_steps": [
+        "Retain immutable pre-#505 history at the original ADL path for the current disposition. Existing owner correspondence supplies an archive location only; it does not make these files operational or authorize source removal.",
+        "Route current ADL navigation through docs/csdlc-v3/CURRENT_AUTHORITY.md and documentation of the selected installed native v3 owner. Do not register/install these skill names, select their v2 generation, execute fixture decisions, or infer rollback authorization from retention. Explicitly approved bounded v2 exceptions remain separate.",
+        "Preserve source-time wording and historical references in TOOLING_CHANGEOVER_NOTICE.md:14 and adl_pr_cycle_skill.md:18; current navigation may identify them as history without rewriting old claims/receipts.",
+        "Keep listed readers coherent: if the reader is archived or removed under its separately accepted source/tool disposition, preserve the historical fixture/skill package in the owner archive; if retained as an ADL machine consumer, retain its required local path or explicitly port the assertion. Do not count file correspondence as execution proof."
+      ],
+      "deletion_authorized": false,
+      "operational_authority": false
+    },
+    {
+      "id": "RD07-2296",
+      "path": "csdlc-v2/operator/skills/csdlc-v2-review/SKILL.md",
+      "family": "historical_skill_contract",
+      "recommendation": "retain_immutable_adl_history_with_owner_archive_correspondence",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "3a2669fddca2cb43ea3beb17a2c449e9278ac89c"
+      },
+      "existing_successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "csdlc-v2/operator/skills/csdlc-v2-review/SKILL.md"
+        ]
+      },
+      "source_role_evidence": [
+        {
+          "line": 1,
+          "text": "---"
+        },
+        {
+          "line": 2,
+          "text": "name: csdlc-v2-review"
+        },
+        {
+          "line": 3,
+          "text": "description: Assign and record exact-revision pre-publication review truth."
+        },
+        {
+          "line": 4,
+          "text": "---"
+        },
+        {
+          "line": 5,
+          "text": "C-SDLC v2 remains the live lifecycle authority only until explicit V3-F/#505"
+        },
+        {
+          "line": 6,
+          "text": "cutover. Before that cutover, `csdlc-v3/**` is non-authoritative construction"
+        },
+        {
+          "line": 7,
+          "text": "evidence and must not replace v2 review, publication, finish, or cleanup"
+        },
+        {
+          "line": 8,
+          "text": "authority."
+        },
+        {
+          "line": 9,
+          "text": ""
+        },
+        {
+          "line": 10,
+          "text": "Generate or refresh the standard SRP at the complete substantive commit. Create"
+        },
+        {
+          "line": 11,
+          "text": "the typed `csdlc-review assign` record for the fresh reviewer before sending any"
+        },
+        {
+          "line": 12,
+          "text": "review material, then send that SRP, the repository/worktree path, and the exact"
+        }
+      ],
+      "concrete_consumers": [
+        {
+          "path": "csdlc-v2/tests/gate10a.rs",
+          "line": 257,
+          "role": "historical gate reads manifest or manifest-derived skill path; archive/migrate as coherent family"
+        }
+      ],
+      "required_boundary_steps": [
+        "Retain immutable pre-#505 history at the original ADL path for the current disposition. Existing owner correspondence supplies an archive location only; it does not make these files operational or authorize source removal.",
+        "Route current ADL navigation through docs/csdlc-v3/CURRENT_AUTHORITY.md and documentation of the selected installed native v3 owner. Do not register/install these skill names, select their v2 generation, execute fixture decisions, or infer rollback authorization from retention. Explicitly approved bounded v2 exceptions remain separate.",
+        "Preserve source-time wording and historical references in TOOLING_CHANGEOVER_NOTICE.md:14 and adl_pr_cycle_skill.md:18; current navigation may identify them as history without rewriting old claims/receipts.",
+        "Keep listed readers coherent: if the reader is archived or removed under its separately accepted source/tool disposition, preserve the historical fixture/skill package in the owner archive; if retained as an ADL machine consumer, retain its required local path or explicitly port the assertion. Do not count file correspondence as execution proof."
+      ],
+      "deletion_authorized": false,
+      "operational_authority": false
+    },
+    {
+      "id": "RD07-2297",
+      "path": "csdlc-v2/operator/skills/csdlc-v2-shepherd/SKILL.md",
+      "family": "historical_skill_contract",
+      "recommendation": "retain_immutable_adl_history_with_owner_archive_correspondence",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "eb0f2a8e2e6a1576e99016caa2f66b0b0215b648"
+      },
+      "existing_successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "csdlc-v2/operator/skills/csdlc-v2-shepherd/SKILL.md"
+        ]
+      },
+      "source_role_evidence": [
+        {
+          "line": 1,
+          "text": "---"
+        },
+        {
+          "line": 2,
+          "text": "name: csdlc-v2-shepherd"
+        },
+        {
+          "line": 3,
+          "text": "description: Classify scheduler, validation, review, publication, and readiness next actions."
+        },
+        {
+          "line": 4,
+          "text": "---"
+        },
+        {
+          "line": 5,
+          "text": "C-SDLC v2 remains the live lifecycle authority only until explicit V3-F/#505"
+        },
+        {
+          "line": 6,
+          "text": "cutover. Before that cutover, `csdlc-v3/**` is non-authoritative construction"
+        },
+        {
+          "line": 7,
+          "text": "evidence and must not mutate lifecycle state or replace v2 shepherding."
+        },
+        {
+          "line": 8,
+          "text": ""
+        },
+        {
+          "line": 9,
+          "text": "Invoke read-only `csdlc-shepherd`. It recommends typed next work and never acquires authority or mutates lifecycle state."
+        }
+      ],
+      "concrete_consumers": [
+        {
+          "path": "csdlc-v2/tests/gate10a.rs",
+          "line": 257,
+          "role": "historical gate reads manifest or manifest-derived skill path; archive/migrate as coherent family"
+        }
+      ],
+      "required_boundary_steps": [
+        "Retain immutable pre-#505 history at the original ADL path for the current disposition. Existing owner correspondence supplies an archive location only; it does not make these files operational or authorize source removal.",
+        "Route current ADL navigation through docs/csdlc-v3/CURRENT_AUTHORITY.md and documentation of the selected installed native v3 owner. Do not register/install these skill names, select their v2 generation, execute fixture decisions, or infer rollback authorization from retention. Explicitly approved bounded v2 exceptions remain separate.",
+        "Preserve source-time wording and historical references in TOOLING_CHANGEOVER_NOTICE.md:14 and adl_pr_cycle_skill.md:18; current navigation may identify them as history without rewriting old claims/receipts.",
+        "Keep listed readers coherent: if the reader is archived or removed under its separately accepted source/tool disposition, preserve the historical fixture/skill package in the owner archive; if retained as an ADL machine consumer, retain its required local path or explicitly port the assertion. Do not count file correspondence as execution proof."
+      ],
+      "deletion_authorized": false,
+      "operational_authority": false
+    },
+    {
+      "id": "RD07-2298",
+      "path": "csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md",
+      "family": "historical_skill_contract",
+      "recommendation": "retain_immutable_adl_history_with_owner_archive_correspondence",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "75a0245059db60e77afde94e02377fb9d2fe327b"
+      },
+      "existing_successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md"
+        ]
+      },
+      "source_role_evidence": [
+        {
+          "line": 1,
+          "text": "---"
+        },
+        {
+          "line": 2,
+          "text": "name: csdlc-v2-validate"
+        },
+        {
+          "line": 3,
+          "text": "description: Execute declared PVF validation DAGs with typed evidence."
+        },
+        {
+          "line": 4,
+          "text": "---"
+        },
+        {
+          "line": 5,
+          "text": "C-SDLC v2 remains the live lifecycle authority only until explicit V3-F/#505"
+        },
+        {
+          "line": 6,
+          "text": "cutover. Before that cutover, `csdlc-v3/**` is non-authoritative construction"
+        },
+        {
+          "line": 7,
+          "text": "evidence only. It is not a route for validation, phase advancement,"
+        },
+        {
+          "line": 8,
+          "text": "publication, finish, cleanup, v2 retirement, or GitHub mutation."
+        },
+        {
+          "line": 9,
+          "text": ""
+        },
+        {
+          "line": 10,
+          "text": "Use `csdlc-schedule` for read-only classification. For routine issue execution, use `csdlc-validate --root <worktree> finalize --request <shared-git-request>` so execution, passing validation, and `Implemented` are one atomic state transition. Keep the one-shot request at the Git-common path `.git/csdlc-v2/requests/<issue>.json` and overwrite it. Do not embed shell command strings or treat skipped/pending proof as passed."
+        },
+        {
+          "line": 11,
+          "text": ""
+        },
+        {
+          "line": 12,
+          "text": "Do not call deleted ADL structured-prompt shell wrappers such as"
+        }
+      ],
+      "concrete_consumers": [
+        {
+          "path": "csdlc-v2/tests/gate10a.rs",
+          "line": 257,
+          "role": "historical gate reads manifest or manifest-derived skill path; archive/migrate as coherent family"
+        },
+        {
+          "path": "adl/tools/test_structured_prompt_validation.sh",
+          "line": 31,
+          "role": "retained shell assertion reads skill; explicit tool-owner cutover required"
+        },
+        {
+          "path": "adl/tools/test_prompt_spec_lint.sh",
+          "line": 13,
+          "role": "retained shell assertion reads skill; explicit tool-owner cutover required"
+        }
+      ],
+      "required_boundary_steps": [
+        "Retain immutable pre-#505 history at the original ADL path for the current disposition. Existing owner correspondence supplies an archive location only; it does not make these files operational or authorize source removal.",
+        "Route current ADL navigation through docs/csdlc-v3/CURRENT_AUTHORITY.md and documentation of the selected installed native v3 owner. Do not register/install these skill names, select their v2 generation, execute fixture decisions, or infer rollback authorization from retention. Explicitly approved bounded v2 exceptions remain separate.",
+        "Preserve source-time wording and historical references in TOOLING_CHANGEOVER_NOTICE.md:14 and adl_pr_cycle_skill.md:18; current navigation may identify them as history without rewriting old claims/receipts.",
+        "Keep listed readers coherent: if the reader is archived or removed under its separately accepted source/tool disposition, preserve the historical fixture/skill package in the owner archive; if retained as an ADL machine consumer, retain its required local path or explicitly port the assertion. Do not count file correspondence as execution proof."
+      ],
+      "deletion_authorized": false,
+      "operational_authority": false
+    }
+  ],
+  "deletion_authorized": false,
+  "execution_authorized": false
+}

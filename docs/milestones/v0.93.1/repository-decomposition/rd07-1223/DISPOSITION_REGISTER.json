@@ -46231,7 +46231,7 @@
         "9d3aada75443d4b9619bf4d8ffd98746a7370a4f"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_immutable_pre_cutover_history_no_operational_authority",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "csdlc-v2/operator/SKILLS.md"
@@ -46239,6 +46239,13 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "csdlc-v2/operator/SKILLS.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "CSDLC_V2_HISTORICAL_RETENTIONS.json: RD07-2274",
+        "Retain immutable pre-#505 history at the original ADL path for the current disposition. Existing owner correspondence supplies an archive location only; it does not make these files operational or authorize source removal.",
+        "Route current ADL navigation through docs/csdlc-v3/CURRENT_AUTHORITY.md and documentation of the selected installed native v3 owner. Do not register/install these skill names, select their v2 generation, execute fixture decisions, or infer rollback authorization from retention. Explicitly approved bounded v2 exceptions remain separate.",
+        "Preserve source-time wording and historical references in TOOLING_CHANGEOVER_NOTICE.md:14 and adl_pr_cycle_skill.md:18; current navigation may identify them as history without rewriting old claims/receipts."
       ]
     },
     {
@@ -46330,7 +46337,7 @@
         "26cf67e8c7fc8b7e57590cc97e4345a4d4b2c8f0"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_immutable_pre_cutover_history_no_operational_authority",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "csdlc-v2/operator/examples/shepherd/operator_required.json"
@@ -46338,6 +46345,14 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "csdlc-v2/operator/examples/shepherd/operator_required.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "CSDLC_V2_HISTORICAL_RETENTIONS.json: RD07-2278",
+        "Retain immutable pre-#505 history at the original ADL path for the current disposition. Existing owner correspondence supplies an archive location only; it does not make these files operational or authorize source removal.",
+        "Route current ADL navigation through docs/csdlc-v3/CURRENT_AUTHORITY.md and documentation of the selected installed native v3 owner. Do not register/install these skill names, select their v2 generation, execute fixture decisions, or infer rollback authorization from retention. Explicitly approved bounded v2 exceptions remain separate.",
+        "Preserve source-time wording and historical references in TOOLING_CHANGEOVER_NOTICE.md:14 and adl_pr_cycle_skill.md:18; current navigation may identify them as history without rewriting old claims/receipts.",
+        "Keep listed readers coherent: if the reader is archived or removed under its separately accepted source/tool disposition, preserve the historical fixture/skill package in the owner archive; if retained as an ADL machine consumer, retain its required local path or explicitly port the assertion. Do not count file correspondence as execution proof."
       ]
     },
     {
@@ -46351,7 +46366,7 @@
         "2dbe54abc45678af77103f57be2df2b5e6dac9fd"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_immutable_pre_cutover_history_no_operational_authority",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "csdlc-v2/operator/examples/shepherd/ready.json"
@@ -46359,6 +46374,14 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "csdlc-v2/operator/examples/shepherd/ready.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "CSDLC_V2_HISTORICAL_RETENTIONS.json: RD07-2279",
+        "Retain immutable pre-#505 history at the original ADL path for the current disposition. Existing owner correspondence supplies an archive location only; it does not make these files operational or authorize source removal.",
+        "Route current ADL navigation through docs/csdlc-v3/CURRENT_AUTHORITY.md and documentation of the selected installed native v3 owner. Do not register/install these skill names, select their v2 generation, execute fixture decisions, or infer rollback authorization from retention. Explicitly approved bounded v2 exceptions remain separate.",
+        "Preserve source-time wording and historical references in TOOLING_CHANGEOVER_NOTICE.md:14 and adl_pr_cycle_skill.md:18; current navigation may identify them as history without rewriting old claims/receipts.",
+        "Keep listed readers coherent: if the reader is archived or removed under its separately accepted source/tool disposition, preserve the historical fixture/skill package in the owner archive; if retained as an ADL machine consumer, retain its required local path or explicitly port the assertion. Do not count file correspondence as execution proof."
       ]
     },
     {
@@ -46372,7 +46395,7 @@
         "4c35b29a96cfe56ddbed3916446d24c9d22fa569"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_immutable_pre_cutover_history_no_operational_authority",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "csdlc-v2/operator/examples/shepherd/repair_required.json"
@@ -46380,6 +46403,14 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "csdlc-v2/operator/examples/shepherd/repair_required.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "CSDLC_V2_HISTORICAL_RETENTIONS.json: RD07-2280",
+        "Retain immutable pre-#505 history at the original ADL path for the current disposition. Existing owner correspondence supplies an archive location only; it does not make these files operational or authorize source removal.",
+        "Route current ADL navigation through docs/csdlc-v3/CURRENT_AUTHORITY.md and documentation of the selected installed native v3 owner. Do not register/install these skill names, select their v2 generation, execute fixture decisions, or infer rollback authorization from retention. Explicitly approved bounded v2 exceptions remain separate.",
+        "Preserve source-time wording and historical references in TOOLING_CHANGEOVER_NOTICE.md:14 and adl_pr_cycle_skill.md:18; current navigation may identify them as history without rewriting old claims/receipts.",
+        "Keep listed readers coherent: if the reader is archived or removed under its separately accepted source/tool disposition, preserve the historical fixture/skill package in the owner archive; if retained as an ADL machine consumer, retain its required local path or explicitly port the assertion. Do not count file correspondence as execution proof."
       ]
     },
     {
@@ -46393,7 +46424,7 @@
         "04c12ecb53040321068ddfa88bbe42859ea39f73"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_immutable_pre_cutover_history_no_operational_authority",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "csdlc-v2/operator/examples/shepherd/retryable.json"
@@ -46401,6 +46432,14 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "csdlc-v2/operator/examples/shepherd/retryable.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "CSDLC_V2_HISTORICAL_RETENTIONS.json: RD07-2281",
+        "Retain immutable pre-#505 history at the original ADL path for the current disposition. Existing owner correspondence supplies an archive location only; it does not make these files operational or authorize source removal.",
+        "Route current ADL navigation through docs/csdlc-v3/CURRENT_AUTHORITY.md and documentation of the selected installed native v3 owner. Do not register/install these skill names, select their v2 generation, execute fixture decisions, or infer rollback authorization from retention. Explicitly approved bounded v2 exceptions remain separate.",
+        "Preserve source-time wording and historical references in TOOLING_CHANGEOVER_NOTICE.md:14 and adl_pr_cycle_skill.md:18; current navigation may identify them as history without rewriting old claims/receipts.",
+        "Keep listed readers coherent: if the reader is archived or removed under its separately accepted source/tool disposition, preserve the historical fixture/skill package in the owner archive; if retained as an ADL machine consumer, retain its required local path or explicitly port the assertion. Do not count file correspondence as execution proof."
       ]
     },
     {
@@ -46414,7 +46453,7 @@
         "15613ea22794f01ffff17df11925d56b6d05a518"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_immutable_pre_cutover_history_no_operational_authority",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "csdlc-v2/operator/examples/shepherd/waiting.json"
@@ -46422,6 +46461,14 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "csdlc-v2/operator/examples/shepherd/waiting.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "CSDLC_V2_HISTORICAL_RETENTIONS.json: RD07-2282",
+        "Retain immutable pre-#505 history at the original ADL path for the current disposition. Existing owner correspondence supplies an archive location only; it does not make these files operational or authorize source removal.",
+        "Route current ADL navigation through docs/csdlc-v3/CURRENT_AUTHORITY.md and documentation of the selected installed native v3 owner. Do not register/install these skill names, select their v2 generation, execute fixture decisions, or infer rollback authorization from retention. Explicitly approved bounded v2 exceptions remain separate.",
+        "Preserve source-time wording and historical references in TOOLING_CHANGEOVER_NOTICE.md:14 and adl_pr_cycle_skill.md:18; current navigation may identify them as history without rewriting old claims/receipts.",
+        "Keep listed readers coherent: if the reader is archived or removed under its separately accepted source/tool disposition, preserve the historical fixture/skill package in the owner archive; if retained as an ADL machine consumer, retain its required local path or explicitly port the assertion. Do not count file correspondence as execution proof."
       ]
     },
     {
@@ -46534,7 +46581,7 @@
         "d65889443fe4ec1a0e61b891661d0d037e964269"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_immutable_pre_cutover_history_no_operational_authority",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "csdlc-v2/operator/skills.json"
@@ -46542,6 +46589,14 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "csdlc-v2/operator/skills.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "CSDLC_V2_HISTORICAL_RETENTIONS.json: RD07-2287",
+        "Retain immutable pre-#505 history at the original ADL path for the current disposition. Existing owner correspondence supplies an archive location only; it does not make these files operational or authorize source removal.",
+        "Route current ADL navigation through docs/csdlc-v3/CURRENT_AUTHORITY.md and documentation of the selected installed native v3 owner. Do not register/install these skill names, select their v2 generation, execute fixture decisions, or infer rollback authorization from retention. Explicitly approved bounded v2 exceptions remain separate.",
+        "Preserve source-time wording and historical references in TOOLING_CHANGEOVER_NOTICE.md:14 and adl_pr_cycle_skill.md:18; current navigation may identify them as history without rewriting old claims/receipts.",
+        "Keep listed readers coherent: if the reader is archived or removed under its separately accepted source/tool disposition, preserve the historical fixture/skill package in the owner archive; if retained as an ADL machine consumer, retain its required local path or explicitly port the assertion. Do not count file correspondence as execution proof."
       ]
     },
     {
@@ -46555,7 +46610,7 @@
         "6a33d0789d59b33283ec206351a76b24a3098b07"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_immutable_pre_cutover_history_no_operational_authority",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "csdlc-v2/operator/skills/csdlc-v2-bind/SKILL.md"
@@ -46563,6 +46618,14 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "csdlc-v2/operator/skills/csdlc-v2-bind/SKILL.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "CSDLC_V2_HISTORICAL_RETENTIONS.json: RD07-2288",
+        "Retain immutable pre-#505 history at the original ADL path for the current disposition. Existing owner correspondence supplies an archive location only; it does not make these files operational or authorize source removal.",
+        "Route current ADL navigation through docs/csdlc-v3/CURRENT_AUTHORITY.md and documentation of the selected installed native v3 owner. Do not register/install these skill names, select their v2 generation, execute fixture decisions, or infer rollback authorization from retention. Explicitly approved bounded v2 exceptions remain separate.",
+        "Preserve source-time wording and historical references in TOOLING_CHANGEOVER_NOTICE.md:14 and adl_pr_cycle_skill.md:18; current navigation may identify them as history without rewriting old claims/receipts.",
+        "Keep listed readers coherent: if the reader is archived or removed under its separately accepted source/tool disposition, preserve the historical fixture/skill package in the owner archive; if retained as an ADL machine consumer, retain its required local path or explicitly port the assertion. Do not count file correspondence as execution proof."
       ]
     },
     {
@@ -46576,7 +46639,7 @@
         "87380454a5d84fbb0e2a052147b5c5cc0e2bfd70"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_immutable_pre_cutover_history_no_operational_authority",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "csdlc-v2/operator/skills/csdlc-v2-card-editor/SKILL.md"
@@ -46584,6 +46647,14 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "csdlc-v2/operator/skills/csdlc-v2-card-editor/SKILL.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "CSDLC_V2_HISTORICAL_RETENTIONS.json: RD07-2289",
+        "Retain immutable pre-#505 history at the original ADL path for the current disposition. Existing owner correspondence supplies an archive location only; it does not make these files operational or authorize source removal.",
+        "Route current ADL navigation through docs/csdlc-v3/CURRENT_AUTHORITY.md and documentation of the selected installed native v3 owner. Do not register/install these skill names, select their v2 generation, execute fixture decisions, or infer rollback authorization from retention. Explicitly approved bounded v2 exceptions remain separate.",
+        "Preserve source-time wording and historical references in TOOLING_CHANGEOVER_NOTICE.md:14 and adl_pr_cycle_skill.md:18; current navigation may identify them as history without rewriting old claims/receipts.",
+        "Keep listed readers coherent: if the reader is archived or removed under its separately accepted source/tool disposition, preserve the historical fixture/skill package in the owner archive; if retained as an ADL machine consumer, retain its required local path or explicitly port the assertion. Do not count file correspondence as execution proof."
       ]
     },
     {
@@ -46597,7 +46668,7 @@
         "28bfa32353e55cfb8a5b07a6dd992930b1286680"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_immutable_pre_cutover_history_no_operational_authority",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "csdlc-v2/operator/skills/csdlc-v2-clean/SKILL.md"
@@ -46605,6 +46676,14 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "csdlc-v2/operator/skills/csdlc-v2-clean/SKILL.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "CSDLC_V2_HISTORICAL_RETENTIONS.json: RD07-2290",
+        "Retain immutable pre-#505 history at the original ADL path for the current disposition. Existing owner correspondence supplies an archive location only; it does not make these files operational or authorize source removal.",
+        "Route current ADL navigation through docs/csdlc-v3/CURRENT_AUTHORITY.md and documentation of the selected installed native v3 owner. Do not register/install these skill names, select their v2 generation, execute fixture decisions, or infer rollback authorization from retention. Explicitly approved bounded v2 exceptions remain separate.",
+        "Preserve source-time wording and historical references in TOOLING_CHANGEOVER_NOTICE.md:14 and adl_pr_cycle_skill.md:18; current navigation may identify them as history without rewriting old claims/receipts.",
+        "Keep listed readers coherent: if the reader is archived or removed under its separately accepted source/tool disposition, preserve the historical fixture/skill package in the owner archive; if retained as an ADL machine consumer, retain its required local path or explicitly port the assertion. Do not count file correspondence as execution proof."
       ]
     },
     {
@@ -46618,7 +46697,7 @@
         "7889a11b1cc3643b9aea1d3d260bd79bdf09285b"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_immutable_pre_cutover_history_no_operational_authority",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "csdlc-v2/operator/skills/csdlc-v2-doctor/SKILL.md"
@@ -46626,6 +46705,14 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "csdlc-v2/operator/skills/csdlc-v2-doctor/SKILL.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "CSDLC_V2_HISTORICAL_RETENTIONS.json: RD07-2291",
+        "Retain immutable pre-#505 history at the original ADL path for the current disposition. Existing owner correspondence supplies an archive location only; it does not make these files operational or authorize source removal.",
+        "Route current ADL navigation through docs/csdlc-v3/CURRENT_AUTHORITY.md and documentation of the selected installed native v3 owner. Do not register/install these skill names, select their v2 generation, execute fixture decisions, or infer rollback authorization from retention. Explicitly approved bounded v2 exceptions remain separate.",
+        "Preserve source-time wording and historical references in TOOLING_CHANGEOVER_NOTICE.md:14 and adl_pr_cycle_skill.md:18; current navigation may identify them as history without rewriting old claims/receipts.",
+        "Keep listed readers coherent: if the reader is archived or removed under its separately accepted source/tool disposition, preserve the historical fixture/skill package in the owner archive; if retained as an ADL machine consumer, retain its required local path or explicitly port the assertion. Do not count file correspondence as execution proof."
       ]
     },
     {
@@ -46639,7 +46726,7 @@
         "46585c0b63eac38a84d8c2a83f2bea89ac27f94b"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_immutable_pre_cutover_history_no_operational_authority",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "csdlc-v2/operator/skills/csdlc-v2-finish/SKILL.md"
@@ -46647,6 +46734,14 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "csdlc-v2/operator/skills/csdlc-v2-finish/SKILL.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "CSDLC_V2_HISTORICAL_RETENTIONS.json: RD07-2292",
+        "Retain immutable pre-#505 history at the original ADL path for the current disposition. Existing owner correspondence supplies an archive location only; it does not make these files operational or authorize source removal.",
+        "Route current ADL navigation through docs/csdlc-v3/CURRENT_AUTHORITY.md and documentation of the selected installed native v3 owner. Do not register/install these skill names, select their v2 generation, execute fixture decisions, or infer rollback authorization from retention. Explicitly approved bounded v2 exceptions remain separate.",
+        "Preserve source-time wording and historical references in TOOLING_CHANGEOVER_NOTICE.md:14 and adl_pr_cycle_skill.md:18; current navigation may identify them as history without rewriting old claims/receipts.",
+        "Keep listed readers coherent: if the reader is archived or removed under its separately accepted source/tool disposition, preserve the historical fixture/skill package in the owner archive; if retained as an ADL machine consumer, retain its required local path or explicitly port the assertion. Do not count file correspondence as execution proof."
       ]
     },
     {
@@ -46660,7 +46755,7 @@
         "65ebfaad45457ad4323acb12f550cd07df0e5f8c"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_immutable_pre_cutover_history_no_operational_authority",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "csdlc-v2/operator/skills/csdlc-v2-github/SKILL.md"
@@ -46668,6 +46763,14 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "csdlc-v2/operator/skills/csdlc-v2-github/SKILL.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "CSDLC_V2_HISTORICAL_RETENTIONS.json: RD07-2293",
+        "Retain immutable pre-#505 history at the original ADL path for the current disposition. Existing owner correspondence supplies an archive location only; it does not make these files operational or authorize source removal.",
+        "Route current ADL navigation through docs/csdlc-v3/CURRENT_AUTHORITY.md and documentation of the selected installed native v3 owner. Do not register/install these skill names, select their v2 generation, execute fixture decisions, or infer rollback authorization from retention. Explicitly approved bounded v2 exceptions remain separate.",
+        "Preserve source-time wording and historical references in TOOLING_CHANGEOVER_NOTICE.md:14 and adl_pr_cycle_skill.md:18; current navigation may identify them as history without rewriting old claims/receipts.",
+        "Keep listed readers coherent: if the reader is archived or removed under its separately accepted source/tool disposition, preserve the historical fixture/skill package in the owner archive; if retained as an ADL machine consumer, retain its required local path or explicitly port the assertion. Do not count file correspondence as execution proof."
       ]
     },
     {
@@ -46681,7 +46784,7 @@
         "92e0f98d3998cb7aceba198de64cf46954238f66"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_immutable_pre_cutover_history_no_operational_authority",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "csdlc-v2/operator/skills/csdlc-v2-init/SKILL.md"
@@ -46689,6 +46792,14 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "csdlc-v2/operator/skills/csdlc-v2-init/SKILL.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "CSDLC_V2_HISTORICAL_RETENTIONS.json: RD07-2294",
+        "Retain immutable pre-#505 history at the original ADL path for the current disposition. Existing owner correspondence supplies an archive location only; it does not make these files operational or authorize source removal.",
+        "Route current ADL navigation through docs/csdlc-v3/CURRENT_AUTHORITY.md and documentation of the selected installed native v3 owner. Do not register/install these skill names, select their v2 generation, execute fixture decisions, or infer rollback authorization from retention. Explicitly approved bounded v2 exceptions remain separate.",
+        "Preserve source-time wording and historical references in TOOLING_CHANGEOVER_NOTICE.md:14 and adl_pr_cycle_skill.md:18; current navigation may identify them as history without rewriting old claims/receipts.",
+        "Keep listed readers coherent: if the reader is archived or removed under its separately accepted source/tool disposition, preserve the historical fixture/skill package in the owner archive; if retained as an ADL machine consumer, retain its required local path or explicitly port the assertion. Do not count file correspondence as execution proof."
       ]
     },
     {
@@ -46702,7 +46813,7 @@
         "dfd835a67446c7086ede3b43cc63aa8f43f3f00a"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_immutable_pre_cutover_history_no_operational_authority",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md"
@@ -46710,6 +46821,14 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "CSDLC_V2_HISTORICAL_RETENTIONS.json: RD07-2295",
+        "Retain immutable pre-#505 history at the original ADL path for the current disposition. Existing owner correspondence supplies an archive location only; it does not make these files operational or authorize source removal.",
+        "Route current ADL navigation through docs/csdlc-v3/CURRENT_AUTHORITY.md and documentation of the selected installed native v3 owner. Do not register/install these skill names, select their v2 generation, execute fixture decisions, or infer rollback authorization from retention. Explicitly approved bounded v2 exceptions remain separate.",
+        "Preserve source-time wording and historical references in TOOLING_CHANGEOVER_NOTICE.md:14 and adl_pr_cycle_skill.md:18; current navigation may identify them as history without rewriting old claims/receipts.",
+        "Keep listed readers coherent: if the reader is archived or removed under its separately accepted source/tool disposition, preserve the historical fixture/skill package in the owner archive; if retained as an ADL machine consumer, retain its required local path or explicitly port the assertion. Do not count file correspondence as execution proof."
       ]
     },
     {
@@ -46723,7 +46842,7 @@
         "3a2669fddca2cb43ea3beb17a2c449e9278ac89c"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_immutable_pre_cutover_history_no_operational_authority",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "csdlc-v2/operator/skills/csdlc-v2-review/SKILL.md"
@@ -46731,6 +46850,14 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "csdlc-v2/operator/skills/csdlc-v2-review/SKILL.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "CSDLC_V2_HISTORICAL_RETENTIONS.json: RD07-2296",
+        "Retain immutable pre-#505 history at the original ADL path for the current disposition. Existing owner correspondence supplies an archive location only; it does not make these files operational or authorize source removal.",
+        "Route current ADL navigation through docs/csdlc-v3/CURRENT_AUTHORITY.md and documentation of the selected installed native v3 owner. Do not register/install these skill names, select their v2 generation, execute fixture decisions, or infer rollback authorization from retention. Explicitly approved bounded v2 exceptions remain separate.",
+        "Preserve source-time wording and historical references in TOOLING_CHANGEOVER_NOTICE.md:14 and adl_pr_cycle_skill.md:18; current navigation may identify them as history without rewriting old claims/receipts.",
+        "Keep listed readers coherent: if the reader is archived or removed under its separately accepted source/tool disposition, preserve the historical fixture/skill package in the owner archive; if retained as an ADL machine consumer, retain its required local path or explicitly port the assertion. Do not count file correspondence as execution proof."
       ]
     },
     {
@@ -46744,7 +46871,7 @@
         "eb0f2a8e2e6a1576e99016caa2f66b0b0215b648"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_immutable_pre_cutover_history_no_operational_authority",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "csdlc-v2/operator/skills/csdlc-v2-shepherd/SKILL.md"
@@ -46752,6 +46879,14 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "csdlc-v2/operator/skills/csdlc-v2-shepherd/SKILL.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "CSDLC_V2_HISTORICAL_RETENTIONS.json: RD07-2297",
+        "Retain immutable pre-#505 history at the original ADL path for the current disposition. Existing owner correspondence supplies an archive location only; it does not make these files operational or authorize source removal.",
+        "Route current ADL navigation through docs/csdlc-v3/CURRENT_AUTHORITY.md and documentation of the selected installed native v3 owner. Do not register/install these skill names, select their v2 generation, execute fixture decisions, or infer rollback authorization from retention. Explicitly approved bounded v2 exceptions remain separate.",
+        "Preserve source-time wording and historical references in TOOLING_CHANGEOVER_NOTICE.md:14 and adl_pr_cycle_skill.md:18; current navigation may identify them as history without rewriting old claims/receipts.",
+        "Keep listed readers coherent: if the reader is archived or removed under its separately accepted source/tool disposition, preserve the historical fixture/skill package in the owner archive; if retained as an ADL machine consumer, retain its required local path or explicitly port the assertion. Do not count file correspondence as execution proof."
       ]
     },
     {
@@ -46765,7 +46900,7 @@
         "75a0245059db60e77afde94e02377fb9d2fe327b"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_immutable_pre_cutover_history_no_operational_authority",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md"
@@ -46773,6 +46908,14 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "CSDLC_V2_HISTORICAL_RETENTIONS.json: RD07-2298",
+        "Retain immutable pre-#505 history at the original ADL path for the current disposition. Existing owner correspondence supplies an archive location only; it does not make these files operational or authorize source removal.",
+        "Route current ADL navigation through docs/csdlc-v3/CURRENT_AUTHORITY.md and documentation of the selected installed native v3 owner. Do not register/install these skill names, select their v2 generation, execute fixture decisions, or infer rollback authorization from retention. Explicitly approved bounded v2 exceptions remain separate.",
+        "Preserve source-time wording and historical references in TOOLING_CHANGEOVER_NOTICE.md:14 and adl_pr_cycle_skill.md:18; current navigation may identify them as history without rewriting old claims/receipts.",
+        "Keep listed readers coherent: if the reader is archived or removed under its separately accepted source/tool disposition, preserve the historical fixture/skill package in the owner archive; if retained as an ADL machine consumer, retain its required local path or explicitly port the assertion. Do not count file correspondence as execution proof."
       ]
     },
     {
@@ -88184,5 +88327,5 @@
   "previous_observed_main": "f1493c54e4d9f6c5a1da798f48d9f2c361033fa4",
   "consumer_reference_repair_count": 6,
   "approved_component_removal_count": 36,
-  "resolved_retention_count": 431
+  "resolved_retention_count": 449
 }
