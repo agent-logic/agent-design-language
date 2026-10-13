@@ -78,10 +78,11 @@ def main() -> None:
     assert "needs.adl_path_policy.outputs.public_adl_validation_required == 'true'" in job
     proof_step = job.split("      - name: Five public packages and installed consumer proof\n", 1)[1].split("\n      - name:", 1)[0]
     assert "CARGO_TARGET_DIR: ${{ runner.temp }}/public-adl-target" in proof_step
+    assert "ADL_PUBLIC_ADL_PROOF_ROOT: ${{ runner.temp }}/public-adl-proof" in proof_step
     assert "bash tools/public_adl/run_ci.sh" in job
     assert "sys.version_info >= (3, 12)" in job
     assert "actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a" in job
-    assert "path: .git/csdlc-v3/local/public-adl-proof/1192/" in job
+    assert "path: ${{ runner.temp }}/public-adl-proof/1192/" in job
     assert "if-no-files-found: error" in job
     assert "public_adl_validation:${{ needs.public_adl_validation.result }}" not in workflow
     assert "PUBLIC_ADL_VALIDATION_RESULT: ${{ needs.public_adl_validation.result }}" in workflow
