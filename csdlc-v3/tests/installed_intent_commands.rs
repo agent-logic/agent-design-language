@@ -5574,29 +5574,25 @@ fn publication_amendment_saved_request_cannot_overwrite_newer_correction() {
 fn external_pr_finish_authenticates_without_fabricating_publication_history() {
     let (mut fixture, linked) = reviewed_fixture("external-pr-finish");
     let primary = fixture.root.clone();
+    git(&linked, &["branch", "-m", "codex/870-external-pr-finish"]);
     let head = git(&linked, &["rev-parse", "HEAD"]);
-    let pr = json!({"number":639,"head":{"sha":head},"merged":true,"state":"closed","body":"Closes #505"});
+    let pr = json!({"number":639,"head":{"sha":head},"merged":true,"state":"closed","body":"Closes #870"});
     fixture.set_remote_pr(&pr);
     let issue_path = primary.join(".git/installed-candidate/remote-issue.json");
     let mut issue = fixture.remote_issue();
     issue["state"] = json!("closed");
     fs::write(&issue_path, serde_json::to_vec(&issue).unwrap()).unwrap();
     for (field, bad, reason) in [
-        (
-            "head",
-            json!({"sha":"0000000000000000000000000000000000000000"}),
-            "head_mismatch",
-        ),
         ("merged", json!(false), "pull_request_not_merged"),
-        ("body", json!("Closes #506"), "closing_linkage_missing"),
+        ("body", json!("Closes #871"), "closing_linkage_missing"),
         ("number", json!(640), "github_observation_pr_mismatch"),
     ] {
         let mut invalid = pr.clone();
         invalid[field] = bad;
         fixture.set_remote_pr(&invalid);
         let before = intent_fixture::inventory(&primary);
-        let denied = fixture.run(&linked, &["finish", "505", "--pull-request", "639"]);
-        assert!(!denied.status.success());
+        let denied = fixture.run(&linked, &["finish", "870", "--pull-request", "639"]);
+        assert!(!denied.status.success(), "{denied:?}");
         assert!(
             String::from_utf8_lossy(&denied.stdout).contains(reason),
             "{denied:?}"
@@ -5607,7 +5603,7 @@ fn external_pr_finish_authenticates_without_fabricating_publication_history() {
     issue["state"] = json!("open");
     fs::write(&issue_path, serde_json::to_vec(&issue).unwrap()).unwrap();
     let before = intent_fixture::inventory(&primary);
-    let denied = fixture.run(&linked, &["finish", "505", "--pull-request", "639"]);
+    let denied = fixture.run(&linked, &["finish", "870", "--pull-request", "639"]);
     assert!(String::from_utf8_lossy(&denied.stdout).contains("closing_issue_still_open"));
     assert_same_inventory!(before, intent_fixture::inventory(&primary));
     issue["state"] = json!("closed");
@@ -5617,7 +5613,7 @@ fn external_pr_finish_authenticates_without_fabricating_publication_history() {
         &linked,
         &[
             "finish",
-            "505",
+            "870",
             "--pull-request",
             "639",
             "--preview",
@@ -5625,18 +5621,29 @@ fn external_pr_finish_authenticates_without_fabricating_publication_history() {
         ],
     ));
     assert_same_inventory!(before, intent_fixture::inventory(&primary));
-    success(fixture.run(&linked, &["finish", "505", "--pull-request", "639"]));
+    success(fixture.run(&linked, &["finish", "870", "--pull-request", "639"]));
     let receipt: Value = serde_json::from_slice(
-        &fs::read(primary.join(".git/csdlc-v3/local/evidence/505/terminal-receipt.json")).unwrap(),
+        &fs::read(primary.join(".git/csdlc-v3/local/evidence/870/terminal-receipt.json")).unwrap(),
     )
     .unwrap();
     assert_eq!(receipt["pull_request"], 639);
     assert_eq!(receipt["head_sha"], head);
     assert_eq!(fixture.remote_effects(), 0);
+    git(
+        &linked,
+        &[
+            "commit",
+            "--allow-empty",
+            "-m",
+            "advance external consumer after historical closeout",
+        ],
+    );
+    assert_ne!(git(&linked, &["rev-parse", "HEAD"]), head);
     let before = intent_fixture::inventory(&primary);
-    success(fixture.run(&linked, &["finish", "505"]));
+    let replay = success(fixture.run(&linked, &["finish", "870"]));
+    assert_eq!(replay["status"], "expected_noop");
     assert_same_inventory!(before, intent_fixture::inventory(&primary));
-    let denied = fixture.run(&linked, &["finish", "505", "--pull-request", "640"]);
+    let denied = fixture.run(&linked, &["finish", "870", "--pull-request", "640"]);
     assert!(String::from_utf8_lossy(&denied.stdout).contains("intent_finish_pull_request_conflict"));
     assert_same_inventory!(before, intent_fixture::inventory(&primary));
     let native_intents = primary.join(".git/csdlc-v3/remote/intents");

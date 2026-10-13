@@ -526,15 +526,12 @@ fn native_request(
         }
         if state_digest.is_none() {
             missing_state_repair = true;
-            retained_head = Some(receipt.head_sha.clone());
-        } else if receipt.head_sha != context.head
-            && receipt
-                .publication_repository
-                .as_deref()
-                .is_none_or(|repository| repository == context.repository)
-        {
-            return Err("intent_terminal_receipt_mismatch".into());
         }
+        // Terminal authority is bound to the immutable closing PR head. The
+        // invoking checkout may legitimately advance after a historical
+        // external closeout, so replay must retain that authenticated head
+        // instead of comparing it with the consumer's current HEAD.
+        retained_head = Some(receipt.head_sha.clone());
         retained_publication_repository = receipt.publication_repository.clone();
         receipt.pull_request
     } else {
@@ -634,7 +631,10 @@ fn native_request(
     .map_err(|_| "intent_terminal_request_invalid".to_owned())?;
     Ok((
         request,
-        legacy_settled.is_some() || legacy_explicit || missing_state_repair,
+        legacy_settled.is_some()
+            || legacy_explicit
+            || missing_state_repair
+            || (retained.is_some() && semantic_migration),
     ))
 }
 fn attach_terminal_observation(
@@ -1473,6 +1473,17 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
                 catch_up_terminal_merge_state(context, &staged)?;
             }
             if legacy_merged_compatibility {
+                if receipt_path.exists() && file_digest(&state_path)?.is_some() {
+                    return Ok(json!({
+                        "status":"expected_noop",
+                        "read_only":true,
+                        "operational_authority":true,
+                        "performed_mutation":false,
+                        "effects_unknown":false,
+                        "result":staged,
+                        "compatibility":"legacy_merged_publication"
+                    }));
+                }
                 native.terminal_state = Some(TerminalStateWriteRequest {
                     repository_root: context.primary.clone(),
                     reconciliation_checkout: Some(context.root.clone()),
