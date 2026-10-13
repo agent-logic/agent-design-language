@@ -173,6 +173,8 @@ def classify_tool_script(path: Path) -> tuple[str, str]:
 
 def classify_skill_dir(path: Path) -> tuple[str, str]:
     name = path.name
+    if name == "pr-run":
+        return "historical evidence", "Partial historical ADL compatibility reference; use the selected native owner for current lifecycle commands."
     if name in {
         "csdlc-doctor",
         "pr-init",

@@ -2,7 +2,12 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-skills_root="${repo_root}/adl/tools/skills"
+# These are original-v1 contract assertions, not current native lifecycle proof.
+skills_root="${CSDLC_HISTORICAL_SKILLS_ROOT:-}"
+if [[ "$skills_root" != /* || ! -d "$skills_root" ]]; then
+  echo "Select authentic complete original-v1 skill resources with CSDLC_HISTORICAL_SKILLS_ROOT." >&2
+  exit 2
+fi
 
 [[ -f "${skills_root}/adl-milestone-creator/SKILL.md" ]]
 [[ -f "${skills_root}/adl-milestone-creator/adl-skill.yaml" ]]

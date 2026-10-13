@@ -3,6 +3,8 @@ name: pr-run
 description: Execute a prepared issue after doctor review. Use when an issue is structurally ready, should bind or confirm its execution branch and worktree, then perform the bounded implementation work, validations, and truthful output recording without silently finishing or janitoring the PR.
 ---
 
+> Historical ADL compatibility reference after #1223. Companion original-v1 metadata is retained by the Cognitive-SDLC owner; this partial local directory is not an installable execution skill. Use the selected native owner and `docs/csdlc-v3/CURRENT_AUTHORITY.md` for current lifecycle commands. The source-era instructions below remain historical contract text, not fallback authority.
+
 # PR Run
 
 This skill owns the execution phase of the PR workflow.
@@ -233,8 +235,9 @@ Do not run an oversized validation suite unless the changed surface truly requir
 
 #### CI Runtime Policy
 
-Use `adl/tools/skills/docs/CI_RUNTIME_POLICY_GUIDE.md` when selecting and
-recording the validation lane.
+The original `CI_RUNTIME_POLICY_GUIDE.md` is in the owner original-v1 resource
+archive; current validation follows the retained public ADL path policy and
+issue-specific validation plan.
 
 #### Rust Dependency-Cache Warmup
 

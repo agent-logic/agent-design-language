@@ -85,7 +85,9 @@ helper through:
 - root `AGENTS.md`, under the normal issue execution and validation flow
 - `adl/tools/skills/pr-run/SKILL.md`, before bounded validation
 - typed v2 doctor/bind guidance, when routing to execution
-- `adl/tools/skills/docs/CI_RUNTIME_POLICY_GUIDE.md`, under build acceleration
+- The historical `CI_RUNTIME_POLICY_GUIDE.md` under the selected Cognitive-SDLC
+  package's `resources/docs/skill-distributions/active-lifecycle/original-v1/adl/tools/skills/docs/`;
+  this archived guidance does not grant current validation or lifecycle authority
 - `adl/config/validation_lane_selector.v0.91.6.json`, which assigns the helper
   and its contract test to `rust_dependency_cache_warmup_contracts`
 
