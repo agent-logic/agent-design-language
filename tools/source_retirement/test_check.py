@@ -422,7 +422,7 @@ class RecentOwnerFamilyTests(unittest.TestCase):
             self.assertEqual(len(paths), spec['removals'])
             check.check_recent_owner_custody(batch, spec)
             total += len(paths)
-        self.assertEqual(total, 457)
+        self.assertEqual(total, 463)
 
     def test_expanded_scope_and_repeat_refuse(self):
         for spec, batch, before, after in self.batches():

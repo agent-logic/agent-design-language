@@ -7,19 +7,19 @@
   "original_count": 4134,
   "counts": {
     "retain_resolved": 527,
-    "preserve_approved_removal": 2779,
+    "preserve_approved_removal": 2785,
     "proposed_owner_transfer_with_consumer_qualification": 227,
     "retain_public_source_or_fixture": 196,
     "preserve_reviewed_consumer_repair": 18,
     "proposed_historical_retirement_with_caller_repair": 20,
     "proposed_remove_with_entire_source_family": 1,
-    "proposed_remove_with_entire_tool_family": 352,
+    "proposed_remove_with_entire_tool_family": 346,
     "hold_explicit_reconciliation": 9,
     "hold_owner_test_reconciliation": 1,
     "proposed_remove_construction_qualified_infrastructure": 4
   },
   "additional_current_source_paths": 22,
-  "preservation": "Original 4134 identities and separate 22 captured paths unchanged. Exact executed retirement actions 2788 comprise 2787 baseline deletions and one newly-added-then-retired ADL conversion bridge; the bridge is outside both captured inventories. The baseline count includes the same seven separately enumerated supplemental paths outside the immutable inventories. Other proposals remain conditional.",
+  "preservation": "Original 4134 identities and separate 22 captured paths unchanged. Exact executed retirement actions 2794 comprise 2793 baseline deletions and one newly-added-then-retired ADL conversion bridge; the bridge is outside both captured inventories. The baseline count includes the same seven separately enumerated supplemental paths outside the immutable inventories. Other proposals remain conditional.",
   "review_boundary": "Exact paths and Git identities are pinned. Proposed removals remain conditional; this is not a claim that caller closure or all successor tests are qualified.",
   "known_prerequisites": {
     "codefriend": "Issue102 e14ff1b08b7ef01f838404bca8ecdf47c1318ac1 passed all39suites409Linux tests,0failed0ignored,174.293s; exacthead and clean source before/after. Evidence FastWork c1223/evidence/codefriend/issue102-e14ff1b0-full, transcriptSHA256c7944f7e0403ba485b377868b1bd85e91eeee0ecce3f79920de3e86c813cfa1a. Focused1 and parallel47 diagnostics also passed; prior dc2 redelivery failure did not reproduce and its cause is not claimed fixed. Earlier failures retained. One macOS-only case, actual hosted installed-acquisition CI proof and owner publication remain separate.",
@@ -66322,16 +66322,25 @@
         "blob": "31a95e23ca29962c91ba737fa7798c9b1f64ea21"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "pre_runtime_api_three_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "SPRINT_SIX_HELPERS_OBSERVED_APPLIED.json",
+        "sha256": "53b2646d277d689782e1087f7bbe3cb37e98974e9e7fbfed396559acfd414ca9",
+        "implementation_commit": "e131de500a7f09f4bdc9c80f9d1dfad0706f4ba4"
       }
     },
     {
@@ -66584,18 +66593,27 @@
         "blob": "7851a931f118231907bbbbd9e56eeccf80201fd2"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "docs/skill-distributions/planning-utilities/original/adl/tools/skills/sprint-conductor/scripts/issue_goal_metrics.py"
         ]
+      },
+      "pre_runtime_api_three_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "SPRINT_SIX_HELPERS_OBSERVED_APPLIED.json",
+        "sha256": "53b2646d277d689782e1087f7bbe3cb37e98974e9e7fbfed396559acfd414ca9",
+        "implementation_commit": "e131de500a7f09f4bdc9c80f9d1dfad0706f4ba4"
       }
     },
     {
@@ -66688,18 +66706,27 @@
         "blob": "1b18a4b75e0db6be4f9b1c18516694197df0fcac"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "docs/skill-distributions/original-contracts/original/adl/tools/skills/sprint-conductor/scripts/record_codex_goal_tool_snapshot.py"
         ]
+      },
+      "pre_runtime_api_three_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "SPRINT_SIX_HELPERS_OBSERVED_APPLIED.json",
+        "sha256": "53b2646d277d689782e1087f7bbe3cb37e98974e9e7fbfed396559acfd414ca9",
+        "implementation_commit": "e131de500a7f09f4bdc9c80f9d1dfad0706f4ba4"
       }
     },
     {
@@ -66712,18 +66739,27 @@
         "blob": "15f38aad7d3d1843b356531f5ce4b788cf49fae7"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "docs/skill-distributions/planning-utilities/original/adl/tools/skills/sprint-conductor/scripts/record_issue_goal_metrics.py"
         ]
+      },
+      "pre_runtime_api_three_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "SPRINT_SIX_HELPERS_OBSERVED_APPLIED.json",
+        "sha256": "53b2646d277d689782e1087f7bbe3cb37e98974e9e7fbfed396559acfd414ca9",
+        "implementation_commit": "e131de500a7f09f4bdc9c80f9d1dfad0706f4ba4"
       }
     },
     {
@@ -66776,18 +66812,27 @@
         "blob": "e8be55d4c2e0f98a8b1b1c72bc9419da56a0077f"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "docs/skill-distributions/original-contracts/original/adl/tools/skills/sprint-conductor/scripts/record_issue_goal_stage_from_codex_session.py"
         ]
+      },
+      "pre_runtime_api_three_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "SPRINT_SIX_HELPERS_OBSERVED_APPLIED.json",
+        "sha256": "53b2646d277d689782e1087f7bbe3cb37e98974e9e7fbfed396559acfd414ca9",
+        "implementation_commit": "e131de500a7f09f4bdc9c80f9d1dfad0706f4ba4"
       }
     },
     {
@@ -66960,18 +67005,27 @@
         "blob": "46b6ce350368243013b662fd5f4b0fc4ccea0009"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "docs/skill-distributions/original-contracts/original/adl/tools/skills/sprint-conductor/scripts/write_sprint_closeout_artifact.py"
         ]
+      },
+      "pre_runtime_api_three_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "SPRINT_SIX_HELPERS_OBSERVED_APPLIED.json",
+        "sha256": "53b2646d277d689782e1087f7bbe3cb37e98974e9e7fbfed396559acfd414ca9",
+        "implementation_commit": "e131de500a7f09f4bdc9c80f9d1dfad0706f4ba4"
       }
     },
     {

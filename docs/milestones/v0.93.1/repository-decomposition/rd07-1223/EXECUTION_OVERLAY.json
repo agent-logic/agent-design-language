@@ -6,7 +6,7 @@
   "execution_authorized": false,
   "original_inventory_count": 4134,
   "additional_inventory_count": 22,
-  "executed_deletion_count": 2788,
+  "executed_deletion_count": 2794,
   "entries": [
     {
       "path": ".github/workflows/ci.yaml",
@@ -6909,7 +6909,7 @@
       "before": null,
       "after": [
         "100644",
-        "62e2419109ff34d11f617c87b0c974549f6a757a"
+        "36c9aad7d8d545249daf36811015cbb501b03ac8"
       ],
       "implementation_commit": "6030a16305699af338e41c27f2abcac893c078f3",
       "approval_reference": "PUBLIC_WORKSPACE_CLOSURE.json",
@@ -6942,6 +6942,18 @@
             "62e2419109ff34d11f617c87b0c974549f6a757a"
           ],
           "packet": "PUBLIC_SELECTOR_REPAIR_APPLIED.json"
+        },
+        {
+          "commit": "e131de500a7f09f4bdc9c80f9d1dfad0706f4ba4",
+          "before": [
+            "100644",
+            "62e2419109ff34d11f617c87b0c974549f6a757a"
+          ],
+          "after": [
+            "100644",
+            "36c9aad7d8d545249daf36811015cbb501b03ac8"
+          ],
+          "packet": "SPRINT_SIX_HELPERS_OBSERVED_APPLIED.json"
         }
       ]
     },
@@ -6954,7 +6966,7 @@
       ],
       "after": [
         "100644",
-        "a56f26b9bb38636d931aef3cfb9989943de3451d"
+        "6c93e60177d37171fa4dc6f96732701efdbd3746"
       ],
       "implementation_commit": "39a64819e2ccc75a0b09616a7883f5835d047e35",
       "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
@@ -7044,6 +7056,18 @@
             "a56f26b9bb38636d931aef3cfb9989943de3451d"
           ],
           "packet": "INFRASTRUCTURE_LIFECYCLE_REDACTION_APPLIED.json"
+        },
+        {
+          "commit": "e131de500a7f09f4bdc9c80f9d1dfad0706f4ba4",
+          "before": [
+            "100644",
+            "a56f26b9bb38636d931aef3cfb9989943de3451d"
+          ],
+          "after": [
+            "100644",
+            "6c93e60177d37171fa4dc6f96732701efdbd3746"
+          ],
+          "packet": "SPRINT_SIX_HELPERS_OBSERVED_APPLIED.json"
         }
       ]
     },
@@ -30175,7 +30199,7 @@
       ],
       "after": [
         "100755",
-        "e9f8e9f28be74e4c60bf441b9d2a283506a32f8c"
+        "dc529de911ebda319e307e063c1b49a7280e1f9c"
       ],
       "implementation_commit": "9b6ea052ff24c8819a4b9a86a68a8255a8dd6503",
       "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
@@ -30205,6 +30229,18 @@
             "e9f8e9f28be74e4c60bf441b9d2a283506a32f8c"
           ],
           "packet": "PUBLIC_SELECTOR_REPAIR_APPLIED.json"
+        },
+        {
+          "commit": "e131de500a7f09f4bdc9c80f9d1dfad0706f4ba4",
+          "before": [
+            "100755",
+            "e9f8e9f28be74e4c60bf441b9d2a283506a32f8c"
+          ],
+          "after": [
+            "100755",
+            "dc529de911ebda319e307e063c1b49a7280e1f9c"
+          ],
+          "packet": "SPRINT_SIX_HELPERS_OBSERVED_APPLIED.json"
         }
       ]
     },
@@ -64513,7 +64549,7 @@
       "before": null,
       "after": [
         "100644",
-        "9117c057f4d0da865f3e3753d5b43b5f761edaef"
+        "d283bd84c65e4db4b6976b62322bdff8c7f6746e"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "Infrastructure212 source commit guard-documentation accompaniment",
@@ -64714,6 +64750,18 @@
             "9117c057f4d0da865f3e3753d5b43b5f761edaef"
           ],
           "packet": "Runtime API three-resource integration"
+        },
+        {
+          "commit": "pending_reviewed_integration",
+          "before": [
+            "100644",
+            "9117c057f4d0da865f3e3753d5b43b5f761edaef"
+          ],
+          "after": [
+            "100644",
+            "d283bd84c65e4db4b6976b62322bdff8c7f6746e"
+          ],
+          "packet": "Remaining Sprint helpers and README mode correction integration"
         }
       ],
       "prior_execution_provenance": [
@@ -85503,6 +85551,235 @@
           "packet": "RUNTIME_API_THREE_APPLIED.json"
         }
       ]
+    },
+    {
+      "path": "tools/sprint_contracts/README.md",
+      "before": null,
+      "after": [
+        "100644",
+        "165ef76f94ccc0017ef7c943ab49b879a926c323"
+      ],
+      "action": "add",
+      "implementation_commit": "e131de500a7f09f4bdc9c80f9d1dfad0706f4ba4",
+      "approval_reference": "SPRINT_SIX_HELPERS_OBSERVED_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "e131de500a7f09f4bdc9c80f9d1dfad0706f4ba4",
+          "before": null,
+          "after": [
+            "100755",
+            "165ef76f94ccc0017ef7c943ab49b879a926c323"
+          ],
+          "packet": "SPRINT_SIX_HELPERS_OBSERVED_APPLIED.json"
+        }
+      ],
+      "supplemental_source_chain": [
+        {
+          "commit": "5b0403985e65ef36f6a36f659af5c42b88f2b1c9",
+          "before": [
+            "100755",
+            "165ef76f94ccc0017ef7c943ab49b879a926c323"
+          ],
+          "after": [
+            "100644",
+            "165ef76f94ccc0017ef7c943ab49b879a926c323"
+          ],
+          "packet": "SPRINT_README_MODE_CORRECTION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/skills/sprint-conductor/scripts/check_installed_skill_parity.py",
+      "before": [
+        "100755",
+        "31a95e23ca29962c91ba737fa7798c9b1f64ea21"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "e131de500a7f09f4bdc9c80f9d1dfad0706f4ba4",
+      "approval_reference": "SPRINT_SIX_HELPERS_OBSERVED_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "e131de500a7f09f4bdc9c80f9d1dfad0706f4ba4",
+          "before": [
+            "100755",
+            "31a95e23ca29962c91ba737fa7798c9b1f64ea21"
+          ],
+          "after": null,
+          "packet": "SPRINT_SIX_HELPERS_OBSERVED_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "SPRINT_SIX_HELPERS_OBSERVED_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/sprint-six-source-retirement/original-sources.tar",
+        "archive_sha256": "d1637450bbb54363fdf39cd4b2fa4880898a59804c265d9729e96bfa07fa8058",
+        "member": "adl/tools/skills/sprint-conductor/scripts/check_installed_skill_parity.py",
+        "mode": "100755",
+        "blob": "31a95e23ca29962c91ba737fa7798c9b1f64ea21",
+        "sha256": "558a3228fb1c2898635aa811176c669ec5907cbcdc67a0d2428e291fc4940ade"
+      }
+    },
+    {
+      "path": "adl/tools/skills/sprint-conductor/scripts/issue_goal_metrics.py",
+      "before": [
+        "100755",
+        "7851a931f118231907bbbbd9e56eeccf80201fd2"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "e131de500a7f09f4bdc9c80f9d1dfad0706f4ba4",
+      "approval_reference": "SPRINT_SIX_HELPERS_OBSERVED_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "e131de500a7f09f4bdc9c80f9d1dfad0706f4ba4",
+          "before": [
+            "100755",
+            "7851a931f118231907bbbbd9e56eeccf80201fd2"
+          ],
+          "after": null,
+          "packet": "SPRINT_SIX_HELPERS_OBSERVED_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "SPRINT_SIX_HELPERS_OBSERVED_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/sprint-six-source-retirement/original-sources.tar",
+        "archive_sha256": "d1637450bbb54363fdf39cd4b2fa4880898a59804c265d9729e96bfa07fa8058",
+        "member": "adl/tools/skills/sprint-conductor/scripts/issue_goal_metrics.py",
+        "mode": "100755",
+        "blob": "7851a931f118231907bbbbd9e56eeccf80201fd2",
+        "sha256": "cea05f335af023b6576faeaef57cd776ee5dcf0c09b67e17e51d50c6f7b869db"
+      }
+    },
+    {
+      "path": "adl/tools/skills/sprint-conductor/scripts/record_codex_goal_tool_snapshot.py",
+      "before": [
+        "100755",
+        "1b18a4b75e0db6be4f9b1c18516694197df0fcac"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "e131de500a7f09f4bdc9c80f9d1dfad0706f4ba4",
+      "approval_reference": "SPRINT_SIX_HELPERS_OBSERVED_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "e131de500a7f09f4bdc9c80f9d1dfad0706f4ba4",
+          "before": [
+            "100755",
+            "1b18a4b75e0db6be4f9b1c18516694197df0fcac"
+          ],
+          "after": null,
+          "packet": "SPRINT_SIX_HELPERS_OBSERVED_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "SPRINT_SIX_HELPERS_OBSERVED_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/sprint-six-source-retirement/original-sources.tar",
+        "archive_sha256": "d1637450bbb54363fdf39cd4b2fa4880898a59804c265d9729e96bfa07fa8058",
+        "member": "adl/tools/skills/sprint-conductor/scripts/record_codex_goal_tool_snapshot.py",
+        "mode": "100755",
+        "blob": "1b18a4b75e0db6be4f9b1c18516694197df0fcac",
+        "sha256": "004dd8da18c4ebb0ea71802505b46883572d8abf00337362bd2aad2d9826c437"
+      }
+    },
+    {
+      "path": "adl/tools/skills/sprint-conductor/scripts/record_issue_goal_metrics.py",
+      "before": [
+        "100755",
+        "15f38aad7d3d1843b356531f5ce4b788cf49fae7"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "e131de500a7f09f4bdc9c80f9d1dfad0706f4ba4",
+      "approval_reference": "SPRINT_SIX_HELPERS_OBSERVED_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "e131de500a7f09f4bdc9c80f9d1dfad0706f4ba4",
+          "before": [
+            "100755",
+            "15f38aad7d3d1843b356531f5ce4b788cf49fae7"
+          ],
+          "after": null,
+          "packet": "SPRINT_SIX_HELPERS_OBSERVED_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "SPRINT_SIX_HELPERS_OBSERVED_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/sprint-six-source-retirement/original-sources.tar",
+        "archive_sha256": "d1637450bbb54363fdf39cd4b2fa4880898a59804c265d9729e96bfa07fa8058",
+        "member": "adl/tools/skills/sprint-conductor/scripts/record_issue_goal_metrics.py",
+        "mode": "100755",
+        "blob": "15f38aad7d3d1843b356531f5ce4b788cf49fae7",
+        "sha256": "c0fb411031270eb9f947b5ee6cbba19f3abb56db07b385c7d90cd4e129bcb266"
+      }
+    },
+    {
+      "path": "adl/tools/skills/sprint-conductor/scripts/record_issue_goal_stage_from_codex_session.py",
+      "before": [
+        "100644",
+        "e8be55d4c2e0f98a8b1b1c72bc9419da56a0077f"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "e131de500a7f09f4bdc9c80f9d1dfad0706f4ba4",
+      "approval_reference": "SPRINT_SIX_HELPERS_OBSERVED_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "e131de500a7f09f4bdc9c80f9d1dfad0706f4ba4",
+          "before": [
+            "100644",
+            "e8be55d4c2e0f98a8b1b1c72bc9419da56a0077f"
+          ],
+          "after": null,
+          "packet": "SPRINT_SIX_HELPERS_OBSERVED_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "SPRINT_SIX_HELPERS_OBSERVED_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/sprint-six-source-retirement/original-sources.tar",
+        "archive_sha256": "d1637450bbb54363fdf39cd4b2fa4880898a59804c265d9729e96bfa07fa8058",
+        "member": "adl/tools/skills/sprint-conductor/scripts/record_issue_goal_stage_from_codex_session.py",
+        "mode": "100644",
+        "blob": "e8be55d4c2e0f98a8b1b1c72bc9419da56a0077f",
+        "sha256": "359c4274fc2498c67b0b97a912d5f573c35a06d7f2fb04309d147353ddfee3d6"
+      }
+    },
+    {
+      "path": "adl/tools/skills/sprint-conductor/scripts/write_sprint_closeout_artifact.py",
+      "before": [
+        "100755",
+        "46b6ce350368243013b662fd5f4b0fc4ccea0009"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "e131de500a7f09f4bdc9c80f9d1dfad0706f4ba4",
+      "approval_reference": "SPRINT_SIX_HELPERS_OBSERVED_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "e131de500a7f09f4bdc9c80f9d1dfad0706f4ba4",
+          "before": [
+            "100755",
+            "46b6ce350368243013b662fd5f4b0fc4ccea0009"
+          ],
+          "after": null,
+          "packet": "SPRINT_SIX_HELPERS_OBSERVED_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "SPRINT_SIX_HELPERS_OBSERVED_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/sprint-six-source-retirement/original-sources.tar",
+        "archive_sha256": "d1637450bbb54363fdf39cd4b2fa4880898a59804c265d9729e96bfa07fa8058",
+        "member": "adl/tools/skills/sprint-conductor/scripts/write_sprint_closeout_artifact.py",
+        "mode": "100755",
+        "blob": "46b6ce350368243013b662fd5f4b0fc4ccea0009",
+        "sha256": "264c4711742f27b028a095a74bd354ee0b0750d9ba33a4253b47fc1df2b01121"
+      }
     }
   ],
   "missing_entries": [],
@@ -92264,9 +92541,46 @@
         "docs/api/runtime-v3/v1/README.md"
       ],
       "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "SPRINT_SIX_HELPERS_OBSERVED_APPLIED.json",
+      "sha256": "53b2646d277d689782e1087f7bbe3cb37e98974e9e7fbfed396559acfd414ca9",
+      "commit": "e131de500a7f09f4bdc9c80f9d1dfad0706f4ba4",
+      "files": 10,
+      "removals": 6,
+      "scope_sha256": "8311114d2dbd92676068ecbcb87f94a8db76a6f00fecae943c0f9df29e4202d8",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl/config/validation_lane_selector.public.v1.json",
+        "adl/config/validation_lane_selector.v0.91.6.json",
+        "adl/tools/test_validation_manager.sh",
+        "tools/sprint_contracts/README.md",
+        "adl/tools/skills/sprint-conductor/scripts/check_installed_skill_parity.py",
+        "adl/tools/skills/sprint-conductor/scripts/issue_goal_metrics.py",
+        "adl/tools/skills/sprint-conductor/scripts/record_codex_goal_tool_snapshot.py",
+        "adl/tools/skills/sprint-conductor/scripts/record_issue_goal_metrics.py",
+        "adl/tools/skills/sprint-conductor/scripts/record_issue_goal_stage_from_codex_session.py",
+        "adl/tools/skills/sprint-conductor/scripts/write_sprint_closeout_artifact.py"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "SPRINT_README_MODE_CORRECTION_APPLIED.json",
+      "sha256": "dade60f868211bf0146b1b93d85f7729e485a25c970e913a0fb1024559405abb",
+      "commit": "5b0403985e65ef36f6a36f659af5c42b88f2b1c9",
+      "files": 1,
+      "removals": 0,
+      "scope_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "tools/sprint_contracts/README.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
     }
   ],
-  "baseline_deletion_count": 2787,
+  "baseline_deletion_count": 2793,
   "transient_removed_paths": [
     "adl/tools/test_issue872_historical_manifest.py"
   ],
@@ -92279,6 +92593,6 @@
     "adl/tools/test_demo_v0901_quality_gate.sh",
     "adl/tools/test_demo_v0902_review_quality_gate.sh"
   ],
-  "inventory_baseline_deletion_count": 2780,
+  "inventory_baseline_deletion_count": 2786,
   "supplemental_baseline_deletion_count": 7
 }
