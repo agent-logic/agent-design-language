@@ -1,7 +1,8 @@
 # Public source coverage
 
-`coverage.py` prepares the public coverage producer for ADL #1223. It is not yet
-wired into the required `adl-coverage` check. Passing its contract tests does not
+`coverage.py` implements the public coverage producer for ADL #1223. Its selected
+job is required by the stable `adl-coverage` aggregate; private owner obligations
+remain separate until their retirement is reconciled. Passing its contract tests does not
 establish an instrumented result or permit retirement of private test obligations.
 
 The inventory assigns production files to the public CLI and five public

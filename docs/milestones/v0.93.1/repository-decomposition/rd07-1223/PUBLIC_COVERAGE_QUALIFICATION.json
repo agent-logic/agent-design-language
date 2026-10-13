@@ -50,8 +50,18 @@
   ],
   "limits": [
     "Not final PR-head CI",
-    "Required adl-coverage wiring and private owner test reconciliation remain pending",
+    "Required adl-coverage public wiring implemented; private owner test reconciliation and final GitHub execution remain pending",
     "Full 90% aggregate/80% per-file gate has not passed; no thresholds reduced",
     "Owner package acceptance and retirement authority are separate"
-  ]
+  ],
+  "ci_wiring": {
+    "status": "implemented_local_contracts_passed",
+    "producer_job": "public_adl_coverage",
+    "aggregate": "adl-coverage",
+    "selection_result_cases": 24,
+    "workflow_policy": "passed",
+    "existing_ci_runtime_and_backend_contracts": "passed",
+    "routing": "passed",
+    "github_execution": "not_run"
+  }
 }

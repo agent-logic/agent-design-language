@@ -2,6 +2,8 @@
 """Focused contract for the public-only ADL validation lane."""
 
 import json
+import os
+import subprocess
 from pathlib import Path
 
 
@@ -74,7 +76,7 @@ def main() -> None:
     assert "bash tools/public_adl/run_cli_ci.sh" in runner
 
     workflow = (ROOT / ".github/workflows/ci.yaml").read_text()
-    job = workflow.split("  public_adl_validation:\n", 1)[1].split("\n  adl_rust_fmt_clippy:\n", 1)[0]
+    job = workflow.split("  public_adl_validation:\n", 1)[1].split("\n  public_adl_coverage:\n", 1)[0]
     assert "runs-on: macos-latest" in job
     assert "needs.adl_path_policy.outputs.public_adl_validation_required == 'true'" in job
     proof_step = job.split("      - name: Five public packages and installed consumer proof\n", 1)[1].split("\n      - name:", 1)[0]
@@ -87,6 +89,23 @@ def main() -> None:
     assert "if-no-files-found: error" in job
     assert "public_adl_validation:${{ needs.public_adl_validation.result }}" not in workflow
     assert "PUBLIC_ADL_VALIDATION_RESULT: ${{ needs.public_adl_validation.result }}" in workflow
+
+    coverage_job = workflow.split("  public_adl_coverage:\n", 1)[1].split("\n  adl_rust_fmt_clippy:\n", 1)[0]
+    assert "runs-on: ubuntu-latest" in coverage_job
+    assert "needs.adl_path_policy.outputs.public_adl_validation_required == 'true'" in coverage_job
+    assert "--mode pull_request --base \"$BASE_SHA\"" in coverage_job
+    assert "--mode full" in coverage_job
+    assert "--version 0.8.2" in coverage_job
+    assert "if-no-files-found: error" in coverage_job
+    aggregate = workflow.split("  adl-coverage:\n", 1)[1]
+    assert "      - public_adl_coverage\n" in aggregate
+    block = aggregate.split("# BEGIN public coverage aggregate contract\n", 1)[1].split("# END public coverage aggregate contract", 1)[0]
+    for selected in ["true", "false", "", "malformed"]:
+        for result in ["success", "skipped", "failure", "cancelled", "", "malformed"]:
+            completed = subprocess.run(["bash", "-c", block], capture_output=True,
+                                       env={**os.environ, "PUBLIC_ADL_COVERAGE_REQUIRED": selected,
+                                            "PUBLIC_ADL_COVERAGE_RESULT": result})
+            assert (completed.returncode == 0) == ((selected, result) in [("true", "success"), ("false", "skipped")]), (selected, result)
 
 
 if __name__ == "__main__":

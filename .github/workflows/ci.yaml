@@ -727,6 +727,52 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
+  public_adl_coverage:
+    name: public-adl-coverage
+    needs: adl_path_policy
+    if: needs.adl_path_policy.outputs.public_adl_validation_required == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          fetch-depth: 0
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@631a55b12751854ce901bb631d5902ceb48146f7 # 1.92.0
+        with:
+          toolchain: 1.92.0
+          components: llvm-tools-preview
+      - name: Install pinned coverage producer
+        run: cargo install cargo-llvm-cov --locked --version 0.8.2
+      - name: Measure retained public source
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          COVERAGE_OUTPUT: ${{ runner.temp }}/public-adl-coverage
+          CARGO_PROFILE_DEV_DEBUG: '0'
+          CARGO_PROFILE_TEST_DEBUG: '0'
+        run: |
+          python3 -B tools/public_adl/test_coverage.py
+          if [ "$EVENT_NAME" = pull_request ]; then
+            python3 -B tools/public_adl/coverage.py --mode pull_request --base "$BASE_SHA" --output "$COVERAGE_OUTPUT"
+          else
+            python3 -B tools/public_adl/coverage.py --mode full --output "$COVERAGE_OUTPUT"
+          fi
+      - name: Retain public coverage evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: public-adl-coverage-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/public-adl-coverage/result.json
+            ${{ runner.temp }}/public-adl-coverage/executions.json
+            ${{ runner.temp }}/public-adl-coverage/*/summary.json
+            ${{ runner.temp }}/public-adl-coverage/*/coverage.lcov
+            ${{ runner.temp }}/public-adl-coverage/*/*.log
+          if-no-files-found: error
+          retention-days: 7
+
   adl_rust_fmt_clippy:
     name: adl-rust-fmt-clippy
     needs: adl_path_policy
@@ -1841,6 +1887,7 @@ jobs:
     name: adl-coverage
     needs:
       - adl_path_policy
+      - public_adl_coverage
       - adl_coverage_hosted
       - adl_spot_ci_and_coverage
     if: always()
@@ -1852,6 +1899,8 @@ jobs:
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - name: Aggregate hosted or Spot coverage lane
         env:
+          PUBLIC_ADL_COVERAGE_REQUIRED: ${{ needs.adl_path_policy.outputs.public_adl_validation_required }}
+          PUBLIC_ADL_COVERAGE_RESULT: ${{ needs.public_adl_coverage.result }}
           BACKEND: ${{ needs.adl_path_policy.outputs.heavy_ci_backend }}
           EVENT_NAME: ${{ github.event_name }}
           SAME_REPO_PR: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository }}
@@ -1860,6 +1909,12 @@ jobs:
           SPOT_WORK_REQUIRED: ${{ needs.adl_path_policy.outputs.coverage_required == 'true' }}
         run: |
           set -euo pipefail
+          # BEGIN public coverage aggregate contract
+          case "$PUBLIC_ADL_COVERAGE_REQUIRED:$PUBLIC_ADL_COVERAGE_RESULT" in
+            true:success|false:skipped) ;;
+            *) echo "::error::public coverage selection/result mismatch"; exit 1 ;;
+          esac
+          # END public coverage aggregate contract
           hosted_coverage_result="${{ needs.adl_coverage_hosted.outputs.route_result }}"
           hosted_coverage_job_result="${{ needs.adl_coverage_hosted.result }}"
           if [ -z "$hosted_coverage_result" ]; then

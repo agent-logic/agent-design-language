@@ -25,7 +25,8 @@
     "publicCLI runner and exact path selection",
     "publicmanifest private dependency count zero",
     "publicCI artifact writer/uploader root aligned",
-    "installedpublicpackage sandbox ancestor metadata repaired with denial tests"
+    "installedpublicpackage sandbox ancestor metadata repaired with denial tests",
+    "Additive public_adl_coverage job with exact six-package producer and strict selected-result gate in required adl-coverage; original private obligations retained"
   ],
   "acceptance": [
     "CI YAML parse and workflow policy pass",
@@ -291,7 +292,18 @@
       "action": "retain_required_identity_with_real_public_coverage",
       "owner": "ADL",
       "obligation": "Effective main ruleset requires this check. Measure retained public source coverage; enforce reviewed public baseline; reject missing, failed or cancelled selected coverage and report exact source denominator. Never equate moved private source removal with improved coverage.",
-      "execution_change_applied": false
+      "execution_change_applied": true,
+      "implementation_scope": "Additive public coverage selection/result gate only; existing hosted/Spot private gates remain pending complete owner reconciliation."
+    }
+  ],
+  "added_jobs": [
+    {
+      "job": "public_adl_coverage",
+      "selection": "public_adl_validation_required",
+      "runner": "ubuntu-latest",
+      "producer": "tools/public_adl/coverage.py",
+      "required_aggregate": "adl-coverage",
+      "proof": "24 selected/result combinations, workflow policy, existing CI runtime/backend contracts and routing cases passed locally; no GitHub run yet"
     }
   ]
 }
