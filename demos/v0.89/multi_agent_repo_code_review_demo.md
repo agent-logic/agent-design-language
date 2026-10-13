@@ -58,12 +58,14 @@ Primary proof surfaces:
 
 ## See Also
 
+The serious-review fixture producer, original test and validator now belong to CodeFriend at source revision `8236ee8e8ae7e31efdd391904d3f8d75b30693fb`. Set `CODEFRIEND_SERIOUS_PROOF_SOURCE_ROOT` to an absolute checkout of that revision. This is a generated offline review-packet fixture; it does not execute the represented reviewer skills or qualify live review, providers, publication or installed binaries. This ADL guide remains historical navigation, not a delivered CodeFriend guide.
+
 If you want the stronger reviewer-first proof companion with visible heuristics,
 explicit non-findings, role-specific caveats, and stricter publication
 boundaries, use:
 
 ```bash
-bash adl/tools/demo_v0914_multi_agent_repo_review_serious_proof.sh
+(cd "${CODEFRIEND_SERIOUS_PROOF_SOURCE_ROOT:?set an absolute CodeFriend checkout}" && bash adl/tools/demo_v0914_multi_agent_repo_review_serious_proof.sh)
 ```
 
 See:
