@@ -1,0 +1,112 @@
+{
+  "schema": "adl.source_retirement.runtime_consumer_preflight.v1",
+  "issue": 1223,
+  "installer": {
+    "status": "passed",
+    "installer_head": "5151d095cb68a68dda9eb3d7e144f2c611a81980",
+    "installer_sha256": "7650a30ba2514f778eadaa6267e380e4b38eff544caa2b54974599e5bfaec9e1",
+    "archive_sha256": "ab6dd32d9a5bba7b754f74a0321e466150154578cc819803e93ef1ebcc57d3f6",
+    "archive_source_head": "11ce6614603532738e9ceffab093e35d96b262b5",
+    "memory_limit_bytes": 7516192768,
+    "network": "none",
+    "production_changed": false,
+    "started_at": 1791864970.572618,
+    "exit_code": 0,
+    "finished_at": 1791864993.753365
+  },
+  "adapter": {
+    "status": "passed",
+    "archive": "ab6dd32d9a5bba7b754f74a0321e466150154578cc819803e93ef1ebcc57d3f6",
+    "cases": [
+      {
+        "case": "plan",
+        "passed": true,
+        "direct_exit": 0,
+        "adapter_exit": 0
+      },
+      {
+        "case": "prompts",
+        "passed": true,
+        "direct_exit": 0,
+        "adapter_exit": 0
+      },
+      {
+        "case": "missing-run",
+        "passed": true,
+        "direct_exit": 1,
+        "adapter_exit": 1
+      },
+      {
+        "case": "resume-missing-id",
+        "passed": true,
+        "direct_exit": 2,
+        "adapter_exit": 2
+      },
+      {
+        "case": "resume-unknown",
+        "passed": true,
+        "direct_exit": 1,
+        "adapter_exit": 1
+      },
+      {
+        "case": "keygen-invalid",
+        "passed": true,
+        "direct_exit": 2,
+        "adapter_exit": 2
+      },
+      {
+        "case": "keygen",
+        "passed": true,
+        "direct_exit": 0,
+        "adapter_exit": 0
+      },
+      {
+        "case": "sign",
+        "passed": true,
+        "direct_exit": 0,
+        "adapter_exit": 0
+      },
+      {
+        "case": "verify",
+        "passed": true,
+        "direct_exit": 0,
+        "adapter_exit": 0
+      },
+      {
+        "case": "verify-tampered",
+        "passed": true,
+        "direct_exit": 1,
+        "adapter_exit": 1
+      },
+      {
+        "case": "mock-run",
+        "passed": true,
+        "direct_exit": 0,
+        "adapter_exit": 0
+      }
+    ],
+    "observability": "disabled for functional parity only; no logging parity claim",
+    "limits": "Direct qualified Runtime versus adapter; does not prove legacy ADL parity or successful resume",
+    "mock_provider_only": true,
+    "production_changed": false
+  },
+  "adapter_source_commit": "73a51ef47d78dc0ad0cff6efa70a0f56b60cfd10",
+  "installation_log_sha256": "9013fe15e6b91bf7fc8f8b465fbd2de73398ad1f98fce39f68e0832cea7d4100",
+  "memory_events_before": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+  "memory_events_after": "low 0\nhigh 0\nmax 908\noom 0\noom_kill 0\noom_group_kill 0\n",
+  "memory_peak_bytes": 7516192768,
+  "memory_note": "Cgroup peak includes filesystem cache and reached configured limit; no OOM or OOM kill. No claim of low total container peak.",
+  "pvf": {
+    "lane": "local_integration",
+    "role": "installed_runtime_consumer_transport",
+    "determinism": "synthetic local workflow and mock provider; generated signing keys",
+    "resources": "isolated Linux ARM64 container, 7GiB limit, no network",
+    "gate": "required CLI-02 preflight; legacy CLI parity remains separate"
+  },
+  "remaining": [
+    "Legacy ADL versus installed successor behavior including logging",
+    "Successful resume parity",
+    "CodeFriend command ownership and parity",
+    "Production dispatch wiring, final private-free CLI build and public package proof"
+  ]
+}

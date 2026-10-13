@@ -181,6 +181,7 @@
     "command": "TMPDIR=/Volumes/FastWork/c1223/tmp python3 -B tools/public_adl/test_runtime_owner.py",
     "test_methods": 7,
     "result": "passed",
-    "limits": "Synthetic package metadata is not owner qualification; production dispatch is unchanged. Real Runtime install and command parity remain required."
+    "limits": "Synthetic package metadata is not owner qualification; production dispatch is unchanged. Real Runtime install and command parity remain required.",
+    "installed_transport_preflight": "RUNTIME_CONSUMER_PREFLIGHT.json"
   }
 }
