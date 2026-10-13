@@ -14,8 +14,8 @@
     "proposed_owner_transfer_with_consumer_qualification": 487,
     "proposed_remove_construction_qualified_infrastructure": 216,
     "proposed_remove_with_entire_source_family": 1874,
-    "proposed_remove_with_entire_tool_family": 690,
-    "retain_public_source_or_fixture": 77,
+    "proposed_remove_with_entire_tool_family": 689,
+    "retain_public_source_or_fixture": 78,
     "retain_resolved": 519
   },
   "additional_current_source_paths": 19,
@@ -36124,11 +36124,12 @@
         "blob": "9c76be9178a3050bb4b690f85097b16b01512873"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "proposed_action": "retain_public_source_or_fixture",
       "required_before_execution": [
         "qualified_successor_tool_family",
         "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Apply exact reviewed public cutover and resolve explicit legacy-manifest/caller gaps; retaining selector does not claim these pending repairs completed."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -36136,7 +36137,9 @@
         "exact_successor_paths": [
           "docs/skill-distributions/planning-utilities/original/adl/tools/select_validation_lanes.py"
         ]
-      }
+      },
+      "prior_proposed_action": "proposed_remove_with_entire_tool_family",
+      "retention_basis": "Public selector implementation is intentionally modified and retained by exact27-path PUBLIC_CUTOVER_APPROVAL.patch. Owner archival source correspondence does not authorize deleting this active public interface."
     },
     {
       "id": "RD07-1532",
