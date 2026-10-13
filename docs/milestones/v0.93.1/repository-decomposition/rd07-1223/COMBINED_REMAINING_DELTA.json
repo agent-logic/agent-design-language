@@ -1,12 +1,12 @@
 {
   "schema": "adl.source_retirement.combined_remaining_delta.v1",
   "issue": 1223,
-  "source_head": "3a9d37a12ae63e3f1becb3b0a6098d4bec22610f",
+  "source_head": "9161477bbf12ca95f5842869fd1cead44b0f095a",
   "status": "prepared_scope_not_ready_for_execution",
   "execution_authorized": false,
   "original_count": 4134,
   "counts": {
-    "hold_explicit_reconciliation": 100,
+    "hold_explicit_reconciliation": 95,
     "hold_owner_test_reconciliation": 35,
     "preserve_approved_removal": 70,
     "preserve_reviewed_consumer_repair": 18,
@@ -15,7 +15,7 @@
     "proposed_remove_construction_qualified_infrastructure": 216,
     "proposed_remove_with_entire_source_family": 1874,
     "proposed_remove_with_entire_tool_family": 689,
-    "retain_public_source_or_fixture": 87,
+    "retain_public_source_or_fixture": 92,
     "retain_resolved": 527
   },
   "additional_current_source_paths": 22,
@@ -35177,10 +35177,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "Retain exact paths with ADL CI owner until replacement CI contract removes or redirects current calls and preserves surviving tests. Classify source-policy tests together with their runners; no transfer based on copy alone."
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -35201,7 +35199,11 @@
           ],
           "other_findings": 0
         }
-      }
+      },
+      "prior_execution_prerequisites": [
+        "Retain exact paths with ADL CI owner until replacement CI contract removes or redirects current calls and preserves surviving tests. Classify source-policy tests together with their runners; no transfer based on copy alone."
+      ],
+      "disposition_evidence": "PVF_HELPER_RETENTION.json; complete six-file ADL generic runner/schema/policy fixture closure; original suites passed and independently reviewed."
     },
     {
       "id": "RD07-1500",
@@ -35214,10 +35216,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "Retain exact paths with ADL CI owner until replacement CI contract removes or redirects current calls and preserves surviving tests. Classify source-policy tests together with their runners; no transfer based on copy alone."
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -35238,7 +35238,11 @@
           ],
           "other_findings": 0
         }
-      }
+      },
+      "prior_execution_prerequisites": [
+        "Retain exact paths with ADL CI owner until replacement CI contract removes or redirects current calls and preserves surviving tests. Classify source-policy tests together with their runners; no transfer based on copy alone."
+      ],
+      "disposition_evidence": "PVF_HELPER_RETENTION.json; complete six-file ADL generic runner/schema/policy fixture closure; original suites passed and independently reviewed."
     },
     {
       "id": "RD07-1501",
@@ -50035,10 +50039,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "Retain exact paths with ADL CI owner until replacement CI contract removes or redirects current calls and preserves surviving tests. Classify source-policy tests together with their runners; no transfer based on copy alone."
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -50059,7 +50061,11 @@
           ],
           "other_findings": 0
         }
-      }
+      },
+      "prior_execution_prerequisites": [
+        "Retain exact paths with ADL CI owner until replacement CI contract removes or redirects current calls and preserves surviving tests. Classify source-policy tests together with their runners; no transfer based on copy alone."
+      ],
+      "disposition_evidence": "PVF_HELPER_RETENTION.json; complete six-file ADL generic runner/schema/policy fixture closure; original suites passed and independently reviewed."
     },
     {
       "id": "RD07-2058",
@@ -51269,10 +51275,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "Retain exact paths with ADL CI owner until replacement CI contract removes or redirects current calls and preserves surviving tests. Classify source-policy tests together with their runners; no transfer based on copy alone."
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -51293,7 +51297,11 @@
           ],
           "other_findings": 0
         }
-      }
+      },
+      "prior_execution_prerequisites": [
+        "Retain exact paths with ADL CI owner until replacement CI contract removes or redirects current calls and preserves surviving tests. Classify source-policy tests together with their runners; no transfer based on copy alone."
+      ],
+      "disposition_evidence": "PVF_HELPER_RETENTION.json; complete six-file ADL generic runner/schema/policy fixture closure; original suites passed and independently reviewed."
     },
     {
       "id": "RD07-2098",
@@ -54139,10 +54147,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "Retain exact paths with ADL CI owner until replacement CI contract removes or redirects current calls and preserves surviving tests. Classify source-policy tests together with their runners; no transfer based on copy alone."
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -54163,7 +54169,11 @@
           ],
           "other_findings": 0
         }
-      }
+      },
+      "prior_execution_prerequisites": [
+        "Retain exact paths with ADL CI owner until replacement CI contract removes or redirects current calls and preserves surviving tests. Classify source-policy tests together with their runners; no transfer based on copy alone."
+      ],
+      "disposition_evidence": "PVF_HELPER_RETENTION.json; complete six-file ADL generic runner/schema/policy fixture closure; original suites passed and independently reviewed."
     },
     {
       "id": "RD07-2205",
