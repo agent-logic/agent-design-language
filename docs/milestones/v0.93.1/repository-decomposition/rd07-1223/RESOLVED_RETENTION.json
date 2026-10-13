@@ -1,8 +1,8 @@
 {
   "schema": "adl.source_retirement.resolved_retention.v1",
   "issue": 1223,
-  "count": 139,
-  "scope": "Required ADL contract/state/history or operator-excluded website assets; no implementation removal and no active-tool hold declared resolved",
+  "count": 252,
+  "scope": "Required ADL contract/state/history or operator-excluded website assets; no implementation removal and no successor-replacement or removal acceptance implied",
   "all_holds_resolved": false,
   "rows": [
     {
@@ -12,6 +12,24 @@
       "evidence": [
         "AGENTS.md: bound worktree policy",
         ".adl/worktree-policy.json"
+      ]
+    },
+    {
+      "id": "RD07-1199",
+      "path": "adl/tests/fixtures/scheduler/economics_inputs_v1.json",
+      "reason": "retain_public_cli_documented_input_example",
+      "evidence": [
+        "adl/src/cli/usage.rs: scheduler plan example references this exact declarative input fixture",
+        "JSON data only; runtime execution remains delegated to selected Runtime owner"
+      ]
+    },
+    {
+      "id": "RD07-1479",
+      "path": "adl/tools/run_cargo_validation.sh",
+      "reason": "retain_public_adl_build_and_lockfile_guard",
+      "evidence": [
+        "adl/tools/install_owner_binaries.sh: public binary build invocation",
+        "adl/tools/test_owner_binary_install.sh: lockfile drift restoration proof; passed"
       ]
     },
     {
@@ -104,11 +122,396 @@
       ]
     },
     {
+      "id": "RD07-3345",
+      "path": "docs/architecture/CSDLC_V2_CLEAN_ROOM_ARCHITECTURE.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/architecture/CSDLC_V2_CLEAN_ROOM_ARCHITECTURE.md:1 # C-SDLC v2 Clean-Room Architecture",
+        "docs/architecture/CSDLC_V2_CLEAN_ROOM_ARCHITECTURE.md:3 Status: Gate 1 design contract for issue #5228",
+        "docs/architecture/CSDLC_V2_CLEAN_ROOM_ARCHITECTURE.md:4 Decision authority: operator-reviewed; later implementation remains gated",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3345 Accepted Gate 1 design contract for ADL #5228 and ADR0056; preserve its source-time standalone-product boundary, not current commands."
+      ]
+    },
+    {
+      "id": "RD07-3359",
+      "path": "docs/architecture/VALIDATION_LANE_SELECTOR.md",
+      "reason": "retain_adl_policy",
+      "evidence": [
+        "docs/architecture/VALIDATION_LANE_SELECTOR.md:1 # Validation Lane Selector",
+        "docs/architecture/VALIDATION_LANE_SELECTOR.md:3 ADL keeps the full validation surface available, but normal PR work should run",
+        "docs/architecture/VALIDATION_LANE_SELECTOR.md:4 the smallest proving lane for the changed surface.",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3359 ADL changed-surface lane selector and local registry/script paths; referenced by actual selector/fast-lane tests. Repo CI policy stays with ADL."
+      ]
+    },
+    {
+      "id": "RD07-3361",
+      "path": "docs/architecture/diagrams/control_plane_lifecycle.mmd",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/architecture/diagrams/control_plane_lifecycle.mmd:1 %% Evidence: docs/default_workflow.md, adl/src/control_plane.rs, pr-init/pr-ready/pr-run/pr-finish/pr-janitor/pr-closeout skills",
+        "docs/architecture/diagrams/control_plane_lifecycle.mmd:2 %% Assumptions: GitHub merge action remains a human/repository event, not an automatic ADL mutation.",
+        "docs/architecture/diagrams/control_plane_lifecycle.mmd:3 flowchart LR",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3361 Diagram cites ADL control_plane.rs and historical pr-init flow; ADL diagram/demo packet consumes it. Preserve historical architecture evidence."
+      ]
+    },
+    {
+      "id": "RD07-3378",
+      "path": "docs/architecture/diagrams/task_bundle_and_pr_lifecycle.mmd",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/architecture/diagrams/task_bundle_and_pr_lifecycle.mmd:1 %% Evidence: docs/default_workflow.md, adl/src/control_plane.rs, docs/architecture/ADL_ARCHITECTURE.md",
+        "docs/architecture/diagrams/task_bundle_and_pr_lifecycle.mmd:2 %% Assumptions: merge and closeout are human/governance events; tool state labels represent lifecycle checkpoints, not internal Rust enum names.",
+        "docs/architecture/diagrams/task_bundle_and_pr_lifecycle.mmd:3 stateDiagram-v2",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3378 ADL task-bundle PR lifecycle diagram is part of its architecture packet, not standalone current C-SDLC CLI documentation."
+      ]
+    },
+    {
+      "id": "RD07-3379",
+      "path": "docs/architecture/diagrams/task_bundle_state.mmd",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/architecture/diagrams/task_bundle_state.mmd:1 %% Evidence: adl/src/control_plane.rs, docs/default_workflow.md",
+        "docs/architecture/diagrams/task_bundle_state.mmd:2 %% Assumptions: state names describe lifecycle truth, not a single enum in the source.",
+        "docs/architecture/diagrams/task_bundle_state.mmd:3 stateDiagram-v2",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3379 ADL control-plane task-state diagram preserves source-era lifecycle checkpoint meaning and demo references."
+      ]
+    },
+    {
+      "id": "RD07-3439",
+      "path": "docs/codex_playbook.md",
+      "reason": "retain_adl_navigation",
+      "evidence": [
+        "docs/codex_playbook.md:1 # C-SDLC operator playbook",
+        "docs/codex_playbook.md:3 C-SDLC v3 is operational after V3-F/#505 and merged PR #591. Authority requires the native selector and authenticated reconciliation proof against canonical `origin/main`. Use `.adl/bin/native-v3/csdlc`; inspect its help and typed request contracts before invo",
+        "docs/codex_playbook.md:5 Follow [the default workflow](default_workflow.md) and root `AGENTS.md`.",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3439 Operator playbook points to ADL default workflow and root AGENTS with local worktree/card requirements; retain repo entrypoint, link product syntax to installed successor manual."
+      ]
+    },
+    {
+      "id": "RD07-3440",
+      "path": "docs/cognitive-sdlc/README.md",
+      "reason": "retain_adl_navigation_history",
+      "evidence": [
+        "docs/cognitive-sdlc/README.md:1 # Cognitive SDLC",
+        "docs/cognitive-sdlc/README.md:3 ## Status",
+        "docs/cognitive-sdlc/README.md:5 Tracked canonical documentation home for the Cognitive SDLC planning and",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3440 Content records ADL v0.91.3/v0.91.4 planning, source-map/card roles, demo/metrics, or executed private-paper handoff; local planning and navigation provenance remains even without successor mapping."
+      ]
+    },
+    {
+      "id": "RD07-3441",
+      "path": "docs/cognitive-sdlc/architecture.md",
+      "reason": "retain_adl_navigation_history",
+      "evidence": [
+        "docs/cognitive-sdlc/architecture.md:1 # Cognitive SDLC Architecture",
+        "docs/cognitive-sdlc/architecture.md:3 ## Status",
+        "docs/cognitive-sdlc/architecture.md:5 Tracked architecture summary for the C-SDLC planning canon.",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3441 Content records ADL v0.91.3/v0.91.4 planning, source-map/card roles, demo/metrics, or executed private-paper handoff; local planning and navigation provenance remains even without successor mapping."
+      ]
+    },
+    {
+      "id": "RD07-3442",
+      "path": "docs/cognitive-sdlc/c_sdlc_paper_handoff.md",
+      "reason": "retain_adl_navigation_history",
+      "evidence": [
+        "docs/cognitive-sdlc/c_sdlc_paper_handoff.md:1 # C-SDLC Paper Handoff",
+        "docs/cognitive-sdlc/c_sdlc_paper_handoff.md:3 Status: migrated to private paper repository",
+        "docs/cognitive-sdlc/c_sdlc_paper_handoff.md:4 Issue: #3218",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3442 Content records ADL v0.91.3/v0.91.4 planning, source-map/card roles, demo/metrics, or executed private-paper handoff; local planning and navigation provenance remains even without successor mapping."
+      ]
+    },
+    {
+      "id": "RD07-3443",
+      "path": "docs/cognitive-sdlc/c_sdlc_private_paper_repo_plan.md",
+      "reason": "retain_adl_navigation_history",
+      "evidence": [
+        "docs/cognitive-sdlc/c_sdlc_private_paper_repo_plan.md:1 # C-SDLC Private Paper Repository Plan",
+        "docs/cognitive-sdlc/c_sdlc_private_paper_repo_plan.md:3 Status: executed",
+        "docs/cognitive-sdlc/c_sdlc_private_paper_repo_plan.md:4 Issue: #3218",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3443 Content records ADL v0.91.3/v0.91.4 planning, source-map/card roles, demo/metrics, or executed private-paper handoff; local planning and navigation provenance remains even without successor mapping."
+      ]
+    },
+    {
+      "id": "RD07-3444",
+      "path": "docs/cognitive-sdlc/card-lifecycle.md",
+      "reason": "retain_adl_navigation_history",
+      "evidence": [
+        "docs/cognitive-sdlc/card-lifecycle.md:1 # C-SDLC Card Lifecycle",
+        "docs/cognitive-sdlc/card-lifecycle.md:3 ## Status",
+        "docs/cognitive-sdlc/card-lifecycle.md:5 Tracked C-SDLC card-role summary.",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3444 Content records ADL v0.91.3/v0.91.4 planning, source-map/card roles, demo/metrics, or executed private-paper handoff; local planning and navigation provenance remains even without successor mapping."
+      ]
+    },
+    {
+      "id": "RD07-3445",
+      "path": "docs/cognitive-sdlc/five-minute-sprint-demo.md",
+      "reason": "retain_adl_navigation_history",
+      "evidence": [
+        "docs/cognitive-sdlc/five-minute-sprint-demo.md:1 # Five-Minute Sprint Demo",
+        "docs/cognitive-sdlc/five-minute-sprint-demo.md:3 ## Status",
+        "docs/cognitive-sdlc/five-minute-sprint-demo.md:5 Tracked demo plan for the C-SDLC throughput proof surface.",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3445 Content records ADL v0.91.3/v0.91.4 planning, source-map/card roles, demo/metrics, or executed private-paper handoff; local planning and navigation provenance remains even without successor mapping."
+      ]
+    },
+    {
+      "id": "RD07-3446",
+      "path": "docs/cognitive-sdlc/metrics.md",
+      "reason": "retain_adl_navigation_history",
+      "evidence": [
+        "docs/cognitive-sdlc/metrics.md:1 # C-SDLC Metrics",
+        "docs/cognitive-sdlc/metrics.md:3 ## Status",
+        "docs/cognitive-sdlc/metrics.md:5 Tracked metrics summary for C-SDLC proof and adoption planning.",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3446 Content records ADL v0.91.3/v0.91.4 planning, source-map/card roles, demo/metrics, or executed private-paper handoff; local planning and navigation provenance remains even without successor mapping."
+      ]
+    },
+    {
+      "id": "RD07-3447",
+      "path": "docs/cognitive-sdlc/source-map.md",
+      "reason": "retain_adl_navigation_history",
+      "evidence": [
+        "docs/cognitive-sdlc/source-map.md:1 # C-SDLC Source Map And Supersession",
+        "docs/cognitive-sdlc/source-map.md:3 ## Status",
+        "docs/cognitive-sdlc/source-map.md:5 Tracked source map for `#3120`.",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3447 Content records ADL v0.91.3/v0.91.4 planning, source-map/card roles, demo/metrics, or executed private-paper handoff; local planning and navigation provenance remains even without successor mapping."
+      ]
+    },
+    {
+      "id": "RD07-3448",
+      "path": "docs/cognitive-sdlc/tracked-workflow-state.md",
+      "reason": "retain_adl_navigation_history",
+      "evidence": [
+        "docs/cognitive-sdlc/tracked-workflow-state.md:1 # Tracked Workflow State",
+        "docs/cognitive-sdlc/tracked-workflow-state.md:3 ## Status",
+        "docs/cognitive-sdlc/tracked-workflow-state.md:5 Tracked C-SDLC workflow-state policy summary.",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3448 Content records ADL v0.91.3/v0.91.4 planning, source-map/card roles, demo/metrics, or executed private-paper handoff; local planning and navigation provenance remains even without successor mapping."
+      ]
+    },
+    {
+      "id": "RD07-3449",
+      "path": "docs/cognitive-sdlc/transition-schema.md",
+      "reason": "retain_adl_navigation_history",
+      "evidence": [
+        "docs/cognitive-sdlc/transition-schema.md:1 # Cognitive Transition Schema",
+        "docs/cognitive-sdlc/transition-schema.md:3 ## Status",
+        "docs/cognitive-sdlc/transition-schema.md:5 Tracked schema summary for the `v0.91.3` first slice and `v0.91.4` hardening",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3449 Content records ADL v0.91.3/v0.91.4 planning, source-map/card roles, demo/metrics, or executed private-paper handoff; local planning and navigation provenance remains even without successor mapping."
+      ]
+    },
+    {
+      "id": "RD07-3450",
+      "path": "docs/csdlc-v3/CONTRACT.md",
+      "reason": "retain_adl_policy_history",
+      "evidence": [
+        "docs/csdlc-v3/CONTRACT.md:1 # C-SDLC v3 Contract \u2014 V3-A",
+        "docs/csdlc-v3/CONTRACT.md:3 Status: accepted construction history plus the post-cutover operational contract.",
+        "docs/csdlc-v3/CONTRACT.md:5 This contract began as the C-SDLC v3 construction boundary accepted by V3-A.",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3450 Contract explicitly combines accepted V3-A construction history with ADL post-#505 authority. Preserve local historical acceptance and authority context; link active command details to successor."
+      ]
+    },
+    {
+      "id": "RD07-3452",
+      "path": "docs/csdlc-v3/CURRENT_AUTHORITY.md",
+      "reason": "retain_adl_policy",
+      "evidence": [
+        "docs/csdlc-v3/CURRENT_AUTHORITY.md:1 # Current C-SDLC authority",
+        "docs/csdlc-v3/CURRENT_AUTHORITY.md:3 C-SDLC v3 is operational after #505 / PR #591. Operational authority requires",
+        "docs/csdlc-v3/CURRENT_AUTHORITY.md:4 validation of the canonical `csdlc-v3/operator/authority-selector.json`, its",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3452 Canonical origin/main selector, authenticated receipt and #505/PR591 transition establish ADL-local authority. AGENTS:42 references this exact path; successor repo authority cannot replace it."
+      ]
+    },
+    {
+      "id": "RD07-3453",
+      "path": "docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md:1 # C-SDLC v3 cutover readiness notice",
+        "docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md:3 Status: advance notice only. C-SDLC v3 is not the live authority yet.",
+        "docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md:5 ## What is changing",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3453 Advance readiness notice explicitly says v3 was not live; CURRENT_AUTHORITY preserves its source-time meaning. Immutable pre-cutover evidence."
+      ]
+    },
+    {
+      "id": "RD07-3459",
+      "path": "docs/csdlc-v3/RELEASE_PREFLIGHT.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/csdlc-v3/RELEASE_PREFLIGHT.md:1 # Native release candidate preflight",
+        "docs/csdlc-v3/RELEASE_PREFLIGHT.md:3 Issue #856 repairs the v0.92.1 version mismatch and the ceremony script's",
+        "docs/csdlc-v3/RELEASE_PREFLIGHT.md:4 retired v2 fallback. The release package family is now 0.92.1, including the",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3459 Release preflight text binds ADL v0.92.1 package family and RELEASE_ARTIFACTS inventory. Keep historical release contract; future command guidance belongs to successor."
+      ]
+    },
+    {
+      "id": "RD07-3460",
+      "path": "docs/csdlc-v3/TOOLING_CHANGEOVER_NOTICE.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/csdlc-v3/TOOLING_CHANGEOVER_NOTICE.md:1 # C-SDLC v3 Tooling Changeover Notice",
+        "docs/csdlc-v3/TOOLING_CHANGEOVER_NOTICE.md:3 Status: pre-change notification for issue #505.",
+        "docs/csdlc-v3/TOOLING_CHANGEOVER_NOTICE.md:5 ADL is preparing a large C-SDLC tooling changeover from the current typed v2",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3460 Explicit pre-change #505 notification; AGENTS and CURRENT_AUTHORITY label this immutable, not current routing guidance."
+      ]
+    },
+    {
+      "id": "RD07-3461",
+      "path": "docs/csdlc-v3/authority-transition-disposition.json",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/csdlc-v3/authority-transition-disposition.json:1 {",
+        "docs/csdlc-v3/authority-transition-disposition.json:2   \"schema\": \"csdlc.v3.authority_transition_disposition.v1\",",
+        "docs/csdlc-v3/authority-transition-disposition.json:3   \"authority_issue\": 505,",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3461 Dated repository=agent-logic/agent-design-language authority-transition disposition; immutable transition evidence, not generic successor runtime data."
+      ]
+    },
+    {
+      "id": "RD07-3463",
+      "path": "docs/csdlc-v3/construction-decision.json",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/csdlc-v3/construction-decision.json:1 {",
+        "docs/csdlc-v3/construction-decision.json:2   \"schema\": \"adl.csdlc_v3.construction_decision.v1\",",
+        "docs/csdlc-v3/construction-decision.json:3   \"issue\": 571,",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3463 Issue571 construction decision records predecessor/decision-owner issues and ADL authority boundary; preserve accepted decision history."
+      ]
+    },
+    {
+      "id": "RD07-3464",
+      "path": "docs/csdlc-v3/evidence/issue-1161/REMEDIATION.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/csdlc-v3/evidence/issue-1161/REMEDIATION.md:1 # Issue 1161 \u2014 Group A recovery and operator contracts",
+        "docs/csdlc-v3/evidence/issue-1161/REMEDIATION.md:3 This is the bounded remediation packet for the #919 internal review, under #921.",
+        "docs/csdlc-v3/evidence/issue-1161/REMEDIATION.md:4 It does not claim that the full milestone review, release, or deployment is complete.",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3464 Bounded ADL #1161/#919/#921 remediation and proof ledger. Explicit noncompletion claims must survive; zero found inbound refs does not authorize deletion."
+      ]
+    },
+    {
+      "id": "RD07-3465",
+      "path": "docs/csdlc-v3/full-replacement-denominator.json",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/csdlc-v3/full-replacement-denominator.json:1 {",
+        "docs/csdlc-v3/full-replacement-denominator.json:2   \"schema\": \"csdlc.v3.full_replacement_denominator.v1\",",
+        "docs/csdlc-v3/full-replacement-denominator.json:3   \"authority_issue\": 505,",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3465 Pre-cutover full replacement denominator and source issue632 are preserved authority evidence; current tests also consume this baseline."
+      ]
+    },
+    {
+      "id": "RD07-3526",
+      "path": "docs/csdlc-v3/manual-discovery-950/README.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/csdlc-v3/manual-discovery-950/README.md:1 # Manual discovery and active-session notice (#950)",
+        "docs/csdlc-v3/manual-discovery-950/README.md:3 Follow-up to #861 / merged #947. Root AGENTS now points new sessions to the",
+        "docs/csdlc-v3/manual-discovery-950/README.md:4 installer, actual manual root and workflow entrypoint.",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3526 Dated ADL #950 notice/validation or #505 VPP/owner proof-lane source records establish original operator communication and construction acceptance; preserve immutable evidence and original references."
+      ]
+    },
+    {
+      "id": "RD07-3527",
+      "path": "docs/csdlc-v3/manual-discovery-950/notification.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/csdlc-v3/manual-discovery-950/notification.md:1 # One-time active-session notification",
+        "docs/csdlc-v3/manual-discovery-950/notification.md:3 One-time operator-authorized ADL manual notice (#950, follow-up #861): PR #947 merged the reviewed 30-page manual at source head 4e816f87d61d11f48c950ededae75c6ca84f6258. That is source-review identity, not installed-version proof. Worker #9 observed no instal",
+        "docs/csdlc-v3/manual-discovery-950/notification.md:5 Delivery: accepted by all five other discoverable active ADL Codex tasks. The sending Worker #9 has the same context. This is delivery-channel evidence, not acknowledgment or installation proof. Not-loaded tasks were excluded; external Claude/terminal sessions",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3527 Dated ADL #950 notice/validation or #505 VPP/owner proof-lane source records establish original operator communication and construction acceptance; preserve immutable evidence and original references."
+      ]
+    },
+    {
+      "id": "RD07-3528",
+      "path": "docs/csdlc-v3/manual-discovery-950/validation.json",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/csdlc-v3/manual-discovery-950/validation.json:1 {",
+        "docs/csdlc-v3/manual-discovery-950/validation.json:2   \"status\": \"pass\",",
+        "docs/csdlc-v3/manual-discovery-950/validation.json:3   \"pvf\": \"docs_only\",",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3528 Dated ADL #950 notice/validation or #505 VPP/owner proof-lane source records establish original operator communication and construction acceptance; preserve immutable evidence and original references."
+      ]
+    },
+    {
+      "id": "RD07-3529",
+      "path": "docs/csdlc-v3/owner-lane-sources/issue-505-vpp.values.json",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/csdlc-v3/owner-lane-sources/issue-505-vpp.values.json:1 {",
+        "docs/csdlc-v3/owner-lane-sources/issue-505-vpp.values.json:2   \"identity\": {",
+        "docs/csdlc-v3/owner-lane-sources/issue-505-vpp.values.json:3     \"schema_version\": \"1.0.0\",",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3529 Dated ADL #950 notice/validation or #505 VPP/owner proof-lane source records establish original operator communication and construction acceptance; preserve immutable evidence and original references."
+      ]
+    },
+    {
+      "id": "RD07-3530",
+      "path": "docs/csdlc-v3/owner-proof-lanes.json",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/csdlc-v3/owner-proof-lanes.json:1 {",
+        "docs/csdlc-v3/owner-proof-lanes.json:2   \"schema\": \"adl.csdlc_v3.owner_proof_lanes.v1\",",
+        "docs/csdlc-v3/owner-proof-lanes.json:3   \"issue\": 571,",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3530 Dated ADL #950 notice/validation or #505 VPP/owner proof-lane source records establish original operator communication and construction acceptance; preserve immutable evidence and original references."
+      ]
+    },
+    {
+      "id": "RD07-3531",
+      "path": "docs/csdlc-v3/predecessor-coverage.json",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/csdlc-v3/predecessor-coverage.json:1 {",
+        "docs/csdlc-v3/predecessor-coverage.json:2   \"schema\": \"adl.csdlc_v3.predecessor_coverage.v1\",",
+        "docs/csdlc-v3/predecessor-coverage.json:3   \"issue\": 500,",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3531 Issues161/162/163 acceptance denominator maps ADL planned cards; repository/src fixtures consume it. Preserve predecessor proof even if owner keeps a copy."
+      ]
+    },
+    {
+      "id": "RD07-3532",
+      "path": "docs/csdlc-v3/proportional-lifecycle.json",
+      "reason": "retain_adl_policy_history",
+      "evidence": [
+        "docs/csdlc-v3/proportional-lifecycle.json:1 {",
+        "docs/csdlc-v3/proportional-lifecycle.json:2   \"schema\": \"adl.csdlc_v3.proportional_lifecycle.v1\",",
+        "docs/csdlc-v3/proportional-lifecycle.json:3   \"issue\": 500,",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3532 Issue500 proportional lifecycle/gates accepted in ADL construction contract and consumed by lib/repository code. Preserve original acceptance; successor may own evolving rules."
+      ]
+    },
+    {
+      "id": "RD07-3534",
+      "path": "docs/default_workflow.md",
+      "reason": "retain_adl_policy",
+      "evidence": [
+        "docs/default_workflow.md:1 # Default C-SDLC workflow",
+        "docs/default_workflow.md:3 C-SDLC v3 is operational after V3-F/#505 and merged PR #591. Authority requires the native selector, authenticated receipt and reconciliation proof against canonical `origin/main`. Use `.adl/bin/native-v3/csdlc`; inspect its help and typed request contracts be",
+        "docs/default_workflow.md:5 1. Read the issue, six cards and root `AGENTS.md`; inspect the primary checkout and existing worktrees.",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3534 ADL workflow entrypoint includes local primary-main, six-card, goal, worktree and terminal rules. Mapped successor is a planning-utilities ORIGINAL distribution copy, not a replacement for ADL policy."
+      ]
+    },
+    {
       "id": "RD07-3559",
       "path": "docs/planning/ADL_MILESTONE_WP_ORDERING_STANDARD.md",
       "reason": "retain_active_adl_planning_policy",
       "evidence": [
         "docs/planning/ADL_MILESTONE_WP_ORDERING_STANDARD.md: active_standard; ADL maintainers; milestone ordering contract"
+      ]
+    },
+    {
+      "id": "RD07-3560",
+      "path": "docs/planning/C_SDLC_PROMPT_TEMPLATE_EDITOR_TRANSITION_PLAN.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/planning/C_SDLC_PROMPT_TEMPLATE_EDITOR_TRANSITION_PLAN.md:1 # C-SDLC Prompt Template And Editor Transition Plan",
+        "docs/planning/C_SDLC_PROMPT_TEMPLATE_EDITOR_TRANSITION_PLAN.md:3 ## Status",
+        "docs/planning/C_SDLC_PROMPT_TEMPLATE_EDITOR_TRANSITION_PLAN.md:5 Tracked transition plan for issue `#3291`.",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3560 Explicit ADL issue-scoped planning/transition inventory documents source-era design, migration and deferred obligations; preserve historical plan and milestone references, not live route selection."
+      ]
+    },
+    {
+      "id": "RD07-3561",
+      "path": "docs/planning/DESIGN_TIME_CARD_COMPLETION_PLAN.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/planning/DESIGN_TIME_CARD_COMPLETION_PLAN.md:1 # Design-Time Card Completion Plan",
+        "docs/planning/DESIGN_TIME_CARD_COMPLETION_PLAN.md:3 ## Status",
+        "docs/planning/DESIGN_TIME_CARD_COMPLETION_PLAN.md:5 Planning document for issue `#3264`; operational enforcement is implemented",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3561 Explicit ADL issue-scoped planning/transition inventory documents source-era design, migration and deferred obligations; preserve historical plan and milestone references, not live route selection."
       ]
     },
     {
@@ -118,6 +521,39 @@
       "evidence": [
         "docs/planning/HOW_TO_CREATE_S3_WEBSITE_WITH_TERRAFORM.md: reusable ADL/CodeFriend operational pattern",
         "docs/planning/codefriend/README.md: relative link to reusable guide"
+      ]
+    },
+    {
+      "id": "RD07-3563",
+      "path": "docs/planning/PROJECT_PLANNING_TEMPLATE_TRANSITION_PLAN.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/planning/PROJECT_PLANNING_TEMPLATE_TRANSITION_PLAN.md:1 # Project Planning Template Transition Plan",
+        "docs/planning/PROJECT_PLANNING_TEMPLATE_TRANSITION_PLAN.md:3 Status: current planning-template transition contract",
+        "docs/planning/PROJECT_PLANNING_TEMPLATE_TRANSITION_PLAN.md:5 Version target: `v0.91.3`",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3563 Explicit ADL issue-scoped planning/transition inventory documents source-era design, migration and deferred obligations; preserve historical plan and milestone references, not live route selection."
+      ]
+    },
+    {
+      "id": "RD07-3564",
+      "path": "docs/planning/PR_CONTROL_PLANE_DECRUFT_COMPATIBILITY_CUT_PLAN.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/planning/PR_CONTROL_PLANE_DECRUFT_COMPATIBILITY_CUT_PLAN.md:1 # PR Control-Plane Decruft And Compatibility Cut Plan",
+        "docs/planning/PR_CONTROL_PLANE_DECRUFT_COMPATIBILITY_CUT_PLAN.md:3 ## Status",
+        "docs/planning/PR_CONTROL_PLANE_DECRUFT_COMPATIBILITY_CUT_PLAN.md:5 Planning document for issue `#3394`.",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3564 Explicit ADL issue-scoped planning/transition inventory documents source-era design, migration and deferred obligations; preserve historical plan and milestone references, not live route selection."
+      ]
+    },
+    {
+      "id": "RD07-3566",
+      "path": "docs/planning/V0917_PROMPT_CARD_ENUM_TYPING_PLAN.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/planning/V0917_PROMPT_CARD_ENUM_TYPING_PLAN.md:1 # v0.91.7 Prompt-Card Enum Typing Inventory",
+        "docs/planning/V0917_PROMPT_CARD_ENUM_TYPING_PLAN.md:3 Issue: #4892",
+        "docs/planning/V0917_PROMPT_CARD_ENUM_TYPING_PLAN.md:4 Sprint: #5035",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3566 Explicit ADL issue-scoped planning/transition inventory documents source-era design, migration and deferred obligations; preserve historical plan and milestone references, not live route selection."
       ]
     },
     {
@@ -1346,6 +1782,809 @@
         "AGENTS.md: active versioned templates and tracked schemas are shape authority",
         "docs/templates/prompts/current.json",
         "docs/templates/planning/current.json"
+      ]
+    },
+    {
+      "id": "RD07-3714",
+      "path": "docs/tooling/ACTIVE_BOOT_PATHS.md",
+      "reason": "retain_adl_policy",
+      "evidence": [
+        "docs/tooling/ACTIVE_BOOT_PATHS.md:1 # Active boot paths",
+        "docs/tooling/ACTIVE_BOOT_PATHS.md:3 This table is the current subsystem map. It separates lifecycle authority from",
+        "docs/tooling/ACTIVE_BOOT_PATHS.md:4 ADL product commands and Runtime processes; the presence of several Rust",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3714 Repo subsystem boot map distinguishes C-SDLC, ADL CLI, Polis/Runtime and stable locations; keep ADL integration navigation and update owner links separately."
+      ]
+    },
+    {
+      "id": "RD07-3716",
+      "path": "docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md",
+      "reason": "retain_adl_policy_history",
+      "evidence": [
+        "docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md:1 # ADL C-SDLC GitHub Client Boundary",
+        "docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md:3 This document records the current C-SDLC v2 ownership boundary for GitHub issue",
+        "docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md:4 and pull-request operations.",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3716 Repo GitHub transport/token and audited break-glass restrictions; v2 wording is legacy, but deleting policy is not a valid ownership cutover. Preserve local boundary/history under AGENTS precedence."
+      ]
+    },
+    {
+      "id": "RD07-3719",
+      "path": "docs/tooling/ADL_PLATFORM_CLI_BINARY_TAXONOMY.md",
+      "reason": "retain_adl_policy",
+      "evidence": [
+        "docs/tooling/ADL_PLATFORM_CLI_BINARY_TAXONOMY.md:1 # ADL Platform CLI Binary Taxonomy",
+        "docs/tooling/ADL_PLATFORM_CLI_BINARY_TAXONOMY.md:3 ADL separates command families so each owner has a bounded operational and",
+        "docs/tooling/ADL_PLATFORM_CLI_BINARY_TAXONOMY.md:4 validation surface.",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3719 ADL platform binary taxonomy distinguishes compiler, workflow and Runtime roles; repo-specific integration contract remains in ADL."
+      ]
+    },
+    {
+      "id": "RD07-3729",
+      "path": "docs/tooling/CI_REQUIRED_AND_OPTIONAL_LANES.md",
+      "reason": "retain_adl_policy",
+      "evidence": [
+        "docs/tooling/CI_REQUIRED_AND_OPTIONAL_LANES.md:1 # Required And Optional CI Lanes",
+        "docs/tooling/CI_REQUIRED_AND_OPTIONAL_LANES.md:3 ## Operating Rule",
+        "docs/tooling/CI_REQUIRED_AND_OPTIONAL_LANES.md:5 ADL uses the configured 16-core GitHub-hosted runner for required heavy",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3729 ADL required/optional CI lane and runner policy names its workflows; keep with ADL CI, reconcile stale details in separate owner edit."
+      ]
+    },
+    {
+      "id": "RD07-3730",
+      "path": "docs/tooling/CODEX_BACKGROUND_TASK_DISPATCH.md",
+      "reason": "retain_adl_policy",
+      "evidence": [
+        "docs/tooling/CODEX_BACKGROUND_TASK_DISPATCH.md:1 # Codex Background Task Dispatch",
+        "docs/tooling/CODEX_BACKGROUND_TASK_DISPATCH.md:3 ## Success Rule",
+        "docs/tooling/CODEX_BACKGROUND_TASK_DISPATCH.md:5 A dispatch succeeds only when `codex.create_thread` returns a nonempty task ID",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3730 Local Codex dispatch/reconciliation operating protocol and task identity semantics; retain operator contract, not a C-SDLC product ownership inference."
+      ]
+    },
+    {
+      "id": "RD07-3732",
+      "path": "docs/tooling/COVERAGE_AUTHORITY_AND_RELEASE_PROOF.md",
+      "reason": "retain_adl_policy",
+      "evidence": [
+        "docs/tooling/COVERAGE_AUTHORITY_AND_RELEASE_PROOF.md:1 # Coverage Authority And Release Proof",
+        "docs/tooling/COVERAGE_AUTHORITY_AND_RELEASE_PROOF.md:3 The repository has two intentionally different coverage surfaces:",
+        "docs/tooling/COVERAGE_AUTHORITY_AND_RELEASE_PROOF.md:5 The nightly coverage is release-authoritative when the scheduled watchdog",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3732 ADL workspace/Runtime coverage authority, ratchet floors and release proof boundaries; keep as repository policy/history through CI cutover."
+      ]
+    },
+    {
+      "id": "RD07-3735",
+      "path": "docs/tooling/C_SDLC_RESCUE_SPRINT_OPERATING_CONTRACT.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/C_SDLC_RESCUE_SPRINT_OPERATING_CONTRACT.md:1 # C-SDLC Rescue Sprint Operating Contract",
+        "docs/tooling/C_SDLC_RESCUE_SPRINT_OPERATING_CONTRACT.md:3 ## Purpose",
+        "docs/tooling/C_SDLC_RESCUE_SPRINT_OPERATING_CONTRACT.md:5 This contract is the v0.91.6 rescue-sprint operating guide for sessions that",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3735 v0.91.6 rescue-sprint and Gate10D2 operating contract is explicitly historical under root AGENTS; preserve source-time v2 rules without treating them as live."
+      ]
+    },
+    {
+      "id": "RD07-3736",
+      "path": "docs/tooling/C_SDLC_V2_ISSUE_CREATION_AND_BINDING_RUNBOOK.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/C_SDLC_V2_ISSUE_CREATION_AND_BINDING_RUNBOOK.md:1 # Retained C-SDLC v2 Issue Creation and Binding",
+        "docs/tooling/C_SDLC_V2_ISSUE_CREATION_AND_BINDING_RUNBOOK.md:3 > **Retained exception path only.** This runbook is historical compatibility",
+        "docs/tooling/C_SDLC_V2_ISSUE_CREATION_AND_BINDING_RUNBOOK.md:4 > guidance for an explicitly authorized rollback or bounded transition",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3736 Document explicitly restricts v2 to authorized rollback/transition exceptions; retained compatibility contract, not routine successor guidance."
+      ]
+    },
+    {
+      "id": "RD07-3737",
+      "path": "docs/tooling/C_SDLC_V2_V1_ORIGIN_PR_TAIL_PLAYBOOK.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/C_SDLC_V2_V1_ORIGIN_PR_TAIL_PLAYBOOK.md:1 # C-SDLC v2 playbook for v1-origin PR tails",
+        "docs/tooling/C_SDLC_V2_V1_ORIGIN_PR_TAIL_PLAYBOOK.md:3 This playbook applies when a pull request was opened before the v1 command",
+        "docs/tooling/C_SDLC_V2_V1_ORIGIN_PR_TAIL_PLAYBOOK.md:4 surface was sunset. The PR remains valid; only its lifecycle authority changes.",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3737 v1-origin PR tail transition playbook preserves old v2 transition handling and forbids resurrecting wrappers; keep historical compatibility evidence."
+      ]
+    },
+    {
+      "id": "RD07-3738",
+      "path": "docs/tooling/DEVELOPER_THROUGHPUT_FAST_LANE.md",
+      "reason": "retain_adl_policy_history",
+      "evidence": [
+        "docs/tooling/DEVELOPER_THROUGHPUT_FAST_LANE.md:1 # Developer Throughput Fast Lane",
+        "docs/tooling/DEVELOPER_THROUGHPUT_FAST_LANE.md:3 ADL small fixes should move quickly without pretending that a narrow check proves",
+        "docs/tooling/DEVELOPER_THROUGHPUT_FAST_LANE.md:4 a broad change. This policy defines a proportional fast lane for tiny,",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3738 ADL proportional validation issue classes and escalation floors tied to local selector; retain policy while historical v2 command wording is subordinated to current authority."
+      ]
+    },
+    {
+      "id": "RD07-3739",
+      "path": "docs/tooling/EMERGENCY_BRANCH_ADOPTION.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/EMERGENCY_BRANCH_ADOPTION.md:1 # Emergency branch adoption for C-SDLC v2",
+        "docs/tooling/EMERGENCY_BRANCH_ADOPTION.md:3 Issue-owned emergency product work can occasionally land on a Git branch/worktree before the typed lifecycle bind completes. That product action is not lifecycle authority by itself. Use typed adoption only to recover a verified, issue-owned, pre-existing work",
+        "docs/tooling/EMERGENCY_BRANCH_ADOPTION.md:5 The recovery sequence is:",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3739 Typed v2 emergency adoption recipe binds FastWork and ADL-local generation evidence; keep exception-era recovery history, not ordinary active instructions."
+      ]
+    },
+    {
+      "id": "RD07-3740",
+      "path": "docs/tooling/FINISH_VALIDATION_PATH_OWNERSHIP_REGISTRY.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/FINISH_VALIDATION_PATH_OWNERSHIP_REGISTRY.md:1 # Finish Validation Path Ownership Registry",
+        "docs/tooling/FINISH_VALIDATION_PATH_OWNERSHIP_REGISTRY.md:3 `pr finish` still fails closed for unknown changed paths.",
+        "docs/tooling/FINISH_VALIDATION_PATH_OWNERSHIP_REGISTRY.md:5 That behavior is intentional. What changed in `#4418` is where known path",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3740 Registry contract points at retired pr_cmd/finish_support.rs and issue4418 rules. Preserve historical ownership rationale; do not advertise it as current executable selector."
+      ]
+    },
+    {
+      "id": "RD07-3746",
+      "path": "docs/tooling/INDEPENDENT_EXACT_HEAD_REVIEW.md",
+      "reason": "retain_adl_policy",
+      "evidence": [
+        "docs/tooling/INDEPENDENT_EXACT_HEAD_REVIEW.md:1 # Independent Exact-Head Review",
+        "docs/tooling/INDEPENDENT_EXACT_HEAD_REVIEW.md:3 ADL uses the standard SRP for review. Independence comes from sending that SRP",
+        "docs/tooling/INDEPENDENT_EXACT_HEAD_REVIEW.md:4 to a fresh external session instead of reviewing inside the implementation",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3746 Independent exact-head review contract for ADL sessions and SRP evidence; keep local requirement with current native owner route linked rather than removing policy."
+      ]
+    },
+    {
+      "id": "RD07-3747",
+      "path": "docs/tooling/ISSUE_BOUND_GOAL_TERMINAL_STATE_POLICY.md",
+      "reason": "retain_adl_policy",
+      "evidence": [
+        "docs/tooling/ISSUE_BOUND_GOAL_TERMINAL_STATE_POLICY.md:1 # Issue-Bound Goal Terminal-State Policy",
+        "docs/tooling/ISSUE_BOUND_GOAL_TERMINAL_STATE_POLICY.md:3 This document defines when an issue-bound Codex goal may truthfully be marked",
+        "docs/tooling/ISSUE_BOUND_GOAL_TERMINAL_STATE_POLICY.md:4 `complete` in ADL workflow sessions.",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3747 Defines truthful terminal state of issue-bound ADL Codex goals; repository/session policy independent of product implementation."
+      ]
+    },
+    {
+      "id": "RD07-3748",
+      "path": "docs/tooling/ISSUE_LIFECYCLE_SHEPHERD_CONTRACT.md",
+      "reason": "retain_adl_policy_history",
+      "evidence": [
+        "docs/tooling/ISSUE_LIFECYCLE_SHEPHERD_CONTRACT.md:1 # Issue Lifecycle Shepherd Contract",
+        "docs/tooling/ISSUE_LIFECYCLE_SHEPHERD_CONTRACT.md:3 This document defines the first-class issue-lifecycle shepherd contract for ADL.",
+        "docs/tooling/ISSUE_LIFECYCLE_SHEPHERD_CONTRACT.md:5 It does not create a new autonomous super-skill. Instead, it makes the",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3748 ADL lifecycle shepherd ownership contract references local skill family; existing skill docs consume it. Generic successor copy does not replace ADL orchestration responsibility."
+      ]
+    },
+    {
+      "id": "RD07-3755",
+      "path": "docs/tooling/OWNER_BINARY_INSTALLATION.md",
+      "reason": "retain_adl_policy",
+      "evidence": [
+        "docs/tooling/OWNER_BINARY_INSTALLATION.md:1 # ADL owner binary installation",
+        "docs/tooling/OWNER_BINARY_INSTALLATION.md:3 ADL operational owner binaries are generated tools. They are not committed to",
+        "docs/tooling/OWNER_BINARY_INSTALLATION.md:4 Git, and Cargo `target/` directories are disposable build/cache output rather",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3755 ADL owner installation separates product binaries, repository lifecycle launcher and retained v2 exceptions. Stable repo paths and authority requirements must remain local."
+      ]
+    },
+    {
+      "id": "RD07-3757",
+      "path": "docs/tooling/PORTABLE_ADL_PROJECT_ADAPTER_CONTRACT_v0.91.5.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/PORTABLE_ADL_PROJECT_ADAPTER_CONTRACT_v0.91.5.md:1 # Portable ADL Project Adapter Contract",
+        "docs/tooling/PORTABLE_ADL_PROJECT_ADAPTER_CONTRACT_v0.91.5.md:3 Status: v0.91.5 Sprint 1 contract",
+        "docs/tooling/PORTABLE_ADL_PROJECT_ADAPTER_CONTRACT_v0.91.5.md:5 Issue: #3569",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3757 Versioned v0.91.5 external-project adapter contract, consumed by portable ADL templates; preserve source-era schema/design agreement."
+      ]
+    },
+    {
+      "id": "RD07-3758",
+      "path": "docs/tooling/PORTABLE_ADL_PROJECT_ADAPTER_FOLLOW_ONS_v0.91.5.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/PORTABLE_ADL_PROJECT_ADAPTER_FOLLOW_ONS_v0.91.5.md:1 # Portable ADL Project Adapter Follow-Ons",
+        "docs/tooling/PORTABLE_ADL_PROJECT_ADAPTER_FOLLOW_ONS_v0.91.5.md:3 Status: v0.91.5 Sprint 1 follow-on register",
+        "docs/tooling/PORTABLE_ADL_PROJECT_ADAPTER_FOLLOW_ONS_v0.91.5.md:5 Issue: #3569",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3758 Issue3569 versioned follow-on register records deferred work and cannot be declared complete by doc removal."
+      ]
+    },
+    {
+      "id": "RD07-3759",
+      "path": "docs/tooling/PORTABLE_ADL_PROJECT_DOCTOR_PLAN_v0.91.5.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/PORTABLE_ADL_PROJECT_DOCTOR_PLAN_v0.91.5.md:1 # Portable ADL Project Doctor Plan",
+        "docs/tooling/PORTABLE_ADL_PROJECT_DOCTOR_PLAN_v0.91.5.md:3 Status: v0.91.5 Sprint 1 planning surface",
+        "docs/tooling/PORTABLE_ADL_PROJECT_DOCTOR_PLAN_v0.91.5.md:5 Issue: #3569",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3759 Explicit future project-doctor planning surface, not active executable guidance; keep historical bounded plan."
+      ]
+    },
+    {
+      "id": "RD07-3760",
+      "path": "docs/tooling/PREP_SCOUT_NEXT_ISSUE_READINESS_LANE.md",
+      "reason": "retain_adl_policy_history",
+      "evidence": [
+        "docs/tooling/PREP_SCOUT_NEXT_ISSUE_READINESS_LANE.md:1 # Prep-Scout Next-Issue Readiness Lane",
+        "docs/tooling/PREP_SCOUT_NEXT_ISSUE_READINESS_LANE.md:3 ## Purpose",
+        "docs/tooling/PREP_SCOUT_NEXT_ISSUE_READINESS_LANE.md:5 The prep-scout lane exists so one session can prepare the next issue while the",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3760 ADL prep-scout ownership across implementation/PR wait, referenced by operational skills and command-guidance tests; retain local session policy."
+      ]
+    },
+    {
+      "id": "RD07-3761",
+      "path": "docs/tooling/PROMPT_CARD_VALUES_IMPORT_ROUND_TRIP_v0.91.5.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/PROMPT_CARD_VALUES_IMPORT_ROUND_TRIP_v0.91.5.md:1 # Prompt Card Values Import And Round-Trip Normalization",
+        "docs/tooling/PROMPT_CARD_VALUES_IMPORT_ROUND_TRIP_v0.91.5.md:3 Status: v0.91.5 Sprint 1 tooling contract",
+        "docs/tooling/PROMPT_CARD_VALUES_IMPORT_ROUND_TRIP_v0.91.5.md:5 Issue: #3643",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3761 Issue3643 values import/roundtrip normalization contract at v0.91.5; historical command reference scanner consumes it as an intentional source-era artifact."
+      ]
+    },
+    {
+      "id": "RD07-3762",
+      "path": "docs/tooling/PROMPT_TEMPLATE_CARD_GENERATION_CHECKLIST.md",
+      "reason": "retain_adl_policy",
+      "evidence": [
+        "docs/tooling/PROMPT_TEMPLATE_CARD_GENERATION_CHECKLIST.md:1 # Prompt-Template Card Generation Checklist",
+        "docs/tooling/PROMPT_TEMPLATE_CARD_GENERATION_CHECKLIST.md:3 Use this checklist when an issue creates new C-SDLC prompt cards, fully",
+        "docs/tooling/PROMPT_TEMPLATE_CARD_GENERATION_CHECKLIST.md:4 re-renders existing cards, or changes prompt-template structure.",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3762 Generation checklist governs ADL versioned prompt registry/values/schema workflow, referenced by retained prompts README; local card-authoring contract remains."
+      ]
+    },
+    {
+      "id": "RD07-3763",
+      "path": "docs/tooling/PROMPT_TEMPLATE_FIELD_EDITOR_CONTRACT_3621.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/PROMPT_TEMPLATE_FIELD_EDITOR_CONTRACT_3621.md:1 # Prompt-Template Field Editor Contract",
+        "docs/tooling/PROMPT_TEMPLATE_FIELD_EDITOR_CONTRACT_3621.md:3 Issue: `#3621`",
+        "docs/tooling/PROMPT_TEMPLATE_FIELD_EDITOR_CONTRACT_3621.md:4 Milestone: `v0.91.5`",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3763 Issue3621 v0.91.5 field-editor contract records implemented design-time requirements; preserve historical template/tooling contract."
+      ]
+    },
+    {
+      "id": "RD07-3764",
+      "path": "docs/tooling/PROMPT_TEMPLATE_VALUES_RENDERER_PLAN_v0.91.5.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/PROMPT_TEMPLATE_VALUES_RENDERER_PLAN_v0.91.5.md:1 # Prompt Template Values Renderer Plan",
+        "docs/tooling/PROMPT_TEMPLATE_VALUES_RENDERER_PLAN_v0.91.5.md:3 ## Metadata",
+        "docs/tooling/PROMPT_TEMPLATE_VALUES_RENDERER_PLAN_v0.91.5.md:5 - Milestone: `v0.91.5`",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3764 Issue3553 implemented v1.0.0 renderer plan plus downstream rewrite follow-on; preserve history and template navigation, not current binary selection."
+      ]
+    },
+    {
+      "id": "RD07-3767",
+      "path": "docs/tooling/PR_INVENTORY_COMMAND.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/PR_INVENTORY_COMMAND.md:1 # Repo-Native PR Inventory Command",
+        "docs/tooling/PR_INVENTORY_COMMAND.md:3 ## Purpose",
+        "docs/tooling/PR_INVENTORY_COMMAND.md:5 Release-tail review needs a repo-native way to list open pull requests without",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3767 Document records retired v1 PR inventory and transitional typed v2 replacement. Preserve compatibility navigation; current route governed elsewhere."
+      ]
+    },
+    {
+      "id": "RD07-3776",
+      "path": "docs/tooling/SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md",
+      "reason": "retain_adl_policy",
+      "evidence": [
+        "docs/tooling/SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md:1 # Session Coordination And Root Checkout Policy",
+        "docs/tooling/SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md:3 ## Purpose",
+        "docs/tooling/SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md:5 ADL sessions often run in parallel. They share the same Git repository, issue",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3776 ADL shared-root/main, bound-worktree, coordination and audited break-glass contract explicitly referenced by AGENTS and retained session_cmd.rs. Must not migrate away."
+      ]
+    },
+    {
+      "id": "RD07-3780",
+      "path": "docs/tooling/adl_pr_cycle_skill.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/adl_pr_cycle_skill.md:1 ---",
+        "docs/tooling/adl_pr_cycle_skill.md:2 name: adl_pr_cycle",
+        "docs/tooling/adl_pr_cycle_skill.md:3 description: \"Historical compatibility documentation for the retired adl_pr_cycle route. Do not use as a current ADL lifecycle entrypoint.\"",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3780 Explicit historical compatibility documentation for retired adl_pr_cycle skill; installer/refusal tests consume preserved contract, not active lifecycle routing."
+      ]
+    },
+    {
+      "id": "RD07-3781",
+      "path": "docs/tooling/card-lifecycle.md",
+      "reason": "retain_adl_policy",
+      "evidence": [
+        "docs/tooling/card-lifecycle.md:1 # ADL Card Lifecycle",
+        "docs/tooling/card-lifecycle.md:3 ## Purpose",
+        "docs/tooling/card-lifecycle.md:5 This document defines the canonical ADL issue-card lifecycle.",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3781 Canonical ADL six-card lifecycle and root-local authority rules remain repo policy; successor tool copy cannot replace ADL records contract."
+      ]
+    },
+    {
+      "id": "RD07-3782",
+      "path": "docs/tooling/card-review-checklist.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/card-review-checklist.md:1 # ADL Card Review Checklist Spec",
+        "docs/tooling/card-review-checklist.md:3 Status: Draft (v0.8 tooling)",
+        "docs/tooling/card-review-checklist.md:4 Applies to: ADL output-card review",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3782 Draft v0.8 issue650 deterministic card-review checklist; cross-linked historical reviewer contract and fixtures must remain inspectable."
+      ]
+    },
+    {
+      "id": "RD07-3783",
+      "path": "docs/tooling/card-review-output-format.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/card-review-output-format.md:1 # ADL Deterministic Card Review Output Format",
+        "docs/tooling/card-review-output-format.md:3 Status: Draft (v0.8 tooling)",
+        "docs/tooling/card-review-output-format.md:4 Applies to: ADL output-card review artifacts",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3783 Draft v0.8 issue651 output format and canonical examples are historical schema/proof contracts, not a current product guide."
+      ]
+    },
+    {
+      "id": "RD07-3784",
+      "path": "docs/tooling/card-reviewer-gpt.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/card-reviewer-gpt.md:1 # ADL Card Reviewer GPT Instructions",
+        "docs/tooling/card-reviewer-gpt.md:3 Status: Draft (v0.8 tooling)",
+        "docs/tooling/card-reviewer-gpt.md:4 Applies to: deterministic review of ADL output cards",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3784 Draft v0.8 issue649 GPT reviewer instructions depend on retained checklist/output schemas; preserve historical review reproducibility."
+      ]
+    },
+    {
+      "id": "RD07-3786",
+      "path": "docs/tooling/editor/README.md",
+      "reason": "retain_adl_navigation_history",
+      "evidence": [
+        "docs/tooling/editor/README.md:1 # Task Bundle Editor",
+        "docs/tooling/editor/README.md:3 This is the legacy STP/SIP/SOR task-bundle editor. It is not the current",
+        "docs/tooling/editor/README.md:4 six-card lifecycle editor. The previously advertised",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3786 README explicitly identifies retained three-card editor and absent six-card browser replacement; retain truthful historical entrypoint and current workflow link."
+      ]
+    },
+    {
+      "id": "RD07-3787",
+      "path": "docs/tooling/editor/command_adapter.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/editor/command_adapter.md:1 # Editor Command Adapter Surface",
+        "docs/tooling/editor/command_adapter.md:3 This document is the current editor command adapter contract for ADL task-bundle handoff.",
+        "docs/tooling/editor/command_adapter.md:5 It defines what browser/editor surfaces may prepare, what remains human-run through repo tooling and workflow skills, and what is explicitly out of scope for direct browser invocation.",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3787 ADL task-bundle copy-only handoff and language-story adapter contract; local guidance tests consume it. Preserve retained legacy UI contract."
+      ]
+    },
+    {
+      "id": "RD07-3788",
+      "path": "docs/tooling/editor/current_skill_wiring_demo.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/editor/current_skill_wiring_demo.md:1 # Current Skill Wiring Demo",
+        "docs/tooling/editor/current_skill_wiring_demo.md:3 This proof surface shows how the static task-bundle editor aligns with the current ADL workflow skill family without claiming direct browser execution.",
+        "docs/tooling/editor/current_skill_wiring_demo.md:5 It also confirms that the HTML editor stack now points at the corrected ADL",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3788 Static editor/ADL language skill-wiring proof, consumed by CLI-guidance/manifest tests; historical proof does not create new live authority."
+      ]
+    },
+    {
+      "id": "RD07-3789",
+      "path": "docs/tooling/editor/demo.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/editor/demo.md:1 # Editor Workflow Demo",
+        "docs/tooling/editor/demo.md:3 This bounded demo documents the retained three-card editor slice and its",
+        "docs/tooling/editor/demo.md:4 copy-only handoff to the current native C-SDLC v3 control plane.",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3789 Retained three-card editor demo with copy-only native handoff; local demo tool consumes this exact artifact and ADL records cite it."
+      ]
+    },
+    {
+      "id": "RD07-3790",
+      "path": "docs/tooling/editor/five_command_demo.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/editor/five_command_demo.md:1 # Retired Five-Command Editing Demo",
+        "docs/tooling/editor/five_command_demo.md:3 The historical v0.85 five-command demo depended on the removed v1 lifecycle",
+        "docs/tooling/editor/five_command_demo.md:4 wrappers. Its executable now fails closed and directs operators to",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3790 Explicit retired five-command demo preserves name for inbound links and denies operational routing; preserve this navigation guard."
+      ]
+    },
+    {
+      "id": "RD07-3791",
+      "path": "docs/tooling/editor/five_command_regression_suite.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/editor/five_command_regression_suite.md:1 # Five-Command Regression Suite",
+        "docs/tooling/editor/five_command_regression_suite.md:3 This is the canonical regression entrypoint for the historical five-command editing lifecycle.",
+        "docs/tooling/editor/five_command_regression_suite.md:5 Issue #505 / V3-F is the pending tooling changeover decision. Until that",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3791 Historical five-command regression entrypoint preserves pre-V3F source-time authority statement; retain evidence, not live v2 routing."
+      ]
+    },
+    {
+      "id": "RD07-3792",
+      "path": "docs/tooling/editor/index.html",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/editor/index.html:1 <!DOCTYPE html>",
+        "docs/tooling/editor/index.html:2 <html lang=\"en\">",
+        "docs/tooling/editor/index.html:3 <head>",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3792 HTML implements the explicitly retained three-card editor; ADL demo_hitl_editor_review consumes it with JS/CSS. Preserve as a coherent historical demonstration."
+      ]
+    },
+    {
+      "id": "RD07-3793",
+      "path": "docs/tooling/editor/pr_run_demo.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/editor/pr_run_demo.md:1 # `pr run` Demo",
+        "docs/tooling/editor/pr_run_demo.md:3 This is a bounded historical proof surface for the retired `pr run` path.",
+        "docs/tooling/editor/pr_run_demo.md:4 C-SDLC v2 remains the live lifecycle authority until explicit V3-F/#505",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3793 Explicit historical retired pr-run proof surface; do not turn its old v2 statements into current authority or erase proof links."
+      ]
+    },
+    {
+      "id": "RD07-3794",
+      "path": "docs/tooling/editor/style.css",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/editor/style.css:1 :root {",
+        "docs/tooling/editor/style.css:2   --bg: #f6efe5;",
+        "docs/tooling/editor/style.css:3   --ink: #1d1b19;",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3794 CSS is loaded by retained editor HTML and copied by ADL demo tool; not independently retireable because successor bytes match."
+      ]
+    },
+    {
+      "id": "RD07-3795",
+      "path": "docs/tooling/editor/task_bundle_editor.js",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/editor/task_bundle_editor.js:1 const ARTIFACTS = {",
+        "docs/tooling/editor/task_bundle_editor.js:2   stp: {",
+        "docs/tooling/editor/task_bundle_editor.js:3     label: \"Structured Task Prompt\",",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3795 JS implements retained STP/SIP/SOR editor and is consumed by historical demo/HTML; keep the coherent fixture rather than dropping its executable asset."
+      ]
+    },
+    {
+      "id": "RD07-3796",
+      "path": "docs/tooling/examples/card-review-output-example.yaml",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/examples/card-review-output-example.yaml:1 review_format_version: card_review_output.v1",
+        "docs/tooling/examples/card-review-output-example.yaml:2 review_metadata:",
+        "docs/tooling/examples/card-review-output-example.yaml:3   reviewer: card_reviewer_gpt.v1.1",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3796 Dated card_review_output.v1 example referenced by historical output-format contract; preserve schema demonstration."
+      ]
+    },
+    {
+      "id": "RD07-3797",
+      "path": "docs/tooling/examples/repo-review/bad_repo_review.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/examples/repo-review/bad_repo_review.md:1 ## Metadata",
+        "docs/tooling/examples/repo-review/bad_repo_review.md:2 - Review Type: repo_review",
+        "docs/tooling/examples/repo-review/bad_repo_review.md:3 - Reviewer: repo-code-review",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3797 Historical ADL review/provenance/workflow-state fixture or its README; content names original issue/version and local expected outputs. Retain fixture ensemble and old validation consumers; successor correspondence alone does not discharge them."
+      ]
+    },
+    {
+      "id": "RD07-3798",
+      "path": "docs/tooling/examples/repo-review/good_repo_review.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/examples/repo-review/good_repo_review.md:1 ## Metadata",
+        "docs/tooling/examples/repo-review/good_repo_review.md:2 - Review Type: repo_review",
+        "docs/tooling/examples/repo-review/good_repo_review.md:3 - Subject: adl/",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3798 Historical ADL review/provenance/workflow-state fixture or its README; content names original issue/version and local expected outputs. Retain fixture ensemble and old validation consumers; successor correspondence alone does not discharge them."
+      ]
+    },
+    {
+      "id": "RD07-3799",
+      "path": "docs/tooling/examples/reviewer-provenance/README.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/examples/reviewer-provenance/README.md:1 # Reviewer Provenance Fixtures",
+        "docs/tooling/examples/reviewer-provenance/README.md:3 These fixtures are the bounded proof surface for WP-08.",
+        "docs/tooling/examples/reviewer-provenance/README.md:5 They demonstrate that deterministic review output artifacts can be checked for:",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3799 Historical ADL review/provenance/workflow-state fixture or its README; content names original issue/version and local expected outputs. Retain fixture ensemble and old validation consumers; successor correspondence alone does not discharge them."
+      ]
+    },
+    {
+      "id": "RD07-3800",
+      "path": "docs/tooling/examples/reviewer-provenance/bad_review_output_661.yaml",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/examples/reviewer-provenance/bad_review_output_661.yaml:1 review_format_version: card_review_output.v1",
+        "docs/tooling/examples/reviewer-provenance/bad_review_output_661.yaml:2 review_metadata:",
+        "docs/tooling/examples/reviewer-provenance/bad_review_output_661.yaml:3   reviewer: card_reviewer_gpt.v1.1",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3800 Historical ADL review/provenance/workflow-state fixture or its README; content names original issue/version and local expected outputs. Retain fixture ensemble and old validation consumers; successor correspondence alone does not discharge them."
+      ]
+    },
+    {
+      "id": "RD07-3801",
+      "path": "docs/tooling/examples/reviewer-provenance/good_review_output_661.yaml",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/examples/reviewer-provenance/good_review_output_661.yaml:1 review_format_version: card_review_output.v1",
+        "docs/tooling/examples/reviewer-provenance/good_review_output_661.yaml:2 review_metadata:",
+        "docs/tooling/examples/reviewer-provenance/good_review_output_661.yaml:3   reviewer: card_reviewer_gpt.v1.1",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3801 Historical ADL review/provenance/workflow-state fixture or its README; content names original issue/version and local expected outputs. Retain fixture ensemble and old validation consumers; successor correspondence alone does not discharge them."
+      ]
+    },
+    {
+      "id": "RD07-3802",
+      "path": "docs/tooling/examples/reviewer-regression/issue-661/README.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/examples/reviewer-regression/issue-661/README.md:1 # Reviewer Regression Fixture: Issue 661",
+        "docs/tooling/examples/reviewer-regression/issue-661/README.md:3 This fixture captures a previously reviewed v0.8 card pair for deterministic reviewer regression checks.",
+        "docs/tooling/examples/reviewer-regression/issue-661/README.md:5 ## Inputs",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3802 Historical ADL review/provenance/workflow-state fixture or its README; content names original issue/version and local expected outputs. Retain fixture ensemble and old validation consumers; successor correspondence alone does not discharge them."
+      ]
+    },
+    {
+      "id": "RD07-3803",
+      "path": "docs/tooling/examples/reviewer-regression/issue-661/expected_review_output_661.yaml",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/examples/reviewer-regression/issue-661/expected_review_output_661.yaml:1 review_format_version: card_review_output.v1",
+        "docs/tooling/examples/reviewer-regression/issue-661/expected_review_output_661.yaml:2 review_metadata:",
+        "docs/tooling/examples/reviewer-regression/issue-661/expected_review_output_661.yaml:3   reviewer: card_reviewer_gpt.v1.1",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3803 Historical ADL review/provenance/workflow-state fixture or its README; content names original issue/version and local expected outputs. Retain fixture ensemble and old validation consumers; successor correspondence alone does not discharge them."
+      ]
+    },
+    {
+      "id": "RD07-3804",
+      "path": "docs/tooling/examples/reviewer-regression/issue-661/input_661.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/examples/reviewer-regression/issue-661/input_661.md:1 # ADL Input Card",
+        "docs/tooling/examples/reviewer-regression/issue-661/input_661.md:3 Task ID: issue-0661",
+        "docs/tooling/examples/reviewer-regression/issue-661/input_661.md:4 Run ID: issue-0661",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3804 Historical ADL review/provenance/workflow-state fixture or its README; content names original issue/version and local expected outputs. Retain fixture ensemble and old validation consumers; successor correspondence alone does not discharge them."
+      ]
+    },
+    {
+      "id": "RD07-3805",
+      "path": "docs/tooling/examples/reviewer-regression/issue-661/output_661.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/examples/reviewer-regression/issue-661/output_661.md:1 # canonical-v08-milestone-index-and-navigation",
+        "docs/tooling/examples/reviewer-regression/issue-661/output_661.md:3 Task ID: issue-0661",
+        "docs/tooling/examples/reviewer-regression/issue-661/output_661.md:4 Run ID: issue-0661",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3805 Historical ADL review/provenance/workflow-state fixture or its README; content names original issue/version and local expected outputs. Retain fixture ensemble and old validation consumers; successor correspondence alone does not discharge them."
+      ]
+    },
+    {
+      "id": "RD07-3806",
+      "path": "docs/tooling/examples/reviewer-surface/issue-661/README.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/examples/reviewer-surface/issue-661/README.md:1 # Reviewer Surface Fixture: Issue 661",
+        "docs/tooling/examples/reviewer-surface/issue-661/README.md:3 This fixture captures the deterministic output of the bounded repo-local reviewer surface introduced for WP-06.",
+        "docs/tooling/examples/reviewer-surface/issue-661/README.md:5 ## Source Inputs",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3806 Historical ADL review/provenance/workflow-state fixture or its README; content names original issue/version and local expected outputs. Retain fixture ensemble and old validation consumers; successor correspondence alone does not discharge them."
+      ]
+    },
+    {
+      "id": "RD07-3807",
+      "path": "docs/tooling/examples/reviewer-surface/issue-661/expected_review_surface_output_661.yaml",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/examples/reviewer-surface/issue-661/expected_review_surface_output_661.yaml:1 ---",
+        "docs/tooling/examples/reviewer-surface/issue-661/expected_review_surface_output_661.yaml:2 review_surface_version: adl.review_surface.v1",
+        "docs/tooling/examples/reviewer-surface/issue-661/expected_review_surface_output_661.yaml:3 review_target:",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3807 Historical ADL review/provenance/workflow-state fixture or its README; content names original issue/version and local expected outputs. Retain fixture ensemble and old validation consumers; successor correspondence alone does not discharge them."
+      ]
+    },
+    {
+      "id": "RD07-3808",
+      "path": "docs/tooling/examples/workflow-state/bad_output_record.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/examples/workflow-state/bad_output_record.md:1 # dependable-execution-fixture",
+        "docs/tooling/examples/workflow-state/bad_output_record.md:3 Task ID: issue-0999",
+        "docs/tooling/examples/workflow-state/bad_output_record.md:4 Run ID: issue-0999",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3808 Historical ADL review/provenance/workflow-state fixture or its README; content names original issue/version and local expected outputs. Retain fixture ensemble and old validation consumers; successor correspondence alone does not discharge them."
+      ]
+    },
+    {
+      "id": "RD07-3809",
+      "path": "docs/tooling/examples/workflow-state/good_output_record.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/examples/workflow-state/good_output_record.md:1 # dependable-execution-fixture",
+        "docs/tooling/examples/workflow-state/good_output_record.md:3 Task ID: issue-0999",
+        "docs/tooling/examples/workflow-state/good_output_record.md:4 Run ID: issue-0999",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3809 Historical ADL review/provenance/workflow-state fixture or its README; content names original issue/version and local expected outputs. Retain fixture ensemble and old validation consumers; successor correspondence alone does not discharge them."
+      ]
+    },
+    {
+      "id": "RD07-3810",
+      "path": "docs/tooling/issue-prompts/README.md",
+      "reason": "retain_adl_navigation_history",
+      "evidence": [
+        "docs/tooling/issue-prompts/README.md:1 # Issue Prompt Templates",
+        "docs/tooling/issue-prompts/README.md:3 This directory is the tracked home for reusable issue-prompt templates and authoring guidance.",
+        "docs/tooling/issue-prompts/README.md:5 The intended model is:",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3810 Tracked issue-prompt authoring home describes ADL design-prompt/input-card split and links old templates; preserve navigable source-era template contract."
+      ]
+    },
+    {
+      "id": "RD07-3811",
+      "path": "docs/tooling/issue-prompts/issue-prompt-stub-template.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/issue-prompts/issue-prompt-stub-template.md:1 ---",
+        "docs/tooling/issue-prompts/issue-prompt-stub-template.md:2 issue_prompt_schema: adl.issue.v1",
+        "docs/tooling/issue-prompts/issue-prompt-stub-template.md:3 wp: \"WP-XX\"",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3811 Versioned v0.85 issue stub template carries adl.issue.v1 frontmatter; retain historical authoring fixture, not active template-registry substitute."
+      ]
+    },
+    {
+      "id": "RD07-3812",
+      "path": "docs/tooling/issue-prompts/issue-prompt-template.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/issue-prompts/issue-prompt-template.md:1 ---",
+        "docs/tooling/issue-prompts/issue-prompt-template.md:2 issue_prompt_schema: adl.issue.v1",
+        "docs/tooling/issue-prompts/issue-prompt-template.md:3 wp: \"WP-XX\"",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3812 Versioned v0.87 issue prompt template, also checked by CLI-guidance tests; preserve until that historical test contract explicitly changes."
+      ]
+    },
+    {
+      "id": "RD07-3813",
+      "path": "docs/tooling/merge_readiness_gate_policy_v0.91.4.md",
+      "reason": "retain_adl_policy_history",
+      "evidence": [
+        "docs/tooling/merge_readiness_gate_policy_v0.91.4.md:1 # v0.91.4 Merge-Readiness Gate Policy",
+        "docs/tooling/merge_readiness_gate_policy_v0.91.4.md:3 ## Purpose",
+        "docs/tooling/merge_readiness_gate_policy_v0.91.4.md:5 Define the bounded validation-policy surface for `WP-07` so reviewers can see",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3813 v0.91.4 WP07 merge gate policy documents allowed narrow/broad validation and supports ADR0033; retain ADL policy provenance."
+      ]
+    },
+    {
+      "id": "RD07-3814",
+      "path": "docs/tooling/milestone-dashboard/README.md",
+      "reason": "retain_adl_navigation_history",
+      "evidence": [
+        "docs/tooling/milestone-dashboard/README.md:1 # Milestone Compression Dashboard",
+        "docs/tooling/milestone-dashboard/README.md:3 This directory contains a reusable static HTML dashboard for milestone",
+        "docs/tooling/milestone-dashboard/README.md:4 compression visibility.",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3814 Read-only milestone compression dashboard entrypoint presents ADL milestone outcomes and is linked by tooling index; preserve coherent snapshot navigation."
+      ]
+    },
+    {
+      "id": "RD07-3815",
+      "path": "docs/tooling/milestone-dashboard/dashboard.js",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/milestone-dashboard/dashboard.js:1 const milestoneData = window.milestoneData;",
+        "docs/tooling/milestone-dashboard/dashboard.js:3 if (!milestoneData) {",
+        "docs/tooling/milestone-dashboard/dashboard.js:4   throw new Error(\"milestone dashboard data is missing; load a milestone data script before dashboard.js\");",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3815 Dashboard JS consumes window.milestoneData and is loaded by retained HTML; preserve historical visualization functionality."
+      ]
+    },
+    {
+      "id": "RD07-3816",
+      "path": "docs/tooling/milestone-dashboard/data/v0.90.4.js",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/milestone-dashboard/data/v0.90.4.js:1 window.milestoneData = {",
+        "docs/tooling/milestone-dashboard/data/v0.90.4.js:2   milestone: \"v0.90.4\",",
+        "docs/tooling/milestone-dashboard/data/v0.90.4.js:3   version: \"0.90.4\",",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3816 Dated v0.90.4 milestone dataset records ADL outcome history; immutable snapshot, not successor product state."
+      ]
+    },
+    {
+      "id": "RD07-3817",
+      "path": "docs/tooling/milestone-dashboard/index.html",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/milestone-dashboard/index.html:1 <!DOCTYPE html>",
+        "docs/tooling/milestone-dashboard/index.html:2 <html lang=\"en\">",
+        "docs/tooling/milestone-dashboard/index.html:3 <head>",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3817 Dashboard HTML loads the v0.90.4 data/JS/CSS ensemble; retain navigable ADL historical snapshot."
+      ]
+    },
+    {
+      "id": "RD07-3818",
+      "path": "docs/tooling/milestone-dashboard/style.css",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/milestone-dashboard/style.css:1 :root {",
+        "docs/tooling/milestone-dashboard/style.css:2   --bg: #f3efe6;",
+        "docs/tooling/milestone-dashboard/style.css:3   --paper: rgba(255, 252, 246, 0.86);",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3818 CSS is a direct dependency of retained milestone dashboard HTML; preserve coherent historical presentation."
+      ]
+    },
+    {
+      "id": "RD07-3819",
+      "path": "docs/tooling/prompt-review-surface-mapping.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/prompt-review-surface-mapping.md:1 # Prompt/Reviewer Surface Mapping",
+        "docs/tooling/prompt-review-surface-mapping.md:3 Status: canonical v0.8 alignment surface for issue #668",
+        "docs/tooling/prompt-review-surface-mapping.md:5 ## Purpose",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3819 Issue668 v0.8 canonical prompt/reviewer field alignment contract cross-linked by old review schemas; preserve provenance."
+      ]
+    },
+    {
+      "id": "RD07-3820",
+      "path": "docs/tooling/prompt-spec.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/prompt-spec.md:1 # Prompt Spec",
+        "docs/tooling/prompt-spec.md:3 ## Purpose",
+        "docs/tooling/prompt-spec.md:4 Prompt Spec is a machine-readable block embedded in ADL input cards. It defines how execution prompts are assembled from card fields so generation is deterministic for identical card content.",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3820 ADL input-card embedded Prompt Spec contract consumed by historical card template and records; preserve source-time assembly semantics."
+      ]
+    },
+    {
+      "id": "RD07-3822",
+      "path": "docs/tooling/review-surface-format.md",
+      "reason": "retain_adl_policy_history",
+      "evidence": [
+        "docs/tooling/review-surface-format.md:1 # ADL Review Surface Format",
+        "docs/tooling/review-surface-format.md:3 Status: Active",
+        "docs/tooling/review-surface-format.md:4 Applies to: human-authored and skill-generated review artifacts",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3822 ADL human/skill review artifact format is used by retained review skill inputs and demos; keep local review evidence contract even though a successor copy exists."
+      ]
+    },
+    {
+      "id": "RD07-3823",
+      "path": "docs/tooling/reviewer-provenance.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/reviewer-provenance.md:1 # Reviewer Output Provenance",
+        "docs/tooling/reviewer-provenance.md:3 This document defines the first bounded provenance-verification surface for deterministic review output artifacts.",
+        "docs/tooling/reviewer-provenance.md:5 ## Purpose",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3823 Bounded WP08 deterministic output provenance contract tied to issue661 fixtures; preserve historical proof chain."
+      ]
+    },
+    {
+      "id": "RD07-3824",
+      "path": "docs/tooling/reviewer-surface.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/reviewer-surface.md:1 # Reviewer Surface",
+        "docs/tooling/reviewer-surface.md:3 This document describes the bounded reviewer entry surfaces that make ADL runtime and card-review artifacts inspectable without reconstructing proof roots by hand.",
+        "docs/tooling/reviewer-surface.md:5 ## Purpose",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3824 ADL runtime/card reviewer entry surfaces and fixture roots are a bounded old tooling contract; retain history/navigation pending separate consumer removal."
+      ]
+    },
+    {
+      "id": "RD07-3825",
+      "path": "docs/tooling/srp-sor-obsmem-handoff-v0.91.2.md",
+      "reason": "retain_adl_history",
+      "evidence": [
+        "docs/tooling/srp-sor-obsmem-handoff-v0.91.2.md:1 # SRP, SOR, And ObsMem Handoff Model",
+        "docs/tooling/srp-sor-obsmem-handoff-v0.91.2.md:3 ## Purpose",
+        "docs/tooling/srp-sor-obsmem-handoff-v0.91.2.md:5 This document defines the bounded `v0.91.2` handoff model for review results,",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3825 Explicit v0.91.2 SRP/SOR/ObsMem future-ingestion handoff model, linked by source-map and tooling index; preserve design provenance."
+      ]
+    },
+    {
+      "id": "RD07-3826",
+      "path": "docs/tooling/structured-prompt-contracts.md",
+      "reason": "retain_adl_policy",
+      "evidence": [
+        "docs/tooling/structured-prompt-contracts.md:1 # Structured Prompt Contracts",
+        "docs/tooling/structured-prompt-contracts.md:3 ## Purpose",
+        "docs/tooling/structured-prompt-contracts.md:5 ADL now treats the core workflow artifacts as structured prompt surfaces with machine-checkable contracts:",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3826 ADL structured card/authority contract referenced by tooling index/native tests; keep repo-local values/schema generation discipline and link generic commands separately."
+      ]
+    },
+    {
+      "id": "RD07-3827",
+      "path": "docs/tooling/structured-prompt-validator-binary-resolution.md",
+      "reason": "retain_adl_navigation_history",
+      "evidence": [
+        "docs/tooling/structured-prompt-validator-binary-resolution.md:1 # Structured Prompt Validation Boundary",
+        "docs/tooling/structured-prompt-validator-binary-resolution.md:3 `adl/tools/validate_structured_prompt.sh` and the former",
+        "docs/tooling/structured-prompt-validator-binary-resolution.md:4 `adl-validate-structured-prompt` binary are deleted v1-era surfaces. They must",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3827 Explicit refusal/retirement boundary for deleted v1 validator wrappers; retain to prevent wrapper resurrection and preserve inbound migration guidance."
+      ]
+    },
+    {
+      "id": "RD07-3830",
+      "path": "docs/tooling/worktree_governance.md",
+      "reason": "retain_adl_policy",
+      "evidence": [
+        "docs/tooling/worktree_governance.md:1 # Worktree Governance",
+        "docs/tooling/worktree_governance.md:3 This policy separates issue-worktree closeout from reclaiming build output.",
+        "docs/tooling/worktree_governance.md:4 Directory location, a familiar name, or a cleanup helper's recommendation alone",
+        "CSDLC_DOCUMENT_DISPOSITIONS.json: RD07-3830 Worktree deletion/recovery and build-output reclamation governance belongs to ADL sessions; references native man pages but local preservation rules remain authoritative."
       ]
     },
     {

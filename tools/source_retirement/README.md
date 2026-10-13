@@ -21,7 +21,7 @@ No host path, archive download, provider credential, or cloud execution is
 embedded in the check. A new host without rollback custody must fail closed.
 The archive digest check is separate from the isolated restoration rehearsal.
 
-Run the focused guard and its fourteen regression scenarios with:
+Run the focused guard and its fifteen regression scenarios with:
 
 ```sh
 CARGO_TARGET_DIR=target/source-retirement cargo test --offline --locked --manifest-path tools/source_retirement/validator/Cargo.toml --test retirement_contract
@@ -62,11 +62,12 @@ to this worktree's ignored `target/public-adl-proof/<issue>/<run>`;
 is derived from the linked worktree's common Git directory.
 
 The scratch exception in the macOS sandbox permits only the fresh proof
-directory, excluding the synthetic credential sentinel. Producer checkout and
-network access remain denied. Run the six small storage/sandbox regressions with
+directory, excluding the synthetic credential sentinel, and literal ancestor
+metadata needed by Cargo dep-info resolution. Sibling file contents, producer checkout and
+network access remain denied. Run the seven small storage/sandbox regressions with
 `python3 -B tools/public_adl/test_install_storage.py` under the same `TMPDIR`.
 These are PVF `local_contract` path-isolation tests (small CPU/disk, no build or
-external service); the four OS sandbox cases require macOS. They do not replace
+external service); the five OS sandbox cases require macOS. They do not replace
 the final five-package, seven-consumer, 21-UTS, five-negative proof.
 
 ## Approved component retirement

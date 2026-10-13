@@ -43,7 +43,7 @@
   "repairs": {
     "adl/config/validation_lane_selector.v0.91.6.json": [
       "100644",
-      "6dddf52115437d8eb1116090fe5f6f04a84abfc2"
+      "5dc4fc4076ed7298a07abec47449292f26bdf5df"
     ],
     "adl/tools/test_select_validation_lanes.sh": [
       "100755",
@@ -139,7 +139,7 @@
     ],
     "adl/tests/issue_327_removed_tooling.rs": [
       "100644",
-      "5fdca0363cae6df8fe1310d6040133260237c835"
+      "91abfeaf670075fbc54bdd2004e3f9674b2f4406"
     ],
     "adl/tools/owner_binary_resolution.sh": [
       "100755",

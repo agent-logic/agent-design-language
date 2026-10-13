@@ -36,6 +36,7 @@ PUBLIC_ROOTS = [
     "adl/tests/resolve_tests.rs",
     "adl/tests/schema_tests.rs",
     "adl/tests/public_process.rs",
+    "adl/tests/issue_327_removed_tooling.rs",
     "adl/tests/cli_smoke/process_status.rs",
     "adl/tests/helpers.rs",
     "adl/tools/install_owner_binaries.sh",

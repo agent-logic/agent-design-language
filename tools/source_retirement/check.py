@@ -60,7 +60,7 @@ def tree(ref):
 
 def approved_component_delta():
     data = (ROOT / PACKET / 'APPROVED_COMPONENT_DELTA.json').read_bytes()
-    require(hashlib.sha256(data).hexdigest() == '3af08b54e9452545b4a768e439cc5fae3b7e5dc7768f240aa65eb20d929c5256',
+    require(hashlib.sha256(data).hexdigest() == '4b752d6ccb95bb7c2857540126f3d1c145c2220838a1a1df9e9c59bc0d94198c',
             'approved component delta changed')
     return json.loads(data)
 
@@ -152,6 +152,7 @@ def run():
                         str(PACKET / 'CURRENT_SUCCESSOR_ROWS.jsonl'),
                         str(PACKET / 'INDEPENDENT_REPOSITORY_BUILDS.json'),
                         str(PACKET / 'REMAINING_COMPONENT_DECISIONS.json'),
+                        str(PACKET / 'COMBINED_REMAINING_DELTA.json'),
                         'tools/source_retirement/check.py', 'tools/source_retirement/README.md'])
         if component == COMPONENTS[2]:
             p = 'infra/runtime-v3/runtime-init.toml'

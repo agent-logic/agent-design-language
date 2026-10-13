@@ -21,7 +21,8 @@ PY
 # Owner integration suites retain separate obligations during the split. This
 # lane names the public contract tests; it does not classify private tests as passed.
 cargo test --locked --manifest-path adl/Cargo.toml --lib --bins \
-  --test adl_tests --test resolve_tests --test schema_tests --test public_process
+  --test adl_tests --test resolve_tests --test schema_tests --test public_process \
+  --test issue_327_removed_tooling
 binary="$(python3 - "$metadata" <<'PY'
 import json, sys
 from pathlib import Path

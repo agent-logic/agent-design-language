@@ -1,0 +1,297 @@
+{
+  "schema": "adl.source_retirement.combined_ci_cutover.v1",
+  "issue": 1223,
+  "status": "reviewable_obligation_mapping_not_execution_approval",
+  "source_head": "375ef32c55744be45ee057470d6dc30a7d32b117",
+  "stable_required_check": "adl-ci",
+  "remote_branch_protection_verified": false,
+  "effective_branch_rules_verified": true,
+  "required_checks": [
+    "adl-ci",
+    "adl-coverage"
+  ],
+  "required_checks_evidence": "FastWork agent-logic-review/1223-resume-20261012/required-checks/rules-result-escalated.json; ruleset20533048; integration15368",
+  "workflow": ".github/workflows/ci.yaml",
+  "coupled_repairs": [
+    "adl/tools/ci_path_policy.sh",
+    "adl/tools/test_ci_runtime_contracts.sh",
+    "adl/tools/validate_ci_workflow_policy.rb",
+    "adl/config/validation_lane_selector.v0.91.6.json",
+    "tools/public_adl/test_ci_contract.py",
+    "tools/public_adl/test_ci_routing.sh",
+    "docs/tooling/CI_REQUIRED_AND_OPTIONAL_LANES.md"
+  ],
+  "implemented_preparation": [
+    "publicCLI runner and exact path selection",
+    "publicmanifest private dependency count zero",
+    "publicCI artifact writer/uploader root aligned",
+    "installedpublicpackage sandbox ancestor metadata repaired with denial tests"
+  ],
+  "acceptance": [
+    "CI YAML parse and workflow policy pass",
+    "real selector cases for public-only, docs-only, deleted private roots, installer, unknown path",
+    "aggregate negative cases for failure,cancellation,missing output,malformed output,unexpected execution",
+    "no required private-source compile after removal",
+    "each moved test obligation linked to actual successor result/source",
+    "one final exacthead CI run; no fake green or duplicate owner builds"
+  ],
+  "jobs": [
+    {
+      "existing_job": "adl_path_policy",
+      "existing_condition": null,
+      "action": "repair_selector_for_remaining_public_surfaces",
+      "owner": "ADL",
+      "obligation": "Exact changed-path selection; unknown paths select conservative public/code-contract baseline; native/provider/soak never implied. Preserve concurrency and one automatic entrypoint.",
+      "execution_change_applied": false
+    },
+    {
+      "existing_job": "csdlc_v2_standalone",
+      "existing_condition": "needs.adl_path_policy.outputs.csdlc_v2_standalone_required == 'true'",
+      "action": "move_only_after_installed_owner_reconciliation",
+      "owner": "cognitive-sdlc",
+      "successor": ".github/workflows/owner-package.yml",
+      "obligation": "Complete original C-SDLC test migration/caller audit and qualified external installer; retain ADL-bound authority receipts. v2 rollback/history stays separate from current nativev3. No deletion while local installer still builds this crate.",
+      "execution_change_applied": false
+    },
+    {
+      "existing_job": "adl_characterization_standalone",
+      "existing_condition": "needs.adl_path_policy.outputs.adl_characterization_standalone_required == 'true'",
+      "action": "move_only_with_owner_test_correspondence",
+      "owner": "agent-logic-runtime",
+      "successor": ".github/workflows/runtime-private-package.yml",
+      "observed_source": "11ce6614603532738e9ceffab093e35d96b262b5",
+      "obligation": "Preserve exact original behavior/test obligations; runtime successor currently explicitly runs CLI, execution, provider, kernel, recovery, memory and retained demo checks. Broader coverage/characterization denominator equivalence remains review-required.",
+      "execution_change_applied": false
+    },
+    {
+      "existing_job": "adl_resilience_standalone",
+      "existing_condition": "needs.adl_path_policy.outputs.adl_resilience_standalone_required == 'true'",
+      "action": "move_only_with_owner_test_correspondence",
+      "owner": "agent-logic-runtime",
+      "successor": ".github/workflows/runtime-private-package.yml",
+      "observed_source": "11ce6614603532738e9ceffab093e35d96b262b5",
+      "obligation": "Preserve exact original behavior/test obligations; runtime successor currently explicitly runs CLI, execution, provider, kernel, recovery, memory and retained demo checks. Broader coverage/characterization denominator equivalence remains review-required.",
+      "execution_change_applied": false
+    },
+    {
+      "existing_job": "remote_validation_standalone",
+      "existing_condition": "needs.adl_path_policy.outputs.remote_validation_standalone_required == 'true'",
+      "action": "route_owned_infrastructure_without_cloud_execution",
+      "owner": "agent-logic-infrastructure",
+      "successor": ".github/workflows/product-ci.yaml",
+      "obligation": "Preserve Python/contracts, Rust adapter and Terraform construction checks. Fix csm-runtime-alb. No implicit Spot/cloud dispatch from ordinary ADL PR.",
+      "execution_change_applied": false
+    },
+    {
+      "existing_job": "csdlc_v3_standalone",
+      "existing_condition": "needs.adl_path_policy.outputs.csdlc_v3_standalone_required == 'true'",
+      "action": "move_only_after_installed_owner_reconciliation",
+      "owner": "cognitive-sdlc",
+      "successor": ".github/workflows/owner-package.yml",
+      "obligation": "Complete original C-SDLC test migration/caller audit and qualified external installer; retain ADL-bound authority receipts. v2 rollback/history stays separate from current nativev3. No deletion while local installer still builds this crate.",
+      "execution_change_applied": false
+    },
+    {
+      "existing_job": "adl_v2_standalone",
+      "existing_condition": "needs.adl_path_policy.outputs.adl_v2_standalone_required == 'true'",
+      "action": "retain_public_obligation_combine_duplicate_package_runs",
+      "owner": "ADL",
+      "successor": "tools/public_adl/run_ci.sh and tools/public_adl/run_cli_ci.sh",
+      "obligation": "Fivepublicpackage tests/fmt/clippy plus enforcing installedconsumer proof; publicCLI145tests+selector/parity contracts. Preserve Linuxconstruction and required supported platforms. Do not run retired private source through old all-targets commands.",
+      "execution_change_applied": false
+    },
+    {
+      "existing_job": "adl_tooling_contracts",
+      "existing_condition": "needs.adl_path_policy.outputs.runtime_v3_fast_required != 'true' && needs.adl_path_policy.outputs.ci_contracts_required == 'true'",
+      "action": "partition_retained_repository_contracts_from_product_tools",
+      "owner": "ADL_and_successors",
+      "obligation": "Retain ADL templates, public installer, selector, dispatch and source-retirement guards; move product tool tests with their complete scripts and repaired callers. Audit v2 editor/validator shell consumers before retirement.",
+      "execution_change_applied": false
+    },
+    {
+      "existing_job": "adl_runtime_v3_fast",
+      "existing_condition": "needs.adl_path_policy.outputs.runtime_v3_fast_required == 'true'",
+      "action": "move_only_with_owner_test_correspondence",
+      "owner": "agent-logic-runtime",
+      "successor": ".github/workflows/runtime-private-package.yml",
+      "observed_source": "11ce6614603532738e9ceffab093e35d96b262b5",
+      "obligation": "Preserve exact original behavior/test obligations; runtime successor currently explicitly runs CLI, execution, provider, kernel, recovery, memory and retained demo checks. Broader coverage/characterization denominator equivalence remains review-required.",
+      "execution_change_applied": false
+    },
+    {
+      "existing_job": "adl_provider_core",
+      "existing_condition": "needs.adl_path_policy.outputs.rust_required == 'true'",
+      "action": "move_only_with_owner_test_correspondence",
+      "owner": "agent-logic-runtime",
+      "successor": ".github/workflows/runtime-private-package.yml",
+      "observed_source": "11ce6614603532738e9ceffab093e35d96b262b5",
+      "obligation": "Preserve exact original behavior/test obligations; runtime successor currently explicitly runs CLI, execution, provider, kernel, recovery, memory and retained demo checks. Broader coverage/characterization denominator equivalence remains review-required.",
+      "execution_change_applied": false
+    },
+    {
+      "existing_job": "codefriend_fitness_ci",
+      "existing_condition": "needs.adl_path_policy.outputs.codefriend_ci_required == 'true'",
+      "action": "move_product_owned_jobs_with_CF102_qualification",
+      "owner": "codefriend",
+      "successor": [
+        ".github/workflows/product-ci.yaml",
+        ".github/workflows/codefriend-fitness.yml",
+        ".github/workflows/codefriend-host-candidate.yml"
+      ],
+      "observed_source": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
+      "obligation": "Successor product CI owns acquisition, fitness, host and installed packaging. Issue102 adds39originalintegration suites to existing nextest --tests;410actualtests mustpass. ADL retains facade/selector denial contracts.",
+      "execution_change_applied": false
+    },
+    {
+      "existing_job": "codefriend_host_candidate",
+      "existing_condition": "needs.adl_path_policy.outputs.codefriend_ci_required == 'true'",
+      "action": "move_product_owned_jobs_with_CF102_qualification",
+      "owner": "codefriend",
+      "successor": [
+        ".github/workflows/product-ci.yaml",
+        ".github/workflows/codefriend-fitness.yml",
+        ".github/workflows/codefriend-host-candidate.yml"
+      ],
+      "observed_source": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
+      "obligation": "Successor product CI owns acquisition, fitness, host and installed packaging. Issue102 adds39originalintegration suites to existing nextest --tests;410actualtests mustpass. ADL retains facade/selector denial contracts.",
+      "execution_change_applied": false
+    },
+    {
+      "existing_job": "codefriend_ci_acquisition",
+      "existing_condition": "needs.adl_path_policy.outputs.codefriend_ci_required == 'true'",
+      "action": "move_product_owned_jobs_with_CF102_qualification",
+      "owner": "codefriend",
+      "successor": [
+        ".github/workflows/product-ci.yaml",
+        ".github/workflows/codefriend-fitness.yml",
+        ".github/workflows/codefriend-host-candidate.yml"
+      ],
+      "observed_source": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
+      "obligation": "Successor product CI owns acquisition, fitness, host and installed packaging. Issue102 adds39originalintegration suites to existing nextest --tests;410actualtests mustpass. ADL retains facade/selector denial contracts.",
+      "execution_change_applied": false
+    },
+    {
+      "existing_job": "adl_uts_package",
+      "existing_condition": "needs.adl_path_policy.outputs.rust_required == 'true' && needs.adl_path_policy.outputs.runtime_v3_fast_required != 'true'",
+      "action": "retain_public_obligation_combine_duplicate_package_runs",
+      "owner": "ADL",
+      "successor": "tools/public_adl/run_ci.sh and tools/public_adl/run_cli_ci.sh",
+      "obligation": "Fivepublicpackage tests/fmt/clippy plus enforcing installedconsumer proof; publicCLI145tests+selector/parity contracts. Preserve Linuxconstruction and required supported platforms. Do not run retired private source through old all-targets commands.",
+      "execution_change_applied": false
+    },
+    {
+      "existing_job": "public_adl_validation",
+      "existing_condition": "needs.adl_path_policy.outputs.public_adl_validation_required == 'true'",
+      "action": "retain_public_obligation_combine_duplicate_package_runs",
+      "owner": "ADL",
+      "successor": "tools/public_adl/run_ci.sh and tools/public_adl/run_cli_ci.sh",
+      "obligation": "Fivepublicpackage tests/fmt/clippy plus enforcing installedconsumer proof; publicCLI145tests+selector/parity contracts. Preserve Linuxconstruction and required supported platforms. Do not run retired private source through old all-targets commands.",
+      "execution_change_applied": false
+    },
+    {
+      "existing_job": "adl_rust_fmt_clippy",
+      "existing_condition": "needs.adl_path_policy.outputs.rust_required == 'true' && needs.adl_path_policy.outputs.runtime_v3_fast_required != 'true' && (needs.adl_path_policy.outputs.heavy_ci_backend != 'spot' || github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository || !contains(github.event.pull_request.labels.*.name, 'ci:spot'))",
+      "action": "retain_public_obligation_combine_duplicate_package_runs",
+      "owner": "ADL",
+      "successor": "tools/public_adl/run_ci.sh and tools/public_adl/run_cli_ci.sh",
+      "obligation": "Fivepublicpackage tests/fmt/clippy plus enforcing installedconsumer proof; publicCLI145tests+selector/parity contracts. Preserve Linuxconstruction and required supported platforms. Do not run retired private source through old all-targets commands.",
+      "execution_change_applied": false
+    },
+    {
+      "existing_job": "adl_rust_tests",
+      "existing_condition": "needs.adl_path_policy.outputs.rust_required == 'true' && needs.adl_path_policy.outputs.runtime_v3_fast_required != 'true' && (needs.adl_path_policy.outputs.heavy_ci_backend != 'spot' || github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository || !contains(github.event.pull_request.labels.*.name, 'ci:spot'))",
+      "action": "retain_public_obligation_combine_duplicate_package_runs",
+      "owner": "ADL",
+      "successor": "tools/public_adl/run_ci.sh and tools/public_adl/run_cli_ci.sh",
+      "obligation": "Fivepublicpackage tests/fmt/clippy plus enforcing installedconsumer proof; publicCLI145tests+selector/parity contracts. Preserve Linuxconstruction and required supported platforms. Do not run retired private source through old all-targets commands.",
+      "execution_change_applied": false
+    },
+    {
+      "existing_job": "adl_demo_proof",
+      "existing_condition": "needs.adl_path_policy.outputs.runtime_v3_fast_required != 'true' && (needs.adl_path_policy.outputs.demo_smoke_required == 'true' || needs.adl_path_policy.outputs.v0913_proof_required == 'true') && (needs.adl_path_policy.outputs.heavy_ci_backend != 'spot' || github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository || !contains(github.event.pull_request.labels.*.name, 'ci:spot'))",
+      "action": "move_only_with_owner_test_correspondence",
+      "owner": "agent-logic-runtime",
+      "successor": ".github/workflows/runtime-private-package.yml",
+      "observed_source": "11ce6614603532738e9ceffab093e35d96b262b5",
+      "obligation": "Preserve exact original behavior/test obligations; runtime successor currently explicitly runs CLI, execution, provider, kernel, recovery, memory and retained demo checks. Broader coverage/characterization denominator equivalence remains review-required.",
+      "execution_change_applied": false
+    },
+    {
+      "existing_job": "adl_spot_ci_and_coverage",
+      "existing_condition": "needs.adl_path_policy.outputs.heavy_ci_backend == 'spot' && github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && contains(github.event.pull_request.labels.*.name, 'ci:spot') && (needs.adl_path_policy.outputs.rust_required == 'true' || needs.adl_path_policy.outputs.demo_smoke_required == 'true' || needs.adl_path_policy.outputs.v0913_proof_required == 'true' || needs.adl_path_policy.outputs.coverage_required == 'true')",
+      "action": "route_owned_infrastructure_without_cloud_execution",
+      "owner": "agent-logic-infrastructure",
+      "successor": ".github/workflows/product-ci.yaml",
+      "obligation": "Preserve Python/contracts, Rust adapter and Terraform construction checks. Fix csm-runtime-alb. No implicit Spot/cloud dispatch from ordinary ADL PR.",
+      "execution_change_applied": false
+    },
+    {
+      "existing_job": "transpiler_distribution",
+      "existing_condition": "needs.adl_path_policy.outputs.transpiler_distribution_required == 'true'",
+      "action": "retain_existing_reusable_workflow",
+      "owner": "ADL",
+      "obligation": "Existing installed transpiler contract and exact path selection remain; no source-retirement authorization affects it.",
+      "execution_change_applied": false
+    },
+    {
+      "existing_job": "adl-ci",
+      "existing_condition": "always()",
+      "action": "retain_required_identity_and_fail_closed_aggregation",
+      "owner": "ADL",
+      "obligation": "Require successful path selector and every selected child result=success; unselected=skipped; reject missing, failed, cancelled, unexpected or malformed results. No placeholder green jobs.",
+      "execution_change_applied": false
+    },
+    {
+      "existing_job": "adl-slow-proof",
+      "existing_condition": "github.event_name == 'workflow_dispatch'",
+      "action": "move_only_with_owner_test_correspondence",
+      "owner": "agent-logic-runtime",
+      "successor": ".github/workflows/runtime-private-package.yml",
+      "observed_source": "11ce6614603532738e9ceffab093e35d96b262b5",
+      "obligation": "Preserve exact original behavior/test obligations; runtime successor currently explicitly runs CLI, execution, provider, kernel, recovery, memory and retained demo checks. Broader coverage/characterization denominator equivalence remains review-required.",
+      "execution_change_applied": false
+    },
+    {
+      "existing_job": "adl_coverage_runtime_hosted",
+      "existing_condition": "needs.adl_path_policy.outputs.runtime_coverage_required == 'true' && (needs.adl_path_policy.outputs.heavy_ci_backend != 'spot' || github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository || !contains(github.event.pull_request.labels.*.name, 'ci:spot'))",
+      "action": "move_only_with_owner_test_correspondence",
+      "owner": "agent-logic-runtime",
+      "successor": ".github/workflows/runtime-private-package.yml",
+      "observed_source": "11ce6614603532738e9ceffab093e35d96b262b5",
+      "obligation": "Preserve exact original behavior/test obligations; runtime successor currently explicitly runs CLI, execution, provider, kernel, recovery, memory and retained demo checks. Broader coverage/characterization denominator equivalence remains review-required.",
+      "execution_change_applied": false
+    },
+    {
+      "existing_job": "adl_coverage_workspace_fast_hosted",
+      "existing_condition": "needs.adl_path_policy.outputs.workspace_fast_coverage_required == 'true' && (needs.adl_path_policy.outputs.heavy_ci_backend != 'spot' || github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository || !contains(github.event.pull_request.labels.*.name, 'ci:spot'))",
+      "action": "reconcile_coverage_denominator_before_removing_old_job",
+      "owner": "ADL_and_successors",
+      "obligation": "Partition public coverage from private runtime/product coverage; preserve required check identity and fail-closed routing until remote required-check configuration is verified. Local test success is not CI coverage equivalence.",
+      "execution_change_applied": false
+    },
+    {
+      "existing_job": "adl_coverage_workspace_hosted",
+      "existing_condition": "needs.adl_path_policy.outputs.workspace_full_coverage_required == 'true' && (needs.adl_path_policy.outputs.heavy_ci_backend != 'spot' || github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository || !contains(github.event.pull_request.labels.*.name, 'ci:spot'))",
+      "action": "reconcile_coverage_denominator_before_removing_old_job",
+      "owner": "ADL_and_successors",
+      "obligation": "Partition public coverage from private runtime/product coverage; preserve required check identity and fail-closed routing until remote required-check configuration is verified. Local test success is not CI coverage equivalence.",
+      "execution_change_applied": false
+    },
+    {
+      "existing_job": "adl_coverage_hosted",
+      "existing_condition": "always() && needs.adl_path_policy.outputs.coverage_required == 'true' && needs.adl_path_policy.outputs.heavy_ci_backend == 'hosted'",
+      "action": "reconcile_coverage_denominator_before_removing_old_job",
+      "owner": "ADL_and_successors",
+      "obligation": "Partition public coverage from private runtime/product coverage; preserve required check identity and fail-closed routing until remote required-check configuration is verified. Local test success is not CI coverage equivalence.",
+      "execution_change_applied": false
+    },
+    {
+      "existing_job": "adl-coverage",
+      "existing_condition": "always()",
+      "action": "retain_required_identity_with_real_public_coverage",
+      "owner": "ADL",
+      "obligation": "Effective main ruleset requires this check. Measure retained public source coverage; enforce reviewed public baseline; reject missing, failed or cancelled selected coverage and report exact source denominator. Never equate moved private source removal with improved coverage.",
+      "execution_change_applied": false
+    }
+  ]
+}

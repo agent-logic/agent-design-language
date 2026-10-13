@@ -16,8 +16,6 @@ fn issue_327_removed_tooling_routes_fail_closed() {
         env!("CARGO_BIN_EXE_adl"),
         "the v1 tooling multiplexer was removed; use native C-SDLC v3 csdlc",
     );
-    assert_tooling_rejected(
-        env!("CARGO_BIN_EXE_adl-review"),
-        "adl-review owns review tooling only",
-    );
+    // The private adl-review compatibility binary is retired from this
+    // package. Its former routing diagnostic is not a public ADL obligation.
 }

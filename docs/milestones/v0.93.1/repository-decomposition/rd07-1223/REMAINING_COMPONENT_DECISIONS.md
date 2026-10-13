@@ -58,15 +58,25 @@ Producer build success does not discharge ADL consumer acceptance. The packet do
 
 ## Resolved retention
 
-`RESOLVED_RETENTION.json` resolves 139 original rows as required retained
+`RESOLVED_RETENTION.json` resolves 252 original rows as required retained
 ADL contract/state/history or excluded website assets: 122 planning/prompt contract
 files, three v3 authority records, six historical cutover/rollback records, one
 registry-referenced native card shape, one repository worktree policy, and three
 website assets, plus one active ADL milestone ordering standard, one reusable
 operational guide, and its ADL planning navigation page. Each row records its
-specific reason and evidence. The operational guide and active standard are
+specific reason and evidence. Two additional public consumers are retained: the
+external Cargo build/lockfile guard required by the public installer, and the
+declarative scheduler input used by public CLI help. The operational guide and active standard are
 retained for their current purpose, not classified as immutable history.
 
 The remaining 18 v2 operator skill/example files are still unresolved; their location
 in an operator directory alone does not establish immutable-record status. Active
 tool holds also remain unresolved. This changes dispositions only, not source bytes.
+
+A bounded source review resolves another 111 C-SDLC-labelled documents as
+ADL policy, history or navigation (72 history, 16 policy, one navigation,
+14 navigation/history and eight policy/history). Per-ID evidence is retained
+in `CSDLC_DOCUMENT_DISPOSITIONS.json`. The other 66 successor-owned guide/manual
+rows still require link and reader cutover, and seven identified unresolved
+rows remain holds. Retention does not establish current operational authority
+for historical instructions.
