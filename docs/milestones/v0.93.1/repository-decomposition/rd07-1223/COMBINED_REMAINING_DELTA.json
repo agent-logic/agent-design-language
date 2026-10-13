@@ -6,17 +6,17 @@
   "execution_authorized": false,
   "original_count": 4134,
   "counts": {
-    "hold_explicit_reconciliation": 442,
+    "hold_explicit_reconciliation": 422,
     "hold_missing_successor_operational_command": 2,
     "hold_owner_test_reconciliation": 35,
     "preserve_approved_removal": 70,
     "preserve_reviewed_consumer_repair": 17,
-    "proposed_owner_transfer_with_consumer_qualification": 266,
+    "proposed_owner_transfer_with_consumer_qualification": 284,
     "proposed_remove_construction_qualified_infrastructure": 216,
     "proposed_remove_with_entire_source_family": 1874,
     "proposed_remove_with_entire_tool_family": 719,
     "retain_public_source_or_fixture": 68,
-    "retain_resolved": 425
+    "retain_resolved": 427
   },
   "additional_current_source_paths": 19,
   "preservation": "Original inventory and baseline archive unchanged;70 prior approved removals preserved; no new deletion applied",
@@ -72,14 +72,21 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Owner has artifact-consuming candidate/pass/fail/error lane and original source inventory. Require existing outcome/assertion evidence and caller cutover, not new broad build.",
+        "coherent caller and component disposition; no source-only qualification claim"
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CODEFRIEND_27_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
+        "proposal": "Owner has artifact-consuming candidate/pass/fail/error lane and original source inventory. Require existing outcome/assertion evidence and caller cutover, not new broad build.",
+        "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
       }
     },
     {
@@ -126,14 +133,21 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Owner has artifact-consuming candidate/pass/fail/error lane and original source inventory. Require existing outcome/assertion evidence and caller cutover, not new broad build.",
+        "coherent caller and component disposition; no source-only qualification claim"
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CODEFRIEND_27_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
+        "proposal": "Owner has artifact-consuming candidate/pass/fail/error lane and original source inventory. Require existing outcome/assertion evidence and caller cutover, not new broad build.",
+        "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
       }
     },
     {
@@ -147,14 +161,21 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
+        "coherent caller and component disposition; no source-only qualification claim"
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CODEFRIEND_27_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
+        "proposal": "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
+        "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
       }
     },
     {
@@ -29509,14 +29530,21 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "e14 native publication and hosted installed-product acquisition gate passed run38368320407/artifact11798686377. Preserve exact candidate scope and final successor CI, no standalone rerun.",
+        "coherent caller and component disposition; no source-only qualification claim"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CODEFRIEND_27_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
+        "proposal": "e14 native publication and hosted installed-product acquisition gate passed run38368320407/artifact11798686377. Preserve exact candidate scope and final successor CI, no standalone rerun.",
+        "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
       }
     },
     {
@@ -29555,12 +29583,19 @@
       "hold_reason": "hold_no_proven_current_successor_mapping",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Original installed CLI scenarios lack identified owner counterpart; preserve until accepted replacement crosswalk or migration.",
+        "coherent caller and component disposition; no source-only qualification claim"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CODEFRIEND_27_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
+        "proposal": "Original installed CLI scenarios lack identified owner counterpart; preserve until accepted replacement crosswalk or migration.",
+        "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
       }
     },
     {
@@ -29664,14 +29699,21 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Owner has artifact-consuming candidate/pass/fail/error lane and original source inventory. Require existing outcome/assertion evidence and caller cutover, not new broad build.",
+        "coherent caller and component disposition; no source-only qualification claim"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CODEFRIEND_27_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
+        "proposal": "Owner has artifact-consuming candidate/pass/fail/error lane and original source inventory. Require existing outcome/assertion evidence and caller cutover, not new broad build.",
+        "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
       }
     },
     {
@@ -29687,12 +29729,19 @@
       "hold_reason": "hold_no_proven_current_successor_mapping",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Original installed CLI scenarios lack identified owner counterpart; preserve until accepted replacement crosswalk or migration.",
+        "coherent caller and component disposition; no source-only qualification claim"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CODEFRIEND_27_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
+        "proposal": "Original installed CLI scenarios lack identified owner counterpart; preserve until accepted replacement crosswalk or migration.",
+        "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
       }
     },
     {
@@ -29706,14 +29755,21 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Existing owner installed consumer route; preserve original scenarios and producer dependency identity through existing evidence.",
+        "coherent caller and component disposition; no source-only qualification claim"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CODEFRIEND_27_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
+        "proposal": "Existing owner installed consumer route; preserve original scenarios and producer dependency identity through existing evidence.",
+        "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
       }
     },
     {
@@ -29729,12 +29785,19 @@
       "hold_reason": "hold_no_proven_current_successor_mapping",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Original installed CLI scenarios lack identified owner counterpart; preserve until accepted replacement crosswalk or migration.",
+        "coherent caller and component disposition; no source-only qualification claim"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CODEFRIEND_27_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
+        "proposal": "Original installed CLI scenarios lack identified owner counterpart; preserve until accepted replacement crosswalk or migration.",
+        "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
       }
     },
     {
@@ -29750,12 +29813,19 @@
       "hold_reason": "hold_no_proven_current_successor_mapping",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Original installed CLI scenarios lack identified owner counterpart; preserve until accepted replacement crosswalk or migration.",
+        "coherent caller and component disposition; no source-only qualification claim"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CODEFRIEND_27_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
+        "proposal": "Original installed CLI scenarios lack identified owner counterpart; preserve until accepted replacement crosswalk or migration.",
+        "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
       }
     },
     {
@@ -29769,14 +29839,21 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Owner runner asserts original structure9 plus3partial scenarios; existing receipt required, source assertion not execution.",
+        "coherent caller and component disposition; no source-only qualification claim"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CODEFRIEND_27_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
+        "proposal": "Owner runner asserts original structure9 plus3partial scenarios; existing receipt required, source assertion not execution.",
+        "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
       }
     },
     {
@@ -44392,12 +44469,19 @@
       "hold_reason": "hold_no_proven_current_successor_mapping",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Original adl-review compatibility CLI includes review contract/code-review and retired ownership refusals; cannot retire just because lifecycle v1 is sunset. Needs explicit owner or historical disposition.",
+        "coherent caller and component disposition; no source-only qualification claim"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CODEFRIEND_27_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
+        "proposal": "Original adl-review compatibility CLI includes review contract/code-review and retired ownership refusals; cannot retire just because lifecycle v1 is sunset. Needs explicit owner or historical disposition.",
+        "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
       }
     },
     {
@@ -45101,14 +45185,21 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Owner has artifact-consuming candidate/pass/fail/error lane and original source inventory. Require existing outcome/assertion evidence and caller cutover, not new broad build.",
+        "coherent caller and component disposition; no source-only qualification claim"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CODEFRIEND_27_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
+        "proposal": "Owner has artifact-consuming candidate/pass/fail/error lane and original source inventory. Require existing outcome/assertion evidence and caller cutover, not new broad build.",
+        "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
       }
     },
     {
@@ -46615,14 +46706,17 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reason": "Retain active ADL merge-gate contract test: ci.yaml invokes it and ensure_final_merge_gate.sh is retained.",
+      "reviewed_disposition": {
+        "review": "Independent bounded full-source review PASS",
+        "proposal": "Retain active ADL merge-gate contract test: ci.yaml invokes it and ensure_final_merge_gate.sh is retained."
       }
     },
     {
@@ -48026,14 +48120,17 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reason": "Retain native-v3 release wrapper routing/refusal contract for retained release_ceremony.sh; independent of private owner implementation.",
+      "reviewed_disposition": {
+        "review": "Independent bounded full-source review PASS",
+        "proposal": "Retain native-v3 release wrapper routing/refusal contract for retained release_ceremony.sh; independent of private owner implementation."
       }
     },
     {
@@ -75940,12 +76037,19 @@
       "hold_reason": "hold_no_proven_current_successor_mapping",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Preserve historical scenario/docs boundary. Link archived or owner execution routes; original035 remains non-proving. Do not claim historical fixture is live review.",
+        "coherent caller and component disposition; no source-only qualification claim"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CODEFRIEND_27_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
+        "proposal": "Preserve historical scenario/docs boundary. Link archived or owner execution routes; original035 remains non-proving. Do not claim historical fixture is live review.",
+        "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
       }
     },
     {
@@ -76229,12 +76333,19 @@
       "hold_reason": "hold_no_proven_current_successor_mapping",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Preserve historical scenario/docs boundary. Link archived or owner execution routes; original035 remains non-proving. Do not claim historical fixture is live review.",
+        "coherent caller and component disposition; no source-only qualification claim"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CODEFRIEND_27_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
+        "proposal": "Preserve historical scenario/docs boundary. Link archived or owner execution routes; original035 remains non-proving. Do not claim historical fixture is live review.",
+        "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
       }
     },
     {
@@ -76460,12 +76571,19 @@
       "hold_reason": "hold_no_proven_current_successor_mapping",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Preserve historical scenario/docs boundary. Link archived or owner execution routes; original035 remains non-proving. Do not claim historical fixture is live review.",
+        "coherent caller and component disposition; no source-only qualification claim"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CODEFRIEND_27_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
+        "proposal": "Preserve historical scenario/docs boundary. Link archived or owner execution routes; original035 remains non-proving. Do not claim historical fixture is live review.",
+        "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
       }
     },
     {
@@ -77353,12 +77471,19 @@
       "hold_reason": "hold_no_proven_current_successor_mapping",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Preserve historical scenario/docs boundary. Link archived or owner execution routes; original035 remains non-proving. Do not claim historical fixture is live review.",
+        "coherent caller and component disposition; no source-only qualification claim"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CODEFRIEND_27_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
+        "proposal": "Preserve historical scenario/docs boundary. Link archived or owner execution routes; original035 remains non-proving. Do not claim historical fixture is live review.",
+        "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
       }
     },
     {
@@ -80390,14 +80515,21 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "e14 native publication and hosted installed-product acquisition gate passed run38368320407/artifact11798686377. Preserve exact candidate scope and final successor CI, no standalone rerun.",
+        "coherent caller and component disposition; no source-only qualification claim"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CODEFRIEND_27_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
+        "proposal": "e14 native publication and hosted installed-product acquisition gate passed run38368320407/artifact11798686377. Preserve exact candidate scope and final successor CI, no standalone rerun.",
+        "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
       }
     },
     {
@@ -80667,14 +80799,21 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Owner has artifact-consuming candidate/pass/fail/error lane and original source inventory. Require existing outcome/assertion evidence and caller cutover, not new broad build.",
+        "coherent caller and component disposition; no source-only qualification claim"
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CODEFRIEND_27_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
+        "proposal": "Owner has artifact-consuming candidate/pass/fail/error lane and original source inventory. Require existing outcome/assertion evidence and caller cutover, not new broad build.",
+        "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
       }
     },
     {
@@ -81155,14 +81294,21 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
+        "coherent caller and component disposition; no source-only qualification claim"
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CODEFRIEND_27_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
+        "proposal": "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
+        "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
       }
     },
     {
@@ -93673,14 +93819,21 @@
       },
       "existing_action": "retain",
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
+        "coherent caller and component disposition; no source-only qualification claim"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CODEFRIEND_27_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
+        "proposal": "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
+        "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
       }
     },
     {
@@ -93694,14 +93847,21 @@
       },
       "existing_action": "retain",
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
+        "coherent caller and component disposition; no source-only qualification claim"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CODEFRIEND_27_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
+        "proposal": "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
+        "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
       }
     },
     {
@@ -93746,14 +93906,21 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
+        "coherent caller and component disposition; no source-only qualification claim"
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CODEFRIEND_27_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
+        "proposal": "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
+        "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
       }
     },
     {
@@ -93767,14 +93934,21 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
+        "coherent caller and component disposition; no source-only qualification claim"
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CODEFRIEND_27_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
+        "proposal": "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
+        "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
       }
     },
     {
@@ -93788,14 +93962,21 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
+        "coherent caller and component disposition; no source-only qualification claim"
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CODEFRIEND_27_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
+        "proposal": "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
+        "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
       }
     },
     {
@@ -93809,14 +93990,21 @@
       },
       "existing_action": "retain",
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
+        "coherent caller and component disposition; no source-only qualification claim"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CODEFRIEND_27_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
+        "proposal": "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
+        "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
       }
     },
     {
@@ -94350,14 +94538,21 @@
       },
       "existing_action": "retain",
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
+        "coherent caller and component disposition; no source-only qualification claim"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CODEFRIEND_27_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
+        "proposal": "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
+        "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
       }
     }
   ],
