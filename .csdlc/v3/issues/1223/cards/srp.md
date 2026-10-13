@@ -39,14 +39,12 @@ allowed_dispositions:
   - "PASS"
   - "BLOCK"
   - "NEEDS_FOLLOWUP"
-reviewer_constraints:
-  - "Do not widen issue scope."
-  - "Do not merge, publish, or close the issue."
-refusal_policy:
-  - "Refuse claims that are unsupported by repository evidence."
-  - "Refuse approving behavior outside the recorded issue scope."
-follow_up_routing:
-  - "Route actionable defects back to the issue branch before PR publication."
+review_scope: "Review ADL issue 1223 coherent source retirement at the exact candidate commit, including the complete ordered 4,134-path inventory, executed removals, retained historical sources, consumer repairs, rollback custody, and final five-public-package qualification."
+review_instructions: "Check each removal against its recorded owner delivery or explicit historical disposition. Preserve original identities and denominators; distinguish conditional disposition from executed removal and source correspondence from behavioral qualification. Inspect active callers, workflows, manifests and package boundaries."
+review_evidence_requirements: "Use the tracked rd07-1223 evidence packets and exact referenced FastWork results, immutable owner commits, focused validation logs, final candidate proof and Git diff. Retain failed and incomplete runs and report any missing acceptance evidence."
+reviewer_constraints: "Independent review only. Do not widen scope to websites or unrelated repositories, modify source, publish, merge, delete evidence, replace shared binaries, or claim live cloud/provider acceptance from offline fixtures."
+refusal_policy: "Refuse unsupported retirement, dropped inventory rows, active dangling callers, incorrect package ownership, fabricated equivalence, stale final proof, or completion claims while required owner deliveries and final qualification remain incomplete."
+follow_up_routing: "Return actionable findings to the issue 1223 branch owner for correction and focused verification; route independent owner defects through Planning #12. Record final review results only after the complete candidate is reviewed."
 non_claims:
   - "This prompt does not claim review has already run."
   - "This prompt does not guarantee review quality by itself."
@@ -54,9 +52,7 @@ policy_refs:
   - "<stp_card>"
   - "<sip_card>"
   - "<vpp_card>"
-review_results:
-  findings_status: "<findings_status>"
-  recommended_outcome: "block pending an independently reviewed exact coherent retirement delta"
+review_results: {"status":"not_run"}
 notes: "<review_notes>"
 ---
 
@@ -113,25 +109,28 @@ Use this prompt to govern the independent pre-PR review for this issue. Review r
 
 ## Review Results
 
-When finalizing review, record the machine-readable review result in frontmatter:
+When finalizing review, submit exactly these typed result fields. `outcome` must match `review_results.status`:
 
 ```yaml
 review_results:
-  findings_status: "no_findings | findings_present | review_unavailable | review_timeout | review_cancelled | review_failed"
-  recommended_outcome: "pass | block | needs_followup"
+  status: "pass | block | needs_followup"
+reviewer: "independent reviewer identity"
+findings:
+  - "substantive finding; use an empty list when there are no findings"
+outcome: "pass | block | needs_followup"
 ```
+
+### Reviewer
+
+<reviewer>
 
 ### Findings
 
-- <review_findings>
+- <findings>
 
-### Dispositions
+### Outcome
 
-- <review_dispositions>
-
-### Recommended Outcome
-
-- block pending an independently reviewed exact coherent retirement delta
+<outcome>
 
 ## Notes
 
