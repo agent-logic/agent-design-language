@@ -1,9 +1,9 @@
 {
   "schema": "adl.source_retirement.grouped_holds.v1",
   "source_head": "5edd4bf7452227fbfa83e990ffd496baeba6a3c0",
-  "ledger_sha256": "b74445988f23ea4384016df1b9abd70d59bba6df16d4a913b14dab1dee77a8f1",
+  "ledger_sha256": "5d276843367093848a7eb804eb5ce35e7bf31750a8546100b1bef545153affcd",
   "original_count": 4134,
-  "held_count": 60,
+  "held_count": 55,
   "additional_paths_separate": 22,
   "execution_authorized": false,
   "boundary": "Grouping preserves every original row and prerequisite verbatim. It does not resolve holds, authorize removal, or imply full issue readiness. Other proposed removals remain conditional.",
@@ -1376,64 +1376,10 @@
     {
       "id": "validation-remainder",
       "title": "Remaining ADL validation routing",
-      "count": 8,
+      "count": 6,
       "next_action": "After reviewed caller cutover, reconcile each retained runner, selector, coverage/PVF policy and configuration against five public packages and original assertions. Retain historical private lanes explicitly; do not silently drop inventory rows.",
       "evidence": [],
       "rows": [
-        {
-          "id": "RD07-1490",
-          "path": "adl/tools/run_issue607_warm_polis.sh",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-active-tool-contracts",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "c46755d59c55bf2102ccacee570c0f24c62c3dbd"
-          },
-          "existing_action": "retain",
-          "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "Mixed Runtime/Infrastructure manual family with2021: pinned artifact manifest, gpu-proof warm-storage/preparation Terraform and control-wait/checkpoint/recovery assertions."
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          },
-          "reviewed_disposition": {
-            "packet": "ACTIVE_19_TOOL_DISPOSITIONS.json",
-            "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
-            "proposal": "specific_family_reconciliation",
-            "reason": "Mixed Runtime/Infrastructure manual family with2021: pinned artifact manifest, gpu-proof warm-storage/preparation Terraform and control-wait/checkpoint/recovery assertions."
-          }
-        },
-        {
-          "id": "RD07-2021",
-          "path": "adl/tools/test_issue607_warm_polis.sh",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-active-tool-contracts",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "3a5ff12d9e4cb73c0a202f8587c6923562e00f04"
-          },
-          "existing_action": "retain",
-          "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "Preserve issue607 runner local assertions jointly with1490 and explicit Infrastructure/Runtime dependencies."
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          },
-          "reviewed_disposition": {
-            "packet": "ACTIVE_19_TOOL_DISPOSITIONS.json",
-            "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
-            "proposal": "specific_family_reconciliation",
-            "reason": "Preserve issue607 runner local assertions jointly with1490 and explicit Infrastructure/Runtime dependencies."
-          }
-        },
         {
           "id": "RD07-2090",
           "path": "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
@@ -1621,73 +1567,10 @@
     {
       "id": "cognitive-sdlc-remaining",
       "title": "Mixed consumers (inherited inventory owner)",
-      "count": 7,
+      "count": 4,
       "next_action": "Resolve the exact per-row required_before_execution entries preserved below as one owner consumer batch: map current caller and qualified successor or choose explicit historical retention/retirement. Reuse existing owner evidence; source presence alone does not close behavior. Cloud/live operations require their own existing authorization.",
       "evidence": [],
       "rows": [
-        {
-          "id": "RD07-1417",
-          "path": "adl/tools/issue414_restore_and_admit.sh",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100644",
-            "blob": "becf29334a9c598e3d6e6b8c2488bddb33dc864c"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_no_proven_current_successor_mapping",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "specific_consumer_or_document_disposition_required"
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          }
-        },
-        {
-          "id": "RD07-1418",
-          "path": "adl/tools/issue414_s3_linux_bootstrap.py",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100644",
-            "blob": "d8f864e4957377c036d295d35a91c6493529217f"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_no_proven_current_successor_mapping",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "specific_consumer_or_document_disposition_required"
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          }
-        },
-        {
-          "id": "RD07-1487",
-          "path": "adl/tools/run_issue414_cpu_shepherd_continuity.sh",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "7d8c12e9b118cf88baf24951f885157e85ff743f"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_no_proven_current_successor_mapping",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "specific_consumer_or_document_disposition_required"
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          }
-        },
         {
           "id": "RD07-1514",
           "path": "adl/tools/run_v0917_csm_continuity_capsule_4910_proof.sh",

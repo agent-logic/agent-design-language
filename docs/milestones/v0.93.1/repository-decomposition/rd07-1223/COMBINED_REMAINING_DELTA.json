@@ -7,7 +7,7 @@
   "original_count": 4134,
   "counts": {
     "retain_resolved": 527,
-    "proposed_owner_transfer_with_consumer_qualification": 511,
+    "proposed_owner_transfer_with_consumer_qualification": 516,
     "preserve_approved_removal": 70,
     "proposed_remove_with_entire_source_family": 1874,
     "retain_public_source_or_fixture": 124,
@@ -15,7 +15,7 @@
     "proposed_historical_retirement_with_caller_repair": 60,
     "hold_owner_test_reconciliation": 35,
     "proposed_remove_with_entire_tool_family": 674,
-    "hold_explicit_reconciliation": 25,
+    "hold_explicit_reconciliation": 20,
     "proposed_remove_construction_qualified_infrastructure": 216
   },
   "additional_current_source_paths": 22,
@@ -33380,14 +33380,34 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Resolve complete issue414/607 family callers and exact owner inputs listed in INFRASTRUCTURE_CONTINUITY_OWNER_DISPOSITIONS.json before coherent source removal.",
+        "Preserve original Git identities, historical proof and rollback custody; offline adaptation proof does not establish genuine Linux Runtime artifact, live AWS/model, or operational equivalence."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "prior_dispositions": [
+        {
+          "proposed_action": "hold_explicit_reconciliation",
+          "required_before_execution": [
+            "specific_consumer_or_document_disposition_required"
+          ]
+        }
+      ],
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_CONTINUITY_OWNER_DISPOSITIONS.json",
+        "packet_sha256": "d7b7720cec1797fc6f0947b952eecf443df93f91b5f5ea09252d0f23aeedef70",
+        "proposal": "conditional_owner_transfer",
+        "review": "Independent source/caller review and root exact source/evidence-hash verification; no new removal authorization"
+      },
+      "qualified_successor": {
+        "repository": "agent-logic/agent-logic-infrastructure",
+        "revision": "051fabe60d60dffeb3e200e689ea64ebf37f6cb4",
+        "path": "adl/tools/issue414_restore_and_admit.sh"
       }
     },
     {
@@ -33401,14 +33421,34 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Resolve complete issue414/607 family callers and exact owner inputs listed in INFRASTRUCTURE_CONTINUITY_OWNER_DISPOSITIONS.json before coherent source removal.",
+        "Preserve original Git identities, historical proof and rollback custody; offline adaptation proof does not establish genuine Linux Runtime artifact, live AWS/model, or operational equivalence."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "prior_dispositions": [
+        {
+          "proposed_action": "hold_explicit_reconciliation",
+          "required_before_execution": [
+            "specific_consumer_or_document_disposition_required"
+          ]
+        }
+      ],
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_CONTINUITY_OWNER_DISPOSITIONS.json",
+        "packet_sha256": "d7b7720cec1797fc6f0947b952eecf443df93f91b5f5ea09252d0f23aeedef70",
+        "proposal": "conditional_owner_transfer",
+        "review": "Independent source/caller review and root exact source/evidence-hash verification; no new removal authorization"
+      },
+      "qualified_successor": {
+        "repository": "agent-logic/agent-logic-infrastructure",
+        "revision": "051fabe60d60dffeb3e200e689ea64ebf37f6cb4",
+        "path": "adl/tools/issue414_s3_linux_bootstrap.py"
       }
     },
     {
@@ -35078,14 +35118,34 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Resolve complete issue414/607 family callers and exact owner inputs listed in INFRASTRUCTURE_CONTINUITY_OWNER_DISPOSITIONS.json before coherent source removal.",
+        "Preserve original Git identities, historical proof and rollback custody; offline adaptation proof does not establish genuine Linux Runtime artifact, live AWS/model, or operational equivalence."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "prior_dispositions": [
+        {
+          "proposed_action": "hold_explicit_reconciliation",
+          "required_before_execution": [
+            "specific_consumer_or_document_disposition_required"
+          ]
+        }
+      ],
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_CONTINUITY_OWNER_DISPOSITIONS.json",
+        "packet_sha256": "d7b7720cec1797fc6f0947b952eecf443df93f91b5f5ea09252d0f23aeedef70",
+        "proposal": "conditional_owner_transfer",
+        "review": "Independent source/caller review and root exact source/evidence-hash verification; no new removal authorization"
+      },
+      "qualified_successor": {
+        "repository": "agent-logic/agent-logic-infrastructure",
+        "revision": "051fabe60d60dffeb3e200e689ea64ebf37f6cb4",
+        "path": "adl/tools/run_issue414_cpu_shepherd_continuity.sh"
       }
     },
     {
@@ -35165,9 +35225,10 @@
       },
       "existing_action": "retain",
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "Mixed Runtime/Infrastructure manual family with2021: pinned artifact manifest, gpu-proof warm-storage/preparation Terraform and control-wait/checkpoint/recovery assertions."
+        "Resolve complete issue414/607 family callers and exact owner inputs listed in INFRASTRUCTURE_CONTINUITY_OWNER_DISPOSITIONS.json before coherent source removal.",
+        "Preserve original Git identities, historical proof and rollback custody; offline adaptation proof does not establish genuine Linux Runtime artifact, live AWS/model, or operational equivalence."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
@@ -35175,10 +35236,23 @@
         "exact_successor_paths": []
       },
       "reviewed_disposition": {
-        "packet": "ACTIVE_19_TOOL_DISPOSITIONS.json",
-        "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
-        "proposal": "specific_family_reconciliation",
-        "reason": "Mixed Runtime/Infrastructure manual family with2021: pinned artifact manifest, gpu-proof warm-storage/preparation Terraform and control-wait/checkpoint/recovery assertions."
+        "packet": "INFRASTRUCTURE_CONTINUITY_OWNER_DISPOSITIONS.json",
+        "packet_sha256": "d7b7720cec1797fc6f0947b952eecf443df93f91b5f5ea09252d0f23aeedef70",
+        "proposal": "conditional_owner_transfer",
+        "review": "Independent source/caller review and root exact source/evidence-hash verification; no new removal authorization"
+      },
+      "prior_dispositions": [
+        {
+          "proposed_action": "hold_explicit_reconciliation",
+          "required_before_execution": [
+            "Mixed Runtime/Infrastructure manual family with2021: pinned artifact manifest, gpu-proof warm-storage/preparation Terraform and control-wait/checkpoint/recovery assertions."
+          ]
+        }
+      ],
+      "qualified_successor": {
+        "repository": "agent-logic/agent-logic-infrastructure",
+        "revision": "8742930755b48e5d79451e80365685492954d496",
+        "path": "adl/tools/run_issue607_warm_polis.sh"
       }
     },
     {
@@ -49472,9 +49546,10 @@
       },
       "existing_action": "retain",
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "Preserve issue607 runner local assertions jointly with1490 and explicit Infrastructure/Runtime dependencies."
+        "Resolve complete issue414/607 family callers and exact owner inputs listed in INFRASTRUCTURE_CONTINUITY_OWNER_DISPOSITIONS.json before coherent source removal.",
+        "Preserve original Git identities, historical proof and rollback custody; offline adaptation proof does not establish genuine Linux Runtime artifact, live AWS/model, or operational equivalence."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
@@ -49482,10 +49557,23 @@
         "exact_successor_paths": []
       },
       "reviewed_disposition": {
-        "packet": "ACTIVE_19_TOOL_DISPOSITIONS.json",
-        "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
-        "proposal": "specific_family_reconciliation",
-        "reason": "Preserve issue607 runner local assertions jointly with1490 and explicit Infrastructure/Runtime dependencies."
+        "packet": "INFRASTRUCTURE_CONTINUITY_OWNER_DISPOSITIONS.json",
+        "packet_sha256": "d7b7720cec1797fc6f0947b952eecf443df93f91b5f5ea09252d0f23aeedef70",
+        "proposal": "conditional_owner_transfer",
+        "review": "Independent source/caller review and root exact source/evidence-hash verification; no new removal authorization"
+      },
+      "prior_dispositions": [
+        {
+          "proposed_action": "hold_explicit_reconciliation",
+          "required_before_execution": [
+            "Preserve issue607 runner local assertions jointly with1490 and explicit Infrastructure/Runtime dependencies."
+          ]
+        }
+      ],
+      "qualified_successor": {
+        "repository": "agent-logic/agent-logic-infrastructure",
+        "revision": "8742930755b48e5d79451e80365685492954d496",
+        "path": "adl/tools/test_issue607_warm_polis.sh"
       }
     },
     {
