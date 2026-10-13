@@ -6,17 +6,17 @@
   "execution_authorized": false,
   "original_count": 4134,
   "counts": {
-    "hold_explicit_reconciliation": 422,
+    "hold_explicit_reconciliation": 379,
     "hold_missing_successor_operational_command": 2,
     "hold_owner_test_reconciliation": 35,
     "preserve_approved_removal": 70,
     "preserve_reviewed_consumer_repair": 17,
-    "proposed_owner_transfer_with_consumer_qualification": 284,
+    "proposed_owner_transfer_with_consumer_qualification": 325,
     "proposed_remove_construction_qualified_infrastructure": 216,
     "proposed_remove_with_entire_source_family": 1874,
     "proposed_remove_with_entire_tool_family": 719,
     "retain_public_source_or_fixture": 68,
-    "retain_resolved": 427
+    "retain_resolved": 429
   },
   "additional_current_source_paths": 19,
   "preservation": "Original inventory and baseline archive unchanged;70 prior approved removals preserved; no new deletion applied",
@@ -110,9 +110,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Assign package/workflow implementation to Infrastructure and pin a reviewed reusable-workflow or installed-adapter consumer route in ADL. Keep workflow/package hold until current local CI build invocation is replaced; retain bootstrap safety contract as a family."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -120,6 +120,20 @@
         "exact_successor_paths": [
           ".github/workflows/aws-spot-remote-validation.yaml"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "owner_transfer_requires_adl_workflow_cutover",
+        "family": "AWS remote validation package and reusable workflow",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -7415,7 +7429,7 @@
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Retain exact paths with ADL CI owner until replacement CI contract removes or redirects current calls and preserves surviving tests. Classify source-policy tests together with their runners; no transfer based on copy alone."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -7423,6 +7437,20 @@
         "exact_successor_paths": [
           "adl/.config/nextest.toml"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "retain_adl_ci_contract_pending_explicit_ci_cutover",
+        "family": "ADL repository CI and coverage control",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -7571,9 +7599,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Infrastructure owns builder publication and runbooks. Redirect retained ADL navigation and concrete publisher/groupd callers to pinned owner contracts or explicitly retain compatibility entrypoints; no new image publication or cloud acceptance claim."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -7581,6 +7609,20 @@
         "exact_successor_paths": [
           "adl/docker/adl-builder/Dockerfile"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "owner_transfer_with_navigation_and_publisher_cutover",
+        "family": "Builder image source and product runbooks",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -7594,9 +7636,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Infrastructure owns builder publication and runbooks. Redirect retained ADL navigation and concrete publisher/groupd callers to pinned owner contracts or explicitly retain compatibility entrypoints; no new image publication or cloud acceptance claim."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -7604,6 +7646,20 @@
         "exact_successor_paths": [
           "adl/docker/adl-builder/INPUT_PROVENANCE.json"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "owner_transfer_with_navigation_and_publisher_cutover",
+        "family": "Builder image source and product runbooks",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -7617,9 +7673,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Infrastructure owns builder publication and runbooks. Redirect retained ADL navigation and concrete publisher/groupd callers to pinned owner contracts or explicitly retain compatibility entrypoints; no new image publication or cloud acceptance claim."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -7627,6 +7683,20 @@
         "exact_successor_paths": [
           "adl/docker/adl-builder/test_builder_inputs.py"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "owner_transfer_with_navigation_and_publisher_cutover",
+        "family": "Builder image source and product runbooks",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -7640,9 +7710,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Infrastructure owns builder publication and runbooks. Redirect retained ADL navigation and concrete publisher/groupd callers to pinned owner contracts or explicitly retain compatibility entrypoints; no new image publication or cloud acceptance claim."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -7650,6 +7720,20 @@
         "exact_successor_paths": [
           "adl/docker/adl-builder/verify_sha256.sh"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "owner_transfer_with_navigation_and_publisher_cutover",
+        "family": "Builder image source and product runbooks",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -29109,14 +29193,28 @@
       },
       "existing_action": "retain",
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Preserve reviewed artifact contracts and redirect or retire specific ADL callers. Reuse existing qualified evidence where applicable; no live Runtime or cloud qualification inferred."
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "owner_transfer_with_explicit_artifact_and_caller_contract",
+        "family": "Artifact-consuming Runtime entrypoints",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -29997,17 +30095,30 @@
       },
       "existing_action": "retain",
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/csdlc_obs_ready_canary.sh"
         ]
-      }
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "retain_historical_nonoperational",
+        "family": "Historical pre-cutover observatory canary",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
+      },
+      "reason": "retain_historical_nonoperational"
     },
     {
       "id": "RD07-1299",
@@ -32100,14 +32211,28 @@
       },
       "existing_action": "retain",
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Preserve reviewed artifact contracts and redirect or retire specific ADL callers. Reuse existing qualified evidence where applicable; no live Runtime or cloud qualification inferred."
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "owner_transfer_with_explicit_artifact_and_caller_contract",
+        "family": "Artifact-consuming Runtime entrypoints",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -32409,14 +32534,28 @@
       },
       "existing_action": "retain",
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Preserve reviewed artifact contracts and redirect or retire specific ADL callers. Reuse existing qualified evidence where applicable; no live Runtime or cloud qualification inferred."
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "owner_transfer_with_explicit_artifact_and_caller_contract",
+        "family": "Artifact-consuming Runtime entrypoints",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -33997,7 +34136,7 @@
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Retain exact paths with ADL CI owner until replacement CI contract removes or redirects current calls and preserves surviving tests. Classify source-policy tests together with their runners; no transfer based on copy alone."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -34005,6 +34144,20 @@
         "exact_successor_paths": [
           "adl/tools/run_authoritative_coverage_lane.sh"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "retain_adl_ci_contract_pending_explicit_ci_cutover",
+        "family": "ADL repository CI and coverage control",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -34210,14 +34363,28 @@
       },
       "existing_action": "retain",
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Preserve reviewed artifact contracts and redirect or retire specific ADL callers. Reuse existing qualified evidence where applicable; no live Runtime or cloud qualification inferred."
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "owner_transfer_with_explicit_artifact_and_caller_contract",
+        "family": "Artifact-consuming Runtime entrypoints",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -34231,9 +34398,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer orchestration ownership to Infrastructure, replacing source-relative portable/Runtime inputs with installed qualified artifacts and owner test evidence. Preserve explicit authorization gates; do not run cloud proof to resolve source retirement."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -34241,6 +34408,20 @@
         "exact_successor_paths": [
           "adl/tools/run_issue268_six_hour_spot_qualification.sh"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "owner_transfer_with_remaining_source_caller_hold",
+        "family": "Cloud proof orchestration and coupled static tests",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -34278,9 +34459,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer orchestration ownership to Infrastructure, replacing source-relative portable/Runtime inputs with installed qualified artifacts and owner test evidence. Preserve explicit authorization gates; do not run cloud proof to resolve source retirement."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -34288,6 +34469,20 @@
         "exact_successor_paths": [
           "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "owner_transfer_with_remaining_source_caller_hold",
+        "family": "Cloud proof orchestration and coupled static tests",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -34343,14 +34538,28 @@
       },
       "existing_action": "retain",
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Preserve reviewed artifact contracts and redirect or retire specific ADL callers. Reuse existing qualified evidence where applicable; no live Runtime or cloud qualification inferred."
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "owner_transfer_with_explicit_artifact_and_caller_contract",
+        "family": "Artifact-consuming Runtime entrypoints",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -34549,7 +34758,7 @@
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Retain exact paths with ADL CI owner until replacement CI contract removes or redirects current calls and preserves surviving tests. Classify source-policy tests together with their runners; no transfer based on copy alone."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -34557,6 +34766,20 @@
         "exact_successor_paths": [
           "adl/tools/run_pr_fast_test_lane.sh"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "retain_adl_ci_contract_pending_explicit_ci_cutover",
+        "family": "ADL repository CI and coverage control",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -34572,7 +34795,7 @@
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Retain exact paths with ADL CI owner until replacement CI contract removes or redirects current calls and preserves surviving tests. Classify source-policy tests together with their runners; no transfer based on copy alone."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -34580,6 +34803,20 @@
         "exact_successor_paths": [
           "adl/tools/run_pvf_ci_release_policy_fixture.sh"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "retain_adl_ci_contract_pending_explicit_ci_cutover",
+        "family": "ADL repository CI and coverage control",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -34595,7 +34832,7 @@
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Retain exact paths with ADL CI owner until replacement CI contract removes or redirects current calls and preserves surviving tests. Classify source-policy tests together with their runners; no transfer based on copy alone."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -34603,6 +34840,20 @@
         "exact_successor_paths": [
           "adl/tools/run_pvf_validation_lane.sh"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "retain_adl_ci_contract_pending_explicit_ci_cutover",
+        "family": "ADL repository CI and coverage control",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -34638,14 +34889,28 @@
       },
       "existing_action": "retain",
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Preserve reviewed artifact contracts and redirect or retire specific ADL callers. Reuse existing qualified evidence where applicable; no live Runtime or cloud qualification inferred."
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "owner_transfer_with_explicit_artifact_and_caller_contract",
+        "family": "Artifact-consuming Runtime entrypoints",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -34661,7 +34926,7 @@
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Retain exact paths with ADL CI owner until replacement CI contract removes or redirects current calls and preserves surviving tests. Classify source-policy tests together with their runners; no transfer based on copy alone."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -34669,6 +34934,20 @@
         "exact_successor_paths": [
           "adl/tools/run_slow_proof_family.sh"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "retain_adl_ci_contract_pending_explicit_ci_cutover",
+        "family": "ADL repository CI and coverage control",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -35008,7 +35287,7 @@
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Retain runner/test/runbook under ADL consumer contract until an explicit owner-local validation-manager route replaces it. Infrastructure copy is not standalone replacement."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -35016,6 +35295,20 @@
         "exact_successor_paths": [
           "adl/tools/run_validation_manager_nessus_lane.sh"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "retain_adl_consumer_until_validation_manager_cutover",
+        "family": "Nessus ADL validation-manager integration",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -48011,7 +48304,7 @@
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Retain exact paths with ADL CI owner until replacement CI contract removes or redirects current calls and preserves surviving tests. Classify source-policy tests together with their runners; no transfer based on copy alone."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -48019,6 +48312,20 @@
         "exact_successor_paths": [
           "adl/tools/test_pvf_ci_release_policy.sh"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "retain_adl_ci_contract_pending_explicit_ci_cutover",
+        "family": "ADL repository CI and coverage control",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -48490,7 +48797,7 @@
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Retain exact paths with ADL CI owner until replacement CI contract removes or redirects current calls and preserves surviving tests. Classify source-policy tests together with their runners; no transfer based on copy alone."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -48498,6 +48805,20 @@
         "exact_successor_paths": [
           "adl/tools/test_run_authoritative_coverage_lane.sh"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "retain_adl_ci_contract_pending_explicit_ci_cutover",
+        "family": "ADL repository CI and coverage control",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -48521,9 +48842,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer orchestration ownership to Infrastructure, replacing source-relative portable/Runtime inputs with installed qualified artifacts and owner test evidence. Preserve explicit authorization gates; do not run cloud proof to resolve source retirement."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -48531,6 +48852,20 @@
         "exact_successor_paths": [
           "adl/tools/test_run_aws_spot_builder_image_validation.sh"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "owner_transfer_with_remaining_source_caller_hold",
+        "family": "Cloud proof orchestration and coupled static tests",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -48594,7 +48929,7 @@
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Retain exact paths with ADL CI owner until replacement CI contract removes or redirects current calls and preserves surviving tests. Classify source-policy tests together with their runners; no transfer based on copy alone."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -48602,6 +48937,20 @@
         "exact_successor_paths": [
           "adl/tools/test_run_cargo_validation.sh"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "retain_adl_ci_contract_pending_explicit_ci_cutover",
+        "family": "ADL repository CI and coverage control",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -48685,9 +49034,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer orchestration ownership to Infrastructure, replacing source-relative portable/Runtime inputs with installed qualified artifacts and owner test evidence. Preserve explicit authorization gates; do not run cloud proof to resolve source retirement."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -48695,6 +49044,20 @@
         "exact_successor_paths": [
           "adl/tools/test_run_issue268_six_hour_spot_qualification.sh"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "owner_transfer_with_remaining_source_caller_hold",
+        "family": "Cloud proof orchestration and coupled static tests",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -48851,7 +49214,7 @@
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Retain exact paths with ADL CI owner until replacement CI contract removes or redirects current calls and preserves surviving tests. Classify source-policy tests together with their runners; no transfer based on copy alone."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -48859,6 +49222,20 @@
         "exact_successor_paths": [
           "adl/tools/test_run_pr_fast_coverage_lane.sh"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "retain_adl_ci_contract_pending_explicit_ci_cutover",
+        "family": "ADL repository CI and coverage control",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -48898,7 +49275,7 @@
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Retain exact paths with ADL CI owner until replacement CI contract removes or redirects current calls and preserves surviving tests. Classify source-policy tests together with their runners; no transfer based on copy alone."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -48906,6 +49283,20 @@
         "exact_successor_paths": [
           "adl/tools/test_run_pvf_validation_lane.sh"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "retain_adl_ci_contract_pending_explicit_ci_cutover",
+        "family": "ADL repository CI and coverage control",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -48964,7 +49355,7 @@
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Route source tests2100/2108 to Runtime owner with manifests, fixtures and existing scenario obligations; copied source alone does not close these dependencies."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -48972,6 +49363,20 @@
         "exact_successor_paths": [
           "adl/tools/test_run_v0917_csm_api_gateway_bridge_proof.sh"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "hold_runtime_owner_test_and_consumer_reconciliation",
+        "family": "Source-bound Runtime tests",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -48987,7 +49392,7 @@
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Retain runner/test/runbook under ADL consumer contract until an explicit owner-local validation-manager route replaces it. Infrastructure copy is not standalone replacement."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -48995,6 +49400,20 @@
         "exact_successor_paths": [
           "adl/tools/test_run_validation_manager_nessus_lane.sh"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "retain_adl_consumer_until_validation_manager_cutover",
+        "family": "Nessus ADL validation-manager integration",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -49151,7 +49570,7 @@
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Route source tests2100/2108 to Runtime owner with manifests, fixtures and existing scenario obligations; copied source alone does not close these dependencies."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -49159,6 +49578,20 @@
         "exact_successor_paths": [
           "adl/tools/test_runtime_v3_cross_binary_generation.sh"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "hold_runtime_owner_test_and_consumer_reconciliation",
+        "family": "Source-bound Runtime tests",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -49367,7 +49800,7 @@
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Retain exact paths with ADL CI owner until replacement CI contract removes or redirects current calls and preserves surviving tests. Classify source-policy tests together with their runners; no transfer based on copy alone."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -49375,6 +49808,20 @@
         "exact_successor_paths": [
           "adl/tools/test_slow_proof_lane_contract.sh"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "retain_adl_ci_contract_pending_explicit_ci_cutover",
+        "family": "ADL repository CI and coverage control",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -50610,12 +51057,26 @@
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Retain exact paths with ADL CI owner until replacement CI contract removes or redirects current calls and preserves surviving tests. Classify source-policy tests together with their runners; no transfer based on copy alone."
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "retain_adl_ci_contract_pending_explicit_ci_cutover",
+        "family": "ADL repository CI and coverage control",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -51330,7 +51791,7 @@
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Retain exact paths with ADL CI owner until replacement CI contract removes or redirects current calls and preserves surviving tests. Classify source-policy tests together with their runners; no transfer based on copy alone."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -51338,6 +51799,20 @@
         "exact_successor_paths": [
           "adl/tools/validate_pvf_manifest.py"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "retain_adl_ci_contract_pending_explicit_ci_cutover",
+        "family": "ADL repository CI and coverage control",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -52242,14 +52717,28 @@
       },
       "existing_action": "retain",
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Preserve reviewed artifact contracts and redirect or retire specific ADL callers. Reuse existing qualified evidence where applicable; no live Runtime or cloud qualification inferred."
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "owner_transfer_with_explicit_artifact_and_caller_contract",
+        "family": "Artifact-consuming Runtime entrypoints",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -85926,9 +86415,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Infrastructure owns builder publication and runbooks. Redirect retained ADL navigation and concrete publisher/groupd callers to pinned owner contracts or explicitly retain compatibility entrypoints; no new image publication or cloud acceptance claim."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -85936,6 +86425,20 @@
         "exact_successor_paths": [
           "docs/tooling/ADL_BUILDER_IMAGE.md"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "owner_transfer_with_navigation_and_publisher_cutover",
+        "family": "Builder image source and product runbooks",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -86039,9 +86542,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Infrastructure owns builder publication and runbooks. Redirect retained ADL navigation and concrete publisher/groupd callers to pinned owner contracts or explicitly retain compatibility entrypoints; no new image publication or cloud acceptance claim."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -86049,6 +86552,20 @@
         "exact_successor_paths": [
           "docs/tooling/AWS_SPOT_REMOTE_EXECUTION_HOW_TO.md"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "owner_transfer_with_navigation_and_publisher_cutover",
+        "family": "Builder image source and product runbooks",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -86062,9 +86579,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Infrastructure owns builder publication and runbooks. Redirect retained ADL navigation and concrete publisher/groupd callers to pinned owner contracts or explicitly retain compatibility entrypoints; no new image publication or cloud acceptance claim."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -86072,6 +86589,20 @@
         "exact_successor_paths": [
           "docs/tooling/AWS_SPOT_REMOTE_VALIDATION_LANE.md"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "owner_transfer_with_navigation_and_publisher_cutover",
+        "family": "Builder image source and product runbooks",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -86085,9 +86616,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Infrastructure owns builder publication and runbooks. Redirect retained ADL navigation and concrete publisher/groupd callers to pinned owner contracts or explicitly retain compatibility entrypoints; no new image publication or cloud acceptance claim."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -86095,6 +86626,20 @@
         "exact_successor_paths": [
           "docs/tooling/AWS_SPOT_REMOTE_VALIDATION_WRAPPER_CONTRACT.mmd"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "owner_transfer_with_navigation_and_publisher_cutover",
+        "family": "Builder image source and product runbooks",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -86159,17 +86704,30 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "docs/tooling/CI_LOG_ARCHIVE_S3.md"
         ]
-      }
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "retain_historical_navigation_evidence",
+        "family": "Historical CI log archival command guide",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
+      },
+      "reason": "retain_historical_navigation_evidence"
     },
     {
       "id": "RD07-3729",
@@ -86572,7 +87130,7 @@
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Retain runner/test/runbook under ADL consumer contract until an explicit owner-local validation-manager route replaces it. Infrastructure copy is not standalone replacement."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -86580,6 +87138,20 @@
         "exact_successor_paths": [
           "docs/tooling/NESSUS_VALIDATION_MANAGER_LANE.md"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "retain_adl_consumer_until_validation_manager_cutover",
+        "family": "Nessus ADL validation-manager integration",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -93545,9 +94117,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Assign package/workflow implementation to Infrastructure and pin a reviewed reusable-workflow or installed-adapter consumer route in ADL. Keep workflow/package hold until current local CI build invocation is replaced; retain bootstrap safety contract as a family."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -93555,6 +94127,20 @@
         "exact_successor_paths": [
           "tools/aws_remote_validation/BOOTSTRAP_IDENTITIES.md"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "owner_transfer_requires_adl_workflow_cutover",
+        "family": "AWS remote validation package and reusable workflow",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -93568,9 +94154,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Assign package/workflow implementation to Infrastructure and pin a reviewed reusable-workflow or installed-adapter consumer route in ADL. Keep workflow/package hold until current local CI build invocation is replaced; retain bootstrap safety contract as a family."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -93578,6 +94164,20 @@
         "exact_successor_paths": [
           "tools/aws_remote_validation/Cargo.lock"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "owner_transfer_requires_adl_workflow_cutover",
+        "family": "AWS remote validation package and reusable workflow",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -93591,9 +94191,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Assign package/workflow implementation to Infrastructure and pin a reviewed reusable-workflow or installed-adapter consumer route in ADL. Keep workflow/package hold until current local CI build invocation is replaced; retain bootstrap safety contract as a family."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -93601,6 +94201,20 @@
         "exact_successor_paths": [
           "tools/aws_remote_validation/Cargo.toml"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "owner_transfer_requires_adl_workflow_cutover",
+        "family": "AWS remote validation package and reusable workflow",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -93614,9 +94228,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Assign package/workflow implementation to Infrastructure and pin a reviewed reusable-workflow or installed-adapter consumer route in ADL. Keep workflow/package hold until current local CI build invocation is replaced; retain bootstrap safety contract as a family."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -93624,6 +94238,20 @@
         "exact_successor_paths": [
           "tools/aws_remote_validation/scripts/remote_validation_runner.sh"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "owner_transfer_requires_adl_workflow_cutover",
+        "family": "AWS remote validation package and reusable workflow",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -93637,9 +94265,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Assign package/workflow implementation to Infrastructure and pin a reviewed reusable-workflow or installed-adapter consumer route in ADL. Keep workflow/package hold until current local CI build invocation is replaced; retain bootstrap safety contract as a family."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -93647,6 +94275,20 @@
         "exact_successor_paths": [
           "tools/aws_remote_validation/scripts/ssh_debug_control.sh"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "owner_transfer_requires_adl_workflow_cutover",
+        "family": "AWS remote validation package and reusable workflow",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -93660,9 +94302,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Assign package/workflow implementation to Infrastructure and pin a reviewed reusable-workflow or installed-adapter consumer route in ADL. Keep workflow/package hold until current local CI build invocation is replaced; retain bootstrap safety contract as a family."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -93670,6 +94312,20 @@
         "exact_successor_paths": [
           "tools/aws_remote_validation/scripts/test_verified_bootstrap.py"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "owner_transfer_requires_adl_workflow_cutover",
+        "family": "AWS remote validation package and reusable workflow",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -93683,9 +94339,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Assign package/workflow implementation to Infrastructure and pin a reviewed reusable-workflow or installed-adapter consumer route in ADL. Keep workflow/package hold until current local CI build invocation is replaced; retain bootstrap safety contract as a family."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -93693,6 +94349,20 @@
         "exact_successor_paths": [
           "tools/aws_remote_validation/scripts/verified_bootstrap.pvf.json"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "owner_transfer_requires_adl_workflow_cutover",
+        "family": "AWS remote validation package and reusable workflow",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -93706,9 +94376,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Assign package/workflow implementation to Infrastructure and pin a reviewed reusable-workflow or installed-adapter consumer route in ADL. Keep workflow/package hold until current local CI build invocation is replaced; retain bootstrap safety contract as a family."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -93716,6 +94386,20 @@
         "exact_successor_paths": [
           "tools/aws_remote_validation/scripts/verified_bootstrap.py"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "owner_transfer_requires_adl_workflow_cutover",
+        "family": "AWS remote validation package and reusable workflow",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -93729,14 +94413,28 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Assign package/workflow implementation to Infrastructure and pin a reviewed reusable-workflow or installed-adapter consumer route in ADL. Keep workflow/package hold until current local CI build invocation is replaced; retain bootstrap safety contract as a family."
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "owner_transfer_requires_adl_workflow_cutover",
+        "family": "AWS remote validation package and reusable workflow",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -93750,9 +94448,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Assign package/workflow implementation to Infrastructure and pin a reviewed reusable-workflow or installed-adapter consumer route in ADL. Keep workflow/package hold until current local CI build invocation is replaced; retain bootstrap safety contract as a family."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -93760,6 +94458,20 @@
         "exact_successor_paths": [
           "tools/aws_remote_validation/src/bin/adl_aws_remote_validation.rs"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "owner_transfer_requires_adl_workflow_cutover",
+        "family": "AWS remote validation package and reusable workflow",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -93773,9 +94485,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Assign package/workflow implementation to Infrastructure and pin a reviewed reusable-workflow or installed-adapter consumer route in ADL. Keep workflow/package hold until current local CI build invocation is replaced; retain bootstrap safety contract as a family."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -93783,6 +94495,20 @@
         "exact_successor_paths": [
           "tools/aws_remote_validation/src/cli/observability.rs"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "owner_transfer_requires_adl_workflow_cutover",
+        "family": "AWS remote validation package and reusable workflow",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -93796,9 +94522,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Assign package/workflow implementation to Infrastructure and pin a reviewed reusable-workflow or installed-adapter consumer route in ADL. Keep workflow/package hold until current local CI build invocation is replaced; retain bootstrap safety contract as a family."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -93806,6 +94532,20 @@
         "exact_successor_paths": [
           "tools/aws_remote_validation/tests/portable_adapter.rs"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "owner_transfer_requires_adl_workflow_cutover",
+        "family": "AWS remote validation package and reusable workflow",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -94139,14 +94879,28 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer complete release assembly family to Infrastructure, preserving producer artifact and independent installed-product acceptance requirements. Redirect any retained product navigation; assembly is not deployment or installed acceptance."
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "owner_transfer_artifact_release_family",
+        "family": "CodeFriend artifact release assembly",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -94160,14 +94914,28 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer complete release assembly family to Infrastructure, preserving producer artifact and independent installed-product acceptance requirements. Redirect any retained product navigation; assembly is not deployment or installed acceptance."
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "owner_transfer_artifact_release_family",
+        "family": "CodeFriend artifact release assembly",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -94181,14 +94949,28 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer complete release assembly family to Infrastructure, preserving producer artifact and independent installed-product acceptance requirements. Redirect any retained product navigation; assembly is not deployment or installed acceptance."
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "owner_transfer_artifact_release_family",
+        "family": "CodeFriend artifact release assembly",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -94202,9 +94984,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer complete release assembly family to Infrastructure, preserving producer artifact and independent installed-product acceptance requirements. Redirect any retained product navigation; assembly is not deployment or installed acceptance."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -94212,6 +94994,20 @@
         "exact_successor_paths": [
           "tools/codefriend_host/release/validation.json"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "owner_transfer_artifact_release_family",
+        "family": "CodeFriend artifact release assembly",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -94225,14 +95021,28 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Transfer complete release assembly family to Infrastructure, preserving producer artifact and independent installed-product acceptance requirements. Redirect any retained product navigation; assembly is not deployment or installed acceptance."
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "owner_transfer_artifact_release_family",
+        "family": "CodeFriend artifact release assembly",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -94353,9 +95163,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Infrastructure owns this whole Terraform root. Link retained CodeFriend host documentation to owner root and preserve existing static qualification evidence. No plan/apply/deploy or live-account claim."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -94363,6 +95173,20 @@
         "exact_successor_paths": [
           "tools/codefriend_host/terraform/.gitignore"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "owner_transfer_terraform_family",
+        "family": "CodeFriend host Terraform family",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -94376,9 +95200,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Infrastructure owns this whole Terraform root. Link retained CodeFriend host documentation to owner root and preserve existing static qualification evidence. No plan/apply/deploy or live-account claim."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -94386,6 +95210,20 @@
         "exact_successor_paths": [
           "tools/codefriend_host/terraform/.terraform.lock.hcl"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "owner_transfer_terraform_family",
+        "family": "CodeFriend host Terraform family",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -94399,9 +95237,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Infrastructure owns this whole Terraform root. Link retained CodeFriend host documentation to owner root and preserve existing static qualification evidence. No plan/apply/deploy or live-account claim."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -94409,6 +95247,20 @@
         "exact_successor_paths": [
           "tools/codefriend_host/terraform/main.tf"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "owner_transfer_terraform_family",
+        "family": "CodeFriend host Terraform family",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {
@@ -94422,9 +95274,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Infrastructure owns this whole Terraform root. Link retained CodeFriend host documentation to owner root and preserve existing static qualification evidence. No plan/apply/deploy or live-account claim."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -94432,6 +95284,20 @@
         "exact_successor_paths": [
           "tools/codefriend_host/terraform/variables.tf"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "owner_transfer_terraform_family",
+        "family": "CodeFriend host Terraform family",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
       }
     },
     {

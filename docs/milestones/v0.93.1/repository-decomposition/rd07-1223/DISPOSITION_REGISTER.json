@@ -26789,7 +26789,7 @@
         "1742a7e5047b590ad013dce579cfaec40b4f43c2"
       ],
       "action": "retain",
-      "reason": "protect_existing_public_contract_policy_or_control_plane",
+      "reason": "retain_historical_nonoperational",
       "observed_successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f",
       "exact_content_candidates": [
         "adl/tools/csdlc_obs_ready_canary.sh"
@@ -26797,6 +26797,11 @@
       "accepted_rd11_revision": "c8b787ce065e2912fe1db88fc778daded7a8ba63",
       "accepted_content_candidates": [
         "adl/tools/csdlc_obs_ready_canary.sh"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "COMBINED_REMAINING_DELTA.json: RD07-1298 independent source review and exact retention decision",
+        "retain_historical_nonoperational"
       ]
     },
     {
@@ -40867,11 +40872,16 @@
         "155181266e7f4e7c87dca33a3051f6ae5cdf5bbe"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "Retain active ADL merge-gate contract test: ci.yaml invokes it and ensure_final_merge_gate.sh is retained.",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "COMBINED_REMAINING_DELTA.json: RD07-1999 independent source review and exact retention decision",
+        "Retain active ADL merge-gate contract test: ci.yaml invokes it and ensure_final_merge_gate.sh is retained."
+      ]
     },
     {
       "id": "RD07-2000",
@@ -42066,11 +42076,16 @@
         "81be47b865f2423d3b715132bb5c35e43e5effdc"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "Retain native-v3 release wrapper routing/refusal contract for retained release_ceremony.sh; independent of private owner implementation.",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "COMBINED_REMAINING_DELTA.json: RD07-2062 independent source review and exact retention decision",
+        "Retain native-v3 release wrapper routing/refusal contract for retained release_ceremony.sh; independent of private owner implementation."
+      ]
     },
     {
       "id": "RD07-2063",
@@ -79024,7 +79039,7 @@
         "ca3b8d59c63e610bf673bbbd52ce9f1abba15cd5"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_historical_navigation_evidence",
       "observed_successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f",
       "exact_content_candidates": [
         "docs/tooling/CI_LOG_ARCHIVE_S3.md"
@@ -79032,6 +79047,11 @@
       "accepted_rd11_revision": "c8b787ce065e2912fe1db88fc778daded7a8ba63",
       "accepted_content_candidates": [
         "docs/tooling/CI_LOG_ARCHIVE_S3.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "COMBINED_REMAINING_DELTA.json: RD07-3728 independent source review and exact retention decision",
+        "retain_historical_navigation_evidence"
       ]
     },
     {
@@ -88154,5 +88174,5 @@
   "previous_observed_main": "f1493c54e4d9f6c5a1da798f48d9f2c361033fa4",
   "consumer_reference_repair_count": 6,
   "approved_component_removal_count": 36,
-  "resolved_retention_count": 425
+  "resolved_retention_count": 429
 }
