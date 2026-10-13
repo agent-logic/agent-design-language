@@ -6,11 +6,12 @@
   "execution_authorized": false,
   "original_count": 4134,
   "counts": {
-    "hold_explicit_reconciliation": 230,
+    "hold_explicit_reconciliation": 216,
     "hold_missing_successor_operational_command": 2,
     "hold_owner_test_reconciliation": 35,
     "preserve_approved_removal": 70,
     "preserve_reviewed_consumer_repair": 18,
+    "proposed_historical_retirement_with_caller_repair": 14,
     "proposed_owner_transfer_with_consumer_qualification": 451,
     "proposed_remove_construction_qualified_infrastructure": 216,
     "proposed_remove_with_entire_source_family": 1874,
@@ -28678,14 +28679,21 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Current native v3 route already governs this operation; do not port retired wrapper behavior into new product. Preserve historical Git/evidence. Repair or explicitly retire the listed active callers/tests; update public tool navigation. No new removal authority.",
+        "atomic family and caller disposition; no v1 route restoration"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_UNMAPPED_TOOLS_DISPOSITIONS.json",
+        "packet_sha256": "2682d1f5904ff8cf484acec5c0a8f2e62c45798c7f7a9b1de3fbc422ec655f35",
+        "proposal": "retire_sunset_with_caller_repairs",
+        "reason": "Whole11-line file only prints retirement notice then exits2; no supported operation remains."
       }
     },
     {
@@ -29274,14 +29282,21 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Preserve frozen v0.91.7 registers and Git source; approve archival retirement of this historical generator explicitly. Do not substitute generated closeout summaries for native finish.",
+        "atomic family and caller disposition; no v1 route restoration"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_UNMAPPED_TOOLS_DISPOSITIONS.json",
+        "packet_sha256": "2682d1f5904ff8cf484acec5c0a8f2e62c45798c7f7a9b1de3fbc422ec655f35",
+        "proposal": "explicit_historical_retirement",
+        "reason": "Producer is hard-bound to v0.91.7 closed-issue label and writes its milestone closeout register; this is retrospective evidence production, not native terminal authority."
       }
     },
     {
@@ -29295,14 +29310,21 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Current native v3 route already governs this operation; do not port retired wrapper behavior into new product. Preserve historical Git/evidence. Repair or explicitly retire the listed active callers/tests; update public tool navigation. No new removal authority.",
+        "atomic family and caller disposition; no v1 route restoration"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_UNMAPPED_TOOLS_DISPOSITIONS.json",
+        "packet_sha256": "2682d1f5904ff8cf484acec5c0a8f2e62c45798c7f7a9b1de3fbc422ec655f35",
+        "proposal": "retire_sunset_with_caller_repairs",
+        "reason": "Determines progress exclusively by run_log marker executed via adl_pr_cycle; current native receipts do not use that legacy authority."
       }
     },
     {
@@ -29316,14 +29338,21 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Current native v3 route already governs this operation; do not port retired wrapper behavior into new product. Preserve historical Git/evidence. Repair or explicitly retire the listed active callers/tests; update public tool navigation. No new removal authority.",
+        "atomic family and caller disposition; no v1 route restoration"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_UNMAPPED_TOOLS_DISPOSITIONS.json",
+        "packet_sha256": "2682d1f5904ff8cf484acec5c0a8f2e62c45798c7f7a9b1de3fbc422ec655f35",
+        "proposal": "retire_sunset_with_caller_repairs",
+        "reason": "Creates/removes raw Git worktrees beneath default .worktrees/burst without native bind or FastWork policy; current AGENTS mandates native bind/clean."
       }
     },
     {
@@ -29984,14 +30013,21 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Current native v3 route already governs this operation; do not port retired wrapper behavior into new product. Preserve historical Git/evidence. Repair or explicitly retire the listed active callers/tests; update public tool navigation. No new removal authority.",
+        "atomic family and caller disposition; no v1 route restoration"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_UNMAPPED_TOOLS_DISPOSITIONS.json",
+        "packet_sha256": "2682d1f5904ff8cf484acec5c0a8f2e62c45798c7f7a9b1de3fbc422ec655f35",
+        "proposal": "retire_sunset_with_caller_repairs",
+        "reason": "Whole file says retired/failsclosed and exits2; old v2 migration guidance is not current nativev3 authority."
       }
     },
     {
@@ -30005,14 +30041,21 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Current native v3 route already governs this operation; do not port retired wrapper behavior into new product. Preserve historical Git/evidence. Repair or explicitly retire the listed active callers/tests; update public tool navigation. No new removal authority.",
+        "atomic family and caller disposition; no v1 route restoration"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_UNMAPPED_TOOLS_DISPOSITIONS.json",
+        "packet_sha256": "2682d1f5904ff8cf484acec5c0a8f2e62c45798c7f7a9b1de3fbc422ec655f35",
+        "proposal": "retire_sunset_with_caller_repairs",
+        "reason": "Whole file says retired/failsclosed and exits2; old wrapper explicitly no longer supported."
       }
     },
     {
@@ -30355,14 +30398,21 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Replace retained refusal tests with absence/current-v3 guidance contracts where still required; explicitly dispose historical five-command regression/demo documentation callers together. Do not port removed v1 behavior.",
+        "atomic family and caller disposition; no v1 route restoration"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_UNMAPPED_TOOLS_DISPOSITIONS.json",
+        "packet_sha256": "2682d1f5904ff8cf484acec5c0a8f2e62c45798c7f7a9b1de3fbc422ec655f35",
+        "proposal": "retire_sunset_with_caller_repairs",
+        "reason": "Entire five-line implementation explicitly retires removed v1 five-command editing demo and exits 2. Stale v2 guidance does not establish current authority."
       }
     },
     {
@@ -31875,14 +31925,21 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Jointly disposition test_first_proof_demo_packet.sh, validate_first_proof_demo_packet.py and validate_v0913_quality_gate_review_surfaces.py references; preserve tracked proof packet and original non-five-minute claim. Confirm no current release obligation depends on regenerating historical snapshot.",
+        "atomic family and caller disposition; no v1 route restoration"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_UNMAPPED_TOOLS_DISPOSITIONS.json",
+        "packet_sha256": "2682d1f5904ff8cf484acec5c0a8f2e62c45798c7f7a9b1de3fbc422ec655f35",
+        "proposal": "explicit_historical_retirement",
+        "reason": "Generator declares a tracked WP-09 transition snapshot and bounded historical first-proof report; its fixed v0.91.3 proof dependencies are source-visible."
       }
     },
     {
@@ -32495,14 +32552,21 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Current native v3 route already governs this operation; do not port retired wrapper behavior into new product. Preserve historical Git/evidence. Repair or explicitly retire the listed active callers/tests; update public tool navigation. No new removal authority.",
+        "atomic family and caller disposition; no v1 route restoration"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_UNMAPPED_TOOLS_DISPOSITIONS.json",
+        "packet_sha256": "2682d1f5904ff8cf484acec5c0a8f2e62c45798c7f7a9b1de3fbc422ec655f35",
+        "proposal": "retire_sunset_with_caller_repairs",
+        "reason": "Copies historical docs/tooling/adl_pr_cycle_skill.md into user skills. AGENTS explicitly sunsets adl_pr_cycle operational entrypoint; keep history, not active installer."
       }
     },
     {
@@ -45450,14 +45514,20 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Joint explicit retirement with already reviewed wrapper/installer paths; remove exact runner invocations and update active demo navigation. Preserve historical fixture and Git records; do not recreate v1 closeout or installation."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_TOOL_FAMILY_BOUNDARIES.json",
+        "packet_sha256": "2737f78d4a5fcb19f50869cd85249ab213a4b97ac10ec4f767bdda4015ce172c",
+        "proposal": "conditional_sunset_cluster_not_yet_closed",
+        "reason": "Three tests exclusively exercise explicitly retired v1 closeout/demo/historical installer contracts. Closeout test requires mocked pr.sh closeout and normalized SOR despite current wrapper unconditional refusal."
       }
     },
     {
@@ -46315,14 +46385,20 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Joint explicit retirement with already reviewed wrapper/installer paths; remove exact runner invocations and update active demo navigation. Preserve historical fixture and Git records; do not recreate v1 closeout or installation."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_TOOL_FAMILY_BOUNDARIES.json",
+        "packet_sha256": "2737f78d4a5fcb19f50869cd85249ab213a4b97ac10ec4f767bdda4015ce172c",
+        "proposal": "conditional_sunset_cluster_not_yet_closed",
+        "reason": "Three tests exclusively exercise explicitly retired v1 closeout/demo/historical installer contracts. Closeout test requires mocked pr.sh closeout and normalized SOR despite current wrapper unconditional refusal."
       }
     },
     {
@@ -47906,14 +47982,20 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Joint explicit retirement with already reviewed wrapper/installer paths; remove exact runner invocations and update active demo navigation. Preserve historical fixture and Git records; do not recreate v1 closeout or installation."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_TOOL_FAMILY_BOUNDARIES.json",
+        "packet_sha256": "2737f78d4a5fcb19f50869cd85249ab213a4b97ac10ec4f767bdda4015ce172c",
+        "proposal": "conditional_sunset_cluster_not_yet_closed",
+        "reason": "Three tests exclusively exercise explicitly retired v1 closeout/demo/historical installer contracts. Closeout test requires mocked pr.sh closeout and normalized SOR despite current wrapper unconditional refusal."
       }
     },
     {
@@ -50301,14 +50383,21 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Preserve the historical TSV and Git test source; explicitly retire historical inventory regeneration/test obligation, keeping current native-v3 wrapper-sunset checks separately.",
+        "atomic family and caller disposition; no v1 route restoration"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_UNMAPPED_TOOLS_DISPOSITIONS.json",
+        "packet_sha256": "2682d1f5904ff8cf484acec5c0a8f2e62c45798c7f7a9b1de3fbc422ec655f35",
+        "proposal": "explicit_historical_retirement",
+        "reason": "Test reads fixed docs/milestones/v0.91.5/review/SHELL_WRAPPER_INVENTORY_3713.tsv and historical wrapper-disposition categories."
       }
     },
     {
@@ -52563,14 +52652,21 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Repair ci_path_policy.sh selection and run_v0913_proof_validation_lane.sh plus demo_v0913_quality_gate.sh together only after explicit historical gate disposition; preserve frozen milestone documents and recorded results.",
+        "atomic family and caller disposition; no v1 route restoration"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_UNMAPPED_TOOLS_DISPOSITIONS.json",
+        "packet_sha256": "2682d1f5904ff8cf484acec5c0a8f2e62c45798c7f7a9b1de3fbc422ec655f35",
+        "proposal": "explicit_historical_retirement",
+        "reason": "Validator checks fixed docs/milestones/v0.91.3 quality-gate/demo-coverage prose and proof routes, not current native lifecycle state."
       }
     },
     {
