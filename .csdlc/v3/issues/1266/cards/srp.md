@@ -39,12 +39,12 @@ allowed_dispositions:
   - "PASS"
   - "BLOCK"
   - "NEEDS_FOLLOWUP"
-review_scope: "<review_scope>"
-review_instructions: "<review_instructions>"
-review_evidence_requirements: "<review_evidence_requirements>"
-reviewer_constraints: "<reviewer_constraints>"
-refusal_policy: "<refusal_policy>"
-follow_up_routing: "<follow_up_routing>"
+review_scope: "Review the complete issue #1266 branch diff, authenticated consumer-package observations, terminal-replay implementation, retained receipt identity checks, complete v0.93.1 denominator, and fail-closed cases against the live issue acceptance criteria."
+review_instructions: "Findings first. Distinguish source correctness from live operational acceptance. Reject any package, activation, terminal, or publication claim that is not authenticated by the retained native evidence."
+review_evidence_requirements: "Require exact-head source inspection, focused installed terminal tests, strict lint and diff hygiene, the five issue-local evidence ledgers, live consumer authority readbacks, native validation, and exact receipt byte-stability checks."
+reviewer_constraints: "The reviewer must be independent of the implementer, must not modify files or GitHub state, and must not approve incomplete live acceptance merely because the source tests pass."
+refusal_policy: "Refuse on wrong repository, wrong issue or PR identity, stale review head, missing package or activation proof, receipt drift, incomplete denominator coverage, ambiguous remote effect, or lifecycle projection drift."
+follow_up_routing: "Return actionable source defects to this branch. Route missing cross-repository package endorsements or unsupported host upgrade authority to explicit typed successor work without weakening issue #1266."
 non_claims:
   - "This prompt does not claim review has already run."
   - "This prompt does not guarantee review quality by itself."
@@ -52,7 +52,7 @@ policy_refs:
   - "<stp_card>"
   - "<sip_card>"
   - "<vpp_card>"
-review_results: <review_results>
+review_results: {"status":"not_run"}
 notes: "<review_notes>"
 ---
 
