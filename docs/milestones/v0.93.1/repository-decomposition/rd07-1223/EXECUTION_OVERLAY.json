@@ -64002,7 +64002,7 @@
       "before": null,
       "after": [
         "100644",
-        "e7c18b6a85a8ff14d8251549a32881433507530a"
+        "20181d86bbf0ab0a40fad2d9fa5fad838a85b4b1"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "Infrastructure212 source commit guard-documentation accompaniment",
@@ -64119,6 +64119,18 @@
             "e7c18b6a85a8ff14d8251549a32881433507530a"
           ],
           "packet": "Mixed CI, builder and native sunset integration"
+        },
+        {
+          "commit": "pending_reviewed_integration",
+          "before": [
+            "100644",
+            "e7c18b6a85a8ff14d8251549a32881433507530a"
+          ],
+          "after": [
+            "100644",
+            "20181d86bbf0ab0a40fad2d9fa5fad838a85b4b1"
+          ],
+          "packet": "Readiness metrics retained caller integration"
         }
       ],
       "prior_execution_provenance": [
@@ -80828,6 +80840,35 @@
           "packet": "NATIVE_SUNSET_FAMILY_APPLIED.json"
         }
       ]
+    },
+    {
+      "path": "adl/tools/test_readiness_prep_metrics_non_terminal.sh",
+      "before": [
+        "100755",
+        "e85539d6ffa83006dd7a0bacb903a1553aa280cf"
+      ],
+      "after": [
+        "100755",
+        "90be78d92443b13fda4f7f7bb04c3fcee5d1dbe7"
+      ],
+      "action": "modify",
+      "implementation_commit": "55f3501eeae5e200788e60d746298cf90b937735",
+      "approval_reference": "READINESS_METRICS_CALLER_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "55f3501eeae5e200788e60d746298cf90b937735",
+          "before": [
+            "100755",
+            "e85539d6ffa83006dd7a0bacb903a1553aa280cf"
+          ],
+          "after": [
+            "100755",
+            "90be78d92443b13fda4f7f7bb04c3fcee5d1dbe7"
+          ],
+          "packet": "READINESS_METRICS_CALLER_APPLIED.json"
+        }
+      ]
     }
   ],
   "missing_entries": [],
@@ -87161,6 +87202,20 @@
         "adl/tools/README.md",
         "docs/tooling/editor/five_command_regression_suite.md",
         "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "READINESS_METRICS_CALLER_APPLIED.json",
+      "sha256": "78e494203c33d791597c2698464b069542a9fad46570a6fb3f083f4b46e983cd",
+      "commit": "55f3501eeae5e200788e60d746298cf90b937735",
+      "files": 1,
+      "removals": 0,
+      "scope_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl/tools/test_readiness_prep_metrics_non_terminal.sh"
       ],
       "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
     }

@@ -108,3 +108,5 @@ Public companion, CodeFriend document and Runtime demo applications add 45 exact
 Legacy helper, ANRM and Infrastructure tool applications add 30 exact original-row removals and reconcile 27 explicit public fixture/adapter retentions. Twelve holds remain unchanged; 2651 executed actions comprise 2650 baseline deletions and one separately retired ADL bridge. Original contract resources, source correspondence and document supersession do not qualify all described operations as installed acceptance.
 
 Mixed CI, builder and native sunset applications add 21 exact original-row removals and reconcile 13 explicitly reviewed public retentions. Twelve holds remain unchanged; 2672 executed actions comprise 2671 baseline deletions and one separately retired ADL bridge. Owner acceptance remains separately bounded.
+
+Readiness metrics caller application adds no removals and reconciles 2 explicitly reviewed local fixture retentions. Twelve holds remain unchanged; 2672 executed actions comprise 2671 baseline deletions and one separately retired ADL bridge. Owner acceptance remains separately bounded.

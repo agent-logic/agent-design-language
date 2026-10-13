@@ -7,9 +7,9 @@
   "original_count": 4134,
   "counts": {
     "retain_resolved": 527,
-    "proposed_owner_transfer_with_consumer_qualification": 296,
+    "proposed_owner_transfer_with_consumer_qualification": 294,
     "preserve_approved_removal": 2670,
-    "retain_public_source_or_fixture": 189,
+    "retain_public_source_or_fixture": 191,
     "preserve_reviewed_consumer_repair": 18,
     "proposed_historical_retirement_with_caller_repair": 32,
     "proposed_remove_with_entire_source_family": 1,
@@ -72420,13 +72420,8 @@
         "blob": "e85539d6ffa83006dd7a0bacb903a1553aa280cf"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Reconcile all active ADL inbound callers and CI with the delivered owner family in the same retirement delta.",
-        "Preserve original test assertions and historical rollback inventory.",
-        "Obtain exact scoped operator retirement decision; this component proof does not authorize deletion.",
-        "Retain separate current owner delivery/native acceptance boundaries; no whole-product acceptance inferred."
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -72480,6 +72475,25 @@
         "passed": true,
         "native_lifecycle_acceptance": false,
         "changes_removal_authority": false
+      },
+      "pre_readiness_metrics_retention_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Reconcile all active ADL inbound callers and CI with the delivered owner family in the same retirement delta.",
+          "Preserve original test assertions and historical rollback inventory.",
+          "Obtain exact scoped operator retirement decision; this component proof does not authorize deletion.",
+          "Retain separate current owner delivery/native acceptance boundaries; no whole-product acceptance inferred."
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "READINESS_METRICS_CALLER_APPLIED.json",
+        "packet_sha256": "78e494203c33d791597c2698464b069542a9fad46570a6fb3f083f4b46e983cd",
+        "implementation_commit": "55f3501eeae5e200788e60d746298cf90b937735",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "90be78d92443b13fda4f7f7bb04c3fcee5d1dbe7"
+        },
+        "reason": "Preserve complete original nonterminal readiness and terminal issue-start refusal assertions, now require exact two dependency bytes before any temp output; original fixed /tmp log relocated into private tmpdir as in existing qualification."
       }
     },
     {
@@ -73165,12 +73179,8 @@
         "blob": "edf50a9660baaf0b068b3e2651387845ec2acd97"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Accept per-row disposition and close listed caller/dependency obligations.",
-        "For transfers, bind actual owner package/fixture outcomes to the mapped assertion denominator; source availability alone is insufficient.",
-        "Obtain coherent source-retirement approval and guard qualification."
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -73189,6 +73199,24 @@
         "sha256": "34d6b227c88e7557904751ffdb37b83a4087973d2b962e149abd8931732d55b8",
         "scope": "Exact original local policy behavior only. No real credentials, API/subagent/native calls, actual review dispatch or installed authority. Original untested branches remain explicitly unproven.",
         "remaining": "Preserve listed original caller obligations and scoped source retirement approval; local policy proof does not establish live review dispatch or untested branches."
+      },
+      "pre_readiness_metrics_retention_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Accept per-row disposition and close listed caller/dependency obligations.",
+          "For transfers, bind actual owner package/fixture outcomes to the mapped assertion denominator; source availability alone is insufficient.",
+          "Obtain coherent source-retirement approval and guard qualification."
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "READINESS_METRICS_CALLER_APPLIED.json",
+        "packet_sha256": "78e494203c33d791597c2698464b069542a9fad46570a6fb3f083f4b46e983cd",
+        "implementation_commit": "55f3501eeae5e200788e60d746298cf90b937735",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "efc77ca485631337f2f6013fe423f8f27824ea15"
+        },
+        "reason": "Already-repaired explicit CSDLC_HISTORICAL_SKILLS_ROOT routes original auth/redaction/model-override assertions to preserved policy validator; retain unchanged local historical contract, no API/native review acceptance."
       }
     },
     {
