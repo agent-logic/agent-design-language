@@ -5661,6 +5661,16 @@ fn external_pr_finish_authenticates_without_fabricating_publication_history() {
         ],
     );
     assert_ne!(git(&linked, &["rev-parse", "HEAD"]), head);
+    let advanced_head = git(&linked, &["rev-parse", "HEAD"]);
+    let mut moved_remote = pr.clone();
+    moved_remote["head"]["sha"] = json!(advanced_head);
+    fixture.set_remote_pr(&moved_remote);
+    let before = intent_fixture::inventory(&primary);
+    let denied = fixture.run(&linked, &["finish", "870"]);
+    assert!(!denied.status.success(), "{denied:?}");
+    assert!(String::from_utf8_lossy(&denied.stdout).contains("head_mismatch"));
+    assert_same_inventory!(before, intent_fixture::inventory(&primary));
+    fixture.set_remote_pr(&pr);
     let before = intent_fixture::inventory(&primary);
     let replay = success(fixture.run(&linked, &["finish", "870"]));
     assert_eq!(replay["status"], "expected_noop");
