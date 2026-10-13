@@ -18,10 +18,11 @@ verification at installation; ADL does not repeat payload hashing on each comman
 The qualified installation directory must remain trusted after installation.
 Missing configuration or a mismatched selection fails before owner execution.
 
-Explicit `--print-plan` and `--print-prompts` presentation remains local when no
-execution flag is supplied. ADL retains its resume argument/help diagnostics.
-Other command families retain their existing implementation during the remaining
-repository partition.
+Ordinary `--print-plan` and `--print-prompts` presentation remains local when no
+execution flag is supplied. Provider-profile expansion, overlays and trace output
+belong to Runtime and therefore require the selected installation. ADL retains its resume argument/help diagnostics.
+The public dispatcher delegates the other Runtime command families to that same
+selected owner. Process status and repository session coordination remain local.
 
 Delegation preserves argument boundaries, current directory, environment and
 standard streams. Unix process replacement preserves owner exit status and signals.

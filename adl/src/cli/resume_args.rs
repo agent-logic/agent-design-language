@@ -60,5 +60,9 @@ pub(super) fn parse<'a>(args: &'a [String], usage: &str) -> Option<ResumeArgs<'a
         }
         i += 1;
     }
-    Some(ResumeArgs { run_id, adl_path, steer_path })
+    Some(ResumeArgs {
+        run_id,
+        adl_path,
+        steer_path,
+    })
 }

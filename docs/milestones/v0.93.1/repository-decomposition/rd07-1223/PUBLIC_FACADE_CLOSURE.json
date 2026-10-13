@@ -1,0 +1,63 @@
+{
+  "schema": "adl.source_retirement.public_facade_closure.v1",
+  "issue": 1223,
+  "status": "preflight_passed_not_final_manifest_cutover",
+  "host": "aarch64-apple-darwin",
+  "build_seconds": 47.51,
+  "private_crates_in_host_graph": 0,
+  "local_packages": [
+    {
+      "name": "adl",
+      "version": "0.92.1"
+    },
+    {
+      "name": "adl-legacy-contracts",
+      "version": "0.1.0"
+    },
+    {
+      "name": "adl-schema",
+      "version": "0.1.0"
+    }
+  ],
+  "direct_dependencies": [
+    "adl-legacy-contracts",
+    "anyhow",
+    "serde",
+    "serde_json",
+    "chrono",
+    "fs2",
+    "tracing",
+    "reqwest"
+  ],
+  "retained_local_helpers": [
+    "adl/src/control_plane.rs",
+    "adl/src/session_ledger.rs",
+    "adl/src/cli/process_cmd.rs",
+    "adl/src/cli/process_cmd/args.rs",
+    "adl/src/cli/session_cmd.rs",
+    "adl/src/cli/observability.rs",
+    "adl/src/cli/usage.rs"
+  ],
+  "entrypoint": "adl/src/cli/public_dispatch.rs",
+  "proof": {
+    "runtime_facade_cases": 9,
+    "codefriend_facade_cases": 5,
+    "portable_presentation_cases": 3,
+    "missing_owner_case": 1
+  },
+  "limits": [
+    "Candidate manifest/lib scaffold references actual bound source; tracked adl manifest/lib still retain private modules pending atomic consumer cutover.",
+    "Installed owner execution is separate from synthetic facade tests.",
+    "Final five-public-package proof and CI remain required."
+  ],
+  "next_changes": [
+    "Apply minimal public library/manifest together with owner installer and CI/test routing.",
+    "Enumerate newly unreachable components and exact caller repairs for one scoped removal decision."
+  ],
+  "entrypoint_applied": "adl/src/main.rs now selects the proved public_dispatch module; tracked library/manifest remain pending atomic cutover",
+  "actual_main_check": {
+    "status": "passed",
+    "seconds": 7.11,
+    "command": "cargo check --locked --offline --manifest-path adl/Cargo.toml --bin adl"
+  }
+}

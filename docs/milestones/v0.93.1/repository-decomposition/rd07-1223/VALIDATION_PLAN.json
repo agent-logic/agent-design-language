@@ -221,5 +221,18 @@
     "real_receipt_fixture": "prior qualified e4c7e25 INSTALLATION and manifest selected without executing foreign-platform binary",
     "integration": "Full retained CLI cargo check and build passed",
     "limits": "Selection proof is not a reauthentication of package payload; current installed smoke and successful ingestion parity recorded separately"
-  }
+  },
+  "portable_workflow_proof": {
+    "lane": "local_contract",
+    "role": "private_free_planning_dependency_boundary_and_output_compatibility",
+    "determinism": "fixed local fixtures; exact legacy presentation output",
+    "resources": "offline Cargo, host-filtered metadata, FastWork scratch",
+    "gate": "required CLI-03 preflight",
+    "command": "python3 -B tools/public_adl/test_portable_workflow.py --baseline <retained-adl>",
+    "result": "passed",
+    "presentation_cases": 3,
+    "missing_owner_cases": 1,
+    "initial_correction": "Unfiltered Cargo metadata tried unpacking an unused wasm crate in read-only global cache; host-filtered metadata matches this host proof and requires no download."
+  },
+  "complete_facade_preflight": "PUBLIC_FACADE_CLOSURE.json"
 }

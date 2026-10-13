@@ -19,6 +19,7 @@ mod observability;
 mod open;
 mod process_cmd;
 mod provider_cmd;
+mod public_workflow;
 mod run;
 pub(crate) mod run_artifacts;
 #[allow(dead_code)]
@@ -42,7 +43,7 @@ use godel_cmd::real_godel;
 use identity_cmd::real_identity;
 use process_cmd::real_process;
 use provider_cmd::real_provider;
-use run::{real_resume, run_public_resume, run_public_workflow, run_workflow};
+use run::{real_resume, run_workflow};
 use runtime_v2_cmd::real_runtime_v2;
 use runtime_v3_cmd::real_runtime_v3;
 use scheduler_cmd::real_scheduler;
@@ -199,18 +200,18 @@ fn dispatch_args(args: &[String]) -> Result<()> {
         Some("scheduler") => real_scheduler(&args[1..]),
         Some("session") => real_session(&args[1..]),
         Some("pr") => Err(anyhow::anyhow!(
-            "the v1 `adl pr` control plane was removed; use the independent C-SDLC v2 binaries"
+            "the v1 `adl pr` control plane was removed; use native C-SDLC v3 csdlc"
         )),
         Some("keygen") => real_keygen(&args[1..]),
         Some("sign") => real_sign(&args[1..]),
         Some("instrument") => real_instrument(&args[1..]),
         Some("learn") => real_learn(&args[1..]),
         Some("tooling") => Err(anyhow::anyhow!(
-            "the v1 tooling multiplexer was removed; use the independent C-SDLC v2 binaries"
+            "the v1 tooling multiplexer was removed; use native C-SDLC v3 csdlc"
         )),
         Some("verify") => real_verify(&args[1..]),
-        Some("resume") => run_public_resume(&args[1..]),
-        _ => run_public_workflow(args),
+        Some("resume") => public_workflow::resume(&args[1..]),
+        _ => public_workflow::run(args),
     }
 }
 
@@ -731,4 +732,3 @@ mod tests {
             .expect("environment lock")
     }
 }
-

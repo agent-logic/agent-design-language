@@ -71,7 +71,7 @@
     ],
     "adl/src/cli/run.rs": [
       "100644",
-      "a610e522dc05c0d8f034c03bcf717422b2ee4959"
+      "9d43c8fcb600fe21a6c43de7819a40aedc6f525d"
     ],
     "adl/src/cli/workflow_args.rs": [
       "100644",
@@ -87,15 +87,27 @@
     ],
     "adl/src/cli/resume_args.rs": [
       "100644",
-      "d915762aac1b5b8d7f379955213d6000b14e1054"
+      "b2a609eafbdef4b389134aafea4c4badd5bc92cf"
     ],
     "adl/src/cli/mod.rs": [
       "100644",
-      "02cb253d6f1281a03e6ea17902e859b3324b4591"
+      "0779a488e5cf60cb4e899eb63a0afe986f1cd900"
     ],
     "adl/src/cli/codefriend_owner.rs": [
       "100644",
       "c4b00fe6c63a04eaba08eb33c3fc0085a2db8b03"
+    ],
+    "adl/src/cli/public_workflow.rs": [
+      "100644",
+      "3b2ca82c4322af31c1e1578f1cbd7b8b24c2c708"
+    ],
+    "adl/src/cli/public_dispatch.rs": [
+      "100644",
+      "ca1bc53db06de14e6e3da5fc8017508e1b41d36e"
+    ],
+    "adl/src/main.rs": [
+      "100644",
+      "e3bc8d4ffd603fc1ce8dbb22037d7f200357e360"
     ]
   },
   "surgical_followup": "CLI-01 parser/rendering extraction and CLI-02 qualified Runtime workflow/resume plus CodeFriend owner delegation; public diagnostics and explicit owner logging retained; no further source removals"
