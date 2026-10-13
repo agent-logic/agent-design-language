@@ -164,5 +164,40 @@
   "passive_package_boundary": "Delivered active-lifecycle CONTRACT.json explicitly legacy_equivalence:false and native_execution_proven:false. Source-invariant overlap does not discharge original wrapper semantics.",
   "execution": false,
   "build": false,
-  "retirement_authorized": false
+  "retirement_authorized": false,
+  "native_owner_proposal": {
+    "path": "/Volumes/FastWork/c1223/native-v3-wrapper-proposal",
+    "proposal_sha256": "b7267c9742534e951bb2c955d4b81da19c208770042eb4412160b31230f089bf",
+    "source_delta": {
+      "path": "tools/verify_native_sunset_contracts.py",
+      "sha256": "c81f3d9b48a124d4989ee64c01ed4f490cac5dd66bd7b39397000f00ef10fb7f"
+    },
+    "source_test_delta": {
+      "path": "tools/test_native_sunset_contracts.py",
+      "sha256": "c9411f976e0645cddd4bb9bcc7101b76291554a7958bfc597dde58e36357855e"
+    },
+    "source_test_result": {
+      "passed": 3,
+      "failed": 0,
+      "seconds": 0.049,
+      "checks": [
+        "current source accepted",
+        "restored lint wrapper rejected",
+        "historical template lint reference rejected"
+      ],
+      "native_execution": false,
+      "build": false,
+      "scratch_root": "/Volumes/FastWork/c1223",
+      "source_root": "/Users/daniel/git/cognitive-sdlc"
+    },
+    "pvf": {
+      "lane_class": "fast_unit",
+      "proof_role": "source_contract_negative_and_command_discovery",
+      "determinism": "deterministic_local",
+      "resource_profile": "local_cpu_filesystem_small",
+      "release_gate": false
+    },
+    "review_disposition": "ROOT_REVIEW.json finding fixed: removed both executable fullhashreads and --sha256. Caller supplies selected canonical executable path; help is discovery only, no admission claim.",
+    "delivery": "External proposal only. Existing owner issue selection, real discovery, owner publication, final consumer repair and scoped retirement still required. Five original rows remain held."
+  }
 }
