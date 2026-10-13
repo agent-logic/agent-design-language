@@ -13,8 +13,8 @@
     {"repository":"agent-logic/agent-logic-runtime","issue":1,"result":"intent_semantic_migration_required","package_or_activation_finding":false},
     {"repository":"agent-logic/cognitive-sdlc","issue":1,"result":"intent_semantic_migration_required","package_or_activation_finding":false}
   ],
-  "interpretation": "The exact retained host-compatible installation entered every consumer repository and reached repository semantic-state classification without a package, host, repository, or activation finding. These read-only observations do not migrate historical semantic state and do not replace the immutable receipt ledger.",
+  "interpretation": "The exact retained host-compatible installation entered every consumer repository and reached repository semantic-state classification, but these observations do not independently prove a repository-specific activation or successor receipt. That acceptance item remains unproven and is not inferred from an absent package finding.",
   "affected_recordless_consumer": "agent-logic/agent-logic-infrastructure",
-  "affected_recordless_consumer_result": "Issues 26 and 27 were both reconciled through authenticated packages; no other repository retained an eligible recordless case.",
+  "affected_recordless_consumer_result": "Issues 26 and 27 received terminal records through authenticated packages; complete replay subsequently exposed retained receipt/state mismatches in the historical consumer set.",
   "remote_writes": 0
 }

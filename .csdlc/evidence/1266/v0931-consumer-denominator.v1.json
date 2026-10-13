@@ -9,6 +9,7 @@
   "excluded_without_closing_pr_count": 2,
   "preexisting_receipt_ledger": ".csdlc/evidence/1266/preexisting-terminal-receipts.v1.json",
   "consumer_authority_observations": ".csdlc/evidence/1266/consumer-authority-observations.v1.json",
+  "complete_denominator_preview": ".csdlc/evidence/1266/complete-denominator-preview.v1.json",
   "repositories": [
     {
       "repository": "agent-logic/codefriend",
@@ -45,7 +46,8 @@
   "eligible_reconciliation": {
     "attempted": 2,
     "completed": 2,
-    "remaining": 0
+    "remaining": 0,
+    "complete_denominator_replay_acceptance": "blocked_by_retained_receipt_state_mismatch"
   },
   "remote_writes": 0
 }
