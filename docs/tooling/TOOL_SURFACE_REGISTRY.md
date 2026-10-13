@@ -30,7 +30,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 16
 - `supported shim`: 6
-- `internal helper`: 704
+- `internal helper`: 706
 - `historical evidence`: 14
 - `archive candidate`: 0
 - `remove candidate`: 2
@@ -203,6 +203,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/fill_planning_template.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/fix_git_main_sync.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/fix_git_main_sync_preserve_local_adl.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
+| `adl/tools/fixtures` | tool surface | internal helper | Directory containing bounded helper assets, scripts, or proof inputs. |
 | `adl/tools/generate_active_command_reference_scan.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/generate_podcast_launch_packet.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/generate_podcast_studio_v2_packet.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
@@ -486,6 +487,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_issue607_warm_polis.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_issue694_conversation_history_reload.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_issue713_a2a_history.sh` | tool surface | internal helper | Focused regression or contract test helper. |
+| `adl/tools/test_issue872_historical_manifest.py` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_issue905_runtime_speculative_retest.py` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_issue_folding_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_issue_goal_terminal_state_truth.sh` | tool surface | internal helper | Focused regression or contract test helper. |

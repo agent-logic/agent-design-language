@@ -305,8 +305,27 @@ def scenario_result(output: Path, name: str, operation: str, commands: list[dict
     return rel.as_posix()
 
 
+def historical_manifest_from_request(request: dict, fixture: Path) -> Path | None:
+    value = request.get("historical_manifest_path")
+    return require_child(Path(value), fixture, "historical_manifest_path") if value else None
+
+
+def select_fault_manifest(authority_checkout: Path, historical_manifest_path: Path | None) -> Path:
+    manifest_path = authority_checkout / "csdlc-v3/Cargo.toml"
+    if manifest_path.is_file():
+        return manifest_path
+    if historical_manifest_path is None:
+        raise ValueError("historical_manifest_path is required after source retirement")
+    if historical_manifest_path.is_symlink() or not historical_manifest_path.is_file():
+        raise ValueError("historical authority manifest must be a regular fixture file")
+    if sha256(historical_manifest_path.read_bytes()) != "8ab0d39857af75aad2782b9325258964712fc89106c3b0b984468edc9cc48e8d":
+        raise ValueError("historical authority manifest provenance mismatch")
+    return historical_manifest_path
+
+
 def initialize_fault_repository(case: Path, registry_path: Path,
-                                authority_bytes_path: Path) -> tuple[Path, Path, Path]:
+                                authority_bytes_path: Path,
+                                historical_manifest_path: Path | None = None) -> tuple[Path, Path, Path]:
     primary = case / "repository"
     linked = case / "linked"
     primary.mkdir(parents=True, exist_ok=True)
@@ -323,8 +342,8 @@ def initialize_fault_repository(case: Path, registry_path: Path,
     authority_checkout = authority_bytes_path.resolve().parents[2]
     shutil.copytree(authority_checkout / "csdlc-v3/operator",
                     primary / "csdlc-v3/operator", dirs_exist_ok=True)
-    shutil.copy2(authority_checkout / "csdlc-v3/Cargo.toml",
-                 primary / "csdlc-v3/Cargo.toml")
+    manifest_path = select_fault_manifest(authority_checkout, historical_manifest_path)
+    shutil.copy2(manifest_path, primary / "csdlc-v3/Cargo.toml")
     terminal_receipt = authority_checkout / ".csdlc/evidence/505/terminal-receipt.json"
     if not terminal_receipt.is_file():
         raise ValueError(f"fault authority terminal receipt is missing: {terminal_receipt}")
@@ -414,12 +433,14 @@ def fault_result(output: Path, point: str, boundary: str, operation: str,
                  registry_path: Path, authority_bytes_path: Path,
                  prior_executable_path: Path, prior_executable_blake3: str,
                  fault_workspace_root: Path, old_writer_command: list[str],
-                 old_writer_issue_root: Path, old_writer_attestation: dict
+                 old_writer_issue_root: Path, old_writer_attestation: dict,
+                 historical_manifest_path: Path | None = None
                  ) -> tuple[str, dict]:
     rel = Path("faults") / point / boundary / "result.json"
     case = output / rel.parent
     primary, linked, common = initialize_fault_repository(
-        fault_workspace_root / point / boundary, registry_path, authority_bytes_path)
+        fault_workspace_root / point / boundary, registry_path, authority_bytes_path,
+        historical_manifest_path)
     linked_registry = linked / "docs/templates/prompts/current.json"
     linked_authority = linked / "csdlc-v3/operator/authority-selector.json"
     request_path = case / "request.json"
@@ -632,6 +653,7 @@ def run(request_path: Path) -> dict:
     production_owner = require_child(Path(request["production_owner"]), fixture, "production_owner")
     registry_path = require_child(Path(request["registry_path"]), fixture, "registry_path")
     authority_bytes_path = require_child(Path(request["authority_bytes_path"]), fixture, "authority_bytes_path")
+    historical_manifest_path = historical_manifest_from_request(request, fixture)
     write_json(output / "binary-provenance.json", binary_provenance)
     declared_redactions = []
     host_path_files = []
@@ -812,6 +834,7 @@ def run(request_path: Path) -> dict:
                     authority_bytes_path, Path(request["old_executable"]),
                     request["old_executable_blake3"], fixture / "fault-workspaces",
                     writer_command, writer_state_root, old_attestation,
+                    historical_manifest_path=historical_manifest_path,
                 )
                 evidence[point][boundary] = result
         return {"schema":"csdlc.v3.issue872_fault_probe.v1",
@@ -1090,6 +1113,7 @@ def run(request_path: Path) -> dict:
                 authority_bytes_path, Path(request["old_executable"]),
                 request["old_executable_blake3"], fixture / "fault-workspaces",
                 writer_command, writer_state_root, old_attestation,
+                    historical_manifest_path=historical_manifest_path,
             )
             fault_results[point][boundary] = ref
             fault_evidence[point][boundary] = evidence
