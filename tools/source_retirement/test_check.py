@@ -422,7 +422,7 @@ class RecentOwnerFamilyTests(unittest.TestCase):
             self.assertEqual(len(paths), spec['removals'])
             check.check_recent_owner_custody(batch, spec)
             total += len(paths)
-        self.assertEqual(total, 547)
+        self.assertEqual(total, 584)
 
     def test_expanded_scope_and_repeat_refuse(self):
         for spec, batch, before, after in self.batches():
@@ -496,6 +496,58 @@ class RecentOwnerFamilyTests(unittest.TestCase):
         next(r for r in altered['files'] if r['action'] == 'remove')['before']['sha256'] = '0' * 64
         with self.assertRaisesRegex(ValueError, 'custody identity mismatch'):
             check.check_recent_owner_custody(altered, spec)
+
+
+
+class SeparatelyObservedRetirementTests(unittest.TestCase):
+    # PVF: fast_unit; exact source-accounting guard; deterministic stdlib; release guard.
+    def setUp(self):
+        self.records = copy.deepcopy(check.SEPARATELY_OBSERVED_RETIREMENTS)
+        self.combined = {'rows': [], 'additional_paths': [],
+                         'separately_observed_retirements': self.records}
+        self.observed = {r['path']: [r['execution_baseline_identity']['mode'],
+                                     r['execution_baseline_identity']['blob']] for r in self.records}
+        self.removed = set(self.observed)
+
+    def verify(self, frozen=None):
+        check.check_separately_observed_retirements(
+            self.combined, frozen or {}, self.observed, self.removed)
+
+    def test_exact_separate_baseline_paths_pass(self):
+        self.verify()
+
+    def test_outside_inventory_scope_and_provenance_cannot_expand(self):
+        for mutation in ('extra', 'missing', 'identity', 'custody'):
+            with self.subTest(mutation=mutation):
+                self.setUp()
+                if mutation == 'extra':
+                    self.records.append(copy.deepcopy(self.records[0]))
+                elif mutation == 'missing':
+                    self.records.pop()
+                elif mutation == 'identity':
+                    self.records[0]['current_identity']['blob'] = '0' * 40
+                else:
+                    self.records[0]['applied_removal']['sha256'] = '0' * 64
+                with self.assertRaises(ValueError):
+                    self.verify()
+
+    def test_captured_frozen_baseline_and_approval_boundaries(self):
+        for mutation in ('captured', 'frozen', 'baseline', 'unapproved'):
+            with self.subTest(mutation=mutation):
+                self.setUp()
+                path = self.records[0]['path']
+                frozen = {}
+                if mutation == 'captured':
+                    self.combined['additional_paths'].append({'path': path})
+                elif mutation == 'frozen':
+                    frozen[path] = self.observed[path]
+                elif mutation == 'baseline':
+                    self.observed[path] = ['100755', '0' * 40]
+                else:
+                    self.removed.remove(path)
+                with self.assertRaises(ValueError):
+                    self.verify(frozen)
+
 
 if __name__ == '__main__':
     unittest.main()

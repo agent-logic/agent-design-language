@@ -6,7 +6,7 @@
   "execution_authorized": false,
   "original_inventory_count": 4134,
   "additional_inventory_count": 22,
-  "executed_deletion_count": 2878,
+  "executed_deletion_count": 2915,
   "entries": [
     {
       "path": ".github/workflows/ci.yaml",
@@ -6966,7 +6966,7 @@
       ],
       "after": [
         "100644",
-        "4cad86c70fee78396310a3753916e924263ac4ca"
+        "e41e9d7738efa8db1d7e3a5174c88cf97685712b"
       ],
       "implementation_commit": "39a64819e2ccc75a0b09616a7883f5835d047e35",
       "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
@@ -7080,6 +7080,18 @@
             "4cad86c70fee78396310a3753916e924263ac4ca"
           ],
           "packet": "INFRASTRUCTURE_PARSER_SIX_APPLIED.json"
+        },
+        {
+          "commit": "0558cfaac766691e819119668371a58debec0836",
+          "before": [
+            "100644",
+            "4cad86c70fee78396310a3753916e924263ac4ca"
+          ],
+          "after": [
+            "100644",
+            "e41e9d7738efa8db1d7e3a5174c88cf97685712b"
+          ],
+          "packet": "PROVIDER_NEUTRAL_TWELVE_APPLIED.json"
         }
       ]
     },
@@ -57279,7 +57291,7 @@
       "before": null,
       "after": [
         "100644",
-        "77d348cc679d2a8400e6eccc33c1c25f35fb76ac"
+        "bc1cf67fdf3785a352a807482f84a636243856b3"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json",
@@ -57804,6 +57816,42 @@
             "77d348cc679d2a8400e6eccc33c1c25f35fb76ac"
           ],
           "packet": "ARCHIVE_PAIR_APPLIED.json"
+        },
+        {
+          "commit": "af11eea471642202c7dff701dd0f4057582c08c0",
+          "before": [
+            "100644",
+            "77d348cc679d2a8400e6eccc33c1c25f35fb76ac"
+          ],
+          "after": [
+            "100644",
+            "a6517ef43261154402c72e9a6ac91e22aaa8075f"
+          ],
+          "packet": "METRICS_BACKFILL_PAIR_APPLIED.json"
+        },
+        {
+          "commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+          "before": [
+            "100644",
+            "a6517ef43261154402c72e9a6ac91e22aaa8075f"
+          ],
+          "after": [
+            "100644",
+            "709f554ab41454c8d422d99e3c511ac1e77c90e0"
+          ],
+          "packet": "OBSERVATORY_TWENTY_THREE_APPLIED.json"
+        },
+        {
+          "commit": "0558cfaac766691e819119668371a58debec0836",
+          "before": [
+            "100644",
+            "709f554ab41454c8d422d99e3c511ac1e77c90e0"
+          ],
+          "after": [
+            "100644",
+            "bc1cf67fdf3785a352a807482f84a636243856b3"
+          ],
+          "packet": "PROVIDER_NEUTRAL_TWELVE_APPLIED.json"
         }
       ],
       "prior_execution_provenance": [
@@ -65045,7 +65093,7 @@
       "before": null,
       "after": [
         "100644",
-        "46f423677e1233936494c8f64f207ad2a66aea66"
+        "7f182cb15e8d044ac1fa8ae13adb3dfee3d06845"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "Infrastructure212 source commit guard-documentation accompaniment",
@@ -65342,6 +65390,18 @@
             "46f423677e1233936494c8f64f207ad2a66aea66"
           ],
           "packet": "Stock, historical workflows and archive integration"
+        },
+        {
+          "commit": "pending_reviewed_integration",
+          "before": [
+            "100644",
+            "46f423677e1233936494c8f64f207ad2a66aea66"
+          ],
+          "after": [
+            "100644",
+            "7f182cb15e8d044ac1fa8ae13adb3dfee3d06845"
+          ],
+          "packet": "Metrics and Observatory integration"
         }
       ],
       "prior_execution_provenance": [
@@ -81832,7 +81892,7 @@
       ],
       "after": [
         "100644",
-        "3329d9cd2da02159977aaf8ac2e17d7d62ccdff6"
+        "633dfc1e3f894d0386bb30a8500e5e1f25751fdb"
       ],
       "action": "modify",
       "implementation_commit": "ba90cf9dc1ca7388610444da604fb76491f17149",
@@ -81948,6 +82008,30 @@
             "3329d9cd2da02159977aaf8ac2e17d7d62ccdff6"
           ],
           "packet": "ARCHIVE_PAIR_APPLIED.json"
+        },
+        {
+          "commit": "af11eea471642202c7dff701dd0f4057582c08c0",
+          "before": [
+            "100644",
+            "3329d9cd2da02159977aaf8ac2e17d7d62ccdff6"
+          ],
+          "after": [
+            "100644",
+            "980205e48f3fb782e0147d49e6ea27d2ede15aa8"
+          ],
+          "packet": "METRICS_BACKFILL_PAIR_APPLIED.json"
+        },
+        {
+          "commit": "0558cfaac766691e819119668371a58debec0836",
+          "before": [
+            "100644",
+            "980205e48f3fb782e0147d49e6ea27d2ede15aa8"
+          ],
+          "after": [
+            "100644",
+            "633dfc1e3f894d0386bb30a8500e5e1f25751fdb"
+          ],
+          "packet": "PROVIDER_NEUTRAL_TWELVE_APPLIED.json"
         }
       ]
     },
@@ -88914,6 +88998,1242 @@
         "blob": "8bbd5f6410a8ded2f7cf53815457bfdf07ae9207",
         "sha256": "2b244f82e1b75cdcfc76adf93a82b939216991d4bb86238389d2413293350f6d"
       }
+    },
+    {
+      "path": "adl/tools/build_v0916_workflow_metric_backfill_inventory.py",
+      "before": [
+        "100644",
+        "25b385fb23efea0a23af3ad3b40750bbcf410b7e"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "af11eea471642202c7dff701dd0f4057582c08c0",
+      "approval_reference": "METRICS_BACKFILL_PAIR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "af11eea471642202c7dff701dd0f4057582c08c0",
+          "before": [
+            "100644",
+            "25b385fb23efea0a23af3ad3b40750bbcf410b7e"
+          ],
+          "after": null,
+          "packet": "METRICS_BACKFILL_PAIR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "METRICS_BACKFILL_PAIR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/metrics-backfill-two-retirement/prepared/current-and-original-preimages.tar",
+        "archive_sha256": "16cd71a99dd326c7f4febefdd86414d47305a05dd71f12d3b549aa129f4ebce8",
+        "member": "current/adl/tools/build_v0916_workflow_metric_backfill_inventory.py",
+        "mode": "100644",
+        "blob": "25b385fb23efea0a23af3ad3b40750bbcf410b7e",
+        "sha256": "84c35df728503b4ad104870691d88c34ecda0ff09bd76248f58b0163e57d62f9"
+      }
+    },
+    {
+      "path": "adl/tools/test_build_v0916_workflow_metric_backfill_inventory.py",
+      "before": [
+        "100644",
+        "4e50fc41f5a57f79202a6ecd46d39e618fb9e024"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "af11eea471642202c7dff701dd0f4057582c08c0",
+      "approval_reference": "METRICS_BACKFILL_PAIR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "af11eea471642202c7dff701dd0f4057582c08c0",
+          "before": [
+            "100644",
+            "4e50fc41f5a57f79202a6ecd46d39e618fb9e024"
+          ],
+          "after": null,
+          "packet": "METRICS_BACKFILL_PAIR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "METRICS_BACKFILL_PAIR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/metrics-backfill-two-retirement/prepared/current-and-original-preimages.tar",
+        "archive_sha256": "16cd71a99dd326c7f4febefdd86414d47305a05dd71f12d3b549aa129f4ebce8",
+        "member": "current/adl/tools/test_build_v0916_workflow_metric_backfill_inventory.py",
+        "mode": "100644",
+        "blob": "4e50fc41f5a57f79202a6ecd46d39e618fb9e024",
+        "sha256": "5805585cef71c94fda07719bfc1e5a1638d7aa4e35b19373027f495d698eb09d"
+      }
+    },
+    {
+      "path": "demos/html-observatory/README.md",
+      "before": [
+        "100644",
+        "71060962401f08038af33c5145c49ef0251732b7"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+      "approval_reference": "OBSERVATORY_TWENTY_THREE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+          "before": [
+            "100644",
+            "71060962401f08038af33c5145c49ef0251732b7"
+          ],
+          "after": null,
+          "packet": "OBSERVATORY_TWENTY_THREE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "OBSERVATORY_TWENTY_THREE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime157-observatory-family/current-and-original-preimages-merged.tar",
+        "archive_sha256": "8c3fa2c5660eed0de9695b8281faef0e4659d88655f9d093e73dff3e9e47f941",
+        "member": "current/demos/html-observatory/README.md",
+        "mode": "100644",
+        "blob": "71060962401f08038af33c5145c49ef0251732b7",
+        "sha256": "b5719bb8dc809e7cb99ac61659f377a6e6f8e13ac36a895060d14d44b4f4c915"
+      }
+    },
+    {
+      "path": "demos/html-observatory/app.js",
+      "before": [
+        "100644",
+        "ef20c83383ec526c90771384f56d6f71a374f6fe"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+      "approval_reference": "OBSERVATORY_TWENTY_THREE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+          "before": [
+            "100644",
+            "ef20c83383ec526c90771384f56d6f71a374f6fe"
+          ],
+          "after": null,
+          "packet": "OBSERVATORY_TWENTY_THREE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "OBSERVATORY_TWENTY_THREE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime157-observatory-family/current-and-original-preimages-merged.tar",
+        "archive_sha256": "8c3fa2c5660eed0de9695b8281faef0e4659d88655f9d093e73dff3e9e47f941",
+        "member": "current/demos/html-observatory/app.js",
+        "mode": "100644",
+        "blob": "ef20c83383ec526c90771384f56d6f71a374f6fe",
+        "sha256": "249918c6312b2fc6b40dad66ae6e3b50ec132a761139a2167ebb9cfeb754c64d"
+      }
+    },
+    {
+      "path": "demos/html-observatory/index.html",
+      "before": [
+        "100644",
+        "0a9b71c62aae369fec43401b5af668b0612f2359"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+      "approval_reference": "OBSERVATORY_TWENTY_THREE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+          "before": [
+            "100644",
+            "0a9b71c62aae369fec43401b5af668b0612f2359"
+          ],
+          "after": null,
+          "packet": "OBSERVATORY_TWENTY_THREE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "OBSERVATORY_TWENTY_THREE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime157-observatory-family/current-and-original-preimages-merged.tar",
+        "archive_sha256": "8c3fa2c5660eed0de9695b8281faef0e4659d88655f9d093e73dff3e9e47f941",
+        "member": "current/demos/html-observatory/index.html",
+        "mode": "100644",
+        "blob": "0a9b71c62aae369fec43401b5af668b0612f2359",
+        "sha256": "87a6d5a84d6160c6a48a11ad008a67f4a67345a1301763e683a58fba309bc8ab"
+      }
+    },
+    {
+      "path": "demos/html-observatory/runtime-v3.config.json",
+      "before": [
+        "100644",
+        "c79c748760edd2c91cece8bbbe05d25ca25f4b6d"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+      "approval_reference": "OBSERVATORY_TWENTY_THREE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+          "before": [
+            "100644",
+            "c79c748760edd2c91cece8bbbe05d25ca25f4b6d"
+          ],
+          "after": null,
+          "packet": "OBSERVATORY_TWENTY_THREE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "OBSERVATORY_TWENTY_THREE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime157-observatory-family/current-and-original-preimages-merged.tar",
+        "archive_sha256": "8c3fa2c5660eed0de9695b8281faef0e4659d88655f9d093e73dff3e9e47f941",
+        "member": "current/demos/html-observatory/runtime-v3.config.json",
+        "mode": "100644",
+        "blob": "c79c748760edd2c91cece8bbbe05d25ca25f4b6d",
+        "sha256": "69d17ab7fa27678f27c5758103129e12f4911176794736e59947b7833dfa860d"
+      }
+    },
+    {
+      "path": "demos/html-observatory/styles.css",
+      "before": [
+        "100644",
+        "da6ed61260135c92013dd570f9da8f4c3a107235"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+      "approval_reference": "OBSERVATORY_TWENTY_THREE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+          "before": [
+            "100644",
+            "da6ed61260135c92013dd570f9da8f4c3a107235"
+          ],
+          "after": null,
+          "packet": "OBSERVATORY_TWENTY_THREE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "OBSERVATORY_TWENTY_THREE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime157-observatory-family/current-and-original-preimages-merged.tar",
+        "archive_sha256": "8c3fa2c5660eed0de9695b8281faef0e4659d88655f9d093e73dff3e9e47f941",
+        "member": "current/demos/html-observatory/styles.css",
+        "mode": "100644",
+        "blob": "da6ed61260135c92013dd570f9da8f4c3a107235",
+        "sha256": "45f49372e70756635738c064bc6ea38432a64402df8bfd64b635c5feeb60d755"
+      }
+    },
+    {
+      "path": "demos/html-observatory/tests/accessibility_responsive.test.mjs",
+      "before": [
+        "100644",
+        "9af6fedb41769b856b8844fcf91b5c527260d3bc"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+      "approval_reference": "OBSERVATORY_TWENTY_THREE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+          "before": [
+            "100644",
+            "9af6fedb41769b856b8844fcf91b5c527260d3bc"
+          ],
+          "after": null,
+          "packet": "OBSERVATORY_TWENTY_THREE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "OBSERVATORY_TWENTY_THREE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime157-observatory-family/current-and-original-preimages-merged.tar",
+        "archive_sha256": "8c3fa2c5660eed0de9695b8281faef0e4659d88655f9d093e73dff3e9e47f941",
+        "member": "current/demos/html-observatory/tests/accessibility_responsive.test.mjs",
+        "mode": "100644",
+        "blob": "9af6fedb41769b856b8844fcf91b5c527260d3bc",
+        "sha256": "214e5d50894cb3a86d59494a0e002d20ff3fb1c4def4604cd74be6db049c5e9b"
+      }
+    },
+    {
+      "path": "demos/html-observatory/tests/agent_continuity.test.mjs",
+      "before": [
+        "100644",
+        "349d279e7fd2ee7c711c549872007cad413f0a78"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+      "approval_reference": "OBSERVATORY_TWENTY_THREE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+          "before": [
+            "100644",
+            "349d279e7fd2ee7c711c549872007cad413f0a78"
+          ],
+          "after": null,
+          "packet": "OBSERVATORY_TWENTY_THREE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "OBSERVATORY_TWENTY_THREE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime157-observatory-family/current-and-original-preimages-merged.tar",
+        "archive_sha256": "8c3fa2c5660eed0de9695b8281faef0e4659d88655f9d093e73dff3e9e47f941",
+        "member": "current/demos/html-observatory/tests/agent_continuity.test.mjs",
+        "mode": "100644",
+        "blob": "349d279e7fd2ee7c711c549872007cad413f0a78",
+        "sha256": "f2160b37c34954b0409107c5c251b90d0d752261cd83a54583acb2d7ccb8237a"
+      }
+    },
+    {
+      "path": "demos/html-observatory/tests/agent_orientation.test.mjs",
+      "before": [
+        "100644",
+        "9710ec9bbbbfbc18e5fd1e9751e82f9f9a6776e3"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+      "approval_reference": "OBSERVATORY_TWENTY_THREE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+          "before": [
+            "100644",
+            "9710ec9bbbbfbc18e5fd1e9751e82f9f9a6776e3"
+          ],
+          "after": null,
+          "packet": "OBSERVATORY_TWENTY_THREE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "OBSERVATORY_TWENTY_THREE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime157-observatory-family/current-and-original-preimages-merged.tar",
+        "archive_sha256": "8c3fa2c5660eed0de9695b8281faef0e4659d88655f9d093e73dff3e9e47f941",
+        "member": "current/demos/html-observatory/tests/agent_orientation.test.mjs",
+        "mode": "100644",
+        "blob": "9710ec9bbbbfbc18e5fd1e9751e82f9f9a6776e3",
+        "sha256": "3758718b13624a06e9b578219cd7617ca62445c5d4a7c4db7a8246b1467b6682"
+      }
+    },
+    {
+      "path": "demos/html-observatory/tests/agent_to_agent_activity.test.mjs",
+      "before": [
+        "100644",
+        "92f03c5995aa7924fec2569121902bfb4964439e"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+      "approval_reference": "OBSERVATORY_TWENTY_THREE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+          "before": [
+            "100644",
+            "92f03c5995aa7924fec2569121902bfb4964439e"
+          ],
+          "after": null,
+          "packet": "OBSERVATORY_TWENTY_THREE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "OBSERVATORY_TWENTY_THREE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime157-observatory-family/current-and-original-preimages-merged.tar",
+        "archive_sha256": "8c3fa2c5660eed0de9695b8281faef0e4659d88655f9d093e73dff3e9e47f941",
+        "member": "current/demos/html-observatory/tests/agent_to_agent_activity.test.mjs",
+        "mode": "100644",
+        "blob": "92f03c5995aa7924fec2569121902bfb4964439e",
+        "sha256": "e77b5bef7e5a3c257f45e4a20598cc835b601f1c8210f125df0405781978c13b"
+      }
+    },
+    {
+      "path": "demos/html-observatory/tests/conversation_sessions.test.mjs",
+      "before": [
+        "100644",
+        "fa5e7db3e9534bed0b0d8f4b6001c2e95422c685"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+      "approval_reference": "OBSERVATORY_TWENTY_THREE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+          "before": [
+            "100644",
+            "fa5e7db3e9534bed0b0d8f4b6001c2e95422c685"
+          ],
+          "after": null,
+          "packet": "OBSERVATORY_TWENTY_THREE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "OBSERVATORY_TWENTY_THREE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime157-observatory-family/current-and-original-preimages-merged.tar",
+        "archive_sha256": "8c3fa2c5660eed0de9695b8281faef0e4659d88655f9d093e73dff3e9e47f941",
+        "member": "current/demos/html-observatory/tests/conversation_sessions.test.mjs",
+        "mode": "100644",
+        "blob": "fa5e7db3e9534bed0b0d8f4b6001c2e95422c685",
+        "sha256": "60085a14cfb893721ac6acefb58a245e14781ada6a6af21bbdc8671a6cf598ef"
+      }
+    },
+    {
+      "path": "demos/html-observatory/tests/governed_room_contracts.test.mjs",
+      "before": [
+        "100644",
+        "f06b68d387a401bc8673204f108439591a8f17f4"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+      "approval_reference": "OBSERVATORY_TWENTY_THREE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+          "before": [
+            "100644",
+            "f06b68d387a401bc8673204f108439591a8f17f4"
+          ],
+          "after": null,
+          "packet": "OBSERVATORY_TWENTY_THREE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "OBSERVATORY_TWENTY_THREE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime157-observatory-family/current-and-original-preimages-merged.tar",
+        "archive_sha256": "8c3fa2c5660eed0de9695b8281faef0e4659d88655f9d093e73dff3e9e47f941",
+        "member": "current/demos/html-observatory/tests/governed_room_contracts.test.mjs",
+        "mode": "100644",
+        "blob": "f06b68d387a401bc8673204f108439591a8f17f4",
+        "sha256": "74d3cbca8985b4dc1259987ddfc8d12f2a525f0fc884cb88cf82f34abfb9cfc6"
+      }
+    },
+    {
+      "path": "demos/html-observatory/tests/governed_room_selection.browser.mjs",
+      "before": [
+        "100644",
+        "219ff06169845b425e2faed396bb410283e55b2a"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+      "approval_reference": "OBSERVATORY_TWENTY_THREE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+          "before": [
+            "100644",
+            "219ff06169845b425e2faed396bb410283e55b2a"
+          ],
+          "after": null,
+          "packet": "OBSERVATORY_TWENTY_THREE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "OBSERVATORY_TWENTY_THREE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime157-observatory-family/current-and-original-preimages-merged.tar",
+        "archive_sha256": "8c3fa2c5660eed0de9695b8281faef0e4659d88655f9d093e73dff3e9e47f941",
+        "member": "current/demos/html-observatory/tests/governed_room_selection.browser.mjs",
+        "mode": "100644",
+        "blob": "219ff06169845b425e2faed396bb410283e55b2a",
+        "sha256": "3a7243930c7b2954980f56d96dbb54430c83dc8142e6d0f74a4a55e00cce393e"
+      }
+    },
+    {
+      "path": "demos/html-observatory/tests/governed_room_selection.test.mjs",
+      "before": [
+        "100644",
+        "2cd8c3e832987cc69aca76d07b95f45fa86e7196"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+      "approval_reference": "OBSERVATORY_TWENTY_THREE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+          "before": [
+            "100644",
+            "2cd8c3e832987cc69aca76d07b95f45fa86e7196"
+          ],
+          "after": null,
+          "packet": "OBSERVATORY_TWENTY_THREE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "OBSERVATORY_TWENTY_THREE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime157-observatory-family/current-and-original-preimages-merged.tar",
+        "archive_sha256": "8c3fa2c5660eed0de9695b8281faef0e4659d88655f9d093e73dff3e9e47f941",
+        "member": "current/demos/html-observatory/tests/governed_room_selection.test.mjs",
+        "mode": "100644",
+        "blob": "2cd8c3e832987cc69aca76d07b95f45fa86e7196",
+        "sha256": "ca0a8426c8b4268a31dcb0bd5a911b072787ece85fb3bba0556ab7a9484dfb17"
+      }
+    },
+    {
+      "path": "demos/html-observatory/tests/large_polis_performance_recovery.test.mjs",
+      "before": [
+        "100644",
+        "47da29641863836a4a1d1c1d624486e073f478ed"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+      "approval_reference": "OBSERVATORY_TWENTY_THREE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+          "before": [
+            "100644",
+            "47da29641863836a4a1d1c1d624486e073f478ed"
+          ],
+          "after": null,
+          "packet": "OBSERVATORY_TWENTY_THREE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "OBSERVATORY_TWENTY_THREE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime157-observatory-family/current-and-original-preimages-merged.tar",
+        "archive_sha256": "8c3fa2c5660eed0de9695b8281faef0e4659d88655f9d093e73dff3e9e47f941",
+        "member": "current/demos/html-observatory/tests/large_polis_performance_recovery.test.mjs",
+        "mode": "100644",
+        "blob": "47da29641863836a4a1d1c1d624486e073f478ed",
+        "sha256": "d4e6df705623939e9608b74fcf98e7c3778cc7918b0d475452ca7831788593a4"
+      }
+    },
+    {
+      "path": "demos/html-observatory/tests/live_only.browser.mjs",
+      "before": [
+        "100644",
+        "8d445717f07bd595c0c097b71c0af3facf343a68"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+      "approval_reference": "OBSERVATORY_TWENTY_THREE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+          "before": [
+            "100644",
+            "8d445717f07bd595c0c097b71c0af3facf343a68"
+          ],
+          "after": null,
+          "packet": "OBSERVATORY_TWENTY_THREE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "OBSERVATORY_TWENTY_THREE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime157-observatory-family/current-and-original-preimages-merged.tar",
+        "archive_sha256": "8c3fa2c5660eed0de9695b8281faef0e4659d88655f9d093e73dff3e9e47f941",
+        "member": "current/demos/html-observatory/tests/live_only.browser.mjs",
+        "mode": "100644",
+        "blob": "8d445717f07bd595c0c097b71c0af3facf343a68",
+        "sha256": "deb90bcf7e639c8270438d21e616a9879e23216f5cd8fc96c980ebdccb28d6cc"
+      }
+    },
+    {
+      "path": "demos/html-observatory/tests/live_only.test.mjs",
+      "before": [
+        "100644",
+        "40550367b483a4f0a7e423c0b2a916b770b114ea"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+      "approval_reference": "OBSERVATORY_TWENTY_THREE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+          "before": [
+            "100644",
+            "40550367b483a4f0a7e423c0b2a916b770b114ea"
+          ],
+          "after": null,
+          "packet": "OBSERVATORY_TWENTY_THREE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "OBSERVATORY_TWENTY_THREE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime157-observatory-family/current-and-original-preimages-merged.tar",
+        "archive_sha256": "8c3fa2c5660eed0de9695b8281faef0e4659d88655f9d093e73dff3e9e47f941",
+        "member": "current/demos/html-observatory/tests/live_only.test.mjs",
+        "mode": "100644",
+        "blob": "40550367b483a4f0a7e423c0b2a916b770b114ea",
+        "sha256": "5c72f685eb31b1d0f4fcedf75935c9ed17712bbfed76f854f4da1047900e2b87"
+      }
+    },
+    {
+      "path": "demos/html-observatory/tests/operator_attention_inbox.test.mjs",
+      "before": [
+        "100644",
+        "d3c90d7ceb8230641e5a76fdb50be51ef4523441"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+      "approval_reference": "OBSERVATORY_TWENTY_THREE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+          "before": [
+            "100644",
+            "d3c90d7ceb8230641e5a76fdb50be51ef4523441"
+          ],
+          "after": null,
+          "packet": "OBSERVATORY_TWENTY_THREE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "OBSERVATORY_TWENTY_THREE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime157-observatory-family/current-and-original-preimages-merged.tar",
+        "archive_sha256": "8c3fa2c5660eed0de9695b8281faef0e4659d88655f9d093e73dff3e9e47f941",
+        "member": "current/demos/html-observatory/tests/operator_attention_inbox.test.mjs",
+        "mode": "100644",
+        "blob": "d3c90d7ceb8230641e5a76fdb50be51ef4523441",
+        "sha256": "c79966537067f335b6d2a7d6643bde4d75457f2667e6cf02797b125373738964"
+      }
+    },
+    {
+      "path": "demos/html-observatory/tests/polis_identity.test.mjs",
+      "before": [
+        "100644",
+        "9c63cfc5fa7a12c88f62ebd690a9293839750590"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+      "approval_reference": "OBSERVATORY_TWENTY_THREE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+          "before": [
+            "100644",
+            "9c63cfc5fa7a12c88f62ebd690a9293839750590"
+          ],
+          "after": null,
+          "packet": "OBSERVATORY_TWENTY_THREE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "OBSERVATORY_TWENTY_THREE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime157-observatory-family/current-and-original-preimages-merged.tar",
+        "archive_sha256": "8c3fa2c5660eed0de9695b8281faef0e4659d88655f9d093e73dff3e9e47f941",
+        "member": "current/demos/html-observatory/tests/polis_identity.test.mjs",
+        "mode": "100644",
+        "blob": "9c63cfc5fa7a12c88f62ebd690a9293839750590",
+        "sha256": "6b8678127eae1a80e6ca9a216b149262dd25d1763218d2ba0aa023f50826a429"
+      }
+    },
+    {
+      "path": "demos/html-observatory/tests/security_privacy_adversarial.test.mjs",
+      "before": [
+        "100644",
+        "b9496d7b4b254e59a1eabdc3b9803cdea2892548"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+      "approval_reference": "OBSERVATORY_TWENTY_THREE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+          "before": [
+            "100644",
+            "b9496d7b4b254e59a1eabdc3b9803cdea2892548"
+          ],
+          "after": null,
+          "packet": "OBSERVATORY_TWENTY_THREE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "OBSERVATORY_TWENTY_THREE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime157-observatory-family/current-and-original-preimages-merged.tar",
+        "archive_sha256": "8c3fa2c5660eed0de9695b8281faef0e4659d88655f9d093e73dff3e9e47f941",
+        "member": "current/demos/html-observatory/tests/security_privacy_adversarial.test.mjs",
+        "mode": "100644",
+        "blob": "b9496d7b4b254e59a1eabdc3b9803cdea2892548",
+        "sha256": "5ea31fcefefabcde4a81015330b70040e8f193e4434f958b2d0b52854e376cb8"
+      }
+    },
+    {
+      "path": "demos/html-observatory/tests/system_clock_cache.test.mjs",
+      "before": [
+        "100644",
+        "d81c3bc311506ba632e5074f5796e57b7740c712"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+      "approval_reference": "OBSERVATORY_TWENTY_THREE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+          "before": [
+            "100644",
+            "d81c3bc311506ba632e5074f5796e57b7740c712"
+          ],
+          "after": null,
+          "packet": "OBSERVATORY_TWENTY_THREE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "OBSERVATORY_TWENTY_THREE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime157-observatory-family/current-and-original-preimages-merged.tar",
+        "archive_sha256": "8c3fa2c5660eed0de9695b8281faef0e4659d88655f9d093e73dff3e9e47f941",
+        "member": "current/demos/html-observatory/tests/system_clock_cache.test.mjs",
+        "mode": "100644",
+        "blob": "d81c3bc311506ba632e5074f5796e57b7740c712",
+        "sha256": "f4eb3522b1bb5aec1f9d48132eb6f7567ffc765246fe900a5627d52e15d2d0f4"
+      }
+    },
+    {
+      "path": "adl/tools/validate_layer8_authority_observatory_ui.sh",
+      "before": [
+        "100755",
+        "d80ecc67d5d0d9e643ab01eda99f716e099797a9"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+      "approval_reference": "OBSERVATORY_TWENTY_THREE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+          "before": [
+            "100755",
+            "d80ecc67d5d0d9e643ab01eda99f716e099797a9"
+          ],
+          "after": null,
+          "packet": "OBSERVATORY_TWENTY_THREE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "OBSERVATORY_TWENTY_THREE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime157-observatory-family/current-and-original-preimages-merged.tar",
+        "archive_sha256": "8c3fa2c5660eed0de9695b8281faef0e4659d88655f9d093e73dff3e9e47f941",
+        "member": "current/adl/tools/validate_layer8_authority_observatory_ui.sh",
+        "mode": "100755",
+        "blob": "d80ecc67d5d0d9e643ab01eda99f716e099797a9",
+        "sha256": "9d43cdf7148b67e3a57351ff03c5f849e25c6d5ad98dbafa5c2c03c2b0f58e55"
+      }
+    },
+    {
+      "path": "adl/tools/validate_v092_governed_room_observatory.mjs",
+      "before": [
+        "100755",
+        "5a000690da60aba3986d15882d4201a7d025203c"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+      "approval_reference": "OBSERVATORY_TWENTY_THREE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+          "before": [
+            "100755",
+            "5a000690da60aba3986d15882d4201a7d025203c"
+          ],
+          "after": null,
+          "packet": "OBSERVATORY_TWENTY_THREE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "OBSERVATORY_TWENTY_THREE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime157-observatory-family/current-and-original-preimages-merged.tar",
+        "archive_sha256": "8c3fa2c5660eed0de9695b8281faef0e4659d88655f9d093e73dff3e9e47f941",
+        "member": "current/adl/tools/validate_v092_governed_room_observatory.mjs",
+        "mode": "100755",
+        "blob": "5a000690da60aba3986d15882d4201a7d025203c",
+        "sha256": "876e965263621af522fdff1cf5d09ca5dd3efbfdff3d36a8db0c6697762ebe20"
+      }
+    },
+    {
+      "path": "adl/tools/validate_v092_observatory_transcript_history.mjs",
+      "before": [
+        "100644",
+        "6b31546eb691ff1436c1b63280c67ca2232ebf9d"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+      "approval_reference": "OBSERVATORY_TWENTY_THREE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+          "before": [
+            "100644",
+            "6b31546eb691ff1436c1b63280c67ca2232ebf9d"
+          ],
+          "after": null,
+          "packet": "OBSERVATORY_TWENTY_THREE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "OBSERVATORY_TWENTY_THREE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime157-observatory-family/current-and-original-preimages-merged.tar",
+        "archive_sha256": "8c3fa2c5660eed0de9695b8281faef0e4659d88655f9d093e73dff3e9e47f941",
+        "member": "current/adl/tools/validate_v092_observatory_transcript_history.mjs",
+        "mode": "100644",
+        "blob": "6b31546eb691ff1436c1b63280c67ca2232ebf9d",
+        "sha256": "4b0a4660d08b2700af2175efe0f33f6e73ab23034d37a1cbed3aa84683b8bc56"
+      }
+    },
+    {
+      "path": "docs/tooling/CSMctl.observatory.conf.example",
+      "before": [
+        "100644",
+        "d2ec5fb99a77371e106099cf7cb18ab207ae6d3e"
+      ],
+      "after": [
+        "100644",
+        "fd65cc2e0a20a6f3a7b7b01b3cf569dc064073de"
+      ],
+      "action": "modify",
+      "implementation_commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+      "approval_reference": "OBSERVATORY_TWENTY_THREE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+          "before": [
+            "100644",
+            "d2ec5fb99a77371e106099cf7cb18ab207ae6d3e"
+          ],
+          "after": [
+            "100644",
+            "fd65cc2e0a20a6f3a7b7b01b3cf569dc064073de"
+          ],
+          "packet": "OBSERVATORY_TWENTY_THREE_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/demo_v092_provider_neutral_birthday.sh",
+      "before": [
+        "100755",
+        "db3df764838229369f3fb61fef460b5bacc74d13"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "0558cfaac766691e819119668371a58debec0836",
+      "approval_reference": "PROVIDER_NEUTRAL_TWELVE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "0558cfaac766691e819119668371a58debec0836",
+          "before": [
+            "100755",
+            "db3df764838229369f3fb61fef460b5bacc74d13"
+          ],
+          "after": null,
+          "packet": "PROVIDER_NEUTRAL_TWELVE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PROVIDER_NEUTRAL_TWELVE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-provider-neutral-twelve-plan/retirement-r3/current-and-original-preimages.tar",
+        "archive_sha256": "2e7925569439baf7c0e42e27fc7b3fe0a065287bcc86d8bc98feb82c67b079dd",
+        "member": "current/adl/tools/demo_v092_provider_neutral_birthday.sh",
+        "mode": "100755",
+        "blob": "db3df764838229369f3fb61fef460b5bacc74d13",
+        "sha256": "be20377a483a6566d381e46950898ff72a1f3e4d7e1c95b86aeb2937248639ed"
+      }
+    },
+    {
+      "path": "adl/tools/serve_v092_provider_neutral_observatory_api.py",
+      "before": [
+        "100755",
+        "6883e8d91dc1085a8c69c6855137abdb7c887fd5"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "0558cfaac766691e819119668371a58debec0836",
+      "approval_reference": "PROVIDER_NEUTRAL_TWELVE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "0558cfaac766691e819119668371a58debec0836",
+          "before": [
+            "100755",
+            "6883e8d91dc1085a8c69c6855137abdb7c887fd5"
+          ],
+          "after": null,
+          "packet": "PROVIDER_NEUTRAL_TWELVE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PROVIDER_NEUTRAL_TWELVE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-provider-neutral-twelve-plan/retirement-r3/current-and-original-preimages.tar",
+        "archive_sha256": "2e7925569439baf7c0e42e27fc7b3fe0a065287bcc86d8bc98feb82c67b079dd",
+        "member": "current/adl/tools/serve_v092_provider_neutral_observatory_api.py",
+        "mode": "100755",
+        "blob": "6883e8d91dc1085a8c69c6855137abdb7c887fd5",
+        "sha256": "d04678d701fadf62c9277fb50987bca1134f7bc6e4c5fa532aced36ef9e4ca6a"
+      }
+    },
+    {
+      "path": "adl/tools/test_v092_provider_neutral_proof.sh",
+      "before": [
+        "100755",
+        "c62efa291fdac788f0f1a8f809178700049cbf27"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "0558cfaac766691e819119668371a58debec0836",
+      "approval_reference": "PROVIDER_NEUTRAL_TWELVE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "0558cfaac766691e819119668371a58debec0836",
+          "before": [
+            "100755",
+            "c62efa291fdac788f0f1a8f809178700049cbf27"
+          ],
+          "after": null,
+          "packet": "PROVIDER_NEUTRAL_TWELVE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PROVIDER_NEUTRAL_TWELVE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-provider-neutral-twelve-plan/retirement-r3/current-and-original-preimages.tar",
+        "archive_sha256": "2e7925569439baf7c0e42e27fc7b3fe0a065287bcc86d8bc98feb82c67b079dd",
+        "member": "current/adl/tools/test_v092_provider_neutral_proof.sh",
+        "mode": "100755",
+        "blob": "c62efa291fdac788f0f1a8f809178700049cbf27",
+        "sha256": "6997987da2ddb45754c47387a6a4a81abe36248bcbc86797a7be68396d07a23d"
+      }
+    },
+    {
+      "path": "adl/tools/validate_v092_provider_neutral_proof.py",
+      "before": [
+        "100755",
+        "7b46bc55475c56e15e49f3181507d906742c5557"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "0558cfaac766691e819119668371a58debec0836",
+      "approval_reference": "PROVIDER_NEUTRAL_TWELVE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "0558cfaac766691e819119668371a58debec0836",
+          "before": [
+            "100755",
+            "7b46bc55475c56e15e49f3181507d906742c5557"
+          ],
+          "after": null,
+          "packet": "PROVIDER_NEUTRAL_TWELVE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PROVIDER_NEUTRAL_TWELVE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-provider-neutral-twelve-plan/retirement-r3/current-and-original-preimages.tar",
+        "archive_sha256": "2e7925569439baf7c0e42e27fc7b3fe0a065287bcc86d8bc98feb82c67b079dd",
+        "member": "current/adl/tools/validate_v092_provider_neutral_proof.py",
+        "mode": "100755",
+        "blob": "7b46bc55475c56e15e49f3181507d906742c5557",
+        "sha256": "eb367dbe53995bb3ecf2dc05266e19a2dba4dc1aa68ae660c72700df0c56ebdc"
+      }
+    },
+    {
+      "path": "demos/v0.92/provider-neutral-birthday/README.md",
+      "before": [
+        "100644",
+        "6ebae7b5887f67de4188e95d6599bbaadd5e34af"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "0558cfaac766691e819119668371a58debec0836",
+      "approval_reference": "PROVIDER_NEUTRAL_TWELVE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "0558cfaac766691e819119668371a58debec0836",
+          "before": [
+            "100644",
+            "6ebae7b5887f67de4188e95d6599bbaadd5e34af"
+          ],
+          "after": null,
+          "packet": "PROVIDER_NEUTRAL_TWELVE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PROVIDER_NEUTRAL_TWELVE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-provider-neutral-twelve-plan/retirement-r3/current-and-original-preimages.tar",
+        "archive_sha256": "2e7925569439baf7c0e42e27fc7b3fe0a065287bcc86d8bc98feb82c67b079dd",
+        "member": "current/demos/v0.92/provider-neutral-birthday/README.md",
+        "mode": "100644",
+        "blob": "6ebae7b5887f67de4188e95d6599bbaadd5e34af",
+        "sha256": "eccf47db00e2daf93aa4167ad3779532f7896ac3b59f0fdcc26b37c0649bd05a"
+      }
+    },
+    {
+      "path": "demos/v0.92/provider-neutral-birthday/acip-trace-local-proof.json",
+      "before": [
+        "100644",
+        "8efef6b1051c407c94dee11a53fd7a19e98eb1a3"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "0558cfaac766691e819119668371a58debec0836",
+      "approval_reference": "PROVIDER_NEUTRAL_TWELVE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "0558cfaac766691e819119668371a58debec0836",
+          "before": [
+            "100644",
+            "8efef6b1051c407c94dee11a53fd7a19e98eb1a3"
+          ],
+          "after": null,
+          "packet": "PROVIDER_NEUTRAL_TWELVE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PROVIDER_NEUTRAL_TWELVE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-provider-neutral-twelve-plan/retirement-r3/current-and-original-preimages.tar",
+        "archive_sha256": "2e7925569439baf7c0e42e27fc7b3fe0a065287bcc86d8bc98feb82c67b079dd",
+        "member": "current/demos/v0.92/provider-neutral-birthday/acip-trace-local-proof.json",
+        "mode": "100644",
+        "blob": "8efef6b1051c407c94dee11a53fd7a19e98eb1a3",
+        "sha256": "cffb31c76d10c82898b50f3ed53096905b7fa5b4809fc1e4f25f69d2b6c9105a"
+      }
+    },
+    {
+      "path": "demos/v0.92/provider-neutral-birthday/acip-trace-observatory.json",
+      "before": [
+        "100644",
+        "2f69e235f12166867ac2da60bceb571a2e3bb647"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "0558cfaac766691e819119668371a58debec0836",
+      "approval_reference": "PROVIDER_NEUTRAL_TWELVE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "0558cfaac766691e819119668371a58debec0836",
+          "before": [
+            "100644",
+            "2f69e235f12166867ac2da60bceb571a2e3bb647"
+          ],
+          "after": null,
+          "packet": "PROVIDER_NEUTRAL_TWELVE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PROVIDER_NEUTRAL_TWELVE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-provider-neutral-twelve-plan/retirement-r3/current-and-original-preimages.tar",
+        "archive_sha256": "2e7925569439baf7c0e42e27fc7b3fe0a065287bcc86d8bc98feb82c67b079dd",
+        "member": "current/demos/v0.92/provider-neutral-birthday/acip-trace-observatory.json",
+        "mode": "100644",
+        "blob": "2f69e235f12166867ac2da60bceb571a2e3bb647",
+        "sha256": "f6a49e46d048f5204dc3670a4ab4c95a7a496e02e1ef4c6fd314fdb30ce6cda8"
+      }
+    },
+    {
+      "path": "demos/v0.92/provider-neutral-birthday/acip-trace-positive.json",
+      "before": [
+        "100644",
+        "e86e9eadd3503ab641319658814b970efa05c67a"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "0558cfaac766691e819119668371a58debec0836",
+      "approval_reference": "PROVIDER_NEUTRAL_TWELVE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "0558cfaac766691e819119668371a58debec0836",
+          "before": [
+            "100644",
+            "e86e9eadd3503ab641319658814b970efa05c67a"
+          ],
+          "after": null,
+          "packet": "PROVIDER_NEUTRAL_TWELVE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PROVIDER_NEUTRAL_TWELVE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-provider-neutral-twelve-plan/retirement-r3/current-and-original-preimages.tar",
+        "archive_sha256": "2e7925569439baf7c0e42e27fc7b3fe0a065287bcc86d8bc98feb82c67b079dd",
+        "member": "current/demos/v0.92/provider-neutral-birthday/acip-trace-positive.json",
+        "mode": "100644",
+        "blob": "e86e9eadd3503ab641319658814b970efa05c67a",
+        "sha256": "86fd303d61089d312f8473772697b164e12d20d5be9727e35244942c6a241592"
+      }
+    },
+    {
+      "path": "demos/v0.92/provider-neutral-birthday/proof-matrix-local-proof.json",
+      "before": [
+        "100644",
+        "a8889ab878f9889cddb02aad7bd6ae97d867d55c"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "0558cfaac766691e819119668371a58debec0836",
+      "approval_reference": "PROVIDER_NEUTRAL_TWELVE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "0558cfaac766691e819119668371a58debec0836",
+          "before": [
+            "100644",
+            "a8889ab878f9889cddb02aad7bd6ae97d867d55c"
+          ],
+          "after": null,
+          "packet": "PROVIDER_NEUTRAL_TWELVE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PROVIDER_NEUTRAL_TWELVE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-provider-neutral-twelve-plan/retirement-r3/current-and-original-preimages.tar",
+        "archive_sha256": "2e7925569439baf7c0e42e27fc7b3fe0a065287bcc86d8bc98feb82c67b079dd",
+        "member": "current/demos/v0.92/provider-neutral-birthday/proof-matrix-local-proof.json",
+        "mode": "100644",
+        "blob": "a8889ab878f9889cddb02aad7bd6ae97d867d55c",
+        "sha256": "5fe55f2fa829ba9bae89abf6dc560040dcb11f785f4ff1f984948f25c94575c6"
+      }
+    },
+    {
+      "path": "demos/v0.92/provider-neutral-birthday/proof-matrix-observatory.json",
+      "before": [
+        "100644",
+        "0d61bf463352a28cfe793aef3346cc73b42ce426"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "0558cfaac766691e819119668371a58debec0836",
+      "approval_reference": "PROVIDER_NEUTRAL_TWELVE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "0558cfaac766691e819119668371a58debec0836",
+          "before": [
+            "100644",
+            "0d61bf463352a28cfe793aef3346cc73b42ce426"
+          ],
+          "after": null,
+          "packet": "PROVIDER_NEUTRAL_TWELVE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PROVIDER_NEUTRAL_TWELVE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-provider-neutral-twelve-plan/retirement-r3/current-and-original-preimages.tar",
+        "archive_sha256": "2e7925569439baf7c0e42e27fc7b3fe0a065287bcc86d8bc98feb82c67b079dd",
+        "member": "current/demos/v0.92/provider-neutral-birthday/proof-matrix-observatory.json",
+        "mode": "100644",
+        "blob": "0d61bf463352a28cfe793aef3346cc73b42ce426",
+        "sha256": "2b633f002619218086343443ca22a4d1c29a682465df1f94ddceb6e70bf58683"
+      }
+    },
+    {
+      "path": "demos/v0.92/provider-neutral-birthday/proof-matrix-positive.json",
+      "before": [
+        "100644",
+        "4f04cb0d94eb885940bc85b9ebefb95248a271a4"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "0558cfaac766691e819119668371a58debec0836",
+      "approval_reference": "PROVIDER_NEUTRAL_TWELVE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "0558cfaac766691e819119668371a58debec0836",
+          "before": [
+            "100644",
+            "4f04cb0d94eb885940bc85b9ebefb95248a271a4"
+          ],
+          "after": null,
+          "packet": "PROVIDER_NEUTRAL_TWELVE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PROVIDER_NEUTRAL_TWELVE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-provider-neutral-twelve-plan/retirement-r3/current-and-original-preimages.tar",
+        "archive_sha256": "2e7925569439baf7c0e42e27fc7b3fe0a065287bcc86d8bc98feb82c67b079dd",
+        "member": "current/demos/v0.92/provider-neutral-birthday/proof-matrix-positive.json",
+        "mode": "100644",
+        "blob": "4f04cb0d94eb885940bc85b9ebefb95248a271a4",
+        "sha256": "e644c8678a19d02338c567eaef492442ea33b94c264d6f14a11873cd39328393"
+      }
+    },
+    {
+      "path": "demos/v0.92/provider-neutral-birthday/proof-matrix.json",
+      "before": [
+        "100644",
+        "a8889ab878f9889cddb02aad7bd6ae97d867d55c"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "0558cfaac766691e819119668371a58debec0836",
+      "approval_reference": "PROVIDER_NEUTRAL_TWELVE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "0558cfaac766691e819119668371a58debec0836",
+          "before": [
+            "100644",
+            "a8889ab878f9889cddb02aad7bd6ae97d867d55c"
+          ],
+          "after": null,
+          "packet": "PROVIDER_NEUTRAL_TWELVE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PROVIDER_NEUTRAL_TWELVE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-provider-neutral-twelve-plan/retirement-r3/current-and-original-preimages.tar",
+        "archive_sha256": "2e7925569439baf7c0e42e27fc7b3fe0a065287bcc86d8bc98feb82c67b079dd",
+        "member": "current/demos/v0.92/provider-neutral-birthday/proof-matrix.json",
+        "mode": "100644",
+        "blob": "a8889ab878f9889cddb02aad7bd6ae97d867d55c",
+        "sha256": "5fe55f2fa829ba9bae89abf6dc560040dcb11f785f4ff1f984948f25c94575c6"
+      }
+    },
+    {
+      "path": "tools/runtime_contracts/run_provider_neutral_proof.py",
+      "before": null,
+      "after": [
+        "100644",
+        "0d433c57427175ca7c6c22d2cc0324750bec6ba4"
+      ],
+      "action": "add",
+      "implementation_commit": "0558cfaac766691e819119668371a58debec0836",
+      "approval_reference": "PROVIDER_NEUTRAL_TWELVE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "0558cfaac766691e819119668371a58debec0836",
+          "before": null,
+          "after": [
+            "100644",
+            "0d433c57427175ca7c6c22d2cc0324750bec6ba4"
+          ],
+          "packet": "PROVIDER_NEUTRAL_TWELVE_APPLIED.json"
+        }
+      ]
     }
   ],
   "missing_entries": [],
@@ -95989,9 +97309,93 @@
         "docs/tooling/TOOL_SURFACE_REGISTRY.md"
       ],
       "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "METRICS_BACKFILL_PAIR_APPLIED.json",
+      "sha256": "83973e937da7caa7e79af0c7921090f1dfed6ee367ff1beffe027ea4fe7ff7d8",
+      "commit": "af11eea471642202c7dff701dd0f4057582c08c0",
+      "files": 4,
+      "removals": 2,
+      "scope_sha256": "4b3bbc304bf639e679ddec70440040f88b92e6421d568f32d24e7126b4b254ee",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl/tools/build_v0916_workflow_metric_backfill_inventory.py",
+        "adl/tools/test_build_v0916_workflow_metric_backfill_inventory.py",
+        "docs/tooling/README.md",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "OBSERVATORY_TWENTY_THREE_APPLIED.json",
+      "sha256": "0819e59f3388b2f7929a3bc0d757785bc843ce8455dd3aeeb50589d73ce3aa44",
+      "commit": "dbe54a9d251b70a549b28ce04ce595a5eb5835a5",
+      "files": 25,
+      "removals": 23,
+      "scope_sha256": "7cf42d38d1ff8c3e69b6a821a1beabe4efaa0feed539dd8874ea43bece66d47d",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "demos/html-observatory/README.md",
+        "demos/html-observatory/app.js",
+        "demos/html-observatory/index.html",
+        "demos/html-observatory/runtime-v3.config.json",
+        "demos/html-observatory/styles.css",
+        "demos/html-observatory/tests/accessibility_responsive.test.mjs",
+        "demos/html-observatory/tests/agent_continuity.test.mjs",
+        "demos/html-observatory/tests/agent_orientation.test.mjs",
+        "demos/html-observatory/tests/agent_to_agent_activity.test.mjs",
+        "demos/html-observatory/tests/conversation_sessions.test.mjs",
+        "demos/html-observatory/tests/governed_room_contracts.test.mjs",
+        "demos/html-observatory/tests/governed_room_selection.browser.mjs",
+        "demos/html-observatory/tests/governed_room_selection.test.mjs",
+        "demos/html-observatory/tests/large_polis_performance_recovery.test.mjs",
+        "demos/html-observatory/tests/live_only.browser.mjs",
+        "demos/html-observatory/tests/live_only.test.mjs",
+        "demos/html-observatory/tests/operator_attention_inbox.test.mjs",
+        "demos/html-observatory/tests/polis_identity.test.mjs",
+        "demos/html-observatory/tests/security_privacy_adversarial.test.mjs",
+        "demos/html-observatory/tests/system_clock_cache.test.mjs",
+        "adl/tools/validate_layer8_authority_observatory_ui.sh",
+        "adl/tools/validate_v092_governed_room_observatory.mjs",
+        "adl/tools/validate_v092_observatory_transcript_history.mjs",
+        "docs/tooling/CSMctl.observatory.conf.example",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "PROVIDER_NEUTRAL_TWELVE_APPLIED.json",
+      "sha256": "d1599e8e1141fdd937b65bf88c5765393ee57927bca0abdb063d25a8f91d6761",
+      "commit": "0558cfaac766691e819119668371a58debec0836",
+      "files": 16,
+      "removals": 12,
+      "scope_sha256": "422d0fef5cfd11bc59f4a88c01c1e06d836c965b6ffdd5cef4b1c44efd4a4f6d",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl/config/validation_lane_selector.v0.91.6.json",
+        "adl/tools/demo_v092_provider_neutral_birthday.sh",
+        "adl/tools/serve_v092_provider_neutral_observatory_api.py",
+        "adl/tools/test_v092_provider_neutral_proof.sh",
+        "adl/tools/validate_v092_provider_neutral_proof.py",
+        "demos/v0.92/provider-neutral-birthday/README.md",
+        "demos/v0.92/provider-neutral-birthday/acip-trace-local-proof.json",
+        "demos/v0.92/provider-neutral-birthday/acip-trace-observatory.json",
+        "demos/v0.92/provider-neutral-birthday/acip-trace-positive.json",
+        "demos/v0.92/provider-neutral-birthday/proof-matrix-local-proof.json",
+        "demos/v0.92/provider-neutral-birthday/proof-matrix-observatory.json",
+        "demos/v0.92/provider-neutral-birthday/proof-matrix-positive.json",
+        "demos/v0.92/provider-neutral-birthday/proof-matrix.json",
+        "docs/tooling/README.md",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+        "tools/runtime_contracts/run_provider_neutral_proof.py"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
     }
   ],
-  "baseline_deletion_count": 2877,
+  "baseline_deletion_count": 2914,
   "transient_removed_paths": [
     "adl/tools/test_issue872_historical_manifest.py"
   ],
@@ -96004,6 +97408,12 @@
     "adl/tools/test_demo_v0901_quality_gate.sh",
     "adl/tools/test_demo_v0902_review_quality_gate.sh"
   ],
-  "inventory_baseline_deletion_count": 2870,
-  "supplemental_baseline_deletion_count": 7
+  "inventory_baseline_deletion_count": 2904,
+  "supplemental_baseline_deletion_count": 7,
+  "separately_observed_baseline_deletion_count": 3,
+  "separately_observed_retired_paths": [
+    "demos/html-observatory/tests/governed_room_contracts.test.mjs",
+    "demos/html-observatory/tests/governed_room_selection.browser.mjs",
+    "demos/html-observatory/tests/governed_room_selection.test.mjs"
+  ]
 }

@@ -1,9 +1,9 @@
 {
   "schema": "adl.source_retirement.grouped_holds.v1",
   "source_head": "5edd4bf7452227fbfa83e990ffd496baeba6a3c0",
-  "ledger_sha256": "498ab57ce9930c941860f2514031bfe816c3a7a57dc625a6161a6501023316b7",
+  "ledger_sha256": "fd0fee966e68899dc4f4911c97b8d525cceddb0b23c3de6f799457e279f03fbb",
   "original_count": 4134,
-  "held_count": 10,
+  "held_count": 3,
   "additional_paths_separate": 22,
   "execution_authorized": false,
   "boundary": "Grouping preserves every original row and prerequisite verbatim. It does not resolve holds, authorize removal, or imply full issue readiness. Other proposed removals remain conditional.",
@@ -15,185 +15,9 @@
   ],
   "groups": [
     {
-      "id": "observatory",
-      "title": "Runtime Observatory behavior and CI",
-      "count": 6,
-      "next_action": "Reconcile room selection, mobile controls and incident assertions with owner journal additions; preserve extra governed-room test. Reconcile live-only CI denominator separately. Reuse existing owner proof where exact.",
-      "evidence": [
-        "RUNTIME_200_DISPOSITION_PROPOSAL.json",
-        "OWNER_TEST_CORRESPONDENCE.json"
-      ],
-      "rows": [
-        {
-          "id": "RD07-3167",
-          "path": "demos/html-observatory/app.js",
-          "owner": "agent-logic-runtime",
-          "component": "agent-logic-runtime-other-consumers",
-          "current_identity": {
-            "mode": "100644",
-            "blob": "ef20c83383ec526c90771384f56d6f71a374f6fe"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_current_source_changes_not_covered_by_frozen_rollback",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "restore room-selection, mobile controls and incident-status assertions in owner while preserving journal additions",
-            "preserve associated governed_room_selection.test.mjs additional source until reconciliation"
-          ],
-          "successor_mapping": {
-            "mapping": "same_path_changed",
-            "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
-            "exact_successor_paths": []
-          },
-          "reviewed_disposition": {
-            "packet": "RUNTIME_200_DISPOSITION_PROPOSAL.json",
-            "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
-            "proposal": "hold_for_observatory_behavior_reconciliation",
-            "review": "Planning #12 independent source review accepted; no execution/deletion authority"
-          }
-        },
-        {
-          "id": "RD07-3168",
-          "path": "demos/html-observatory/index.html",
-          "owner": "agent-logic-runtime",
-          "component": "agent-logic-runtime-other-consumers",
-          "current_identity": {
-            "mode": "100644",
-            "blob": "0a9b71c62aae369fec43401b5af668b0612f2359"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "restore room-selection, mobile controls and incident-status assertions in owner while preserving journal additions",
-            "preserve associated governed_room_selection.test.mjs additional source until reconciliation"
-          ],
-          "successor_mapping": {
-            "mapping": "same_path_changed",
-            "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
-            "exact_successor_paths": []
-          },
-          "reviewed_disposition": {
-            "packet": "RUNTIME_200_DISPOSITION_PROPOSAL.json",
-            "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
-            "proposal": "hold_for_observatory_behavior_reconciliation",
-            "review": "Planning #12 independent source review accepted; no execution/deletion authority"
-          }
-        },
-        {
-          "id": "RD07-3170",
-          "path": "demos/html-observatory/styles.css",
-          "owner": "agent-logic-runtime",
-          "component": "agent-logic-runtime-other-consumers",
-          "current_identity": {
-            "mode": "100644",
-            "blob": "da6ed61260135c92013dd570f9da8f4c3a107235"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "restore room-selection, mobile controls and incident-status assertions in owner while preserving journal additions",
-            "preserve associated governed_room_selection.test.mjs additional source until reconciliation"
-          ],
-          "successor_mapping": {
-            "mapping": "same_path_changed",
-            "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
-            "exact_successor_paths": []
-          },
-          "reviewed_disposition": {
-            "packet": "RUNTIME_200_DISPOSITION_PROPOSAL.json",
-            "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
-            "proposal": "hold_for_observatory_behavior_reconciliation",
-            "review": "Planning #12 independent source review accepted; no execution/deletion authority"
-          }
-        },
-        {
-          "id": "RD07-3171",
-          "path": "demos/html-observatory/tests/accessibility_responsive.test.mjs",
-          "owner": "agent-logic-runtime",
-          "component": "agent-logic-runtime-other-consumers",
-          "current_identity": {
-            "mode": "100644",
-            "blob": "9af6fedb41769b856b8844fcf91b5c527260d3bc"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "restore room-selection, mobile controls and incident-status assertions in owner while preserving journal additions",
-            "preserve associated governed_room_selection.test.mjs additional source until reconciliation"
-          ],
-          "successor_mapping": {
-            "mapping": "same_path_changed",
-            "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
-            "exact_successor_paths": []
-          },
-          "reviewed_disposition": {
-            "packet": "RUNTIME_200_DISPOSITION_PROPOSAL.json",
-            "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
-            "proposal": "hold_for_observatory_behavior_reconciliation",
-            "review": "Planning #12 independent source review accepted; no execution/deletion authority"
-          }
-        },
-        {
-          "id": "RD07-3173",
-          "path": "demos/html-observatory/tests/agent_orientation.test.mjs",
-          "owner": "agent-logic-runtime",
-          "component": "agent-logic-runtime-other-consumers",
-          "current_identity": {
-            "mode": "100644",
-            "blob": "9710ec9bbbbfbc18e5fd1e9751e82f9f9a6776e3"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_current_source_changes_not_covered_by_frozen_rollback",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "restore room-selection, mobile controls and incident-status assertions in owner while preserving journal additions",
-            "preserve associated governed_room_selection.test.mjs additional source until reconciliation"
-          ],
-          "successor_mapping": {
-            "mapping": "same_path_changed",
-            "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
-            "exact_successor_paths": []
-          },
-          "reviewed_disposition": {
-            "packet": "RUNTIME_200_DISPOSITION_PROPOSAL.json",
-            "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
-            "proposal": "hold_for_observatory_behavior_reconciliation",
-            "review": "Planning #12 independent source review accepted; no execution/deletion authority"
-          }
-        },
-        {
-          "id": "RD07-3177",
-          "path": "demos/html-observatory/tests/live_only.browser.mjs",
-          "owner": "agent-logic-runtime",
-          "component": "agent-logic-runtime-other-consumers",
-          "current_identity": {
-            "mode": "100644",
-            "blob": "8d445717f07bd595c0c097b71c0af3facf343a68"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-          "proposed_action": "hold_owner_test_reconciliation",
-          "required_before_execution": [
-            "specific_consumer_or_document_disposition_required",
-            "Resolve RT-CI-DENOMINATOR with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
-          ],
-          "successor_mapping": {
-            "mapping": "exact_successor",
-            "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
-            "exact_successor_paths": [
-              "demos/html-observatory/tests/live_only.browser.mjs"
-            ]
-          }
-        }
-      ]
-    },
-    {
       "id": "validation-remainder",
       "title": "Remaining ADL validation routing",
-      "count": 3,
+      "count": 2,
       "next_action": "After reviewed caller cutover, reconcile each retained runner, selector, coverage/PVF policy and configuration against five public packages and original assertions. Retain historical private lanes explicitly; do not silently drop inventory rows.",
       "evidence": [],
       "rows": [
@@ -222,33 +46,6 @@
             "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
             "proposal": "specific_family_reconciliation",
             "reason": "Runtime selector plus historical issue5590 transition script: retain historical fixture or explicit assertion map; no new native state fabrication."
-          }
-        },
-        {
-          "id": "RD07-2193",
-          "path": "adl/tools/validate_layer8_authority_observatory_ui.sh",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-active-tool-contracts",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "d80ecc67d5d0d9e643ab01eda99f716e099797a9"
-          },
-          "existing_action": "retain",
-          "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "Runtime UI validator requires app.js plus authentic issue271 handler-output fixture; preserve eight delivery/refusal/recovery/disclosure cases, action state and rendered accessibility."
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          },
-          "reviewed_disposition": {
-            "packet": "ACTIVE_19_TOOL_DISPOSITIONS.json",
-            "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
-            "proposal": "specific_family_reconciliation",
-            "reason": "Runtime UI validator requires app.js plus authentic issue271 handler-output fixture; preserve eight delivery/refusal/recovery/disclosure cases, action state and rendered accessibility."
           }
         },
         {
