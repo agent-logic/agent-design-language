@@ -6,7 +6,7 @@
   "execution_authorized": false,
   "original_count": 4134,
   "counts": {
-    "hold_explicit_reconciliation": 158,
+    "hold_explicit_reconciliation": 154,
     "hold_owner_test_reconciliation": 35,
     "preserve_approved_removal": 70,
     "preserve_reviewed_consumer_repair": 18,
@@ -16,7 +16,7 @@
     "proposed_remove_with_entire_source_family": 1874,
     "proposed_remove_with_entire_tool_family": 690,
     "retain_public_source_or_fixture": 68,
-    "retain_resolved": 515
+    "retain_resolved": 519
   },
   "additional_current_source_paths": 19,
   "preservation": "Original inventory and baseline archive unchanged;70 prior approved removals preserved; no new deletion applied",
@@ -52153,14 +52153,17 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "consumer_disposition": {
+        "decision": "Retain unchanged historical receipt validator and complete original paired tests.",
+        "evidence": "RUNTIME_QUALIFICATION_VALIDATOR_HISTORICAL_RETENTION.json",
+        "current_runtime_acceptance": false
       }
     },
     {
@@ -52174,14 +52177,17 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "consumer_disposition": {
+        "decision": "Retain unchanged historical receipt validator and complete original paired tests.",
+        "evidence": "NATIVE_RECEIPT_HISTORICAL_RETENTION.json",
+        "current_runtime_acceptance": false
       }
     },
     {
@@ -54108,10 +54114,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "Retain/archive fixed v0.92.2 qualification-integrity validator with its five criteria, exactrevision and baseline/candidate qual-inventory-899 archives; not current Runtime producer."
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -54122,6 +54126,11 @@
         "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
         "proposal": "specific_family_reconciliation",
         "reason": "Retain/archive fixed v0.92.2 qualification-integrity validator with its five criteria, exactrevision and baseline/candidate qual-inventory-899 archives; not current Runtime producer."
+      },
+      "consumer_disposition": {
+        "decision": "Retain unchanged historical receipt validator and complete original paired tests.",
+        "evidence": "RUNTIME_QUALIFICATION_VALIDATOR_HISTORICAL_RETENTION.json",
+        "current_runtime_acceptance": false
       }
     },
     {
@@ -54408,10 +54417,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "Manual/historical native receipts require issue5820, guardian lifecycle stress_100x10s, exact denominators, macOS/Linux provenance, HTTPS/WSS and AWS/deletion receipts."
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -54422,6 +54429,11 @@
         "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
         "proposal": "specific_family_reconciliation",
         "reason": "Manual/historical native receipts require issue5820, guardian lifecycle stress_100x10s, exact denominators, macOS/Linux provenance, HTTPS/WSS and AWS/deletion receipts."
+      },
+      "consumer_disposition": {
+        "decision": "Retain unchanged historical receipt validator and complete original paired tests.",
+        "evidence": "NATIVE_RECEIPT_HISTORICAL_RETENTION.json",
+        "current_runtime_acceptance": false
       }
     },
     {
