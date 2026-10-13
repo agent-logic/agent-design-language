@@ -1,9 +1,9 @@
 {
   "schema": "adl.source_retirement.grouped_holds.v1",
   "source_head": "5edd4bf7452227fbfa83e990ffd496baeba6a3c0",
-  "ledger_sha256": "74f66e7e4727d75c1145cbaa506792b24ec406d16e2eb26a7a4996da6514c35c",
+  "ledger_sha256": "60eb0933e461831a980c5ccf3247d84f5421cbd554e9185efdf5d1eec5ea38cc",
   "original_count": 4134,
-  "held_count": 17,
+  "held_count": 12,
   "additional_paths_separate": 22,
   "execution_authorized": false,
   "boundary": "Grouping preserves every original row and prerequisite verbatim. It does not resolve holds, authorize removal, or imply full issue readiness. Other proposed removals remain conditional.",
@@ -14,134 +14,6 @@
     "Final coherent removal decision, five public package qualification at final source, independent review, native publication, finish and cleanup remain."
   ],
   "groups": [
-    {
-      "id": "conversion",
-      "title": "Native conversion rehearsal closure",
-      "count": 5,
-      "next_action": "Deliver missing five helpers as coherent owner support; preserve authentic505 receipt, pinned old binary and generation9 inputs; qualify isolated real conversion route before transfer. Source-only native CLI correspondence is insufficient.",
-      "evidence": [
-        "/Volumes/FastWork/c1223/native-conversion-closure/proposal.json"
-      ],
-      "rows": [
-        {
-          "id": "RD07-1297",
-          "path": "adl/tools/csdlc-conversion-rehearsal",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "557711032425158e884bf41f1c4a5818d71a8a55"
-          },
-          "existing_action": "retain",
-          "hold_reason": "Thin wrapper calls run_issue872_conversion_rehearsal.py directly.",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "Transfer or preserve together with1491/2152/2191/2192, exact authentic input closure and manifest. Isolated fixture rehearsal does not establish live native conversion.",
-            "Explicit coherent retirement approval; no operational acceptance inferred"
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          },
-          "reviewed_disposition": {
-            "packet": "CSDLC_PRODUCTION_HELPER_DISPOSITIONS.json",
-            "packet_sha256": "f88bf93a189b79d3835cc6c4479fbc3564ee4e41d66bbab72c87987692762584",
-            "proposal": "hold_conversion_rehearsal_family"
-          }
-        },
-        {
-          "id": "RD07-1491",
-          "path": "adl/tools/run_issue872_conversion_rehearsal.py",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "bdd77f17ddf75da284dd679f3114d2fb1a210f11"
-          },
-          "existing_action": "retain",
-          "hold_reason": "Source defines seven phases, twelve scenarios and fifteen fault points, durable fixture writes, source/executable restore guards and imported generation9 verifier.",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "Keep complete exact scenario/fault denominator with authentic generation9 fixture and validators; existing pre-effect sandbox evidence deletion is unrelated preexisting work and must not be staged.",
-            "Explicit coherent retirement approval; no operational acceptance inferred"
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          },
-          "reviewed_disposition": {
-            "packet": "CSDLC_PRODUCTION_HELPER_DISPOSITIONS.json",
-            "packet_sha256": "f88bf93a189b79d3835cc6c4479fbc3564ee4e41d66bbab72c87987692762584",
-            "proposal": "hold_conversion_rehearsal_family"
-          }
-        },
-        {
-          "id": "RD07-2152",
-          "path": "adl/tools/test_validate_issue872_conversion_rehearsal.py",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "090cfb344429a9ae65080a9aecb4033c72a9a633"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_no_proven_current_successor_mapping",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "specific_consumer_or_document_disposition_required"
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          }
-        },
-        {
-          "id": "RD07-2191",
-          "path": "adl/tools/validate_issue872_conversion_rehearsal.py",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "765c8b2b6eff6164bc15a75dd643341a9d8b2fe2"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_no_proven_current_successor_mapping",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "specific_consumer_or_document_disposition_required"
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          }
-        },
-        {
-          "id": "RD07-2192",
-          "path": "adl/tools/validate_issue872_generation9_fixture.py",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "789684c66b9805afed1585bbd094cec0d93555ba"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_no_proven_current_successor_mapping",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "specific_consumer_or_document_disposition_required"
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          }
-        }
-      ]
-    },
     {
       "id": "observatory",
       "title": "Runtime Observatory behavior and CI",

@@ -364,5 +364,48 @@ class InfrastructureFamilyTests(unittest.TestCase):
                 check.check_infrastructure_custody(altered)
 
 
+
+class TransientBridgeTests(unittest.TestCase):
+    def setUp(self):
+        self.path = check.TRANSIENT_CONVERSION_BRIDGE
+        identity = check.TRANSIENT_BRIDGE_IDENTITY
+        self.entry = {'path': self.path, 'action': 'remove_added', 'before': None, 'after': None,
+                      'review_reference': 'reviewed', 'implementation_commit': 'fixture',
+                      'approval_reference': 'pinned packet',
+                      'rollback_custody': {'mode': identity[0], 'blob': identity[1]},
+                      'source_chain': [{'commit': 'f598c0711d9b270a5b304c7cde64dcdf3068619e',
+                                        'before': None, 'after': identity}],
+                      'supplemental_source_chain': [{'commit': 'd293b17fe05f70633826017eb581f5315359f80f',
+                                                    'before': identity, 'after': None}]}
+        self.manifest = {'schema': 'adl.source_retirement.execution_overlay.v1', 'issue': 1223,
+                         'status': 'complete', 'missing_entries': [], 'entries': [self.entry]}
+
+    def validate(self):
+        return check.check_execution_overlay(self.manifest, {}, {}, {self.entry['path']}, set())
+
+    def test_exact_add_then_remove(self):
+        self.assertEqual(self.validate(), [self.path])
+
+    def test_different_absent_path_refuses(self):
+        self.entry['path'] = 'adl/tools/unapproved.py'
+        with self.assertRaisesRegex(ValueError, 'unapproved transient'):
+            self.validate()
+
+    def test_missing_add_chain_refuses(self):
+        self.entry['source_chain'] = []
+        with self.assertRaisesRegex(ValueError, 'chain mismatch'):
+            self.validate()
+
+    def test_missing_removal_chain_refuses(self):
+        self.entry['supplemental_source_chain'] = []
+        with self.assertRaisesRegex(ValueError, 'chain mismatch'):
+            self.validate()
+
+    def test_changed_custody_blob_refuses(self):
+        self.entry['rollback_custody']['blob'] = '0' * 40
+        with self.assertRaisesRegex(ValueError, 'chain mismatch'):
+            self.validate()
+
+
 if __name__ == '__main__':
     unittest.main()

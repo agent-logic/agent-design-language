@@ -9,7 +9,9 @@ six reviewed CodeFriend helper removals (77 historical total), followed by 196
 CodeFriend source-family and two obsolete workflow removals (275 historical total), then 815 C-SDLC source-family removals
 (1,090 historical total), then 896 Runtime source-family removals
 (1,986 historical total), followed by 212 Infrastructure source removals
-(**2,198 executed removals total**).
+(2,198 historical total), then six conversion helper/bridge retirements and
+127 CodeFriend skill-family removals (**2,331 executed retirement actions**:
+2,330 baseline deletions plus one bridge added and retired after baseline).
 `CODEFRIEND_FAMILY_APPLIED.json` pins the latter 198 exact paths and source
 preimages, reviewed caller delta and five-member supplemental rollback archive.
 Retired host entrypoints do not establish current owner host/release acceptance.
@@ -104,3 +106,7 @@ network access remain denied. Run the seven small storage/sandbox regressions wi
 These are PVF `local_contract` path-isolation tests (small CPU/disk, no build or
 external service); the five OS sandbox cases require macOS. They do not replace
 the final five-package, seven-consumer, 21-UTS, five-negative proof.
+
+## Conversion and CodeFriend skill batches
+
+The six-file conversion and127-file skill batches bring executed retirement actions to2331:2330 files removed from the immutable baseline plus one ADL-only bridge added and then retired. The bridge remains outside the original4134 and separate22 inventories. Its exact f598c071 addition, d293b17 removal and custody are pinned; no other absent-to-absent transition is permitted. Existing owner rehearsal and original skill contracts remain separate from new live acceptance.

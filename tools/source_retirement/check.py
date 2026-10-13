@@ -16,7 +16,7 @@ INVENTORY_SHA256 = 'a22fa6306245ddb3916cf4cb3021286a2d91ebfe77ca719eb7b1039d9f6d
 CAPTURED_IDENTITIES_SHA256 = 'e306e5a70ae7792fd2fef91449a0285d665126375a28c0dd05914724fe1bdebe'
 ARCHIVE_SHA256 = '12205043566913435c25ea414b1fd9148b46727821f7bfefd5d452cfe47a1c17'
 # Independently reviewed existing execution overlay; changing this pin requires review.
-EXECUTION_APPROVAL_SHA256 = '2b8f84564e68f20e8e2c5b5b22068a780c2c078efb91ba286c87f1cd2fba5581'
+EXECUTION_APPROVAL_SHA256 = '717f361f7f6847b59abce266b30f6d7907633ce053e7d50b16c39e4bca756aa1'
 COMPONENTS = ('infra/ddns', 'infra/aws/runtime/log-archive', 'infra/aws/runtime/agent-checkpoint-archive')
 PROTECTED = ('csdlc-v3/operator/authority-selector.json', 'csdlc-v3/operator/native-authority-receipt.json',
              'docs/templates/prompts/current.json', 'adl/tools/install_owner_binaries.sh',
@@ -118,6 +118,7 @@ def check_execution_overlay(manifest, baseline, candidate, approved_removed, sco
     expected = dict(baseline)
     seen = set()
     removals = set(approved_removed)
+    transient = set()
     for entry in manifest['entries']:
         path = entry['path']
         require(path not in seen, 'duplicate execution path: ' + path)
@@ -127,10 +128,23 @@ def check_execution_overlay(manifest, baseline, candidate, approved_removed, sco
         require(entry['before'] == baseline.get(path), 'execution before identity mismatch: ' + path)
         after = entry['after']
         action = entry['action']
-        require(action in ('add', 'modify', 'remove'), 'unknown execution action')
+        require(action in ('add', 'modify', 'remove', 'remove_added'), 'unknown execution action')
         require((action == 'add' and entry['before'] is None and after is not None) or
                 (action == 'modify' and entry['before'] is not None and after is not None) or
-                (action == 'remove' and entry['before'] is not None and after is None), 'invalid execution transition')
+                (action == 'remove' and entry['before'] is not None and after is None) or
+                (action == 'remove_added' and entry['before'] is None and after is None), 'invalid execution transition')
+        if action == 'remove_added':
+            require(path == TRANSIENT_CONVERSION_BRIDGE and entry.get('rollback_custody'),
+                    'unapproved transient removal')
+            chain = entry.get('source_chain', []) + entry.get('supplemental_source_chain', [])
+            add = [c for c in chain if c['commit'] == 'f598c0711d9b270a5b304c7cde64dcdf3068619e']
+            delete = [c for c in chain if c['commit'] == 'd293b17fe05f70633826017eb581f5315359f80f']
+            require(len(add) == len(delete) == 1 and add[0]['before'] is None and
+                    add[0]['after'] == delete[0]['before'] == TRANSIENT_BRIDGE_IDENTITY and
+                    delete[0]['after'] is None and
+                    [entry['rollback_custody']['mode'], entry['rollback_custody']['blob']] == TRANSIENT_BRIDGE_IDENTITY,
+                    'transient add/removal chain mismatch')
+            transient.add(path)
         if after is not None:
             require(len(after) == 2 and after[0] in ('100644', '100755', '120000') and
                     len(after[1]) == 40 and all(c in '0123456789abcdef' for c in after[1]), 'invalid after identity')
@@ -138,7 +152,7 @@ def check_execution_overlay(manifest, baseline, candidate, approved_removed, sco
         else:
             require(path in removals and entry.get('rollback_custody'), 'unapproved removal or missing custody: ' + path)
             expected.pop(path, None)
-    require(set(baseline) - set(candidate) == removals, 'new deletion outside executed approval set')
+    require(set(baseline) - set(candidate) == removals - transient, 'new deletion outside executed approval set')
     for path in scoped_paths | seen:
         if path in removals:
             require(path not in candidate, 'approved removal still present: ' + path)
@@ -468,6 +482,48 @@ def check_infrastructure_custody(batch):
                         'Infrastructure archive bytes changed')
 
 
+# Values are replaced only from the committed reviewed applied packets.
+CONVERSION_SKILLS_BATCHES = [{'packet': 'CONVERSION_HELPER_RETIREMENT_APPLIED.json', 'sha256': '5a5decd5b85fd1dcf512fd3752056d33ce05fc535a314c7a674dcda38d95a92e', 'commit': 'd293b17fe05f70633826017eb581f5315359f80f', 'kind': 'conversion', 'files': 7, 'removals': 6, 'scope_sha256': 'cfead904d1e1a84b86e469c04ec8e32120fbdbf32d2be64e0f1f703c7740f00f'}, {'packet': 'CODEFRIEND_SKILL_FAMILY_APPLIED.json', 'sha256': 'df23c00b87f41144ac19d30c8c6a8e7e806304bb09cc0c6d1e8a51d783ac08ca', 'commit': 'beea825590544b5412d4dcbbdf599d03837e1148', 'kind': 'skills', 'files': 143, 'removals': 127, 'scope_sha256': 'b1130b8ce1ba252a0f64cc8a74070dfb4b2ce84b055028e2a6337e0cbdf0c515'}]
+TRANSIENT_CONVERSION_BRIDGE = 'adl/tools/test_issue872_historical_manifest.py'
+
+
+def check_conversion_skills_family(batch, before_tree, after_tree, prior_removed, spec):
+    rows = batch['files']
+    removed = [r for r in rows if r['action'] == 'remove']
+    paths = {r['path'] for r in removed}
+    digest = hashlib.sha256(json.dumps(sorted(paths), separators=(',', ':')).encode()).hexdigest()
+    require(len(rows) == len({r['path'] for r in rows}) == spec['files'] and
+            len(removed) == len(paths) == spec['removals'] and
+            digest == spec['scope_sha256'] and not paths.intersection(prior_removed),
+            'Conversion/skills exact scope changed')
+    require(not any(p.startswith(('.csdlc/', 'csdlc-v3/operator/', 'docs/templates/')) for p in paths),
+            'Conversion/skills protected path removal')
+    for row in rows:
+        before, after, path = row['before'], row['after'], row['path']
+        require(before_tree.get(path) == [before['mode'], before['blob']] and
+                after_tree.get(path) == ([after['mode'], after['blob']] if after else None),
+                'Conversion/skills applied identity mismatch')
+    return paths
+
+
+def check_conversion_skills_custody(batch, spec):
+    archive = batch['rollback']['supplement'] if spec['kind'] == 'conversion' else batch['custody']
+    path = Path(archive['path'])
+    require(hashlib.sha256(path.read_bytes()).hexdigest() == archive['sha256'],
+            'Conversion/skills archive changed')
+    rows = [r for r in batch['files'] if r['action'] == 'remove']
+    with tarfile.open(path) as tar:
+        require({m.name for m in tar.getmembers()} == {'source/' + r['path'] for r in rows},
+                'Conversion/skills custody member scope changed')
+        for row in rows:
+            before = row['before']
+            member = tar.getmember('source/' + row['path'])
+            require(member.isfile() and member.mode == int(before['mode'][-3:], 8) and
+                    hashlib.sha256(tar.extractfile(member).read()).hexdigest() == before['sha256'],
+                    'Conversion/skills custody identity mismatch')
+
+TRANSIENT_BRIDGE_IDENTITY = ['100644', '480dcfe6e6b6355184b1fa729de3cd6f457e7bef']
+
 def run():
     ledger = committed_json(PACKET / 'DISPOSITION_REGISTER.json')
     observed = tree(ledger['observed_main'])
@@ -519,7 +575,16 @@ def run():
     infrastructure = json.loads(infrastructure_bytes)
     removed.update(check_infrastructure_family(infrastructure, tree(INFRASTRUCTURE_FAMILY_IMPLEMENTATION + '^'),
                                                tree(INFRASTRUCTURE_FAMILY_IMPLEMENTATION), removed))
-    require(len(removed) == 2198, 'executed removal count changed')
+    for spec in CONVERSION_SKILLS_BATCHES:
+        batch_bytes = committed_bytes(PACKET / spec['packet'])
+        require(hashlib.sha256(batch_bytes).hexdigest() == spec['sha256'],
+                'Conversion/skills applied packet changed')
+        batch = json.loads(batch_bytes)
+        removed.update(check_conversion_skills_family(batch, tree(spec['commit'] + '^'),
+                                                      tree(spec['commit']), removed, spec))
+        check_conversion_skills_custody(batch, spec)
+    require(len(removed) == 2331, 'executed removal count changed')
+
     overlay_bytes = committed_bytes(PACKET / 'EXECUTION_OVERLAY.json')
     overlay = json.loads(overlay_bytes)
     require(overlay['status'] == 'complete' and not overlay['missing_entries'],
@@ -591,7 +656,7 @@ def run():
         check_references(refs, allowed)
         scanned[component] = len(refs)
     return {'schema': 'adl.source_retirement.guard.v1', 'status': 'passed', 'head': git('rev-parse', 'HEAD'),
-            'candidate_rows': 4134, 'existing_branch_removals': 34, 'approved_component_removals': 36, 'public_cutover_removals': 1, 'codefriend_helper_removals': 6, 'codefriend_family_removals': 198, 'csdlc_family_removals': 815, 'runtime_family_removals': 896, 'infrastructure_family_removals': 212, 'additional_inventory_paths': 22, 'total_removals': len(removed), 'direct_reference_files': scanned,
+            'candidate_rows': 4134, 'existing_branch_removals': 34, 'approved_component_removals': 36, 'public_cutover_removals': 1, 'codefriend_helper_removals': 6, 'codefriend_family_removals': 198, 'csdlc_family_removals': 815, 'runtime_family_removals': 896, 'infrastructure_family_removals': 212, 'additional_inventory_paths': 22, 'executed_retirement_actions': len(removed), 'baseline_removals': len(removed) - 1, 'transient_removals': 1, 'total_removals': len(removed), 'direct_reference_files': scanned,
             'limits': ['Preparation guard only; no new deletion approval.',
                        'Direct component-path references only; dynamic and indirect consumers still require review.',
                        'Rollback digest is checked separately from functional restore and installed product proof.',

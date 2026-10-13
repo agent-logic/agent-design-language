@@ -1,10 +1,9 @@
 # #1223 remaining hold groups
 
-Snapshot of all **17 holds** after reviewed owner deliveries, conditional historical review-wrapper disposition and exact-candidate Runtime test reconciliation. All 4,134 original identities remain in the ledger; 22 additional current paths remain separately tracked. No deletion is authorized by this grouping.
+Snapshot of all **12 holds** after reviewed owner deliveries, conditional historical review-wrapper disposition and exact-candidate Runtime test reconciliation. All 4,134 original identities remain in the ledger; 22 additional current paths remain separately tracked. No deletion is authorized by this grouping.
 
 | Group | Held paths | Next action |
 | --- | ---: | --- |
-| Native conversion rehearsal closure | 5 | Deliver missing five helpers as coherent owner support; preserve authentic505 receipt, pinned old binary and generation9 inputs; qualify isolated real conversion route before transfer. Source-only native CLI correspondence is insufficient. |
 | Runtime Observatory behavior and CI | 6 | Reconcile room selection, mobile controls and incident assertions with owner journal additions; preserve extra governed-room test. Reconcile live-only CI denominator separately. Reuse existing owner proof where exact. |
 | Remaining ADL validation routing | 5 | After reviewed caller cutover, reconcile each retained runner, selector, coverage/PVF policy and configuration against five public packages and original assertions. Retain historical private lanes explicitly; do not silently drop inventory rows. |
 | Mixed consumers (inherited inventory owner) | 1 | Resolve the exact per-row required_before_execution entries preserved below as one owner consumer batch: map current caller and qualified successor or choose explicit historical retention/retirement. Reuse existing owner evidence; source presence alone does not close behavior. Cloud/live operations require their own existing authorization. |
@@ -97,3 +96,5 @@ Three delivered Infrastructure CSM manual scripts now have reviewed owner naviga
 C-SDLC source-family implementation f598c0711d9b270a5b304c7cde64dcdf3068619e applied815 exact removals. RD07-3076 left holds using the existing five-case proof and admitted owner package; CSDLC_SOURCE_FAMILY_APPLIED.json preserves changed historical contract boundaries. Prior275 removals remain, giving1090 executed removals at that historical boundary. This grouping grants no further removal authority.
 
 Infrastructure source-family implementation ddfe457ebbc2107ee349abf61ba27d57c35b5c37 adds212 exact removals and20 caller repairs to the historical Runtime-integrated1986 total, giving2198 executed removals. All 17 current acceptance holds and original identities remain unchanged. INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json preserves source custody and offline/live limits; this grouping grants no further removal authority.
+
+Conversion and CodeFriend skill batches remove five conversion holds using preserved owner evidence. Twelve holds remain;2331 executed actions include2330 baseline deletions and one separately retired bridge. No new operational acceptance is inferred.
