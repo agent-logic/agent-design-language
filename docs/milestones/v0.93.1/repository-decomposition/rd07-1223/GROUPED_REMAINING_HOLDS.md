@@ -79,3 +79,5 @@ Infra22 exact merged5case transfer, four original wrapper suites/sevenrows, fixe
 Actual selected manual42/42 lookup/render passes and retained144-input capsule validator PASS adopted. Workcell1507 remains historical source with full provider route unqualified. Consumer manual fixture3525 retained explicitly; no source removal authorized by these classifications. Remaining holds:65.
 
 Original1526 single-node SSM GPU protocol is retained historical source with exact evidence custody, not replaced by345two-node Terraform proof. No new cloud/model execution. Current holds:64.
+
+Four active public CI helpers1270/1272/1273/1276 are retained; corrected whole-family removal classifications. No hold count change or additional execution proof.

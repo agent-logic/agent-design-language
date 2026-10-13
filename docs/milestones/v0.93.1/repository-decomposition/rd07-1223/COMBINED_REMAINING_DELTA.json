@@ -14,8 +14,8 @@
     "proposed_owner_transfer_with_consumer_qualification": 508,
     "proposed_remove_construction_qualified_infrastructure": 216,
     "proposed_remove_with_entire_source_family": 1874,
-    "proposed_remove_with_entire_tool_family": 678,
-    "retain_public_source_or_fixture": 119,
+    "proposed_remove_with_entire_tool_family": 674,
+    "retain_public_source_or_fixture": 123,
     "retain_resolved": 527
   },
   "additional_current_source_paths": 22,
@@ -29558,16 +29558,30 @@
         "blob": "f5140d2fc52a8e478023e7abf905df8f744d81ed"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "proposed_action": "retain_public_source_or_fixture",
       "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
+        "Preserve active public CI caller and helper; include in final public qualification."
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": []
+      },
+      "prior_dispositions": [
+        {
+          "proposed_action": "proposed_remove_with_entire_tool_family",
+          "required_before_execution": [
+            "qualified_successor_tool_family",
+            "inbound_active_callers_repaired_or_retired",
+            "scoped_operator_decision"
+          ],
+          "reviewed_disposition": null
+        }
+      ],
+      "reviewed_disposition": {
+        "packet": "RETAINED_PUBLIC_CI_HELPERS.json",
+        "packet_sha256": "9814b2ebf9b71f7908518ad2938add42e7f9e7a6f359277cd509370a23397dbd",
+        "proposal": "retain_active_public_ci_helper"
       }
     },
     {
@@ -29606,11 +29620,9 @@
         "blob": "e582191ab86a5b7782dd6740270f35743ce553af"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "proposed_action": "retain_public_source_or_fixture",
       "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
+        "Preserve active public CI caller and helper; include in final public qualification."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -29618,6 +29630,22 @@
         "exact_successor_paths": [
           "adl/tools/check_release_notes_commands.sh"
         ]
+      },
+      "prior_dispositions": [
+        {
+          "proposed_action": "proposed_remove_with_entire_tool_family",
+          "required_before_execution": [
+            "qualified_successor_tool_family",
+            "inbound_active_callers_repaired_or_retired",
+            "scoped_operator_decision"
+          ],
+          "reviewed_disposition": null
+        }
+      ],
+      "reviewed_disposition": {
+        "packet": "RETAINED_PUBLIC_CI_HELPERS.json",
+        "packet_sha256": "9814b2ebf9b71f7908518ad2938add42e7f9e7a6f359277cd509370a23397dbd",
+        "proposal": "retain_active_public_ci_helper"
       }
     },
     {
@@ -29630,11 +29658,9 @@
         "blob": "a4de4a3faad0687bb8f0d1e6c4134880da1610d9"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "proposed_action": "retain_public_source_or_fixture",
       "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
+        "Preserve active public CI caller and helper; include in final public qualification."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -29642,6 +29668,22 @@
         "exact_successor_paths": [
           "adl/tools/check_release_version_surfaces.sh"
         ]
+      },
+      "prior_dispositions": [
+        {
+          "proposed_action": "proposed_remove_with_entire_tool_family",
+          "required_before_execution": [
+            "qualified_successor_tool_family",
+            "inbound_active_callers_repaired_or_retired",
+            "scoped_operator_decision"
+          ],
+          "reviewed_disposition": null
+        }
+      ],
+      "reviewed_disposition": {
+        "packet": "RETAINED_PUBLIC_CI_HELPERS.json",
+        "packet_sha256": "9814b2ebf9b71f7908518ad2938add42e7f9e7a6f359277cd509370a23397dbd",
+        "proposal": "retain_active_public_ci_helper"
       }
     },
     {
@@ -29702,16 +29744,30 @@
         "blob": "b145f1bfedc95f2288a2a069625d67f8eaa3ca1a"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "proposed_action": "retain_public_source_or_fixture",
       "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
+        "Preserve active public CI caller and helper; include in final public qualification."
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": []
+      },
+      "prior_dispositions": [
+        {
+          "proposed_action": "proposed_remove_with_entire_tool_family",
+          "required_before_execution": [
+            "qualified_successor_tool_family",
+            "inbound_active_callers_repaired_or_retired",
+            "scoped_operator_decision"
+          ],
+          "reviewed_disposition": null
+        }
+      ],
+      "reviewed_disposition": {
+        "packet": "RETAINED_PUBLIC_CI_HELPERS.json",
+        "packet_sha256": "9814b2ebf9b71f7908518ad2938add42e7f9e7a6f359277cd509370a23397dbd",
+        "proposal": "retain_active_public_ci_helper"
       }
     },
     {
