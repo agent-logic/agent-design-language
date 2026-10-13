@@ -30,7 +30,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 8
 - `supported shim`: 0
-- `internal helper`: 463
+- `internal helper`: 462
 - `historical evidence`: 31
 - `archive candidate`: 0
 - `remove candidate`: 0
@@ -171,7 +171,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/issue607_guardian_recovery_proof.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/issue607_probe_runtime.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/issue607_qualify_warm_polis.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
-| `adl/tools/issue607_validate_saved_plan.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/issue855_provider_lifecycle.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/issue905_runtime_speculative_retest.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/issue990_managed_restart_proof.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
