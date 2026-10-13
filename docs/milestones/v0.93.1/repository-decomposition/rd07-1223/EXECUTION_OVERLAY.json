@@ -6,7 +6,7 @@
   "execution_authorized": false,
   "original_inventory_count": 4134,
   "additional_inventory_count": 22,
-  "executed_deletion_count": 2723,
+  "executed_deletion_count": 2763,
   "entries": [
     {
       "path": ".github/workflows/ci.yaml",
@@ -102,48 +102,99 @@
     },
     {
       "path": ".github/workflows/wp14-native-acip.yml",
-      "action": "modify",
+      "action": "remove",
       "before": [
         "100644",
         "4eb0ff0f6a00138a402fbb0ac9ac0acd37f59461"
       ],
-      "after": [
-        "100644",
-        "404782775b0ff2f63726a4db2cf712a73ac930b0"
-      ],
+      "after": null,
       "implementation_commit": "3383f7f691ec248d6fe87cd18e4e13c5d1e8d900",
       "approval_reference": "RUNTIME_SOURCE_FAMILY_APPLIED.json",
-      "review_reference": "review_1223_public_facade exact Runtime896 plus54 caller repair review"
+      "review_reference": "review_1223_public_facade exact Runtime896 plus54 caller repair review",
+      "supplemental_source_chain": [
+        {
+          "commit": "fdd55dc620706da21a8409e7a04d5c8580fa0227",
+          "before": [
+            "100644",
+            "404782775b0ff2f63726a4db2cf712a73ac930b0"
+          ],
+          "after": null,
+          "packet": "WP14_RETIRED_WORKFLOWS_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "WP14_RETIRED_WORKFLOWS_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-other220-preparation/current-and-original-preimages.tar",
+        "archive_sha256": "cd7d689cf7b5afb567f1d2c216ece8efa01604e7164d585bcb8078269fa957f0",
+        "member": ".github/workflows/wp14-native-acip.yml",
+        "mode": "100644",
+        "blob": "404782775b0ff2f63726a4db2cf712a73ac930b0",
+        "sha256": "970d432d62a484a3c53ba76b53fcaac1385e49199a18df135f0f647b2261cc07"
+      }
     },
     {
       "path": ".github/workflows/wp14-production-acip-repair.yml",
-      "action": "modify",
+      "action": "remove",
       "before": [
         "100644",
         "1ed0bbca257e34db7fc80d60b21ed1ed5cfb2687"
       ],
-      "after": [
-        "100644",
-        "6a6cde98093dae5a53ebe07e05278945d6a4a2ff"
-      ],
+      "after": null,
       "implementation_commit": "3383f7f691ec248d6fe87cd18e4e13c5d1e8d900",
       "approval_reference": "RUNTIME_SOURCE_FAMILY_APPLIED.json",
-      "review_reference": "review_1223_public_facade exact Runtime896 plus54 caller repair review"
+      "review_reference": "review_1223_public_facade exact Runtime896 plus54 caller repair review",
+      "supplemental_source_chain": [
+        {
+          "commit": "fdd55dc620706da21a8409e7a04d5c8580fa0227",
+          "before": [
+            "100644",
+            "6a6cde98093dae5a53ebe07e05278945d6a4a2ff"
+          ],
+          "after": null,
+          "packet": "WP14_RETIRED_WORKFLOWS_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "WP14_RETIRED_WORKFLOWS_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-other220-preparation/current-and-original-preimages.tar",
+        "archive_sha256": "cd7d689cf7b5afb567f1d2c216ece8efa01604e7164d585bcb8078269fa957f0",
+        "member": ".github/workflows/wp14-production-acip-repair.yml",
+        "mode": "100644",
+        "blob": "6a6cde98093dae5a53ebe07e05278945d6a4a2ff",
+        "sha256": "215a1d23f27a274bd751f72931548d081963c23ec1310a427d511cecd8c3c432"
+      }
     },
     {
       "path": ".github/workflows/wp14-retained-native-proof.yml",
-      "action": "modify",
+      "action": "remove",
       "before": [
         "100644",
         "d3be5c5464b91ab460abdbb03eab0110ddf90706"
       ],
-      "after": [
-        "100644",
-        "93b66fbc3f9c816fbdfbee8d6ca603cf8ceb6e5d"
-      ],
+      "after": null,
       "implementation_commit": "3383f7f691ec248d6fe87cd18e4e13c5d1e8d900",
       "approval_reference": "RUNTIME_SOURCE_FAMILY_APPLIED.json",
-      "review_reference": "review_1223_public_facade exact Runtime896 plus54 caller repair review"
+      "review_reference": "review_1223_public_facade exact Runtime896 plus54 caller repair review",
+      "supplemental_source_chain": [
+        {
+          "commit": "fdd55dc620706da21a8409e7a04d5c8580fa0227",
+          "before": [
+            "100644",
+            "93b66fbc3f9c816fbdfbee8d6ca603cf8ceb6e5d"
+          ],
+          "after": null,
+          "packet": "WP14_RETIRED_WORKFLOWS_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "WP14_RETIRED_WORKFLOWS_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-other220-preparation/current-and-original-preimages.tar",
+        "archive_sha256": "cd7d689cf7b5afb567f1d2c216ece8efa01604e7164d585bcb8078269fa957f0",
+        "member": ".github/workflows/wp14-retained-native-proof.yml",
+        "mode": "100644",
+        "blob": "93b66fbc3f9c816fbdfbee8d6ca603cf8ceb6e5d",
+        "sha256": "613663d0b312353a88d963729a6a045b92fe0f967aa1cf1b2a50f1fc2a539a2e"
+      }
     },
     {
       "path": "AGENTS.md",
@@ -154,12 +205,26 @@
       ],
       "after": [
         "100644",
-        "d29efbafb36e881d7efd687875cf2778ff8160cf"
+        "753716ffcb683b2db72a29bbbe0f384816efad0e"
       ],
       "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
       "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
       "review_reference": "review_1223_applied_components exact77/112 review",
-      "source_chain_reference": "proposed_reconciled_entries:AGENTS.md"
+      "source_chain_reference": "proposed_reconciled_entries:AGENTS.md",
+      "supplemental_source_chain": [
+        {
+          "commit": "817f83c8530cce5fb797e623fc8bc7abe89e97f8",
+          "before": [
+            "100644",
+            "d29efbafb36e881d7efd687875cf2778ff8160cf"
+          ],
+          "after": [
+            "100644",
+            "753716ffcb683b2db72a29bbbe0f384816efad0e"
+          ],
+          "packet": "OWNER_AGGREGATE_RETIREMENT_APPLIED.json"
+        }
+      ]
     },
     {
       "path": "adl-provider-core/Cargo.lock",
@@ -6844,7 +6909,7 @@
       "before": null,
       "after": [
         "100644",
-        "0c258a5d2a9225d3912975b4d1318e9f8225c71a"
+        "62e2419109ff34d11f617c87b0c974549f6a757a"
       ],
       "implementation_commit": "6030a16305699af338e41c27f2abcac893c078f3",
       "approval_reference": "PUBLIC_WORKSPACE_CLOSURE.json",
@@ -6864,6 +6929,20 @@
           "review_reference": "review_1223_applied_components exact77/112 review",
           "source_chain_reference": "proposed_reconciled_entries:adl/config/validation_lane_selector.public.v1.json"
         }
+      ],
+      "supplemental_source_chain": [
+        {
+          "commit": "67b491e9f9d482a0e6f32d33d1e08a876f86a415",
+          "before": [
+            "100644",
+            "0c258a5d2a9225d3912975b4d1318e9f8225c71a"
+          ],
+          "after": [
+            "100644",
+            "62e2419109ff34d11f617c87b0c974549f6a757a"
+          ],
+          "packet": "PUBLIC_SELECTOR_REPAIR_APPLIED.json"
+        }
       ]
     },
     {
@@ -6875,7 +6954,7 @@
       ],
       "after": [
         "100644",
-        "487769de8a2f0db33e3fa80fb614a43e11c89a41"
+        "9acc47bd3643e438a0c919ef5f058a22a6f1dd8c"
       ],
       "implementation_commit": "39a64819e2ccc75a0b09616a7883f5835d047e35",
       "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
@@ -6929,6 +7008,30 @@
             "487769de8a2f0db33e3fa80fb614a43e11c89a41"
           ],
           "packet": "SPRINT_CONDUCTOR_FAMILY_APPLIED.json"
+        },
+        {
+          "commit": "817f83c8530cce5fb797e623fc8bc7abe89e97f8",
+          "before": [
+            "100644",
+            "487769de8a2f0db33e3fa80fb614a43e11c89a41"
+          ],
+          "after": [
+            "100644",
+            "49357cf18a5263ccbb97babac15c32db7254e941"
+          ],
+          "packet": "OWNER_AGGREGATE_RETIREMENT_APPLIED.json"
+        },
+        {
+          "commit": "caa5e57b9a7bec804bd3ad2bfd1a0c139a6cb091",
+          "before": [
+            "100644",
+            "49357cf18a5263ccbb97babac15c32db7254e941"
+          ],
+          "after": [
+            "100644",
+            "9acc47bd3643e438a0c919ef5f058a22a6f1dd8c"
+          ],
+          "packet": "INFRASTRUCTURE_OFFLINE_FOUR_APPLIED.json"
         }
       ]
     },
@@ -28615,19 +28718,36 @@
     },
     {
       "path": "adl/tools/fix_git_main_sync_preserve_local_adl.sh",
-      "action": "modify",
+      "action": "remove",
       "before": [
         "100755",
         "6b2454d588949dad759f095b6778c9f45941e631"
       ],
-      "after": [
-        "100755",
-        "6e2eb43ca0abd95817a921240f25079db8e8ace0"
-      ],
+      "after": null,
       "implementation_commit": "f6000f411dd709870196c9ae902b458df8c9cd05",
       "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
       "review_reference": "review_1223_applied_components exact77/112 review",
-      "source_chain_reference": "proposed_reconciled_entries:adl/tools/fix_git_main_sync_preserve_local_adl.sh"
+      "source_chain_reference": "proposed_reconciled_entries:adl/tools/fix_git_main_sync_preserve_local_adl.sh",
+      "supplemental_source_chain": [
+        {
+          "commit": "78962bd58aed53c2cb44e8dc3d78858853dc9826",
+          "before": [
+            "100755",
+            "6e2eb43ca0abd95817a921240f25079db8e8ace0"
+          ],
+          "after": null,
+          "packet": "MAIN_SYNC_TWO_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "MAIN_SYNC_TWO_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/main-sync-two-retirement/preimages.tar",
+        "archive_sha256": "2b9c8e71718b1d56657fbee113efb38585a72380910264af332b8a67552d58d3",
+        "member": "adl/tools/fix_git_main_sync_preserve_local_adl.sh",
+        "mode": "100755",
+        "blob": "6e2eb43ca0abd95817a921240f25079db8e8ace0",
+        "sha256": "b48c2e276f22b4d99d1181fdceeaf335ca685c268f762f820673a460793a674e"
+      }
     },
     {
       "path": "adl/tools/fixtures/issue872/HISTORICAL_MANIFEST.json",
@@ -28698,7 +28818,7 @@
       ],
       "after": [
         "100644",
-        "84045d8305ccbf5e2e00b4cd5faba0016eefabfa"
+        "aa40a902c2a195f95a295860a42d7692fc9729a8"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json",
@@ -28795,6 +28915,18 @@
             "84045d8305ccbf5e2e00b4cd5faba0016eefabfa"
           ],
           "packet": "RUNTIME_GATEWAY_GENERATION_APPLIED.json"
+        },
+        {
+          "commit": "817f83c8530cce5fb797e623fc8bc7abe89e97f8",
+          "before": [
+            "100644",
+            "84045d8305ccbf5e2e00b4cd5faba0016eefabfa"
+          ],
+          "after": [
+            "100644",
+            "aa40a902c2a195f95a295860a42d7692fc9729a8"
+          ],
+          "packet": "OWNER_AGGREGATE_RETIREMENT_APPLIED.json"
         }
       ]
     },
@@ -29015,15 +29147,12 @@
     },
     {
       "path": "adl/tools/run_owner_validation_lane.sh",
-      "action": "modify",
+      "action": "remove",
       "before": [
         "100755",
         "d97ffe76911bf60c5883b3235bebfc09d35229e8"
       ],
-      "after": [
-        "100755",
-        "c6364cddc14d368959e478ec089c20f096bfc9ca"
-      ],
+      "after": null,
       "implementation_commit": "f598c0711d9b270a5b304c7cde64dcdf3068619e",
       "approval_reference": "CSDLC_SOURCE_FAMILY_APPLIED.json",
       "review_reference": "review_1223_public_facade final815 and parent supplemental caller review PASS",
@@ -29039,7 +29168,27 @@
             "c6364cddc14d368959e478ec089c20f096bfc9ca"
           ]
         }
-      ]
+      ],
+      "supplemental_source_chain": [
+        {
+          "commit": "817f83c8530cce5fb797e623fc8bc7abe89e97f8",
+          "before": [
+            "100755",
+            "c6364cddc14d368959e478ec089c20f096bfc9ca"
+          ],
+          "after": null,
+          "packet": "OWNER_AGGREGATE_RETIREMENT_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "OWNER_AGGREGATE_RETIREMENT_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/owner-aggregate-retirement-preparation/preimages.tar",
+        "archive_sha256": "bd466cddd50de70aefb1ece65bd22124ec9a2401f169898e119bdb8b9dcb79f6",
+        "member": "adl/tools/run_owner_validation_lane.sh",
+        "mode": "100755",
+        "blob": "c6364cddc14d368959e478ec089c20f096bfc9ca",
+        "sha256": "515f907a12a96360d4bc8cdca40dda3b62328ce104369014f8e838c002fdecbf"
+      }
     },
     {
       "path": "adl/tools/run_pr_fast_test_lane.sh",
@@ -29964,12 +30113,38 @@
       ],
       "after": [
         "100755",
-        "292733b69574cf4517046d33bede7dead55fae5c"
+        "e9f8e9f28be74e4c60bf441b9d2a283506a32f8c"
       ],
       "implementation_commit": "9b6ea052ff24c8819a4b9a86a68a8255a8dd6503",
       "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
       "review_reference": "review_1223_applied_components exact77/112 review",
-      "source_chain_reference": "proposed_reconciled_entries:adl/tools/test_validation_manager.sh"
+      "source_chain_reference": "proposed_reconciled_entries:adl/tools/test_validation_manager.sh",
+      "supplemental_source_chain": [
+        {
+          "commit": "817f83c8530cce5fb797e623fc8bc7abe89e97f8",
+          "before": [
+            "100755",
+            "292733b69574cf4517046d33bede7dead55fae5c"
+          ],
+          "after": [
+            "100755",
+            "75458cf9d01a3ec0c036f6088f9bcc8d0dd33780"
+          ],
+          "packet": "OWNER_AGGREGATE_RETIREMENT_APPLIED.json"
+        },
+        {
+          "commit": "67b491e9f9d482a0e6f32d33d1e08a876f86a415",
+          "before": [
+            "100755",
+            "75458cf9d01a3ec0c036f6088f9bcc8d0dd33780"
+          ],
+          "after": [
+            "100755",
+            "e9f8e9f28be74e4c60bf441b9d2a283506a32f8c"
+          ],
+          "packet": "PUBLIC_SELECTOR_REPAIR_APPLIED.json"
+        }
+      ]
     },
     {
       "path": "adl/tools/test_workflow_guardrails.sh",
@@ -56527,11 +56702,25 @@
       ],
       "after": [
         "100644",
-        "c976c98c5ff8dd41c66c3a53338c0d2f5cf47a2c"
+        "033a360add978886da56a0fe30a758d814324259"
       ],
       "implementation_commit": "3383f7f691ec248d6fe87cd18e4e13c5d1e8d900",
       "approval_reference": "RUNTIME_SOURCE_FAMILY_APPLIED.json",
-      "review_reference": "review_1223_public_facade exact Runtime896 plus54 caller repair review"
+      "review_reference": "review_1223_public_facade exact Runtime896 plus54 caller repair review",
+      "supplemental_source_chain": [
+        {
+          "commit": "817f83c8530cce5fb797e623fc8bc7abe89e97f8",
+          "before": [
+            "100644",
+            "c976c98c5ff8dd41c66c3a53338c0d2f5cf47a2c"
+          ],
+          "after": [
+            "100644",
+            "033a360add978886da56a0fe30a758d814324259"
+          ],
+          "packet": "OWNER_AGGREGATE_RETIREMENT_APPLIED.json"
+        }
+      ]
     },
     {
       "path": "docs/tooling/GITHUB_LARGER_RUNNER_PREFLIGHT.md",
@@ -56616,7 +56805,7 @@
       "before": null,
       "after": [
         "100644",
-        "5cc8378114cb63ad0329ba162119b6a2a067a649"
+        "984b3cd3af5511997b7235b417e84c9a23e124f0"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json",
@@ -56937,6 +57126,54 @@
             "5cc8378114cb63ad0329ba162119b6a2a067a649"
           ],
           "packet": "CODEFRIEND_FITNESS_FAMILY_APPLIED.json"
+        },
+        {
+          "commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+          "before": [
+            "100644",
+            "5cc8378114cb63ad0329ba162119b6a2a067a649"
+          ],
+          "after": [
+            "100644",
+            "01012e4bfa369e2186575dedd15e1d8b5b76f77b"
+          ],
+          "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json"
+        },
+        {
+          "commit": "817f83c8530cce5fb797e623fc8bc7abe89e97f8",
+          "before": [
+            "100644",
+            "01012e4bfa369e2186575dedd15e1d8b5b76f77b"
+          ],
+          "after": [
+            "100644",
+            "fddf6e5af2ab38184d83beceabbfbef768b605e6"
+          ],
+          "packet": "OWNER_AGGREGATE_RETIREMENT_APPLIED.json"
+        },
+        {
+          "commit": "78962bd58aed53c2cb44e8dc3d78858853dc9826",
+          "before": [
+            "100644",
+            "fddf6e5af2ab38184d83beceabbfbef768b605e6"
+          ],
+          "after": [
+            "100644",
+            "73b7b5bd8508498b1397e5c4a73d422c01b0c3ca"
+          ],
+          "packet": "MAIN_SYNC_TWO_APPLIED.json"
+        },
+        {
+          "commit": "caa5e57b9a7bec804bd3ad2bfd1a0c139a6cb091",
+          "before": [
+            "100644",
+            "73b7b5bd8508498b1397e5c4a73d422c01b0c3ca"
+          ],
+          "after": [
+            "100644",
+            "984b3cd3af5511997b7235b417e84c9a23e124f0"
+          ],
+          "packet": "INFRASTRUCTURE_OFFLINE_FOUR_APPLIED.json"
         }
       ],
       "prior_execution_provenance": [
@@ -64178,7 +64415,7 @@
       "before": null,
       "after": [
         "100644",
-        "0f97c238c75491da55ea5787b76cbd4d63e687f4"
+        "e674014ce323c8d59e7d32f568b46ad30962bdcb"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "Infrastructure212 source commit guard-documentation accompaniment",
@@ -64343,6 +64580,18 @@
             "0f97c238c75491da55ea5787b76cbd4d63e687f4"
           ],
           "packet": "CodeFriend fitness, host and CI contract integration"
+        },
+        {
+          "commit": "pending_reviewed_integration",
+          "before": [
+            "100644",
+            "0f97c238c75491da55ea5787b76cbd4d63e687f4"
+          ],
+          "after": [
+            "100644",
+            "e674014ce323c8d59e7d32f568b46ad30962bdcb"
+          ],
+          "packet": "WP14, contract-market, owner aggregate and main-sync integration"
         }
       ],
       "prior_execution_provenance": [
@@ -77531,7 +77780,7 @@
       ],
       "after": [
         "100644",
-        "7ddfee4e96756f59d8817090706318151adcb20c"
+        "815f5b662d2ff7a0a560f84931967d522b7fc9e3"
       ],
       "action": "modify",
       "implementation_commit": "c1db31d3589aac55eadd7225d2403167e37b69d6",
@@ -77549,6 +77798,20 @@
             "7ddfee4e96756f59d8817090706318151adcb20c"
           ],
           "packet": "HISTORICAL_SKILL_FAMILY_APPLIED.json"
+        }
+      ],
+      "supplemental_source_chain": [
+        {
+          "commit": "817f83c8530cce5fb797e623fc8bc7abe89e97f8",
+          "before": [
+            "100644",
+            "7ddfee4e96756f59d8817090706318151adcb20c"
+          ],
+          "after": [
+            "100644",
+            "815f5b662d2ff7a0a560f84931967d522b7fc9e3"
+          ],
+          "packet": "OWNER_AGGREGATE_RETIREMENT_APPLIED.json"
         }
       ]
     },
@@ -80262,7 +80525,7 @@
       ],
       "after": [
         "100755",
-        "f58a7f887517bb156e387517f78ee76c7573080d"
+        "e69145012acc9698df466dfcdced6e7317785fa0"
       ],
       "action": "modify",
       "implementation_commit": "3788ec9b21de45669bc4b770ef44cde787a6773b",
@@ -80280,6 +80543,20 @@
             "f58a7f887517bb156e387517f78ee76c7573080d"
           ],
           "packet": "MIXED_CI_CONTRACT_APPLIED.json"
+        }
+      ],
+      "supplemental_source_chain": [
+        {
+          "commit": "fdd55dc620706da21a8409e7a04d5c8580fa0227",
+          "before": [
+            "100755",
+            "f58a7f887517bb156e387517f78ee76c7573080d"
+          ],
+          "after": [
+            "100755",
+            "e69145012acc9698df466dfcdced6e7317785fa0"
+          ],
+          "packet": "WP14_RETIRED_WORKFLOWS_APPLIED.json"
         }
       ]
     },
@@ -80759,7 +81036,7 @@
       ],
       "after": [
         "100644",
-        "8274eb8a4f86e2735af8bdf22f262cd4a93611a5"
+        "78864d45a508187159e79dd0eeacda9635f4c0b0"
       ],
       "action": "modify",
       "implementation_commit": "ba90cf9dc1ca7388610444da604fb76491f17149",
@@ -80791,6 +81068,18 @@
             "8274eb8a4f86e2735af8bdf22f262cd4a93611a5"
           ],
           "packet": "V0871_AGGREGATE_FAMILY_APPLIED.json"
+        },
+        {
+          "commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+          "before": [
+            "100644",
+            "8274eb8a4f86e2735af8bdf22f262cd4a93611a5"
+          ],
+          "after": [
+            "100644",
+            "78864d45a508187159e79dd0eeacda9635f4c0b0"
+          ],
+          "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json"
         }
       ]
     },
@@ -82950,6 +83239,1207 @@
         "blob": "135ab8a6657a9b9a010b3bd9367c4e8092670e91",
         "sha256": "85ac5d982bd2c7185101ed0204964f258399ba263aeabc2a85ad147a96a6b263"
       }
+    },
+    {
+      "path": "adl/tools/render_v0904_contract_market_summary.py",
+      "before": [
+        "100755",
+        "bfb100c091b49b6edbb06335a803cf892ff8a1e0"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+      "approval_reference": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+          "before": [
+            "100755",
+            "bfb100c091b49b6edbb06335a803cf892ff8a1e0"
+          ],
+          "after": null,
+          "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-contract-market28-preparation/rollback-preimages.tar",
+        "archive_sha256": "7f1ecb207b53839be60dacde61df598386a8ab1237b97348f34003d4393d19ef",
+        "member": "adl/tools/render_v0904_contract_market_summary.py",
+        "mode": "100755",
+        "blob": "bfb100c091b49b6edbb06335a803cf892ff8a1e0",
+        "sha256": "ec91103e0f393c1544972c5d7a177635bd18bb71a278567cd8b5230c8e651118"
+      }
+    },
+    {
+      "path": "adl/tools/run_v0904_contract_market_runner.py",
+      "before": [
+        "100755",
+        "91db28a12347210aed57e62a1f9042c59f6f7f8d"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+      "approval_reference": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+          "before": [
+            "100755",
+            "91db28a12347210aed57e62a1f9042c59f6f7f8d"
+          ],
+          "after": null,
+          "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-contract-market28-preparation/rollback-preimages.tar",
+        "archive_sha256": "7f1ecb207b53839be60dacde61df598386a8ab1237b97348f34003d4393d19ef",
+        "member": "adl/tools/run_v0904_contract_market_runner.py",
+        "mode": "100755",
+        "blob": "91db28a12347210aed57e62a1f9042c59f6f7f8d",
+        "sha256": "3aa08561563b45da7c100692430e8689c550028dfaf4d870f4be8e231bc9edd4"
+      }
+    },
+    {
+      "path": "adl/tools/test_v0904_contract_market_fixture_set.sh",
+      "before": [
+        "100644",
+        "544b41f12125d06aff98707b0f7976ce3178ea3c"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+      "approval_reference": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+          "before": [
+            "100644",
+            "544b41f12125d06aff98707b0f7976ce3178ea3c"
+          ],
+          "after": null,
+          "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-contract-market28-preparation/rollback-preimages.tar",
+        "archive_sha256": "7f1ecb207b53839be60dacde61df598386a8ab1237b97348f34003d4393d19ef",
+        "member": "adl/tools/test_v0904_contract_market_fixture_set.sh",
+        "mode": "100644",
+        "blob": "544b41f12125d06aff98707b0f7976ce3178ea3c",
+        "sha256": "cc74b16f6aebdc2435566aa16f92af3f550ddecc19ab97d0f6d3063511c0981a"
+      }
+    },
+    {
+      "path": "adl/tools/test_v0904_contract_market_runner.sh",
+      "before": [
+        "100755",
+        "577de12f3e3dff2a5a48af400317d17b36ca5c7d"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+      "approval_reference": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+          "before": [
+            "100755",
+            "577de12f3e3dff2a5a48af400317d17b36ca5c7d"
+          ],
+          "after": null,
+          "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-contract-market28-preparation/rollback-preimages.tar",
+        "archive_sha256": "7f1ecb207b53839be60dacde61df598386a8ab1237b97348f34003d4393d19ef",
+        "member": "adl/tools/test_v0904_contract_market_runner.sh",
+        "mode": "100755",
+        "blob": "577de12f3e3dff2a5a48af400317d17b36ca5c7d",
+        "sha256": "f8e864586d685a7e3fd0580ea8c8f0ee4bdeadc28c01e13dd2f0056ce5a9557f"
+      }
+    },
+    {
+      "path": "adl/tools/test_v0904_contract_market_summary.sh",
+      "before": [
+        "100755",
+        "c20207b60216e092963b20bad133674059b1bec4"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+      "approval_reference": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+          "before": [
+            "100755",
+            "c20207b60216e092963b20bad133674059b1bec4"
+          ],
+          "after": null,
+          "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-contract-market28-preparation/rollback-preimages.tar",
+        "archive_sha256": "7f1ecb207b53839be60dacde61df598386a8ab1237b97348f34003d4393d19ef",
+        "member": "adl/tools/test_v0904_contract_market_summary.sh",
+        "mode": "100755",
+        "blob": "c20207b60216e092963b20bad133674059b1bec4",
+        "sha256": "272ec20a2b56a736e694456f8ace01bf3b53c22fe816ae4e18c111a239a5fcb8"
+      }
+    },
+    {
+      "path": "demos/fixtures/contract_market/acceptance_transition.json",
+      "before": [
+        "100644",
+        "cfeab14b3087deee3ae70da7db5aa5410d08d52d"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+      "approval_reference": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+          "before": [
+            "100644",
+            "cfeab14b3087deee3ae70da7db5aa5410d08d52d"
+          ],
+          "after": null,
+          "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-contract-market28-preparation/rollback-preimages.tar",
+        "archive_sha256": "7f1ecb207b53839be60dacde61df598386a8ab1237b97348f34003d4393d19ef",
+        "member": "demos/fixtures/contract_market/acceptance_transition.json",
+        "mode": "100644",
+        "blob": "cfeab14b3087deee3ae70da7db5aa5410d08d52d",
+        "sha256": "01cbc2080c4c8e94ec525e516835597750a93648efbbbae0ef5e77f9987509d7"
+      }
+    },
+    {
+      "path": "demos/fixtures/contract_market/award_transition.json",
+      "before": [
+        "100644",
+        "a72cafea9f3c50e4f55f24879bc052bbfff80796"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+      "approval_reference": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+          "before": [
+            "100644",
+            "a72cafea9f3c50e4f55f24879bc052bbfff80796"
+          ],
+          "after": null,
+          "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-contract-market28-preparation/rollback-preimages.tar",
+        "archive_sha256": "7f1ecb207b53839be60dacde61df598386a8ab1237b97348f34003d4393d19ef",
+        "member": "demos/fixtures/contract_market/award_transition.json",
+        "mode": "100644",
+        "blob": "a72cafea9f3c50e4f55f24879bc052bbfff80796",
+        "sha256": "d3545145a830a9bc3d1d731201590db9fab117cac6fde1a69567923e399f0108"
+      }
+    },
+    {
+      "path": "demos/fixtures/contract_market/bid_alpha.json",
+      "before": [
+        "100644",
+        "349a7b4dfdc335c2bea8878edbc675905529b99e"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+      "approval_reference": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+          "before": [
+            "100644",
+            "349a7b4dfdc335c2bea8878edbc675905529b99e"
+          ],
+          "after": null,
+          "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-contract-market28-preparation/rollback-preimages.tar",
+        "archive_sha256": "7f1ecb207b53839be60dacde61df598386a8ab1237b97348f34003d4393d19ef",
+        "member": "demos/fixtures/contract_market/bid_alpha.json",
+        "mode": "100644",
+        "blob": "349a7b4dfdc335c2bea8878edbc675905529b99e",
+        "sha256": "0a572fbd7728051122cdbc144c978be6c00c79ea5d47be0700d374c4a8429e19"
+      }
+    },
+    {
+      "path": "demos/fixtures/contract_market/bid_beta.json",
+      "before": [
+        "100644",
+        "127c661a55b0aa25b5f69a8f3987a631edbbf872"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+      "approval_reference": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+          "before": [
+            "100644",
+            "127c661a55b0aa25b5f69a8f3987a631edbbf872"
+          ],
+          "after": null,
+          "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-contract-market28-preparation/rollback-preimages.tar",
+        "archive_sha256": "7f1ecb207b53839be60dacde61df598386a8ab1237b97348f34003d4393d19ef",
+        "member": "demos/fixtures/contract_market/bid_beta.json",
+        "mode": "100644",
+        "blob": "127c661a55b0aa25b5f69a8f3987a631edbbf872",
+        "sha256": "754b580e594dfeed5ae7b07fa1db73f948a292ad83cf3cc08799dfea1534644f"
+      }
+    },
+    {
+      "path": "demos/fixtures/contract_market/completion_event.json",
+      "before": [
+        "100644",
+        "e7f074b701cf948a9510a8f21a39f2dd9f273bca"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+      "approval_reference": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+          "before": [
+            "100644",
+            "e7f074b701cf948a9510a8f21a39f2dd9f273bca"
+          ],
+          "after": null,
+          "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-contract-market28-preparation/rollback-preimages.tar",
+        "archive_sha256": "7f1ecb207b53839be60dacde61df598386a8ab1237b97348f34003d4393d19ef",
+        "member": "demos/fixtures/contract_market/completion_event.json",
+        "mode": "100644",
+        "blob": "e7f074b701cf948a9510a8f21a39f2dd9f273bca",
+        "sha256": "127d3e659eb4a1b94c5b4d5908999fd06b22dba443979256d9b6dbdf61dd427c"
+      }
+    },
+    {
+      "path": "demos/fixtures/contract_market/delegated_output.json",
+      "before": [
+        "100644",
+        "9c6584ba0256cb99bfae5066daa0e9abef786c7f"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+      "approval_reference": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+          "before": [
+            "100644",
+            "9c6584ba0256cb99bfae5066daa0e9abef786c7f"
+          ],
+          "after": null,
+          "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-contract-market28-preparation/rollback-preimages.tar",
+        "archive_sha256": "7f1ecb207b53839be60dacde61df598386a8ab1237b97348f34003d4393d19ef",
+        "member": "demos/fixtures/contract_market/delegated_output.json",
+        "mode": "100644",
+        "blob": "9c6584ba0256cb99bfae5066daa0e9abef786c7f",
+        "sha256": "4c0332ef46cd11ae7bbcf7f0878f636918afee566dff9c5c6fdbdfcd59a7b5ec"
+      }
+    },
+    {
+      "path": "demos/fixtures/contract_market/demo_manifest.json",
+      "before": [
+        "100644",
+        "d97647554fd0f0f634ad73963b46610f1333998f"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+      "approval_reference": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+          "before": [
+            "100644",
+            "d97647554fd0f0f634ad73963b46610f1333998f"
+          ],
+          "after": null,
+          "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-contract-market28-preparation/rollback-preimages.tar",
+        "archive_sha256": "7f1ecb207b53839be60dacde61df598386a8ab1237b97348f34003d4393d19ef",
+        "member": "demos/fixtures/contract_market/demo_manifest.json",
+        "mode": "100644",
+        "blob": "d97647554fd0f0f634ad73963b46610f1333998f",
+        "sha256": "7dc56a03daf6f68db1e26790fdbf07fe211d9926e1a3a5cda0f47a5289279701"
+      }
+    },
+    {
+      "path": "demos/fixtures/contract_market/evaluation.json",
+      "before": [
+        "100644",
+        "3913707973eaa93103394d16a6d3754ef4649af6"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+      "approval_reference": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+          "before": [
+            "100644",
+            "3913707973eaa93103394d16a6d3754ef4649af6"
+          ],
+          "after": null,
+          "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-contract-market28-preparation/rollback-preimages.tar",
+        "archive_sha256": "7f1ecb207b53839be60dacde61df598386a8ab1237b97348f34003d4393d19ef",
+        "member": "demos/fixtures/contract_market/evaluation.json",
+        "mode": "100644",
+        "blob": "3913707973eaa93103394d16a6d3754ef4649af6",
+        "sha256": "979a3995c4d951e701fdd332666b2fb2f0f23016fc47674ae4474e1a6090e71e"
+      }
+    },
+    {
+      "path": "demos/fixtures/contract_market/fixture_definition.md",
+      "before": [
+        "100644",
+        "e25b4e93a15edbb50a6c444d097500bce23c7d47"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+      "approval_reference": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+          "before": [
+            "100644",
+            "e25b4e93a15edbb50a6c444d097500bce23c7d47"
+          ],
+          "after": null,
+          "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-contract-market28-preparation/rollback-preimages.tar",
+        "archive_sha256": "7f1ecb207b53839be60dacde61df598386a8ab1237b97348f34003d4393d19ef",
+        "member": "demos/fixtures/contract_market/fixture_definition.md",
+        "mode": "100644",
+        "blob": "e25b4e93a15edbb50a6c444d097500bce23c7d47",
+        "sha256": "3046107927c50d60fe96e63447f60d93b34f29397b27718aac5e514c7fc3d377"
+      }
+    },
+    {
+      "path": "demos/fixtures/contract_market/packet_manifest.json",
+      "before": [
+        "100644",
+        "a8055610697290c437ddc2574349ea6f11cea84a"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+      "approval_reference": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+          "before": [
+            "100644",
+            "a8055610697290c437ddc2574349ea6f11cea84a"
+          ],
+          "after": null,
+          "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-contract-market28-preparation/rollback-preimages.tar",
+        "archive_sha256": "7f1ecb207b53839be60dacde61df598386a8ab1237b97348f34003d4393d19ef",
+        "member": "demos/fixtures/contract_market/packet_manifest.json",
+        "mode": "100644",
+        "blob": "a8055610697290c437ddc2574349ea6f11cea84a",
+        "sha256": "dda29213034a75233ffacf194f9500139e38a6f742aae4e22657eb4bd98b5b25"
+      }
+    },
+    {
+      "path": "demos/fixtures/contract_market/parent_contract.json",
+      "before": [
+        "100644",
+        "0910933c9158fd6d7ef77a02c0c1a2b4e7430740"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+      "approval_reference": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+          "before": [
+            "100644",
+            "0910933c9158fd6d7ef77a02c0c1a2b4e7430740"
+          ],
+          "after": null,
+          "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-contract-market28-preparation/rollback-preimages.tar",
+        "archive_sha256": "7f1ecb207b53839be60dacde61df598386a8ab1237b97348f34003d4393d19ef",
+        "member": "demos/fixtures/contract_market/parent_contract.json",
+        "mode": "100644",
+        "blob": "0910933c9158fd6d7ef77a02c0c1a2b4e7430740",
+        "sha256": "a83addc00ace82ebef0d6a97f744ea4c7a8ce4ca554a50e13dad502e82cb732c"
+      }
+    },
+    {
+      "path": "demos/fixtures/contract_market/parent_integration_output.json",
+      "before": [
+        "100644",
+        "71e0c4c9180dd79cf14fe2b11466554833bb9c44"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+      "approval_reference": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+          "before": [
+            "100644",
+            "71e0c4c9180dd79cf14fe2b11466554833bb9c44"
+          ],
+          "after": null,
+          "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-contract-market28-preparation/rollback-preimages.tar",
+        "archive_sha256": "7f1ecb207b53839be60dacde61df598386a8ab1237b97348f34003d4393d19ef",
+        "member": "demos/fixtures/contract_market/parent_integration_output.json",
+        "mode": "100644",
+        "blob": "71e0c4c9180dd79cf14fe2b11466554833bb9c44",
+        "sha256": "82cf2c6f84573cff65e84aebbbdc2450f2019f91805a2c5995babceebf34accb"
+      }
+    },
+    {
+      "path": "demos/fixtures/contract_market/review_summary_example.md",
+      "before": [
+        "100644",
+        "ee576ffd6a8990fb83961890f8eb19720fa76240"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+      "approval_reference": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+          "before": [
+            "100644",
+            "ee576ffd6a8990fb83961890f8eb19720fa76240"
+          ],
+          "after": null,
+          "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-contract-market28-preparation/rollback-preimages.tar",
+        "archive_sha256": "7f1ecb207b53839be60dacde61df598386a8ab1237b97348f34003d4393d19ef",
+        "member": "demos/fixtures/contract_market/review_summary_example.md",
+        "mode": "100644",
+        "blob": "ee576ffd6a8990fb83961890f8eb19720fa76240",
+        "sha256": "d233672f472161d33be7486b86a8286c089574fb5ea16f9ed5e4069608e44292"
+      }
+    },
+    {
+      "path": "demos/fixtures/contract_market/review_summary_schema.json",
+      "before": [
+        "100644",
+        "688bfc9c0d72161b55fb5b529b0fa8548f8a5f48"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+      "approval_reference": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+          "before": [
+            "100644",
+            "688bfc9c0d72161b55fb5b529b0fa8548f8a5f48"
+          ],
+          "after": null,
+          "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-contract-market28-preparation/rollback-preimages.tar",
+        "archive_sha256": "7f1ecb207b53839be60dacde61df598386a8ab1237b97348f34003d4393d19ef",
+        "member": "demos/fixtures/contract_market/review_summary_schema.json",
+        "mode": "100644",
+        "blob": "688bfc9c0d72161b55fb5b529b0fa8548f8a5f48",
+        "sha256": "d11f1d54fb45e55f06b9ecd3cc826dd7f5b14f81310f18befd0f397281726c39"
+      }
+    },
+    {
+      "path": "demos/fixtures/contract_market/review_summary_seed.json",
+      "before": [
+        "100644",
+        "579bbc343cf7aef3281e2e599adffdd9b0d751b8"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+      "approval_reference": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+          "before": [
+            "100644",
+            "579bbc343cf7aef3281e2e599adffdd9b0d751b8"
+          ],
+          "after": null,
+          "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-contract-market28-preparation/rollback-preimages.tar",
+        "archive_sha256": "7f1ecb207b53839be60dacde61df598386a8ab1237b97348f34003d4393d19ef",
+        "member": "demos/fixtures/contract_market/review_summary_seed.json",
+        "mode": "100644",
+        "blob": "579bbc343cf7aef3281e2e599adffdd9b0d751b8",
+        "sha256": "615d0e2cb6f91b327b2537d286c1617ea386f1f1ff9f36f7131b231af03a7009"
+      }
+    },
+    {
+      "path": "demos/fixtures/contract_market/subcontract.json",
+      "before": [
+        "100644",
+        "a7143c7eec628db9ef7f4d9c9357a02ce24bfb9f"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+      "approval_reference": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+          "before": [
+            "100644",
+            "a7143c7eec628db9ef7f4d9c9357a02ce24bfb9f"
+          ],
+          "after": null,
+          "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-contract-market28-preparation/rollback-preimages.tar",
+        "archive_sha256": "7f1ecb207b53839be60dacde61df598386a8ab1237b97348f34003d4393d19ef",
+        "member": "demos/fixtures/contract_market/subcontract.json",
+        "mode": "100644",
+        "blob": "a7143c7eec628db9ef7f4d9c9357a02ce24bfb9f",
+        "sha256": "2fb40a04cc13769e807161b14a25bdc2f90c1730c3d2741d9b18427e7c16f3df"
+      }
+    },
+    {
+      "path": "demos/fixtures/contract_market/tool_requirement_fixture.json",
+      "before": [
+        "100644",
+        "336e9c22d2dc42f01950b83f21b9899a63b22f3f"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+      "approval_reference": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+          "before": [
+            "100644",
+            "336e9c22d2dc42f01950b83f21b9899a63b22f3f"
+          ],
+          "after": null,
+          "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-contract-market28-preparation/rollback-preimages.tar",
+        "archive_sha256": "7f1ecb207b53839be60dacde61df598386a8ab1237b97348f34003d4393d19ef",
+        "member": "demos/fixtures/contract_market/tool_requirement_fixture.json",
+        "mode": "100644",
+        "blob": "336e9c22d2dc42f01950b83f21b9899a63b22f3f",
+        "sha256": "05062d351d2f318aaacddb6480dbc29be6d47cf3a739e3b640eb744567b1b07c"
+      }
+    },
+    {
+      "path": "demos/fixtures/contract_market/trace_bundle.json",
+      "before": [
+        "100644",
+        "c80c607cc24e79516003b3c87b6414818a80d8e1"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+      "approval_reference": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+          "before": [
+            "100644",
+            "c80c607cc24e79516003b3c87b6414818a80d8e1"
+          ],
+          "after": null,
+          "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-contract-market28-preparation/rollback-preimages.tar",
+        "archive_sha256": "7f1ecb207b53839be60dacde61df598386a8ab1237b97348f34003d4393d19ef",
+        "member": "demos/fixtures/contract_market/trace_bundle.json",
+        "mode": "100644",
+        "blob": "c80c607cc24e79516003b3c87b6414818a80d8e1",
+        "sha256": "e8576583130792a4cbd305a54e9c761c650de94d3b18ba64ac85095f05b62cc8"
+      }
+    },
+    {
+      "path": "demos/fixtures/contract_market/validation_protocol.py",
+      "before": [
+        "100644",
+        "dbfbdc1137646f6175f30a57b99c6556b49f0c9b"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+      "approval_reference": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+          "before": [
+            "100644",
+            "dbfbdc1137646f6175f30a57b99c6556b49f0c9b"
+          ],
+          "after": null,
+          "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-contract-market28-preparation/rollback-preimages.tar",
+        "archive_sha256": "7f1ecb207b53839be60dacde61df598386a8ab1237b97348f34003d4393d19ef",
+        "member": "demos/fixtures/contract_market/validation_protocol.py",
+        "mode": "100644",
+        "blob": "dbfbdc1137646f6175f30a57b99c6556b49f0c9b",
+        "sha256": "a09908028607f7989425e81b9056c87804ff1ab3dda459c2992cca645656263c"
+      }
+    },
+    {
+      "path": "demos/fixtures/contract_market_invalid/fixture_definition.md",
+      "before": [
+        "100644",
+        "99270328c801736caf75f9a300b40de2bdd71e97"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+      "approval_reference": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+          "before": [
+            "100644",
+            "99270328c801736caf75f9a300b40de2bdd71e97"
+          ],
+          "after": null,
+          "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-contract-market28-preparation/rollback-preimages.tar",
+        "archive_sha256": "7f1ecb207b53839be60dacde61df598386a8ab1237b97348f34003d4393d19ef",
+        "member": "demos/fixtures/contract_market_invalid/fixture_definition.md",
+        "mode": "100644",
+        "blob": "99270328c801736caf75f9a300b40de2bdd71e97",
+        "sha256": "cef9e2a2689f3d7ed86d8f57696b8619a9ac85620f797b9c165bbfea2836422d"
+      }
+    },
+    {
+      "path": "demos/fixtures/contract_market_invalid/invalid_bid_tool_grant.json",
+      "before": [
+        "100644",
+        "b6a4accf80650d708e8798cfbd8c49ee94d8f652"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+      "approval_reference": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+          "before": [
+            "100644",
+            "b6a4accf80650d708e8798cfbd8c49ee94d8f652"
+          ],
+          "after": null,
+          "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-contract-market28-preparation/rollback-preimages.tar",
+        "archive_sha256": "7f1ecb207b53839be60dacde61df598386a8ab1237b97348f34003d4393d19ef",
+        "member": "demos/fixtures/contract_market_invalid/invalid_bid_tool_grant.json",
+        "mode": "100644",
+        "blob": "b6a4accf80650d708e8798cfbd8c49ee94d8f652",
+        "sha256": "5df6d7c5b9496132de0eaf93dd79286409195c8e2e805a72f0cac98b6737fb35"
+      }
+    },
+    {
+      "path": "demos/fixtures/contract_market_invalid/invalid_completion_missing_artifacts.json",
+      "before": [
+        "100644",
+        "cabc94e27e1d10077a9d9f349bd753203d0b652b"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+      "approval_reference": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+          "before": [
+            "100644",
+            "cabc94e27e1d10077a9d9f349bd753203d0b652b"
+          ],
+          "after": null,
+          "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-contract-market28-preparation/rollback-preimages.tar",
+        "archive_sha256": "7f1ecb207b53839be60dacde61df598386a8ab1237b97348f34003d4393d19ef",
+        "member": "demos/fixtures/contract_market_invalid/invalid_completion_missing_artifacts.json",
+        "mode": "100644",
+        "blob": "cabc94e27e1d10077a9d9f349bd753203d0b652b",
+        "sha256": "c98df3ccf3cbbaa06b3a2d32117c06c040ef3bd514a800c78b797a275f1812a6"
+      }
+    },
+    {
+      "path": "demos/fixtures/contract_market_invalid/invalid_packet_manifest.json",
+      "before": [
+        "100644",
+        "3fada0d7f79038a000bf49ab903441add20f087c"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+      "approval_reference": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+          "before": [
+            "100644",
+            "3fada0d7f79038a000bf49ab903441add20f087c"
+          ],
+          "after": null,
+          "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-contract-market28-preparation/rollback-preimages.tar",
+        "archive_sha256": "7f1ecb207b53839be60dacde61df598386a8ab1237b97348f34003d4393d19ef",
+        "member": "demos/fixtures/contract_market_invalid/invalid_packet_manifest.json",
+        "mode": "100644",
+        "blob": "3fada0d7f79038a000bf49ab903441add20f087c",
+        "sha256": "41d8b5c493f4e06a01e8aac7ae715c16913a940d90b50623c52f06c3a71402ac"
+      }
+    },
+    {
+      "path": "docs/tooling/RUNTIME_CONTRACT_MARKET_OWNER.md",
+      "before": null,
+      "after": [
+        "100644",
+        "4ada1f6ff32350b362b7dc1bca0fb910de599bd6"
+      ],
+      "action": "add",
+      "implementation_commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+      "approval_reference": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+          "before": null,
+          "after": [
+            "100644",
+            "4ada1f6ff32350b362b7dc1bca0fb910de599bd6"
+          ],
+          "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/test_rust_validation_warm_cache.sh",
+      "before": [
+        "100755",
+        "3e5c434c7518e176333a573a77b03e3369afef6e"
+      ],
+      "after": [
+        "100755",
+        "cf0fff96a7bcc063c6e5df14ddec7669f0dc27bb"
+      ],
+      "action": "modify",
+      "implementation_commit": "817f83c8530cce5fb797e623fc8bc7abe89e97f8",
+      "approval_reference": "OWNER_AGGREGATE_RETIREMENT_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "817f83c8530cce5fb797e623fc8bc7abe89e97f8",
+          "before": [
+            "100755",
+            "3e5c434c7518e176333a573a77b03e3369afef6e"
+          ],
+          "after": [
+            "100755",
+            "cf0fff96a7bcc063c6e5df14ddec7669f0dc27bb"
+          ],
+          "packet": "OWNER_AGGREGATE_RETIREMENT_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/test_owner_validation_lane.sh",
+      "before": [
+        "100755",
+        "3b6533c548cddc846943078024bd565398f8cb15"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "817f83c8530cce5fb797e623fc8bc7abe89e97f8",
+      "approval_reference": "OWNER_AGGREGATE_RETIREMENT_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "817f83c8530cce5fb797e623fc8bc7abe89e97f8",
+          "before": [
+            "100755",
+            "3b6533c548cddc846943078024bd565398f8cb15"
+          ],
+          "after": null,
+          "packet": "OWNER_AGGREGATE_RETIREMENT_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "OWNER_AGGREGATE_RETIREMENT_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/owner-aggregate-retirement-preparation/original-retired-sources.tar",
+        "archive_sha256": "ce9259884a888452d2c5c667a76225b03624fdee8abe4cbcc6e29214e4d79511",
+        "member": "adl/tools/test_owner_validation_lane.sh",
+        "mode": "100755",
+        "blob": "3b6533c548cddc846943078024bd565398f8cb15",
+        "sha256": "8096e9a0ad5d69b6cd3ae818f85299ffb7b34ddd62745b5a695ffda28ff96560"
+      }
+    },
+    {
+      "path": "adl/tools/test_adl_review_compatibility.sh",
+      "before": [
+        "100755",
+        "7a9edec6939ad6165614e5e55eccbad08509ac3b"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "817f83c8530cce5fb797e623fc8bc7abe89e97f8",
+      "approval_reference": "OWNER_AGGREGATE_RETIREMENT_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "817f83c8530cce5fb797e623fc8bc7abe89e97f8",
+          "before": [
+            "100755",
+            "7a9edec6939ad6165614e5e55eccbad08509ac3b"
+          ],
+          "after": null,
+          "packet": "OWNER_AGGREGATE_RETIREMENT_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "OWNER_AGGREGATE_RETIREMENT_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/owner-aggregate-retirement-preparation/original-retired-sources.tar",
+        "archive_sha256": "ce9259884a888452d2c5c667a76225b03624fdee8abe4cbcc6e29214e4d79511",
+        "member": "adl/tools/test_adl_review_compatibility.sh",
+        "mode": "100755",
+        "blob": "7a9edec6939ad6165614e5e55eccbad08509ac3b",
+        "sha256": "0e33e75605ee426a482acd0d53204da70bc1afb7a7efd1022a7a700cdb56fe80"
+      }
+    },
+    {
+      "path": "adl/tools/test_fix_git_main_sync_preserves_local_adl_cards.sh",
+      "before": [
+        "100755",
+        "d6efa476695258fc543dc9bf6623a3a18655d566"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "78962bd58aed53c2cb44e8dc3d78858853dc9826",
+      "approval_reference": "MAIN_SYNC_TWO_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "78962bd58aed53c2cb44e8dc3d78858853dc9826",
+          "before": [
+            "100755",
+            "d6efa476695258fc543dc9bf6623a3a18655d566"
+          ],
+          "after": null,
+          "packet": "MAIN_SYNC_TWO_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "MAIN_SYNC_TWO_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/main-sync-two-retirement/preimages.tar",
+        "archive_sha256": "2b9c8e71718b1d56657fbee113efb38585a72380910264af332b8a67552d58d3",
+        "member": "adl/tools/test_fix_git_main_sync_preserves_local_adl_cards.sh",
+        "mode": "100755",
+        "blob": "d6efa476695258fc543dc9bf6623a3a18655d566",
+        "sha256": "e44e3747d088f31d09f79c22752b0ee9ccde345a92400a588df43c74fb53a499"
+      }
+    },
+    {
+      "path": "adl/tools/aws_spot_artifact_finalize.py",
+      "before": [
+        "100755",
+        "29d8d19c0df947b495a635c806ddab74a73629b9"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "caa5e57b9a7bec804bd3ad2bfd1a0c139a6cb091",
+      "approval_reference": "INFRASTRUCTURE_OFFLINE_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "caa5e57b9a7bec804bd3ad2bfd1a0c139a6cb091",
+          "before": [
+            "100755",
+            "29d8d19c0df947b495a635c806ddab74a73629b9"
+          ],
+          "after": null,
+          "packet": "INFRASTRUCTURE_OFFLINE_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "INFRASTRUCTURE_OFFLINE_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/infrastructure-mapped65-followup/qualified-four/rollback-preimages.tar",
+        "archive_sha256": "244a4bf4f4d1d195750bdc74347141032d4f9237520f7c646a5f84559a7172a6",
+        "member": "adl/tools/aws_spot_artifact_finalize.py",
+        "mode": "100755",
+        "blob": "29d8d19c0df947b495a635c806ddab74a73629b9",
+        "sha256": "1f64158d6c1c541c60c1bcbfe6d11c17f09fd3230e00376eaa5af4ab3bfe1002"
+      }
+    },
+    {
+      "path": "adl/tools/test_aws_spot_artifact_finalize.sh",
+      "before": [
+        "100755",
+        "29e0109eeacae63cc45204532aaf24cae67893ec"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "caa5e57b9a7bec804bd3ad2bfd1a0c139a6cb091",
+      "approval_reference": "INFRASTRUCTURE_OFFLINE_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "caa5e57b9a7bec804bd3ad2bfd1a0c139a6cb091",
+          "before": [
+            "100755",
+            "29e0109eeacae63cc45204532aaf24cae67893ec"
+          ],
+          "after": null,
+          "packet": "INFRASTRUCTURE_OFFLINE_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "INFRASTRUCTURE_OFFLINE_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/infrastructure-mapped65-followup/qualified-four/rollback-preimages.tar",
+        "archive_sha256": "244a4bf4f4d1d195750bdc74347141032d4f9237520f7c646a5f84559a7172a6",
+        "member": "adl/tools/test_aws_spot_artifact_finalize.sh",
+        "mode": "100755",
+        "blob": "29e0109eeacae63cc45204532aaf24cae67893ec",
+        "sha256": "a0616fdc3ce3e71ed4aa0dcc991d79391a01ab0a9ae3cd366e0928fe6577f1e8"
+      }
+    },
+    {
+      "path": "adl/tools/sweep_aws_spot_orphans.sh",
+      "before": [
+        "100755",
+        "40e095e9d1e946ce631ac740b3dc7448175a577c"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "caa5e57b9a7bec804bd3ad2bfd1a0c139a6cb091",
+      "approval_reference": "INFRASTRUCTURE_OFFLINE_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "caa5e57b9a7bec804bd3ad2bfd1a0c139a6cb091",
+          "before": [
+            "100755",
+            "40e095e9d1e946ce631ac740b3dc7448175a577c"
+          ],
+          "after": null,
+          "packet": "INFRASTRUCTURE_OFFLINE_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "INFRASTRUCTURE_OFFLINE_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/infrastructure-mapped65-followup/qualified-four/rollback-preimages.tar",
+        "archive_sha256": "244a4bf4f4d1d195750bdc74347141032d4f9237520f7c646a5f84559a7172a6",
+        "member": "adl/tools/sweep_aws_spot_orphans.sh",
+        "mode": "100755",
+        "blob": "40e095e9d1e946ce631ac740b3dc7448175a577c",
+        "sha256": "dd9d278e27c22caf860632f127fc4cfbe2885baf7abaf6d8b01f7f975f189016"
+      }
+    },
+    {
+      "path": "adl/tools/test_sweep_aws_spot_orphans.sh",
+      "before": [
+        "100755",
+        "a62e30bbf469b9056d6dacc6c64fc9c84cc446fe"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "caa5e57b9a7bec804bd3ad2bfd1a0c139a6cb091",
+      "approval_reference": "INFRASTRUCTURE_OFFLINE_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "caa5e57b9a7bec804bd3ad2bfd1a0c139a6cb091",
+          "before": [
+            "100755",
+            "a62e30bbf469b9056d6dacc6c64fc9c84cc446fe"
+          ],
+          "after": null,
+          "packet": "INFRASTRUCTURE_OFFLINE_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "INFRASTRUCTURE_OFFLINE_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/infrastructure-mapped65-followup/qualified-four/rollback-preimages.tar",
+        "archive_sha256": "244a4bf4f4d1d195750bdc74347141032d4f9237520f7c646a5f84559a7172a6",
+        "member": "adl/tools/test_sweep_aws_spot_orphans.sh",
+        "mode": "100755",
+        "blob": "a62e30bbf469b9056d6dacc6c64fc9c84cc446fe",
+        "sha256": "ed0478d4fa8b8b5a1accf6031d62a13c4126780e96c1f9c734d734ea7e4b4507"
+      }
+    },
+    {
+      "path": "docs/tooling/GITHUB_SPOT_CI_COVERAGE_HOW_TO.md",
+      "before": [
+        "100644",
+        "880725eca3d865cce1e0d3d984520724eb692d31"
+      ],
+      "after": [
+        "100644",
+        "a2254cd47f695657fd05adbc151dc08089b0ac11"
+      ],
+      "action": "modify",
+      "implementation_commit": "caa5e57b9a7bec804bd3ad2bfd1a0c139a6cb091",
+      "approval_reference": "INFRASTRUCTURE_OFFLINE_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "caa5e57b9a7bec804bd3ad2bfd1a0c139a6cb091",
+          "before": [
+            "100644",
+            "880725eca3d865cce1e0d3d984520724eb692d31"
+          ],
+          "after": [
+            "100644",
+            "a2254cd47f695657fd05adbc151dc08089b0ac11"
+          ],
+          "packet": "INFRASTRUCTURE_OFFLINE_FOUR_APPLIED.json"
+        }
+      ]
     }
   ],
   "missing_entries": [],
@@ -89469,9 +90959,145 @@
         "adl/tools/codefriend/ci_smoke.py"
       ],
       "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "WP14_RETIRED_WORKFLOWS_APPLIED.json",
+      "sha256": "1279e74e33638f5a7638a8d55274287b9455bf85162495538b3ca1232c77c4fb",
+      "commit": "fdd55dc620706da21a8409e7a04d5c8580fa0227",
+      "files": 4,
+      "removals": 3,
+      "scope_sha256": "16129a55e37b04b79fb10f5840dcf29c38ad27ee41d116ea4a1eca590383062a",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        ".github/workflows/wp14-native-acip.yml",
+        ".github/workflows/wp14-production-acip-repair.yml",
+        ".github/workflows/wp14-retained-native-proof.yml",
+        "adl/tools/test_ci_runtime_contracts.sh"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "RUNTIME_CONTRACT_MARKET_APPLIED.json",
+      "sha256": "b3a738c1ae18ec0c7d180c0a39e79f278bc8c1ec9678d026aafb948c3ab6229a",
+      "commit": "9b6b87d0b4df4b678c1daca9c9268ef978153254",
+      "files": 31,
+      "removals": 28,
+      "scope_sha256": "89e1ba19a99301ae5aef4877e3962f0f1135111ed640da822947b6f259d4197c",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl/tools/render_v0904_contract_market_summary.py",
+        "adl/tools/run_v0904_contract_market_runner.py",
+        "adl/tools/test_v0904_contract_market_fixture_set.sh",
+        "adl/tools/test_v0904_contract_market_runner.sh",
+        "adl/tools/test_v0904_contract_market_summary.sh",
+        "demos/fixtures/contract_market/acceptance_transition.json",
+        "demos/fixtures/contract_market/award_transition.json",
+        "demos/fixtures/contract_market/bid_alpha.json",
+        "demos/fixtures/contract_market/bid_beta.json",
+        "demos/fixtures/contract_market/completion_event.json",
+        "demos/fixtures/contract_market/delegated_output.json",
+        "demos/fixtures/contract_market/demo_manifest.json",
+        "demos/fixtures/contract_market/evaluation.json",
+        "demos/fixtures/contract_market/fixture_definition.md",
+        "demos/fixtures/contract_market/packet_manifest.json",
+        "demos/fixtures/contract_market/parent_contract.json",
+        "demos/fixtures/contract_market/parent_integration_output.json",
+        "demos/fixtures/contract_market/review_summary_example.md",
+        "demos/fixtures/contract_market/review_summary_schema.json",
+        "demos/fixtures/contract_market/review_summary_seed.json",
+        "demos/fixtures/contract_market/subcontract.json",
+        "demos/fixtures/contract_market/tool_requirement_fixture.json",
+        "demos/fixtures/contract_market/trace_bundle.json",
+        "demos/fixtures/contract_market/validation_protocol.py",
+        "demos/fixtures/contract_market_invalid/fixture_definition.md",
+        "demos/fixtures/contract_market_invalid/invalid_bid_tool_grant.json",
+        "demos/fixtures/contract_market_invalid/invalid_completion_missing_artifacts.json",
+        "demos/fixtures/contract_market_invalid/invalid_packet_manifest.json",
+        "docs/tooling/README.md",
+        "docs/tooling/RUNTIME_CONTRACT_MARKET_OWNER.md",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "OWNER_AGGREGATE_RETIREMENT_APPLIED.json",
+      "sha256": "af55c15eb1748a4c554cfd46166a34a2ac47035bbc897da2c36b9703454b7bbd",
+      "commit": "817f83c8530cce5fb797e623fc8bc7abe89e97f8",
+      "files": 11,
+      "removals": 3,
+      "scope_sha256": "23c4d6a0426cf0d3590e85ee76bf75f2a04191a9e9c5730740cb2c02dcebf278",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "AGENTS.md",
+        "docs/tooling/HARDLINKED_RUST_DEPENDENCY_CACHE.md",
+        "docs/tooling/FINISH_VALIDATION_PATH_OWNERSHIP_REGISTRY.md",
+        "adl/tools/test_rust_validation_warm_cache.sh",
+        "adl/tools/generate_tool_surface_registry.py",
+        "adl/config/validation_lane_selector.v0.91.6.json",
+        "adl/tools/test_validation_manager.sh",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+        "adl/tools/run_owner_validation_lane.sh",
+        "adl/tools/test_owner_validation_lane.sh",
+        "adl/tools/test_adl_review_compatibility.sh"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "MAIN_SYNC_TWO_APPLIED.json",
+      "sha256": "33b89eaf3f1134c6fdd0e3fdaedc2cde269ff260f33880f1cb327ccbbfbf190d",
+      "commit": "78962bd58aed53c2cb44e8dc3d78858853dc9826",
+      "files": 3,
+      "removals": 2,
+      "scope_sha256": "e02129b23e8ff2816a5481d2daaec6c388db8d57fcd941c980300af1ef611f35",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl/tools/fix_git_main_sync_preserve_local_adl.sh",
+        "adl/tools/test_fix_git_main_sync_preserves_local_adl_cards.sh",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "INFRASTRUCTURE_OFFLINE_FOUR_APPLIED.json",
+      "sha256": "6b4a83b7a0b48807dcdd163bb9d2299175b26b8130d290dd64fe6635924af0d8",
+      "commit": "caa5e57b9a7bec804bd3ad2bfd1a0c139a6cb091",
+      "files": 7,
+      "removals": 4,
+      "scope_sha256": "5a839db84e43c35d23e2bdc5220e95b9a464963a4e95d7a38fbd578e3b4e9ed3",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl/tools/aws_spot_artifact_finalize.py",
+        "adl/tools/test_aws_spot_artifact_finalize.sh",
+        "adl/tools/sweep_aws_spot_orphans.sh",
+        "adl/tools/test_sweep_aws_spot_orphans.sh",
+        "docs/tooling/GITHUB_SPOT_CI_COVERAGE_HOW_TO.md",
+        "adl/config/validation_lane_selector.v0.91.6.json",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "PUBLIC_SELECTOR_REPAIR_APPLIED.json",
+      "sha256": "2ce3e4e4de0dc391d55274e9ab3e5e470be03f03b8a478c4eeff6f18d50e28c6",
+      "commit": "67b491e9f9d482a0e6f32d33d1e08a876f86a415",
+      "files": 2,
+      "removals": 0,
+      "scope_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl/config/validation_lane_selector.public.v1.json",
+        "adl/tools/test_validation_manager.sh"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
     }
   ],
-  "baseline_deletion_count": 2722,
+  "baseline_deletion_count": 2762,
   "transient_removed_paths": [
     "adl/tools/test_issue872_historical_manifest.py"
   ],
@@ -89480,6 +91106,6 @@
     "adl/tools/demo_v0871_release_review_package.sh",
     "adl/tools/test_demo_v0871_suite.sh"
   ],
-  "inventory_baseline_deletion_count": 2719,
+  "inventory_baseline_deletion_count": 2759,
   "supplemental_baseline_deletion_count": 3
 }
