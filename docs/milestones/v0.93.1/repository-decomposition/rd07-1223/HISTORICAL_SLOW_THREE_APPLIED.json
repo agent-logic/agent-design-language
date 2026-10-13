@@ -1,0 +1,330 @@
+{
+  "schema": "rd07.historical_slow_three_proposal.v1",
+  "status": "applied_local_reversible_implementation",
+  "source_head": "920ded2a5471e8fa082137699491da3bce8cc62d",
+  "removed_count": 3,
+  "rows": [
+    {
+      "id": "RD07-0327",
+      "path": "adl/config/slow_proof_families.v0.91.6.json",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-other-consumers",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "8e0e864bc5eb93baa4d90b5922e47b342388d2a8"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
+      "required_before_execution": [
+        "coherent mandatory caller repairs",
+        "preserve original child test obligations independently",
+        "scoped retirement decision",
+        "Resolve remaining caller repairs enumerated in PRIVATE_VALIDATION_DISPOSITION.json"
+      ],
+      "successor_mapping": {
+        "mapping": "unmapped",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "PRIVATE_VALIDATION_DISPOSITION.json",
+        "packet_sha256": "83d564c94d156a163eff640614a35a0de3c51648988d61cdb3abf48de4a75c14",
+        "proposal": "proposed_historical_retirement_with_caller_repair",
+        "reason": "Four-family feature/module inventory; preserve exact slow-test gating and family selector contract as historical.",
+        "review": "Independent source-only disposition and exact packet review passed"
+      }
+    },
+    {
+      "id": "RD07-1503",
+      "path": "adl/tools/run_slow_proof_family.sh",
+      "owner": "agent-logic-infrastructure",
+      "component": "agent-logic-infrastructure-active-tool-contracts",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "3ff9adeb0658d049856e822851f978f3bd50f468"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
+      "required_before_execution": [
+        "coherent mandatory caller repairs",
+        "preserve original child test obligations independently",
+        "scoped retirement decision",
+        "Resolve remaining caller repairs enumerated in PRIVATE_VALIDATION_DISPOSITION.json"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+        "exact_successor_paths": [
+          "adl/tools/run_slow_proof_family.sh"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "PRIVATE_VALIDATION_DISPOSITION.json",
+        "packet_sha256": "83d564c94d156a163eff640614a35a0de3c51648988d61cdb3abf48de4a75c14",
+        "proposal": "proposed_historical_retirement_with_caller_repair",
+        "reason": "Historical family nextest expression and partition planning; public routing is not private product execution equivalence.",
+        "review": "Independent source-only disposition and exact packet review passed"
+      }
+    },
+    {
+      "id": "RD07-2118",
+      "path": "adl/tools/test_slow_proof_lane_contract.sh",
+      "owner": "agent-logic-infrastructure",
+      "component": "agent-logic-infrastructure-active-tool-contracts",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "9e545f009bfef123c265e487eab06fc9d41031d2"
+      },
+      "existing_action": "retain",
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+        "exact_successor_paths": [
+          "adl/tools/test_slow_proof_lane_contract.sh"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "PRIVATE_VALIDATION_DISPOSITION.json",
+        "packet_sha256": "83d564c94d156a163eff640614a35a0de3c51648988d61cdb3abf48de4a75c14",
+        "proposal": "proposed_historical_retirement_with_caller_repair",
+        "reason": "Manifest/source/command contract assertions, not actual private Rust suite execution.",
+        "review": "Independent source-only disposition and exact packet review passed"
+      },
+      "pre_legacy_anrm_infrastructure_public_retention_classification": {
+        "proposed_action": "proposed_historical_retirement_with_caller_repair",
+        "required_before_execution": [
+          "coherent mandatory caller repairs",
+          "preserve original child test obligations independently",
+          "scoped retirement decision",
+          "Resolve remaining caller repairs enumerated in PRIVATE_VALIDATION_DISPOSITION.json"
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "packet_sha256": "14a66f746122c76cbf4c48181d0ceacfcc1623e31b523b659ec78c729cd983d5",
+        "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "6200e1a51b524c43569e86a9d7be138b110e77b1"
+        },
+        "reason": "retain_explicit_historical_refusal: committed prior owner cutover retains compatibility diagnostic; no original assertions execute."
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "adl/config/slow_proof_families.v0.91.6.json",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "8e0e864bc5eb93baa4d90b5922e47b342388d2a8",
+        "sha256": "783f8c51142d42b6a1f323e3450e163a1ac7c44179024a1376d08f3e5dfa9373"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/run_slow_proof_family.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "3ff9adeb0658d049856e822851f978f3bd50f468",
+        "sha256": "2d91c8e8c1ba31cd2e5af29bdceda23572769dbf2975817a1eea379897f0c867"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_slow_proof_lane_contract.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "6200e1a51b524c43569e86a9d7be138b110e77b1",
+        "sha256": "aae9b3a39a9f5a52afd0ab4d1663e4b34d554b41a03f382cd9f1b4318130735d"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/validation_manager.py",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "a02f9b8d4c03667855f27aa6aea92f0842873b3f",
+        "sha256": "20f7f5033cce965bf1303681925e17ad83a856684fd84176638f85a070ae4a31"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "471906c960091190c0972e9478d294dd203affcd",
+        "sha256": "776d7684c75d3da10bbc80bfaa572e7f22530a15f967e9a98015faf8c5f28265"
+      }
+    },
+    {
+      "path": "adl/tools/generate_tool_surface_registry.py",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "82353ff9a3d97781acb73f214a768ec768c9cee5",
+        "sha256": "3c4d16120f8750def06214a723f1d865a8078b48ea5be7742fd2b9aa31b9201c"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "93c5bf775ffc18be1bac052d46764ea1076f3170",
+        "sha256": "576f1436330f8f4329679806e909f185a6f18560cf5101d7863df7c0ec27f555"
+      }
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "a21da54ae69ce8ced7c22f82663dafd1f7a091dc",
+        "sha256": "7e354031a36919febef99abd51188a919449873cc83e73dfbc823540c06e01dd"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "0d986c000aa6017b08d997a06b7c9f1f3eafcace",
+        "sha256": "4c05212bd513d73e4b47d89c612d2151c5e12f2630992ca97bc133d115f8faba"
+      }
+    }
+  ],
+  "retirement_basis": "Removed monolithic runtime_v2 test source/feature layout. No new passing-equivalence or current owner original test execution claim.",
+  "retained_disposition_supersession": {
+    "id": "RD07-2118",
+    "from": "retain_public_source_or_fixture",
+    "to": "proposed_historical_retirement_with_caller_repair",
+    "basis": "Runtime896 applied packet replaced test with unconditional exit2 refusal preserving original assertions in custody; this command no longer executes the retained test contract. Supersession covers this exact refusal stub only, not every old test.",
+    "current_body": "#!/usr/bin/env bash\n# Retired source-tree route; this is not a successful validation.\nprintf '%s\\n' 'Runtime source was retired from ADL (#1223). Use the separately qualified Runtime or Infrastructure owner route. Original assertions are preserved in Git and retirement custody; they were not executed by this command.' >&2\nreturn 2 2>/dev/null || exit 2\n",
+    "evidence": {
+      "path": "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/docs/milestones/v0.93.1/repository-decomposition/rd07-1223/RUNTIME_SOURCE_FAMILY_APPLIED.json",
+      "sha256": "9600a1fb0ee1a58508069b5847f5b8cf475805cf9b0059bc3f3f5ee3b51fd486"
+    }
+  },
+  "original_denominator": {
+    "families": 4,
+    "module_selectors": 7,
+    "sample_tests": 11,
+    "family_config": {
+      "schema_version": "adl.slow_proof_families.v1",
+      "umbrella_feature": "slow-proof-tests",
+      "families": [
+        {
+          "id": "runtime",
+          "feature": "slow-proof-runtime",
+          "proof_role": "slow_proof",
+          "description": "Heavy runtime and governance proof materialization surfaces.",
+          "module_selectors": [
+            "runtime_v2::tests::governed_learning_substrate::",
+            "runtime_v2::tests::intelligence_metric_architecture::",
+            "runtime_v2::tests::memory_identity_architecture::"
+          ],
+          "sample_tests": [
+            "runtime_v2_memory_identity_architecture_contract_is_stable",
+            "runtime_v2_intelligence_metric_architecture_contract_is_stable",
+            "runtime_v2_governed_learning_substrate_contract_is_stable",
+            "runtime_v2_csm_governed_episode_writes_without_path_leakage",
+            "runtime_v2_theory_of_mind_foundation_write_to_root_materializes_fixture"
+          ]
+        },
+        {
+          "id": "private_state",
+          "feature": "slow-proof-private-state",
+          "proof_role": "slow_proof",
+          "description": "Private-state materialization, lineage, and sealed-state proof surfaces.",
+          "module_selectors": [
+            "runtime_v2::tests::private_state_observatory::"
+          ],
+          "sample_tests": [
+            "runtime_v2_private_state_lineage_write_to_root_materializes_fixtures",
+            "runtime_v2_private_state_observatory_materialization_proof_is_stable"
+          ]
+        },
+        {
+          "id": "observatory",
+          "feature": "slow-proof-observatory",
+          "proof_role": "slow_proof",
+          "description": "Observatory-facing visibility and reporting proof surfaces.",
+          "module_selectors": [
+            "runtime_v2::tests::observatory_flagship::"
+          ],
+          "sample_tests": [
+            "runtime_v2_observatory_flagship_review_surfaces_are_stable_and_serializable",
+            "runtime_v2_csm_observatory_writes_without_path_leakage"
+          ]
+        },
+        {
+          "id": "security",
+          "feature": "slow-proof-security",
+          "proof_role": "slow_proof",
+          "description": "Security, access control, boundary refusal, and hardening proof surfaces.",
+          "module_selectors": [
+            "runtime_v2::tests::access_control::",
+            "runtime_v2::tests::acip_hardening::"
+          ],
+          "sample_tests": [
+            "runtime_v2_security_boundary_proof_writes_without_path_leakage",
+            "runtime_v2_access_control_write_to_root_materializes_fixtures"
+          ]
+        }
+      ]
+    },
+    "test_custody": "/Volumes/FastWork/c1223/slow-proof-three-preparation/ORIGINAL_ASSERTIONS.txt",
+    "assertion_disposition": "Full original test retained byte-for-byte as evidence; schema/uniqueIDs/features/samples/module gates/build/list/partition behavior belong retired monolith interface. Independent Runtime behavior and slow/release obligations remain; no source-only pass substitutes them."
+  },
+  "caller_repairs": [
+    "Manager two unreachable command comprehensions replaced with empty lists, preserving existing JSON field names and public-empty output. Existing public loader nonempty refusal unchanged. Direct validation_split helper now rejects nonempty private families too rather than silently ignoring them.",
+    "Generator removes only historical classifier for removed2118; real prospective registry regenerated with complete tracked tool directories and unchanged manifest/skills.",
+    "Historical path selectors remain as change/deletion triggers; public slow_proof_review remains empty run_command and record-only. No execution of removed path can be generated by manager."
+  ],
+  "preserved": [
+    "Coverage runner1497/test2095 unchanged, all active dependent callers outside this patch.",
+    "v092 evidence test2150 and12 negatives unchanged.",
+    "public slow config, default selector, private-config rejection regression, blocked-lane escalation and current public90/80coverage gates unchanged."
+  ],
+  "custody": {
+    "path": "/Volumes/FastWork/c1223/slow-proof-three-preparation/original-and-current-preimages.tar",
+    "sha256": "1265debbad473dee3b9b94f644a9e9eb15da72510f0b96d8982be071c5e5e260",
+    "members": 9
+  },
+  "evidence": [
+    {
+      "path": "/Volumes/FastWork/c1223/slow-proof-family-audit/AUDIT.json",
+      "sha256": "cb39e5267f9349ac8f2df87399e8b2303be67bca8e957438ebb8ac270a8d76ac"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/slow-proof-three-preparation/ORIGINAL_ASSERTIONS.txt",
+      "sha256": "f46bbde9fd9595e448c6eaef8cfbc5c41c28990922956725627a507a6b2a58f2"
+    }
+  ],
+  "focused_validation_plan_not_executed": [
+    "Run existing tools/public_adl/test_validation_interfaces.py against composed exact patch; preserve its public-empty, missing-private-file and nonempty-private refusal/blocked-lane cases.",
+    "Add bounded direct-helper input check: empty families preserves slow_families=[]; nonempty family raises existing refusal, never renders retired command. No product execution.",
+    "Run actual generator --check in complete composed tree; inspect registry only two tool rows removed and corresponding counts, no directory loss.",
+    "Inspect exact untouched publicconfigs/coveragepair/v092test hashes. No historical slow Cargo/nextest execution or broad tests."
+  ],
+  "tests_run": false,
+  "builds_run": false,
+  "patch": {
+    "path": "/Volumes/FastWork/c1223/slow-proof-three-preparation/slow-three-and-callers.patch",
+    "sha256": "a17ef6aa03fcd1b3fa9e244b8bfa914b808938b0bf70693680f03a68b95ae2c2"
+  },
+  "issue": 1223,
+  "review": {
+    "reviewer": "review_1223_historical_retention",
+    "result": "PASS",
+    "scope": "six current identities;9 custody members; exact refusal-stub supersession; public defaults and caller closure"
+  },
+  "validation": {
+    "public_interfaces": {
+      "command": "python3 -B tools/public_adl/test_validation_interfaces.py",
+      "passed": 12,
+      "seconds": 3.019
+    },
+    "direct_helper": {
+      "path": "/Volumes/FastWork/c1223/slow-proof-three-preparation/DIRECT_HELPER_RESULT.json",
+      "sha256": "c17c6366c9cd950c7bce72d75caa9bd69be12667198de8afff9575c180213e91",
+      "passed": 2
+    },
+    "registry_check": "passed",
+    "limits": "No historical slow Cargo or product execution"
+  }
+}

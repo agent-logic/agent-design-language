@@ -241,6 +241,8 @@ def validation_split_contract(
     escalation_required: bool,
     escalation_reasons: list[dict[str, Any]],
 ) -> dict[str, Any]:
+    if slow_proof_families:
+        fail("retired private slow-proof families; use product owner validation routes")
     return {
         "schema_version": "adl.validation_split.v1",
         "fast_lane": {
@@ -250,17 +252,7 @@ def validation_split_contract(
             "pr_publication_sufficient": pr_publication_sufficient,
             "execution_model": "local_fast_lane",
         },
-        "slow_families": [
-            {
-                "id": family["id"],
-                "feature": family["feature"],
-                "proof_role": family.get("proof_role", "slow_proof"),
-                "disposition": "reserved_for_explicit_family_selection",
-                "owner": "slow_proof_family_runner",
-                "command": f"bash adl/tools/run_slow_proof_family.sh --family {family['id']} --run",
-            }
-            for family in slow_proof_families
-        ],
+        "slow_families": [],
         "fanout_policy": {
             "mode": "explicit_family_selection",
             "missing_or_unmapped_proof": "fail_closed",
@@ -651,18 +643,7 @@ def build_profile(plan: dict[str, Any], guardrails: dict[str, Any], manifest_pat
             "edges": [],
             "compression_note": "profile validates behavior surfaces rather than enumerating every test-bearing module",
         },
-        "slow_proof_families": [
-            {
-                "id": family["id"],
-                "feature": family["feature"],
-                "proof_role": family.get("proof_role", "slow_proof"),
-                "description": family.get("description", ""),
-                "selection_mode": "manual_only",
-                "command": f"bash adl/tools/run_slow_proof_family.sh --family {family['id']} --run",
-                "sample_tests": family.get("sample_tests", []),
-            }
-            for family in slow_proof_families
-        ],
+        "slow_proof_families": [],
         "estimated_cost": estimate_cost(selected, blocked),
         "escalation": {
             "required": escalation_required,
