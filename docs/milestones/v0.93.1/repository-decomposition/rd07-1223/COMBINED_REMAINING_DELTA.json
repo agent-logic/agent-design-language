@@ -33,7 +33,19 @@
     "codefriend_focused_successor": "CODEFRIEND_FOCUSED_QUALIFICATION.json:69c9e76de44a27e4d4329ca4f652c1e291d67ed9 passed177lib+8publication onmacOS/defaultdebug,185total/0failed,37.880s; source pins repaired under review. Prior e1 nativepreflight refused input_not_tracked before validator; direct177 had7stale-pin failures, preserved. Prior e14Linux409 and hosted acquisition evidence remain separate; no nativeacceptance or finalCI inferred.",
     "codefriend_macos_case": "Original macOS-only journey case passed1/0/0ignored/20filtered at3424cc775f65ec3a6e69f82888a73639a941a1e4,11.534s; actual case-insensitive FastWork temp verified, exactsource tree and productclean before/after captured. LogSHA4709e1d8cb58218661bf3f28e0584ba8bc2b57df3fa9f9e9b4e2837a4334bc51. Native acceptance remains separate.",
     "codefriend104_installed": "CODEFRIEND_104_INSTALLED_QUALIFICATION.json: exact published e93a457 product and same-head skills; original specialistPASS; installed fitness3,structure9 plus3partial,drift11,impact12,rationale11 (8scenarios+3guards),palace23. Independent bounded evidence reviewPASS. No product rebuild; unchanged original Rust harness reused after recorded glibc correction. Broader memory/review bundle and final ADL proof remain separate; no deletion authorized.",
-    "runtime150_archive": "Root reports Runtime150 archive-helper repair PR151 merged cf5b4fc6, issue150closed and native reconciliation succeeded with performed_mutation=false/effects_unknown=false. This delivery report does not replace the separate retained Runtime qualification records."
+    "runtime150_archive": "Root reports Runtime150 archive-helper repair PR151 merged cf5b4fc6, issue150closed and native reconciliation succeeded with performed_mutation=false/effects_unknown=false. This delivery report does not replace the separate retained Runtime qualification records.",
+    "csdlc_operational_components": "CSDLC_OPERATIONAL_COMPONENT_QUALIFICATION.json: authentic79d6430 resources pass original reports5blocks, closeout8assertions plus shellguards/currenttransport, boundaries15tests. Lifecycle failed before bootstrap because package strips executable mode from original100755fixture; original421expression denominator remains. CSDLC_OPERATIONAL_PACKAGE_GAPS.json also records source-inventory audio wrapper omitted from payload. Sole owner packaging repair assigned; no full operational/native/installer acceptance.",
+    "infrastructure18_csm_callers": {
+      "status": "source_delivery_merged",
+      "repository": "agent-logic/agent-logic-infrastructure",
+      "issue": 18,
+      "pull_request": 19,
+      "head": "91599dab6ca9886009e4adb8112478d7e4988d6f",
+      "merge_commit": "a5838b0748cd6fb13b8d30afb02da1088167c9fe",
+      "native_merge_evidence": "/Volumes/FastWork/c1223/csm-availability-caller-gap/merge-result.json",
+      "native_merge_sha256": "5bb0c21c9cbcc3ffe80ecfe29e7dbc4a5babc59d6c428efe65a8b38c22d67d0b",
+      "boundary": "Native authenticated merge/closed readback verified; focused8cases and genuine3resolution proof reported by owner separately. No cloud deployment or unrelated ALB acceptance."
+    }
   },
   "ci_contract": "COMBINED_CI_CUTOVER.json",
   "rows": [
