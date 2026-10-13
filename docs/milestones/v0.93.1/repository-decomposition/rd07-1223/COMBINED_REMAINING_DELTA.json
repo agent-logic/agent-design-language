@@ -6,12 +6,12 @@
   "execution_authorized": false,
   "original_count": 4134,
   "counts": {
-    "hold_explicit_reconciliation": 194,
+    "hold_explicit_reconciliation": 189,
     "hold_owner_test_reconciliation": 35,
     "preserve_approved_removal": 70,
     "preserve_reviewed_consumer_repair": 18,
     "proposed_historical_retirement_with_caller_repair": 19,
-    "proposed_owner_transfer_with_consumer_qualification": 464,
+    "proposed_owner_transfer_with_consumer_qualification": 469,
     "proposed_remove_construction_qualified_infrastructure": 216,
     "proposed_remove_with_entire_source_family": 1874,
     "proposed_remove_with_entire_tool_family": 719,
@@ -31,7 +31,9 @@
     "csdlc_node_proof": "Cognitive-sdlc247 candidate369cbde1e91efbc15ad72f936080b54aed8e6bb5 passed all5 restored issue1249 scenarios on supported macOS arm64,177filtered,132.075seconds; source clean before/after. Evidence FastWork c1223/evidence/cognitive-sdlc/issue247-369cbde1-macos, logSHA25674cd7cf6b8173b671ea9513999f3c216a4ad33706dc3bf679f62398f5b32ff6c. Node proof/refusals and atomic plan amendment qualified; owner publication/install and retirement remain separate. Prior unsupported Linux arm64 and supported-host atomicity failures preserved. Native proof at same head completed successfully generation11/digestfd0d884a5ded16ca9a40b71df007af4c16fbb2878db9a820be3307365f83fe1d, one declared validator,88.195s; evidence FastWork c1223/evidence/cognitive-sdlc/issue247-native-369cbde1/proof.stdout.json SHA25620f893894a0121cd1d4a3cd939cadcb971e25b5939dd6bc38911ec9446d0c8d2. Review/publication remain separate.",
     "public_coverage": "Full exact-head six-package producer passed atb4216f4070:9293/10317lines90.07%, allmeasuredfiles>=80%; thresholds unchanged. Public observation integration target restores immutable held source. GitHub CI and private owner equivalence remain separate.",
     "codefriend_focused_successor": "CODEFRIEND_FOCUSED_QUALIFICATION.json:69c9e76de44a27e4d4329ca4f652c1e291d67ed9 passed177lib+8publication onmacOS/defaultdebug,185total/0failed,37.880s; source pins repaired under review. Prior e1 nativepreflight refused input_not_tracked before validator; direct177 had7stale-pin failures, preserved. Prior e14Linux409 and hosted acquisition evidence remain separate; no nativeacceptance or finalCI inferred.",
-    "codefriend_macos_case": "Original macOS-only journey case passed1/0/0ignored/20filtered at3424cc775f65ec3a6e69f82888a73639a941a1e4,11.534s; actual case-insensitive FastWork temp verified, exactsource tree and productclean before/after captured. LogSHA4709e1d8cb58218661bf3f28e0584ba8bc2b57df3fa9f9e9b4e2837a4334bc51. Native acceptance remains separate."
+    "codefriend_macos_case": "Original macOS-only journey case passed1/0/0ignored/20filtered at3424cc775f65ec3a6e69f82888a73639a941a1e4,11.534s; actual case-insensitive FastWork temp verified, exactsource tree and productclean before/after captured. LogSHA4709e1d8cb58218661bf3f28e0584ba8bc2b57df3fa9f9e9b4e2837a4334bc51. Native acceptance remains separate.",
+    "codefriend104_installed": "CODEFRIEND_104_INSTALLED_QUALIFICATION.json: exact published e93a457 product and same-head skills; original specialistPASS; installed fitness3,structure9 plus3partial,drift11,impact12,rationale11 (8scenarios+3guards),palace23. Independent bounded evidence reviewPASS. No product rebuild; unchanged original Rust harness reused after recorded glibc correction. Broader memory/review bundle and final ADL proof remain separate; no deletion authorized.",
+    "runtime150_archive": "Root reports Runtime150 archive-helper repair PR151 merged cf5b4fc6, issue150closed and native reconciliation succeeded with performed_mutation=false/effects_unknown=false. This delivery report does not replace the separate retained Runtime qualification records."
   },
   "ci_contract": "COMBINED_CI_CUTOVER.json",
   "rows": [
@@ -29790,11 +29792,11 @@
         "blob": "cbf71010ed4aacb5abc3d8eb38ca35add821d7db"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "Original installed CLI scenarios lack identified owner counterpart; preserve until accepted replacement crosswalk or migration.",
-        "coherent caller and component disposition; no source-only qualification claim"
+        "coherent caller and component disposition",
+        "scoped_operator_decision",
+        "retain original preservation and rollback evidence"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
@@ -29806,7 +29808,19 @@
         "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
         "proposal": "Original installed CLI scenarios lack identified owner counterpart; preserve until accepted replacement crosswalk or migration.",
         "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
-      }
+      },
+      "prior_proposed_action": "hold_explicit_reconciliation",
+      "successor_qualification": {
+        "packet": "CODEFRIEND_104_INSTALLED_QUALIFICATION.json",
+        "sha256": "d073c884fe6ef973dee5b40a32b2fed2f4bdd4bedc421895188a35aad020a5b6",
+        "family": "drift",
+        "owner": "agent-logic/codefriend",
+        "revision": "e93a457ad6325017627a66a2abe31a3376fa28fd",
+        "path": "tools/installed_proof/codefriend_drift_installed_proof.py",
+        "status": "original_installed_consumer_passed",
+        "review": "Independent bounded evidence review PASS; QUALIFICATION_REVIEW.json retained with source evidence."
+      },
+      "historical_hold_reason": "hold_no_proven_current_successor_mapping"
     },
     {
       "id": "RD07-1282",
@@ -29908,11 +29922,11 @@
         "blob": "a42e45502097b519c156a4268bdf50498e708c6a"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
       "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "Owner has artifact-consuming candidate/pass/fail/error lane and original source inventory. Require existing outcome/assertion evidence and caller cutover, not new broad build.",
-        "coherent caller and component disposition; no source-only qualification claim"
+        "coherent caller and component disposition",
+        "scoped_operator_decision",
+        "retain original preservation and rollback evidence"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
@@ -29924,7 +29938,19 @@
         "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
         "proposal": "Owner has artifact-consuming candidate/pass/fail/error lane and original source inventory. Require existing outcome/assertion evidence and caller cutover, not new broad build.",
         "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
-      }
+      },
+      "prior_proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "successor_qualification": {
+        "packet": "CODEFRIEND_104_INSTALLED_QUALIFICATION.json",
+        "sha256": "d073c884fe6ef973dee5b40a32b2fed2f4bdd4bedc421895188a35aad020a5b6",
+        "family": "fitness",
+        "owner": "agent-logic/codefriend",
+        "revision": "e93a457ad6325017627a66a2abe31a3376fa28fd",
+        "path": "tools/installed_proof/codefriend_fitness_installed_proof.py",
+        "status": "original_installed_consumer_passed",
+        "review": "Independent bounded evidence review PASS; QUALIFICATION_REVIEW.json retained with source evidence."
+      },
+      "historical_hold_reason": "hold_no_proven_current_successor_mapping"
     },
     {
       "id": "RD07-1287",
@@ -29936,11 +29962,11 @@
         "blob": "961e2b9a6540b0879850e65ca737c27ffc800856"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "Original installed CLI scenarios lack identified owner counterpart; preserve until accepted replacement crosswalk or migration.",
-        "coherent caller and component disposition; no source-only qualification claim"
+        "coherent caller and component disposition",
+        "scoped_operator_decision",
+        "retain original preservation and rollback evidence"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
@@ -29952,7 +29978,19 @@
         "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
         "proposal": "Original installed CLI scenarios lack identified owner counterpart; preserve until accepted replacement crosswalk or migration.",
         "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
-      }
+      },
+      "prior_proposed_action": "hold_explicit_reconciliation",
+      "successor_qualification": {
+        "packet": "CODEFRIEND_104_INSTALLED_QUALIFICATION.json",
+        "sha256": "d073c884fe6ef973dee5b40a32b2fed2f4bdd4bedc421895188a35aad020a5b6",
+        "family": "impact",
+        "owner": "agent-logic/codefriend",
+        "revision": "e93a457ad6325017627a66a2abe31a3376fa28fd",
+        "path": "tools/installed_proof/codefriend_impact_installed_proof.py",
+        "status": "original_installed_consumer_passed",
+        "review": "Independent bounded evidence review PASS; QUALIFICATION_REVIEW.json retained with source evidence."
+      },
+      "historical_hold_reason": "hold_no_proven_current_successor_mapping"
     },
     {
       "id": "RD07-1288",
@@ -29992,11 +30030,11 @@
         "blob": "9fa185f52404e5c4949e97fd4783f7535c2f8c0e"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "Original installed CLI scenarios lack identified owner counterpart; preserve until accepted replacement crosswalk or migration.",
-        "coherent caller and component disposition; no source-only qualification claim"
+        "coherent caller and component disposition",
+        "scoped_operator_decision",
+        "retain original preservation and rollback evidence"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
@@ -30008,7 +30046,19 @@
         "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
         "proposal": "Original installed CLI scenarios lack identified owner counterpart; preserve until accepted replacement crosswalk or migration.",
         "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
-      }
+      },
+      "prior_proposed_action": "hold_explicit_reconciliation",
+      "successor_qualification": {
+        "packet": "CODEFRIEND_104_INSTALLED_QUALIFICATION.json",
+        "sha256": "d073c884fe6ef973dee5b40a32b2fed2f4bdd4bedc421895188a35aad020a5b6",
+        "family": "palace",
+        "owner": "agent-logic/codefriend",
+        "revision": "e93a457ad6325017627a66a2abe31a3376fa28fd",
+        "path": "tools/installed_proof/codefriend_palace_installed_proof.py",
+        "status": "original_installed_consumer_passed",
+        "review": "Independent bounded evidence review PASS; QUALIFICATION_REVIEW.json retained with source evidence."
+      },
+      "historical_hold_reason": "hold_no_proven_current_successor_mapping"
     },
     {
       "id": "RD07-1290",
@@ -30020,11 +30070,11 @@
         "blob": "ac0d2f8ed1c46d4b1e06727a8a79dbd93c63e9a3"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "Original installed CLI scenarios lack identified owner counterpart; preserve until accepted replacement crosswalk or migration.",
-        "coherent caller and component disposition; no source-only qualification claim"
+        "coherent caller and component disposition",
+        "scoped_operator_decision",
+        "retain original preservation and rollback evidence"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
@@ -30036,7 +30086,19 @@
         "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
         "proposal": "Original installed CLI scenarios lack identified owner counterpart; preserve until accepted replacement crosswalk or migration.",
         "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
-      }
+      },
+      "prior_proposed_action": "hold_explicit_reconciliation",
+      "successor_qualification": {
+        "packet": "CODEFRIEND_104_INSTALLED_QUALIFICATION.json",
+        "sha256": "d073c884fe6ef973dee5b40a32b2fed2f4bdd4bedc421895188a35aad020a5b6",
+        "family": "rationale",
+        "owner": "agent-logic/codefriend",
+        "revision": "e93a457ad6325017627a66a2abe31a3376fa28fd",
+        "path": "tools/installed_proof/codefriend_rationale_installed_proof.py",
+        "status": "original_installed_consumer_passed",
+        "review": "Independent bounded evidence review PASS; QUALIFICATION_REVIEW.json retained with source evidence."
+      },
+      "historical_hold_reason": "hold_no_proven_current_successor_mapping"
     },
     {
       "id": "RD07-1291",
@@ -30048,11 +30110,11 @@
         "blob": "697fc50ad9d68e4e0032c3f066f39847f2f88bc2"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
       "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "Owner runner asserts original structure9 plus3partial scenarios; existing receipt required, source assertion not execution.",
-        "coherent caller and component disposition; no source-only qualification claim"
+        "coherent caller and component disposition",
+        "scoped_operator_decision",
+        "retain original preservation and rollback evidence"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
@@ -30064,7 +30126,19 @@
         "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
         "proposal": "Owner runner asserts original structure9 plus3partial scenarios; existing receipt required, source assertion not execution.",
         "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
-      }
+      },
+      "prior_proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "successor_qualification": {
+        "packet": "CODEFRIEND_104_INSTALLED_QUALIFICATION.json",
+        "sha256": "d073c884fe6ef973dee5b40a32b2fed2f4bdd4bedc421895188a35aad020a5b6",
+        "family": "structure",
+        "owner": "agent-logic/codefriend",
+        "revision": "e93a457ad6325017627a66a2abe31a3376fa28fd",
+        "path": "tools/installed_proof/codefriend_structure_installed_proof.py",
+        "status": "original_installed_consumer_passed",
+        "review": "Independent bounded evidence review PASS; QUALIFICATION_REVIEW.json retained with source evidence."
+      },
+      "historical_hold_reason": "hold_no_proven_current_successor_mapping"
     },
     {
       "id": "RD07-1292",
@@ -48812,16 +48886,29 @@
         "blob": "2c665aeb0a89ae26945ac48c9c84b5fa6ed0e583"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "coherent caller and component disposition",
+        "scoped_operator_decision",
+        "retain original preservation and rollback evidence"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "prior_proposed_action": "hold_explicit_reconciliation",
+      "successor_qualification": {
+        "packet": "CODEFRIEND_104_INSTALLED_QUALIFICATION.json",
+        "sha256": "d073c884fe6ef973dee5b40a32b2fed2f4bdd4bedc421895188a35aad020a5b6",
+        "family": "specialist_suite",
+        "owner": "agent-logic/codefriend",
+        "revision": "e93a457ad6325017627a66a2abe31a3376fa28fd",
+        "path": "tools/retained_skill_contracts/test_multi_agent_repo_review_skill_suite_contracts.sh",
+        "status": "original_installed_consumer_passed",
+        "review": "Independent bounded evidence review PASS; QUALIFICATION_REVIEW.json retained with source evidence."
+      },
+      "historical_hold_reason": "hold_no_proven_current_successor_mapping"
     },
     {
       "id": "RD07-2037",
