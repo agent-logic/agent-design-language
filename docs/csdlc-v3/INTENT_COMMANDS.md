@@ -1,7 +1,7 @@
 # Issue intent commands
 
-This page describes the current issue interface in
-`csdlc-v3/src/application/intent/`. Exact-head review, complete required
+This page describes the native issue interface owned by
+[the Cognitive-SDLC source](https://github.com/agent-logic/cognitive-sdlc/tree/fa5e22e818f9eb5478faac298877f188492cd879/csdlc-v3/src/application/intent). Exact-head review, complete required
 validation, installation provenance, and release acceptance remain separate
 evidence. Check the selected executable's help and descriptors before using
 these forms.
