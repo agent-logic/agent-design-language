@@ -6,7 +6,7 @@
   "execution_authorized": false,
   "original_inventory_count": 4134,
   "additional_inventory_count": 22,
-  "executed_deletion_count": 2933,
+  "executed_deletion_count": 2936,
   "entries": [
     {
       "path": ".github/workflows/ci.yaml",
@@ -57345,7 +57345,7 @@
       "before": null,
       "after": [
         "100644",
-        "9e5f349efd60e3f03f11f4b878c001705c186ed8"
+        "b0941cbc83e60ad1ac9e4d6032c1af320d8c866b"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json",
@@ -57954,6 +57954,30 @@
             "9e5f349efd60e3f03f11f4b878c001705c186ed8"
           ],
           "packet": "CODEFRIEND_SERIOUS_THREE_APPLIED.json"
+        },
+        {
+          "commit": "53dc5ae4eb12abadc1d9f5fbeeb6e2ed57cf2413",
+          "before": [
+            "100644",
+            "9e5f349efd60e3f03f11f4b878c001705c186ed8"
+          ],
+          "after": [
+            "100644",
+            "cabb469c00bc73117ae37ed2d0e5bf9c1e58a2cf"
+          ],
+          "packet": "ISSUE607_SAVED_PLAN_APPLIED.json"
+        },
+        {
+          "commit": "8a745757752d75fd2b16ecc892833aced480780a",
+          "before": [
+            "100644",
+            "cabb469c00bc73117ae37ed2d0e5bf9c1e58a2cf"
+          ],
+          "after": [
+            "100644",
+            "b0941cbc83e60ad1ac9e4d6032c1af320d8c866b"
+          ],
+          "packet": "PAIR_ACCOUNTING_TWO_APPLIED.json"
         }
       ],
       "prior_execution_provenance": [
@@ -65195,7 +65219,7 @@
       "before": null,
       "after": [
         "100644",
-        "83f7a88426f8cbd807039902a2302a6f8d8d58ac"
+        "fcb8923db75a9e410cdefcaeec25f33a1ae61295"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "Infrastructure212 source commit guard-documentation accompaniment",
@@ -65528,6 +65552,18 @@
             "83f7a88426f8cbd807039902a2302a6f8d8d58ac"
           ],
           "packet": "Infrastructure arxiv CodeFriend sixteen integration"
+        },
+        {
+          "commit": "pending_reviewed_integration",
+          "before": [
+            "100644",
+            "83f7a88426f8cbd807039902a2302a6f8d8d58ac"
+          ],
+          "after": [
+            "100644",
+            "fcb8923db75a9e410cdefcaeec25f33a1ae61295"
+          ],
+          "packet": "Saved plan and PAIR three integration"
         }
       ],
       "prior_execution_provenance": [
@@ -91006,6 +91042,102 @@
         "blob": "4f8860ad10cfe0ab7854993f179aa20f5521f788",
         "sha256": "a1c2f54fa8eeee2c318b7224715a470ea6a89395c73a3833781e9ecb903eb2f6"
       }
+    },
+    {
+      "path": "adl/tools/issue607_validate_saved_plan.sh",
+      "before": [
+        "100755",
+        "6079505bb427e4a8839aac6ba57a2f18080357f5"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "53dc5ae4eb12abadc1d9f5fbeeb6e2ed57cf2413",
+      "approval_reference": "ISSUE607_SAVED_PLAN_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "53dc5ae4eb12abadc1d9f5fbeeb6e2ed57cf2413",
+          "before": [
+            "100755",
+            "6079505bb427e4a8839aac6ba57a2f18080357f5"
+          ],
+          "after": null,
+          "packet": "ISSUE607_SAVED_PLAN_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "ISSUE607_SAVED_PLAN_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/issue607-saved-plan-retirement/current-and-original-preimages.tar",
+        "archive_sha256": "59bf9dd61601ab35616e15163c08171dff98d32ec100005cd21d2fb3924ef71c",
+        "member": "current/adl/tools/issue607_validate_saved_plan.sh",
+        "mode": "100755",
+        "blob": "6079505bb427e4a8839aac6ba57a2f18080357f5",
+        "sha256": "a12c9e54107ef9e55a0c84d6ec57f0c17215e62949a4a2911c678ca1f6a0c6ae"
+      }
+    },
+    {
+      "path": "adl/tools/pair_experiment.py",
+      "before": [
+        "100644",
+        "ca5d4c6e68279c96f0e40487844b78d6df29fe62"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "8a745757752d75fd2b16ecc892833aced480780a",
+      "approval_reference": "PAIR_ACCOUNTING_TWO_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "8a745757752d75fd2b16ecc892833aced480780a",
+          "before": [
+            "100644",
+            "ca5d4c6e68279c96f0e40487844b78d6df29fe62"
+          ],
+          "after": null,
+          "packet": "PAIR_ACCOUNTING_TWO_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PAIR_ACCOUNTING_TWO_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-pair-accounting-plan/retirement/current-and-original-preimages.tar",
+        "archive_sha256": "fbc2a2af805dde2f2fc4928dc23e5af909f19f9b2bd2d73a58af3b2948ad8a46",
+        "member": "current/adl/tools/pair_experiment.py",
+        "mode": "100644",
+        "blob": "ca5d4c6e68279c96f0e40487844b78d6df29fe62",
+        "sha256": "cc3212d3656955dd22135fff258ed64677a529ae7294dfdd38aba203a05533d6"
+      }
+    },
+    {
+      "path": "adl/tools/test_pair_experiment.py",
+      "before": [
+        "100644",
+        "44dcc97e74af3e366eafc789f03b2ee29a5c1a3e"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "8a745757752d75fd2b16ecc892833aced480780a",
+      "approval_reference": "PAIR_ACCOUNTING_TWO_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "8a745757752d75fd2b16ecc892833aced480780a",
+          "before": [
+            "100644",
+            "44dcc97e74af3e366eafc789f03b2ee29a5c1a3e"
+          ],
+          "after": null,
+          "packet": "PAIR_ACCOUNTING_TWO_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PAIR_ACCOUNTING_TWO_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-pair-accounting-plan/retirement/current-and-original-preimages.tar",
+        "archive_sha256": "fbc2a2af805dde2f2fc4928dc23e5af909f19f9b2bd2d73a58af3b2948ad8a46",
+        "member": "current/adl/tools/test_pair_experiment.py",
+        "mode": "100644",
+        "blob": "44dcc97e74af3e366eafc789f03b2ee29a5c1a3e",
+        "sha256": "1990cad5aa1ea24dc4922bb6b939ae41732a5aae276c70097f1446e7471c78dc"
+      }
     }
   ],
   "missing_entries": [],
@@ -98246,9 +98378,40 @@
         "docs/tooling/TOOL_SURFACE_REGISTRY.md"
       ],
       "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "ISSUE607_SAVED_PLAN_APPLIED.json",
+      "sha256": "7ad67b2b846062ddba0586ac514b7b13f02f3967fac1b74d3ae844908dc05e02",
+      "commit": "53dc5ae4eb12abadc1d9f5fbeeb6e2ed57cf2413",
+      "files": 2,
+      "removals": 1,
+      "scope_sha256": "94fe166603e5ea2a20c5e27b5c06c64921f0ee02bffb7cc70dc9c5038490279c",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl/tools/issue607_validate_saved_plan.sh",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "PAIR_ACCOUNTING_TWO_APPLIED.json",
+      "sha256": "a87dd733e24aec54cde868a5a85c51f0f92fe3801bacce6b139289c702f44064",
+      "commit": "8a745757752d75fd2b16ecc892833aced480780a",
+      "files": 3,
+      "removals": 2,
+      "scope_sha256": "53203f2a7e9232e4e27c8ee0a64c6778133854d12fd7768cbe176a0cb6f6b445",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl/tools/pair_experiment.py",
+        "adl/tools/test_pair_experiment.py",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
     }
   ],
-  "baseline_deletion_count": 2932,
+  "baseline_deletion_count": 2935,
   "transient_removed_paths": [
     "adl/tools/test_issue872_historical_manifest.py"
   ],
@@ -98261,7 +98424,7 @@
     "adl/tools/test_demo_v0901_quality_gate.sh",
     "adl/tools/test_demo_v0902_review_quality_gate.sh"
   ],
-  "inventory_baseline_deletion_count": 2922,
+  "inventory_baseline_deletion_count": 2925,
   "supplemental_baseline_deletion_count": 7,
   "separately_observed_baseline_deletion_count": 3,
   "separately_observed_retired_paths": [

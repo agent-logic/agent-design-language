@@ -7,18 +7,18 @@
   "original_count": 4134,
   "counts": {
     "retain_resolved": 527,
-    "preserve_approved_removal": 2921,
+    "preserve_approved_removal": 2924,
     "proposed_owner_transfer_with_consumer_qualification": 189,
     "retain_public_source_or_fixture": 190,
     "preserve_reviewed_consumer_repair": 18,
     "proposed_historical_retirement_with_caller_repair": 14,
     "proposed_remove_with_entire_source_family": 1,
-    "proposed_remove_with_entire_tool_family": 268,
+    "proposed_remove_with_entire_tool_family": 265,
     "hold_explicit_reconciliation": 2,
     "proposed_remove_construction_qualified_infrastructure": 4
   },
   "additional_current_source_paths": 22,
-  "preservation": "Original 4134 identities and separate 22 captured paths unchanged. Exact executed retirement actions 2933 comprise 2932 baseline deletions and one newly-added-then-retired ADL conversion bridge; the bridge is outside both captured inventories. The baseline count includes seven prior supplemental paths and three separately observed governed-room paths outside the immutable inventories. Other proposals remain conditional.",
+  "preservation": "Original 4134 identities and separate 22 captured paths unchanged. Exact executed retirement actions 2936 comprise 2935 baseline deletions and one newly-added-then-retired ADL conversion bridge; the bridge is outside both captured inventories. The baseline count includes seven prior supplemental paths and three separately observed governed-room paths outside the immutable inventories. Other proposals remain conditional.",
   "review_boundary": "Exact paths and Git identities are pinned. Proposed removals remain conditional; this is not a claim that caller closure or all successor tests are qualified.",
   "known_prerequisites": {
     "codefriend": "Issue102 e14ff1b08b7ef01f838404bca8ecdf47c1318ac1 passed all39suites409Linux tests,0failed0ignored,174.293s; exacthead and clean source before/after. Evidence FastWork c1223/evidence/codefriend/issue102-e14ff1b0-full, transcriptSHA256c7944f7e0403ba485b377868b1bd85e91eeee0ecce3f79920de3e86c813cfa1a. Focused1 and parallel47 diagnostics also passed; prior dc2 redelivery failure did not reproduce and its cause is not claimed fixed. Earlier failures retained. One macOS-only case, actual hosted installed-acquisition CI proof and owner publication remain separate.",
@@ -52363,18 +52363,27 @@
         "blob": "6079505bb427e4a8839aac6ba57a2f18080357f5"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/issue607_validate_saved_plan.sh"
         ]
+      },
+      "pre_saved_plan_pair_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "ISSUE607_SAVED_PLAN_APPLIED.json",
+        "sha256": "7ad67b2b846062ddba0586ac514b7b13f02f3967fac1b74d3ae844908dc05e02",
+        "implementation_commit": "53dc5ae4eb12abadc1d9f5fbeeb6e2ed57cf2413"
       }
     },
     {
@@ -52977,18 +52986,27 @@
         "blob": "ca5d4c6e68279c96f0e40487844b78d6df29fe62"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/pair_experiment.py"
         ]
+      },
+      "pre_saved_plan_pair_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "PAIR_ACCOUNTING_TWO_APPLIED.json",
+        "sha256": "a87dd733e24aec54cde868a5a85c51f0f92fe3801bacce6b139289c702f44064",
+        "implementation_commit": "8a745757752d75fd2b16ecc892833aced480780a"
       }
     },
     {
@@ -73222,18 +73240,27 @@
         "blob": "44dcc97e74af3e366eafc789f03b2ee29a5c1a3e"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/test_pair_experiment.py"
         ]
+      },
+      "pre_saved_plan_pair_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "PAIR_ACCOUNTING_TWO_APPLIED.json",
+        "sha256": "a87dd733e24aec54cde868a5a85c51f0f92fe3801bacce6b139289c702f44064",
+        "implementation_commit": "8a745757752d75fd2b16ecc892833aced480780a"
       }
     },
     {
