@@ -30,8 +30,8 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 15
 - `supported shim`: 6
-- `internal helper`: 715
-- `historical evidence`: 9
+- `internal helper`: 714
+- `historical evidence`: 10
 - `archive candidate`: 0
 - `remove candidate`: 2
 
@@ -322,7 +322,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/run_uts_benchmark.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_v0904_contract_market_runner.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_v0913_proof_validation_lane.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
-| `adl/tools/run_v0914_multi_agent_workcell_proof.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
+| `adl/tools/run_v0914_multi_agent_workcell_proof.sh` | tool surface | historical evidence | Historical model-backed v0.91.4 workcell rehearsal; retained manifest and review artifacts do not qualify a new execution, including its provider-active dry-run path. |
 | `adl/tools/run_v0915_multi_agent_quality_comparison.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_v0915_openrouter_matrix.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_v0915_remote_gemma_watcher_probe.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |

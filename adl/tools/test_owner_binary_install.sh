@@ -389,30 +389,8 @@ assert_lock_restored_after_build "$tmpdir/user-lock.before" 0 "$tmpdir/dependenc
 
 echo "owner binary stable install: ok"
 
-# PVF #856: native owner selection, source provenance and no-op installation.
-# The native owner flow also installs the reviewed operator manual (#861).
-cp "$ROOT_DIR/adl/tools/install_csdlc_man_pages.sh" "$repo/adl/tools/"
-mkdir -p "$repo/docs/csdlc-v3/man"
-cp -R "$ROOT_DIR/docs/csdlc-v3/man/man1" "$repo/docs/csdlc-v3/man/"
-mkdir -p "$repo/csdlc-v3/src"
-printf '[package]\nname = "csdlc-v3"\nversion = "0.1.0"\n' >"$repo/csdlc-v3/Cargo.toml"
-printf '# native fixture lock\n' >"$repo/csdlc-v3/Cargo.lock"
-printf 'fn main() {}\n' >"$repo/csdlc-v3/src/main.rs"
-printf '#!/usr/bin/env bash\necho native-fixture\n' >"$source_bin_dir/csdlc"
-chmod +x "$source_bin_dir/csdlc"
-"$BASH_BIN" "$repo/adl/tools/install_owner_binaries.sh" --bin csdlc --source-bin-dir "$source_bin_dir" --no-build >/dev/null
-native_bin="$repo/.adl/bin/native-v3/csdlc"
-native_provenance="$repo/.adl/bin/native-v3/.provenance/csdlc.sha256"
-[[ -x "$native_bin" && -f "$native_provenance" ]]
-[[ -f "$repo/.adl/bin/native-v3/share/man/man1/csdlc.1" ]]
-native_hash="$(cat "$native_provenance")"
-printf '// unrelated ADL change\n' >>"$repo/adl/src/lib.rs"
-noop="$("$BASH_BIN" "$repo/adl/tools/install_owner_binaries.sh" --bin csdlc --source-bin-dir "$source_bin_dir" --no-build)"
-[[ "$noop" == *'owner-binary unchanged: csdlc'* ]]
-printf '// changed native input\n' >>"$repo/csdlc-v3/src/main.rs"
-"$BASH_BIN" "$repo/adl/tools/install_owner_binaries.sh" --bin csdlc --source-bin-dir "$source_bin_dir" --no-build >/dev/null
-[[ "$(cat "$native_provenance")" != "$native_hash" ]]
-if "$BASH_BIN" "$repo/adl/tools/install_owner_binaries.sh" --bin csdlc --bin adl --no-build >/dev/null 2>&1; then
-  echo 'mixed-manifest owner install accepted' >&2; exit 1
-fi
-echo 'PASS native v3 stable install provenance'
+# PVF: deterministic isolated ADL consumer tooling contract.
+# C-SDLC source-copy installation is retired. Exercise selected-package lookup,
+# no-write preservation and refusals through the dedicated fixture. Its fake
+# package proves neither native admission nor actual manual rendering.
+"$BASH_BIN" "$ROOT_DIR/docs/csdlc-v3/man/test_install.sh"

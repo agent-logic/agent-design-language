@@ -6,7 +6,7 @@
   "execution_authorized": false,
   "original_count": 4134,
   "counts": {
-    "hold_explicit_reconciliation": 33,
+    "hold_explicit_reconciliation": 30,
     "hold_owner_test_reconciliation": 35,
     "preserve_approved_removal": 70,
     "preserve_reviewed_consumer_repair": 18,
@@ -15,7 +15,7 @@
     "proposed_remove_construction_qualified_infrastructure": 216,
     "proposed_remove_with_entire_source_family": 1874,
     "proposed_remove_with_entire_tool_family": 678,
-    "retain_public_source_or_fixture": 115,
+    "retain_public_source_or_fixture": 118,
     "retain_resolved": 527
   },
   "additional_current_source_paths": 22,
@@ -32916,10 +32916,10 @@
       },
       "existing_action": "retain",
       "hold_reason": "Full source copies docs/csdlc-v3/man/man1 to explicit stable bin path; refuses symlink directories/pages, preserves equal bytes, stages rename and mode0644.",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "retain_public_source_or_fixture",
       "required_before_execution": [
-        "Owner package manual must replace source-copy consumer; identify install_owner_binaries caller and preserve installed manual bytes/provenance checks. Do not replace shared binary for docs lookup.",
-        "Explicit coherent retirement approval; no operational acceptance inferred"
+        "Keep exact reviewed evidence and all independent caller/dependency obligations.",
+        "Final coherent removal decision and final public package qualification remain separate."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
@@ -32927,10 +32927,25 @@
         "exact_successor_paths": []
       },
       "reviewed_disposition": {
-        "packet": "CSDLC_PRODUCTION_HELPER_DISPOSITIONS.json",
-        "packet_sha256": "f88bf93a189b79d3835cc6c4479fbc3564ee4e41d66bbab72c87987692762584",
-        "proposal": "hold_installed_manual_producer_boundary"
-      }
+        "packet": "ACTUAL_INSTALLED_MANUAL_QUALIFICATION.json",
+        "packet_sha256": "fc439b4120d0410dde86023c9bcfda2dff2d66ed25f03dd712663a2ba6e69f7b",
+        "proposal": "retain_public_source_or_fixture",
+        "scope": "Bounded source disposition only; original identities and independent obligations preserved."
+      },
+      "prior_dispositions": [
+        {
+          "proposed_action": "hold_explicit_reconciliation",
+          "required_before_execution": [
+            "Owner package manual must replace source-copy consumer; identify install_owner_binaries caller and preserve installed manual bytes/provenance checks. Do not replace shared binary for docs lookup.",
+            "Explicit coherent retirement approval; no operational acceptance inferred"
+          ],
+          "reviewed_disposition": {
+            "packet": "CSDLC_PRODUCTION_HELPER_DISPOSITIONS.json",
+            "packet_sha256": "f88bf93a189b79d3835cc6c4479fbc3564ee4e41d66bbab72c87987692762584",
+            "proposal": "hold_installed_manual_producer_boundary"
+          }
+        }
+      ]
     },
     {
       "id": "RD07-1404",
@@ -35510,9 +35525,10 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "retain_public_source_or_fixture",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Keep exact reviewed evidence and all independent caller/dependency obligations.",
+        "Final coherent removal decision and final public package qualification remain separate."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
@@ -35523,6 +35539,21 @@
         "record": "HISTORICAL_CONSUMER_CLOSURE_GAPS.json",
         "status": "full_effectful_contract_not_executed",
         "changes_removal_authority": false
+      },
+      "prior_dispositions": [
+        {
+          "proposed_action": "hold_explicit_reconciliation",
+          "required_before_execution": [
+            "specific_consumer_or_document_disposition_required"
+          ],
+          "reviewed_disposition": null
+        }
+      ],
+      "reviewed_disposition": {
+        "packet": "WORKCELL_HISTORICAL_SOURCE_RETENTION.json",
+        "packet_sha256": "941c197d6eaccfb27de4e46637d19e8757eb837ccd993bce1953fbd8e04ea70d",
+        "proposal": "retain_public_source_or_fixture",
+        "scope": "Bounded source disposition only; original identities and independent obligations preserved."
       }
     },
     {
@@ -54940,12 +54971,10 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_adl_caller_closure_and_behavior_obligations_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required",
-        "Reconcile active ADL inbound callers and docs with delivered Infrastructure family.",
-        "Preserve original live behavior obligations separately from resolver proof; validator delivery is not validator execution.",
-        "Scoped retirement decision required before removal."
+        "Keep exact reviewed evidence and all independent caller/dependency obligations.",
+        "Final coherent removal decision and final public package qualification remain separate."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -54968,6 +54997,24 @@
         "live_behavior_qualified": false,
         "validator_presence_is_execution": false,
         "changes_removal_authority": false
+      },
+      "prior_dispositions": [
+        {
+          "proposed_action": "hold_explicit_reconciliation",
+          "required_before_execution": [
+            "specific_consumer_or_document_disposition_required",
+            "Reconcile active ADL inbound callers and docs with delivered Infrastructure family.",
+            "Preserve original live behavior obligations separately from resolver proof; validator delivery is not validator execution.",
+            "Scoped retirement decision required before removal."
+          ],
+          "reviewed_disposition": null
+        }
+      ],
+      "reviewed_disposition": {
+        "packet": "CSM_RETAINED_CAPSULE_VALIDATOR_QUALIFICATION.json",
+        "packet_sha256": "ae85c77c4f0947b15e4ebc2432384bc99e82b69bccd2a644a761f3d1588af841",
+        "proposal": "proposed_owner_transfer_with_consumer_qualification",
+        "scope": "Bounded source disposition only; original identities and independent obligations preserved."
       }
     },
     {
@@ -87087,9 +87134,10 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "proposed_action": "retain_public_source_or_fixture",
       "required_before_execution": [
-        "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+        "Keep exact reviewed evidence and all independent caller/dependency obligations.",
+        "Final coherent removal decision and final public package qualification remain separate."
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
@@ -87097,11 +87145,25 @@
         "exact_successor_paths": []
       },
       "reviewed_disposition": {
-        "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
-        "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
-        "proposal": "conditional_owner_document_transfer",
-        "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
-      }
+        "packet": "ACTUAL_INSTALLED_MANUAL_QUALIFICATION.json",
+        "packet_sha256": "fc439b4120d0410dde86023c9bcfda2dff2d66ed25f03dd712663a2ba6e69f7b",
+        "proposal": "retain_public_source_or_fixture",
+        "scope": "Bounded source disposition only; original identities and independent obligations preserved."
+      },
+      "prior_dispositions": [
+        {
+          "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+          "required_before_execution": [
+            "Transfer the complete owner manual unit (manual.json, renderer, roff pages, inventory, example fixtures, PVF record and tests) with the owner package. ADL installer must consume the accepted owner artifact/manual destination, never copy arbitrary ADL source pages over installed owner documentation. Update AGENTS.md:29 and retained CURRENT_AUTHORITY.md navigation to the selected installed owner manual; derive MANPATH from its actual installation receipt/path and use man -w to establish the resolved page. Manual-only installation is not owner activation. Coordinate adl/tools/install_csdlc_man_pages.sh:10 and operator_man_pages.rs consumers with their existing source/tool disposition owners, without editing those groups in this proposal."
+          ],
+          "reviewed_disposition": {
+            "packet": "CSDLC_73_DOCUMENT_DISPOSITIONS.json",
+            "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
+            "proposal": "conditional_owner_document_transfer",
+            "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+          }
+        }
+      ]
     },
     {
       "id": "RD07-3526",

@@ -1,9 +1,9 @@
 {
   "schema": "adl.source_retirement.grouped_holds.v1",
-  "source_head": "13521e3280fa2c5017721e44fcc31cc23dea5542",
-  "ledger_sha256": "07931ab99bda22122b4f39b58d662b6f549c67ab891d3d99a7b77349af23fe28",
+  "source_head": "666818f2aafdaf4839d1c3de4119b513c4236d3d",
+  "ledger_sha256": "957365a1794d00b673add22d2682b4388fca832bf949fd7cc0fa3a708df786d6",
   "original_count": 4134,
-  "held_count": 68,
+  "held_count": 65,
   "additional_paths_separate": 22,
   "execution_authorized": false,
   "boundary": "Grouping preserves every original row and prerequisite verbatim. It does not resolve holds, authorize removal, or imply full issue readiness. Other proposed removals remain conditional.",
@@ -1029,44 +1029,6 @@
       ]
     },
     {
-      "id": "supplement",
-      "title": "Prepared manual, Nessus and historical guides",
-      "count": 1,
-      "next_action": "Resolve actual selected package manual bytes and provenance; lookup fixtures pass but do not establish native admission.",
-      "evidence": [
-        "/Volumes/FastWork/c1223/supplemental-consumer-approval/supplement.patch"
-      ],
-      "rows": [
-        {
-          "id": "RD07-1403",
-          "path": "adl/tools/install_csdlc_man_pages.sh",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100644",
-            "blob": "6adbd02f4ffa240803599a712e61326a116e6e2a"
-          },
-          "existing_action": "retain",
-          "hold_reason": "Full source copies docs/csdlc-v3/man/man1 to explicit stable bin path; refuses symlink directories/pages, preserves equal bytes, stages rename and mode0644.",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "Owner package manual must replace source-copy consumer; identify install_owner_binaries caller and preserve installed manual bytes/provenance checks. Do not replace shared binary for docs lookup.",
-            "Explicit coherent retirement approval; no operational acceptance inferred"
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          },
-          "reviewed_disposition": {
-            "packet": "CSDLC_PRODUCTION_HELPER_DISPOSITIONS.json",
-            "packet_sha256": "f88bf93a189b79d3835cc6c4479fbc3564ee4e41d66bbab72c87987692762584",
-            "proposal": "hold_installed_manual_producer_boundary"
-          }
-        }
-      ]
-    },
-    {
       "id": "conversion",
       "title": "Native conversion rehearsal closure",
       "count": 5,
@@ -1686,7 +1648,7 @@
     {
       "id": "cognitive-sdlc-remaining",
       "title": "Mixed consumers (inherited inventory owner)",
-      "count": 13,
+      "count": 11,
       "next_action": "Resolve the exact per-row required_before_execution entries preserved below as one owner consumer batch: map current caller and qualified successor or choose explicit historical retention/retirement. Reuse existing owner evidence; source presence alone does not close behavior. Cloud/live operations require their own existing authorization.",
       "evidence": [],
       "rows": [
@@ -1814,32 +1776,6 @@
             "mapping": "unmapped",
             "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
             "exact_successor_paths": []
-          }
-        },
-        {
-          "id": "RD07-1507",
-          "path": "adl/tools/run_v0914_multi_agent_workcell_proof.sh",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "4000d67673c3519745e26d2bf77b5deedea0d2bf"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_no_proven_current_successor_mapping",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "specific_consumer_or_document_disposition_required"
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          },
-          "qualification_followup": {
-            "record": "HISTORICAL_CONSUMER_CLOSURE_GAPS.json",
-            "status": "full_effectful_contract_not_executed",
-            "changes_removal_authority": false
           }
         },
         {
@@ -1984,47 +1920,6 @@
             "mapping": "unmapped",
             "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
             "exact_successor_paths": []
-          }
-        },
-        {
-          "id": "RD07-2224",
-          "path": "adl/tools/validate_v0917_csm_continuity_capsule_4910_status.sh",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "bafd22db7b0ac30459443286359b4296a85ea146"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_until_adl_caller_closure_and_behavior_obligations_are_reconciled",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "specific_consumer_or_document_disposition_required",
-            "Reconcile active ADL inbound callers and docs with delivered Infrastructure family.",
-            "Preserve original live behavior obligations separately from resolver proof; validator delivery is not validator execution.",
-            "Scoped retirement decision required before removal."
-          ],
-          "successor_mapping": {
-            "mapping": "exact_successor",
-            "successor_repository": "agent-logic/agent-logic-infrastructure",
-            "successor_revision": "a5838b0748cd6fb13b8d30afb02da1088167c9fe",
-            "successor_paths": [
-              "adl/tools/validate_v0917_csm_continuity_capsule_4910_status.sh"
-            ],
-            "successor_blob": "bafd22db7b0ac30459443286359b4296a85ea146",
-            "evidence": "INFRASTRUCTURE_CSM_FAMILY_DELIVERY.json"
-          },
-          "prior_successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          },
-          "qualification_followup": {
-            "record": "INFRASTRUCTURE_CSM_FAMILY_DELIVERY.json",
-            "scope": "published_source_and_bounded_resolver_only",
-            "live_behavior_qualified": false,
-            "validator_presence_is_execution": false,
-            "changes_removal_authority": false
           }
         },
         {

@@ -2,12 +2,14 @@
 
 `manual.json` is the reviewed source for the installable roff suite in `man1/`.
 Read `man csdlc`, `man csdlc-workflow`, `man csdlc-requests`, or a command page
-such as `man csdlc-finish`. The suite contains 34 pages covering all
+such as `man csdlc-finish`. The historical ADL source suite contains 34 pages covering its
 30 root-help commands, the supported `rollback` alias and both simple issue
 forms. This extends the frozen 27 predecessor dispositions with `status`,
 `prepare`, `recover` and `rebuild`; it does not change that historical denominator. `inventory.json` binds options
 and request fields to their source contracts. Source/manual coverage is
 separate from installed-binary provenance, exact-head review and activation.
+The selected owner package has its own versioned page inventory; derive its
+page count and supported commands from that package, not this historical count.
 See [issue intent commands](../INTENT_COMMANDS.md) for the ordinary interface and
 shared advanced request.
 
