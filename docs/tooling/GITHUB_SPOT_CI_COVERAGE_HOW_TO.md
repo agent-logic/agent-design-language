@@ -1,5 +1,12 @@
 # GitHub Spot CI And Coverage HOW-TO
 
+> Historical ADL Spot rollout procedure after #1223. These phases and prior
+> workflow assumptions are retained evidence, not the current public ADL CI route.
+> The artifact finalizer and orphan sweeper now belong to the reviewed
+> [Infrastructure owner](https://github.com/agent-logic/agent-logic-infrastructure/tree/025850d265cbd1a55b28a8e9b238b2fe0bfcaf1d/adl/tools).
+> Their two unchanged offline fixture consumers passed; this does not establish
+> live AWS cleanup, current Spot deployment, or broad owner acceptance.
+
 ## Rollout Model
 
 GitHub Actions remains the control plane. A small hosted runner authenticates
@@ -39,8 +46,11 @@ availability-zone-compatible topology as the retained EBS volume.
 
 New builders receive both `adl:managed=true` and
 `adl:lane=spot-remote-validation` tags. The cleanup step runs
-`adl/tools/sweep_aws_spot_orphans.sh --run --run-id <exact-run-id>
---max-age-minutes 90` after the run-specific cleanup. The live sweep is
+the owner command `bash "$INFRASTRUCTURE_SOURCE_ROOT/adl/tools/sweep_aws_spot_orphans.sh"
+--run --run-id <exact-run-id> --max-age-minutes 90` after the run-specific cleanup.
+`INFRASTRUCTURE_SOURCE_ROOT` must name the explicitly selected, reviewed absolute
+owner checkout; ADL no longer supplies the local sweeper. This historical
+example does not authorize a live AWS invocation. The live sweep is
 deliberately narrow: it only considers those two tags plus the exact run ID,
 requires a 30-minute minimum age, records hashed instance identities, and never
 modifies the retained EBS volume. A broad sweep without `--run` is a dry-run

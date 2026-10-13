@@ -30,7 +30,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 9
 - `supported shim`: 0
-- `internal helper`: 538
+- `internal helper`: 534
 - `historical evidence`: 45
 - `archive candidate`: 0
 - `remove candidate`: 2
@@ -62,7 +62,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/archive_codex_sessions_to_fastwork.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/archive_run_artifacts.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/attach_pr_janitor.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
-| `adl/tools/aws_spot_artifact_finalize.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/aws_spot_artifact_redaction_verify.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/batched_checks.sh` | tool surface | primary | Local validation entrypoint; use the current declared public validation contract. |
 | `adl/tools/benchmark` | tool surface | internal helper | Directory containing bounded helper assets, scripts, or proof inputs. |
@@ -301,14 +300,12 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/suitability_specs` | tool surface | internal helper | Directory containing bounded helper assets, scripts, or proof inputs. |
 | `adl/tools/summarize_ci_runtime.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/summarize_nextest_timings.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
-| `adl/tools/sweep_aws_spot_orphans.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/sync_task_bundle_prompts.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/test_adl_milestone_creator_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_adl_runtime_compatibility.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_archive_codex_sessions_to_fastwork.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_archive_run_artifacts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_arxiv_paper_writer_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_aws_spot_artifact_finalize.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_aws_spot_lifecycle_controls.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_batched_checks_no_codexpr_usage_banner.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_build_v0916_workflow_metric_backfill_inventory.py` | tool surface | internal helper | Focused regression or contract test helper. |
@@ -492,7 +489,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_structured_prompt_validation.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_summarize_ci_runtime.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_summarize_nextest_timings.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_sweep_aws_spot_orphans.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_sync_task_bundle_prompts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_test_generator_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_transition_dag_packet.sh` | tool surface | internal helper | Focused regression or contract test helper. |
