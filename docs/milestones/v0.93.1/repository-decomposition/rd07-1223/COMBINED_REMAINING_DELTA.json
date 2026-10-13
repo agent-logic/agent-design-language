@@ -98076,6 +98076,16 @@
     },
     {
       "codefriend": "Issue102 dc2d93e2c531606174f0d624fd0f3edeb117ef86 executed all39suites409Linux tests:408passed1failed (cancelled_redelivery_does_not_reupload_complete_artifact expected4 observed0). PDF suite passes. Evidence FastWork c1223/evidence/codefriend/issue102-dc2d93e; transcript SHA256eab9b7a950a3b0dcb9b6a56afb510a6d61cf80c527fd72bcf77d2a18476eaa4c. One source macOS-only case remains unqualified. Earlier failures preserved; owner repair pending."
+    },
+    {
+      "csdlc_lifecycle_component": {
+        "record": "CSDLC_LIFECYCLE_REPAIRED_PACKAGE_QUALIFICATION.json",
+        "sha256": "2dbf7de308ac5d0ff7db5fbd3724f46c79b44190c6c9261cc9020d37f1a3ff4b",
+        "review": "CSDLC_LIFECYCLE_REPAIRED_PACKAGE_REVIEW.json",
+        "review_sha256": "9d329a931394e2c3918b8ec06bc4f77dde088a471a5d878c223c094f0b14fd1d",
+        "result": "Exact PR250 package lifecycle component passed in4.228s. Fifteen original bootstrap fields,20truth assertion lines and13classification assertion lines retained as separate units. All20composed script bytes unchanged. Delivered executable fixture fixes prior permission failure.",
+        "boundary": "Native transport test double only; native admission/full original acceptance remain false. Prior failure and other passed components preserved. No retirement decision or original denominator changed."
+      }
     }
   ]
 }
