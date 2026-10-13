@@ -21,7 +21,7 @@ Version: 1.0.5
 Title: [v0.93.1][C-SDLC v3][defect] Reconcile recordless merged closeout in external repositories
 Branch: codex/1266-recordless-merged-closeout-recovery
 Card Status: ready
-Status: not_started
+Status: IN_PROGRESS
 Generated: <timestamp>
 
 Execution:
@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implementation, proof, review, publication, integration, and historical closeout reconciliation are pending.
+Repair authenticated replay of historical external closeout after the consumer checkout advances, retain the complete v0.93.1 census, and reconcile only proven positive cases.
 
 ## PVF Lane Truth
 - Initial PVF lane: `<initial_pvf_lane>`
@@ -57,7 +57,7 @@ Implementation, proof, review, publication, integration, and historical closeout
 - Goal metrics source ref: `<actual_metrics_source_ref>`
 - Data-source confidence: `<actual_metrics_confidence>`
 - Estimate error percent: `<estimate_error_percent>`
-- Completion state: `<completion_state>`
+- Completion state: `implementation_validated_pending_review_and_publication`
 - Issue goal ref: `<issue_goal_ref>`
 - Sprint goal ref: `<sprint_goal_ref>`
 - Goal metrics rollup ref: `<goal_metrics_rollup_ref>`
@@ -75,24 +75,24 @@ Implementation, proof, review, publication, integration, and historical closeout
 
 ## Artifacts produced
 - Local ignored output-card scaffold at `<output_card>`
-- Tracked implementation artifacts: `<tracked_implementation_artifacts>`
-- Additional proof artifacts: `<additional_proof_artifacts>`
+- Tracked implementation artifacts: `csdlc-v3/src/application/intent/terminal.rs; csdlc-v3/tests/installed_intent_commands.rs; .csdlc/evidence/1266/*.json`
+- Additional proof artifacts: `.csdlc/evidence/1266/v0931-consumer-denominator.v1.json; .csdlc/evidence/1266/infrastructure-reconciliation.v1.json`
 
 ## Actions taken
-- `<actions_taken_line_1>`
-- `<actions_taken_line_2>`
-- `<actions_taken_line_3>`
+- `Retain the immutable closing PR head when replaying a valid legacy merged terminal receipt after the invoking checkout advances.`
+- `Cross-check receipt schema, repository, issue, PR, head, publication repository and disposition against the digest-bound terminal state before authenticated replay.`
+- `Reconciled Infrastructure #26 canonically; preserved Infrastructure #27's stale bound semantic authority as a fail-closed residual instead of bypassing it.`
 
 ## Main Repo Integration (REQUIRED)
-- Main-repo paths updated: `<main_repo_paths_updated>`
-- Worktree-only paths remaining: `<worktree_only_paths_remaining>`
-- Integration state: `<integration_state>`
+- Main-repo paths updated: `none`
+- Worktree-only paths remaining: `All #1266 implementation and evidence changes await PR integration.`
+- Integration state: `worktree_only`
 - Verification scope: `<verification_scope>`
-- Integration method used: `<integration_method_used>`
+- Integration method used: `PR publication pending`
 - Verification performed:
-  - `<integration_verification_command>`
-    `<integration_verification_effect>`
-- Result: `<integration_result>`
+  - `git diff --check origin/main...HEAD`
+    `Checks branch diff hygiene without claiming merge.`
+- Result: `Not merged`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -107,10 +107,10 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `<validation_command>`
-    `<validation_effect>`
+  - `cargo test --manifest-path csdlc-v3/Cargo.toml --test installed_intent_commands external_pr_finish -- --nocapture; cargo check --manifest-path csdlc-v3/Cargo.toml --all-targets; cargo clippy --manifest-path csdlc-v3/Cargo.toml --all-targets -- -D warnings; git diff --check`
+    `Proves external recordless closeout admission, fail-closed conflicts and receipt/state identity tamper rejection, replay after checkout advance, compilation, lint and diff hygiene.`
 - Results:
-  - `<validation_result>`
+  - `Focused external-pr tests passed before the review repair; fresh validation required after receipt/state identity checks are added.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -123,21 +123,21 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: <verification_validation_status>
+    status: in_progress
     checks_run:
       - "<verification_check_1>"
   determinism:
-    status: <verification_determinism_status>
-    replay_verified: <verification_replay_verified>
+    status: passed
+    replay_verified: true
     ordering_guarantees_verified: <verification_ordering_guarantees_verified>
   security_privacy:
-    status: <verification_security_privacy_status>
-    secrets_leakage_detected: <verification_secrets_leakage_detected>
-    prompt_or_tool_arg_leakage_detected: <verification_prompt_or_tool_arg_leakage_detected>
-    absolute_path_leakage_detected: <verification_absolute_path_leakage_detected>
+    status: passed
+    secrets_leakage_detected: false
+    prompt_or_tool_arg_leakage_detected: false
+    absolute_path_leakage_detected: false
   artifacts:
-    status: <verification_artifacts_status>
-    required_artifacts_present: <verification_required_artifacts_present>
+    status: partial
+    required_artifacts_present: false
     schema_changes:
       present: <verification_schema_changes_present>
       approved: <verification_schema_changes_approved>
@@ -146,7 +146,7 @@ verification_summary:
 ## Determinism Evidence
 - Determinism tests executed: `<determinism_tests_executed>`
 - Fixtures or scripts used: `<fixtures_or_scripts_used>`
-- Replay verification (same inputs -> same artifacts/order): `<replay_verification>`
+- Replay verification (same inputs -> same artifacts/order): `Synthetic installed external-consumer replay advances the checkout and requires expected_noop with byte-identical inventory.`
 - Ordering guarantees (sorting / tie-break rules used): `<ordering_guarantees>`
 - Artifact stability notes: `<artifact_stability_notes>`
 
@@ -163,8 +163,8 @@ verification_summary:
 - Replay result: `<replay_result>`
 
 ## Artifact Verification
-- Primary proof surface: `<primary_proof_surface>`
-- Required artifacts present: `<required_artifacts_present>`
+- Primary proof surface: `.csdlc/evidence/1266/infrastructure-reconciliation.v1.json`
+- Required artifacts present: `partial`
 - Artifact schema/version checks: `<artifact_schema_checks>`
 - Hash/byte-stability checks: `<hash_byte_stability_checks>`
 - Missing/optional artifacts and rationale: `<missing_optional_artifacts_rationale>`
@@ -174,5 +174,5 @@ verification_summary:
 - `<decision_or_deviation_2>`
 
 ## Follow-ups / Deferred work
-- `<follow_up_1>`
-- `<follow_up_2>`
+- `Reconcile Infrastructure #27's bound semantic authority through its native controller; do not bypass or delete the binding.`
+- `Obtain fresh exact-head review, publish, and require green CI before merge authority is considered.`

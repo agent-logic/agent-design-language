@@ -515,7 +515,8 @@ fn native_request(
         let state_path =
             state_root(context)?.join(format!("v3/issues/{}/terminal.json", context.issue));
         let state_digest = file_digest(&state_path)?;
-        if receipt.repository != context.repository
+        if receipt.schema != "csdlc.v3.terminal_receipt.v1"
+            || receipt.repository != context.repository
             || receipt.issue != context.issue
             || receipt.disposition != "closed_out"
             || receipt.no_pr_closeout.is_some()
@@ -523,6 +524,23 @@ fn native_request(
             || (state_digest.is_some() && receipt.state_digest != state_digest)
         {
             return Err("intent_terminal_receipt_mismatch".into());
+        }
+        if state_digest.is_some() {
+            let state: Value = serde_json::from_slice(
+                &fs::read(&state_path).map_err(|_| "intent_terminal_receipt_required")?,
+            )
+            .map_err(|_| "intent_terminal_receipt_mismatch")?;
+            if state["schema"] != "csdlc.v3.terminal_state.v1"
+                || state["repository"] != receipt.repository
+                || state["issue"] != receipt.issue
+                || state["pull_request"] != json!(receipt.pull_request)
+                || state["head_sha"] != receipt.head_sha
+                || state["disposition"] != receipt.disposition
+                || state["publication_repository"] != json!(receipt.publication_repository)
+                || !state["no_pr_closeout"].is_null()
+            {
+                return Err("intent_terminal_receipt_mismatch".into());
+            }
         }
         if state_digest.is_none() {
             missing_state_repair = true;

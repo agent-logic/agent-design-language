@@ -5622,13 +5622,35 @@ fn external_pr_finish_authenticates_without_fabricating_publication_history() {
     ));
     assert_same_inventory!(before, intent_fixture::inventory(&primary));
     success(fixture.run(&linked, &["finish", "870", "--pull-request", "639"]));
-    let receipt: Value = serde_json::from_slice(
-        &fs::read(primary.join(".git/csdlc-v3/local/evidence/870/terminal-receipt.json")).unwrap(),
-    )
-    .unwrap();
+    let receipt_path = primary.join(".git/csdlc-v3/local/evidence/870/terminal-receipt.json");
+    let receipt_bytes = fs::read(&receipt_path).unwrap();
+    let receipt: Value = serde_json::from_slice(&receipt_bytes).unwrap();
     assert_eq!(receipt["pull_request"], 639);
     assert_eq!(receipt["head_sha"], head);
     assert_eq!(fixture.remote_effects(), 0);
+    for (field, value) in [
+        ("schema", json!("csdlc.v3.terminal_receipt.v0")),
+        ("repository", json!("agent-logic/other")),
+        ("pull_request", json!(640)),
+        (
+            "head_sha",
+            json!("0000000000000000000000000000000000000000"),
+        ),
+        (
+            "publication_repository",
+            json!("agent-logic/other-publication"),
+        ),
+    ] {
+        let mut tampered = receipt.clone();
+        tampered[field] = value;
+        fs::write(&receipt_path, serde_json::to_vec(&tampered).unwrap()).unwrap();
+        let denied = fixture.run(&linked, &["finish", "870"]);
+        assert!(!denied.status.success(), "{denied:?}");
+        assert!(
+            String::from_utf8_lossy(&denied.stdout).contains("intent_terminal_receipt_mismatch")
+        );
+    }
+    fs::write(&receipt_path, &receipt_bytes).unwrap();
     git(
         &linked,
         &[
