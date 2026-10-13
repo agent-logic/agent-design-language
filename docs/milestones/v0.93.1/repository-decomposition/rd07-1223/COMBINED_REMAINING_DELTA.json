@@ -6,17 +6,17 @@
   "execution_authorized": false,
   "original_count": 4134,
   "counts": {
-    "hold_explicit_reconciliation": 165,
+    "hold_explicit_reconciliation": 162,
     "hold_owner_test_reconciliation": 35,
     "preserve_approved_removal": 70,
     "preserve_reviewed_consumer_repair": 18,
-    "proposed_historical_retirement_with_caller_repair": 19,
+    "proposed_historical_retirement_with_caller_repair": 17,
     "proposed_owner_transfer_with_consumer_qualification": 477,
     "proposed_remove_construction_qualified_infrastructure": 216,
     "proposed_remove_with_entire_source_family": 1874,
-    "proposed_remove_with_entire_tool_family": 715,
+    "proposed_remove_with_entire_tool_family": 693,
     "retain_public_source_or_fixture": 68,
-    "retain_resolved": 477
+    "retain_resolved": 504
   },
   "additional_current_source_paths": 19,
   "preservation": "Original inventory and baseline archive unchanged;70 prior approved removals preserved; no new deletion applied",
@@ -32111,11 +32111,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "proposed_historical_retirement_with_caller_repair",
-      "required_before_execution": [
-        "Jointly disposition test_first_proof_demo_packet.sh, validate_first_proof_demo_packet.py and validate_v0913_quality_gate_review_surfaces.py references; preserve tracked proof packet and original non-five-minute claim. Confirm no current release obligation depends on regenerating historical snapshot.",
-        "atomic family and caller disposition; no v1 route restoration"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -32126,6 +32123,12 @@
         "packet_sha256": "2682d1f5904ff8cf484acec5c0a8f2e62c45798c7f7a9b1de3fbc422ec655f35",
         "proposal": "explicit_historical_retirement",
         "reason": "Generator declares a tracked WP-09 transition snapshot and bounded historical first-proof report; its fixed v0.91.3 proof dependencies are source-visible."
+      },
+      "consumer_disposition": {
+        "decision": "Retain complete public historical v0.91.3 gate closure with paired tests and fixtures; no private product execution required.",
+        "evidence": "V0913_PUBLIC_HISTORICAL_RETENTION.json",
+        "full_gate_execution_claimed": false,
+        "retirement_authorized": false
       }
     },
     {
@@ -32160,18 +32163,20 @@
         "blob": "f814cdfcee9903dd27985bf648d8ec1557b181f4"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/demo_v0913_podcast_studio_v2.sh"
         ]
+      },
+      "consumer_disposition": {
+        "decision": "Retain complete public historical v0.91.3 gate closure with paired tests and fixtures; no private product execution required.",
+        "evidence": "V0913_PUBLIC_HISTORICAL_RETENTION.json",
+        "full_gate_execution_claimed": false,
+        "retirement_authorized": false
       }
     },
     {
@@ -32185,14 +32190,18 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "consumer_disposition": {
+        "decision": "Retain complete public historical v0.91.3 gate closure with paired tests and fixtures; no private product execution required.",
+        "evidence": "V0913_PUBLIC_HISTORICAL_RETENTION.json",
+        "full_gate_execution_claimed": false,
+        "retirement_authorized": false
       }
     },
     {
@@ -32646,18 +32655,20 @@
         "blob": "fdbc46b631edf268da9661ecb41837baaf7466b0"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/generate_podcast_studio_v2_packet.py"
         ]
+      },
+      "consumer_disposition": {
+        "decision": "Retain complete public historical v0.91.3 gate closure with paired tests and fixtures; no private product execution required.",
+        "evidence": "V0913_PUBLIC_HISTORICAL_RETENTION.json",
+        "full_gate_execution_claimed": false,
+        "retirement_authorized": false
       }
     },
     {
@@ -35337,18 +35348,20 @@
         "blob": "acc0e21b0123d4cf54cf4d09e53891bb79944533"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/run_v0913_proof_validation_lane.sh"
         ]
+      },
+      "consumer_disposition": {
+        "decision": "Retain complete public historical v0.91.3 gate closure with paired tests and fixtures; no private product execution required.",
+        "evidence": "V0913_PUBLIC_HISTORICAL_RETENTION.json",
+        "full_gate_execution_claimed": false,
+        "retirement_authorized": false
       }
     },
     {
@@ -46660,13 +46673,8 @@
         "blob": "1e775cb257315596f0f190d8337c605cba9c03da"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision",
-        "Resolve retained v0.91.3 gate caller edge before removing this dependency; see V0913_GATE_CONSUMER_CLOSURE.json."
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -46682,6 +46690,12 @@
         "package_revision": "79d6430a89edb350fe1012889650a6b4776912d0",
         "producer_input_boundary": "Exact pinned local source transports; not published remote producer artifacts.",
         "native_or_complete_family_acceptance": false
+      },
+      "consumer_disposition": {
+        "decision": "Retain complete public historical v0.91.3 gate closure with paired tests and fixtures; no private product execution required.",
+        "evidence": "V0913_PUBLIC_HISTORICAL_RETENTION.json",
+        "full_gate_execution_claimed": false,
+        "retirement_authorized": false
       }
     },
     {
@@ -47922,14 +47936,18 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "consumer_disposition": {
+        "decision": "Retain complete public historical v0.91.3 gate closure with paired tests and fixtures; no private product execution required.",
+        "evidence": "V0913_PUBLIC_HISTORICAL_RETENTION.json",
+        "full_gate_execution_claimed": false,
+        "retirement_authorized": false
       }
     },
     {
@@ -48119,13 +48137,8 @@
         "blob": "ffadd3e6a4503acc5687e5496c793f2e2f11ba93"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision",
-        "Resolve retained v0.91.3 gate caller edge before removing this dependency; see V0913_GATE_CONSUMER_CLOSURE.json."
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -48141,6 +48154,12 @@
         "package_revision": "79d6430a89edb350fe1012889650a6b4776912d0",
         "producer_input_boundary": "Exact pinned local source transports; not published remote producer artifacts.",
         "native_or_complete_family_acceptance": false
+      },
+      "consumer_disposition": {
+        "decision": "Retain complete public historical v0.91.3 gate closure with paired tests and fixtures; no private product execution required.",
+        "evidence": "V0913_PUBLIC_HISTORICAL_RETENTION.json",
+        "full_gate_execution_claimed": false,
+        "retirement_authorized": false
       }
     },
     {
@@ -48198,19 +48217,20 @@
         "blob": "9da8fa36c927c569304d185c87e6bc2055014549"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision",
-        "Resolve retained v0.91.3 gate caller edge before removing this dependency; see V0913_GATE_CONSUMER_CLOSURE.json."
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/test_first_proof_demo_packet.sh"
         ]
+      },
+      "consumer_disposition": {
+        "decision": "Retain complete public historical v0.91.3 gate closure with paired tests and fixtures; no private product execution required.",
+        "evidence": "V0913_PUBLIC_HISTORICAL_RETENTION.json",
+        "full_gate_execution_claimed": false,
+        "retirement_authorized": false
       }
     },
     {
@@ -48223,13 +48243,8 @@
         "blob": "77f863d109a7f31f55d6aa9ad0f8262f49b2fe97"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision",
-        "Resolve retained v0.91.3 gate caller edge before removing this dependency; see V0913_GATE_CONSUMER_CLOSURE.json."
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -48245,6 +48260,12 @@
         "package_revision": "79d6430a89edb350fe1012889650a6b4776912d0",
         "producer_input_boundary": "Exact pinned local source transports; not published remote producer artifacts.",
         "native_or_complete_family_acceptance": false
+      },
+      "consumer_disposition": {
+        "decision": "Retain complete public historical v0.91.3 gate closure with paired tests and fixtures; no private product execution required.",
+        "evidence": "V0913_PUBLIC_HISTORICAL_RETENTION.json",
+        "full_gate_execution_claimed": false,
+        "retirement_authorized": false
       }
     },
     {
@@ -48284,19 +48305,20 @@
         "blob": "9950786a36e398c137745ef3f33b766c75f924ba"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision",
-        "Resolve retained v0.91.3 gate caller edge before removing this dependency; see V0913_GATE_CONSUMER_CLOSURE.json."
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/test_five_minute_html_game_packet.sh"
         ]
+      },
+      "consumer_disposition": {
+        "decision": "Retain complete public historical v0.91.3 gate closure with paired tests and fixtures; no private product execution required.",
+        "evidence": "V0913_PUBLIC_HISTORICAL_RETENTION.json",
+        "full_gate_execution_claimed": false,
+        "retirement_authorized": false
       }
     },
     {
@@ -48309,19 +48331,20 @@
         "blob": "ddffeab4ebdfada0d054019be3f81cc4dc626838"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision",
-        "Resolve retained v0.91.3 gate caller edge before removing this dependency; see V0913_GATE_CONSUMER_CLOSURE.json."
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/test_five_minute_sprint_console_packet.sh"
         ]
+      },
+      "consumer_disposition": {
+        "decision": "Retain complete public historical v0.91.3 gate closure with paired tests and fixtures; no private product execution required.",
+        "evidence": "V0913_PUBLIC_HISTORICAL_RETENTION.json",
+        "full_gate_execution_claimed": false,
+        "retirement_authorized": false
       }
     },
     {
@@ -48955,13 +48978,8 @@
         "blob": "6e24d9ba5d06a30ed228dd157c0511daece4ca9f"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision",
-        "Resolve retained v0.91.3 gate caller edge before removing this dependency; see V0913_GATE_CONSUMER_CLOSURE.json."
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -48977,6 +48995,12 @@
         "package_revision": "79d6430a89edb350fe1012889650a6b4776912d0",
         "producer_input_boundary": "Exact pinned local source transports; not published remote producer artifacts.",
         "native_or_complete_family_acceptance": false
+      },
+      "consumer_disposition": {
+        "decision": "Retain complete public historical v0.91.3 gate closure with paired tests and fixtures; no private product execution required.",
+        "evidence": "V0913_PUBLIC_HISTORICAL_RETENTION.json",
+        "full_gate_execution_claimed": false,
+        "retirement_authorized": false
       }
     },
     {
@@ -49131,19 +49155,20 @@
         "blob": "4798b971cdb6619fb6319f6741e688407c14460b"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision",
-        "Resolve retained v0.91.3 gate caller edge before removing this dependency; see V0913_GATE_CONSUMER_CLOSURE.json."
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/test_obsmem_handoff_packet.sh"
         ]
+      },
+      "consumer_disposition": {
+        "decision": "Retain complete public historical v0.91.3 gate closure with paired tests and fixtures; no private product execution required.",
+        "evidence": "V0913_PUBLIC_HISTORICAL_RETENTION.json",
+        "full_gate_execution_claimed": false,
+        "retirement_authorized": false
       }
     },
     {
@@ -49331,19 +49356,20 @@
         "blob": "1a48528e21bbb5f2417379f0eadece340a755ea2"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision",
-        "Resolve retained v0.91.3 gate caller edge before removing this dependency; see V0913_GATE_CONSUMER_CLOSURE.json."
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/test_podcast_studio_v2_packet.sh"
         ]
+      },
+      "consumer_disposition": {
+        "decision": "Retain complete public historical v0.91.3 gate closure with paired tests and fixtures; no private product execution required.",
+        "evidence": "V0913_PUBLIC_HISTORICAL_RETENTION.json",
+        "full_gate_execution_claimed": false,
+        "retirement_authorized": false
       }
     },
     {
@@ -50625,14 +50651,18 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "consumer_disposition": {
+        "decision": "Retain complete public historical v0.91.3 gate closure with paired tests and fixtures; no private product execution required.",
+        "evidence": "V0913_PUBLIC_HISTORICAL_RETENTION.json",
+        "full_gate_execution_claimed": false,
+        "retirement_authorized": false
       }
     },
     {
@@ -51454,13 +51484,8 @@
         "blob": "ffd528c1a409106cd2c9233f257463d2e5a1b060"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision",
-        "Resolve retained v0.91.3 gate caller edge before removing this dependency; see V0913_GATE_CONSUMER_CLOSURE.json."
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -51476,6 +51501,12 @@
         "package_revision": "79d6430a89edb350fe1012889650a6b4776912d0",
         "producer_input_boundary": "Exact pinned local source transports; not published remote producer artifacts.",
         "native_or_complete_family_acceptance": false
+      },
+      "consumer_disposition": {
+        "decision": "Retain complete public historical v0.91.3 gate closure with paired tests and fixtures; no private product execution required.",
+        "evidence": "V0913_PUBLIC_HISTORICAL_RETENTION.json",
+        "full_gate_execution_claimed": false,
+        "retirement_authorized": false
       }
     },
     {
@@ -52644,19 +52675,20 @@
         "blob": "7853c94fb87f26760158ca23268ac98c43a98470"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision",
-        "Resolve retained v0.91.3 gate caller edge before removing this dependency; see V0913_GATE_CONSUMER_CLOSURE.json."
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "docs/skill-distributions/planning-utilities/original/adl/tools/validate_csdlc_demo_proof_contract_packet.py"
         ]
+      },
+      "consumer_disposition": {
+        "decision": "Retain complete public historical v0.91.3 gate closure with paired tests and fixtures; no private product execution required.",
+        "evidence": "V0913_PUBLIC_HISTORICAL_RETENTION.json",
+        "full_gate_execution_claimed": false,
+        "retirement_authorized": false
       }
     },
     {
@@ -52853,19 +52885,20 @@
         "blob": "59f19f447fa70bcea5070bdfba813d21ae1f1a73"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision",
-        "Resolve retained v0.91.3 gate caller edge before removing this dependency; see V0913_GATE_CONSUMER_CLOSURE.json."
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "docs/skill-distributions/planning-utilities/original/adl/tools/validate_evidence_bundle_packet.py"
         ]
+      },
+      "consumer_disposition": {
+        "decision": "Retain complete public historical v0.91.3 gate closure with paired tests and fixtures; no private product execution required.",
+        "evidence": "V0913_PUBLIC_HISTORICAL_RETENTION.json",
+        "full_gate_execution_claimed": false,
+        "retirement_authorized": false
       }
     },
     {
@@ -52878,19 +52911,20 @@
         "blob": "c9731a9ae8ac2df788b524292cd2d0c7e2eb5006"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision",
-        "Resolve retained v0.91.3 gate caller edge before removing this dependency; see V0913_GATE_CONSUMER_CLOSURE.json."
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "docs/skill-distributions/planning-utilities/original/adl/tools/validate_first_proof_readiness_packet.py"
         ]
+      },
+      "consumer_disposition": {
+        "decision": "Retain complete public historical v0.91.3 gate closure with paired tests and fixtures; no private product execution required.",
+        "evidence": "V0913_PUBLIC_HISTORICAL_RETENTION.json",
+        "full_gate_execution_claimed": false,
+        "retirement_authorized": false
       }
     },
     {
@@ -52951,19 +52985,20 @@
         "blob": "7202a9a47c649defc0afce9dd30b3d49717eccfb"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision",
-        "Resolve retained v0.91.3 gate caller edge before removing this dependency; see V0913_GATE_CONSUMER_CLOSURE.json."
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/validate_five_minute_html_game_packet.py"
         ]
+      },
+      "consumer_disposition": {
+        "decision": "Retain complete public historical v0.91.3 gate closure with paired tests and fixtures; no private product execution required.",
+        "evidence": "V0913_PUBLIC_HISTORICAL_RETENTION.json",
+        "full_gate_execution_claimed": false,
+        "retirement_authorized": false
       }
     },
     {
@@ -52976,19 +53011,20 @@
         "blob": "97b7975cb9121516059367d5f1a18e83e36d56f9"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision",
-        "Resolve retained v0.91.3 gate caller edge before removing this dependency; see V0913_GATE_CONSUMER_CLOSURE.json."
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/validate_five_minute_sprint_console_packet.py"
         ]
+      },
+      "consumer_disposition": {
+        "decision": "Retain complete public historical v0.91.3 gate closure with paired tests and fixtures; no private product execution required.",
+        "evidence": "V0913_PUBLIC_HISTORICAL_RETENTION.json",
+        "full_gate_execution_claimed": false,
+        "retirement_authorized": false
       }
     },
     {
@@ -53121,19 +53157,20 @@
         "blob": "6505fcee60109cfec84fd58b8e6880edd3ad1fa5"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision",
-        "Resolve retained v0.91.3 gate caller edge before removing this dependency; see V0913_GATE_CONSUMER_CLOSURE.json."
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "docs/skill-distributions/planning-utilities/original/adl/tools/validate_merge_readiness_packet.py"
         ]
+      },
+      "consumer_disposition": {
+        "decision": "Retain complete public historical v0.91.3 gate closure with paired tests and fixtures; no private product execution required.",
+        "evidence": "V0913_PUBLIC_HISTORICAL_RETENTION.json",
+        "full_gate_execution_claimed": false,
+        "retirement_authorized": false
       }
     },
     {
@@ -53218,19 +53255,20 @@
         "blob": "1f4fff1f4bd8dbd37f06e4cf4abe23bac11d037f"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision",
-        "Resolve retained v0.91.3 gate caller edge before removing this dependency; see V0913_GATE_CONSUMER_CLOSURE.json."
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/validate_obsmem_handoff_packet.py"
         ]
+      },
+      "consumer_disposition": {
+        "decision": "Retain complete public historical v0.91.3 gate closure with paired tests and fixtures; no private product execution required.",
+        "evidence": "V0913_PUBLIC_HISTORICAL_RETENTION.json",
+        "full_gate_execution_claimed": false,
+        "retirement_authorized": false
       }
     },
     {
@@ -53288,19 +53326,20 @@
         "blob": "00d147395dd0098603f918ecb383a31b41b61bef"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision",
-        "Resolve retained v0.91.3 gate caller edge before removing this dependency; see V0913_GATE_CONSUMER_CLOSURE.json."
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/validate_podcast_studio_v2_packet.py"
         ]
+      },
+      "consumer_disposition": {
+        "decision": "Retain complete public historical v0.91.3 gate closure with paired tests and fixtures; no private product execution required.",
+        "evidence": "V0913_PUBLIC_HISTORICAL_RETENTION.json",
+        "full_gate_execution_claimed": false,
+        "retirement_authorized": false
       }
     },
     {
@@ -53470,19 +53509,20 @@
         "blob": "2cedb9e75b9092761c65a2150b8fced492041e07"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision",
-        "Resolve retained v0.91.3 gate caller edge before removing this dependency; see V0913_GATE_CONSUMER_CLOSURE.json."
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "docs/skill-distributions/planning-utilities/original/adl/tools/validate_transition_dag_packet.py"
         ]
+      },
+      "consumer_disposition": {
+        "decision": "Retain complete public historical v0.91.3 gate closure with paired tests and fixtures; no private product execution required.",
+        "evidence": "V0913_PUBLIC_HISTORICAL_RETENTION.json",
+        "full_gate_execution_claimed": false,
+        "retirement_authorized": false
       }
     },
     {
@@ -53568,12 +53608,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "proposed_historical_retirement_with_caller_repair",
-      "required_before_execution": [
-        "Repair ci_path_policy.sh selection and run_v0913_proof_validation_lane.sh plus demo_v0913_quality_gate.sh together only after explicit historical gate disposition; preserve frozen milestone documents and recorded results.",
-        "atomic family and caller disposition; no v1 route restoration",
-        "Resolve retained v0.91.3 gate caller edge before removing this dependency; see V0913_GATE_CONSUMER_CLOSURE.json."
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -53584,6 +53620,12 @@
         "packet_sha256": "2682d1f5904ff8cf484acec5c0a8f2e62c45798c7f7a9b1de3fbc422ec655f35",
         "proposal": "explicit_historical_retirement",
         "reason": "Validator checks fixed docs/milestones/v0.91.3 quality-gate/demo-coverage prose and proof routes, not current native lifecycle state."
+      },
+      "consumer_disposition": {
+        "decision": "Retain complete public historical v0.91.3 gate closure with paired tests and fixtures; no private product execution required.",
+        "evidence": "V0913_PUBLIC_HISTORICAL_RETENTION.json",
+        "full_gate_execution_claimed": false,
+        "retirement_authorized": false
       }
     },
     {

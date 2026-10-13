@@ -1,0 +1,348 @@
+{
+  "status": "retained_historical_public_closure",
+  "direct_scripts": 21,
+  "transitive_scripts": 24,
+  "scripts": [
+    {
+      "path": "adl/tools/demo_v0913_first_proof_demo.py",
+      "sha256": "0849e2d8d888e346682988b2011e7a2e89f0a1ff39243ed8ccf46f19b7d52641",
+      "imports": [
+        "from __future__ import annotations",
+        "import argparse",
+        "import json",
+        "from datetime import datetime, timezone",
+        "from pathlib import Path"
+      ],
+      "subprocess_calls": []
+    },
+    {
+      "path": "adl/tools/demo_v0913_podcast_studio_v2.sh",
+      "sha256": "3aa2c1a25e4fb4782b003e422a7f04ce007ae84e080efc6430db141d16ad3e99"
+    },
+    {
+      "path": "adl/tools/generate_podcast_studio_v2_packet.py",
+      "sha256": "d8999328925f273b6d37a9e08dca92f8a8a1970fb6a0c3b97a55794e97bf27c0",
+      "imports": [
+        "from __future__ import annotations",
+        "import argparse",
+        "import html",
+        "import json",
+        "import shutil",
+        "from pathlib import Path",
+        "from textwrap import dedent"
+      ],
+      "subprocess_calls": []
+    },
+    {
+      "path": "adl/tools/test_csdlc_demo_proof_contract_packet.sh",
+      "sha256": "e5fe415dd5cff36607870cf34f6e7f9dab71e768767d1e853602c179ec375aa8"
+    },
+    {
+      "path": "adl/tools/test_evidence_bundle_packet.sh",
+      "sha256": "5235c2d6c67243f77b1fe292a87f75846213de3780a8988c1f5714686968c1db"
+    },
+    {
+      "path": "adl/tools/test_first_proof_demo_packet.sh",
+      "sha256": "ae92ba52c3e8aa13018218a720e9d155a374ed0dd218a96716a75bcb696308b2"
+    },
+    {
+      "path": "adl/tools/test_first_proof_readiness_packet.sh",
+      "sha256": "020f456e9e1b3db3df1f021d7d9bb8f07433e109ed01b064c9a88573129452c1"
+    },
+    {
+      "path": "adl/tools/test_five_minute_html_game_packet.sh",
+      "sha256": "88303c9ac97b4174dc0dbbb224cc9e30333fe711c0aba248d1ab64a2a60a4516"
+    },
+    {
+      "path": "adl/tools/test_five_minute_sprint_console_packet.sh",
+      "sha256": "40267b07769a6dd66f79e427db10cd7d92d2bef1a508345e64dc72950fc24e3d"
+    },
+    {
+      "path": "adl/tools/test_merge_readiness_packet.sh",
+      "sha256": "a27fb539e3552e85169b04db1d7f73cd97dd27633b2180b85ebbe748cb42655c"
+    },
+    {
+      "path": "adl/tools/test_obsmem_handoff_packet.sh",
+      "sha256": "d59571fa077f89d622d386aaa7c3662f07ab8f8a333f43b86ee79f50a37e2894"
+    },
+    {
+      "path": "adl/tools/test_podcast_studio_v2_packet.sh",
+      "sha256": "d56e52fa7f002f35cdc7cba36247ac78089e800bc30d2564141054af4e3f1c1b"
+    },
+    {
+      "path": "adl/tools/test_transition_dag_packet.sh",
+      "sha256": "6f637204c4f81b675dfb6bc1b30d3cc7f81ceecdd5b6893ad78b11eb1d40cc3b"
+    },
+    {
+      "path": "adl/tools/validate_csdlc_demo_proof_contract_packet.py",
+      "sha256": "cd35fb676e71780c12f2d31728af0a22d0c1df9c868a854d5acdca2dd5d0db87",
+      "imports": [
+        "from __future__ import annotations",
+        "import sys",
+        "from pathlib import Path"
+      ],
+      "subprocess_calls": []
+    },
+    {
+      "path": "adl/tools/validate_evidence_bundle_packet.py",
+      "sha256": "d253eb83a366e73da56e93b504bb6f60ee5b67ded10bb190643a3e496bc58f88",
+      "imports": [
+        "from __future__ import annotations",
+        "import sys",
+        "from pathlib import Path"
+      ],
+      "subprocess_calls": []
+    },
+    {
+      "path": "adl/tools/validate_first_proof_demo_packet.py",
+      "sha256": "543904e299af641b84f3d8ac0bb1d59cbcd8e5228b23390f26672574a34cf642",
+      "imports": [
+        "from __future__ import annotations",
+        "import filecmp",
+        "import json",
+        "import subprocess",
+        "import sys",
+        "from pathlib import Path",
+        "from tempfile import TemporaryDirectory"
+      ],
+      "subprocess_calls": [
+        "subprocess.run([sys.executable, str(repo / 'adl/tools/demo_v0913_first_proof_demo.py'), '--timeline', str(packet_root / 'ct_demo_001_timeline_snapshot.json'), '--out', str(tmp_root)], check=True, stdout=subprocess.DEVNULL)"
+      ]
+    },
+    {
+      "path": "adl/tools/validate_first_proof_readiness_packet.py",
+      "sha256": "11768dc33936a4ef2ce8ea59ec6d0df7fe3f74b9ad96c944c27b7274b60daf6d",
+      "imports": [
+        "from __future__ import annotations",
+        "import json",
+        "import sys",
+        "from pathlib import Path"
+      ],
+      "subprocess_calls": []
+    },
+    {
+      "path": "adl/tools/validate_five_minute_html_game_packet.py",
+      "sha256": "6f73c1607328c61f9e182f575bda6525117e85dab76a03616a051bc1e86e716c",
+      "imports": [
+        "from __future__ import annotations",
+        "import sys",
+        "from pathlib import Path"
+      ],
+      "subprocess_calls": []
+    },
+    {
+      "path": "adl/tools/validate_five_minute_sprint_console_packet.py",
+      "sha256": "9ff2a1e87392df167cbf884570f691e565a81b841c087008b6e43cdd879ac8d8",
+      "imports": [
+        "from __future__ import annotations",
+        "import sys",
+        "from pathlib import Path"
+      ],
+      "subprocess_calls": []
+    },
+    {
+      "path": "adl/tools/validate_merge_readiness_packet.py",
+      "sha256": "d7a5637e6f7f5927e5e4f633cc5274d49d62b377b4706b8698e77568cb32e072",
+      "imports": [
+        "import sys",
+        "import json",
+        "from pathlib import Path",
+        "from typing import Optional"
+      ],
+      "subprocess_calls": []
+    },
+    {
+      "path": "adl/tools/validate_obsmem_handoff_packet.py",
+      "sha256": "e41984d944866de44ea9cd3cbddd9f81b7e7e642b60edc8365b0b441512810ab",
+      "imports": [
+        "from __future__ import annotations",
+        "import json",
+        "import sys",
+        "from pathlib import Path"
+      ],
+      "subprocess_calls": []
+    },
+    {
+      "path": "adl/tools/validate_podcast_studio_v2_packet.py",
+      "sha256": "efbdd772c26ddef976384c315d7e98960243adbb117fc1b893915c10d001aee9",
+      "imports": [
+        "from __future__ import annotations",
+        "import json",
+        "import sys",
+        "from pathlib import Path"
+      ],
+      "subprocess_calls": []
+    },
+    {
+      "path": "adl/tools/validate_transition_dag_packet.py",
+      "sha256": "4c381d4ab23bcabfe455756e6f699bfb69f5c58c61c32aa7fa108aedd9e267c6",
+      "imports": [
+        "from __future__ import annotations",
+        "import sys",
+        "from pathlib import Path"
+      ],
+      "subprocess_calls": []
+    },
+    {
+      "path": "adl/tools/validate_v0913_quality_gate_review_surfaces.py",
+      "sha256": "1bbe611b7a65bee10e208cca9f13a6a356b029dfcc802729a7052545ad174628",
+      "imports": [
+        "from __future__ import annotations",
+        "import sys",
+        "from pathlib import Path"
+      ],
+      "subprocess_calls": []
+    }
+  ],
+  "additional_callers_and_tests": [
+    "adl/tools/demo_v0913_quality_gate.sh",
+    "adl/tools/run_v0913_proof_validation_lane.sh",
+    "adl/tools/test_demo_v0913_quality_gate.sh",
+    "adl/tools/test_run_v0913_proof_validation_lane.sh"
+  ],
+  "execution_edges": "Only subprocess in Python closure is validate_first_proof_demo_packet.py invoking local deterministic demo_v0913_first_proof_demo.py with retained timeline into TemporaryDirectory. Shelltests invoke paired validators and static generators. Gate cargo edges select local retained publicpackages.",
+  "historical_text_boundary": "validate_v0913_quality_gate_review_surfaces.py checks frozen v0.91.3 document command strings including sunsetv2 and oldschema route; it does not execute those strings. Preserve original text assertions and historical documents.",
+  "regeneration_boundary": "Podcast shelltest invokes deterministic generator on default tracked historical packet/HTML then checks reproducibility; never run that test in mutable primary/issue source view. Use isolated copy if remaining proof needed.",
+  "proposal": "Retain complete local historical gate closure and its existing public/doc fixtures together. Cancel proposed dependency removals for this closure; no successor equivalence or fullgate pass inferred.",
+  "existing_proof_reuse": "CSDLC_PLANNING_ORIGINAL_CONTRACT_QUALIFICATION.json proves several original packet negativecontracts; PUBLIC_SCHEMA_CALLER_REPAIR.json proves exact schema inputs and paired routing. Other testexecution claims remain unmade.",
+  "native_or_provider_execution": false,
+  "source_modified": false,
+  "direction": "Planning #12 directed preserving complete ADL historical closure where dependencies are retained public source/fixtures; static dependency inspection found no private executable edge.",
+  "disposition_changes": [
+    {
+      "id": "RD07-1374",
+      "path": "adl/tools/demo_v0913_first_proof_demo.py",
+      "prior_action": "proposed_historical_retirement_with_caller_repair"
+    },
+    {
+      "id": "RD07-1376",
+      "path": "adl/tools/demo_v0913_podcast_studio_v2.sh",
+      "prior_action": "proposed_remove_with_entire_tool_family"
+    },
+    {
+      "id": "RD07-1377",
+      "path": "adl/tools/demo_v0913_quality_gate.sh",
+      "prior_action": "hold_explicit_reconciliation"
+    },
+    {
+      "id": "RD07-1397",
+      "path": "adl/tools/generate_podcast_studio_v2_packet.py",
+      "prior_action": "proposed_remove_with_entire_tool_family"
+    },
+    {
+      "id": "RD07-1506",
+      "path": "adl/tools/run_v0913_proof_validation_lane.sh",
+      "prior_action": "proposed_remove_with_entire_tool_family"
+    },
+    {
+      "id": "RD07-1939",
+      "path": "adl/tools/test_csdlc_demo_proof_contract_packet.sh",
+      "prior_action": "proposed_remove_with_entire_tool_family"
+    },
+    {
+      "id": "RD07-1991",
+      "path": "adl/tools/test_demo_v0913_quality_gate.sh",
+      "prior_action": "hold_explicit_reconciliation"
+    },
+    {
+      "id": "RD07-2000",
+      "path": "adl/tools/test_evidence_bundle_packet.sh",
+      "prior_action": "proposed_remove_with_entire_tool_family"
+    },
+    {
+      "id": "RD07-2003",
+      "path": "adl/tools/test_first_proof_demo_packet.sh",
+      "prior_action": "proposed_remove_with_entire_tool_family"
+    },
+    {
+      "id": "RD07-2004",
+      "path": "adl/tools/test_first_proof_readiness_packet.sh",
+      "prior_action": "proposed_remove_with_entire_tool_family"
+    },
+    {
+      "id": "RD07-2006",
+      "path": "adl/tools/test_five_minute_html_game_packet.sh",
+      "prior_action": "proposed_remove_with_entire_tool_family"
+    },
+    {
+      "id": "RD07-2007",
+      "path": "adl/tools/test_five_minute_sprint_console_packet.sh",
+      "prior_action": "proposed_remove_with_entire_tool_family"
+    },
+    {
+      "id": "RD07-2034",
+      "path": "adl/tools/test_merge_readiness_packet.sh",
+      "prior_action": "proposed_remove_with_entire_tool_family"
+    },
+    {
+      "id": "RD07-2040",
+      "path": "adl/tools/test_obsmem_handoff_packet.sh",
+      "prior_action": "proposed_remove_with_entire_tool_family"
+    },
+    {
+      "id": "RD07-2048",
+      "path": "adl/tools/test_podcast_studio_v2_packet.sh",
+      "prior_action": "proposed_remove_with_entire_tool_family"
+    },
+    {
+      "id": "RD07-2099",
+      "path": "adl/tools/test_run_v0913_proof_validation_lane.sh",
+      "prior_action": "hold_explicit_reconciliation"
+    },
+    {
+      "id": "RD07-2127",
+      "path": "adl/tools/test_transition_dag_packet.sh",
+      "prior_action": "proposed_remove_with_entire_tool_family"
+    },
+    {
+      "id": "RD07-2175",
+      "path": "adl/tools/validate_csdlc_demo_proof_contract_packet.py",
+      "prior_action": "proposed_remove_with_entire_tool_family"
+    },
+    {
+      "id": "RD07-2183",
+      "path": "adl/tools/validate_evidence_bundle_packet.py",
+      "prior_action": "proposed_remove_with_entire_tool_family"
+    },
+    {
+      "id": "RD07-2184",
+      "path": "adl/tools/validate_first_proof_readiness_packet.py",
+      "prior_action": "proposed_remove_with_entire_tool_family"
+    },
+    {
+      "id": "RD07-2187",
+      "path": "adl/tools/validate_five_minute_html_game_packet.py",
+      "prior_action": "proposed_remove_with_entire_tool_family"
+    },
+    {
+      "id": "RD07-2188",
+      "path": "adl/tools/validate_five_minute_sprint_console_packet.py",
+      "prior_action": "proposed_remove_with_entire_tool_family"
+    },
+    {
+      "id": "RD07-2194",
+      "path": "adl/tools/validate_merge_readiness_packet.py",
+      "prior_action": "proposed_remove_with_entire_tool_family"
+    },
+    {
+      "id": "RD07-2198",
+      "path": "adl/tools/validate_obsmem_handoff_packet.py",
+      "prior_action": "proposed_remove_with_entire_tool_family"
+    },
+    {
+      "id": "RD07-2201",
+      "path": "adl/tools/validate_podcast_studio_v2_packet.py",
+      "prior_action": "proposed_remove_with_entire_tool_family"
+    },
+    {
+      "id": "RD07-2208",
+      "path": "adl/tools/validate_transition_dag_packet.py",
+      "prior_action": "proposed_remove_with_entire_tool_family"
+    },
+    {
+      "id": "RD07-2212",
+      "path": "adl/tools/validate_v0913_quality_gate_review_surfaces.py",
+      "prior_action": "proposed_historical_retirement_with_caller_repair"
+    }
+  ]
+}
