@@ -43,7 +43,7 @@
   "repairs": {
     "adl/config/validation_lane_selector.v0.91.6.json": [
       "100644",
-      "eeb45ee903c465aa8d9007f8a6b66c2d69802b58"
+      "6dddf52115437d8eb1116090fe5f6f04a84abfc2"
     ],
     "adl/tools/test_select_validation_lanes.sh": [
       "100755",
@@ -108,7 +108,47 @@
     "adl/src/main.rs": [
       "100644",
       "e3bc8d4ffd603fc1ce8dbb22037d7f200357e360"
+    ],
+    "adl/Cargo.toml": [
+      "100644",
+      "03766d115e8d7d285717731573710ff52159a2bd"
+    ],
+    "adl/Cargo.lock": [
+      "100644",
+      "3f989532f48fdfe88dbdacf8610c21e1ff4302fe"
+    ],
+    "adl/src/lib.rs": [
+      "100644",
+      "2e172355f99d929d90fd621d5cf5340bb0159cdb"
+    ],
+    "adl/tools/install_owner_binaries.sh": [
+      "100755",
+      "26a8f29af16f4aa66bfb31dadac251931e4f6731"
+    ],
+    "adl/tests/adl_tests.rs": [
+      "100644",
+      "5dea8d79544c2a4aed61c7a262dd67e6a2fe2c24"
+    ],
+    "adl/tests/resolve_tests.rs": [
+      "100644",
+      "b7ec6a42a1cb17f806e96a8125a21986a90c2aa9"
+    ],
+    "adl/tests/schema_tests.rs": [
+      "100644",
+      "940ae35fb4b819709c9d0afc3ea8c64381274060"
+    ],
+    "adl/tests/issue_327_removed_tooling.rs": [
+      "100644",
+      "5fdca0363cae6df8fe1310d6040133260237c835"
+    ],
+    "adl/tools/owner_binary_resolution.sh": [
+      "100755",
+      "d226fb182dcd1a7f57b09facb0dc5e9d3f3ce31e"
+    ],
+    "adl/tools/test_owner_binary_install.sh": [
+      "100755",
+      "368d774b4e24a8891ad10430eab23833bbad9cae"
     ]
   },
-  "surgical_followup": "CLI-01 parser/rendering extraction and CLI-02 qualified Runtime workflow/resume plus CodeFriend owner delegation; public diagnostics and explicit owner logging retained; no further source removals"
+  "surgical_followup": "Public CLI/library dependency and installer cutover with exact consumer pins; no new source removals and unresolved owner integration tests retained."
 }

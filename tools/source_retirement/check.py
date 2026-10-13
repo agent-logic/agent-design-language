@@ -60,7 +60,7 @@ def tree(ref):
 
 def approved_component_delta():
     data = (ROOT / PACKET / 'APPROVED_COMPONENT_DELTA.json').read_bytes()
-    require(hashlib.sha256(data).hexdigest() == '0b9e3baf150cd44ee2f33dcb0e29dccd3b08c7497458d14d4fdedf6e721a7149',
+    require(hashlib.sha256(data).hexdigest() == '3af08b54e9452545b4a768e439cc5fae3b7e5dc7768f240aa65eb20d929c5256',
             'approved component delta changed')
     return json.loads(data)
 
@@ -112,7 +112,8 @@ def check_inventory(ledger, frozen, observed, candidate):
             'retirement delta must preserve prior 34 and approved 36 removals')
     require(set(observed) - set(candidate) == set(removed), 'new deletion outside reviewed 70-path set')
     for p in PROTECTED:
-        require(candidate.get(p) == observed.get(p) and p in observed, 'required evidence/contract missing or changed: ' + p)
+        expected = approved['repairs'][p] if p == 'adl/tools/install_owner_binaries.sh' else observed.get(p)
+        require(candidate.get(p) == expected and p in observed, 'required evidence/contract missing or changed: ' + p)
     for p, identity in observed.items():
         if p.startswith('.csdlc/') and not p.startswith(('.csdlc/issues/1223/', '.csdlc/v3/issues/1223/', '.csdlc/evidence/1223/', '.csdlc/transactions/')):
             require(candidate.get(p) == identity, 'historical lifecycle evidence changed: ' + p)

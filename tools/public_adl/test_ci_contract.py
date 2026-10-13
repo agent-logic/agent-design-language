@@ -13,6 +13,34 @@ PUBLIC_ROOTS = [
     "adl-v2/crates/adl-compiler/**",
     "adl-legacy-contracts/**",
     "tools/public_adl/**",
+    "adl/Cargo.toml",
+    "adl/Cargo.lock",
+    "adl/src/main.rs",
+    "adl/src/lib.rs",
+    "adl/src/cli/public_dispatch.rs",
+    "adl/src/cli/public_workflow.rs",
+    "adl/src/cli/workflow_args.rs",
+    "adl/src/cli/workflow_display.rs",
+    "adl/src/cli/resume_args.rs",
+    "adl/src/cli/runtime_owner.rs",
+    "adl/src/cli/codefriend_owner.rs",
+    "adl/src/cli/process_cmd.rs",
+    "adl/src/cli/process_cmd/**",
+    "adl/src/cli/session_cmd.rs",
+    "adl/src/cli/observability.rs",
+    "adl/src/cli/usage.rs",
+    "adl/src/control_plane.rs",
+    "adl/src/session_ledger.rs",
+    "adl/src/bin/adl_process.rs",
+    "adl/tests/adl_tests.rs",
+    "adl/tests/resolve_tests.rs",
+    "adl/tests/schema_tests.rs",
+    "adl/tests/public_process.rs",
+    "adl/tests/cli_smoke/process_status.rs",
+    "adl/tests/helpers.rs",
+    "adl/tools/install_owner_binaries.sh",
+    "adl/tools/owner_binary_resolution.sh",
+    "adl/tools/test_owner_binary_install.sh",
 ]
 PUBLIC_PACKAGES = [
     "adl-schema",
@@ -42,6 +70,7 @@ def main() -> None:
     assert "--test public_adl_install_validator" in runner
     assert "/usr/bin/sandbox-exec" in runner
     assert "bash tools/public_adl/test_ci_routing.sh" in runner
+    assert "bash tools/public_adl/run_cli_ci.sh" in runner
 
     workflow = (ROOT / ".github/workflows/ci.yaml").read_text()
     job = workflow.split("  public_adl_validation:\n", 1)[1].split("\n  adl_rust_fmt_clippy:\n", 1)[0]

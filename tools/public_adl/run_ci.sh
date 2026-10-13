@@ -6,6 +6,7 @@ cd "$ROOT"
 
 python3 tools/public_adl/test_ci_contract.py
 bash tools/public_adl/test_ci_routing.sh
+bash tools/public_adl/run_cli_ci.sh
 
 if [[ "$(uname -s)" != Darwin ]] || [[ ! -x /usr/bin/sandbox-exec ]]; then
   echo "public ADL qualification requires macOS sandbox-exec" >&2

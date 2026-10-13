@@ -1,7 +1,7 @@
 {
   "schema": "adl.source_retirement.public_facade_closure.v1",
   "issue": 1223,
-  "status": "preflight_passed_not_final_manifest_cutover",
+  "status": "tracked_public_cutover_preflight_passed_owner_test_migration_pending",
   "host": "aarch64-apple-darwin",
   "build_seconds": 47.51,
   "private_crates_in_host_graph": 0,
@@ -46,18 +46,73 @@
     "missing_owner_case": 1
   },
   "limits": [
-    "Candidate manifest/lib scaffold references actual bound source; tracked adl manifest/lib still retain private modules pending atomic consumer cutover.",
-    "Installed owner execution is separate from synthetic facade tests.",
-    "Final five-public-package proof and CI remain required."
+    "39 CodeFriend integration suites retain 391 unresolved owner-migration obligations. Their source is intact; no autotests=false or suite pass claim.",
+    "Whole-repository CI/source removal and final five-public-package proof remain required.",
+    "Actual installed Runtime/CodeFriend execution evidence remains separate from synthetic facade tests."
   ],
   "next_changes": [
-    "Apply minimal public library/manifest together with owner installer and CI/test routing.",
-    "Enumerate newly unreachable components and exact caller repairs for one scoped removal decision."
+    "Complete successor test migration and exact source/caller removal decision.",
+    "Complete C-SDLC external installer and owner CI cutover after qualified package availability.",
+    "Run final public package and independent ADL container acceptance."
   ],
   "entrypoint_applied": "adl/src/main.rs now selects the proved public_dispatch module; tracked library/manifest remain pending atomic cutover",
   "actual_main_check": {
     "status": "passed",
     "seconds": 7.11,
     "command": "cargo check --locked --offline --manifest-path adl/Cargo.toml --bin adl"
+  },
+  "retained_public_binaries": [
+    "adl",
+    "adl-process"
+  ],
+  "lockset": {
+    "previous_packages": 655,
+    "current_packages": 226,
+    "new_package_identities": 0,
+    "changed_checksums": 0
+  },
+  "tracked_manifest_tests": {
+    "status": "passed",
+    "count": 145,
+    "groups": {
+      "local_library": 19,
+      "public_adl_binary": 40,
+      "process_binary": 11,
+      "document": 30,
+      "portable_resolver": 10,
+      "schema": 19,
+      "public_process_cli": 16
+    },
+    "initial_failure": "Missing tracing-subscriber dev dependency; repaired without adding a production dependency."
+  },
+  "installer": {
+    "status": "isolated_install_and_idempotence_passed",
+    "default_bins": [
+      "adl",
+      "adl-process"
+    ],
+    "shared_operational_owner_replaced": false,
+    "source_resolver_parity": "passed via adapted existing test_owner_binary_install.sh, including non-Git install, stale source rejection, private-source independence, no-op install, lockfile rollback, native C-SDLC provenance/manual checks"
+  },
+  "ci": {
+    "public_runner": "tools/public_adl/run_cli_ci.sh",
+    "routing_contract": "passed",
+    "complete_ci": "not_run",
+    "installer_only_and_main_only_routing": "passed"
+  },
+  "review": {
+    "range": "73a51ef47d..b54b4009ef",
+    "agent": "review_1223_public_facade",
+    "result": "no_actionable_findings",
+    "scope": "public dispatch/selectors only; later manifest/installer edits require review",
+    "followup": {
+      "scope": "manifest/library/public installer/resolver/CI and preserved process tests",
+      "result": "no_remaining_actionable_findings",
+      "resolved_findings": [
+        "installer-only public lane selection",
+        "public source fingerprint parity in owner_binary_resolution.sh"
+      ],
+      "limits": "Private successor integration suite migration and whole-repository CI remain pending."
+    }
   }
 }

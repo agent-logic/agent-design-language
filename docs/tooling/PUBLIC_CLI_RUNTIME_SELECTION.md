@@ -53,3 +53,16 @@ error identifiers and channels are preserved. JSON objects may use a different
 key order. The older x86 distribution used to check the receipt-selection contract
 is distinct from the newer ARM64 binaries used for current installed execution
 proof; neither evidence record is relabeled as the other.
+
+## Public build and installation
+
+The ADL crate builds `adl` and `adl-process`. Its library reexports portable
+contracts and retains local process/session support. The public installer defaults
+to these two binaries; Runtime and CodeFriend binaries are installed from their
+owner packages. `--bin csdlc` still uses the separate native owner route while its
+external package cutover is being completed.
+
+`bash tools/public_adl/run_cli_ci.sh` checks the public dependency closure and runs
+the retained public library, CLI, document, resolver, schema and process assertions,
+plus installed-owner selection and installer contracts. It does not substitute for
+successor product integration tests or the five public package acceptance lane.

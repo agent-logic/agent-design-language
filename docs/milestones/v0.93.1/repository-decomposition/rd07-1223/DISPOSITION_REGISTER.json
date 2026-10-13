@@ -6841,7 +6841,7 @@
         "939512d07bf70558305761a1adedc6ab5ce30c8e"
       ],
       "action": "approved_component_consumer_repair",
-      "reason": "remove_retired_component_routing_or_workspace_members",
+      "reason": "Exact public CLI/installer consumer repair; source removal separately bounded and successor test obligations retained.",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
@@ -10075,7 +10075,7 @@
         "d81cbe5f5580aa63bafd4f0ebae7e5207148c220"
       ],
       "action": "approved_component_consumer_repair",
-      "reason": "CLI01_extract_pure_argument_contract_without_changing_execution_route",
+      "reason": "Exact public CLI/installer consumer repair; source removal separately bounded and successor test obligations retained.",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "adl/src/cli/run.rs"
@@ -24904,8 +24904,8 @@
         "100644",
         "1e689a9a3f1b445ca148eba2ed9c4e4ff1527b4c"
       ],
-      "action": "retain",
-      "reason": "protect_existing_public_contract_policy_or_control_plane",
+      "action": "approved_component_consumer_repair",
+      "reason": "Exact public CLI/installer consumer repair; source removal separately bounded and successor test obligations retained.",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
@@ -28836,8 +28836,8 @@
         "100755",
         "40c0464f6ed4885accadb6043b5cf3bbe2519dfb"
       ],
-      "action": "retain",
-      "reason": "protect_existing_public_contract_policy_or_control_plane",
+      "action": "approved_component_consumer_repair",
+      "reason": "Exact public CLI/installer consumer repair; source removal separately bounded and successor test obligations retained.",
       "observed_successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f",
       "exact_content_candidates": [
         "adl/tools/install_owner_binaries.sh"
@@ -29644,8 +29644,8 @@
         "100755",
         "9a79ed9b5db4d8d6ff827d9113a6e2016b1e925e"
       ],
-      "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "action": "approved_component_consumer_repair",
+      "reason": "Exact public CLI/installer consumer repair; source removal separately bounded and successor test obligations retained.",
       "observed_successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f",
       "exact_content_candidates": [
         "adl/tools/owner_binary_resolution.sh"
@@ -41466,8 +41466,8 @@
         "100755",
         "24aa486da75254b49985ee0fb707b4ccaab86be2"
       ],
-      "action": "retain",
-      "reason": "protect_existing_public_contract_policy_or_control_plane",
+      "action": "approved_component_consumer_repair",
+      "reason": "Exact public CLI/installer consumer repair; source removal separately bounded and successor test obligations retained.",
       "observed_successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f",
       "exact_content_candidates": [
         "adl/tools/test_owner_binary_install.sh"
@@ -42824,7 +42824,7 @@
         "5dc31990327d95f9f6bd20d04ab005387f01b652"
       ],
       "action": "approved_component_consumer_repair",
-      "reason": "remove_retired_component_routing_or_workspace_members",
+      "reason": "Exact public CLI/installer consumer repair; source removal separately bounded and successor test obligations retained.",
       "observed_successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "c8b787ce065e2912fe1db88fc778daded7a8ba63",
@@ -43684,7 +43684,7 @@
         "df05cade2390b5cec297af491a8e7783e32b5c97"
       ],
       "action": "approved_component_consumer_repair",
-      "reason": "remove_retired_component_routing_or_workspace_members",
+      "reason": "Exact public CLI/installer consumer repair; source removal separately bounded and successor test obligations retained.",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
@@ -45643,7 +45643,7 @@
         "64defd266deaf9d2d436c8e06ed153d9fb4b5d31"
       ],
       "action": "approved_component_consumer_repair",
-      "reason": "remove_retired_component_routing_or_workspace_members",
+      "reason": "Exact public CLI/installer consumer repair; source removal separately bounded and successor test obligations retained.",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
@@ -77431,7 +77431,7 @@
         "046d7f561ea793fa159459a1ad2cb19bca0eebd7"
       ],
       "action": "approved_component_consumer_repair",
-      "reason": "remove_retired_component_routing_or_workspace_members",
+      "reason": "Exact public CLI/installer consumer repair; source removal separately bounded and successor test obligations retained.",
       "observed_successor_revision": "b200caf8668e707ac10b2b47ba7c88441d7af593",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "91ae8c5e4008a07cee8fd3a70a1306d4d971f9b4",

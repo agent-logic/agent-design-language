@@ -83,3 +83,15 @@ assert_line "$policy_output" "full_coverage_required=false"
 assert_line "$policy_output" "reason=coverage_policy_surface_tooling_change_runs_contract_validation"
 assert_line "$policy_output" "validation_profile_primary_reason=ci_policy_surface_requires_path_policy_contract_checks"
 assert_line "$policy_output" "fail_closed=false"
+
+# Public facade and installer edits must select their consumer proof even while
+# other successor lanes retain independent migration obligations.
+for surface in adl/src/main.rs adl/tools/install_owner_binaries.sh; do
+  git checkout -q --detach "$base"
+  mkdir -p "$(dirname "$surface")"
+  printf 'fixture\n' >"$surface"
+  git add "$surface"
+  git commit -q -m public-consumer-routing
+  consumer_output="$($POLICY --event-name pull_request --base "$base" --head HEAD --ref refs/pull/5/merge)"
+  assert_line "$consumer_output" "public_adl_validation_required=true"
+done
