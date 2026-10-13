@@ -6,7 +6,7 @@
   "execution_authorized": false,
   "original_count": 4134,
   "counts": {
-    "hold_explicit_reconciliation": 159,
+    "hold_explicit_reconciliation": 158,
     "hold_owner_test_reconciliation": 35,
     "preserve_approved_removal": 70,
     "preserve_reviewed_consumer_repair": 18,
@@ -14,9 +14,9 @@
     "proposed_owner_transfer_with_consumer_qualification": 473,
     "proposed_remove_construction_qualified_infrastructure": 216,
     "proposed_remove_with_entire_source_family": 1874,
-    "proposed_remove_with_entire_tool_family": 691,
+    "proposed_remove_with_entire_tool_family": 690,
     "retain_public_source_or_fixture": 68,
-    "retain_resolved": 513
+    "retain_resolved": 515
   },
   "additional_current_source_paths": 19,
   "preservation": "Original inventory and baseline archive unchanged;70 prior approved removals preserved; no new deletion applied",
@@ -49973,18 +49973,19 @@
         "blob": "e5aa0fcda6d01a826a267b8fc9a88693259f42c2"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "docs/skill-distributions/planning-utilities/original/adl/tools/test_review_output_provenance.sh"
         ]
+      },
+      "consumer_disposition": {
+        "decision": "Retain original historical provenance fixtures/test and explicit delivered companion wrapper; no retired ADL build dependency.",
+        "evidence": "HISTORICAL_REVIEW_PROVENANCE_CONSUMER_REPAIR.json",
+        "native_acceptance": false
       }
     },
     {
@@ -54803,14 +54804,17 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "consumer_disposition": {
+        "decision": "Retain original historical provenance fixtures/test and explicit delivered companion wrapper; no retired ADL build dependency.",
+        "evidence": "HISTORICAL_REVIEW_PROVENANCE_CONSUMER_REPAIR.json",
+        "native_acceptance": false
       }
     },
     {
@@ -90391,7 +90395,12 @@
       "existing_action": "retain",
       "reason": "retain_adl_history",
       "proposed_action": "retain_resolved",
-      "required_before_execution": []
+      "required_before_execution": [],
+      "consumer_disposition": {
+        "decision": "Retain original historical provenance fixtures/test and explicit delivered companion wrapper; no retired ADL build dependency.",
+        "evidence": "HISTORICAL_REVIEW_PROVENANCE_CONSUMER_REPAIR.json",
+        "native_acceptance": false
+      }
     },
     {
       "id": "RD07-3800",
@@ -90405,7 +90414,12 @@
       "existing_action": "retain",
       "reason": "retain_adl_history",
       "proposed_action": "retain_resolved",
-      "required_before_execution": []
+      "required_before_execution": [],
+      "consumer_disposition": {
+        "decision": "Retain original historical provenance fixtures/test and explicit delivered companion wrapper; no retired ADL build dependency.",
+        "evidence": "HISTORICAL_REVIEW_PROVENANCE_CONSUMER_REPAIR.json",
+        "native_acceptance": false
+      }
     },
     {
       "id": "RD07-3801",
@@ -90419,7 +90433,12 @@
       "existing_action": "retain",
       "reason": "retain_adl_history",
       "proposed_action": "retain_resolved",
-      "required_before_execution": []
+      "required_before_execution": [],
+      "consumer_disposition": {
+        "decision": "Retain original historical provenance fixtures/test and explicit delivered companion wrapper; no retired ADL build dependency.",
+        "evidence": "HISTORICAL_REVIEW_PROVENANCE_CONSUMER_REPAIR.json",
+        "native_acceptance": false
+      }
     },
     {
       "id": "RD07-3802",
