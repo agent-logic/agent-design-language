@@ -6,7 +6,7 @@
   "execution_authorized": false,
   "original_count": 4134,
   "counts": {
-    "hold_explicit_reconciliation": 176,
+    "hold_explicit_reconciliation": 175,
     "hold_owner_test_reconciliation": 35,
     "preserve_approved_removal": 70,
     "preserve_reviewed_consumer_repair": 18,
@@ -16,7 +16,7 @@
     "proposed_remove_with_entire_source_family": 1874,
     "proposed_remove_with_entire_tool_family": 716,
     "retain_public_source_or_fixture": 68,
-    "retain_resolved": 465
+    "retain_resolved": 466
   },
   "additional_current_source_paths": 19,
   "preservation": "Original inventory and baseline archive unchanged;70 prior approved removals preserved; no new deletion applied",
@@ -54136,14 +54136,18 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "consumer_disposition": {
+        "decision": "Retain historical parent-integration checker with exact historical fixture; original terminal and marker assertions preserved.",
+        "evidence": "DURABLE_HISTORY_CONSUMER_REPAIR.json",
+        "runtime_source_retirement_authorized": false,
+        "runtime_execution_proven": false
       }
     },
     {
