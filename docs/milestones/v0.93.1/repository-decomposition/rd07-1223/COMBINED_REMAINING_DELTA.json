@@ -7,11 +7,11 @@
   "original_count": 4134,
   "counts": {
     "retain_resolved": 527,
-    "preserve_approved_removal": 2803,
+    "preserve_approved_removal": 2806,
     "proposed_owner_transfer_with_consumer_qualification": 225,
-    "retain_public_source_or_fixture": 196,
+    "retain_public_source_or_fixture": 195,
     "preserve_reviewed_consumer_repair": 18,
-    "proposed_historical_retirement_with_caller_repair": 20,
+    "proposed_historical_retirement_with_caller_repair": 18,
     "proposed_remove_with_entire_source_family": 1,
     "proposed_remove_with_entire_tool_family": 330,
     "hold_explicit_reconciliation": 9,
@@ -19,7 +19,7 @@
     "proposed_remove_construction_qualified_infrastructure": 4
   },
   "additional_current_source_paths": 22,
-  "preservation": "Original 4134 identities and separate 22 captured paths unchanged. Exact executed retirement actions 2812 comprise 2811 baseline deletions and one newly-added-then-retired ADL conversion bridge; the bridge is outside both captured inventories. The baseline count includes the same seven separately enumerated supplemental paths outside the immutable inventories. Other proposals remain conditional.",
+  "preservation": "Original 4134 identities and separate 22 captured paths unchanged. Exact executed retirement actions 2815 comprise 2814 baseline deletions and one newly-added-then-retired ADL conversion bridge; the bridge is outside both captured inventories. The baseline count includes the same seven separately enumerated supplemental paths outside the immutable inventories. Other proposals remain conditional.",
   "review_boundary": "Exact paths and Git identities are pinned. Proposed removals remain conditional; this is not a claim that caller closure or all successor tests are qualified.",
   "known_prerequisites": {
     "codefriend": "Issue102 e14ff1b08b7ef01f838404bca8ecdf47c1318ac1 passed all39suites409Linux tests,0failed0ignored,174.293s; exacthead and clean source before/after. Evidence FastWork c1223/evidence/codefriend/issue102-e14ff1b0-full, transcriptSHA256c7944f7e0403ba485b377868b1bd85e91eeee0ecce3f79920de3e86c813cfa1a. Focused1 and parallel47 diagnostics also passed; prior dc2 redelivery failure did not reproduce and its cause is not claimed fixed. Earlier failures retained. One macOS-only case, actual hosted installed-acquisition CI proof and owner publication remain separate.",
@@ -10663,13 +10663,8 @@
         "blob": "8e0e864bc5eb93baa4d90b5922e47b342388d2a8"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_historical_retirement_with_caller_repair",
-      "required_before_execution": [
-        "coherent mandatory caller repairs",
-        "preserve original child test obligations independently",
-        "scoped retirement decision",
-        "Resolve remaining caller repairs enumerated in PRIVATE_VALIDATION_DISPOSITION.json"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -10681,6 +10676,20 @@
         "proposal": "proposed_historical_retirement_with_caller_repair",
         "reason": "Four-family feature/module inventory; preserve exact slow-test gating and family selector contract as historical.",
         "review": "Independent source-only disposition and exact packet review passed"
+      },
+      "pre_historical_slow_three_execution_classification": {
+        "proposed_action": "proposed_historical_retirement_with_caller_repair",
+        "required_before_execution": [
+          "coherent mandatory caller repairs",
+          "preserve original child test obligations independently",
+          "scoped retirement decision",
+          "Resolve remaining caller repairs enumerated in PRIVATE_VALIDATION_DISPOSITION.json"
+        ]
+      },
+      "applied_removal": {
+        "packet": "HISTORICAL_SLOW_THREE_APPLIED.json",
+        "sha256": "85624df6c02e66e74f96bd468b2783da8957f2ecd1eaf79443a4f997ec184879",
+        "implementation_commit": "7f34893c7fc25ad4888e3738f76a60865399b02f"
       }
     },
     {
@@ -54424,13 +54433,8 @@
         "blob": "3ff9adeb0658d049856e822851f978f3bd50f468"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_historical_retirement_with_caller_repair",
-      "required_before_execution": [
-        "coherent mandatory caller repairs",
-        "preserve original child test obligations independently",
-        "scoped retirement decision",
-        "Resolve remaining caller repairs enumerated in PRIVATE_VALIDATION_DISPOSITION.json"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -54444,6 +54448,20 @@
         "proposal": "proposed_historical_retirement_with_caller_repair",
         "reason": "Historical family nextest expression and partition planning; public routing is not private product execution equivalence.",
         "review": "Independent source-only disposition and exact packet review passed"
+      },
+      "pre_historical_slow_three_execution_classification": {
+        "proposed_action": "proposed_historical_retirement_with_caller_repair",
+        "required_before_execution": [
+          "coherent mandatory caller repairs",
+          "preserve original child test obligations independently",
+          "scoped retirement decision",
+          "Resolve remaining caller repairs enumerated in PRIVATE_VALIDATION_DISPOSITION.json"
+        ]
+      },
+      "applied_removal": {
+        "packet": "HISTORICAL_SLOW_THREE_APPLIED.json",
+        "sha256": "85624df6c02e66e74f96bd468b2783da8957f2ecd1eaf79443a4f997ec184879",
+        "implementation_commit": "7f34893c7fc25ad4888e3738f76a60865399b02f"
       }
     },
     {
@@ -75241,7 +75259,7 @@
         "blob": "9e545f009bfef123c265e487eab06fc9d41031d2"
       },
       "existing_action": "retain",
-      "proposed_action": "retain_public_source_or_fixture",
+      "proposed_action": "preserve_approved_removal",
       "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -75275,6 +75293,26 @@
           "blob": "6200e1a51b524c43569e86a9d7be138b110e77b1"
         },
         "reason": "retain_explicit_historical_refusal: committed prior owner cutover retains compatibility diagnostic; no original assertions execute."
+      },
+      "pre_historical_slow_three_execution_classification": {
+        "proposed_action": "retain_public_source_or_fixture",
+        "required_before_execution": []
+      },
+      "applied_removal": {
+        "packet": "HISTORICAL_SLOW_THREE_APPLIED.json",
+        "sha256": "85624df6c02e66e74f96bd468b2783da8957f2ecd1eaf79443a4f997ec184879",
+        "implementation_commit": "7f34893c7fc25ad4888e3738f76a60865399b02f"
+      },
+      "retained_disposition_supersession": {
+        "id": "RD07-2118",
+        "from": "retain_public_source_or_fixture",
+        "to": "proposed_historical_retirement_with_caller_repair",
+        "basis": "Runtime896 applied packet replaced test with unconditional exit2 refusal preserving original assertions in custody; this command no longer executes the retained test contract. Supersession covers this exact refusal stub only, not every old test.",
+        "current_body": "#!/usr/bin/env bash\n# Retired source-tree route; this is not a successful validation.\nprintf '%s\\n' 'Runtime source was retired from ADL (#1223). Use the separately qualified Runtime or Infrastructure owner route. Original assertions are preserved in Git and retirement custody; they were not executed by this command.' >&2\nreturn 2 2>/dev/null || exit 2\n",
+        "evidence": {
+          "path": "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/docs/milestones/v0.93.1/repository-decomposition/rd07-1223/RUNTIME_SOURCE_FAMILY_APPLIED.json",
+          "sha256": "9600a1fb0ee1a58508069b5847f5b8cf475805cf9b0059bc3f3f5ee3b51fd486"
+        }
       }
     },
     {

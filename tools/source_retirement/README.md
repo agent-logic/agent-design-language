@@ -196,3 +196,11 @@ Five helper bodies match the owner exactly; parity has explicit root requirement
 Two Runtime resources and sixteen finish/closeout/review skill resources now have exact committed source and rollback custody checks. Current execution is 2,812 actions: 2,811 baseline deletions, including the same seven supplemental paths, plus the single transient bridge. The original 4,134 identities, 22 additional paths and ten holds remain unchanged.
 
 The Runtime resource packet preserves its specific owner consumer proof and unresolved live/platform obligations. For the skill family, eleven resources match the qualified owner bundle; five obsolete V1/V2 instruction or metadata resources are explicitly retired historical contracts, not native behavior replacements. Thirteen original installer correspondence rows are reused within the original 138 assertion-bearing lines, 33 named skills, 84 direct paths and 17 recursive entrypoints; full original acceptance and native admission remain separate. Retained installer and card-editor assertions still require their authentic external historical layouts. Current card/template schemas and native review, publish, finish and clean obligations are unchanged.
+
+## Historical slow-proof family closure
+
+Three exact historical paths retire the old four-family monolithic slow-proof config, runner, and already-refusal-only contract entrypoint. RD07-2118 explicitly supersedes its earlier retained classification because Runtime896 already removed its executable original assertions; full original/current custody remains pinned. No original slow-proof behavioral equivalence is claimed.
+
+The public manager keeps empty family arrays and its nonempty-private-config refusal. Only unreachable removed-runner command generation is removed; direct helper calls also fail closed on nonempty private families. Existing public interfaces passed 12 cases, direct helper checks passed 2, and actual registry verification passed in the source application; those receipts are reused, not rerun here. Coverage producer/companion and the v0.92 evidence-validator twelve negatives remain unchanged.
+
+Current total is 2,815 retirement actions, 2,814 baseline deletions and one transient bridge, including the same seven supplemental paths. Original 4,134 identities and 22 additional identities and ten holds remain unchanged.

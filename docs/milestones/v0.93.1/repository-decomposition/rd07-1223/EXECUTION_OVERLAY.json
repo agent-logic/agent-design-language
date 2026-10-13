@@ -6,7 +6,7 @@
   "execution_authorized": false,
   "original_inventory_count": 4134,
   "additional_inventory_count": 22,
-  "executed_deletion_count": 2812,
+  "executed_deletion_count": 2815,
   "entries": [
     {
       "path": ".github/workflows/ci.yaml",
@@ -28878,7 +28878,7 @@
       ],
       "after": [
         "100644",
-        "82353ff9a3d97781acb73f214a768ec768c9cee5"
+        "93c5bf775ffc18be1bac052d46764ea1076f3170"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json",
@@ -28999,6 +28999,18 @@
             "82353ff9a3d97781acb73f214a768ec768c9cee5"
           ],
           "packet": "LEGACY_CARD_WRAPPER_SEVEN_APPLIED.json"
+        },
+        {
+          "commit": "7f34893c7fc25ad4888e3738f76a60865399b02f",
+          "before": [
+            "100644",
+            "82353ff9a3d97781acb73f214a768ec768c9cee5"
+          ],
+          "after": [
+            "100644",
+            "93c5bf775ffc18be1bac052d46764ea1076f3170"
+          ],
+          "packet": "HISTORICAL_SLOW_THREE_APPLIED.json"
         }
       ]
     },
@@ -30101,18 +30113,35 @@
     },
     {
       "path": "adl/tools/test_slow_proof_lane_contract.sh",
-      "action": "modify",
+      "action": "remove",
       "before": [
         "100755",
         "9e545f009bfef123c265e487eab06fc9d41031d2"
       ],
-      "after": [
-        "100755",
-        "6200e1a51b524c43569e86a9d7be138b110e77b1"
-      ],
+      "after": null,
       "implementation_commit": "3383f7f691ec248d6fe87cd18e4e13c5d1e8d900",
       "approval_reference": "RUNTIME_SOURCE_FAMILY_APPLIED.json",
-      "review_reference": "review_1223_public_facade exact Runtime896 plus54 caller repair review"
+      "review_reference": "review_1223_public_facade exact Runtime896 plus54 caller repair review",
+      "supplemental_source_chain": [
+        {
+          "commit": "7f34893c7fc25ad4888e3738f76a60865399b02f",
+          "before": [
+            "100755",
+            "6200e1a51b524c43569e86a9d7be138b110e77b1"
+          ],
+          "after": null,
+          "packet": "HISTORICAL_SLOW_THREE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "HISTORICAL_SLOW_THREE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/slow-proof-three-preparation/original-and-current-preimages.tar",
+        "archive_sha256": "1265debbad473dee3b9b94f644a9e9eb15da72510f0b96d8982be071c5e5e260",
+        "member": "current/adl/tools/test_slow_proof_lane_contract.sh",
+        "mode": "100755",
+        "blob": "6200e1a51b524c43569e86a9d7be138b110e77b1",
+        "sha256": "aae9b3a39a9f5a52afd0ab4d1663e4b34d554b41a03f382cd9f1b4318130735d"
+      }
     },
     {
       "path": "adl/tools/test_structured_prompt_validation.sh",
@@ -30566,7 +30595,7 @@
       ],
       "after": [
         "100644",
-        "a02f9b8d4c03667855f27aa6aea92f0842873b3f"
+        "471906c960091190c0972e9478d294dd203affcd"
       ],
       "implementation_commit": "b2cdd4e9b1100a4f94e463e8d80243747a88554d",
       "approval_reference": "PUBLIC_OWNER_CALLER_REPAIR.json",
@@ -30588,6 +30617,20 @@
           "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
           "review_reference": "review_1223_applied_components exact77/112 review",
           "source_chain_reference": "proposed_reconciled_entries:adl/tools/validation_manager.py"
+        }
+      ],
+      "supplemental_source_chain": [
+        {
+          "commit": "7f34893c7fc25ad4888e3738f76a60865399b02f",
+          "before": [
+            "100644",
+            "a02f9b8d4c03667855f27aa6aea92f0842873b3f"
+          ],
+          "after": [
+            "100644",
+            "471906c960091190c0972e9478d294dd203affcd"
+          ],
+          "packet": "HISTORICAL_SLOW_THREE_APPLIED.json"
         }
       ]
     },
@@ -56915,7 +56958,7 @@
       "before": null,
       "after": [
         "100644",
-        "a21da54ae69ce8ced7c22f82663dafd1f7a091dc"
+        "0d986c000aa6017b08d997a06b7c9f1f3eafcace"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json",
@@ -57332,6 +57375,18 @@
             "a21da54ae69ce8ced7c22f82663dafd1f7a091dc"
           ],
           "packet": "FINISH_CLOSEOUT_SPRINT_REVIEW_SIXTEEN_APPLIED.json"
+        },
+        {
+          "commit": "7f34893c7fc25ad4888e3738f76a60865399b02f",
+          "before": [
+            "100644",
+            "a21da54ae69ce8ced7c22f82663dafd1f7a091dc"
+          ],
+          "after": [
+            "100644",
+            "0d986c000aa6017b08d997a06b7c9f1f3eafcace"
+          ],
+          "packet": "HISTORICAL_SLOW_THREE_APPLIED.json"
         }
       ],
       "prior_execution_provenance": [
@@ -64573,7 +64628,7 @@
       "before": null,
       "after": [
         "100644",
-        "1dddb3ca1c2ef793f6562a64433dba933b2abf1b"
+        "e925db732f9aeb54268432bb5402aa775e3cfd4e"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "Infrastructure212 source commit guard-documentation accompaniment",
@@ -64798,6 +64853,18 @@
             "1dddb3ca1c2ef793f6562a64433dba933b2abf1b"
           ],
           "packet": "Runtime two and skill sixteen integration"
+        },
+        {
+          "commit": "pending_reviewed_integration",
+          "before": [
+            "100644",
+            "1dddb3ca1c2ef793f6562a64433dba933b2abf1b"
+          ],
+          "after": [
+            "100644",
+            "e925db732f9aeb54268432bb5402aa775e3cfd4e"
+          ],
+          "packet": "Historical slow three reviewed integration"
         }
       ],
       "prior_execution_provenance": [
@@ -86429,6 +86496,70 @@
         "blob": "7f84861599a6b54637487933d6e5eee9f056dae0",
         "sha256": "7374babc87d5fb970ae208cb953e0102e72e5a2b887d112c900587ef85c8bac7"
       }
+    },
+    {
+      "path": "adl/config/slow_proof_families.v0.91.6.json",
+      "before": [
+        "100644",
+        "8e0e864bc5eb93baa4d90b5922e47b342388d2a8"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "7f34893c7fc25ad4888e3738f76a60865399b02f",
+      "approval_reference": "HISTORICAL_SLOW_THREE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "7f34893c7fc25ad4888e3738f76a60865399b02f",
+          "before": [
+            "100644",
+            "8e0e864bc5eb93baa4d90b5922e47b342388d2a8"
+          ],
+          "after": null,
+          "packet": "HISTORICAL_SLOW_THREE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "HISTORICAL_SLOW_THREE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/slow-proof-three-preparation/original-and-current-preimages.tar",
+        "archive_sha256": "1265debbad473dee3b9b94f644a9e9eb15da72510f0b96d8982be071c5e5e260",
+        "member": "current/adl/config/slow_proof_families.v0.91.6.json",
+        "mode": "100644",
+        "blob": "8e0e864bc5eb93baa4d90b5922e47b342388d2a8",
+        "sha256": "783f8c51142d42b6a1f323e3450e163a1ac7c44179024a1376d08f3e5dfa9373"
+      }
+    },
+    {
+      "path": "adl/tools/run_slow_proof_family.sh",
+      "before": [
+        "100755",
+        "3ff9adeb0658d049856e822851f978f3bd50f468"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "7f34893c7fc25ad4888e3738f76a60865399b02f",
+      "approval_reference": "HISTORICAL_SLOW_THREE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "7f34893c7fc25ad4888e3738f76a60865399b02f",
+          "before": [
+            "100755",
+            "3ff9adeb0658d049856e822851f978f3bd50f468"
+          ],
+          "after": null,
+          "packet": "HISTORICAL_SLOW_THREE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "HISTORICAL_SLOW_THREE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/slow-proof-three-preparation/original-and-current-preimages.tar",
+        "archive_sha256": "1265debbad473dee3b9b94f644a9e9eb15da72510f0b96d8982be071c5e5e260",
+        "member": "current/adl/tools/run_slow_proof_family.sh",
+        "mode": "100755",
+        "blob": "3ff9adeb0658d049856e822851f978f3bd50f468",
+        "sha256": "2d91c8e8c1ba31cd2e5af29bdceda23572769dbf2975817a1eea379897f0c867"
+      }
     }
   ],
   "missing_entries": [],
@@ -93275,9 +93406,28 @@
         "docs/tooling/TOOL_SURFACE_REGISTRY.md"
       ],
       "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "HISTORICAL_SLOW_THREE_APPLIED.json",
+      "sha256": "85624df6c02e66e74f96bd468b2783da8957f2ecd1eaf79443a4f997ec184879",
+      "commit": "7f34893c7fc25ad4888e3738f76a60865399b02f",
+      "files": 6,
+      "removals": 3,
+      "scope_sha256": "801e425dc6591d41e8d1fc0e3e42e286255816e01b26ae99e5dfd5b8f1b6204d",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl/config/slow_proof_families.v0.91.6.json",
+        "adl/tools/run_slow_proof_family.sh",
+        "adl/tools/test_slow_proof_lane_contract.sh",
+        "adl/tools/validation_manager.py",
+        "adl/tools/generate_tool_surface_registry.py",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
     }
   ],
-  "baseline_deletion_count": 2811,
+  "baseline_deletion_count": 2814,
   "transient_removed_paths": [
     "adl/tools/test_issue872_historical_manifest.py"
   ],
@@ -93290,6 +93440,6 @@
     "adl/tools/test_demo_v0901_quality_gate.sh",
     "adl/tools/test_demo_v0902_review_quality_gate.sh"
   ],
-  "inventory_baseline_deletion_count": 2804,
+  "inventory_baseline_deletion_count": 2807,
   "supplemental_baseline_deletion_count": 7
 }
