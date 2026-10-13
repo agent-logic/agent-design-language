@@ -1,6 +1,6 @@
 # #1223 remaining hold groups
 
-Snapshot of all **101 holds** after independently reviewed cutover commit `951a4c097f`. All 4,134 original identities remain in the ledger; 22 additional current paths remain separately tracked. No deletion is authorized by this grouping.
+Snapshot of all **99 holds** after independently reviewed cutover commit `951a4c097f`. All 4,134 original identities remain in the ledger; 22 additional current paths remain separately tracked. No deletion is authorized by this grouping.
 
 | Group | Held paths | Next action |
 | --- | ---: | --- |
@@ -9,7 +9,7 @@ Snapshot of all **101 holds** after independently reviewed cutover commit `951a4
 | Native conversion rehearsal closure | 5 | Deliver missing five helpers as coherent owner support; preserve authentic505 receipt, pinned old binary and generation9 inputs; qualify isolated real conversion route before transfer. Source-only native CLI correspondence is insufficient. |
 | Runtime Observatory behavior and CI | 6 | Reconcile room selection, mobile controls and incident assertions with owner journal additions; preserve extra governed-room test. Reconcile live-only CI denominator separately. Reuse existing owner proof where exact. |
 | Installed C-SDLC node and plan proof | 1 | Reuse five restored passing scenarios and native proof; reconcile exact delivered artifact and installed admission before authorizing source/test removal. |
-| Skill and operational contract consumers | 11 | Resolve remaining skill producer/contract obligations using existing proof. Main-sync helper and caller remain held for the source-confirmed cleanup/residue defects or coherent historical retirement. |
+| Skill and operational contract consumers | 9 | Resolve remaining skill producer/contract obligations using existing proof. Main-sync helper and restoration test now have explicit conditional historical retirement; native closeout policy guard retained. |
 | Remaining ADL validation routing | 15 | After reviewed caller cutover, reconcile each retained runner, selector, coverage/PVF policy and configuration against five public packages and original assertions. Retain historical private lanes explicitly; do not silently drop inventory rows. |
 | agent-logic-runtime remaining consumers | 1 | Resolve the exact per-row required_before_execution entries preserved below as one owner consumer batch: map current caller and qualified successor or choose explicit historical retention/retirement. Reuse existing owner evidence; source presence alone does not close behavior. Cloud/live operations require their own existing authorization. |
 | Mixed consumers (inherited inventory owner) | 28 | Resolve the exact per-row required_before_execution entries preserved below as one owner consumer batch: map current caller and qualified successor or choose explicit historical retention/retirement. Reuse existing owner evidence; source presence alone does not close behavior. Cloud/live operations require their own existing authorization. |
@@ -58,3 +58,5 @@ Ten reviewed validation rows are dispositioned: nextest policy and Cargo-wrapper
 Reviewed podcast source closure retained; five skill helpers dispositioned; Runtime152 merged delivery and three actual container consumer passes resolve three demo holds. Native owner finish remains explicitly unexecuted.
 
 Retained two shared editor/guidance pairs. Source review adds the main-sync producer to its existing caller hold: temporary worktree cleanup and primary-card restoration need explicit disposition.
+
+Main-sync source and obsolete-restoration test conditionally retired with2370dependency explicit; repaired native closeout policy guard retained and passing. CodeFriend104/PR105 authenticated merge recorded separately from execution and native finish.

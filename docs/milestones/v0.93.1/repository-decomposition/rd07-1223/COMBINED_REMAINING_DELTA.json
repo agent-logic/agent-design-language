@@ -1,21 +1,21 @@
 {
   "schema": "adl.source_retirement.combined_remaining_delta.v1",
   "issue": 1223,
-  "source_head": "7b7b34df92a217d42ce485466b85bc716f24a067",
+  "source_head": "a8ff7575237f3bc731b3d2bbc7a4ce5e1e1bbab6",
   "status": "prepared_scope_not_ready_for_execution",
   "execution_authorized": false,
   "original_count": 4134,
   "counts": {
-    "hold_explicit_reconciliation": 66,
+    "hold_explicit_reconciliation": 64,
     "hold_owner_test_reconciliation": 35,
     "preserve_approved_removal": 70,
     "preserve_reviewed_consumer_repair": 18,
-    "proposed_historical_retirement_with_caller_repair": 44,
+    "proposed_historical_retirement_with_caller_repair": 46,
     "proposed_owner_transfer_with_consumer_qualification": 496,
     "proposed_remove_construction_qualified_infrastructure": 216,
     "proposed_remove_with_entire_source_family": 1874,
-    "proposed_remove_with_entire_tool_family": 679,
-    "retain_public_source_or_fixture": 109,
+    "proposed_remove_with_entire_tool_family": 678,
+    "retain_public_source_or_fixture": 110,
     "retain_resolved": 527
   },
   "additional_current_source_paths": 22,
@@ -45,7 +45,8 @@
       "native_merge_evidence": "/Volumes/FastWork/c1223/csm-availability-caller-gap/merge-result.json",
       "native_merge_sha256": "5bb0c21c9cbcc3ffe80ecfe29e7dbc4a5babc59d6c428efe65a8b38c22d67d0b",
       "boundary": "Native authenticated merge/closed readback verified; focused8cases and genuine3resolution proof reported by owner separately. No cloud deployment or unrelated ALB acceptance."
-    }
+    },
+    "codefriend_owner104_delivery": "CODEFRIEND_OWNER_MERGE_RECEIPT.json records authenticated PR105 merge at e93a457 source,23eca64 merge. Existing original consumer evidence reused; no native finish or new test execution inferred."
   },
   "ci_contract": "COMBINED_CI_CUTOVER.json",
   "rows": [
@@ -32650,21 +32651,22 @@
         "blob": "6b2454d588949dad759f095b6778c9f45941e631"
       },
       "existing_action": "retain",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "Repair helper and prove actual cleanup without primary residue, or explicitly retire helper and caller coherently",
-        "Existing source-string test is not execution qualification"
+        "All caller and historical Rust source-family obligations reconciled",
+        "Scoped exact retirement decision",
+        "Preserve2370historical Rust direct-read obligation and registry/aggregate callers"
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
       },
-      "hold_reason": "source_confirmed_temporary_worktree_cleanup_and_primary_residue_bugs",
       "reviewed_disposition": {
-        "packet": "MAIN_SYNC_HELPER_BUG.json",
-        "packet_sha256": "fc684502d486e2ff4d3604faa612b31aea7ac6e508d0eaac376d3e6d8622937c",
-        "review": "Independent source findings retained; no live sync invoked"
+        "packet": "MAIN_SYNC_RETIREMENT_DISPOSITION.json",
+        "packet_sha256": "337d75f4765bb11eea18538dfebf8916d9202b9ebc320a74f46783c698c922a9",
+        "proposal": "proposed_historical_retirement_with_caller_repair",
+        "review": "Source caller repair and three dispositions independently approved; initial helper defect preserved"
       }
     },
     {
@@ -46940,12 +46942,8 @@
         "blob": "5858192817bd6f1772a1e3b385a022ceb88048b5"
       },
       "existing_action": "retain",
-      "hold_reason": "source_confirmed_temporary_worktree_cleanup_and_primary_residue_bugs",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "Repair helper and prove actual cleanup without primary residue, or explicitly retire helper and caller coherently",
-        "Existing source-string test is not execution qualification"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -46959,9 +46957,10 @@
         "changes_removal_authority": false
       },
       "reviewed_disposition": {
-        "packet": "MAIN_SYNC_HELPER_BUG.json",
-        "packet_sha256": "fc684502d486e2ff4d3604faa612b31aea7ac6e508d0eaac376d3e6d8622937c",
-        "review": "Independent source findings retained; no live sync invoked"
+        "packet": "MAIN_SYNC_RETIREMENT_DISPOSITION.json",
+        "packet_sha256": "337d75f4765bb11eea18538dfebf8916d9202b9ebc320a74f46783c698c922a9",
+        "proposal": "retain_public_source_or_fixture",
+        "review": "Source caller repair and three dispositions independently approved; initial helper defect preserved"
       }
     },
     {
@@ -48867,16 +48866,22 @@
         "blob": "d6efa476695258fc543dc9bf6623a3a18655d566"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
+        "All caller and historical Rust source-family obligations reconciled",
+        "Scoped exact retirement decision",
+        "Preserve2370historical Rust direct-read obligation and registry/aggregate callers"
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "MAIN_SYNC_RETIREMENT_DISPOSITION.json",
+        "packet_sha256": "337d75f4765bb11eea18538dfebf8916d9202b9ebc320a74f46783c698c922a9",
+        "proposal": "proposed_historical_retirement_with_caller_repair",
+        "review": "Source caller repair and three dispositions independently approved; initial helper defect preserved"
       }
     },
     {

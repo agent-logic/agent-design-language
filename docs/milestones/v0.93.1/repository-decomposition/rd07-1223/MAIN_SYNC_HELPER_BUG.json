@@ -28,5 +28,9 @@
   ],
   "existing_test_limit": "1933passing source-string test does not exercise temporary worktree cleanup or primary residue behavior",
   "safe_disposition": "Keep both held pending exact helper repair or explicit paired historical retirement; do not treat existing source-only PASS as operational helper qualification",
-  "no_live_reproduction": true
+  "no_live_reproduction": true,
+  "reviewed_resolution": {
+    "packet": "MAIN_SYNC_RETIREMENT_DISPOSITION.json",
+    "status": "Initial hold recommendation resolved by repaired1933policyguard plus conditional1394/2008historicalretirement; defects remain authentic adverse evidence"
+  }
 }
