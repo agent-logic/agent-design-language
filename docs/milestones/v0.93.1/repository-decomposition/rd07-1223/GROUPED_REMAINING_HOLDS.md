@@ -100,3 +100,5 @@ Infrastructure source-family implementation ddfe457ebbc2107ee349abf61ba27d57c35b
 Conversion and CodeFriend skill batches remove five conversion holds using preserved owner evidence. Twelve holds remain;2331 executed actions include2330 baseline deletions and one separately retired bridge. No new operational acceptance is inferred.
 
 C-SDLC83 skill, AWS14 source and planning9 helper applications add106 exact original-row removals. Twelve holds remain unchanged;2437 executed actions comprise2436 baseline deletions and one separately retired ADL bridge. Original contract failures/locale correction and incomplete full-suite/live acceptance remain preserved in the applied packets.
+
+Manual and historical family applications add 139 exact original-row removals. Twelve holds remain unchanged; 2576 executed actions comprise 2575 baseline deletions and one separately retired ADL bridge. Historical source custody and documentation-render evidence do not qualify retired commands or examples as executable acceptance.

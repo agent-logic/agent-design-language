@@ -116,3 +116,9 @@ The six-file conversion and127-file skill batches bring executed retirement acti
 Three reviewed source commits add83 C-SDLC skill resources,14 AWS source files and9 planning helpers to the prior2,331 actions. Current execution is2,437 actions:2,436 baseline deletions plus the same one transient ADL bridge. Original4,134 identities,22 additional paths and12 unresolved holds are unchanged. Packet digests, all source/caller Git identities, new-helper absence, exact removal sets and rollback archive bytes/modes are pinned.
 
 The ten skill contracts passed with the initial ASCII-locale failure preserved and only the failed script rerun with UTF-8. AWS adapter compile/install and24 bootstrap cases are retained bounded proof; six dependency-inventory Python cases and five expected routing refusals are separate. Historical Infrastructure exit137 is a process exit code, not a test denominator. These results do not prove full installer completeness, historical CLI equivalence, live AWS execution or new native lifecycle acceptance.
+
+## Manual and historical families
+
+Reviewed source commits add 56 historical manual resources and 83 historical family paths to the previous 2,437 actions. Current execution is 2,576 actions: 2,575 baseline deletions plus the same single transient ADL bridge. Original 4,134 identities, 22 additional paths and 12 unresolved holds are unchanged. Existing exact-family guard checks now cover these committed packets, all source/caller identities and removal archives.
+
+The manual packet preserves 18 nonexecuted example fixtures and the actual 42-page lookup/render proof for the earlier owner package. Only 33 of the original 34 named pages have identical later-admitted rendered bytes; the later workflow bridge appendix is source-inspected, not newly rendered. Historical family source retirement is not current native command acceptance or a new execution of its assertions.
