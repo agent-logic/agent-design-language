@@ -132,3 +132,5 @@ Historical slow-family closure records three exact removals and explicitly super
 Six Infrastructure parser/result resources transfer after three unchanged original fixture tests passed: 2821 actions, 2820 baseline deletions plus the transient bridge. Seven supplemental paths and ten holds remain unchanged. No live CI, real nextest or cloud producer acceptance is implied.
 
 Six Infrastructure parser/result resources transfer after three unchanged original fixture tests passed: 2823 actions, 2822 baseline deletions plus the transient bridge. Seven supplemental paths and ten holds remain unchanged. No live CI, real nextest or cloud producer acceptance is implied.
+
+Six CSM fixture resources transfer after three unchanged original fixture tests and eight inert adapter checks: 2829 actions, 2828 baseline deletions plus the transient bridge. Seven supplemental paths and ten holds remain unchanged. Eleven external fixture inputs, missing report renderer and excluded Cargo demo are not standalone owner acceptance.

@@ -6,7 +6,7 @@
   "execution_authorized": false,
   "original_inventory_count": 4134,
   "additional_inventory_count": 22,
-  "executed_deletion_count": 2823,
+  "executed_deletion_count": 2829,
   "entries": [
     {
       "path": ".github/workflows/ci.yaml",
@@ -29794,11 +29794,25 @@
       ],
       "after": [
         "100644",
-        "30b74dc34e2e2c366e3d6b73dabe8c15b308fbd6"
+        "37728175c7bfd66075ec7aacdebd4e9767628497"
       ],
       "implementation_commit": "3383f7f691ec248d6fe87cd18e4e13c5d1e8d900",
       "approval_reference": "RUNTIME_SOURCE_FAMILY_APPLIED.json",
-      "review_reference": "review_1223_public_facade exact Runtime896 plus54 caller repair review"
+      "review_reference": "review_1223_public_facade exact Runtime896 plus54 caller repair review",
+      "supplemental_source_chain": [
+        {
+          "commit": "085c852a687c65478039a48c0044cef0b8fdda03",
+          "before": [
+            "100644",
+            "30b74dc34e2e2c366e3d6b73dabe8c15b308fbd6"
+          ],
+          "after": [
+            "100644",
+            "37728175c7bfd66075ec7aacdebd4e9767628497"
+          ],
+          "packet": "CSM_SIX_RESOURCES_APPLIED.json"
+        }
+      ]
     },
     {
       "path": "adl/tools/test_developer_throughput_fast_lane.sh",
@@ -57023,7 +57037,7 @@
       "before": null,
       "after": [
         "100644",
-        "45f1e3f270733cf9ad6573f740728eb062bd9e34"
+        "3f826d0600527c83cf848073823f14f7a06a0454"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json",
@@ -57476,6 +57490,18 @@
             "45f1e3f270733cf9ad6573f740728eb062bd9e34"
           ],
           "packet": "CSDLC_HISTORICAL_WRAPPER_TWO_APPLIED.json"
+        },
+        {
+          "commit": "085c852a687c65478039a48c0044cef0b8fdda03",
+          "before": [
+            "100644",
+            "45f1e3f270733cf9ad6573f740728eb062bd9e34"
+          ],
+          "after": [
+            "100644",
+            "3f826d0600527c83cf848073823f14f7a06a0454"
+          ],
+          "packet": "CSM_SIX_RESOURCES_APPLIED.json"
         }
       ],
       "prior_execution_provenance": [
@@ -64717,7 +64743,7 @@
       "before": null,
       "after": [
         "100644",
-        "15ee5706a756181dd79c445bafac46c43f6ea3f9"
+        "99aaddd1ac9a52e7f77851b31d949e7fcdb61017"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "Infrastructure212 source commit guard-documentation accompaniment",
@@ -64978,6 +65004,18 @@
             "15ee5706a756181dd79c445bafac46c43f6ea3f9"
           ],
           "packet": "Historical wrapper two integration"
+        },
+        {
+          "commit": "pending_reviewed_integration",
+          "before": [
+            "100644",
+            "15ee5706a756181dd79c445bafac46c43f6ea3f9"
+          ],
+          "after": [
+            "100644",
+            "99aaddd1ac9a52e7f77851b31d949e7fcdb61017"
+          ],
+          "packet": "CSM six fixture resources integration"
         }
       ],
       "prior_execution_provenance": [
@@ -81456,7 +81494,7 @@
       ],
       "after": [
         "100644",
-        "3c2bcee0f612245a175aaf8c31344f4ff852140c"
+        "f8ffa6cb74c2fd92053f03556da9d9a6a26af444"
       ],
       "action": "modify",
       "implementation_commit": "ba90cf9dc1ca7388610444da604fb76491f17149",
@@ -81536,6 +81574,18 @@
             "3c2bcee0f612245a175aaf8c31344f4ff852140c"
           ],
           "packet": "INFRASTRUCTURE_PARSER_SIX_APPLIED.json"
+        },
+        {
+          "commit": "085c852a687c65478039a48c0044cef0b8fdda03",
+          "before": [
+            "100644",
+            "3c2bcee0f612245a175aaf8c31344f4ff852140c"
+          ],
+          "after": [
+            "100644",
+            "f8ffa6cb74c2fd92053f03556da9d9a6a26af444"
+          ],
+          "packet": "CSM_SIX_RESOURCES_APPLIED.json"
         }
       ]
     },
@@ -86894,6 +86944,250 @@
         "blob": "2ba3dfea1796a4b1c8e379c764542697315ac96d",
         "sha256": "2b07c7b71d4f93102170785d25533c8fe0c358d4180eafbbdcc67fa41819d4f8"
       }
+    },
+    {
+      "path": "adl/tools/test_csm_operator_command_packets.sh",
+      "before": [
+        "100755",
+        "d317e667110c39517ff4c34d913c40dde18f01e0"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "085c852a687c65478039a48c0044cef0b8fdda03",
+      "approval_reference": "CSM_SIX_RESOURCES_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "085c852a687c65478039a48c0044cef0b8fdda03",
+          "before": [
+            "100755",
+            "d317e667110c39517ff4c34d913c40dde18f01e0"
+          ],
+          "after": null,
+          "packet": "CSM_SIX_RESOURCES_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSM_SIX_RESOURCES_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csm-six-retirement/current-and-original-preimages.tar",
+        "archive_sha256": "6933cc2f95ad88c17f92760df16ec5f9fb32cf589fe36f889417fbf921daa8f7",
+        "member": "current/adl/tools/test_csm_operator_command_packets.sh",
+        "mode": "100755",
+        "blob": "d317e667110c39517ff4c34d913c40dde18f01e0",
+        "sha256": "2c53d0cdfe21af0f2b23ae9baa93d8e696795a35af69a2c48758ad97dc33ac12"
+      }
+    },
+    {
+      "path": "adl/tools/test_csm_visibility_packet.sh",
+      "before": [
+        "100755",
+        "e9befaff22fbe47ee1199cf99058b9c3dad540cd"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "085c852a687c65478039a48c0044cef0b8fdda03",
+      "approval_reference": "CSM_SIX_RESOURCES_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "085c852a687c65478039a48c0044cef0b8fdda03",
+          "before": [
+            "100755",
+            "e9befaff22fbe47ee1199cf99058b9c3dad540cd"
+          ],
+          "after": null,
+          "packet": "CSM_SIX_RESOURCES_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSM_SIX_RESOURCES_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csm-six-retirement/current-and-original-preimages.tar",
+        "archive_sha256": "6933cc2f95ad88c17f92760df16ec5f9fb32cf589fe36f889417fbf921daa8f7",
+        "member": "current/adl/tools/test_csm_visibility_packet.sh",
+        "mode": "100755",
+        "blob": "e9befaff22fbe47ee1199cf99058b9c3dad540cd",
+        "sha256": "81f70a88895cbe1f5c99737b76ea7a0217dcea7d982bfd65f3c59ce749c4a3a0"
+      }
+    },
+    {
+      "path": "adl/tools/test_demo_v0901_csm_observatory_static_console.sh",
+      "before": [
+        "100755",
+        "0c78519fab0e230588956a5fd32e33c8eb54b0e8"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "085c852a687c65478039a48c0044cef0b8fdda03",
+      "approval_reference": "CSM_SIX_RESOURCES_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "085c852a687c65478039a48c0044cef0b8fdda03",
+          "before": [
+            "100755",
+            "0c78519fab0e230588956a5fd32e33c8eb54b0e8"
+          ],
+          "after": null,
+          "packet": "CSM_SIX_RESOURCES_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSM_SIX_RESOURCES_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csm-six-retirement/current-and-original-preimages.tar",
+        "archive_sha256": "6933cc2f95ad88c17f92760df16ec5f9fb32cf589fe36f889417fbf921daa8f7",
+        "member": "current/adl/tools/test_demo_v0901_csm_observatory_static_console.sh",
+        "mode": "100755",
+        "blob": "0c78519fab0e230588956a5fd32e33c8eb54b0e8",
+        "sha256": "a2a2968ad7d50b6e02bbfac8ba9589d1269dfd27ec79951a86e388f32ad4c8a1"
+      }
+    },
+    {
+      "path": "adl/tools/validate_csm_operator_command_packets.py",
+      "before": [
+        "100755",
+        "ce4a706fb43a87e8d64e3bb39b1bfd59b799b1bb"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "085c852a687c65478039a48c0044cef0b8fdda03",
+      "approval_reference": "CSM_SIX_RESOURCES_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "085c852a687c65478039a48c0044cef0b8fdda03",
+          "before": [
+            "100755",
+            "ce4a706fb43a87e8d64e3bb39b1bfd59b799b1bb"
+          ],
+          "after": null,
+          "packet": "CSM_SIX_RESOURCES_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSM_SIX_RESOURCES_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csm-six-retirement/current-and-original-preimages.tar",
+        "archive_sha256": "6933cc2f95ad88c17f92760df16ec5f9fb32cf589fe36f889417fbf921daa8f7",
+        "member": "current/adl/tools/validate_csm_operator_command_packets.py",
+        "mode": "100755",
+        "blob": "ce4a706fb43a87e8d64e3bb39b1bfd59b799b1bb",
+        "sha256": "d6b1d970e0a9d2cfff0c2698c9343a3399d8e72a83ae659e04210c96b731aa18"
+      }
+    },
+    {
+      "path": "adl/tools/validate_csm_static_console.py",
+      "before": [
+        "100644",
+        "bd5d1933b8ab8b460d619599d45fd1d96dadc731"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "085c852a687c65478039a48c0044cef0b8fdda03",
+      "approval_reference": "CSM_SIX_RESOURCES_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "085c852a687c65478039a48c0044cef0b8fdda03",
+          "before": [
+            "100644",
+            "bd5d1933b8ab8b460d619599d45fd1d96dadc731"
+          ],
+          "after": null,
+          "packet": "CSM_SIX_RESOURCES_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSM_SIX_RESOURCES_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csm-six-retirement/current-and-original-preimages.tar",
+        "archive_sha256": "6933cc2f95ad88c17f92760df16ec5f9fb32cf589fe36f889417fbf921daa8f7",
+        "member": "current/adl/tools/validate_csm_static_console.py",
+        "mode": "100644",
+        "blob": "bd5d1933b8ab8b460d619599d45fd1d96dadc731",
+        "sha256": "43ddfd94dfce4033b46e8e85a373c29137aa449206be308968394d1243e099a5"
+      }
+    },
+    {
+      "path": "adl/tools/validate_csm_visibility_packet.py",
+      "before": [
+        "100755",
+        "c227f48a9a7e1fbefad623b655bb416dc3ddcc5b"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "085c852a687c65478039a48c0044cef0b8fdda03",
+      "approval_reference": "CSM_SIX_RESOURCES_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "085c852a687c65478039a48c0044cef0b8fdda03",
+          "before": [
+            "100755",
+            "c227f48a9a7e1fbefad623b655bb416dc3ddcc5b"
+          ],
+          "after": null,
+          "packet": "CSM_SIX_RESOURCES_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSM_SIX_RESOURCES_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csm-six-retirement/current-and-original-preimages.tar",
+        "archive_sha256": "6933cc2f95ad88c17f92760df16ec5f9fb32cf589fe36f889417fbf921daa8f7",
+        "member": "current/adl/tools/validate_csm_visibility_packet.py",
+        "mode": "100755",
+        "blob": "c227f48a9a7e1fbefad623b655bb416dc3ddcc5b",
+        "sha256": "dc96475f3d505d840e0126f6c2d9d83025f2fd862525f490d3d6a041ba6c40ad"
+      }
+    },
+    {
+      "path": "adl/tools/test_demo_v0901_csm_observatory_operator_report.sh",
+      "before": [
+        "100755",
+        "90995304a0c669ba5a2384fcea4db5fab59b21f4"
+      ],
+      "after": [
+        "100755",
+        "b40ecbbfa0edc0def53a059ae9879099d6c9f95f"
+      ],
+      "action": "modify",
+      "implementation_commit": "085c852a687c65478039a48c0044cef0b8fdda03",
+      "approval_reference": "CSM_SIX_RESOURCES_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "085c852a687c65478039a48c0044cef0b8fdda03",
+          "before": [
+            "100755",
+            "90995304a0c669ba5a2384fcea4db5fab59b21f4"
+          ],
+          "after": [
+            "100755",
+            "b40ecbbfa0edc0def53a059ae9879099d6c9f95f"
+          ],
+          "packet": "CSM_SIX_RESOURCES_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "tools/csm_contracts/validate_visibility.py",
+      "before": null,
+      "after": [
+        "100644",
+        "5b8102485e1e3f27e918570f32a9485f0b390005"
+      ],
+      "action": "add",
+      "implementation_commit": "085c852a687c65478039a48c0044cef0b8fdda03",
+      "approval_reference": "CSM_SIX_RESOURCES_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "085c852a687c65478039a48c0044cef0b8fdda03",
+          "before": null,
+          "after": [
+            "100644",
+            "5b8102485e1e3f27e918570f32a9485f0b390005"
+          ],
+          "packet": "CSM_SIX_RESOURCES_APPLIED.json"
+        }
+      ]
     }
   ],
   "missing_entries": [],
@@ -93800,9 +94094,33 @@
         "docs/tooling/TOOL_SURFACE_REGISTRY.md"
       ],
       "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "CSM_SIX_RESOURCES_APPLIED.json",
+      "sha256": "0aa64e902380cca67e559658ada2e4e7eb0535ecae40e3a90d5abb50469f42e4",
+      "commit": "085c852a687c65478039a48c0044cef0b8fdda03",
+      "files": 11,
+      "removals": 6,
+      "scope_sha256": "eb58def46aa85caeabf60a9d47f48e8785cbe2211889c0f898fb7584cc418d02",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl/tools/test_csm_operator_command_packets.sh",
+        "adl/tools/test_csm_visibility_packet.sh",
+        "adl/tools/test_demo_v0901_csm_observatory_static_console.sh",
+        "adl/tools/validate_csm_operator_command_packets.py",
+        "adl/tools/validate_csm_static_console.py",
+        "adl/tools/validate_csm_visibility_packet.py",
+        "adl/tools/test_demo_v0904_csm_observatory_governed_prototype.sh",
+        "adl/tools/test_demo_v0901_csm_observatory_operator_report.sh",
+        "docs/tooling/README.md",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+        "tools/csm_contracts/validate_visibility.py"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
     }
   ],
-  "baseline_deletion_count": 2822,
+  "baseline_deletion_count": 2828,
   "transient_removed_paths": [
     "adl/tools/test_issue872_historical_manifest.py"
   ],
@@ -93815,6 +94133,6 @@
     "adl/tools/test_demo_v0901_quality_gate.sh",
     "adl/tools/test_demo_v0902_review_quality_gate.sh"
   ],
-  "inventory_baseline_deletion_count": 2815,
+  "inventory_baseline_deletion_count": 2821,
   "supplemental_baseline_deletion_count": 7
 }
