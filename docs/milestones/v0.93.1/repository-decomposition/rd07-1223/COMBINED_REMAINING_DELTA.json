@@ -46664,7 +46664,8 @@
       "required_before_execution": [
         "qualified_successor_tool_family",
         "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve retained v0.91.3 gate caller edge before removing this dependency; see V0913_GATE_CONSUMER_CLOSURE.json."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -48122,7 +48123,8 @@
       "required_before_execution": [
         "qualified_successor_tool_family",
         "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve retained v0.91.3 gate caller edge before removing this dependency; see V0913_GATE_CONSUMER_CLOSURE.json."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -48200,7 +48202,8 @@
       "required_before_execution": [
         "qualified_successor_tool_family",
         "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve retained v0.91.3 gate caller edge before removing this dependency; see V0913_GATE_CONSUMER_CLOSURE.json."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -48224,7 +48227,8 @@
       "required_before_execution": [
         "qualified_successor_tool_family",
         "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve retained v0.91.3 gate caller edge before removing this dependency; see V0913_GATE_CONSUMER_CLOSURE.json."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -48284,7 +48288,8 @@
       "required_before_execution": [
         "qualified_successor_tool_family",
         "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve retained v0.91.3 gate caller edge before removing this dependency; see V0913_GATE_CONSUMER_CLOSURE.json."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -48308,7 +48313,8 @@
       "required_before_execution": [
         "qualified_successor_tool_family",
         "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve retained v0.91.3 gate caller edge before removing this dependency; see V0913_GATE_CONSUMER_CLOSURE.json."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -48953,7 +48959,8 @@
       "required_before_execution": [
         "qualified_successor_tool_family",
         "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve retained v0.91.3 gate caller edge before removing this dependency; see V0913_GATE_CONSUMER_CLOSURE.json."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -49128,7 +49135,8 @@
       "required_before_execution": [
         "qualified_successor_tool_family",
         "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve retained v0.91.3 gate caller edge before removing this dependency; see V0913_GATE_CONSUMER_CLOSURE.json."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -49327,7 +49335,8 @@
       "required_before_execution": [
         "qualified_successor_tool_family",
         "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve retained v0.91.3 gate caller edge before removing this dependency; see V0913_GATE_CONSUMER_CLOSURE.json."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -51449,7 +51458,8 @@
       "required_before_execution": [
         "qualified_successor_tool_family",
         "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve retained v0.91.3 gate caller edge before removing this dependency; see V0913_GATE_CONSUMER_CLOSURE.json."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -52638,7 +52648,8 @@
       "required_before_execution": [
         "qualified_successor_tool_family",
         "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve retained v0.91.3 gate caller edge before removing this dependency; see V0913_GATE_CONSUMER_CLOSURE.json."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -52846,7 +52857,8 @@
       "required_before_execution": [
         "qualified_successor_tool_family",
         "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve retained v0.91.3 gate caller edge before removing this dependency; see V0913_GATE_CONSUMER_CLOSURE.json."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -52870,7 +52882,8 @@
       "required_before_execution": [
         "qualified_successor_tool_family",
         "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve retained v0.91.3 gate caller edge before removing this dependency; see V0913_GATE_CONSUMER_CLOSURE.json."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -52942,7 +52955,8 @@
       "required_before_execution": [
         "qualified_successor_tool_family",
         "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve retained v0.91.3 gate caller edge before removing this dependency; see V0913_GATE_CONSUMER_CLOSURE.json."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -52966,7 +52980,8 @@
       "required_before_execution": [
         "qualified_successor_tool_family",
         "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve retained v0.91.3 gate caller edge before removing this dependency; see V0913_GATE_CONSUMER_CLOSURE.json."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -53110,7 +53125,8 @@
       "required_before_execution": [
         "qualified_successor_tool_family",
         "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve retained v0.91.3 gate caller edge before removing this dependency; see V0913_GATE_CONSUMER_CLOSURE.json."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -53206,7 +53222,8 @@
       "required_before_execution": [
         "qualified_successor_tool_family",
         "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve retained v0.91.3 gate caller edge before removing this dependency; see V0913_GATE_CONSUMER_CLOSURE.json."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -53275,7 +53292,8 @@
       "required_before_execution": [
         "qualified_successor_tool_family",
         "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve retained v0.91.3 gate caller edge before removing this dependency; see V0913_GATE_CONSUMER_CLOSURE.json."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -53456,7 +53474,8 @@
       "required_before_execution": [
         "qualified_successor_tool_family",
         "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve retained v0.91.3 gate caller edge before removing this dependency; see V0913_GATE_CONSUMER_CLOSURE.json."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -53552,7 +53571,8 @@
       "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
         "Repair ci_path_policy.sh selection and run_v0913_proof_validation_lane.sh plus demo_v0913_quality_gate.sh together only after explicit historical gate disposition; preserve frozen milestone documents and recorded results.",
-        "atomic family and caller disposition; no v1 route restoration"
+        "atomic family and caller disposition; no v1 route restoration",
+        "Resolve retained v0.91.3 gate caller edge before removing this dependency; see V0913_GATE_CONSUMER_CLOSURE.json."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
