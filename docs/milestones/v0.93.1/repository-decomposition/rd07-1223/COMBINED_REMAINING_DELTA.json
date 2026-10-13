@@ -1,17 +1,17 @@
 {
   "schema": "adl.source_retirement.combined_remaining_delta.v1",
   "issue": 1223,
-  "source_head": "951a4c097fde039319c5b508ade9645c748e1fb5",
+  "source_head": "3a9d37a12ae63e3f1becb3b0a6098d4bec22610f",
   "status": "prepared_scope_not_ready_for_execution",
   "execution_authorized": false,
   "original_count": 4134,
   "counts": {
-    "hold_explicit_reconciliation": 107,
+    "hold_explicit_reconciliation": 100,
     "hold_owner_test_reconciliation": 35,
     "preserve_approved_removal": 70,
     "preserve_reviewed_consumer_repair": 18,
-    "proposed_historical_retirement_with_caller_repair": 23,
-    "proposed_owner_transfer_with_consumer_qualification": 488,
+    "proposed_historical_retirement_with_caller_repair": 29,
+    "proposed_owner_transfer_with_consumer_qualification": 489,
     "proposed_remove_construction_qualified_infrastructure": 216,
     "proposed_remove_with_entire_source_family": 1874,
     "proposed_remove_with_entire_tool_family": 689,
@@ -46493,9 +46493,11 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Coherent caller and registry disposition",
+        "Scoped final source retirement decision",
+        "Preserve original identity and rollback evidence"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
@@ -46503,11 +46505,16 @@
         "exact_successor_paths": []
       },
       "qualification_followup": {
-        "record": "LEGACY_TYPED_WRAPPER_DISPOSITION.json",
-        "scope": "exact_source_obligation_and_removed_filter_lineage",
-        "execution_proven": false,
+        "record": "NATIVE_SUNSET_OWNER_DELIVERY.json",
+        "scope": "delivered native-v3 source and help contracts; historical v2 behavior explicitly distinct",
+        "execution_proven": true,
+        "operational_admission_proven": false,
         "changes_removal_authority": false
-      }
+      },
+      "prior_execution_prerequisites": [
+        "specific_consumer_or_document_disposition_required"
+      ],
+      "disposition_evidence": "NATIVE_SUNSET_OWNER_DELIVERY.json"
     },
     {
       "id": "RD07-1920",
@@ -46853,9 +46860,11 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Coherent caller and registry disposition",
+        "Scoped final source retirement decision",
+        "Preserve original identity and rollback evidence"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
@@ -46863,11 +46872,16 @@
         "exact_successor_paths": []
       },
       "qualification_followup": {
-        "record": "LEGACY_TYPED_WRAPPER_DISPOSITION.json",
-        "scope": "exact_source_obligation_and_removed_filter_lineage",
-        "execution_proven": false,
+        "record": "NATIVE_SUNSET_OWNER_DELIVERY.json",
+        "scope": "delivered native-v3 source and help contracts; historical v2 behavior explicitly distinct",
+        "execution_proven": true,
+        "operational_admission_proven": false,
         "changes_removal_authority": false
-      }
+      },
+      "prior_execution_prerequisites": [
+        "specific_consumer_or_document_disposition_required"
+      ],
+      "disposition_evidence": "NATIVE_SUNSET_OWNER_DELIVERY.json"
     },
     {
       "id": "RD07-1933",
@@ -46937,9 +46951,11 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Coherent caller and registry disposition",
+        "Scoped final source retirement decision",
+        "Preserve original identity and rollback evidence"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
@@ -46947,11 +46963,16 @@
         "exact_successor_paths": []
       },
       "qualification_followup": {
-        "record": "LEGACY_TYPED_WRAPPER_DISPOSITION.json",
-        "scope": "exact_source_obligation_and_removed_filter_lineage",
-        "execution_proven": false,
+        "record": "NATIVE_SUNSET_OWNER_DELIVERY.json",
+        "scope": "delivered native-v3 source and help contracts; historical v2 behavior explicitly distinct",
+        "execution_proven": true,
+        "operational_admission_proven": false,
         "changes_removal_authority": false
-      }
+      },
+      "prior_execution_prerequisites": [
+        "specific_consumer_or_document_disposition_required"
+      ],
+      "disposition_evidence": "NATIVE_SUNSET_OWNER_DELIVERY.json"
     },
     {
       "id": "RD07-1936",
@@ -49846,10 +49867,11 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required",
-        "Resolve four original process-drift negative-test filters against exact successor definitions or approved historical disposition."
+        "Coherent caller and registry disposition",
+        "Scoped final source retirement decision",
+        "Preserve original identity and rollback evidence"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
@@ -49859,7 +49881,12 @@
       "current_consumer_gap": {
         "evidence": "PROCESS_DRIFT_SELECTOR_GAP.json",
         "reason": "Four original named Rust filters have no matching definitions in inspected current source; original conductor helper remains separate."
-      }
+      },
+      "prior_execution_prerequisites": [
+        "specific_consumer_or_document_disposition_required",
+        "Resolve four original process-drift negative-test filters against exact successor definitions or approved historical disposition."
+      ],
+      "disposition_evidence": "PROCESS_DRIFT_RETIREMENT_PROPOSAL.json"
     },
     {
       "id": "RD07-2052",
@@ -49894,9 +49921,11 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Coherent caller and registry disposition",
+        "Scoped final source retirement decision",
+        "Preserve original identity and rollback evidence"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
@@ -49904,11 +49933,16 @@
         "exact_successor_paths": []
       },
       "qualification_followup": {
-        "record": "LEGACY_TYPED_WRAPPER_DISPOSITION.json",
-        "scope": "exact_source_obligation_and_removed_filter_lineage",
-        "execution_proven": false,
+        "record": "NATIVE_SUNSET_OWNER_DELIVERY.json",
+        "scope": "delivered native-v3 source and help contracts; historical v2 behavior explicitly distinct",
+        "execution_proven": true,
+        "operational_admission_proven": false,
         "changes_removal_authority": false
-      }
+      },
+      "prior_execution_prerequisites": [
+        "specific_consumer_or_document_disposition_required"
+      ],
+      "disposition_evidence": "NATIVE_SUNSET_OWNER_DELIVERY.json"
     },
     {
       "id": "RD07-2054",
@@ -50497,9 +50531,11 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Coherent caller and registry disposition",
+        "Scoped final source retirement decision",
+        "Preserve original identity and rollback evidence"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
@@ -50507,11 +50543,16 @@
         "exact_successor_paths": []
       },
       "qualification_followup": {
-        "record": "LEGACY_TYPED_WRAPPER_DISPOSITION.json",
-        "scope": "exact_source_obligation_and_removed_filter_lineage",
-        "execution_proven": false,
+        "record": "NATIVE_SUNSET_OWNER_DELIVERY.json",
+        "scope": "delivered native-v3 source and help contracts; historical v2 behavior explicitly distinct",
+        "execution_proven": true,
+        "operational_admission_proven": false,
         "changes_removal_authority": false
-      }
+      },
+      "prior_execution_prerequisites": [
+        "specific_consumer_or_document_disposition_required"
+      ],
+      "disposition_evidence": "NATIVE_SUNSET_OWNER_DELIVERY.json"
     },
     {
       "id": "RD07-2072",
@@ -87265,9 +87306,11 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Coherent caller and registry disposition",
+        "Scoped final source retirement decision",
+        "Preserve original identity and rollback evidence"
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -87275,7 +87318,11 @@
         "exact_successor_paths": [
           "docs/operations/cloud/gcp/platform-foundation/readback-disposable-residue.sh"
         ]
-      }
+      },
+      "prior_execution_prerequisites": [
+        "specific_consumer_or_document_disposition_required"
+      ],
+      "disposition_evidence": "GCP_READBACK_TRANSFER.json"
     },
     {
       "id": "RD07-3558",
