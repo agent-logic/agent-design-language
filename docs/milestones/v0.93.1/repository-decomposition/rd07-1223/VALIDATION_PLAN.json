@@ -154,5 +154,16 @@
     "plan": "LEGACY_PUBLIC_CLI_PARTITION.json",
     "scope": "Public CLI behavior plus authenticated private-owner consumer parity after partition; five-package proof alone is insufficient",
     "no_legacy_cli_retirement_authorized": true
+  },
+  "legacy_cli_parser_proof": {
+    "lane": "local_contract",
+    "role": "argument_compatibility_characterization",
+    "determinism": "synthetic argv and exact stdout stderr exit status",
+    "resources": "small CPU and FastWork disk; rustc only; no registry or provider",
+    "gate": "required CLI-01",
+    "command": "python3 -B tools/public_adl/test_workflow_args.py",
+    "test_methods": 5,
+    "subprocess_cases": 25,
+    "limits": "Standalone actual parser; full CLI integration and installed consumer parity remain required"
   }
 }

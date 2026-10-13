@@ -121,3 +121,11 @@ Preserve public command semantics while separating portable planning from privat
 - Created PRs: false.
 - Committed changes: false.
 - Mutated repository: false.
+
+## CLI-01 execution progress
+
+The argument parser is now a separate standard-library-only module. Five test
+methods cover 25 real subprocess cases, including exact diagnostics and exit
+status, aliases, option-like operands and literal metacharacters. The workflow
+body after parsing is byte-for-byte unchanged. Public rendering extraction,
+full CLI integration proof and installed product parity remain pending.

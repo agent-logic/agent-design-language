@@ -76,7 +76,7 @@
         ]
       ],
       "source": "README.md and .github/workflows/product-ci.yaml",
-      "note": "Container construction tests and 27/28 Terraform roots passed after documented toolchain/platform corrections; csm-runtime-alb has unsupported module arguments. Infrastructure-owned Rust adapter compilation remains running. No cloud plan/apply.",
+      "note": "Container construction tests and 27/28 Terraform roots passed after documented toolchain/platform corrections; csm-runtime-alb has unsupported module arguments. Infrastructure-owned Rust adapter compiled successfully with the independently pinned portable contract. No cloud plan/apply.",
       "terraform_result": {
         "repository": "agent-logic/agent-logic-infrastructure",
         "revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -133,7 +133,17 @@
           "arm64-build.log": "451e164a8687c9d09a73b053c34ab504c4167eca2362a79d3266e5018de932aa"
         }
       },
-      "adapter_build_status": "running"
+      "adapter_build_status": "passed",
+      "adapter_build": {
+        "status": "passed",
+        "started_at": 1791862313.431974,
+        "scope": "Compile infrastructure-owned AWS remote-validation adapter using the CI-pinned portable source contract; install only inside isolated container; no AWS operation",
+        "script_sha256": "dd79c5661b2d338cfab53076caf61571cddbe391a05515707420f619484802e2",
+        "exit_code": 0,
+        "finished_at": 1791862798.612522,
+        "log_sha256": "aa7c9da67c02b8546aecec6e340187f3811e98b20ef146377b4dff7f1008bb40",
+        "binary_sha256": "521e73341644833d997657e2718d54908dbb99d90e039c5887d83ebc517756c0"
+      }
     },
     {
       "repository": "agent-logic/agent-logic-runtime",

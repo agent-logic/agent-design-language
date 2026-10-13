@@ -68,6 +68,15 @@
     "adl-v2/Cargo.lock": [
       "100644",
       "94e5598e0824d6e50651c226fba383c33da18dfc"
+    ],
+    "adl/src/cli/run.rs": [
+      "100644",
+      "c6343cb26caf27564db48e39ee0091d474426b9c"
+    ],
+    "adl/src/cli/workflow_args.rs": [
+      "100644",
+      "78a6ebbc0dbe5ccfdce5e28c0cc40a827da64bca"
     ]
-  }
+  },
+  "surgical_followup": "CLI-01 behavior-preserving parser extraction under operator finish1223 instruction; no further removals"
 }

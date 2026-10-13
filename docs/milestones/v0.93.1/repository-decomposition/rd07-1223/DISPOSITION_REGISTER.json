@@ -10069,8 +10069,8 @@
         "100644",
         "d81cbe5f5580aa63bafd4f0ebae7e5207148c220"
       ],
-      "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "action": "approved_component_consumer_repair",
+      "reason": "CLI01_extract_pure_argument_contract_without_changing_execution_route",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "adl/src/cli/run.rs"
