@@ -6,7 +6,7 @@
   "execution_authorized": false,
   "original_count": 4134,
   "counts": {
-    "hold_explicit_reconciliation": 232,
+    "hold_explicit_reconciliation": 230,
     "hold_missing_successor_operational_command": 2,
     "hold_owner_test_reconciliation": 35,
     "preserve_approved_removal": 70,
@@ -16,7 +16,7 @@
     "proposed_remove_with_entire_source_family": 1874,
     "proposed_remove_with_entire_tool_family": 719,
     "retain_public_source_or_fixture": 68,
-    "retain_resolved": 449
+    "retain_resolved": 451
   },
   "additional_current_source_paths": 19,
   "preservation": "Original inventory and baseline archive unchanged;70 prior approved removals preserved; no new deletion applied",
@@ -30,7 +30,8 @@
     "owner_test_correspondence": "OWNER_TEST_CORRESPONDENCE.json preserves1056original rows (651CSDLc+405Runtime).35unique implicated rows explicitly held. No broad test execution or retirement authority inferred.",
     "csdlc_node_proof": "Cognitive-sdlc247 candidate369cbde1e91efbc15ad72f936080b54aed8e6bb5 passed all5 restored issue1249 scenarios on supported macOS arm64,177filtered,132.075seconds; source clean before/after. Evidence FastWork c1223/evidence/cognitive-sdlc/issue247-369cbde1-macos, logSHA25674cd7cf6b8173b671ea9513999f3c216a4ad33706dc3bf679f62398f5b32ff6c. Node proof/refusals and atomic plan amendment qualified; owner publication/install and retirement remain separate. Prior unsupported Linux arm64 and supported-host atomicity failures preserved. Native proof at same head completed successfully generation11/digestfd0d884a5ded16ca9a40b71df007af4c16fbb2878db9a820be3307365f83fe1d, one declared validator,88.195s; evidence FastWork c1223/evidence/cognitive-sdlc/issue247-native-369cbde1/proof.stdout.json SHA25620f893894a0121cd1d4a3cd939cadcb971e25b5939dd6bc38911ec9446d0c8d2. Review/publication remain separate.",
     "public_coverage": "Full exact-head six-package producer passed atb4216f4070:9293/10317lines90.07%, allmeasuredfiles>=80%; thresholds unchanged. Public observation integration target restores immutable held source. GitHub CI and private owner equivalence remain separate.",
-    "codefriend_focused_successor": "CODEFRIEND_FOCUSED_QUALIFICATION.json:69c9e76de44a27e4d4329ca4f652c1e291d67ed9 passed177lib+8publication onmacOS/defaultdebug,185total/0failed,37.880s; source pins repaired under review. Prior e1 nativepreflight refused input_not_tracked before validator; direct177 had7stale-pin failures, preserved. Prior e14Linux409 and hosted acquisition evidence remain separate; no nativeacceptance or finalCI inferred."
+    "codefriend_focused_successor": "CODEFRIEND_FOCUSED_QUALIFICATION.json:69c9e76de44a27e4d4329ca4f652c1e291d67ed9 passed177lib+8publication onmacOS/defaultdebug,185total/0failed,37.880s; source pins repaired under review. Prior e1 nativepreflight refused input_not_tracked before validator; direct177 had7stale-pin failures, preserved. Prior e14Linux409 and hosted acquisition evidence remain separate; no nativeacceptance or finalCI inferred.",
+    "codefriend_macos_case": "Original macOS-only journey case passed1/0/0ignored/20filtered at3424cc775f65ec3a6e69f82888a73639a941a1e4,11.534s; actual case-insensitive FastWork temp verified, exactsource tree and productclean before/after captured. LogSHA4709e1d8cb58218661bf3f28e0584ba8bc2b57df3fa9f9e9b4e2837a4334bc51. Native acceptance remains separate."
   },
   "ci_contract": "COMBINED_CI_CUTOVER.json",
   "rows": [
@@ -30262,7 +30263,7 @@
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "CSDLc exact demo copy plus1946dryrun require fixture workspace, local_model_capabilities.v1.json, installer, provider selection and codex; dryrun is not liveprovider proof."
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -30270,6 +30271,12 @@
         "exact_successor_paths": [
           "adl/tools/demo_codex_ollama_operational_skills.sh"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "ACTIVE_19_TOOL_DISPOSITIONS.json",
+        "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
+        "proposal": "specific_family_reconciliation",
+        "reason": "CSDLc exact demo copy plus1946dryrun require fixture workspace, local_model_capabilities.v1.json, installer, provider selection and codex; dryrun is not liveprovider proof."
       }
     },
     {
@@ -33808,15 +33815,20 @@
       },
       "existing_action": "retain",
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reviewed_disposition": {
+        "packet": "ACTIVE_19_TOOL_DISPOSITIONS.json",
+        "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
+        "proposal": "retain_adl_unchanged",
+        "reason": "Retain ADL repository Git-object audit; explicitly not extraction or qualification authority."
+      },
+      "reason": "Retain ADL repository Git-object audit; explicitly not extraction or qualification authority."
     },
     {
       "id": "RD07-1459",
@@ -34593,12 +34605,18 @@
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Mixed Runtime/Infrastructure manual family with2021: pinned artifact manifest, gpu-proof warm-storage/preparation Terraform and control-wait/checkpoint/recovery assertions."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "ACTIVE_19_TOOL_DISPOSITIONS.json",
+        "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
+        "proposal": "specific_family_reconciliation",
+        "reason": "Mixed Runtime/Infrastructure manual family with2021: pinned artifact manifest, gpu-proof warm-storage/preparation Terraform and control-wait/checkpoint/recovery assertions."
       }
     },
     {
@@ -35498,12 +35516,18 @@
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Manual GPU proof requires pinned artifact manifest, account-verification evidence, remote build/extraction and repair of machine-local state default; historical receipts unchanged."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "ACTIVE_19_TOOL_DISPOSITIONS.json",
+        "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
+        "proposal": "specific_family_reconciliation",
+        "reason": "Manual GPU proof requires pinned artifact manifest, account-verification evidence, remote build/extraction and repair of machine-local state default; historical receipts unchanged."
       }
     },
     {
@@ -42110,10 +42134,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_successor_consumer_and_retirement_reconciliation",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_cross_owner_mode_blob",
         "successor_owner": "agent-logic/codefriend",
@@ -42129,7 +42151,14 @@
         "mode": "100644",
         "blob": "f652da0f91908d6c384d3a716a5df1aff1d7580a",
         "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
-      }
+      },
+      "reviewed_disposition": {
+        "packet": "ACTIVE_19_TOOL_DISPOSITIONS.json",
+        "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
+        "proposal": "retain_adl_unchanged",
+        "reason": "Retain immutable issue520 changed-paths fixture; historical filenames are fixture data, not live dependencies."
+      },
+      "reason": "Retain immutable issue520 changed-paths fixture; historical filenames are fixture data, not live dependencies."
     },
     {
       "id": "RD07-1777",
@@ -46237,12 +46266,18 @@
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Preserve original dryrun assertions jointly with1304; exact executable replacement not yet verified."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "ACTIVE_19_TOOL_DISPOSITIONS.json",
+        "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
+        "proposal": "specific_family_reconciliation",
+        "reason": "Preserve original dryrun assertions jointly with1304; exact executable replacement not yet verified."
       }
     },
     {
@@ -47616,12 +47651,18 @@
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Mixed harness: preserve entry-by-entry owner validation, Runtime/review compatibility, editor/schema and materialization assertions; retire obsolete wrapper checks only with their accepted family."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "ACTIVE_19_TOOL_DISPOSITIONS.json",
+        "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
+        "proposal": "specific_family_reconciliation",
+        "reason": "Mixed harness: preserve entry-by-entry owner validation, Runtime/review compatibility, editor/schema and materialization assertions; retire obsolete wrapper checks only with their accepted family."
       }
     },
     {
@@ -47984,12 +48025,18 @@
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Preserve issue607 runner local assertions jointly with1490 and explicit Infrastructure/Runtime dependencies."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "ACTIVE_19_TOOL_DISPOSITIONS.json",
+        "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
+        "proposal": "specific_family_reconciliation",
+        "reason": "Preserve issue607 runner local assertions jointly with1490 and explicit Infrastructure/Runtime dependencies."
       }
     },
     {
@@ -48433,12 +48480,18 @@
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Mixed Runtime provider/CSDLc runbook contract: preserve structured-request, obsolete-flag refusal, model and path-hygiene assertions; replace retired ADL provider-adapter help route with qualified owner."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "ACTIVE_19_TOOL_DISPOSITIONS.json",
+        "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
+        "proposal": "specific_family_reconciliation",
+        "reason": "Mixed Runtime provider/CSDLc runbook contract: preserve structured-request, obsolete-flag refusal, model and path-hygiene assertions; replace retired ADL provider-adapter help route with qualified owner."
       }
     },
     {
@@ -49571,12 +49624,18 @@
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Mixed Infrastructure/Runtime: issue345runner, gpu-proof Terraform, emitted scripts, source/authorization checks and Git-free archive assertions must transfer together."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "ACTIVE_19_TOOL_DISPOSITIONS.json",
+        "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
+        "proposal": "specific_family_reconciliation",
+        "reason": "Mixed Infrastructure/Runtime: issue345runner, gpu-proof Terraform, emitted scripts, source/authorization checks and Git-free archive assertions must transfer together."
       }
     },
     {
@@ -50081,12 +50140,18 @@
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Map Runtime installer generation selection, predecessor receipts, stale stable-launcher repair, rollback and missing-active-CSM refusals to current installer tests."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "ACTIVE_19_TOOL_DISPOSITIONS.json",
+        "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
+        "proposal": "specific_family_reconciliation",
+        "reason": "Map Runtime installer generation selection, predecessor receipts, stale stable-launcher repair, rollback and missing-active-CSM refusals to current installer tests."
       }
     },
     {
@@ -50102,12 +50167,18 @@
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Runtime selector plus historical issue5590 transition script: retain historical fixture or explicit assertion map; no new native state fabrication."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "ACTIVE_19_TOOL_DISPOSITIONS.json",
+        "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
+        "proposal": "specific_family_reconciliation",
+        "reason": "Runtime selector plus historical issue5590 transition script: retain historical fixture or explicit assertion map; no new native state fabrication."
       }
     },
     {
@@ -50253,12 +50324,18 @@
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Mixed skill distributions: preserve SKILL/manifest/schema completeness, card-editor exceptions, guide coverage and installer checks; exact CSDLc original-v1 archive is not active replacement."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "ACTIVE_19_TOOL_DISPOSITIONS.json",
+        "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
+        "proposal": "specific_family_reconciliation",
+        "reason": "Mixed skill distributions: preserve SKILL/manifest/schema completeness, card-editor exceptions, guide coverage and installer checks; exact CSDLc original-v1 archive is not active replacement."
       }
     },
     {
@@ -50962,12 +51039,18 @@
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Historical Observatory proof bundle includes assets/config, SNS resources, service/heartbeat/SNS validators and HTML checks; not current Observatory qualification."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "ACTIVE_19_TOOL_DISPOSITIONS.json",
+        "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
+        "proposal": "specific_family_reconciliation",
+        "reason": "Historical Observatory proof bundle includes assets/config, SNS resources, service/heartbeat/SNS validators and HTML checks; not current Observatory qualification."
       }
     },
     {
@@ -51920,12 +52003,18 @@
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Reuse reviewed issue256 historical disposition with paired config and old evidence; do not turn fixed historical acceptance into a new Runtime feature."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "ACTIVE_19_TOOL_DISPOSITIONS.json",
+        "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
+        "proposal": "specific_family_reconciliation",
+        "reason": "Reuse reviewed issue256 historical disposition with paired config and old evidence; do not turn fixed historical acceptance into a new Runtime feature."
       }
     },
     {
@@ -52007,12 +52096,18 @@
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Runtime UI validator requires app.js plus authentic issue271 handler-output fixture; preserve eight delivery/refusal/recovery/disclosure cases, action state and rendered accessibility."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "ACTIVE_19_TOOL_DISPOSITIONS.json",
+        "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
+        "proposal": "specific_family_reconciliation",
+        "reason": "Runtime UI validator requires app.js plus authentic issue271 handler-output fixture; preserve eight delivery/refusal/recovery/disclosure cases, action state and rendered accessibility."
       }
     },
     {
@@ -52944,12 +53039,18 @@
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Retain/archive fixed v0.92.2 qualification-integrity validator with its five criteria, exactrevision and baseline/candidate qual-inventory-899 archives; not current Runtime producer."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "ACTIVE_19_TOOL_DISPOSITIONS.json",
+        "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
+        "proposal": "specific_family_reconciliation",
+        "reason": "Retain/archive fixed v0.92.2 qualification-integrity validator with its five criteria, exactrevision and baseline/candidate qual-inventory-899 archives; not current Runtime producer."
       }
     },
     {
@@ -53010,12 +53111,18 @@
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Manual Runtime distributed producer requires nextest target/source/receiptvalidator/nativeworkflow; preserve issue5878 containment, committed-source, boundedlogs and negative-case extraction."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "ACTIVE_19_TOOL_DISPOSITIONS.json",
+        "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
+        "proposal": "specific_family_reconciliation",
+        "reason": "Manual Runtime distributed producer requires nextest target/source/receiptvalidator/nativeworkflow; preserve issue5878 containment, committed-source, boundedlogs and negative-case extraction."
       }
     },
     {
@@ -53228,12 +53335,18 @@
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Manual/historical native receipts require issue5820, guardian lifecycle stress_100x10s, exact denominators, macOS/Linux provenance, HTTPS/WSS and AWS/deletion receipts."
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "ACTIVE_19_TOOL_DISPOSITIONS.json",
+        "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
+        "proposal": "specific_family_reconciliation",
+        "reason": "Manual/historical native receipts require issue5820, guardian lifecycle stress_100x10s, exact denominators, macOS/Linux provenance, HTTPS/WSS and AWS/deletion receipts."
       }
     },
     {

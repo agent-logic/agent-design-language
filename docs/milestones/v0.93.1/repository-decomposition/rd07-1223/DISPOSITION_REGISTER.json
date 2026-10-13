@@ -29956,11 +29956,16 @@
         "1fbbd1c27367c7c6fd603325f2a2d1ab62408330"
       ],
       "action": "retain",
-      "reason": "protect_existing_public_contract_policy_or_control_plane",
+      "reason": "Retain ADL repository Git-object audit; explicitly not extraction or qualification authority.",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "ACTIVE_19_TOOL_DISPOSITIONS.json: RD07-1458",
+        "Retain ADL repository Git-object audit; explicitly not extraction or qualification authority."
+      ]
     },
     {
       "id": "RD07-1459",
@@ -36468,7 +36473,7 @@
         "f652da0f91908d6c384d3a716a5df1aff1d7580a"
       ],
       "action": "retain",
-      "reason": "hold_successor_consumer_and_retirement_reconciliation",
+      "reason": "Retain immutable issue520 changed-paths fixture; historical filenames are fixture data, not live dependencies.",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
@@ -36480,7 +36485,12 @@
         "mode": "100644",
         "blob": "f652da0f91908d6c384d3a716a5df1aff1d7580a",
         "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
-      }
+      },
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "ACTIVE_19_TOOL_DISPOSITIONS.json: RD07-1776",
+        "Retain immutable issue520 changed-paths fixture; historical filenames are fixture data, not live dependencies."
+      ]
     },
     {
       "id": "RD07-1777",
@@ -88328,5 +88338,5 @@
   "previous_observed_main": "f1493c54e4d9f6c5a1da798f48d9f2c361033fa4",
   "consumer_reference_repair_count": 7,
   "approved_component_removal_count": 36,
-  "resolved_retention_count": 449
+  "resolved_retention_count": 451
 }

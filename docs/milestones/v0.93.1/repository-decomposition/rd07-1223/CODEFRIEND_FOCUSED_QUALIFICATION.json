@@ -51,12 +51,36 @@
         "ignored": 0
       },
       "result_sha256": "4327d5571bdfdf7b02127a19cd179ab47266f137a1afac711e98c741b2cd8b72"
+    },
+    {
+      "evidence_directory": "/Volumes/FastWork/c1223/evidence/codefriend/issue102-3424cc7-macos-case",
+      "classification": "original_macos_case_alias_obligation_pass",
+      "result": {
+        "exit_code": 0,
+        "seconds": 11.534,
+        "head_after": "3424cc775f65ec3a6e69f82888a73639a941a1e4",
+        "source_tree_after": "d7d4b2d9c469ffce7a2d93125395d2068dff71f0",
+        "status_after": "M .csdlc/v3/issues/102/cards/manifest.json\n M .csdlc/v3/issues/102/cards/vpp.md\n M .csdlc/v3/issues/102/cards/vpp.values.json\n M .csdlc/v3/issues/102/state.json\n?? .csdlc/evidence/\n?? .csdlc/v3/issues/102/proof.json",
+        "product_source_clean_after": true,
+        "log_sha256": "4709e1d8cb58218661bf3f28e0584ba8bc2b57df3fa9f9e9b4e2837a4334bc51",
+        "native_acceptance": false
+      },
+      "counts": {
+        "passed": 1,
+        "failed": 0,
+        "ignored": 0,
+        "filtered": 20
+      },
+      "input_sha256": "85c62096d8aa3877f705715fd1f241469e469f75504c90d3537c93e19fea1b7e",
+      "result_sha256": "6d7e89fd92b60139d7484be1bafe508ce9a0a503720d488480d39284177f16ad",
+      "filesystem": "Actual FastWork temporary source/Source same-file case-insensitivity verified before execution",
+      "dependency_relocation": "DEPENDENCY_RELOCATION.json retains authenticated dependency tree externally after terminal test; no tracked file or manifest change"
     }
   ],
   "limits": [
     "Native input_not_tracked admission refusal is not test execution or native acceptance",
     "e1 template source pins drifted after earlier markdown/HTML behavior repairs; owner updated seven source pins and four manifest member hashes in five JSON files",
     "69c9e76 actual focused185PASS is separate from e14 Linux409PASS",
-    "No full409 rerun, macOS-only journey run, installed artifact acceptance or final CI claim"
+    "No full409 rerun, installed artifact acceptance or final CI claim; original macOS-only obligation now separately executed at3424cc7."
   ]
 }
