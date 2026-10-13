@@ -16,7 +16,7 @@ INVENTORY_SHA256 = 'a22fa6306245ddb3916cf4cb3021286a2d91ebfe77ca719eb7b1039d9f6d
 CAPTURED_IDENTITIES_SHA256 = 'e306e5a70ae7792fd2fef91449a0285d665126375a28c0dd05914724fe1bdebe'
 ARCHIVE_SHA256 = '12205043566913435c25ea414b1fd9148b46727821f7bfefd5d452cfe47a1c17'
 # Independently reviewed existing execution overlay; changing this pin requires review.
-EXECUTION_APPROVAL_SHA256 = 'e2f65d7480e96ff7130d3d0bebe7ce03e719df0e4faef9387cf084c594f09c4e'
+EXECUTION_APPROVAL_SHA256 = '2b8f84564e68f20e8e2c5b5b22068a780c2c078efb91ba286c87f1cd2fba5581'
 COMPONENTS = ('infra/ddns', 'infra/aws/runtime/log-archive', 'infra/aws/runtime/agent-checkpoint-archive')
 PROTECTED = ('csdlc-v3/operator/authority-selector.json', 'csdlc-v3/operator/native-authority-receipt.json',
              'docs/templates/prompts/current.json', 'adl/tools/install_owner_binaries.sh',
@@ -415,6 +415,59 @@ def check_runtime_custody(batch, original_path):
                     'Runtime archive bytes changed')
 
 
+
+INFRASTRUCTURE_FAMILY_SHA256 = '383c339ebd32c184177ebb6c01e7ce5dd18ea0bbbed38d86f781d021f4b4ac8a'
+INFRASTRUCTURE_FAMILY_IMPLEMENTATION = 'ddfe457ebbc2107ee349abf61ba27d57c35b5c37'
+INFRASTRUCTURE_REMOVAL_SCOPE_SHA256 = 'b7ec956e2847c0d0345bfcf9cbef3c34b6952ae64bb0618bd77fe342e4d379c4'
+
+
+def check_infrastructure_family(batch, before_tree, after_tree, prior_removed):
+    rows = [r for r in batch['files'] if r['action'] == 'remove']
+    paths = {r['path'] for r in rows}
+    scope = hashlib.sha256(json.dumps(sorted((r['id'], r['path']) for r in rows),
+                                     separators=(',', ':')).encode()).hexdigest()
+    require(len(rows) == len(paths) == 212 and not paths.intersection(prior_removed) and
+            scope == INFRASTRUCTURE_REMOVAL_SCOPE_SHA256 and
+            all(p.startswith('infra/') for p in paths), 'Infrastructure removal scope changed')
+    require(batch['counts'] == {'source_removals': 212, 'caller_changes': 20},
+            'Infrastructure family denominator changed')
+    require(len(batch['files']) == 232 and len({r['path'] for r in batch['files']}) == 232,
+            'Infrastructure caller scope changed')
+    for row in batch['files']:
+        path, before, after = row['path'], row['before'], row['after']
+        expected_after = [after['mode'], after['blob']] if after else None
+        require(before_tree.get(path) == [before['mode'], before['blob']] and
+                after_tree.get(path) == expected_after, 'Infrastructure applied identity mismatch')
+        custody = row['rollback']
+        require(custody['member'] == path and custody['sha256'] == before['sha256'] and
+                int(custody['mode'], 8) == int(before['mode'][-3:], 8),
+                'Infrastructure custody identity mismatch')
+    return paths
+
+
+def check_infrastructure_custody(batch):
+    archives = {}
+    for row in batch['files']:
+        custody = row['rollback']
+        path = Path(custody['archive'])
+        if path not in archives:
+            require(hashlib.sha256(path.read_bytes()).hexdigest() == custody['archive_sha256'],
+                    'Infrastructure archive changed')
+            archives[path] = custody['archive_sha256']
+        require(archives[path] == custody['archive_sha256'], 'Infrastructure archive pin mismatch')
+    for path in archives:
+        with tarfile.open(path) as archive:
+            for row in batch['files']:
+                custody = row['rollback']
+                if Path(custody['archive']) != path:
+                    continue
+                member = archive.getmember(custody['member'])
+                require(member.isfile() and member.mode == int(custody['mode'], 8),
+                        'Infrastructure archive mode changed')
+                require(hashlib.sha256(archive.extractfile(member).read()).hexdigest() == row['before']['sha256'],
+                        'Infrastructure archive bytes changed')
+
+
 def run():
     ledger = committed_json(PACKET / 'DISPOSITION_REGISTER.json')
     observed = tree(ledger['observed_main'])
@@ -460,7 +513,13 @@ def run():
     runtime = json.loads(runtime_bytes)
     removed.update(check_runtime_family(runtime, tree(RUNTIME_FAMILY_IMPLEMENTATION + '^'),
                                       tree(RUNTIME_FAMILY_IMPLEMENTATION), removed))
-    require(len(removed) == 1986, 'executed removal count changed')
+    infrastructure_bytes = committed_bytes(PACKET / 'INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json')
+    require(hashlib.sha256(infrastructure_bytes).hexdigest() == INFRASTRUCTURE_FAMILY_SHA256,
+            'Infrastructure family applied packet changed')
+    infrastructure = json.loads(infrastructure_bytes)
+    removed.update(check_infrastructure_family(infrastructure, tree(INFRASTRUCTURE_FAMILY_IMPLEMENTATION + '^'),
+                                               tree(INFRASTRUCTURE_FAMILY_IMPLEMENTATION), removed))
+    require(len(removed) == 2198, 'executed removal count changed')
     overlay_bytes = committed_bytes(PACKET / 'EXECUTION_OVERLAY.json')
     overlay = json.loads(overlay_bytes)
     require(overlay['status'] == 'complete' and not overlay['missing_entries'],
@@ -502,6 +561,7 @@ def run():
                     'CodeFriend family archive bytes changed')
     check_csdlc_custody(csdlc, archive_path)
     check_runtime_custody(runtime, archive_path)
+    check_infrastructure_custody(infrastructure)
     scanned = {}
     for component in COMPONENTS:
         names = ('RETIREMENT_BATCH_01_DDNS', 'RETIREMENT_BATCH_02_LOG_ARCHIVE',
@@ -531,7 +591,7 @@ def run():
         check_references(refs, allowed)
         scanned[component] = len(refs)
     return {'schema': 'adl.source_retirement.guard.v1', 'status': 'passed', 'head': git('rev-parse', 'HEAD'),
-            'candidate_rows': 4134, 'existing_branch_removals': 34, 'approved_component_removals': 36, 'public_cutover_removals': 1, 'codefriend_helper_removals': 6, 'codefriend_family_removals': 198, 'csdlc_family_removals': 815, 'additional_inventory_paths': 22, 'total_removals': len(removed), 'direct_reference_files': scanned,
+            'candidate_rows': 4134, 'existing_branch_removals': 34, 'approved_component_removals': 36, 'public_cutover_removals': 1, 'codefriend_helper_removals': 6, 'codefriend_family_removals': 198, 'csdlc_family_removals': 815, 'runtime_family_removals': 896, 'infrastructure_family_removals': 212, 'additional_inventory_paths': 22, 'total_removals': len(removed), 'direct_reference_files': scanned,
             'limits': ['Preparation guard only; no new deletion approval.',
                        'Direct component-path references only; dynamic and indirect consumers still require review.',
                        'Rollback digest is checked separately from functional restore and installed product proof.',

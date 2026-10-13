@@ -316,5 +316,53 @@ class RuntimeFamilyTests(unittest.TestCase):
                 check.check_runtime_custody(batch, Path(tmp) / 'unused-original.tar.gz')
 
 
+
+
+class InfrastructureFamilyTests(unittest.TestCase):
+    # PVF: deterministic local guard unit tests; small CPU/disk; no owner execution.
+    @classmethod
+    def setUpClass(cls):
+        cls.batch = check.committed_json(check.PACKET / 'INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json')
+        cls.before = check.tree(check.INFRASTRUCTURE_FAMILY_IMPLEMENTATION + '^')
+        cls.after = check.tree(check.INFRASTRUCTURE_FAMILY_IMPLEMENTATION)
+
+    def test_exact_scope_and_repeat_refusal(self):
+        paths = check.check_infrastructure_family(self.batch, self.before, self.after, set())
+        self.assertEqual(len(paths), 212)
+        with self.assertRaisesRegex(ValueError, 'removal scope changed'):
+            check.check_infrastructure_family(self.batch, self.before, self.after, paths)
+
+    def test_identity_substitution_and_resurrection_refuse(self):
+        row = next(r for r in self.batch['files'] if r['action'] == 'remove')
+        altered = copy.deepcopy(self.batch)
+        next(r for r in altered['files'] if r['action'] == 'remove')['id'] = 'RD07-9999'
+        with self.assertRaisesRegex(ValueError, 'removal scope changed'):
+            check.check_infrastructure_family(altered, self.before, self.after, set())
+        after = dict(self.after)
+        after[row['path']] = self.before[row['path']]
+        with self.assertRaisesRegex(ValueError, 'applied identity mismatch'):
+            check.check_infrastructure_family(self.batch, self.before, after, set())
+
+    def test_caller_and_custody_drift_refuse(self):
+        caller = next(r for r in self.batch['files'] if r['action'] != 'remove')
+        after = dict(self.after)
+        after[caller['path']] = ['100755', '0'*40]
+        with self.assertRaisesRegex(ValueError, 'applied identity mismatch'):
+            check.check_infrastructure_family(self.batch, self.before, after, set())
+        altered = copy.deepcopy(self.batch)
+        altered['files'][0]['rollback']['sha256'] = '0'*64
+        with self.assertRaisesRegex(ValueError, 'custody identity mismatch'):
+            check.check_infrastructure_family(altered, self.before, self.after, set())
+
+    def test_substituted_archive_refuses(self):
+        altered = copy.deepcopy(self.batch)
+        with tempfile.TemporaryDirectory() as tmp:
+            fake = Path(tmp)/'substituted.tar'
+            fake.write_bytes(b'not the pinned archive')
+            altered['files'][0]['rollback']['archive'] = str(fake)
+            with self.assertRaisesRegex(ValueError, 'archive changed'):
+                check.check_infrastructure_custody(altered)
+
+
 if __name__ == '__main__':
     unittest.main()

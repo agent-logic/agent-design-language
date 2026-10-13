@@ -94,4 +94,6 @@ Runtime #149 / PR #156 exact candidate `ebfc8d84` now supplies conditional owner
 
 Three delivered Infrastructure CSM manual scripts now have reviewed owner navigation and conditional transfer dispositions. Their live acceptance obligations remain explicit; see `CSM_MANUAL_CALLER_RECONCILIATION.json`.
 
-C-SDLC source-family implementation f598c0711d9b270a5b304c7cde64dcdf3068619e applied815 exact removals. RD07-3076 left holds using the existing five-case proof and admitted owner package; CSDLC_SOURCE_FAMILY_APPLIED.json preserves changed historical contract boundaries. Prior275 removals remain, giving1090 executed removals. This grouping grants no further removal authority.
+C-SDLC source-family implementation f598c0711d9b270a5b304c7cde64dcdf3068619e applied815 exact removals. RD07-3076 left holds using the existing five-case proof and admitted owner package; CSDLC_SOURCE_FAMILY_APPLIED.json preserves changed historical contract boundaries. Prior275 removals remain, giving1090 executed removals at that historical boundary. This grouping grants no further removal authority.
+
+Infrastructure source-family implementation ddfe457ebbc2107ee349abf61ba27d57c35b5c37 adds212 exact removals and20 caller repairs to the historical Runtime-integrated1986 total, giving2198 executed removals. All 17 current acceptance holds and original identities remain unchanged. INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json preserves source custody and offline/live limits; this grouping grants no further removal authority.
