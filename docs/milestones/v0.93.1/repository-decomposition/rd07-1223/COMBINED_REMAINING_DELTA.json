@@ -14,9 +14,9 @@
     "proposed_owner_transfer_with_consumer_qualification": 471,
     "proposed_remove_construction_qualified_infrastructure": 216,
     "proposed_remove_with_entire_source_family": 1874,
-    "proposed_remove_with_entire_tool_family": 719,
+    "proposed_remove_with_entire_tool_family": 718,
     "retain_public_source_or_fixture": 68,
-    "retain_resolved": 459
+    "retain_resolved": 460
   },
   "additional_current_source_paths": 19,
   "preservation": "Original inventory and baseline archive unchanged;70 prior approved removals preserved; no new deletion applied",
@@ -45859,18 +45859,21 @@
         "blob": "f39e7382e9eed67624bc197dba77e513db740782"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/test_archive_run_artifacts.sh"
         ]
+      },
+      "prior_proposed_action": "proposed_remove_with_entire_tool_family",
+      "retention_disposition": {
+        "reason": "Retain unchanged ADL archive utility test alongside retained RD07-1237.",
+        "packet": "ARCHIVE_TEST_RETENTION.json",
+        "sha256": "0c2cf56af3ebfc2cec0b011cbb873f223e852b3b369e750b21710d7610b1cdc8",
+        "scope": "No new test execution or pass claim. Existing test source retained; final public validation scheduling remains separate."
       }
     },
     {
