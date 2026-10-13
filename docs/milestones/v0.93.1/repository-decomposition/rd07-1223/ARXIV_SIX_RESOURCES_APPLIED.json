@@ -1,0 +1,358 @@
+{
+  "schema": "adl1223.arxiv_six_retirement.v1",
+  "status": "applied_reviewed_qualified_resource_transfer",
+  "source_head": "d064f658fbbdc464931075972a5d45b218a36c40",
+  "removed_count": 6,
+  "rows": [
+    {
+      "id": "RD07-1561",
+      "path": "adl/tools/skills/arxiv-paper-writer/SKILL.md",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "4f09baf65daae8dc66890518cc305d99a24ffc8b"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/skills/arxiv-paper-writer/SKILL.md"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1562",
+      "path": "adl/tools/skills/arxiv-paper-writer/adl-skill.yaml",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "6d093624217eb4e807d95fd4c567b51944b3a575"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/skills/arxiv-paper-writer/adl-skill.yaml"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1563",
+      "path": "adl/tools/skills/arxiv-paper-writer/agents/openai.yaml",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "0a3a7b645925349ffa2aee1597734073704c5d75"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/skills/arxiv-paper-writer/agents/openai.yaml"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1564",
+      "path": "adl/tools/skills/arxiv-paper-writer/references/arxiv-writing-playbook.md",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "05116161c1ca3aaa4c35449f7ed02da4ec7db436"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/skills/arxiv-paper-writer/references/arxiv-writing-playbook.md"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1565",
+      "path": "adl/tools/skills/arxiv-paper-writer/references/output-contract.md",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "82016d6bd6d3c904749a4e74e4ec223b6be416c6"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/skills/arxiv-paper-writer/references/output-contract.md"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1582",
+      "path": "adl/tools/skills/docs/ARXIV_PAPER_WRITER_SKILL_INPUT_SCHEMA.md",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "ecd1800f3a9e6475fb12f4aa8d820e0893e0489f"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Retained ADL callers redirect to packaged owner skill resources",
+        "Behavioral script assertions preserved in separately bounded owner repair packet"
+      ],
+      "successor_mapping": {
+        "mapping": "unmapped",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "REVIEWED_SKILL_OWNER_TRANSFERS.json",
+        "packet_sha256": "533b7ff42008e116789ff31034d28082d1b7bea7c320bf061cd1e4919b77dab4",
+        "proposal": "owner path/example-root adaptation only",
+        "successor": {
+          "owner": "runtime",
+          "path": "adl/tools/skills/docs/ARXIV_PAPER_WRITER_SKILL_INPUT_SCHEMA.md",
+          "mode": "100644",
+          "blob": "7447ae975a892734f4aef5969319265698307430",
+          "head": "5afeac36e54f0b96de7cbd0233443ae9a9351067",
+          "original_blob_matches": false,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "adl/tools/skills/arxiv-paper-writer/SKILL.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "4f09baf65daae8dc66890518cc305d99a24ffc8b",
+        "sha256": "686bddca88d2542b7fc79185cee917d8dcc4ccc8306acb0549913671348ca711"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/arxiv-paper-writer/adl-skill.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "6d093624217eb4e807d95fd4c567b51944b3a575",
+        "sha256": "cbb5e90dd32648bb5cfd9d8960c44bb94be6d957c0515119fcc071eeefcf01d3"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/arxiv-paper-writer/agents/openai.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "0a3a7b645925349ffa2aee1597734073704c5d75",
+        "sha256": "3b133c476a743b5fc98ea79785baabe5ee8bb66a8f93a2d61011c601817a235a"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/arxiv-paper-writer/references/arxiv-writing-playbook.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "05116161c1ca3aaa4c35449f7ed02da4ec7db436",
+        "sha256": "07c24e6ff3410208d10747a52e217d7ebf1aa04115d6ed6f92da46779a381279"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/arxiv-paper-writer/references/output-contract.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "82016d6bd6d3c904749a4e74e4ec223b6be416c6",
+        "sha256": "b24eb097fe8d8be8ba1fdb69e55d4f4f3b02fefb8cfc03118851549f957f3f05"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/docs/ARXIV_PAPER_WRITER_SKILL_INPUT_SCHEMA.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "ecd1800f3a9e6475fb12f4aa8d820e0893e0489f",
+        "sha256": "80ff3b2829aa0d8d67845a4b69eaeede76ece43642857f6e1af7e98970d306b1"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/docs/OPERATIONAL_SKILLS_GUIDE.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "4c727676265d7809fe0821edd7e2323cff789c90",
+        "sha256": "dbb703326f57f13799385256c3554bb139e1f3f29f8c8c724c8041770d53d850"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "58efb746bef29b143a173bb3bb64811c5f6b4221",
+        "sha256": "4f3ea4c4705d1e2096cefabcd06f78ec90e6466580f30278d15d29474e22513e"
+      }
+    },
+    {
+      "path": "adl/tools/test_arxiv_paper_writer_skill_contracts.sh",
+      "action": "modify",
+      "before": {
+        "mode": "100755",
+        "blob": "c8ed77fcc08c09a7a57092355e94b53c940ae56d",
+        "sha256": "5da417963d3531a185551c27a6d35d7aaca0e64ebed754f84e3a1251c989812c"
+      },
+      "after": {
+        "mode": "100755",
+        "blob": "f10163794d04188be58f912ce35aa64e9483551c",
+        "sha256": "12051607c71d92b66900e7c4564f779881afdb2a0c249260c9e9cf6c171823cf"
+      }
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "874e21ebcec69b09c2985e415b8e3a54c29904ac",
+        "sha256": "c50dff5746f9ff16a410d73d052454df2d3fe71a2fc7b3037e8e802bdded0102"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "51028b3489dea771d22763f421001777529c3adf",
+        "sha256": "ef6b6d41ded5be42245b0ea1e99d068b5c8b41bc324af5db5787968032976395"
+      }
+    }
+  ],
+  "qualification": {
+    "status": "PASS",
+    "original_tests_started": 1,
+    "exit": 0,
+    "timeout": false,
+    "seconds": 0.12966708300518803,
+    "source_before_after_exact": true,
+    "denominator": {
+      "original_bash_scripts": 1,
+      "file_existence_assertions": 6,
+      "literal_grep_assertions": 9,
+      "frontmatter_validator_invocations": 1,
+      "skill_files_frontmatter_validated": 1
+    },
+    "scope": "Retained genuine ADL resource consumer against six Runtime resources and shared ADL frontmatter validator. Not standalone owner suite/installed/drafting/provider/submission proof."
+  },
+  "owner_revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+  "custody": {
+    "path": "/Volumes/FastWork/c1223/runtime-arxiv-six-plan/retirement-r2/current-and-original-preimages.tar",
+    "sha256": "097332a00356c71886771ae997bbc3dc8e50601aebfcbf70af3433ad1ed3af24",
+    "current_members": 9,
+    "original_members": 6
+  },
+  "evidence": [
+    {
+      "path": "/Volumes/FastWork/c1223/runtime-arxiv-six-plan/PLAN.json",
+      "sha256": "44cc0d9fead4e86d127a0ac06613796817350f6cb970271b4ddc3631d052bec8"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime-arxiv-six-plan/OWNER_SCHEMA_DELTA.diff",
+      "sha256": "fac82d1f5afc4e3e3976bf5b23a51b60731cd3dc9645f9534e90d26d8aa947d7"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime-arxiv-six-plan/current-and-owner-custody.tar",
+      "sha256": "32e22cab22daa229a441722ad1d774b195740df61292b9194400723e406acd49"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime-arxiv-six-plan/execution/RESULT.json",
+      "sha256": "db8446fd09b10d5ea761d54d3da1727a4616cbf9977b4ab50270824a041d27e3"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime-arxiv-six-plan/execution/original.stdout",
+      "sha256": "b121aeca0ff67df923d59b9b7e3473e2d5f59e43f41f759c3d60b126bc7c84d1"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime-arxiv-six-plan/execution/original.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime-arxiv-six-plan/execution/preflight.stdout",
+      "sha256": "2f190d2d329b6461fe3a270aa4bbc0b422c5de5feb266e67df791ef137ad2694"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime-arxiv-six-plan/execute.py",
+      "sha256": "4d85dd36bb80adf51ef985066471a4d766f15d07fe3c0e85f079ff05f349f73e"
+    }
+  ],
+  "patch": {
+    "path": "/Volumes/FastWork/c1223/runtime-arxiv-six-plan/retirement-r2/arxiv-six-and-callers.patch",
+    "sha256": "2f827172b8e4c5e018a39700b2689ddbb1385b483293f5bc1362cace1517c4a4"
+  },
+  "preservation": [
+    "Original1909 assertion body byte-identical following skills_root assignment; shared ADL frontmatter validator retained.",
+    "Six Runtime hashes/modes required before all original assertions; no partial directory denominator.",
+    "Full original installer uses explicit complete separate source root; bundle assertions untouched.",
+    "Current guide owner navigation and actual registryminus1; descriptive skill-name mentions in demo packet are labels, not file reads."
+  ],
+  "limits": [
+    "One retained ADL original resource test: six presence checks, nine grep checks, one frontmatter invocation.",
+    "Five owner files exact; schema only two example source-root paths normalized, not full schema behavior proof.",
+    "Runtime originaltest exists but shared frontmatter helper absent; no standalone Runtime suite/installed/drafting/submission claim.",
+    "Inert prefix routing validation planned separately; no original test rerun."
+  ],
+  "issue": 1223,
+  "review": {
+    "reviewer": "review_1223_applied_components",
+    "result": "PASS",
+    "findings": []
+  },
+  "routing_validation": {
+    "result": "PASS",
+    "path": "/Volumes/FastWork/c1223/runtime-arxiv-six-plan/retirement/preflight-execution/RESULT.json",
+    "sha256": "137aa0e987d22cb69c2431e7bf117ab15cd6678d00e78a2b39cce0f0df2eef33",
+    "cases": 7,
+    "original_tests_rerun": 0
+  },
+  "validation": {
+    "registry": "actual generator matches reviewed afterimage",
+    "proof": "one genuine retained ADL original test against six Runtime resources; not standalone owner suite"
+  }
+}

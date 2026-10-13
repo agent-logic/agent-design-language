@@ -2497,6 +2497,14 @@ execution, or remediation.
 
 ## `arxiv-paper-writer`
 
+This resource family is owned by Runtime. Select the reviewed Runtime checkout
+with `ADL_ARXIV_SKILL_SOURCE_ROOT`; the retained ADL contract test verifies all
+six resource hashes before checking the original assertions with the shared ADL
+frontmatter validator. This is source-resource proof, not installed drafting or
+arXiv submission acceptance. The full-layout installer retains its separate
+`ADL_OPERATIONAL_SKILLS_SOURCE_ROOT` input and original bundle assertions.
+
+
 ### Purpose
 
 `arxiv-paper-writer` drafts or reviews one arXiv-style manuscript packet from a
@@ -2536,7 +2544,7 @@ Minimum:
 
 Canonical schema:
 
-- `adl/tools/skills/docs/ARXIV_PAPER_WRITER_SKILL_INPUT_SCHEMA.md`
+- `$ADL_ARXIV_SKILL_SOURCE_ROOT/adl/tools/skills/docs/ARXIV_PAPER_WRITER_SKILL_INPUT_SCHEMA.md`
 
 Schema id:
 
@@ -2588,7 +2596,7 @@ unbounded research.
 ### Example Invocation
 
 ```yaml
-Use $arxiv-paper-writer at <repo-root>/adl/tools/skills/arxiv-paper-writer/SKILL.md with:
+Use $arxiv-paper-writer at <selected-runtime-root>/adl/tools/skills/arxiv-paper-writer/SKILL.md with:
 skill_input_schema: arxiv_paper_writer.v1
 mode: draft_from_source_packet
 repo_root: <repo-root>
