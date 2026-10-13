@@ -30,7 +30,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 8
 - `supported shim`: 0
-- `internal helper`: 474
+- `internal helper`: 467
 - `historical evidence`: 31
 - `archive candidate`: 0
 - `remove candidate`: 0
@@ -126,10 +126,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/demo_v089_gemma4_issue_clerk.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v089_medium_article_writing.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v089_multi_agent_repo_code_review.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
-| `adl/tools/demo_v089_proof_entrypoints.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
-| `adl/tools/demo_v089_review_surface.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v0901_csm_observatory.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
-| `adl/tools/demo_v0902_multi_agent_repo_review_proof.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v0902_paper_sonata_expansion.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v090_architecture_document_generation.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v090_codebuddy_review_showcase.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
@@ -330,11 +327,8 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_demo_v089_gemma4_issue_clerk.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v089_medium_article_writing.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v089_multi_agent_repo_code_review.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_demo_v089_proof_entrypoints.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_demo_v089_review_surface.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v0901_csm_observatory_operator_report.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v0902_arxiv_writer_field_test.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_demo_v0902_multi_agent_repo_review_proof.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v0902_paper_sonata_expansion.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v0904_csm_observatory_governed_prototype.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v090_architecture_document_generation.sh` | tool surface | internal helper | Focused regression or contract test helper. |
@@ -501,7 +495,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/validate_software_development_polis_packet.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_transition_dag_packet.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_v086_control_path.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
-| `adl/tools/validate_v0902_multi_agent_repo_review_proof.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_v0902_paper_sonata_expansion.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_v0913_quality_gate_review_surfaces.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_v0914_csdlc_evidence_bundle.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |

@@ -1,5 +1,13 @@
 # ADL Demos
 
+> These packet generators moved to `agent-logic-infrastructure`. Set
+> `ADL_INFRASTRUCTURE_SOURCE_ROOT` to an absolute checkout at reviewed revision
+> `025850d265cbd1a55b28a8e9b238b2fe0bfcaf1d` before using the owner commands below.
+> The three original offline tests qualified generated packet shape and redaction;
+> they did not execute the represented skills, embedded Cargo commands, or live providers.
+> This retained ADL guide preserves historical scenario context, not current runtime acceptance.
+
+
 `demos/` is the canonical user-facing entrypoint for finding and running ADL demos from repository root.
 
 ## Start Here
@@ -71,7 +79,7 @@ bash adl/tools/demo_v089_multi_agent_repo_code_review.sh
 If you want the stricter v0.90.2 multi-agent repo-review proof packet:
 
 ```bash
-bash adl/tools/demo_v0902_multi_agent_repo_review_proof.sh
+(cd "${ADL_INFRASTRUCTURE_SOURCE_ROOT:?set an absolute Infrastructure checkout}" && bash adl/tools/demo_v0902_multi_agent_repo_review_proof.sh)
 ```
 
 If you want the v0.90.2 Paper Sonata manuscript review/revision proof packet:
@@ -215,7 +223,7 @@ guide. It ties D1 through D7 to one reviewer flow and points at the bounded
 proof-entrypoint manifest produced by:
 
 ```bash
-bash adl/tools/demo_v089_proof_entrypoints.sh
+(cd "${ADL_INFRASTRUCTURE_SOURCE_ROOT:?set an absolute Infrastructure checkout}" && bash adl/tools/demo_v089_proof_entrypoints.sh)
 ```
 
 That command writes a lightweight review packet at:
@@ -223,7 +231,7 @@ That command writes a lightweight review packet at:
 - `artifacts/v089/proof_entrypoints/README.md`
 - `artifacts/v089/proof_entrypoints/index.txt`
 
-Use `bash adl/tools/demo_v089_review_surface.sh` when you want the integrated
+Use `(cd "${ADL_INFRASTRUCTURE_SOURCE_ROOT:?set an absolute Infrastructure checkout}" && bash adl/tools/demo_v089_review_surface.sh)` when you want the integrated
 `v0.89` reviewer package instead of the lighter row-entry map. It emits:
 - `artifacts/v089/review_surface/demo_manifest.json`
 - `artifacts/v089/review_surface/claim_matrix.md`
@@ -295,7 +303,7 @@ staged `review-quality-evaluator` lane from `#2070` lands.
 - `v0.90.2/multi_agent_repo_review_proof_demo.md`
 - `v0.90.2/paper_sonata_expansion_demo.md`
 
-Use `bash adl/tools/demo_v0902_multi_agent_repo_review_proof.sh` for the
+Use `(cd "${ADL_INFRASTRUCTURE_SOURCE_ROOT:?set an absolute Infrastructure checkout}" && bash adl/tools/demo_v0902_multi_agent_repo_review_proof.sh)` for the
 stricter multi-agent repo-review proof packet. It is fixture-backed and
 deterministic, but it validates a stronger review contract than the original
 v0.89 demo: specialist boundaries, findings-first synthesis, explicit
