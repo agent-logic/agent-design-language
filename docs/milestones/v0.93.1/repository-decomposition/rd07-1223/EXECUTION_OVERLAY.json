@@ -6,7 +6,7 @@
   "execution_authorized": false,
   "original_inventory_count": 4134,
   "additional_inventory_count": 22,
-  "executed_deletion_count": 2860,
+  "executed_deletion_count": 2878,
   "entries": [
     {
       "path": ".github/workflows/ci.yaml",
@@ -57279,7 +57279,7 @@
       "before": null,
       "after": [
         "100644",
-        "d70cbedd205f5115fb665676eecb3d4fbf19f825"
+        "77d348cc679d2a8400e6eccc33c1c25f35fb76ac"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json",
@@ -57780,6 +57780,30 @@
             "d70cbedd205f5115fb665676eecb3d4fbf19f825"
           ],
           "packet": "RUNTIME_ISSUE268_THIRTEEN_APPLIED.json"
+        },
+        {
+          "commit": "d64cd014be9e125425840c93432d6d06da1ef455",
+          "before": [
+            "100644",
+            "d70cbedd205f5115fb665676eecb3d4fbf19f825"
+          ],
+          "after": [
+            "100644",
+            "5cd8c5ad3b3150577f1749a594c553644af3a3ae"
+          ],
+          "packet": "STOCK_LEAGUE_SIX_APPLIED.json"
+        },
+        {
+          "commit": "334494894768470c8cd67b573d1ea7004f318bdb",
+          "before": [
+            "100644",
+            "5cd8c5ad3b3150577f1749a594c553644af3a3ae"
+          ],
+          "after": [
+            "100644",
+            "77d348cc679d2a8400e6eccc33c1c25f35fb76ac"
+          ],
+          "packet": "ARCHIVE_PAIR_APPLIED.json"
         }
       ],
       "prior_execution_provenance": [
@@ -65021,7 +65045,7 @@
       "before": null,
       "after": [
         "100644",
-        "c8e2b56d54a7705b3f662e308224d379a6cced1a"
+        "46f423677e1233936494c8f64f207ad2a66aea66"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "Infrastructure212 source commit guard-documentation accompaniment",
@@ -65306,6 +65330,18 @@
             "c8e2b56d54a7705b3f662e308224d379a6cced1a"
           ],
           "packet": "Medium six, refusal twelve and issue268 Runtime thirteen integration"
+        },
+        {
+          "commit": "pending_reviewed_integration",
+          "before": [
+            "100644",
+            "c8e2b56d54a7705b3f662e308224d379a6cced1a"
+          ],
+          "after": [
+            "100644",
+            "46f423677e1233936494c8f64f207ad2a66aea66"
+          ],
+          "packet": "Stock, historical workflows and archive integration"
         }
       ],
       "prior_execution_provenance": [
@@ -81273,7 +81309,7 @@
       ],
       "after": [
         "100755",
-        "e69145012acc9698df466dfcdced6e7317785fa0"
+        "95bfc281293d32b23d75c8c41ae205f94e58e28a"
       ],
       "action": "modify",
       "implementation_commit": "3788ec9b21de45669bc4b770ef44cde787a6773b",
@@ -81305,6 +81341,18 @@
             "e69145012acc9698df466dfcdced6e7317785fa0"
           ],
           "packet": "WP14_RETIRED_WORKFLOWS_APPLIED.json"
+        },
+        {
+          "commit": "7d59da3c24af1f23e619bfaa82c35d045d0937ae",
+          "before": [
+            "100755",
+            "e69145012acc9698df466dfcdced6e7317785fa0"
+          ],
+          "after": [
+            "100755",
+            "95bfc281293d32b23d75c8c41ae205f94e58e28a"
+          ],
+          "packet": "HISTORICAL_NATIVE_WORKFLOW_TEN_APPLIED.json"
         }
       ]
     },
@@ -81784,7 +81832,7 @@
       ],
       "after": [
         "100644",
-        "f8ffa6cb74c2fd92053f03556da9d9a6a26af444"
+        "3329d9cd2da02159977aaf8ac2e17d7d62ccdff6"
       ],
       "action": "modify",
       "implementation_commit": "ba90cf9dc1ca7388610444da604fb76491f17149",
@@ -81876,6 +81924,30 @@
             "f8ffa6cb74c2fd92053f03556da9d9a6a26af444"
           ],
           "packet": "CSM_SIX_RESOURCES_APPLIED.json"
+        },
+        {
+          "commit": "7d59da3c24af1f23e619bfaa82c35d045d0937ae",
+          "before": [
+            "100644",
+            "f8ffa6cb74c2fd92053f03556da9d9a6a26af444"
+          ],
+          "after": [
+            "100644",
+            "0a542464687ac14ba327162389c125c3223731f6"
+          ],
+          "packet": "HISTORICAL_NATIVE_WORKFLOW_TEN_APPLIED.json"
+        },
+        {
+          "commit": "334494894768470c8cd67b573d1ea7004f318bdb",
+          "before": [
+            "100644",
+            "0a542464687ac14ba327162389c125c3223731f6"
+          ],
+          "after": [
+            "100644",
+            "3329d9cd2da02159977aaf8ac2e17d7d62ccdff6"
+          ],
+          "packet": "ARCHIVE_PAIR_APPLIED.json"
         }
       ]
     },
@@ -83742,7 +83814,7 @@
       ],
       "after": [
         "100644",
-        "41c7fdf620f72a4d36ad72fe309aeb95082ab16b"
+        "9a17d3829d30024ddd5c28d365b4b1a6b98d1cc3"
       ],
       "action": "modify",
       "implementation_commit": "9d98857c60448cd1af48508e2377e6bc3649b75b",
@@ -83774,6 +83846,18 @@
             "41c7fdf620f72a4d36ad72fe309aeb95082ab16b"
           ],
           "packet": "HISTORICAL_QUALITY_EIGHT_APPLIED.json"
+        },
+        {
+          "commit": "d64cd014be9e125425840c93432d6d06da1ef455",
+          "before": [
+            "100644",
+            "41c7fdf620f72a4d36ad72fe309aeb95082ab16b"
+          ],
+          "after": [
+            "100644",
+            "9a17d3829d30024ddd5c28d365b4b1a6b98d1cc3"
+          ],
+          "packet": "STOCK_LEAGUE_SIX_APPLIED.json"
         }
       ]
     },
@@ -88254,6 +88338,582 @@
           "packet": "RUNTIME_ISSUE268_THIRTEEN_APPLIED.json"
         }
       ]
+    },
+    {
+      "path": "adl/tools/demo_v0891_long_lived_stock_league.sh",
+      "before": [
+        "100755",
+        "d0be27834bf930ac3b716089d9bc0b8a510ae94c"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "d64cd014be9e125425840c93432d6d06da1ef455",
+      "approval_reference": "STOCK_LEAGUE_SIX_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "d64cd014be9e125425840c93432d6d06da1ef455",
+          "before": [
+            "100755",
+            "d0be27834bf930ac3b716089d9bc0b8a510ae94c"
+          ],
+          "after": null,
+          "packet": "STOCK_LEAGUE_SIX_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "STOCK_LEAGUE_SIX_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-stock-league-six-plan/retirement/current-and-original-preimages.tar",
+        "archive_sha256": "311b07ee0af9248ab12e070d7031659274fc991fd6e6869337b6df773f74ec9e",
+        "member": "current/adl/tools/demo_v0891_long_lived_stock_league.sh",
+        "mode": "100755",
+        "blob": "d0be27834bf930ac3b716089d9bc0b8a510ae94c",
+        "sha256": "40d2f537434187e45032be37f62a37ea39979b4a9a712e6c41a47935c0b64bab"
+      }
+    },
+    {
+      "path": "adl/tools/stock_league_demo.py",
+      "before": [
+        "100755",
+        "fd95392ad538705c065c1b2837492a356e7c0283"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "d64cd014be9e125425840c93432d6d06da1ef455",
+      "approval_reference": "STOCK_LEAGUE_SIX_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "d64cd014be9e125425840c93432d6d06da1ef455",
+          "before": [
+            "100755",
+            "fd95392ad538705c065c1b2837492a356e7c0283"
+          ],
+          "after": null,
+          "packet": "STOCK_LEAGUE_SIX_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "STOCK_LEAGUE_SIX_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-stock-league-six-plan/retirement/current-and-original-preimages.tar",
+        "archive_sha256": "311b07ee0af9248ab12e070d7031659274fc991fd6e6869337b6df773f74ec9e",
+        "member": "current/adl/tools/stock_league_demo.py",
+        "mode": "100755",
+        "blob": "fd95392ad538705c065c1b2837492a356e7c0283",
+        "sha256": "fcb4e6afce4068fa5324ab85dadc6df7d57916ef6256c16a9eee267ef0486d1b"
+      }
+    },
+    {
+      "path": "adl/tools/test_demo_v0891_long_lived_stock_league.sh",
+      "before": [
+        "100755",
+        "bb9aec1f2eadd02ea7693ad72e59b55dccd273d0"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "d64cd014be9e125425840c93432d6d06da1ef455",
+      "approval_reference": "STOCK_LEAGUE_SIX_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "d64cd014be9e125425840c93432d6d06da1ef455",
+          "before": [
+            "100755",
+            "bb9aec1f2eadd02ea7693ad72e59b55dccd273d0"
+          ],
+          "after": null,
+          "packet": "STOCK_LEAGUE_SIX_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "STOCK_LEAGUE_SIX_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-stock-league-six-plan/retirement/current-and-original-preimages.tar",
+        "archive_sha256": "311b07ee0af9248ab12e070d7031659274fc991fd6e6869337b6df773f74ec9e",
+        "member": "current/adl/tools/test_demo_v0891_long_lived_stock_league.sh",
+        "mode": "100755",
+        "blob": "bb9aec1f2eadd02ea7693ad72e59b55dccd273d0",
+        "sha256": "0b5c6024183e109c25b2137e2e29cd68de9935b5e113631da1df693b38e94e81"
+      }
+    },
+    {
+      "path": "demos/fixtures/long_lived_stock_league/market_fixture.json",
+      "before": [
+        "100644",
+        "2b8933d296299525941ee13219bb0ceed03766ea"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "d64cd014be9e125425840c93432d6d06da1ef455",
+      "approval_reference": "STOCK_LEAGUE_SIX_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "d64cd014be9e125425840c93432d6d06da1ef455",
+          "before": [
+            "100644",
+            "2b8933d296299525941ee13219bb0ceed03766ea"
+          ],
+          "after": null,
+          "packet": "STOCK_LEAGUE_SIX_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "STOCK_LEAGUE_SIX_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-stock-league-six-plan/retirement/current-and-original-preimages.tar",
+        "archive_sha256": "311b07ee0af9248ab12e070d7031659274fc991fd6e6869337b6df773f74ec9e",
+        "member": "current/demos/fixtures/long_lived_stock_league/market_fixture.json",
+        "mode": "100644",
+        "blob": "2b8933d296299525941ee13219bb0ceed03766ea",
+        "sha256": "86fe5d60c1e22c76af9ed51ea62708cfbff44dc4d3893c4ec6e7c500623dbdaa"
+      }
+    },
+    {
+      "path": "demos/fixtures/long_lived_stock_league/model_roster_fixture.json",
+      "before": [
+        "100644",
+        "4371afdefa64e13a5875d0882cff70d556aa3c72"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "d64cd014be9e125425840c93432d6d06da1ef455",
+      "approval_reference": "STOCK_LEAGUE_SIX_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "d64cd014be9e125425840c93432d6d06da1ef455",
+          "before": [
+            "100644",
+            "4371afdefa64e13a5875d0882cff70d556aa3c72"
+          ],
+          "after": null,
+          "packet": "STOCK_LEAGUE_SIX_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "STOCK_LEAGUE_SIX_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-stock-league-six-plan/retirement/current-and-original-preimages.tar",
+        "archive_sha256": "311b07ee0af9248ab12e070d7031659274fc991fd6e6869337b6df773f74ec9e",
+        "member": "current/demos/fixtures/long_lived_stock_league/model_roster_fixture.json",
+        "mode": "100644",
+        "blob": "4371afdefa64e13a5875d0882cff70d556aa3c72",
+        "sha256": "0be25f2c9c7f807b1be64b4cab2f9c0385ca7137790ab4471aad91e2fcb5577d"
+      }
+    },
+    {
+      "path": "demos/v0.89.1/long_lived_stock_league_demo.md",
+      "before": [
+        "100644",
+        "86c3bc51812bc1d23492bc776d485a0a57578636"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "d64cd014be9e125425840c93432d6d06da1ef455",
+      "approval_reference": "STOCK_LEAGUE_SIX_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "d64cd014be9e125425840c93432d6d06da1ef455",
+          "before": [
+            "100644",
+            "86c3bc51812bc1d23492bc776d485a0a57578636"
+          ],
+          "after": null,
+          "packet": "STOCK_LEAGUE_SIX_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "STOCK_LEAGUE_SIX_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-stock-league-six-plan/retirement/current-and-original-preimages.tar",
+        "archive_sha256": "311b07ee0af9248ab12e070d7031659274fc991fd6e6869337b6df773f74ec9e",
+        "member": "current/demos/v0.89.1/long_lived_stock_league_demo.md",
+        "mode": "100644",
+        "blob": "86c3bc51812bc1d23492bc776d485a0a57578636",
+        "sha256": "c6c941535d8e1dcdbe2a1f24ea5cee5ba245d0e55d4de5ef692cd5d129162fb9"
+      }
+    },
+    {
+      "path": ".github/workflows/wp04-native-distributed.yml",
+      "before": [
+        "100644",
+        "b47313be98f854122449ff86594bd4fbf4c7fdbc"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "7d59da3c24af1f23e619bfaa82c35d045d0937ae",
+      "approval_reference": "HISTORICAL_NATIVE_WORKFLOW_TEN_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "7d59da3c24af1f23e619bfaa82c35d045d0937ae",
+          "before": [
+            "100644",
+            "b47313be98f854122449ff86594bd4fbf4c7fdbc"
+          ],
+          "after": null,
+          "packet": "HISTORICAL_NATIVE_WORKFLOW_TEN_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "HISTORICAL_NATIVE_WORKFLOW_TEN_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/historical-native-workflow-ten/current-and-original-preimages.tar",
+        "archive_sha256": "5582016065e1959ea91126b9cc35b0815a2a1b308596efc41cdd11d867f8f0a8",
+        "member": "current/.github/workflows/wp04-native-distributed.yml",
+        "mode": "100644",
+        "blob": "b47313be98f854122449ff86594bd4fbf4c7fdbc",
+        "sha256": "464f082391a2a3f65dd60ff122bede71b62a8804263e387754a38df3dae08913"
+      }
+    },
+    {
+      "path": ".github/workflows/wp08-native-birthday.yml",
+      "before": [
+        "100644",
+        "8e2837dedf6db391bf54e6e181278fb233e00479"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "7d59da3c24af1f23e619bfaa82c35d045d0937ae",
+      "approval_reference": "HISTORICAL_NATIVE_WORKFLOW_TEN_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "7d59da3c24af1f23e619bfaa82c35d045d0937ae",
+          "before": [
+            "100644",
+            "8e2837dedf6db391bf54e6e181278fb233e00479"
+          ],
+          "after": null,
+          "packet": "HISTORICAL_NATIVE_WORKFLOW_TEN_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "HISTORICAL_NATIVE_WORKFLOW_TEN_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/historical-native-workflow-ten/current-and-original-preimages.tar",
+        "archive_sha256": "5582016065e1959ea91126b9cc35b0815a2a1b308596efc41cdd11d867f8f0a8",
+        "member": "current/.github/workflows/wp08-native-birthday.yml",
+        "mode": "100644",
+        "blob": "8e2837dedf6db391bf54e6e181278fb233e00479",
+        "sha256": "6588d0fc588444266a790db4ae6c242cc0193407859bf079cd990d9360c7b919"
+      }
+    },
+    {
+      "path": ".github/workflows/wp09-native-birthday-identity.yml",
+      "before": [
+        "100644",
+        "9258e78c5d53d643d618fd0bac7703f555d3906f"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "7d59da3c24af1f23e619bfaa82c35d045d0937ae",
+      "approval_reference": "HISTORICAL_NATIVE_WORKFLOW_TEN_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "7d59da3c24af1f23e619bfaa82c35d045d0937ae",
+          "before": [
+            "100644",
+            "9258e78c5d53d643d618fd0bac7703f555d3906f"
+          ],
+          "after": null,
+          "packet": "HISTORICAL_NATIVE_WORKFLOW_TEN_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "HISTORICAL_NATIVE_WORKFLOW_TEN_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/historical-native-workflow-ten/current-and-original-preimages.tar",
+        "archive_sha256": "5582016065e1959ea91126b9cc35b0815a2a1b308596efc41cdd11d867f8f0a8",
+        "member": "current/.github/workflows/wp09-native-birthday-identity.yml",
+        "mode": "100644",
+        "blob": "9258e78c5d53d643d618fd0bac7703f555d3906f",
+        "sha256": "0a2ac0356dfcea46a16eaf3b537a543ddad72dc38f046697a642abdeba5829bd"
+      }
+    },
+    {
+      "path": ".github/workflows/wp10-native-birthday-continuity.yml",
+      "before": [
+        "100644",
+        "75115f85af56144bfadbaeac71e4c596dc444ca8"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "7d59da3c24af1f23e619bfaa82c35d045d0937ae",
+      "approval_reference": "HISTORICAL_NATIVE_WORKFLOW_TEN_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "7d59da3c24af1f23e619bfaa82c35d045d0937ae",
+          "before": [
+            "100644",
+            "75115f85af56144bfadbaeac71e4c596dc444ca8"
+          ],
+          "after": null,
+          "packet": "HISTORICAL_NATIVE_WORKFLOW_TEN_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "HISTORICAL_NATIVE_WORKFLOW_TEN_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/historical-native-workflow-ten/current-and-original-preimages.tar",
+        "archive_sha256": "5582016065e1959ea91126b9cc35b0815a2a1b308596efc41cdd11d867f8f0a8",
+        "member": "current/.github/workflows/wp10-native-birthday-continuity.yml",
+        "mode": "100644",
+        "blob": "75115f85af56144bfadbaeac71e4c596dc444ca8",
+        "sha256": "2f0fa41d6433b5294c7ac13b20091c45e28e3f4d258d50e76accb336e03268d8"
+      }
+    },
+    {
+      "path": ".github/workflows/wp11-native-memory-palace.yml",
+      "before": [
+        "100644",
+        "1664a271ed4b4e7843c1fecb2a6e9f210de20fa3"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "7d59da3c24af1f23e619bfaa82c35d045d0937ae",
+      "approval_reference": "HISTORICAL_NATIVE_WORKFLOW_TEN_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "7d59da3c24af1f23e619bfaa82c35d045d0937ae",
+          "before": [
+            "100644",
+            "1664a271ed4b4e7843c1fecb2a6e9f210de20fa3"
+          ],
+          "after": null,
+          "packet": "HISTORICAL_NATIVE_WORKFLOW_TEN_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "HISTORICAL_NATIVE_WORKFLOW_TEN_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/historical-native-workflow-ten/current-and-original-preimages.tar",
+        "archive_sha256": "5582016065e1959ea91126b9cc35b0815a2a1b308596efc41cdd11d867f8f0a8",
+        "member": "current/.github/workflows/wp11-native-memory-palace.yml",
+        "mode": "100644",
+        "blob": "1664a271ed4b4e7843c1fecb2a6e9f210de20fa3",
+        "sha256": "85a8f76be8a69f632cde26f22b503109de86e60ac1b2863926966737fda2e7b9"
+      }
+    },
+    {
+      "path": ".github/workflows/wp12-native-capability-envelope.yml",
+      "before": [
+        "100644",
+        "882ddec98d2c6139fd9d51c154e5a4b67a9aaeff"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "7d59da3c24af1f23e619bfaa82c35d045d0937ae",
+      "approval_reference": "HISTORICAL_NATIVE_WORKFLOW_TEN_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "7d59da3c24af1f23e619bfaa82c35d045d0937ae",
+          "before": [
+            "100644",
+            "882ddec98d2c6139fd9d51c154e5a4b67a9aaeff"
+          ],
+          "after": null,
+          "packet": "HISTORICAL_NATIVE_WORKFLOW_TEN_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "HISTORICAL_NATIVE_WORKFLOW_TEN_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/historical-native-workflow-ten/current-and-original-preimages.tar",
+        "archive_sha256": "5582016065e1959ea91126b9cc35b0815a2a1b308596efc41cdd11d867f8f0a8",
+        "member": "current/.github/workflows/wp12-native-capability-envelope.yml",
+        "mode": "100644",
+        "blob": "882ddec98d2c6139fd9d51c154e5a4b67a9aaeff",
+        "sha256": "04c14798f9ff99a6dd1ab4dfe5216af7450fbdfceb4296329caf9723fa8be7ac"
+      }
+    },
+    {
+      "path": ".github/workflows/wp13-authority-repair.yml",
+      "before": [
+        "100644",
+        "54892448d56e0e1c48eeafeb4b41ea7c8a9b5162"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "7d59da3c24af1f23e619bfaa82c35d045d0937ae",
+      "approval_reference": "HISTORICAL_NATIVE_WORKFLOW_TEN_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "7d59da3c24af1f23e619bfaa82c35d045d0937ae",
+          "before": [
+            "100644",
+            "54892448d56e0e1c48eeafeb4b41ea7c8a9b5162"
+          ],
+          "after": null,
+          "packet": "HISTORICAL_NATIVE_WORKFLOW_TEN_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "HISTORICAL_NATIVE_WORKFLOW_TEN_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/historical-native-workflow-ten/current-and-original-preimages.tar",
+        "archive_sha256": "5582016065e1959ea91126b9cc35b0815a2a1b308596efc41cdd11d867f8f0a8",
+        "member": "current/.github/workflows/wp13-authority-repair.yml",
+        "mode": "100644",
+        "blob": "54892448d56e0e1c48eeafeb4b41ea7c8a9b5162",
+        "sha256": "5f517c9d878c029e5e311b4600a8605750301197242d15c7d2000b1255b23d4b"
+      }
+    },
+    {
+      "path": ".github/workflows/wp13-native-cognitive-profile.yml",
+      "before": [
+        "100644",
+        "18f3ebd167e34403889020d51bf7c493bae03e48"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "7d59da3c24af1f23e619bfaa82c35d045d0937ae",
+      "approval_reference": "HISTORICAL_NATIVE_WORKFLOW_TEN_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "7d59da3c24af1f23e619bfaa82c35d045d0937ae",
+          "before": [
+            "100644",
+            "18f3ebd167e34403889020d51bf7c493bae03e48"
+          ],
+          "after": null,
+          "packet": "HISTORICAL_NATIVE_WORKFLOW_TEN_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "HISTORICAL_NATIVE_WORKFLOW_TEN_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/historical-native-workflow-ten/current-and-original-preimages.tar",
+        "archive_sha256": "5582016065e1959ea91126b9cc35b0815a2a1b308596efc41cdd11d867f8f0a8",
+        "member": "current/.github/workflows/wp13-native-cognitive-profile.yml",
+        "mode": "100644",
+        "blob": "18f3ebd167e34403889020d51bf7c493bae03e48",
+        "sha256": "03d5457893d65f0c0b63b0bc0999704ef60ea1c1df0abf3209dd09170bed0fa7"
+      }
+    },
+    {
+      "path": ".github/workflows/wp13a-native-adaptive-learning.yml",
+      "before": [
+        "100644",
+        "6399df163cc1d6f210c4aa6d6da1c5bcb841843b"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "7d59da3c24af1f23e619bfaa82c35d045d0937ae",
+      "approval_reference": "HISTORICAL_NATIVE_WORKFLOW_TEN_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "7d59da3c24af1f23e619bfaa82c35d045d0937ae",
+          "before": [
+            "100644",
+            "6399df163cc1d6f210c4aa6d6da1c5bcb841843b"
+          ],
+          "after": null,
+          "packet": "HISTORICAL_NATIVE_WORKFLOW_TEN_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "HISTORICAL_NATIVE_WORKFLOW_TEN_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/historical-native-workflow-ten/current-and-original-preimages.tar",
+        "archive_sha256": "5582016065e1959ea91126b9cc35b0815a2a1b308596efc41cdd11d867f8f0a8",
+        "member": "current/.github/workflows/wp13a-native-adaptive-learning.yml",
+        "mode": "100644",
+        "blob": "6399df163cc1d6f210c4aa6d6da1c5bcb841843b",
+        "sha256": "e348099409866b633005bc6caad23bde70cfe4e233f0329110d659a38130b920"
+      }
+    },
+    {
+      "path": ".github/workflows/wp15-native-birth-witness.yml",
+      "before": [
+        "100644",
+        "2cdc2f60e68f3cecf3826cb1e2fe8fab194299ac"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "7d59da3c24af1f23e619bfaa82c35d045d0937ae",
+      "approval_reference": "HISTORICAL_NATIVE_WORKFLOW_TEN_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "7d59da3c24af1f23e619bfaa82c35d045d0937ae",
+          "before": [
+            "100644",
+            "2cdc2f60e68f3cecf3826cb1e2fe8fab194299ac"
+          ],
+          "after": null,
+          "packet": "HISTORICAL_NATIVE_WORKFLOW_TEN_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "HISTORICAL_NATIVE_WORKFLOW_TEN_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/historical-native-workflow-ten/current-and-original-preimages.tar",
+        "archive_sha256": "5582016065e1959ea91126b9cc35b0815a2a1b308596efc41cdd11d867f8f0a8",
+        "member": "current/.github/workflows/wp15-native-birth-witness.yml",
+        "mode": "100644",
+        "blob": "2cdc2f60e68f3cecf3826cb1e2fe8fab194299ac",
+        "sha256": "a60acbe08714bc07c5d3d39ada2872b5c63c5916bad707eb5ff7ecf94c42607e"
+      }
+    },
+    {
+      "path": "adl/tools/archive_codex_sessions_to_fastwork.sh",
+      "before": [
+        "100755",
+        "d6e9a93041f7de463034e62a71f62b3ac0eed380"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "334494894768470c8cd67b573d1ea7004f318bdb",
+      "approval_reference": "ARCHIVE_PAIR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "334494894768470c8cd67b573d1ea7004f318bdb",
+          "before": [
+            "100755",
+            "d6e9a93041f7de463034e62a71f62b3ac0eed380"
+          ],
+          "after": null,
+          "packet": "ARCHIVE_PAIR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "ARCHIVE_PAIR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/archive-original-pair-plan/retirement/current-and-original-preimages.tar",
+        "archive_sha256": "06e337c1fd5b19e5302812dcefb27c72870acba8329497303b977c7ecc2b6391",
+        "member": "current/adl/tools/archive_codex_sessions_to_fastwork.sh",
+        "mode": "100755",
+        "blob": "d6e9a93041f7de463034e62a71f62b3ac0eed380",
+        "sha256": "3bb0ac862ec10cc12203b7e077c77d3ddf3316e2ab1069a9d3a174d63513fc7f"
+      }
+    },
+    {
+      "path": "adl/tools/test_archive_codex_sessions_to_fastwork.sh",
+      "before": [
+        "100755",
+        "8bbd5f6410a8ded2f7cf53815457bfdf07ae9207"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "334494894768470c8cd67b573d1ea7004f318bdb",
+      "approval_reference": "ARCHIVE_PAIR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "334494894768470c8cd67b573d1ea7004f318bdb",
+          "before": [
+            "100755",
+            "8bbd5f6410a8ded2f7cf53815457bfdf07ae9207"
+          ],
+          "after": null,
+          "packet": "ARCHIVE_PAIR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "ARCHIVE_PAIR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/archive-original-pair-plan/retirement/current-and-original-preimages.tar",
+        "archive_sha256": "06e337c1fd5b19e5302812dcefb27c72870acba8329497303b977c7ecc2b6391",
+        "member": "current/adl/tools/test_archive_codex_sessions_to_fastwork.sh",
+        "mode": "100755",
+        "blob": "8bbd5f6410a8ded2f7cf53815457bfdf07ae9207",
+        "sha256": "2b244f82e1b75cdcfc76adf93a82b939216991d4bb86238389d2413293350f6d"
+      }
     }
   ],
   "missing_entries": [],
@@ -95266,9 +95926,72 @@
         "docs/tooling/TOOL_SURFACE_REGISTRY.md"
       ],
       "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "STOCK_LEAGUE_SIX_APPLIED.json",
+      "sha256": "2c82febafe2701df907132805a98c2af403be153a7de76a825614b2053d46d92",
+      "commit": "d64cd014be9e125425840c93432d6d06da1ef455",
+      "files": 8,
+      "removals": 6,
+      "scope_sha256": "440b3b0f180254f0ab13d6bbfd645bde95e64da3ed2c7d70bc7a09e8e4c7ed98",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl/tools/demo_v0891_long_lived_stock_league.sh",
+        "adl/tools/stock_league_demo.py",
+        "adl/tools/test_demo_v0891_long_lived_stock_league.sh",
+        "demos/fixtures/long_lived_stock_league/market_fixture.json",
+        "demos/fixtures/long_lived_stock_league/model_roster_fixture.json",
+        "demos/v0.89.1/long_lived_stock_league_demo.md",
+        "demos/README.md",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "HISTORICAL_NATIVE_WORKFLOW_TEN_APPLIED.json",
+      "sha256": "111ef68404f3b13a35ec4361f7008883d7b5506115c3aca5611fe3562415a9ab",
+      "commit": "7d59da3c24af1f23e619bfaa82c35d045d0937ae",
+      "files": 12,
+      "removals": 10,
+      "scope_sha256": "191e0694d2fceb245f10e031b70fb9eb6b9e7f1a2421c66e830b36f49e73e0a4",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        ".github/workflows/wp04-native-distributed.yml",
+        ".github/workflows/wp08-native-birthday.yml",
+        ".github/workflows/wp09-native-birthday-identity.yml",
+        ".github/workflows/wp10-native-birthday-continuity.yml",
+        ".github/workflows/wp11-native-memory-palace.yml",
+        ".github/workflows/wp12-native-capability-envelope.yml",
+        ".github/workflows/wp13-authority-repair.yml",
+        ".github/workflows/wp13-native-cognitive-profile.yml",
+        ".github/workflows/wp13a-native-adaptive-learning.yml",
+        ".github/workflows/wp15-native-birth-witness.yml",
+        "adl/tools/test_ci_runtime_contracts.sh",
+        "docs/tooling/README.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "ARCHIVE_PAIR_APPLIED.json",
+      "sha256": "de65656f42aa790f92d61c57aab4510f23272a3777e943fedcd1fd1faf707bfe",
+      "commit": "334494894768470c8cd67b573d1ea7004f318bdb",
+      "files": 4,
+      "removals": 2,
+      "scope_sha256": "c684d4bc7c7fbfc4541a62074be92666a44c4f8e0f2180b6584451c9190cc1a4",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl/tools/archive_codex_sessions_to_fastwork.sh",
+        "adl/tools/test_archive_codex_sessions_to_fastwork.sh",
+        "docs/tooling/README.md",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
     }
   ],
-  "baseline_deletion_count": 2859,
+  "baseline_deletion_count": 2877,
   "transient_removed_paths": [
     "adl/tools/test_issue872_historical_manifest.py"
   ],
@@ -95281,6 +96004,6 @@
     "adl/tools/test_demo_v0901_quality_gate.sh",
     "adl/tools/test_demo_v0902_review_quality_gate.sh"
   ],
-  "inventory_baseline_deletion_count": 2852,
+  "inventory_baseline_deletion_count": 2870,
   "supplemental_baseline_deletion_count": 7
 }

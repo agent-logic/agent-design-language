@@ -7,19 +7,19 @@
   "original_count": 4134,
   "counts": {
     "retain_resolved": 527,
-    "preserve_approved_removal": 2851,
-    "proposed_owner_transfer_with_consumer_qualification": 222,
+    "preserve_approved_removal": 2869,
+    "proposed_owner_transfer_with_consumer_qualification": 209,
     "retain_public_source_or_fixture": 190,
     "preserve_reviewed_consumer_repair": 18,
     "proposed_historical_retirement_with_caller_repair": 16,
     "proposed_remove_with_entire_source_family": 1,
-    "proposed_remove_with_entire_tool_family": 295,
+    "proposed_remove_with_entire_tool_family": 290,
     "hold_explicit_reconciliation": 9,
     "hold_owner_test_reconciliation": 1,
     "proposed_remove_construction_qualified_infrastructure": 4
   },
   "additional_current_source_paths": 22,
-  "preservation": "Original 4134 identities and separate 22 captured paths unchanged. Exact executed retirement actions 2860 comprise 2859 baseline deletions and one newly-added-then-retired ADL conversion bridge; the bridge is outside both captured inventories. The baseline count includes the same seven separately enumerated supplemental paths outside the immutable inventories. Other proposals remain conditional.",
+  "preservation": "Original 4134 identities and separate 22 captured paths unchanged. Exact executed retirement actions 2878 comprise 2877 baseline deletions and one newly-added-then-retired ADL conversion bridge; the bridge is outside both captured inventories. The baseline count includes the same seven separately enumerated supplemental paths outside the immutable inventories. Other proposals remain conditional.",
   "review_boundary": "Exact paths and Git identities are pinned. Proposed removals remain conditional; this is not a claim that caller closure or all successor tests are qualified.",
   "known_prerequisites": {
     "codefriend": "Issue102 e14ff1b08b7ef01f838404bca8ecdf47c1318ac1 passed all39suites409Linux tests,0failed0ignored,174.293s; exacthead and clean source before/after. Evidence FastWork c1223/evidence/codefriend/issue102-e14ff1b0-full, transcriptSHA256c7944f7e0403ba485b377868b1bd85e91eeee0ecce3f79920de3e86c813cfa1a. Focused1 and parallel47 diagnostics also passed; prior dc2 redelivery failure did not reproduce and its cause is not claimed fixed. Earlier failures retained. One macOS-only case, actual hosted installed-acquisition CI proof and owner publication remain separate.",
@@ -261,12 +261,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "coherent component and caller cutover",
-        "qualified owner adoption; exact source correspondence alone is insufficient",
-        "transfer named manual scenario obligations explicitly; archive is not executed proof"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
@@ -279,6 +275,19 @@
         "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
         "proposal": "transfer_historical_workflow_and_explicit_unexecuted_scenario_obligations",
         "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      },
+      "pre_stock_workflow_archive_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "coherent component and caller cutover",
+          "qualified owner adoption; exact source correspondence alone is insufficient",
+          "transfer named manual scenario obligations explicitly; archive is not executed proof"
+        ]
+      },
+      "applied_removal": {
+        "packet": "HISTORICAL_NATIVE_WORKFLOW_TEN_APPLIED.json",
+        "sha256": "111ef68404f3b13a35ec4361f7008883d7b5506115c3aca5611fe3562415a9ab",
+        "implementation_commit": "7d59da3c24af1f23e619bfaa82c35d045d0937ae"
       }
     },
     {
@@ -292,12 +301,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "coherent component and caller cutover",
-        "qualified owner adoption; exact source correspondence alone is insufficient",
-        "transfer named manual scenario obligations explicitly; archive is not executed proof"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
@@ -310,6 +315,19 @@
         "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
         "proposal": "transfer_historical_workflow_and_explicit_unexecuted_scenario_obligations",
         "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      },
+      "pre_stock_workflow_archive_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "coherent component and caller cutover",
+          "qualified owner adoption; exact source correspondence alone is insufficient",
+          "transfer named manual scenario obligations explicitly; archive is not executed proof"
+        ]
+      },
+      "applied_removal": {
+        "packet": "HISTORICAL_NATIVE_WORKFLOW_TEN_APPLIED.json",
+        "sha256": "111ef68404f3b13a35ec4361f7008883d7b5506115c3aca5611fe3562415a9ab",
+        "implementation_commit": "7d59da3c24af1f23e619bfaa82c35d045d0937ae"
       }
     },
     {
@@ -323,12 +341,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "coherent component and caller cutover",
-        "qualified owner adoption; exact source correspondence alone is insufficient",
-        "transfer named manual scenario obligations explicitly; archive is not executed proof"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
@@ -341,6 +355,19 @@
         "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
         "proposal": "transfer_historical_workflow_and_explicit_unexecuted_scenario_obligations",
         "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      },
+      "pre_stock_workflow_archive_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "coherent component and caller cutover",
+          "qualified owner adoption; exact source correspondence alone is insufficient",
+          "transfer named manual scenario obligations explicitly; archive is not executed proof"
+        ]
+      },
+      "applied_removal": {
+        "packet": "HISTORICAL_NATIVE_WORKFLOW_TEN_APPLIED.json",
+        "sha256": "111ef68404f3b13a35ec4361f7008883d7b5506115c3aca5611fe3562415a9ab",
+        "implementation_commit": "7d59da3c24af1f23e619bfaa82c35d045d0937ae"
       }
     },
     {
@@ -354,12 +381,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "coherent component and caller cutover",
-        "qualified owner adoption; exact source correspondence alone is insufficient",
-        "transfer named manual scenario obligations explicitly; archive is not executed proof"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
@@ -372,6 +395,19 @@
         "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
         "proposal": "transfer_historical_workflow_and_explicit_unexecuted_scenario_obligations",
         "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      },
+      "pre_stock_workflow_archive_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "coherent component and caller cutover",
+          "qualified owner adoption; exact source correspondence alone is insufficient",
+          "transfer named manual scenario obligations explicitly; archive is not executed proof"
+        ]
+      },
+      "applied_removal": {
+        "packet": "HISTORICAL_NATIVE_WORKFLOW_TEN_APPLIED.json",
+        "sha256": "111ef68404f3b13a35ec4361f7008883d7b5506115c3aca5611fe3562415a9ab",
+        "implementation_commit": "7d59da3c24af1f23e619bfaa82c35d045d0937ae"
       }
     },
     {
@@ -385,12 +421,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "coherent component and caller cutover",
-        "qualified owner adoption; exact source correspondence alone is insufficient",
-        "transfer named manual scenario obligations explicitly; archive is not executed proof"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
@@ -403,6 +435,19 @@
         "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
         "proposal": "transfer_historical_workflow_and_explicit_unexecuted_scenario_obligations",
         "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      },
+      "pre_stock_workflow_archive_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "coherent component and caller cutover",
+          "qualified owner adoption; exact source correspondence alone is insufficient",
+          "transfer named manual scenario obligations explicitly; archive is not executed proof"
+        ]
+      },
+      "applied_removal": {
+        "packet": "HISTORICAL_NATIVE_WORKFLOW_TEN_APPLIED.json",
+        "sha256": "111ef68404f3b13a35ec4361f7008883d7b5506115c3aca5611fe3562415a9ab",
+        "implementation_commit": "7d59da3c24af1f23e619bfaa82c35d045d0937ae"
       }
     },
     {
@@ -416,12 +461,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "coherent component and caller cutover",
-        "qualified owner adoption; exact source correspondence alone is insufficient",
-        "transfer named manual scenario obligations explicitly; archive is not executed proof"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
@@ -434,6 +475,19 @@
         "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
         "proposal": "transfer_historical_workflow_and_explicit_unexecuted_scenario_obligations",
         "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      },
+      "pre_stock_workflow_archive_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "coherent component and caller cutover",
+          "qualified owner adoption; exact source correspondence alone is insufficient",
+          "transfer named manual scenario obligations explicitly; archive is not executed proof"
+        ]
+      },
+      "applied_removal": {
+        "packet": "HISTORICAL_NATIVE_WORKFLOW_TEN_APPLIED.json",
+        "sha256": "111ef68404f3b13a35ec4361f7008883d7b5506115c3aca5611fe3562415a9ab",
+        "implementation_commit": "7d59da3c24af1f23e619bfaa82c35d045d0937ae"
       }
     },
     {
@@ -447,12 +501,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "coherent component and caller cutover",
-        "qualified owner adoption; exact source correspondence alone is insufficient",
-        "transfer named manual scenario obligations explicitly; archive is not executed proof"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
@@ -465,6 +515,19 @@
         "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
         "proposal": "transfer_historical_workflow_and_explicit_unexecuted_scenario_obligations",
         "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      },
+      "pre_stock_workflow_archive_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "coherent component and caller cutover",
+          "qualified owner adoption; exact source correspondence alone is insufficient",
+          "transfer named manual scenario obligations explicitly; archive is not executed proof"
+        ]
+      },
+      "applied_removal": {
+        "packet": "HISTORICAL_NATIVE_WORKFLOW_TEN_APPLIED.json",
+        "sha256": "111ef68404f3b13a35ec4361f7008883d7b5506115c3aca5611fe3562415a9ab",
+        "implementation_commit": "7d59da3c24af1f23e619bfaa82c35d045d0937ae"
       }
     },
     {
@@ -478,12 +541,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "coherent component and caller cutover",
-        "qualified owner adoption; exact source correspondence alone is insufficient",
-        "transfer named manual scenario obligations explicitly; archive is not executed proof"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
@@ -496,6 +555,19 @@
         "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
         "proposal": "transfer_historical_workflow_and_explicit_unexecuted_scenario_obligations",
         "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      },
+      "pre_stock_workflow_archive_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "coherent component and caller cutover",
+          "qualified owner adoption; exact source correspondence alone is insufficient",
+          "transfer named manual scenario obligations explicitly; archive is not executed proof"
+        ]
+      },
+      "applied_removal": {
+        "packet": "HISTORICAL_NATIVE_WORKFLOW_TEN_APPLIED.json",
+        "sha256": "111ef68404f3b13a35ec4361f7008883d7b5506115c3aca5611fe3562415a9ab",
+        "implementation_commit": "7d59da3c24af1f23e619bfaa82c35d045d0937ae"
       }
     },
     {
@@ -509,12 +581,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "coherent component and caller cutover",
-        "qualified owner adoption; exact source correspondence alone is insufficient",
-        "transfer named manual scenario obligations explicitly; archive is not executed proof"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
@@ -527,6 +595,19 @@
         "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
         "proposal": "transfer_historical_workflow_and_explicit_unexecuted_scenario_obligations",
         "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      },
+      "pre_stock_workflow_archive_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "coherent component and caller cutover",
+          "qualified owner adoption; exact source correspondence alone is insufficient",
+          "transfer named manual scenario obligations explicitly; archive is not executed proof"
+        ]
+      },
+      "applied_removal": {
+        "packet": "HISTORICAL_NATIVE_WORKFLOW_TEN_APPLIED.json",
+        "sha256": "111ef68404f3b13a35ec4361f7008883d7b5506115c3aca5611fe3562415a9ab",
+        "implementation_commit": "7d59da3c24af1f23e619bfaa82c35d045d0937ae"
       }
     },
     {
@@ -660,12 +741,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "coherent component and caller cutover",
-        "qualified owner adoption; exact source correspondence alone is insufficient",
-        "transfer named manual scenario obligations explicitly; archive is not executed proof"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
@@ -678,6 +755,19 @@
         "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
         "proposal": "transfer_historical_workflow_and_explicit_unexecuted_scenario_obligations",
         "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      },
+      "pre_stock_workflow_archive_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "coherent component and caller cutover",
+          "qualified owner adoption; exact source correspondence alone is insufficient",
+          "transfer named manual scenario obligations explicitly; archive is not executed proof"
+        ]
+      },
+      "applied_removal": {
+        "packet": "HISTORICAL_NATIVE_WORKFLOW_TEN_APPLIED.json",
+        "sha256": "111ef68404f3b13a35ec4361f7008883d7b5506115c3aca5611fe3562415a9ab",
+        "implementation_commit": "7d59da3c24af1f23e619bfaa82c35d045d0937ae"
       }
     },
     {
@@ -46736,18 +46826,27 @@
         "blob": "d6e9a93041f7de463034e62a71f62b3ac0eed380"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/archive_codex_sessions_to_fastwork.sh"
         ]
+      },
+      "pre_stock_workflow_archive_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "ARCHIVE_PAIR_APPLIED.json",
+        "sha256": "de65656f42aa790f92d61c57aab4510f23272a3777e943fedcd1fd1faf707bfe",
+        "implementation_commit": "334494894768470c8cd67b573d1ea7004f318bdb"
       }
     },
     {
@@ -50231,18 +50330,27 @@
         "blob": "d0be27834bf930ac3b716089d9bc0b8a510ae94c"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/demo_v0891_long_lived_stock_league.sh"
         ]
+      },
+      "pre_stock_workflow_archive_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "STOCK_LEAGUE_SIX_APPLIED.json",
+        "sha256": "2c82febafe2701df907132805a98c2af403be153a7de76a825614b2053d46d92",
+        "implementation_commit": "d64cd014be9e125425840c93432d6d06da1ef455"
       }
     },
     {
@@ -68181,18 +68289,27 @@
         "blob": "fd95392ad538705c065c1b2837492a356e7c0283"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/stock_league_demo.py"
         ]
+      },
+      "pre_stock_workflow_archive_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "STOCK_LEAGUE_SIX_APPLIED.json",
+        "sha256": "2c82febafe2701df907132805a98c2af403be153a7de76a825614b2053d46d92",
+        "implementation_commit": "d64cd014be9e125425840c93432d6d06da1ef455"
       }
     },
     {
@@ -68710,18 +68827,27 @@
         "blob": "8bbd5f6410a8ded2f7cf53815457bfdf07ae9207"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/test_archive_codex_sessions_to_fastwork.sh"
         ]
+      },
+      "pre_stock_workflow_archive_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "ARCHIVE_PAIR_APPLIED.json",
+        "sha256": "de65656f42aa790f92d61c57aab4510f23272a3777e943fedcd1fd1faf707bfe",
+        "implementation_commit": "334494894768470c8cd67b573d1ea7004f318bdb"
       }
     },
     {
@@ -70788,18 +70914,27 @@
         "blob": "bb9aec1f2eadd02ea7693ad72e59b55dccd273d0"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/test_demo_v0891_long_lived_stock_league.sh"
         ]
+      },
+      "pre_stock_workflow_archive_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "STOCK_LEAGUE_SIX_APPLIED.json",
+        "sha256": "2c82febafe2701df907132805a98c2af403be153a7de76a825614b2053d46d92",
+        "implementation_commit": "d64cd014be9e125425840c93432d6d06da1ef455"
       }
     },
     {
@@ -111071,11 +111206,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "coherent component and caller cutover",
-        "qualified owner adoption; exact source correspondence alone is insufficient"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
@@ -111088,6 +111220,18 @@
         "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
         "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
         "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      },
+      "pre_stock_workflow_archive_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "coherent component and caller cutover",
+          "qualified owner adoption; exact source correspondence alone is insufficient"
+        ]
+      },
+      "applied_removal": {
+        "packet": "STOCK_LEAGUE_SIX_APPLIED.json",
+        "sha256": "2c82febafe2701df907132805a98c2af403be153a7de76a825614b2053d46d92",
+        "implementation_commit": "d64cd014be9e125425840c93432d6d06da1ef455"
       }
     },
     {
@@ -111101,11 +111245,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "coherent component and caller cutover",
-        "qualified owner adoption; exact source correspondence alone is insufficient"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
@@ -111118,6 +111259,18 @@
         "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
         "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
         "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      },
+      "pre_stock_workflow_archive_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "coherent component and caller cutover",
+          "qualified owner adoption; exact source correspondence alone is insufficient"
+        ]
+      },
+      "applied_removal": {
+        "packet": "STOCK_LEAGUE_SIX_APPLIED.json",
+        "sha256": "2c82febafe2701df907132805a98c2af403be153a7de76a825614b2053d46d92",
+        "implementation_commit": "d64cd014be9e125425840c93432d6d06da1ef455"
       }
     },
     {
@@ -112441,11 +112594,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "coherent component and caller cutover",
-        "qualified owner adoption; exact source correspondence alone is insufficient"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
@@ -112458,6 +112608,18 @@
         "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
         "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
         "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      },
+      "pre_stock_workflow_archive_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "coherent component and caller cutover",
+          "qualified owner adoption; exact source correspondence alone is insufficient"
+        ]
+      },
+      "applied_removal": {
+        "packet": "STOCK_LEAGUE_SIX_APPLIED.json",
+        "sha256": "2c82febafe2701df907132805a98c2af403be153a7de76a825614b2053d46d92",
+        "implementation_commit": "d64cd014be9e125425840c93432d6d06da1ef455"
       }
     },
     {
