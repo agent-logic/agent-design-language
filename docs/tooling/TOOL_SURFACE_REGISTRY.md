@@ -30,7 +30,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 8
 - `supported shim`: 0
-- `internal helper`: 487
+- `internal helper`: 485
 - `historical evidence`: 31
 - `archive candidate`: 0
 - `remove candidate`: 0
@@ -59,7 +59,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/README.md` | tool surface | internal helper | Visible tool surface retained for bounded support work. |
 | `adl/tools/adl_provider_adapter.rs` | tool surface | internal helper | Visible tool surface retained for bounded support work. |
 | `adl/tools/adl_provider_adapter_with_budget.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
-| `adl/tools/archive_codex_sessions_to_fastwork.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/archive_run_artifacts.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/batched_checks.sh` | tool surface | primary | Local validation entrypoint; use the current declared public validation contract. |
 | `adl/tools/benchmark` | tool surface | internal helper | Directory containing bounded helper assets, scripts, or proof inputs. |
@@ -280,7 +279,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/suitability_specs` | tool surface | internal helper | Directory containing bounded helper assets, scripts, or proof inputs. |
 | `adl/tools/test_adl_milestone_creator_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_adl_runtime_compatibility.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_archive_codex_sessions_to_fastwork.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_archive_run_artifacts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_arxiv_paper_writer_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_batched_checks_no_codexpr_usage_banner.sh` | tool surface | internal helper | Focused regression or contract test helper. |
