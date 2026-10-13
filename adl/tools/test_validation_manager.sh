@@ -771,8 +771,8 @@ assert profile["pr_publication_sufficient"] is True
 assert profile["escalation"]["required"] is False
 assert profile["diagnostics"] == []
 lanes = {item["lane_id"]: item for item in profile["run"]}
-assert set(lanes) == {"public_adl_distribution", "csm_retired_route_diagnostics"}
-assert lanes["public_adl_distribution"]["matched_paths"] == [
+assert set(lanes) == {"public_source", "csm_retired_route_diagnostics"}
+assert lanes["public_source"]["matched_paths"] == [
     "adl/tools/install_owner_binaries.sh",
     "adl/tools/owner_binary_resolution.sh",
     "adl/tools/test_owner_binary_install.sh",

@@ -44,6 +44,52 @@
       "command": "git diff --check",
       "run_command": "git diff --check",
       "reason": "public_source_contract"
+    },
+    {
+      "id": "public_validation_inventory",
+      "lane_class": "cli_workflow",
+      "default_surface": "public",
+      "owner": "adl/tools",
+      "proof_role": "inventory_generation_not_owner_test_qualification",
+      "resource_class": "small",
+      "determinism_posture": "deterministic_local",
+      "requirement_ids": [
+        "public_validation_inventory"
+      ],
+      "path_selectors": [
+        "adl/tools/validation_inventory.py",
+        "adl/tools/validation_inventory.sh"
+      ],
+      "path_hints": [
+        "adl/tools/validation_inventory.py",
+        "adl/tools/validation_inventory.sh"
+      ],
+      "command": "bash adl/tools/validation_inventory.sh --format json",
+      "run_command": "bash adl/tools/validation_inventory.sh --format json",
+      "reason": "public_validation_inventory_requires_explicit_public_contract"
+    },
+    {
+      "id": "csm_retired_route_diagnostics",
+      "lane_class": "cli_workflow",
+      "default_surface": "public",
+      "owner": "adl/tools",
+      "proof_role": "diagnostic_refusal_contract_not_runtime_acceptance",
+      "resource_class": "small",
+      "determinism_posture": "deterministic_local",
+      "requirement_ids": [
+        "csm_retired_route_diagnostics"
+      ],
+      "path_selectors": [
+        "adl/tools/ensure_csm_binary.sh",
+        "adl/tools/test_ensure_csm_binary.sh"
+      ],
+      "path_hints": [
+        "adl/tools/ensure_csm_binary.sh",
+        "adl/tools/test_ensure_csm_binary.sh"
+      ],
+      "command": "bash adl/tools/test_ensure_csm_binary.sh",
+      "run_command": "bash adl/tools/test_ensure_csm_binary.sh",
+      "reason": "csm_retired_route_diagnostics_requires_explicit_public_contract"
     }
   ],
   "release_gate_hints": [
