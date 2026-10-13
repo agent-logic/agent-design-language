@@ -31,7 +31,7 @@
         "5479ae14394cc8349f8e532da478404eb14a55b4"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_navigation_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         ".adl/docs/TBD/resilience/RUNTIME_V3_LAUNCH_AND_OBSERVATORY_RECOVERY_PLAN.md"
@@ -39,6 +39,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         ".adl/docs/TBD/resilience/RUNTIME_V3_LAUNCH_AND_OBSERVATORY_RECOVERY_PLAN.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        ".adl/docs/TBD/resilience/RUNTIME_V3_LAUNCH_AND_OBSERVATORY_RECOVERY_PLAN.md:1 # Runtime v3 stable CSM route",
+        ".adl/docs/TBD/resilience/RUNTIME_V3_LAUNCH_AND_OBSERVATORY_RECOVERY_PLAN.md:3 Issue #678 makes the stable operator command `.adl/bin/csm` a launcher for the",
+        ".adl/docs/TBD/resilience/RUNTIME_V3_LAUNCH_AND_OBSERVATORY_RECOVERY_PLAN.md:4 active Runtime v3 generation. The launcher resolves from its own location to",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-0001 Issue678 stable CSM launcher/recovery contract names the ADL-local generation layout and source-era Observatory recovery. Preserve repo migration navigation and original boundary; link current Runtime operations separately."
       ]
     },
     {
@@ -68911,7 +68918,7 @@
         "1ca84ca06838eb8964a2770d696b38170c974a12"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/TBD/cognitive_scheduler/COGNITIVE_SCHEDULER_V1_PLAN.md"
@@ -68919,6 +68926,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/TBD/cognitive_scheduler/COGNITIVE_SCHEDULER_V1_PLAN.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/TBD/cognitive_scheduler/COGNITIVE_SCHEDULER_V1_PLAN.md:1 # Cognitive Scheduler v1 Plan",
+        "docs/TBD/cognitive_scheduler/COGNITIVE_SCHEDULER_V1_PLAN.md:3 ## Status",
+        "docs/TBD/cognitive_scheduler/COGNITIVE_SCHEDULER_V1_PLAN.md:5 Planned for `v0.91.6` implementation.",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3337 Explicit v0.91.6 cognitive-scheduler implementation plan; retain original milestone intent/dependencies rather than turning mapped copy into current completion proof."
       ]
     },
     {
@@ -69016,7 +69030,7 @@
         "9c3bcd91dcb0ec9277adc2232bdc1362221e1325"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/ADL_RUNTIME_KERNEL_PROOF.md"
@@ -69024,6 +69038,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/ADL_RUNTIME_KERNEL_PROOF.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/ADL_RUNTIME_KERNEL_PROOF.md:1 # ADL Runtime Kernel Proof",
+        "docs/architecture/ADL_RUNTIME_KERNEL_PROOF.md:3 Status: independent implementation proof for issue #5170. This is not the",
+        "docs/architecture/ADL_RUNTIME_KERNEL_PROOF.md:4 current production runtime and does not authorize migration of existing runtime",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3342 Explicit independent implementation proof for ADL issue5170, not current production or migration authority. Preserve original nonclaims and proof references."
       ]
     },
     {
@@ -69037,11 +69058,18 @@
         "9e8d04a135e82c78f880122c1a44668cd31bdd08"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_adl_policy_history",
       "observed_successor_revision": "b200caf8668e707ac10b2b47ba7c88441d7af593",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "91ae8c5e4008a07cee8fd3a70a1306d4d971f9b4",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/ARCHITECTURE_DOCUMENT_GENERATION_PLAN.md:1 # Architecture Document Generation Plan",
+        "docs/architecture/ARCHITECTURE_DOCUMENT_GENERATION_PLAN.md:3 ## Goal",
+        "docs/architecture/ARCHITECTURE_DOCUMENT_GENERATION_PLAN.md:5 Generate first-class ADL architecture documentation from bounded repository",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3343 ADL architecture-document generation plan governs bounded repository evidence/review gates and is read by local validation/demo tools; retain ADL documentation process contract."
+      ]
     },
     {
       "id": "RD07-3344",
@@ -69054,11 +69082,18 @@
         "2df54723f26aeed4f2a36cc8fd78272414ac799b"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_adl_policy_history",
       "observed_successor_revision": "b200caf8668e707ac10b2b47ba7c88441d7af593",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "91ae8c5e4008a07cee8fd3a70a1306d4d971f9b4",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/ARCHITECTURE_REVIEW_AUTOMATION.md:1 # Architecture Review Automation",
+        "docs/architecture/ARCHITECTURE_REVIEW_AUTOMATION.md:3 ## Purpose",
+        "docs/architecture/ARCHITECTURE_REVIEW_AUTOMATION.md:5 This document defines how ADL should generate and review architecture packets",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3344 ADL architecture packet/review pipeline contract consumed by validate_architecture_docs and demo tools; no accepted successor mapping and local process role remains."
+      ]
     },
     {
       "id": "RD07-3345",
@@ -69095,7 +69130,7 @@
         "dd211f728ee992a7b6b26a18e981d9007441e950"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/PROVIDER_CAPABILITY_AND_TRANSPORT_ARCHITECTURE.md"
@@ -69103,6 +69138,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/PROVIDER_CAPABILITY_AND_TRANSPORT_ARCHITECTURE.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/PROVIDER_CAPABILITY_AND_TRANSPORT_ARCHITECTURE.md:1 # Provider Capability and Transport Architecture",
+        "docs/architecture/PROVIDER_CAPABILITY_AND_TRANSPORT_ARCHITECTURE.md:3 ## Metadata",
+        "docs/architecture/PROVIDER_CAPABILITY_AND_TRANSPORT_ARCHITECTURE.md:4 - Feature Name: `Provider Capability and Transport Architecture`",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3346 Versioned v0.92 provider capability/transport architecture feature/design record; preserve ADL source-era architecture rationale and milestone links."
       ]
     },
     {
@@ -69116,7 +69158,7 @@
         "f5f32ffef2aff16bfbe1b6cb9954b23543dddeda"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/RUNTIME_V3_ADAPTIVE_REASONING_ARCHITECTURE.md"
@@ -69124,6 +69166,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/RUNTIME_V3_ADAPTIVE_REASONING_ARCHITECTURE.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/RUNTIME_V3_ADAPTIVE_REASONING_ARCHITECTURE.md:1 # Runtime v3 Adaptive Reasoning Architecture",
+        "docs/architecture/RUNTIME_V3_ADAPTIVE_REASONING_ARCHITECTURE.md:3 Status: implemented issue boundary for #5180 in Runtime v3 mini-sprint #5174.",
+        "docs/architecture/RUNTIME_V3_ADAPTIVE_REASONING_ARCHITECTURE.md:5 Source evidence: `adl-runtime-kernel/src/reasoning.rs` and",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3347 Original ADL mini-sprint5174 issue-bound architecture/design gate; Status: implemented issue boundary for #5180 in Runtime v3 mini-sprint #5174. Preserve source-era implementation and acceptance context; mapped successor copy does not replace historical evidence."
       ]
     },
     {
@@ -69137,7 +69186,7 @@
         "79cad80cad8a213b4fdf2d00bd1165c0fb5320cf"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/RUNTIME_V3_CONFIGURATION_WEATHER_ARCHITECTURE.md"
@@ -69145,6 +69194,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/RUNTIME_V3_CONFIGURATION_WEATHER_ARCHITECTURE.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/RUNTIME_V3_CONFIGURATION_WEATHER_ARCHITECTURE.md:1 # Runtime v3 Configuration, Registry, And System Weather",
+        "docs/architecture/RUNTIME_V3_CONFIGURATION_WEATHER_ARCHITECTURE.md:3 Status: implemented issue boundary for #5182 in Runtime v3 mini-sprint #5174.",
+        "docs/architecture/RUNTIME_V3_CONFIGURATION_WEATHER_ARCHITECTURE.md:5 Source evidence: adl-runtime-kernel/src/config.rs,",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3348 Original ADL mini-sprint5174 issue-bound architecture/design gate; Status: implemented issue boundary for #5182 in Runtime v3 mini-sprint #5174. Preserve source-era implementation and acceptance context; mapped successor copy does not replace historical evidence."
       ]
     },
     {
@@ -69158,7 +69214,7 @@
         "2dba7aa44d2e29b1507525719dd24371a02cd166"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/RUNTIME_V3_CONTINUITY_RECOVERY_ARCHITECTURE.md"
@@ -69166,6 +69222,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/RUNTIME_V3_CONTINUITY_RECOVERY_ARCHITECTURE.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/RUNTIME_V3_CONTINUITY_RECOVERY_ARCHITECTURE.md:1 # Runtime v3 Continuity, Replay, And Recovery",
+        "docs/architecture/RUNTIME_V3_CONTINUITY_RECOVERY_ARCHITECTURE.md:3 Status: implemented issue boundary for #5181 in Runtime v3 mini-sprint #5174.",
+        "docs/architecture/RUNTIME_V3_CONTINUITY_RECOVERY_ARCHITECTURE.md:5 Source evidence: adl-runtime-kernel/src/continuity.rs and",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3349 Original ADL mini-sprint5174 issue-bound architecture/design gate; Status: implemented issue boundary for #5181 in Runtime v3 mini-sprint #5174. Preserve source-era implementation and acceptance context; mapped successor copy does not replace historical evidence."
       ]
     },
     {
@@ -69179,7 +69242,7 @@
         "9c6f4749e874bc3e7df24a5060ce80a5714a2d4a"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/RUNTIME_V3_CONTROL_OBSERVABILITY_ARCHITECTURE.md"
@@ -69187,6 +69250,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/RUNTIME_V3_CONTROL_OBSERVABILITY_ARCHITECTURE.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/RUNTIME_V3_CONTROL_OBSERVABILITY_ARCHITECTURE.md:1 # Runtime v3 Control, Health, And Observability",
+        "docs/architecture/RUNTIME_V3_CONTROL_OBSERVABILITY_ARCHITECTURE.md:3 Status: implemented issue boundary for #5177 in Runtime v3 mini-sprint #5174.",
+        "docs/architecture/RUNTIME_V3_CONTROL_OBSERVABILITY_ARCHITECTURE.md:5 Source evidence: `adl-runtime-kernel/src/control.rs`,",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3350 Original ADL mini-sprint5174 issue-bound architecture/design gate; Status: implemented issue boundary for #5177 in Runtime v3 mini-sprint #5174. Preserve source-era implementation and acceptance context; mapped successor copy does not replace historical evidence."
       ]
     },
     {
@@ -69200,7 +69270,7 @@
         "f3c7e2ad39f47b288d7fee01d831473cc72273f2"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/RUNTIME_V3_ENTRYPOINT_SWITCH.md"
@@ -69208,6 +69278,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/RUNTIME_V3_ENTRYPOINT_SWITCH.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/RUNTIME_V3_ENTRYPOINT_SWITCH.md:1 # Runtime v3 Entrypoint Switch",
+        "docs/architecture/RUNTIME_V3_ENTRYPOINT_SWITCH.md:3 ## Status",
+        "docs/architecture/RUNTIME_V3_ENTRYPOINT_SWITCH.md:5 As of v0.91.7, Runtime v3 is selectable through an explicit CLI compatibility",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3351 Explicit v0.91.7 selectable-v3/default-v2 entrypoint switch contract; retain migration history, do not treat old default statement as current Runtime selection."
       ]
     },
     {
@@ -69221,7 +69298,7 @@
         "34df9ab53258dfa206ac5c13c3a41911b86c55e2"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/RUNTIME_V3_GOVERNED_EXECUTION_ARCHITECTURE.md"
@@ -69229,6 +69306,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/RUNTIME_V3_GOVERNED_EXECUTION_ARCHITECTURE.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/RUNTIME_V3_GOVERNED_EXECUTION_ARCHITECTURE.md:1 # Runtime v3 Governed Execution Architecture",
+        "docs/architecture/RUNTIME_V3_GOVERNED_EXECUTION_ARCHITECTURE.md:3 Status: implemented issue boundary for #5178 in Runtime v3 mini-sprint #5174.",
+        "docs/architecture/RUNTIME_V3_GOVERNED_EXECUTION_ARCHITECTURE.md:5 Source evidence: `adl-runtime-kernel/src/governance.rs` and",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3352 Original ADL mini-sprint5174 issue-bound architecture/design gate; Status: implemented issue boundary for #5178 in Runtime v3 mini-sprint #5174. Preserve source-era implementation and acceptance context; mapped successor copy does not replace historical evidence."
       ]
     },
     {
@@ -69242,7 +69326,7 @@
         "28ff4473738e0acaa5dc81005969838e125190e0"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/RUNTIME_V3_GUARDIAN_AND_SOAK.md"
@@ -69250,6 +69334,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/RUNTIME_V3_GUARDIAN_AND_SOAK.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/RUNTIME_V3_GUARDIAN_AND_SOAK.md:1 # Runtime v3 Guardian And Soak",
+        "docs/architecture/RUNTIME_V3_GUARDIAN_AND_SOAK.md:3 Issue `#5175` closes the Runtime v3 mini-sprint with an external-guardian",
+        "docs/architecture/RUNTIME_V3_GUARDIAN_AND_SOAK.md:4 bakeoff, native packaging, adversarial process proof, bounded integrated",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3353 Issue5175 bakeoff, soak and explicit disposition still states source-era v2 default; retain original selection proof, even though successor copy changed."
       ]
     },
     {
@@ -69263,7 +69354,7 @@
         "e0692d6352501083b0aa1726c02c122b582730f1"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/RUNTIME_V3_GUARDIAN_FALLBACK_DECISION.md"
@@ -69271,6 +69362,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/RUNTIME_V3_GUARDIAN_FALLBACK_DECISION.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/RUNTIME_V3_GUARDIAN_FALLBACK_DECISION.md:1 # Runtime v3 Guardian Fallback Decision",
+        "docs/architecture/RUNTIME_V3_GUARDIAN_FALLBACK_DECISION.md:3 Issue: #5224",
+        "docs/architecture/RUNTIME_V3_GUARDIAN_FALLBACK_DECISION.md:4 Sprint: #5174",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3354 Dated #5224 guardian fallback decision tied to sprint5174; accepted decision history must not be replaced by newer current guide."
       ]
     },
     {
@@ -69284,7 +69382,7 @@
         "53d1db04390006fd1c91f59ec6ca51f9f8dbb507"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/RUNTIME_V3_OPERATIONAL_COMPONENTS.md"
@@ -69292,6 +69390,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/RUNTIME_V3_OPERATIONAL_COMPONENTS.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/RUNTIME_V3_OPERATIONAL_COMPONENTS.md:1 # Runtime v3 Operational Components",
+        "docs/architecture/RUNTIME_V3_OPERATIONAL_COMPONENTS.md:3 Issue `#5183` proves the Runtime v3 component contract across ten operational",
+        "docs/architecture/RUNTIME_V3_OPERATIONAL_COMPONENTS.md:4 service roles without introducing ten service-specific implementations. One",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3355 Issue5183 ten-role operational adapter proof/contract; retain historical acceptance denominator and proof boundaries."
       ]
     },
     {
@@ -69305,7 +69410,7 @@
         "172db4c0860b1b92fcb3c45c0491fefac47fb9aa"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/RUNTIME_V3_SERVICE_CONTRACT_ARCHITECTURE.md"
@@ -69313,6 +69418,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/RUNTIME_V3_SERVICE_CONTRACT_ARCHITECTURE.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/RUNTIME_V3_SERVICE_CONTRACT_ARCHITECTURE.md:1 # Runtime v3 Service Contract Architecture",
+        "docs/architecture/RUNTIME_V3_SERVICE_CONTRACT_ARCHITECTURE.md:3 Status: design-by-contract gate for #5176 in Runtime v3 mini-sprint #5174.",
+        "docs/architecture/RUNTIME_V3_SERVICE_CONTRACT_ARCHITECTURE.md:5 Diagram family/backend: architecture flowchart and contract class model in",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3356 Original ADL mini-sprint5174 issue-bound architecture/design gate; Status: design-by-contract gate for #5176 in Runtime v3 mini-sprint #5174. Preserve source-era implementation and acceptance context; mapped successor copy does not replace historical evidence."
       ]
     },
     {
@@ -69326,7 +69438,7 @@
         "68d2c88f88457de1e9c71274e1b0cb7264e73baf"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/RUNTIME_V3_SHADOW_PARITY_AND_MIGRATION.md"
@@ -69334,6 +69446,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/RUNTIME_V3_SHADOW_PARITY_AND_MIGRATION.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/RUNTIME_V3_SHADOW_PARITY_AND_MIGRATION.md:1 # Runtime v3 Shadow Parity And Migration",
+        "docs/architecture/RUNTIME_V3_SHADOW_PARITY_AND_MIGRATION.md:3 Issue `#5179` adds a bounded dual-backend harness without importing or copying",
+        "docs/architecture/RUNTIME_V3_SHADOW_PARITY_AND_MIGRATION.md:4 Runtime v2 implementation code. Runtime v2 is represented through an external",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3357 Issue5179 dual-backend shadow harness and migration boundary documents retained-record v2 baseline; preserve original parity claims and nonclaims."
       ]
     },
     {
@@ -69392,11 +69511,18 @@
         "2756dd6a957a9a1cc192893c3042f88c8d06e71b"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "b200caf8668e707ac10b2b47ba7c88441d7af593",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "91ae8c5e4008a07cee8fd3a70a1306d4d971f9b4",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/diagrams/codebuddy_review_flow.mmd:1 %% Evidence: docs/architecture/ARCHITECTURE_REVIEW_AUTOMATION.md, docs/architecture/ADL_ARCHITECTURE.md, docs/milestones/v0.90/DEMO_MATRIX_v0.90.md",
+        "docs/architecture/diagrams/codebuddy_review_flow.mmd:2 %% Assumptions: reviewers evaluate findings through report artifacts, and this path shows one bounded coverage lane rather than every specialist exception.",
+        "docs/architecture/diagrams/codebuddy_review_flow.mmd:3 flowchart LR",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3360 CodeBuddy review-flow diagram cites ADL architecture automation and v0.90 demo matrix; preserve original ADL review-process packet, not standalone CodeFriend product claim."
+      ]
     },
     {
       "id": "RD07-3361",
@@ -69433,7 +69559,7 @@
         "97ff1c612af60f3a7fe4e40ed92d8c88335210af"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/diagrams/runtime-v3-adaptive-reasoning/runtime-v3-adaptive-reasoning.mmd"
@@ -69441,6 +69567,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/diagrams/runtime-v3-adaptive-reasoning/runtime-v3-adaptive-reasoning.mmd"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/diagrams/runtime-v3-adaptive-reasoning/runtime-v3-adaptive-reasoning.mmd:1 flowchart LR",
+        "docs/architecture/diagrams/runtime-v3-adaptive-reasoning/runtime-v3-adaptive-reasoning.mmd:2     Observation[\"Recorded provider observation<br/>typed score + evidence hash\"]",
+        "docs/architecture/diagrams/runtime-v3-adaptive-reasoning/runtime-v3-adaptive-reasoning.mmd:3     Graph[\"reasoning_graph<br/>petgraph validated DAG\"]",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3362 Paired architecture/proof visualization for original ADL Runtime design:     Observation[\"Recorded provider observation<br/>typed score + evidence hash\"]     Graph[\"reasoning_graph<br/>petgraph validated DAG\"]     Loop[\"loop_executor<br/>iteration + deadline + cancellation\"]. Preserve diagram/source pair and original architecture-record links; current successor diagrams may evolve separately."
       ]
     },
     {
@@ -69454,7 +69587,7 @@
         "bef41e1437fb905e1c8a4d10cad0521860fc638f"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/diagrams/runtime-v3-adaptive-reasoning/runtime-v3-adaptive-reasoning.svg"
@@ -69462,6 +69595,11 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/diagrams/runtime-v3-adaptive-reasoning/runtime-v3-adaptive-reasoning.svg"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/diagrams/runtime-v3-adaptive-reasoning/runtime-v3-adaptive-reasoning.svg:1 <svg id=\"my-svg\" width=\"100%\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" class=\"flowchart\" style=\"max-width: 2132.16px; background-color: white;\" viewBox=\"0 0 2132.15625 293\" role=\"graphics-document document\" aria-roledescrip",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3363 Paired architecture/proof visualization for original ADL Runtime design:     Observation[\"Recorded provider observation<br/>typed score + evidence hash\"]     Graph[\"reasoning_graph<br/>petgraph validated DAG\"]     Loop[\"loop_executor<br/>iteration + deadline + cancellation\"]. Preserve diagram/source pair and original architecture-record links; current successor diagrams may evolve separately."
       ]
     },
     {
@@ -69475,7 +69613,7 @@
         "8cf9e69da82035ac9844cf797a0812af69581157"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/diagrams/runtime-v3-configuration-weather/runtime-v3-configuration-weather.mmd"
@@ -69483,6 +69621,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/diagrams/runtime-v3-configuration-weather/runtime-v3-configuration-weather.mmd"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/diagrams/runtime-v3-configuration-weather/runtime-v3-configuration-weather.mmd:1 flowchart TB",
+        "docs/architecture/diagrams/runtime-v3-configuration-weather/runtime-v3-configuration-weather.mmd:2   G[\"External guardian\"]",
+        "docs/architecture/diagrams/runtime-v3-configuration-weather/runtime-v3-configuration-weather.mmd:3   K[\"Tokio kernel supervisor\"]",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3364 Paired architecture/proof visualization for original ADL Runtime design:   G[\"External guardian\"]   K[\"Tokio kernel supervisor\"]   C[\"Versioned RuntimeConfig<br/>canonical; no credential fields\"]. Preserve diagram/source pair and original architecture-record links; current successor diagrams may evolve separately."
       ]
     },
     {
@@ -69496,7 +69641,7 @@
         "4ad4c5a4d6e580b7c6d730b33bb733289a11cde2"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/diagrams/runtime-v3-configuration-weather/runtime-v3-configuration-weather.svg"
@@ -69504,6 +69649,11 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/diagrams/runtime-v3-configuration-weather/runtime-v3-configuration-weather.svg"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/diagrams/runtime-v3-configuration-weather/runtime-v3-configuration-weather.svg:1 <svg id=\"my-svg\" width=\"100%\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" class=\"flowchart\" style=\"max-width: 1077.02px; background-color: transparent;\" viewBox=\"0 0 1077.01953125 630\" role=\"graphics-document document\" aria-ro",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3365 Paired architecture/proof visualization for original ADL Runtime design:   G[\"External guardian\"]   K[\"Tokio kernel supervisor\"]   C[\"Versioned RuntimeConfig<br/>canonical; no credential fields\"]. Preserve diagram/source pair and original architecture-record links; current successor diagrams may evolve separately."
       ]
     },
     {
@@ -69517,7 +69667,7 @@
         "49e9ca91e4be61f9461e29702be5859cdf13b263"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/diagrams/runtime-v3-continuity-recovery/runtime-v3-continuity-recovery.mmd"
@@ -69525,6 +69675,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/diagrams/runtime-v3-continuity-recovery/runtime-v3-continuity-recovery.mmd"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/diagrams/runtime-v3-continuity-recovery/runtime-v3-continuity-recovery.mmd:1 flowchart TB",
+        "docs/architecture/diagrams/runtime-v3-continuity-recovery/runtime-v3-continuity-recovery.mmd:2   W[\"SystemWeather<br/>stop_required\"]",
+        "docs/architecture/diagrams/runtime-v3-continuity-recovery/runtime-v3-continuity-recovery.mmd:3   A[\"Close admission\"]",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3366 Paired architecture/proof visualization for original ADL Runtime design:   W[\"SystemWeather<br/>stop_required\"]   A[\"Close admission\"]   Q[\"Global quiesce barrier\"]. Preserve diagram/source pair and original architecture-record links; current successor diagrams may evolve separately."
       ]
     },
     {
@@ -69538,7 +69695,7 @@
         "44395dacead2eff48b2334d373f5b953b374fe73"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/diagrams/runtime-v3-continuity-recovery/runtime-v3-continuity-recovery.svg"
@@ -69546,6 +69703,11 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/diagrams/runtime-v3-continuity-recovery/runtime-v3-continuity-recovery.svg"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/diagrams/runtime-v3-continuity-recovery/runtime-v3-continuity-recovery.svg:1 <svg id=\"my-svg\" width=\"100%\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" class=\"flowchart\" style=\"max-width: 571.477px; background-color: transparent;\" viewBox=\"0 0 571.4765625 1070\" role=\"graphics-document document\" aria-rol",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3367 Paired architecture/proof visualization for original ADL Runtime design:   W[\"SystemWeather<br/>stop_required\"]   A[\"Close admission\"]   Q[\"Global quiesce barrier\"]. Preserve diagram/source pair and original architecture-record links; current successor diagrams may evolve separately."
       ]
     },
     {
@@ -69559,7 +69721,7 @@
         "264a25318a6c03523071fd0d2d1a48ad0df79fac"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/diagrams/runtime-v3-control-observability/runtime-v3-control-observability.mmd"
@@ -69567,6 +69729,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/diagrams/runtime-v3-control-observability/runtime-v3-control-observability.mmd"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/diagrams/runtime-v3-control-observability/runtime-v3-control-observability.mmd:1 flowchart TD",
+        "docs/architecture/diagrams/runtime-v3-control-observability/runtime-v3-control-observability.mmd:2     Client[\"Operator or guardian adapter<br/>control port 20997\"]",
+        "docs/architecture/diagrams/runtime-v3-control-observability/runtime-v3-control-observability.mmd:3     Auth[\"Ed25519 authentication<br/>capability authorization\"]",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3368 Paired architecture/proof visualization for original ADL Runtime design:     Client[\"Operator or guardian adapter<br/>control port 20997\"]     Auth[\"Ed25519 authentication<br/>capability authorization\"]     Idem[\"Bounded idempotency records\"]. Preserve diagram/source pair and original architecture-record links; current successor diagrams may evolve separately."
       ]
     },
     {
@@ -69580,7 +69749,7 @@
         "8bbf79acbf5208a52543d63b0e8e6f4483ffa8f3"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/diagrams/runtime-v3-control-observability/runtime-v3-control-observability.svg"
@@ -69588,6 +69757,11 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/diagrams/runtime-v3-control-observability/runtime-v3-control-observability.svg"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/diagrams/runtime-v3-control-observability/runtime-v3-control-observability.svg:1 <svg id=\"my-svg\" width=\"100%\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" class=\"flowchart\" style=\"max-width: 568.547px; background-color: white;\" viewBox=\"0 0 568.546875 1062\" role=\"graphics-document document\" aria-roledescri",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3369 Paired architecture/proof visualization for original ADL Runtime design:     Client[\"Operator or guardian adapter<br/>control port 20997\"]     Auth[\"Ed25519 authentication<br/>capability authorization\"]     Idem[\"Bounded idempotency records\"]. Preserve diagram/source pair and original architecture-record links; current successor diagrams may evolve separately."
       ]
     },
     {
@@ -69601,7 +69775,7 @@
         "c978942570c1f7b25eeb53fe4e36e337249ec9d4"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/diagrams/runtime-v3-governed-execution/runtime-v3-governed-execution.mmd"
@@ -69609,6 +69783,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/diagrams/runtime-v3-governed-execution/runtime-v3-governed-execution.mmd"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/diagrams/runtime-v3-governed-execution/runtime-v3-governed-execution.mmd:1 flowchart LR",
+        "docs/architecture/diagrams/runtime-v3-governed-execution/runtime-v3-governed-execution.mmd:2     Request[\"GovernedActionRequest<br/>commitment + authority + resource\"]",
+        "docs/architecture/diagrams/runtime-v3-governed-execution/runtime-v3-governed-execution.mmd:3     Gate[\"Freedom Gate<br/>deterministic lawful mediation\"]",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3370 Paired architecture/proof visualization for original ADL Runtime design:     Request[\"GovernedActionRequest<br/>commitment + authority + resource\"]     Gate[\"Freedom Gate<br/>deterministic lawful mediation\"]     Refusal[\"Refusal / quarantine / appeal evidence\"]. Preserve diagram/source pair and original architecture-record links; current successor diagrams may evolve separately."
       ]
     },
     {
@@ -69622,7 +69803,7 @@
         "f7ecddd6daffeef3c3178bf8a4089627e321d995"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/diagrams/runtime-v3-governed-execution/runtime-v3-governed-execution.svg"
@@ -69630,6 +69811,11 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/diagrams/runtime-v3-governed-execution/runtime-v3-governed-execution.svg"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/diagrams/runtime-v3-governed-execution/runtime-v3-governed-execution.svg:1 <svg id=\"my-svg\" width=\"100%\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" class=\"flowchart\" style=\"max-width: 1991.08px; background-color: white;\" viewBox=\"0 0 1991.078125 357\" role=\"graphics-document document\" aria-roledescri",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3371 Paired architecture/proof visualization for original ADL Runtime design:     Request[\"GovernedActionRequest<br/>commitment + authority + resource\"]     Gate[\"Freedom Gate<br/>deterministic lawful mediation\"]     Refusal[\"Refusal / quarantine / appeal evidence\"]. Preserve diagram/source pair and original architecture-record links; current successor diagrams may evolve separately."
       ]
     },
     {
@@ -69643,7 +69829,7 @@
         "cc9da687f3279c9303b75e90ce829df9c690451b"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/diagrams/runtime-v3-service-contract/runtime-v3-contract-model.mmd"
@@ -69651,6 +69837,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/diagrams/runtime-v3-service-contract/runtime-v3-contract-model.mmd"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/diagrams/runtime-v3-service-contract/runtime-v3-contract-model.mmd:1 classDiagram",
+        "docs/architecture/diagrams/runtime-v3-service-contract/runtime-v3-contract-model.mmd:2   class ServiceContract {",
+        "docs/architecture/diagrams/runtime-v3-service-contract/runtime-v3-contract-model.mmd:3     schema",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3372 Paired architecture/proof visualization for original ADL Runtime design:   class ServiceContract {     schema     component_id. Preserve diagram/source pair and original architecture-record links; current successor diagrams may evolve separately."
       ]
     },
     {
@@ -69664,7 +69857,7 @@
         "2895fe9ae6cae87730f47108e47df509869831a8"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/diagrams/runtime-v3-service-contract/runtime-v3-contract-model.svg"
@@ -69672,6 +69865,11 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/diagrams/runtime-v3-service-contract/runtime-v3-contract-model.svg"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/diagrams/runtime-v3-service-contract/runtime-v3-contract-model.svg:1 <svg id=\"my-svg\" width=\"100%\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" class=\"classDiagram\" style=\"max-width: 771.25px; background-color: transparent;\" viewBox=\"0 0 771.25 570\" role=\"graphics-document document\" aria-roledes",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3373 Paired architecture/proof visualization for original ADL Runtime design:   class ServiceContract {     schema     component_id. Preserve diagram/source pair and original architecture-record links; current successor diagrams may evolve separately."
       ]
     },
     {
@@ -69685,7 +69883,7 @@
         "b3bff21e90959ae8726d36c60f72b630ce820a6b"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/diagrams/runtime-v3-service-contract/runtime-v3-service-topology.mmd"
@@ -69693,6 +69891,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/diagrams/runtime-v3-service-contract/runtime-v3-service-topology.mmd"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/diagrams/runtime-v3-service-contract/runtime-v3-service-topology.mmd:1 flowchart TB",
+        "docs/architecture/diagrams/runtime-v3-service-contract/runtime-v3-service-topology.mmd:2   G[\"External guardian<br/>rustysd, Horust, systemd, container\"]",
+        "docs/architecture/diagrams/runtime-v3-service-contract/runtime-v3-service-topology.mmd:3   K[\"Tokio kernel supervisor<br/>lifecycle and task ownership\"]",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3374 Paired architecture/proof visualization for original ADL Runtime design:   G[\"External guardian<br/>rustysd, Horust, systemd, container\"]   K[\"Tokio kernel supervisor<br/>lifecycle and task ownership\"]   R[\"Validated service registry<br/>contract compatibility before spawn\"]. Preserve diagram/source pair and original architecture-record links; current successor diagrams may evolve separately."
       ]
     },
     {
@@ -69706,7 +69911,7 @@
         "b49f0dece458d3bb58ff6d11415320111d409ada"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/diagrams/runtime-v3-service-contract/runtime-v3-service-topology.svg"
@@ -69714,6 +69919,11 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/diagrams/runtime-v3-service-contract/runtime-v3-service-topology.svg"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/diagrams/runtime-v3-service-contract/runtime-v3-service-topology.svg:1 <svg id=\"my-svg\" width=\"100%\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" class=\"flowchart\" style=\"max-width: 896px; background-color: transparent;\" viewBox=\"0 0 896 726\" role=\"graphics-document document\" aria-roledescription=",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3375 Paired architecture/proof visualization for original ADL Runtime design:   G[\"External guardian<br/>rustysd, Horust, systemd, container\"]   K[\"Tokio kernel supervisor<br/>lifecycle and task ownership\"]   R[\"Validated service registry<br/>contract compatibility before spawn\"]. Preserve diagram/source pair and original architecture-record links; current successor diagrams may evolve separately."
       ]
     },
     {
@@ -69727,7 +69937,7 @@
         "cd09fc127a9d26f33aca2461c79f1008609337ae"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/diagrams/runtime_lifecycle.mmd"
@@ -69735,6 +69945,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/diagrams/runtime_lifecycle.mmd"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/diagrams/runtime_lifecycle.mmd:1 %% Evidence: adl/src/execution_plan.rs, adl/src/execute/mod.rs, adl/src/trace.rs, adl/src/artifacts.rs",
+        "docs/architecture/diagrams/runtime_lifecycle.mmd:2 %% Assumptions: lifecycle labels summarize code paths rather than every internal function.",
+        "docs/architecture/diagrams/runtime_lifecycle.mmd:3 flowchart TD",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3376 Diagram explicitly summarizes ADL execution_plan/execute/trace/artifacts paths, consumed by architecture demo. Preserve monolith-era execution explanation."
       ]
     },
     {
@@ -69748,7 +69965,7 @@
         "132b5f9870992cfc929f8f81b2778bfabb492527"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/diagrams/runtime_v2_subsystem_structure.mmd"
@@ -69756,6 +69973,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/diagrams/runtime_v2_subsystem_structure.mmd"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/diagrams/runtime_v2_subsystem_structure.mmd:1 %% Evidence: adl/src/long_lived_agent.rs, adl/src/execution_plan.rs, adl/src/execute/mod.rs, adl/src/control_plane.rs, docs/architecture/ADL_ARCHITECTURE.md",
+        "docs/architecture/diagrams/runtime_v2_subsystem_structure.mmd:2 %% Assumptions: runtime_v2 subsystem names track the current v0.90.4 control-plane and review-provenable components.",
+        "docs/architecture/diagrams/runtime_v2_subsystem_structure.mmd:3 flowchart LR",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3377 Diagram explicitly binds v0.90.4 Runtime-v2 subsystem source/control-plane structure; keep source-time architecture evidence."
       ]
     },
     {
@@ -69817,7 +70041,7 @@
         "945bdd8dabd82d784578d45a06edc6d9f47b727c"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/diagrams/trust_boundaries.mmd"
@@ -69825,6 +70049,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/diagrams/trust_boundaries.mmd"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/diagrams/trust_boundaries.mmd:1 %% Evidence: adl/src/signing.rs, adl/src/sandbox.rs, adl/src/remote_exec/security.rs, adl/src/provider/mod.rs",
+        "docs/architecture/diagrams/trust_boundaries.mmd:2 %% Assumptions: publication gate is a review-process boundary, not a Rust module boundary.",
+        "docs/architecture/diagrams/trust_boundaries.mmd:3 flowchart TD",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3380 ADL signing/sandbox/remote-exec/provider trust-boundary diagram with explicit publication-process assumption; retain ADL security architecture proof packet."
       ]
     },
     {
@@ -69838,7 +70069,7 @@
         "0d3df231b4ceadcfc751b476809120bbcbf6f482"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/runtime-v3/DISTRIBUTED_GUARDIAN_ARCHITECTURE.md"
@@ -69846,6 +70077,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/runtime-v3/DISTRIBUTED_GUARDIAN_ARCHITECTURE.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/runtime-v3/DISTRIBUTED_GUARDIAN_ARCHITECTURE.md:1 # Distributed Guardian Architecture",
+        "docs/architecture/runtime-v3/DISTRIBUTED_GUARDIAN_ARCHITECTURE.md:3 Status: Candidate design gate for independent v0.92 WP-04 review",
+        "docs/architecture/runtime-v3/DISTRIBUTED_GUARDIAN_ARCHITECTURE.md:5 ## Scope And Authority",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3381 Candidate v0.92 WP04 distributed Guardian design gate, not an installed live operational guide; preserve candidate design and review assumptions."
       ]
     },
     {
@@ -69859,7 +70097,7 @@
         "3384c6e0f12337bc0d8bca5505a32e03c387ea00"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/runtime_v3_acip_a2a_cloud_network_5285.v1.json"
@@ -69867,6 +70105,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/runtime_v3_acip_a2a_cloud_network_5285.v1.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/runtime_v3_acip_a2a_cloud_network_5285.v1.json:1 {",
+        "docs/architecture/runtime_v3_acip_a2a_cloud_network_5285.v1.json:2   \"schema\": \"adl.runtime_v3.acip_a2a_cloud_network_proof.v1\",",
+        "docs/architecture/runtime_v3_acip_a2a_cloud_network_5285.v1.json:3   \"issue\": 5285,",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3382 Original issue-bound proof/inventory adl.runtime_v3.acip_a2a_cloud_network_proof.v1; preserve recorded source/platform/results and denominator, including superseded proof lineage. This is historical evidence, not current successor qualification."
       ]
     },
     {
@@ -69880,7 +70125,7 @@
         "cfb5193bdf27aa24a0431c65192337dbbc140a0b"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/runtime_v3_adaptive_learning_dag_5281.v1.json"
@@ -69888,6 +70133,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/runtime_v3_adaptive_learning_dag_5281.v1.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/runtime_v3_adaptive_learning_dag_5281.v1.json:1 {",
+        "docs/architecture/runtime_v3_adaptive_learning_dag_5281.v1.json:2   \"schema\": \"adl.runtime_v3.adaptive_learning_dag_proof.v1\",",
+        "docs/architecture/runtime_v3_adaptive_learning_dag_5281.v1.json:3   \"issue\": 5281,",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3383 Original issue-bound proof/inventory adl.runtime_v3.adaptive_learning_dag_proof.v1; preserve recorded source/platform/results and denominator, including superseded proof lineage. This is historical evidence, not current successor qualification."
       ]
     },
     {
@@ -69901,7 +70153,7 @@
         "c0351bfafd08ba5fea7bb0a1c8ce5164f6f4f335"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/runtime_v3_baseline_modules.v1.json"
@@ -69909,6 +70161,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/runtime_v3_baseline_modules.v1.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/runtime_v3_baseline_modules.v1.json:1 {",
+        "docs/architecture/runtime_v3_baseline_modules.v1.json:2   \"schema\": \"adl.runtime_v3.baseline_modules.v1\",",
+        "docs/architecture/runtime_v3_baseline_modules.v1.json:3   \"roots\": [",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3384 Frozen baseline lists adl-runtime/src and adl/src/runtime_v2 modules; parity/contracts tests and inventory generator depend on original denominator. Keep baseline immutable while migrating current generator consumers."
       ]
     },
     {
@@ -69922,7 +70181,7 @@
         "28b3b3c09b7bb98486620967ea19c6165fe00581"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/runtime_v3_continuity_replay_recovery_5280.v1.json"
@@ -69930,6 +70189,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/runtime_v3_continuity_replay_recovery_5280.v1.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/runtime_v3_continuity_replay_recovery_5280.v1.json:1 {",
+        "docs/architecture/runtime_v3_continuity_replay_recovery_5280.v1.json:2   \"schema\": \"adl.runtime_v3.continuity_replay_recovery_proof.v1\",",
+        "docs/architecture/runtime_v3_continuity_replay_recovery_5280.v1.json:3   \"issue\": 5280,",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3385 Original issue-bound proof/inventory adl.runtime_v3.continuity_replay_recovery_proof.v1; preserve recorded source/platform/results and denominator, including superseded proof lineage. This is historical evidence, not current successor qualification."
       ]
     },
     {
@@ -69964,7 +70230,7 @@
         "45182d5242bcc66a296c0840ad531b5144bdceda"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/runtime_v3_delegation_resources_5283.v1.json"
@@ -69972,6 +70238,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/runtime_v3_delegation_resources_5283.v1.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/runtime_v3_delegation_resources_5283.v1.json:1 {",
+        "docs/architecture/runtime_v3_delegation_resources_5283.v1.json:2   \"schema\": \"adl.runtime_v3.delegation_resources_proof.v1\",",
+        "docs/architecture/runtime_v3_delegation_resources_5283.v1.json:3   \"issue\": 5283,",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3387 Original issue-bound proof/inventory adl.runtime_v3.delegation_resources_proof.v1; preserve recorded source/platform/results and denominator, including superseded proof lineage. This is historical evidence, not current successor qualification."
       ]
     },
     {
@@ -69985,7 +70258,7 @@
         "3f52474318b6c8af12f4d6eafefd6fd02b57333c"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_policy_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/runtime_v3_fast_validation_5330.md"
@@ -69993,6 +70266,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/runtime_v3_fast_validation_5330.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/runtime_v3_fast_validation_5330.md:1 # Runtime v3 independent fast validation",
+        "docs/architecture/runtime_v3_fast_validation_5330.md:3 Runtime v3 changes need a bounded CI profile selected from changed paths. The",
+        "docs/architecture/runtime_v3_fast_validation_5330.md:4 profile owns only the Runtime v3 crate, its init/guardian configuration, and",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3388 Runtime fast-lane document defines ADL path-policy split between v3/legacy crate validation; preserve ADL CI selection history and update current repo routing separately."
       ]
     },
     {
@@ -70006,7 +70286,7 @@
         "0092264565ca97ebb657cd0400206dc63d388b96"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/runtime_v3_fast_validation_5330.mmd"
@@ -70014,6 +70294,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/runtime_v3_fast_validation_5330.mmd"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/runtime_v3_fast_validation_5330.mmd:1 flowchart LR",
+        "docs/architecture/runtime_v3_fast_validation_5330.mmd:2   D[Changed paths] --> S{Path-policy selector}",
+        "docs/architecture/runtime_v3_fast_validation_5330.mmd:3   S -->|Runtime v3 only| V3[Runtime v3 fast lane]",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3389 Diagram documents ADL fast-lane changed-path split v3 versus legacy; paired policy/reference artifact remains with original CI decision."
       ]
     },
     {
@@ -70027,7 +70314,7 @@
         "2b282c507c80636b28988d594d73c302cbfa93af"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/runtime_v3_governance_freedom_gate_aee_5282.v1.json"
@@ -70035,6 +70322,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/runtime_v3_governance_freedom_gate_aee_5282.v1.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/runtime_v3_governance_freedom_gate_aee_5282.v1.json:1 {",
+        "docs/architecture/runtime_v3_governance_freedom_gate_aee_5282.v1.json:2   \"schema\": \"adl.runtime_v3.governance_freedom_gate_aee_proof.v1\",",
+        "docs/architecture/runtime_v3_governance_freedom_gate_aee_5282.v1.json:3   \"issue\": 5282,",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3390 Original issue-bound proof/inventory adl.runtime_v3.governance_freedom_gate_aee_proof.v1; preserve recorded source/platform/results and denominator, including superseded proof lineage. This is historical evidence, not current successor qualification."
       ]
     },
     {
@@ -70048,7 +70342,7 @@
         "bfcf096a53d8d90f8d15ede228e155d57facd2db"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/runtime_v3_guardian_fallback_matrix.v1.json"
@@ -70056,6 +70350,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/runtime_v3_guardian_fallback_matrix.v1.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/runtime_v3_guardian_fallback_matrix.v1.json:1 {",
+        "docs/architecture/runtime_v3_guardian_fallback_matrix.v1.json:2   \"schema\": \"adl.runtime_v3.guardian_fallback_matrix.v1\",",
+        "docs/architecture/runtime_v3_guardian_fallback_matrix.v1.json:3   \"issue\": 5224,",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3391 JSON explicitly historical_superseded guardian fallback matrix for issue5224; immutable adverse/selection evidence."
       ]
     },
     {
@@ -70069,7 +70370,7 @@
         "99f731575c7c5e6cd550f746b5153c76132d728f"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/runtime_v3_guardian_matrix.v1.json"
@@ -70077,6 +70378,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/runtime_v3_guardian_matrix.v1.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/runtime_v3_guardian_matrix.v1.json:1 {",
+        "docs/architecture/runtime_v3_guardian_matrix.v1.json:2   \"schema\": \"adl.runtime_v3.guardian_matrix.v1\",",
+        "docs/architecture/runtime_v3_guardian_matrix.v1.json:3   \"issue\": 5175,",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3392 JSON explicitly historical_superseded guardian matrix for issue5175; retain denominator and previous decision truth."
       ]
     },
     {
@@ -70090,7 +70398,7 @@
         "03c9249d27f1126be1181c07cb88757ececf5f5c"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/runtime_v3_guardian_soak.mmd"
@@ -70098,6 +70406,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/runtime_v3_guardian_soak.mmd"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/runtime_v3_guardian_soak.mmd:1 flowchart TB",
+        "docs/architecture/runtime_v3_guardian_soak.mmd:2     C[\"Guardian-neutral child contract\\nSIGTERM, classified exit, stdout/stderr, continuity\"]",
+        "docs/architecture/runtime_v3_guardian_soak.mmd:3     R[\"rustysd candidate\\ncommon unit subset\"]",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3393 Paired architecture/proof visualization for original ADL Runtime design:     C[\"Guardian-neutral child contract\\nSIGTERM, classified exit, stdout/stderr, continuity\"]     R[\"rustysd candidate\\ncommon unit subset\"]     H[\"Horust selected portable Unix guardian\\nexecutable restart proof\"]. Preserve diagram/source pair and original architecture-record links; current successor diagrams may evolve separately."
       ]
     },
     {
@@ -70111,7 +70426,7 @@
         "610a95f8a71b3aab0b90c82d2f736fef00568b71"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/runtime_v3_guardian_soak.svg"
@@ -70119,6 +70434,11 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/runtime_v3_guardian_soak.svg"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/runtime_v3_guardian_soak.svg:1 <svg id=\"my-svg\" width=\"100%\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" class=\"flowchart\" style=\"max-width: 840.109px; background-color: transparent;\" viewBox=\"0 0 840.109375 979.609375\" role=\"graphics-document document\" ari",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3394 Paired architecture/proof visualization for original ADL Runtime design:     C[\"Guardian-neutral child contract\\nSIGTERM, classified exit, stdout/stderr, continuity\"]     R[\"rustysd candidate\\ncommon unit subset\"]     H[\"Horust selected portable Unix guardian\\nexecutable restart proof\"]. Preserve diagram/source pair and original architecture-record links; current successor diagrams may evolve separately."
       ]
     },
     {
@@ -70132,7 +70452,7 @@
         "f2666dcbce733a9bc0497965a7318a0b00734824"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/runtime_v3_kernel_lifecycle_5277.v1.json"
@@ -70140,6 +70460,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/runtime_v3_kernel_lifecycle_5277.v1.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/runtime_v3_kernel_lifecycle_5277.v1.json:1 {",
+        "docs/architecture/runtime_v3_kernel_lifecycle_5277.v1.json:2   \"schema\": \"adl.runtime_v3.kernel_lifecycle_proof.v1\",",
+        "docs/architecture/runtime_v3_kernel_lifecycle_5277.v1.json:3   \"issue\": 5277,",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3395 Original issue-bound proof/inventory adl.runtime_v3.kernel_lifecycle_proof.v1; preserve recorded source/platform/results and denominator, including superseded proof lineage. This is historical evidence, not current successor qualification."
       ]
     },
     {
@@ -70153,7 +70480,7 @@
         "ec9af704843028c408108bc0f1541dc7c2d723df"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/runtime_v3_observatory_consumption_5286.v1.json"
@@ -70161,6 +70488,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/runtime_v3_observatory_consumption_5286.v1.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/runtime_v3_observatory_consumption_5286.v1.json:1 {",
+        "docs/architecture/runtime_v3_observatory_consumption_5286.v1.json:2   \"schema\": \"adl.runtime_v3.observatory_consumption_proof.v1\",",
+        "docs/architecture/runtime_v3_observatory_consumption_5286.v1.json:3   \"issue\": 5286,",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3396 Original issue-bound proof/inventory adl.runtime_v3.observatory_consumption_proof.v1; preserve recorded source/platform/results and denominator, including superseded proof lineage. This is historical evidence, not current successor qualification."
       ]
     },
     {
@@ -70174,7 +70508,7 @@
         "de4a55538160a4394f253e9d5d0e98e536d41ce5"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/runtime_v3_operational_components.mmd"
@@ -70182,6 +70516,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/runtime_v3_operational_components.mmd"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/runtime_v3_operational_components.mmd:1 flowchart TB",
+        "docs/architecture/runtime_v3_operational_components.mmd:2     K[\"Tokio kernel and supervisor\"] --> C[\"Versioned component contracts\"]",
+        "docs/architecture/runtime_v3_operational_components.mmd:3     G[\"Freedom Gate and AEE\"] --> P[\"Governed operational adapter\"]",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3397 Paired architecture/proof visualization for original ADL Runtime design:     K[\"Tokio kernel and supervisor\"] --> C[\"Versioned component contracts\"]     G[\"Freedom Gate and AEE\"] --> P[\"Governed operational adapter\"]     C --> P. Preserve diagram/source pair and original architecture-record links; current successor diagrams may evolve separately."
       ]
     },
     {
@@ -70195,7 +70536,7 @@
         "fc97c9232b8ff7354db8717e034dde3b4cc240a3"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/runtime_v3_operational_components.svg"
@@ -70203,6 +70544,11 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/runtime_v3_operational_components.svg"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/runtime_v3_operational_components.svg:1 <svg id=\"my-svg\" width=\"100%\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" class=\"flowchart\" style=\"max-width: 1113.85px; background-color: transparent;\" viewBox=\"0 0 1113.8515625 766\" role=\"graphics-document document\" aria-rol",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3398 Paired architecture/proof visualization for original ADL Runtime design:     K[\"Tokio kernel and supervisor\"] --> C[\"Versioned component contracts\"]     G[\"Freedom Gate and AEE\"] --> P[\"Governed operational adapter\"]     C --> P. Preserve diagram/source pair and original architecture-record links; current successor diagrams may evolve separately."
       ]
     },
     {
@@ -70216,7 +70562,7 @@
         "ba4f117fbbd7ec4e593f1cefb7853b901b62cce1"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/runtime_v3_service_contracts_configuration_5279.v1.json"
@@ -70224,6 +70570,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/runtime_v3_service_contracts_configuration_5279.v1.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/runtime_v3_service_contracts_configuration_5279.v1.json:1 {",
+        "docs/architecture/runtime_v3_service_contracts_configuration_5279.v1.json:2   \"schema\": \"adl.runtime_v3.service_contracts_configuration_proof.v1\",",
+        "docs/architecture/runtime_v3_service_contracts_configuration_5279.v1.json:3   \"issue\": 5279,",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3399 Original issue-bound proof/inventory adl.runtime_v3.service_contracts_configuration_proof.v1; preserve recorded source/platform/results and denominator, including superseded proof lineage. This is historical evidence, not current successor qualification."
       ]
     },
     {
@@ -70237,7 +70590,7 @@
         "b607319fe61ca901316764292dfbc676bff9735e"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/runtime_v3_shadow_parity.mmd"
@@ -70245,6 +70598,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/runtime_v3_shadow_parity.mmd"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/runtime_v3_shadow_parity.mmd:1 flowchart LR",
+        "docs/architecture/runtime_v3_shadow_parity.mmd:2     I[\"Canonical shared fixture\"] --> H[\"Bounded shadow harness\"]",
+        "docs/architecture/runtime_v3_shadow_parity.mmd:3     H --> V2[\"Recorded / external Runtime v2 backend\"]",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3400 Paired architecture/proof visualization for original ADL Runtime design:     I[\"Canonical shared fixture\"] --> H[\"Bounded shadow harness\"]     H --> V2[\"Recorded / external Runtime v2 backend\"]     H --> V3[\"Runtime v3 backend\"]. Preserve diagram/source pair and original architecture-record links; current successor diagrams may evolve separately."
       ]
     },
     {
@@ -70258,7 +70618,7 @@
         "518b89092aa4093d58de6ad1aeaa4e55c152ce69"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/runtime_v3_shadow_parity.svg"
@@ -70266,6 +70626,11 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/runtime_v3_shadow_parity.svg"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/runtime_v3_shadow_parity.svg:1 <svg id=\"my-svg\" width=\"100%\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" class=\"flowchart\" style=\"max-width: 2495.75px; background-color: transparent;\" viewBox=\"0 0 2495.75 382\" role=\"graphics-document document\" aria-roledesc",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3401 Paired architecture/proof visualization for original ADL Runtime design:     I[\"Canonical shared fixture\"] --> H[\"Bounded shadow harness\"]     H --> V2[\"Recorded / external Runtime v2 backend\"]     H --> V3[\"Runtime v3 backend\"]. Preserve diagram/source pair and original architecture-record links; current successor diagrams may evolve separately."
       ]
     },
     {
@@ -70279,7 +70644,7 @@
         "569dc59b46235ae491f847b568843ede1ffced18"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/architecture/runtime_v3_topology_backpressure_5278.v1.json"
@@ -70287,6 +70652,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/architecture/runtime_v3_topology_backpressure_5278.v1.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/architecture/runtime_v3_topology_backpressure_5278.v1.json:1 {",
+        "docs/architecture/runtime_v3_topology_backpressure_5278.v1.json:2   \"schema\": \"adl.runtime_v3.topology_backpressure_proof.v1\",",
+        "docs/architecture/runtime_v3_topology_backpressure_5278.v1.json:3   \"issue\": 5278,",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3402 Original issue-bound proof/inventory adl.runtime_v3.topology_backpressure_proof.v1; preserve recorded source/platform/results and denominator, including superseded proof lineage. This is historical evidence, not current successor qualification."
       ]
     },
     {
@@ -70359,7 +70731,7 @@
         "2514a210848a5944acd40fadb508338dd70a9713"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "b200caf8668e707ac10b2b47ba7c88441d7af593",
       "exact_content_candidates": [
         "docs/codefriend/ARCHITECTURE_INSTALLED_PROOF.json"
@@ -70367,6 +70739,13 @@
       "accepted_rd11_revision": "91ae8c5e4008a07cee8fd3a70a1306d4d971f9b4",
       "accepted_content_candidates": [
         "docs/codefriend/ARCHITECTURE_INSTALLED_PROOF.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/codefriend/ARCHITECTURE_INSTALLED_PROOF.json:1 {",
+        "docs/codefriend/ARCHITECTURE_INSTALLED_PROOF.json:2   \"schema\": \"codefriend.structure_installed_proof.v1\",",
+        "docs/codefriend/ARCHITECTURE_INSTALLED_PROOF.json:3   \"issue\": 882,",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3406 Original issue-bound proof/inventory codefriend.structure_installed_proof.v1; preserve recorded source/platform/results and denominator, including superseded proof lineage. This is historical evidence, not current successor qualification."
       ]
     },
     {
@@ -70380,7 +70759,7 @@
         "1d7b807ebe723f300308b0c73b013d2628441fed"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "b200caf8668e707ac10b2b47ba7c88441d7af593",
       "exact_content_candidates": [
         "docs/codefriend/ARCHITECTURE_PROOF_INVENTORY.json"
@@ -70388,6 +70767,13 @@
       "accepted_rd11_revision": "91ae8c5e4008a07cee8fd3a70a1306d4d971f9b4",
       "accepted_content_candidates": [
         "docs/codefriend/ARCHITECTURE_PROOF_INVENTORY.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/codefriend/ARCHITECTURE_PROOF_INVENTORY.json:1 {",
+        "docs/codefriend/ARCHITECTURE_PROOF_INVENTORY.json:2   \"schema\": \"codefriend.architecture_proof_inventory.v1\",",
+        "docs/codefriend/ARCHITECTURE_PROOF_INVENTORY.json:3   \"issue\": 882,",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3407 Original issue-bound proof/inventory codefriend.architecture_proof_inventory.v1; preserve recorded source/platform/results and denominator, including superseded proof lineage. This is historical evidence, not current successor qualification."
       ]
     },
     {
@@ -70464,7 +70850,7 @@
         "5d1a0cf42439113a6e2005e19252e7c4ddb5ac04"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "b200caf8668e707ac10b2b47ba7c88441d7af593",
       "exact_content_candidates": [
         "docs/codefriend/EVIDENCE_BOOTSTRAP_PROOF.json"
@@ -70472,6 +70858,13 @@
       "accepted_rd11_revision": "91ae8c5e4008a07cee8fd3a70a1306d4d971f9b4",
       "accepted_content_candidates": [
         "docs/codefriend/EVIDENCE_BOOTSTRAP_PROOF.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/codefriend/EVIDENCE_BOOTSTRAP_PROOF.json:1 {",
+        "docs/codefriend/EVIDENCE_BOOTSTRAP_PROOF.json:2   \"schema\": \"codefriend.evidence_installed_proof.v1\",",
+        "docs/codefriend/EVIDENCE_BOOTSTRAP_PROOF.json:3   \"issue\": 881,",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3411 Original issue-bound proof/inventory codefriend.evidence_installed_proof.v1; preserve recorded source/platform/results and denominator, including superseded proof lineage. This is historical evidence, not current successor qualification."
       ]
     },
     {
@@ -70506,7 +70899,7 @@
         "b144c87449ca6a4e9efd1798ff16258f196f9872"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "b200caf8668e707ac10b2b47ba7c88441d7af593",
       "exact_content_candidates": [
         "docs/codefriend/EVIDENCE_INSTALLED_PROOF.json"
@@ -70514,6 +70907,13 @@
       "accepted_rd11_revision": "91ae8c5e4008a07cee8fd3a70a1306d4d971f9b4",
       "accepted_content_candidates": [
         "docs/codefriend/EVIDENCE_INSTALLED_PROOF.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/codefriend/EVIDENCE_INSTALLED_PROOF.json:1 {",
+        "docs/codefriend/EVIDENCE_INSTALLED_PROOF.json:2   \"schema\": \"codefriend.evidence_installed_proof.v1\",",
+        "docs/codefriend/EVIDENCE_INSTALLED_PROOF.json:3   \"issue\": 881,",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3413 Original issue-bound proof/inventory codefriend.evidence_installed_proof.v1; preserve recorded source/platform/results and denominator, including superseded proof lineage. This is historical evidence, not current successor qualification."
       ]
     },
     {
@@ -70527,7 +70927,7 @@
         "b4dd74d28de81e91bd917066173d382e0fc596ff"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "b200caf8668e707ac10b2b47ba7c88441d7af593",
       "exact_content_candidates": [
         "docs/codefriend/EVIDENCE_PROOF_INVENTORY.json"
@@ -70535,6 +70935,13 @@
       "accepted_rd11_revision": "91ae8c5e4008a07cee8fd3a70a1306d4d971f9b4",
       "accepted_content_candidates": [
         "docs/codefriend/EVIDENCE_PROOF_INVENTORY.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/codefriend/EVIDENCE_PROOF_INVENTORY.json:1 {",
+        "docs/codefriend/EVIDENCE_PROOF_INVENTORY.json:2   \"schema\": \"codefriend.evidence_proof_inventory.v1\",",
+        "docs/codefriend/EVIDENCE_PROOF_INVENTORY.json:3   \"issue\": 881,",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3414 Original issue-bound proof/inventory codefriend.evidence_proof_inventory.v1; preserve recorded source/platform/results and denominator, including superseded proof lineage. This is historical evidence, not current successor qualification."
       ]
     },
     {
@@ -70586,7 +70993,7 @@
         "111e0690fb10820a3e0df0898f16c0936637051b"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "b200caf8668e707ac10b2b47ba7c88441d7af593",
       "exact_content_candidates": [
         "docs/codefriend/HOSTING.md"
@@ -70594,6 +71001,13 @@
       "accepted_rd11_revision": "91ae8c5e4008a07cee8fd3a70a1306d4d971f9b4",
       "accepted_content_candidates": [
         "docs/codefriend/HOSTING.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/codefriend/HOSTING.md:1 # Invited beta hosting and idle shutdown",
+        "docs/codefriend/HOSTING.md:3 Tracked implementation: [#1077](https://github.com/agent-logic/agent-design-language/issues/1077).",
+        "docs/codefriend/HOSTING.md:5 The operator selected `beta.codefriend.ai` in the Agent Logic AWS account, with",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3417 ADL issue1077 operator-selected invited-beta domain, manual start/idle-stop decision and integration boundary; preserve original hosting decision; successor may own current operating guide."
       ]
     },
     {
@@ -70670,7 +71084,7 @@
         "da313e78313ad3148fe4a154b6bed4f713974e39"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "b200caf8668e707ac10b2b47ba7c88441d7af593",
       "exact_content_candidates": [
         "docs/codefriend/LOCAL_FITNESS_INSTALLED_PROOF.json"
@@ -70678,6 +71092,13 @@
       "accepted_rd11_revision": "91ae8c5e4008a07cee8fd3a70a1306d4d971f9b4",
       "accepted_content_candidates": [
         "docs/codefriend/LOCAL_FITNESS_INSTALLED_PROOF.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/codefriend/LOCAL_FITNESS_INSTALLED_PROOF.json:1 {",
+        "docs/codefriend/LOCAL_FITNESS_INSTALLED_PROOF.json:2   \"schema\": \"codefriend.fitness_installed_proof.v1\",",
+        "docs/codefriend/LOCAL_FITNESS_INSTALLED_PROOF.json:3   \"issue\": 887,",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3421 Original issue-bound proof/inventory codefriend.fitness_installed_proof.v1; preserve recorded source/platform/results and denominator, including superseded proof lineage. This is historical evidence, not current successor qualification."
       ]
     },
     {
@@ -70691,7 +71112,7 @@
         "900dc7d104913ef79098eef7f7f94206faf68df0"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "b200caf8668e707ac10b2b47ba7c88441d7af593",
       "exact_content_candidates": [
         "docs/codefriend/LOCAL_FITNESS_PROOF_INVENTORY.json"
@@ -70699,6 +71120,13 @@
       "accepted_rd11_revision": "91ae8c5e4008a07cee8fd3a70a1306d4d971f9b4",
       "accepted_content_candidates": [
         "docs/codefriend/LOCAL_FITNESS_PROOF_INVENTORY.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/codefriend/LOCAL_FITNESS_PROOF_INVENTORY.json:1 {",
+        "docs/codefriend/LOCAL_FITNESS_PROOF_INVENTORY.json:2   \"schema\": \"codefriend.fitness_proof_inventory.v1\",",
+        "docs/codefriend/LOCAL_FITNESS_PROOF_INVENTORY.json:3   \"issue\": 887,",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3422 Original issue-bound proof/inventory codefriend.fitness_proof_inventory.v1; preserve recorded source/platform/results and denominator, including superseded proof lineage. This is historical evidence, not current successor qualification."
       ]
     },
     {
@@ -70733,7 +71161,7 @@
         "9209174e88dcfaa03f06a62bba84ac52a341de9d"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "b200caf8668e707ac10b2b47ba7c88441d7af593",
       "exact_content_candidates": [
         "docs/codefriend/LOCAL_INGESTION_PROOF.json"
@@ -70741,6 +71169,13 @@
       "accepted_rd11_revision": "91ae8c5e4008a07cee8fd3a70a1306d4d971f9b4",
       "accepted_content_candidates": [
         "docs/codefriend/LOCAL_INGESTION_PROOF.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/codefriend/LOCAL_INGESTION_PROOF.json:1 {",
+        "docs/codefriend/LOCAL_INGESTION_PROOF.json:2   \"schema\": \"codefriend.local_ingestion_proof.v1\",",
+        "docs/codefriend/LOCAL_INGESTION_PROOF.json:3   \"issue\": 878,",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3424 Original issue-bound proof/inventory codefriend.local_ingestion_proof.v1; preserve recorded source/platform/results and denominator, including superseded proof lineage. This is historical evidence, not current successor qualification."
       ]
     },
     {
@@ -70754,7 +71189,7 @@
         "22d14b0006e975f9011998e5cd40ef5475055e29"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "b200caf8668e707ac10b2b47ba7c88441d7af593",
       "exact_content_candidates": [
         "docs/codefriend/LOCAL_INGESTION_REPAIR_PROOF.json"
@@ -70762,6 +71197,13 @@
       "accepted_rd11_revision": "91ae8c5e4008a07cee8fd3a70a1306d4d971f9b4",
       "accepted_content_candidates": [
         "docs/codefriend/LOCAL_INGESTION_REPAIR_PROOF.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/codefriend/LOCAL_INGESTION_REPAIR_PROOF.json:1 {",
+        "docs/codefriend/LOCAL_INGESTION_REPAIR_PROOF.json:2   \"schema\": \"codefriend.local_ingestion_proof.v1\",",
+        "docs/codefriend/LOCAL_INGESTION_REPAIR_PROOF.json:3   \"supersedes_for_candidate\": \"Initial 4ff9e8ab1f packet contract; original proof retained unchanged\",",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3425 Original issue-bound proof/inventory codefriend.local_ingestion_proof.v1; preserve recorded source/platform/results and denominator, including superseded proof lineage. This is historical evidence, not current successor qualification."
       ]
     },
     {
@@ -70775,7 +71217,7 @@
         "00e9d1954128578bee96c04aef6cf663228a5569"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "b200caf8668e707ac10b2b47ba7c88441d7af593",
       "exact_content_candidates": [
         "docs/codefriend/LOCAL_INGESTION_STREAMING_PROOF.json"
@@ -70783,6 +71225,13 @@
       "accepted_rd11_revision": "91ae8c5e4008a07cee8fd3a70a1306d4d971f9b4",
       "accepted_content_candidates": [
         "docs/codefriend/LOCAL_INGESTION_STREAMING_PROOF.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/codefriend/LOCAL_INGESTION_STREAMING_PROOF.json:1 {",
+        "docs/codefriend/LOCAL_INGESTION_STREAMING_PROOF.json:2   \"schema\": \"codefriend.local_ingestion_proof.v1\",",
+        "docs/codefriend/LOCAL_INGESTION_STREAMING_PROOF.json:3   \"supersedes_for_candidate\": \"Initial 4ff9e8ab1f packet contract; original proof retained unchanged\",",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3426 Original issue-bound proof/inventory codefriend.local_ingestion_proof.v1; preserve recorded source/platform/results and denominator, including superseded proof lineage. This is historical evidence, not current successor qualification."
       ]
     },
     {
@@ -70796,7 +71245,7 @@
         "08c3529d3b8f69953b282a8e5b4c7a1ac5a75018"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "b200caf8668e707ac10b2b47ba7c88441d7af593",
       "exact_content_candidates": [
         "docs/codefriend/LOCAL_INGESTION_TOML_PROOF.json"
@@ -70804,6 +71253,13 @@
       "accepted_rd11_revision": "91ae8c5e4008a07cee8fd3a70a1306d4d971f9b4",
       "accepted_content_candidates": [
         "docs/codefriend/LOCAL_INGESTION_TOML_PROOF.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/codefriend/LOCAL_INGESTION_TOML_PROOF.json:1 {",
+        "docs/codefriend/LOCAL_INGESTION_TOML_PROOF.json:2   \"schema\": \"codefriend.local_ingestion_proof.v1\",",
+        "docs/codefriend/LOCAL_INGESTION_TOML_PROOF.json:3   \"supersedes_for_candidate\": \"Initial 4ff9e8ab1f packet contract; original proof retained unchanged\",",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3427 Original issue-bound proof/inventory codefriend.local_ingestion_proof.v1; preserve recorded source/platform/results and denominator, including superseded proof lineage. This is historical evidence, not current successor qualification."
       ]
     },
     {
@@ -70859,7 +71315,7 @@
         "1c596ec435a0b96fbaf596e94e57d2143cb2c1b4"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "b200caf8668e707ac10b2b47ba7c88441d7af593",
       "exact_content_candidates": [
         "docs/codefriend/MEMORY_COMPARISON_PROOF_INVENTORY.json"
@@ -70867,6 +71323,13 @@
       "accepted_rd11_revision": "91ae8c5e4008a07cee8fd3a70a1306d4d971f9b4",
       "accepted_content_candidates": [
         "docs/codefriend/MEMORY_COMPARISON_PROOF_INVENTORY.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/codefriend/MEMORY_COMPARISON_PROOF_INVENTORY.json:1 {",
+        "docs/codefriend/MEMORY_COMPARISON_PROOF_INVENTORY.json:2   \"schema\":\"codefriend.memory_comparison_proof_inventory.v1\",",
+        "docs/codefriend/MEMORY_COMPARISON_PROOF_INVENTORY.json:3   \"issue\":885,",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3430 Original issue-bound proof/inventory codefriend.memory_comparison_proof_inventory.v1; preserve recorded source/platform/results and denominator, including superseded proof lineage. This is historical evidence, not current successor qualification."
       ]
     },
     {
@@ -70880,7 +71343,7 @@
         "3d048970e89d0683f804c0151bbdf687245c38bb"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "b200caf8668e707ac10b2b47ba7c88441d7af593",
       "exact_content_candidates": [
         "docs/codefriend/MEMORY_INSTALLED_PROOF.json"
@@ -70888,6 +71351,13 @@
       "accepted_rd11_revision": "91ae8c5e4008a07cee8fd3a70a1306d4d971f9b4",
       "accepted_content_candidates": [
         "docs/codefriend/MEMORY_INSTALLED_PROOF.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/codefriend/MEMORY_INSTALLED_PROOF.json:1 {",
+        "docs/codefriend/MEMORY_INSTALLED_PROOF.json:2   \"schema\": \"codefriend.memory_installed_proof.v1\",",
+        "docs/codefriend/MEMORY_INSTALLED_PROOF.json:3   \"issue\": 885,",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3431 Original issue-bound proof/inventory codefriend.memory_installed_proof.v1; preserve recorded source/platform/results and denominator, including superseded proof lineage. This is historical evidence, not current successor qualification."
       ]
     },
     {
@@ -73190,7 +73660,7 @@
         "528ba78d7608c1f703d2470c7c0f313421bba86d"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_navigation_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/explainers/ACIP.md"
@@ -73198,6 +73668,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/explainers/ACIP.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/explainers/ACIP.md:1 # Agent Communication And Invocation Protocol",
+        "docs/explainers/ACIP.md:3 Agent Communication and Invocation Protocol (ACIP) is ADL's general substrate",
+        "docs/explainers/ACIP.md:4 for agent-to-agent communication.",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3535 ADL conceptual explainer and README navigation: Agent Communication And Invocation Protocol. Content defines ADL lineage and architecture vocabulary; retain ADL explanation and link separately to current Runtime product guides."
       ]
     },
     {
@@ -73211,7 +73688,7 @@
         "b71c22372b2b40722823fcec76dfba9cba1432e8"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_navigation_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/explainers/AEE.md"
@@ -73219,6 +73696,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/explainers/AEE.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/explainers/AEE.md:1 # Adaptive Execution Engine",
+        "docs/explainers/AEE.md:3 AEE means Adaptive Execution Engine. It is ADL's execution-adaptation lineage:",
+        "docs/explainers/AEE.md:4 bounded strategy selection, recovery, learning, and policy-aware execution.",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3536 ADL conceptual explainer and README navigation: Adaptive Execution Engine. Content defines ADL lineage and architecture vocabulary; retain ADL explanation and link separately to current Runtime product guides."
       ]
     },
     {
@@ -73232,7 +73716,7 @@
         "3b03b149f013f679b02ea441d695d471eb7fb85d"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_navigation_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/explainers/CSM.md"
@@ -73240,6 +73724,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/explainers/CSM.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/explainers/CSM.md:1 # Cognitive SpaceTime Manifold",
+        "docs/explainers/CSM.md:3 CSM means Cognitive SpaceTime Manifold. It is ADL's model for a governed",
+        "docs/explainers/CSM.md:4 runtime world where agents, state, time, causality, trace, memory, and identity",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3537 ADL conceptual explainer and README navigation: Cognitive SpaceTime Manifold. Content defines ADL lineage and architecture vocabulary; retain ADL explanation and link separately to current Runtime product guides."
       ]
     },
     {
@@ -73253,7 +73744,7 @@
         "32241f2dd95bca6230ee3389aaa1808e41f1c3d3"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_navigation_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/explainers/GODEL_AGENTS.md"
@@ -73261,6 +73752,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/explainers/GODEL_AGENTS.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/explainers/GODEL_AGENTS.md:1 # G\u00f6del Agents",
+        "docs/explainers/GODEL_AGENTS.md:3 G\u00f6del Agents are ADL's long-running direction for identity-bearing agents that",
+        "docs/explainers/GODEL_AGENTS.md:4 can reason about their own behavior, evaluate proposed improvements, and adapt",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3538 ADL conceptual explainer and README navigation: G\u00f6del Agents. Content defines ADL lineage and architecture vocabulary; retain ADL explanation and link separately to current Runtime product guides."
       ]
     },
     {
@@ -73274,7 +73772,7 @@
         "e51d75db743142809b3e815c5c58563ba1a2ebdf"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_navigation_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/explainers/RED_BLUE_SECURITY.md"
@@ -73282,6 +73780,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/explainers/RED_BLUE_SECURITY.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/explainers/RED_BLUE_SECURITY.md:1 # Red / Blue Adversarial Security",
+        "docs/explainers/RED_BLUE_SECURITY.md:3 ADL treats adversarial security as a runtime architecture, not as a periodic",
+        "docs/explainers/RED_BLUE_SECURITY.md:4 external review ritual.",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3539 ADL conceptual explainer and README navigation: Red / Blue Adversarial Security. Content defines ADL lineage and architecture vocabulary; retain ADL explanation and link separately to current Runtime product guides."
       ]
     },
     {
@@ -73295,7 +73800,7 @@
         "1f592a5ef6519968d601e0af84d6298c8a29c59c"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f",
       "exact_content_candidates": [
         "docs/operations/cloud/aws/access-billing/AWS_ACCESS_BILLING_BASELINE.md"
@@ -73303,6 +73808,13 @@
       "accepted_rd11_revision": "c8b787ce065e2912fe1db88fc778daded7a8ba63",
       "accepted_content_candidates": [
         "docs/operations/cloud/aws/access-billing/AWS_ACCESS_BILLING_BASELINE.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/operations/cloud/aws/access-billing/AWS_ACCESS_BILLING_BASELINE.md:1 # AWS access and billing baseline",
+        "docs/operations/cloud/aws/access-billing/AWS_ACCESS_BILLING_BASELINE.md:3 Issue: #485 (`AWS-B`)",
+        "docs/operations/cloud/aws/access-billing/AWS_ACCESS_BILLING_BASELINE.md:5 Status: draft implementation evidence, pending typed bind, exact-head review, and publication. Live readbacks completed, and AC-3 now has an AWS CLI `2.36.32` readback, above the required AWS CLI 2.35+ floor.",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3540 Issue485 AWS-B draft implementation/readback evidence explicitly pending lifecycle gates; preserve source-time account baseline and limits, not current AWS state."
       ]
     },
     {
@@ -73316,7 +73828,7 @@
         "d9aee218bc3a859f2a217986b28d2a16a1f171a6"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f",
       "exact_content_candidates": [
         "docs/operations/cloud/aws/adoption/AWS_RESOURCE_ADOPTION_REGISTER.md"
@@ -73324,6 +73836,13 @@
       "accepted_rd11_revision": "c8b787ce065e2912fe1db88fc778daded7a8ba63",
       "accepted_content_candidates": [
         "docs/operations/cloud/aws/adoption/AWS_RESOURCE_ADOPTION_REGISTER.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/operations/cloud/aws/adoption/AWS_RESOURCE_ADOPTION_REGISTER.md:1 # AWS-E resource adoption register",
+        "docs/operations/cloud/aws/adoption/AWS_RESOURCE_ADOPTION_REGISTER.md:3 Issue: #488",
+        "docs/operations/cloud/aws/adoption/AWS_RESOURCE_ADOPTION_REGISTER.md:4 Sprint: v0.92.1 Sprint 2",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3541 Issue488 AWS-E resource-adoption register binds prior terminal dependency and live-readback profile; preserve original adoption authorization/evidence."
       ]
     },
     {
@@ -73358,7 +73877,7 @@
         "b8ddb16b4f89f88d0ad80f0dcda548b9ffc88fcc"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_policy_history",
       "observed_successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f",
       "exact_content_candidates": [
         "docs/operations/cloud/aws/audit-security/README.md"
@@ -73366,6 +73885,13 @@
       "accepted_rd11_revision": "c8b787ce065e2912fe1db88fc778daded7a8ba63",
       "accepted_content_candidates": [
         "docs/operations/cloud/aws/audit-security/README.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/operations/cloud/aws/audit-security/README.md:1 # AWS-D audit and security baseline",
+        "docs/operations/cloud/aws/audit-security/README.md:3 Issue #487 owns the AWS audit and security baseline for the approved Agent Logic business account after #486 provides the Terraform bootstrap prerequisite.",
+        "docs/operations/cloud/aws/audit-security/README.md:5 The baseline must define CloudTrail/account activity visibility, configuration posture, detection finding ownership, access-analysis readback, alert routing, retention, encryption, cost scope, and redacted evidence handling.",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3543 Issue487 Agent Logic audit/security baseline defines producer ownership, notification and spend/access boundaries; preserve business-account policy/acceptance, not local delete authority."
       ]
     },
     {
@@ -73379,7 +73905,7 @@
         "22a591a476cc726efc70b0857c23ef5a099f4153"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f",
       "exact_content_candidates": [
         "docs/operations/cloud/aws/dns/COMPANY_HOSTED_ZONES.md"
@@ -73387,6 +73913,13 @@
       "accepted_rd11_revision": "c8b787ce065e2912fe1db88fc778daded7a8ba63",
       "accepted_content_candidates": [
         "docs/operations/cloud/aws/dns/COMPANY_HOSTED_ZONES.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/operations/cloud/aws/dns/COMPANY_HOSTED_ZONES.md:1 # Company hosted zones for transferred domains",
+        "docs/operations/cloud/aws/dns/COMPANY_HOSTED_ZONES.md:3 Issue: [#1072](https://github.com/agent-logic/agent-design-language/issues/1072)",
+        "docs/operations/cloud/aws/dns/COMPANY_HOSTED_ZONES.md:5 ## Outcome and authority boundary",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3544 Dated issue1072 creation of eight company hosted zones and authority limits; preserve original change record and delegation evidence."
       ]
     },
     {
@@ -73400,7 +73933,7 @@
         "c39320d3e45913a631e07e4e2b0dbc8aee830113"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f",
       "exact_content_candidates": [
         "docs/operations/cloud/aws/dns/COMPANY_HOSTED_ZONES_VERIFICATION.json"
@@ -73408,6 +73941,13 @@
       "accepted_rd11_revision": "c8b787ce065e2912fe1db88fc778daded7a8ba63",
       "accepted_content_candidates": [
         "docs/operations/cloud/aws/dns/COMPANY_HOSTED_ZONES_VERIFICATION.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/operations/cloud/aws/dns/COMPANY_HOSTED_ZONES_VERIFICATION.json:1 {",
+        "docs/operations/cloud/aws/dns/COMPANY_HOSTED_ZONES_VERIFICATION.json:2   \"observed_at\": \"2026-09-18T22:54:39.633802+00:00\",",
+        "docs/operations/cloud/aws/dns/COMPANY_HOSTED_ZONES_VERIFICATION.json:3   \"status\": \"PASS\",",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3545 Observed-at PASS domain verification JSON is dated DNS readback evidence; cannot imply current DNS or authorize deleting original receipt."
       ]
     },
     {
@@ -73421,7 +73961,7 @@
         "43f63e75f36010a5d61e6931bc170d27456f4a8d"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f",
       "exact_content_candidates": [
         "docs/operations/cloud/aws/inventory/AWS_RESOURCE_OWNERSHIP_INVENTORY.md"
@@ -73429,6 +73969,13 @@
       "accepted_rd11_revision": "c8b787ce065e2912fe1db88fc778daded7a8ba63",
       "accepted_content_candidates": [
         "docs/operations/cloud/aws/inventory/AWS_RESOURCE_OWNERSHIP_INVENTORY.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/operations/cloud/aws/inventory/AWS_RESOURCE_OWNERSHIP_INVENTORY.md:1 # AWS Resource Ownership Inventory",
+        "docs/operations/cloud/aws/inventory/AWS_RESOURCE_OWNERSHIP_INVENTORY.md:3 Issue: #484 / AWS-A",
+        "docs/operations/cloud/aws/inventory/AWS_RESOURCE_OWNERSHIP_INVENTORY.md:5 Scope: Agent Logic business AWS account, read-only inventory only",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3546 Issue484 read-only AWS ownership inventory is capture-window evidence. Inventory README explicitly requires preserving historical baseline unchanged."
       ]
     },
     {
@@ -73442,7 +73989,7 @@
         "343afb2eb45daade984f0914748b9660dfe2dc9c"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_navigation_history",
       "observed_successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f",
       "exact_content_candidates": [
         "docs/operations/cloud/aws/inventory/README.md"
@@ -73450,6 +73997,13 @@
       "accepted_rd11_revision": "c8b787ce065e2912fe1db88fc778daded7a8ba63",
       "accepted_content_candidates": [
         "docs/operations/cloud/aws/inventory/README.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/operations/cloud/aws/inventory/README.md:1 # AWS inventory index",
+        "docs/operations/cloud/aws/inventory/README.md:3 - Current refresh: [#908 packet, 2026-09-12 UTC](../../../../../.csdlc/evidence/908/README.md).",
+        "docs/operations/cloud/aws/inventory/README.md:4 - Maintenance: [safe refresh and uncertainty policy](../../../../../.csdlc/evidence/908/MAINTENANCE.md).",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3547 AWS inventory index links ADL-local issue908 evidence and preserved issue484 baseline; keep navigation/provenance even if successor owns future inventories."
       ]
     },
     {
@@ -73526,7 +74080,7 @@
         "6331b9a73063fc76df162932ba1c7bd34e7f7f90"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/operations/cloud/aws/shepherd-gpu-proof/README.md"
@@ -73534,6 +74088,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/operations/cloud/aws/shepherd-gpu-proof/README.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/operations/cloud/aws/shepherd-gpu-proof/README.md:1 # AWS two-node Runtime and GPU proof",
+        "docs/operations/cloud/aws/shepherd-gpu-proof/README.md:3 Issue #345 owns a bounded AWS portability proof. It is not a production",
+        "docs/operations/cloud/aws/shepherd-gpu-proof/README.md:4 inference fallback or 24/7 service definition. The proof uses one regular",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3551 Issue345 bounded two-node AWS portability proof explicitly disclaims production fallback/24x7 service; source proof script references this explanation. Preserve original proof contract."
       ]
     },
     {
@@ -73589,7 +74150,7 @@
         "17ee63579870a57e3e2a22342a530151f2274ba2"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f",
       "exact_content_candidates": [
         "docs/operations/cloud/gcp/decisions/GCP_HIERARCHY_COST_DECISION.md"
@@ -73597,6 +74158,13 @@
       "accepted_rd11_revision": "c8b787ce065e2912fe1db88fc778daded7a8ba63",
       "accepted_content_candidates": [
         "docs/operations/cloud/gcp/decisions/GCP_HIERARCHY_COST_DECISION.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/operations/cloud/gcp/decisions/GCP_HIERARCHY_COST_DECISION.md:1 # GCP hierarchy and cost decision",
+        "docs/operations/cloud/gcp/decisions/GCP_HIERARCHY_COST_DECISION.md:3 Issue: #490",
+        "docs/operations/cloud/gcp/decisions/GCP_HIERARCHY_COST_DECISION.md:5 Status: accepted decision register for the GCP-A hierarchy and cost denominator.",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3554 Accepted issue490 GCP hierarchy/cost decision explicitly read-only decision evidence for v0.92.1; preserve historical cost denominator and no-apply authority."
       ]
     },
     {
@@ -73837,7 +74405,7 @@
         "bde83e8072bc000658b206c0cd3eb1304756c6a7"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/planning/ROADMAP_RUNTIME_V2_AND_BIRTHDAY_BOUNDARY.md"
@@ -73845,6 +74413,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/planning/ROADMAP_RUNTIME_V2_AND_BIRTHDAY_BOUNDARY.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/planning/ROADMAP_RUNTIME_V2_AND_BIRTHDAY_BOUNDARY.md:1 # Runtime v2 And Birthday Boundary Roadmap",
+        "docs/planning/ROADMAP_RUNTIME_V2_AND_BIRTHDAY_BOUNDARY.md:3 ## Purpose",
+        "docs/planning/ROADMAP_RUNTIME_V2_AND_BIRTHDAY_BOUNDARY.md:5 This roadmap records the post-v0.90 planning boundary created during the",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3565 Post-v0.90 Runtime-v2/birthday roadmap records release-tail scope boundaries; preserve historical planning and deferred obligations."
       ]
     },
     {
@@ -73882,7 +74457,7 @@
         "cc2e867970f8ef5db8479fb67b014d8cf69dbba4"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/planning/WILDCLAWBENCH_ADL_BENCHMARK_SPIKE_PLAN.md"
@@ -73890,6 +74465,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/planning/WILDCLAWBENCH_ADL_BENCHMARK_SPIKE_PLAN.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/planning/WILDCLAWBENCH_ADL_BENCHMARK_SPIKE_PLAN.md:1 # WildClawBench ADL Benchmark Spike Plan",
+        "docs/planning/WILDCLAWBENCH_ADL_BENCHMARK_SPIKE_PLAN.md:3 ## Status",
+        "docs/planning/WILDCLAWBENCH_ADL_BENCHMARK_SPIKE_PLAN.md:5 Tracked v0.91.4 planning source for the WildClawBench benchmark spike sidecar.",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3567 Tracked v0.91.4 WildClawBench spike sidecar plan promoted from local notes; preserve source-era benchmark plan rather than claiming executed qualification."
       ]
     },
     {
@@ -73903,11 +74485,18 @@
         "cd2d6e6799cda8dca79bb647cd55f1ebfbcacbdd"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "b200caf8668e707ac10b2b47ba7c88441d7af593",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "91ae8c5e4008a07cee8fd3a70a1306d4d971f9b4",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/planning/codefriend/CODEFRIEND_PRE_ALPHA_REPO_AND_S3_WELCOME_MINI_SPRINT.md:1 # CodeFriend Pre-Alpha Repo And S3 Welcome Mini-Sprint",
+        "docs/planning/codefriend/CODEFRIEND_PRE_ALPHA_REPO_AND_S3_WELCOME_MINI_SPRINT.md:3 ## Status",
+        "docs/planning/codefriend/CODEFRIEND_PRE_ALPHA_REPO_AND_S3_WELCOME_MINI_SPRINT.md:5 Planning document for issue `#3254`.",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3568 Original ADL CodeFriend planning artifact: Planning document for issue `#3254`. Preserve planned scope, original issue references and noncompletion boundary; unmapped planning history does not require invented successor ownership."
+      ]
     },
     {
       "id": "RD07-3569",
@@ -73920,11 +74509,18 @@
         "a4d4ab3250d69c656b12c3d72dab0a87538a98ff"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "b200caf8668e707ac10b2b47ba7c88441d7af593",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "91ae8c5e4008a07cee8fd3a70a1306d4d971f9b4",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/planning/codefriend/CODEFRIEND_REFERENCE_INVENTORY.md:1 # CodeFriend Reference Inventory",
+        "docs/planning/codefriend/CODEFRIEND_REFERENCE_INVENTORY.md:3 ## Status",
+        "docs/planning/codefriend/CODEFRIEND_REFERENCE_INVENTORY.md:5 Planning inventory for issue `#3238`.",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3569 Original ADL CodeFriend planning artifact: Planning inventory for issue `#3238`. Preserve planned scope, original issue references and noncompletion boundary; unmapped planning history does not require invented successor ownership."
+      ]
     },
     {
       "id": "RD07-3570",
@@ -73937,11 +74533,18 @@
         "30225f55c1607958a78dc84eed37e67a3600bc6f"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "b200caf8668e707ac10b2b47ba7c88441d7af593",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "91ae8c5e4008a07cee8fd3a70a1306d4d971f9b4",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/planning/codefriend/CODEFRIEND_SETUP_PLAN.md:1 # CodeFriend Setup Plan",
+        "docs/planning/codefriend/CODEFRIEND_SETUP_PLAN.md:3 ## Status",
+        "docs/planning/codefriend/CODEFRIEND_SETUP_PLAN.md:5 Planning surface for issue `#3238`.",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3570 Original ADL CodeFriend planning artifact: Planning surface for issue `#3238`. Preserve planned scope, original issue references and noncompletion boundary; unmapped planning history does not require invented successor ownership."
+      ]
     },
     {
       "id": "RD07-3571",
@@ -73954,11 +74557,18 @@
         "6184b423e25169f675649ab506be661f8b4a1d21"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "b200caf8668e707ac10b2b47ba7c88441d7af593",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "91ae8c5e4008a07cee8fd3a70a1306d4d971f9b4",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/planning/codefriend/CODEFRIEND_V1_BUILD_PLAN.md:1 # CodeFriend v1 Build Plan",
+        "docs/planning/codefriend/CODEFRIEND_V1_BUILD_PLAN.md:3 ## Status",
+        "docs/planning/codefriend/CODEFRIEND_V1_BUILD_PLAN.md:5 Planning artifact for `#4756`.",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3571 Original ADL CodeFriend planning artifact: Planning artifact for `#4756`. Preserve planned scope, original issue references and noncompletion boundary; unmapped planning history does not require invented successor ownership."
+      ]
     },
     {
       "id": "RD07-3572",
@@ -74034,7 +74644,7 @@
         "20eeb8801bc74b3738643fca288044aea4d54f13"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/runtime-v3/PROVIDER_NEUTRAL_LIFECYCLE.md"
@@ -74042,6 +74652,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/runtime-v3/PROVIDER_NEUTRAL_LIFECYCLE.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/runtime-v3/PROVIDER_NEUTRAL_LIFECYCLE.md:1 # Provider-neutral lifecycle proof",
+        "docs/runtime-v3/PROVIDER_NEUTRAL_LIFECYCLE.md:3 Issue #855 exercises the installed Runtime generation through the operator CLI and authenticated Runtime API. The local proof uses the genuine OpenAI, Anthropic, Vertex AI, Ollama and OpenAI-compatible adapters against a generated loopback HTTPS fixture. It ma",
+        "docs/runtime-v3/PROVIDER_NEUTRAL_LIFECYCLE.md:5 Run `adl/tools/issue855_provider_lifecycle.py` on macOS with Python 3.11+ and `cryptography`. Supply `--csm`, `--csmctl`, `--guardian`, `--kernel`, `--vector`, the build's `--source-revision`, and a new `--output` directory under the issue worktree's ignored `",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3575 Issue855 installed provider-neutral lifecycle proof recipe references original MacOS fixture driver and independent hosted acceptance. Keep original evidence entrypoint and nonclaims."
       ]
     },
     {
@@ -74055,7 +74672,7 @@
         "5f8458ff05440665c769bcfebe230a676dbe802f"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/runtime-v3/fixtures/issue855/HOSTED_LIVE02_FAILED.json"
@@ -74063,6 +74680,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/runtime-v3/fixtures/issue855/HOSTED_LIVE02_FAILED.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/runtime-v3/fixtures/issue855/HOSTED_LIVE02_FAILED.json:1 {",
+        "docs/runtime-v3/fixtures/issue855/HOSTED_LIVE02_FAILED.json:2   \"schema\": \"adl.issue855.installed_provider_lifecycle.v1\",",
+        "docs/runtime-v3/fixtures/issue855/HOSTED_LIVE02_FAILED.json:3   \"result\": \"failed\",",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3576 Original installed/provider lifecycle record with recorded outcome failed. Preserve failed, draft, pending and passing records at their original source/run boundary; do not upgrade to current successor acceptance."
       ]
     },
     {
@@ -74076,7 +74700,7 @@
         "5e2b548223be2f17a30ef7d633e5b0045b8a8145"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/runtime-v3/fixtures/issue855/INSTALLED_PROOF_DRAFT_RUN08.json"
@@ -74084,6 +74708,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/runtime-v3/fixtures/issue855/INSTALLED_PROOF_DRAFT_RUN08.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/runtime-v3/fixtures/issue855/INSTALLED_PROOF_DRAFT_RUN08.json:1 {",
+        "docs/runtime-v3/fixtures/issue855/INSTALLED_PROOF_DRAFT_RUN08.json:2   \"schema\": \"adl.issue855.installed_lifecycle_proof.v1\",",
+        "docs/runtime-v3/fixtures/issue855/INSTALLED_PROOF_DRAFT_RUN08.json:3   \"status\": \"draft_pass_pending_final_source_refresh\",",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3577 Original installed/provider lifecycle record with recorded outcome draft_pass_pending_final_source_refresh. Preserve failed, draft, pending and passing records at their original source/run boundary; do not upgrade to current successor acceptance."
       ]
     },
     {
@@ -74097,7 +74728,7 @@
         "debc4f29b5fcec0cf22d578f20f79925e2092b7a"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/runtime-v3/fixtures/issue855/INSTALLED_PROOF_RUN09.json"
@@ -74105,6 +74736,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/runtime-v3/fixtures/issue855/INSTALLED_PROOF_RUN09.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/runtime-v3/fixtures/issue855/INSTALLED_PROOF_RUN09.json:1 {",
+        "docs/runtime-v3/fixtures/issue855/INSTALLED_PROOF_RUN09.json:2   \"schema\": \"adl.issue855.installed_lifecycle_proof.v1\",",
+        "docs/runtime-v3/fixtures/issue855/INSTALLED_PROOF_RUN09.json:3   \"status\": \"pass_at_recorded_source_pending_later_mock_bound_refresh\",",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3578 Original installed/provider lifecycle record with recorded outcome pass_at_recorded_source_pending_later_mock_bound_refresh. Preserve failed, draft, pending and passing records at their original source/run boundary; do not upgrade to current successor acceptance."
       ]
     },
     {
@@ -74118,7 +74756,7 @@
         "54fc8f8beb602d1db076b3da1191c68df01ad8c5"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/runtime-v3/fixtures/issue855/INSTALLED_PROOF_RUN10.json"
@@ -74126,6 +74764,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/runtime-v3/fixtures/issue855/INSTALLED_PROOF_RUN10.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/runtime-v3/fixtures/issue855/INSTALLED_PROOF_RUN10.json:1 {",
+        "docs/runtime-v3/fixtures/issue855/INSTALLED_PROOF_RUN10.json:2   \"schema\": \"adl.issue855.installed_lifecycle_proof.v1\",",
+        "docs/runtime-v3/fixtures/issue855/INSTALLED_PROOF_RUN10.json:3   \"status\": \"pass_local_fixtures_hosted_acceptance_incomplete\",",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3579 Original installed/provider lifecycle record with recorded outcome pass_local_fixtures_hosted_acceptance_incomplete. Preserve failed, draft, pending and passing records at their original source/run boundary; do not upgrade to current successor acceptance."
       ]
     },
     {
@@ -74139,7 +74784,7 @@
         "e4b48a45bcc5528bbc0c00be531aa9aa66c248f7"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/runtime-v3/fixtures/issue967/EXACT_HEAD_HOSTED_ACCEPTANCE_PROOF.json"
@@ -74147,6 +74792,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/runtime-v3/fixtures/issue967/EXACT_HEAD_HOSTED_ACCEPTANCE_PROOF.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/runtime-v3/fixtures/issue967/EXACT_HEAD_HOSTED_ACCEPTANCE_PROOF.json:1 {",
+        "docs/runtime-v3/fixtures/issue967/EXACT_HEAD_HOSTED_ACCEPTANCE_PROOF.json:2   \"schema\": \"adl.issue967.exact_head_hosted_acceptance_proof.v1\",",
+        "docs/runtime-v3/fixtures/issue967/EXACT_HEAD_HOSTED_ACCEPTANCE_PROOF.json:3   \"status\": \"pass\",",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3580 Original installed/provider lifecycle record with recorded outcome pass. Preserve failed, draft, pending and passing records at their original source/run boundary; do not upgrade to current successor acceptance."
       ]
     },
     {
@@ -74160,7 +74812,7 @@
         "f507412b6eddb7e87edcf3066178950f56c55fd2"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/runtime-v3/fixtures/issue967/EXACT_HEAD_ZERO_PAID_PROOF.json"
@@ -74168,6 +74820,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/runtime-v3/fixtures/issue967/EXACT_HEAD_ZERO_PAID_PROOF.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/runtime-v3/fixtures/issue967/EXACT_HEAD_ZERO_PAID_PROOF.json:1 {",
+        "docs/runtime-v3/fixtures/issue967/EXACT_HEAD_ZERO_PAID_PROOF.json:2   \"schema\": \"adl.issue967.exact_head_zero_paid_proof.v1\",",
+        "docs/runtime-v3/fixtures/issue967/EXACT_HEAD_ZERO_PAID_PROOF.json:3   \"status\": \"pass_zero_paid_hosted_acceptance_pending\",",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3581 Original installed/provider lifecycle record with recorded outcome pass_zero_paid_hosted_acceptance_pending. Preserve failed, draft, pending and passing records at their original source/run boundary; do not upgrade to current successor acceptance."
       ]
     },
     {
@@ -74181,7 +74840,7 @@
         "0a08d6ae16dfba67bf05087e1bb1a4316fce88d1"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/runtime-v3/fixtures/issue990/MANAGED_RESTART_PROOF.json"
@@ -74189,6 +74848,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/runtime-v3/fixtures/issue990/MANAGED_RESTART_PROOF.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/runtime-v3/fixtures/issue990/MANAGED_RESTART_PROOF.json:1 {",
+        "docs/runtime-v3/fixtures/issue990/MANAGED_RESTART_PROOF.json:2   \"schema\": \"adl.issue990.managed_restart_evidence.v1\",",
+        "docs/runtime-v3/fixtures/issue990/MANAGED_RESTART_PROOF.json:3   \"status\": \"pass\",",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3582 Original installed/provider lifecycle record with recorded outcome pass. Preserve failed, draft, pending and passing records at their original source/run boundary; do not upgrade to current successor acceptance."
       ]
     },
     {
@@ -74282,7 +74948,7 @@
         "58770ac98461f4b7b0354b10c934f76037ac7fc8"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/runtime/VERTEX_AI_POLIS_CONFIGURATION.md"
@@ -74290,6 +74956,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/runtime/VERTEX_AI_POLIS_CONFIGURATION.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/runtime/VERTEX_AI_POLIS_CONFIGURATION.md:1 # Polis Vertex AI configuration",
+        "docs/runtime/VERTEX_AI_POLIS_CONFIGURATION.md:3 Issue #592 configures the governed Polis runtime for Vertex AI without making a",
+        "docs/runtime/VERTEX_AI_POLIS_CONFIGURATION.md:4 live paid Vertex AI request. The runtime initialization file names the provider,",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3587 Issue592 governed Vertex configuration proof explicitly without paid live request; preserve original setup decision and qualification limits, not current credentials or deployment proof."
       ]
     },
     {
@@ -74345,7 +75018,7 @@
         "09bf206d29150e4e8d14cf7d12e21d8927c0ac2a"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_policy_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/runtime/runtime-v2-v3-authority-topology.md"
@@ -74353,6 +75026,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/runtime/runtime-v2-v3-authority-topology.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/runtime/runtime-v2-v3-authority-topology.md:1 # Runtime v2/v3 Authority Topology",
+        "docs/runtime/runtime-v2-v3-authority-topology.md:3 This document is the DEC-01 authority contract for v0.92.1. It separates Runtime v2 and Runtime v3 ownership without deleting Runtime v2, making Runtime v3 the default, or admitting Runtime v4; Runtime v4 is excluded.",
+        "docs/runtime/runtime-v2-v3-authority-topology.md:5 ## Source Authority",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3590 DEC-01 v0.92.1 Runtime-v2/v3 ownership and nondeletion authority contract; source-retirement must preserve that historical decision, not replace it with successor implementation docs."
       ]
     },
     {
@@ -74366,7 +75046,7 @@
         "10ec940d6ad356ee0859466e63f829fae63d2324"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/security/runtime-v3/DISTRIBUTED_GUARDIAN_THREAT_MODEL.md"
@@ -74374,6 +75054,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/security/runtime-v3/DISTRIBUTED_GUARDIAN_THREAT_MODEL.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/security/runtime-v3/DISTRIBUTED_GUARDIAN_THREAT_MODEL.md:1 # Distributed Guardian Threat Model",
+        "docs/security/runtime-v3/DISTRIBUTED_GUARDIAN_THREAT_MODEL.md:3 Status: Candidate security gate for independent v0.92 WP-04 review",
+        "docs/security/runtime-v3/DISTRIBUTED_GUARDIAN_THREAT_MODEL.md:5 ## Scope And Assumptions",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3591 Candidate WP04 distributed Guardian security gate documents review assumptions/threat boundary; preserve original security-review packet."
       ]
     },
     {
@@ -77679,7 +78366,7 @@
         "310493a2d0c2a91cc5a031eda101ebfb4a28080c"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_policy",
       "observed_successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f",
       "exact_content_candidates": [
         "docs/tooling/ADL_OWNED_CI_STEP_LOGS.md"
@@ -77687,6 +78374,13 @@
       "accepted_rd11_revision": "c8b787ce065e2912fe1db88fc778daded7a8ba63",
       "accepted_content_candidates": [
         "docs/tooling/ADL_OWNED_CI_STEP_LOGS.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/tooling/ADL_OWNED_CI_STEP_LOGS.md:1 # ADL-Owned CI Step Logs",
+        "docs/tooling/ADL_OWNED_CI_STEP_LOGS.md:3 ADL keeps GitHub Actions logs as useful operator context, but important CI",
+        "docs/tooling/ADL_OWNED_CI_STEP_LOGS.md:4 steps should also produce small ADL-owned log artifacts. This gives reviewers a",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3718 ADL-owned durable CI step-log requirements are local reviewer/CI evidence policy, regardless of infrastructure implementing the transport."
       ]
     },
     {
@@ -77724,11 +78418,18 @@
         "07f88327957f3ec5caa1c82725532453550d066d"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_adl_policy_history",
       "observed_successor_revision": "b200caf8668e707ac10b2b47ba7c88441d7af593",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "91ae8c5e4008a07cee8fd3a70a1306d4d971f9b4",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/tooling/AWS_CODEFRIEND_BUILD_DISPATCH_BOUNDARY.md:1 # AWS CodeFriend Build Dispatch Boundary",
+        "docs/tooling/AWS_CODEFRIEND_BUILD_DISPATCH_BOUNDARY.md:3 The `aws-codefriend-build` workflow is a manual, operator-dispatched path.",
+        "docs/tooling/AWS_CODEFRIEND_BUILD_DISPATCH_BOUNDARY.md:4 Only repository maintainers with GitHub Actions workflow-dispatch permission",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3720 ADL manual aws-codefriend-build dispatch allowlist, trust/account and redaction boundary names ADL commands/workflow. Keep original authorization contract; no successor mapping proves a current replacement."
+      ]
     },
     {
       "id": "RD07-3721",
@@ -77821,7 +78522,7 @@
         "35ee6a6648eb47773985579b0d1f1f4927812631"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_policy_history",
       "observed_successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f",
       "exact_content_candidates": [
         "docs/tooling/BUILD_ACTION_LOGS.md"
@@ -77829,6 +78530,13 @@
       "accepted_rd11_revision": "c8b787ce065e2912fe1db88fc778daded7a8ba63",
       "accepted_content_candidates": [
         "docs/tooling/BUILD_ACTION_LOGS.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/tooling/BUILD_ACTION_LOGS.md:1 # Build Action Logs",
+        "docs/tooling/BUILD_ACTION_LOGS.md:3 ADL build and validation commands can retain durable build-action packets when",
+        "docs/tooling/BUILD_ACTION_LOGS.md:4 the command surface implements this contract.",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3725 ADL build-action packet/evidence contract with explicit implemented surfaces; preserve original logging/claim boundaries even when implementation is successor-owned."
       ]
     },
     {
@@ -77842,7 +78550,7 @@
         "cc25a18e918b57f9d06d9a74f4d5a3e8ea2762ea"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f",
       "exact_content_candidates": [
         "docs/tooling/BUILD_PLATFORM_BENCHMARKS.md"
@@ -77850,6 +78558,13 @@
       "accepted_rd11_revision": "c8b787ce065e2912fe1db88fc778daded7a8ba63",
       "accepted_content_candidates": [
         "docs/tooling/BUILD_PLATFORM_BENCHMARKS.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/tooling/BUILD_PLATFORM_BENCHMARKS.md:1 # Build Platform Benchmarks",
+        "docs/tooling/BUILD_PLATFORM_BENCHMARKS.md:3 `adl/tools/run_build_platform_benchmark.sh` runs the same small build/test",
+        "docs/tooling/BUILD_PLATFORM_BENCHMARKS.md:4 workload on each build platform so WP-06 timing comparisons use one shape.",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3726 WP06 benchmark comparison recipe fixes original workload/measurement denominator; preserve original benchmark evidence and provenance instead of inferring new current measurements."
       ]
     },
     {
@@ -78184,7 +78899,7 @@
         "9af5f549303ae6f457fb453d3dc6f58000943656"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/tooling/FIVE_AGENT_MUSIC_DEMO_CONTRACT.md"
@@ -78192,6 +78907,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/tooling/FIVE_AGENT_MUSIC_DEMO_CONTRACT.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/tooling/FIVE_AGENT_MUSIC_DEMO_CONTRACT.md:1 # Five-Agent Music Demo Contract",
+        "docs/tooling/FIVE_AGENT_MUSIC_DEMO_CONTRACT.md:3 This contract defines the bounded artifact package for the `v0.89.1` five-agent",
+        "docs/tooling/FIVE_AGENT_MUSIC_DEMO_CONTRACT.md:4 Hey Jude MIDI flagship demo.",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3741 v0.89.1 five-agent Hey Jude MIDI artifact/demo acceptance contract; preserve original required proof package and release demonstration."
       ]
     },
     {
@@ -78205,7 +78927,7 @@
         "b6f5759fa794fc14cb22d4f3396b9b75bb668d49"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f",
       "exact_content_candidates": [
         "docs/tooling/GITHUB_ACTIONS_RUNTIME_PIN_INVENTORY.md"
@@ -78213,6 +78935,13 @@
       "accepted_rd11_revision": "c8b787ce065e2912fe1db88fc778daded7a8ba63",
       "accepted_content_candidates": [
         "docs/tooling/GITHUB_ACTIONS_RUNTIME_PIN_INVENTORY.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/tooling/GITHUB_ACTIONS_RUNTIME_PIN_INVENTORY.md:1 # GitHub Actions Runtime Pin Inventory",
+        "docs/tooling/GITHUB_ACTIONS_RUNTIME_PIN_INVENTORY.md:3 Issue #5463 upgrades the action revisions named by GitHub-hosted run",
+        "docs/tooling/GITHUB_ACTIONS_RUNTIME_PIN_INVENTORY.md:4 `29632957768`. Its check annotations reported that GitHub was forcing three",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3742 Issue5463 GitHub action pin repair inventory cites a specific forced-Node24 run; dated repository upgrade evidence, not a current platform catalog."
       ]
     },
     {
@@ -78247,7 +78976,7 @@
         "880725eca3d865cce1e0d3d984520724eb692d31"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_policy_history",
       "observed_successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f",
       "exact_content_candidates": [
         "docs/tooling/GITHUB_SPOT_CI_COVERAGE_HOW_TO.md"
@@ -78255,6 +78984,13 @@
       "accepted_rd11_revision": "c8b787ce065e2912fe1db88fc778daded7a8ba63",
       "accepted_content_candidates": [
         "docs/tooling/GITHUB_SPOT_CI_COVERAGE_HOW_TO.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/tooling/GITHUB_SPOT_CI_COVERAGE_HOW_TO.md:1 # GitHub Spot CI And Coverage HOW-TO",
+        "docs/tooling/GITHUB_SPOT_CI_COVERAGE_HOW_TO.md:3 ## Rollout Model",
+        "docs/tooling/GITHUB_SPOT_CI_COVERAGE_HOW_TO.md:5 GitHub Actions remains the control plane. A small hosted runner authenticates",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3744 ADL GitHub/OIDC Spot rollout and coverage-control-plane policy is tied to its workflows; preserve local validation authority boundary while infrastructure recipes move."
       ]
     },
     {
@@ -78268,7 +79004,7 @@
         "3cb88e82ff5dd4be4b25156b4030951826b796cf"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_policy",
       "observed_successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f",
       "exact_content_candidates": [
         "docs/tooling/HARDLINKED_RUST_DEPENDENCY_CACHE.md"
@@ -78276,6 +79012,13 @@
       "accepted_rd11_revision": "c8b787ce065e2912fe1db88fc778daded7a8ba63",
       "accepted_content_candidates": [
         "docs/tooling/HARDLINKED_RUST_DEPENDENCY_CACHE.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/tooling/HARDLINKED_RUST_DEPENDENCY_CACHE.md:1 # Hardlinked Rust Dependency Cache Warmup",
+        "docs/tooling/HARDLINKED_RUST_DEPENDENCY_CACHE.md:3 ADL issue worktrees often pay avoidable Rust cold-build cost. In one EC2 warm-build comparison, warming build state cut build time by roughly 60%. This helper turns that lesson into a small, explicit local tool without introducing a shared global `CARGO_TARGET",
+        "docs/tooling/HARDLINKED_RUST_DEPENDENCY_CACHE.md:5 The design follows the dependency-artifact hardlinking pattern described in Howard John, [Sharing Rust Build Cache](https://blog.howardjohn.info/posts/shared-rust-build/): do not share one target directory, and do not copy mutable workspace outputs. Instead, r",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3745 AGENTS:314 cites same-host hardlinked Rust warm-cache policy and ADL wrapper boundaries. Keep repo build-safety contract and update wrapper/owner links separately."
       ]
     },
     {
@@ -78403,11 +79146,18 @@
         "ccd8c6bf7b98a34aa0368e462ce14f0c8e11d4f8"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "b200caf8668e707ac10b2b47ba7c88441d7af593",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "91ae8c5e4008a07cee8fd3a70a1306d4d971f9b4",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/tooling/MULTI_AGENT_REPO_CODE_REVIEW_DEMO_CONTRACT.md:1 # Multi-Agent Repo Code Review Demo Contract",
+        "docs/tooling/MULTI_AGENT_REPO_CODE_REVIEW_DEMO_CONTRACT.md:3 ## Purpose",
+        "docs/tooling/MULTI_AGENT_REPO_CODE_REVIEW_DEMO_CONTRACT.md:5 Define the bounded packet and reviewer-role contract for the `v0.89`",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3751 v0.89 multi-agent repo-review demo packet/reviewer-role contract; preserve historical ADL proof contract despite no successor mapping."
+      ]
     },
     {
       "id": "RD07-3752",
@@ -78420,7 +79170,7 @@
         "a14bb307badaa1268469f81d6fcf82d3f34b1b99"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/tooling/MULTI_AGENT_TRANSCRIPT_ARTIFACT_CONTRACT.md"
@@ -78428,6 +79178,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/tooling/MULTI_AGENT_TRANSCRIPT_ARTIFACT_CONTRACT.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/tooling/MULTI_AGENT_TRANSCRIPT_ARTIFACT_CONTRACT.md:1 # Multi-Agent Transcript Artifact Contract",
+        "docs/tooling/MULTI_AGENT_TRANSCRIPT_ARTIFACT_CONTRACT.md:3 Status: bounded demo contract",
+        "docs/tooling/MULTI_AGENT_TRANSCRIPT_ARTIFACT_CONTRACT.md:5 This document defines the canonical reviewer-facing transcript artifact shape for",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3752 Bounded demo transcript artifact schema consumed by ADL discussion demo; preserve original reviewer-facing proof shape and examples."
       ]
     },
     {
@@ -78462,7 +79219,7 @@
         "b409da5bdce6c05296a614a2c5b9c8c05fdac206"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_policy_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/tooling/OPUS_REVIEW_RUNBOOK.md"
@@ -78470,6 +79227,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/tooling/OPUS_REVIEW_RUNBOOK.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/tooling/OPUS_REVIEW_RUNBOOK.md:1 # Using Claude Opus for ADL reviews",
+        "docs/tooling/OPUS_REVIEW_RUNBOOK.md:3 This is the operator procedure for a bounded, evidence-first review through",
+        "docs/tooling/OPUS_REVIEW_RUNBOOK.md:4 the Rust `adl-provider-adapter`. It is review evidence, not lifecycle",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3754 ADL evidence-first external Opus review runbook disclaims lifecycle authority and has local contract test; retain repo review process contract, link current provider command separately."
       ]
     },
     {
@@ -78507,7 +79271,7 @@
         "6851a7d54ef295098378d7169ecccdb96f724bef"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_policy",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/tooling/PERMISSION_SAFE_PROCESS_STATUS.md"
@@ -78515,6 +79279,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/tooling/PERMISSION_SAFE_PROCESS_STATUS.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/tooling/PERMISSION_SAFE_PROCESS_STATUS.md:1 # Permission-Safe Process Status",
+        "docs/tooling/PERMISSION_SAFE_PROCESS_STATUS.md:3 Issue: #4136",
+        "docs/tooling/PERMISSION_SAFE_PROCESS_STATUS.md:4 Promotes: LB-121",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3756 AGENTS:245 requires permission-safe process-status helper instead of broad process scans. Retain repository operator-safety policy while helper owner may move."
       ]
     },
     {
@@ -78720,7 +79491,7 @@
         "d59d4e4fdfc32910e4fded1dbdd9686082c57231"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/tooling/PROVIDER_DEMO_SURFACES.md"
@@ -78728,6 +79499,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/tooling/PROVIDER_DEMO_SURFACES.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/tooling/PROVIDER_DEMO_SURFACES.md:1 # Provider Demo Proof Surfaces",
+        "docs/tooling/PROVIDER_DEMO_SURFACES.md:3 This document governs the shared proof surfaces for the `v0.87.1` provider demo wave.",
+        "docs/tooling/PROVIDER_DEMO_SURFACES.md:5 ## Purpose",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3765 Explicit v0.87.1 provider-demo wave proof-surface contract and ADL examples navigation; retain historical reviewer-entry and discovery evidence."
       ]
     },
     {
@@ -78786,7 +79564,7 @@
         "95a2ddd790a7e2a6e42433430ab94e657ac5913a"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/tooling/QNAP_QTS_SSM_ONBOARDING.md"
@@ -78794,6 +79572,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/tooling/QNAP_QTS_SSM_ONBOARDING.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/tooling/QNAP_QTS_SSM_ONBOARDING.md:1 # QNAP QTS SSM Onboarding Notes",
+        "docs/tooling/QNAP_QTS_SSM_ONBOARDING.md:3 This guide captures the QNAP/QTS-specific AWS Systems Manager onboarding path",
+        "docs/tooling/QNAP_QTS_SSM_ONBOARDING.md:4 proven during `#4319` on `opticon.local`.",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3768 QNAP/QTS onboarding notes record issue4319 proof on opticon.local, with host-specific constraints. Preserve historical verified-host procedure and bounded nonclaims."
       ]
     },
     {
@@ -78807,7 +79592,7 @@
         "4bdd5ddd1d2d9dc29c51c86ea6ed6e444780422c"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_navigation_policy",
       "observed_successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f",
       "exact_content_candidates": [
         "docs/tooling/REMOTE_BUILD_HOW_TO.md"
@@ -78815,6 +79600,13 @@
       "accepted_rd11_revision": "c8b787ce065e2912fe1db88fc778daded7a8ba63",
       "accepted_content_candidates": [
         "docs/tooling/REMOTE_BUILD_HOW_TO.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/tooling/REMOTE_BUILD_HOW_TO.md:1 # Remote Build How-To",
+        "docs/tooling/REMOTE_BUILD_HOW_TO.md:3 Use this playbook to run ADL validation or repeated builds on Nessus, AWS Spot,",
+        "docs/tooling/REMOTE_BUILD_HOW_TO.md:4 or AWS CodeBuild without rediscovering the setup. Keep runs issue-bound,",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3769 ADL remote-build operator entrypoint chooses Nessus/Spot/CodeBuild issue-bound validation; keep repo workflow navigation, link recipes to accepted infrastructure owner."
       ]
     },
     {
@@ -78933,7 +79725,7 @@
         "273ccc997c006b43458e308e1ea44ed48bd36d09"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_policy_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/tooling/S3_OBSMEM_COMMUNITY_MEMORY_ARCHIVE_POLICY.md"
@@ -78941,6 +79733,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/tooling/S3_OBSMEM_COMMUNITY_MEMORY_ARCHIVE_POLICY.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/tooling/S3_OBSMEM_COMMUNITY_MEMORY_ARCHIVE_POLICY.md:1 # S3 ObsMem Community-Memory Archive Policy",
+        "docs/tooling/S3_OBSMEM_COMMUNITY_MEMORY_ARCHIVE_POLICY.md:3 WP-08 uses an Agent Logic S3 bucket as the first community-memory archive",
+        "docs/tooling/S3_OBSMEM_COMMUNITY_MEMORY_ARCHIVE_POLICY.md:4 backend for ObsMem and Polis evidence artifacts. The live v0.91.7 bucket is:",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3775 WP08 community archive policy names original bucket/data boundary and is used by ADL selector. Preserve account/storage governance and dated resource evidence, not a current bucket existence claim."
       ]
     },
     {
@@ -78999,7 +79798,7 @@
         "b43c596fc6fd6252f705ac35ffb1022316adf9f4"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_policy",
       "observed_successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f",
       "exact_content_candidates": [
         "docs/tooling/VALIDATION_PLATFORM_ROUTING.md"
@@ -79007,6 +79806,13 @@
       "accepted_rd11_revision": "c8b787ce065e2912fe1db88fc778daded7a8ba63",
       "accepted_content_candidates": [
         "docs/tooling/VALIDATION_PLATFORM_ROUTING.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/tooling/VALIDATION_PLATFORM_ROUTING.md:1 # Validation Platform Routing",
+        "docs/tooling/VALIDATION_PLATFORM_ROUTING.md:3 `adl/tools/validation_manager.sh` can emit a first-class routing contract for",
+        "docs/tooling/VALIDATION_PLATFORM_ROUTING.md:4 the validation platform scheduler. The routing contract explains which platform",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3778 ADL validation-manager platform selection/rejection contract referenced by fast-lane tests; repo chooses its proving lanes even when infrastructure owns remote executors."
       ]
     },
     {
@@ -79157,7 +79963,7 @@
         "6459d0258e8359ed031efb3e6faf0250cf3a406c"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/tooling/ccc_v0.md"
@@ -79165,6 +79971,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/tooling/ccc_v0.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/tooling/ccc_v0.md:1 # Cognitive Compression Cost v0",
+        "docs/tooling/ccc_v0.md:3 ## Status",
+        "docs/tooling/ccc_v0.md:5 First practical instrumentation pass for issue #2380.",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3785 Issue2380 first practical Cognitive Compression Cost instrumentation pass; preserve original metric design and limits, not current successor telemetry equivalence."
       ]
     },
     {
@@ -80227,7 +81040,7 @@
         "426a8518b0b251e5de10ee2af857ede77e53272e"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_policy_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/tooling/unity_mcp_observatory_alignment.md"
@@ -80235,6 +81048,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/tooling/unity_mcp_observatory_alignment.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/tooling/unity_mcp_observatory_alignment.md:1 # Unity-MCP Observatory Alignment",
+        "docs/tooling/unity_mcp_observatory_alignment.md:3 This runbook proves that one local Unity-MCP endpoint is attached to the",
+        "docs/tooling/unity_mcp_observatory_alignment.md:4 intended Observatory project before any scene result is accepted as evidence.",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3828 ADL Unity/Observatory project-identity and bounded scene-evidence alignment proof, coupled to validation-selector tests; preserve original integration acceptance boundary."
       ]
     },
     {
@@ -80248,7 +81068,7 @@
         "6faf78b17ab1cb82890f06ddda9596f7dce00abd"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_adl_history",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "docs/tooling/unity_observatory_editor_batch_proof.md"
@@ -80256,6 +81076,13 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "docs/tooling/unity_observatory_editor_batch_proof.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/tooling/unity_observatory_editor_batch_proof.md:1 # Unity Observatory editor and batch proof",
+        "docs/tooling/unity_observatory_editor_batch_proof.md:3 Issue: #4741",
+        "docs/tooling/unity_observatory_editor_batch_proof.md:5 ## Purpose",
+        "PRODUCT_DOCUMENT_DISPOSITIONS.json: RD07-3829 Issue4741 Unity editor/batch safe-mode proof and historical wrapper contract; preserve original operation evidence and routing rationale."
       ]
     },
     {
@@ -86902,5 +87729,5 @@
   "previous_observed_main": "f1493c54e4d9f6c5a1da798f48d9f2c361033fa4",
   "consumer_reference_repair_count": 6,
   "approved_component_removal_count": 36,
-  "resolved_retention_count": 252
+  "resolved_retention_count": 373
 }

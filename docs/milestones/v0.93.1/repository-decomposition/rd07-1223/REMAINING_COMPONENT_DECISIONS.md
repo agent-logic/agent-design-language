@@ -58,7 +58,7 @@ Producer build success does not discharge ADL consumer acceptance. The packet do
 
 ## Resolved retention
 
-`RESOLVED_RETENTION.json` resolves 252 original rows as required retained
+`RESOLVED_RETENTION.json` resolves 373 original rows as required retained
 ADL contract/state/history or excluded website assets: 122 planning/prompt contract
 files, three v3 authority records, six historical cutover/rollback records, one
 registry-referenced native card shape, one repository worktree policy, and three
@@ -80,3 +80,9 @@ in `CSDLC_DOCUMENT_DISPOSITIONS.json`. The other 66 successor-owned guide/manual
 rows still require link and reader cutover, and seven identified unresolved
 rows remain holds. Retention does not establish current operational authority
 for historical instructions.
+
+The complementary product-document review resolves 121 more ADL policy/history/
+navigation rows. `PRODUCT_DOCUMENT_DISPOSITIONS.json` records those roles and
+reader references; its 48 successor-guide cutovers and 11 concrete unresolved
+rows remain conditional. Runtime issue148 now owns the missing Drive-mirror
+command replacement; no live Drive action is part of retirement qualification.
