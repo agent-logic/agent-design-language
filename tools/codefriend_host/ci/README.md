@@ -1,4 +1,4 @@
-> Source ownership after the repository split: controller, registry, probe, unit files, and host manifest tests are delivered by [CodeFriend at e93a457](https://github.com/agent-logic/codefriend/tree/e93a457ad6325017627a66a2abe31a3376fa28fd/tools/codefriend_host), authenticated product artifact `11804671827`. ADL no longer supplies these local source files. The installation discussion below describes the installed layout and its separate deployment obligations. The retained legacy `ci/smoke.py` uses the historical ADL CLI and is not a qualified successor smoke command. Source qualification covers 36 original host methods plus one added owner method; it does not establish live systemd, website, provider, or host acceptance.
+> Source ownership after the repository split: controller, registry, probe, unit files, and host manifest tests are delivered by [CodeFriend at e93a457](https://github.com/agent-logic/codefriend/tree/e93a457ad6325017627a66a2abe31a3376fa28fd/tools/codefriend_host), authenticated product artifact `11804671827`. ADL no longer supplies these local source files. The installation discussion below describes the installed layout and its separate deployment obligations. The archived original [`ci/smoke.py`](https://github.com/agent-logic/agent-design-language/blob/9707731d50f4209c07e3f7193d8be254ab6b9167/tools/codefriend_host/ci/smoke.py) and its typed interrupted-report fixture use the historical ADL CLI; they are historical obligations, not a qualified successor smoke command. Source qualification covers 36 original host methods plus one added owner method; it does not establish live systemd, website, provider, or host acceptance.
 
 # Candidate Linux host artifacts (#1077)
 
@@ -56,4 +56,4 @@ python3 -B -m unittest -v test_manifest.InstalledContentContract
 Historical smoke contract (not a current successor instruction): the original smoke required explicitly trusted installed binaries and a new private
 output path. Its default is a real bounded binary execution, not a dry-run. A
 macOS smoke validates script/CLI behavior but does not claim Linux artifact proof.
-The fixed fixture and smoke script are versioned build inputs, not customer data.
+The original fixed fixture and smoke script remain in the pinned Git revision and retirement custody archive as historical build inputs, not customer data or current local commands.

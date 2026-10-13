@@ -10,7 +10,7 @@
       "release_gate": "required_candidate_artifact_preflight"
     },
     {
-      "surface": "smoke.py",
+      "surface": "Archived original tools/codefriend_host/ci/smoke.py and interrupted-report.json at ADL 9707731d50f4209c07e3f7193d8be254ab6b9167",
       "lane_class": "installed_platform_integration",
       "proof_role": "actual_gateway_control_and_agent_report_CLI",
       "determinism": "empty_registry_static_report_fixture_loopback_provider_trap_no_external_requests",
@@ -23,7 +23,9 @@
         "poweroff",
         "deployment"
       ],
-      "status": "historical_ADL_CLI_smoke_unqualified_successor"
+      "status": "historical_original16_obligations_not_current_command_or_qualification",
+      "original_case_count": 16,
+      "custody": "Pinned Git revision and issue1223 source retirement archive; original source and adverse installed receipt retained"
     }
   ],
   "integration_extension": {
