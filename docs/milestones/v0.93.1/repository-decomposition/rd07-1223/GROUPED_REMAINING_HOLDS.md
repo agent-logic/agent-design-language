@@ -1,6 +1,6 @@
 # #1223 remaining hold groups
 
-Snapshot of all **87 holds** after independently reviewed cutover commit `951a4c097f`. All 4,134 original identities remain in the ledger; 22 additional current paths remain separately tracked. No deletion is authorized by this grouping.
+Snapshot of all **81 holds** after independently reviewed cutover commit `951a4c097f`. All 4,134 original identities remain in the ledger; 22 additional current paths remain separately tracked. No deletion is authorized by this grouping.
 
 | Group | Held paths | Next action |
 | --- | ---: | --- |
@@ -9,10 +9,10 @@ Snapshot of all **87 holds** after independently reviewed cutover commit `951a4c
 | Native conversion rehearsal closure | 5 | Deliver missing five helpers as coherent owner support; preserve authentic505 receipt, pinned old binary and generation9 inputs; qualify isolated real conversion route before transfer. Source-only native CLI correspondence is insufficient. |
 | Runtime Observatory behavior and CI | 6 | Reconcile room selection, mobile controls and incident assertions with owner journal additions; preserve extra governed-room test. Reconcile live-only CI denominator separately. Reuse existing owner proof where exact. |
 | Installed C-SDLC node and plan proof | 1 | Reuse five restored passing scenarios and native proof; reconcile exact delivered artifact and installed admission before authorizing source/test removal. |
-| Skill and operational contract consumers | 5 | Resolve remaining skill producer/contract obligations using existing proof. Main-sync helper and restoration test now have explicit conditional historical retirement; native closeout policy guard retained. |
+| Skill and operational contract consumers | 3 | Resolve remaining skill producer/contract obligations using existing proof. Main-sync helper and restoration test now have explicit conditional historical retirement; native closeout policy guard retained. |
 | Remaining ADL validation routing | 10 | After reviewed caller cutover, reconcile each retained runner, selector, coverage/PVF policy and configuration against five public packages and original assertions. Retain historical private lanes explicitly; do not silently drop inventory rows. |
 | agent-logic-runtime remaining consumers | 1 | Resolve the exact per-row required_before_execution entries preserved below as one owner consumer batch: map current caller and qualified successor or choose explicit historical retention/retirement. Reuse existing owner evidence; source presence alone does not close behavior. Cloud/live operations require their own existing authorization. |
-| Mixed consumers (inherited inventory owner) | 25 | Resolve the exact per-row required_before_execution entries preserved below as one owner consumer batch: map current caller and qualified successor or choose explicit historical retention/retirement. Reuse existing owner evidence; source presence alone does not close behavior. Cloud/live operations require their own existing authorization. |
+| Mixed consumers (inherited inventory owner) | 21 | Resolve the exact per-row required_before_execution entries preserved below as one owner consumer batch: map current caller and qualified successor or choose explicit historical retention/retirement. Reuse existing owner evidence; source presence alone does not close behavior. Cloud/live operations require their own existing authorization. |
 
 The accompanying `GROUPED_REMAINING_HOLDS.json` preserves every held row, exact identity, prior review and execution prerequisite verbatim. Its group membership is disjoint and complete. Counts for pending patches are intersections with held original rows, not patch file totals.
 
@@ -27,7 +27,7 @@ Historical2150/2234 are retained together. Original13-input suite passed two pos
 
 Infrastructure23/PR24 merged d0e9ea2e1c80f3c4bc13a920f6b9df95201187cd at exact head3f0583978b3d7810071b54257824257cf4965127; authenticated receipt adopted in INFRASTRUCTURE_ALB_OWNER_MERGE_RECEIPT.json. No cloud qualification or native finish inferred.
 
-Reviewed original consumer batches qualified 14 formerly held rows (12 CodeFriend individual scripts and two C-SDLC fixture scripts). They moved to conditional owner-transfer proposals; no files were removed. That earlier snapshot had130 holds; current complete held count is87. See `ORIGINAL_CONSUMER_BATCH_QUALIFICATION.json`.
+Reviewed original consumer batches qualified 14 formerly held rows (12 CodeFriend individual scripts and two C-SDLC fixture scripts). They moved to conditional owner-transfer proposals; no files were removed. That earlier snapshot had130 holds; current complete held count is81. See `ORIGINAL_CONSUMER_BATCH_QUALIFICATION.json`.
 
 Current ADL caller repairs retain three more rows (1924,2054,2166). Four other passing caller tests remain held because their producers are still proposed for removal; source-pass evidence is preserved without claiming final closure.
 
@@ -68,3 +68,7 @@ Reviewed1916,2121 and2109 now have conditional historical contract dispositions;
 Original1901/2046 unchanged source contracts passed against the complete C-SDLC original-v1 resource archive. Conditional transfer preserves this narrow denominator and does not qualify current active skills.
 
 Issue256 historical validator2189 has an explicit conditional retirement; generated registry and independent configuration-transfer obligations remain.
+
+Four original contracts (1306,1337,1957,2146) remain retained historical source with explicit unqualified behavior and caller/dependency obligations. Medium2032 passed one unchanged local source-resource test; supplied scripts are not claimed installed or delivered owner commands.
+
+Editor1917 resource/document subset passed against35 exact archived resources and two authentic pre-sunset documents; excluded1916 typed-edit invocation remains separately dispositioned. Full original test acceptance is not claimed.
