@@ -16,9 +16,9 @@ from typing import Any
 
 
 ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_MANIFEST = ROOT / "adl/config/validation_lane_selector.v0.91.6.json"
+DEFAULT_MANIFEST = ROOT / "adl/config/validation_lane_selector.public.v1.json"
 DEFAULT_CARGO = ROOT / "adl/Cargo.toml"
-SLOW_PROOF_FAMILIES = ROOT / "adl/config/slow_proof_families.v0.91.6.json"
+SLOW_PROOF_FAMILIES = ROOT / "adl/config/slow_proof_families.public.v1.json"
 
 TEST_ATTRIBUTE_RE = re.compile(
     r"#\[\s*(?:tokio::test|test|rstest|quickcheck|proptest)\b"
@@ -74,6 +74,15 @@ def load_manifest(path: Path) -> dict[str, Any]:
     manifest = json.loads(path.read_text())
     if manifest.get("schema_version") != "adl.validation_lane_selector.v1":
         fail(f"{path}: unsupported schema_version")
+    overrides = manifest.get("ownership_overrides", [])
+    if not isinstance(overrides, list):
+        fail(f"{path}: ownership_overrides must be an array")
+    for entry in overrides:
+        if (not isinstance(entry, dict) or set(entry) != {"owner", "paths"}
+                or not isinstance(entry["owner"], str) or not entry["owner"]
+                or not isinstance(entry["paths"], list) or not entry["paths"]
+                or not all(isinstance(item, str) and item for item in entry["paths"])):
+            fail(f"{path}: invalid explicit ownership override")
     return manifest
 
 
@@ -101,6 +110,8 @@ def matches(path: str, patterns: tuple[str, ...] | list[str]) -> bool:
 
 
 def classify_owner(path: str) -> str | None:
+    if any(path.startswith(f"{package_root}/") for package_root in PUBLIC_PACKAGE_ROOTS[1:]):
+        return "adl"
     if path in {"adl/Cargo.toml", "adl/Cargo.lock"}:
         return "runtime"
     if path.startswith("docs/") or path.endswith(".md"):
@@ -140,6 +151,13 @@ def classify_owner(path: str) -> str | None:
     return None
 
 
+def manifest_owner(path: str, manifest: dict[str, Any]) -> str | None:
+    for entry in manifest.get("ownership_overrides", []):
+        if matches(path, entry["paths"]):
+            return entry["owner"]
+    return classify_owner(path)
+
+
 def resource_class_for_lane(lane_class: str | None) -> str | None:
     if lane_class == "docs":
         return "tiny"
@@ -156,19 +174,26 @@ def doc_test_block_count(text: str) -> int:
     return len(DOC_FENCE_RE.findall(text))
 
 
+PUBLIC_PACKAGE_ROOTS = (
+    "adl", "adl-schema", "adl-uts", "adl-v2/crates/adl-language",
+    "adl-v2/crates/adl-compiler", "adl-legacy-contracts",
+)
+
+
 def rust_category_for_path(path: str) -> str | None:
     if not path.endswith(".rs"):
         return None
-    if path.startswith("adl/src/bin/"):
-        return "rust_bin_tests"
-    if path.startswith("adl/tests/"):
-        return "rust_integration_tests"
-    if path.startswith("adl/src/"):
-        return "rust_lib_unit_tests"
+    for package_root in PUBLIC_PACKAGE_ROOTS:
+        if path.startswith(f"{package_root}/src/bin/"):
+            return "rust_bin_tests"
+        if path.startswith(f"{package_root}/tests/"):
+            return "rust_integration_tests"
+        if path.startswith(f"{package_root}/src/"):
+            return "rust_lib_unit_tests"
     return None
 
 
-def build_rust_inventory(files: list[str]) -> dict[str, Any]:
+def build_rust_inventory(files: list[str], manifest: dict[str, Any] | None = None) -> dict[str, Any]:
     categories: dict[str, dict[str, Any]] = {
         "rust_lib_unit_tests": {"files": [], "test_count": 0, "doc_test_blocks": 0},
         "rust_bin_tests": {"files": [], "test_count": 0, "doc_test_blocks": 0},
@@ -190,7 +215,7 @@ def build_rust_inventory(files: list[str]) -> dict[str, Any]:
         categories[category]["files"].append(rel)
         categories[category]["test_count"] += test_count
         categories[category]["doc_test_blocks"] += doc_blocks
-        owner = classify_owner(rel)
+        owner = manifest_owner(rel, manifest or {})
         if owner:
             owner_counts[owner] += 1
         if doc_blocks:
@@ -279,6 +304,8 @@ def classify_slow_proof_families(
 def load_runtime_module_family_map(
     family_feature_map: dict[str, str],
 ) -> dict[str, list[str]]:
+    if not family_feature_map:
+        return {}
     tests_root = ROOT / "adl/src/runtime_v2/tests.rs"
     cfg_line = ""
     mapping: dict[str, list[str]] = {}
@@ -329,7 +356,7 @@ def build_surface_inventory(
                     path,
                     surface_kind="manifest_surface",
                     lane_class=lane_class,
-                    owner=classify_owner(path),
+                    owner=manifest_owner(path, manifest),
                     resource_class=resource_class,
                     proof_role="ordinary_pr",
                 )
@@ -343,7 +370,7 @@ def build_surface_inventory(
                 path,
                 surface_kind="rust_validation_surface",
                 lane_class="fast_unit",
-                owner=classify_owner(path),
+                owner=manifest_owner(path, manifest),
                 resource_class="normal",
                 proof_role="ordinary_pr",
             )
@@ -358,7 +385,7 @@ def build_surface_inventory(
                     path,
                     surface_kind="demo_proof_surface",
                     lane_class="integration_worktree",
-                    owner=classify_owner(path),
+                    owner=manifest_owner(path, manifest),
                     resource_class="expensive",
                     proof_role="integration_demo",
                 )
@@ -379,7 +406,7 @@ def build_surface_inventory(
                     path,
                     surface_kind="shell_validator",
                     lane_class=None,
-                    owner=classify_owner(path),
+                    owner=manifest_owner(path, manifest),
                     resource_class="normal",
                     proof_role="ordinary_pr",
                 )
@@ -401,7 +428,7 @@ def build_surface_inventory(
                     path,
                     surface_kind="python_validator",
                     lane_class=None,
-                    owner=classify_owner(path),
+                    owner=manifest_owner(path, manifest),
                     resource_class="normal",
                     proof_role="ordinary_pr",
                 )
@@ -418,7 +445,7 @@ def build_surface_inventory(
                 path,
                 surface_kind="slow_proof_surface",
                 lane_class="release_gate",
-                owner=classify_owner(path),
+                owner=manifest_owner(path, manifest),
                 resource_class="expensive",
                 proof_role="slow_proof",
                 feature_requirements=[
@@ -437,7 +464,7 @@ def build_surface_inventory(
                 path,
                 surface_kind="coverage_only_surface",
                 lane_class="release_gate",
-                owner=classify_owner(path),
+                owner=manifest_owner(path, manifest),
                 resource_class="expensive",
                 proof_role="coverage_only",
             )
@@ -447,7 +474,7 @@ def build_surface_inventory(
                 path,
                 surface_kind="release_gate_surface",
                 lane_class="release_gate",
-                owner=classify_owner(path),
+                owner=manifest_owner(path, manifest),
                 resource_class="expensive",
                 proof_role="release_gate",
                 feature_requirements=["slow-proof-tests"] if path in {"adl/Cargo.toml"} else [],
@@ -504,9 +531,13 @@ def feature_inventory(features: dict[str, list[str]]) -> dict[str, Any]:
     return interesting
 
 
-def build_inventory(files: list[str], manifest: dict[str, Any], features: dict[str, list[str]]) -> dict[str, Any]:
-    slow_proof_families = load_slow_proof_families(SLOW_PROOF_FAMILIES)
-    rust = build_rust_inventory(files)
+def build_inventory(
+    files: list[str], manifest: dict[str, Any], features: dict[str, list[str]],
+    *, manifest_path: Path = DEFAULT_MANIFEST,
+    slow_proof_families_path: Path = SLOW_PROOF_FAMILIES,
+) -> dict[str, Any]:
+    slow_proof_families = load_slow_proof_families(slow_proof_families_path)
+    rust = build_rust_inventory(files, manifest)
     surfaces = build_surface_inventory(files, manifest, rust["candidate_paths"], slow_proof_families)
     candidates = candidate_validation_paths(files, rust["candidate_paths"])
     unmatched_paths = sorted(set(candidates) - set(surfaces["known_paths"]))
@@ -565,7 +596,8 @@ def build_inventory(files: list[str], manifest: dict[str, Any], features: dict[s
         "schema_version": "adl.validation_inventory.v1",
         "repo_root": ".",
         "repo_name": ROOT.name,
-        "manifest_path": str(DEFAULT_MANIFEST.relative_to(ROOT)),
+        "manifest_path": str(manifest_path.relative_to(ROOT)) if manifest_path.is_relative_to(ROOT) else str(manifest_path),
+        "slow_proof_families_path": str(slow_proof_families_path.relative_to(ROOT)) if slow_proof_families_path.is_relative_to(ROOT) else str(slow_proof_families_path),
         "tracked_file_count": len(files),
         "rust": {
             "rust_lib_unit_tests": rust["rust_lib_unit_tests"],
@@ -739,6 +771,8 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         choices=("json", "markdown", "both"),
         default="both",
     )
+    parser.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST)
+    parser.add_argument("--slow-proof-families", type=Path, default=SLOW_PROOF_FAMILIES)
     parser.add_argument("--json-out", type=Path)
     parser.add_argument("--markdown-out", type=Path)
     return parser.parse_args(argv)
@@ -747,9 +781,12 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
 def main(argv: list[str]) -> int:
     args = parse_args(argv)
     files = git_files(ROOT)
-    manifest = load_manifest(DEFAULT_MANIFEST)
+    manifest = load_manifest(args.manifest)
     features = load_features(DEFAULT_CARGO)
-    inventory = build_inventory(files, manifest, features)
+    inventory = build_inventory(
+        files, manifest, features, manifest_path=args.manifest,
+        slow_proof_families_path=args.slow_proof_families,
+    )
     markdown = render_markdown(inventory)
 
     if args.json_out:

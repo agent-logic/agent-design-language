@@ -79,6 +79,11 @@ for rel in sorted(set(re.findall(r'adl/tools/([A-Za-z0-9_.-]+\.sh)', source))):
     target.write_text("#!/usr/bin/env bash\nexit 0\n")
     target.chmod(0o755)
 PY
+mkdir -p "$repo/tools/public_adl"
+cat > "$repo/tools/public_adl/run_cli_ci.sh" <<'SH'
+#!/usr/bin/env bash
+exit 0
+SH
 chmod +x "$repo/adl/tools/batched_checks.sh" "$repo/adl/tools/pr.sh"
 
 fakebin="$tmpdir/fakebin"

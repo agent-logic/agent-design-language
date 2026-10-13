@@ -2,6 +2,7 @@
 # frozen_string_literal: true
 
 require "json"
+require "open3"
 require "pathname"
 require "yaml"
 
@@ -68,9 +69,9 @@ ci = ci_path.read
 # profile processing. Keep full producer execution without a shorter job/step cap.
 begin
   parsed_ci = YAML.safe_load(ci, permitted_classes: [], permitted_symbols: [], aliases: true)
-  workspace_coverage = parsed_ci.fetch("jobs").fetch("adl_coverage_workspace_hosted")
+  workspace_coverage = parsed_ci.fetch("jobs").fetch("public_adl_coverage")
   if workspace_coverage.key?("timeout-minutes") || workspace_coverage.fetch("steps").any? { |step| step.key?("timeout-minutes") }
-    errors << "ci.yaml adl_coverage_workspace_hosted: custom job/step deadline can cancel successful coverage production"
+    errors << "ci.yaml public_adl_coverage: custom job/step deadline can cancel successful coverage production"
   end
 rescue Psych::Exception, KeyError, NoMethodError => error
   errors << "ci.yaml: workspace coverage deadline policy cannot inspect workflow (#{error.class})"
@@ -116,25 +117,6 @@ ci.scan(/^  ([A-Za-z0-9_-]+):\n(.*?)(?=^  [A-Za-z0-9_-]+:\n|\z)/m).each do |job,
   errors << "ci.yaml #{job}: required standard-runner job must have a job-level selector" unless header.match?(/^    if:/)
 end
 
-slow = job_block(ci, "adl-slow-proof")
-unless slow&.include?("if: github.event_name == 'workflow_dispatch'")
-  errors << "ci.yaml adl-slow-proof: long proof must be explicit-dispatch only"
-end
-if slow&.include?("slow_proof_contract_required == 'true'") || slow&.include?("github.event_name == 'schedule'")
-  errors << "ci.yaml adl-slow-proof: PR or schedule may not allocate slow-proof runners"
-end
-
-coverage = job_block(ci, "adl_coverage_hosted")
-unless coverage&.include?("if: always() && needs.adl_path_policy.outputs.coverage_required == 'true' && needs.adl_path_policy.outputs.heavy_ci_backend == 'hosted'")
-  errors << "ci.yaml adl_coverage_hosted: hosted aggregation must skip before allocation when coverage is not required"
-end
-if coverage&.include?("run_authoritative_coverage_lane.sh")
-  errors << "ci.yaml adl_coverage_hosted: hosted aggregation must not re-run Rust coverage"
-end
-unless ci.include?('if [ "$EVENT_NAME" = pull_request ]; then') && ci.include?("backend=hosted")
-  errors << "ci.yaml: pull requests must force the hosted backend before any runner allocation"
-end
-
 required_outputs = {
   "automatic_pr_entrypoint" => "ci",
   "optional_workflows_status" => "deferred",
@@ -143,10 +125,11 @@ required_outputs = {
   "duplicate_head_status" => "canceled",
   "duplicate_head_reason" => "source_branch_concurrency_cancel_in_progress"
 }
-policy = root.join("adl/tools/ci_path_policy.sh").read
+policy_stdout, policy_stderr, policy_status = Open3.capture3("python3", root.join("tools/public_adl/ci_policy.py").to_s, "--event-name", "workflow_dispatch")
+errors << "public CI selector did not execute successfully" unless policy_status.success?
+actual_outputs = policy_stdout.lines.map { |line| line.strip.split("=", 2) }.to_h
 required_outputs.each do |key, value|
-  errors << "ci_path_policy.sh: missing #{key}=#{value}" unless policy.include?("#{key}=\"#{value}\"")
-  errors << "ci_path_policy.sh: #{key} is not emitted" unless policy.include?("emit \"#{key}\"")
+  errors << "public CI selector: missing #{key}=#{value}" unless actual_outputs[key] == value
 end
 
 result = {

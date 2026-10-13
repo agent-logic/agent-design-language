@@ -11,24 +11,49 @@ separate from installed-binary provenance, exact-head review and activation.
 See [issue intent commands](../INTENT_COMMANDS.md) for the ordinary interface and
 shared advanced request.
 
-```sh
-python3 docs/csdlc-v3/man/render.py --check
-bash adl/tools/install_owner_binaries.sh --bin csdlc
-export PATH="$PWD/.adl/bin/native-v3:$PATH"
-export MANPATH="$PWD/.adl/bin/native-v3/share/man:${MANPATH:-}"
-man csdlc
-man csdlc-finish
-```
+## Installed owner manuals
 
-The owner installer refreshes the manual even if binary provenance is unchanged.
-It does not modify shell startup files, install system-wide pages, or treat
-documentation changes as a reason to rebuild the binary. To install only pages
-into an isolated prefix:
+Operational lookup uses the manuals delivered with the exact admitted C-SDLC
+package, not this ADL source tree. Native `package-install` already includes the
+roff pages under `installed/resources/docs/csdlc-v3/man/man1`; it does not create
+`share/man`. No additional manual installation or copy is needed.
+
+After a reviewed native installation succeeds, use its actual `executable` output:
 
 ```sh
-bash adl/tools/install_csdlc_man_pages.sh --stable-bin-dir ./target/man-install
-MANPATH="$PWD/target/man-install/share/man:${MANPATH:-}" man csdlc
+# Set this to the exact executable returned by the successful native installation.
+CSDLC_EXECUTABLE=/absolute/package/installed/bin/csdlc
+bash adl/tools/install_csdlc_man_pages.sh --stable-bin-dir "$(dirname "$CSDLC_EXECUTABLE")"
+# Use the exact MANPATH export printed above, then:
+man -w csdlc-workflow
+man csdlc-workflow
 ```
+
+The retained `install_owner_binaries.sh --bin csdlc` compatibility path performs
+only this lookup, including on a no-op request. It never refreshes manuals from
+ADL source, copies a supplied source executable, or replaces the selected owner.
+Public `adl` and `adl-process` installation remains separate. The explicitly
+restricted `csdlc-transition` source route is unchanged by this manual cutover.
+
+For first installation, an already authorized native owner accepts
+`csdlc package-install --request REVIEWED_REQUEST.json`. The strict request has
+`schema: csdlc.v3.portable_package_install.v1`, `repository_root`, `artifact_path`,
+and `observation`. Observation requires `pull_request`, `producer_issue`,
+`workflow_run`, `artifact`, `candidate_revision`, `merge_revision`,
+`default_branch`, `workflow_attempt`, and `review_attestation_sha256`.
+Use the original authenticated artifact ZIP and real independent-review
+attestation; do not invent these values. This is a repository-bound first-import
+route: it requires the actual primary consumer checkout, preserves existing
+activation receipts and shared installs, authenticates current remote provenance,
+and requires successful installed-child admission before reporting verification.
+It is not a generic overwrite or shared-selector replacement command.
+
+Missing/stale admission remains a native recovery/install boundary. A manifest,
+manual directory, successful lookup, or local source build alone does not grant
+operational authority. New package revisions deliver new paired manuals atomically;
+do not edit an installed package to refresh documentation.
+
+## Retained source authoring reference
 
 Edit the JSON source, then run `python3 docs/csdlc-v3/man/render.py`. Do not edit
 generated roff directly. The renderer uses only Python's standard library;

@@ -18,6 +18,11 @@ if local != allowed_local:
     raise SystemExit(f'public CLI local dependency closure changed: {sorted(local)}')
 print('public CLI private dependency count: 0')
 PY
+cargo fmt --manifest-path adl/Cargo.toml --package adl -- --check
+cargo clippy --locked --manifest-path adl/Cargo.toml --package adl --lib --bins \
+  --test adl_tests --test resolve_tests --test schema_tests --test public_process \
+  --test issue_327_removed_tooling --test public_observation -- -D warnings
+
 # Owner integration suites retain separate obligations during the split. This
 # lane names the public contract tests; it does not classify private tests as passed.
 cargo test --locked --manifest-path adl/Cargo.toml --lib --bins \
@@ -36,3 +41,6 @@ ADL_PUBLIC_CLI="$binary" python3 tools/public_adl/test_public_codefriend_dispatc
 python3 tools/public_adl/test_runtime_owner.py
 python3 tools/public_adl/test_codefriend_owner.py
 bash adl/tools/test_owner_binary_install.sh
+
+# Version truth consumes the selected public build, never the docs-only job.
+bash adl/tools/check_release_version_surfaces.sh

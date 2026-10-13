@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Focused contract for the public-only ADL validation lane."""
 
+import re
 import json
 import os
 import subprocess
@@ -46,6 +47,8 @@ PUBLIC_ROOTS = [
     "adl/tools/owner_binary_resolution.sh",
     "adl/tools/test_owner_binary_install.sh",
 ]
+PUBLIC_INPUTS = ['adl/tests/fixtures/cli_smoke.adl.yaml', 'adl/examples/adl-0.1.yaml', 'adl/examples/v0-2-multi-step-basic.adl.yaml', 'adl/examples/v0-2-multi-step-file-input.adl.yaml', 'adl/examples/v0-2-coordinator-agents-sdk.adl.yaml']
+
 PUBLIC_PACKAGES = [
     "adl-schema",
     "adl-uts",
@@ -55,14 +58,20 @@ PUBLIC_PACKAGES = [
 ]
 
 
+def job_block(workflow, name):
+    return re.search(r"^  " + re.escape(name) + r":\n.*?(?=^  [A-Za-z0-9_-]+:\n|\Z)", workflow, re.M | re.S).group(0)
+
+
 def main() -> None:
     selector = json.loads(
-        (ROOT / "adl/config/validation_lane_selector.v0.91.6.json").read_text()
+        (ROOT / "adl/config/validation_lane_selector.public.v1.json").read_text()
     )
-    lane = next(item for item in selector["lanes"] if item["id"] == "public_adl_distribution")
-    assert lane["path_selectors"] == PUBLIC_ROOTS
-    assert lane["path_hints"] == PUBLIC_ROOTS
-    assert lane["run_command"] == "bash tools/public_adl/run_ci.sh"
+    lane = selector["special_surfaces"]["rust_pr_fast"]
+    assert lane["planner"] == "manifest_command"
+    assert lane["id"] == "public_source"
+    assert lane["path_selectors"] == PUBLIC_ROOTS + ["adl/tools/batched_checks.sh", "adl/tools/preflight_review.sh"] + PUBLIC_INPUTS
+    assert lane["path_hints"] == lane["path_selectors"]
+    assert lane["run_command"] == "bash adl/tools/batched_checks.sh"
 
     runner = (ROOT / "tools/public_adl/run_ci.sh").read_text()
     for package in PUBLIC_PACKAGES:
@@ -77,7 +86,11 @@ def main() -> None:
     assert "bash tools/public_adl/run_cli_ci.sh" in runner
 
     workflow = (ROOT / ".github/workflows/ci.yaml").read_text()
-    job = workflow.split("  public_adl_validation:\n", 1)[1].split("\n  public_adl_coverage:\n", 1)[0]
+    policy_job = job_block(workflow, "adl_path_policy")
+    assert "transpiler_distribution_required: ${{ steps.path-policy.outputs.transpiler_distribution_required }}" in policy_job
+    assert "TRANSPILE_REQUIRED: ${{ steps.path-policy.outputs.transpiler_distribution_required }}" in policy_job
+    assert "transpiler-selection" not in policy_job
+    job = job_block(workflow, "public_adl_validation")
     assert "runs-on: macos-latest" in job
     assert "needs.adl_path_policy.outputs.public_adl_validation_required == 'true'" in job
     proof_step = job.split("      - name: Five public packages and installed consumer proof\n", 1)[1].split("\n      - name:", 1)[0]
@@ -89,24 +102,23 @@ def main() -> None:
     assert "path: ${{ runner.temp }}/public-adl-proof/1192/" in job
     assert "if-no-files-found: error" in job
     assert "public_adl_validation:${{ needs.public_adl_validation.result }}" not in workflow
-    assert "PUBLIC_ADL_VALIDATION_RESULT: ${{ needs.public_adl_validation.result }}" in workflow
+    assert "PUBLIC_RESULT: ${{ needs.public_adl_validation.result }}" in workflow
 
-    coverage_job = workflow.split("  public_adl_coverage:\n", 1)[1].split("\n  adl_rust_fmt_clippy:\n", 1)[0]
+    coverage_job = job_block(workflow, "public_adl_coverage")
     assert "runs-on: ubuntu-latest" in coverage_job
     assert "needs.adl_path_policy.outputs.public_adl_validation_required == 'true'" in coverage_job
     assert "--mode pull_request --base \"$BASE_SHA\"" in coverage_job
     assert "--mode full" in coverage_job
     assert "--version 0.8.2" in coverage_job
     assert "if-no-files-found: error" in coverage_job
-    aggregate = workflow.split("  adl-coverage:\n", 1)[1]
-    assert "      - public_adl_coverage\n" in aggregate
-    block = aggregate.split("# BEGIN public coverage aggregate contract\n", 1)[1].split("# END public coverage aggregate contract", 1)[0]
-    for selected in ["true", "false", "", "malformed"]:
-        for result in ["success", "skipped", "failure", "cancelled", "", "malformed"]:
-            completed = subprocess.run(["bash", "-c", block], capture_output=True,
-                                       env={**os.environ, "PUBLIC_ADL_COVERAGE_REQUIRED": selected,
-                                            "PUBLIC_ADL_COVERAGE_RESULT": result})
-            assert (completed.returncode == 0) == ((selected, result) in [("true", "success"), ("false", "skipped")]), (selected, result)
+    for name, lane, kind in [("adl-ci", "public_adl_validation", "ci"), ("adl-coverage", "public_adl_coverage", "coverage")]:
+        block = job_block(workflow, name)
+        assert "if: always()" in block
+        assert "      - " + lane + "\n" in block
+        assert "PATH_POLICY_RESULT: ${{ needs.adl_path_policy.result }}" in block
+        assert "PUBLIC_REQUIRED: ${{ needs.adl_path_policy.outputs.public_adl_validation_required }}" in block
+        assert "PUBLIC_RESULT: ${{ needs." + lane + ".result }}" in block
+        assert "run: python3 tools/public_adl/ci_policy.py --aggregate " + kind in block
 
 
 if __name__ == "__main__":

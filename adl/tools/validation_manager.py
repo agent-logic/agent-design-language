@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import contextlib
 import hashlib
 import json
 import os
@@ -19,8 +20,8 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[2]
 SELECTOR = ROOT / "adl/tools/select_validation_lanes.sh"
-SLOW_PROOF_FAMILIES = ROOT / "adl/config/slow_proof_families.v0.91.6.json"
-DEFAULT_MANIFEST = ROOT / "adl/config/validation_lane_selector.v0.91.6.json"
+SLOW_PROOF_FAMILIES = ROOT / "adl/config/slow_proof_families.public.v1.json"
+DEFAULT_MANIFEST = ROOT / "adl/config/validation_lane_selector.public.v1.json"
 NESSUS_REMOTE_RUNNER = "bash adl/tools/run_nessus_remote_validation.sh"
 AWS_SPOT_REMOTE_RUNNER = "bash adl/tools/run_aws_spot_remote_validation_lane.sh"
 VALIDATION_PLATFORMS = ("auto", "local", "nessus", "aws_spot", "codebuild", "wuji")
@@ -33,8 +34,8 @@ def fail(message: str) -> None:
     raise SystemExit(2)
 
 
-def load_slow_proof_families() -> dict[str, Any]:
-    payload = json.loads(SLOW_PROOF_FAMILIES.read_text())
+def load_slow_proof_families(path: Path = SLOW_PROOF_FAMILIES) -> dict[str, Any]:
+    payload = json.loads(path.read_text())
     if payload.get("schema_version") != "adl.slow_proof_families.v1":
         fail("slow-proof families config returned unsupported schema_version")
     if not isinstance(payload.get("families"), list):
@@ -80,6 +81,18 @@ def load_manifest(path: Path) -> dict[str, Any]:
         fail(f"validation manifest is not valid JSON: {exc}")
     if manifest.get("schema_version") != "adl.validation_lane_selector.v1":
         fail("validation manifest returned unsupported schema_version")
+    surfaces = manifest.get("special_surfaces")
+    if not isinstance(surfaces, dict):
+        fail("public validation manifest requires a special_surfaces object")
+    for name in ("release_gate_review", "slow_proof_review", "rust_pr_fast"):
+        surface = surfaces.get(name)
+        if not isinstance(surface, dict):
+            fail("public validation manifest requires an explicit object for " + name)
+        if surface.get("default_surface") != "public" or (
+            name == "rust_pr_fast" and surface.get("planner") != "manifest_command"
+        ):
+            fail("retired private validation mode: " + name
+                 + "; use adl/config/validation_lane_selector.public.v1.json and product owner validation routes")
     return manifest
 
 
@@ -433,8 +446,8 @@ def slow_proof_pr_fanout_workflow_disposition(changed_paths: list[str]) -> bool:
     )
 
 
-def build_profile(plan: dict[str, Any], guardrails: dict[str, Any], manifest_path: Path) -> dict[str, Any]:
-    slow_proof_config = load_slow_proof_families()
+def build_profile(plan: dict[str, Any], guardrails: dict[str, Any], manifest_path: Path, *, slow_proof_families_path: Path = SLOW_PROOF_FAMILIES) -> dict[str, Any]:
+    slow_proof_config = load_slow_proof_families(slow_proof_families_path)
     slow_proof_families = slow_proof_config.get("families", [])
     lanes = plan.get("lanes", {})
     changed_paths = plan.get("changed_paths", [])
@@ -524,6 +537,11 @@ def build_profile(plan: dict[str, Any], guardrails: dict[str, Any], manifest_pat
             "reason": "reserved for coverage or release policy selection",
         },
     ]
+    if "deferred_obligations" in plan:
+        not_run = [
+            {"surface": surface, "reason": reason}
+            for surface, reason in sorted(plan["deferred_obligations"].items())
+        ]
     not_run.extend(
         {
             "surface": f"slow_proof/{family['id']}",
@@ -1343,20 +1361,24 @@ def run_profile(profile: dict[str, Any], args: argparse.Namespace) -> int:
     if platform_routing:
         selected_platform = platform_routing.get("selected_platform")
         if platform_routing.get("decision") != "selected":
-            print_text(profile)
+            with contextlib.redirect_stdout(sys.stderr):
+                print_text(profile)
             print("validation_manager: refusing --run because the requested validation platform is not eligible", file=sys.stderr)
             return 1
         if selected_platform != "local":
-            print_text(profile)
+            with contextlib.redirect_stdout(sys.stderr):
+                print_text(profile)
             print("validation_manager: refusing --run because platform routing is dry-run only for non-local platforms", file=sys.stderr)
             return 1
     remote_runner = profile.get("remote_runner")
     if remote_runner and remote_runner.get("decision") != "selected":
-        print_text(profile)
+        with contextlib.redirect_stdout(sys.stderr):
+            print_text(profile)
         print("validation_manager: refusing --run because the requested remote runner is not eligible", file=sys.stderr)
         return 1
     if profile["status"] not in {"ready_to_run", "no_validation_needed"}:
-        print_text(profile)
+        with contextlib.redirect_stdout(sys.stderr):
+            print_text(profile)
         print("validation_manager: refusing --run for non-runnable profile", file=sys.stderr)
         return 1
     failed = False
@@ -1387,6 +1409,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     source.add_argument("--changed-files", type=Path)
     source.add_argument("--include-working-tree", action="store_true")
     parser.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST)
+    parser.add_argument("--slow-proof-families", type=Path, default=SLOW_PROOF_FAMILIES)
     parser.add_argument("--base", default="origin/main")
     parser.add_argument("--head", default="HEAD")
     parser.add_argument("--max-selected-lanes", type=int, default=8)
@@ -1407,7 +1430,8 @@ def main(argv: list[str]) -> int:
     plan = selector_plan(args)
     manifest_path = args.manifest.resolve() if args.manifest else DEFAULT_MANIFEST
     guardrails = manager_guardrails(load_manifest(manifest_path), args.max_selected_lanes)
-    profile = build_profile(plan, guardrails, manifest_path)
+    profile = build_profile(plan, guardrails, manifest_path, slow_proof_families_path=args.slow_proof_families)
+    profile["slow_proof_families_path"] = str(args.slow_proof_families)
     platform_routing = platform_routing_decision(profile, args)
     if platform_routing:
         profile["platform_routing"] = platform_routing

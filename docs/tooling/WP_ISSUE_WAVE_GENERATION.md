@@ -1,8 +1,16 @@
 # WP Issue-Wave Generation
 
+> Historical v1 planning-command reference. The public ADL CLI rejects the
+> retired `adl tooling` multiplexer; the command and Cargo examples below are
+> historical evidence, not current execution instructions. See
+> [Current C-SDLC authority](../csdlc-v3/CURRENT_AUTHORITY.md) for lifecycle
+> authority. No equivalent native v3 issue-wave generator is asserted here.
+> The WBS, sprint-table, and opened-wave YAML semantics remain useful planning
+> references; retain existing issue numbers and dependency records.
+
 ## Purpose
 
-`adl tooling generate-wp-issue-wave` derives a deterministic milestone work-package issue-wave plan from the canonical milestone WBS and sprint surfaces.
+The retired `adl tooling generate-wp-issue-wave` command derived a deterministic milestone work-package issue-wave plan from the canonical milestone WBS and sprint surfaces.
 
 This command is intentionally bounded:
 
@@ -55,7 +63,7 @@ The command emits YAML with:
   - `deliverable`
   - `issue_column`
 
-## Usage
+## Historical Usage
 
 ```bash
 adl tooling generate-wp-issue-wave --version v0.88
@@ -84,7 +92,7 @@ For identical WBS and sprint inputs, the emitted YAML is identical.
 
 There are no timestamps, random IDs, or ambient GitHub reads in this command path.
 
-## v0.90.1 Alignment Proof
+## Historical v0.90.1 Alignment Proof
 
 `v0.90.1` uses the current five/six-column issue-wave table and sprint-section
 style. The generator must therefore parse the milestone package without hand

@@ -1,5 +1,14 @@
 # Multi-Agent Repo Code Review Demo
 
+> Historical scenario reference. This document records the named milestone
+> and its source-era commands, artifact paths, and implementation status.
+> Those commands are not the execution contract for the decomposed repositories.
+> Retaining this guide does not qualify the current CodeFriend product or authorize
+> running providers, publishing customer reports, or retiring the original tests.
+> See the [preserved source revision](https://github.com/agent-logic/agent-design-language/blob/485c11a10cb27cde1343bd5a0d165c550b739fe0/demos/v0.89/multi_agent_repo_code_review_demo.md)
+> for the complete historical recipe. Current owner delivery and consumer proof
+> are tracked separately by [ADL #1223](https://github.com/agent-logic/agent-design-language/issues/1223).
+
 This `v0.89` demo shows ADL hosting a calm, specialist full-repo review over
 one bounded packet instead of pretending one reviewer can cover every concern
 perfectly at once.

@@ -34,11 +34,15 @@ fail closed instead of being routed to Nessus.
 
 ## Inputs
 
-- `--changed-files <path>` uses a precomputed changed-file list. When the
-  wrapper derives the remote command from this mode, it recreates that manifest
-  inside the remote checkout at
-  `.adl/tmp/validation-manager-nessus-changed-files.txt` before running the
-  consumed lane.
+- `--changed-files <path>` uses a precomputed changed-file list for local
+  selection. The exact full-public command `bash adl/tools/batched_checks.sh`
+  runs the complete public source scope and consumes no changed-file manifest;
+  the wrapper sends that command unchanged and does not recreate the manifest
+  remotely. For other derived commands that consume the changed-file path, the
+  wrapper recreates the manifest inside the remote checkout at
+  `.adl/tmp/validation-manager-nessus-changed-files.txt` and replaces the host
+  path before running the lane. If such a command does not contain the expected
+  changed-file path, command derivation refuses it.
 - `--include-working-tree` lets the validation manager derive changes from the
   current worktree.
 - `--base <ref> --head <ref>` lets the validation manager derive changes from

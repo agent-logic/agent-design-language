@@ -54,7 +54,7 @@ mod tests {
     }
     #[test]
     fn lane_selector() {
-        run("bash", "adl/tools/test_select_validation_lanes.sh");
+        run("python3", "tools/public_adl/test_validation_interfaces.py");
     }
     #[test]
     fn coverage_test_only() {
