@@ -579,10 +579,10 @@ def run():
         batch_bytes = committed_bytes(PACKET / spec['packet'])
         require(hashlib.sha256(batch_bytes).hexdigest() == spec['sha256'],
                 'Conversion/skills applied packet changed')
-        batch = json.loads(batch_bytes)
-        removed.update(check_conversion_skills_family(batch, tree(spec['commit'] + '^'),
+        conversion_skills_batch = json.loads(batch_bytes)
+        removed.update(check_conversion_skills_family(conversion_skills_batch, tree(spec['commit'] + '^'),
                                                       tree(spec['commit']), removed, spec))
-        check_conversion_skills_custody(batch, spec)
+        check_conversion_skills_custody(conversion_skills_batch, spec)
     require(len(removed) == 2331, 'executed removal count changed')
 
     overlay_bytes = committed_bytes(PACKET / 'EXECUTION_OVERLAY.json')
