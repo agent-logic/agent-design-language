@@ -105,8 +105,16 @@
   },
   "remaining": [
     "Legacy ADL versus installed successor behavior including logging",
-    "Successful resume parity",
     "CodeFriend command ownership and parity",
     "Production dispatch wiring, final private-free CLI build and public package proof"
-  ]
+  ],
+  "successful_resume_and_logging": {
+    "status": "passed_with_explicit_clock_normalization",
+    "initial_exact_stderr_comparison": "failed: expected wall clock and elapsed duration differences, preserved logs; no execution retry",
+    "execution": "Both direct and adapter completed successful pause then successful resume; each run.json status asserted before log comparison",
+    "stdout": "exact byte equality",
+    "stderr": "event and execution text equality after replacing only wall timestamps, (+Nms) and duration_ms=N",
+    "observability": "enabled, adl_event on stderr and absent from stdout",
+    "limits": "Installed Runtime versus adapter; legacy ADL remains separate"
+  }
 }
