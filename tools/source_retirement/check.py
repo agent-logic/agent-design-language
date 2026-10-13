@@ -60,7 +60,7 @@ def tree(ref):
 
 def approved_component_delta():
     data = (ROOT / PACKET / 'APPROVED_COMPONENT_DELTA.json').read_bytes()
-    require(hashlib.sha256(data).hexdigest() == 'e4f3d7c3cf3fb5ed58d163ee71eb3db05aa619a111f1a71a4abbdb72a0466110',
+    require(hashlib.sha256(data).hexdigest() == '2e82788d0e7d9f6b9278901021853f4e9d6512badb80111b7de58d8a97d15a61',
             'approved component delta changed')
     return json.loads(data)
 

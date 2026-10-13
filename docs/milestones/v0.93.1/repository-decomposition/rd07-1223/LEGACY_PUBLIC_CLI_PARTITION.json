@@ -73,7 +73,7 @@
       "rollback_notes": "Retain base commit cc5cc6788a and original preservation archive; revert only this scoped source delta, never semantic state or published effects.",
       "residual_risk": "Overlay and resume options share parsing with pure planning; classify these before extraction.",
       "follow_up": "CLI-02",
-      "execution_status": "argument_parser_extracted_and_25_subprocess_cases_passed; pure plan rendering extraction remains"
+      "execution_status": "parser_and_portable_rendering_extracted; 25 argv subprocess cases passed; full retained adl binary cargo check passed; final CLI runtime parity remains required"
     },
     {
       "id": "CLI-02",

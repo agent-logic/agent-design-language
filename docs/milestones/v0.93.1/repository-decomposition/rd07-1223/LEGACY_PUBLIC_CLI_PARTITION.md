@@ -126,6 +126,7 @@ Preserve public command semantics while separating portable planning from privat
 
 The argument parser is now a separate standard-library-only module. Five test
 methods cover 25 real subprocess cases, including exact diagnostics and exit
-status, aliases, option-like operands and literal metacharacters. The workflow
-body after parsing is byte-for-byte unchanged. Public rendering extraction,
-full CLI integration proof and installed product parity remain pending.
+status, aliases, option-like operands and literal metacharacters. The parser extraction preserved the workflow body byte-for-byte. The subsequent
+rendering extraction calls the same portable contract functions in the same order.
+The full retained `adl` binary passes `cargo check --locked`; end-to-end CLI
+behavior and installed product parity remain required before final retirement.

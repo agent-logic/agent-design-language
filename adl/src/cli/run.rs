@@ -14,6 +14,8 @@ use super::{resume_usage, usage};
 
 #[path = "workflow_args.rs"]
 mod workflow_args;
+#[path = "workflow_display.rs"]
+mod workflow_display;
 
 pub(crate) fn run_workflow(args: &[String]) -> Result<()> {
     let Some(workflow_args::WorkflowArgs {
@@ -112,13 +114,7 @@ pub(crate) fn run_workflow(args: &[String]) -> Result<()> {
         }
     }
 
-    if print_plan {
-        resolve::print_resolved_plan(&resolved);
-    }
-
-    if print_prompts {
-        prompt::print_prompts(&resolved)?;
-    }
+    workflow_display::render(&resolved, print_plan, print_prompts)?;
 
     if do_run {
         let print_outputs = !quiet;

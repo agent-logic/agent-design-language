@@ -71,12 +71,16 @@
     ],
     "adl/src/cli/run.rs": [
       "100644",
-      "c6343cb26caf27564db48e39ee0091d474426b9c"
+      "379dbbef5d5e09279041530c9d715608b98ae35b"
     ],
     "adl/src/cli/workflow_args.rs": [
       "100644",
       "78a6ebbc0dbe5ccfdce5e28c0cc40a827da64bca"
+    ],
+    "adl/src/cli/workflow_display.rs": [
+      "100644",
+      "50828cc3d3267fedc8334f6139a1a325ea834a6c"
     ]
   },
-  "surgical_followup": "CLI-01 behavior-preserving parser extraction under operator finish1223 instruction; no further removals"
+  "surgical_followup": "CLI-01 behavior-preserving parser and portable rendering extraction under operator finish1223 instruction; no further removals"
 }
