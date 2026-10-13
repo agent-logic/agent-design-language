@@ -421,4 +421,67 @@ mod tests {
             PathBuf::from("/repo/.adl/cards/1125/srp_1125.md")
         );
     }
+
+    // PVF local_contract: pure path compatibility, deterministic and bounded;
+    // no Git, filesystem mutation, lifecycle authority or provider execution.
+    #[test]
+    fn complete_card_bundle_preserves_names_across_distinct_checkout_roots() {
+        let issue = IssueRef::new(7, "release", "  Portable / Contracts  ").unwrap();
+        assert_eq!(issue.issue_number(), 7);
+        assert_eq!(issue.scope(), "release");
+        assert_eq!(issue.slug(), "portable-contracts");
+        let primary = Path::new("/primary");
+        let worktree = Path::new("/execution");
+        let primary_cards = [
+            issue.task_bundle_input_path(primary),
+            issue.task_bundle_stp_path(primary),
+            issue.task_bundle_plan_path(primary),
+            issue.task_bundle_validation_plan_path(primary),
+            issue.task_bundle_review_policy_path(primary),
+            issue.task_bundle_output_path(primary),
+        ];
+        let execution_cards = [
+            issue.worktree_task_bundle_input_path(worktree),
+            issue.worktree_task_bundle_stp_path(worktree),
+            issue.worktree_task_bundle_plan_path(worktree),
+            issue.worktree_task_bundle_validation_plan_path(worktree),
+            issue.worktree_task_bundle_review_policy_path(worktree),
+            issue.worktree_task_bundle_output_path(worktree),
+        ];
+        for ((primary_card, execution_card), filename) in primary_cards
+            .iter()
+            .zip(&execution_cards)
+            .zip(["sip.md", "stp.md", "spp.md", "vpp.md", "srp.md", "sor.md"])
+        {
+            let relative =
+                Path::new(".adl/release/tasks/issue-0007__portable-contracts").join(filename);
+            assert_eq!(primary_card.strip_prefix(primary).unwrap(), relative);
+            assert_eq!(execution_card.strip_prefix(worktree).unwrap(), relative);
+            assert!(!execution_card.starts_with(primary));
+        }
+        assert_eq!(
+            issue.legacy_issue_prompt_path(primary),
+            Path::new("/primary/.adl/issues/release/bodies/issue-7-portable-contracts.md")
+        );
+        assert_eq!(
+            card_validation_plan_path(Path::new("/cards"), 7),
+            Path::new("/cards/7/vpp_7.md")
+        );
+    }
+
+    #[test]
+    fn path_resolution_refuses_empty_identity_and_preserves_unknown_topology() {
+        assert!(IssueRef::new(7, " ", "valid").is_err());
+        assert!(IssueRef::new(7, "release", " / ").is_err());
+        let current = Path::new("/checkout");
+        assert_eq!(resolve_primary_checkout_root(current, None), current);
+        assert_eq!(
+            resolve_primary_checkout_root(current, Some(Path::new(".git"))),
+            current
+        );
+        assert_eq!(
+            resolve_primary_checkout_root(current, Some(Path::new("metadata/foreign"))),
+            current
+        );
+    }
 }
