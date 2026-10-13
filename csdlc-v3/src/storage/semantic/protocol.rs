@@ -396,12 +396,23 @@ struct RetainedOutcome {
     native: NativeIdentity,
     evidence: EvidenceRef,
 }
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "lowercase")]
+enum RetainedDispatch {
+    Reserved,
+    Started,
+}
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct PendingOperation {
     id: OperationId,
     request: EvidenceRef,
     command: SemanticCommand,
+    /// Transitional writers retained this marker in the authenticated payload.
+    /// Keep it in canonical bytes when present so old hashes remain verifiable;
+    /// new reservations omit it and continue to use pending/observed truth.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    dispatch: Option<RetainedDispatch>,
     native: NativeIdentity,
     origin: EffectOrigin,
     admitted: SemanticVersion,
@@ -419,6 +430,9 @@ impl PendingOperation {
     }
     pub fn observed_truth(&self) -> Option<EffectTruth> {
         self.observed.as_ref().map(|o| o.truth)
+    }
+    fn retained_dispatch_is_consistent(&self) -> bool {
+        self.dispatch != Some(RetainedDispatch::Reserved) || self.observed.is_none()
     }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -778,6 +792,7 @@ impl DurableTransactionStore {
             id: id.clone(),
             request: reference,
             command: request.command,
+            dispatch: None,
             native: request.native,
             origin: request.origin,
             admitted: current.version().clone(),
@@ -1286,6 +1301,7 @@ pub(super) fn validate_objects(directory: &Path, snapshot: &Snapshot) -> Result<
         if !ids.insert(pending.id.as_str())
             || pending.reserved_generation > snapshot.version().generation
             || pending.admitted.generation.checked_add(1) != Some(pending.reserved_generation)
+            || !pending.retained_dispatch_is_consistent()
         {
             return Err(Error::InvalidDigest);
         }
@@ -2445,6 +2461,43 @@ pub(super) mod tests {
             Ok(Reservation::Reserved(_) | Reservation::AlreadyPending(_)) | Err(Error::Busy)
         )));
         assert!(DurableTransactionStore::observe_issue(&f.root, &f.key).is_ok());
+    }
+
+    #[test]
+    fn retained_dispatch_history_reserved_and_started_roundtrip_without_new_write_drift() {
+        let f = Fixture::new();
+        let request = f.bind_request();
+        let pending =
+            match DurableTransactionStore::reserve_effect(&f.root, f.admission(&request), request)
+                .unwrap()
+            {
+                Reservation::Reserved(_) => f.snapshot().pending().unwrap().clone(),
+                Reservation::AlreadyPending(_) | Reservation::AlreadyCompleted(_) => unreachable!(),
+            };
+        let current = serde_json::to_value(&pending).unwrap();
+        assert!(current.get("dispatch").is_none());
+        for dispatch in ["reserved", "started"] {
+            let mut retained = current.clone();
+            retained["dispatch"] = serde_json::Value::String(dispatch.into());
+            let decoded: PendingOperation = serde_json::from_value(retained.clone()).unwrap();
+            assert_eq!(serde_json::to_value(decoded).unwrap(), retained);
+        }
+    }
+
+    #[test]
+    fn retained_dispatch_history_unknown_and_malformed_values_fail_closed() {
+        let f = Fixture::new();
+        let request = f.bind_request();
+        DurableTransactionStore::reserve_effect(&f.root, f.admission(&request), request).unwrap();
+        let current = serde_json::to_value(f.snapshot().pending().unwrap()).unwrap();
+        for dispatch in [
+            serde_json::json!("completed"),
+            serde_json::json!({"state":"started"}),
+        ] {
+            let mut retained = current.clone();
+            retained["dispatch"] = dispatch;
+            assert!(serde_json::from_value::<PendingOperation>(retained).is_err());
+        }
     }
 }
 
