@@ -34,6 +34,10 @@ PRIMARY_TOOL_SCRIPTS = {
 }
 
 HISTORICAL_TOOL_SCRIPTS = {
+    'run_v0917_csm_continuity_capsule_4910_proof.sh': 'Infrastructure-owned manual proof; retained ADL copy is historical source evidence. Use agent-logic-infrastructure owner delivery; resolver proof does not qualify full behavior.',
+    'run_v0917_csm_otlp_4904_proof.sh': 'Infrastructure-owned manual proof; retained ADL copy is historical source evidence. Use agent-logic-infrastructure owner delivery; resolver proof does not qualify full behavior.',
+    'run_v0917_no_sparrow_4909_proof.sh': 'Infrastructure-owned manual proof; retained ADL copy is historical source evidence. Use agent-logic-infrastructure owner delivery; resolver proof does not qualify full behavior.',
+
     "run_wp5795_aws_gpu_proof.sh": "Historical single-node SSM GPU proof with pinned artifacts and owner-bound cleanup; no new execution qualified, and the two-node issue345 proof is not an equivalent replacement.",
     "run_v0914_multi_agent_workcell_proof.sh": "Historical model-backed v0.91.4 workcell rehearsal; retained manifest and review artifacts do not qualify a new execution, including its provider-active dry-run path.",
     "demo_d11_signed_remote.sh": "Historical signed-remote contract; current public ADL does not supply its Runtime binary or test interfaces.",
@@ -63,6 +67,12 @@ HISTORICAL_EVIDENCE = [
 ]
 
 OWNER_NAVIGATION = [
+    (
+        "https://github.com/agent-logic/agent-logic-infrastructure",
+        "owner documentation",
+        "primary",
+        "Infrastructure manual proof owner; retained source and resolver checks do not qualify live behavior.",
+    ),
     (
         "https://github.com/agent-logic/cognitive-sdlc",
         "owner documentation",

@@ -28,10 +28,10 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 ## Classification Counts
 
-- `primary`: 15
+- `primary`: 16
 - `supported shim`: 6
-- `internal helper`: 707
-- `historical evidence`: 11
+- `internal helper`: 704
+- `historical evidence`: 14
 - `archive candidate`: 0
 - `remove candidate`: 2
 
@@ -46,6 +46,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 | Surface | Kind | Classification | Notes |
 | --- | --- | --- | --- |
+| `https://github.com/agent-logic/agent-logic-infrastructure` | owner documentation | primary | Infrastructure manual proof owner; retained source and resolver checks do not qualify live behavior. |
 | `https://github.com/agent-logic/cognitive-sdlc` | owner documentation | primary | C-SDLC v3 lifecycle owner. Use its installed operator manual and authenticated authority; source presence grants no authority. |
 | `https://github.com/agent-logic/agent-logic-runtime` | owner documentation | primary | Runtime product owner; installation and product qualification are separate from this source inventory. |
 | `https://github.com/agent-logic/codefriend` | owner documentation | primary | CodeFriend review product owner; this registry does not invoke or qualify it. |
@@ -323,9 +324,9 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/run_v0916_agent_suitability_panel.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_v0916_deepseek_suitability.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_v0917_csm_api_gateway_bridge_live_proof.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
-| `adl/tools/run_v0917_csm_continuity_capsule_4910_proof.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
-| `adl/tools/run_v0917_csm_otlp_4904_proof.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
-| `adl/tools/run_v0917_no_sparrow_4909_proof.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
+| `adl/tools/run_v0917_csm_continuity_capsule_4910_proof.sh` | tool surface | historical evidence | Infrastructure-owned manual proof; retained ADL copy is historical source evidence. Use agent-logic-infrastructure owner delivery; resolver proof does not qualify full behavior. |
+| `adl/tools/run_v0917_csm_otlp_4904_proof.sh` | tool surface | historical evidence | Infrastructure-owned manual proof; retained ADL copy is historical source evidence. Use agent-logic-infrastructure owner delivery; resolver proof does not qualify full behavior. |
+| `adl/tools/run_v0917_no_sparrow_4909_proof.sh` | tool surface | historical evidence | Infrastructure-owned manual proof; retained ADL copy is historical source evidence. Use agent-logic-infrastructure owner delivery; resolver proof does not qualify full behavior. |
 | `adl/tools/run_v0918_unity_ilpp_diagnostic_matrix.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_validation_manager_nessus_lane.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_wp08_acip_sns_live_proof.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |

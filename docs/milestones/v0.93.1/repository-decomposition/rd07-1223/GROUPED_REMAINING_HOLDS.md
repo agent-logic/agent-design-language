@@ -1,6 +1,6 @@
 # #1223 remaining hold groups
 
-Snapshot of all **21 holds** after reviewed owner deliveries, conditional historical review-wrapper disposition and exact-candidate Runtime test reconciliation. All 4,134 original identities remain in the ledger; 22 additional current paths remain separately tracked. No deletion is authorized by this grouping.
+Snapshot of all **18 holds** after reviewed owner deliveries, conditional historical review-wrapper disposition and exact-candidate Runtime test reconciliation. All 4,134 original identities remain in the ledger; 22 additional current paths remain separately tracked. No deletion is authorized by this grouping.
 
 | Group | Held paths | Next action |
 | --- | ---: | --- |
@@ -8,7 +8,7 @@ Snapshot of all **21 holds** after reviewed owner deliveries, conditional histor
 | Runtime Observatory behavior and CI | 6 | Reconcile room selection, mobile controls and incident assertions with owner journal additions; preserve extra governed-room test. Reconcile live-only CI denominator separately. Reuse existing owner proof where exact. |
 | Installed C-SDLC node and plan proof | 1 | Reuse five restored passing scenarios and native proof; reconcile exact delivered artifact and installed admission before authorizing source/test removal. |
 | Remaining ADL validation routing | 5 | After reviewed caller cutover, reconcile each retained runner, selector, coverage/PVF policy and configuration against five public packages and original assertions. Retain historical private lanes explicitly; do not silently drop inventory rows. |
-| Mixed consumers (inherited inventory owner) | 4 | Resolve the exact per-row required_before_execution entries preserved below as one owner consumer batch: map current caller and qualified successor or choose explicit historical retention/retirement. Reuse existing owner evidence; source presence alone does not close behavior. Cloud/live operations require their own existing authorization. |
+| Mixed consumers (inherited inventory owner) | 1 | Resolve the exact per-row required_before_execution entries preserved below as one owner consumer batch: map current caller and qualified successor or choose explicit historical retention/retirement. Reuse existing owner evidence; source presence alone does not close behavior. Cloud/live operations require their own existing authorization. |
 
 The accompanying `GROUPED_REMAINING_HOLDS.json` preserves every held row, exact identity, prior review and execution prerequisite verbatim. Its group membership is disjoint and complete. Counts for pending patches are intersections with held original rows, not patch file totals.
 
@@ -92,3 +92,5 @@ CodeFriend source reconciliation preserves all 414 original declarations (391 su
 RD07-0426 now has conditional historical-wrapper retirement with caller repair. Five verifier functions match CodeFriend `8236ee8e` byte-for-byte; retained staged showcase sources preserve its fixture route. Original CodeFriend misclassification and later review-owner hold remain historical. The four installed verifier cases remain reported from the prior packet, not newly independently verified: its external RESULT location is unspecified. See `REVIEW_WRAPPER_0426_DISPOSITION.json`. No deletion authorized; current holds:54.
 
 Runtime #149 / PR #156 exact candidate `ebfc8d84` now supplies conditional owner-transfer mappings for33 rows. Actual macOS ARM64 CI passed397 unit cases with1 unchanged ignored D12 case and94 smoke cases. Original201 maps200PASS+1ignored; historical109 splits91same-name RuntimePASS+1current-help replacementPASS+16unchanged public ADL processPASS+1historical undeclared-remote case. Two additional owner-boundary tests bring Runtime smoke to94. Counts are not interchangeable. Merge, native finish, installed acceptance and coherent removal approval remain separate. See `RUNTIME_149_33_TEST_RECONCILIATION.json`. No source removed; current holds:21.
+
+Three delivered Infrastructure CSM manual scripts now have reviewed owner navigation and conditional transfer dispositions. Their live acceptance obligations remain explicit; see `CSM_MANUAL_CALLER_RECONCILIATION.json`.

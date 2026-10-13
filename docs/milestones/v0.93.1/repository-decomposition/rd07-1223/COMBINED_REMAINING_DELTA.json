@@ -7,14 +7,14 @@
   "original_count": 4134,
   "counts": {
     "retain_resolved": 527,
-    "proposed_owner_transfer_with_consumer_qualification": 542,
+    "proposed_owner_transfer_with_consumer_qualification": 545,
     "preserve_approved_removal": 274,
     "proposed_remove_with_entire_source_family": 1677,
     "retain_public_source_or_fixture": 124,
     "preserve_reviewed_consumer_repair": 18,
     "proposed_historical_retirement_with_caller_repair": 61,
     "proposed_remove_with_entire_tool_family": 674,
-    "hold_explicit_reconciliation": 19,
+    "hold_explicit_reconciliation": 16,
     "hold_owner_test_reconciliation": 2,
     "proposed_remove_construction_qualified_infrastructure": 216
   },
@@ -44072,12 +44072,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_adl_caller_closure_and_behavior_obligations_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required",
-        "Reconcile active ADL inbound callers and docs with delivered Infrastructure family.",
-        "Preserve original live behavior obligations separately from resolver proof; validator delivery is not validator execution.",
-        "Scoped retirement decision required before removal."
+        "Coherent source-family retirement with rollback and scoped decision; manual/live qualification is not inferred."
       ],
       "successor_mapping": {
         "mapping": "reviewed_owner_adaptation",
@@ -44100,6 +44097,18 @@
         "live_behavior_qualified": false,
         "validator_presence_is_execution": false,
         "changes_removal_authority": false
+      },
+      "prior_proposed_action": "hold_explicit_reconciliation",
+      "prior_execution_prerequisites": [
+        "specific_consumer_or_document_disposition_required",
+        "Reconcile active ADL inbound callers and docs with delivered Infrastructure family.",
+        "Preserve original live behavior obligations separately from resolver proof; validator delivery is not validator execution.",
+        "Scoped retirement decision required before removal."
+      ],
+      "caller_reconciliation": {
+        "packet": "CSM_MANUAL_CALLER_RECONCILIATION.json",
+        "sha256": "53dab1fcf47d6ca6ffa016a54f7f3a656b63bb34d6f586dcc02faffd613bd60d",
+        "scope": "Registry routes to delivered Infrastructure owner; historical manifest and changed-path fixtures preserved."
       }
     },
     {
@@ -44113,12 +44122,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_adl_caller_closure_and_behavior_obligations_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required",
-        "Reconcile active ADL inbound callers and docs with delivered Infrastructure family.",
-        "Preserve original live behavior obligations separately from resolver proof; validator delivery is not validator execution.",
-        "Scoped retirement decision required before removal."
+        "Coherent source-family retirement with rollback and scoped decision; manual/live qualification is not inferred."
       ],
       "successor_mapping": {
         "mapping": "reviewed_owner_adaptation",
@@ -44141,6 +44147,18 @@
         "live_behavior_qualified": false,
         "validator_presence_is_execution": false,
         "changes_removal_authority": false
+      },
+      "prior_proposed_action": "hold_explicit_reconciliation",
+      "prior_execution_prerequisites": [
+        "specific_consumer_or_document_disposition_required",
+        "Reconcile active ADL inbound callers and docs with delivered Infrastructure family.",
+        "Preserve original live behavior obligations separately from resolver proof; validator delivery is not validator execution.",
+        "Scoped retirement decision required before removal."
+      ],
+      "caller_reconciliation": {
+        "packet": "CSM_MANUAL_CALLER_RECONCILIATION.json",
+        "sha256": "53dab1fcf47d6ca6ffa016a54f7f3a656b63bb34d6f586dcc02faffd613bd60d",
+        "scope": "Registry routes to delivered Infrastructure owner; historical manifest and changed-path fixtures preserved."
       }
     },
     {
@@ -44154,12 +44172,9 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_adl_caller_closure_and_behavior_obligations_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required",
-        "Reconcile active ADL inbound callers and docs with delivered Infrastructure family.",
-        "Preserve original live behavior obligations separately from resolver proof; validator delivery is not validator execution.",
-        "Scoped retirement decision required before removal."
+        "Coherent source-family retirement with rollback and scoped decision; manual/live qualification is not inferred."
       ],
       "successor_mapping": {
         "mapping": "reviewed_owner_adaptation",
@@ -44182,6 +44197,18 @@
         "live_behavior_qualified": false,
         "validator_presence_is_execution": false,
         "changes_removal_authority": false
+      },
+      "prior_proposed_action": "hold_explicit_reconciliation",
+      "prior_execution_prerequisites": [
+        "specific_consumer_or_document_disposition_required",
+        "Reconcile active ADL inbound callers and docs with delivered Infrastructure family.",
+        "Preserve original live behavior obligations separately from resolver proof; validator delivery is not validator execution.",
+        "Scoped retirement decision required before removal."
+      ],
+      "caller_reconciliation": {
+        "packet": "CSM_MANUAL_CALLER_RECONCILIATION.json",
+        "sha256": "53dab1fcf47d6ca6ffa016a54f7f3a656b63bb34d6f586dcc02faffd613bd60d",
+        "scope": "Registry routes to delivered Infrastructure owner; historical manifest and changed-path fixtures preserved."
       }
     },
     {
