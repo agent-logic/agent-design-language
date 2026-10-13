@@ -1,0 +1,55 @@
+{
+  "schema": "adl.rd07.nightly-public-cutover.v1",
+  "issue": 1223,
+  "source_base": "0adbd409808f1f56083f984f9efd7e80b8a47548",
+  "changed_files": [
+    {
+      "path": ".github/workflows/nightly-coverage-ratchet.yaml",
+      "sha256": "065180bbf9ac5e0bbf42342c7c851e47d8e62841875a51ab89e9e9f888300263"
+    },
+    {
+      "path": "tools/public_adl/test_ci_contract.py",
+      "sha256": "ef734aa9471924b5b7de76cb302e54328e8f8c7f2282324ab05254e256d52095"
+    }
+  ],
+  "behavior": "Manual nightly coverage now uses the same public-only coverage producer as primary CI, preserving 90% aggregate/80% per-file floors, formatting/clippy/doc checks, Markdown summary and always-uploaded diagnostic evidence. Six retained packages include adl-legacy-contracts.",
+  "retired_contract": "Old monorepo workspace/runtime runner and legacy summary parser are replaced; private product coverage is not claimed equivalent or passed. No scheduled trigger is introduced.",
+  "private_target_boundary": "ADL explicitly names lib/bins plus six public integration tests; only the other five separate public packages use all-targets.",
+  "validation": [
+    {
+      "command": "python3 -B tools/public_adl/test_ci_contract.py",
+      "result": "PASS",
+      "proof": "Actual inline report executed on success/failure/missing-result fixtures; CI wiring and public target selection assertions pass"
+    },
+    {
+      "command": "python3 -B tools/public_adl/test_action_pins.py",
+      "result": "PASS"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS"
+    }
+  ],
+  "pvf": {
+    "lane_class": "local_contract",
+    "proof_role": "public CI routing/report contract",
+    "determinism": "offline deterministic fixtures",
+    "resources": "small CPU/disk; no Cargo, provider or cloud execution",
+    "release_gate": "required public CI contract"
+  },
+  "independent_review": {
+    "reviewer": "review_1223_public_facade",
+    "finding": "Initial ADL all-targets could compile private integration tests",
+    "fix": "Explicit public target list plus boundary regression assertions",
+    "final": "no remaining findings"
+  },
+  "not_run": [
+    "Nightly hosted dispatch",
+    "Full product build or coverage rerun"
+  ],
+  "original_inventory": {
+    "workflow": "outside original4134; retained caller repaired, not additional removal",
+    "test": "outside original4134; existing public test extended"
+  },
+  "retirement_authorization": false
+}

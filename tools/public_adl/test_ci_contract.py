@@ -5,6 +5,9 @@ import re
 import json
 import os
 import subprocess
+import sys
+import tempfile
+import textwrap
 from pathlib import Path
 
 
@@ -62,7 +65,48 @@ def job_block(workflow, name):
     return re.search(r"^  " + re.escape(name) + r":\n.*?(?=^  [A-Za-z0-9_-]+:\n|\Z)", workflow, re.M | re.S).group(0)
 
 
+def check_nightly_report() -> None:
+    """PVF local_contract: deterministic offline report fixtures; required CI wiring gate."""
+    workflow = (ROOT / ".github/workflows/nightly-coverage-ratchet.yaml").read_text()
+    assert "workflow_dispatch:" in workflow and "  schedule:" not in workflow
+    assert "run_authoritative_coverage_lane" not in workflow
+    assert 'coverage.py --mode full --output "$COVERAGE_OUTPUT"' in workflow
+    assert workflow.count("if: always()") == 2
+    quality = workflow.split("      - name: Run public quality gates", 1)[1].split("      - name:", 1)[0]
+    assert "for manifest in adl/Cargo.toml" not in quality
+    assert "--manifest-path adl/Cargo.toml --package adl --lib --bins" in quality
+    for target in ("adl_tests", "resolve_tests", "schema_tests", "public_process", "issue_327_removed_tooling", "public_observation"):
+        assert "--test " + target in quality
+    assert "--version 0.8.2" in workflow
+    assert "if-no-files-found: error" in workflow
+    script = textwrap.dedent(workflow.split("<<'PYREPORT'\n", 1)[1].split("          PYREPORT", 1)[0])
+    with tempfile.TemporaryDirectory(prefix="nightly-report-") as temporary:
+        root = Path(temporary)
+        summary = root / "step-summary.md"
+        env = dict(os.environ, COVERAGE_OUTPUT=str(root), RUNNER_TEMP=str(root),
+                   GITHUB_STEP_SUMMARY=str(summary), COVERAGE_OUTCOME="success")
+        data = {"schema": "adl.public_coverage.v1", "mode": "full", "source_head": "fixture",
+                "line_count": 100, "covered_lines": 95, "status": "passed", "failures": [],
+                "thresholds": {"full_file": 80, "full_aggregate": 90},
+                "files": {"adl/src/lib.rs": {"covered": 95, "count": 100}}}
+        result_path = root / "result.json"
+        for case in ("passed", "failed", "missing"):
+            if case == "missing":
+                result_path.unlink()
+            else:
+                data["status"] = case
+                data["failures"] = [] if case == "passed" else ["public aggregate below 90% line floor"]
+                result_path.write_text(json.dumps(data))
+            result = subprocess.run([sys.executable, "-B", "-c", script], env=env, capture_output=True, text=True)
+            assert result.returncode == (0 if case == "passed" else 1), result.stderr
+            report = (root / "nightly-public-coverage-report.md").read_text()
+            expected = {"passed": "95.00%", "failed": "below 90% line floor", "missing": "Coverage result was not produced"}[case]
+            assert expected in report
+            assert report in summary.read_text()
+
+
 def main() -> None:
+    check_nightly_report()
     selector = json.loads(
         (ROOT / "adl/config/validation_lane_selector.public.v1.json").read_text()
     )
