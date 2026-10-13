@@ -58,6 +58,13 @@ def tree(ref):
             for fields, path in [line.split('\t', 1)]}
 
 
+def approved_component_delta():
+    data = (ROOT / PACKET / 'APPROVED_COMPONENT_DELTA.json').read_bytes()
+    require(hashlib.sha256(data).hexdigest() == '031b373b70731dd17eee3e174deadc2b96427d6363330db20e92131d3ce537af',
+            'approved component delta changed')
+    return json.loads(data)
+
+
 def check_inventory(ledger, frozen, observed, candidate):
     require(ledger['original_revision'] == '248f00e359e412f6bc0061ac88be9ff374e3a212' and
             ledger['observed_main'] == '9cfd035aac2a44637b3c8026bd40b669579a8c7f', 'reviewed baseline changed')
@@ -66,8 +73,9 @@ def check_inventory(ledger, frozen, observed, candidate):
     require(len(rows) == len({r['path'] for r in rows}) == 4134, 'original denominator missing or duplicated')
     require(hashlib.sha256(json.dumps(tuples, separators=(',', ':')).encode()).hexdigest() == INVENTORY_SHA256,
             'original inventory identity changed')
-    require(ledger['new_removals_authorized'] is False and ledger['all_holds_resolved'] is False,
-            'preparation cannot grant retirement approval')
+    require(ledger['new_removals_authorized'] is True and ledger['all_holds_resolved'] is False,
+            'scoped approval does not resolve the full inventory')
+    approved = approved_component_delta()
     removed = []
     for r in rows:
         p = r['path']
@@ -77,6 +85,12 @@ def check_inventory(ledger, frozen, observed, candidate):
             require(any(p.startswith(c + '/') for c in COMPONENTS), 'out-of-scope removal: ' + p)
             require(p not in candidate, 'declared prior removal still present: ' + p)
             removed.append(p)
+        elif r['action'] == 'approved_component_removal':
+            require(p in approved['removed'] and p not in candidate, 'unapproved component removal: ' + p)
+            removed.append(p)
+        elif r['action'] == 'approved_component_consumer_repair':
+            require(p in approved['repairs'] and candidate.get(p) == approved['repairs'][p],
+                    'component consumer repair exceeds approved bytes: ' + p)
         elif r['action'] == 'existing_branch_surgical':
             require(p == 'infra/runtime-v3/runtime-init.toml', 'unapproved surgical path')
             before = subprocess.check_output(['git', '--no-optional-locks', 'show', ledger['observed_main'] + ':' + p], cwd=ROOT)
@@ -92,8 +106,11 @@ def check_inventory(ledger, frozen, observed, candidate):
         else:
             require(r['action'] == 'retain', 'unknown action: ' + p)
             require(candidate.get(p) == observed.get(p), 'held source removed or altered: ' + p)
-    require(len(removed) == 34, 'existing removal denominator must remain 34')
-    require(set(observed) - set(candidate) == set(removed), 'new deletion outside reviewed 34-path set')
+    for path, identity in approved['repairs'].items():
+        require(candidate.get(path) == identity, 'component consumer repair exceeds approved bytes: ' + path)
+    require(len(removed) == 70 and set(approved['removed']).issubset(removed),
+            'retirement delta must preserve prior 34 and approved 36 removals')
+    require(set(observed) - set(candidate) == set(removed), 'new deletion outside reviewed 70-path set')
     for p in PROTECTED:
         require(candidate.get(p) == observed.get(p) and p in observed, 'required evidence/contract missing or changed: ' + p)
     for p, identity in observed.items():
@@ -144,7 +161,7 @@ def run():
         check_references(refs, allowed)
         scanned[component] = len(refs)
     return {'schema': 'adl.source_retirement.guard.v1', 'status': 'passed', 'head': git('rev-parse', 'HEAD'),
-            'candidate_rows': 4134, 'existing_branch_removals': len(removed), 'direct_reference_files': scanned,
+            'candidate_rows': 4134, 'existing_branch_removals': 34, 'approved_component_removals': 36, 'total_removals': len(removed), 'direct_reference_files': scanned,
             'limits': ['Preparation guard only; no new deletion approval.',
                        'Direct component-path references only; dynamic and indirect consumers still require review.',
                        'Rollback digest is checked separately from functional restore and installed product proof.',

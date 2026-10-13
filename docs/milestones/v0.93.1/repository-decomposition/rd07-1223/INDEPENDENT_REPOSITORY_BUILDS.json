@@ -78,7 +78,7 @@
       "repository": "agent-logic/agent-logic-runtime",
       "observed_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
       "execution_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
-      "status": "not_run",
+      "status": "passed",
       "kind": "rust_product",
       "commands": [
         [
@@ -124,25 +124,73 @@
         ]
       ],
       "source": "tools/packaging/ci_package.py BUILDS and README.md at observed_revision",
-      "note": "Compile all six product binaries plus the shared library in the isolated Linux container with Rust 1.92.0. Commands use the documented product build graph. The macOS-only packaging wrapper is not used or relabelled as Linux package qualification. Do not activate or replace Runtime."
+      "note": "Compile all six product binaries plus the shared library in the isolated Linux container with Rust 1.92.0. Commands use the documented product build graph. The macOS-only packaging wrapper is not used or relabelled as Linux package qualification. Do not activate or replace Runtime.",
+      "evidence": {
+        "revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "image_digest": "rust@sha256:e90e846de4124376164ddfbaab4b0774c7bdeef5e738866295e5a90a34a307a2",
+        "architecture": "arm64",
+        "exit_code": 0,
+        "binary_sha256": {
+          "adl-runtime-kernel": "c431dfc3377fd6f6eba03b316f61faab168cbf2ec0a50ca04f0632d2834d63c0",
+          "adl-runtime-guardian": "6dfdd54c2c8e206d17498aee61b5b5c05216c8cb4262d9613eb6f6a2492fec5f",
+          "adl-observatory-static": "41bb6806cef533711a0ac75cac3d7f7dd44650efd10a00475aa0b5f9dc6624e7",
+          "adl-runtime": "28a324cb0a307ca5851ee0b1c102578accf7a7580a278c44c9a2f754d15617d5",
+          "csm": "d885069770c8a5a7b68abbf6fd61439de7e7e4c2a58b808b40e7dab377c66be8",
+          "csmctl": "05c575332da62bf8a009e90e543ff25cb4ec5d9e79595a847f8ce282a12d2a4e"
+        },
+        "first_attempt": {
+          "status": "failed",
+          "cause": "cgroup memory limit; two compiler processes OOM-killed",
+          "log_sha256": "a44890a04fd81079bb72461404f0e901448eb2e90ece900ee53593b33e929b54"
+        },
+        "second_attempt": {
+          "status": "passed",
+          "cargo_build_jobs": 1,
+          "scope": "failed CLI command and remaining library only; earlier successful kernel/guardian/Observatory commands retained",
+          "log_sha256": "94d7e08a87734453d034266f7d79b845697dbc214549df276d96836082dfe423"
+        },
+        "container_inspection_sha256": "5a3f6bc7326aa34666fe5886b9f7e6ac52e2f1aabef6e0abff782b223525ec8b",
+        "credential_removed_after_checkout": true,
+        "host_source_mounts": false,
+        "evidence_location": "FastWork c1223/evidence/agent-logic-runtime",
+        "runtime_activated": false
+      },
+      "container_execution": {
+        "test": "guardian_lease_loss_checkpoints_and_stops_the_real_kernel",
+        "result": "passed",
+        "test_count": 1,
+        "filtered_tests": 7,
+        "repository": "agent-logic/agent-logic-runtime",
+        "revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "execution": "real kernel subprocess in isolated Linux container with synthetic init, keys, loopback, continuity state",
+        "assertions": [
+          "Guardian lease handshake",
+          "control_ready event",
+          "clean shutdown after lease loss",
+          "generation-1 signed ed25519 checkpoint"
+        ],
+        "log_sha256": "f370bcdf92ab6eacab089de8f79ae826e75524d7360c3970fdac5af0ce91c194",
+        "binary_sha256": "5c42d71edf564422670171cfe0eb3b76fc90be0bf49e7e85172cec3fc0f68552",
+        "production_deployment_changed": false,
+        "hosted_inference_tested": false
+      }
     },
     {
       "repository": "agent-logic/codefriend",
       "observed_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
       "execution_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
-      "status": "not_run",
+      "status": "passed",
       "kind": "rust_product",
       "commands": [
         [
           "cargo",
-          "check",
-          "--offline",
-          "--locked",
-          "--workspace",
-          "--all-targets"
+          "+1.92.0",
+          "fetch",
+          "--locked"
         ],
         [
           "cargo",
+          "+1.92.0",
           "build",
           "--offline",
           "--locked",
@@ -153,13 +201,30 @@
         ]
       ],
       "source": "README.md",
-      "note": "First acquire and verify the independently authenticated agent-product-support source archive using tools/shared_library_artifact.py; record exact archive and producer identity. Download locked public dependencies inside this container before offline build. No sibling Runtime checkout."
+      "note": "First acquire and verify the independently authenticated agent-product-support source archive using tools/shared_library_artifact.py; record exact archive and producer identity. Download locked public dependencies inside this container before offline build. No sibling Runtime checkout.",
+      "evidence": {
+        "revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
+        "image_digest": "rust@sha256:e90e846de4124376164ddfbaab4b0774c7bdeef5e738866295e5a90a34a307a2",
+        "architecture": "arm64",
+        "exit_code": 0,
+        "binary_sha256": {
+          "codefriend": "712140dbd24c221ae19693513bee6f049509a05f3f7f9ad3c1131a59f1ceba07",
+          "codefriend-agent": "11b6b19d9f30dbe4d9001701b63f8af4a0e1abf12ac3eadf9775e52a21cc8c2f",
+          "codefriend-server": "45f4d817e70889122db27ad18a9b4d7e8eacb72d7a4c4b5ab5c0227050d584a9"
+        },
+        "log_sha256": "a6cf593aff7060518edda9388bb61826945be7e5479bd6fadd9b47114c078ee6",
+        "result_sha256": "a4417deda5fd155dd94a019458e796843a5b8daf96d4c783ca4fc0a2286b5039",
+        "credential_removed_after_checkout": true,
+        "host_source_mounts": false,
+        "evidence_location": "FastWork c1223/evidence/codefriend",
+        "dependency_source": "Pinned agent-product-support archive acquired and verified inside fresh container; no sibling checkout"
+      }
     },
     {
       "repository": "agent-logic/cognitive-sdlc",
       "observed_revision": "d316340c212800ff523f957b1bf290db68d8efad",
       "execution_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-      "status": "not_run",
+      "status": "passed",
       "kind": "rust_product",
       "commands": [
         [
@@ -175,7 +240,21 @@
         ]
       ],
       "source": ".github/workflows/owner-package.yml",
-      "note": "Build only. No owner installation or lifecycle commands in the container."
+      "note": "Build only. No owner installation or lifecycle commands in the container.",
+      "evidence": {
+        "revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "image_digest": "rust@sha256:e90e846de4124376164ddfbaab4b0774c7bdeef5e738866295e5a90a34a307a2",
+        "architecture": "arm64",
+        "exit_code": 0,
+        "binary_sha256": "0111738e16f13a322d5c1e0a444617aae5465231bcdcc0a108014618050361e0",
+        "log_sha256": "3ac2538db482df1a9aaffea6887d1231787e8e2aef09ecfb8dd97970a21e5f32",
+        "container_inspection_sha256": "e7821a0b90a7715fa493e9ab896ffe2105e2c54f0f1b46cc310b2c1f6c81f26b",
+        "result_sha256": "ea9aa6cd9d87c5e01fa138bbf958410a4e7067fc60b219166c255d3778411f69",
+        "credential_removed_after_checkout": true,
+        "host_source_mounts": false,
+        "source": "independent fresh GitHub clone",
+        "evidence_location": "FastWork c1223/evidence/cognitive-sdlc"
+      }
     }
   ],
   "isolation": {
@@ -202,11 +281,13 @@
     "produced artifact inventory and hashes",
     "per-repository result including explicit no-compiler disposition"
   ],
-  "proof_executed": false,
+  "proof_executed": true,
   "cards_sync": "Pending supported native authority; this packet records the acceptance requirement now and does not claim a successful native card update.",
   "scope_clarification": "Operator excludes websites and unrelated non-code repositories. Infrastructure remains in scope for split Terraform and executable tooling; validation does not deploy cloud resources.",
   "excluded_repositories": [
     "agent-logic/codefriend.ai",
     "agent-logic/agent-logic.ai"
-  ]
+  ],
+  "completed_repositories": 3,
+  "all_repositories_passed": false
 }

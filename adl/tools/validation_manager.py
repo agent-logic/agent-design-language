@@ -23,8 +23,6 @@ SLOW_PROOF_FAMILIES = ROOT / "adl/config/slow_proof_families.v0.91.6.json"
 DEFAULT_MANIFEST = ROOT / "adl/config/validation_lane_selector.v0.91.6.json"
 NESSUS_REMOTE_RUNNER = "bash adl/tools/run_nessus_remote_validation.sh"
 AWS_SPOT_REMOTE_RUNNER = "bash adl/tools/run_aws_spot_remote_validation_lane.sh"
-AWS_CODEFRIEND_BUILD_RUNNER = "bash adl/tools/run_aws_codefriend_build_lane.sh"
-AWS_CODEFRIEND_BUILD_RUNNER_PATH = ROOT / "adl/tools/run_aws_codefriend_build_lane.sh"
 VALIDATION_PLATFORMS = ("auto", "local", "nessus", "aws_spot", "codebuild", "wuji")
 BUILD_ACTION_LOG_SCHEMA = "adl.build_action_log.v1"
 BUILD_ACTION_LOG_MANIFEST_SCHEMA = "adl.build_action_log_manifest.v1"
@@ -1044,52 +1042,14 @@ def aws_spot_platform_candidate(profile: dict[str, Any], eligibility: dict[str, 
 
 
 def codebuild_platform_candidate(profile: dict[str, Any], eligibility: dict[str, Any]) -> dict[str, Any]:
-    wrapper_exists = AWS_CODEFRIEND_BUILD_RUNNER_PATH.exists()
-    if not wrapper_exists:
-        return platform_candidate(
-            platform="codebuild",
-            decision="rejected",
-            reason="CodeBuild wrapper is not present on this branch; merge or rebase the #4838 CodeFriend build lane first",
-            cache_posture="stable_local_target_cache_plus_s3_sccache_when_wrapper_available",
-            cost_posture="aws_codebuild_compute_minutes",
-            wrapper=AWS_CODEFRIEND_BUILD_RUNNER,
-            caveats=["dependency_issue=#4838", "dependency_pr=#4865"],
-        )
-    if eligibility["status"] != "ready_to_run":
-        return platform_candidate(
-            platform="codebuild",
-            decision="rejected",
-            reason=f"validation profile status {eligibility['status']} is not CodeBuild-runnable",
-            cache_posture="stable_local_target_cache_plus_s3_sccache",
-            cost_posture="aws_codebuild_compute_minutes",
-            wrapper=AWS_CODEFRIEND_BUILD_RUNNER,
-        )
-    if eligibility["escalation_required"]:
-        return platform_candidate(
-            platform="codebuild",
-            decision="rejected",
-            reason="validation profile already requires escalation",
-            cache_posture="stable_local_target_cache_plus_s3_sccache",
-            cost_posture="aws_codebuild_compute_minutes",
-            wrapper=AWS_CODEFRIEND_BUILD_RUNNER,
-        )
     return platform_candidate(
         platform="codebuild",
-        decision="eligible",
-        reason="profile can use the scalable CodeFriend CodeBuild lane when the wrapper, project, builder image, and caches are available",
-        command=(
-            f"{AWS_CODEFRIEND_BUILD_RUNNER} --project-name adl-codefriend-build "
-            "--dry-run --print-command "
-            "--env ADL_CODEFRIEND_BUILD_COMMAND='bash adl/tools/run_pr_fast_test_lane.sh'"
-        ),
-        cache_posture="stable_local_target_cache_plus_s3_sccache",
-        cost_posture="aws_codebuild_compute_minutes",
-        wrapper=AWS_CODEFRIEND_BUILD_RUNNER,
-        caveats=[
-            "requires Agent Logic AWS CodeBuild project and service role",
-            "requires builder image and S3 sccache to be configured",
-            "requires explicit live trigger outside validation-manager",
-        ],
+        decision="rejected",
+        reason="CodeFriend CodeBuild source moved to agent-logic/codefriend and agent-logic/agent-logic-infrastructure; no ADL launcher is retained",
+        cache_posture="not_applicable",
+        cost_posture="no_launch",
+        launch_posture="retired_in_adl",
+        caveats=["successor cloud activation requires its separate authorization"],
     )
 
 

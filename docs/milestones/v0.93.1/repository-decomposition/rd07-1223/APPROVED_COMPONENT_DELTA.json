@@ -1,0 +1,73 @@
+{
+  "schema": "adl.source_retirement.approved_component_delta.v1",
+  "issue": 1223,
+  "authorization": "Operator: ok finish 1223; consolidated 36-path decision previously presented; coordinator acknowledged no repeated approval needed",
+  "removed": [
+    ".github/workflows/aws-codefriend-build.yaml",
+    "adl-v2/crates/adl-runtime-v3-adapter/Cargo.lock",
+    "adl-v2/crates/adl-runtime-v3-adapter/Cargo.toml",
+    "adl-v2/crates/adl-runtime-v3-adapter/src/lib.rs",
+    "adl-v2/crates/adl-runtime-v3-adapter/src/outcome.rs",
+    "adl-v2/crates/adl-runtime-v3-adapter/tests/adapter.rs",
+    "adl-v2/crates/adl-workcell-conductor/Cargo.lock",
+    "adl-v2/crates/adl-workcell-conductor/Cargo.toml",
+    "adl-v2/crates/adl-workcell-conductor/README.md",
+    "adl-v2/crates/adl-workcell-conductor/src/lib.rs",
+    "adl-v2/crates/adl-workcell-conductor/src/model.rs",
+    "adl-v2/crates/adl-workcell-conductor/src/planner.rs",
+    "adl-v2/crates/adl-workcell-conductor/tests/conductor.rs",
+    "adl-v2/crates/adl-workcell-convergence/Cargo.toml",
+    "adl-v2/crates/adl-workcell-convergence/src/hygiene.rs",
+    "adl-v2/crates/adl-workcell-convergence/src/lib.rs",
+    "adl-v2/crates/adl-workcell-convergence/src/model.rs",
+    "adl-v2/crates/adl-workcell-convergence/tests/convergence.rs",
+    "adl-v2/crates/adl-workcell-task-adapter/Cargo.toml",
+    "adl-v2/crates/adl-workcell-task-adapter/README.md",
+    "adl-v2/crates/adl-workcell-task-adapter/src/lib.rs",
+    "adl-v2/crates/adl-workcell-task-adapter/src/model.rs",
+    "adl-v2/crates/adl-workcell-task-adapter/tests/adapter.rs",
+    "adl/tools/run_aws_codefriend_build_lane.sh",
+    "adl/tools/setup_aws_codefriend_build_resources.sh",
+    "adl/tools/test_run_aws_codefriend_build_lane.sh",
+    "infra/aws/csm-runtime-health/.gitignore",
+    "infra/aws/csm-runtime-health/.terraform.lock.hcl",
+    "infra/aws/csm-runtime-health/README.md",
+    "infra/aws/csm-runtime-health/locals.tf",
+    "infra/aws/csm-runtime-health/main.tf",
+    "infra/aws/csm-runtime-health/outputs.tf",
+    "infra/aws/csm-runtime-health/shepherd.tf",
+    "infra/aws/csm-runtime-health/terraform.tfvars.example",
+    "infra/aws/csm-runtime-health/variables.tf",
+    "infra/aws/csm-runtime-health/versions.tf"
+  ],
+  "repairs": {
+    "adl/config/validation_lane_selector.v0.91.6.json": [
+      "100644",
+      "eeb45ee903c465aa8d9007f8a6b66c2d69802b58"
+    ],
+    "adl/tools/test_select_validation_lanes.sh": [
+      "100755",
+      "7fa39d0d8d01bbc44f61b9369e6b1fb8cc55c013"
+    ],
+    "adl/tools/test_validation_manager.sh": [
+      "100755",
+      "292733b69574cf4517046d33bede7dead55fae5c"
+    ],
+    "adl/tools/validation_manager.py": [
+      "100644",
+      "08e2cfd8f988028498b19c4f81b1f16c3b11138b"
+    ],
+    "docs/tooling/AWS_CODEFRIEND_BUILD_LANE.md": [
+      "100644",
+      "1047549202fb151040cbefcb214f7e252c367f53"
+    ],
+    "adl-v2/Cargo.toml": [
+      "100644",
+      "21ca333bfd944143ac156866dd1e70814eec1be5"
+    ],
+    "adl-v2/Cargo.lock": [
+      "100644",
+      "94e5598e0824d6e50651c226fba383c33da18dfc"
+    ]
+  }
+}

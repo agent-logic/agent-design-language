@@ -5,7 +5,7 @@
   "observed_main": "9cfd035aac2a44637b3c8026bd40b669579a8c7f",
   "original_manifest_sha256": "78284b4de653d7a3ffcd40759b35ce2ec7bbaba76a69c41b57098c423e9adee2",
   "candidate_count": 4134,
-  "new_removals_authorized": false,
+  "new_removals_authorized": true,
   "all_holds_resolved": false,
   "preservation_archive_sha256": "12205043566913435c25ea414b1fd9148b46727821f7bfefd5d452cfe47a1c17",
   "protected_paths": [
@@ -85,12 +85,14 @@
         "100644",
         "c80a38f3bc16541a02d846361e5d86ab3c608445"
       ],
-      "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "action": "approved_component_removal",
+      "reason": "operator_ok_finish_1223_after_consolidated_36_path_decision",
       "observed_successor_revision": "b200caf8668e707ac10b2b47ba7c88441d7af593",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "91ae8c5e4008a07cee8fd3a70a1306d4d971f9b4",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "proposed_action": "remove",
+      "proposal_component": "codebuild-route"
     },
     {
       "id": "RD07-0005",
@@ -6204,8 +6206,8 @@
         "100644",
         "147428dc6de794bdcbb686479fbb71637bdac9a9"
       ],
-      "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "action": "approved_component_removal",
+      "reason": "operator_ok_finish_1223_after_consolidated_36_path_decision",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "adl-v2/crates/adl-runtime-v3-adapter/Cargo.lock"
@@ -6213,7 +6215,9 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "adl-v2/crates/adl-runtime-v3-adapter/Cargo.lock"
-      ]
+      ],
+      "proposed_action": "remove",
+      "proposal_component": "runtime-workcell-adapters"
     },
     {
       "id": "RD07-0301",
@@ -6225,12 +6229,14 @@
         "100644",
         "56b22e6ca2cd0ff4aef1ec6638295026ad15b13d"
       ],
-      "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "action": "approved_component_removal",
+      "reason": "operator_ok_finish_1223_after_consolidated_36_path_decision",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "proposed_action": "remove",
+      "proposal_component": "runtime-workcell-adapters"
     },
     {
       "id": "RD07-0302",
@@ -6242,8 +6248,8 @@
         "100644",
         "096c65021123c663482eea7f8f850965d3b7b519"
       ],
-      "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "action": "approved_component_removal",
+      "reason": "operator_ok_finish_1223_after_consolidated_36_path_decision",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "adl-v2/crates/adl-runtime-v3-adapter/src/lib.rs"
@@ -6251,7 +6257,9 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "adl-v2/crates/adl-runtime-v3-adapter/src/lib.rs"
-      ]
+      ],
+      "proposed_action": "remove",
+      "proposal_component": "runtime-workcell-adapters"
     },
     {
       "id": "RD07-0303",
@@ -6263,8 +6271,8 @@
         "100644",
         "fafcb6e697f431c37daa9e07fb5cf4a8503dd8ac"
       ],
-      "action": "retain",
-      "reason": "hold_current_source_changes_not_covered_by_frozen_rollback",
+      "action": "approved_component_removal",
+      "reason": "operator_ok_finish_1223_after_consolidated_36_path_decision",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "adl-v2/crates/adl-runtime-v3-adapter/src/outcome.rs"
@@ -6272,7 +6280,9 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "adl-v2/crates/adl-runtime-v3-adapter/src/outcome.rs"
-      ]
+      ],
+      "proposed_action": "remove",
+      "proposal_component": "runtime-workcell-adapters"
     },
     {
       "id": "RD07-0304",
@@ -6284,8 +6294,8 @@
         "100644",
         "444fb173cd0aa8251096cc4451f7f3cfe647bb1b"
       ],
-      "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "action": "approved_component_removal",
+      "reason": "operator_ok_finish_1223_after_consolidated_36_path_decision",
       "observed_successor_revision": "82ac408a8b8ded85c96b3fb960399f63b1decf56",
       "exact_content_candidates": [
         "adl-v2/crates/adl-runtime-v3-adapter/tests/adapter.rs"
@@ -6293,7 +6303,9 @@
       "accepted_rd11_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
       "accepted_content_candidates": [
         "adl-v2/crates/adl-runtime-v3-adapter/tests/adapter.rs"
-      ]
+      ],
+      "proposed_action": "remove",
+      "proposal_component": "runtime-workcell-adapters"
     },
     {
       "id": "RD07-0305",
@@ -6305,8 +6317,8 @@
         "100644",
         "6ef2e58d6b61068e23e3bdf4959ee82a39bdd7d7"
       ],
-      "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "action": "approved_component_removal",
+      "reason": "operator_ok_finish_1223_after_consolidated_36_path_decision",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "adl-v2/crates/adl-workcell-conductor/Cargo.lock"
@@ -6314,7 +6326,9 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "adl-v2/crates/adl-workcell-conductor/Cargo.lock"
-      ]
+      ],
+      "proposed_action": "remove",
+      "proposal_component": "runtime-workcell-adapters"
     },
     {
       "id": "RD07-0306",
@@ -6326,8 +6340,8 @@
         "100644",
         "b0297ae611c0e5b9a99cdb3e21529566cedafc75"
       ],
-      "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "action": "approved_component_removal",
+      "reason": "operator_ok_finish_1223_after_consolidated_36_path_decision",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "adl-v2/crates/adl-workcell-conductor/Cargo.toml"
@@ -6335,7 +6349,9 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "adl-v2/crates/adl-workcell-conductor/Cargo.toml"
-      ]
+      ],
+      "proposed_action": "remove",
+      "proposal_component": "runtime-workcell-adapters"
     },
     {
       "id": "RD07-0307",
@@ -6347,8 +6363,8 @@
         "100644",
         "2c0db95e93ca1452720924250074e36a50ac054a"
       ],
-      "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "action": "approved_component_removal",
+      "reason": "operator_ok_finish_1223_after_consolidated_36_path_decision",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "adl-v2/crates/adl-workcell-conductor/README.md"
@@ -6356,7 +6372,9 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "adl-v2/crates/adl-workcell-conductor/README.md"
-      ]
+      ],
+      "proposed_action": "remove",
+      "proposal_component": "runtime-workcell-adapters"
     },
     {
       "id": "RD07-0308",
@@ -6368,8 +6386,8 @@
         "100644",
         "b5e19e3dfb11f1ed912322c15f6ac4d3991d4818"
       ],
-      "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "action": "approved_component_removal",
+      "reason": "operator_ok_finish_1223_after_consolidated_36_path_decision",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "adl-v2/crates/adl-workcell-conductor/src/lib.rs"
@@ -6377,7 +6395,9 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "adl-v2/crates/adl-workcell-conductor/src/lib.rs"
-      ]
+      ],
+      "proposed_action": "remove",
+      "proposal_component": "runtime-workcell-adapters"
     },
     {
       "id": "RD07-0309",
@@ -6389,8 +6409,8 @@
         "100644",
         "a8ecf14b39bbd55353730557dcf7874a83ad31c0"
       ],
-      "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "action": "approved_component_removal",
+      "reason": "operator_ok_finish_1223_after_consolidated_36_path_decision",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "adl-v2/crates/adl-workcell-conductor/src/model.rs"
@@ -6398,7 +6418,9 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "adl-v2/crates/adl-workcell-conductor/src/model.rs"
-      ]
+      ],
+      "proposed_action": "remove",
+      "proposal_component": "runtime-workcell-adapters"
     },
     {
       "id": "RD07-0310",
@@ -6410,8 +6432,8 @@
         "100644",
         "81a410c7f9c0c3c0fa0da18e04ef1b6bf69670bf"
       ],
-      "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "action": "approved_component_removal",
+      "reason": "operator_ok_finish_1223_after_consolidated_36_path_decision",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "adl-v2/crates/adl-workcell-conductor/src/planner.rs"
@@ -6419,7 +6441,9 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "adl-v2/crates/adl-workcell-conductor/src/planner.rs"
-      ]
+      ],
+      "proposed_action": "remove",
+      "proposal_component": "runtime-workcell-adapters"
     },
     {
       "id": "RD07-0311",
@@ -6431,8 +6455,8 @@
         "100644",
         "21f3958c07c2e3773eecc87aaca318a3d9270562"
       ],
-      "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "action": "approved_component_removal",
+      "reason": "operator_ok_finish_1223_after_consolidated_36_path_decision",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "adl-v2/crates/adl-workcell-conductor/tests/conductor.rs"
@@ -6440,7 +6464,9 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "adl-v2/crates/adl-workcell-conductor/tests/conductor.rs"
-      ]
+      ],
+      "proposed_action": "remove",
+      "proposal_component": "runtime-workcell-adapters"
     },
     {
       "id": "RD07-0312",
@@ -6452,8 +6478,8 @@
         "100644",
         "d6bf33ca6ea949f06f270a319fa59d1309cf5d70"
       ],
-      "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "action": "approved_component_removal",
+      "reason": "operator_ok_finish_1223_after_consolidated_36_path_decision",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "adl-v2/crates/adl-workcell-convergence/Cargo.toml"
@@ -6461,7 +6487,9 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "adl-v2/crates/adl-workcell-convergence/Cargo.toml"
-      ]
+      ],
+      "proposed_action": "remove",
+      "proposal_component": "runtime-workcell-adapters"
     },
     {
       "id": "RD07-0313",
@@ -6473,8 +6501,8 @@
         "100644",
         "4493fff6cbe7125202f9540496565ab5b4c94edf"
       ],
-      "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "action": "approved_component_removal",
+      "reason": "operator_ok_finish_1223_after_consolidated_36_path_decision",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "adl-v2/crates/adl-workcell-convergence/src/hygiene.rs"
@@ -6482,7 +6510,9 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "adl-v2/crates/adl-workcell-convergence/src/hygiene.rs"
-      ]
+      ],
+      "proposed_action": "remove",
+      "proposal_component": "runtime-workcell-adapters"
     },
     {
       "id": "RD07-0314",
@@ -6494,8 +6524,8 @@
         "100644",
         "2e8d599293575a439b225c7e8fa44189b366db89"
       ],
-      "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "action": "approved_component_removal",
+      "reason": "operator_ok_finish_1223_after_consolidated_36_path_decision",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "adl-v2/crates/adl-workcell-convergence/src/lib.rs"
@@ -6503,7 +6533,9 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "adl-v2/crates/adl-workcell-convergence/src/lib.rs"
-      ]
+      ],
+      "proposed_action": "remove",
+      "proposal_component": "runtime-workcell-adapters"
     },
     {
       "id": "RD07-0315",
@@ -6515,8 +6547,8 @@
         "100644",
         "b3e4cf5a05f30033225a23098433f340dfed0e4b"
       ],
-      "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "action": "approved_component_removal",
+      "reason": "operator_ok_finish_1223_after_consolidated_36_path_decision",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "adl-v2/crates/adl-workcell-convergence/src/model.rs"
@@ -6524,7 +6556,9 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "adl-v2/crates/adl-workcell-convergence/src/model.rs"
-      ]
+      ],
+      "proposed_action": "remove",
+      "proposal_component": "runtime-workcell-adapters"
     },
     {
       "id": "RD07-0316",
@@ -6536,8 +6570,8 @@
         "100644",
         "771470ddac4f4be8a2a0c45e597e8697524bc84d"
       ],
-      "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "action": "approved_component_removal",
+      "reason": "operator_ok_finish_1223_after_consolidated_36_path_decision",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "adl-v2/crates/adl-workcell-convergence/tests/convergence.rs"
@@ -6545,7 +6579,9 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "adl-v2/crates/adl-workcell-convergence/tests/convergence.rs"
-      ]
+      ],
+      "proposed_action": "remove",
+      "proposal_component": "runtime-workcell-adapters"
     },
     {
       "id": "RD07-0317",
@@ -6557,8 +6593,8 @@
         "100644",
         "0914bc4335c0643e36cf649d9fca4e972a40eb45"
       ],
-      "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "action": "approved_component_removal",
+      "reason": "operator_ok_finish_1223_after_consolidated_36_path_decision",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "adl-v2/crates/adl-workcell-task-adapter/Cargo.toml"
@@ -6566,7 +6602,9 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "adl-v2/crates/adl-workcell-task-adapter/Cargo.toml"
-      ]
+      ],
+      "proposed_action": "remove",
+      "proposal_component": "runtime-workcell-adapters"
     },
     {
       "id": "RD07-0318",
@@ -6578,8 +6616,8 @@
         "100644",
         "1958d185c1cc63953a0a37b13c220689f7756a92"
       ],
-      "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "action": "approved_component_removal",
+      "reason": "operator_ok_finish_1223_after_consolidated_36_path_decision",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "adl-v2/crates/adl-workcell-task-adapter/README.md"
@@ -6587,7 +6625,9 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "adl-v2/crates/adl-workcell-task-adapter/README.md"
-      ]
+      ],
+      "proposed_action": "remove",
+      "proposal_component": "runtime-workcell-adapters"
     },
     {
       "id": "RD07-0319",
@@ -6599,8 +6639,8 @@
         "100644",
         "dcf7ec87d4d07f7e53039dd23d898a9d2f0c37a4"
       ],
-      "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "action": "approved_component_removal",
+      "reason": "operator_ok_finish_1223_after_consolidated_36_path_decision",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "adl-v2/crates/adl-workcell-task-adapter/src/lib.rs"
@@ -6608,7 +6648,9 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "adl-v2/crates/adl-workcell-task-adapter/src/lib.rs"
-      ]
+      ],
+      "proposed_action": "remove",
+      "proposal_component": "runtime-workcell-adapters"
     },
     {
       "id": "RD07-0320",
@@ -6620,8 +6662,8 @@
         "100644",
         "edf44565200517058012a8ca610b65dbbb299f44"
       ],
-      "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "action": "approved_component_removal",
+      "reason": "operator_ok_finish_1223_after_consolidated_36_path_decision",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "adl-v2/crates/adl-workcell-task-adapter/src/model.rs"
@@ -6629,7 +6671,9 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "adl-v2/crates/adl-workcell-task-adapter/src/model.rs"
-      ]
+      ],
+      "proposed_action": "remove",
+      "proposal_component": "runtime-workcell-adapters"
     },
     {
       "id": "RD07-0321",
@@ -6641,8 +6685,8 @@
         "100644",
         "9e632563de2c0ce552ba0d0c4a7eb55bdde556f0"
       ],
-      "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "action": "approved_component_removal",
+      "reason": "operator_ok_finish_1223_after_consolidated_36_path_decision",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "adl-v2/crates/adl-workcell-task-adapter/tests/adapter.rs"
@@ -6650,7 +6694,9 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "adl-v2/crates/adl-workcell-task-adapter/tests/adapter.rs"
-      ]
+      ],
+      "proposed_action": "remove",
+      "proposal_component": "runtime-workcell-adapters"
     },
     {
       "id": "RD07-0322",
@@ -6776,8 +6822,8 @@
         "100644",
         "939512d07bf70558305761a1adedc6ab5ce30c8e"
       ],
-      "action": "retain",
-      "reason": "hold_current_source_changes_not_covered_by_frozen_rollback",
+      "action": "approved_component_consumer_repair",
+      "reason": "remove_retired_component_routing_or_workspace_members",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
@@ -30144,14 +30190,16 @@
         "100755",
         "64672f994f04b3089a464279edf29e81b0aea2b2"
       ],
-      "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "action": "approved_component_removal",
+      "reason": "operator_ok_finish_1223_after_consolidated_36_path_decision",
       "observed_successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "c8b787ce065e2912fe1db88fc778daded7a8ba63",
       "accepted_content_candidates": [
         "adl/tools/run_aws_codefriend_build_lane.sh"
-      ]
+      ],
+      "proposed_action": "remove",
+      "proposal_component": "codebuild-route"
     },
     {
       "id": "RD07-1475",
@@ -31351,8 +31399,8 @@
         "100755",
         "b5c0e2e763c9ae98e96ff5c7508e2a0b768c98f5"
       ],
-      "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "action": "approved_component_removal",
+      "reason": "operator_ok_finish_1223_after_consolidated_36_path_decision",
       "observed_successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f",
       "exact_content_candidates": [
         "adl/tools/setup_aws_codefriend_build_resources.sh"
@@ -31360,7 +31408,9 @@
       "accepted_rd11_revision": "c8b787ce065e2912fe1db88fc778daded7a8ba63",
       "accepted_content_candidates": [
         "adl/tools/setup_aws_codefriend_build_resources.sh"
-      ]
+      ],
+      "proposed_action": "remove",
+      "proposal_component": "codebuild-route"
     },
     {
       "id": "RD07-1536",
@@ -42084,8 +42134,8 @@
         "100755",
         "83bf830f0cfa01b4ef4192627c885175256e9521"
       ],
-      "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "action": "approved_component_removal",
+      "reason": "operator_ok_finish_1223_after_consolidated_36_path_decision",
       "observed_successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f",
       "exact_content_candidates": [
         "adl/tools/test_run_aws_codefriend_build_lane.sh"
@@ -42093,7 +42143,9 @@
       "accepted_rd11_revision": "c8b787ce065e2912fe1db88fc778daded7a8ba63",
       "accepted_content_candidates": [
         "adl/tools/test_run_aws_codefriend_build_lane.sh"
-      ]
+      ],
+      "proposed_action": "remove",
+      "proposal_component": "codebuild-route"
     },
     {
       "id": "RD07-2081",
@@ -42753,8 +42805,8 @@
         "100755",
         "5dc31990327d95f9f6bd20d04ab005387f01b652"
       ],
-      "action": "retain",
-      "reason": "protect_existing_public_contract_policy_or_control_plane",
+      "action": "approved_component_consumer_repair",
+      "reason": "remove_retired_component_routing_or_workspace_members",
       "observed_successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "c8b787ce065e2912fe1db88fc778daded7a8ba63",
@@ -43613,8 +43665,8 @@
         "100755",
         "df05cade2390b5cec297af491a8e7783e32b5c97"
       ],
-      "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "action": "approved_component_consumer_repair",
+      "reason": "remove_retired_component_routing_or_workspace_members",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
@@ -45572,8 +45624,8 @@
         "100644",
         "64defd266deaf9d2d436c8e06ed153d9fb4b5d31"
       ],
-      "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "action": "approved_component_consumer_repair",
+      "reason": "remove_retired_component_routing_or_workspace_members",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
@@ -76579,8 +76631,8 @@
         "100644",
         "046d7f561ea793fa159459a1ad2cb19bca0eebd7"
       ],
-      "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "action": "approved_component_consumer_repair",
+      "reason": "remove_retired_component_routing_or_workspace_members",
       "observed_successor_revision": "b200caf8668e707ac10b2b47ba7c88441d7af593",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "91ae8c5e4008a07cee8fd3a70a1306d4d971f9b4",
@@ -79345,8 +79397,8 @@
         "100644",
         "285732de90c0b7fde49c682d41cb6d28a0b0eb4c"
       ],
-      "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "action": "approved_component_removal",
+      "reason": "operator_ok_finish_1223_after_consolidated_36_path_decision",
       "observed_successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f",
       "exact_content_candidates": [
         "infra/aws/csm-runtime-health/.gitignore"
@@ -79354,7 +79406,9 @@
       "accepted_rd11_revision": "c8b787ce065e2912fe1db88fc778daded7a8ba63",
       "accepted_content_candidates": [
         "infra/aws/csm-runtime-health/.gitignore"
-      ]
+      ],
+      "proposed_action": "remove",
+      "proposal_component": "runtime-health"
     },
     {
       "id": "RD07-3864",
@@ -79366,8 +79420,8 @@
         "100644",
         "dd16ec3d2f202e7b3f59806a1370327bfc2643b0"
       ],
-      "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "action": "approved_component_removal",
+      "reason": "operator_ok_finish_1223_after_consolidated_36_path_decision",
       "observed_successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f",
       "exact_content_candidates": [
         "infra/aws/csm-public-edge/.terraform.lock.hcl",
@@ -79389,7 +79443,9 @@
         "infra/aws/runtime/alb-origin/.terraform.lock.hcl",
         "infra/aws/runtime/log-archive/.terraform.lock.hcl",
         "infra/aws/runtime/private-node/.terraform.lock.hcl"
-      ]
+      ],
+      "proposed_action": "remove",
+      "proposal_component": "runtime-health"
     },
     {
       "id": "RD07-3865",
@@ -79401,8 +79457,8 @@
         "100644",
         "d3067db773ba047dd31bc87dcc3e5ae11742d9b0"
       ],
-      "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "action": "approved_component_removal",
+      "reason": "operator_ok_finish_1223_after_consolidated_36_path_decision",
       "observed_successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f",
       "exact_content_candidates": [
         "infra/aws/csm-runtime-health/README.md"
@@ -79410,7 +79466,9 @@
       "accepted_rd11_revision": "c8b787ce065e2912fe1db88fc778daded7a8ba63",
       "accepted_content_candidates": [
         "infra/aws/csm-runtime-health/README.md"
-      ]
+      ],
+      "proposed_action": "remove",
+      "proposal_component": "runtime-health"
     },
     {
       "id": "RD07-3866",
@@ -79422,8 +79480,8 @@
         "100644",
         "1b8a0c4c6091a039f00ebba6c48e4227889bd390"
       ],
-      "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "action": "approved_component_removal",
+      "reason": "operator_ok_finish_1223_after_consolidated_36_path_decision",
       "observed_successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f",
       "exact_content_candidates": [
         "infra/aws/csm-runtime-health/locals.tf"
@@ -79431,7 +79489,9 @@
       "accepted_rd11_revision": "c8b787ce065e2912fe1db88fc778daded7a8ba63",
       "accepted_content_candidates": [
         "infra/aws/csm-runtime-health/locals.tf"
-      ]
+      ],
+      "proposed_action": "remove",
+      "proposal_component": "runtime-health"
     },
     {
       "id": "RD07-3867",
@@ -79443,8 +79503,8 @@
         "100644",
         "e41fcd2e5b4ed5b55e2227768774298af0c7e841"
       ],
-      "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "action": "approved_component_removal",
+      "reason": "operator_ok_finish_1223_after_consolidated_36_path_decision",
       "observed_successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f",
       "exact_content_candidates": [
         "infra/aws/csm-runtime-health/main.tf"
@@ -79452,7 +79512,9 @@
       "accepted_rd11_revision": "c8b787ce065e2912fe1db88fc778daded7a8ba63",
       "accepted_content_candidates": [
         "infra/aws/csm-runtime-health/main.tf"
-      ]
+      ],
+      "proposed_action": "remove",
+      "proposal_component": "runtime-health"
     },
     {
       "id": "RD07-3868",
@@ -79464,8 +79526,8 @@
         "100644",
         "472d103c08848dce4c87399993918ec56b2784d3"
       ],
-      "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "action": "approved_component_removal",
+      "reason": "operator_ok_finish_1223_after_consolidated_36_path_decision",
       "observed_successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f",
       "exact_content_candidates": [
         "infra/aws/csm-runtime-health/outputs.tf"
@@ -79473,7 +79535,9 @@
       "accepted_rd11_revision": "c8b787ce065e2912fe1db88fc778daded7a8ba63",
       "accepted_content_candidates": [
         "infra/aws/csm-runtime-health/outputs.tf"
-      ]
+      ],
+      "proposed_action": "remove",
+      "proposal_component": "runtime-health"
     },
     {
       "id": "RD07-3869",
@@ -79485,8 +79549,8 @@
         "100644",
         "7d0070871691add02d00d194fc5ce0e7ca7aefe2"
       ],
-      "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "action": "approved_component_removal",
+      "reason": "operator_ok_finish_1223_after_consolidated_36_path_decision",
       "observed_successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f",
       "exact_content_candidates": [
         "infra/aws/csm-runtime-health/shepherd.tf"
@@ -79494,7 +79558,9 @@
       "accepted_rd11_revision": "c8b787ce065e2912fe1db88fc778daded7a8ba63",
       "accepted_content_candidates": [
         "infra/aws/csm-runtime-health/shepherd.tf"
-      ]
+      ],
+      "proposed_action": "remove",
+      "proposal_component": "runtime-health"
     },
     {
       "id": "RD07-3870",
@@ -79506,8 +79572,8 @@
         "100644",
         "4a6a8ae68c3792e7148cbf64573d4673b27ad030"
       ],
-      "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "action": "approved_component_removal",
+      "reason": "operator_ok_finish_1223_after_consolidated_36_path_decision",
       "observed_successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f",
       "exact_content_candidates": [
         "infra/aws/csm-runtime-health/terraform.tfvars.example"
@@ -79515,7 +79581,9 @@
       "accepted_rd11_revision": "c8b787ce065e2912fe1db88fc778daded7a8ba63",
       "accepted_content_candidates": [
         "infra/aws/csm-runtime-health/terraform.tfvars.example"
-      ]
+      ],
+      "proposed_action": "remove",
+      "proposal_component": "runtime-health"
     },
     {
       "id": "RD07-3871",
@@ -79527,8 +79595,8 @@
         "100644",
         "71fdde2c15ab92d2a48d32c04065046314924570"
       ],
-      "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "action": "approved_component_removal",
+      "reason": "operator_ok_finish_1223_after_consolidated_36_path_decision",
       "observed_successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f",
       "exact_content_candidates": [
         "infra/aws/csm-runtime-health/variables.tf"
@@ -79536,7 +79604,9 @@
       "accepted_rd11_revision": "c8b787ce065e2912fe1db88fc778daded7a8ba63",
       "accepted_content_candidates": [
         "infra/aws/csm-runtime-health/variables.tf"
-      ]
+      ],
+      "proposed_action": "remove",
+      "proposal_component": "runtime-health"
     },
     {
       "id": "RD07-3872",
@@ -79548,8 +79618,8 @@
         "100644",
         "5526765b6869127c071a37defd219927cbcb1449"
       ],
-      "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "action": "approved_component_removal",
+      "reason": "operator_ok_finish_1223_after_consolidated_36_path_decision",
       "observed_successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f",
       "exact_content_candidates": [
         "infra/aws/csm-runtime-alb/versions.tf",
@@ -79561,7 +79631,9 @@
         "infra/aws/csm-runtime-alb/versions.tf",
         "infra/aws/csm-runtime-health/versions.tf",
         "infra/aws/csm-runtime-spot/versions.tf"
-      ]
+      ],
+      "proposed_action": "remove",
+      "proposal_component": "runtime-health"
     },
     {
       "id": "RD07-3873",
@@ -85217,5 +85289,6 @@
     }
   ],
   "previous_observed_main": "f1493c54e4d9f6c5a1da798f48d9f2c361033fa4",
-  "consumer_reference_repair_count": 6
+  "consumer_reference_repair_count": 6,
+  "approved_component_removal_count": 36
 }

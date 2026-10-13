@@ -459,7 +459,7 @@ A	docs/tooling/AWS_CODEFRIEND_BUILD_LANE.md
 EOF
 bash "$SCRIPT" --changed-files "$aws_codefriend_build_lane" >"$TMP/aws-codefriend-build-lane.out"
 assert_has "$TMP/aws-codefriend-build-lane.out" "aggregate_status=release_gate_required"
-assert_has "$TMP/aws-codefriend-build-lane.out" "aws_codefriend_build_lane status=selected"
+assert_not_has "$TMP/aws-codefriend-build-lane.out" "aws_codefriend_build_lane status=selected"
 assert_has "$TMP/aws-codefriend-build-lane.out" "ci_path_policy_contracts status=selected"
 assert_has "$TMP/aws-codefriend-build-lane.out" "release_gate_review status=release_gate_required"
 assert_not_has "$TMP/aws-codefriend-build-lane.out" "unmapped_change_surface"

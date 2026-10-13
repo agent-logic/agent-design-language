@@ -21,17 +21,25 @@ class RetirementNegatives(unittest.TestCase):
         cls.observed = check.tree(cls.ledger['observed_main'])
         cls.candidate = dict(cls.observed)
         for r in cls.ledger['rows']:
-            if r['action'] == 'existing_branch_removal':
+            if r['action'] in ('existing_branch_removal', 'approved_component_removal'):
                 del cls.candidate[r['path']]
             elif r['action'] == 'existing_branch_surgical':
                 cls.candidate[r['path']] = r['expected_surgical_identity']
-            elif r['action'] == 'consumer_reference_repair':
+            elif r['action'] in ('consumer_reference_repair', 'approved_component_consumer_repair'):
                 data = (check.ROOT / r['path']).read_bytes()
                 blob = hashlib.sha1(b'blob ' + str(len(data)).encode() + b'\0' + data).hexdigest()
                 cls.candidate[r['path']] = [cls.observed[r['path']][0], blob]
 
+        cls.candidate.update(check.approved_component_delta()['repairs'])
+
+    def test_workspace_repair_cannot_hide_dependency_change(self):
+        candidate = dict(self.candidate)
+        candidate['adl-v2/Cargo.toml'] = ['100644', '0' * 40]
+        with self.assertRaisesRegex(ValueError, 'component consumer repair exceeds'):
+            check.check_inventory(self.ledger, self.frozen, self.observed, candidate)
+
     def test_complete_original_denominator_and_existing_delta(self):
-        self.assertEqual(len(check.check_inventory(self.ledger, self.frozen, self.observed, self.candidate)), 34)
+        self.assertEqual(len(check.check_inventory(self.ledger, self.frozen, self.observed, self.candidate)), 70)
 
     def test_integrated_main_fix_cannot_be_reverted(self):
         candidate = dict(self.candidate)
@@ -91,7 +99,7 @@ class RetirementNegatives(unittest.TestCase):
             check.check_inventory(self.ledger, self.frozen, self.observed, candidate)
 
     def test_false_approval_rejected(self):
-        ledger = dict(self.ledger, new_removals_authorized=True)
+        ledger = dict(self.ledger, all_holds_resolved=True)
         with self.assertRaisesRegex(ValueError, 'approval'):
             check.check_inventory(ledger, self.frozen, self.observed, self.candidate)
 

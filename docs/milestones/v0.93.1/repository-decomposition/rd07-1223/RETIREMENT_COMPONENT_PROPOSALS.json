@@ -1,0 +1,329 @@
+{
+  "schema": "adl.source_retirement.component_proposals.v1",
+  "issue": 1223,
+  "current_head": "ee80998f9df4e87c67f8a5d0235b319e6f18b763",
+  "original_candidates": 4134,
+  "proposed_removal_count": 36,
+  "components": [
+    {
+      "component": "runtime-health",
+      "proposed_removals": [
+        {
+          "id": "RD07-3863",
+          "path": "infra/aws/csm-runtime-health/.gitignore",
+          "current_identity": [
+            "100644",
+            "285732de90c0b7fde49c682d41cb6d28a0b0eb4c"
+          ]
+        },
+        {
+          "id": "RD07-3864",
+          "path": "infra/aws/csm-runtime-health/.terraform.lock.hcl",
+          "current_identity": [
+            "100644",
+            "dd16ec3d2f202e7b3f59806a1370327bfc2643b0"
+          ]
+        },
+        {
+          "id": "RD07-3865",
+          "path": "infra/aws/csm-runtime-health/README.md",
+          "current_identity": [
+            "100644",
+            "d3067db773ba047dd31bc87dcc3e5ae11742d9b0"
+          ]
+        },
+        {
+          "id": "RD07-3866",
+          "path": "infra/aws/csm-runtime-health/locals.tf",
+          "current_identity": [
+            "100644",
+            "1b8a0c4c6091a039f00ebba6c48e4227889bd390"
+          ]
+        },
+        {
+          "id": "RD07-3867",
+          "path": "infra/aws/csm-runtime-health/main.tf",
+          "current_identity": [
+            "100644",
+            "e41fcd2e5b4ed5b55e2227768774298af0c7e841"
+          ]
+        },
+        {
+          "id": "RD07-3868",
+          "path": "infra/aws/csm-runtime-health/outputs.tf",
+          "current_identity": [
+            "100644",
+            "472d103c08848dce4c87399993918ec56b2784d3"
+          ]
+        },
+        {
+          "id": "RD07-3869",
+          "path": "infra/aws/csm-runtime-health/shepherd.tf",
+          "current_identity": [
+            "100644",
+            "7d0070871691add02d00d194fc5ce0e7ca7aefe2"
+          ]
+        },
+        {
+          "id": "RD07-3870",
+          "path": "infra/aws/csm-runtime-health/terraform.tfvars.example",
+          "current_identity": [
+            "100644",
+            "4a6a8ae68c3792e7148cbf64573d4673b27ad030"
+          ]
+        },
+        {
+          "id": "RD07-3871",
+          "path": "infra/aws/csm-runtime-health/variables.tf",
+          "current_identity": [
+            "100644",
+            "71fdde2c15ab92d2a48d32c04065046314924570"
+          ]
+        },
+        {
+          "id": "RD07-3872",
+          "path": "infra/aws/csm-runtime-health/versions.tf",
+          "current_identity": [
+            "100644",
+            "5526765b6869127c071a37defd219927cbcb1449"
+          ]
+        }
+      ],
+      "patch_sha256": "8b261741ba486085d11d4050602efa9816a1a86a9a8d3b22b90f67508a884146",
+      "decision": "authorized_operator_ok_finish_1223",
+      "applied": true
+    },
+    {
+      "component": "codebuild-route",
+      "proposed_removals": [
+        {
+          "id": "RD07-0004",
+          "path": ".github/workflows/aws-codefriend-build.yaml",
+          "current_identity": [
+            "100644",
+            "c80a38f3bc16541a02d846361e5d86ab3c608445"
+          ]
+        },
+        {
+          "id": "RD07-1474",
+          "path": "adl/tools/run_aws_codefriend_build_lane.sh",
+          "current_identity": [
+            "100755",
+            "64672f994f04b3089a464279edf29e81b0aea2b2"
+          ]
+        },
+        {
+          "id": "RD07-1535",
+          "path": "adl/tools/setup_aws_codefriend_build_resources.sh",
+          "current_identity": [
+            "100755",
+            "b5c0e2e763c9ae98e96ff5c7508e2a0b768c98f5"
+          ]
+        },
+        {
+          "id": "RD07-2080",
+          "path": "adl/tools/test_run_aws_codefriend_build_lane.sh",
+          "current_identity": [
+            "100755",
+            "83bf830f0cfa01b4ef4192627c885175256e9521"
+          ]
+        }
+      ],
+      "patch_sha256": "32ae55e22e6cdcfcf17fc503a6d69e47cf139efaeb7949d28d07186a7d95fe98",
+      "decision": "authorized_operator_ok_finish_1223",
+      "applied": true
+    },
+    {
+      "component": "runtime-workcell-adapters",
+      "proposed_removals": [
+        {
+          "id": "RD07-0300",
+          "path": "adl-v2/crates/adl-runtime-v3-adapter/Cargo.lock",
+          "current_identity": [
+            "100644",
+            "147428dc6de794bdcbb686479fbb71637bdac9a9"
+          ]
+        },
+        {
+          "id": "RD07-0301",
+          "path": "adl-v2/crates/adl-runtime-v3-adapter/Cargo.toml",
+          "current_identity": [
+            "100644",
+            "56b22e6ca2cd0ff4aef1ec6638295026ad15b13d"
+          ]
+        },
+        {
+          "id": "RD07-0302",
+          "path": "adl-v2/crates/adl-runtime-v3-adapter/src/lib.rs",
+          "current_identity": [
+            "100644",
+            "096c65021123c663482eea7f8f850965d3b7b519"
+          ]
+        },
+        {
+          "id": "RD07-0303",
+          "path": "adl-v2/crates/adl-runtime-v3-adapter/src/outcome.rs",
+          "current_identity": [
+            "100644",
+            "fafcb6e697f431c37daa9e07fb5cf4a8503dd8ac"
+          ]
+        },
+        {
+          "id": "RD07-0304",
+          "path": "adl-v2/crates/adl-runtime-v3-adapter/tests/adapter.rs",
+          "current_identity": [
+            "100644",
+            "444fb173cd0aa8251096cc4451f7f3cfe647bb1b"
+          ]
+        },
+        {
+          "id": "RD07-0305",
+          "path": "adl-v2/crates/adl-workcell-conductor/Cargo.lock",
+          "current_identity": [
+            "100644",
+            "6ef2e58d6b61068e23e3bdf4959ee82a39bdd7d7"
+          ]
+        },
+        {
+          "id": "RD07-0306",
+          "path": "adl-v2/crates/adl-workcell-conductor/Cargo.toml",
+          "current_identity": [
+            "100644",
+            "b0297ae611c0e5b9a99cdb3e21529566cedafc75"
+          ]
+        },
+        {
+          "id": "RD07-0307",
+          "path": "adl-v2/crates/adl-workcell-conductor/README.md",
+          "current_identity": [
+            "100644",
+            "2c0db95e93ca1452720924250074e36a50ac054a"
+          ]
+        },
+        {
+          "id": "RD07-0308",
+          "path": "adl-v2/crates/adl-workcell-conductor/src/lib.rs",
+          "current_identity": [
+            "100644",
+            "b5e19e3dfb11f1ed912322c15f6ac4d3991d4818"
+          ]
+        },
+        {
+          "id": "RD07-0309",
+          "path": "adl-v2/crates/adl-workcell-conductor/src/model.rs",
+          "current_identity": [
+            "100644",
+            "a8ecf14b39bbd55353730557dcf7874a83ad31c0"
+          ]
+        },
+        {
+          "id": "RD07-0310",
+          "path": "adl-v2/crates/adl-workcell-conductor/src/planner.rs",
+          "current_identity": [
+            "100644",
+            "81a410c7f9c0c3c0fa0da18e04ef1b6bf69670bf"
+          ]
+        },
+        {
+          "id": "RD07-0311",
+          "path": "adl-v2/crates/adl-workcell-conductor/tests/conductor.rs",
+          "current_identity": [
+            "100644",
+            "21f3958c07c2e3773eecc87aaca318a3d9270562"
+          ]
+        },
+        {
+          "id": "RD07-0312",
+          "path": "adl-v2/crates/adl-workcell-convergence/Cargo.toml",
+          "current_identity": [
+            "100644",
+            "d6bf33ca6ea949f06f270a319fa59d1309cf5d70"
+          ]
+        },
+        {
+          "id": "RD07-0313",
+          "path": "adl-v2/crates/adl-workcell-convergence/src/hygiene.rs",
+          "current_identity": [
+            "100644",
+            "4493fff6cbe7125202f9540496565ab5b4c94edf"
+          ]
+        },
+        {
+          "id": "RD07-0314",
+          "path": "adl-v2/crates/adl-workcell-convergence/src/lib.rs",
+          "current_identity": [
+            "100644",
+            "2e8d599293575a439b225c7e8fa44189b366db89"
+          ]
+        },
+        {
+          "id": "RD07-0315",
+          "path": "adl-v2/crates/adl-workcell-convergence/src/model.rs",
+          "current_identity": [
+            "100644",
+            "b3e4cf5a05f30033225a23098433f340dfed0e4b"
+          ]
+        },
+        {
+          "id": "RD07-0316",
+          "path": "adl-v2/crates/adl-workcell-convergence/tests/convergence.rs",
+          "current_identity": [
+            "100644",
+            "771470ddac4f4be8a2a0c45e597e8697524bc84d"
+          ]
+        },
+        {
+          "id": "RD07-0317",
+          "path": "adl-v2/crates/adl-workcell-task-adapter/Cargo.toml",
+          "current_identity": [
+            "100644",
+            "0914bc4335c0643e36cf649d9fca4e972a40eb45"
+          ]
+        },
+        {
+          "id": "RD07-0318",
+          "path": "adl-v2/crates/adl-workcell-task-adapter/README.md",
+          "current_identity": [
+            "100644",
+            "1958d185c1cc63953a0a37b13c220689f7756a92"
+          ]
+        },
+        {
+          "id": "RD07-0319",
+          "path": "adl-v2/crates/adl-workcell-task-adapter/src/lib.rs",
+          "current_identity": [
+            "100644",
+            "dcf7ec87d4d07f7e53039dd23d898a9d2f0c37a4"
+          ]
+        },
+        {
+          "id": "RD07-0320",
+          "path": "adl-v2/crates/adl-workcell-task-adapter/src/model.rs",
+          "current_identity": [
+            "100644",
+            "edf44565200517058012a8ca610b65dbbb299f44"
+          ]
+        },
+        {
+          "id": "RD07-0321",
+          "path": "adl-v2/crates/adl-workcell-task-adapter/tests/adapter.rs",
+          "current_identity": [
+            "100644",
+            "9e632563de2c0ce552ba0d0c4a7eb55bdde556f0"
+          ]
+        }
+      ],
+      "patch_sha256": "e6da0828586d157d9192055d6447ad0073028d88833e949ce161c18d8c0bf56f",
+      "decision": "authorized_operator_ok_finish_1223",
+      "applied": true
+    }
+  ],
+  "remaining_requirements": [
+    "Final combined independent review",
+    "Required successor/container and public-package qualification",
+    "Native delivery and cleanup"
+  ],
+  "evidence_custody": "Original proposed patch bytes retained on FastWork; applied delta pinned by APPROVED_COMPONENT_DELTA.json",
+  "new_removals_authorized": true,
+  "applied_at_base": "bf4e15d234f159c7061b670be566e1e789d9d660"
+}

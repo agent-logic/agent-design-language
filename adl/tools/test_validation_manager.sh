@@ -1139,11 +1139,10 @@ assert candidates["local"]["decision"] == "eligible"
 assert candidates["local"]["cache_posture"] == "local_target_or_repo_configured"
 assert candidates["aws_spot"]["decision"] == "rejected"
 assert "not cost-appropriate" in candidates["aws_spot"]["reason"]
-assert candidates["codebuild"]["decision"] == "eligible"
-assert "run_aws_codefriend_build_lane.sh" in candidates["codebuild"]["command"]
-assert "--project-name adl-codefriend-build" in candidates["codebuild"]["command"]
-assert "--print-command" in candidates["codebuild"]["command"]
-assert "<branch-or-ref>" not in candidates["codebuild"]["command"]
+assert candidates["codebuild"]["decision"] == "rejected"
+assert "command" not in candidates["codebuild"]
+assert "wrapper" not in candidates["codebuild"]
+assert candidates["codebuild"]["launch_posture"] == "retired_in_adl"
 PY
 
 bash "$SCRIPT" \
@@ -1199,29 +1198,25 @@ import sys
 profile = json.load(open(sys.argv[1]))
 routing = profile["platform_routing"]
 assert routing["requested_platform"] == "codebuild"
-assert routing["decision"] == "selected"
-assert routing["selected_platform"] == "codebuild"
+assert routing["decision"] == "rejected"
+assert routing["selected_platform"] is None
 candidates = {item["platform"]: item for item in routing["candidates"]}
 codebuild = candidates["codebuild"]
-assert codebuild["decision"] == "eligible"
-assert "run_aws_codefriend_build_lane.sh" in codebuild["command"]
-assert "--project-name adl-codefriend-build" in codebuild["command"]
-assert "--print-command" in codebuild["command"]
-assert "<branch-or-ref>" not in codebuild["command"]
-assert "--git-ref" not in codebuild["command"]
-assert "--compute-type" not in codebuild["command"]
-assert codebuild["cache_posture"] == "stable_local_target_cache_plus_s3_sccache"
-assert "requires builder image and S3 sccache to be configured" in codebuild["caveats"]
+assert codebuild["decision"] == "rejected"
+assert "command" not in codebuild
+assert "wrapper" not in codebuild
+assert codebuild["launch_posture"] == "retired_in_adl"
+assert "agent-logic/codefriend" in codebuild["reason"]
 PY
 
 if bash "$SCRIPT" \
   --changed-files "$daemon_wave" \
   --validation-platform codebuild \
   --run >"$TMP/platform-codebuild-run.out" 2>"$TMP/platform-codebuild-run.err"; then
-  echo "expected selected CodeBuild platform request to remain dry-run only under --run" >&2
+  echo "expected retired CodeBuild platform request to be rejected under --run" >&2
   exit 1
 fi
-assert_has "$TMP/platform-codebuild-run.err" "platform routing is dry-run only for non-local platforms"
+assert_has "$TMP/platform-codebuild-run.err" "requested validation platform is not eligible"
 
 if bash "$SCRIPT" \
   --changed-files "$remote_profile_changed" \

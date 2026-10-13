@@ -68,3 +68,14 @@ network access remain denied. Run the six small storage/sandbox regressions with
 These are PVF `local_contract` path-isolation tests (small CPU/disk, no build or
 external service); the four OS sandbox cases require macOS. They do not replace
 the final five-package, seven-consumer, 21-UTS, five-negative proof.
+
+## Approved component retirement
+
+The operator's `ok finish 1223` instruction approved the presented 36-path
+component delta: Runtime-health infrastructure (10), the retired ADL CodeBuild
+lane (4), and four split-out adapter/workcell crates (22). The guard pins the
+removal set and all seven routing/workspace repair identities in
+`APPROVED_COMPONENT_DELTA.json`. Its 15 regression cases include rejection of
+an altered workspace dependency. Counts remain separate: 34 earlier removals,
+36 newly approved removals, 70 total. The original 4,134-row inventory remains
+intact; this component approval does not resolve the remaining inventory.

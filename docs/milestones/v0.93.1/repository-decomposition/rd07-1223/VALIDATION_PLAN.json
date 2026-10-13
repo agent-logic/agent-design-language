@@ -127,13 +127,15 @@
   "required_counts": {
     "original_rows": 4134,
     "existing_removals": 34,
-    "regression_cases": 14,
+    "regression_cases": 15,
     "public_packages": 5,
     "consumer_cases": 7,
     "uts_fixtures": 21,
     "installed_negative_cases": 5,
     "independent_repositories": 5,
-    "install_storage_regressions": 6
+    "install_storage_regressions": 6,
+    "approved_component_removals": 36,
+    "total_removals": 70
   },
   "remaining_execution_gates": [
     "operator_sequence_after_non_tail_before_sprint4",
