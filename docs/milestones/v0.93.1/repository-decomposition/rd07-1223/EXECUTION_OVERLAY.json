@@ -331,12 +331,30 @@
       ],
       "after": [
         "100755",
-        "dc3870f056e24b4198e818ea8ebc578eea7fb9de"
+        "b6ad0bfd8002cd9a5249caed56e5e5cdd7a2a184"
       ],
-      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
-      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
-      "review_reference": "review_1223_applied_components exact77/112 review",
-      "source_chain_reference": "proposed_reconciled_entries:adl/tools/install_owner_binaries.sh"
+      "implementation_commit": "b2cdd4e9b1100a4f94e463e8d80243747a88554d",
+      "approval_reference": "PUBLIC_OWNER_CALLER_REPAIR.json",
+      "review_reference": "review_1223_applied_components exact five-file PASS",
+      "source_chain_reference": "PUBLIC_OWNER_CALLER_REPAIR.json:adl/tools/install_owner_binaries.sh",
+      "prior_reviewed_transitions": [
+        {
+          "path": "adl/tools/install_owner_binaries.sh",
+          "action": "modify",
+          "before": [
+            "100755",
+            "40c0464f6ed4885accadb6043b5cf3bbe2519dfb"
+          ],
+          "after": [
+            "100755",
+            "dc3870f056e24b4198e818ea8ebc578eea7fb9de"
+          ],
+          "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+          "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+          "review_reference": "review_1223_applied_components exact77/112 review",
+          "source_chain_reference": "proposed_reconciled_entries:adl/tools/install_owner_binaries.sh"
+        }
+      ]
     },
     {
       "path": "adl/tools/owner_binary_resolution.sh",
@@ -555,12 +573,30 @@
       ],
       "after": [
         "100755",
-        "6ccd0ddab0c2151ecb036fb517277e47056323e3"
+        "7e6d589f9f3fdc868881c873a7649117002ba08a"
       ],
-      "implementation_commit": "5edd4bf7452227fbfa83e990ffd496baeba6a3c0",
-      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
-      "review_reference": "review_1223_applied_components exact77/112 review",
-      "source_chain_reference": "proposed_reconciled_entries:adl/tools/test_owner_binary_install.sh"
+      "implementation_commit": "b2cdd4e9b1100a4f94e463e8d80243747a88554d",
+      "approval_reference": "PUBLIC_OWNER_CALLER_REPAIR.json",
+      "review_reference": "review_1223_applied_components exact five-file PASS",
+      "source_chain_reference": "PUBLIC_OWNER_CALLER_REPAIR.json:adl/tools/test_owner_binary_install.sh",
+      "prior_reviewed_transitions": [
+        {
+          "path": "adl/tools/test_owner_binary_install.sh",
+          "action": "modify",
+          "before": [
+            "100755",
+            "24aa486da75254b49985ee0fb707b4ccaab86be2"
+          ],
+          "after": [
+            "100755",
+            "6ccd0ddab0c2151ecb036fb517277e47056323e3"
+          ],
+          "implementation_commit": "5edd4bf7452227fbfa83e990ffd496baeba6a3c0",
+          "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+          "review_reference": "review_1223_applied_components exact77/112 review",
+          "source_chain_reference": "proposed_reconciled_entries:adl/tools/test_owner_binary_install.sh"
+        }
+      ]
     },
     {
       "path": "adl/tools/test_run_validation_manager_nessus_lane.sh",
@@ -699,12 +735,30 @@
       ],
       "after": [
         "100644",
-        "b5c5de9fddbf3b1b97b5fd47e25a9e61b300f689"
+        "a02f9b8d4c03667855f27aa6aea92f0842873b3f"
       ],
-      "implementation_commit": "c9e305eddee18c9162560da5cd67b57a5addfafc",
-      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
-      "review_reference": "review_1223_applied_components exact77/112 review",
-      "source_chain_reference": "proposed_reconciled_entries:adl/tools/validation_manager.py"
+      "implementation_commit": "b2cdd4e9b1100a4f94e463e8d80243747a88554d",
+      "approval_reference": "PUBLIC_OWNER_CALLER_REPAIR.json",
+      "review_reference": "review_1223_applied_components exact five-file PASS",
+      "source_chain_reference": "PUBLIC_OWNER_CALLER_REPAIR.json:adl/tools/validation_manager.py",
+      "prior_reviewed_transitions": [
+        {
+          "path": "adl/tools/validation_manager.py",
+          "action": "modify",
+          "before": [
+            "100644",
+            "64defd266deaf9d2d436c8e06ed153d9fb4b5d31"
+          ],
+          "after": [
+            "100644",
+            "b5c5de9fddbf3b1b97b5fd47e25a9e61b300f689"
+          ],
+          "implementation_commit": "c9e305eddee18c9162560da5cd67b57a5addfafc",
+          "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+          "review_reference": "review_1223_applied_components exact77/112 review",
+          "source_chain_reference": "proposed_reconciled_entries:adl/tools/validation_manager.py"
+        }
+      ]
     },
     {
       "path": "adl/tools/verify_review_output_provenance.sh",
@@ -1212,12 +1266,43 @@
       "before": null,
       "after": [
         "100644",
-        "81cd7500151f82a8fa7d0607920c7e3e81fd025b"
+        "67913eff47f26792a46f731e2bfaf43196e3b7b6"
       ],
-      "implementation_commit": "c9e305eddee18c9162560da5cd67b57a5addfafc",
-      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
-      "review_reference": "review_1223_applied_components exact77/112 review",
-      "source_chain_reference": "proposed_reconciled_entries:tools/public_adl/test_validation_interfaces.py"
+      "implementation_commit": "b2cdd4e9b1100a4f94e463e8d80243747a88554d",
+      "approval_reference": "PUBLIC_OWNER_CALLER_REPAIR.json",
+      "review_reference": "review_1223_applied_components exact five-file PASS",
+      "source_chain_reference": "PUBLIC_OWNER_CALLER_REPAIR.json:tools/public_adl/test_validation_interfaces.py",
+      "prior_reviewed_transitions": [
+        {
+          "path": "tools/public_adl/test_validation_interfaces.py",
+          "action": "add",
+          "before": null,
+          "after": [
+            "100644",
+            "81cd7500151f82a8fa7d0607920c7e3e81fd025b"
+          ],
+          "implementation_commit": "c9e305eddee18c9162560da5cd67b57a5addfafc",
+          "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+          "review_reference": "review_1223_applied_components exact77/112 review",
+          "source_chain_reference": "proposed_reconciled_entries:tools/public_adl/test_validation_interfaces.py"
+        }
+      ]
+    },
+    {
+      "path": "docs/tooling/VALIDATION_PLATFORM_ROUTING.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "b43c596fc6fd6252f705ac35ffb1022316adf9f4"
+      ],
+      "after": [
+        "100644",
+        "d6615f231f64795ccc2527aac4438a9cfe6f4dcf"
+      ],
+      "implementation_commit": "b2cdd4e9b1100a4f94e463e8d80243747a88554d",
+      "approval_reference": "PUBLIC_OWNER_CALLER_REPAIR.json",
+      "review_reference": "review_1223_applied_components exact five-file PASS",
+      "source_chain_reference": "PUBLIC_OWNER_CALLER_REPAIR.json:docs/tooling/VALIDATION_PLATFORM_ROUTING.md"
     }
   ],
   "missing_entries": [],
@@ -5264,5 +5349,20 @@
       "baseline_and_supplemental_custody": true
     },
     "boundary": "Promotion admits only exact existing reviewed changes, not new removals or runtime acceptance."
-  }
+  },
+  "supplemental_reviews": [
+    {
+      "packet": "PUBLIC_OWNER_CALLER_REPAIR.json",
+      "implementation_commit": "b2cdd4e9b1100a4f94e463e8d80243747a88554d",
+      "paths": [
+        "adl/tools/install_owner_binaries.sh",
+        "adl/tools/validation_manager.py",
+        "adl/tools/test_owner_binary_install.sh",
+        "tools/public_adl/test_validation_interfaces.py",
+        "docs/tooling/VALIDATION_PLATFORM_ROUTING.md"
+      ],
+      "reviewer": "review_1223_applied_components",
+      "verdict": "PASS"
+    }
+  ]
 }
