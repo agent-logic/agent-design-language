@@ -2,6 +2,7 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+python3 "${ROOT_DIR}/tools/csm_contracts/validate_visibility.py" --check-inputs
 PACKET="${ROOT_DIR}/demos/fixtures/csm_observatory/proto-csm-01-visibility-packet.json"
 REPORT="${ROOT_DIR}/demos/v0.90.1/csm_observatory_operator_report.md"
 DOC="${ROOT_DIR}/docs/milestones/v0.90.1/features/CSM_OBSERVATORY_OPERATOR_REPORT.md"
@@ -19,7 +20,7 @@ for path in "${PACKET}" "${REPORT}" "${DOC}" "${GENERATOR}"; do
   fi
 done
 
-python3 "${ROOT_DIR}/adl/tools/validate_csm_visibility_packet.py" "${PACKET}" >/dev/null
+python3 "${ROOT_DIR}/tools/csm_contracts/validate_visibility.py" "${PACKET}" >/dev/null
 python3 "${GENERATOR}" "${PACKET}" --output "${TMP_REPORT}"
 diff -u "${REPORT}" "${TMP_REPORT}" >/dev/null
 python3 -m py_compile "${GENERATOR}"

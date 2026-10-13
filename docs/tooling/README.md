@@ -6,6 +6,8 @@ The goal of this directory is to make ADL’s tooling surfaces understandable an
 
 ## Start Here
 
+- CSM fixture validators and three original fixture tests are owned by [Infrastructure at the qualified source](https://github.com/agent-logic/agent-logic-infrastructure/tree/025850d265cbd1a55b28a8e9b238b2fe0bfcaf1d/adl/tools). Retained operator-report and v0.90.4 governed-console tests require an absolute `ADL_CSM_VALIDATOR_SOURCE_ROOT`; `tools/csm_contracts/validate_visibility.py` verifies the exact owner validator bytes/mode before dispatch. Existing assertions are preserved. Three unchanged original tests passed against six owner files plus eleven authentic external ADL fixture inputs; this does not prove standalone owner delivery, browser/live Runtime behavior, the missing operator-report renderer, or the Cargo demo.
+
 - [Infrastructure CI report and producer-result helpers](https://github.com/agent-logic/agent-logic-infrastructure/tree/025850d265cbd1a55b28a8e9b238b2fe0bfcaf1d/adl/tools) — `summarize_ci_runtime.py`, `summarize_nextest_timings.py` and `verify_coverage_producer_results.sh` and their original tests now belong to the owner. The three unchanged fixture tests passed offline (29 assertion events); this does not qualify live CI, real nextest execution or cloud coverage producers.
 
 - [Runtime owner guide references](RUNTIME_OWNER_GUIDES.md) — preserved documentation for Runtime-owned APIs and operations.

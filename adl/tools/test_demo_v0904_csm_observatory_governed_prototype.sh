@@ -2,6 +2,7 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+python3 "${ROOT_DIR}/tools/csm_contracts/validate_visibility.py" --check-inputs
 HTML="${ROOT_DIR}/demos/v0.90.4/csm_observatory_governed_prototype.html"
 CSS="${ROOT_DIR}/demos/v0.90.4/csm_observatory_governed_prototype.css"
 JS="${ROOT_DIR}/demos/v0.90.4/csm_observatory_governed_prototype.js"
@@ -16,7 +17,7 @@ for path in "${HTML}" "${CSS}" "${JS}" "${DOC}" "${PACKET}" "${RUNTIME_PACKET}";
   }
 done
 
-python3 "${ROOT_DIR}/adl/tools/validate_csm_visibility_packet.py" "${PACKET}" >/dev/null
+python3 "${ROOT_DIR}/tools/csm_contracts/validate_visibility.py" "${PACKET}" >/dev/null
 python3 "${ROOT_DIR}/adl/tools/validate_csm_governed_observatory.py" \
   --html "${HTML}" \
   --js "${JS}" \
