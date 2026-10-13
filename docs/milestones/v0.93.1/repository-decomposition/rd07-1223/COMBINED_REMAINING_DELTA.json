@@ -6,12 +6,12 @@
   "execution_authorized": false,
   "original_count": 4134,
   "counts": {
-    "hold_explicit_reconciliation": 188,
+    "hold_explicit_reconciliation": 186,
     "hold_owner_test_reconciliation": 35,
     "preserve_approved_removal": 70,
     "preserve_reviewed_consumer_repair": 18,
     "proposed_historical_retirement_with_caller_repair": 19,
-    "proposed_owner_transfer_with_consumer_qualification": 469,
+    "proposed_owner_transfer_with_consumer_qualification": 471,
     "proposed_remove_construction_qualified_infrastructure": 216,
     "proposed_remove_with_entire_source_family": 1874,
     "proposed_remove_with_entire_tool_family": 719,
@@ -29433,16 +29433,28 @@
         "blob": "9dddffe0d1e077362f4123deddc8e821502294dd"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "coherent caller and component disposition",
+        "complete producer delivery acceptance remains separate from pinned local source transports",
+        "scoped_operator_decision"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "bounded_original_qualification": {
+        "packet": "CSDLC_PLANNING_ORIGINAL_CONTRACT_QUALIFICATION.json",
+        "sha256": "9178538c613480db8813156b3409a4aaa94f4b02ddd09849e7a8f89ef523cf41",
+        "script": "check_compression_finish_profiles.sh",
+        "status": "passed_original_private_package_contract",
+        "package_revision": "79d6430a89edb350fe1012889650a6b4776912d0",
+        "producer_input_boundary": "Exact pinned local source transports; not published remote producer artifacts.",
+        "native_or_complete_family_acceptance": false
+      },
+      "prior_proposed_action": "hold_explicit_reconciliation",
+      "historical_hold_reason": "hold_no_proven_current_successor_mapping"
     },
     {
       "id": "RD07-1267",
@@ -46355,6 +46367,15 @@
         "exact_successor_paths": [
           "docs/skill-distributions/planning-utilities/original/adl/tools/test_check_v090_milestone_state.sh"
         ]
+      },
+      "bounded_original_qualification": {
+        "packet": "CSDLC_PLANNING_ORIGINAL_CONTRACT_QUALIFICATION.json",
+        "sha256": "9178538c613480db8813156b3409a4aaa94f4b02ddd09849e7a8f89ef523cf41",
+        "script": "test_check_v090_milestone_state.sh",
+        "status": "passed_original_private_package_contract",
+        "package_revision": "79d6430a89edb350fe1012889650a6b4776912d0",
+        "producer_input_boundary": "Exact pinned local source transports; not published remote producer artifacts.",
+        "native_or_complete_family_acceptance": false
       }
     },
     {
@@ -46628,6 +46649,15 @@
         "exact_successor_paths": [
           "adl/tools/test_csdlc_demo_proof_contract_packet.sh"
         ]
+      },
+      "bounded_original_qualification": {
+        "packet": "CSDLC_PLANNING_ORIGINAL_CONTRACT_QUALIFICATION.json",
+        "sha256": "9178538c613480db8813156b3409a4aaa94f4b02ddd09849e7a8f89ef523cf41",
+        "script": "test_csdlc_demo_proof_contract_packet.sh",
+        "status": "passed_original_private_package_contract",
+        "package_revision": "79d6430a89edb350fe1012889650a6b4776912d0",
+        "producer_input_boundary": "Exact pinned local source transports; not published remote producer artifacts.",
+        "native_or_complete_family_acceptance": false
       }
     },
     {
@@ -48067,6 +48097,15 @@
         "exact_successor_paths": [
           "adl/tools/test_evidence_bundle_packet.sh"
         ]
+      },
+      "bounded_original_qualification": {
+        "packet": "CSDLC_PLANNING_ORIGINAL_CONTRACT_QUALIFICATION.json",
+        "sha256": "9178538c613480db8813156b3409a4aaa94f4b02ddd09849e7a8f89ef523cf41",
+        "script": "test_evidence_bundle_packet.sh",
+        "status": "passed_original_private_package_contract",
+        "package_revision": "79d6430a89edb350fe1012889650a6b4776912d0",
+        "producer_input_boundary": "Exact pinned local source transports; not published remote producer artifacts.",
+        "native_or_complete_family_acceptance": false
       }
     },
     {
@@ -48160,6 +48199,15 @@
         "exact_successor_paths": [
           "adl/tools/test_first_proof_readiness_packet.sh"
         ]
+      },
+      "bounded_original_qualification": {
+        "packet": "CSDLC_PLANNING_ORIGINAL_CONTRACT_QUALIFICATION.json",
+        "sha256": "9178538c613480db8813156b3409a4aaa94f4b02ddd09849e7a8f89ef523cf41",
+        "script": "test_first_proof_readiness_packet.sh",
+        "status": "passed_original_private_package_contract",
+        "package_revision": "79d6430a89edb350fe1012889650a6b4776912d0",
+        "producer_input_boundary": "Exact pinned local source transports; not published remote producer artifacts.",
+        "native_or_complete_family_acceptance": false
       }
     },
     {
@@ -48673,16 +48721,28 @@
         "blob": "533cdcedb2279e437e2a38dbf6ad557652d3aedd"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "coherent caller and component disposition",
+        "complete producer delivery acceptance remains separate from pinned local source transports",
+        "scoped_operator_decision"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "bounded_original_qualification": {
+        "packet": "CSDLC_PLANNING_ORIGINAL_CONTRACT_QUALIFICATION.json",
+        "sha256": "9178538c613480db8813156b3409a4aaa94f4b02ddd09849e7a8f89ef523cf41",
+        "script": "test_issue_goal_terminal_state_truth.sh",
+        "status": "passed_original_private_package_contract",
+        "package_revision": "79d6430a89edb350fe1012889650a6b4776912d0",
+        "producer_input_boundary": "Exact pinned local source transports; not published remote producer artifacts.",
+        "native_or_complete_family_acceptance": false
+      },
+      "prior_proposed_action": "hold_explicit_reconciliation",
+      "historical_hold_reason": "hold_no_proven_current_successor_mapping"
     },
     {
       "id": "RD07-2027",
@@ -48864,6 +48924,15 @@
         "exact_successor_paths": [
           "adl/tools/test_merge_readiness_packet.sh"
         ]
+      },
+      "bounded_original_qualification": {
+        "packet": "CSDLC_PLANNING_ORIGINAL_CONTRACT_QUALIFICATION.json",
+        "sha256": "9178538c613480db8813156b3409a4aaa94f4b02ddd09849e7a8f89ef523cf41",
+        "script": "test_merge_readiness_packet.sh",
+        "status": "passed_original_private_package_contract",
+        "package_revision": "79d6430a89edb350fe1012889650a6b4776912d0",
+        "producer_input_boundary": "Exact pinned local source transports; not published remote producer artifacts.",
+        "native_or_complete_family_acceptance": false
       }
     },
     {
@@ -49139,6 +49208,15 @@
         "exact_successor_paths": [
           "docs/skill-distributions/planning-utilities/original/adl/tools/test_plan_multi_agent_workcell.sh"
         ]
+      },
+      "bounded_original_qualification": {
+        "packet": "CSDLC_PLANNING_ORIGINAL_CONTRACT_QUALIFICATION.json",
+        "sha256": "9178538c613480db8813156b3409a4aaa94f4b02ddd09849e7a8f89ef523cf41",
+        "script": "test_plan_multi_agent_workcell.sh",
+        "status": "passed_original_private_package_contract",
+        "package_revision": "79d6430a89edb350fe1012889650a6b4776912d0",
+        "producer_input_boundary": "Exact pinned local source transports; not published remote producer artifacts.",
+        "native_or_complete_family_acceptance": false
       }
     },
     {
@@ -51335,6 +51413,15 @@
         "exact_successor_paths": [
           "adl/tools/test_transition_dag_packet.sh"
         ]
+      },
+      "bounded_original_qualification": {
+        "packet": "CSDLC_PLANNING_ORIGINAL_CONTRACT_QUALIFICATION.json",
+        "sha256": "9178538c613480db8813156b3409a4aaa94f4b02ddd09849e7a8f89ef523cf41",
+        "script": "test_transition_dag_packet.sh",
+        "status": "passed_original_private_package_contract",
+        "package_revision": "79d6430a89edb350fe1012889650a6b4776912d0",
+        "producer_input_boundary": "Exact pinned local source transports; not published remote producer artifacts.",
+        "native_or_complete_family_acceptance": false
       }
     },
     {
@@ -51943,6 +52030,15 @@
         "exact_successor_paths": [
           "docs/skill-distributions/planning-utilities/original/adl/tools/test_validate_multi_agent_workcell_state.sh"
         ]
+      },
+      "bounded_original_qualification": {
+        "packet": "CSDLC_PLANNING_ORIGINAL_CONTRACT_QUALIFICATION.json",
+        "sha256": "9178538c613480db8813156b3409a4aaa94f4b02ddd09849e7a8f89ef523cf41",
+        "script": "test_validate_multi_agent_workcell_state.sh",
+        "status": "passed_original_private_package_contract",
+        "package_revision": "79d6430a89edb350fe1012889650a6b4776912d0",
+        "producer_input_boundary": "Exact pinned local source transports; not published remote producer artifacts.",
+        "native_or_complete_family_acceptance": false
       }
     },
     {
