@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Historical issue #5546 / v0.91.7 source; excluded from current validation.
+# Retained with its original assertions for source-era evidence only.
+# Requires the historical csdlc-v2 tree; not current release certification
+# or authority to run v2. Do not refresh retained proof during source retirement.
+
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 mkdir -p "$ROOT_DIR/.adl/tmp"
 TMP_DIR="$(mktemp -d "$ROOT_DIR/.adl/tmp/csdlc-supply-chain.XXXXXX")"

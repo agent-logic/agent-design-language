@@ -6,7 +6,7 @@
   "execution_authorized": false,
   "original_count": 4134,
   "counts": {
-    "hold_explicit_reconciliation": 185,
+    "hold_explicit_reconciliation": 183,
     "hold_owner_test_reconciliation": 35,
     "preserve_approved_removal": 70,
     "preserve_reviewed_consumer_repair": 18,
@@ -16,7 +16,7 @@
     "proposed_remove_with_entire_source_family": 1874,
     "proposed_remove_with_entire_tool_family": 718,
     "retain_public_source_or_fixture": 68,
-    "retain_resolved": 460
+    "retain_resolved": 462
   },
   "additional_current_source_paths": 19,
   "preservation": "Original inventory and baseline archive unchanged;70 prior approved removals preserved; no new deletion applied",
@@ -46702,15 +46702,20 @@
         "blob": "99cde59441e02b04c40906e9132a0dfb36aedb96"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "prior_proposed_action": "hold_explicit_reconciliation",
+      "historical_hold_reason": "hold_no_proven_current_successor_mapping",
+      "retention_disposition": {
+        "reason": "Retain historical issue5546/v0.91.7 producer and test together with explicit script comments; original positive and failed-Cargo assertions preserved.",
+        "packet": "HISTORICAL_V2_SUPPLY_CHAIN_RETENTION.json",
+        "sha256": "60c3a8ee976ab63c19ac395bc16bd64cb997273f7fdd1a816fd10540bb9e8ed6",
+        "scope": "Historical README and proof JSON unchanged. Scripts require historical csdlc-v2 source, are not current release certification or v2 operational authority, and do not authorize refreshing retained proof."
       }
     },
     {
@@ -52580,15 +52585,20 @@
         "blob": "7b9e52518a1c8b3e4b81106a134f68e98cfbb4ec"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "prior_proposed_action": "hold_explicit_reconciliation",
+      "historical_hold_reason": "hold_no_proven_current_successor_mapping",
+      "retention_disposition": {
+        "reason": "Retain historical issue5546/v0.91.7 producer and test together with explicit script comments; original positive and failed-Cargo assertions preserved.",
+        "packet": "HISTORICAL_V2_SUPPLY_CHAIN_RETENTION.json",
+        "sha256": "60c3a8ee976ab63c19ac395bc16bd64cb997273f7fdd1a816fd10540bb9e8ed6",
+        "scope": "Historical README and proof JSON unchanged. Scripts require historical csdlc-v2 source, are not current release certification or v2 operational authority, and do not authorize refreshing retained proof."
       }
     },
     {

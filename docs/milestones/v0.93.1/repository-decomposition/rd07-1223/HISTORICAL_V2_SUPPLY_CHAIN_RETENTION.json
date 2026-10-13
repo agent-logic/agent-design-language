@@ -1,0 +1,47 @@
+{
+  "schema": "adl1223.historical_v2_supply_chain_retention.v1",
+  "rows": [
+    {
+      "id": "RD07-1941",
+      "path": "adl/tools/test_csdlc_v2_supply_chain.sh",
+      "before_identity": {
+        "mode": "100755",
+        "blob": "99cde59441e02b04c40906e9132a0dfb36aedb96"
+      },
+      "after_sha256": "c4e338d0963f71782497a070d87e51ad90dab6e6fe3278ee053c1d9cc698c321"
+    },
+    {
+      "id": "RD07-2176",
+      "path": "adl/tools/validate_csdlc_v2_supply_chain.sh",
+      "before_identity": {
+        "mode": "100755",
+        "blob": "7b9e52518a1c8b3e4b81106a134f68e98cfbb4ec"
+      },
+      "after_sha256": "c7b6bbc9802a42c6330f46d0810358b9097ad0b40c08f540588de005315418d1"
+    }
+  ],
+  "decision": "Retain historical issue5546/v0.91.7 producer and test together with explicit script comments; original positive and failed-Cargo assertions preserved.",
+  "review": "Planning #12 bounded review PASS for two comment-only changes; excluded README hunk to preserve historical evidence.",
+  "historical_evidence": [
+    "docs/milestones/v0.91.7/review/wp20_supply_chain/README.md",
+    "docs/milestones/v0.91.7/review/wp20_supply_chain/CSDLC_V2_SUPPLY_CHAIN_PROOF_5546.json"
+  ],
+  "evidence_boundary": "Historical README and proof JSON unchanged. Scripts require historical csdlc-v2 source, are not current release certification or v2 operational authority, and do not authorize refreshing retained proof.",
+  "routing_observation": {
+    "searched": [
+      ".github",
+      "adl/config",
+      "docs/validation",
+      "adl/tools/validation_inventory.py",
+      "adl/tools/select_validation_lanes.py",
+      "adl/tools/run_pr_fast_test_lane.sh",
+      "adl/tools/batched_checks.sh",
+      "adl/tools/run_owner_validation_lane.sh"
+    ],
+    "result": "No exact supply-chain references or generic shell test glob dispatch found in these bounded current route surfaces. Full Git exact-name references are producer/test pair plus historical docs, inventories and review evidence.",
+    "scope": "Bounded static routing evidence; not an exhaustive claim about arbitrary dynamic external callers."
+  },
+  "validation": "bash -n for two proposed scripts and git apply --check passed; zero script execution, no cargo/provider/native operation. No current executable qualification claim.",
+  "executed": false,
+  "private_source_removal_authorized": false
+}
