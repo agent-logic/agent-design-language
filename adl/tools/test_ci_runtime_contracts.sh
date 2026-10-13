@@ -18,7 +18,7 @@ cp "$ROOT_DIR/adl/tools/ci_path_policy.sh" "$POLICY_FIXTURE_ROOT/adl/tools/ci_pa
 cp "$ROOT_DIR/tools/public_adl/ci_policy.py" "$POLICY_FIXTURE_ROOT/tools/public_adl/ci_policy.py"
 cp "$ROOT_DIR/rust-toolchain.toml" "$POLICY_FIXTURE_ROOT/rust-toolchain.toml"
 ruby "$ROOT_DIR/adl/tools/validate_ci_workflow_policy.rb" "$POLICY_FIXTURE_ROOT" >/dev/null
-ruby -e 'path = ARGV.fetch(0); text = File.read(path); File.write(path, text.sub("on:\n", "on:\n  workflow_run:\n"))' "$POLICY_FIXTURE_ROOT/.github/workflows/wp08-native-birthday.yml"
+ruby -e 'path = ARGV.fetch(0); text = File.read(path); File.write(path, text.sub("on:\n", "on:\n  workflow_run:\n"))' "$POLICY_FIXTURE_ROOT/.github/workflows/nightly-coverage-ratchet.yaml"
 if ruby "$ROOT_DIR/adl/tools/validate_ci_workflow_policy.rb" "$POLICY_FIXTURE_ROOT" >/dev/null 2>&1; then
   echo "workflow_run fixture escaped automatic-fanout enforcement" >&2
   exit 1
