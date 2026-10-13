@@ -6,7 +6,7 @@
   "execution_authorized": false,
   "original_inventory_count": 4134,
   "additional_inventory_count": 22,
-  "executed_deletion_count": 2651,
+  "executed_deletion_count": 2672,
   "entries": [
     {
       "path": ".github/workflows/ci.yaml",
@@ -17,12 +17,26 @@
       ],
       "after": [
         "100644",
-        "9c6f703e8c48d0bbf25fc1e2ea7dd72023f5c0b0"
+        "b022060133a88be28fb5f7325d3408c434a462e6"
       ],
       "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
       "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
       "review_reference": "review_1223_applied_components exact77/112 review",
-      "source_chain_reference": "proposed_reconciled_entries:.github/workflows/ci.yaml"
+      "source_chain_reference": "proposed_reconciled_entries:.github/workflows/ci.yaml",
+      "supplemental_source_chain": [
+        {
+          "commit": "3788ec9b21de45669bc4b770ef44cde787a6773b",
+          "before": [
+            "100644",
+            "9c6f703e8c48d0bbf25fc1e2ea7dd72023f5c0b0"
+          ],
+          "after": [
+            "100644",
+            "b022060133a88be28fb5f7325d3408c434a462e6"
+          ],
+          "packet": "MIXED_CI_CONTRACT_APPLIED.json"
+        }
+      ]
     },
     {
       "path": ".github/workflows/codefriend-fitness.yml",
@@ -6861,7 +6875,7 @@
       ],
       "after": [
         "100644",
-        "ca1d1744e7a0f8146f27181237cababd61dfb06d"
+        "ad47d25909ef35d3900353b6138b0b93397442c4"
       ],
       "implementation_commit": "39a64819e2ccc75a0b09616a7883f5835d047e35",
       "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
@@ -6879,6 +6893,18 @@
             "ca1d1744e7a0f8146f27181237cababd61dfb06d"
           ],
           "packet": "AWS_REMOTE_FAMILY_APPLIED.json"
+        },
+        {
+          "commit": "ba90cf9dc1ca7388610444da604fb76491f17149",
+          "before": [
+            "100644",
+            "ca1d1744e7a0f8146f27181237cababd61dfb06d"
+          ],
+          "after": [
+            "100644",
+            "ad47d25909ef35d3900353b6138b0b93397442c4"
+          ],
+          "packet": "BUILDER_FAMILY_APPLIED.json"
         }
       ]
     },
@@ -28037,7 +28063,7 @@
       ],
       "after": [
         "100644",
-        "c8f7102d7d4176cbcd012ca5b6e8b2041195506e"
+        "7f042e8d1974933a17b1a824dbbdee3253f6fa26"
       ],
       "implementation_commit": "666818f2aafdaf4839d1c3de4119b513c4236d3d",
       "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
@@ -28091,6 +28117,18 @@
             "c8f7102d7d4176cbcd012ca5b6e8b2041195506e"
           ],
           "packet": "LEGACY_EIGHT_APPLIED.json"
+        },
+        {
+          "commit": "3b5e01f84f54035446c3dfd46a3072b8993e2087",
+          "before": [
+            "100644",
+            "c8f7102d7d4176cbcd012ca5b6e8b2041195506e"
+          ],
+          "after": [
+            "100644",
+            "7f042e8d1974933a17b1a824dbbdee3253f6fa26"
+          ],
+          "packet": "NATIVE_SUNSET_FAMILY_APPLIED.json"
         }
       ]
     },
@@ -56496,7 +56534,7 @@
       "before": null,
       "after": [
         "100644",
-        "7d93709bcd1194c7446608754ef4cd50b69eba28"
+        "1d46861e5ca52efa62e0551973b8f0dd4542bcbb"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json",
@@ -56721,6 +56759,42 @@
             "7d93709bcd1194c7446608754ef4cd50b69eba28"
           ],
           "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json"
+        },
+        {
+          "commit": "3788ec9b21de45669bc4b770ef44cde787a6773b",
+          "before": [
+            "100644",
+            "7d93709bcd1194c7446608754ef4cd50b69eba28"
+          ],
+          "after": [
+            "100644",
+            "03cebbf4713547f8773e8961ff95b03b40b081c4"
+          ],
+          "packet": "MIXED_CI_CONTRACT_APPLIED.json"
+        },
+        {
+          "commit": "ba90cf9dc1ca7388610444da604fb76491f17149",
+          "before": [
+            "100644",
+            "03cebbf4713547f8773e8961ff95b03b40b081c4"
+          ],
+          "after": [
+            "100644",
+            "31e1ed5b93d9c5d6ef685d52adfbd1bcbad243ac"
+          ],
+          "packet": "BUILDER_FAMILY_APPLIED.json"
+        },
+        {
+          "commit": "3b5e01f84f54035446c3dfd46a3072b8993e2087",
+          "before": [
+            "100644",
+            "31e1ed5b93d9c5d6ef685d52adfbd1bcbad243ac"
+          ],
+          "after": [
+            "100644",
+            "1d46861e5ca52efa62e0551973b8f0dd4542bcbb"
+          ],
+          "packet": "NATIVE_SUNSET_FAMILY_APPLIED.json"
         }
       ],
       "prior_execution_provenance": [
@@ -63718,7 +63792,7 @@
       ],
       "after": [
         "100644",
-        "5c31fb69d78c72de8a28246b861bf1b6033fa5b0"
+        "b66e610b4f27c9e1a602aeccb08b2a4bf2d3c5e1"
       ],
       "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
       "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
@@ -63736,6 +63810,18 @@
             "5c31fb69d78c72de8a28246b861bf1b6033fa5b0"
           ],
           "packet": "AWS_REMOTE_FAMILY_APPLIED.json"
+        },
+        {
+          "commit": "ba90cf9dc1ca7388610444da604fb76491f17149",
+          "before": [
+            "100644",
+            "5c31fb69d78c72de8a28246b861bf1b6033fa5b0"
+          ],
+          "after": [
+            "100644",
+            "b66e610b4f27c9e1a602aeccb08b2a4bf2d3c5e1"
+          ],
+          "packet": "BUILDER_FAMILY_APPLIED.json"
         }
       ]
     },
@@ -63916,7 +64002,7 @@
       "before": null,
       "after": [
         "100644",
-        "6d842ca6c076b8a1359ebccea60a048ca4c84bd8"
+        "e7c18b6a85a8ff14d8251549a32881433507530a"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "Infrastructure212 source commit guard-documentation accompaniment",
@@ -64021,6 +64107,18 @@
             "6d842ca6c076b8a1359ebccea60a048ca4c84bd8"
           ],
           "packet": "Legacy8 ANRM2 Infrastructure20 and public retention integration"
+        },
+        {
+          "commit": "pending_reviewed_integration",
+          "before": [
+            "100644",
+            "6d842ca6c076b8a1359ebccea60a048ca4c84bd8"
+          ],
+          "after": [
+            "100644",
+            "e7c18b6a85a8ff14d8251549a32881433507530a"
+          ],
+          "packet": "Mixed CI, builder and native sunset integration"
         }
       ],
       "prior_execution_provenance": [
@@ -72132,7 +72230,7 @@
       ],
       "after": [
         "100644",
-        "f3bff9babdca1242eb66b2ab98495e650dcc3bdb"
+        "3353eb73053878744faee43e0545ffebf1cd9cd4"
       ],
       "action": "modify",
       "implementation_commit": "1f438d059a37442c85059992c503740aa1bf088e",
@@ -72150,6 +72248,20 @@
             "f3bff9babdca1242eb66b2ab98495e650dcc3bdb"
           ],
           "packet": "AWS_REMOTE_FAMILY_APPLIED.json"
+        }
+      ],
+      "supplemental_source_chain": [
+        {
+          "commit": "ba90cf9dc1ca7388610444da604fb76491f17149",
+          "before": [
+            "100644",
+            "f3bff9babdca1242eb66b2ab98495e650dcc3bdb"
+          ],
+          "after": [
+            "100644",
+            "3353eb73053878744faee43e0545ffebf1cd9cd4"
+          ],
+          "packet": "BUILDER_FAMILY_APPLIED.json"
         }
       ]
     },
@@ -79818,6 +79930,904 @@
           "packet": "PUBLIC_V2_RUNNER_APPLIED.json"
         }
       ]
+    },
+    {
+      "path": "adl/tools/test_ci_runtime_contracts.sh",
+      "before": [
+        "100755",
+        "1adeda368da5dcf38e54420c7a3dd1a0b91bdddf"
+      ],
+      "after": [
+        "100755",
+        "f58a7f887517bb156e387517f78ee76c7573080d"
+      ],
+      "action": "modify",
+      "implementation_commit": "3788ec9b21de45669bc4b770ef44cde787a6773b",
+      "approval_reference": "MIXED_CI_CONTRACT_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "3788ec9b21de45669bc4b770ef44cde787a6773b",
+          "before": [
+            "100755",
+            "1adeda368da5dcf38e54420c7a3dd1a0b91bdddf"
+          ],
+          "after": [
+            "100755",
+            "f58a7f887517bb156e387517f78ee76c7573080d"
+          ],
+          "packet": "MIXED_CI_CONTRACT_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/test_workspace_coverage_deadline.rb",
+      "before": [
+        "100644",
+        "cb6f8fd243a0c4710284675c400106630b79ba67"
+      ],
+      "after": [
+        "100644",
+        "610f155b53ab08cc467ca1eae46dc060b202ccfa"
+      ],
+      "action": "modify",
+      "implementation_commit": "3788ec9b21de45669bc4b770ef44cde787a6773b",
+      "approval_reference": "MIXED_CI_CONTRACT_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "3788ec9b21de45669bc4b770ef44cde787a6773b",
+          "before": [
+            "100644",
+            "cb6f8fd243a0c4710284675c400106630b79ba67"
+          ],
+          "after": [
+            "100644",
+            "610f155b53ab08cc467ca1eae46dc060b202ccfa"
+          ],
+          "packet": "MIXED_CI_CONTRACT_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/test_ci_path_policy.sh",
+      "before": [
+        "100644",
+        "665e267f5ee728216927899b848ac4a325c922b8"
+      ],
+      "after": [
+        "100644",
+        "f9b0fe7f6692ffc41d40422be79404c85c30ab1f"
+      ],
+      "action": "modify",
+      "implementation_commit": "3788ec9b21de45669bc4b770ef44cde787a6773b",
+      "approval_reference": "MIXED_CI_CONTRACT_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "3788ec9b21de45669bc4b770ef44cde787a6773b",
+          "before": [
+            "100644",
+            "665e267f5ee728216927899b848ac4a325c922b8"
+          ],
+          "after": [
+            "100644",
+            "f9b0fe7f6692ffc41d40422be79404c85c30ab1f"
+          ],
+          "packet": "MIXED_CI_CONTRACT_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/test_ci_cache_linker_contracts.sh",
+      "before": [
+        "100644",
+        "908bbb4a4cf39e754970da82ef1308ce1aa5a454"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "3788ec9b21de45669bc4b770ef44cde787a6773b",
+      "approval_reference": "MIXED_CI_CONTRACT_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "3788ec9b21de45669bc4b770ef44cde787a6773b",
+          "before": [
+            "100644",
+            "908bbb4a4cf39e754970da82ef1308ce1aa5a454"
+          ],
+          "after": null,
+          "packet": "MIXED_CI_CONTRACT_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "MIXED_CI_CONTRACT_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/mixed-ci-contract-closure/preimages.tar",
+        "archive_sha256": "03b26d2b1b092b698bc121cb66fd230cc0cff77c4a893d881742752b4975d650",
+        "member": "adl/tools/test_ci_cache_linker_contracts.sh",
+        "mode": "100644",
+        "blob": "908bbb4a4cf39e754970da82ef1308ce1aa5a454",
+        "sha256": "308abc60ad5c4de4321836636b808e7db73ac216fe422b181e36a9bba828770d"
+      }
+    },
+    {
+      "path": "adl/docker/adl-builder/Dockerfile",
+      "before": [
+        "100644",
+        "ee736d2f4b28d7c493461858f74a9805c43a480e"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ba90cf9dc1ca7388610444da604fb76491f17149",
+      "approval_reference": "BUILDER_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ba90cf9dc1ca7388610444da604fb76491f17149",
+          "before": [
+            "100644",
+            "ee736d2f4b28d7c493461858f74a9805c43a480e"
+          ],
+          "after": null,
+          "packet": "BUILDER_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "BUILDER_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/builder-family-preparation/current-preimages.tar",
+        "archive_sha256": "3a0be46bd796b9ad6c8eb642cee3522fa959daf4200b3896324eb2d18f7dad77",
+        "member": "adl/docker/adl-builder/Dockerfile",
+        "mode": "100644",
+        "blob": "ee736d2f4b28d7c493461858f74a9805c43a480e",
+        "sha256": "04e86121bbdf2998a71002beaf402bec3a06f4513370f1e543b04ecb23dc9eb7"
+      }
+    },
+    {
+      "path": "adl/docker/adl-builder/INPUT_PROVENANCE.json",
+      "before": [
+        "100644",
+        "f24d0511a3556c4ae1a06711371117e0e8475ca8"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ba90cf9dc1ca7388610444da604fb76491f17149",
+      "approval_reference": "BUILDER_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ba90cf9dc1ca7388610444da604fb76491f17149",
+          "before": [
+            "100644",
+            "f24d0511a3556c4ae1a06711371117e0e8475ca8"
+          ],
+          "after": null,
+          "packet": "BUILDER_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "BUILDER_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/builder-family-preparation/current-preimages.tar",
+        "archive_sha256": "3a0be46bd796b9ad6c8eb642cee3522fa959daf4200b3896324eb2d18f7dad77",
+        "member": "adl/docker/adl-builder/INPUT_PROVENANCE.json",
+        "mode": "100644",
+        "blob": "f24d0511a3556c4ae1a06711371117e0e8475ca8",
+        "sha256": "9dae5f0624135bd08788007695ca93d08bba6a63132ce7d168b9f92d3f009002"
+      }
+    },
+    {
+      "path": "adl/docker/adl-builder/test_builder_inputs.py",
+      "before": [
+        "100644",
+        "cfd2544140a8b23237ddaa460c64228f4bad5b66"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ba90cf9dc1ca7388610444da604fb76491f17149",
+      "approval_reference": "BUILDER_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ba90cf9dc1ca7388610444da604fb76491f17149",
+          "before": [
+            "100644",
+            "cfd2544140a8b23237ddaa460c64228f4bad5b66"
+          ],
+          "after": null,
+          "packet": "BUILDER_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "BUILDER_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/builder-family-preparation/current-preimages.tar",
+        "archive_sha256": "3a0be46bd796b9ad6c8eb642cee3522fa959daf4200b3896324eb2d18f7dad77",
+        "member": "adl/docker/adl-builder/test_builder_inputs.py",
+        "mode": "100644",
+        "blob": "cfd2544140a8b23237ddaa460c64228f4bad5b66",
+        "sha256": "3bdc3668cac222a6e266fe85e6881648a8deb0e69fd22cdccf9801b3411b0a77"
+      }
+    },
+    {
+      "path": "adl/docker/adl-builder/verify_sha256.sh",
+      "before": [
+        "100644",
+        "c7bbec4208480105bf991f8169c45386b9b9cbd7"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ba90cf9dc1ca7388610444da604fb76491f17149",
+      "approval_reference": "BUILDER_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ba90cf9dc1ca7388610444da604fb76491f17149",
+          "before": [
+            "100644",
+            "c7bbec4208480105bf991f8169c45386b9b9cbd7"
+          ],
+          "after": null,
+          "packet": "BUILDER_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "BUILDER_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/builder-family-preparation/current-preimages.tar",
+        "archive_sha256": "3a0be46bd796b9ad6c8eb642cee3522fa959daf4200b3896324eb2d18f7dad77",
+        "member": "adl/docker/adl-builder/verify_sha256.sh",
+        "mode": "100644",
+        "blob": "c7bbec4208480105bf991f8169c45386b9b9cbd7",
+        "sha256": "7b6108ebc145fc84b25dbb7b659ba7adbbf68cbd2dfab2013bf24faeeae452e8"
+      }
+    },
+    {
+      "path": "adl/tools/import_adl_builder_image_from_s3_to_ecr.sh",
+      "before": [
+        "100755",
+        "850d8106ac3159ca2e187f468f61b4738a3c2308"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ba90cf9dc1ca7388610444da604fb76491f17149",
+      "approval_reference": "BUILDER_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ba90cf9dc1ca7388610444da604fb76491f17149",
+          "before": [
+            "100755",
+            "850d8106ac3159ca2e187f468f61b4738a3c2308"
+          ],
+          "after": null,
+          "packet": "BUILDER_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "BUILDER_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/builder-family-preparation/current-preimages.tar",
+        "archive_sha256": "3a0be46bd796b9ad6c8eb642cee3522fa959daf4200b3896324eb2d18f7dad77",
+        "member": "adl/tools/import_adl_builder_image_from_s3_to_ecr.sh",
+        "mode": "100755",
+        "blob": "850d8106ac3159ca2e187f468f61b4738a3c2308",
+        "sha256": "da04ed7d0764993e9b2cd3f91874baf97ba0e5d2666cc6ff9760393cee157d01"
+      }
+    },
+    {
+      "path": "adl/tools/publish_adl_builder_image_codebuild.sh",
+      "before": [
+        "100755",
+        "55fedc5bad7cc1ecbb9908ce830b6ac891e12194"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ba90cf9dc1ca7388610444da604fb76491f17149",
+      "approval_reference": "BUILDER_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ba90cf9dc1ca7388610444da604fb76491f17149",
+          "before": [
+            "100755",
+            "55fedc5bad7cc1ecbb9908ce830b6ac891e12194"
+          ],
+          "after": null,
+          "packet": "BUILDER_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "BUILDER_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/builder-family-preparation/current-preimages.tar",
+        "archive_sha256": "3a0be46bd796b9ad6c8eb642cee3522fa959daf4200b3896324eb2d18f7dad77",
+        "member": "adl/tools/publish_adl_builder_image_codebuild.sh",
+        "mode": "100755",
+        "blob": "55fedc5bad7cc1ecbb9908ce830b6ac891e12194",
+        "sha256": "3d134752f87ec8b25c976432d4f15d46d8715b26baff6f6d5485d472b91abfda"
+      }
+    },
+    {
+      "path": "adl/tools/setup_adl_builder_image.sh",
+      "before": [
+        "100755",
+        "566518c1b55966ec4a8a6938bbb683b6b727a54f"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ba90cf9dc1ca7388610444da604fb76491f17149",
+      "approval_reference": "BUILDER_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ba90cf9dc1ca7388610444da604fb76491f17149",
+          "before": [
+            "100755",
+            "566518c1b55966ec4a8a6938bbb683b6b727a54f"
+          ],
+          "after": null,
+          "packet": "BUILDER_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "BUILDER_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/builder-family-preparation/current-preimages.tar",
+        "archive_sha256": "3a0be46bd796b9ad6c8eb642cee3522fa959daf4200b3896324eb2d18f7dad77",
+        "member": "adl/tools/setup_adl_builder_image.sh",
+        "mode": "100755",
+        "blob": "566518c1b55966ec4a8a6938bbb683b6b727a54f",
+        "sha256": "bb837912164cebb903953f28b3ab51412ea73cd33e02399bdcc936e9c4492205"
+      }
+    },
+    {
+      "path": "adl/tools/test_adl_builder_image.sh",
+      "before": [
+        "100755",
+        "8b31c10418f407e8281d343ac10e1bd949277df4"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ba90cf9dc1ca7388610444da604fb76491f17149",
+      "approval_reference": "BUILDER_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ba90cf9dc1ca7388610444da604fb76491f17149",
+          "before": [
+            "100755",
+            "8b31c10418f407e8281d343ac10e1bd949277df4"
+          ],
+          "after": null,
+          "packet": "BUILDER_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "BUILDER_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/builder-family-preparation/current-preimages.tar",
+        "archive_sha256": "3a0be46bd796b9ad6c8eb642cee3522fa959daf4200b3896324eb2d18f7dad77",
+        "member": "adl/tools/test_adl_builder_image.sh",
+        "mode": "100755",
+        "blob": "8b31c10418f407e8281d343ac10e1bd949277df4",
+        "sha256": "d56338761b09cb17caff0ed94256314dd4d64ec6bc7dcc6670cb26631fb80258"
+      }
+    },
+    {
+      "path": "adl/tools/test_import_adl_builder_image_from_s3_to_ecr.sh",
+      "before": [
+        "100755",
+        "fdf0c525022d4bdee76d8829c23aaa7a556b831b"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ba90cf9dc1ca7388610444da604fb76491f17149",
+      "approval_reference": "BUILDER_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ba90cf9dc1ca7388610444da604fb76491f17149",
+          "before": [
+            "100755",
+            "fdf0c525022d4bdee76d8829c23aaa7a556b831b"
+          ],
+          "after": null,
+          "packet": "BUILDER_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "BUILDER_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/builder-family-preparation/current-preimages.tar",
+        "archive_sha256": "3a0be46bd796b9ad6c8eb642cee3522fa959daf4200b3896324eb2d18f7dad77",
+        "member": "adl/tools/test_import_adl_builder_image_from_s3_to_ecr.sh",
+        "mode": "100755",
+        "blob": "fdf0c525022d4bdee76d8829c23aaa7a556b831b",
+        "sha256": "208a0314bda6f5028799d0907ab9679c29a694796f63e4a22c17cf215317ae4e"
+      }
+    },
+    {
+      "path": "adl/tools/test_publish_adl_builder_image_codebuild.sh",
+      "before": [
+        "100755",
+        "f7d139bcc4c4c5029cabf60d1ff04a631d7a4a3e"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ba90cf9dc1ca7388610444da604fb76491f17149",
+      "approval_reference": "BUILDER_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ba90cf9dc1ca7388610444da604fb76491f17149",
+          "before": [
+            "100755",
+            "f7d139bcc4c4c5029cabf60d1ff04a631d7a4a3e"
+          ],
+          "after": null,
+          "packet": "BUILDER_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "BUILDER_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/builder-family-preparation/current-preimages.tar",
+        "archive_sha256": "3a0be46bd796b9ad6c8eb642cee3522fa959daf4200b3896324eb2d18f7dad77",
+        "member": "adl/tools/test_publish_adl_builder_image_codebuild.sh",
+        "mode": "100755",
+        "blob": "f7d139bcc4c4c5029cabf60d1ff04a631d7a4a3e",
+        "sha256": "a41716a543719082ce2c505822f856132961a914cb5c2d16c6c3309ab6b180ca"
+      }
+    },
+    {
+      "path": "docs/tooling/ADL_BUILDER_IMAGE.md",
+      "before": [
+        "100644",
+        "81a44635b32f4039f5644b77cc657dc3259dbbd8"
+      ],
+      "after": [
+        "100644",
+        "4e001d9057158e60f54ae372e5e32e16b21c39c2"
+      ],
+      "action": "modify",
+      "implementation_commit": "ba90cf9dc1ca7388610444da604fb76491f17149",
+      "approval_reference": "BUILDER_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ba90cf9dc1ca7388610444da604fb76491f17149",
+          "before": [
+            "100644",
+            "81a44635b32f4039f5644b77cc657dc3259dbbd8"
+          ],
+          "after": [
+            "100644",
+            "4e001d9057158e60f54ae372e5e32e16b21c39c2"
+          ],
+          "packet": "BUILDER_FAMILY_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/tooling/AWS_SPOT_REMOTE_EXECUTION_HOW_TO.md",
+      "before": [
+        "100644",
+        "a0c574abf143ff92a1e6aa029f3e3a4c6b894d5a"
+      ],
+      "after": [
+        "100644",
+        "4d2adc8027253b6a1b11edec621520a346d7a319"
+      ],
+      "action": "modify",
+      "implementation_commit": "ba90cf9dc1ca7388610444da604fb76491f17149",
+      "approval_reference": "BUILDER_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ba90cf9dc1ca7388610444da604fb76491f17149",
+          "before": [
+            "100644",
+            "a0c574abf143ff92a1e6aa029f3e3a4c6b894d5a"
+          ],
+          "after": [
+            "100644",
+            "4d2adc8027253b6a1b11edec621520a346d7a319"
+          ],
+          "packet": "BUILDER_FAMILY_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/tooling/README.md",
+      "before": [
+        "100644",
+        "f9815f290c5506cc9d316a3681b8499dcd2f9303"
+      ],
+      "after": [
+        "100644",
+        "a5bf5690a3bd32752cbd650c91691ecf85f9b5af"
+      ],
+      "action": "modify",
+      "implementation_commit": "ba90cf9dc1ca7388610444da604fb76491f17149",
+      "approval_reference": "BUILDER_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ba90cf9dc1ca7388610444da604fb76491f17149",
+          "before": [
+            "100644",
+            "f9815f290c5506cc9d316a3681b8499dcd2f9303"
+          ],
+          "after": [
+            "100644",
+            "a5bf5690a3bd32752cbd650c91691ecf85f9b5af"
+          ],
+          "packet": "BUILDER_FAMILY_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "tools/groupd_validation/run_builder_contracts.py",
+      "before": null,
+      "after": [
+        "100644",
+        "47d3dccdaa78ff737ae0fab85849dee15473f34f"
+      ],
+      "action": "add",
+      "implementation_commit": "ba90cf9dc1ca7388610444da604fb76491f17149",
+      "approval_reference": "BUILDER_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ba90cf9dc1ca7388610444da604fb76491f17149",
+          "before": null,
+          "after": [
+            "100644",
+            "47d3dccdaa78ff737ae0fab85849dee15473f34f"
+          ],
+          "packet": "BUILDER_FAMILY_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/attach_post_merge_closeout.sh",
+      "before": [
+        "100755",
+        "5e0fa3e81a884a396f3d63a51f447f542a459a8b"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "3b5e01f84f54035446c3dfd46a3072b8993e2087",
+      "approval_reference": "NATIVE_SUNSET_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "3b5e01f84f54035446c3dfd46a3072b8993e2087",
+          "before": [
+            "100755",
+            "5e0fa3e81a884a396f3d63a51f447f542a459a8b"
+          ],
+          "after": null,
+          "packet": "NATIVE_SUNSET_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "NATIVE_SUNSET_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/native-sunset-ten-preparation/preimages.tar",
+        "archive_sha256": "a55b6878e2abedaf57fcf818021f16a0058eaf6fce31ec5e3d5063c0ed629ea5",
+        "member": "adl/tools/attach_post_merge_closeout.sh",
+        "mode": "100755",
+        "blob": "5e0fa3e81a884a396f3d63a51f447f542a459a8b",
+        "sha256": "457feebbe43c4b052a5fe655fccff87d1ed7a3f097c5592a1162e304a110032c"
+      }
+    },
+    {
+      "path": "adl/tools/demo_five_command_editing.sh",
+      "before": [
+        "100755",
+        "b189a0a673bdbfe843a75e80a19e112ad5717f83"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "3b5e01f84f54035446c3dfd46a3072b8993e2087",
+      "approval_reference": "NATIVE_SUNSET_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "3b5e01f84f54035446c3dfd46a3072b8993e2087",
+          "before": [
+            "100755",
+            "b189a0a673bdbfe843a75e80a19e112ad5717f83"
+          ],
+          "after": null,
+          "packet": "NATIVE_SUNSET_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "NATIVE_SUNSET_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/native-sunset-ten-preparation/preimages.tar",
+        "archive_sha256": "a55b6878e2abedaf57fcf818021f16a0058eaf6fce31ec5e3d5063c0ed629ea5",
+        "member": "adl/tools/demo_five_command_editing.sh",
+        "mode": "100755",
+        "blob": "b189a0a673bdbfe843a75e80a19e112ad5717f83",
+        "sha256": "75c8539fe430e4abb08315be570ada4373258d57245e8432e6c6a0623dadcea9"
+      }
+    },
+    {
+      "path": "adl/tools/install_adl_pr_cycle_skill.sh",
+      "before": [
+        "100755",
+        "ca3066118728f77b87e8b4d2507903fb89e76bef"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "3b5e01f84f54035446c3dfd46a3072b8993e2087",
+      "approval_reference": "NATIVE_SUNSET_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "3b5e01f84f54035446c3dfd46a3072b8993e2087",
+          "before": [
+            "100755",
+            "ca3066118728f77b87e8b4d2507903fb89e76bef"
+          ],
+          "after": null,
+          "packet": "NATIVE_SUNSET_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "NATIVE_SUNSET_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/native-sunset-ten-preparation/preimages.tar",
+        "archive_sha256": "a55b6878e2abedaf57fcf818021f16a0058eaf6fce31ec5e3d5063c0ed629ea5",
+        "member": "adl/tools/install_adl_pr_cycle_skill.sh",
+        "mode": "100755",
+        "blob": "ca3066118728f77b87e8b4d2507903fb89e76bef",
+        "sha256": "a57f03b306a187a22c5a908513fe4143d55b8d978c06fc39becdea2404972673"
+      }
+    },
+    {
+      "path": "adl/tools/normalize_adl_cards.sh",
+      "before": [
+        "100755",
+        "3e4998218aeaf348b9c1db55b69ef0d5192f0b0c"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "3b5e01f84f54035446c3dfd46a3072b8993e2087",
+      "approval_reference": "NATIVE_SUNSET_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "3b5e01f84f54035446c3dfd46a3072b8993e2087",
+          "before": [
+            "100755",
+            "3e4998218aeaf348b9c1db55b69ef0d5192f0b0c"
+          ],
+          "after": null,
+          "packet": "NATIVE_SUNSET_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "NATIVE_SUNSET_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/native-sunset-ten-preparation/preimages.tar",
+        "archive_sha256": "a55b6878e2abedaf57fcf818021f16a0058eaf6fce31ec5e3d5063c0ed629ea5",
+        "member": "adl/tools/normalize_adl_cards.sh",
+        "mode": "100755",
+        "blob": "3e4998218aeaf348b9c1db55b69ef0d5192f0b0c",
+        "sha256": "ab5506e29862632f37133dc5cfd528494ada05b514f2487eeabefe02623e4295"
+      }
+    },
+    {
+      "path": "adl/tools/test_attach_post_merge_closeout.sh",
+      "before": [
+        "100755",
+        "0a2cce1ec0e7a10230f57ad2e3b459ef81ab279b"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "3b5e01f84f54035446c3dfd46a3072b8993e2087",
+      "approval_reference": "NATIVE_SUNSET_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "3b5e01f84f54035446c3dfd46a3072b8993e2087",
+          "before": [
+            "100755",
+            "0a2cce1ec0e7a10230f57ad2e3b459ef81ab279b"
+          ],
+          "after": null,
+          "packet": "NATIVE_SUNSET_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "NATIVE_SUNSET_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/native-sunset-ten-preparation/preimages.tar",
+        "archive_sha256": "a55b6878e2abedaf57fcf818021f16a0058eaf6fce31ec5e3d5063c0ed629ea5",
+        "member": "adl/tools/test_attach_post_merge_closeout.sh",
+        "mode": "100755",
+        "blob": "0a2cce1ec0e7a10230f57ad2e3b459ef81ab279b",
+        "sha256": "574e6c787c4ae03beb3d97d34ef634696a1838a23f7060800ad2e27949a1a986"
+      }
+    },
+    {
+      "path": "adl/tools/test_demo_five_command_editing.sh",
+      "before": [
+        "100755",
+        "1c00e9a69dcbff18685756e1650bfaab3f900c05"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "3b5e01f84f54035446c3dfd46a3072b8993e2087",
+      "approval_reference": "NATIVE_SUNSET_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "3b5e01f84f54035446c3dfd46a3072b8993e2087",
+          "before": [
+            "100755",
+            "1c00e9a69dcbff18685756e1650bfaab3f900c05"
+          ],
+          "after": null,
+          "packet": "NATIVE_SUNSET_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "NATIVE_SUNSET_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/native-sunset-ten-preparation/preimages.tar",
+        "archive_sha256": "a55b6878e2abedaf57fcf818021f16a0058eaf6fce31ec5e3d5063c0ed629ea5",
+        "member": "adl/tools/test_demo_five_command_editing.sh",
+        "mode": "100755",
+        "blob": "1c00e9a69dcbff18685756e1650bfaab3f900c05",
+        "sha256": "1e27402ba388dd93e2e56134018050c5ad051b6d78444562bab7dbc87fe43b3b"
+      }
+    },
+    {
+      "path": "adl/tools/test_five_command_regression_suite.sh",
+      "before": [
+        "100644",
+        "7c044a452ebc164d1e18b823828e8f7a882551ba"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "3b5e01f84f54035446c3dfd46a3072b8993e2087",
+      "approval_reference": "NATIVE_SUNSET_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "3b5e01f84f54035446c3dfd46a3072b8993e2087",
+          "before": [
+            "100644",
+            "7c044a452ebc164d1e18b823828e8f7a882551ba"
+          ],
+          "after": null,
+          "packet": "NATIVE_SUNSET_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "NATIVE_SUNSET_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/native-sunset-ten-preparation/preimages.tar",
+        "archive_sha256": "a55b6878e2abedaf57fcf818021f16a0058eaf6fce31ec5e3d5063c0ed629ea5",
+        "member": "adl/tools/test_five_command_regression_suite.sh",
+        "mode": "100644",
+        "blob": "7c044a452ebc164d1e18b823828e8f7a882551ba",
+        "sha256": "1256247f15acd25a5aeec86dd632410ee19dd8c384be75c15466e20286f7be6e"
+      }
+    },
+    {
+      "path": "adl/tools/test_install_adl_pr_cycle_skill.sh",
+      "before": [
+        "100755",
+        "4d6d7a3f928c301fd3a4347c86fe0ca255e14a2a"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "3b5e01f84f54035446c3dfd46a3072b8993e2087",
+      "approval_reference": "NATIVE_SUNSET_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "3b5e01f84f54035446c3dfd46a3072b8993e2087",
+          "before": [
+            "100755",
+            "4d6d7a3f928c301fd3a4347c86fe0ca255e14a2a"
+          ],
+          "after": null,
+          "packet": "NATIVE_SUNSET_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "NATIVE_SUNSET_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/native-sunset-ten-preparation/preimages.tar",
+        "archive_sha256": "a55b6878e2abedaf57fcf818021f16a0058eaf6fce31ec5e3d5063c0ed629ea5",
+        "member": "adl/tools/test_install_adl_pr_cycle_skill.sh",
+        "mode": "100755",
+        "blob": "4d6d7a3f928c301fd3a4347c86fe0ca255e14a2a",
+        "sha256": "1133f0d187d7f73b0c97c98aac7a91656251de249d8690cb4a9c2b8697f709a2"
+      }
+    },
+    {
+      "path": "adl/tools/test_normalize_adl_cards.sh",
+      "before": [
+        "100755",
+        "5bbcbf7fcdc25ed366a82ddc3fd02c2a3f816d01"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "3b5e01f84f54035446c3dfd46a3072b8993e2087",
+      "approval_reference": "NATIVE_SUNSET_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "3b5e01f84f54035446c3dfd46a3072b8993e2087",
+          "before": [
+            "100755",
+            "5bbcbf7fcdc25ed366a82ddc3fd02c2a3f816d01"
+          ],
+          "after": null,
+          "packet": "NATIVE_SUNSET_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "NATIVE_SUNSET_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/native-sunset-ten-preparation/preimages.tar",
+        "archive_sha256": "a55b6878e2abedaf57fcf818021f16a0058eaf6fce31ec5e3d5063c0ed629ea5",
+        "member": "adl/tools/test_normalize_adl_cards.sh",
+        "mode": "100755",
+        "blob": "5bbcbf7fcdc25ed366a82ddc3fd02c2a3f816d01",
+        "sha256": "00dc455fe0ef9efca03d681c119b001f21a30df21913f212f6729364c5b8daf1"
+      }
+    },
+    {
+      "path": "adl/tools/test_process_drift_regressions.sh",
+      "before": [
+        "100755",
+        "750c455090aec03496ca7c9c11bbcbcdfb8e2ba7"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "3b5e01f84f54035446c3dfd46a3072b8993e2087",
+      "approval_reference": "NATIVE_SUNSET_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "3b5e01f84f54035446c3dfd46a3072b8993e2087",
+          "before": [
+            "100755",
+            "750c455090aec03496ca7c9c11bbcbcdfb8e2ba7"
+          ],
+          "after": null,
+          "packet": "NATIVE_SUNSET_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "NATIVE_SUNSET_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/native-sunset-ten-preparation/preimages.tar",
+        "archive_sha256": "a55b6878e2abedaf57fcf818021f16a0058eaf6fce31ec5e3d5063c0ed629ea5",
+        "member": "adl/tools/test_process_drift_regressions.sh",
+        "mode": "100755",
+        "blob": "750c455090aec03496ca7c9c11bbcbcdfb8e2ba7",
+        "sha256": "9bc0013b2e7323bc9c7cf9b619dffd1f49c55cb08f6e5ec5eb3f1aed25a52c5d"
+      }
+    },
+    {
+      "path": "docs/tooling/editor/five_command_regression_suite.md",
+      "before": [
+        "100644",
+        "9c3df9572101239d2d130a79b687777d39dace68"
+      ],
+      "after": [
+        "100644",
+        "2a909006b7610e1784b3acaa84f27db4891a17b1"
+      ],
+      "action": "modify",
+      "implementation_commit": "3b5e01f84f54035446c3dfd46a3072b8993e2087",
+      "approval_reference": "NATIVE_SUNSET_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "3b5e01f84f54035446c3dfd46a3072b8993e2087",
+          "before": [
+            "100644",
+            "9c3df9572101239d2d130a79b687777d39dace68"
+          ],
+          "after": [
+            "100644",
+            "2a909006b7610e1784b3acaa84f27db4891a17b1"
+          ],
+          "packet": "NATIVE_SUNSET_FAMILY_APPLIED.json"
+        }
+      ]
     }
   ],
   "missing_entries": [],
@@ -86077,9 +87087,85 @@
         "adl/tools/run_adl_v2_standalone.sh"
       ],
       "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "MIXED_CI_CONTRACT_APPLIED.json",
+      "sha256": "dcda33f2d274072c74a6d04b518214286aabe96f74ef9d6ea59b1f03b5c83e7b",
+      "commit": "3788ec9b21de45669bc4b770ef44cde787a6773b",
+      "files": 6,
+      "removals": 1,
+      "scope_sha256": "89b49254648da5822e031624a6b0f3c66940e669d07b161810633d9b605594b7",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl/tools/test_ci_runtime_contracts.sh",
+        "adl/tools/test_workspace_coverage_deadline.rb",
+        "adl/tools/test_ci_path_policy.sh",
+        "adl/tools/test_ci_cache_linker_contracts.sh",
+        ".github/workflows/ci.yaml",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "BUILDER_FAMILY_APPLIED.json",
+      "sha256": "89c1a43106a87745abc56b0438a0e40fa374744d4f7cecd620f006187880fea4",
+      "commit": "ba90cf9dc1ca7388610444da604fb76491f17149",
+      "files": 18,
+      "removals": 10,
+      "scope_sha256": "ca8db89f26d67e7bd284e81f7fa7cdaceb430373ca23bbd8534f14e2619fedcf",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl/config/validation_lane_selector.v0.91.6.json",
+        "adl/docker/adl-builder/Dockerfile",
+        "adl/docker/adl-builder/INPUT_PROVENANCE.json",
+        "adl/docker/adl-builder/test_builder_inputs.py",
+        "adl/docker/adl-builder/verify_sha256.sh",
+        "adl/tools/import_adl_builder_image_from_s3_to_ecr.sh",
+        "adl/tools/publish_adl_builder_image_codebuild.sh",
+        "adl/tools/setup_adl_builder_image.sh",
+        "adl/tools/test_adl_builder_image.sh",
+        "adl/tools/test_import_adl_builder_image_from_s3_to_ecr.sh",
+        "adl/tools/test_publish_adl_builder_image_codebuild.sh",
+        "docs/tooling/ADL_BUILDER_IMAGE.md",
+        "docs/tooling/AWS_SPOT_REMOTE_EXECUTION_HOW_TO.md",
+        "docs/tooling/README.md",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+        "tools/groupd_validation/README.md",
+        "tools/groupd_validation/run_builder_contracts.py",
+        "tools/groupd_validation/src/lib.rs"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "NATIVE_SUNSET_FAMILY_APPLIED.json",
+      "sha256": "4efc3870f82f5a32398adfcb1dd9b049f9a865b4e55095f43c4517fb048a008b",
+      "commit": "3b5e01f84f54035446c3dfd46a3072b8993e2087",
+      "files": 13,
+      "removals": 10,
+      "scope_sha256": "93b968f28cfc33258723abf52d0f402a231b6bdfd7eb4ea3e2b54c91210b6e47",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl/tools/attach_post_merge_closeout.sh",
+        "adl/tools/demo_five_command_editing.sh",
+        "adl/tools/install_adl_pr_cycle_skill.sh",
+        "adl/tools/normalize_adl_cards.sh",
+        "adl/tools/test_attach_post_merge_closeout.sh",
+        "adl/tools/test_demo_five_command_editing.sh",
+        "adl/tools/test_five_command_regression_suite.sh",
+        "adl/tools/test_install_adl_pr_cycle_skill.sh",
+        "adl/tools/test_normalize_adl_cards.sh",
+        "adl/tools/test_process_drift_regressions.sh",
+        "adl/tools/README.md",
+        "docs/tooling/editor/five_command_regression_suite.md",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
     }
   ],
-  "baseline_deletion_count": 2650,
+  "baseline_deletion_count": 2671,
   "transient_removed_paths": [
     "adl/tools/test_issue872_historical_manifest.py"
   ]

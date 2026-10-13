@@ -7,19 +7,19 @@
   "original_count": 4134,
   "counts": {
     "retain_resolved": 527,
-    "proposed_owner_transfer_with_consumer_qualification": 301,
-    "preserve_approved_removal": 2649,
-    "retain_public_source_or_fixture": 178,
+    "proposed_owner_transfer_with_consumer_qualification": 296,
+    "preserve_approved_removal": 2670,
+    "retain_public_source_or_fixture": 189,
     "preserve_reviewed_consumer_repair": 18,
-    "proposed_historical_retirement_with_caller_repair": 49,
+    "proposed_historical_retirement_with_caller_repair": 32,
     "proposed_remove_with_entire_source_family": 1,
-    "proposed_remove_with_entire_tool_family": 395,
+    "proposed_remove_with_entire_tool_family": 385,
     "hold_explicit_reconciliation": 11,
     "hold_owner_test_reconciliation": 1,
     "proposed_remove_construction_qualified_infrastructure": 4
   },
   "additional_current_source_paths": 22,
-  "preservation": "Original 4134 identities and separate 22 captured paths unchanged. Exact executed retirement actions 2651 comprise 2650 baseline deletions and one newly-added-then-retired ADL conversion bridge; the bridge is outside both captured inventories. Other proposals remain conditional.",
+  "preservation": "Original 4134 identities and separate 22 captured paths unchanged. Exact executed retirement actions 2672 comprise 2671 baseline deletions and one newly-added-then-retired ADL conversion bridge; the bridge is outside both captured inventories. Other proposals remain conditional.",
   "review_boundary": "Exact paths and Git identities are pinned. Proposed removals remain conditional; this is not a claim that caller closure or all successor tests are qualified.",
   "known_prerequisites": {
     "codefriend": "Issue102 e14ff1b08b7ef01f838404bca8ecdf47c1318ac1 passed all39suites409Linux tests,0failed0ignored,174.293s; exacthead and clean source before/after. Evidence FastWork c1223/evidence/codefriend/issue102-e14ff1b0-full, transcriptSHA256c7944f7e0403ba485b377868b1bd85e91eeee0ecce3f79920de3e86c813cfa1a. Focused1 and parallel47 diagnostics also passed; prior dc2 redelivery failure did not reproduce and its cause is not claimed fixed. Earlier failures retained. One macOS-only case, actual hosted installed-acquisition CI proof and owner publication remain separate.",
@@ -10671,10 +10671,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Infrastructure owns builder publication and runbooks. Redirect retained ADL navigation and concrete publisher/groupd callers to pinned owner contracts or explicitly retain compatibility entrypoints; no new image publication or cloud acceptance claim."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -10695,6 +10693,17 @@
           ],
           "other_findings": 0
         }
+      },
+      "pre_mixed_ci_builder_sunset_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Infrastructure owns builder publication and runbooks. Redirect retained ADL navigation and concrete publisher/groupd callers to pinned owner contracts or explicitly retain compatibility entrypoints; no new image publication or cloud acceptance claim."
+        ]
+      },
+      "applied_removal": {
+        "packet": "BUILDER_FAMILY_APPLIED.json",
+        "sha256": "89c1a43106a87745abc56b0438a0e40fa374744d4f7cecd620f006187880fea4",
+        "implementation_commit": "ba90cf9dc1ca7388610444da604fb76491f17149"
       }
     },
     {
@@ -10708,10 +10717,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Infrastructure owns builder publication and runbooks. Redirect retained ADL navigation and concrete publisher/groupd callers to pinned owner contracts or explicitly retain compatibility entrypoints; no new image publication or cloud acceptance claim."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -10732,6 +10739,17 @@
           ],
           "other_findings": 0
         }
+      },
+      "pre_mixed_ci_builder_sunset_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Infrastructure owns builder publication and runbooks. Redirect retained ADL navigation and concrete publisher/groupd callers to pinned owner contracts or explicitly retain compatibility entrypoints; no new image publication or cloud acceptance claim."
+        ]
+      },
+      "applied_removal": {
+        "packet": "BUILDER_FAMILY_APPLIED.json",
+        "sha256": "89c1a43106a87745abc56b0438a0e40fa374744d4f7cecd620f006187880fea4",
+        "implementation_commit": "ba90cf9dc1ca7388610444da604fb76491f17149"
       }
     },
     {
@@ -10745,10 +10763,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Infrastructure owns builder publication and runbooks. Redirect retained ADL navigation and concrete publisher/groupd callers to pinned owner contracts or explicitly retain compatibility entrypoints; no new image publication or cloud acceptance claim."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -10769,6 +10785,17 @@
           ],
           "other_findings": 0
         }
+      },
+      "pre_mixed_ci_builder_sunset_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Infrastructure owns builder publication and runbooks. Redirect retained ADL navigation and concrete publisher/groupd callers to pinned owner contracts or explicitly retain compatibility entrypoints; no new image publication or cloud acceptance claim."
+        ]
+      },
+      "applied_removal": {
+        "packet": "BUILDER_FAMILY_APPLIED.json",
+        "sha256": "89c1a43106a87745abc56b0438a0e40fa374744d4f7cecd620f006187880fea4",
+        "implementation_commit": "ba90cf9dc1ca7388610444da604fb76491f17149"
       }
     },
     {
@@ -10782,10 +10809,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Infrastructure owns builder publication and runbooks. Redirect retained ADL navigation and concrete publisher/groupd callers to pinned owner contracts or explicitly retain compatibility entrypoints; no new image publication or cloud acceptance claim."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -10806,6 +10831,17 @@
           ],
           "other_findings": 0
         }
+      },
+      "pre_mixed_ci_builder_sunset_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Infrastructure owns builder publication and runbooks. Redirect retained ADL navigation and concrete publisher/groupd callers to pinned owner contracts or explicitly retain compatibility entrypoints; no new image publication or cloud acceptance claim."
+        ]
+      },
+      "applied_removal": {
+        "packet": "BUILDER_FAMILY_APPLIED.json",
+        "sha256": "89c1a43106a87745abc56b0438a0e40fa374744d4f7cecd620f006187880fea4",
+        "implementation_commit": "ba90cf9dc1ca7388610444da604fb76491f17149"
       }
     },
     {
@@ -46706,11 +46742,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "proposed_historical_retirement_with_caller_repair",
-      "required_before_execution": [
-        "Current native v3 route already governs this operation; do not port retired wrapper behavior into new product. Preserve historical Git/evidence. Repair or explicitly retire the listed active callers/tests; update public tool navigation. No new removal authority.",
-        "atomic family and caller disposition; no v1 route restoration"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -46721,6 +46754,18 @@
         "packet_sha256": "2682d1f5904ff8cf484acec5c0a8f2e62c45798c7f7a9b1de3fbc422ec655f35",
         "proposal": "retire_sunset_with_caller_repairs",
         "reason": "Whole11-line file only prints retirement notice then exits2; no supported operation remains."
+      },
+      "pre_mixed_ci_builder_sunset_execution_classification": {
+        "proposed_action": "proposed_historical_retirement_with_caller_repair",
+        "required_before_execution": [
+          "Current native v3 route already governs this operation; do not port retired wrapper behavior into new product. Preserve historical Git/evidence. Repair or explicitly retire the listed active callers/tests; update public tool navigation. No new removal authority.",
+          "atomic family and caller disposition; no v1 route restoration"
+        ]
+      },
+      "applied_removal": {
+        "packet": "NATIVE_SUNSET_FAMILY_APPLIED.json",
+        "sha256": "4efc3870f82f5a32398adfcb1dd9b049f9a865b4e55095f43c4517fb048a008b",
+        "implementation_commit": "3b5e01f84f54035446c3dfd46a3072b8993e2087"
       }
     },
     {
@@ -47793,9 +47838,7 @@
       },
       "existing_action": "retain",
       "proposed_action": "retain_public_source_or_fixture",
-      "required_before_execution": [
-        "Preserve active public CI caller and helper; include in final public qualification."
-      ],
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -47816,6 +47859,22 @@
         "packet": "RETAINED_PUBLIC_CI_HELPERS.json",
         "packet_sha256": "9814b2ebf9b71f7908518ad2938add42e7f9e7a6f359277cd509370a23397dbd",
         "proposal": "retain_active_public_ci_helper"
+      },
+      "pre_mixed_ci_builder_sunset_retention_classification": {
+        "proposed_action": "retain_public_source_or_fixture",
+        "required_before_execution": [
+          "Preserve active public CI caller and helper; include in final public qualification."
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "MIXED_CI_CONTRACT_APPLIED.json",
+        "packet_sha256": "dcda33f2d274072c74a6d04b518214286aabe96f74ef9d6ea59b1f03b5c83e7b",
+        "implementation_commit": "3788ec9b21de45669bc4b770ef44cde787a6773b",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "c3ba898ff3bb12da226185598eef6e6387f89e18"
+        },
+        "reason": "Reviewed current public CI production policy or repaired public guard. Original private-source assertions explicitly retired in the applied packet; current public assertions preserved and qualified separately."
       }
     },
     {
@@ -48820,11 +48879,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "proposed_historical_retirement_with_caller_repair",
-      "required_before_execution": [
-        "Replace retained refusal tests with absence/current-v3 guidance contracts where still required; explicitly dispose historical five-command regression/demo documentation callers together. Do not port removed v1 behavior.",
-        "atomic family and caller disposition; no v1 route restoration"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -48835,6 +48891,18 @@
         "packet_sha256": "2682d1f5904ff8cf484acec5c0a8f2e62c45798c7f7a9b1de3fbc422ec655f35",
         "proposal": "retire_sunset_with_caller_repairs",
         "reason": "Entire five-line implementation explicitly retires removed v1 five-command editing demo and exits 2. Stale v2 guidance does not establish current authority."
+      },
+      "pre_mixed_ci_builder_sunset_execution_classification": {
+        "proposed_action": "proposed_historical_retirement_with_caller_repair",
+        "required_before_execution": [
+          "Replace retained refusal tests with absence/current-v3 guidance contracts where still required; explicitly dispose historical five-command regression/demo documentation callers together. Do not port removed v1 behavior.",
+          "atomic family and caller disposition; no v1 route restoration"
+        ]
+      },
+      "applied_removal": {
+        "packet": "NATIVE_SUNSET_FAMILY_APPLIED.json",
+        "sha256": "4efc3870f82f5a32398adfcb1dd9b049f9a865b4e55095f43c4517fb048a008b",
+        "implementation_commit": "3b5e01f84f54035446c3dfd46a3072b8993e2087"
       }
     },
     {
@@ -51048,18 +51116,27 @@
         "blob": "850d8106ac3159ca2e187f468f61b4738a3c2308"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/import_adl_builder_image_from_s3_to_ecr.sh"
         ]
+      },
+      "pre_mixed_ci_builder_sunset_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "BUILDER_FAMILY_APPLIED.json",
+        "sha256": "89c1a43106a87745abc56b0438a0e40fa374744d4f7cecd620f006187880fea4",
+        "implementation_commit": "ba90cf9dc1ca7388610444da604fb76491f17149"
       }
     },
     {
@@ -51109,11 +51186,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "proposed_historical_retirement_with_caller_repair",
-      "required_before_execution": [
-        "Current native v3 route already governs this operation; do not port retired wrapper behavior into new product. Preserve historical Git/evidence. Repair or explicitly retire the listed active callers/tests; update public tool navigation. No new removal authority.",
-        "atomic family and caller disposition; no v1 route restoration"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -51124,6 +51198,18 @@
         "packet_sha256": "2682d1f5904ff8cf484acec5c0a8f2e62c45798c7f7a9b1de3fbc422ec655f35",
         "proposal": "retire_sunset_with_caller_repairs",
         "reason": "Copies historical docs/tooling/adl_pr_cycle_skill.md into user skills. AGENTS explicitly sunsets adl_pr_cycle operational entrypoint; keep history, not active installer."
+      },
+      "pre_mixed_ci_builder_sunset_execution_classification": {
+        "proposed_action": "proposed_historical_retirement_with_caller_repair",
+        "required_before_execution": [
+          "Current native v3 route already governs this operation; do not port retired wrapper behavior into new product. Preserve historical Git/evidence. Repair or explicitly retire the listed active callers/tests; update public tool navigation. No new removal authority.",
+          "atomic family and caller disposition; no v1 route restoration"
+        ]
+      },
+      "applied_removal": {
+        "packet": "NATIVE_SUNSET_FAMILY_APPLIED.json",
+        "sha256": "4efc3870f82f5a32398adfcb1dd9b049f9a865b4e55095f43c4517fb048a008b",
+        "implementation_commit": "3b5e01f84f54035446c3dfd46a3072b8993e2087"
       }
     },
     {
@@ -52291,11 +52377,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "Legacy v0.87.1 normalizer directly renders Markdown bootstrap SOR and rewrites old task trees; current instructions route card edits through native semantic editor.",
-      "proposed_action": "proposed_historical_retirement_with_caller_repair",
-      "required_before_execution": [
-        "Retire writer and companion test_normalize_adl_cards.sh only with explicit historical disposition and caller repair. Preserve originals as evidence; do not port direct live-card writer.",
-        "Explicit coherent retirement approval; no operational acceptance inferred"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -52305,6 +52388,18 @@
         "packet": "CSDLC_PRODUCTION_HELPER_DISPOSITIONS.json",
         "packet_sha256": "f88bf93a189b79d3835cc6c4479fbc3564ee4e41d66bbab72c87987692762584",
         "proposal": "proposed_historical_retirement_with_caller_repair"
+      },
+      "pre_mixed_ci_builder_sunset_execution_classification": {
+        "proposed_action": "proposed_historical_retirement_with_caller_repair",
+        "required_before_execution": [
+          "Retire writer and companion test_normalize_adl_cards.sh only with explicit historical disposition and caller repair. Preserve originals as evidence; do not port direct live-card writer.",
+          "Explicit coherent retirement approval; no operational acceptance inferred"
+        ]
+      },
+      "applied_removal": {
+        "packet": "NATIVE_SUNSET_FAMILY_APPLIED.json",
+        "sha256": "4efc3870f82f5a32398adfcb1dd9b049f9a865b4e55095f43c4517fb048a008b",
+        "implementation_commit": "3b5e01f84f54035446c3dfd46a3072b8993e2087"
       }
     },
     {
@@ -52668,18 +52763,27 @@
         "blob": "55fedc5bad7cc1ecbb9908ce830b6ac891e12194"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/publish_adl_builder_image_codebuild.sh"
         ]
+      },
+      "pre_mixed_ci_builder_sunset_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "BUILDER_FAMILY_APPLIED.json",
+        "sha256": "89c1a43106a87745abc56b0438a0e40fa374744d4f7cecd620f006187880fea4",
+        "implementation_commit": "ba90cf9dc1ca7388610444da604fb76491f17149"
       }
     },
     {
@@ -55057,18 +55161,27 @@
         "blob": "566518c1b55966ec4a8a6938bbb683b6b727a54f"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/setup_adl_builder_image.sh"
         ]
+      },
+      "pre_mixed_ci_builder_sunset_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "BUILDER_FAMILY_APPLIED.json",
+        "sha256": "89c1a43106a87745abc56b0438a0e40fa374744d4f7cecd620f006187880fea4",
+        "implementation_commit": "ba90cf9dc1ca7388610444da604fb76491f17149"
       }
     },
     {
@@ -67485,18 +67598,27 @@
         "blob": "8b31c10418f407e8281d343ac10e1bd949277df4"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/test_adl_builder_image.sh"
         ]
+      },
+      "pre_mixed_ci_builder_sunset_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "BUILDER_FAMILY_APPLIED.json",
+        "sha256": "89c1a43106a87745abc56b0438a0e40fa374744d4f7cecd620f006187880fea4",
+        "implementation_commit": "ba90cf9dc1ca7388610444da604fb76491f17149"
       }
     },
     {
@@ -67839,10 +67961,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "proposed_historical_retirement_with_caller_repair",
-      "required_before_execution": [
-        "Joint explicit retirement with already reviewed wrapper/installer paths; remove exact runner invocations and update active demo navigation. Preserve historical fixture and Git records; do not recreate v1 closeout or installation."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -67853,6 +67973,17 @@
         "packet_sha256": "2737f78d4a5fcb19f50869cd85249ab213a4b97ac10ec4f767bdda4015ce172c",
         "proposal": "conditional_sunset_cluster_not_yet_closed",
         "reason": "Three tests exclusively exercise explicitly retired v1 closeout/demo/historical installer contracts. Closeout test requires mocked pr.sh closeout and normalized SOR despite current wrapper unconditional refusal."
+      },
+      "pre_mixed_ci_builder_sunset_execution_classification": {
+        "proposed_action": "proposed_historical_retirement_with_caller_repair",
+        "required_before_execution": [
+          "Joint explicit retirement with already reviewed wrapper/installer paths; remove exact runner invocations and update active demo navigation. Preserve historical fixture and Git records; do not recreate v1 closeout or installation."
+        ]
+      },
+      "applied_removal": {
+        "packet": "NATIVE_SUNSET_FAMILY_APPLIED.json",
+        "sha256": "4efc3870f82f5a32398adfcb1dd9b049f9a865b4e55095f43c4517fb048a008b",
+        "implementation_commit": "3b5e01f84f54035446c3dfd46a3072b8993e2087"
       }
     },
     {
@@ -67993,30 +68124,8 @@
         "blob": "fd809615828bad0ae1828f1fa578709a9cf5ceae"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_historical_retirement_with_caller_repair",
-      "required_before_execution": [
-        {
-          "path": "adl/tools/run_owner_validation_lane.sh",
-          "line": 118,
-          "reference": "    bash adl/tools/test_card_editor_repair_examples.sh",
-          "kind": "source_or_configuration_reference",
-          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
-        },
-        {
-          "path": "adl/tools/test_card_editor_skill_contracts.sh",
-          "line": 41,
-          "reference": "bash \"$repo_root/adl/tools/test_card_editor_repair_examples.sh\"",
-          "kind": "source_or_configuration_reference",
-          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
-        },
-        "Accept per-row disposition and close listed caller/dependency obligations.",
-        "For transfers, bind actual owner package/fixture outcomes to the mapped assertion denominator; source availability alone is insufficient.",
-        "Obtain coherent source-retirement approval and guard qualification.",
-        "Resolve four obsolete Gate2 exact filters removed by52e0be6f; zero selected tests are not qualification.",
-        "Reconcile active owner-lane, aggregate, registry and documentation callers.",
-        "Preserve independent source-family and behavioral obligations.",
-        "Exact scoped retirement decision."
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -68035,7 +68144,43 @@
         "execution_proven": false,
         "changes_removal_authority": false
       },
-      "prior_hold_reason": "Original script makes sixteen real csdlc-v2 edit requests through gate2 fixtures and checks sunset wrapper absence. Owner active-lifecycle README explicitly keeps this compatibility obligation distinct; resource verification is not replacement."
+      "prior_hold_reason": "Original script makes sixteen real csdlc-v2 edit requests through gate2 fixtures and checks sunset wrapper absence. Owner active-lifecycle README explicitly keeps this compatibility obligation distinct; resource verification is not replacement.",
+      "pre_mixed_ci_builder_sunset_retention_classification": {
+        "proposed_action": "proposed_historical_retirement_with_caller_repair",
+        "required_before_execution": [
+          {
+            "path": "adl/tools/run_owner_validation_lane.sh",
+            "line": 118,
+            "reference": "    bash adl/tools/test_card_editor_repair_examples.sh",
+            "kind": "source_or_configuration_reference",
+            "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+          },
+          {
+            "path": "adl/tools/test_card_editor_skill_contracts.sh",
+            "line": 41,
+            "reference": "bash \"$repo_root/adl/tools/test_card_editor_repair_examples.sh\"",
+            "kind": "source_or_configuration_reference",
+            "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+          },
+          "Accept per-row disposition and close listed caller/dependency obligations.",
+          "For transfers, bind actual owner package/fixture outcomes to the mapped assertion denominator; source availability alone is insufficient.",
+          "Obtain coherent source-retirement approval and guard qualification.",
+          "Resolve four obsolete Gate2 exact filters removed by52e0be6f; zero selected tests are not qualification.",
+          "Reconcile active owner-lane, aggregate, registry and documentation callers.",
+          "Preserve independent source-family and behavioral obligations.",
+          "Exact scoped retirement decision."
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "NATIVE_SUNSET_FAMILY_APPLIED.json",
+        "packet_sha256": "4efc3870f82f5a32398adfcb1dd9b049f9a865b4e55095f43c4517fb048a008b",
+        "implementation_commit": "3b5e01f84f54035446c3dfd46a3072b8993e2087",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "999f818bbce74f3734b8a2a7057e67c4880b5b8a"
+        },
+        "reason": "Eight unchanged local wrapper-absence, public template/schema or reviewer-fixture contracts retain exact current source and dependencies. Original v2 behavior has separate historical dispositions; no new native execution or equivalence claim."
+      }
     },
     {
       "id": "RD07-1917",
@@ -68143,12 +68288,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "proposed_historical_retirement_with_caller_repair",
-      "required_before_execution": [
-        "Coherent caller and registry disposition",
-        "Scoped final source retirement decision",
-        "Preserve original identity and rollback evidence"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -68164,7 +68305,25 @@
       "prior_execution_prerequisites": [
         "specific_consumer_or_document_disposition_required"
       ],
-      "disposition_evidence": "NATIVE_SUNSET_OWNER_DELIVERY.json"
+      "disposition_evidence": "NATIVE_SUNSET_OWNER_DELIVERY.json",
+      "pre_mixed_ci_builder_sunset_retention_classification": {
+        "proposed_action": "proposed_historical_retirement_with_caller_repair",
+        "required_before_execution": [
+          "Coherent caller and registry disposition",
+          "Scoped final source retirement decision",
+          "Preserve original identity and rollback evidence"
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "NATIVE_SUNSET_FAMILY_APPLIED.json",
+        "packet_sha256": "4efc3870f82f5a32398adfcb1dd9b049f9a865b4e55095f43c4517fb048a008b",
+        "implementation_commit": "3b5e01f84f54035446c3dfd46a3072b8993e2087",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "d373040d89f3edc505c9d6b592b324d708c0f11e"
+        },
+        "reason": "Eight unchanged local wrapper-absence, public template/schema or reviewer-fixture contracts retain exact current source and dependencies. Original v2 behavior has separate historical dispositions; no new native execution or equivalence claim."
+      }
     },
     {
       "id": "RD07-1920",
@@ -68176,13 +68335,8 @@
         "blob": "e218a5bf7c87c9a61b55d33633c5d3fc4c590414"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Reconcile all active ADL inbound callers and CI with the delivered owner family in the same retirement delta.",
-        "Preserve original test assertions and historical rollback inventory.",
-        "Obtain exact scoped operator retirement decision; this component proof does not authorize deletion.",
-        "Retain separate current owner delivery/native acceptance boundaries; no whole-product acceptance inferred."
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -68208,6 +68362,25 @@
         "passed": true,
         "native_lifecycle_acceptance": false,
         "changes_removal_authority": false
+      },
+      "pre_mixed_ci_builder_sunset_retention_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Reconcile all active ADL inbound callers and CI with the delivered owner family in the same retirement delta.",
+          "Preserve original test assertions and historical rollback inventory.",
+          "Obtain exact scoped operator retirement decision; this component proof does not authorize deletion.",
+          "Retain separate current owner delivery/native acceptance boundaries; no whole-product acceptance inferred."
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "NATIVE_SUNSET_FAMILY_APPLIED.json",
+        "packet_sha256": "4efc3870f82f5a32398adfcb1dd9b049f9a865b4e55095f43c4517fb048a008b",
+        "implementation_commit": "3b5e01f84f54035446c3dfd46a3072b8993e2087",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "e218a5bf7c87c9a61b55d33633c5d3fc4c590414"
+        },
+        "reason": "Eight unchanged local wrapper-absence, public template/schema or reviewer-fixture contracts retain exact current source and dependencies. Original v2 behavior has separate historical dispositions; no new native execution or equivalence claim."
       }
     },
     {
@@ -68423,18 +68596,27 @@
         "blob": "908bbb4a4cf39e754970da82ef1308ce1aa5a454"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/test_ci_cache_linker_contracts.sh"
         ]
+      },
+      "pre_mixed_ci_builder_sunset_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "MIXED_CI_CONTRACT_APPLIED.json",
+        "sha256": "dcda33f2d274072c74a6d04b518214286aabe96f74ef9d6ea59b1f03b5c83e7b",
+        "implementation_commit": "3788ec9b21de45669bc4b770ef44cde787a6773b"
       }
     },
     {
@@ -68447,16 +68629,30 @@
         "blob": "665e267f5ee728216927899b848ac4a325c922b8"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": []
+      },
+      "pre_mixed_ci_builder_sunset_retention_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "MIXED_CI_CONTRACT_APPLIED.json",
+        "packet_sha256": "dcda33f2d274072c74a6d04b518214286aabe96f74ef9d6ea59b1f03b5c83e7b",
+        "implementation_commit": "3788ec9b21de45669bc4b770ef44cde787a6773b",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "f9b0fe7f6692ffc41d40422be79404c85c30ab1f"
+        },
+        "reason": "Reviewed current public CI production policy or repaired public guard. Original private-source assertions explicitly retired in the applied packet; current public assertions preserved and qualified separately."
       }
     },
     {
@@ -68469,16 +68665,30 @@
         "blob": "1adeda368da5dcf38e54420c7a3dd1a0b91bdddf"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": []
+      },
+      "pre_mixed_ci_builder_sunset_retention_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "MIXED_CI_CONTRACT_APPLIED.json",
+        "packet_sha256": "dcda33f2d274072c74a6d04b518214286aabe96f74ef9d6ea59b1f03b5c83e7b",
+        "implementation_commit": "3788ec9b21de45669bc4b770ef44cde787a6773b",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "f58a7f887517bb156e387517f78ee76c7573080d"
+        },
+        "reason": "Reviewed current public CI production policy or repaired public guard. Original private-source assertions explicitly retired in the applied packet; current public assertions preserved and qualified separately."
       }
     },
     {
@@ -68529,12 +68739,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "proposed_historical_retirement_with_caller_repair",
-      "required_before_execution": [
-        "Coherent caller and registry disposition",
-        "Scoped final source retirement decision",
-        "Preserve original identity and rollback evidence"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -68550,7 +68756,25 @@
       "prior_execution_prerequisites": [
         "specific_consumer_or_document_disposition_required"
       ],
-      "disposition_evidence": "NATIVE_SUNSET_OWNER_DELIVERY.json"
+      "disposition_evidence": "NATIVE_SUNSET_OWNER_DELIVERY.json",
+      "pre_mixed_ci_builder_sunset_retention_classification": {
+        "proposed_action": "proposed_historical_retirement_with_caller_repair",
+        "required_before_execution": [
+          "Coherent caller and registry disposition",
+          "Scoped final source retirement decision",
+          "Preserve original identity and rollback evidence"
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "NATIVE_SUNSET_FAMILY_APPLIED.json",
+        "packet_sha256": "4efc3870f82f5a32398adfcb1dd9b049f9a865b4e55095f43c4517fb048a008b",
+        "implementation_commit": "3b5e01f84f54035446c3dfd46a3072b8993e2087",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "a16baa3a8d2d50a26d769f18525754e4a6f975a6"
+        },
+        "reason": "Eight unchanged local wrapper-absence, public template/schema or reviewer-fixture contracts retain exact current source and dependencies. Original v2 behavior has separate historical dispositions; no new native execution or equivalence claim."
+      }
     },
     {
       "id": "RD07-1933",
@@ -68622,12 +68846,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "proposed_historical_retirement_with_caller_repair",
-      "required_before_execution": [
-        "Coherent caller and registry disposition",
-        "Scoped final source retirement decision",
-        "Preserve original identity and rollback evidence"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -68643,7 +68863,25 @@
       "prior_execution_prerequisites": [
         "specific_consumer_or_document_disposition_required"
       ],
-      "disposition_evidence": "NATIVE_SUNSET_OWNER_DELIVERY.json"
+      "disposition_evidence": "NATIVE_SUNSET_OWNER_DELIVERY.json",
+      "pre_mixed_ci_builder_sunset_retention_classification": {
+        "proposed_action": "proposed_historical_retirement_with_caller_repair",
+        "required_before_execution": [
+          "Coherent caller and registry disposition",
+          "Scoped final source retirement decision",
+          "Preserve original identity and rollback evidence"
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "NATIVE_SUNSET_FAMILY_APPLIED.json",
+        "packet_sha256": "4efc3870f82f5a32398adfcb1dd9b049f9a865b4e55095f43c4517fb048a008b",
+        "implementation_commit": "3b5e01f84f54035446c3dfd46a3072b8993e2087",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "e8052420e090d221ac37baa0df7060c21af9c02d"
+        },
+        "reason": "Eight unchanged local wrapper-absence, public template/schema or reviewer-fixture contracts retain exact current source and dependencies. Original v2 behavior has separate historical dispositions; no new native execution or equivalence claim."
+      }
     },
     {
       "id": "RD07-1936",
@@ -68971,10 +69209,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "proposed_historical_retirement_with_caller_repair",
-      "required_before_execution": [
-        "Joint explicit retirement with already reviewed wrapper/installer paths; remove exact runner invocations and update active demo navigation. Preserve historical fixture and Git records; do not recreate v1 closeout or installation."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -68985,6 +69221,17 @@
         "packet_sha256": "2737f78d4a5fcb19f50869cd85249ab213a4b97ac10ec4f767bdda4015ce172c",
         "proposal": "conditional_sunset_cluster_not_yet_closed",
         "reason": "Three tests exclusively exercise explicitly retired v1 closeout/demo/historical installer contracts. Closeout test requires mocked pr.sh closeout and normalized SOR despite current wrapper unconditional refusal."
+      },
+      "pre_mixed_ci_builder_sunset_execution_classification": {
+        "proposed_action": "proposed_historical_retirement_with_caller_repair",
+        "required_before_execution": [
+          "Joint explicit retirement with already reviewed wrapper/installer paths; remove exact runner invocations and update active demo navigation. Preserve historical fixture and Git records; do not recreate v1 closeout or installation."
+        ]
+      },
+      "applied_removal": {
+        "packet": "NATIVE_SUNSET_FAMILY_APPLIED.json",
+        "sha256": "4efc3870f82f5a32398adfcb1dd9b049f9a865b4e55095f43c4517fb048a008b",
+        "implementation_commit": "3b5e01f84f54035446c3dfd46a3072b8993e2087"
       }
     },
     {
@@ -70502,14 +70749,8 @@
         "blob": "7c044a452ebc164d1e18b823828e8f7a882551ba"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_historical_retirement_with_caller_repair",
-      "required_before_execution": [
-        "Repair active AGENTS validation guidance to public-package/owner-repository routes",
-        "Repair FINISH_VALIDATION_PATH_OWNERSHIP_REGISTRY and HARDLINKED_RUST_DEPENDENCY_CACHE references",
-        "Coherent registry/generator and historical test_validation_manager source-reference disposition",
-        "Retain independent child obligations; this proposal does not qualify or remove any child",
-        "Scoped exact retirement decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -70520,6 +70761,21 @@
         "packet_sha256": "cf5ba95b0b4f1ebed5abd678e52b103a1673ecbe6e5e7d0ca3f23675371928cf",
         "proposal": "proposed_historical_retirement_with_caller_repair",
         "review": "Independent bounded review passed; no broad deletion or new owner execution claimed."
+      },
+      "pre_mixed_ci_builder_sunset_execution_classification": {
+        "proposed_action": "proposed_historical_retirement_with_caller_repair",
+        "required_before_execution": [
+          "Repair active AGENTS validation guidance to public-package/owner-repository routes",
+          "Repair FINISH_VALIDATION_PATH_OWNERSHIP_REGISTRY and HARDLINKED_RUST_DEPENDENCY_CACHE references",
+          "Coherent registry/generator and historical test_validation_manager source-reference disposition",
+          "Retain independent child obligations; this proposal does not qualify or remove any child",
+          "Scoped exact retirement decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "NATIVE_SUNSET_FAMILY_APPLIED.json",
+        "sha256": "4efc3870f82f5a32398adfcb1dd9b049f9a865b4e55095f43c4517fb048a008b",
+        "implementation_commit": "3b5e01f84f54035446c3dfd46a3072b8993e2087"
       }
     },
     {
@@ -70742,18 +70998,27 @@
         "blob": "fdf0c525022d4bdee76d8829c23aaa7a556b831b"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/test_import_adl_builder_image_from_s3_to_ecr.sh"
         ]
+      },
+      "pre_mixed_ci_builder_sunset_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "BUILDER_FAMILY_APPLIED.json",
+        "sha256": "89c1a43106a87745abc56b0438a0e40fa374744d4f7cecd620f006187880fea4",
+        "implementation_commit": "ba90cf9dc1ca7388610444da604fb76491f17149"
       }
     },
     {
@@ -70805,10 +71070,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "proposed_historical_retirement_with_caller_repair",
-      "required_before_execution": [
-        "Joint explicit retirement with already reviewed wrapper/installer paths; remove exact runner invocations and update active demo navigation. Preserve historical fixture and Git records; do not recreate v1 closeout or installation."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -70819,6 +71082,17 @@
         "packet_sha256": "2737f78d4a5fcb19f50869cd85249ab213a4b97ac10ec4f767bdda4015ce172c",
         "proposal": "conditional_sunset_cluster_not_yet_closed",
         "reason": "Three tests exclusively exercise explicitly retired v1 closeout/demo/historical installer contracts. Closeout test requires mocked pr.sh closeout and normalized SOR despite current wrapper unconditional refusal."
+      },
+      "pre_mixed_ci_builder_sunset_execution_classification": {
+        "proposed_action": "proposed_historical_retirement_with_caller_repair",
+        "required_before_execution": [
+          "Joint explicit retirement with already reviewed wrapper/installer paths; remove exact runner invocations and update active demo navigation. Preserve historical fixture and Git records; do not recreate v1 closeout or installation."
+        ]
+      },
+      "applied_removal": {
+        "packet": "NATIVE_SUNSET_FAMILY_APPLIED.json",
+        "sha256": "4efc3870f82f5a32398adfcb1dd9b049f9a865b4e55095f43c4517fb048a008b",
+        "implementation_commit": "3b5e01f84f54035446c3dfd46a3072b8993e2087"
       }
     },
     {
@@ -71518,11 +71792,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "Reviewed exact copy preserves legacy normalization assertions; current card authority is native semantic editing.",
-      "proposed_action": "proposed_historical_retirement_with_caller_repair",
-      "required_before_execution": [
-        "Explicit historical retirement decision with RD07-1443 legacy Markdown writer and all active caller repair",
-        "Preserve original assertions as historical evidence; do not reintroduce a live direct card writer"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -71533,6 +71804,18 @@
         "packet_sha256": "af4ce18ae8978a75ab2fbfd26d5a584710e70f24ec99c89dbb561a950eab314e",
         "proposal": "historical_compatibility_disposition_needed",
         "reason": "Original duplicate .adl root/worktree materialization and compatibility symlinks are explicitly unsupported by current native rebuild. Preserve exact evidence and decide historical retirement with callers; do not call native rebuild equivalent or restore old symlink behavior."
+      },
+      "pre_mixed_ci_builder_sunset_execution_classification": {
+        "proposed_action": "proposed_historical_retirement_with_caller_repair",
+        "required_before_execution": [
+          "Explicit historical retirement decision with RD07-1443 legacy Markdown writer and all active caller repair",
+          "Preserve original assertions as historical evidence; do not reintroduce a live direct card writer"
+        ]
+      },
+      "applied_removal": {
+        "packet": "NATIVE_SUNSET_FAMILY_APPLIED.json",
+        "sha256": "4efc3870f82f5a32398adfcb1dd9b049f9a865b4e55095f43c4517fb048a008b",
+        "implementation_commit": "3b5e01f84f54035446c3dfd46a3072b8993e2087"
       }
     },
     {
@@ -71885,12 +72168,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "proposed_historical_retirement_with_caller_repair",
-      "required_before_execution": [
-        "Coherent caller and registry disposition",
-        "Scoped final source retirement decision",
-        "Preserve original identity and rollback evidence"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -71904,7 +72183,20 @@
         "specific_consumer_or_document_disposition_required",
         "Resolve four original process-drift negative-test filters against exact successor definitions or approved historical disposition."
       ],
-      "disposition_evidence": "PROCESS_DRIFT_RETIREMENT_PROPOSAL.json"
+      "disposition_evidence": "PROCESS_DRIFT_RETIREMENT_PROPOSAL.json",
+      "pre_mixed_ci_builder_sunset_execution_classification": {
+        "proposed_action": "proposed_historical_retirement_with_caller_repair",
+        "required_before_execution": [
+          "Coherent caller and registry disposition",
+          "Scoped final source retirement decision",
+          "Preserve original identity and rollback evidence"
+        ]
+      },
+      "applied_removal": {
+        "packet": "NATIVE_SUNSET_FAMILY_APPLIED.json",
+        "sha256": "4efc3870f82f5a32398adfcb1dd9b049f9a865b4e55095f43c4517fb048a008b",
+        "implementation_commit": "3b5e01f84f54035446c3dfd46a3072b8993e2087"
+      }
     },
     {
       "id": "RD07-2052",
@@ -71953,12 +72245,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "proposed_historical_retirement_with_caller_repair",
-      "required_before_execution": [
-        "Coherent caller and registry disposition",
-        "Scoped final source retirement decision",
-        "Preserve original identity and rollback evidence"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -71974,7 +72262,25 @@
       "prior_execution_prerequisites": [
         "specific_consumer_or_document_disposition_required"
       ],
-      "disposition_evidence": "NATIVE_SUNSET_OWNER_DELIVERY.json"
+      "disposition_evidence": "NATIVE_SUNSET_OWNER_DELIVERY.json",
+      "pre_mixed_ci_builder_sunset_retention_classification": {
+        "proposed_action": "proposed_historical_retirement_with_caller_repair",
+        "required_before_execution": [
+          "Coherent caller and registry disposition",
+          "Scoped final source retirement decision",
+          "Preserve original identity and rollback evidence"
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "NATIVE_SUNSET_FAMILY_APPLIED.json",
+        "packet_sha256": "4efc3870f82f5a32398adfcb1dd9b049f9a865b4e55095f43c4517fb048a008b",
+        "implementation_commit": "3b5e01f84f54035446c3dfd46a3072b8993e2087",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "b594a3dcd1335a6a19a28683a2fd8a593f8c96df"
+        },
+        "reason": "Eight unchanged local wrapper-absence, public template/schema or reviewer-fixture contracts retain exact current source and dependencies. Original v2 behavior has separate historical dispositions; no new native execution or equivalence claim."
+      }
     },
     {
       "id": "RD07-2054",
@@ -72042,18 +72348,27 @@
         "blob": "f7d139bcc4c4c5029cabf60d1ff04a631d7a4a3e"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/test_publish_adl_builder_image_codebuild.sh"
         ]
+      },
+      "pre_mixed_ci_builder_sunset_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "BUILDER_FAMILY_APPLIED.json",
+        "sha256": "89c1a43106a87745abc56b0438a0e40fa374744d4f7cecd620f006187880fea4",
+        "implementation_commit": "ba90cf9dc1ca7388610444da604fb76491f17149"
       }
     },
     {
@@ -72652,12 +72967,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "proposed_historical_retirement_with_caller_repair",
-      "required_before_execution": [
-        "Coherent caller and registry disposition",
-        "Scoped final source retirement decision",
-        "Preserve original identity and rollback evidence"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -72673,7 +72984,25 @@
       "prior_execution_prerequisites": [
         "specific_consumer_or_document_disposition_required"
       ],
-      "disposition_evidence": "NATIVE_SUNSET_OWNER_DELIVERY.json"
+      "disposition_evidence": "NATIVE_SUNSET_OWNER_DELIVERY.json",
+      "pre_mixed_ci_builder_sunset_retention_classification": {
+        "proposed_action": "proposed_historical_retirement_with_caller_repair",
+        "required_before_execution": [
+          "Coherent caller and registry disposition",
+          "Scoped final source retirement decision",
+          "Preserve original identity and rollback evidence"
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "NATIVE_SUNSET_FAMILY_APPLIED.json",
+        "packet_sha256": "4efc3870f82f5a32398adfcb1dd9b049f9a865b4e55095f43c4517fb048a008b",
+        "implementation_commit": "3b5e01f84f54035446c3dfd46a3072b8993e2087",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "64036d7cbb99a6b96928eb512bfbbc8ec00b027d"
+        },
+        "reason": "Eight unchanged local wrapper-absence, public template/schema or reviewer-fixture contracts retain exact current source and dependencies. Original v2 behavior has separate historical dispositions; no new native execution or equivalence claim."
+      }
     },
     {
       "id": "RD07-2072",
@@ -74366,14 +74695,8 @@
         "blob": "e5856eebd81805e50b3eeced3d7172b333c01109"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_historical_retirement_with_caller_repair",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required",
-        "Resolve four obsolete Gate2 exact filters removed by52e0be6f; zero selected tests are not qualification.",
-        "Reconcile active owner-lane, aggregate, registry and documentation callers.",
-        "Preserve independent source-family and behavioral obligations.",
-        "Exact scoped retirement decision."
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -74392,6 +74715,26 @@
         "proposal": "proposed_historical_retirement_with_caller_repair",
         "reason": "Explicit historical interface disposition with surviving assertions and callers preserved.",
         "review": "review_1223_historical_retention"
+      },
+      "pre_mixed_ci_builder_sunset_retention_classification": {
+        "proposed_action": "proposed_historical_retirement_with_caller_repair",
+        "required_before_execution": [
+          "specific_consumer_or_document_disposition_required",
+          "Resolve four obsolete Gate2 exact filters removed by52e0be6f; zero selected tests are not qualification.",
+          "Reconcile active owner-lane, aggregate, registry and documentation callers.",
+          "Preserve independent source-family and behavioral obligations.",
+          "Exact scoped retirement decision."
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "NATIVE_SUNSET_FAMILY_APPLIED.json",
+        "packet_sha256": "4efc3870f82f5a32398adfcb1dd9b049f9a865b4e55095f43c4517fb048a008b",
+        "implementation_commit": "3b5e01f84f54035446c3dfd46a3072b8993e2087",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "e4821e73ad87398279f013ac15c656b38cace659"
+        },
+        "reason": "Eight unchanged local wrapper-absence, public template/schema or reviewer-fixture contracts retain exact current source and dependencies. Original v2 behavior has separate historical dispositions; no new native execution or equivalence claim."
       }
     },
     {
@@ -75481,18 +75824,32 @@
         "blob": "cb6f8fd243a0c4710284675c400106630b79ba67"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/test_workspace_coverage_deadline.rb"
         ]
+      },
+      "pre_mixed_ci_builder_sunset_retention_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "MIXED_CI_CONTRACT_APPLIED.json",
+        "packet_sha256": "dcda33f2d274072c74a6d04b518214286aabe96f74ef9d6ea59b1f03b5c83e7b",
+        "implementation_commit": "3788ec9b21de45669bc4b770ef44cde787a6773b",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "610f155b53ab08cc467ca1eae46dc060b202ccfa"
+        },
+        "reason": "Reviewed current public CI production policy or repaired public guard. Original private-source assertions explicitly retired in the applied packet; current public assertions preserved and qualified separately."
       }
     },
     {
@@ -75807,7 +76164,21 @@
       "prior_execution_prerequisites": [
         "Retain exact paths with ADL CI owner until replacement CI contract removes or redirects current calls and preserves surviving tests. Classify source-policy tests together with their runners; no transfer based on copy alone."
       ],
-      "disposition_evidence": "PUBLIC_CUTOVER_APPLIED.json; independently reviewed applied commit 951a4c097f; retention only, no downstream dependency removal or native owner admission inferred."
+      "disposition_evidence": "PUBLIC_CUTOVER_APPLIED.json; independently reviewed applied commit 951a4c097f; retention only, no downstream dependency removal or native owner admission inferred.",
+      "pre_mixed_ci_builder_sunset_retention_classification": {
+        "proposed_action": "retain_public_source_or_fixture",
+        "required_before_execution": []
+      },
+      "reviewed_retention": {
+        "packet": "MIXED_CI_CONTRACT_APPLIED.json",
+        "packet_sha256": "dcda33f2d274072c74a6d04b518214286aabe96f74ef9d6ea59b1f03b5c83e7b",
+        "implementation_commit": "3788ec9b21de45669bc4b770ef44cde787a6773b",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "318d56a5566d28ad86574b9de018a80221fd8cad"
+        },
+        "reason": "Reviewed current public CI production policy or repaired public guard. Original private-source assertions explicitly retired in the applied packet; current public assertions preserved and qualified separately."
+      }
     },
     {
       "id": "RD07-2174",
