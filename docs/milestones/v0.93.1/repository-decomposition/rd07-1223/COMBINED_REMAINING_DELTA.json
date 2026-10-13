@@ -1,21 +1,21 @@
 {
   "schema": "adl.source_retirement.combined_remaining_delta.v1",
   "issue": 1223,
-  "source_head": "9161477bbf12ca95f5842869fd1cead44b0f095a",
+  "source_head": "12d730f033293fc1fe142dc180001afa9936fd65",
   "status": "prepared_scope_not_ready_for_execution",
   "execution_authorized": false,
   "original_count": 4134,
   "counts": {
-    "hold_explicit_reconciliation": 95,
+    "hold_explicit_reconciliation": 91,
     "hold_owner_test_reconciliation": 35,
     "preserve_approved_removal": 70,
     "preserve_reviewed_consumer_repair": 18,
-    "proposed_historical_retirement_with_caller_repair": 29,
+    "proposed_historical_retirement_with_caller_repair": 33,
     "proposed_owner_transfer_with_consumer_qualification": 489,
     "proposed_remove_construction_qualified_infrastructure": 216,
     "proposed_remove_with_entire_source_family": 1874,
-    "proposed_remove_with_entire_tool_family": 689,
-    "retain_public_source_or_fixture": 92,
+    "proposed_remove_with_entire_tool_family": 687,
+    "retain_public_source_or_fixture": 94,
     "retain_resolved": 527
   },
   "additional_current_source_paths": 22,
@@ -35065,18 +35065,20 @@
         "blob": "6571dc0ad3c2b16fb53f8b57ab3fdf2ca484bd33"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/run_nessus_remote_validation.sh"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "NESSUS_TRANSPORT_RETENTION.json",
+        "packet_sha256": "f9a828378610b507e26a9a61f67d15b2a75a5fe47a120ff9c3a29fed3b50a36e",
+        "proposal": "retain_public_source_or_fixture",
+        "review": "Independent bounded review passed; no broad deletion or new owner execution claimed."
       }
     },
     {
@@ -35089,10 +35091,13 @@
         "blob": "d97ffe76911bf60c5883b3235bebfc09d35229e8"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Repair active AGENTS validation guidance to public-package/owner-repository routes",
+        "Repair FINISH_VALIDATION_PATH_OWNERSHIP_REGISTRY and HARDLINKED_RUST_DEPENDENCY_CACHE references",
+        "Coherent registry/generator and historical test_validation_manager source-reference disposition",
+        "Retain independent child obligations; this proposal does not qualify or remove any child",
+        "Scoped exact retirement decision"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
@@ -35100,9 +35105,10 @@
         "exact_successor_paths": []
       },
       "reviewed_disposition": {
-        "packet": "VALIDATION_ROUTING_DISPOSITIONS.json",
-        "packet_sha256": "0c3e169b260c77503071139e7424907dfa4007477b149cb3e0c3f94627c6f1b3",
-        "proposal": "hold_mixed_owner_runner_until_caller_cutover"
+        "packet": "LEGACY_OWNER_AGGREGATE_RETIREMENT.json",
+        "packet_sha256": "cf5ba95b0b4f1ebed5abd678e52b103a1673ecbe6e5e7d0ca3f23675371928cf",
+        "proposal": "proposed_historical_retirement_with_caller_repair",
+        "review": "Independent bounded review passed; no broad deletion or new owner execution claimed."
       }
     },
     {
@@ -45950,11 +45956,12 @@
         "blob": "7a9edec6939ad6165614e5e55eccbad08509ac3b"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "Original adl-review compatibility CLI includes review contract/code-review and retired ownership refusals; cannot retire just because lifecycle v1 is sunset. Needs explicit owner or historical disposition.",
-        "coherent caller and component disposition; no source-only qualification claim"
+        "Independent disposition review",
+        "Coherent retire/repair of run_owner_validation_lane.sh:156 and test_five_command_regression_suite.sh:31 callers, plus registry/docs",
+        "Scoped operator approval of exact historical CLI retirement",
+        "CodeFriend owner publication acceptance remains separate; PR105 merge not claimed here"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
@@ -45962,10 +45969,10 @@
         "exact_successor_paths": []
       },
       "reviewed_disposition": {
-        "packet": "CODEFRIEND_27_DISPOSITION_PROPOSAL.json",
-        "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
-        "proposal": "Original adl-review compatibility CLI includes review contract/code-review and retired ownership refusals; cannot retire just because lifecycle v1 is sunset. Needs explicit owner or historical disposition.",
-        "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
+        "packet": "REVIEW_COMPATIBILITY_RETIREMENT_PROPOSAL.json",
+        "packet_sha256": "1fa9a1fd7ccfbefae3b9b74b5c7be9b5800197229ab7f3077158d066ee4030dd",
+        "proposal": "proposed_historical_retirement_with_caller_repair",
+        "review": "Independent bounded review passed; no broad deletion or new owner execution claimed."
       }
     },
     {
@@ -48723,10 +48730,13 @@
         "blob": "7c044a452ebc164d1e18b823828e8f7a882551ba"
       },
       "existing_action": "retain",
-      "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "Mixed harness: preserve entry-by-entry owner validation, Runtime/review compatibility, editor/schema and materialization assertions; retire obsolete wrapper checks only with their accepted family."
+        "Repair active AGENTS validation guidance to public-package/owner-repository routes",
+        "Repair FINISH_VALIDATION_PATH_OWNERSHIP_REGISTRY and HARDLINKED_RUST_DEPENDENCY_CACHE references",
+        "Coherent registry/generator and historical test_validation_manager source-reference disposition",
+        "Retain independent child obligations; this proposal does not qualify or remove any child",
+        "Scoped exact retirement decision"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
@@ -48734,10 +48744,10 @@
         "exact_successor_paths": []
       },
       "reviewed_disposition": {
-        "packet": "ACTIVE_19_TOOL_DISPOSITIONS.json",
-        "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
-        "proposal": "specific_family_reconciliation",
-        "reason": "Mixed harness: preserve entry-by-entry owner validation, Runtime/review compatibility, editor/schema and materialization assertions; retire obsolete wrapper checks only with their accepted family."
+        "packet": "LEGACY_OWNER_AGGREGATE_RETIREMENT.json",
+        "packet_sha256": "cf5ba95b0b4f1ebed5abd678e52b103a1673ecbe6e5e7d0ca3f23675371928cf",
+        "proposal": "proposed_historical_retirement_with_caller_repair",
+        "review": "Independent bounded review passed; no broad deletion or new owner execution claimed."
       }
     },
     {
@@ -49666,15 +49676,24 @@
         "blob": "3b6533c548cddc846943078024bd565398f8cb15"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Repair active AGENTS validation guidance to public-package/owner-repository routes",
+        "Repair FINISH_VALIDATION_PATH_OWNERSHIP_REGISTRY and HARDLINKED_RUST_DEPENDENCY_CACHE references",
+        "Coherent registry/generator and historical test_validation_manager source-reference disposition",
+        "Retain independent child obligations; this proposal does not qualify or remove any child",
+        "Scoped exact retirement decision"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "LEGACY_OWNER_AGGREGATE_RETIREMENT.json",
+        "packet_sha256": "cf5ba95b0b4f1ebed5abd678e52b103a1673ecbe6e5e7d0ca3f23675371928cf",
+        "proposal": "proposed_historical_retirement_with_caller_repair",
+        "review": "Independent bounded review passed; no broad deletion or new owner execution claimed."
       }
     },
     {
@@ -51189,18 +51208,20 @@
         "blob": "9fc92bd98d6e8889204412ed52994a5a142fb2e1"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/test_run_nessus_remote_validation.sh"
         ]
+      },
+      "reviewed_disposition": {
+        "packet": "NESSUS_TRANSPORT_RETENTION.json",
+        "packet_sha256": "f9a828378610b507e26a9a61f67d15b2a75a5fe47a120ff9c3a29fed3b50a36e",
+        "proposal": "retain_public_source_or_fixture",
+        "review": "Independent bounded review passed; no broad deletion or new owner execution claimed."
       }
     },
     {
