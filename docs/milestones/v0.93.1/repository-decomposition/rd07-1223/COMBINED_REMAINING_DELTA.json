@@ -6,7 +6,7 @@
   "execution_authorized": false,
   "original_count": 4134,
   "counts": {
-    "hold_explicit_reconciliation": 189,
+    "hold_explicit_reconciliation": 188,
     "hold_owner_test_reconciliation": 35,
     "preserve_approved_removal": 70,
     "preserve_reviewed_consumer_repair": 18,
@@ -16,7 +16,7 @@
     "proposed_remove_with_entire_source_family": 1874,
     "proposed_remove_with_entire_tool_family": 719,
     "retain_public_source_or_fixture": 68,
-    "retain_resolved": 457
+    "retain_resolved": 458
   },
   "additional_current_source_paths": 19,
   "preservation": "Original inventory and baseline archive unchanged;70 prior approved removals preserved; no new deletion applied",
@@ -90399,11 +90399,8 @@
         "blob": "30fff915ddb46122a491df6831fa54ab996ff55b"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "Obtain owner acceptance/migration of the exact completed-Publish transport-recovery contract, including authenticated matching, no semantic-history reopening, no new retry budget, and refusal on ambiguity (lines19\u201332). No same-path guide exists at inspected C-SDLC c0dacd3d. Keep this bounded recovery guidance until an installed-owner reference covers the behavior; generic recover help is not assumed equivalent."
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -90414,6 +90411,14 @@
         "packet_sha256": "2f127fe5739fa90dee9c4d2f7675ecc959eca66292b27afd6e956ff31bcc64b3",
         "proposal": "hold_specific_missing_owner_contract",
         "review": "Bounded source specialist and root report review; exact installed manual acceptance remains separate"
+      },
+      "prior_proposed_action": "hold_explicit_reconciliation",
+      "historical_hold_reason": "hold_no_proven_current_successor_mapping",
+      "retention_disposition": {
+        "reason": "Retain unchanged as ADL-bound operator guidance for a currently supported owner behavior. A same-path owner document is not required to keep a useful consumer guide; source split does not authorize deleting it.",
+        "packet": "RECOVERY_GUIDE_RETENTION.json",
+        "sha256": "0647f110749434d4f18ba6f0abe8c3db3a4464ee9050818921ad6e5b9daa92f3",
+        "scope": "Source correspondence and justified retention only. Existing installed-owner tests and native acceptance remain separately required; no new execution or retry authorized."
       }
     },
     {
