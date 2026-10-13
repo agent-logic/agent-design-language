@@ -1,9 +1,9 @@
 {
   "schema": "adl.source_retirement.grouped_holds.v1",
-  "source_head": "a8ff7575237f3bc731b3d2bbc7a4ce5e1e1bbab6",
-  "ledger_sha256": "cfab0d76305bf434c03cea27285ddc360d0d1b1dd2922cad3f588354ac5ed7a2",
+  "source_head": "df7aea57ab44762ed710133bc21b5287933ce43b",
+  "ledger_sha256": "6ed9e6500c4674ad203c46ad2bd3a984eb815a3f5ae1816ca40f29423f8d93b2",
   "original_count": 4134,
-  "held_count": 99,
+  "held_count": 93,
   "additional_paths_separate": 22,
   "execution_authorized": false,
   "boundary": "Grouping preserves every original row and prerequisite verbatim. It does not resolve holds, authorize removal, or imply full issue readiness. Other proposed removals remain conditional.",
@@ -1858,68 +1858,10 @@
     {
       "id": "validation-remainder",
       "title": "Remaining ADL validation routing",
-      "count": 15,
+      "count": 12,
       "next_action": "After reviewed caller cutover, reconcile each retained runner, selector, coverage/PVF policy and configuration against five public packages and original assertions. Retain historical private lanes explicitly; do not silently drop inventory rows.",
       "evidence": [],
       "rows": [
-        {
-          "id": "RD07-1278",
-          "path": "adl/tools/codefriend/ci_select.py",
-          "owner": "agent-logic-runtime",
-          "component": "agent-logic-runtime-active-tool-contracts",
-          "current_identity": {
-            "mode": "100644",
-            "blob": "7908b085214f3c05e4a28fc016163ccb98652e97"
-          },
-          "existing_action": "retain",
-          "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "Selector is old ADL CodeFriend acquisition path policy, not Runtime product code. Existing owner acquisition gate plus required aggregate selector replacement must be accepted together."
-          ],
-          "successor_mapping": {
-            "mapping": "exact_successor",
-            "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
-            "exact_successor_paths": [
-              "adl/tools/codefriend/ci_select.py"
-            ]
-          },
-          "reviewed_disposition": {
-            "packet": "RUNTIME_4_TOOL_DISPOSITIONS.json",
-            "packet_sha256": "c34decfbb256f52049b17ffbada76497eb857c2d4d52a528293e90cb99007a60",
-            "proposal": "cross_owner_CodeFriend_CI_cutover",
-            "review": "Source specialist and root finite-disposition review; no execution or owner acceptance inferred"
-          }
-        },
-        {
-          "id": "RD07-1280",
-          "path": "adl/tools/codefriend/test_ci_contract.rb",
-          "owner": "agent-logic-runtime",
-          "component": "agent-logic-runtime-active-tool-contracts",
-          "current_identity": {
-            "mode": "100644",
-            "blob": "d03361b3c7952953291648283e75f913dad4b026"
-          },
-          "existing_action": "retain",
-          "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "Ruby contract asserts ADL acquisition aggregate and transport; ADLci643 calls it. Owner e14 migrated tools/ci/test_ci_acquisition_contract.py and hosted acquisition passed; remove old aggregate/test together during cutover."
-          ],
-          "successor_mapping": {
-            "mapping": "exact_successor",
-            "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
-            "exact_successor_paths": [
-              "adl/tools/codefriend/test_ci_contract.rb"
-            ]
-          },
-          "reviewed_disposition": {
-            "packet": "RUNTIME_4_TOOL_DISPOSITIONS.json",
-            "packet_sha256": "c34decfbb256f52049b17ffbada76497eb857c2d4d52a528293e90cb99007a60",
-            "proposal": "cross_owner_CodeFriend_CI_cutover",
-            "review": "Source specialist and root finite-disposition review; no execution or owner acceptance inferred"
-          }
-        },
         {
           "id": "RD07-1490",
           "path": "adl/tools/run_issue607_warm_polis.sh",
@@ -1999,33 +1941,6 @@
             "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
             "proposal": "specific_family_reconciliation",
             "reason": "Preserve issue607 runner local assertions jointly with1490 and explicit Infrastructure/Runtime dependencies."
-          }
-        },
-        {
-          "id": "RD07-2041",
-          "path": "adl/tools/test_opus_review_runbook.sh",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-active-tool-contracts",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "bde6bc535d29fd758730860c7d06a6a4f389f3f9"
-          },
-          "existing_action": "retain",
-          "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "Mixed Runtime provider/CSDLc runbook contract: preserve structured-request, obsolete-flag refusal, model and path-hygiene assertions; replace retired ADL provider-adapter help route with qualified owner."
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          },
-          "reviewed_disposition": {
-            "packet": "ACTIVE_19_TOOL_DISPOSITIONS.json",
-            "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
-            "proposal": "specific_family_reconciliation",
-            "reason": "Mixed Runtime provider/CSDLc runbook contract: preserve structured-request, obsolete-flag refusal, model and path-hygiene assertions; replace retired ADL provider-adapter help route with qualified owner."
           }
         },
         {
@@ -2336,51 +2251,10 @@
     {
       "id": "cognitive-sdlc-remaining",
       "title": "Mixed consumers (inherited inventory owner)",
-      "count": 28,
+      "count": 25,
       "next_action": "Resolve the exact per-row required_before_execution entries preserved below as one owner consumer batch: map current caller and qualified successor or choose explicit historical retention/retirement. Reuse existing owner evidence; source presence alone does not close behavior. Cloud/live operations require their own existing authorization.",
       "evidence": [],
       "rows": [
-        {
-          "id": "RD07-1299",
-          "path": "adl/tools/csm_binary_availability.sh",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100644",
-            "blob": "9c541f2006fad4fa96092105e3b630f0580f9d13"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_until_adl_caller_closure_and_behavior_obligations_are_reconciled",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "specific_consumer_or_document_disposition_required",
-            "Reconcile active ADL inbound callers and docs with delivered Infrastructure family.",
-            "Preserve original live behavior obligations separately from resolver proof; validator delivery is not validator execution.",
-            "Scoped retirement decision required before removal."
-          ],
-          "successor_mapping": {
-            "mapping": "reviewed_owner_adaptation",
-            "successor_repository": "agent-logic/agent-logic-infrastructure",
-            "successor_revision": "a5838b0748cd6fb13b8d30afb02da1088167c9fe",
-            "successor_paths": [
-              "adl/tools/csm_binary_availability.sh"
-            ],
-            "successor_blob": "90ea689920f6c64f444bba4d1618d089af66e49a",
-            "evidence": "INFRASTRUCTURE_CSM_FAMILY_DELIVERY.json"
-          },
-          "prior_successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          },
-          "qualification_followup": {
-            "record": "INFRASTRUCTURE_CSM_FAMILY_DELIVERY.json",
-            "scope": "published_source_and_bounded_resolver_only",
-            "live_behavior_qualified": false,
-            "validator_presence_is_execution": false,
-            "changes_removal_authority": false
-          }
-        },
         {
           "id": "RD07-1306",
           "path": "adl/tools/demo_d11_signed_remote.sh",
@@ -2389,48 +2263,6 @@
           "current_identity": {
             "mode": "100755",
             "blob": "fd0fca18cfae9a14af88417f613ba5cf17431b53"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_no_proven_current_successor_mapping",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "specific_consumer_or_document_disposition_required"
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          }
-        },
-        {
-          "id": "RD07-1334",
-          "path": "adl/tools/demo_v0871_suite.sh",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "6ce0abce43908d79285a2c68f89c1e692bdc1512"
-          },
-          "existing_action": "retain",
-          "hold_reason": "hold_no_proven_current_successor_mapping",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "specific_consumer_or_document_disposition_required"
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          }
-        },
-        {
-          "id": "RD07-1335",
-          "path": "adl/tools/demo_v0871_trace_runtime.sh",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-unmapped-tools",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "7bcf897f0d37e1861934d3d60651faf4e7d634b3"
           },
           "existing_action": "retain",
           "hold_reason": "hold_no_proven_current_successor_mapping",

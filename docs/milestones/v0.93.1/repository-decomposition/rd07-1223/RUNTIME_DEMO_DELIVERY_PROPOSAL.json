@@ -32,7 +32,7 @@
     "behavior_preserved": "Same native run commands, mock provider, workflow inputs and proof artifacts. Explicit absolute runtime executable, output anchored before cwd change; obsolete installer/pr.sh prose corrected.",
     "separate_contracts": {
       "RD07-1306": "Signed remote keygen/server/client/tamper proof; not covered.",
-      "RD07-1334": "Historical16child suite, includes retired workflow and absent children; not covered.",
+      "RD07-1334": "Historical16child suite; all16scripts exist, but obsolete/retired behavior and child obligations remain independent. Not covered by three-demo delivery.",
       "RD07-1335": "Calls explicit retired mock_workflow return2; not equivalent to new native demo.",
       "RD07-1957": "Five actual credentialed provider invocations; not run or substituted."
     },
@@ -256,5 +256,6 @@
     "RD07-1322",
     "RD07-1332",
     "RD07-1336"
-  ]
+  ],
+  "aggregate_presence_correction": "Prior absent-children wording was unsupported; executable-prefix enumeration confirms16existing children. See RUNTIME_DEMO_RETIREMENT_DISPOSITION.json."
 }

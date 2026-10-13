@@ -1,17 +1,17 @@
 {
   "schema": "adl.source_retirement.combined_remaining_delta.v1",
   "issue": 1223,
-  "source_head": "a8ff7575237f3bc731b3d2bbc7a4ce5e1e1bbab6",
+  "source_head": "df7aea57ab44762ed710133bc21b5287933ce43b",
   "status": "prepared_scope_not_ready_for_execution",
   "execution_authorized": false,
   "original_count": 4134,
   "counts": {
-    "hold_explicit_reconciliation": 64,
+    "hold_explicit_reconciliation": 58,
     "hold_owner_test_reconciliation": 35,
     "preserve_approved_removal": 70,
     "preserve_reviewed_consumer_repair": 18,
-    "proposed_historical_retirement_with_caller_repair": 46,
-    "proposed_owner_transfer_with_consumer_qualification": 496,
+    "proposed_historical_retirement_with_caller_repair": 51,
+    "proposed_owner_transfer_with_consumer_qualification": 497,
     "proposed_remove_construction_qualified_infrastructure": 216,
     "proposed_remove_with_entire_source_family": 1874,
     "proposed_remove_with_entire_tool_family": 678,
@@ -29749,10 +29749,10 @@
         "blob": "7908b085214f3c05e4a28fc016163ccb98652e97"
       },
       "existing_action": "retain",
-      "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "Selector is old ADL CodeFriend acquisition path policy, not Runtime product code. Existing owner acquisition gate plus required aggregate selector replacement must be accepted together."
+        "Complete remaining caller repairs",
+        "Scoped exact retirement decision"
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -29762,10 +29762,11 @@
         ]
       },
       "reviewed_disposition": {
-        "packet": "RUNTIME_4_TOOL_DISPOSITIONS.json",
-        "packet_sha256": "c34decfbb256f52049b17ffbada76497eb857c2d4d52a528293e90cb99007a60",
-        "proposal": "cross_owner_CodeFriend_CI_cutover",
-        "review": "Source specialist and root finite-disposition review; no execution or owner acceptance inferred"
+        "packet": "CODEFRIEND_LEGACY_CI_RETIREMENT.json",
+        "packet_sha256": "f760a961f3cf92f830e243b9f622e3572b7a891fa81e095561a635f3629c07ec",
+        "proposal": "proposed_historical_retirement_with_caller_repair",
+        "reason": "Legacy CodeFriend gate-selection helper;18 selector cases retained as historical topology.",
+        "review": "Bounded independent source and exact packet/caller review; conditional disposition, no broad equivalence claim"
       }
     },
     {
@@ -29806,10 +29807,10 @@
         "blob": "d03361b3c7952953291648283e75f913dad4b026"
       },
       "existing_action": "retain",
-      "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "Ruby contract asserts ADL acquisition aggregate and transport; ADLci643 calls it. Owner e14 migrated tools/ci/test_ci_acquisition_contract.py and hosted acquisition passed; remove old aggregate/test together during cutover."
+        "Complete remaining caller repairs",
+        "Scoped exact retirement decision"
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -29819,10 +29820,11 @@
         ]
       },
       "reviewed_disposition": {
-        "packet": "RUNTIME_4_TOOL_DISPOSITIONS.json",
-        "packet_sha256": "c34decfbb256f52049b17ffbada76497eb857c2d4d52a528293e90cb99007a60",
-        "proposal": "cross_owner_CodeFriend_CI_cutover",
-        "review": "Source specialist and root finite-disposition review; no execution or owner acceptance inferred"
+        "packet": "CODEFRIEND_LEGACY_CI_RETIREMENT.json",
+        "packet_sha256": "f760a961f3cf92f830e243b9f622e3572b7a891fa81e095561a635f3629c07ec",
+        "proposal": "proposed_historical_retirement_with_caller_repair",
+        "reason": "Legacy CI aggregate contract;36 outcomes across3gates, read-only permissions, selection, installed acquisition, strict artifacts, reusable fitness/host wiring and host result propagation.",
+        "review": "Bounded independent source and exact packet/caller review; conditional disposition, no broad equivalence claim"
       }
     },
     {
@@ -30386,13 +30388,10 @@
         "blob": "9c541f2006fad4fa96092105e3b630f0580f9d13"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_until_adl_caller_closure_and_behavior_obligations_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required",
-        "Reconcile active ADL inbound callers and docs with delivered Infrastructure family.",
-        "Preserve original live behavior obligations separately from resolver proof; validator delivery is not validator execution.",
-        "Scoped retirement decision required before removal."
+        "Reconcile exact active callers and every child obligation",
+        "Scoped retirement decision"
       ],
       "successor_mapping": {
         "mapping": "reviewed_owner_adaptation",
@@ -30415,6 +30414,13 @@
         "live_behavior_qualified": false,
         "validator_presence_is_execution": false,
         "changes_removal_authority": false
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_DEMO_RETIREMENT_DISPOSITION.json",
+        "packet_sha256": "31a169792124dd2a6e9ed933ed7fc5e333b10eddc0bd2300fe73c3933a33328d",
+        "proposal": "proposed_owner_transfer_with_consumer_qualification",
+        "reason": "Infrastructure18/PR19 actual default/explicit/mismatch artifact-resolution cases passed; no live caller behavior inferred.",
+        "review": "Bounded independent source and exact packet/caller review; conditional disposition, no broad equivalence claim"
       }
     },
     {
@@ -30955,7 +30961,7 @@
       },
       "reviewed_disposition": {
         "packet": "RUNTIME_DEMO_OWNER_DELIVERY_RESULT.json",
-        "packet_sha256": "aeb5d250052a2771b11dae144f77a7e0fe84f9e2520f51f4afc8f84a907e5735",
+        "packet_sha256": "f9d02dbe96596f2c1a59954ef134345a8f173e3381952ef9df7c5ddf47d26547",
         "proposal": "proposed_owner_transfer_with_consumer_qualification",
         "review": "Bounded independent source/delivery review; no additional execution claimed"
       }
@@ -31196,7 +31202,7 @@
       },
       "reviewed_disposition": {
         "packet": "RUNTIME_DEMO_OWNER_DELIVERY_RESULT.json",
-        "packet_sha256": "aeb5d250052a2771b11dae144f77a7e0fe84f9e2520f51f4afc8f84a907e5735",
+        "packet_sha256": "f9d02dbe96596f2c1a59954ef134345a8f173e3381952ef9df7c5ddf47d26547",
         "proposal": "proposed_owner_transfer_with_consumer_qualification",
         "review": "Bounded independent source/delivery review; no additional execution claimed"
       }
@@ -31235,15 +31241,22 @@
         "blob": "6ce0abce43908d79285a2c68f89c1e692bdc1512"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Reconcile exact active callers and every child obligation",
+        "Scoped retirement decision"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_DEMO_RETIREMENT_DISPOSITION.json",
+        "packet_sha256": "31a169792124dd2a6e9ed933ed7fc5e333b10eddc0bd2300fe73c3933a33328d",
+        "proposal": "proposed_historical_retirement_with_caller_repair",
+        "reason": "Retire historical16child aggregate topology, preserving each child and manifest/index/README obligations separately.",
+        "review": "Bounded independent source and exact packet/caller review; conditional disposition, no broad equivalence claim"
       }
     },
     {
@@ -31256,15 +31269,22 @@
         "blob": "7bcf897f0d37e1861934d3d60651faf4e7d634b3"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "Reconcile exact active callers and every child obligation",
+        "Scoped retirement decision"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_DEMO_RETIREMENT_DISPOSITION.json",
+        "packet_sha256": "31a169792124dd2a6e9ed933ed7fc5e333b10eddc0bd2300fe73c3933a33328d",
+        "proposal": "proposed_historical_retirement_with_caller_repair",
+        "reason": "First workflow call reaches explicit retired return2 before trace archive/manifest creation; retain historical trace/summary/archive/event expectations.",
+        "review": "Bounded independent source and exact packet/caller review; conditional disposition, no broad equivalence claim"
       }
     },
     {
@@ -31289,7 +31309,7 @@
       },
       "reviewed_disposition": {
         "packet": "RUNTIME_DEMO_OWNER_DELIVERY_RESULT.json",
-        "packet_sha256": "aeb5d250052a2771b11dae144f77a7e0fe84f9e2520f51f4afc8f84a907e5735",
+        "packet_sha256": "f9d02dbe96596f2c1a59954ef134345a8f173e3381952ef9df7c5ddf47d26547",
         "proposal": "proposed_owner_transfer_with_consumer_qualification",
         "review": "Bounded independent source/delivery review; no additional execution claimed"
       }
@@ -47428,7 +47448,7 @@
       },
       "reviewed_disposition": {
         "packet": "RUNTIME_DEMO_OWNER_DELIVERY_RESULT.json",
-        "packet_sha256": "aeb5d250052a2771b11dae144f77a7e0fe84f9e2520f51f4afc8f84a907e5735",
+        "packet_sha256": "f9d02dbe96596f2c1a59954ef134345a8f173e3381952ef9df7c5ddf47d26547",
         "proposal": "proposed_owner_transfer_with_consumer_qualification",
         "review": "Bounded independent source/delivery review; no additional execution claimed"
       }
@@ -47670,7 +47690,7 @@
       },
       "reviewed_disposition": {
         "packet": "RUNTIME_DEMO_OWNER_DELIVERY_RESULT.json",
-        "packet_sha256": "aeb5d250052a2771b11dae144f77a7e0fe84f9e2520f51f4afc8f84a907e5735",
+        "packet_sha256": "f9d02dbe96596f2c1a59954ef134345a8f173e3381952ef9df7c5ddf47d26547",
         "proposal": "proposed_owner_transfer_with_consumer_qualification",
         "review": "Bounded independent source/delivery review; no additional execution claimed"
       }
@@ -49704,10 +49724,10 @@
         "blob": "bde6bc535d29fd758730860c7d06a6a4f389f3f9"
       },
       "existing_action": "retain",
-      "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
       "required_before_execution": [
-        "Mixed Runtime provider/CSDLc runbook contract: preserve structured-request, obsolete-flag refusal, model and path-hygiene assertions; replace retired ADL provider-adapter help route with qualified owner."
+        "Complete remaining caller repairs",
+        "Scoped exact retirement decision"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
@@ -49715,10 +49735,11 @@
         "exact_successor_paths": []
       },
       "reviewed_disposition": {
-        "packet": "ACTIVE_19_TOOL_DISPOSITIONS.json",
-        "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
-        "proposal": "specific_family_reconciliation",
-        "reason": "Mixed Runtime provider/CSDLc runbook contract: preserve structured-request, obsolete-flag refusal, model and path-hygiene assertions; replace retired ADL provider-adapter help route with qualified owner."
+        "packet": "CODEFRIEND_LEGACY_CI_RETIREMENT.json",
+        "packet_sha256": "f760a961f3cf92f830e243b9f622e3572b7a891fa81e095561a635f3629c07ec",
+        "proposal": "proposed_historical_retirement_with_caller_repair",
+        "reason": "Historical Opus adapter help/request contract: model identity, structured fields,120second single attempt, required help flags, old flag and machine-path refusals.",
+        "review": "Bounded independent source and exact packet/caller review; conditional disposition, no broad equivalence claim"
       }
     },
     {

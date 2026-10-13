@@ -113,7 +113,7 @@
   ],
   "exclusions": {
     "RD07-1306": "Signed remote keygen/server/client/tamper proof; not covered.",
-    "RD07-1334": "Historical16child suite, includes retired workflow and absent children; not covered.",
+    "RD07-1334": "Historical16child suite; all16scripts exist, but obsolete/retired behavior and child obligations remain independent. Not covered by three-demo delivery.",
     "RD07-1335": "Calls explicit retired mock_workflow return2; not equivalent to new native demo.",
     "RD07-1957": "Five actual credentialed provider invocations; not run or substituted."
   },
@@ -122,5 +122,6 @@
   "independent_review": {
     "reviewer": "review_1223_public_facade",
     "result": "Evidence and six source hashes verified; source3pass/container3pass and mergedhead confirmed; delta noted; no remaining findings"
-  }
+  },
+  "aggregate_presence_correction": "Prior absent-children wording was unsupported; executable-prefix enumeration confirms16existing children. See RUNTIME_DEMO_RETIREMENT_DISPOSITION.json."
 }
