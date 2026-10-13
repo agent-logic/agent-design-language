@@ -8,8 +8,8 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
   exit 1
 }
 
-grep -Fq 'csdlc-finish' "$ROOT/adl/tools/fix_git_main_sync_preserve_local_adl.sh"
-grep -Fq 'csdlc-clean cleanup' "$ROOT/adl/tools/fix_git_main_sync_preserve_local_adl.sh"
+grep -Fq 'csdlc finish' "$ROOT/adl/tools/fix_git_main_sync_preserve_local_adl.sh"
+grep -Fq 'csdlc clean' "$ROOT/adl/tools/fix_git_main_sync_preserve_local_adl.sh"
 if grep -Fq 'csdlc-closeout' "$ROOT/adl/tools/fix_git_main_sync_preserve_local_adl.sh"; then
   echo "main-sync helper still references deleted csdlc-closeout" >&2
   exit 1

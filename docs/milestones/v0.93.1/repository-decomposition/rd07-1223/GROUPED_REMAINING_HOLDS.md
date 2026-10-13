@@ -1,6 +1,6 @@
 # #1223 remaining hold groups
 
-Snapshot of all **175 holds** based on `ea85e76550b49b4dade170e1da054d26b0e8d441` plus the reviewed consumer-batch adoption. All 4,134 original identities remain in the ledger; 19 additional current paths remain separately tracked. No deletion is authorized by this grouping.
+Snapshot of all **172 holds** based on `ea85e76550b49b4dade170e1da054d26b0e8d441` plus the reviewed consumer-batch adoption. All 4,134 original identities remain in the ledger; 19 additional current paths remain separately tracked. No deletion is authorized by this grouping.
 
 | Group | Held paths | Next action |
 | --- | ---: | --- |
@@ -14,14 +14,14 @@ Snapshot of all **175 holds** based on `ea85e76550b49b4dade170e1da054d26b0e8d441
 | Historical janitor attachment | 1 | Disposition original v1 real_pr_finish auto-attachment and failure behavior explicitly; modern skill existence is not equivalent launcher proof. |
 | Runtime Observatory behavior and CI | 6 | Reconcile room selection, mobile controls and incident assertions with owner journal additions; preserve extra governed-room test. Reconcile live-only CI denominator separately. Reuse existing owner proof where exact. |
 | Installed C-SDLC node and plan proof | 1 | Reuse five restored passing scenarios and native proof; reconcile exact delivered artifact and installed admission before authorizing source/test removal. |
-| Skill and operational contract consumers | 24 | Twenty-four rows remain: legacy typed CLI gates, ADL caller/doc contracts, provider demo pair, analysis helpers, and conductor original421-expression closure. Twelve CodeFriend individual scripts and two delivered C-SDLC fixture rows now have reviewed component proof; retain separate caller and retirement gates in their conditional proposals. |
+| Skill and operational contract consumers | 22 | Twenty-two rows remain, including four tested current caller contracts whose producer retirement is unresolved. Original12CodeFriend and2CSDLc fixture proofs remain qualified; current milestone/schema tests retained. Preserve separate native, caller and scoped retirement gates. |
 | Historical demo coverage validator | 2 | Choose coherent historical retention/consumer closure for validator and original negative fixture. No new fixture campaign started; any later execution must isolate generated evidence. Frozen docs and predecessor records remain required inputs. |
 | Historical podcast generation and playback | 7 | Resolve static packet generation/validation separately from browser/native playback and source-era runner calls. Retain frozen evidence; no provider/playback run implied. |
 | Remaining ADL validation routing | 36 | After reviewed caller cutover, reconcile each retained runner, selector, coverage/PVF policy and configuration against five public packages and original assertions. Retain historical private lanes explicitly; do not silently drop inventory rows. |
 | agent-logic-runtime remaining consumers | 1 | Resolve the exact per-row required_before_execution entries preserved below as one owner consumer batch: map current caller and qualified successor or choose explicit historical retention/retirement. Reuse existing owner evidence; source presence alone does not close behavior. Cloud/live operations require their own existing authorization. |
 | agent-logic-infrastructure remaining consumers | 1 | Resolve the exact per-row required_before_execution entries preserved below as one owner consumer batch: map current caller and qualified successor or choose explicit historical retention/retirement. Reuse existing owner evidence; source presence alone does not close behavior. Cloud/live operations require their own existing authorization. |
 | codefriend remaining consumers | 1 | Resolve the exact per-row required_before_execution entries preserved below as one owner consumer batch: map current caller and qualified successor or choose explicit historical retention/retirement. Reuse existing owner evidence; source presence alone does not close behavior. Cloud/live operations require their own existing authorization. |
-| Mixed consumers (inherited inventory owner) | 36 | Resolve the exact per-row required_before_execution entries preserved below as one owner consumer batch: map current caller and qualified successor or choose explicit historical retention/retirement. Reuse existing owner evidence; source presence alone does not close behavior. Cloud/live operations require their own existing authorization. |
+| Mixed consumers (inherited inventory owner) | 35 | Resolve the exact per-row required_before_execution entries preserved below as one owner consumer batch: map current caller and qualified successor or choose explicit historical retention/retirement. Reuse existing owner evidence; source presence alone does not close behavior. Cloud/live operations require their own existing authorization. |
 
 The accompanying `GROUPED_REMAINING_HOLDS.json` preserves every held row, exact identity, prior review and execution prerequisite verbatim. Its group membership is disjoint and complete. Counts for pending patches are intersections with held original rows, not patch file totals.
 
@@ -36,4 +36,6 @@ No standalone 2150/2234 fixture run or additional build was started for this gro
 
 Infrastructure ALB remains a separate owner implementation gap: no repair issue, worktree, implementation or PR exists. Native creation recovery was rejected by automatic approval review and awaits exact authorization. The repair must preserve documented DNS alias and certificate creation behavior; dropping three unsupported arguments would not satisfy it. Diagnosis: `/Volumes/FastWork/c1223/repairs/infrastructure/diagnosis.md`.
 
-Reviewed original consumer batches qualified 14 formerly held rows (12 CodeFriend individual scripts and two C-SDLC fixture scripts). They moved to conditional owner-transfer proposals; no files were removed. Current complete held rows: 175. See `ORIGINAL_CONSUMER_BATCH_QUALIFICATION.json`.
+Reviewed original consumer batches qualified 14 formerly held rows (12 CodeFriend individual scripts and two C-SDLC fixture scripts). They moved to conditional owner-transfer proposals; no files were removed. Current complete held rows: 172. See `ORIGINAL_CONSUMER_BATCH_QUALIFICATION.json`.
+
+Current ADL caller repairs retain three more rows (1924,2054,2166). Four other passing caller tests remain held because their producers are still proposed for removal; source-pass evidence is preserved without claiming final closure.

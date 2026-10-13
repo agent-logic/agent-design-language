@@ -6,7 +6,7 @@
   "execution_authorized": false,
   "original_count": 4134,
   "counts": {
-    "hold_explicit_reconciliation": 140,
+    "hold_explicit_reconciliation": 137,
     "hold_owner_test_reconciliation": 35,
     "preserve_approved_removal": 70,
     "preserve_reviewed_consumer_repair": 18,
@@ -15,7 +15,7 @@
     "proposed_remove_construction_qualified_infrastructure": 216,
     "proposed_remove_with_entire_source_family": 1874,
     "proposed_remove_with_entire_tool_family": 690,
-    "retain_public_source_or_fixture": 68,
+    "retain_public_source_or_fixture": 71,
     "retain_resolved": 519
   },
   "additional_current_source_paths": 19,
@@ -46552,12 +46552,20 @@
       "hold_reason": "hold_no_proven_current_successor_mapping",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "specific_consumer_or_document_disposition_required",
+        "Resolve final producer disposition: RD07-1594 operational skills guide remains proposed removal"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "qualification_followup": {
+        "record": "ADL_CALLER_CONTRACT_REPAIR.json",
+        "scope": "current_adl_source_contract",
+        "passed": true,
+        "native_execution": false,
+        "changes_removal_authority": false
       }
     },
     {
@@ -46570,16 +46578,27 @@
         "blob": "097d54fb36fa29f66beb2c2f4b4cf794cfcc166b"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "qualification_followup": {
+        "record": "ADL_CALLER_CONTRACT_REPAIR.json",
+        "scope": "current_adl_source_contract",
+        "passed": true,
+        "native_execution": false,
+        "changes_removal_authority": false
+      },
+      "prior_hold": {
+        "hold_reason": "hold_no_proven_current_successor_mapping",
+        "required_before_execution": [
+          "specific_consumer_or_document_disposition_required"
+        ]
+      },
+      "reason": "Retain current ADL consumer/schema/guardrail contract with retained producer and focused proof."
     },
     {
       "id": "RD07-1925",
@@ -46746,12 +46765,20 @@
       "hold_reason": "hold_no_proven_current_successor_mapping",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "specific_consumer_or_document_disposition_required",
+        "Resolve final producer disposition: CLI guidance scanner requires surfaces pending final retirement including private CLI sources"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "qualification_followup": {
+        "record": "ADL_CALLER_CONTRACT_REPAIR.json",
+        "scope": "current_adl_source_contract",
+        "passed": true,
+        "native_execution": false,
+        "changes_removal_authority": false
       }
     },
     {
@@ -46788,12 +46815,20 @@
       "hold_reason": "hold_no_proven_current_successor_mapping",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "specific_consumer_or_document_disposition_required",
+        "Resolve final producer disposition: RD07-1394 main-sync utility remains proposed removal"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "qualification_followup": {
+        "record": "ADL_CALLER_CONTRACT_REPAIR.json",
+        "scope": "current_adl_source_contract",
+        "passed": true,
+        "native_execution": false,
+        "changes_removal_authority": false
       }
     },
     {
@@ -48350,12 +48385,20 @@
       "hold_reason": "hold_no_proven_current_successor_mapping",
       "proposed_action": "hold_explicit_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "specific_consumer_or_document_disposition_required",
+        "Resolve final producer disposition: RD07-1388 editor_action remains proposed removal"
       ],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "qualification_followup": {
+        "record": "ADL_CALLER_CONTRACT_REPAIR.json",
+        "scope": "current_adl_source_contract",
+        "passed": true,
+        "native_execution": false,
+        "changes_removal_authority": false
       }
     },
     {
@@ -49795,16 +49838,27 @@
         "blob": "90db696ac64543eb4f60e82d532ea071ed0867e8"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "qualification_followup": {
+        "record": "ADL_CALLER_CONTRACT_REPAIR.json",
+        "scope": "current_adl_source_contract",
+        "passed": true,
+        "native_execution": false,
+        "changes_removal_authority": false
+      },
+      "prior_hold": {
+        "hold_reason": "hold_no_proven_current_successor_mapping",
+        "required_before_execution": [
+          "specific_consumer_or_document_disposition_required"
+        ]
+      },
+      "reason": "Retain current ADL consumer/schema/guardrail contract with retained producer and focused proof."
     },
     {
       "id": "RD07-2055",
@@ -52919,16 +52973,27 @@
         "blob": "1043a618f7342312792228e79affa2d5b357ec3d"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "qualification_followup": {
+        "record": "ADL_CALLER_CONTRACT_REPAIR.json",
+        "scope": "current_adl_source_contract",
+        "passed": true,
+        "native_execution": false,
+        "changes_removal_authority": false
+      },
+      "prior_hold": {
+        "hold_reason": "hold_no_proven_current_successor_mapping",
+        "required_before_execution": [
+          "specific_consumer_or_document_disposition_required"
+        ]
+      },
+      "reason": "Retain current ADL consumer/schema/guardrail contract with retained producer and focused proof."
     },
     {
       "id": "RD07-2167",

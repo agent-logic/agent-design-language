@@ -1093,7 +1093,7 @@
       ],
       "csdlc250_same_basename_manifest_members": [],
       "family": "adl_current_caller_contracts",
-      "status": "consumer_repair_or_historical_label_required",
+      "status": "current_source_contract_passed_final_producer_disposition_pending",
       "next_action": "Repair current ADL caller/doc contract coherently or explicitly retain historical command spelling. Preserve every original refusal/absence check and actual declared output; native owner presence is insufficient.",
       "source_command_and_assertion_locations": [
         {
@@ -1108,7 +1108,8 @@
           "line": 12,
           "text": "grep -Fq 'csdlc-doctor --repo <repo> --issue <issue>' \"$ROOT/adl/tools/skills/docs/OPERATIONAL_SKILLS_GUIDE.md\""
         }
-      ]
+      ],
+      "execution_evidence": "ADL_CALLER_CONTRACT_REPAIR.json"
     },
     {
       "id": "RD07-1924",
@@ -1124,8 +1125,8 @@
       ],
       "csdlc250_same_basename_manifest_members": [],
       "family": "adl_current_caller_contracts",
-      "status": "consumer_repair_or_historical_label_required",
-      "next_action": "Repair current ADL caller/doc contract coherently or explicitly retain historical command spelling. Preserve every original refusal/absence check and actual declared output; native owner presence is insufficient.",
+      "status": "retained_current_adl_contract_passed",
+      "next_action": "Retain with existing public producer; no source retirement for this test.",
       "source_command_and_assertion_locations": [
         {
           "line": 6,
@@ -1147,7 +1148,8 @@
           "line": 17,
           "text": "if grep -Fq 'check_milestone_closed_issue_sor_truth.sh' \"$ROOT/adl/tools/release_ceremony.sh\"; then"
         }
-      ]
+      ],
+      "execution_evidence": "ADL_CALLER_CONTRACT_REPAIR.json"
     },
     {
       "id": "RD07-1931",
@@ -1163,7 +1165,7 @@
       ],
       "csdlc250_same_basename_manifest_members": [],
       "family": "adl_current_caller_contracts",
-      "status": "consumer_repair_or_historical_label_required",
+      "status": "current_source_contract_passed_final_producer_disposition_pending",
       "next_action": "Repair current ADL caller/doc contract coherently or explicitly retain historical command spelling. Preserve every original refusal/absence check and actual declared output; native owner presence is insufficient.",
       "source_command_and_assertion_locations": [
         {
@@ -1174,7 +1176,8 @@
           "line": 93,
           "text": "  if ! rg -n --fixed-strings \"$pattern\" \"${required_surfaces[@]}\" >/dev/null; then"
         }
-      ]
+      ],
+      "execution_evidence": "ADL_CALLER_CONTRACT_REPAIR.json"
     },
     {
       "id": "RD07-1932",
@@ -1222,7 +1225,7 @@
       ],
       "csdlc250_same_basename_manifest_members": [],
       "family": "adl_current_caller_contracts",
-      "status": "consumer_repair_or_historical_label_required",
+      "status": "current_source_contract_passed_final_producer_disposition_pending",
       "next_action": "Repair current ADL caller/doc contract coherently or explicitly retain historical command spelling. Preserve every original refusal/absence check and actual declared output; native owner presence is insufficient.",
       "source_command_and_assertion_locations": [
         {
@@ -1245,7 +1248,8 @@
           "line": 17,
           "text": "if grep -Fq 'closeout_completed_issue_wave.sh' \"$ROOT/adl/tools/fix_git_main_sync_preserve_local_adl.sh\"; then"
         }
-      ]
+      ],
+      "execution_evidence": "ADL_CALLER_CONTRACT_REPAIR.json"
     },
     {
       "id": "RD07-1935",
@@ -1500,7 +1504,7 @@
       ],
       "csdlc250_same_basename_manifest_members": [],
       "family": "adl_current_caller_contracts",
-      "status": "consumer_repair_or_historical_label_required",
+      "status": "current_source_contract_passed_final_producer_disposition_pending",
       "next_action": "Repair current ADL caller/doc contract coherently or explicitly retain historical command spelling. Preserve every original refusal/absence check and actual declared output; native owner presence is insufficient.",
       "source_command_and_assertion_locations": [
         {
@@ -1559,7 +1563,8 @@
           "line": 42,
           "text": "[[ \"$out\" == *\"\\\"run\\\"\"* ]] || fail \"contract json should include singular run in the language contract\""
         }
-      ]
+      ],
+      "execution_evidence": "ADL_CALLER_CONTRACT_REPAIR.json"
     },
     {
       "id": "RD07-2002",
@@ -2016,8 +2021,8 @@
       ],
       "csdlc250_same_basename_manifest_members": [],
       "family": "adl_current_caller_contracts",
-      "status": "consumer_repair_or_historical_label_required",
-      "next_action": "Repair current ADL caller/doc contract coherently or explicitly retain historical command spelling. Preserve every original refusal/absence check and actual declared output; native owner presence is insufficient.",
+      "status": "retained_current_adl_contract_passed",
+      "next_action": "Retain with existing public producer; no source retirement for this test.",
       "source_command_and_assertion_locations": [
         {
           "line": 46,
@@ -2043,7 +2048,8 @@
           "line": 72,
           "text": "        if template_set_arg is None:"
         }
-      ]
+      ],
+      "execution_evidence": "ADL_CALLER_CONTRACT_REPAIR.json"
     },
     {
       "id": "RD07-2058",
@@ -5626,8 +5632,9 @@
   "subsequent_execution": {
     "record": "ORIGINAL_CONSUMER_BATCH_QUALIFICATION.json",
     "reviewed_qualified_rows": 14,
-    "still_held_rows": 24,
-    "prior_source_only_mapping_preserved": true
+    "still_held_rows": 22,
+    "prior_source_only_mapping_preserved": true,
+    "retained_current_adl_contract_rows": 2
   },
   "initial_mapping_tests_or_builds": 0,
   "execution_summary": "Subsequent reviewed batches qualify14rows; see subsequent_execution and evidence record. No builds."

@@ -1,6 +1,6 @@
 # Skill and operational consumer closure
 
-Of the 38 original held rows, **14 now have independently reviewed component qualification** and moved to conditional owner-transfer proposals; 24 remain held. No source was removed.
+Of the 38 original held rows, **14 now have independently reviewed component qualification** and moved to conditional owner-transfer proposals; 22 remain held; two further current ADL contracts are retained. No source was removed.
 
 Twelve individual CodeFriend contracts passed against authenticated installed skills. The first attempt failed all 12 because Ruby was missing; that evidence is preserved. The corrected run used the existing Ruby-equipped, network-disabled container without rebuilding or downloading.
 
@@ -20,3 +20,5 @@ The separate delivered C-SDLC fixture package passed all four original scripts, 
 `SKILL_OPERATIONAL_HOLD_MAPPING.json` preserves original identities, full source correspondence and exact command/assertion locations. `ORIGINAL_CONSUMER_BATCH_QUALIFICATION.json` records actual execution and independent review.
 
 Correction: the earlier 13-contract pass shorthand was unsupported. The prior specialist-suite result did not execute these 12 scripts. Their qualification now rests on the new individual results, not that aggregate.
+
+Current ADL caller proof also passed, but rows1923/1931/1933/1997 stay held: producer choices1388/1394/1594 and the broader CLI-source retirement must be coherent. Rows1924/2054 are retained with existing producers. See `ADL_CALLER_CONTRACT_REPAIR.json`.

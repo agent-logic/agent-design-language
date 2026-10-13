@@ -84,9 +84,9 @@ for pattern in "${forbidden_patterns[@]}"; do
 done
 
 required_patterns=(
-  "csdlc-install resolve"
-  "csdlc-bind"
-  "csdlc-review"
+  ".adl/bin/native-v3/csdlc"
+  "csdlc bind"
+  "csdlc review"
 )
 
 for pattern in "${required_patterns[@]}"; do
@@ -96,4 +96,4 @@ for pattern in "${required_patterns[@]}"; do
   fi
 done
 
-echo "PASS: live CLI owner command guidance is aligned with final typed C-SDLC v2 authority"
+echo "PASS: live CLI owner command guidance is aligned with current native C-SDLC v3 authority"
