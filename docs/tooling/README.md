@@ -135,12 +135,10 @@ Important repo-local tooling surfaces include:
 - `bash adl/tools/run_validation_manager_nessus_lane.sh` — validation-manager
   wrapper that consumes one eligible local lane and routes it to the Nessus
   remote runner; see [Nessus Validation Manager Lane](NESSUS_VALIDATION_MANAGER_LANE.md)
-- `bash adl/tools/setup_adl_builder_image.sh` — shared validation toolchain
-  image setup for CodeBuild, AWS Spot EC2, Nessus, and local runners; see
-  [ADL Builder Image](ADL_BUILDER_IMAGE.md)
-- `bash adl/tools/import_adl_builder_image_from_s3_to_ecr.sh` — AWS-side
-  importer that loads a builder-image tar from S3 and pushes it to ECR through
-  a privileged, purpose-specific CodeBuild project
+- [ADL Builder Image](ADL_BUILDER_IMAGE.md) — reviewed Infrastructure owner
+  source and offline contract routing; ADL's source setup/import commands are retired.
+- [AWS Spot execution owner](AWS_SPOT_REMOTE_EXECUTION_HOW_TO.md) — separately
+  governed owner instructions; offline contracts do not authorize cloud execution.
 - `bash adl/tools/validation_manager.sh --platform-routing` — first-class
   local, Nessus, AWS Spot, CodeBuild, and wuji routing decisions for scheduler
   consumption without launching paid cloud resources; see

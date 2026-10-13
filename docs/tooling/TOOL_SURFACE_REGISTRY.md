@@ -30,7 +30,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 9
 - `supported shim`: 0
-- `internal helper`: 587
+- `internal helper`: 581
 - `historical evidence`: 46
 - `archive candidate`: 0
 - `remove candidate`: 2
@@ -195,7 +195,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/generate_podcast_launch_packet.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/generate_podcast_studio_v2_packet.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/generate_tool_surface_registry.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
-| `adl/tools/import_adl_builder_image_from_s3_to_ecr.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/install_adl_operational_skills.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/install_adl_pr_cycle_skill.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/install_aws_remote_validation_tool.sh` | tool surface | historical evidence | Historical Infrastructure source route retired by #1223; command refuses execution. Original assertions remain in Git and retirement custody; run the reviewed owner route. |
@@ -242,7 +241,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/probe_unity_mcp_observatory_alignment.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/provider` | tool surface | internal helper | Directory containing bounded helper assets, scripts, or proof inputs. |
 | `adl/tools/provider_demo_common.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
-| `adl/tools/publish_adl_builder_image_codebuild.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/rd01_repository_audit.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/real_chatgpt_gemini_claude_provider_adapter.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/real_chatgpt_gemini_provider_adapter.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
@@ -320,7 +318,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/select_validation_lanes.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/select_validation_lanes.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/serve_v092_provider_neutral_observatory_api.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
-| `adl/tools/setup_adl_builder_image.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/setup_aws_spot_remote_validation_github_resources.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/setup_required_coverage_toolchain.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/setup_wp08_s3_obsmem_archive_policy.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
@@ -330,7 +327,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/summarize_nextest_timings.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/sweep_aws_spot_orphans.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/sync_task_bundle_prompts.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
-| `adl/tools/test_adl_builder_image.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_adl_milestone_creator_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_adl_review_compatibility.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_adl_runtime_compatibility.sh` | tool surface | internal helper | Focused regression or contract test helper. |
@@ -441,7 +437,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_generate_tool_surface_registry.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_hosted_benchmark_hardening.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_html_observatory.sh` | tool surface | historical evidence | Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing. |
-| `adl/tools/test_import_adl_builder_image_from_s3_to_ecr.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_install_adl_operational_skills.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_install_adl_pr_cycle_skill.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_install_issue268_runtime_volume.py` | tool surface | internal helper | Focused regression or contract test helper. |
@@ -479,7 +474,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_prompt_spec_lint.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_prompt_template_structure_schemas.py` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_provider_demo_common.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_publish_adl_builder_image_codebuild.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_pvf_ci_release_policy.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_readiness_prep_metrics_non_terminal.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_records_hygiene_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |

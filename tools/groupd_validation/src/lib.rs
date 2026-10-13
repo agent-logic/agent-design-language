@@ -39,7 +39,7 @@ mod tests {
     }
     #[test]
     fn builder_inputs() {
-        run("python3", "adl/docker/adl-builder/test_builder_inputs.py");
+        run("python3", "tools/groupd_validation/run_builder_contracts.py");
     }
     #[test]
     fn ci_routing() {

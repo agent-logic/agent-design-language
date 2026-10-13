@@ -6,7 +6,7 @@ handoff. It does not rewrite the frozen #918/#919 candidate.
 
 | Finding | Repair | Proving surface |
 | --- | --- | --- |
-| DEP-002 / SYN-005 | Digest-pinned Ubuntu index, exact Rust/rustup/AWS/Cargo tool versions, verification before direct extraction/execution, complete toolchain record | `adl/docker/adl-builder/test_builder_inputs.py`: 4 tests, including changed bytes/missing hashes/mutable inputs |
+| DEP-002 / SYN-005 | Digest-pinned Ubuntu index, exact Rust/rustup/AWS/Cargo tool versions, verification before direct extraction/execution, complete toolchain record | Infrastructure `adl/docker/adl-builder/test_builder_inputs.py` through `run_builder_contracts.py`: 4 tests, including changed bytes/missing hashes/mutable inputs |
 | DEP-003 / SYN-004 | Reviewed raw-host identities; no latest/unchecked URL/unversioned S3 fallback; safe archive admission | Infrastructure `tools/aws_remote_validation/scripts/test_verified_bootstrap.py`: 24 retained tests, removed from this ADL adapter by #1223 |
 | DEP-004 / SYN-007 | Ecosystem inventory without lifecycle-lock pollution or 80-item truncation; explicit packet denominator | `adl/tools/skills/repo-dependency-review/scripts/test_prepare_dependency_review.py`: 6 CLI tests |
 | SYN-006 | Three explicit Cargo CI jobs, mixed-path ownership, fail-closed aggregate result checks | Selector + CI path-policy suites; 24 aggregate combinations and real Git path fixtures; affected crates below |
@@ -67,3 +67,19 @@ authenticated CodeFriend artifact11803531674 (candidate
 files of the dependency-review family against that artifact before running its
 original six Python cases. Missing or changed resources fail the test; they are
 never skipped. This is owner-fixture qualification, not a current dependency audit.
+
+## Infrastructure builder contract resources
+
+The builder adapter requires an explicit absolute `ADL_INFRASTRUCTURE_SOURCE_ROOT`
+containing the reviewed Infrastructure source revision
+`61c2806b6274b1003aa42f02adec99faf5f2a74b`. It verifies all ten builder-family
+resource hashes before executing the unchanged original four Python tests.
+Missing or changed resources fail closed. The legacy builder validation lane
+uses `--suite setup-import` to execute its original setup and import shell tests.
+
+The #1223 external qualification ran four original commands once: four Python
+methods plus three shell contracts, all passed. The setup contract substitutes
+its own fake Docker executable; publication/import checks are syntax and static
+contracts. This proves no actual image build, registry push, AWS execution,
+installed image, or cloud acceptance. These results do not rerun Group D's other
+five adapters or supersede their separate proof obligations.

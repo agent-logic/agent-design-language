@@ -1142,17 +1142,19 @@
         "adl/tools/import_adl_builder_image_from_s3_to_ecr.sh",
         "adl/tools/setup_adl_builder_image.sh",
         "adl/tools/test_adl_builder_image.sh",
-        "adl/tools/test_import_adl_builder_image_from_s3_to_ecr.sh"
+        "adl/tools/test_import_adl_builder_image_from_s3_to_ecr.sh",
+          "tools/groupd_validation/run_builder_contracts.py"
       ],
       "path_hints": [
         "adl/docker/adl-builder/**",
         "adl/tools/import_adl_builder_image_from_s3_to_ecr.sh",
         "adl/tools/setup_adl_builder_image.sh",
         "adl/tools/test_adl_builder_image.sh",
-        "adl/tools/test_import_adl_builder_image_from_s3_to_ecr.sh"
+        "adl/tools/test_import_adl_builder_image_from_s3_to_ecr.sh",
+          "tools/groupd_validation/run_builder_contracts.py"
       ],
-      "command": "bash adl/tools/test_adl_builder_image.sh && bash adl/tools/test_import_adl_builder_image_from_s3_to_ecr.sh",
-      "run_command": "bash adl/tools/test_adl_builder_image.sh && bash adl/tools/test_import_adl_builder_image_from_s3_to_ecr.sh",
+      "command": "python3 tools/groupd_validation/run_builder_contracts.py --suite setup-import",
+      "run_command": "python3 tools/groupd_validation/run_builder_contracts.py --suite setup-import",
       "reason": "builder_image_surface_requires_dockerfile_setup_import_and_policy_contract_checks"
     },
     {
