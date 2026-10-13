@@ -1,0 +1,99 @@
+{
+  "schema": "adl1223.cf104_source_contract_observation.v1",
+  "owner_head_observed": "0c2b0bd6839f6347707431e0707d8d5e29d48c35",
+  "evidence_directory": "/Volumes/FastWork/agent-logic-review/1223-codefriend-remaining-consumers/source-contracts",
+  "method": "Read every existing retained log and verify exact final PASS marker; no test rerun. Producer/root reports execution at thishead; current Git head independently observed.",
+  "passed_script_markers": 12,
+  "rows": [
+    {
+      "id": "RD07-1904",
+      "original_path": "adl/tools/test_adr_curator_skill_contracts.sh",
+      "owner_destination": "tools/retained_skill_contracts/test_adr_curator_skill_contracts.sh",
+      "log_sha256": "81f123ee5a57d9c596821d34cc00f6271cd1b656e97614210b8a600d5cbdd4fb",
+      "terminal_marker": "PASS test_adr_curator_skill_contracts"
+    },
+    {
+      "id": "RD07-1905",
+      "original_path": "adl/tools/test_architecture_diagram_reviewer_skill_contracts.sh",
+      "owner_destination": "tools/retained_skill_contracts/test_architecture_diagram_reviewer_skill_contracts.sh",
+      "log_sha256": "a672983693623887ec2b0b8cf38d88b18e6ea348f726f06d9330cafc3e05db94",
+      "terminal_marker": "PASS test_architecture_diagram_reviewer_skill_contracts"
+    },
+    {
+      "id": "RD07-1906",
+      "original_path": "adl/tools/test_architecture_fitness_function_author_skill_contracts.sh",
+      "owner_destination": "tools/retained_skill_contracts/test_architecture_fitness_function_author_skill_contracts.sh",
+      "log_sha256": "56e9a69f02ae89e8f7826e3c478c2ba3f2e2c7f1294adc98a2804cc8ea853060",
+      "terminal_marker": "PASS test_architecture_fitness_function_author_skill_contracts"
+    },
+    {
+      "id": "RD07-1995",
+      "original_path": "adl/tools/test_diagram_author_skill_contracts.sh",
+      "owner_destination": "tools/retained_skill_contracts/test_diagram_author_skill_contracts.sh",
+      "log_sha256": "e2f95509deb2ae7dbb1b579483bed59f413fcabddd467045dba2ccbd1c8add13",
+      "terminal_marker": "PASS test_diagram_author_skill_contracts"
+    },
+    {
+      "id": "RD07-2002",
+      "original_path": "adl/tools/test_finding_to_issue_planner_skill_contracts.sh",
+      "owner_destination": "tools/retained_skill_contracts/test_finding_to_issue_planner_skill_contracts.sh",
+      "log_sha256": "de4631eb8f6d4ea2674298ce0bfc24b2d64d22667fe2db18321d060668542429",
+      "terminal_marker": "PASS test_finding_to_issue_planner_skill_contracts"
+    },
+    {
+      "id": "RD07-2060",
+      "original_path": "adl/tools/test_redaction_and_evidence_auditor_skill_contracts.sh",
+      "owner_destination": "tools/retained_skill_contracts/test_redaction_and_evidence_auditor_skill_contracts.sh",
+      "log_sha256": "b10001f201a5efb381d2d86996b7eb50250729866e45f8aee5e095d9c8dfe636",
+      "terminal_marker": "PASS test_redaction_and_evidence_auditor_skill_contracts"
+    },
+    {
+      "id": "RD07-2064",
+      "original_path": "adl/tools/test_repo_architecture_review_skill_contracts.sh",
+      "owner_destination": "tools/retained_skill_contracts/test_repo_architecture_review_skill_contracts.sh",
+      "log_sha256": "5b391feed0cd67075cdaccfd01f25b10b05efdb55b8c87f08fbf0a1e033612f2",
+      "terminal_marker": "PASS test_repo_architecture_review_skill_contracts"
+    },
+    {
+      "id": "RD07-2066",
+      "original_path": "adl/tools/test_repo_dependency_review_skill_contracts.sh",
+      "owner_destination": "tools/retained_skill_contracts/test_repo_dependency_review_skill_contracts.sh",
+      "log_sha256": "762f1a937e31beddbf3cf2c279cbb01bf7f0be52a23ac42d8671eff378aed79c",
+      "terminal_marker": "PASS test_repo_dependency_review_skill_contracts"
+    },
+    {
+      "id": "RD07-2067",
+      "original_path": "adl/tools/test_repo_diagram_planner_skill_contracts.sh",
+      "owner_destination": "tools/retained_skill_contracts/test_repo_diagram_planner_skill_contracts.sh",
+      "log_sha256": "62e7b36aa6b9c1001ae646ac33392d7ff0db8b6e1f4e3831638b3715315b0c56",
+      "terminal_marker": "PASS test_repo_diagram_planner_skill_contracts"
+    },
+    {
+      "id": "RD07-2068",
+      "original_path": "adl/tools/test_repo_packet_builder_skill_contracts.sh",
+      "owner_destination": "tools/retained_skill_contracts/test_repo_packet_builder_skill_contracts.sh",
+      "log_sha256": "e4c1a7d4d3c81062865e71cc52e52c6612c64363e0d2c9c0243b9d44b8e425f0",
+      "terminal_marker": "PASS test_repo_packet_builder_skill_contracts"
+    },
+    {
+      "id": "RD07-2075",
+      "original_path": "adl/tools/test_review_readiness_cleanup_skill_contracts.sh",
+      "owner_destination": "tools/retained_skill_contracts/test_review_readiness_cleanup_skill_contracts.sh",
+      "log_sha256": "ce1b86ea19873864a939a3bde129787fafbd771cf170426cfec9e5eb9a91035d",
+      "terminal_marker": "PASS test_review_readiness_cleanup_skill_contracts"
+    },
+    {
+      "id": "RD07-2077",
+      "original_path": "adl/tools/test_review_to_test_planner_skill_contracts.sh",
+      "owner_destination": "tools/retained_skill_contracts/test_review_to_test_planner_skill_contracts.sh",
+      "log_sha256": "76130abc4ee8905ceb53e8dca2e9c707469a6f2de9f358a9b5385fd1c122c36b",
+      "terminal_marker": "PASS test_review_to_test_planner_skill_contracts"
+    }
+  ],
+  "limits": [
+    "Source-only behavior qualification; no current artifact/installed acceptance/removal claim",
+    "Thirteenth specialist installed-presence script remains dependent on authenticated installed input",
+    "Four installed consumer families remain separate",
+    "Package23PASS reported byroot, not independently verified by this packet; omitted from observed denominator"
+  ]
+}
