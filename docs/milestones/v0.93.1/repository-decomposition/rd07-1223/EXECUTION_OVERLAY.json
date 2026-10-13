@@ -1,0 +1,5268 @@
+{
+  "schema": "adl.source_retirement.execution_overlay.v1",
+  "issue": 1223,
+  "baseline": "9cfd035aac2a44637b3c8026bd40b669579a8c7f",
+  "status": "complete",
+  "execution_authorized": false,
+  "original_inventory_count": 4134,
+  "additional_inventory_count": 22,
+  "executed_deletion_count": 71,
+  "entries": [
+    {
+      "path": ".github/workflows/ci.yaml",
+      "action": "modify",
+      "before": [
+        "100644",
+        "9e65e9cb3406d275c2d559d45110216f89ed4731"
+      ],
+      "after": [
+        "100644",
+        "9c6f703e8c48d0bbf25fc1e2ea7dd72023f5c0b0"
+      ],
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:.github/workflows/ci.yaml"
+    },
+    {
+      "path": "AGENTS.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "a82b556cbc25ffad6672f6f2e762d946d5d048fe"
+      ],
+      "after": [
+        "100644",
+        "d29efbafb36e881d7efd687875cf2778ff8160cf"
+      ],
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:AGENTS.md"
+    },
+    {
+      "path": "adl-uts/tools/test_ci_contract.rb",
+      "action": "modify",
+      "before": [
+        "100644",
+        "906dd9ad1649ec499d7473cd03a642eee190d711"
+      ],
+      "after": [
+        "100644",
+        "57b2a401f4c12a03b32bd06679777f23de489f51"
+      ],
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:adl-uts/tools/test_ci_contract.rb"
+    },
+    {
+      "path": "adl/CONTRIBUTING.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "6d4b847a46c21bf385e1eba845ccafae2cad6522"
+      ],
+      "after": [
+        "100644",
+        "46732723ea44df7e391019630494ebfd6d9b51b8"
+      ],
+      "implementation_commit": "fedc1f29ccca41ad4d2fce27d3688f877171d87b",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:adl/CONTRIBUTING.md"
+    },
+    {
+      "path": "adl/config/slow_proof_families.public.v1.json",
+      "action": "add",
+      "before": null,
+      "after": [
+        "100644",
+        "0820ad212659b56cd830cfabd16ac92833a17929"
+      ],
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:adl/config/slow_proof_families.public.v1.json"
+    },
+    {
+      "path": "adl/config/validation_lane_selector.public.v1.json",
+      "action": "add",
+      "before": null,
+      "after": [
+        "100644",
+        "1ec456fd1628ac12284e12771b46eff37e4413bf"
+      ],
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:adl/config/validation_lane_selector.public.v1.json"
+    },
+    {
+      "path": "adl/config/validation_lane_selector.v0.91.6.json",
+      "action": "modify",
+      "before": [
+        "100644",
+        "939512d07bf70558305761a1adedc6ab5ce30c8e"
+      ],
+      "after": [
+        "100644",
+        "a085c014c3191dc9c9be317cdc1e272a961a0e63"
+      ],
+      "implementation_commit": "39a64819e2ccc75a0b09616a7883f5835d047e35",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:adl/config/validation_lane_selector.v0.91.6.json"
+    },
+    {
+      "path": "adl/src/cli/mod.rs",
+      "action": "modify",
+      "before": [
+        "100644",
+        "a10f95cc6d9e97cb78e3ee40407819795bc7e2eb"
+      ],
+      "after": [
+        "100644",
+        "0779a488e5cf60cb4e899eb63a0afe986f1cd900"
+      ],
+      "implementation_commit": "b54b4009ef8856ab8404d9344576c33774ceb7a2",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:adl/src/cli/mod.rs"
+    },
+    {
+      "path": "adl/src/cli/run.rs",
+      "action": "modify",
+      "before": [
+        "100644",
+        "d81cbe5f5580aa63bafd4f0ebae7e5207148c220"
+      ],
+      "after": [
+        "100644",
+        "9d43c8fcb600fe21a6c43de7819a40aedc6f525d"
+      ],
+      "implementation_commit": "b54b4009ef8856ab8404d9344576c33774ceb7a2",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:adl/src/cli/run.rs"
+    },
+    {
+      "path": "adl/tests/fixtures/codefriend/fitness-ci/PVF.json",
+      "action": "modify",
+      "before": [
+        "100644",
+        "68f8c55f7a320522ec70c7d806ddfce0cf564a3d"
+      ],
+      "after": [
+        "100644",
+        "8f9e57493c4c7aace1c4e5766cd862dca90f993f"
+      ],
+      "implementation_commit": "261186964c8780486a7b75e13f4de1f9df505a86",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:adl/tests/fixtures/codefriend/fitness-ci/PVF.json"
+    },
+    {
+      "path": "adl/tests/issue_327_removed_tooling.rs",
+      "action": "modify",
+      "before": [
+        "100644",
+        "1e689a9a3f1b445ca148eba2ed9c4e4ff1527b4c"
+      ],
+      "after": [
+        "100644",
+        "91abfeaf670075fbc54bdd2004e3f9674b2f4406"
+      ],
+      "implementation_commit": "5646981a1751253e885cbe5b5c25295d7d650f2e",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:adl/tests/issue_327_removed_tooling.rs"
+    },
+    {
+      "path": "adl/tools/README.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "3a6334f2e29d10598bffd49297bf882fbd6b3452"
+      ],
+      "after": [
+        "100644",
+        "c319da9f23657c721612b00f1ffe3d87f4f28bc3"
+      ],
+      "implementation_commit": "666818f2aafdaf4839d1c3de4119b513c4236d3d",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:adl/tools/README.md"
+    },
+    {
+      "path": "adl/tools/batched_checks.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "dcb7787cb56c92755abc353e8567f89ec3b61a50"
+      ],
+      "after": [
+        "100755",
+        "040d7ebb847d95319ff3b3c2ab677132f253244d"
+      ],
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:adl/tools/batched_checks.sh"
+    },
+    {
+      "path": "adl/tools/ci_path_policy.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "b145f1bfedc95f2288a2a069625d67f8eaa3ca1a"
+      ],
+      "after": [
+        "100755",
+        "c3ba898ff3bb12da226185598eef6e6387f89e18"
+      ],
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:adl/tools/ci_path_policy.sh"
+    },
+    {
+      "path": "adl/tools/demo_v0912_workflow_guardrails_showcase.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "f328490582b005c270d7e72eccdb59fd893539e5"
+      ],
+      "after": [
+        "100755",
+        "cbef8662d63c9e74ec5762d070307bcef7de54f8"
+      ],
+      "implementation_commit": "c485f8412371dd70f4c3bb37ac65c9102049b6fd",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:adl/tools/demo_v0912_workflow_guardrails_showcase.sh"
+    },
+    {
+      "path": "adl/tools/demo_v0913_quality_gate.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "4f7320394aed316bab354bfeacb9de54a5c09f2d"
+      ],
+      "after": [
+        "100755",
+        "34d1285cd725425d286e2aa5d71c2360cb262974"
+      ],
+      "implementation_commit": "a97e0ed936f74afb42106bb2a2cdf1e5bee3b349",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:adl/tools/demo_v0913_quality_gate.sh"
+    },
+    {
+      "path": "adl/tools/fix_git_main_sync_preserve_local_adl.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "6b2454d588949dad759f095b6778c9f45941e631"
+      ],
+      "after": [
+        "100755",
+        "6e2eb43ca0abd95817a921240f25079db8e8ace0"
+      ],
+      "implementation_commit": "f6000f411dd709870196c9ae902b458df8c9cd05",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:adl/tools/fix_git_main_sync_preserve_local_adl.sh"
+    },
+    {
+      "path": "adl/tools/generate_active_command_reference_scan.py",
+      "action": "modify",
+      "before": [
+        "100644",
+        "07b4f2bb8df94abd951f7fa13d652ebf7640ee5a"
+      ],
+      "after": [
+        "100644",
+        "4293def09641fabe5fdf2e91bf08e8dddbd01ecc"
+      ],
+      "implementation_commit": "387ca92b99f04cd9f73c45d23711fa9cfecccaae",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:adl/tools/generate_active_command_reference_scan.py"
+    },
+    {
+      "path": "adl/tools/generate_tool_surface_registry.py",
+      "action": "modify",
+      "before": [
+        "100644",
+        "f490235aeb10ef360442c83f983b3d824cdbe96a"
+      ],
+      "after": [
+        "100644",
+        "f93953c6ca36b7484675724455ee85f594649e57"
+      ],
+      "implementation_commit": "d1a18b5758a80ffcfa6acce0be436637e4c76e0d",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:adl/tools/generate_tool_surface_registry.py"
+    },
+    {
+      "path": "adl/tools/install_csdlc_man_pages.sh",
+      "action": "modify",
+      "before": [
+        "100644",
+        "6adbd02f4ffa240803599a712e61326a116e6e2a"
+      ],
+      "after": [
+        "100644",
+        "29010f8d6e96cb47d87e71fe8f82ca34ae3edb5a"
+      ],
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:adl/tools/install_csdlc_man_pages.sh"
+    },
+    {
+      "path": "adl/tools/install_owner_binaries.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "40c0464f6ed4885accadb6043b5cf3bbe2519dfb"
+      ],
+      "after": [
+        "100755",
+        "dc3870f056e24b4198e818ea8ebc578eea7fb9de"
+      ],
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:adl/tools/install_owner_binaries.sh"
+    },
+    {
+      "path": "adl/tools/owner_binary_resolution.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "9a79ed9b5db4d8d6ff827d9113a6e2016b1e925e"
+      ],
+      "after": [
+        "100755",
+        "d226fb182dcd1a7f57b09facb0dc5e9d3f3ce31e"
+      ],
+      "implementation_commit": "bbc65b59bc0ce65aa48173b23e3dd84d7106bf77",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:adl/tools/owner_binary_resolution.sh"
+    },
+    {
+      "path": "adl/tools/preflight_review.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "9e4c8a0be48c1419d5695648b282b665f80f574f"
+      ],
+      "after": [
+        "100755",
+        "01627aadcae8e0705142c21d43d2a94b708310e6"
+      ],
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:adl/tools/preflight_review.sh"
+    },
+    {
+      "path": "adl/tools/run_v0913_proof_validation_lane.sh",
+      "action": "modify",
+      "before": [
+        "100644",
+        "acc0e21b0123d4cf54cf4d09e53891bb79944533"
+      ],
+      "after": [
+        "100644",
+        "1f2982e6e3f7c2ca16ea88e1df6274649e4e2de1"
+      ],
+      "implementation_commit": "a97e0ed936f74afb42106bb2a2cdf1e5bee3b349",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:adl/tools/run_v0913_proof_validation_lane.sh"
+    },
+    {
+      "path": "adl/tools/run_validation_manager_nessus_lane.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "fbd78bd0cf78e2c97f10ce134cd92c28876cfc21"
+      ],
+      "after": [
+        "100755",
+        "e9d95807cfbac5050489f67bbefa9d9a585a6918"
+      ],
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:adl/tools/run_validation_manager_nessus_lane.sh"
+    },
+    {
+      "path": "adl/tools/select_validation_lanes.py",
+      "action": "modify",
+      "before": [
+        "100755",
+        "9c76be9178a3050bb4b690f85097b16b01512873"
+      ],
+      "after": [
+        "100755",
+        "310945ca1fdab4129ac182bc889680f634217e66"
+      ],
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:adl/tools/select_validation_lanes.py"
+    },
+    {
+      "path": "adl/tools/skills/docs/OPERATIONAL_SKILLS_GUIDE.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "263bca3ba1e112c387b9b139c6f0fe5ac4a2f744"
+      ],
+      "after": [
+        "100644",
+        "1005e27b18920921fc29dbec3ef39901e8ebcbc4"
+      ],
+      "implementation_commit": "666818f2aafdaf4839d1c3de4119b513c4236d3d",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:adl/tools/skills/docs/OPERATIONAL_SKILLS_GUIDE.md"
+    },
+    {
+      "path": "adl/tools/test_batched_checks_no_codexpr_usage_banner.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "6b1080bfb40e893f93e7c9e84efc2f1290937ce1"
+      ],
+      "after": [
+        "100755",
+        "50070132110628f6bb03461c429a40bf68cd9394"
+      ],
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:adl/tools/test_batched_checks_no_codexpr_usage_banner.sh"
+    },
+    {
+      "path": "adl/tools/test_check_issue_metadata_parity.sh",
+      "action": "modify",
+      "before": [
+        "100644",
+        "d629491ec2de7e368c2284a1dacec208c585fc91"
+      ],
+      "after": [
+        "100644",
+        "899ce61336b89d50f0fb03a7af674783ca940838"
+      ],
+      "implementation_commit": "f6000f411dd709870196c9ae902b458df8c9cd05",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:adl/tools/test_check_issue_metadata_parity.sh"
+    },
+    {
+      "path": "adl/tools/test_cli_owner_command_guidance.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "b9e4ff839bdfa5fafc1077df4d99b4697aa1fd83"
+      ],
+      "after": [
+        "100755",
+        "0e9b0480c8471d56213a61abd540f98f24c18db9"
+      ],
+      "implementation_commit": "13521e3280fa2c5017721e44fcc31cc23dea5542",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:adl/tools/test_cli_owner_command_guidance.sh"
+    },
+    {
+      "path": "adl/tools/test_closeout_completed_issue_wave.sh",
+      "action": "modify",
+      "before": [
+        "100644",
+        "5858192817bd6f1772a1e3b385a022ceb88048b5"
+      ],
+      "after": [
+        "100644",
+        "15c381d64077874fb23fac484f80bef28b5f55b5"
+      ],
+      "implementation_commit": "df7aea57ab44762ed710133bc21b5287933ce43b",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:adl/tools/test_closeout_completed_issue_wave.sh"
+    },
+    {
+      "path": "adl/tools/test_csdlc_v2_supply_chain.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "99cde59441e02b04c40906e9132a0dfb36aedb96"
+      ],
+      "after": [
+        "100755",
+        "8f20480489246bd672313862ff465bb6918334ad"
+      ],
+      "implementation_commit": "d5fb44b73bc74e86877484080ddf8a68a3ebe365",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:adl/tools/test_csdlc_v2_supply_chain.sh"
+    },
+    {
+      "path": "adl/tools/test_developer_throughput_fast_lane.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "11bda697216f61e9f61513e45c387a708bd4e7d4"
+      ],
+      "after": [
+        "100755",
+        "334fb16e82efcfc6bc053137e767a55501450bca"
+      ],
+      "implementation_commit": "18379335b47317b9ebddf051dcc09cfba2d8e5c7",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:adl/tools/test_developer_throughput_fast_lane.sh"
+    },
+    {
+      "path": "adl/tools/test_generate_tool_surface_registry.sh",
+      "action": "modify",
+      "before": [
+        "100644",
+        "4836d987a8927fdaacafe4ada9c1cf88c2ba6a05"
+      ],
+      "after": [
+        "100644",
+        "a8d771dc269f5da5cfcfbefdd2565459c1d17332"
+      ],
+      "implementation_commit": "387ca92b99f04cd9f73c45d23711fa9cfecccaae",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:adl/tools/test_generate_tool_surface_registry.sh"
+    },
+    {
+      "path": "adl/tools/test_owner_binary_install.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "24aa486da75254b49985ee0fb707b4ccaab86be2"
+      ],
+      "after": [
+        "100755",
+        "6ccd0ddab0c2151ecb036fb517277e47056323e3"
+      ],
+      "implementation_commit": "5edd4bf7452227fbfa83e990ffd496baeba6a3c0",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:adl/tools/test_owner_binary_install.sh"
+    },
+    {
+      "path": "adl/tools/test_run_validation_manager_nessus_lane.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "53d4194f8b4b52326580ef4e28b64c0fd53bf7ac"
+      ],
+      "after": [
+        "100755",
+        "43260c5d63ba0a50e3fca3511db6c7db3142ae0f"
+      ],
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:adl/tools/test_run_validation_manager_nessus_lane.sh"
+    },
+    {
+      "path": "adl/tools/test_validation_manager.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "df05cade2390b5cec297af491a8e7783e32b5c97"
+      ],
+      "after": [
+        "100755",
+        "292733b69574cf4517046d33bede7dead55fae5c"
+      ],
+      "implementation_commit": "9b6ea052ff24c8819a4b9a86a68a8255a8dd6503",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:adl/tools/test_validation_manager.sh"
+    },
+    {
+      "path": "adl/tools/test_workflow_guardrails.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "5a54bbe6f4cf80a59bf96e5cd235bcdc028e35bc"
+      ],
+      "after": [
+        "100755",
+        "bec9a25988122b90a373f065b106dfbee260e10d"
+      ],
+      "implementation_commit": "c485f8412371dd70f4c3bb37ac65c9102049b6fd",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:adl/tools/test_workflow_guardrails.sh"
+    },
+    {
+      "path": "adl/tools/test_wp17a_demo_follow_ons.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "1043a618f7342312792228e79affa2d5b357ec3d"
+      ],
+      "after": [
+        "100755",
+        "ecdf95bf4ef60a69c028ba92f5b84b0b3d5330bd"
+      ],
+      "implementation_commit": "f6000f411dd709870196c9ae902b458df8c9cd05",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:adl/tools/test_wp17a_demo_follow_ons.sh"
+    },
+    {
+      "path": "adl/tools/validate_ci_workflow_policy.rb",
+      "action": "modify",
+      "before": [
+        "100644",
+        "f11de4d8f1f51d47bdbcce930e2656fd614b4fcc"
+      ],
+      "after": [
+        "100644",
+        "318d56a5566d28ad86574b9de018a80221fd8cad"
+      ],
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:adl/tools/validate_ci_workflow_policy.rb"
+    },
+    {
+      "path": "adl/tools/validate_csdlc_v2_supply_chain.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "7b9e52518a1c8b3e4b81106a134f68e98cfbb4ec"
+      ],
+      "after": [
+        "100755",
+        "079434446b536326df86e4034f209e1706406abc"
+      ],
+      "implementation_commit": "d5fb44b73bc74e86877484080ddf8a68a3ebe365",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:adl/tools/validate_csdlc_v2_supply_chain.sh"
+    },
+    {
+      "path": "adl/tools/validate_v092_durable_history_parent_integration.py",
+      "action": "modify",
+      "before": [
+        "100644",
+        "601661d06ebe5a5c1d1f9c659a4379a44fb1cbd2"
+      ],
+      "after": [
+        "100644",
+        "b76f2af37f9e4569d409e500aec2d11c70bdfe8d"
+      ],
+      "implementation_commit": "b9306e563e546d6ed1b53b7a618fde1d7d06d6ed",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:adl/tools/validate_v092_durable_history_parent_integration.py"
+    },
+    {
+      "path": "adl/tools/validation_inventory.py",
+      "action": "modify",
+      "before": [
+        "100644",
+        "5fa45a5179b8f2cb1ae25c150ddca21708e91943"
+      ],
+      "after": [
+        "100644",
+        "88b5beadb802476b9f8f9755033c0c02db404252"
+      ],
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:adl/tools/validation_inventory.py"
+    },
+    {
+      "path": "adl/tools/validation_manager.py",
+      "action": "modify",
+      "before": [
+        "100644",
+        "64defd266deaf9d2d436c8e06ed153d9fb4b5d31"
+      ],
+      "after": [
+        "100644",
+        "b5c5de9fddbf3b1b97b5fd47e25a9e61b300f689"
+      ],
+      "implementation_commit": "c9e305eddee18c9162560da5cd67b57a5addfafc",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:adl/tools/validation_manager.py"
+    },
+    {
+      "path": "adl/tools/verify_review_output_provenance.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "67430ef095c1ccc8999c56d72a475a3e388c4d8b"
+      ],
+      "after": [
+        "100755",
+        "3bdc4e9dfba21025a7fccf5104bbeadeee19af84"
+      ],
+      "implementation_commit": "3b40b80f472912ea0d7bf0f99717298f12be74c9",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:adl/tools/verify_review_output_provenance.sh"
+    },
+    {
+      "path": "adl/tools/workflow_guardrails.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "e47d0a6998868ddd191d0b388c6b77819fd20da9"
+      ],
+      "after": [
+        "100755",
+        "ffaacb5d36577f5b19444270d6324a919ec48e57"
+      ],
+      "implementation_commit": "c485f8412371dd70f4c3bb37ac65c9102049b6fd",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:adl/tools/workflow_guardrails.sh"
+    },
+    {
+      "path": "demos/v0.89/multi_agent_repo_code_review_demo.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "c3283f32060705f1f4bed4f014b918061e1fb56f"
+      ],
+      "after": [
+        "100644",
+        "dca0e07487b080548036472f75ae5eaf77bcbc4b"
+      ],
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:demos/v0.89/multi_agent_repo_code_review_demo.md"
+    },
+    {
+      "path": "demos/v0.90.2/multi_agent_repo_review_proof_demo.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "c157417fbabfa86d0ad9da4c9f0cfd3aabc85b89"
+      ],
+      "after": [
+        "100644",
+        "f89920064566dcbd9a550601eaf14088fd8a66bd"
+      ],
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:demos/v0.90.2/multi_agent_repo_review_proof_demo.md"
+    },
+    {
+      "path": "demos/v0.90/codebuddy_multi_agent_review_showcase_demo.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "6f2b4600e791e9cfa08989ea6a895e20897c72f3"
+      ],
+      "after": [
+        "100644",
+        "079d2827305b64190b1109a3b54f525c9d786f03"
+      ],
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:demos/v0.90/codebuddy_multi_agent_review_showcase_demo.md"
+    },
+    {
+      "path": "demos/v0.91.4/multi_agent_repo_review_serious_proof_demo.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "61ff2d9455affc75a5ffee0565edff741275cf20"
+      ],
+      "after": [
+        "100644",
+        "c9bf8d14f389f83e0d09cc2ae781f9bbf145dc6d"
+      ],
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:demos/v0.91.4/multi_agent_repo_review_serious_proof_demo.md"
+    },
+    {
+      "path": "docs/architecture/VALIDATION_LANE_SELECTOR.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "88d5cbbf5fd17a93e09cfbf379b47b30ecbbea8b"
+      ],
+      "after": [
+        "100644",
+        "98f0935144a413d2eb28fe1efedada9232d868d9"
+      ],
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:docs/architecture/VALIDATION_LANE_SELECTOR.md"
+    },
+    {
+      "path": "docs/csdlc-v3/man/README.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "0505e6d89245e23402add654d863fdd1cb6ae935"
+      ],
+      "after": [
+        "100644",
+        "bbc61a787742a8552117f56a2d4f559559797186"
+      ],
+      "implementation_commit": "5edd4bf7452227fbfa83e990ffd496baeba6a3c0",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:docs/csdlc-v3/man/README.md"
+    },
+    {
+      "path": "docs/csdlc-v3/man/test_install.sh",
+      "action": "modify",
+      "before": [
+        "100644",
+        "17141e82d9ea98ca380dc14cd58ed0d70587340a"
+      ],
+      "after": [
+        "100644",
+        "9a378919430320da7959f4dcefe77a34bc499975"
+      ],
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:docs/csdlc-v3/man/test_install.sh"
+    },
+    {
+      "path": "docs/operations/cloud/aws/audit-security/AWS_AUDIT_SECURITY_BASELINE.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "01186542e8fca478e2408241deb6a44f529d482a"
+      ],
+      "after": [
+        "100644",
+        "22b193d7c67269d8d86aa679da738fd2425055e3"
+      ],
+      "implementation_commit": "ee80998f9df4e87c67f8a5d0235b319e6f18b763",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:docs/operations/cloud/aws/audit-security/AWS_AUDIT_SECURITY_BASELINE.md"
+    },
+    {
+      "path": "docs/operations/cloud/aws/terraform-bootstrap/AWS_TERRAFORM_BOOTSTRAP_RUNBOOK.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "959a8519250e9d71fc385e10452e7910095bb78a"
+      ],
+      "after": [
+        "100644",
+        "479bffdab231e34f565e415b09e52be51dbd9d1c"
+      ],
+      "implementation_commit": "ee80998f9df4e87c67f8a5d0235b319e6f18b763",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:docs/operations/cloud/aws/terraform-bootstrap/AWS_TERRAFORM_BOOTSTRAP_RUNBOOK.md"
+    },
+    {
+      "path": "docs/operations/cloud/gcp/organization-billing/README.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "95171f811ba6b604fe20c4ee56dc749f58bc476d"
+      ],
+      "after": [
+        "100644",
+        "4a5da09d3082f537ea0d1502043c4e28bd363112"
+      ],
+      "implementation_commit": "ee80998f9df4e87c67f8a5d0235b319e6f18b763",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:docs/operations/cloud/gcp/organization-billing/README.md"
+    },
+    {
+      "path": "docs/operations/cloud/gcp/platform-foundation/README.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "27824016237e1ecc9fb89617d80e21424a7009be"
+      ],
+      "after": [
+        "100644",
+        "2ece87d52cee864a3dcdd4a77ad125e1f032a017"
+      ],
+      "implementation_commit": "ee80998f9df4e87c67f8a5d0235b319e6f18b763",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:docs/operations/cloud/gcp/platform-foundation/README.md"
+    },
+    {
+      "path": "docs/operations/cloud/gcp/terraform-bootstrap/README.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "2c06e980112d905cefeff3b481873cb60952f358"
+      ],
+      "after": [
+        "100644",
+        "64703e7d4c1935cab483e435d377b869bc00a4f0"
+      ],
+      "implementation_commit": "ee80998f9df4e87c67f8a5d0235b319e6f18b763",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:docs/operations/cloud/gcp/terraform-bootstrap/README.md"
+    },
+    {
+      "path": "docs/runtime/RESIDENT_HEALTH_SUPERVISION.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "d0dc12f51856f3341137bbbfafef6a731260f64e"
+      ],
+      "after": [
+        "100644",
+        "86423b96c5cadafc4871225b2b82ada7aa78f57b"
+      ],
+      "implementation_commit": "ee80998f9df4e87c67f8a5d0235b319e6f18b763",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:docs/runtime/RESIDENT_HEALTH_SUPERVISION.md"
+    },
+    {
+      "path": "docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "b1188f99e76fe00def9528994615f89cc0c33716"
+      ],
+      "after": [
+        "100644",
+        "efd88ebe9e9af7611638418b5931d19b1042b907"
+      ],
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md"
+    },
+    {
+      "path": "docs/tooling/AWS_CODEFRIEND_BUILD_LANE.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "046d7f561ea793fa159459a1ad2cb19bca0eebd7"
+      ],
+      "after": [
+        "100644",
+        "1047549202fb151040cbefcb214f7e252c367f53"
+      ],
+      "implementation_commit": "9b6ea052ff24c8819a4b9a86a68a8255a8dd6503",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:docs/tooling/AWS_CODEFRIEND_BUILD_LANE.md"
+    },
+    {
+      "path": "docs/tooling/DEVELOPER_THROUGHPUT_FAST_LANE.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "770c2c70a37344bcb3ef9c093460662400201f5b"
+      ],
+      "after": [
+        "100644",
+        "74b1d659c5c5b610b28b5f1daab34470bd2d40ae"
+      ],
+      "implementation_commit": "18379335b47317b9ebddf051dcc09cfba2d8e5c7",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:docs/tooling/DEVELOPER_THROUGHPUT_FAST_LANE.md"
+    },
+    {
+      "path": "docs/tooling/GITHUB_LARGER_RUNNER_PREFLIGHT.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "084572594950d410697e9f4303909ac0c7f0f9ba"
+      ],
+      "after": [
+        "100644",
+        "fac2037ddf7a6edb4c69191c9b3ede1788617b37"
+      ],
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:docs/tooling/GITHUB_LARGER_RUNNER_PREFLIGHT.md"
+    },
+    {
+      "path": "docs/tooling/ISSUE_RESOURCE_TELEMETRY_COLLECTOR.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "76cf768348a41a26f82074ee8ed111f704056674"
+      ],
+      "after": [
+        "100644",
+        "bdb428b00b18e6388a1c2b847c5d496cd2195700"
+      ],
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:docs/tooling/ISSUE_RESOURCE_TELEMETRY_COLLECTOR.md"
+    },
+    {
+      "path": "docs/tooling/NESSUS_VALIDATION_MANAGER_LANE.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "70abba58eca1cf18aecb86bcda1bbda593b875ec"
+      ],
+      "after": [
+        "100644",
+        "590adf64f78311ebe2667ad51934806790450cdf"
+      ],
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:docs/tooling/NESSUS_VALIDATION_MANAGER_LANE.md"
+    },
+    {
+      "path": "docs/tooling/OPUS_REVIEW_RUNBOOK.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "b409da5bdce6c05296a614a2c5b9c8c05fdac206"
+      ],
+      "after": [
+        "100644",
+        "19a57f047c010faba5f8aa42cd08e3a0ec326831"
+      ],
+      "implementation_commit": "261186964c8780486a7b75e13f4de1f9df505a86",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:docs/tooling/OPUS_REVIEW_RUNBOOK.md"
+    },
+    {
+      "path": "docs/tooling/WP_ISSUE_WAVE_GENERATION.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "d742ae9651783c218ed3977e1cd179f4c24fd2d8"
+      ],
+      "after": [
+        "100644",
+        "63165fef96c6b65784c277026d136d2c9bcfe833"
+      ],
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:docs/tooling/WP_ISSUE_WAVE_GENERATION.md"
+    },
+    {
+      "path": "docs/tooling/reviewer-provenance.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "ea1c37a4b88fc479e55e8e6b87c317dc51ea3660"
+      ],
+      "after": [
+        "100644",
+        "0f73bf6f684880ec7e6f13e4d3d9be39962f2473"
+      ],
+      "implementation_commit": "3b40b80f472912ea0d7bf0f99717298f12be74c9",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:docs/tooling/reviewer-provenance.md"
+    },
+    {
+      "path": "infra/runtime-v3/runtime-init.toml",
+      "action": "modify",
+      "before": [
+        "100644",
+        "84ce398c2836b838aaa4120079cf9cd749b15713"
+      ],
+      "after": [
+        "100644",
+        "ef3cde01157e47e62236ee2701373e2560602d22"
+      ],
+      "implementation_commit": "56aece8350e12f45283a1cff8d2b457548cb2e1f",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:infra/runtime-v3/runtime-init.toml"
+    },
+    {
+      "path": "tools/groupd_validation/src/lib.rs",
+      "action": "modify",
+      "before": [
+        "100644",
+        "4d93add96b5c64a095d1211dda8bea727decaa81"
+      ],
+      "after": [
+        "100644",
+        "07c8d3e425fd3ceadc70c79ab492b26811aac1dd"
+      ],
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:tools/groupd_validation/src/lib.rs"
+    },
+    {
+      "path": "tools/public_adl/ci_policy.py",
+      "action": "add",
+      "before": null,
+      "after": [
+        "100644",
+        "5479c5222f03afdbc501e82c671f298c3978b8b8"
+      ],
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:tools/public_adl/ci_policy.py"
+    },
+    {
+      "path": "tools/public_adl/run_cli_ci.sh",
+      "action": "add",
+      "before": null,
+      "after": [
+        "100644",
+        "befb4b3f785e227b3aea445efc4a6b157f010e80"
+      ],
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:tools/public_adl/run_cli_ci.sh"
+    },
+    {
+      "path": "tools/public_adl/test_action_pins.py",
+      "action": "add",
+      "before": null,
+      "after": [
+        "100644",
+        "2dde981211b3aa5d3fa02e4f49a1ea723b36c6db"
+      ],
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:tools/public_adl/test_action_pins.py"
+    },
+    {
+      "path": "tools/public_adl/test_ci_contract.py",
+      "action": "modify",
+      "before": [
+        "100755",
+        "61fb0e2bb89a84d82f8b40b1953039b21407b267"
+      ],
+      "after": [
+        "100755",
+        "7e64d99db4cb346ac252f93704184a2e5848c78d"
+      ],
+      "implementation_commit": "bc3324635521987bd0c9315b1c62459c4f1d3578",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:tools/public_adl/test_ci_contract.py"
+    },
+    {
+      "path": "tools/public_adl/test_ci_policy.py",
+      "action": "add",
+      "before": null,
+      "after": [
+        "100644",
+        "9d355630522ddaaafb03d00758213dab50632274"
+      ],
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:tools/public_adl/test_ci_policy.py"
+    },
+    {
+      "path": "tools/public_adl/test_ci_routing.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "5cfaeee288392dc80f7bab32a9f9ebb4760ac6f9"
+      ],
+      "after": [
+        "100755",
+        "f895b325e82d5f2150001b33dd052fd4c1f16aa5"
+      ],
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:tools/public_adl/test_ci_routing.sh"
+    },
+    {
+      "path": "tools/public_adl/test_validation_interfaces.py",
+      "action": "add",
+      "before": null,
+      "after": [
+        "100644",
+        "81cd7500151f82a8fa7d0607920c7e3e81fd025b"
+      ],
+      "implementation_commit": "c9e305eddee18c9162560da5cd67b57a5addfafc",
+      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+      "review_reference": "review_1223_applied_components exact77/112 review",
+      "source_chain_reference": "proposed_reconciled_entries:tools/public_adl/test_validation_interfaces.py"
+    }
+  ],
+  "missing_entries": [],
+  "reviewed_cutover_batch": [
+    {
+      "path": ".github/workflows/ci.yaml",
+      "action": "modify",
+      "before": [
+        "100644",
+        "1737e9f7fa16fd9b93074fdf6deb3858a4ccd5b1"
+      ],
+      "after": [
+        "100644",
+        "9c6f703e8c48d0bbf25fc1e2ea7dd72023f5c0b0"
+      ],
+      "baseline_commit": "3f806eea3c1fbc4836cdb5a2a9eb64b791e7202c",
+      "implementation_commit": "951a4c097f",
+      "approval_reference": "PUBLIC_CUTOVER_APPLIED.json",
+      "applied_sha256": "e3cc84bd1be0f0fa54db50e0fecf26f9a945b71cb444493a8b176d2d924cc5bb"
+    },
+    {
+      "path": "AGENTS.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "a82b556cbc25ffad6672f6f2e762d946d5d048fe"
+      ],
+      "after": [
+        "100644",
+        "d29efbafb36e881d7efd687875cf2778ff8160cf"
+      ],
+      "baseline_commit": "3f806eea3c1fbc4836cdb5a2a9eb64b791e7202c",
+      "implementation_commit": "951a4c097f",
+      "approval_reference": "PUBLIC_CUTOVER_APPLIED.json",
+      "applied_sha256": "4f794af61c120bebcf8779c13d00e08919a4fe579234352a14a38c9663cf2549"
+    },
+    {
+      "path": "adl-uts/tools/test_ci_contract.rb",
+      "action": "modify",
+      "before": [
+        "100644",
+        "906dd9ad1649ec499d7473cd03a642eee190d711"
+      ],
+      "after": [
+        "100644",
+        "57b2a401f4c12a03b32bd06679777f23de489f51"
+      ],
+      "baseline_commit": "3f806eea3c1fbc4836cdb5a2a9eb64b791e7202c",
+      "implementation_commit": "951a4c097f",
+      "approval_reference": "PUBLIC_CUTOVER_APPLIED.json",
+      "applied_sha256": "044ea0a81db4ce59eb0aa6320e7bf9ecf0d31b7aba4713650ec5c9c910a74061"
+    },
+    {
+      "path": "adl/config/slow_proof_families.public.v1.json",
+      "action": "add",
+      "before": null,
+      "after": [
+        "100644",
+        "0820ad212659b56cd830cfabd16ac92833a17929"
+      ],
+      "baseline_commit": "3f806eea3c1fbc4836cdb5a2a9eb64b791e7202c",
+      "implementation_commit": "951a4c097f",
+      "approval_reference": "PUBLIC_CUTOVER_APPLIED.json",
+      "applied_sha256": "63ba540320970ac51499b3777d96278440c0f8a0eb4112ee130b2fbf5e9e6ff2"
+    },
+    {
+      "path": "adl/config/validation_lane_selector.public.v1.json",
+      "action": "add",
+      "before": null,
+      "after": [
+        "100644",
+        "1ec456fd1628ac12284e12771b46eff37e4413bf"
+      ],
+      "baseline_commit": "3f806eea3c1fbc4836cdb5a2a9eb64b791e7202c",
+      "implementation_commit": "951a4c097f",
+      "approval_reference": "PUBLIC_CUTOVER_APPLIED.json",
+      "applied_sha256": "7e688d41542dcedfbc24ed1962b11baf713714802ec13b5e533c6db1e05b24c4"
+    },
+    {
+      "path": "adl/tools/batched_checks.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "dcb7787cb56c92755abc353e8567f89ec3b61a50"
+      ],
+      "after": [
+        "100755",
+        "040d7ebb847d95319ff3b3c2ab677132f253244d"
+      ],
+      "baseline_commit": "3f806eea3c1fbc4836cdb5a2a9eb64b791e7202c",
+      "implementation_commit": "951a4c097f",
+      "approval_reference": "PUBLIC_CUTOVER_APPLIED.json",
+      "applied_sha256": "998b29bff3c48ed030a2528b2f962f5f99b0506097aa6ea193aeb67a55ad8031"
+    },
+    {
+      "path": "adl/tools/ci_path_policy.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "b145f1bfedc95f2288a2a069625d67f8eaa3ca1a"
+      ],
+      "after": [
+        "100755",
+        "c3ba898ff3bb12da226185598eef6e6387f89e18"
+      ],
+      "baseline_commit": "3f806eea3c1fbc4836cdb5a2a9eb64b791e7202c",
+      "implementation_commit": "951a4c097f",
+      "approval_reference": "PUBLIC_CUTOVER_APPLIED.json",
+      "applied_sha256": "9fb3888c1bd86f907c714d30ca996bcbcfbf8445aa14d1862c2fed5e0f1d8f99"
+    },
+    {
+      "path": "adl/tools/install_csdlc_man_pages.sh",
+      "action": "modify",
+      "before": [
+        "100644",
+        "6adbd02f4ffa240803599a712e61326a116e6e2a"
+      ],
+      "after": [
+        "100644",
+        "29010f8d6e96cb47d87e71fe8f82ca34ae3edb5a"
+      ],
+      "baseline_commit": "3f806eea3c1fbc4836cdb5a2a9eb64b791e7202c",
+      "implementation_commit": "951a4c097f",
+      "approval_reference": "PUBLIC_CUTOVER_APPLIED.json",
+      "applied_sha256": "1059f4d747cb606ee462367d150e8c1601b3143799330869da88e1c3515335eb"
+    },
+    {
+      "path": "adl/tools/install_owner_binaries.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "26a8f29af16f4aa66bfb31dadac251931e4f6731"
+      ],
+      "after": [
+        "100755",
+        "dc3870f056e24b4198e818ea8ebc578eea7fb9de"
+      ],
+      "baseline_commit": "3f806eea3c1fbc4836cdb5a2a9eb64b791e7202c",
+      "implementation_commit": "951a4c097f",
+      "approval_reference": "PUBLIC_CUTOVER_APPLIED.json",
+      "applied_sha256": "592a92ab416c0d822011db53ed508d3b538e79577363c36020fda966dad6683c"
+    },
+    {
+      "path": "adl/tools/preflight_review.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "9e4c8a0be48c1419d5695648b282b665f80f574f"
+      ],
+      "after": [
+        "100755",
+        "01627aadcae8e0705142c21d43d2a94b708310e6"
+      ],
+      "baseline_commit": "3f806eea3c1fbc4836cdb5a2a9eb64b791e7202c",
+      "implementation_commit": "951a4c097f",
+      "approval_reference": "PUBLIC_CUTOVER_APPLIED.json",
+      "applied_sha256": "247ac8d5c55e7c4cdcd1b06f969b0985eeafd5578ecbb0014b4f2ab0db779969"
+    },
+    {
+      "path": "adl/tools/run_validation_manager_nessus_lane.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "fbd78bd0cf78e2c97f10ce134cd92c28876cfc21"
+      ],
+      "after": [
+        "100755",
+        "e9d95807cfbac5050489f67bbefa9d9a585a6918"
+      ],
+      "baseline_commit": "3f806eea3c1fbc4836cdb5a2a9eb64b791e7202c",
+      "implementation_commit": "951a4c097f",
+      "approval_reference": "PUBLIC_CUTOVER_APPLIED.json",
+      "applied_sha256": "fae630ed8b215252ea4a549aeaab6f60afda0a23ca3c1620480214a093b74826"
+    },
+    {
+      "path": "adl/tools/select_validation_lanes.py",
+      "action": "modify",
+      "before": [
+        "100755",
+        "9c76be9178a3050bb4b690f85097b16b01512873"
+      ],
+      "after": [
+        "100755",
+        "310945ca1fdab4129ac182bc889680f634217e66"
+      ],
+      "baseline_commit": "3f806eea3c1fbc4836cdb5a2a9eb64b791e7202c",
+      "implementation_commit": "951a4c097f",
+      "approval_reference": "PUBLIC_CUTOVER_APPLIED.json",
+      "applied_sha256": "78c86a1532b34142b8ff94f4628e33dd3ab58d8e10c76a47bd910839e4680d52"
+    },
+    {
+      "path": "adl/tools/test_batched_checks_no_codexpr_usage_banner.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "6b1080bfb40e893f93e7c9e84efc2f1290937ce1"
+      ],
+      "after": [
+        "100755",
+        "50070132110628f6bb03461c429a40bf68cd9394"
+      ],
+      "baseline_commit": "3f806eea3c1fbc4836cdb5a2a9eb64b791e7202c",
+      "implementation_commit": "951a4c097f",
+      "approval_reference": "PUBLIC_CUTOVER_APPLIED.json",
+      "applied_sha256": "4c0f161fbdd4a0aa78bc1bdd6bce27bd35274b697ea49e3ff4a4ca29e30ad176"
+    },
+    {
+      "path": "adl/tools/test_run_validation_manager_nessus_lane.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "53d4194f8b4b52326580ef4e28b64c0fd53bf7ac"
+      ],
+      "after": [
+        "100755",
+        "43260c5d63ba0a50e3fca3511db6c7db3142ae0f"
+      ],
+      "baseline_commit": "3f806eea3c1fbc4836cdb5a2a9eb64b791e7202c",
+      "implementation_commit": "951a4c097f",
+      "approval_reference": "PUBLIC_CUTOVER_APPLIED.json",
+      "applied_sha256": "e4c88a1b056cc66380229cf696b7295cc03cc7af2406a8a2bb07cb58a94e6220"
+    },
+    {
+      "path": "adl/tools/test_select_validation_lanes.sh",
+      "action": "delete",
+      "before": [
+        "100755",
+        "7fa39d0d8d01bbc44f61b9369e6b1fb8cc55c013"
+      ],
+      "after": null,
+      "baseline_commit": "3f806eea3c1fbc4836cdb5a2a9eb64b791e7202c",
+      "implementation_commit": "951a4c097f",
+      "approval_reference": "PUBLIC_CUTOVER_APPLIED.json",
+      "applied_sha256": null
+    },
+    {
+      "path": "adl/tools/validate_ci_workflow_policy.rb",
+      "action": "modify",
+      "before": [
+        "100644",
+        "f11de4d8f1f51d47bdbcce930e2656fd614b4fcc"
+      ],
+      "after": [
+        "100644",
+        "318d56a5566d28ad86574b9de018a80221fd8cad"
+      ],
+      "baseline_commit": "3f806eea3c1fbc4836cdb5a2a9eb64b791e7202c",
+      "implementation_commit": "951a4c097f",
+      "approval_reference": "PUBLIC_CUTOVER_APPLIED.json",
+      "applied_sha256": "3f49293999d251bb91d3ab5745d2bba8c27ca667a2a369f8731b47bc735b562d"
+    },
+    {
+      "path": "adl/tools/validation_inventory.py",
+      "action": "modify",
+      "before": [
+        "100644",
+        "5fa45a5179b8f2cb1ae25c150ddca21708e91943"
+      ],
+      "after": [
+        "100644",
+        "88b5beadb802476b9f8f9755033c0c02db404252"
+      ],
+      "baseline_commit": "3f806eea3c1fbc4836cdb5a2a9eb64b791e7202c",
+      "implementation_commit": "951a4c097f",
+      "approval_reference": "PUBLIC_CUTOVER_APPLIED.json",
+      "applied_sha256": "6dd89823fb82ee071a8b67091f3b8a0f927bbab59b98e7d9ffeb8892f88e203f"
+    },
+    {
+      "path": "adl/tools/validation_manager.py",
+      "action": "modify",
+      "before": [
+        "100644",
+        "08e2cfd8f988028498b19c4f81b1f16c3b11138b"
+      ],
+      "after": [
+        "100644",
+        "79e2bab943e660acb23c288d2290f83b55d267ee"
+      ],
+      "baseline_commit": "3f806eea3c1fbc4836cdb5a2a9eb64b791e7202c",
+      "implementation_commit": "951a4c097f",
+      "approval_reference": "PUBLIC_CUTOVER_APPLIED.json",
+      "applied_sha256": "541ece57cf340e5675dce60421239d9d9c6669678395f6e0d13e33236f0e5e78"
+    },
+    {
+      "path": "demos/v0.89/multi_agent_repo_code_review_demo.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "c3283f32060705f1f4bed4f014b918061e1fb56f"
+      ],
+      "after": [
+        "100644",
+        "dca0e07487b080548036472f75ae5eaf77bcbc4b"
+      ],
+      "baseline_commit": "3f806eea3c1fbc4836cdb5a2a9eb64b791e7202c",
+      "implementation_commit": "951a4c097f",
+      "approval_reference": "PUBLIC_CUTOVER_APPLIED.json",
+      "applied_sha256": "e0eea13a9f6ea98f21261b8e1bb646ff7bb94b27dd443c566c7e7fd85ef765d5"
+    },
+    {
+      "path": "demos/v0.90.2/multi_agent_repo_review_proof_demo.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "c157417fbabfa86d0ad9da4c9f0cfd3aabc85b89"
+      ],
+      "after": [
+        "100644",
+        "f89920064566dcbd9a550601eaf14088fd8a66bd"
+      ],
+      "baseline_commit": "3f806eea3c1fbc4836cdb5a2a9eb64b791e7202c",
+      "implementation_commit": "951a4c097f",
+      "approval_reference": "PUBLIC_CUTOVER_APPLIED.json",
+      "applied_sha256": "2b671be4a528f171c5810c55cdf97db07bf2b8703a0796445998743d0c96df3d"
+    },
+    {
+      "path": "demos/v0.90/codebuddy_multi_agent_review_showcase_demo.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "6f2b4600e791e9cfa08989ea6a895e20897c72f3"
+      ],
+      "after": [
+        "100644",
+        "079d2827305b64190b1109a3b54f525c9d786f03"
+      ],
+      "baseline_commit": "3f806eea3c1fbc4836cdb5a2a9eb64b791e7202c",
+      "implementation_commit": "951a4c097f",
+      "approval_reference": "PUBLIC_CUTOVER_APPLIED.json",
+      "applied_sha256": "af207ca1ceca8f14aa6007d3f12fc3cdbbbfa3eeff17e38668b1a1181fa98d07"
+    },
+    {
+      "path": "demos/v0.91.4/multi_agent_repo_review_serious_proof_demo.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "61ff2d9455affc75a5ffee0565edff741275cf20"
+      ],
+      "after": [
+        "100644",
+        "c9bf8d14f389f83e0d09cc2ae781f9bbf145dc6d"
+      ],
+      "baseline_commit": "3f806eea3c1fbc4836cdb5a2a9eb64b791e7202c",
+      "implementation_commit": "951a4c097f",
+      "approval_reference": "PUBLIC_CUTOVER_APPLIED.json",
+      "applied_sha256": "5299065b64628baa6d7c2d76f0531182a90ff3fc436e06cb75a2f6706a2e64e3"
+    },
+    {
+      "path": "docs/architecture/VALIDATION_LANE_SELECTOR.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "88d5cbbf5fd17a93e09cfbf379b47b30ecbbea8b"
+      ],
+      "after": [
+        "100644",
+        "98f0935144a413d2eb28fe1efedada9232d868d9"
+      ],
+      "baseline_commit": "3f806eea3c1fbc4836cdb5a2a9eb64b791e7202c",
+      "implementation_commit": "951a4c097f",
+      "approval_reference": "PUBLIC_CUTOVER_APPLIED.json",
+      "applied_sha256": "3a8ebeee46b4f1c7a9bdd582f5d1f1c17985291dae1cdc13fa430cca90267f39"
+    },
+    {
+      "path": "docs/csdlc-v3/man/README.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "0505e6d89245e23402add654d863fdd1cb6ae935"
+      ],
+      "after": [
+        "100644",
+        "4d1b4d2814b4af18abac21ef165fd1c2f0dc3df1"
+      ],
+      "baseline_commit": "3f806eea3c1fbc4836cdb5a2a9eb64b791e7202c",
+      "implementation_commit": "951a4c097f",
+      "approval_reference": "PUBLIC_CUTOVER_APPLIED.json",
+      "applied_sha256": "bbc939f79319953e7449916e9b2311c1a58f01438f7ef657629a35f1bd13b121"
+    },
+    {
+      "path": "docs/csdlc-v3/man/test_install.sh",
+      "action": "modify",
+      "before": [
+        "100644",
+        "17141e82d9ea98ca380dc14cd58ed0d70587340a"
+      ],
+      "after": [
+        "100644",
+        "9a378919430320da7959f4dcefe77a34bc499975"
+      ],
+      "baseline_commit": "3f806eea3c1fbc4836cdb5a2a9eb64b791e7202c",
+      "implementation_commit": "951a4c097f",
+      "approval_reference": "PUBLIC_CUTOVER_APPLIED.json",
+      "applied_sha256": "dc9ec7ff69b750e58be29285e86073dcc8567204a36692b4e8eb6aabc371fadf"
+    },
+    {
+      "path": "docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "b1188f99e76fe00def9528994615f89cc0c33716"
+      ],
+      "after": [
+        "100644",
+        "efd88ebe9e9af7611638418b5931d19b1042b907"
+      ],
+      "baseline_commit": "3f806eea3c1fbc4836cdb5a2a9eb64b791e7202c",
+      "implementation_commit": "951a4c097f",
+      "approval_reference": "PUBLIC_CUTOVER_APPLIED.json",
+      "applied_sha256": "524c36b9c047662e7a87278bbc005d1bfb6d0f4f464bfff077b4c70b91bf58da"
+    },
+    {
+      "path": "docs/tooling/GITHUB_LARGER_RUNNER_PREFLIGHT.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "084572594950d410697e9f4303909ac0c7f0f9ba"
+      ],
+      "after": [
+        "100644",
+        "fac2037ddf7a6edb4c69191c9b3ede1788617b37"
+      ],
+      "baseline_commit": "3f806eea3c1fbc4836cdb5a2a9eb64b791e7202c",
+      "implementation_commit": "951a4c097f",
+      "approval_reference": "PUBLIC_CUTOVER_APPLIED.json",
+      "applied_sha256": "f3fcda4db9c54abe2cf62fec0674a1259a33fb88d0e1687f65b9a5e103827cc4"
+    },
+    {
+      "path": "docs/tooling/ISSUE_RESOURCE_TELEMETRY_COLLECTOR.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "76cf768348a41a26f82074ee8ed111f704056674"
+      ],
+      "after": [
+        "100644",
+        "bdb428b00b18e6388a1c2b847c5d496cd2195700"
+      ],
+      "baseline_commit": "3f806eea3c1fbc4836cdb5a2a9eb64b791e7202c",
+      "implementation_commit": "951a4c097f",
+      "approval_reference": "PUBLIC_CUTOVER_APPLIED.json",
+      "applied_sha256": "9a0d18003fc507a3fa8c39a6a3ec4b2039e01ee380180dd7bf06d16157ec023d"
+    },
+    {
+      "path": "docs/tooling/NESSUS_VALIDATION_MANAGER_LANE.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "70abba58eca1cf18aecb86bcda1bbda593b875ec"
+      ],
+      "after": [
+        "100644",
+        "590adf64f78311ebe2667ad51934806790450cdf"
+      ],
+      "baseline_commit": "3f806eea3c1fbc4836cdb5a2a9eb64b791e7202c",
+      "implementation_commit": "951a4c097f",
+      "approval_reference": "PUBLIC_CUTOVER_APPLIED.json",
+      "applied_sha256": "5068bdcce42c64581a5771e6d0e059a58cf1ada6c0c753def03a621469b48822"
+    },
+    {
+      "path": "docs/tooling/WP_ISSUE_WAVE_GENERATION.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "d742ae9651783c218ed3977e1cd179f4c24fd2d8"
+      ],
+      "after": [
+        "100644",
+        "63165fef96c6b65784c277026d136d2c9bcfe833"
+      ],
+      "baseline_commit": "3f806eea3c1fbc4836cdb5a2a9eb64b791e7202c",
+      "implementation_commit": "951a4c097f",
+      "approval_reference": "PUBLIC_CUTOVER_APPLIED.json",
+      "applied_sha256": "8dba774480139986c6d8e77c88ae06ac3dcfb27a49ed4be0613011f2535dbd8b"
+    },
+    {
+      "path": "tools/groupd_validation/src/lib.rs",
+      "action": "modify",
+      "before": [
+        "100644",
+        "4d93add96b5c64a095d1211dda8bea727decaa81"
+      ],
+      "after": [
+        "100644",
+        "07c8d3e425fd3ceadc70c79ab492b26811aac1dd"
+      ],
+      "baseline_commit": "3f806eea3c1fbc4836cdb5a2a9eb64b791e7202c",
+      "implementation_commit": "951a4c097f",
+      "approval_reference": "PUBLIC_CUTOVER_APPLIED.json",
+      "applied_sha256": "3dd1968fe5a7f6005ca0aa4afbea84ddeabacdc7dacae21de1c84231f25fea2f"
+    },
+    {
+      "path": "tools/public_adl/ci_policy.py",
+      "action": "add",
+      "before": null,
+      "after": [
+        "100644",
+        "5479c5222f03afdbc501e82c671f298c3978b8b8"
+      ],
+      "baseline_commit": "3f806eea3c1fbc4836cdb5a2a9eb64b791e7202c",
+      "implementation_commit": "951a4c097f",
+      "approval_reference": "PUBLIC_CUTOVER_APPLIED.json",
+      "applied_sha256": "620f64f11cfc437282b05a83aee2dcfdac5a9610f7e3183bbb735a3b9e34ec6d"
+    },
+    {
+      "path": "tools/public_adl/run_cli_ci.sh",
+      "action": "modify",
+      "before": [
+        "100644",
+        "e9f38230a517a603e0538f60d71297669bb6c3c6"
+      ],
+      "after": [
+        "100644",
+        "befb4b3f785e227b3aea445efc4a6b157f010e80"
+      ],
+      "baseline_commit": "3f806eea3c1fbc4836cdb5a2a9eb64b791e7202c",
+      "implementation_commit": "951a4c097f",
+      "approval_reference": "PUBLIC_CUTOVER_APPLIED.json",
+      "applied_sha256": "d72a13f408a6e0e9917419e1a8ea4fcc6057e343ecd1eda8efe06e0b88e7f8f3"
+    },
+    {
+      "path": "tools/public_adl/test_action_pins.py",
+      "action": "add",
+      "before": null,
+      "after": [
+        "100644",
+        "2dde981211b3aa5d3fa02e4f49a1ea723b36c6db"
+      ],
+      "baseline_commit": "3f806eea3c1fbc4836cdb5a2a9eb64b791e7202c",
+      "implementation_commit": "951a4c097f",
+      "approval_reference": "PUBLIC_CUTOVER_APPLIED.json",
+      "applied_sha256": "9419e15b2f618d1d54d1454b6c00a2a0812fb33a22b5f4b22b54d63704a20d8c"
+    },
+    {
+      "path": "tools/public_adl/test_ci_contract.py",
+      "action": "modify",
+      "before": [
+        "100755",
+        "4e9d350fee647a5368bec1042107c63c5dac7625"
+      ],
+      "after": [
+        "100755",
+        "7ba1d101387289ef9ef98aca46d743e9885ef98b"
+      ],
+      "baseline_commit": "3f806eea3c1fbc4836cdb5a2a9eb64b791e7202c",
+      "implementation_commit": "951a4c097f",
+      "approval_reference": "PUBLIC_CUTOVER_APPLIED.json",
+      "applied_sha256": "43c9af63e8977b717909adc3153791c52e793e3fcd919ab71b0bcd50ce4a0962"
+    },
+    {
+      "path": "tools/public_adl/test_ci_policy.py",
+      "action": "add",
+      "before": null,
+      "after": [
+        "100644",
+        "9d355630522ddaaafb03d00758213dab50632274"
+      ],
+      "baseline_commit": "3f806eea3c1fbc4836cdb5a2a9eb64b791e7202c",
+      "implementation_commit": "951a4c097f",
+      "approval_reference": "PUBLIC_CUTOVER_APPLIED.json",
+      "applied_sha256": "2dfb4e74ff0248dd024f5b7a814a0a21e04d7ed19b754f0497db6491dc086b23"
+    },
+    {
+      "path": "tools/public_adl/test_ci_routing.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "70c237ae32d72410bfb2dacdb5f39102a5b0138e"
+      ],
+      "after": [
+        "100755",
+        "f895b325e82d5f2150001b33dd052fd4c1f16aa5"
+      ],
+      "baseline_commit": "3f806eea3c1fbc4836cdb5a2a9eb64b791e7202c",
+      "implementation_commit": "951a4c097f",
+      "approval_reference": "PUBLIC_CUTOVER_APPLIED.json",
+      "applied_sha256": "960c897a41ad53980531109dde684fb416a6ed9e9b7005ad09724ec9f9020cd3"
+    },
+    {
+      "path": "tools/public_adl/test_validation_interfaces.py",
+      "action": "add",
+      "before": null,
+      "after": [
+        "100644",
+        "1eeb65ffdb6098de28b46092879a8853333d0d03"
+      ],
+      "baseline_commit": "3f806eea3c1fbc4836cdb5a2a9eb64b791e7202c",
+      "implementation_commit": "951a4c097f",
+      "approval_reference": "PUBLIC_CUTOVER_APPLIED.json",
+      "applied_sha256": "1a5a722fed60a946db3f70ac600d2472e725ed75ee3430cd7179d0a14a3190af"
+    }
+  ],
+  "remaining_requirements": [],
+  "boundary": "Incomplete reconciliation is a hard failure. Conditional ledger proposals authorize no new deletion.",
+  "proposed_reconciled_entries": [
+    {
+      "path": ".github/workflows/ci.yaml",
+      "action": "modify",
+      "before": [
+        "100644",
+        "9e65e9cb3406d275c2d559d45110216f89ed4731"
+      ],
+      "after": [
+        "100644",
+        "9c6f703e8c48d0bbf25fc1e2ea7dd72023f5c0b0"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "ci_and_validation",
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "source_chain": [
+        {
+          "commit": "375ef32c55744be45ee057470d6dc30a7d32b117",
+          "subject": "fix(ci): retain public artifact proof from its selected output root",
+          "before": [
+            "100644",
+            "9e65e9cb3406d275c2d559d45110216f89ed4731"
+          ],
+          "after": [
+            "100644",
+            "2ec14285304316cde9409bf273411a52003f4450"
+          ]
+        },
+        {
+          "commit": "2793fad928bd7c7e475459bc6ec0b1c4c972ff8b",
+          "subject": "ci(public-adl): require bounded public coverage producer",
+          "before": [
+            "100644",
+            "2ec14285304316cde9409bf273411a52003f4450"
+          ],
+          "after": [
+            "100644",
+            "1737e9f7fa16fd9b93074fdf6deb3858a4ccd5b1"
+          ]
+        },
+        {
+          "commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+          "subject": "fix: apply public repository validation cutover",
+          "before": [
+            "100644",
+            "1737e9f7fa16fd9b93074fdf6deb3858a4ccd5b1"
+          ],
+          "after": [
+            "100644",
+            "9c6f703e8c48d0bbf25fc1e2ea7dd72023f5c0b0"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "PUBLIC_CUTOVER_APPLIED.json",
+          "sha256": "b4c8926946c54a5bca644b8c171b03995a404b8bcea55102ef45c5ec6ff12dcd",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "AGENTS.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "a82b556cbc25ffad6672f6f2e762d946d5d048fe"
+      ],
+      "after": [
+        "100644",
+        "d29efbafb36e881d7efd687875cf2778ff8160cf"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "documentation_and_manifests",
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "source_chain": [
+        {
+          "commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+          "subject": "fix: apply public repository validation cutover",
+          "before": [
+            "100644",
+            "a82b556cbc25ffad6672f6f2e762d946d5d048fe"
+          ],
+          "after": [
+            "100644",
+            "d29efbafb36e881d7efd687875cf2778ff8160cf"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "PUBLIC_CUTOVER_APPLIED.json",
+          "sha256": "b4c8926946c54a5bca644b8c171b03995a404b8bcea55102ef45c5ec6ff12dcd",
+          "match": "exact path referenced; independent review must verify applicability"
+        },
+        {
+          "packet": "RESOLVED_RETENTION.json",
+          "sha256": "06062a86938d4b6fcc35f595431a17d6faf86bdc7e89eec4224e97ea23aef7ab",
+          "match": "exact path referenced; independent review must verify applicability"
+        },
+        {
+          "packet": "THROUGHPUT_AUTHORITY_CONSUMER_REPAIR.json",
+          "sha256": "f5dbf952ef6da0b38ac1da98c8cea2b1331f7519a86578d32dc9ac1812d29399",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "adl-uts/tools/test_ci_contract.rb",
+      "action": "modify",
+      "before": [
+        "100644",
+        "906dd9ad1649ec499d7473cd03a642eee190d711"
+      ],
+      "after": [
+        "100644",
+        "57b2a401f4c12a03b32bd06679777f23de489f51"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "ci_and_validation",
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "source_chain": [
+        {
+          "commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+          "subject": "fix: apply public repository validation cutover",
+          "before": [
+            "100644",
+            "906dd9ad1649ec499d7473cd03a642eee190d711"
+          ],
+          "after": [
+            "100644",
+            "57b2a401f4c12a03b32bd06679777f23de489f51"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "PUBLIC_CUTOVER_APPLIED.json",
+          "sha256": "b4c8926946c54a5bca644b8c171b03995a404b8bcea55102ef45c5ec6ff12dcd",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "adl/CONTRIBUTING.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "6d4b847a46c21bf385e1eba845ccafae2cad6522"
+      ],
+      "after": [
+        "100644",
+        "46732723ea44df7e391019630494ebfd6d9b51b8"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "documentation_and_manifests",
+      "implementation_commit": "fedc1f29ccca41ad4d2fce27d3688f877171d87b",
+      "source_chain": [
+        {
+          "commit": "fedc1f29ccca41ad4d2fce27d3688f877171d87b",
+          "subject": "docs(adl): align contributor guide with public CLI ownership",
+          "before": [
+            "100644",
+            "6d4b847a46c21bf385e1eba845ccafae2cad6522"
+          ],
+          "after": [
+            "100644",
+            "46732723ea44df7e391019630494ebfd6d9b51b8"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "source": "tools/source_retirement/check.py",
+          "commit": "b3654d91ee6516d402eee1c6d21560c44d855e3d",
+          "sha256": "8664fa5f029c07923a41cccba8fcc3458064f7521723159bdbf7ff9cc7d93557",
+          "review_binding": "consumer_reference_repair exact SHA256"
+        }
+      ]
+    },
+    {
+      "path": "adl/config/slow_proof_families.public.v1.json",
+      "action": "add",
+      "before": null,
+      "after": [
+        "100644",
+        "0820ad212659b56cd830cfabd16ac92833a17929"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "documentation_and_manifests",
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "source_chain": [
+        {
+          "commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+          "subject": "fix: apply public repository validation cutover",
+          "before": null,
+          "after": [
+            "100644",
+            "0820ad212659b56cd830cfabd16ac92833a17929"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "PUBLIC_CUTOVER_APPLIED.json",
+          "sha256": "b4c8926946c54a5bca644b8c171b03995a404b8bcea55102ef45c5ec6ff12dcd",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "adl/config/validation_lane_selector.public.v1.json",
+      "action": "add",
+      "before": null,
+      "after": [
+        "100644",
+        "1ec456fd1628ac12284e12771b46eff37e4413bf"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "ci_and_validation",
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "source_chain": [
+        {
+          "commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+          "subject": "fix: apply public repository validation cutover",
+          "before": null,
+          "after": [
+            "100644",
+            "1ec456fd1628ac12284e12771b46eff37e4413bf"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "PUBLIC_CUTOVER_APPLIED.json",
+          "sha256": "b4c8926946c54a5bca644b8c171b03995a404b8bcea55102ef45c5ec6ff12dcd",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "adl/config/validation_lane_selector.v0.91.6.json",
+      "action": "modify",
+      "before": [
+        "100644",
+        "939512d07bf70558305761a1adedc6ab5ce30c8e"
+      ],
+      "after": [
+        "100644",
+        "a085c014c3191dc9c9be317cdc1e272a961a0e63"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "ci_and_validation",
+      "implementation_commit": "39a64819e2ccc75a0b09616a7883f5835d047e35",
+      "source_chain": [
+        {
+          "commit": "9b6ea052ff24c8819a4b9a86a68a8255a8dd6503",
+          "subject": "refactor(retirement): remove approved split components and repair consumers",
+          "before": [
+            "100644",
+            "939512d07bf70558305761a1adedc6ab5ce30c8e"
+          ],
+          "after": [
+            "100644",
+            "eeb45ee903c465aa8d9007f8a6b66c2d69802b58"
+          ]
+        },
+        {
+          "commit": "bbc65b59bc0ce65aa48173b23e3dd84d7106bf77",
+          "subject": "refactor(adl): cut public CLI dependencies and installer scope for #1223",
+          "before": [
+            "100644",
+            "eeb45ee903c465aa8d9007f8a6b66c2d69802b58"
+          ],
+          "after": [
+            "100644",
+            "6dddf52115437d8eb1116090fe5f6f04a84abfc2"
+          ]
+        },
+        {
+          "commit": "5646981a1751253e885cbe5b5c25295d7d650f2e",
+          "subject": "refactor(retirement): preserve public consumers and enumerate remaining split scope",
+          "before": [
+            "100644",
+            "6dddf52115437d8eb1116090fe5f6f04a84abfc2"
+          ],
+          "after": [
+            "100644",
+            "5dc4fc4076ed7298a07abec47449292f26bdf5df"
+          ]
+        },
+        {
+          "commit": "39a64819e2ccc75a0b09616a7883f5835d047e35",
+          "subject": "test(public-adl): isolate observation contracts from retained source",
+          "before": [
+            "100644",
+            "5dc4fc4076ed7298a07abec47449292f26bdf5df"
+          ],
+          "after": [
+            "100644",
+            "a085c014c3191dc9c9be317cdc1e272a961a0e63"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "APPROVED_COMPONENT_DELTA.json",
+          "sha256": "4b752d6ccb95bb7c2857540126f3d1c145c2220838a1a1df9e9c59bc0d94198c",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "adl/src/cli/mod.rs",
+      "action": "modify",
+      "before": [
+        "100644",
+        "a10f95cc6d9e97cb78e3ee40407819795bc7e2eb"
+      ],
+      "after": [
+        "100644",
+        "0779a488e5cf60cb4e899eb63a0afe986f1cd900"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "public_facade_and_retained_helpers",
+      "implementation_commit": "b54b4009ef8856ab8404d9344576c33774ceb7a2",
+      "source_chain": [
+        {
+          "commit": "978148f807f935a5698201b88aa6008627e23890",
+          "subject": "Delegate public workflow execution and resume to qualified Runtime",
+          "before": [
+            "100644",
+            "a10f95cc6d9e97cb78e3ee40407819795bc7e2eb"
+          ],
+          "after": [
+            "100644",
+            "f43bb539193f183ebd200dbb16ad16bbbc282897"
+          ]
+        },
+        {
+          "commit": "43f40957d6ce042da54f1f9f607db72509eb4144",
+          "subject": "Delegate CodeFriend commands through its qualified installation receipt",
+          "before": [
+            "100644",
+            "f43bb539193f183ebd200dbb16ad16bbbc282897"
+          ],
+          "after": [
+            "100644",
+            "02cb253d6f1281a03e6ea17902e859b3324b4591"
+          ]
+        },
+        {
+          "commit": "b54b4009ef8856ab8404d9344576c33774ceb7a2",
+          "subject": "refactor(adl): select portable public CLI facade for #1223",
+          "before": [
+            "100644",
+            "02cb253d6f1281a03e6ea17902e859b3324b4591"
+          ],
+          "after": [
+            "100644",
+            "0779a488e5cf60cb4e899eb63a0afe986f1cd900"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "APPROVED_COMPONENT_DELTA.json",
+          "sha256": "4b752d6ccb95bb7c2857540126f3d1c145c2220838a1a1df9e9c59bc0d94198c",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "adl/src/cli/run.rs",
+      "action": "modify",
+      "before": [
+        "100644",
+        "d81cbe5f5580aa63bafd4f0ebae7e5207148c220"
+      ],
+      "after": [
+        "100644",
+        "9d43c8fcb600fe21a6c43de7819a40aedc6f525d"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "public_facade_and_retained_helpers",
+      "implementation_commit": "b54b4009ef8856ab8404d9344576c33774ceb7a2",
+      "source_chain": [
+        {
+          "commit": "67a0972dee1f78cf2a02cdea61822c9c8e3fb42d",
+          "subject": "refactor(cli): isolate legacy workflow argument contract",
+          "before": [
+            "100644",
+            "d81cbe5f5580aa63bafd4f0ebae7e5207148c220"
+          ],
+          "after": [
+            "100644",
+            "c6343cb26caf27564db48e39ee0091d474426b9c"
+          ]
+        },
+        {
+          "commit": "16221fdc4dc1d87b8f82980fe7fcef04e66fdaf2",
+          "subject": "refactor(cli): isolate portable workflow presentation",
+          "before": [
+            "100644",
+            "c6343cb26caf27564db48e39ee0091d474426b9c"
+          ],
+          "after": [
+            "100644",
+            "379dbbef5d5e09279041530c9d715608b98ae35b"
+          ]
+        },
+        {
+          "commit": "46cab004d0068c03b94426b52f8131d5326fc0bb",
+          "subject": "Preserve legacy resume diagnostics before Runtime delegation",
+          "before": [
+            "100644",
+            "379dbbef5d5e09279041530c9d715608b98ae35b"
+          ],
+          "after": [
+            "100644",
+            "9d43c8fcb600fe21a6c43de7819a40aedc6f525d"
+          ]
+        },
+        {
+          "commit": "978148f807f935a5698201b88aa6008627e23890",
+          "subject": "Delegate public workflow execution and resume to qualified Runtime",
+          "before": [
+            "100644",
+            "9d43c8fcb600fe21a6c43de7819a40aedc6f525d"
+          ],
+          "after": [
+            "100644",
+            "a610e522dc05c0d8f034c03bcf717422b2ee4959"
+          ]
+        },
+        {
+          "commit": "b54b4009ef8856ab8404d9344576c33774ceb7a2",
+          "subject": "refactor(adl): select portable public CLI facade for #1223",
+          "before": [
+            "100644",
+            "a610e522dc05c0d8f034c03bcf717422b2ee4959"
+          ],
+          "after": [
+            "100644",
+            "9d43c8fcb600fe21a6c43de7819a40aedc6f525d"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "APPROVED_COMPONENT_DELTA.json",
+          "sha256": "4b752d6ccb95bb7c2857540126f3d1c145c2220838a1a1df9e9c59bc0d94198c",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "adl/tests/fixtures/codefriend/fitness-ci/PVF.json",
+      "action": "modify",
+      "before": [
+        "100644",
+        "68f8c55f7a320522ec70c7d806ddfce0cf564a3d"
+      ],
+      "after": [
+        "100644",
+        "8f9e57493c4c7aace1c4e5766cd862dca90f993f"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "documentation_and_manifests",
+      "implementation_commit": "261186964c8780486a7b75e13f4de1f9df505a86",
+      "source_chain": [
+        {
+          "commit": "261186964c8780486a7b75e13f4de1f9df505a86",
+          "subject": "docs: retire obsolete CI topology and runtime aggregate contracts",
+          "before": [
+            "100644",
+            "68f8c55f7a320522ec70c7d806ddfce0cf564a3d"
+          ],
+          "after": [
+            "100644",
+            "8f9e57493c4c7aace1c4e5766cd862dca90f993f"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "CODEFRIEND_LEGACY_CI_RETIREMENT.json",
+          "sha256": "f760a961f3cf92f830e243b9f622e3572b7a891fa81e095561a635f3629c07ec",
+          "review_binding": "Explicit root/reviewer correspondence; packet uses family/ID or exact legacy guard rather than literal path"
+        }
+      ]
+    },
+    {
+      "path": "adl/tests/issue_327_removed_tooling.rs",
+      "action": "modify",
+      "before": [
+        "100644",
+        "1e689a9a3f1b445ca148eba2ed9c4e4ff1527b4c"
+      ],
+      "after": [
+        "100644",
+        "91abfeaf670075fbc54bdd2004e3f9674b2f4406"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "public_facade_and_retained_helpers",
+      "implementation_commit": "5646981a1751253e885cbe5b5c25295d7d650f2e",
+      "source_chain": [
+        {
+          "commit": "bbc65b59bc0ce65aa48173b23e3dd84d7106bf77",
+          "subject": "refactor(adl): cut public CLI dependencies and installer scope for #1223",
+          "before": [
+            "100644",
+            "1e689a9a3f1b445ca148eba2ed9c4e4ff1527b4c"
+          ],
+          "after": [
+            "100644",
+            "5fdca0363cae6df8fe1310d6040133260237c835"
+          ]
+        },
+        {
+          "commit": "5646981a1751253e885cbe5b5c25295d7d650f2e",
+          "subject": "refactor(retirement): preserve public consumers and enumerate remaining split scope",
+          "before": [
+            "100644",
+            "5fdca0363cae6df8fe1310d6040133260237c835"
+          ],
+          "after": [
+            "100644",
+            "91abfeaf670075fbc54bdd2004e3f9674b2f4406"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "APPROVED_COMPONENT_DELTA.json",
+          "sha256": "4b752d6ccb95bb7c2857540126f3d1c145c2220838a1a1df9e9c59bc0d94198c",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/README.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "3a6334f2e29d10598bffd49297bf882fbd6b3452"
+      ],
+      "after": [
+        "100644",
+        "c319da9f23657c721612b00f1ffe3d87f4f28bc3"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "documentation_and_manifests",
+      "implementation_commit": "666818f2aafdaf4839d1c3de4119b513c4236d3d",
+      "source_chain": [
+        {
+          "commit": "666818f2aafdaf4839d1c3de4119b513c4236d3d",
+          "subject": "docs: reconcile ten retirement dispositions and historical skill callers",
+          "before": [
+            "100644",
+            "3a6334f2e29d10598bffd49297bf882fbd6b3452"
+          ],
+          "after": [
+            "100644",
+            "c319da9f23657c721612b00f1ffe3d87f4f28bc3"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "SKILL_COMPLETENESS_HISTORICAL_DISPOSITION.json",
+          "sha256": "04e4fb4cff9af27138381db03eed4c71bb0c66cd225d68e964e15cd703a4dfd9",
+          "review_binding": "Explicit root/reviewer correspondence; packet uses family/ID or exact legacy guard rather than literal path"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/batched_checks.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "dcb7787cb56c92755abc353e8567f89ec3b61a50"
+      ],
+      "after": [
+        "100755",
+        "040d7ebb847d95319ff3b3c2ab677132f253244d"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "ci_and_validation",
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "source_chain": [
+        {
+          "commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+          "subject": "fix: apply public repository validation cutover",
+          "before": [
+            "100755",
+            "dcb7787cb56c92755abc353e8567f89ec3b61a50"
+          ],
+          "after": [
+            "100755",
+            "040d7ebb847d95319ff3b3c2ab677132f253244d"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "HISTORICAL_V2_SUPPLY_CHAIN_RETENTION.json",
+          "sha256": "60c3a8ee976ab63c19ac395bc16bd64cb997273f7fdd1a816fd10540bb9e8ed6",
+          "match": "exact path referenced; independent review must verify applicability"
+        },
+        {
+          "packet": "PUBLIC_CUTOVER_APPLIED.json",
+          "sha256": "b4c8926946c54a5bca644b8c171b03995a404b8bcea55102ef45c5ec6ff12dcd",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/ci_path_policy.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "b145f1bfedc95f2288a2a069625d67f8eaa3ca1a"
+      ],
+      "after": [
+        "100755",
+        "c3ba898ff3bb12da226185598eef6e6387f89e18"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "ci_and_validation",
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "source_chain": [
+        {
+          "commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+          "subject": "fix: apply public repository validation cutover",
+          "before": [
+            "100755",
+            "b145f1bfedc95f2288a2a069625d67f8eaa3ca1a"
+          ],
+          "after": [
+            "100755",
+            "c3ba898ff3bb12da226185598eef6e6387f89e18"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "PUBLIC_CUTOVER_APPLIED.json",
+          "sha256": "b4c8926946c54a5bca644b8c171b03995a404b8bcea55102ef45c5ec6ff12dcd",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/demo_v0912_workflow_guardrails_showcase.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "f328490582b005c270d7e72eccdb59fd893539e5"
+      ],
+      "after": [
+        "100755",
+        "cbef8662d63c9e74ec5762d070307bcef7de54f8"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "public_facade_and_retained_helpers",
+      "implementation_commit": "c485f8412371dd70f4c3bb37ac65c9102049b6fd",
+      "source_chain": [
+        {
+          "commit": "c485f8412371dd70f4c3bb37ac65c9102049b6fd",
+          "subject": "fix(rd07): route workflow guardrails through native doctor",
+          "before": [
+            "100755",
+            "f328490582b005c270d7e72eccdb59fd893539e5"
+          ],
+          "after": [
+            "100755",
+            "cbef8662d63c9e74ec5762d070307bcef7de54f8"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "WORKFLOW_GUARDRAIL_CONSUMER_REPAIR.json",
+          "sha256": "5ef2d366d4535a006e392f3e3141260d86a123646fef67ff3e0a3bdfb68b37c6",
+          "review_binding": "Explicit root/reviewer correspondence; packet uses family/ID or exact legacy guard rather than literal path"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/demo_v0913_quality_gate.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "4f7320394aed316bab354bfeacb9de54a5c09f2d"
+      ],
+      "after": [
+        "100755",
+        "34d1285cd725425d286e2aa5d71c2360cb262974"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "public_facade_and_retained_helpers",
+      "implementation_commit": "a97e0ed936f74afb42106bb2a2cdf1e5bee3b349",
+      "source_chain": [
+        {
+          "commit": "a97e0ed936f74afb42106bb2a2cdf1e5bee3b349",
+          "subject": "fix(rd07): target retained public schema tests in both gates",
+          "before": [
+            "100755",
+            "4f7320394aed316bab354bfeacb9de54a5c09f2d"
+          ],
+          "after": [
+            "100755",
+            "34d1285cd725425d286e2aa5d71c2360cb262974"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "V0913_PUBLIC_HISTORICAL_RETENTION.json",
+          "sha256": "cf516f60400f92734a815127064f4e5dabadaf9c2421082aa09841795cb61146",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/fix_git_main_sync_preserve_local_adl.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "6b2454d588949dad759f095b6778c9f45941e631"
+      ],
+      "after": [
+        "100755",
+        "6e2eb43ca0abd95817a921240f25079db8e8ace0"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "public_facade_and_retained_helpers",
+      "implementation_commit": "f6000f411dd709870196c9ae902b458df8c9cd05",
+      "source_chain": [
+        {
+          "commit": "f6000f411dd709870196c9ae902b458df8c9cd05",
+          "subject": "fix: align retained ADL caller contracts with native v3 interfaces",
+          "before": [
+            "100755",
+            "6b2454d588949dad759f095b6778c9f45941e631"
+          ],
+          "after": [
+            "100755",
+            "6e2eb43ca0abd95817a921240f25079db8e8ace0"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "MAIN_SYNC_HELPER_BUG.json",
+          "sha256": "18e68d8be249f4f3fe01832c86792c08f6566a7621d360d55a169863d6a8ce09",
+          "match": "exact path referenced; independent review must verify applicability"
+        },
+        {
+          "packet": "MAIN_SYNC_RETIREMENT_DISPOSITION.json",
+          "sha256": "337d75f4765bb11eea18538dfebf8916d9202b9ebc320a74f46783c698c922a9",
+          "match": "exact path referenced; independent review must verify applicability"
+        },
+        {
+          "packet": "ADL_CALLER_CONTRACT_REPAIR.json",
+          "sha256": "a3d14c281ec115d8dddb5c188597a58eed9ea62f7eb50e1d83350de569d1c3af",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/generate_active_command_reference_scan.py",
+      "action": "modify",
+      "before": [
+        "100644",
+        "07b4f2bb8df94abd951f7fa13d652ebf7640ee5a"
+      ],
+      "after": [
+        "100644",
+        "4293def09641fabe5fdf2e91bf08e8dddbd01ecc"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "public_facade_and_retained_helpers",
+      "implementation_commit": "387ca92b99f04cd9f73c45d23711fa9cfecccaae",
+      "source_chain": [
+        {
+          "commit": "387ca92b99f04cd9f73c45d23711fa9cfecccaae",
+          "subject": "fix(rd07): retain current tool registry and strict scanner",
+          "before": [
+            "100644",
+            "07b4f2bb8df94abd951f7fa13d652ebf7640ee5a"
+          ],
+          "after": [
+            "100644",
+            "4293def09641fabe5fdf2e91bf08e8dddbd01ecc"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "TOOL_REGISTRY_CONSUMER_REPAIR.json",
+          "sha256": "36b017261376bc25742f173dc464b194d69323cf659f0bc6e033b334cac01f02",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/generate_tool_surface_registry.py",
+      "action": "modify",
+      "before": [
+        "100644",
+        "f490235aeb10ef360442c83f983b3d824cdbe96a"
+      ],
+      "after": [
+        "100644",
+        "f93953c6ca36b7484675724455ee85f594649e57"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "public_facade_and_retained_helpers",
+      "implementation_commit": "d1a18b5758a80ffcfa6acce0be436637e4c76e0d",
+      "source_chain": [
+        {
+          "commit": "387ca92b99f04cd9f73c45d23711fa9cfecccaae",
+          "subject": "fix(rd07): retain current tool registry and strict scanner",
+          "before": [
+            "100644",
+            "f490235aeb10ef360442c83f983b3d824cdbe96a"
+          ],
+          "after": [
+            "100644",
+            "698b01fe62d5823270df80c229394f63072f672b"
+          ]
+        },
+        {
+          "commit": "8ae73ceccf87e8aa99aab21854e18fc2a41a2bdf",
+          "subject": "fix: classify retained historical tools without cache-dependent inventory",
+          "before": [
+            "100644",
+            "698b01fe62d5823270df80c229394f63072f672b"
+          ],
+          "after": [
+            "100644",
+            "c0a4520049331a38ec7430746a1350f869da8b9d"
+          ]
+        },
+        {
+          "commit": "5edd4bf7452227fbfa83e990ffd496baeba6a3c0",
+          "subject": "fix: reconcile installed manual callers and retained proof contracts",
+          "before": [
+            "100644",
+            "c0a4520049331a38ec7430746a1350f869da8b9d"
+          ],
+          "after": [
+            "100644",
+            "1d9d6c9fd55ef80cd0833502eaa3dca7a8ce52b6"
+          ]
+        },
+        {
+          "commit": "d1a18b5758a80ffcfa6acce0be436637e4c76e0d",
+          "subject": "docs: preserve GPU proof history and bounded OTLP evidence",
+          "before": [
+            "100644",
+            "1d9d6c9fd55ef80cd0833502eaa3dca7a8ce52b6"
+          ],
+          "after": [
+            "100644",
+            "f93953c6ca36b7484675724455ee85f594649e57"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "HISTORICAL_REGISTRY_CALLER_REPAIR.json",
+          "sha256": "50bc9b9f037a7d4887f12b95e690d2b8f13b5939546fd5dd7c3c6e6cb29a3266",
+          "match": "exact path referenced; independent review must verify applicability"
+        },
+        {
+          "packet": "TOOL_REGISTRY_CONSUMER_REPAIR.json",
+          "sha256": "36b017261376bc25742f173dc464b194d69323cf659f0bc6e033b334cac01f02",
+          "match": "exact path referenced; independent review must verify applicability"
+        },
+        {
+          "packet": "WORKCELL_HISTORICAL_SOURCE_RETENTION.json",
+          "sha256": "941c197d6eaccfb27de4e46637d19e8757eb837ccd993bce1953fbd8e04ea70d",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/install_csdlc_man_pages.sh",
+      "action": "modify",
+      "before": [
+        "100644",
+        "6adbd02f4ffa240803599a712e61326a116e6e2a"
+      ],
+      "after": [
+        "100644",
+        "29010f8d6e96cb47d87e71fe8f82ca34ae3edb5a"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "public_facade_and_retained_helpers",
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "source_chain": [
+        {
+          "commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+          "subject": "fix: apply public repository validation cutover",
+          "before": [
+            "100644",
+            "6adbd02f4ffa240803599a712e61326a116e6e2a"
+          ],
+          "after": [
+            "100644",
+            "29010f8d6e96cb47d87e71fe8f82ca34ae3edb5a"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "PUBLIC_CUTOVER_APPLIED.json",
+          "sha256": "b4c8926946c54a5bca644b8c171b03995a404b8bcea55102ef45c5ec6ff12dcd",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/install_owner_binaries.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "40c0464f6ed4885accadb6043b5cf3bbe2519dfb"
+      ],
+      "after": [
+        "100755",
+        "dc3870f056e24b4198e818ea8ebc578eea7fb9de"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "public_facade_and_retained_helpers",
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "source_chain": [
+        {
+          "commit": "bbc65b59bc0ce65aa48173b23e3dd84d7106bf77",
+          "subject": "refactor(adl): cut public CLI dependencies and installer scope for #1223",
+          "before": [
+            "100755",
+            "40c0464f6ed4885accadb6043b5cf3bbe2519dfb"
+          ],
+          "after": [
+            "100755",
+            "26a8f29af16f4aa66bfb31dadac251931e4f6731"
+          ]
+        },
+        {
+          "commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+          "subject": "fix: apply public repository validation cutover",
+          "before": [
+            "100755",
+            "26a8f29af16f4aa66bfb31dadac251931e4f6731"
+          ],
+          "after": [
+            "100755",
+            "dc3870f056e24b4198e818ea8ebc578eea7fb9de"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "APPROVED_COMPONENT_DELTA.json",
+          "sha256": "4b752d6ccb95bb7c2857540126f3d1c145c2220838a1a1df9e9c59bc0d94198c",
+          "match": "exact path referenced; independent review must verify applicability"
+        },
+        {
+          "packet": "PUBLIC_CUTOVER_APPLIED.json",
+          "sha256": "b4c8926946c54a5bca644b8c171b03995a404b8bcea55102ef45c5ec6ff12dcd",
+          "match": "exact path referenced; independent review must verify applicability"
+        },
+        {
+          "packet": "RESOLVED_RETENTION.json",
+          "sha256": "06062a86938d4b6fcc35f595431a17d6faf86bdc7e89eec4224e97ea23aef7ab",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/owner_binary_resolution.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "9a79ed9b5db4d8d6ff827d9113a6e2016b1e925e"
+      ],
+      "after": [
+        "100755",
+        "d226fb182dcd1a7f57b09facb0dc5e9d3f3ce31e"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "public_facade_and_retained_helpers",
+      "implementation_commit": "bbc65b59bc0ce65aa48173b23e3dd84d7106bf77",
+      "source_chain": [
+        {
+          "commit": "bbc65b59bc0ce65aa48173b23e3dd84d7106bf77",
+          "subject": "refactor(adl): cut public CLI dependencies and installer scope for #1223",
+          "before": [
+            "100755",
+            "9a79ed9b5db4d8d6ff827d9113a6e2016b1e925e"
+          ],
+          "after": [
+            "100755",
+            "d226fb182dcd1a7f57b09facb0dc5e9d3f3ce31e"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "APPROVED_COMPONENT_DELTA.json",
+          "sha256": "4b752d6ccb95bb7c2857540126f3d1c145c2220838a1a1df9e9c59bc0d94198c",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/preflight_review.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "9e4c8a0be48c1419d5695648b282b665f80f574f"
+      ],
+      "after": [
+        "100755",
+        "01627aadcae8e0705142c21d43d2a94b708310e6"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "public_facade_and_retained_helpers",
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "source_chain": [
+        {
+          "commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+          "subject": "fix: apply public repository validation cutover",
+          "before": [
+            "100755",
+            "9e4c8a0be48c1419d5695648b282b665f80f574f"
+          ],
+          "after": [
+            "100755",
+            "01627aadcae8e0705142c21d43d2a94b708310e6"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "PUBLIC_CUTOVER_APPLIED.json",
+          "sha256": "b4c8926946c54a5bca644b8c171b03995a404b8bcea55102ef45c5ec6ff12dcd",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/run_v0913_proof_validation_lane.sh",
+      "action": "modify",
+      "before": [
+        "100644",
+        "acc0e21b0123d4cf54cf4d09e53891bb79944533"
+      ],
+      "after": [
+        "100644",
+        "1f2982e6e3f7c2ca16ea88e1df6274649e4e2de1"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "ci_and_validation",
+      "implementation_commit": "a97e0ed936f74afb42106bb2a2cdf1e5bee3b349",
+      "source_chain": [
+        {
+          "commit": "a97e0ed936f74afb42106bb2a2cdf1e5bee3b349",
+          "subject": "fix(rd07): target retained public schema tests in both gates",
+          "before": [
+            "100644",
+            "acc0e21b0123d4cf54cf4d09e53891bb79944533"
+          ],
+          "after": [
+            "100644",
+            "1f2982e6e3f7c2ca16ea88e1df6274649e4e2de1"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "V0913_PUBLIC_HISTORICAL_RETENTION.json",
+          "sha256": "cf516f60400f92734a815127064f4e5dabadaf9c2421082aa09841795cb61146",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/run_validation_manager_nessus_lane.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "fbd78bd0cf78e2c97f10ce134cd92c28876cfc21"
+      ],
+      "after": [
+        "100755",
+        "e9d95807cfbac5050489f67bbefa9d9a585a6918"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "ci_and_validation",
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "source_chain": [
+        {
+          "commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+          "subject": "fix: apply public repository validation cutover",
+          "before": [
+            "100755",
+            "fbd78bd0cf78e2c97f10ce134cd92c28876cfc21"
+          ],
+          "after": [
+            "100755",
+            "e9d95807cfbac5050489f67bbefa9d9a585a6918"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "PUBLIC_CUTOVER_APPLIED.json",
+          "sha256": "b4c8926946c54a5bca644b8c171b03995a404b8bcea55102ef45c5ec6ff12dcd",
+          "match": "exact path referenced; independent review must verify applicability"
+        },
+        {
+          "packet": "NESSUS_TRANSPORT_RETENTION.json",
+          "sha256": "f9a828378610b507e26a9a61f67d15b2a75a5fe47a120ff9c3a29fed3b50a36e",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/select_validation_lanes.py",
+      "action": "modify",
+      "before": [
+        "100755",
+        "9c76be9178a3050bb4b690f85097b16b01512873"
+      ],
+      "after": [
+        "100755",
+        "310945ca1fdab4129ac182bc889680f634217e66"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "ci_and_validation",
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "source_chain": [
+        {
+          "commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+          "subject": "fix: apply public repository validation cutover",
+          "before": [
+            "100755",
+            "9c76be9178a3050bb4b690f85097b16b01512873"
+          ],
+          "after": [
+            "100755",
+            "310945ca1fdab4129ac182bc889680f634217e66"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "HISTORICAL_V2_SUPPLY_CHAIN_RETENTION.json",
+          "sha256": "60c3a8ee976ab63c19ac395bc16bd64cb997273f7fdd1a816fd10540bb9e8ed6",
+          "match": "exact path referenced; independent review must verify applicability"
+        },
+        {
+          "packet": "PUBLIC_CUTOVER_APPLIED.json",
+          "sha256": "b4c8926946c54a5bca644b8c171b03995a404b8bcea55102ef45c5ec6ff12dcd",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/skills/docs/OPERATIONAL_SKILLS_GUIDE.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "263bca3ba1e112c387b9b139c6f0fe5ac4a2f744"
+      ],
+      "after": [
+        "100644",
+        "1005e27b18920921fc29dbec3ef39901e8ebcbc4"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "documentation_and_manifests",
+      "implementation_commit": "666818f2aafdaf4839d1c3de4119b513c4236d3d",
+      "source_chain": [
+        {
+          "commit": "666818f2aafdaf4839d1c3de4119b513c4236d3d",
+          "subject": "docs: reconcile ten retirement dispositions and historical skill callers",
+          "before": [
+            "100644",
+            "263bca3ba1e112c387b9b139c6f0fe5ac4a2f744"
+          ],
+          "after": [
+            "100644",
+            "1005e27b18920921fc29dbec3ef39901e8ebcbc4"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "SHARED_EDITOR_GUIDANCE_RETENTION.json",
+          "sha256": "6f9553c6db4a1d24eabc647b7a1bc6d083a916f24796c3d63ecba5bcd0686cea",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/test_batched_checks_no_codexpr_usage_banner.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "6b1080bfb40e893f93e7c9e84efc2f1290937ce1"
+      ],
+      "after": [
+        "100755",
+        "50070132110628f6bb03461c429a40bf68cd9394"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "ci_and_validation",
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "source_chain": [
+        {
+          "commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+          "subject": "fix: apply public repository validation cutover",
+          "before": [
+            "100755",
+            "6b1080bfb40e893f93e7c9e84efc2f1290937ce1"
+          ],
+          "after": [
+            "100755",
+            "50070132110628f6bb03461c429a40bf68cd9394"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "PUBLIC_CUTOVER_APPLIED.json",
+          "sha256": "b4c8926946c54a5bca644b8c171b03995a404b8bcea55102ef45c5ec6ff12dcd",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/test_check_issue_metadata_parity.sh",
+      "action": "modify",
+      "before": [
+        "100644",
+        "d629491ec2de7e368c2284a1dacec208c585fc91"
+      ],
+      "after": [
+        "100644",
+        "899ce61336b89d50f0fb03a7af674783ca940838"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "public_facade_and_retained_helpers",
+      "implementation_commit": "f6000f411dd709870196c9ae902b458df8c9cd05",
+      "source_chain": [
+        {
+          "commit": "f6000f411dd709870196c9ae902b458df8c9cd05",
+          "subject": "fix: align retained ADL caller contracts with native v3 interfaces",
+          "before": [
+            "100644",
+            "d629491ec2de7e368c2284a1dacec208c585fc91"
+          ],
+          "after": [
+            "100644",
+            "899ce61336b89d50f0fb03a7af674783ca940838"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "SHARED_EDITOR_GUIDANCE_RETENTION.json",
+          "sha256": "6f9553c6db4a1d24eabc647b7a1bc6d083a916f24796c3d63ecba5bcd0686cea",
+          "match": "exact path referenced; independent review must verify applicability"
+        },
+        {
+          "packet": "ADL_CALLER_CONTRACT_REPAIR.json",
+          "sha256": "a3d14c281ec115d8dddb5c188597a58eed9ea62f7eb50e1d83350de569d1c3af",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/test_cli_owner_command_guidance.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "b9e4ff839bdfa5fafc1077df4d99b4697aa1fd83"
+      ],
+      "after": [
+        "100755",
+        "0e9b0480c8471d56213a61abd540f98f24c18db9"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "public_facade_and_retained_helpers",
+      "implementation_commit": "13521e3280fa2c5017721e44fcc31cc23dea5542",
+      "source_chain": [
+        {
+          "commit": "f6000f411dd709870196c9ae902b458df8c9cd05",
+          "subject": "fix: align retained ADL caller contracts with native v3 interfaces",
+          "before": [
+            "100755",
+            "b9e4ff839bdfa5fafc1077df4d99b4697aa1fd83"
+          ],
+          "after": [
+            "100755",
+            "b9f448f94941cb4ad6b51cd1b424b50207f3f590"
+          ]
+        },
+        {
+          "commit": "13521e3280fa2c5017721e44fcc31cc23dea5542",
+          "subject": "fix: preserve public command guidance through source retirement",
+          "before": [
+            "100755",
+            "b9f448f94941cb4ad6b51cd1b424b50207f3f590"
+          ],
+          "after": [
+            "100755",
+            "0e9b0480c8471d56213a61abd540f98f24c18db9"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "PUBLIC_COMMAND_GUIDANCE_REPAIR.json",
+          "sha256": "3095cbb85915bafaa534353c9ceb9c89b28f6f1ad30da8808bd97b878c5b9d20",
+          "match": "exact path referenced; independent review must verify applicability"
+        },
+        {
+          "packet": "ADL_CALLER_CONTRACT_REPAIR.json",
+          "sha256": "a3d14c281ec115d8dddb5c188597a58eed9ea62f7eb50e1d83350de569d1c3af",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/test_closeout_completed_issue_wave.sh",
+      "action": "modify",
+      "before": [
+        "100644",
+        "5858192817bd6f1772a1e3b385a022ceb88048b5"
+      ],
+      "after": [
+        "100644",
+        "15c381d64077874fb23fac484f80bef28b5f55b5"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "public_facade_and_retained_helpers",
+      "implementation_commit": "df7aea57ab44762ed710133bc21b5287933ce43b",
+      "source_chain": [
+        {
+          "commit": "f6000f411dd709870196c9ae902b458df8c9cd05",
+          "subject": "fix: align retained ADL caller contracts with native v3 interfaces",
+          "before": [
+            "100644",
+            "5858192817bd6f1772a1e3b385a022ceb88048b5"
+          ],
+          "after": [
+            "100644",
+            "2e9a49644d9f8854da1734e655f1f1627b5eb122"
+          ]
+        },
+        {
+          "commit": "df7aea57ab44762ed710133bc21b5287933ce43b",
+          "subject": "fix: decouple native closeout guard from obsolete main sync",
+          "before": [
+            "100644",
+            "2e9a49644d9f8854da1734e655f1f1627b5eb122"
+          ],
+          "after": [
+            "100644",
+            "15c381d64077874fb23fac484f80bef28b5f55b5"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "MAIN_SYNC_RETIREMENT_DISPOSITION.json",
+          "sha256": "337d75f4765bb11eea18538dfebf8916d9202b9ebc320a74f46783c698c922a9",
+          "match": "exact path referenced; independent review must verify applicability"
+        },
+        {
+          "packet": "ADL_CALLER_CONTRACT_REPAIR.json",
+          "sha256": "a3d14c281ec115d8dddb5c188597a58eed9ea62f7eb50e1d83350de569d1c3af",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/test_csdlc_v2_supply_chain.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "99cde59441e02b04c40906e9132a0dfb36aedb96"
+      ],
+      "after": [
+        "100755",
+        "8f20480489246bd672313862ff465bb6918334ad"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "public_facade_and_retained_helpers",
+      "implementation_commit": "d5fb44b73bc74e86877484080ddf8a68a3ebe365",
+      "source_chain": [
+        {
+          "commit": "d5fb44b73bc74e86877484080ddf8a68a3ebe365",
+          "subject": "docs: mark retained v2 supply chain scripts as historical",
+          "before": [
+            "100755",
+            "99cde59441e02b04c40906e9132a0dfb36aedb96"
+          ],
+          "after": [
+            "100755",
+            "8f20480489246bd672313862ff465bb6918334ad"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "HISTORICAL_V2_SUPPLY_CHAIN_RETENTION.json",
+          "sha256": "60c3a8ee976ab63c19ac395bc16bd64cb997273f7fdd1a816fd10540bb9e8ed6",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/test_developer_throughput_fast_lane.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "11bda697216f61e9f61513e45c387a708bd4e7d4"
+      ],
+      "after": [
+        "100755",
+        "334fb16e82efcfc6bc053137e767a55501450bca"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "ci_and_validation",
+      "implementation_commit": "18379335b47317b9ebddf051dcc09cfba2d8e5c7",
+      "source_chain": [
+        {
+          "commit": "18379335b47317b9ebddf051dcc09cfba2d8e5c7",
+          "subject": "docs(rd07): correct throughput policy native authority",
+          "before": [
+            "100755",
+            "11bda697216f61e9f61513e45c387a708bd4e7d4"
+          ],
+          "after": [
+            "100755",
+            "334fb16e82efcfc6bc053137e767a55501450bca"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "THROUGHPUT_AUTHORITY_CONSUMER_REPAIR.json",
+          "sha256": "f5dbf952ef6da0b38ac1da98c8cea2b1331f7519a86578d32dc9ac1812d29399",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/test_generate_tool_surface_registry.sh",
+      "action": "modify",
+      "before": [
+        "100644",
+        "4836d987a8927fdaacafe4ada9c1cf88c2ba6a05"
+      ],
+      "after": [
+        "100644",
+        "a8d771dc269f5da5cfcfbefdd2565459c1d17332"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "public_facade_and_retained_helpers",
+      "implementation_commit": "387ca92b99f04cd9f73c45d23711fa9cfecccaae",
+      "source_chain": [
+        {
+          "commit": "387ca92b99f04cd9f73c45d23711fa9cfecccaae",
+          "subject": "fix(rd07): retain current tool registry and strict scanner",
+          "before": [
+            "100644",
+            "4836d987a8927fdaacafe4ada9c1cf88c2ba6a05"
+          ],
+          "after": [
+            "100644",
+            "a8d771dc269f5da5cfcfbefdd2565459c1d17332"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "TOOL_REGISTRY_CONSUMER_REPAIR.json",
+          "sha256": "36b017261376bc25742f173dc464b194d69323cf659f0bc6e033b334cac01f02",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/test_owner_binary_install.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "24aa486da75254b49985ee0fb707b4ccaab86be2"
+      ],
+      "after": [
+        "100755",
+        "6ccd0ddab0c2151ecb036fb517277e47056323e3"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "public_facade_and_retained_helpers",
+      "implementation_commit": "5edd4bf7452227fbfa83e990ffd496baeba6a3c0",
+      "source_chain": [
+        {
+          "commit": "bbc65b59bc0ce65aa48173b23e3dd84d7106bf77",
+          "subject": "refactor(adl): cut public CLI dependencies and installer scope for #1223",
+          "before": [
+            "100755",
+            "24aa486da75254b49985ee0fb707b4ccaab86be2"
+          ],
+          "after": [
+            "100755",
+            "368d774b4e24a8891ad10430eab23833bbad9cae"
+          ]
+        },
+        {
+          "commit": "5edd4bf7452227fbfa83e990ffd496baeba6a3c0",
+          "subject": "fix: reconcile installed manual callers and retained proof contracts",
+          "before": [
+            "100755",
+            "368d774b4e24a8891ad10430eab23833bbad9cae"
+          ],
+          "after": [
+            "100755",
+            "6ccd0ddab0c2151ecb036fb517277e47056323e3"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "APPROVED_COMPONENT_DELTA.json",
+          "sha256": "4b752d6ccb95bb7c2857540126f3d1c145c2220838a1a1df9e9c59bc0d94198c",
+          "match": "exact path referenced; independent review must verify applicability"
+        },
+        {
+          "packet": "RESOLVED_RETENTION.json",
+          "sha256": "06062a86938d4b6fcc35f595431a17d6faf86bdc7e89eec4224e97ea23aef7ab",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/test_run_validation_manager_nessus_lane.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "53d4194f8b4b52326580ef4e28b64c0fd53bf7ac"
+      ],
+      "after": [
+        "100755",
+        "43260c5d63ba0a50e3fca3511db6c7db3142ae0f"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "ci_and_validation",
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "source_chain": [
+        {
+          "commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+          "subject": "fix: apply public repository validation cutover",
+          "before": [
+            "100755",
+            "53d4194f8b4b52326580ef4e28b64c0fd53bf7ac"
+          ],
+          "after": [
+            "100755",
+            "43260c5d63ba0a50e3fca3511db6c7db3142ae0f"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "PUBLIC_CUTOVER_APPLIED.json",
+          "sha256": "b4c8926946c54a5bca644b8c171b03995a404b8bcea55102ef45c5ec6ff12dcd",
+          "match": "exact path referenced; independent review must verify applicability"
+        },
+        {
+          "packet": "NESSUS_TRANSPORT_RETENTION.json",
+          "sha256": "f9a828378610b507e26a9a61f67d15b2a75a5fe47a120ff9c3a29fed3b50a36e",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/test_validation_manager.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "df05cade2390b5cec297af491a8e7783e32b5c97"
+      ],
+      "after": [
+        "100755",
+        "292733b69574cf4517046d33bede7dead55fae5c"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "ci_and_validation",
+      "implementation_commit": "9b6ea052ff24c8819a4b9a86a68a8255a8dd6503",
+      "source_chain": [
+        {
+          "commit": "9b6ea052ff24c8819a4b9a86a68a8255a8dd6503",
+          "subject": "refactor(retirement): remove approved split components and repair consumers",
+          "before": [
+            "100755",
+            "df05cade2390b5cec297af491a8e7783e32b5c97"
+          ],
+          "after": [
+            "100755",
+            "292733b69574cf4517046d33bede7dead55fae5c"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "APPROVED_COMPONENT_DELTA.json",
+          "sha256": "4b752d6ccb95bb7c2857540126f3d1c145c2220838a1a1df9e9c59bc0d94198c",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/test_workflow_guardrails.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "5a54bbe6f4cf80a59bf96e5cd235bcdc028e35bc"
+      ],
+      "after": [
+        "100755",
+        "bec9a25988122b90a373f065b106dfbee260e10d"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "public_facade_and_retained_helpers",
+      "implementation_commit": "c485f8412371dd70f4c3bb37ac65c9102049b6fd",
+      "source_chain": [
+        {
+          "commit": "c485f8412371dd70f4c3bb37ac65c9102049b6fd",
+          "subject": "fix(rd07): route workflow guardrails through native doctor",
+          "before": [
+            "100755",
+            "5a54bbe6f4cf80a59bf96e5cd235bcdc028e35bc"
+          ],
+          "after": [
+            "100755",
+            "bec9a25988122b90a373f065b106dfbee260e10d"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "WORKFLOW_GUARDRAIL_CONSUMER_REPAIR.json",
+          "sha256": "5ef2d366d4535a006e392f3e3141260d86a123646fef67ff3e0a3bdfb68b37c6",
+          "review_binding": "Explicit root/reviewer correspondence; packet uses family/ID or exact legacy guard rather than literal path"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/test_wp17a_demo_follow_ons.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "1043a618f7342312792228e79affa2d5b357ec3d"
+      ],
+      "after": [
+        "100755",
+        "ecdf95bf4ef60a69c028ba92f5b84b0b3d5330bd"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "public_facade_and_retained_helpers",
+      "implementation_commit": "f6000f411dd709870196c9ae902b458df8c9cd05",
+      "source_chain": [
+        {
+          "commit": "f6000f411dd709870196c9ae902b458df8c9cd05",
+          "subject": "fix: align retained ADL caller contracts with native v3 interfaces",
+          "before": [
+            "100755",
+            "1043a618f7342312792228e79affa2d5b357ec3d"
+          ],
+          "after": [
+            "100755",
+            "ecdf95bf4ef60a69c028ba92f5b84b0b3d5330bd"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "ADL_CALLER_CONTRACT_REPAIR.json",
+          "sha256": "a3d14c281ec115d8dddb5c188597a58eed9ea62f7eb50e1d83350de569d1c3af",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/validate_ci_workflow_policy.rb",
+      "action": "modify",
+      "before": [
+        "100644",
+        "f11de4d8f1f51d47bdbcce930e2656fd614b4fcc"
+      ],
+      "after": [
+        "100644",
+        "318d56a5566d28ad86574b9de018a80221fd8cad"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "ci_and_validation",
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "source_chain": [
+        {
+          "commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+          "subject": "fix: apply public repository validation cutover",
+          "before": [
+            "100644",
+            "f11de4d8f1f51d47bdbcce930e2656fd614b4fcc"
+          ],
+          "after": [
+            "100644",
+            "318d56a5566d28ad86574b9de018a80221fd8cad"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "PUBLIC_CUTOVER_APPLIED.json",
+          "sha256": "b4c8926946c54a5bca644b8c171b03995a404b8bcea55102ef45c5ec6ff12dcd",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/validate_csdlc_v2_supply_chain.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "7b9e52518a1c8b3e4b81106a134f68e98cfbb4ec"
+      ],
+      "after": [
+        "100755",
+        "079434446b536326df86e4034f209e1706406abc"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "public_facade_and_retained_helpers",
+      "implementation_commit": "d5fb44b73bc74e86877484080ddf8a68a3ebe365",
+      "source_chain": [
+        {
+          "commit": "d5fb44b73bc74e86877484080ddf8a68a3ebe365",
+          "subject": "docs: mark retained v2 supply chain scripts as historical",
+          "before": [
+            "100755",
+            "7b9e52518a1c8b3e4b81106a134f68e98cfbb4ec"
+          ],
+          "after": [
+            "100755",
+            "079434446b536326df86e4034f209e1706406abc"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "HISTORICAL_V2_SUPPLY_CHAIN_RETENTION.json",
+          "sha256": "60c3a8ee976ab63c19ac395bc16bd64cb997273f7fdd1a816fd10540bb9e8ed6",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/validate_v092_durable_history_parent_integration.py",
+      "action": "modify",
+      "before": [
+        "100644",
+        "601661d06ebe5a5c1d1f9c659a4379a44fb1cbd2"
+      ],
+      "after": [
+        "100644",
+        "b76f2af37f9e4569d409e500aec2d11c70bdfe8d"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "public_facade_and_retained_helpers",
+      "implementation_commit": "b9306e563e546d6ed1b53b7a618fde1d7d06d6ed",
+      "source_chain": [
+        {
+          "commit": "b9306e563e546d6ed1b53b7a618fde1d7d06d6ed",
+          "subject": "fix(rd07): retain historical durable-history checker input",
+          "before": [
+            "100644",
+            "601661d06ebe5a5c1d1f9c659a4379a44fb1cbd2"
+          ],
+          "after": [
+            "100644",
+            "b76f2af37f9e4569d409e500aec2d11c70bdfe8d"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "DURABLE_HISTORY_CONSUMER_REPAIR.json",
+          "sha256": "fd57a88486c8113b028269ee6392e812eb05fe17b3ea7b535f365a2bbc88f421",
+          "review_binding": "Explicit root/reviewer correspondence; packet uses family/ID or exact legacy guard rather than literal path"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/validation_inventory.py",
+      "action": "modify",
+      "before": [
+        "100644",
+        "5fa45a5179b8f2cb1ae25c150ddca21708e91943"
+      ],
+      "after": [
+        "100644",
+        "88b5beadb802476b9f8f9755033c0c02db404252"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "ci_and_validation",
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "source_chain": [
+        {
+          "commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+          "subject": "fix: apply public repository validation cutover",
+          "before": [
+            "100644",
+            "5fa45a5179b8f2cb1ae25c150ddca21708e91943"
+          ],
+          "after": [
+            "100644",
+            "88b5beadb802476b9f8f9755033c0c02db404252"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "HISTORICAL_V2_SUPPLY_CHAIN_RETENTION.json",
+          "sha256": "60c3a8ee976ab63c19ac395bc16bd64cb997273f7fdd1a816fd10540bb9e8ed6",
+          "match": "exact path referenced; independent review must verify applicability"
+        },
+        {
+          "packet": "PUBLIC_CUTOVER_APPLIED.json",
+          "sha256": "b4c8926946c54a5bca644b8c171b03995a404b8bcea55102ef45c5ec6ff12dcd",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/validation_manager.py",
+      "action": "modify",
+      "before": [
+        "100644",
+        "64defd266deaf9d2d436c8e06ed153d9fb4b5d31"
+      ],
+      "after": [
+        "100644",
+        "b5c5de9fddbf3b1b97b5fd47e25a9e61b300f689"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "ci_and_validation",
+      "implementation_commit": "c9e305eddee18c9162560da5cd67b57a5addfafc",
+      "source_chain": [
+        {
+          "commit": "9b6ea052ff24c8819a4b9a86a68a8255a8dd6503",
+          "subject": "refactor(retirement): remove approved split components and repair consumers",
+          "before": [
+            "100644",
+            "64defd266deaf9d2d436c8e06ed153d9fb4b5d31"
+          ],
+          "after": [
+            "100644",
+            "08e2cfd8f988028498b19c4f81b1f16c3b11138b"
+          ]
+        },
+        {
+          "commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+          "subject": "fix: apply public repository validation cutover",
+          "before": [
+            "100644",
+            "08e2cfd8f988028498b19c4f81b1f16c3b11138b"
+          ],
+          "after": [
+            "100644",
+            "79e2bab943e660acb23c288d2290f83b55d267ee"
+          ]
+        },
+        {
+          "commit": "c9e305eddee18c9162560da5cd67b57a5addfafc",
+          "subject": "fix: remove private validation disposition bypasses",
+          "before": [
+            "100644",
+            "79e2bab943e660acb23c288d2290f83b55d267ee"
+          ],
+          "after": [
+            "100644",
+            "b5c5de9fddbf3b1b97b5fd47e25a9e61b300f689"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "APPROVED_COMPONENT_DELTA.json",
+          "sha256": "4b752d6ccb95bb7c2857540126f3d1c145c2220838a1a1df9e9c59bc0d94198c",
+          "match": "exact path referenced; independent review must verify applicability"
+        },
+        {
+          "packet": "PUBLIC_MANAGER_RETIREMENT_REPAIR.json",
+          "sha256": "6d770baf6daa0b0ce78ba560109fd0a9ca4d470c66064f82fea54c0cc221e080",
+          "match": "exact path referenced; independent review must verify applicability"
+        },
+        {
+          "packet": "PUBLIC_CUTOVER_APPLIED.json",
+          "sha256": "b4c8926946c54a5bca644b8c171b03995a404b8bcea55102ef45c5ec6ff12dcd",
+          "match": "exact path referenced; independent review must verify applicability"
+        },
+        {
+          "packet": "NESSUS_TRANSPORT_RETENTION.json",
+          "sha256": "f9a828378610b507e26a9a61f67d15b2a75a5fe47a120ff9c3a29fed3b50a36e",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/verify_review_output_provenance.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "67430ef095c1ccc8999c56d72a475a3e388c4d8b"
+      ],
+      "after": [
+        "100755",
+        "3bdc4e9dfba21025a7fccf5104bbeadeee19af84"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "public_facade_and_retained_helpers",
+      "implementation_commit": "3b40b80f472912ea0d7bf0f99717298f12be74c9",
+      "source_chain": [
+        {
+          "commit": "3b40b80f472912ea0d7bf0f99717298f12be74c9",
+          "subject": "fix(rd07): use explicit historical provenance companion",
+          "before": [
+            "100755",
+            "67430ef095c1ccc8999c56d72a475a3e388c4d8b"
+          ],
+          "after": [
+            "100755",
+            "3bdc4e9dfba21025a7fccf5104bbeadeee19af84"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "HISTORICAL_REVIEW_PROVENANCE_QUALIFICATION.json",
+          "sha256": "cd1c5a459d23de175eac9ac4137ce7e040ad83c5aa4c66d17a7567f5ba787385",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/workflow_guardrails.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "e47d0a6998868ddd191d0b388c6b77819fd20da9"
+      ],
+      "after": [
+        "100755",
+        "ffaacb5d36577f5b19444270d6324a919ec48e57"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "public_facade_and_retained_helpers",
+      "implementation_commit": "c485f8412371dd70f4c3bb37ac65c9102049b6fd",
+      "source_chain": [
+        {
+          "commit": "c485f8412371dd70f4c3bb37ac65c9102049b6fd",
+          "subject": "fix(rd07): route workflow guardrails through native doctor",
+          "before": [
+            "100755",
+            "e47d0a6998868ddd191d0b388c6b77819fd20da9"
+          ],
+          "after": [
+            "100755",
+            "ffaacb5d36577f5b19444270d6324a919ec48e57"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "WORKFLOW_GUARDRAIL_CONSUMER_REPAIR.json",
+          "sha256": "5ef2d366d4535a006e392f3e3141260d86a123646fef67ff3e0a3bdfb68b37c6",
+          "review_binding": "Explicit root/reviewer correspondence; packet uses family/ID or exact legacy guard rather than literal path"
+        }
+      ]
+    },
+    {
+      "path": "demos/v0.89/multi_agent_repo_code_review_demo.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "c3283f32060705f1f4bed4f014b918061e1fb56f"
+      ],
+      "after": [
+        "100644",
+        "dca0e07487b080548036472f75ae5eaf77bcbc4b"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "documentation_and_manifests",
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "source_chain": [
+        {
+          "commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+          "subject": "fix: apply public repository validation cutover",
+          "before": [
+            "100644",
+            "c3283f32060705f1f4bed4f014b918061e1fb56f"
+          ],
+          "after": [
+            "100644",
+            "dca0e07487b080548036472f75ae5eaf77bcbc4b"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "PUBLIC_CUTOVER_APPLIED.json",
+          "sha256": "b4c8926946c54a5bca644b8c171b03995a404b8bcea55102ef45c5ec6ff12dcd",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "demos/v0.90.2/multi_agent_repo_review_proof_demo.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "c157417fbabfa86d0ad9da4c9f0cfd3aabc85b89"
+      ],
+      "after": [
+        "100644",
+        "f89920064566dcbd9a550601eaf14088fd8a66bd"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "documentation_and_manifests",
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "source_chain": [
+        {
+          "commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+          "subject": "fix: apply public repository validation cutover",
+          "before": [
+            "100644",
+            "c157417fbabfa86d0ad9da4c9f0cfd3aabc85b89"
+          ],
+          "after": [
+            "100644",
+            "f89920064566dcbd9a550601eaf14088fd8a66bd"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "PUBLIC_CUTOVER_APPLIED.json",
+          "sha256": "b4c8926946c54a5bca644b8c171b03995a404b8bcea55102ef45c5ec6ff12dcd",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "demos/v0.90/codebuddy_multi_agent_review_showcase_demo.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "6f2b4600e791e9cfa08989ea6a895e20897c72f3"
+      ],
+      "after": [
+        "100644",
+        "079d2827305b64190b1109a3b54f525c9d786f03"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "documentation_and_manifests",
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "source_chain": [
+        {
+          "commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+          "subject": "fix: apply public repository validation cutover",
+          "before": [
+            "100644",
+            "6f2b4600e791e9cfa08989ea6a895e20897c72f3"
+          ],
+          "after": [
+            "100644",
+            "079d2827305b64190b1109a3b54f525c9d786f03"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "PUBLIC_CUTOVER_APPLIED.json",
+          "sha256": "b4c8926946c54a5bca644b8c171b03995a404b8bcea55102ef45c5ec6ff12dcd",
+          "match": "exact path referenced; independent review must verify applicability"
+        },
+        {
+          "packet": "SHOWCASE_HISTORICAL_FIXTURE_RETENTION.json",
+          "sha256": "c08764049d794c39da1819f98c908c15d29e5d3af5bbf6886e3b9216c9fccb7a",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "demos/v0.91.4/multi_agent_repo_review_serious_proof_demo.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "61ff2d9455affc75a5ffee0565edff741275cf20"
+      ],
+      "after": [
+        "100644",
+        "c9bf8d14f389f83e0d09cc2ae781f9bbf145dc6d"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "documentation_and_manifests",
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "source_chain": [
+        {
+          "commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+          "subject": "fix: apply public repository validation cutover",
+          "before": [
+            "100644",
+            "61ff2d9455affc75a5ffee0565edff741275cf20"
+          ],
+          "after": [
+            "100644",
+            "c9bf8d14f389f83e0d09cc2ae781f9bbf145dc6d"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "PUBLIC_CUTOVER_APPLIED.json",
+          "sha256": "b4c8926946c54a5bca644b8c171b03995a404b8bcea55102ef45c5ec6ff12dcd",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "docs/architecture/VALIDATION_LANE_SELECTOR.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "88d5cbbf5fd17a93e09cfbf379b47b30ecbbea8b"
+      ],
+      "after": [
+        "100644",
+        "98f0935144a413d2eb28fe1efedada9232d868d9"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "documentation_and_manifests",
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "source_chain": [
+        {
+          "commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+          "subject": "fix: apply public repository validation cutover",
+          "before": [
+            "100644",
+            "88d5cbbf5fd17a93e09cfbf379b47b30ecbbea8b"
+          ],
+          "after": [
+            "100644",
+            "98f0935144a413d2eb28fe1efedada9232d868d9"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "PUBLIC_CUTOVER_APPLIED.json",
+          "sha256": "b4c8926946c54a5bca644b8c171b03995a404b8bcea55102ef45c5ec6ff12dcd",
+          "match": "exact path referenced; independent review must verify applicability"
+        },
+        {
+          "packet": "RESOLVED_RETENTION.json",
+          "sha256": "06062a86938d4b6fcc35f595431a17d6faf86bdc7e89eec4224e97ea23aef7ab",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "docs/csdlc-v3/man/README.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "0505e6d89245e23402add654d863fdd1cb6ae935"
+      ],
+      "after": [
+        "100644",
+        "bbc61a787742a8552117f56a2d4f559559797186"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "documentation_and_manifests",
+      "implementation_commit": "5edd4bf7452227fbfa83e990ffd496baeba6a3c0",
+      "source_chain": [
+        {
+          "commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+          "subject": "fix: apply public repository validation cutover",
+          "before": [
+            "100644",
+            "0505e6d89245e23402add654d863fdd1cb6ae935"
+          ],
+          "after": [
+            "100644",
+            "4d1b4d2814b4af18abac21ef165fd1c2f0dc3df1"
+          ]
+        },
+        {
+          "commit": "5edd4bf7452227fbfa83e990ffd496baeba6a3c0",
+          "subject": "fix: reconcile installed manual callers and retained proof contracts",
+          "before": [
+            "100644",
+            "4d1b4d2814b4af18abac21ef165fd1c2f0dc3df1"
+          ],
+          "after": [
+            "100644",
+            "bbc61a787742a8552117f56a2d4f559559797186"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "MANUAL_NAVIGATION_RETENTION.json",
+          "sha256": "34a8f894c992e3ff517d0618a7cbec0dc9171c6c8d87f71f98d4147c6fa695a1",
+          "match": "exact path referenced; independent review must verify applicability"
+        },
+        {
+          "packet": "PUBLIC_CUTOVER_APPLIED.json",
+          "sha256": "b4c8926946c54a5bca644b8c171b03995a404b8bcea55102ef45c5ec6ff12dcd",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "docs/csdlc-v3/man/test_install.sh",
+      "action": "modify",
+      "before": [
+        "100644",
+        "17141e82d9ea98ca380dc14cd58ed0d70587340a"
+      ],
+      "after": [
+        "100644",
+        "9a378919430320da7959f4dcefe77a34bc499975"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "public_facade_and_retained_helpers",
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "source_chain": [
+        {
+          "commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+          "subject": "fix: apply public repository validation cutover",
+          "before": [
+            "100644",
+            "17141e82d9ea98ca380dc14cd58ed0d70587340a"
+          ],
+          "after": [
+            "100644",
+            "9a378919430320da7959f4dcefe77a34bc499975"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "PUBLIC_CUTOVER_APPLIED.json",
+          "sha256": "b4c8926946c54a5bca644b8c171b03995a404b8bcea55102ef45c5ec6ff12dcd",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "docs/operations/cloud/aws/audit-security/AWS_AUDIT_SECURITY_BASELINE.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "01186542e8fca478e2408241deb6a44f529d482a"
+      ],
+      "after": [
+        "100644",
+        "22b193d7c67269d8d86aa679da738fd2425055e3"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "documentation_and_manifests",
+      "implementation_commit": "ee80998f9df4e87c67f8a5d0235b319e6f18b763",
+      "source_chain": [
+        {
+          "commit": "ee80998f9df4e87c67f8a5d0235b319e6f18b763",
+          "subject": "fix(retirement): repair successor references and define isolated build gate",
+          "before": [
+            "100644",
+            "01186542e8fca478e2408241deb6a44f529d482a"
+          ],
+          "after": [
+            "100644",
+            "22b193d7c67269d8d86aa679da738fd2425055e3"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "DISPOSITION_REGISTER.json",
+          "sha256": "27e9488ebfaba50202b367b4c42e9076e55e82e8a495c8d802b994245d206ca4",
+          "review_binding": "Explicit root/reviewer correspondence; packet uses family/ID or exact legacy guard rather than literal path"
+        }
+      ]
+    },
+    {
+      "path": "docs/operations/cloud/aws/terraform-bootstrap/AWS_TERRAFORM_BOOTSTRAP_RUNBOOK.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "959a8519250e9d71fc385e10452e7910095bb78a"
+      ],
+      "after": [
+        "100644",
+        "479bffdab231e34f565e415b09e52be51dbd9d1c"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "documentation_and_manifests",
+      "implementation_commit": "ee80998f9df4e87c67f8a5d0235b319e6f18b763",
+      "source_chain": [
+        {
+          "commit": "ee80998f9df4e87c67f8a5d0235b319e6f18b763",
+          "subject": "fix(retirement): repair successor references and define isolated build gate",
+          "before": [
+            "100644",
+            "959a8519250e9d71fc385e10452e7910095bb78a"
+          ],
+          "after": [
+            "100644",
+            "479bffdab231e34f565e415b09e52be51dbd9d1c"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "DISPOSITION_REGISTER.json",
+          "sha256": "27e9488ebfaba50202b367b4c42e9076e55e82e8a495c8d802b994245d206ca4",
+          "review_binding": "Explicit root/reviewer correspondence; packet uses family/ID or exact legacy guard rather than literal path"
+        }
+      ]
+    },
+    {
+      "path": "docs/operations/cloud/gcp/organization-billing/README.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "95171f811ba6b604fe20c4ee56dc749f58bc476d"
+      ],
+      "after": [
+        "100644",
+        "4a5da09d3082f537ea0d1502043c4e28bd363112"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "documentation_and_manifests",
+      "implementation_commit": "ee80998f9df4e87c67f8a5d0235b319e6f18b763",
+      "source_chain": [
+        {
+          "commit": "ee80998f9df4e87c67f8a5d0235b319e6f18b763",
+          "subject": "fix(retirement): repair successor references and define isolated build gate",
+          "before": [
+            "100644",
+            "95171f811ba6b604fe20c4ee56dc749f58bc476d"
+          ],
+          "after": [
+            "100644",
+            "4a5da09d3082f537ea0d1502043c4e28bd363112"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "DISPOSITION_REGISTER.json",
+          "sha256": "27e9488ebfaba50202b367b4c42e9076e55e82e8a495c8d802b994245d206ca4",
+          "review_binding": "Explicit root/reviewer correspondence; packet uses family/ID or exact legacy guard rather than literal path"
+        }
+      ]
+    },
+    {
+      "path": "docs/operations/cloud/gcp/platform-foundation/README.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "27824016237e1ecc9fb89617d80e21424a7009be"
+      ],
+      "after": [
+        "100644",
+        "2ece87d52cee864a3dcdd4a77ad125e1f032a017"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "documentation_and_manifests",
+      "implementation_commit": "ee80998f9df4e87c67f8a5d0235b319e6f18b763",
+      "source_chain": [
+        {
+          "commit": "ee80998f9df4e87c67f8a5d0235b319e6f18b763",
+          "subject": "fix(retirement): repair successor references and define isolated build gate",
+          "before": [
+            "100644",
+            "27824016237e1ecc9fb89617d80e21424a7009be"
+          ],
+          "after": [
+            "100644",
+            "2ece87d52cee864a3dcdd4a77ad125e1f032a017"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "DISPOSITION_REGISTER.json",
+          "sha256": "27e9488ebfaba50202b367b4c42e9076e55e82e8a495c8d802b994245d206ca4",
+          "review_binding": "Explicit root/reviewer correspondence; packet uses family/ID or exact legacy guard rather than literal path"
+        }
+      ]
+    },
+    {
+      "path": "docs/operations/cloud/gcp/terraform-bootstrap/README.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "2c06e980112d905cefeff3b481873cb60952f358"
+      ],
+      "after": [
+        "100644",
+        "64703e7d4c1935cab483e435d377b869bc00a4f0"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "documentation_and_manifests",
+      "implementation_commit": "ee80998f9df4e87c67f8a5d0235b319e6f18b763",
+      "source_chain": [
+        {
+          "commit": "ee80998f9df4e87c67f8a5d0235b319e6f18b763",
+          "subject": "fix(retirement): repair successor references and define isolated build gate",
+          "before": [
+            "100644",
+            "2c06e980112d905cefeff3b481873cb60952f358"
+          ],
+          "after": [
+            "100644",
+            "64703e7d4c1935cab483e435d377b869bc00a4f0"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "DISPOSITION_REGISTER.json",
+          "sha256": "27e9488ebfaba50202b367b4c42e9076e55e82e8a495c8d802b994245d206ca4",
+          "review_binding": "Explicit root/reviewer correspondence; packet uses family/ID or exact legacy guard rather than literal path"
+        }
+      ]
+    },
+    {
+      "path": "docs/runtime/RESIDENT_HEALTH_SUPERVISION.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "d0dc12f51856f3341137bbbfafef6a731260f64e"
+      ],
+      "after": [
+        "100644",
+        "86423b96c5cadafc4871225b2b82ada7aa78f57b"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "documentation_and_manifests",
+      "implementation_commit": "ee80998f9df4e87c67f8a5d0235b319e6f18b763",
+      "source_chain": [
+        {
+          "commit": "ee80998f9df4e87c67f8a5d0235b319e6f18b763",
+          "subject": "fix(retirement): repair successor references and define isolated build gate",
+          "before": [
+            "100644",
+            "d0dc12f51856f3341137bbbfafef6a731260f64e"
+          ],
+          "after": [
+            "100644",
+            "86423b96c5cadafc4871225b2b82ada7aa78f57b"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "DISPOSITION_REGISTER.json",
+          "sha256": "27e9488ebfaba50202b367b4c42e9076e55e82e8a495c8d802b994245d206ca4",
+          "review_binding": "Explicit root/reviewer correspondence; packet uses family/ID or exact legacy guard rather than literal path"
+        }
+      ]
+    },
+    {
+      "path": "docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "b1188f99e76fe00def9528994615f89cc0c33716"
+      ],
+      "after": [
+        "100644",
+        "efd88ebe9e9af7611638418b5931d19b1042b907"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "documentation_and_manifests",
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "source_chain": [
+        {
+          "commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+          "subject": "fix: apply public repository validation cutover",
+          "before": [
+            "100644",
+            "b1188f99e76fe00def9528994615f89cc0c33716"
+          ],
+          "after": [
+            "100644",
+            "efd88ebe9e9af7611638418b5931d19b1042b907"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "PUBLIC_CUTOVER_APPLIED.json",
+          "sha256": "b4c8926946c54a5bca644b8c171b03995a404b8bcea55102ef45c5ec6ff12dcd",
+          "match": "exact path referenced; independent review must verify applicability"
+        },
+        {
+          "packet": "RESOLVED_RETENTION.json",
+          "sha256": "06062a86938d4b6fcc35f595431a17d6faf86bdc7e89eec4224e97ea23aef7ab",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "docs/tooling/AWS_CODEFRIEND_BUILD_LANE.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "046d7f561ea793fa159459a1ad2cb19bca0eebd7"
+      ],
+      "after": [
+        "100644",
+        "1047549202fb151040cbefcb214f7e252c367f53"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "documentation_and_manifests",
+      "implementation_commit": "9b6ea052ff24c8819a4b9a86a68a8255a8dd6503",
+      "source_chain": [
+        {
+          "commit": "9b6ea052ff24c8819a4b9a86a68a8255a8dd6503",
+          "subject": "refactor(retirement): remove approved split components and repair consumers",
+          "before": [
+            "100644",
+            "046d7f561ea793fa159459a1ad2cb19bca0eebd7"
+          ],
+          "after": [
+            "100644",
+            "1047549202fb151040cbefcb214f7e252c367f53"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "APPROVED_COMPONENT_DELTA.json",
+          "sha256": "4b752d6ccb95bb7c2857540126f3d1c145c2220838a1a1df9e9c59bc0d94198c",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "docs/tooling/DEVELOPER_THROUGHPUT_FAST_LANE.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "770c2c70a37344bcb3ef9c093460662400201f5b"
+      ],
+      "after": [
+        "100644",
+        "74b1d659c5c5b610b28b5f1daab34470bd2d40ae"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "documentation_and_manifests",
+      "implementation_commit": "18379335b47317b9ebddf051dcc09cfba2d8e5c7",
+      "source_chain": [
+        {
+          "commit": "18379335b47317b9ebddf051dcc09cfba2d8e5c7",
+          "subject": "docs(rd07): correct throughput policy native authority",
+          "before": [
+            "100644",
+            "770c2c70a37344bcb3ef9c093460662400201f5b"
+          ],
+          "after": [
+            "100644",
+            "74b1d659c5c5b610b28b5f1daab34470bd2d40ae"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "RESOLVED_RETENTION.json",
+          "sha256": "06062a86938d4b6fcc35f595431a17d6faf86bdc7e89eec4224e97ea23aef7ab",
+          "match": "exact path referenced; independent review must verify applicability"
+        },
+        {
+          "packet": "THROUGHPUT_AUTHORITY_CONSUMER_REPAIR.json",
+          "sha256": "f5dbf952ef6da0b38ac1da98c8cea2b1331f7519a86578d32dc9ac1812d29399",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "docs/tooling/GITHUB_LARGER_RUNNER_PREFLIGHT.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "084572594950d410697e9f4303909ac0c7f0f9ba"
+      ],
+      "after": [
+        "100644",
+        "fac2037ddf7a6edb4c69191c9b3ede1788617b37"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "documentation_and_manifests",
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "source_chain": [
+        {
+          "commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+          "subject": "fix: apply public repository validation cutover",
+          "before": [
+            "100644",
+            "084572594950d410697e9f4303909ac0c7f0f9ba"
+          ],
+          "after": [
+            "100644",
+            "fac2037ddf7a6edb4c69191c9b3ede1788617b37"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "PUBLIC_CUTOVER_APPLIED.json",
+          "sha256": "b4c8926946c54a5bca644b8c171b03995a404b8bcea55102ef45c5ec6ff12dcd",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "docs/tooling/ISSUE_RESOURCE_TELEMETRY_COLLECTOR.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "76cf768348a41a26f82074ee8ed111f704056674"
+      ],
+      "after": [
+        "100644",
+        "bdb428b00b18e6388a1c2b847c5d496cd2195700"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "documentation_and_manifests",
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "source_chain": [
+        {
+          "commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+          "subject": "fix: apply public repository validation cutover",
+          "before": [
+            "100644",
+            "76cf768348a41a26f82074ee8ed111f704056674"
+          ],
+          "after": [
+            "100644",
+            "bdb428b00b18e6388a1c2b847c5d496cd2195700"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "PUBLIC_CUTOVER_APPLIED.json",
+          "sha256": "b4c8926946c54a5bca644b8c171b03995a404b8bcea55102ef45c5ec6ff12dcd",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "docs/tooling/NESSUS_VALIDATION_MANAGER_LANE.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "70abba58eca1cf18aecb86bcda1bbda593b875ec"
+      ],
+      "after": [
+        "100644",
+        "590adf64f78311ebe2667ad51934806790450cdf"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "documentation_and_manifests",
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "source_chain": [
+        {
+          "commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+          "subject": "fix: apply public repository validation cutover",
+          "before": [
+            "100644",
+            "70abba58eca1cf18aecb86bcda1bbda593b875ec"
+          ],
+          "after": [
+            "100644",
+            "590adf64f78311ebe2667ad51934806790450cdf"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "PUBLIC_CUTOVER_APPLIED.json",
+          "sha256": "b4c8926946c54a5bca644b8c171b03995a404b8bcea55102ef45c5ec6ff12dcd",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "docs/tooling/OPUS_REVIEW_RUNBOOK.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "b409da5bdce6c05296a614a2c5b9c8c05fdac206"
+      ],
+      "after": [
+        "100644",
+        "19a57f047c010faba5f8aa42cd08e3a0ec326831"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "documentation_and_manifests",
+      "implementation_commit": "261186964c8780486a7b75e13f4de1f9df505a86",
+      "source_chain": [
+        {
+          "commit": "261186964c8780486a7b75e13f4de1f9df505a86",
+          "subject": "docs: retire obsolete CI topology and runtime aggregate contracts",
+          "before": [
+            "100644",
+            "b409da5bdce6c05296a614a2c5b9c8c05fdac206"
+          ],
+          "after": [
+            "100644",
+            "19a57f047c010faba5f8aa42cd08e3a0ec326831"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "RESOLVED_RETENTION.json",
+          "sha256": "06062a86938d4b6fcc35f595431a17d6faf86bdc7e89eec4224e97ea23aef7ab",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "docs/tooling/WP_ISSUE_WAVE_GENERATION.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "d742ae9651783c218ed3977e1cd179f4c24fd2d8"
+      ],
+      "after": [
+        "100644",
+        "63165fef96c6b65784c277026d136d2c9bcfe833"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "documentation_and_manifests",
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "source_chain": [
+        {
+          "commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+          "subject": "fix: apply public repository validation cutover",
+          "before": [
+            "100644",
+            "d742ae9651783c218ed3977e1cd179f4c24fd2d8"
+          ],
+          "after": [
+            "100644",
+            "63165fef96c6b65784c277026d136d2c9bcfe833"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "PUBLIC_CUTOVER_APPLIED.json",
+          "sha256": "b4c8926946c54a5bca644b8c171b03995a404b8bcea55102ef45c5ec6ff12dcd",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "docs/tooling/reviewer-provenance.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "ea1c37a4b88fc479e55e8e6b87c317dc51ea3660"
+      ],
+      "after": [
+        "100644",
+        "0f73bf6f684880ec7e6f13e4d3d9be39962f2473"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "documentation_and_manifests",
+      "implementation_commit": "3b40b80f472912ea0d7bf0f99717298f12be74c9",
+      "source_chain": [
+        {
+          "commit": "3b40b80f472912ea0d7bf0f99717298f12be74c9",
+          "subject": "fix(rd07): use explicit historical provenance companion",
+          "before": [
+            "100644",
+            "ea1c37a4b88fc479e55e8e6b87c317dc51ea3660"
+          ],
+          "after": [
+            "100644",
+            "0f73bf6f684880ec7e6f13e4d3d9be39962f2473"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "RESOLVED_RETENTION.json",
+          "sha256": "06062a86938d4b6fcc35f595431a17d6faf86bdc7e89eec4224e97ea23aef7ab",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "infra/runtime-v3/runtime-init.toml",
+      "action": "modify",
+      "before": [
+        "100644",
+        "84ce398c2836b838aaa4120079cf9cd749b15713"
+      ],
+      "after": [
+        "100644",
+        "ef3cde01157e47e62236ee2701373e2560602d22"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "documentation_and_manifests",
+      "implementation_commit": "56aece8350e12f45283a1cff8d2b457548cb2e1f",
+      "source_chain": [
+        {
+          "commit": "56aece8350e12f45283a1cff8d2b457548cb2e1f",
+          "subject": "Retire migrated checkpoint archive component",
+          "before": [
+            "100644",
+            "84ce398c2836b838aaa4120079cf9cd749b15713"
+          ],
+          "after": [
+            "100644",
+            "ef3cde01157e47e62236ee2701373e2560602d22"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "DISPOSITION_REGISTER.json",
+          "sha256": "27e9488ebfaba50202b367b4c42e9076e55e82e8a495c8d802b994245d206ca4",
+          "review_binding": "Explicit root/reviewer correspondence; packet uses family/ID or exact legacy guard rather than literal path"
+        }
+      ]
+    },
+    {
+      "path": "tools/groupd_validation/src/lib.rs",
+      "action": "modify",
+      "before": [
+        "100644",
+        "4d93add96b5c64a095d1211dda8bea727decaa81"
+      ],
+      "after": [
+        "100644",
+        "07c8d3e425fd3ceadc70c79ab492b26811aac1dd"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "ci_and_validation",
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "source_chain": [
+        {
+          "commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+          "subject": "fix: apply public repository validation cutover",
+          "before": [
+            "100644",
+            "4d93add96b5c64a095d1211dda8bea727decaa81"
+          ],
+          "after": [
+            "100644",
+            "07c8d3e425fd3ceadc70c79ab492b26811aac1dd"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "PUBLIC_CUTOVER_APPLIED.json",
+          "sha256": "b4c8926946c54a5bca644b8c171b03995a404b8bcea55102ef45c5ec6ff12dcd",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "tools/public_adl/ci_policy.py",
+      "action": "add",
+      "before": null,
+      "after": [
+        "100644",
+        "5479c5222f03afdbc501e82c671f298c3978b8b8"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "ci_and_validation",
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "source_chain": [
+        {
+          "commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+          "subject": "fix: apply public repository validation cutover",
+          "before": null,
+          "after": [
+            "100644",
+            "5479c5222f03afdbc501e82c671f298c3978b8b8"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "PUBLIC_CUTOVER_APPLIED.json",
+          "sha256": "b4c8926946c54a5bca644b8c171b03995a404b8bcea55102ef45c5ec6ff12dcd",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "tools/public_adl/run_cli_ci.sh",
+      "action": "add",
+      "before": null,
+      "after": [
+        "100644",
+        "befb4b3f785e227b3aea445efc4a6b157f010e80"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "ci_and_validation",
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "source_chain": [
+        {
+          "commit": "bbc65b59bc0ce65aa48173b23e3dd84d7106bf77",
+          "subject": "refactor(adl): cut public CLI dependencies and installer scope for #1223",
+          "before": null,
+          "after": [
+            "100644",
+            "8475b0d2133fd3bd0f8cd047f44f5a5f428a1cc4"
+          ]
+        },
+        {
+          "commit": "5646981a1751253e885cbe5b5c25295d7d650f2e",
+          "subject": "refactor(retirement): preserve public consumers and enumerate remaining split scope",
+          "before": [
+            "100644",
+            "8475b0d2133fd3bd0f8cd047f44f5a5f428a1cc4"
+          ],
+          "after": [
+            "100644",
+            "cbf3076ca6f59a9f3d98c8151cfa2d8ce5a20019"
+          ]
+        },
+        {
+          "commit": "5e7e3f82f7be784ae7502777a1189b40f7b3b850",
+          "subject": "test(public-adl): cover CLI refusals and preserve owner test gaps",
+          "before": [
+            "100644",
+            "cbf3076ca6f59a9f3d98c8151cfa2d8ce5a20019"
+          ],
+          "after": [
+            "100644",
+            "c8135a7133807ef421f67f278b037a7a733c2451"
+          ]
+        },
+        {
+          "commit": "c7cd547e62284477011b566274f83b6e933429a0",
+          "subject": "test(public-adl): exercise isolated session ledger through CLI",
+          "before": [
+            "100644",
+            "c8135a7133807ef421f67f278b037a7a733c2451"
+          ],
+          "after": [
+            "100644",
+            "0d58b55f2e09540be6412cde9c05102a9017f57a"
+          ]
+        },
+        {
+          "commit": "39a64819e2ccc75a0b09616a7883f5835d047e35",
+          "subject": "test(public-adl): isolate observation contracts from retained source",
+          "before": [
+            "100644",
+            "0d58b55f2e09540be6412cde9c05102a9017f57a"
+          ],
+          "after": [
+            "100644",
+            "e9f38230a517a603e0538f60d71297669bb6c3c6"
+          ]
+        },
+        {
+          "commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+          "subject": "fix: apply public repository validation cutover",
+          "before": [
+            "100644",
+            "e9f38230a517a603e0538f60d71297669bb6c3c6"
+          ],
+          "after": [
+            "100644",
+            "befb4b3f785e227b3aea445efc4a6b157f010e80"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "PUBLIC_FACADE_CLOSURE.json",
+          "sha256": "c34442adad489c063e37824788a5fedc8a735ebf6ea0604affd5c2009b22483f",
+          "match": "exact path referenced; independent review must verify applicability"
+        },
+        {
+          "packet": "PUBLIC_CUTOVER_APPLIED.json",
+          "sha256": "b4c8926946c54a5bca644b8c171b03995a404b8bcea55102ef45c5ec6ff12dcd",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "tools/public_adl/test_action_pins.py",
+      "action": "add",
+      "before": null,
+      "after": [
+        "100644",
+        "2dde981211b3aa5d3fa02e4f49a1ea723b36c6db"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "ci_and_validation",
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "source_chain": [
+        {
+          "commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+          "subject": "fix: apply public repository validation cutover",
+          "before": null,
+          "after": [
+            "100644",
+            "2dde981211b3aa5d3fa02e4f49a1ea723b36c6db"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "PUBLIC_CUTOVER_APPLIED.json",
+          "sha256": "b4c8926946c54a5bca644b8c171b03995a404b8bcea55102ef45c5ec6ff12dcd",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "tools/public_adl/test_ci_contract.py",
+      "action": "modify",
+      "before": [
+        "100755",
+        "61fb0e2bb89a84d82f8b40b1953039b21407b267"
+      ],
+      "after": [
+        "100755",
+        "7e64d99db4cb346ac252f93704184a2e5848c78d"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "ci_and_validation",
+      "implementation_commit": "bc3324635521987bd0c9315b1c62459c4f1d3578",
+      "source_chain": [
+        {
+          "commit": "bbc65b59bc0ce65aa48173b23e3dd84d7106bf77",
+          "subject": "refactor(adl): cut public CLI dependencies and installer scope for #1223",
+          "before": [
+            "100755",
+            "61fb0e2bb89a84d82f8b40b1953039b21407b267"
+          ],
+          "after": [
+            "100755",
+            "f8ca3cdaf52757c687369bad300f71d5d8a2354f"
+          ]
+        },
+        {
+          "commit": "375ef32c55744be45ee057470d6dc30a7d32b117",
+          "subject": "fix(ci): retain public artifact proof from its selected output root",
+          "before": [
+            "100755",
+            "f8ca3cdaf52757c687369bad300f71d5d8a2354f"
+          ],
+          "after": [
+            "100755",
+            "3a76654ee489e599a46749a7843acf4879368bcb"
+          ]
+        },
+        {
+          "commit": "5646981a1751253e885cbe5b5c25295d7d650f2e",
+          "subject": "refactor(retirement): preserve public consumers and enumerate remaining split scope",
+          "before": [
+            "100755",
+            "3a76654ee489e599a46749a7843acf4879368bcb"
+          ],
+          "after": [
+            "100755",
+            "547b8fe6c33139f063c9336da9120b800f98b8a5"
+          ]
+        },
+        {
+          "commit": "2793fad928bd7c7e475459bc6ec0b1c4c972ff8b",
+          "subject": "ci(public-adl): require bounded public coverage producer",
+          "before": [
+            "100755",
+            "547b8fe6c33139f063c9336da9120b800f98b8a5"
+          ],
+          "after": [
+            "100755",
+            "76dee80981a97355bb86f0e945b43460db854ca7"
+          ]
+        },
+        {
+          "commit": "39a64819e2ccc75a0b09616a7883f5835d047e35",
+          "subject": "test(public-adl): isolate observation contracts from retained source",
+          "before": [
+            "100755",
+            "76dee80981a97355bb86f0e945b43460db854ca7"
+          ],
+          "after": [
+            "100755",
+            "4e9d350fee647a5368bec1042107c63c5dac7625"
+          ]
+        },
+        {
+          "commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+          "subject": "fix: apply public repository validation cutover",
+          "before": [
+            "100755",
+            "4e9d350fee647a5368bec1042107c63c5dac7625"
+          ],
+          "after": [
+            "100755",
+            "7ba1d101387289ef9ef98aca46d743e9885ef98b"
+          ]
+        },
+        {
+          "commit": "bc3324635521987bd0c9315b1c62459c4f1d3578",
+          "subject": "fix: route nightly coverage through public package producer",
+          "before": [
+            "100755",
+            "7ba1d101387289ef9ef98aca46d743e9885ef98b"
+          ],
+          "after": [
+            "100755",
+            "7e64d99db4cb346ac252f93704184a2e5848c78d"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "PUBLIC_CUTOVER_APPLIED.json",
+          "sha256": "b4c8926946c54a5bca644b8c171b03995a404b8bcea55102ef45c5ec6ff12dcd",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "tools/public_adl/test_ci_policy.py",
+      "action": "add",
+      "before": null,
+      "after": [
+        "100644",
+        "9d355630522ddaaafb03d00758213dab50632274"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "ci_and_validation",
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "source_chain": [
+        {
+          "commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+          "subject": "fix: apply public repository validation cutover",
+          "before": null,
+          "after": [
+            "100644",
+            "9d355630522ddaaafb03d00758213dab50632274"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "PUBLIC_CUTOVER_APPLIED.json",
+          "sha256": "b4c8926946c54a5bca644b8c171b03995a404b8bcea55102ef45c5ec6ff12dcd",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "tools/public_adl/test_ci_routing.sh",
+      "action": "modify",
+      "before": [
+        "100755",
+        "5cfaeee288392dc80f7bab32a9f9ebb4760ac6f9"
+      ],
+      "after": [
+        "100755",
+        "f895b325e82d5f2150001b33dd052fd4c1f16aa5"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "ci_and_validation",
+      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+      "source_chain": [
+        {
+          "commit": "bbc65b59bc0ce65aa48173b23e3dd84d7106bf77",
+          "subject": "refactor(adl): cut public CLI dependencies and installer scope for #1223",
+          "before": [
+            "100755",
+            "5cfaeee288392dc80f7bab32a9f9ebb4760ac6f9"
+          ],
+          "after": [
+            "100755",
+            "70c237ae32d72410bfb2dacdb5f39102a5b0138e"
+          ]
+        },
+        {
+          "commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+          "subject": "fix: apply public repository validation cutover",
+          "before": [
+            "100755",
+            "70c237ae32d72410bfb2dacdb5f39102a5b0138e"
+          ],
+          "after": [
+            "100755",
+            "f895b325e82d5f2150001b33dd052fd4c1f16aa5"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "PUBLIC_CUTOVER_APPLIED.json",
+          "sha256": "b4c8926946c54a5bca644b8c171b03995a404b8bcea55102ef45c5ec6ff12dcd",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    },
+    {
+      "path": "tools/public_adl/test_validation_interfaces.py",
+      "action": "add",
+      "before": null,
+      "after": [
+        "100644",
+        "81cd7500151f82a8fa7d0607920c7e3e81fd025b"
+      ],
+      "status": "proposed_exact_chain_requires_independent_review",
+      "family": "ci_and_validation",
+      "implementation_commit": "c9e305eddee18c9162560da5cd67b57a5addfafc",
+      "source_chain": [
+        {
+          "commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+          "subject": "fix: apply public repository validation cutover",
+          "before": null,
+          "after": [
+            "100644",
+            "1eeb65ffdb6098de28b46092879a8853333d0d03"
+          ]
+        },
+        {
+          "commit": "c9e305eddee18c9162560da5cd67b57a5addfafc",
+          "subject": "fix: remove private validation disposition bypasses",
+          "before": [
+            "100644",
+            "1eeb65ffdb6098de28b46092879a8853333d0d03"
+          ],
+          "after": [
+            "100644",
+            "81cd7500151f82a8fa7d0607920c7e3e81fd025b"
+          ]
+        }
+      ],
+      "evidence_candidates": [
+        {
+          "packet": "PUBLIC_MANAGER_RETIREMENT_REPAIR.json",
+          "sha256": "6d770baf6daa0b0ce78ba560109fd0a9ca4d470c66064f82fea54c0cc221e080",
+          "match": "exact path referenced; independent review must verify applicability"
+        },
+        {
+          "packet": "PUBLIC_CUTOVER_APPLIED.json",
+          "sha256": "b4c8926946c54a5bca644b8c171b03995a404b8bcea55102ef45c5ec6ff12dcd",
+          "match": "exact path referenced; independent review must verify applicability"
+        }
+      ]
+    }
+  ],
+  "proposal_head": "cae8ac7a43353c951e99f52326edd37dfa429794",
+  "review_batches": [
+    {
+      "family": "ci_and_validation",
+      "paths": [
+        ".github/workflows/ci.yaml",
+        "adl-uts/tools/test_ci_contract.rb",
+        "adl/config/validation_lane_selector.public.v1.json",
+        "adl/config/validation_lane_selector.v0.91.6.json",
+        "adl/tools/batched_checks.sh",
+        "adl/tools/ci_path_policy.sh",
+        "adl/tools/run_v0913_proof_validation_lane.sh",
+        "adl/tools/run_validation_manager_nessus_lane.sh",
+        "adl/tools/select_validation_lanes.py",
+        "adl/tools/test_batched_checks_no_codexpr_usage_banner.sh",
+        "adl/tools/test_developer_throughput_fast_lane.sh",
+        "adl/tools/test_run_validation_manager_nessus_lane.sh",
+        "adl/tools/test_validation_manager.sh",
+        "adl/tools/validate_ci_workflow_policy.rb",
+        "adl/tools/validation_inventory.py",
+        "adl/tools/validation_manager.py",
+        "tools/groupd_validation/src/lib.rs",
+        "tools/public_adl/ci_policy.py",
+        "tools/public_adl/run_cli_ci.sh",
+        "tools/public_adl/test_action_pins.py",
+        "tools/public_adl/test_ci_contract.py",
+        "tools/public_adl/test_ci_policy.py",
+        "tools/public_adl/test_ci_routing.sh",
+        "tools/public_adl/test_validation_interfaces.py"
+      ],
+      "status": "pending_independent_exact_diff_review"
+    },
+    {
+      "family": "documentation_and_manifests",
+      "paths": [
+        "AGENTS.md",
+        "adl/CONTRIBUTING.md",
+        "adl/config/slow_proof_families.public.v1.json",
+        "adl/tests/fixtures/codefriend/fitness-ci/PVF.json",
+        "adl/tools/README.md",
+        "adl/tools/skills/docs/OPERATIONAL_SKILLS_GUIDE.md",
+        "demos/v0.89/multi_agent_repo_code_review_demo.md",
+        "demos/v0.90.2/multi_agent_repo_review_proof_demo.md",
+        "demos/v0.90/codebuddy_multi_agent_review_showcase_demo.md",
+        "demos/v0.91.4/multi_agent_repo_review_serious_proof_demo.md",
+        "docs/architecture/VALIDATION_LANE_SELECTOR.md",
+        "docs/csdlc-v3/man/README.md",
+        "docs/operations/cloud/aws/audit-security/AWS_AUDIT_SECURITY_BASELINE.md",
+        "docs/operations/cloud/aws/terraform-bootstrap/AWS_TERRAFORM_BOOTSTRAP_RUNBOOK.md",
+        "docs/operations/cloud/gcp/organization-billing/README.md",
+        "docs/operations/cloud/gcp/platform-foundation/README.md",
+        "docs/operations/cloud/gcp/terraform-bootstrap/README.md",
+        "docs/runtime/RESIDENT_HEALTH_SUPERVISION.md",
+        "docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md",
+        "docs/tooling/AWS_CODEFRIEND_BUILD_LANE.md",
+        "docs/tooling/DEVELOPER_THROUGHPUT_FAST_LANE.md",
+        "docs/tooling/GITHUB_LARGER_RUNNER_PREFLIGHT.md",
+        "docs/tooling/ISSUE_RESOURCE_TELEMETRY_COLLECTOR.md",
+        "docs/tooling/NESSUS_VALIDATION_MANAGER_LANE.md",
+        "docs/tooling/OPUS_REVIEW_RUNBOOK.md",
+        "docs/tooling/WP_ISSUE_WAVE_GENERATION.md",
+        "docs/tooling/reviewer-provenance.md",
+        "infra/runtime-v3/runtime-init.toml"
+      ],
+      "status": "pending_independent_exact_diff_review"
+    },
+    {
+      "family": "public_facade_and_retained_helpers",
+      "paths": [
+        "adl/src/cli/mod.rs",
+        "adl/src/cli/run.rs",
+        "adl/tests/issue_327_removed_tooling.rs",
+        "adl/tools/demo_v0912_workflow_guardrails_showcase.sh",
+        "adl/tools/demo_v0913_quality_gate.sh",
+        "adl/tools/fix_git_main_sync_preserve_local_adl.sh",
+        "adl/tools/generate_active_command_reference_scan.py",
+        "adl/tools/generate_tool_surface_registry.py",
+        "adl/tools/install_csdlc_man_pages.sh",
+        "adl/tools/install_owner_binaries.sh",
+        "adl/tools/owner_binary_resolution.sh",
+        "adl/tools/preflight_review.sh",
+        "adl/tools/test_check_issue_metadata_parity.sh",
+        "adl/tools/test_cli_owner_command_guidance.sh",
+        "adl/tools/test_closeout_completed_issue_wave.sh",
+        "adl/tools/test_csdlc_v2_supply_chain.sh",
+        "adl/tools/test_generate_tool_surface_registry.sh",
+        "adl/tools/test_owner_binary_install.sh",
+        "adl/tools/test_workflow_guardrails.sh",
+        "adl/tools/test_wp17a_demo_follow_ons.sh",
+        "adl/tools/validate_csdlc_v2_supply_chain.sh",
+        "adl/tools/validate_v092_durable_history_parent_integration.py",
+        "adl/tools/verify_review_output_provenance.sh",
+        "adl/tools/workflow_guardrails.sh",
+        "docs/csdlc-v3/man/test_install.sh"
+      ],
+      "status": "pending_independent_exact_diff_review"
+    }
+  ],
+  "review_reuse_summary": {
+    "paths": 77,
+    "immutable_git_transitions": 112,
+    "source_chains_complete": true,
+    "every_path_has_existing_evidence_reference": true,
+    "independent_final_diff_review": "pending",
+    "new_test_or_runtime_execution": false,
+    "native_cards": "No native card path is among these77source gaps; tracked native card truth remains independent."
+  },
+  "rollback_custody": {
+    "baseline_archive": {
+      "git_common_relative_path": "csdlc-v3/local/evidence/1223/retirement/baseline.tar.gz",
+      "sha256": "12205043566913435c25ea414b1fd9148b46727821f7bfefd5d452cfe47a1c17",
+      "actual_readback": "matched",
+      "restore_rehearsal": "not rerun"
+    },
+    "public_cutover_extra_removal": {
+      "path": "adl/tools/test_select_validation_lanes.sh",
+      "source_commit": "3f806eea3c1fbc4836cdb5a2a9eb64b791e7202c",
+      "mode": "100755",
+      "blob": "7fa39d0d8d01bbc44f61b9369e6b1fb8cc55c013",
+      "sha256": "500f7126996838da30a4cf48a1797a8b04b505e4bdfdcaa549f9877d2b1081d4",
+      "actual_readback": "exact Git blob available",
+      "restore_rehearsal": "not run"
+    },
+    "supplemental_archive": {
+      "evidence": "/Volumes/FastWork/c1223/retirement-custody-final-preflight/result.json",
+      "evidence_sha256": "f3760c554644f3af335fb81a28f73f04b6b956fc3ab34b53c6f62333ca968487",
+      "schema": "adl1223.retirement-rollback-custody.v1",
+      "baseline_archive_sha256": "12205043566913435c25ea414b1fd9148b46727821f7bfefd5d452cfe47a1c17",
+      "baseline_archive_verified": true,
+      "supplement_path": "/Volumes/FastWork/c1223/retirement-custody-final-preflight/rd07-2113-before-cutover.tar",
+      "supplement_sha256": "c167faff0e75b34bd70c3fb99cb766269ff76d9eed716e2750ff635382a7564a",
+      "path": "adl/tools/test_select_validation_lanes.sh",
+      "before_blob": "7fa39d0d8d01bbc44f61b9369e6b1fb8cc55c013",
+      "before_sha256": "500f7126996838da30a4cf48a1797a8b04b505e4bdfdcaa549f9877d2b1081d4",
+      "mode": "100755",
+      "archive_member_readback_matches": true,
+      "execution": false,
+      "limits": "Create-only supplemental source archive and readback; not behavioral execution or independent storage backup."
+    }
+  },
+  "independent_subset_review": {
+    "reviewer": "review_1223_public_facade",
+    "paths": [
+      "adl/tools/demo_v0912_workflow_guardrails_showcase.sh",
+      "adl/tools/test_workflow_guardrails.sh",
+      "adl/tools/workflow_guardrails.sh",
+      "adl/tools/validate_v092_durable_history_parent_integration.py"
+    ],
+    "comparison": "observed9cfd035 to current HEAD",
+    "findings": [],
+    "boundary": "source-only exact diff review; no tests or behavior acceptance"
+  },
+  "independent_final_review": {
+    "reviewer": "review_1223_applied_components",
+    "verdict": "PASS",
+    "findings": [],
+    "reviewed_pre_promotion_sha256": "4e2a019f659ff2e6aa5625c51a1a68784da3ad7ab9dad8542c82f59f4f6a6566",
+    "verified": {
+      "existing_modifications": 77,
+      "git_transitions": 112,
+      "packet_references": 25,
+      "baseline_and_supplemental_custody": true
+    },
+    "boundary": "Promotion admits only exact existing reviewed changes, not new removals or runtime acceptance."
+  }
+}

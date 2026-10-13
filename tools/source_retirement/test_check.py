@@ -1,10 +1,9 @@
 import copy
-import hashlib
 import importlib.util
 import json
 from pathlib import Path
-import tempfile
 import subprocess
+import tempfile
 import unittest
 
 HERE = Path(__file__).resolve().parent
@@ -13,80 +12,141 @@ check = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(check)
 
 
-class RetirementNegatives(unittest.TestCase):
+class ExecutionOverlayTests(unittest.TestCase):
+    def setUp(self):
+        self.before = ['100644', 'a' * 40]
+        self.after = ['100755', 'b' * 40]
+        self.baseline = {'retained': self.before, 'removed': self.before, 'held': self.before}
+        self.candidate = {'retained': self.after, 'held': self.before}
+        self.manifest = {'schema': 'adl.source_retirement.execution_overlay.v1', 'issue': 1223,
+                         'status': 'complete', 'missing_entries': [], 'entries': [
+            {'path': 'retained', 'action': 'modify', 'before': self.before, 'after': self.after,
+             'review_reference': 'reviewed fixture', 'implementation_commit': 'fixture', 'approval_reference': 'fixture'}]}
+
+    def validate(self):
+        return check.check_execution_overlay(self.manifest, self.baseline, self.candidate, {'removed'}, set(self.baseline))
+
+    def test_exact_retained_repair_and_approved_deletion(self):
+        self.assertEqual(self.validate(), ['removed'])
+
+    def test_incomplete_manifest_refuses(self):
+        self.manifest['status'] = 'incomplete'
+        self.manifest['missing_entries'] = ['reviewed repair missing']
+        with self.assertRaisesRegex(ValueError, 'incomplete'):
+            self.validate()
+
+    def test_stale_before_identity_refuses(self):
+        self.manifest['entries'][0]['before'] = self.after
+        with self.assertRaisesRegex(ValueError, 'before identity'):
+            self.validate()
+
+    def test_unreviewed_provenance_refuses(self):
+        self.manifest['entries'][0]['review_reference'] = ''
+        with self.assertRaisesRegex(ValueError, 'provenance'):
+            self.validate()
+
+    def test_duplicate_path_refuses(self):
+        self.manifest['entries'] *= 2
+        with self.assertRaisesRegex(ValueError, 'duplicate'):
+            self.validate()
+
+    def test_later_unapproved_change_or_mode_refuses(self):
+        for identity in (self.before, ['100644', self.after[1]]):
+            self.candidate['retained'] = identity
+            with self.assertRaisesRegex(ValueError, 'exceeds execution identity'):
+                self.validate()
+
+    def test_conditional_path_cannot_be_deleted(self):
+        del self.candidate['held']
+        with self.assertRaisesRegex(ValueError, 'deletion outside'):
+            self.validate()
+
+    def test_extra_deletion_outside_inventory_refuses(self):
+        self.baseline['outside'] = self.before
+        with self.assertRaisesRegex(ValueError, 'deletion outside'):
+            self.validate()
+
+    def test_removed_path_cannot_reappear(self):
+        self.candidate['removed'] = self.before
+        with self.assertRaisesRegex(ValueError, 'deletion outside'):
+            self.validate()
+
+    def test_proposal_cannot_authorize_removal(self):
+        self.manifest['entries'].append({'path': 'held', 'action': 'remove', 'before': self.before,
+                                        'after': None, 'review_reference': 'proposal',
+                                        'implementation_commit': 'fixture', 'approval_reference': 'proposal',
+                                        'rollback_custody': 'fixture'})
+        with self.assertRaisesRegex(ValueError, 'unapproved removal'):
+            self.validate()
+
+    def test_explicit_removal_requires_custody(self):
+        self.manifest['entries'].append({'path': 'removed', 'action': 'remove', 'before': self.before,
+                                        'after': None, 'review_reference': 'review',
+                                        'implementation_commit': 'fixture', 'approval_reference': 'approval'})
+        with self.assertRaisesRegex(ValueError, 'missing custody'):
+            self.validate()
+
+
+class InventoryAndCustodyTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.ledger = json.loads((check.ROOT / check.PACKET / 'DISPOSITION_REGISTER.json').read_text())
-        cls.frozen = check.tree(cls.ledger['original_revision'])
-        cls.observed = check.tree(cls.ledger['observed_main'])
-        cls.candidate = dict(cls.observed)
-        for r in cls.ledger['rows']:
-            if r['action'] in ('existing_branch_removal', 'approved_component_removal'):
-                del cls.candidate[r['path']]
-            elif r['action'] == 'existing_branch_surgical':
-                cls.candidate[r['path']] = r['expected_surgical_identity']
-            elif r['action'] in ('consumer_reference_repair', 'approved_component_consumer_repair'):
-                data = (check.ROOT / r['path']).read_bytes()
-                blob = hashlib.sha1(b'blob ' + str(len(data)).encode() + b'\0' + data).hexdigest()
-                cls.candidate[r['path']] = [cls.observed[r['path']][0], blob]
+        cls.original = check.committed_json(check.PACKET / 'DISPOSITION_REGISTER.json')
+        cls.combined = check.committed_json(check.PACKET / 'COMBINED_REMAINING_DELTA.json')
+        cls.groups = check.committed_json(check.PACKET / 'GROUPED_REMAINING_HOLDS.json')
+        cls.frozen = check.tree(cls.original['original_revision'])
+        cls.observed = check.tree(cls.original['observed_main'])
 
-        cls.candidate.update({path: check.approved_consumer_identity(path, identity)
-                              for path, identity in check.approved_component_delta()['repairs'].items()})
+    def validate(self, combined=None, groups=None):
+        check.check_combined(self.original, combined or self.combined, groups or self.groups, self.frozen, self.observed)
 
-    def test_public_test_routing_cannot_hide_another_selector_change(self):
-        candidate = dict(self.candidate)
-        path = 'adl/config/validation_lane_selector.v0.91.6.json'
-        candidate[path] = ['100644', '0' * 40]
-        with self.assertRaisesRegex(ValueError, 'component consumer repair exceeds'):
-            check.check_inventory(self.ledger, self.frozen, self.observed, candidate)
+    def test_current_committed_denominator_and_groups(self):
+        self.validate()
 
-    def test_contributor_repair_cannot_hide_another_change(self):
-        candidate = dict(self.candidate)
-        candidate['adl/CONTRIBUTING.md'] = ['100644', '0' * 40]
-        with self.assertRaisesRegex(ValueError, 'consumer repair exceeds'):
-            check.check_inventory(self.ledger, self.frozen, self.observed, candidate)
+    def test_reordered_inventory_refuses(self):
+        data = copy.deepcopy(self.combined)
+        data['rows'][0], data['rows'][1] = data['rows'][1], data['rows'][0]
+        with self.assertRaisesRegex(ValueError, 'captured current identities|ordered inventory'):
+            self.validate(combined=data)
 
-    def test_workspace_repair_cannot_hide_dependency_change(self):
-        candidate = dict(self.candidate)
-        candidate['adl-v2/Cargo.toml'] = ['100644', '0' * 40]
-        with self.assertRaisesRegex(ValueError, 'component consumer repair exceeds'):
-            check.check_inventory(self.ledger, self.frozen, self.observed, candidate)
+    def test_additional_overlap_refuses(self):
+        data = copy.deepcopy(self.combined)
+        data['additional_paths'][0]['path'] = data['rows'][0]['path']
+        with self.assertRaisesRegex(ValueError, 'captured current identities|additional inventory'):
+            self.validate(combined=data)
 
-    def test_complete_original_denominator_and_existing_delta(self):
-        self.assertEqual(len(check.check_inventory(self.ledger, self.frozen, self.observed, self.candidate)), 70)
+    def test_original_false_approval_refuses(self):
+        for field, value in [('new_removals_authorized', False), ('all_holds_resolved', True)]:
+            original = dict(self.original, **{field: value})
+            with self.assertRaisesRegex(ValueError, 'approval flags'):
+                check.check_combined(original, self.combined, self.groups, self.frozen, self.observed)
 
-    def test_integrated_main_fix_cannot_be_reverted(self):
-        candidate = dict(self.candidate)
-        path = 'csdlc-v3/src/storage/semantic.rs'
-        candidate[path] = self.frozen[path]
-        self.assertNotEqual(candidate[path], self.observed[path])
-        with self.assertRaisesRegex(ValueError, 'held source'):
-            check.check_inventory(self.ledger, self.frozen, self.observed, candidate)
+    def test_original_and_additional_captured_identity_refuse_tampering(self):
+        for group in ('rows', 'additional_paths'):
+            for field, value in [('mode', '100755'), ('blob', '0' * 40)]:
+                data = copy.deepcopy(self.combined)
+                identity = data[group][0]['current_identity']
+                identity[field] = value if identity[field] != value else '100644'
+                with self.assertRaisesRegex(ValueError, 'captured current identities'):
+                    self.validate(combined=data)
 
-    def test_missing_candidate_rejected(self):
-        ledger = copy.deepcopy(self.ledger)
-        ledger['rows'].pop()
-        with self.assertRaisesRegex(ValueError, 'denominator'):
-            check.check_inventory(ledger, self.frozen, self.observed, self.candidate)
+    def test_incomplete_hold_group_refuses(self):
+        data = copy.deepcopy(self.groups)
+        data['groups'][0]['rows'].pop()
+        with self.assertRaisesRegex(ValueError, 'held groups'):
+            self.validate(groups=data)
 
-    def test_required_evidence_loss_rejected(self):
-        candidate = dict(self.candidate)
-        candidate.pop('csdlc-v3/operator/authority-selector.json')
-        with self.assertRaises(ValueError):
-            check.check_inventory(self.ledger, self.frozen, self.observed, candidate)
+    def test_missing_and_corrupt_rollback_refuse(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / 'archive.tar.gz'
+            with self.assertRaisesRegex(ValueError, 'archive missing'):
+                check.check_rollback(path)
+            path.write_bytes(b'not the preserved archive')
+            with self.assertRaisesRegex(ValueError, 'digest mismatch'):
+                check.check_rollback(path)
 
-    def test_unapproved_source_loss_rejected(self):
-        candidate = dict(self.candidate)
-        path = next(r['path'] for r in self.ledger['rows'] if r['action'] == 'retain')
-        candidate.pop(path)
-        with self.assertRaisesRegex(ValueError, 'held source'):
-            check.check_inventory(self.ledger, self.frozen, self.observed, candidate)
-
-    def test_deletion_outside_original_denominator_rejected(self):
-        candidate = dict(self.candidate)
-        candidate.pop('tools/public_adl/verify_install.py')
-        with self.assertRaisesRegex(ValueError, 'new deletion outside'):
-            check.check_inventory(self.ledger, self.frozen, self.observed, candidate)
+    def test_operational_reference_not_historical(self):
+        with self.assertRaisesRegex(ValueError, 'unclassified'):
+            check.check_references(['adl/src/live.rs'], ['.csdlc/issues/594/cards/sor.md'])
 
     def test_committed_input_ignores_dirty_override(self):
         old_root = check.ROOT
@@ -105,43 +165,6 @@ class RetirementNegatives(unittest.TestCase):
                 self.assertEqual(check.committed_json('input.json'), {'allowed': []})
             finally:
                 check.ROOT = old_root
-
-    def test_surgical_repair_cannot_hide_configuration_change(self):
-        candidate = dict(self.candidate)
-        candidate['infra/runtime-v3/runtime-init.toml'] = ['100644', '0' * 40]
-        with self.assertRaisesRegex(ValueError, 'surgical change exceeds'):
-            check.check_inventory(self.ledger, self.frozen, self.observed, candidate)
-
-    def test_false_approval_rejected(self):
-        ledger = dict(self.ledger, all_holds_resolved=True)
-        with self.assertRaisesRegex(ValueError, 'approval'):
-            check.check_inventory(ledger, self.frozen, self.observed, self.candidate)
-
-    def test_consumer_notice_cannot_hide_runbook_changes(self):
-        candidate = dict(self.candidate)
-        candidate[check.INFRA_RUNBOOKS[0]] = ['100644', '0' * 40]
-        with self.assertRaisesRegex(ValueError, 'consumer repair exceeds'):
-            check.check_inventory(self.ledger, self.frozen, self.observed, candidate)
-
-    def test_consumer_repair_cannot_authorize_another_path(self):
-        with self.assertRaisesRegex(ValueError, 'unapproved consumer repair'):
-            check.consumer_reference_repair('adl/src/live.rs', b'live source\n')
-
-    def test_missing_rollback_rejected(self):
-        with tempfile.TemporaryDirectory() as directory:
-            with self.assertRaisesRegex(ValueError, 'archive missing'):
-                check.check_rollback(Path(directory) / 'absent.tar.gz')
-
-    def test_corrupt_rollback_rejected(self):
-        with tempfile.TemporaryDirectory() as directory:
-            path = Path(directory) / 'archive.tar.gz'
-            path.write_bytes(b'not the preserved archive')
-            with self.assertRaisesRegex(ValueError, 'digest mismatch'):
-                check.check_rollback(path)
-
-    def test_live_reference_not_hidden_by_historical_allowlist(self):
-        with self.assertRaisesRegex(ValueError, 'unclassified retained reference'):
-            check.check_references(['adl/src/live.rs'], ['.csdlc/issues/594/cards/sor.md'])
 
 
 if __name__ == '__main__':

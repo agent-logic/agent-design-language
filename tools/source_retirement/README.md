@@ -1,57 +1,53 @@
-# Issue 1223 preparation guards
+# Issue 1223 source retirement guard
 
-These checks protect the existing 34-removal branch and the complete original
-4,134-path inventory. They admit six exact consumer ownership notices while
-preserving the remaining retained holds. They do not approve additional removals.
-Exact content in a destination tree is candidate
-correspondence, not evidence of an accepted functional replacement.
+The immutable original register preserves 4,134 ordered identities. The current
+combined ledger classifies those same rows and 22 additional paths separately.
+Conditional proposals never authorize deletion. The executed boundary is 34
+original removals, 36 approved component removals, and one public-cutover removal:
+`RD07-2113 adl/tools/test_select_validation_lanes.sh` (71 total).
 
-`check.py` reads committed Git trees and the issue disposition register. It
-rejects a changed denominator, unapproved deletion, loss of retained source or
-protected evidence, missing/corrupt baseline rollback, and unclassified direct
-references to the three existing removed components. The reference scan cannot
-prove the absence of dynamically constructed or indirect consumers; those
-remain an independent component-review obligation.
+`check.py` reads committed Git objects, including approval packets. It verifies
+original identities, combined counts, disjoint held groups, exact executed deletion
+scope, protected/historical evidence, rollback custody and direct references.
+Dirty files cannot override committed approval inputs.
 
-Before running the committed-candidate guard, provision the verified historical
-archive into the resolved Git common directory at
-`csdlc-v3/local/evidence/1223/retirement/baseline.tar.gz`. Its required SHA-256 is
+## Reviewed execution reconciliation
+
+`EXECUTION_OVERLAY.json` records 77 existing retained-path changes through 112
+immutable Git transitions, independently reviewed against baseline and final
+identities, 25 packet references and rollback custody. Its 38 original public
+cutover entries preserve actual applied hashes, separately from prepared hashes.
+The completed manifest is pinned by `EXECUTION_APPROVAL_SHA256` in the guard.
+
+The overlay admits only these existing reviewed changes. Conditional proposals
+remain unexecuted and confer no new deletion authority. Later changes require
+new exact source, review and custody evidence before updating the immutable pin.
+Original approvals remain unchanged.
+
+The exact-identity validator rejects unapproved deletion, retained source/mode
+drift, duplicate paths, stale before-identities and absent provenance/custody.
+The original baseline-specific validator remains available as historical logic;
+the current run uses the combined ledger and execution overlay instead.
+
+## Focused validation
+
+Run `python3 -B tools/source_retirement/test_check.py` for deterministic Python
+contract/negative tests (small CPU/disk, no build/network). Run
+`python3 -B tools/source_retirement/check.py` only against the committed candidate;
+an incomplete or changed execution manifest fails closed.
+Tests do not establish installed product qualification or deletion authorization.
+
+Provision the historical rollback archive in the resolved Git common directory
+at `csdlc-v3/local/evidence/1223/retirement/baseline.tar.gz`, SHA256
 `12205043566913435c25ea414b1fd9148b46727821f7bfefd5d452cfe47a1c17`.
-No host path, archive download, provider credential, or cloud execution is
-embedded in the check. A new host without rollback custody must fail closed.
-The archive digest check is separate from the isolated restoration rehearsal.
+Missing or corrupt custody fails closed. Digest checks are separate from restore
+rehearsal. The extra cutover deletion also needs its exact pre-cutover Git blob
+preserved; the old archive is not presumed to contain newer bytes.
 
-Run the focused guard and its fifteen regression scenarios with:
-
-```sh
-CARGO_TARGET_DIR=target/source-retirement cargo test --offline --locked --manifest-path tools/source_retirement/validator/Cargo.toml --test retirement_contract
-```
-
-The separate `installed_public_packages` test invokes the existing real
-five-package macOS sandboxed verifier with issue 1223, rather than writing proof
-under issue 1192. It verifies exact candidate/artifact identity, seven consumers,
-21 inert UTS fixtures and five classified negative cases. Run it once at the
-final committed candidate together with the five declared public-package test
-lanes. Preparation checks do not establish this installed proof.
-
-PVF classification:
-
-| Target | Lane / role | Determinism and resources | Gate |
-| --- | --- | --- | --- |
-| `retirement_contract` | Local contract and negative regression | Deterministic Git/JSON/local filesystem; small CPU/disk; no network | Required preparation and retirement guard |
-| `installed_public_packages` | Installed integration | Real macOS sandbox and public Cargo cache; bounded CPU/disk; no paid service | Required final candidate qualification |
-
-The inventory and three-component boundary are intentionally pinned. Widening
-the retirement set requires a separately reviewed exact manifest, appropriate
-consumer repairs and preservation; changing a constant merely to make a failing
-check pass is not approval. Missing storage, evidence, proof or review remains a
-failure or hold, never a skipped pass.
-
-The six consumer reference repairs change only the named successor or add a
-fixed repository-scope notice to five preserved infrastructure runbooks. The
-guard derives their expected content from the observed baseline and rejects
-other source paths, altered runbook instructions, mode changes, or missing files.
-These repairs do not authorize the proposed Runtime-health component removal.
+Reference checks retain the three original component boundaries and exact
+historical allowlists. Operational references cannot be hidden by a blanket docs
+exception. Dynamic/indirect callers still require independent review. Further
+historical reference additions must be reviewed individually before final proof.
 
 ## Proof storage
 
@@ -69,14 +65,3 @@ network access remain denied. Run the seven small storage/sandbox regressions wi
 These are PVF `local_contract` path-isolation tests (small CPU/disk, no build or
 external service); the five OS sandbox cases require macOS. They do not replace
 the final five-package, seven-consumer, 21-UTS, five-negative proof.
-
-## Approved component retirement
-
-The operator's `ok finish 1223` instruction approved the presented 36-path
-component delta: Runtime-health infrastructure (10), the retired ADL CodeBuild
-lane (4), and four split-out adapter/workcell crates (22). The guard pins the
-removal set and the routing/workspace and CLI parser repair identities in
-`APPROVED_COMPONENT_DELTA.json`. Its 15 regression cases include rejection of
-an altered workspace dependency. Counts remain separate: 34 earlier removals,
-36 newly approved removals, 70 total. The original 4,134-row inventory remains
-intact; this component approval does not resolve the remaining inventory.

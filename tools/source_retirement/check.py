@@ -10,7 +10,12 @@ ROOT = Path(__file__).resolve().parents[2]
 PACKET = Path('docs/milestones/v0.93.1/repository-decomposition/rd07-1223')
 # Original 4134-row inventory, ordered id/path/mode/blob tuple digest.
 INVENTORY_SHA256 = 'a22fa6306245ddb3916cf4cb3021286a2d91ebfe77ca719eb7b1039d9f6d3cd3'
+# Captured-current identities (4134 originals + 22 additions) in immutable
+# COMBINED_REMAINING_DELTA at 666818f2aafdaf4839d1c3de4119b513c4236d3d.
+CAPTURED_IDENTITIES_SHA256 = 'e306e5a70ae7792fd2fef91449a0285d665126375a28c0dd05914724fe1bdebe'
 ARCHIVE_SHA256 = '12205043566913435c25ea414b1fd9148b46727821f7bfefd5d452cfe47a1c17'
+# Independently reviewed existing execution overlay; changing this pin requires review.
+EXECUTION_APPROVAL_SHA256 = 'e8cb153b2483ce856aab43d6ecf9bd5beaf697046d3b71049e3c30ee9fd4b51e'
 COMPONENTS = ('infra/ddns', 'infra/aws/runtime/log-archive', 'infra/aws/runtime/agent-checkpoint-archive')
 PROTECTED = ('csdlc-v3/operator/authority-selector.json', 'csdlc-v3/operator/native-authority-receipt.json',
              'docs/templates/prompts/current.json', 'adl/tools/install_owner_binaries.sh',
@@ -62,13 +67,92 @@ def committed_json(path):
     return json.loads(git('show', 'HEAD:' + str(path)))
 
 
+def committed_bytes(path):
+    return subprocess.check_output(['git', '--no-optional-locks', 'show', 'HEAD:' + str(path)], cwd=ROOT)
+
+
+def check_combined(original, combined, groups, frozen, observed):
+    require(original['new_removals_authorized'] is True and original['all_holds_resolved'] is False,
+            'original scoped approval flags changed')
+    captured = [[r.get('id'), r['path'], r['current_identity']] for r in combined['rows'] + combined['additional_paths']]
+    require(hashlib.sha256(json.dumps(captured, sort_keys=True, separators=(',', ':')).encode()).hexdigest() ==
+            CAPTURED_IDENTITIES_SHA256, 'captured current identities changed')
+    rows = original['rows']
+    tuples = [[r['id'], r['path'], r['original_mode'], r['original_blob']] for r in rows]
+    require(len(rows) == len({r['path'] for r in rows}) == 4134 and
+            hashlib.sha256(json.dumps(tuples, separators=(',', ':')).encode()).hexdigest() == INVENTORY_SHA256,
+            'original inventory identity changed')
+    require(original['original_revision'] == '248f00e359e412f6bc0061ac88be9ff374e3a212' and
+            original['observed_main'] == '9cfd035aac2a44637b3c8026bd40b669579a8c7f', 'reviewed baseline changed')
+    for row in rows:
+        require(frozen.get(row['path']) == [row['original_mode'], row['original_blob']], 'frozen identity mismatch')
+        require(observed.get(row['path']) == row['observed_main'], 'observed identity mismatch')
+    require([(r['id'], r['path']) for r in combined['rows']] == [(r['id'], r['path']) for r in rows],
+            'combined ordered inventory changed')
+    additional = combined['additional_paths']
+    paths = [r['path'] for r in additional]
+    require(len(paths) == len(set(paths)) == combined['additional_current_source_paths'] == 22 and
+            not set(paths).intersection(r['path'] for r in rows) and
+            all(r['original_inventory_member'] is False for r in additional), 'additional inventory overlap or count drift')
+    counts = {}
+    for row in combined['rows']:
+        action = row['proposed_action']
+        counts[action] = counts.get(action, 0) + 1
+    require(counts == combined['counts'] and combined['original_count'] == 4134, 'combined counts drift')
+    held = {r['id']: r for r in combined['rows'] if r['proposed_action'].startswith('hold_')}
+    grouped = [r for g in groups['groups'] for r in g['rows']]
+    require(len(grouped) == len({r['id'] for r in grouped}) == groups['held_count'] == len(held) and
+            all(held.get(r['id']) == r for r in grouped) and
+            all(g['count'] == len(g['rows']) for g in groups['groups']) and
+            groups['original_count'] == 4134 and groups['additional_paths_separate'] == 22,
+            'held groups are not complete and disjoint')
+
+
+def check_execution_overlay(manifest, baseline, candidate, approved_removed, scoped_paths):
+    """Pure exact-identity check; proposals never confer execution authority."""
+    require(manifest['schema'] == 'adl.source_retirement.execution_overlay.v1' and manifest['issue'] == 1223,
+            'invalid execution manifest')
+    require(manifest['status'] == 'complete' and not manifest['missing_entries'],
+            'execution manifest incomplete: ' + '; '.join(manifest['missing_entries']))
+    expected = dict(baseline)
+    seen = set()
+    removals = set(approved_removed)
+    for entry in manifest['entries']:
+        path = entry['path']
+        require(path not in seen, 'duplicate execution path: ' + path)
+        seen.add(path)
+        require(entry['review_reference'] and entry['implementation_commit'] and entry['approval_reference'],
+                'execution provenance missing: ' + path)
+        require(entry['before'] == baseline.get(path), 'execution before identity mismatch: ' + path)
+        after = entry['after']
+        action = entry['action']
+        require(action in ('add', 'modify', 'remove'), 'unknown execution action')
+        require((action == 'add' and entry['before'] is None and after is not None) or
+                (action == 'modify' and entry['before'] is not None and after is not None) or
+                (action == 'remove' and entry['before'] is not None and after is None), 'invalid execution transition')
+        if after is not None:
+            require(len(after) == 2 and after[0] in ('100644', '100755', '120000') and
+                    len(after[1]) == 40 and all(c in '0123456789abcdef' for c in after[1]), 'invalid after identity')
+            expected[path] = after
+        else:
+            require(path in removals and entry.get('rollback_custody'), 'unapproved removal or missing custody: ' + path)
+            expected.pop(path, None)
+    require(set(baseline) - set(candidate) == removals, 'new deletion outside executed approval set')
+    for path in scoped_paths | seen:
+        if path in removals:
+            require(path not in candidate, 'approved removal still present: ' + path)
+        else:
+            require(candidate.get(path) == expected.get(path), 'retained source exceeds execution identity: ' + path)
+    return sorted(removals)
+
+
 def tree(ref):
     return {path: fields.split()[::2] for line in git('ls-tree', '-r', ref).splitlines()
             for fields, path in [line.split('\t', 1)]}
 
 
 def approved_component_delta():
-    data = (ROOT / PACKET / 'APPROVED_COMPONENT_DELTA.json').read_bytes()
+    data = committed_bytes(PACKET / 'APPROVED_COMPONENT_DELTA.json')
     require(hashlib.sha256(data).hexdigest() == '4b752d6ccb95bb7c2857540126f3d1c145c2220838a1a1df9e9c59bc0d94198c',
             'approved component delta changed')
     return json.loads(data)
@@ -155,7 +239,38 @@ def run():
     ledger = committed_json(PACKET / 'DISPOSITION_REGISTER.json')
     observed = tree(ledger['observed_main'])
     candidate = tree('HEAD')
-    removed = check_inventory(ledger, tree(ledger['original_revision']), observed, candidate)
+    combined = committed_json(PACKET / 'COMBINED_REMAINING_DELTA.json')
+    groups = committed_json(PACKET / 'GROUPED_REMAINING_HOLDS.json')
+    check_combined(ledger, combined, groups, tree(ledger['original_revision']), observed)
+    require(groups['ledger_sha256'] == hashlib.sha256(committed_bytes(PACKET / 'COMBINED_REMAINING_DELTA.json')).hexdigest(),
+            'grouped ledger digest mismatch')
+    approved = approved_component_delta()
+    removed = {r['path'] for r in ledger['rows'] if r['action'] == 'existing_branch_removal'}
+    require(len(removed) == 34 and all(any(p.startswith(c + '/') for c in COMPONENTS) for p in removed), 'original removal scope changed')
+    require(len(approved['removed']) == 36 and not removed.intersection(approved['removed']), 'component removal scope changed')
+    removed.update(approved['removed'])
+    require(hashlib.sha256(committed_bytes(PACKET / 'PUBLIC_CUTOVER_APPLIED.json')).hexdigest() ==
+            'b4c8926946c54a5bca644b8c171b03995a404b8bcea55102ef45c5ec6ff12dcd', 'public cutover approval changed')
+    cutover = committed_json(PACKET / 'PUBLIC_CUTOVER_APPLIED.json')
+    extra = 'adl/tools/test_select_validation_lanes.sh'
+    require([r['path'] for r in cutover['paths'] if r['action'] == 'delete'] == [extra], 'public cutover deletion scope changed')
+    require(extra not in tree(cutover['implementation_commit']) and extra in tree(cutover['base_head']), 'cutover removal custody mismatch')
+    removed.add(extra)
+    overlay_bytes = committed_bytes(PACKET / 'EXECUTION_OVERLAY.json')
+    overlay = json.loads(overlay_bytes)
+    require(overlay['status'] == 'complete' and not overlay['missing_entries'],
+            'execution manifest incomplete: ' + '; '.join(overlay['missing_entries']))
+    require(EXECUTION_APPROVAL_SHA256 is not None and
+            hashlib.sha256(overlay_bytes).hexdigest() == EXECUTION_APPROVAL_SHA256,
+            'complete execution overlay lacks immutable reviewed approval')
+    require(overlay['baseline'] == ledger['observed_main'], 'execution baseline changed')
+    # Inventory members, additional paths, protected contracts and every approved
+    # cutover path remain exact. Evidence records are not permission to change code.
+    scoped = {r['path'] for r in combined['rows'] + combined['additional_paths']} | set(PROTECTED) | {r['path'] for r in cutover['paths']}
+    removed = check_execution_overlay(overlay, observed, candidate, removed, scoped)
+    for path, identity in observed.items():
+        if path.startswith('.csdlc/') and not path.startswith(('.csdlc/issues/1223/', '.csdlc/v3/issues/1223/', '.csdlc/evidence/1223/', '.csdlc/transactions/')):
+            require(candidate.get(path) == identity, 'historical lifecycle evidence changed: ' + path)
     metadata = Path(git('rev-parse', '--path-format=absolute', '--git-common-dir'))
     check_rollback(metadata / 'csdlc-v3/local/evidence/1223/retirement/baseline.tar.gz')
     scanned = {}
@@ -187,7 +302,7 @@ def run():
         check_references(refs, allowed)
         scanned[component] = len(refs)
     return {'schema': 'adl.source_retirement.guard.v1', 'status': 'passed', 'head': git('rev-parse', 'HEAD'),
-            'candidate_rows': 4134, 'existing_branch_removals': 34, 'approved_component_removals': 36, 'total_removals': len(removed), 'direct_reference_files': scanned,
+            'candidate_rows': 4134, 'existing_branch_removals': 34, 'approved_component_removals': 36, 'public_cutover_removals': 1, 'additional_inventory_paths': 22, 'total_removals': len(removed), 'direct_reference_files': scanned,
             'limits': ['Preparation guard only; no new deletion approval.',
                        'Direct component-path references only; dynamic and indirect consumers still require review.',
                        'Rollback digest is checked separately from functional restore and installed product proof.',
