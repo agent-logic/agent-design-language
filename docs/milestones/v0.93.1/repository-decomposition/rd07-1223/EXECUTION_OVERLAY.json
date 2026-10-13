@@ -6,7 +6,7 @@
   "execution_authorized": false,
   "original_inventory_count": 4134,
   "additional_inventory_count": 22,
-  "executed_deletion_count": 2672,
+  "executed_deletion_count": 2674,
   "entries": [
     {
       "path": ".github/workflows/ci.yaml",
@@ -6875,7 +6875,7 @@
       ],
       "after": [
         "100644",
-        "ad47d25909ef35d3900353b6138b0b93397442c4"
+        "86a1d93500563a740828ffbc23626bd04fc5a14a"
       ],
       "implementation_commit": "39a64819e2ccc75a0b09616a7883f5835d047e35",
       "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
@@ -6905,6 +6905,18 @@
             "ad47d25909ef35d3900353b6138b0b93397442c4"
           ],
           "packet": "BUILDER_FAMILY_APPLIED.json"
+        },
+        {
+          "commit": "3ec020460c8f4e5661caa2374efa9b73f8a898cb",
+          "before": [
+            "100644",
+            "ad47d25909ef35d3900353b6138b0b93397442c4"
+          ],
+          "after": [
+            "100644",
+            "86a1d93500563a740828ffbc23626bd04fc5a14a"
+          ],
+          "packet": "RUNTIME_GATEWAY_GENERATION_APPLIED.json"
         }
       ]
     },
@@ -28645,7 +28657,7 @@
       ],
       "after": [
         "100644",
-        "2c38c2d3dbcfd66f5ccdf00c210a607fab9e23f6"
+        "84045d8305ccbf5e2e00b4cd5faba0016eefabfa"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json",
@@ -28730,6 +28742,18 @@
             "2c38c2d3dbcfd66f5ccdf00c210a607fab9e23f6"
           ],
           "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json"
+        },
+        {
+          "commit": "3ec020460c8f4e5661caa2374efa9b73f8a898cb",
+          "before": [
+            "100644",
+            "2c38c2d3dbcfd66f5ccdf00c210a607fab9e23f6"
+          ],
+          "after": [
+            "100644",
+            "84045d8305ccbf5e2e00b4cd5faba0016eefabfa"
+          ],
+          "packet": "RUNTIME_GATEWAY_GENERATION_APPLIED.json"
         }
       ]
     },
@@ -29757,18 +29781,35 @@
     },
     {
       "path": "adl/tools/test_runtime_v3_cross_binary_generation.sh",
-      "action": "modify",
+      "action": "remove",
       "before": [
         "100755",
         "5a195ddda6f5e19f7af8fa55c77aa128dc68beec"
       ],
-      "after": [
-        "100755",
-        "6200e1a51b524c43569e86a9d7be138b110e77b1"
-      ],
+      "after": null,
       "implementation_commit": "3383f7f691ec248d6fe87cd18e4e13c5d1e8d900",
       "approval_reference": "RUNTIME_SOURCE_FAMILY_APPLIED.json",
-      "review_reference": "review_1223_public_facade exact Runtime896 plus54 caller repair review"
+      "review_reference": "review_1223_public_facade exact Runtime896 plus54 caller repair review",
+      "supplemental_source_chain": [
+        {
+          "commit": "3ec020460c8f4e5661caa2374efa9b73f8a898cb",
+          "before": [
+            "100755",
+            "6200e1a51b524c43569e86a9d7be138b110e77b1"
+          ],
+          "after": null,
+          "packet": "RUNTIME_GATEWAY_GENERATION_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_GATEWAY_GENERATION_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime164-two-contract-retirement/current-preimages.tar",
+        "archive_sha256": "0cefd92635a0bf5d1037b3ffdb34796e876b207c2e350b894d5172de4005cfe8",
+        "member": "adl/tools/test_runtime_v3_cross_binary_generation.sh",
+        "mode": "100755",
+        "blob": "6200e1a51b524c43569e86a9d7be138b110e77b1",
+        "sha256": "aae9b3a39a9f5a52afd0ab4d1663e4b34d554b41a03f382cd9f1b4318130735d"
+      }
     },
     {
       "path": "adl/tools/test_slow_proof_lane_contract.sh",
@@ -56534,7 +56575,7 @@
       "before": null,
       "after": [
         "100644",
-        "1d46861e5ca52efa62e0551973b8f0dd4542bcbb"
+        "2f245d65e62cc7222cf21a95324910d0e1e6de2e"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json",
@@ -56795,6 +56836,18 @@
             "1d46861e5ca52efa62e0551973b8f0dd4542bcbb"
           ],
           "packet": "NATIVE_SUNSET_FAMILY_APPLIED.json"
+        },
+        {
+          "commit": "3ec020460c8f4e5661caa2374efa9b73f8a898cb",
+          "before": [
+            "100644",
+            "1d46861e5ca52efa62e0551973b8f0dd4542bcbb"
+          ],
+          "after": [
+            "100644",
+            "2f245d65e62cc7222cf21a95324910d0e1e6de2e"
+          ],
+          "packet": "RUNTIME_GATEWAY_GENERATION_APPLIED.json"
         }
       ],
       "prior_execution_provenance": [
@@ -64002,7 +64055,7 @@
       "before": null,
       "after": [
         "100644",
-        "20181d86bbf0ab0a40fad2d9fa5fad838a85b4b1"
+        "997db3223cba1c7e909ac1c6568193b3d3907cb3"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "Infrastructure212 source commit guard-documentation accompaniment",
@@ -64131,6 +64184,18 @@
             "20181d86bbf0ab0a40fad2d9fa5fad838a85b4b1"
           ],
           "packet": "Readiness metrics retained caller integration"
+        },
+        {
+          "commit": "pending_reviewed_integration",
+          "before": [
+            "100644",
+            "20181d86bbf0ab0a40fad2d9fa5fad838a85b4b1"
+          ],
+          "after": [
+            "100644",
+            "997db3223cba1c7e909ac1c6568193b3d3907cb3"
+          ],
+          "packet": "Runtime164 two-contract integration"
         }
       ],
       "prior_execution_provenance": [
@@ -80869,6 +80934,84 @@
           "packet": "READINESS_METRICS_CALLER_APPLIED.json"
         }
       ]
+    },
+    {
+      "path": "adl/tools/run_runtime_gateway_owner_contract.py",
+      "before": null,
+      "after": [
+        "100644",
+        "f6610f8d3a76600636891ba4d01100847259ef37"
+      ],
+      "action": "add",
+      "implementation_commit": "3ec020460c8f4e5661caa2374efa9b73f8a898cb",
+      "approval_reference": "RUNTIME_GATEWAY_GENERATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "3ec020460c8f4e5661caa2374efa9b73f8a898cb",
+          "before": null,
+          "after": [
+            "100644",
+            "f6610f8d3a76600636891ba4d01100847259ef37"
+          ],
+          "packet": "RUNTIME_GATEWAY_GENERATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/test_run_v0917_csm_api_gateway_bridge_proof.sh",
+      "before": [
+        "100755",
+        "7ac981024ac4b2cea3b6a5c9f0c039f7430cb66a"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "3ec020460c8f4e5661caa2374efa9b73f8a898cb",
+      "approval_reference": "RUNTIME_GATEWAY_GENERATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "3ec020460c8f4e5661caa2374efa9b73f8a898cb",
+          "before": [
+            "100755",
+            "7ac981024ac4b2cea3b6a5c9f0c039f7430cb66a"
+          ],
+          "after": null,
+          "packet": "RUNTIME_GATEWAY_GENERATION_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_GATEWAY_GENERATION_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime164-two-contract-retirement/current-preimages.tar",
+        "archive_sha256": "0cefd92635a0bf5d1037b3ffdb34796e876b207c2e350b894d5172de4005cfe8",
+        "member": "adl/tools/test_run_v0917_csm_api_gateway_bridge_proof.sh",
+        "mode": "100755",
+        "blob": "7ac981024ac4b2cea3b6a5c9f0c039f7430cb66a",
+        "sha256": "523979bf6905e48afd1799602000af96bb87c31bf5fd50c8ab24bab08230df51"
+      }
+    },
+    {
+      "path": "docs/tooling/RUNTIME_GATEWAY_OWNER_CONTRACT.md",
+      "before": null,
+      "after": [
+        "100644",
+        "dfe33121cf6ab98d53b2dc061df70a99d06dd825"
+      ],
+      "action": "add",
+      "implementation_commit": "3ec020460c8f4e5661caa2374efa9b73f8a898cb",
+      "approval_reference": "RUNTIME_GATEWAY_GENERATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "3ec020460c8f4e5661caa2374efa9b73f8a898cb",
+          "before": null,
+          "after": [
+            "100644",
+            "dfe33121cf6ab98d53b2dc061df70a99d06dd825"
+          ],
+          "packet": "RUNTIME_GATEWAY_GENERATION_APPLIED.json"
+        }
+      ]
     }
   ],
   "missing_entries": [],
@@ -87218,9 +87361,29 @@
         "adl/tools/test_readiness_prep_metrics_non_terminal.sh"
       ],
       "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "RUNTIME_GATEWAY_GENERATION_APPLIED.json",
+      "sha256": "e855f3b6cc7c767567edea61f0c7629aa4dda95bef63efd2fd03a3c5a97660d2",
+      "commit": "3ec020460c8f4e5661caa2374efa9b73f8a898cb",
+      "files": 7,
+      "removals": 2,
+      "scope_sha256": "be043a46f446e2366f2661030ea7c011b2de3de7f49fdaf5571f022c4d4d35f9",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl/config/validation_lane_selector.v0.91.6.json",
+        "adl/tools/generate_tool_surface_registry.py",
+        "adl/tools/run_runtime_gateway_owner_contract.py",
+        "adl/tools/test_run_v0917_csm_api_gateway_bridge_proof.sh",
+        "adl/tools/test_runtime_v3_cross_binary_generation.sh",
+        "docs/tooling/RUNTIME_GATEWAY_OWNER_CONTRACT.md",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
     }
   ],
-  "baseline_deletion_count": 2671,
+  "baseline_deletion_count": 2673,
   "transient_removed_paths": [
     "adl/tools/test_issue872_historical_manifest.py"
   ]

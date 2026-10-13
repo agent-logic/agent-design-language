@@ -8,18 +8,18 @@
   "counts": {
     "retain_resolved": 527,
     "proposed_owner_transfer_with_consumer_qualification": 294,
-    "preserve_approved_removal": 2670,
+    "preserve_approved_removal": 2672,
     "retain_public_source_or_fixture": 191,
     "preserve_reviewed_consumer_repair": 18,
     "proposed_historical_retirement_with_caller_repair": 32,
     "proposed_remove_with_entire_source_family": 1,
     "proposed_remove_with_entire_tool_family": 385,
-    "hold_explicit_reconciliation": 11,
+    "hold_explicit_reconciliation": 9,
     "hold_owner_test_reconciliation": 1,
     "proposed_remove_construction_qualified_infrastructure": 4
   },
   "additional_current_source_paths": 22,
-  "preservation": "Original 4134 identities and separate 22 captured paths unchanged. Exact executed retirement actions 2672 comprise 2671 baseline deletions and one newly-added-then-retired ADL conversion bridge; the bridge is outside both captured inventories. Other proposals remain conditional.",
+  "preservation": "Original 4134 identities and separate 22 captured paths unchanged. Exact executed retirement actions 2674 comprise 2673 baseline deletions and one newly-added-then-retired ADL conversion bridge; the bridge is outside both captured inventories. Other proposals remain conditional.",
   "review_boundary": "Exact paths and Git identities are pinned. Proposed removals remain conditional; this is not a claim that caller closure or all successor tests are qualified.",
   "known_prerequisites": {
     "codefriend": "Issue102 e14ff1b08b7ef01f838404bca8ecdf47c1318ac1 passed all39suites409Linux tests,0failed0ignored,174.293s; exacthead and clean source before/after. Evidence FastWork c1223/evidence/codefriend/issue102-e14ff1b0-full, transcriptSHA256c7944f7e0403ba485b377868b1bd85e91eeee0ecce3f79920de3e86c813cfa1a. Focused1 and parallel47 diagnostics also passed; prior dc2 redelivery failure did not reproduce and its cause is not claimed fixed. Earlier failures retained. One macOS-only case, actual hosted installed-acquisition CI proof and owner publication remain separate.",
@@ -73975,10 +73975,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "Route source tests2100/2108 to Runtime owner with manifests, fixtures and existing scenario obligations; copied source alone does not close these dependencies."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -73999,6 +73997,17 @@
           ],
           "other_findings": 0
         }
+      },
+      "pre_runtime164_two_execution_classification": {
+        "proposed_action": "hold_explicit_reconciliation",
+        "required_before_execution": [
+          "Route source tests2100/2108 to Runtime owner with manifests, fixtures and existing scenario obligations; copied source alone does not close these dependencies."
+        ]
+      },
+      "applied_removal": {
+        "packet": "RUNTIME_GATEWAY_GENERATION_APPLIED.json",
+        "sha256": "e855f3b6cc7c767567edea61f0c7629aa4dda95bef63efd2fd03a3c5a97660d2",
+        "implementation_commit": "3ec020460c8f4e5661caa2374efa9b73f8a898cb"
       }
     },
     {
@@ -74209,10 +74218,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "Route source tests2100/2108 to Runtime owner with manifests, fixtures and existing scenario obligations; copied source alone does not close these dependencies."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -74233,6 +74240,17 @@
           ],
           "other_findings": 0
         }
+      },
+      "pre_runtime164_two_execution_classification": {
+        "proposed_action": "hold_explicit_reconciliation",
+        "required_before_execution": [
+          "Route source tests2100/2108 to Runtime owner with manifests, fixtures and existing scenario obligations; copied source alone does not close these dependencies."
+        ]
+      },
+      "applied_removal": {
+        "packet": "RUNTIME_GATEWAY_GENERATION_APPLIED.json",
+        "sha256": "e855f3b6cc7c767567edea61f0c7629aa4dda95bef63efd2fd03a3c5a97660d2",
+        "implementation_commit": "3ec020460c8f4e5661caa2374efa9b73f8a898cb"
       }
     },
     {

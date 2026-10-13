@@ -1,11 +1,11 @@
 # #1223 remaining hold groups
 
-Snapshot of all **12 holds** after reviewed owner deliveries, conditional historical review-wrapper disposition and exact-candidate Runtime test reconciliation. All 4,134 original identities remain in the ledger; 22 additional current paths remain separately tracked. No deletion is authorized by this grouping.
+Snapshot of all **10 holds** after reviewed owner deliveries, conditional historical review-wrapper disposition and exact-candidate Runtime test reconciliation. All 4,134 original identities remain in the ledger; 22 additional current paths remain separately tracked. No deletion is authorized by this grouping.
 
 | Group | Held paths | Next action |
 | --- | ---: | --- |
 | Runtime Observatory behavior and CI | 6 | Reconcile room selection, mobile controls and incident assertions with owner journal additions; preserve extra governed-room test. Reconcile live-only CI denominator separately. Reuse existing owner proof where exact. |
-| Remaining ADL validation routing | 5 | After reviewed caller cutover, reconcile each retained runner, selector, coverage/PVF policy and configuration against five public packages and original assertions. Retain historical private lanes explicitly; do not silently drop inventory rows. |
+| Remaining ADL validation routing | 3 | After reviewed caller cutover, reconcile each retained runner, selector, coverage/PVF policy and configuration against five public packages and original assertions. Retain historical private lanes explicitly; do not silently drop inventory rows. |
 | Mixed consumers (inherited inventory owner) | 1 | Resolve the exact per-row required_before_execution entries preserved below as one owner consumer batch: map current caller and qualified successor or choose explicit historical retention/retirement. Reuse existing owner evidence; source presence alone does not close behavior. Cloud/live operations require their own existing authorization. |
 
 The accompanying `GROUPED_REMAINING_HOLDS.json` preserves every held row, exact identity, prior review and execution prerequisite verbatim. Its group membership is disjoint and complete. Counts for pending patches are intersections with held original rows, not patch file totals.
@@ -110,3 +110,5 @@ Legacy helper, ANRM and Infrastructure tool applications add 30 exact original-r
 Mixed CI, builder and native sunset applications add 21 exact original-row removals and reconcile 13 explicitly reviewed public retentions. Twelve holds remain unchanged; 2672 executed actions comprise 2671 baseline deletions and one separately retired ADL bridge. Owner acceptance remains separately bounded.
 
 Readiness metrics caller application adds no removals and reconciles 2 explicitly reviewed local fixture retentions. Twelve holds remain unchanged; 2672 executed actions comprise 2671 baseline deletions and one separately retired ADL bridge. Owner acceptance remains separately bounded.
+
+Runtime164 two-contract source application resolves only RD07-2100 and RD07-2108. Ten holds remain. Existing original failures, pre-stub 2108 custody and live 1513/2223 obligations remain separate; 2,674 actions comprise 2,673 baseline deletions and one transient bridge.

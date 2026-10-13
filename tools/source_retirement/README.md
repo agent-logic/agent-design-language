@@ -144,3 +144,7 @@ Public CI guards retain their current assertions while obsolete private job cont
 ## Retained readiness metrics caller
 
 The reviewed readiness-metrics repair adds no removals. RD07-2058 preserves its original assertions through exact authenticated historical dependency bytes; RD07-2076 retains its already-routed policy assertions. Both remain retained ADL fixture contracts. The existing 2,672 execution actions (2,671 baseline deletions and one transient bridge), 4,134 original identities, 22 additional paths and 12 holds are unchanged. Five routing-prefix cases are separate from reused original consumer proof; no fresh whole-suite or native lifecycle acceptance is claimed.
+
+## Runtime164 gateway and generation contracts
+
+Two reviewed source removals bring execution to 2,674 actions: 2,673 baseline deletions and one transient bridge. RD07-2100 and 2108 leave the held set; ten holds remain. Original 4,134 identities and 22 additional paths are unchanged. Current source custody and original pre-stub 2108 custody are both pinned. Actual Runtime164 CI preserves original mock gateway and real cross-binary config assertions; the ADL caller requires exact owner Git resources and an explicit executable without Cargo fallback. No selected-binary authentication, live 1513/2223 proof or native runtime acceptance is inferred.

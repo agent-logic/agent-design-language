@@ -1,9 +1,9 @@
 {
   "schema": "adl.source_retirement.grouped_holds.v1",
   "source_head": "5edd4bf7452227fbfa83e990ffd496baeba6a3c0",
-  "ledger_sha256": "b6f3ff31a623ada4e2267d83cb9bb613c223eab6512b40834dba7c2482314171",
+  "ledger_sha256": "3f1ef6803c98f62e89407008138a97aefdf7294e765d889007c9cc31ea41894f",
   "original_count": 4134,
-  "held_count": 12,
+  "held_count": 10,
   "additional_paths_separate": 22,
   "execution_authorized": false,
   "boundary": "Grouping preserves every original row and prerequisite verbatim. It does not resolve holds, authorize removal, or imply full issue readiness. Other proposed removals remain conditional.",
@@ -193,84 +193,10 @@
     {
       "id": "validation-remainder",
       "title": "Remaining ADL validation routing",
-      "count": 5,
+      "count": 3,
       "next_action": "After reviewed caller cutover, reconcile each retained runner, selector, coverage/PVF policy and configuration against five public packages and original assertions. Retain historical private lanes explicitly; do not silently drop inventory rows.",
       "evidence": [],
       "rows": [
-        {
-          "id": "RD07-2100",
-          "path": "adl/tools/test_run_v0917_csm_api_gateway_bridge_proof.sh",
-          "owner": "agent-logic-infrastructure",
-          "component": "agent-logic-infrastructure-active-tool-contracts",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "7ac981024ac4b2cea3b6a5c9f0c039f7430cb66a"
-          },
-          "existing_action": "retain",
-          "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "Route source tests2100/2108 to Runtime owner with manifests, fixtures and existing scenario obligations; copied source alone does not close these dependencies."
-          ],
-          "successor_mapping": {
-            "mapping": "exact_successor",
-            "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
-            "exact_successor_paths": [
-              "adl/tools/test_run_v0917_csm_api_gateway_bridge_proof.sh"
-            ]
-          },
-          "reviewed_disposition": {
-            "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
-            "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
-            "proposal": "hold_runtime_owner_test_and_consumer_reconciliation",
-            "family": "Source-bound Runtime tests",
-            "review": {
-              "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
-              "fixed_ids": [
-                "RD07-2243",
-                "RD07-1483"
-              ],
-              "other_findings": 0
-            }
-          }
-        },
-        {
-          "id": "RD07-2108",
-          "path": "adl/tools/test_runtime_v3_cross_binary_generation.sh",
-          "owner": "agent-logic-infrastructure",
-          "component": "agent-logic-infrastructure-active-tool-contracts",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "5a195ddda6f5e19f7af8fa55c77aa128dc68beec"
-          },
-          "existing_action": "retain",
-          "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "Route source tests2100/2108 to Runtime owner with manifests, fixtures and existing scenario obligations; copied source alone does not close these dependencies."
-          ],
-          "successor_mapping": {
-            "mapping": "exact_successor",
-            "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
-            "exact_successor_paths": [
-              "adl/tools/test_runtime_v3_cross_binary_generation.sh"
-            ]
-          },
-          "reviewed_disposition": {
-            "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
-            "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
-            "proposal": "hold_runtime_owner_test_and_consumer_reconciliation",
-            "family": "Source-bound Runtime tests",
-            "review": {
-              "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
-              "fixed_ids": [
-                "RD07-2243",
-                "RD07-1483"
-              ],
-              "other_findings": 0
-            }
-          }
-        },
         {
           "id": "RD07-2110",
           "path": "adl/tools/test_runtime_v3_operational_selector.sh",
