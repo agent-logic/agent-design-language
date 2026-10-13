@@ -1,0 +1,23 @@
+{
+  "status": "source_confirmed_missing_original_filter_definitions",
+  "candidate_id": "RD07-2051",
+  "path": "adl/tools/test_process_drift_regressions.sh",
+  "source_sha256": "9bc0013b2e7323bc9c7cf9b619dffd1f49c55cb08f6e5ec5eb3f1aed25a52c5d",
+  "filters": [
+    "structured_prompt_srp_rejects_legacy_review_policy_artifact_type",
+    "structured_prompt_srp_completed_card_status_requires_final_review_truth",
+    "structured_prompt_sor_completed_card_status_requires_full_closeout_truth",
+    "structured_prompt_srp_validator_rejects_absolute_host_path_leakage"
+  ],
+  "inspected_roots": [
+    "adl",
+    "csdlc-v3",
+    "C-SDLC issue249 owner source"
+  ],
+  "owner_revision": "92779b3a8376182b691aad45258435ffb9c095f0",
+  "finding": "Literal searches for all four exact filter strings in Rust source found no definitions; only ADL wrapper string references remain. This is a source-confirmed unresolved test-selection contract, not an observed zero-test run.",
+  "other_obligation": "Original test_sprint_conductor_helpers.sh invoked first; retained421assertion correspondence and existing component proofs do not alone prove all original wrapper behavior.",
+  "required": "Identify exact successor cases with original negative behavior correspondence, then repair wrapper through supported owner qualification route or obtain scoped historical behavior retirement. Do not substitute broad current native validation or count successful empty Cargo filtering as proof.",
+  "execution_performed": false,
+  "retirement_authorized": false
+}
