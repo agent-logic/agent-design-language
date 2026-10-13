@@ -125,6 +125,7 @@ def run(output, mode, base):
             package_env['ADL_PUBLIC_CLI'] = str(binary)
             commands[1:1] = [
                 ['python3', 'tools/public_adl/test_public_runtime_dispatch.py', '--binary', str(binary)],
+                ['python3', 'tools/public_adl/test_public_cli_refusals.py', '--binary', str(binary)],
                 ['python3', 'tools/public_adl/test_public_codefriend_dispatch.py'],
             ]
         for index, argv in enumerate(commands):

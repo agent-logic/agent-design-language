@@ -6,25 +6,27 @@
   "execution_authorized": false,
   "original_count": 4134,
   "counts": {
-    "retain_resolved": 373,
-    "hold_explicit_reconciliation": 761,
-    "preserve_approved_removal": 70,
-    "proposed_remove_with_entire_source_family": 1908,
-    "preserve_reviewed_consumer_repair": 17,
-    "retain_public_source_or_fixture": 68,
+    "hold_explicit_reconciliation": 760,
     "hold_missing_successor_operational_command": 2,
+    "hold_owner_test_reconciliation": 35,
+    "preserve_approved_removal": 70,
+    "preserve_reviewed_consumer_repair": 17,
+    "proposed_remove_construction_qualified_infrastructure": 216,
+    "proposed_remove_with_entire_source_family": 1874,
     "proposed_remove_with_entire_tool_family": 719,
-    "proposed_remove_construction_qualified_infrastructure": 216
+    "retain_public_source_or_fixture": 68,
+    "retain_resolved": 373
   },
   "additional_current_source_paths": 19,
   "preservation": "Original inventory and baseline archive unchanged;70 prior approved removals preserved; no new deletion applied",
   "review_boundary": "Exact paths and Git identities are pinned. Proposed removals remain conditional; this is not a claim that caller closure or all successor tests are qualified.",
   "known_prerequisites": {
     "codefriend": "Issue102 candidate894eb1ce compiles all39 suites; two retained runs execute409Linux tests:366passed43failed. Source inventory410 includes one macOS-only case. Reviewed corrected candidate pending; prior installed31+11cases do not replace this obligation.",
-    "runtime": "Independent build/installed11cases and resume parity passed. Installer147 source/install proof passed; owner publication pending. Mirror148 reviewed c0023ec is under narrow isolated qualification. Original CLI test harness reachability remains unresolved; associated retirement rows stay held.",
+    "runtime": "Original CLI harness gap is tracked in Runtime149:201source declarations across31rows, not executed count. Runtime148 mirror restored at reviewed c0023ec:bin5/refusal1/readback1/help1/packaging2 checks and isolatedLinux auxiliary dry-run passed; library11pass4fixturefail pending owner repair. Installer147 actual3GiB proof passed; publication pending. CI/coverage denominator still unreconciled.",
     "cognitive_sdlc": "PR244/246 merged candidate artifact verified but shared owner installation/reconciliation pending; preserve repository-bound authority and legacy history",
     "infrastructure": "27/28Terraform roots passed; csm-runtime-alb unsupported arguments require owner repair; no cloud apply authorized",
-    "adl": "Five package15sourcegates and installed7consumer/21UTS/5negative proof passed;145publicCLI tests passed on macOS/Linux; finalCI and caller cutover pending"
+    "adl": "Five package15sourcegates and installed7consumer/21UTS/5negative proof passed;145publicCLI tests passed on macOS/Linux; finalCI and caller cutover pending",
+    "owner_test_correspondence": "OWNER_TEST_CORRESPONDENCE.json preserves1056original rows (651CSDLc+405Runtime).35unique implicated rows explicitly held. No broad test execution or retirement authority inferred."
   },
   "ci_contract": "COMBINED_CI_CUTOVER.json",
   "rows": [
@@ -10245,11 +10247,12 @@
         "blob": "4fd5f1b84bd20de0e6f1da986be2c8899fb659ea"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "hold_owner_test_reconciliation",
       "required_before_execution": [
         "qualified_owner_source_and_test_obligations",
         "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -10269,11 +10272,12 @@
         "blob": "f09dab10b332a8c8b7058553f15659521d14523e"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "hold_owner_test_reconciliation",
       "required_before_execution": [
         "qualified_owner_source_and_test_obligations",
         "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -10293,11 +10297,12 @@
         "blob": "8a60b6e65ecad602b7e33d0fa1410bb070162e4f"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "hold_owner_test_reconciliation",
       "required_before_execution": [
         "qualified_owner_source_and_test_obligations",
         "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -10317,11 +10322,12 @@
         "blob": "4d1a999b2084585d8cae7c351f3eeda493f677a5"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "hold_owner_test_reconciliation",
       "required_before_execution": [
         "qualified_owner_source_and_test_obligations",
         "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -10341,11 +10347,12 @@
         "blob": "39c330b9ec7b19b9c8e135596ea7713fef8e3d93"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "hold_owner_test_reconciliation",
       "required_before_execution": [
         "qualified_owner_source_and_test_obligations",
         "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -10365,11 +10372,12 @@
         "blob": "69e68e7bbbe65a8648fdff8fd0baaf7b08c476ab"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "hold_owner_test_reconciliation",
       "required_before_execution": [
         "qualified_owner_source_and_test_obligations",
         "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -10389,11 +10397,12 @@
         "blob": "b195a1fac559ab64d0637b5c015b3bf8786c15d7"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "hold_owner_test_reconciliation",
       "required_before_execution": [
         "qualified_owner_source_and_test_obligations",
         "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -10922,11 +10931,12 @@
         "blob": "fa911266561a280471a88c88b0ce7b5bb8e7f6e2"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "hold_owner_test_reconciliation",
       "required_before_execution": [
         "qualified_owner_source_and_test_obligations",
         "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
@@ -11006,11 +11016,12 @@
         "blob": "f806ca160b0078cba50edb40b7328e1473b3dc3f"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "hold_owner_test_reconciliation",
       "required_before_execution": [
         "qualified_owner_source_and_test_obligations",
         "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
@@ -11028,11 +11039,12 @@
         "blob": "209e50e6c4d4641eeea3ec92eac203ad263b16ca"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "hold_owner_test_reconciliation",
       "required_before_execution": [
         "qualified_owner_source_and_test_obligations",
         "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
@@ -11050,11 +11062,12 @@
         "blob": "1cd0afec1820a1d7629d2694825757eb251dadc5"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "hold_owner_test_reconciliation",
       "required_before_execution": [
         "qualified_owner_source_and_test_obligations",
         "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -11074,11 +11087,12 @@
         "blob": "ad4eb1e4eb111162a70cc52be4c5efe49467639a"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "hold_owner_test_reconciliation",
       "required_before_execution": [
         "qualified_owner_source_and_test_obligations",
         "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
@@ -11096,11 +11110,12 @@
         "blob": "ad7121d59ba51d75c1828fa0cf5cbe1b1a86e01f"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "hold_owner_test_reconciliation",
       "required_before_execution": [
         "qualified_owner_source_and_test_obligations",
         "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
@@ -11118,11 +11133,12 @@
         "blob": "1dd5413decf62b92d672b6f44896a88c059465ab"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "hold_owner_test_reconciliation",
       "required_before_execution": [
         "qualified_owner_source_and_test_obligations",
         "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
@@ -11140,11 +11156,12 @@
         "blob": "765703764dff6e81e8b56cff16946a596fff0b1e"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "hold_owner_test_reconciliation",
       "required_before_execution": [
         "qualified_owner_source_and_test_obligations",
         "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -11164,11 +11181,12 @@
         "blob": "f870f08dc81d0299a2506d68969865358a6df7aa"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "hold_owner_test_reconciliation",
       "required_before_execution": [
         "qualified_owner_source_and_test_obligations",
         "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -11188,11 +11206,12 @@
         "blob": "a7543fe8139a0b36b7c2a04f8a118ef97eea610a"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "hold_owner_test_reconciliation",
       "required_before_execution": [
         "qualified_owner_source_and_test_obligations",
         "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
@@ -11210,11 +11229,12 @@
         "blob": "24a4bc20c5343dbbf4ec886f68a1f5790cede9dc"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "hold_owner_test_reconciliation",
       "required_before_execution": [
         "qualified_owner_source_and_test_obligations",
         "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -11234,11 +11254,12 @@
         "blob": "0ced1633db9aac77e2a0ab534f270160e7b2f314"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "hold_owner_test_reconciliation",
       "required_before_execution": [
         "qualified_owner_source_and_test_obligations",
         "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -11258,11 +11279,12 @@
         "blob": "90d4d880d146adcd9c1cb3d2c1ad60fec639486d"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "hold_owner_test_reconciliation",
       "required_before_execution": [
         "qualified_owner_source_and_test_obligations",
         "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -11282,11 +11304,12 @@
         "blob": "d8a62880e4b8b3ffadb4cf45e29a4460baff07a1"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "hold_owner_test_reconciliation",
       "required_before_execution": [
         "qualified_owner_source_and_test_obligations",
         "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -11306,11 +11329,12 @@
         "blob": "7d5a86fa7da202240c9ee05db4dd9361536e3c3d"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "hold_owner_test_reconciliation",
       "required_before_execution": [
         "qualified_owner_source_and_test_obligations",
         "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -11330,11 +11354,12 @@
         "blob": "52979723e4b577e33ceef844c99f584efbe15229"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "hold_owner_test_reconciliation",
       "required_before_execution": [
         "qualified_owner_source_and_test_obligations",
         "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -11354,11 +11379,12 @@
         "blob": "f42990a274959f3defb39f601d617bd0c9300090"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "hold_owner_test_reconciliation",
       "required_before_execution": [
         "qualified_owner_source_and_test_obligations",
         "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -11378,11 +11404,12 @@
         "blob": "88018b8b0b25d801ab10759d59c177b573bd03a0"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "hold_owner_test_reconciliation",
       "required_before_execution": [
         "qualified_owner_source_and_test_obligations",
         "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -11402,11 +11429,12 @@
         "blob": "228aca3756b957b87c3c088581d5fb5b9c2bb24d"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "hold_owner_test_reconciliation",
       "required_before_execution": [
         "qualified_owner_source_and_test_obligations",
         "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -11426,11 +11454,12 @@
         "blob": "c0c52bfe48fdd6fa35162e5a961ef65408f1299e"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "hold_owner_test_reconciliation",
       "required_before_execution": [
         "qualified_owner_source_and_test_obligations",
         "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -11450,11 +11479,12 @@
         "blob": "4d610b89ce62b1d128afb8bc42cfd18de41006c8"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "hold_owner_test_reconciliation",
       "required_before_execution": [
         "qualified_owner_source_and_test_obligations",
         "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -11474,11 +11504,12 @@
         "blob": "49e5b36a9696895c6e75f92a9879a867e2ecd9fc"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "hold_owner_test_reconciliation",
       "required_before_execution": [
         "qualified_owner_source_and_test_obligations",
         "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
@@ -11496,11 +11527,12 @@
         "blob": "d17b6532fb3bb3981077b43b12f4f8cee97c05c0"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "hold_owner_test_reconciliation",
       "required_before_execution": [
         "qualified_owner_source_and_test_obligations",
         "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
@@ -11518,11 +11550,12 @@
         "blob": "66df6f0f1aa361564e52fbb271e2773297dddee4"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "hold_owner_test_reconciliation",
       "required_before_execution": [
         "qualified_owner_source_and_test_obligations",
         "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve RT-CLI-HARNESS with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -21636,11 +21669,12 @@
         "blob": "c78e8b4cdbff4560c58ce5190a90937439042b2b"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "hold_owner_test_reconciliation",
       "required_before_execution": [
         "qualified_owner_source_and_test_obligations",
         "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve RT-CI-DENOMINATOR with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
@@ -21704,11 +21738,12 @@
         "blob": "a099c74f912dfd87079cd9972dff6762fdce8f28"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "hold_owner_test_reconciliation",
       "required_before_execution": [
         "qualified_owner_source_and_test_obligations",
         "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve RT-CI-DENOMINATOR with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
@@ -71349,11 +71384,13 @@
         "blob": "a8a31ba8767da5acbf616e6c14b316eccd4760e8"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "hold_owner_test_reconciliation",
       "required_before_execution": [
         "qualified_owner_source_and_test_obligations",
         "all_active_caller_and_CI_repairs_in_same_delta",
-        "scoped_operator_decision"
+        "scoped_operator_decision",
+        "Resolve CS-NODE-PROOF with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json",
+        "Resolve CS-PLAN-AMENDMENT with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
       ],
       "successor_mapping": {
         "mapping": "same_path_changed",
@@ -73653,9 +73690,10 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
+      "proposed_action": "hold_owner_test_reconciliation",
       "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
+        "specific_consumer_or_document_disposition_required",
+        "Resolve RT-CI-DENOMINATOR with source and executable/explicit-transfer evidence; see OWNER_TEST_CORRESPONDENCE.json"
       ],
       "successor_mapping": {
         "mapping": "exact_successor",
