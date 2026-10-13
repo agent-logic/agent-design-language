@@ -1,7 +1,7 @@
 {
   "schema": "adl.source_retirement.grouped_holds.v1",
   "source_head": "5edd4bf7452227fbfa83e990ffd496baeba6a3c0",
-  "ledger_sha256": "40f6294cb45e5718b5468725befd7d8c3d370f01c63833fa02942ff571dfc75b",
+  "ledger_sha256": "7047d28effc8055d19469b9582099cc7ab8d02b3e2e3959bf101bc5dbe3053f3",
   "original_count": 4134,
   "held_count": 55,
   "additional_paths_separate": 22,
@@ -1376,37 +1376,10 @@
     {
       "id": "validation-remainder",
       "title": "Remaining ADL validation routing",
-      "count": 6,
+      "count": 5,
       "next_action": "After reviewed caller cutover, reconcile each retained runner, selector, coverage/PVF policy and configuration against five public packages and original assertions. Retain historical private lanes explicitly; do not silently drop inventory rows.",
       "evidence": [],
       "rows": [
-        {
-          "id": "RD07-2090",
-          "path": "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
-          "owner": "cognitive-sdlc",
-          "component": "cognitive-sdlc-active-tool-contracts",
-          "current_identity": {
-            "mode": "100755",
-            "blob": "3c1b93fc7b36991e227de7e9fa09949682916a6c"
-          },
-          "existing_action": "retain",
-          "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
-          "proposed_action": "hold_explicit_reconciliation",
-          "required_before_execution": [
-            "Mixed Infrastructure/Runtime: issue345runner, gpu-proof Terraform, emitted scripts, source/authorization checks and Git-free archive assertions must transfer together."
-          ],
-          "successor_mapping": {
-            "mapping": "unmapped",
-            "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
-            "exact_successor_paths": []
-          },
-          "reviewed_disposition": {
-            "packet": "ACTIVE_19_TOOL_DISPOSITIONS.json",
-            "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
-            "proposal": "specific_family_reconciliation",
-            "reason": "Mixed Infrastructure/Runtime: issue345runner, gpu-proof Terraform, emitted scripts, source/authorization checks and Git-free archive assertions must transfer together."
-          }
-        },
         {
           "id": "RD07-2100",
           "path": "adl/tools/test_run_v0917_csm_api_gateway_bridge_proof.sh",
@@ -1719,6 +1692,61 @@
             "status": "full_effectful_contract_not_executed",
             "changes_removal_authority": false
           }
+        }
+      ]
+    },
+    {
+      "id": "review-owner-wrapper",
+      "title": "Review owner compatibility wrapper",
+      "count": 1,
+      "next_action": "Map the excluded historical adl-review wrapper to its actual review owner and preserve deterministic fixture and contract-verifier behavior before removal. No CodeFriend owner obligation is inferred.",
+      "evidence": [
+        "CODEFRIEND_SOURCE_FAMILY_RECONCILIATION.json"
+      ],
+      "rows": [
+        {
+          "id": "RD07-0426",
+          "path": "adl/src/bin/adl_review.rs",
+          "owner": "review",
+          "component": "review-owner-compatibility-wrapper",
+          "current_identity": {
+            "mode": "100644",
+            "blob": "40e34e399ca67b7d2832da4a008f88edb72e247d"
+          },
+          "existing_action": "retain",
+          "proposed_action": "hold_explicit_reconciliation",
+          "required_before_execution": [
+            "actual_review_owner_source_mapping_and_original_fixture_and_contract_disposition",
+            "coherent_review_caller_closure_and_scoped_removal_decision"
+          ],
+          "successor_mapping": {
+            "mapping": "review_owner_mapping_required",
+            "codefriend_mapping_rejected": true
+          },
+          "pre_reconciliation_classification": {
+            "owner": "codefriend",
+            "component": "codefriend-mixed-code",
+            "proposed_action": "proposed_remove_with_entire_source_family",
+            "required_before_execution": [
+              "qualified_owner_source_and_test_obligations",
+              "all_active_caller_and_CI_repairs_in_same_delta",
+              "scoped_operator_decision"
+            ],
+            "successor_mapping": {
+              "mapping": "unmapped",
+              "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
+              "exact_successor_paths": []
+            }
+          },
+          "source_family_reconciliation": {
+            "packet": "CODEFRIEND_SOURCE_FAMILY_RECONCILIATION.json",
+            "sha256": "d3b298b05d00b338123c428c126056493a513a4f5cf3ed609cd33b9e736c9a5b",
+            "state": "review_tooling_misclassified",
+            "source_blob": "40e34e399ca67b7d2832da4a008f88edb72e247d",
+            "owner_blob": null,
+            "lexical_equivalence_claim": false
+          },
+          "hold_reason": "misclassified_CodeFriend_wrapper_requires_review_owner_mapping"
         }
       ]
     }

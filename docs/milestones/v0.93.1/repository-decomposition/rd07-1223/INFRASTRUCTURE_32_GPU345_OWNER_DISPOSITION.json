@@ -1,0 +1,266 @@
+{
+  "schema": "adl1223.infrastructure32_gpu345_owner_disposition.v1",
+  "issue": 1223,
+  "status": "conditional_owner_transfer_source_delivery_verified",
+  "execution_authorized": false,
+  "source_removed": false,
+  "adl_review_head": "2013a04d998ad8d52e4e110d8f418a434b30bcb7",
+  "row_id": "RD07-2090",
+  "original": {
+    "path": "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
+    "revision": "2013a04d998ad8d52e4e110d8f418a434b30bcb7",
+    "mode": "100755",
+    "blob": "3c1b93fc7b36991e227de7e9fa09949682916a6c",
+    "sha256": "48e4b784224706f47ab30c306fbb0521fc6fc6006182e9941560244688962be4"
+  },
+  "historical_inventory_owner": "cognitive-sdlc",
+  "delivered_owner": "agent-logic/agent-logic-infrastructure",
+  "owner_issue": 32,
+  "owner_pr": 33,
+  "owner_checkout": "/Volumes/FastWork/c1223/infrastructure14/agent-logic-infrastructure",
+  "owner_source_revision": "c91799dc5d931e5d3887b8796a8cffb11d5ff019",
+  "owner_merge_revision": "f8b03ea418e0bea09b395cbf9aaaf0188b709024",
+  "source_and_merge_bytes_equal": true,
+  "owner_sources": [
+    {
+      "path": "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
+      "revision": "c91799dc5d931e5d3887b8796a8cffb11d5ff019",
+      "mode": "100644",
+      "blob": "e8cf3c6c12fbca8dc68f54f6b4dc377441dc6c04",
+      "sha256": "09a97818435fb8b8e37c8043acd3a7d36ad20284b67e68107d030d52ec02b169"
+    },
+    {
+      "path": "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
+      "revision": "c91799dc5d931e5d3887b8796a8cffb11d5ff019",
+      "mode": "100755",
+      "blob": "1c19c441d390f251389729f495436f86e456b5e6",
+      "sha256": "d0b1b814077fc4de1ad9fd34a12bca4d1fdccfd3bf892c07bb97fda342ebb2b5"
+    },
+    {
+      "path": "tools/artifacts/issue345_runtime_package.py",
+      "revision": "c91799dc5d931e5d3887b8796a8cffb11d5ff019",
+      "mode": "100644",
+      "blob": "eca9e407c09976552e091f3ae93efbfd78e0d0c2",
+      "sha256": "c5122e8bf2964cb32b7e9e517bb5b8b417e942a11d01c64f84832f53038c34fe"
+    },
+    {
+      "path": "tools/artifacts/test_issue345_runtime_package.py",
+      "revision": "c91799dc5d931e5d3887b8796a8cffb11d5ff019",
+      "mode": "100644",
+      "blob": "d5b6c473476be9ff9f5bdbeb21a4345d13f32d99",
+      "sha256": "970c63c1547448264aa88283c604cb15bdffd532598814d0d426464eb3d71e67"
+    },
+    {
+      "path": "tools/artifacts/verify.py",
+      "revision": "c91799dc5d931e5d3887b8796a8cffb11d5ff019",
+      "mode": "100644",
+      "blob": "68495821b4df1f20c56eb03692bfa6713e2ebe20",
+      "sha256": "c9e2482eaf7f5399c78d6fae1d377c5ea0907cfc5b78c84af92e9bb2ca05072d"
+    },
+    {
+      "path": "tools/artifacts/native-proof/Cargo.toml",
+      "revision": "c91799dc5d931e5d3887b8796a8cffb11d5ff019",
+      "mode": "100644",
+      "blob": "da6e5eed647da16e5a5edb3cf3944ac79a74bc54",
+      "sha256": "e40d414d4e7abd764e59891af1b4ef11a180e80b6fa79565972c6cb97b20e986"
+    },
+    {
+      "path": "tools/artifacts/native-proof/tests/issue345_artifact_contract.rs",
+      "revision": "c91799dc5d931e5d3887b8796a8cffb11d5ff019",
+      "mode": "100644",
+      "blob": "304867ebacfe13c2a720d2afc2943215b3261242",
+      "sha256": "7d0d313b68a710502a4e49364fd124ed2310e58e30d1ee927c847fd18f0f1701"
+    },
+    {
+      "path": "contracts/ISSUE345_OFFLINE_ASSERTION_MAP.md",
+      "revision": "c91799dc5d931e5d3887b8796a8cffb11d5ff019",
+      "mode": "100644",
+      "blob": "820bd31c11adf35945c2909cdcdfb0bc5bc8e06c",
+      "sha256": "779c20586b06ba515cf687c4a1b63e532763964f0a8527a795214fe868c3947f"
+    },
+    {
+      "path": "contracts/ARTIFACT_INTERFACES.md",
+      "revision": "c91799dc5d931e5d3887b8796a8cffb11d5ff019",
+      "mode": "100644",
+      "blob": "70bac7beeb03c4e03c6f731676524cbc3310e8d0",
+      "sha256": "fa3deba501764f40a38131e54f7108d46f35370fc76488341d7d1dad642e6c4e"
+    },
+    {
+      "path": "infra/aws/runtime/gpu-proof/main.tf",
+      "revision": "c91799dc5d931e5d3887b8796a8cffb11d5ff019",
+      "mode": "100644",
+      "blob": "f027b784286d5bdd034e42733add65649f5518c3",
+      "sha256": "3d5614ed109d35a07d4b61e24f9def3e212ebc5487f6f4b42786498f4a5f3862"
+    },
+    {
+      "path": "infra/aws/runtime/gpu-proof/variables.tf",
+      "revision": "c91799dc5d931e5d3887b8796a8cffb11d5ff019",
+      "mode": "100644",
+      "blob": "9fa021dca833ad7baffec54f89f522640bac0d8d",
+      "sha256": "42639f9b1cafda6ebd7ea4756e77f4872267ea3bc27d9c23c5cbb25e2f2837a2"
+    },
+    {
+      "path": "infra/aws/runtime/gpu-proof/versions.tf",
+      "revision": "c91799dc5d931e5d3887b8796a8cffb11d5ff019",
+      "mode": "100644",
+      "blob": "ef83a6258c652b0b0df237f9aba4ce522e8fa3b9",
+      "sha256": "0e1492bc6384858a545dfedf655b2b0b31927ab542ba62b685da44a84b289df8"
+    },
+    {
+      "path": "infra/aws/runtime/gpu-proof/outputs.tf",
+      "revision": "c91799dc5d931e5d3887b8796a8cffb11d5ff019",
+      "mode": "100644",
+      "blob": "57e75d128d9bdf0b2b8875daa0eaaf8465d9ab64",
+      "sha256": "e7c42fdf6d6cdca07acaf889f1f9c98e9537ab6e189b1afb8eb4470118614e18"
+    },
+    {
+      "path": "infra/aws/runtime/gpu-proof/.terraform.lock.hcl",
+      "revision": "c91799dc5d931e5d3887b8796a8cffb11d5ff019",
+      "mode": "100644",
+      "blob": "e656d2da0bc1064f1f8a3498761e0f2e62a766d4",
+      "sha256": "60beaf076cbd9fdc214251b5c0758a1cf7b91581b8db294cfe442d063589c65f"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "/Volumes/FastWork/c1223/infrastructure14/agent-logic-infrastructure/.git/csdlc-v3/remote/merges/27cc93e8f3bb69acbb7f3827d0a6618c41380561e834146a95db28f6686cfb42.response.json",
+      "sha256": "ca3dabbb24fdd1e4e5ca54dd236380a655f6ee558bd6ffbff18dd5fb262ca404"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/infrastructure14/agent-logic-infrastructure/.git/csdlc-v3/remote/merges/27cc93e8f3bb69acbb7f3827d0a6618c41380561e834146a95db28f6686cfb42.reconciliation.json",
+      "sha256": "b0bcc704e0edb168161f42e015da5bd47346e8ad9e0b1ab8c289fa8d3d4a45aa"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/infrastructure14/agent-logic-infrastructure-worktrees/adl-issue-32-gpu345-artifact-offline-contract/.csdlc/v3/issues/32/proof.json",
+      "sha256": "7c4e5d35aa4317454d7864ad8754f7f2b8073025d025a2f5252a32e29933c04c"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/infrastructure14/agent-logic-infrastructure-worktrees/adl-issue-32-gpu345-artifact-offline-contract/.csdlc/evidence/32/intent-review/c91799dc5d931e5d3887b8796a8cffb11d5ff019/7fc2f23a4d2ef2d8719bf0536b33f1c6eecce7daf8dfe2f1fb793bda7470cd6a.json",
+      "sha256": "5bde60464b7c06e495360f6d6c6b94bc4dc5d51338ae4ab79e3d6511bb0f61fb"
+    }
+  ],
+  "merge_observation": {
+    "authenticated_reconciliation": true,
+    "expected_head_sha": "c91799dc5d931e5d3887b8796a8cffb11d5ff019",
+    "merge_commit": "f8b03ea418e0bea09b395cbf9aaaf0188b709024",
+    "issue_state": "CLOSED",
+    "boundary": "Recorded native receipt readback and actual Git objects; no new remote observation or native finish claim."
+  },
+  "proof": {
+    "status": "passed",
+    "native_tests_passed": 2,
+    "native_tests_failed": 0,
+    "native_tests_ignored": 0,
+    "head": "c91799dc5d931e5d3887b8796a8cffb11d5ff019",
+    "names": [
+      "pinned_runtime_artifact_acceptance_and_refusals",
+      "two_node_offline_contract_and_no_guest_source_build"
+    ],
+    "nested_python_methods": 4,
+    "nested_count_nonadditive": true,
+    "fixtures": "Synthetic text files with executable mode and synthetic pinned lock; not genuine Runtime executables. Shell uses local generated bootstrap and fake aws upload response.",
+    "historical_original_reported_negative_cases": 24,
+    "historical_24_independently_reexecuted": false,
+    "new_execution_this_review": false
+  },
+  "review": {
+    "typed_review_revision": "c91799dc5d931e5d3887b8796a8cffb11d5ff019",
+    "verdict": "pass",
+    "resolved_owner_findings": [
+      "exact Runtime producer repository admission",
+      "Runtime/GPU model-set comparison"
+    ],
+    "limits": "Review covers offline source contract; does not establish genuine Linux artifact or live guest acceptance."
+  },
+  "assertion_correspondence": [
+    {
+      "original": "two-node Terraform, shared key, bounded SSH, private Ollama, SSM policies, disk encryption/deletion, scoped guest IAM",
+      "successor": "Retained Terraform and selected static shell checks; exact original breadth not claimed."
+    },
+    {
+      "original": "Git-free reviewed source archive and Cargo dependency closure, guest build prerequisites and source-revision binding",
+      "successor": "Source builds forbidden; digest/revision/producer/target/executable/inventory checks over prebuilt package, plus model-set equality. Original source-era assertions remain historical."
+    },
+    {
+      "original": "state escape, broad SSH, missing key, immutable upload VersionId and paid command missing authorization",
+      "successor": "First four directly exercised; authorization exercised via load_authorization missing file rather than full paid command path."
+    },
+    {
+      "original": "generated bootstrap and user-data, HOME, diagnostics, Vector and SSM recovery",
+      "successor": "Both bootstraps syntax-checked; HOME and diagnostics/private proxy checked. Full user-data/Vector/SSM assertions not reproduced."
+    },
+    {
+      "original": "cost loading, AMI/preflight drift and exact-head typed review/state drift negatives",
+      "successor": "Guard source retained and post-preflight call statically checked; original fixture exercises not reproduced."
+    },
+    {
+      "original": "deadline exact two-node Lambda shutdown",
+      "successor": "Changed to terminate-on-guest-shutdown and runner deadline timer; explicit behavioral difference, not live equivalence."
+    }
+  ],
+  "current_adl_callers": [
+    {
+      "path": "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
+      "line": 454,
+      "kind": "active review-state hash input",
+      "obligation": "Deleting test alone breaks runner source-state identity; transfer/retire runner coherently or repair hash contract with independent review."
+    },
+    {
+      "path": "docs/operations/cloud/aws/shepherd-gpu-proof/README.md",
+      "line": 179,
+      "kind": "active documented invocation",
+      "obligation": "Route to exact Infrastructure owner contract or explicitly retain historical recipe."
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "kind": "active generated inventory",
+      "obligation": "Regenerate atomically with eventual approved removal."
+    },
+    {
+      "path": "adl/tools/skills/repo-packet-builder/tests/fixtures/issue-520-changed-paths.txt",
+      "kind": "historical literal path-list fixture",
+      "obligation": "Preserve fixture identity; not an executable caller."
+    }
+  ],
+  "caller_scan_limits": "Bounded literal path search; historical milestone evidence and lifecycle records are immutable provenance, not active callers. Dynamically constructed references are not exhaustively excluded.",
+  "remaining_conditions": [
+    "Before removal, adopt a coherent issue345 runner, Terraform, generated guest scripts and test caller disposition; current ADL runner review_state_sha256 still hashes this test, and operations README/registry still advertise it.",
+    "Preserve original test bytes and original negative_cases:24 as historical source evidence. New native proof has two Rust tests, including four Python test methods invoked both directly and within the shell test; do not add these counts or claim original24 equivalence.",
+    "Explicitly resolve changed/dropped original contracts before treating transfer as fully qualified: exact-node deadline Lambda is replaced by guest shutdown termination and guest timer; Terraform validate, complete fake authorization/cost/AMI/review-state drift exercises, generated user-data SSM recovery and Vector setup assertions are not all reproduced by new offline test.",
+    "Record source-build/Git-free Cargo archive checks as intentionally historical and replaced by pinned Runtime artifact contracts; do not silently equate removed build assertions with artifact acceptance.",
+    "Genuine pinned x86_64-unknown-linux-gnu Runtime artifact acceptance and live GPU/model/AWS behavior remain unqualified; use existing owner delivery evidence where exact and obtain separate execution authorization if those acceptance lanes are required.",
+    "Retain immutable inventory identities and baseline rollback custody; exact scoped removal review and caller repair are required. This packet authorizes no source deletion."
+  ],
+  "prior_row": {
+    "id": "RD07-2090",
+    "path": "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
+    "owner": "cognitive-sdlc",
+    "component": "cognitive-sdlc-active-tool-contracts",
+    "current_identity": {
+      "mode": "100755",
+      "blob": "3c1b93fc7b36991e227de7e9fa09949682916a6c"
+    },
+    "existing_action": "retain",
+    "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
+    "proposed_action": "hold_explicit_reconciliation",
+    "required_before_execution": [
+      "Mixed Infrastructure/Runtime: issue345runner, gpu-proof Terraform, emitted scripts, source/authorization checks and Git-free archive assertions must transfer together."
+    ],
+    "successor_mapping": {
+      "mapping": "unmapped",
+      "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+      "exact_successor_paths": []
+    },
+    "reviewed_disposition": {
+      "packet": "ACTIVE_19_TOOL_DISPOSITIONS.json",
+      "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
+      "proposal": "specific_family_reconciliation",
+      "reason": "Mixed Infrastructure/Runtime: issue345runner, gpu-proof Terraform, emitted scripts, source/authorization checks and Git-free archive assertions must transfer together."
+    }
+  },
+  "limits": [
+    "No tests, builds, cloud, model, provider, deployment or genuine artifact acceptance executed in this review.",
+    "No overlay/guard update or removal approval.",
+    "Native issue finish/cleanup is not inferred from merged/closed remote state."
+  ]
+}
