@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Keep the original read/error contract, but do not silently omit Terraform
+# state merely because its source root was removed from this repository.
+if [[ ! -d infra/gcp/platform ]]; then
+  echo "Run this retained readback contract from the Infrastructure owner root; infra/gcp/platform is absent after ADL #1223." >&2
+  exit 2
+fi
+
 project=""
 zone=""
 csm=""

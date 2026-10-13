@@ -29,6 +29,11 @@ while [ "$#" -gt 0 ]; do
   esac
 done
 
+if [[ ! -d "$ROOT/infra/aws/runtime" || ! -d "$ROOT/infra/aws/modules/csm-runtime-alb" ]]; then
+  echo "Infrastructure inputs are absent after ADL #1223; run the Infrastructure owner validator or supply its original --repo fixture inputs." >&2
+  exit 2
+fi
+
 tf_files() {
   find "$ROOT/infra/aws/runtime" "$ROOT/infra/aws/modules/csm-runtime-alb" \
     -type f \( -name '*.tf' -o -name '*.tfvars' -o -name '*.tfvars.example' -o -name '*.hcl.example' \) \

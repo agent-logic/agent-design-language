@@ -34,6 +34,8 @@ PRIMARY_TOOL_SCRIPTS = {
 }
 
 HISTORICAL_TOOL_SCRIPTS = {
+    'run_issue509_gcp_drt_d_qualification.sh': 'Historical Infrastructure source route retired by #1223; command refuses execution. Original assertions remain in Git and retirement custody; run the reviewed owner route.',
+    'run_issue607_warm_polis.sh': 'Historical Infrastructure source route retired by #1223; command refuses execution. Original assertions remain in Git and retirement custody; run the reviewed owner route.',
     'run_authoritative_coverage_lane.sh': 'Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing.',
     'run_issue345_aws_gpu_shepherd_proof.sh': 'Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing.',
     'run_pr_fast_test_lane.sh': 'Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing.',

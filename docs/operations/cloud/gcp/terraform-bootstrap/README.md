@@ -1,3 +1,5 @@
+> Infrastructure source and execution for the Terraform paths below moved to [agent-logic-infrastructure](https://github.com/agent-logic/agent-logic-infrastructure/tree/61c2806b6274b1003aa42f02adec99faf5f2a74b/infra). Run applicable commands from that owner checkout with its reviewed inputs. These retained procedures and historical outcomes do not establish new cloud or deployment acceptance.
+
 # GCP-B Terraform bootstrap runbook
 
 The maintained [runbook and Terraform source](https://github.com/agent-logic/agent-logic-infrastructure/blob/main/docs/operations/cloud/gcp/terraform-bootstrap/README.md) belong to `agent-logic-infrastructure`. Run the infrastructure commands below from that repository. This ADL copy preserves the migration context; infrastructure changes belong in the successor repository.

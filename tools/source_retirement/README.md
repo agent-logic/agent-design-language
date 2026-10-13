@@ -7,7 +7,9 @@ original removals, 36 approved component removals, and one public-cutover remova
 `RD07-2113 adl/tools/test_select_validation_lanes.sh` (71 historical total), plus
 six reviewed CodeFriend helper removals (77 historical total), followed by 196
 CodeFriend source-family and two obsolete workflow removals (275 historical total), then 815 C-SDLC source-family removals
-(1,090 executed removals total).
+(1,090 historical total), then 896 Runtime source-family removals
+(1,986 historical total), followed by 212 Infrastructure source removals
+(**2,198 executed removals total**).
 `CODEFRIEND_FAMILY_APPLIED.json` pins the latter 198 exact paths and source
 preimages, reviewed caller delta and five-member supplemental rollback archive.
 Retired host entrypoints do not establish current owner host/release acceptance.
@@ -24,6 +26,19 @@ authority selectors and receipts, retained operator history, public prompt
 templates, lifecycle journals and original issue 872 evidence remain protected.
 Historical failure-injection differences and owner package provenance do not
 establish behavioral equivalence or a new conversion rehearsal pass.
+
+`RUNTIME_SOURCE_FAMILY_APPLIED.json` records the 896 Runtime removals,
+retained public source/fixtures, explicit retired-route diagnostics and exact
+rollback preimages. Source delivery does not satisfy unresolved Runtime gateway,
+configuration identity or operational-selector acceptance; those holds remain.
+
+`INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json` records 212 Infrastructure removals
+and 20 coupled caller repairs. Exact rollback custody includes the concise
+Runtime template preimage at the source-family boundary. Offline Terraform,
+static, mock and fake-tool proofs remain separate from cloud deployment and
+Runtime artifact acceptance. The earlier 27-of-28 matrix failure remains
+historical evidence alongside the later bounded ALB repair proof. All unrelated
+holds and original inventory identities remain unchanged.
 
 `check.py` reads committed Git objects, including approval packets. It verifies
 original identities, combined counts, disjoint held groups, exact executed deletion

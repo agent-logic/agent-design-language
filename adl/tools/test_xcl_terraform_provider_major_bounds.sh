@@ -21,6 +21,11 @@ USAGE
 repo_root="$(git rev-parse --show-toplevel)"
 git_common_dir="$(git rev-parse --git-common-dir)"
 
+if [[ ! -f "$repo_root/infra/aws/runtime/xcl-01/versions.tf" || ! -f "$repo_root/infra/gcp/workloads/xcl-01/versions.tf" ]]; then
+  echo "XCL source inputs moved to agent-logic-infrastructure; run this original validator and --self-test in that owner checkout." >&2
+  exit 2
+fi
+
 check_root() {
   local provider="$1"
   local expected_constraint="$2"

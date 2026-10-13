@@ -1,3 +1,5 @@
+> Infrastructure source and execution for the Terraform paths below moved to [agent-logic-infrastructure](https://github.com/agent-logic/agent-logic-infrastructure/tree/61c2806b6274b1003aa42f02adec99faf5f2a74b/infra). Run applicable commands from that owner checkout with its reviewed inputs. These retained procedures and historical outcomes do not establish new cloud or deployment acceptance.
+
 # AWS Runtime platform runbook
 
 Issue: #489 / AWS-F

@@ -10,7 +10,7 @@ fail() {
   exit 1
 }
 
-test -d "$TF_DIR" || fail "missing Terraform directory: $TF_DIR"
+test -d "$TF_DIR" || fail "Infrastructure source moved to agent-logic-infrastructure; missing owner Terraform inputs: $TF_DIR"
 test -f "$PLAN" || fail "missing reviewed Terraform execution plan: $PLAN"
 
 terraform -chdir="$TF_DIR" fmt -check -recursive

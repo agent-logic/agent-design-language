@@ -30,8 +30,8 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 15
 - `supported shim`: 6
-- `internal helper`: 683
-- `historical evidence`: 38
+- `internal helper`: 681
+- `historical evidence`: 40
 - `archive candidate`: 0
 - `remove candidate`: 2
 
@@ -299,8 +299,8 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/run_issue345_aws_gpu_shepherd_proof.sh` | tool surface | historical evidence | Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing. |
 | `adl/tools/run_issue414_cpu_shepherd_continuity.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_issue414_llama_baseline.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
-| `adl/tools/run_issue509_gcp_drt_d_qualification.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
-| `adl/tools/run_issue607_warm_polis.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
+| `adl/tools/run_issue509_gcp_drt_d_qualification.sh` | tool surface | historical evidence | Historical Infrastructure source route retired by #1223; command refuses execution. Original assertions remain in Git and retirement custody; run the reviewed owner route. |
+| `adl/tools/run_issue607_warm_polis.sh` | tool surface | historical evidence | Historical Infrastructure source route retired by #1223; command refuses execution. Original assertions remain in Git and retirement custody; run the reviewed owner route. |
 | `adl/tools/run_issue872_conversion_rehearsal.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_issue900_continuity_negatives.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_issue901_provider_recovery_qualification.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
