@@ -75,6 +75,42 @@
       "result_sha256": "6d7e89fd92b60139d7484be1bafe508ce9a0a503720d488480d39284177f16ad",
       "filesystem": "Actual FastWork temporary source/Source same-file case-insensitivity verified before execution",
       "dependency_relocation": "DEPENDENCY_RELOCATION.json retains authenticated dependency tree externally after terminal test; no tracked file or manifest change"
+    },
+    {
+      "evidence_directory": "/Volumes/FastWork/c1223/evidence/codefriend/issue102-8837e18-template",
+      "classification": "ct04_fixture_candidate_capture_order_repair_pass",
+      "result": {
+        "exit_code": 0,
+        "duration_seconds": 21.03290758300136,
+        "head_after": "8837e18e61a1d86be863b074d152d74b6d94f445",
+        "status_after": " M .csdlc/v3/issues/102/cards/manifest.json\n M .csdlc/v3/issues/102/cards/vpp.md\n M .csdlc/v3/issues/102/cards/vpp.values.json\n M .csdlc/v3/issues/102/state.json\n?? .csdlc/evidence/\n?? .csdlc/v3/issues/102/proof.json",
+        "log_sha256": "c7e97116ce5602584c8fe7df07bfe132cd139553c2e727712a9e6b87ab98d291",
+        "installed_qualification_claimed": false
+      },
+      "counts": {
+        "passed": 1,
+        "failed": 0,
+        "ignored": 0,
+        "filtered": 0,
+        "scenarios_in_test": 11
+      },
+      "argv": [
+        "cargo",
+        "test",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "crates/codefriend/Cargo.toml",
+        "--test",
+        "template_compatibility"
+      ],
+      "input_sha256": "244f9b3d5567db238ba8a9e64c41598894661332b354313458731b2b961decc2",
+      "result_sha256": "7d856662bf864ded9d70c28ebda1be4a5f492a83af8331c4d1481d0292ebd22d",
+      "limits": [
+        "Focused macOS cached source test only; no installed qualification or full suite claim",
+        "Launcher initially refused its own whitespace-parsing preflight before dependency move or Cargo; one actual Cargo invocation",
+        "Dependency tree verified and returned to external cache after terminal test"
+      ]
     }
   ],
   "limits": [
