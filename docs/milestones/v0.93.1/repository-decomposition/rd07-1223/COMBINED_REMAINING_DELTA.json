@@ -6,7 +6,7 @@
   "execution_authorized": false,
   "original_count": 4134,
   "counts": {
-    "hold_explicit_reconciliation": 760,
+    "hold_explicit_reconciliation": 708,
     "hold_missing_successor_operational_command": 2,
     "hold_owner_test_reconciliation": 35,
     "preserve_approved_removal": 70,
@@ -15,7 +15,7 @@
     "proposed_remove_with_entire_source_family": 1874,
     "proposed_remove_with_entire_tool_family": 719,
     "retain_public_source_or_fixture": 68,
-    "retain_resolved": 373
+    "retain_resolved": 425
   },
   "additional_current_source_paths": 19,
   "preservation": "Original inventory and baseline archive unchanged;70 prior approved removals preserved; no new deletion applied",
@@ -7281,16 +7281,15 @@
         "blob": "12cf0289e32c2521ab6c30dea173f5b5f95bc931"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reason": "retain_public_build_hygiene",
+      "retention_record": "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json"
     },
     {
       "id": "RD07-0324",
@@ -8376,16 +8375,15 @@
         "blob": "0444e69ab01700c9e2e8ebd0afa448acc71f9de3"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reason": "retain_template_compatibility_history",
+      "retention_record": "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json"
     },
     {
       "id": "RD07-0395",
@@ -8397,16 +8395,15 @@
         "blob": "8d5387c3ecda7bbf6c8d1534c8483a913d37a310"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reason": "retain_template_compatibility_history",
+      "retention_record": "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json"
     },
     {
       "id": "RD07-0396",
@@ -8418,16 +8415,15 @@
         "blob": "a8406c95ff7c7312f8ef2197f1a1201dca49d818"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reason": "retain_template_compatibility_history",
+      "retention_record": "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json"
     },
     {
       "id": "RD07-0397",
@@ -21815,16 +21811,15 @@
         "blob": "65cd9099241a79fd92ce38525e49b0657cc1c7d8"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reason": "retain_template_compatibility_history",
+      "retention_record": "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json"
     },
     {
       "id": "RD07-0957",
@@ -21836,16 +21831,15 @@
         "blob": "4b88249cce0cafd5e99f2cf91c2396dad16be2c5"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reason": "retain_template_compatibility_history",
+      "retention_record": "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json"
     },
     {
       "id": "RD07-0958",
@@ -28296,16 +28290,15 @@
         "blob": "3a6334f2e29d10598bffd49297bf882fbd6b3452"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reason": "retain_public_active",
+      "retention_record": "CSDLC_UNMAPPED_TOOLS_DISPOSITIONS.json"
     },
     {
       "id": "RD07-1234",
@@ -31882,16 +31875,15 @@
         "blob": "256708a9a3ecd3c301fd9112c879d50b86452123"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reason": "retain_public_active",
+      "retention_record": "CSDLC_UNMAPPED_TOOLS_DISPOSITIONS.json"
     },
     {
       "id": "RD07-1392",
@@ -33569,16 +33561,15 @@
         "blob": "6839c904efa1b5902f64708de1bda1177c785549"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reason": "retain_public_active",
+      "retention_record": "CSDLC_UNMAPPED_TOOLS_DISPOSITIONS.json"
     },
     {
       "id": "RD07-1466",
@@ -72768,18 +72759,17 @@
         "blob": "c44ba8ea603e268565a1d79b95860086b86daf56"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "demos/fixtures/codex_ollama_operational_skills_demo/semantic_fallback_response.json"
         ]
-      }
+      },
+      "reason": "retain_versioned_adl_demonstration",
+      "retention_record": "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json"
     },
     {
       "id": "RD07-3119",
@@ -72791,18 +72781,17 @@
         "blob": "ce0788b110ac1e65ead625b3836f59724ad142f9"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "demos/fixtures/codex_ollama_operational_skills_demo/workspace/.adl/v0.87.1/bodies/issue-9001-v0-87-1-tools-demo-codex-cli-ollama-operational-skills.md"
         ]
-      }
+      },
+      "reason": "retain_versioned_adl_demonstration",
+      "retention_record": "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json"
     },
     {
       "id": "RD07-3120",
@@ -72814,18 +72803,17 @@
         "blob": "53e9a7b52d94a7d08eceadf6b589da7cfb6ba3a9"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "demos/fixtures/codex_ollama_operational_skills_demo/workspace/.adl/v0.87.1/tasks/issue-9001__v0-87-1-tools-demo-codex-cli-ollama-operational-skills/sip.md"
         ]
-      }
+      },
+      "reason": "retain_versioned_adl_demonstration",
+      "retention_record": "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json"
     },
     {
       "id": "RD07-3121",
@@ -72837,18 +72825,17 @@
         "blob": "5c9ebdf2e17e7cd33ba6b3502b49074d1797f821"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "demos/fixtures/codex_ollama_operational_skills_demo/workspace/.adl/v0.87.1/tasks/issue-9001__v0-87-1-tools-demo-codex-cli-ollama-operational-skills/stp.md"
         ]
-      }
+      },
+      "reason": "retain_versioned_adl_demonstration",
+      "retention_record": "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json"
     },
     {
       "id": "RD07-3122",
@@ -73596,18 +73583,17 @@
         "blob": "f33359e898970925eae77483d20e0220f07703a6"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "demos/fixtures/gemma4_issue_clerk_demo/invalid_response.json"
         ]
-      }
+      },
+      "reason": "retain_versioned_adl_demonstration",
+      "retention_record": "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json"
     },
     {
       "id": "RD07-3155",
@@ -73619,18 +73605,17 @@
         "blob": "538cf718487e85f8a20856f4f80f0495111d6d35"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "demos/fixtures/gemma4_issue_clerk_demo/valid_response.json"
         ]
-      }
+      },
+      "reason": "retain_versioned_adl_demonstration",
+      "retention_record": "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json"
     },
     {
       "id": "RD07-3156",
@@ -74415,16 +74400,15 @@
         "blob": "58cb7349c0062959b9e17bb84f4a1e3e36f754e6"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reason": "retain_versioned_adl_demonstration",
+      "retention_record": "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json"
     },
     {
       "id": "RD07-3191",
@@ -74551,16 +74535,15 @@
         "blob": "06008f89f14e4c6cc042393b84bd7e7f716ddd8c"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reason": "retain_versioned_adl_demonstration",
+      "retention_record": "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json"
     },
     {
       "id": "RD07-3197",
@@ -74798,16 +74781,15 @@
         "blob": "8fe0820555f05ad06b34f71bc2d01ab866d0b2af"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reason": "retain_versioned_adl_demonstration",
+      "retention_record": "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json"
     },
     {
       "id": "RD07-3208",
@@ -75409,16 +75391,15 @@
         "blob": "dbb523ee74fb2a963034746f4954d7a9806bd81f"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reason": "retain_versioned_adl_demonstration",
+      "retention_record": "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json"
     },
     {
       "id": "RD07-3235",
@@ -75430,16 +75411,15 @@
         "blob": "855dc6816e56fea6701e23cc3d1be2381f20cfcf"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reason": "retain_versioned_adl_demonstration",
+      "retention_record": "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json"
     },
     {
       "id": "RD07-3236",
@@ -75451,18 +75431,17 @@
         "blob": "c31335927884bb1c6161a296f66c196dcd8a85e8"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "demos/v0.91.3/five_minute_sprint_console_demo.css"
         ]
-      }
+      },
+      "reason": "retain_versioned_adl_demonstration",
+      "retention_record": "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json"
     },
     {
       "id": "RD07-3237",
@@ -75474,18 +75453,17 @@
         "blob": "4545a2878a8bbfbde313db26bc1e615f5b35e232"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "demos/v0.91.3/five_minute_sprint_console_demo.html"
         ]
-      }
+      },
+      "reason": "retain_versioned_adl_demonstration",
+      "retention_record": "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json"
     },
     {
       "id": "RD07-3238",
@@ -75497,18 +75475,17 @@
         "blob": "1ee05c5d94f4044edec876f3dbde4334ce713171"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "demos/v0.91.3/five_minute_sprint_console_demo.js"
         ]
-      }
+      },
+      "reason": "retain_versioned_adl_demonstration",
+      "retention_record": "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json"
     },
     {
       "id": "RD07-3239",
@@ -75520,18 +75497,17 @@
         "blob": "9d3e1ee745932b4ac46c01b7b6685baa8f7d4aca"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "demos/v0.91.3/starharvest_five_minute_sprint_demo.css"
         ]
-      }
+      },
+      "reason": "retain_versioned_adl_demonstration",
+      "retention_record": "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json"
     },
     {
       "id": "RD07-3240",
@@ -75543,18 +75519,17 @@
         "blob": "b6c19677a7a74f6990580bc4194f75d5987d9bbb"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "demos/v0.91.3/starharvest_five_minute_sprint_demo.html"
         ]
-      }
+      },
+      "reason": "retain_versioned_adl_demonstration",
+      "retention_record": "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json"
     },
     {
       "id": "RD07-3241",
@@ -75566,18 +75541,17 @@
         "blob": "f3b0a227cdcebd46552a32fb8e904e8d19eefd43"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "demos/v0.91.3/starharvest_five_minute_sprint_demo.js"
         ]
-      }
+      },
+      "reason": "retain_versioned_adl_demonstration",
+      "retention_record": "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json"
     },
     {
       "id": "RD07-3242",
@@ -75589,16 +75563,15 @@
         "blob": "0602b9a3e478dc16b51ab8817bfc89d136049a6f"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reason": "retain_versioned_adl_demonstration",
+      "retention_record": "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json"
     },
     {
       "id": "RD07-3243",
@@ -75610,16 +75583,15 @@
         "blob": "ea6fada8900e0bc9bede62e1035f5f7e7818ea64"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reason": "retain_versioned_adl_demonstration",
+      "retention_record": "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json"
     },
     {
       "id": "RD07-3244",
@@ -75631,16 +75603,15 @@
         "blob": "68459ae8ae27fa751af9e9dc980237431ab0e236"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reason": "retain_versioned_adl_demonstration",
+      "retention_record": "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json"
     },
     {
       "id": "RD07-3245",
@@ -75652,16 +75623,15 @@
         "blob": "b91970fe4a4ff032626850f4fd9a722cb253e818"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reason": "retain_versioned_adl_demonstration",
+      "retention_record": "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json"
     },
     {
       "id": "RD07-3246",
@@ -75673,16 +75643,15 @@
         "blob": "7273faecea2fd534b4ba973e3523c5e2e71f3706"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reason": "retain_versioned_adl_demonstration",
+      "retention_record": "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json"
     },
     {
       "id": "RD07-3247",
@@ -75694,16 +75663,15 @@
         "blob": "a93c1f27a488b4435b5e36ef80cc046c07ecab90"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reason": "retain_versioned_adl_demonstration",
+      "retention_record": "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json"
     },
     {
       "id": "RD07-3248",
@@ -75715,16 +75683,15 @@
         "blob": "87c53b3363bfee681eb0a7a8cb4fc1e0b15fb6f7"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reason": "retain_versioned_adl_demonstration",
+      "retention_record": "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json"
     },
     {
       "id": "RD07-3249",
@@ -75736,16 +75703,15 @@
         "blob": "ff7992c7aba566d9301a2500fe5be611dca48c06"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reason": "retain_versioned_adl_demonstration",
+      "retention_record": "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json"
     },
     {
       "id": "RD07-3250",
@@ -75757,16 +75723,15 @@
         "blob": "55124a0bc3421caac133589f0939cfbcae701947"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reason": "retain_versioned_adl_demonstration",
+      "retention_record": "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json"
     },
     {
       "id": "RD07-3251",
@@ -75778,16 +75743,15 @@
         "blob": "0d594e7c26411d3e23179773ed04b7cb4a11c63b"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reason": "retain_versioned_adl_demonstration",
+      "retention_record": "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json"
     },
     {
       "id": "RD07-3252",
@@ -75799,16 +75763,15 @@
         "blob": "7139c438465ad3a62322e7d676d7bed1eac4f4d0"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reason": "retain_versioned_adl_demonstration",
+      "retention_record": "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json"
     },
     {
       "id": "RD07-3253",
@@ -75820,16 +75783,15 @@
         "blob": "bcdbd70be2b0cec11c511191ff9a974dfd7dbdf8"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reason": "retain_versioned_adl_demonstration",
+      "retention_record": "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json"
     },
     {
       "id": "RD07-3254",
@@ -75841,16 +75803,15 @@
         "blob": "0516dde25364320a4bb9b4c18af7eeb5882aee07"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reason": "retain_versioned_adl_demonstration",
+      "retention_record": "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json"
     },
     {
       "id": "RD07-3255",
@@ -75862,16 +75823,15 @@
         "blob": "a21ed6077ed9771b08a496d554c609da5007ee08"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reason": "retain_versioned_adl_demonstration",
+      "retention_record": "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json"
     },
     {
       "id": "RD07-3256",
@@ -75883,16 +75843,15 @@
         "blob": "62a1915d98c3313437175b5aca1f3228f2fe3d20"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reason": "retain_versioned_adl_demonstration",
+      "retention_record": "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json"
     },
     {
       "id": "RD07-3257",
@@ -75904,16 +75863,15 @@
         "blob": "a71117e41e6327d3263a93b1b1a391d4235b7e77"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reason": "retain_versioned_adl_demonstration",
+      "retention_record": "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json"
     },
     {
       "id": "RD07-3258",
@@ -75925,16 +75883,15 @@
         "blob": "d2ef82da06e04304bab280ae44dc4ab12e230176"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reason": "retain_versioned_adl_demonstration",
+      "retention_record": "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json"
     },
     {
       "id": "RD07-3259",
@@ -75946,16 +75903,15 @@
         "blob": "e4085c762c32dc5c5b9037e49659689caef05cf6"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reason": "retain_versioned_adl_demonstration",
+      "retention_record": "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json"
     },
     {
       "id": "RD07-3260",
@@ -75967,16 +75923,15 @@
         "blob": "af4b0b071213c657fda29819d379e077bea0806c"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reason": "retain_versioned_adl_demonstration",
+      "retention_record": "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json"
     },
     {
       "id": "RD07-3261",
@@ -75988,16 +75943,15 @@
         "blob": "72e6529c42ad794e83a72305f5780aa630bef4d5"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reason": "retain_versioned_adl_demonstration",
+      "retention_record": "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json"
     },
     {
       "id": "RD07-3262",
@@ -76009,16 +75963,15 @@
         "blob": "3aa0e5267cec50a4f3fe99c6091dd706904628ba"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reason": "retain_versioned_adl_demonstration",
+      "retention_record": "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json"
     },
     {
       "id": "RD07-3263",
@@ -76030,16 +75983,15 @@
         "blob": "9ca956fbad30665e5eeff92551cb52eb0f99d2b2"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reason": "retain_versioned_adl_demonstration",
+      "retention_record": "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json"
     },
     {
       "id": "RD07-3264",
@@ -76051,16 +76003,15 @@
         "blob": "2132d889d539c0b6f3b6df978d4094516abad74c"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reason": "retain_versioned_adl_demonstration",
+      "retention_record": "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json"
     },
     {
       "id": "RD07-3265",
@@ -76072,16 +76023,15 @@
         "blob": "c3460e8d343f889d3a041de971a084fabbde6ab4"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reason": "retain_versioned_adl_demonstration",
+      "retention_record": "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json"
     },
     {
       "id": "RD07-3266",
@@ -76093,16 +76043,15 @@
         "blob": "496bb97f0ff00b5e48b4b6f1f1240126adc14a44"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reason": "retain_versioned_adl_demonstration",
+      "retention_record": "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json"
     },
     {
       "id": "RD07-3267",
@@ -76114,16 +76063,15 @@
         "blob": "87800206db8c5033bf1945c8ab37624551c9f886"
       },
       "existing_action": "retain",
-      "hold_reason": "hold_no_proven_current_successor_mapping",
-      "proposed_action": "hold_explicit_reconciliation",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
-      }
+      },
+      "reason": "retain_versioned_adl_demonstration",
+      "retention_record": "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json"
     },
     {
       "id": "RD07-3268",

@@ -6755,11 +6755,16 @@
         "12cf0289e32c2521ab6c30dea173f5b5f95bc931"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_public_build_hygiene",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "File contains /target and local coverage artifact patterns; adl/Cargo.toml remains public CLI manifest.",
+        "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json: RD07-0323"
+      ]
     },
     {
       "id": "RD07-0324",
@@ -8216,11 +8221,17 @@
         "0444e69ab01700c9e2e8ebd0afa448acc71f9de3"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_template_compatibility_history",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/templates/prompts/current.json:53-56 explicitly retains input/output compatibility paths.",
+        "docs/templates/CARD_LIFECYCLE_TEMPLATE_TARGETS.md records schema/template compatibility provenance.",
+        "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json: RD07-0394"
+      ]
     },
     {
       "id": "RD07-0395",
@@ -8233,11 +8244,17 @@
         "8d5387c3ecda7bbf6c8d1534c8483a913d37a310"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_template_compatibility_history",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/templates/prompts/current.json:53-56 explicitly retains input/output compatibility paths.",
+        "docs/templates/CARD_LIFECYCLE_TEMPLATE_TARGETS.md records schema/template compatibility provenance.",
+        "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json: RD07-0395"
+      ]
     },
     {
       "id": "RD07-0396",
@@ -8250,11 +8267,17 @@
         "a8406c95ff7c7312f8ef2197f1a1201dca49d818"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_template_compatibility_history",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/templates/prompts/current.json:53-56 explicitly retains input/output compatibility paths.",
+        "docs/templates/CARD_LIFECYCLE_TEMPLATE_TARGETS.md records schema/template compatibility provenance.",
+        "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json: RD07-0396"
+      ]
     },
     {
       "id": "RD07-0397",
@@ -19884,11 +19907,17 @@
         "65cd9099241a79fd92ce38525e49b0657cc1c7d8"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_template_compatibility_history",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/templates/prompts/current.json:53-56 explicitly retains input/output compatibility paths.",
+        "docs/templates/CARD_LIFECYCLE_TEMPLATE_TARGETS.md records schema/template compatibility provenance.",
+        "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json: RD07-0956"
+      ]
     },
     {
       "id": "RD07-0957",
@@ -19901,11 +19930,17 @@
         "4b88249cce0cafd5e99f2cf91c2396dad16be2c5"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_template_compatibility_history",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "docs/templates/prompts/current.json:53-56 explicitly retains input/output compatibility paths.",
+        "docs/templates/CARD_LIFECYCLE_TEMPLATE_TARGETS.md records schema/template compatibility provenance.",
+        "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json: RD07-0957"
+      ]
     },
     {
       "id": "RD07-0958",
@@ -25512,11 +25547,16 @@
         "3a6334f2e29d10598bffd49297bf882fbd6b3452"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_public_active",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "Mixed current ADL operator navigation explicitly documents native-v3 entrypoint and current release-preflight alongside stale compatibility helpers.",
+        "CSDLC_UNMAPPED_TOOLS_DISPOSITIONS.json: RD07-1233"
+      ]
     },
     {
       "id": "RD07-1234",
@@ -28574,11 +28614,16 @@
         "256708a9a3ecd3c301fd9112c879d50b86452123"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_public_active",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "Implements inspect/apply/rollback of ADL required adl-ci/adl-coverage strict/up-to-date branch protection; current workflow and validation selector reference its contract test.",
+        "CSDLC_UNMAPPED_TOOLS_DISPOSITIONS.json: RD07-1391"
+      ]
     },
     {
       "id": "RD07-1392",
@@ -30036,11 +30081,16 @@
         "6839c904efa1b5902f64708de1bda1177c785549"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_public_active",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "Current wrapper validates --request only and delegates nonmutating release-preflight to stable .adl/bin/native-v3/csdlc. Current docs/csdlc-v3/RELEASE_PREFLIGHT.md and csdlc-v3/tests/release_preflight.rs reference it.",
+        "CSDLC_UNMAPPED_TOOLS_DISPOSITIONS.json: RD07-1465"
+      ]
     },
     {
       "id": "RD07-1466",
@@ -64607,7 +64657,7 @@
         "c44ba8ea603e268565a1d79b95860086b86daf56"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_versioned_adl_demonstration",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "demos/fixtures/codex_ollama_operational_skills_demo/semantic_fallback_response.json"
@@ -64615,6 +64665,11 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "demos/fixtures/codex_ollama_operational_skills_demo/semantic_fallback_response.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links.",
+        "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json: RD07-3118"
       ]
     },
     {
@@ -64628,7 +64683,7 @@
         "ce0788b110ac1e65ead625b3836f59724ad142f9"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_versioned_adl_demonstration",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "demos/fixtures/codex_ollama_operational_skills_demo/workspace/.adl/v0.87.1/bodies/issue-9001-v0-87-1-tools-demo-codex-cli-ollama-operational-skills.md"
@@ -64636,6 +64691,11 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "demos/fixtures/codex_ollama_operational_skills_demo/workspace/.adl/v0.87.1/bodies/issue-9001-v0-87-1-tools-demo-codex-cli-ollama-operational-skills.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links.",
+        "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json: RD07-3119"
       ]
     },
     {
@@ -64649,7 +64709,7 @@
         "53e9a7b52d94a7d08eceadf6b589da7cfb6ba3a9"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_versioned_adl_demonstration",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "demos/fixtures/codex_ollama_operational_skills_demo/workspace/.adl/v0.87.1/tasks/issue-9001__v0-87-1-tools-demo-codex-cli-ollama-operational-skills/sip.md"
@@ -64657,6 +64717,11 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "demos/fixtures/codex_ollama_operational_skills_demo/workspace/.adl/v0.87.1/tasks/issue-9001__v0-87-1-tools-demo-codex-cli-ollama-operational-skills/sip.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links.",
+        "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json: RD07-3120"
       ]
     },
     {
@@ -64670,7 +64735,7 @@
         "5c9ebdf2e17e7cd33ba6b3502b49074d1797f821"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_versioned_adl_demonstration",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "demos/fixtures/codex_ollama_operational_skills_demo/workspace/.adl/v0.87.1/tasks/issue-9001__v0-87-1-tools-demo-codex-cli-ollama-operational-skills/stp.md"
@@ -64678,6 +64743,11 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "demos/fixtures/codex_ollama_operational_skills_demo/workspace/.adl/v0.87.1/tasks/issue-9001__v0-87-1-tools-demo-codex-cli-ollama-operational-skills/stp.md"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links.",
+        "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json: RD07-3121"
       ]
     },
     {
@@ -65363,7 +65433,7 @@
         "f33359e898970925eae77483d20e0220f07703a6"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_versioned_adl_demonstration",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "demos/fixtures/gemma4_issue_clerk_demo/invalid_response.json"
@@ -65371,6 +65441,11 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "demos/fixtures/gemma4_issue_clerk_demo/invalid_response.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links.",
+        "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json: RD07-3154"
       ]
     },
     {
@@ -65384,7 +65459,7 @@
         "538cf718487e85f8a20856f4f80f0495111d6d35"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_versioned_adl_demonstration",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "demos/fixtures/gemma4_issue_clerk_demo/valid_response.json"
@@ -65392,6 +65467,11 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "demos/fixtures/gemma4_issue_clerk_demo/valid_response.json"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links.",
+        "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json: RD07-3155"
       ]
     },
     {
@@ -66127,11 +66207,16 @@
         "58cb7349c0062959b9e17bb84f4a1e3e36f754e6"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_versioned_adl_demonstration",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links.",
+        "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json: RD07-3190"
+      ]
     },
     {
       "id": "RD07-3191",
@@ -66249,11 +66334,16 @@
         "06008f89f14e4c6cc042393b84bd7e7f716ddd8c"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_versioned_adl_demonstration",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links.",
+        "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json: RD07-3196"
+      ]
     },
     {
       "id": "RD07-3197",
@@ -66476,11 +66566,16 @@
         "8fe0820555f05ad06b34f71bc2d01ab866d0b2af"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_versioned_adl_demonstration",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links.",
+        "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json: RD07-3207"
+      ]
     },
     {
       "id": "RD07-3208",
@@ -67027,11 +67122,16 @@
         "dbb523ee74fb2a963034746f4954d7a9806bd81f"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_versioned_adl_demonstration",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links.",
+        "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json: RD07-3234"
+      ]
     },
     {
       "id": "RD07-3235",
@@ -67044,11 +67144,16 @@
         "855dc6816e56fea6701e23cc3d1be2381f20cfcf"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_versioned_adl_demonstration",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links.",
+        "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json: RD07-3235"
+      ]
     },
     {
       "id": "RD07-3236",
@@ -67061,7 +67166,7 @@
         "c31335927884bb1c6161a296f66c196dcd8a85e8"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_versioned_adl_demonstration",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "demos/v0.91.3/five_minute_sprint_console_demo.css"
@@ -67069,6 +67174,11 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "demos/v0.91.3/five_minute_sprint_console_demo.css"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links.",
+        "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json: RD07-3236"
       ]
     },
     {
@@ -67082,7 +67192,7 @@
         "4545a2878a8bbfbde313db26bc1e615f5b35e232"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_versioned_adl_demonstration",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "demos/v0.91.3/five_minute_sprint_console_demo.html"
@@ -67090,6 +67200,11 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "demos/v0.91.3/five_minute_sprint_console_demo.html"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links.",
+        "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json: RD07-3237"
       ]
     },
     {
@@ -67103,7 +67218,7 @@
         "1ee05c5d94f4044edec876f3dbde4334ce713171"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_versioned_adl_demonstration",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "demos/v0.91.3/five_minute_sprint_console_demo.js"
@@ -67111,6 +67226,11 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "demos/v0.91.3/five_minute_sprint_console_demo.js"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links.",
+        "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json: RD07-3238"
       ]
     },
     {
@@ -67124,7 +67244,7 @@
         "9d3e1ee745932b4ac46c01b7b6685baa8f7d4aca"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_versioned_adl_demonstration",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "demos/v0.91.3/starharvest_five_minute_sprint_demo.css"
@@ -67132,6 +67252,11 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "demos/v0.91.3/starharvest_five_minute_sprint_demo.css"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links.",
+        "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json: RD07-3239"
       ]
     },
     {
@@ -67145,7 +67270,7 @@
         "b6c19677a7a74f6990580bc4194f75d5987d9bbb"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_versioned_adl_demonstration",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "demos/v0.91.3/starharvest_five_minute_sprint_demo.html"
@@ -67153,6 +67278,11 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "demos/v0.91.3/starharvest_five_minute_sprint_demo.html"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links.",
+        "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json: RD07-3240"
       ]
     },
     {
@@ -67166,7 +67296,7 @@
         "f3b0a227cdcebd46552a32fb8e904e8d19eefd43"
       ],
       "action": "retain",
-      "reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "reason": "retain_versioned_adl_demonstration",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [
         "demos/v0.91.3/starharvest_five_minute_sprint_demo.js"
@@ -67174,6 +67304,11 @@
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
       "accepted_content_candidates": [
         "demos/v0.91.3/starharvest_five_minute_sprint_demo.js"
+      ],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links.",
+        "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json: RD07-3241"
       ]
     },
     {
@@ -67187,11 +67322,16 @@
         "0602b9a3e478dc16b51ab8817bfc89d136049a6f"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_versioned_adl_demonstration",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links.",
+        "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json: RD07-3242"
+      ]
     },
     {
       "id": "RD07-3243",
@@ -67204,11 +67344,16 @@
         "ea6fada8900e0bc9bede62e1035f5f7e7818ea64"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_versioned_adl_demonstration",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links.",
+        "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json: RD07-3243"
+      ]
     },
     {
       "id": "RD07-3244",
@@ -67221,11 +67366,16 @@
         "68459ae8ae27fa751af9e9dc980237431ab0e236"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_versioned_adl_demonstration",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links.",
+        "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json: RD07-3244"
+      ]
     },
     {
       "id": "RD07-3245",
@@ -67238,11 +67388,16 @@
         "b91970fe4a4ff032626850f4fd9a722cb253e818"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_versioned_adl_demonstration",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links.",
+        "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json: RD07-3245"
+      ]
     },
     {
       "id": "RD07-3246",
@@ -67255,11 +67410,16 @@
         "7273faecea2fd534b4ba973e3523c5e2e71f3706"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_versioned_adl_demonstration",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links.",
+        "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json: RD07-3246"
+      ]
     },
     {
       "id": "RD07-3247",
@@ -67272,11 +67432,16 @@
         "a93c1f27a488b4435b5e36ef80cc046c07ecab90"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_versioned_adl_demonstration",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links.",
+        "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json: RD07-3247"
+      ]
     },
     {
       "id": "RD07-3248",
@@ -67289,11 +67454,16 @@
         "87c53b3363bfee681eb0a7a8cb4fc1e0b15fb6f7"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_versioned_adl_demonstration",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links.",
+        "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json: RD07-3248"
+      ]
     },
     {
       "id": "RD07-3249",
@@ -67306,11 +67476,16 @@
         "ff7992c7aba566d9301a2500fe5be611dca48c06"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_versioned_adl_demonstration",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links.",
+        "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json: RD07-3249"
+      ]
     },
     {
       "id": "RD07-3250",
@@ -67323,11 +67498,16 @@
         "55124a0bc3421caac133589f0939cfbcae701947"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_versioned_adl_demonstration",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links.",
+        "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json: RD07-3250"
+      ]
     },
     {
       "id": "RD07-3251",
@@ -67340,11 +67520,16 @@
         "0d594e7c26411d3e23179773ed04b7cb4a11c63b"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_versioned_adl_demonstration",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links.",
+        "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json: RD07-3251"
+      ]
     },
     {
       "id": "RD07-3252",
@@ -67357,11 +67542,16 @@
         "7139c438465ad3a62322e7d676d7bed1eac4f4d0"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_versioned_adl_demonstration",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links.",
+        "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json: RD07-3252"
+      ]
     },
     {
       "id": "RD07-3253",
@@ -67374,11 +67564,16 @@
         "bcdbd70be2b0cec11c511191ff9a974dfd7dbdf8"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_versioned_adl_demonstration",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links.",
+        "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json: RD07-3253"
+      ]
     },
     {
       "id": "RD07-3254",
@@ -67391,11 +67586,16 @@
         "0516dde25364320a4bb9b4c18af7eeb5882aee07"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_versioned_adl_demonstration",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links.",
+        "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json: RD07-3254"
+      ]
     },
     {
       "id": "RD07-3255",
@@ -67408,11 +67608,16 @@
         "a21ed6077ed9771b08a496d554c609da5007ee08"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_versioned_adl_demonstration",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links.",
+        "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json: RD07-3255"
+      ]
     },
     {
       "id": "RD07-3256",
@@ -67425,11 +67630,16 @@
         "62a1915d98c3313437175b5aca1f3228f2fe3d20"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_versioned_adl_demonstration",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links.",
+        "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json: RD07-3256"
+      ]
     },
     {
       "id": "RD07-3257",
@@ -67442,11 +67652,16 @@
         "a71117e41e6327d3263a93b1b1a391d4235b7e77"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_versioned_adl_demonstration",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links.",
+        "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json: RD07-3257"
+      ]
     },
     {
       "id": "RD07-3258",
@@ -67459,11 +67674,16 @@
         "d2ef82da06e04304bab280ae44dc4ab12e230176"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_versioned_adl_demonstration",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links.",
+        "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json: RD07-3258"
+      ]
     },
     {
       "id": "RD07-3259",
@@ -67476,11 +67696,16 @@
         "e4085c762c32dc5c5b9037e49659689caef05cf6"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_versioned_adl_demonstration",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links.",
+        "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json: RD07-3259"
+      ]
     },
     {
       "id": "RD07-3260",
@@ -67493,11 +67718,16 @@
         "af4b0b071213c657fda29819d379e077bea0806c"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_versioned_adl_demonstration",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links.",
+        "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json: RD07-3260"
+      ]
     },
     {
       "id": "RD07-3261",
@@ -67510,11 +67740,16 @@
         "72e6529c42ad794e83a72305f5780aa630bef4d5"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_versioned_adl_demonstration",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links.",
+        "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json: RD07-3261"
+      ]
     },
     {
       "id": "RD07-3262",
@@ -67527,11 +67762,16 @@
         "3aa0e5267cec50a4f3fe99c6091dd706904628ba"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_versioned_adl_demonstration",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links.",
+        "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json: RD07-3262"
+      ]
     },
     {
       "id": "RD07-3263",
@@ -67544,11 +67784,16 @@
         "9ca956fbad30665e5eeff92551cb52eb0f99d2b2"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_versioned_adl_demonstration",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links.",
+        "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json: RD07-3263"
+      ]
     },
     {
       "id": "RD07-3264",
@@ -67561,11 +67806,16 @@
         "2132d889d539c0b6f3b6df978d4094516abad74c"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_versioned_adl_demonstration",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links.",
+        "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json: RD07-3264"
+      ]
     },
     {
       "id": "RD07-3265",
@@ -67578,11 +67828,16 @@
         "c3460e8d343f889d3a041de971a084fabbde6ab4"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_versioned_adl_demonstration",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links.",
+        "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json: RD07-3265"
+      ]
     },
     {
       "id": "RD07-3266",
@@ -67595,11 +67850,16 @@
         "496bb97f0ff00b5e48b4b6f1f1240126adc14a44"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_versioned_adl_demonstration",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links.",
+        "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json: RD07-3266"
+      ]
     },
     {
       "id": "RD07-3267",
@@ -67612,11 +67872,16 @@
         "87800206db8c5033bf1945c8ab37624551c9f886"
       ],
       "action": "retain",
-      "reason": "hold_no_proven_current_successor_mapping",
+      "reason": "retain_versioned_adl_demonstration",
       "observed_successor_revision": "0cf8dae8a6976fc9a11dfd0cb88bbfcdcadabd06",
       "exact_content_candidates": [],
       "accepted_rd11_revision": "8da60c666e6c71586cc2ad6185814499a63f8487",
-      "accepted_content_candidates": []
+      "accepted_content_candidates": [],
+      "disposition_status": "resolved_retention",
+      "retention_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links.",
+        "CSDLC_OTHER_CONSUMER_DISPOSITIONS.json: RD07-3267"
+      ]
     },
     {
       "id": "RD07-3268",
@@ -87889,5 +88154,5 @@
   "previous_observed_main": "f1493c54e4d9f6c5a1da798f48d9f2c361033fa4",
   "consumer_reference_repair_count": 6,
   "approved_component_removal_count": 36,
-  "resolved_retention_count": 373
+  "resolved_retention_count": 425
 }
