@@ -6,7 +6,7 @@
   "execution_authorized": false,
   "original_inventory_count": 4134,
   "additional_inventory_count": 22,
-  "executed_deletion_count": 2576,
+  "executed_deletion_count": 2621,
   "entries": [
     {
       "path": ".github/workflows/ci.yaml",
@@ -28037,7 +28037,7 @@
       ],
       "after": [
         "100644",
-        "9775e0d99621f8a88d139bd09a5a21eca94d4b1f"
+        "6966b08d9ef141fdbd966e0d692f563f95a8423d"
       ],
       "implementation_commit": "666818f2aafdaf4839d1c3de4119b513c4236d3d",
       "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
@@ -28067,6 +28067,18 @@
             "9775e0d99621f8a88d139bd09a5a21eca94d4b1f"
           ],
           "packet": "CSDLC_SKILL_FAMILY_APPLIED.json"
+        },
+        {
+          "commit": "1eb50b3eefb1fe41ad39d1c8dd2fd1e6971387d2",
+          "before": [
+            "100644",
+            "9775e0d99621f8a88d139bd09a5a21eca94d4b1f"
+          ],
+          "after": [
+            "100644",
+            "6966b08d9ef141fdbd966e0d692f563f95a8423d"
+          ],
+          "packet": "RUNTIME_DEMO_FAMILY_APPLIED.json"
         }
       ]
     },
@@ -29019,7 +29031,7 @@
       ],
       "after": [
         "100644",
-        "fe8a5bb482ea23c75c52d8c322e3a2c4f861b900"
+        "480b2347cda4d0c41fd10f1bafec4bfb65d6ba50"
       ],
       "implementation_commit": "666818f2aafdaf4839d1c3de4119b513c4236d3d",
       "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
@@ -29061,6 +29073,18 @@
             "fe8a5bb482ea23c75c52d8c322e3a2c4f861b900"
           ],
           "packet": "HISTORICAL_SKILL_FAMILY_APPLIED.json"
+        },
+        {
+          "commit": "42c3166e5a30dbd0aab00fff7019da58904e9925",
+          "before": [
+            "100644",
+            "fe8a5bb482ea23c75c52d8c322e3a2c4f861b900"
+          ],
+          "after": [
+            "100644",
+            "480b2347cda4d0c41fd10f1bafec4bfb65d6ba50"
+          ],
+          "packet": "PUBLIC_COMPANION_FAMILY_APPLIED.json"
         }
       ]
     },
@@ -55649,15 +55673,12 @@
     },
     {
       "path": "docs/codefriend/CHANGE_IMPACT.md",
-      "action": "modify",
+      "action": "remove",
       "before": [
         "100644",
         "a095a6dd5001c088aecaf2361cac4b7e6121f5ba"
       ],
-      "after": [
-        "100644",
-        "0187ae5ed39947ce7f73f253eb34cbb925f2b162"
-      ],
+      "after": null,
       "implementation_commit": "40dd5b4ce90d6f5fc89db77501788ad30505a292",
       "approval_reference": "CODEFRIEND_SIX_HELPER_APPLIED.json",
       "review_reference": "review_1223_applied_components exact six removals and eight callers PASS",
@@ -55673,7 +55694,27 @@
             "0187ae5ed39947ce7f73f253eb34cbb925f2b162"
           ]
         }
-      ]
+      ],
+      "supplemental_source_chain": [
+        {
+          "commit": "84ea944470de7f47d88b2dfe9a77d8cf680ab152",
+          "before": [
+            "100644",
+            "0187ae5ed39947ce7f73f253eb34cbb925f2b162"
+          ],
+          "after": null,
+          "packet": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/current-preimages.tar",
+        "archive_sha256": "002830403f55a56aeea04b3b50a70e59810ed259b1bb19f31c96e53d9654f058",
+        "member": "source/docs/codefriend/CHANGE_IMPACT.md",
+        "mode": "100644",
+        "blob": "0187ae5ed39947ce7f73f253eb34cbb925f2b162",
+        "sha256": "c9ed96f148cb8effae6fd8de2cec72581646beb0ac490ac23ba240e81c993d46"
+      }
     },
     {
       "path": "docs/codefriend/LOCAL_FITNESS_PROOF_INVENTORY.json",
@@ -55705,15 +55746,12 @@
     },
     {
       "path": "docs/codefriend/MEMORY_PALACE.md",
-      "action": "modify",
+      "action": "remove",
       "before": [
         "100644",
         "ff4d6b3233be6b9956f739e6403d131cfd349094"
       ],
-      "after": [
-        "100644",
-        "b1f03f0f71242a2746c8f91bb5e2d4a7a62c8434"
-      ],
+      "after": null,
       "implementation_commit": "40dd5b4ce90d6f5fc89db77501788ad30505a292",
       "approval_reference": "CODEFRIEND_SIX_HELPER_APPLIED.json",
       "review_reference": "review_1223_applied_components exact six removals and eight callers PASS",
@@ -55729,7 +55767,27 @@
             "b1f03f0f71242a2746c8f91bb5e2d4a7a62c8434"
           ]
         }
-      ]
+      ],
+      "supplemental_source_chain": [
+        {
+          "commit": "84ea944470de7f47d88b2dfe9a77d8cf680ab152",
+          "before": [
+            "100644",
+            "b1f03f0f71242a2746c8f91bb5e2d4a7a62c8434"
+          ],
+          "after": null,
+          "packet": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/current-preimages.tar",
+        "archive_sha256": "002830403f55a56aeea04b3b50a70e59810ed259b1bb19f31c96e53d9654f058",
+        "member": "source/docs/codefriend/MEMORY_PALACE.md",
+        "mode": "100644",
+        "blob": "b1f03f0f71242a2746c8f91bb5e2d4a7a62c8434",
+        "sha256": "483d3c3cdda07b4e270899b22a0be519eb66dffac00e81488ffaf2f06639ac1f"
+      }
     },
     {
       "path": "docs/codefriend/RUST_PARSER_BOUNDS.md",
@@ -56414,7 +56472,7 @@
       "before": null,
       "after": [
         "100644",
-        "759ed1f4a2debf2f388b29a043a64a3e03cf5306"
+        "a5406109d258ab40313fa0d8478b750edc3c4174"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json",
@@ -56591,6 +56649,18 @@
             "759ed1f4a2debf2f388b29a043a64a3e03cf5306"
           ],
           "packet": "HISTORICAL_SKILL_FAMILY_APPLIED.json"
+        },
+        {
+          "commit": "1eb50b3eefb1fe41ad39d1c8dd2fd1e6971387d2",
+          "before": [
+            "100644",
+            "759ed1f4a2debf2f388b29a043a64a3e03cf5306"
+          ],
+          "after": [
+            "100644",
+            "a5406109d258ab40313fa0d8478b750edc3c4174"
+          ],
+          "packet": "RUNTIME_DEMO_FAMILY_APPLIED.json"
         }
       ],
       "prior_execution_provenance": [
@@ -63769,7 +63839,7 @@
       "before": null,
       "after": [
         "100644",
-        "43ea7d9132da2e2d11480d46c94a1385418e56a9"
+        "6f5faec3fa471a1a2bded9b98cbe490b29e674b0"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "Infrastructure212 source commit guard-documentation accompaniment",
@@ -63850,6 +63920,18 @@
             "43ea7d9132da2e2d11480d46c94a1385418e56a9"
           ],
           "packet": "Manual56 and historical family guard integration"
+        },
+        {
+          "commit": "pending_reviewed_integration",
+          "before": [
+            "100644",
+            "43ea7d9132da2e2d11480d46c94a1385418e56a9"
+          ],
+          "after": [
+            "100644",
+            "6f5faec3fa471a1a2bded9b98cbe490b29e674b0"
+          ],
+          "packet": "Public companion21 and CodeFriend19 guard integration"
         }
       ],
       "prior_execution_provenance": [
@@ -77030,6 +77112,1608 @@
           "packet": "HISTORICAL_SKILL_FAMILY_APPLIED.json"
         }
       ]
+    },
+    {
+      "path": "adl/tools/skills/docs/ADR_CURATOR_SKILL_INPUT_SCHEMA.md",
+      "before": [
+        "100644",
+        "c92726970c59b090bb5d1738c254b0f9f19d2a39"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "42c3166e5a30dbd0aab00fff7019da58904e9925",
+      "approval_reference": "PUBLIC_COMPANION_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "42c3166e5a30dbd0aab00fff7019da58904e9925",
+          "before": [
+            "100644",
+            "c92726970c59b090bb5d1738c254b0f9f19d2a39"
+          ],
+          "after": null,
+          "packet": "PUBLIC_COMPANION_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PUBLIC_COMPANION_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc-public-companion-closure/schema-current-preimages.tar",
+        "archive_sha256": "0c4fa3a12087ede4ee98705c58441df9d70e61e13c6c8371459ca97cda7a1994",
+        "member": "source/adl/tools/skills/docs/ADR_CURATOR_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "c92726970c59b090bb5d1738c254b0f9f19d2a39",
+        "sha256": "e0c2abeb89bd48a8cc12da3ba427fb0e21d824a9811e46aac135af7363d83314"
+      }
+    },
+    {
+      "path": "adl/tools/skills/docs/ARCHITECTURE_DIAGRAM_REVIEWER_SKILL_INPUT_SCHEMA.md",
+      "before": [
+        "100644",
+        "909b743a3e4cd312f0b8af1ef6eff659139fb228"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "42c3166e5a30dbd0aab00fff7019da58904e9925",
+      "approval_reference": "PUBLIC_COMPANION_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "42c3166e5a30dbd0aab00fff7019da58904e9925",
+          "before": [
+            "100644",
+            "909b743a3e4cd312f0b8af1ef6eff659139fb228"
+          ],
+          "after": null,
+          "packet": "PUBLIC_COMPANION_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PUBLIC_COMPANION_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc-public-companion-closure/schema-current-preimages.tar",
+        "archive_sha256": "0c4fa3a12087ede4ee98705c58441df9d70e61e13c6c8371459ca97cda7a1994",
+        "member": "source/adl/tools/skills/docs/ARCHITECTURE_DIAGRAM_REVIEWER_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "909b743a3e4cd312f0b8af1ef6eff659139fb228",
+        "sha256": "ae63dae7ce4591b90c645d6156166ee18004d89cf97c4a4071f38b788fbdb977"
+      }
+    },
+    {
+      "path": "adl/tools/skills/docs/ARCHITECTURE_FITNESS_FUNCTION_AUTHOR_SKILL_INPUT_SCHEMA.md",
+      "before": [
+        "100644",
+        "3f25e0f3f2e03f2d1602dac6460ee6249d24c90a"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "42c3166e5a30dbd0aab00fff7019da58904e9925",
+      "approval_reference": "PUBLIC_COMPANION_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "42c3166e5a30dbd0aab00fff7019da58904e9925",
+          "before": [
+            "100644",
+            "3f25e0f3f2e03f2d1602dac6460ee6249d24c90a"
+          ],
+          "after": null,
+          "packet": "PUBLIC_COMPANION_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PUBLIC_COMPANION_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc-public-companion-closure/schema-current-preimages.tar",
+        "archive_sha256": "0c4fa3a12087ede4ee98705c58441df9d70e61e13c6c8371459ca97cda7a1994",
+        "member": "source/adl/tools/skills/docs/ARCHITECTURE_FITNESS_FUNCTION_AUTHOR_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "3f25e0f3f2e03f2d1602dac6460ee6249d24c90a",
+        "sha256": "b6471053637b111dd5215cb9c8b6df0cc0451dcb530d6e31b26dbc0d79163452"
+      }
+    },
+    {
+      "path": "adl/tools/skills/docs/DIAGRAM_AUTHOR_SKILL_INPUT_SCHEMA.md",
+      "before": [
+        "100644",
+        "1eb731879c9c6f2c9f23dbb73b17c1b6ba5c2b41"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "42c3166e5a30dbd0aab00fff7019da58904e9925",
+      "approval_reference": "PUBLIC_COMPANION_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "42c3166e5a30dbd0aab00fff7019da58904e9925",
+          "before": [
+            "100644",
+            "1eb731879c9c6f2c9f23dbb73b17c1b6ba5c2b41"
+          ],
+          "after": null,
+          "packet": "PUBLIC_COMPANION_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PUBLIC_COMPANION_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc-public-companion-closure/schema-current-preimages.tar",
+        "archive_sha256": "0c4fa3a12087ede4ee98705c58441df9d70e61e13c6c8371459ca97cda7a1994",
+        "member": "source/adl/tools/skills/docs/DIAGRAM_AUTHOR_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "1eb731879c9c6f2c9f23dbb73b17c1b6ba5c2b41",
+        "sha256": "f3139641880b61ab0cd1d16ac7d2bb58dd6938bd5bca7130f430c0f9d82413ac"
+      }
+    },
+    {
+      "path": "adl/tools/skills/docs/FINDING_TO_ISSUE_PLANNER_SKILL_INPUT_SCHEMA.md",
+      "before": [
+        "100644",
+        "327c2178aaf40cb4335db1786a4aa9bd8b0d0832"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "42c3166e5a30dbd0aab00fff7019da58904e9925",
+      "approval_reference": "PUBLIC_COMPANION_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "42c3166e5a30dbd0aab00fff7019da58904e9925",
+          "before": [
+            "100644",
+            "327c2178aaf40cb4335db1786a4aa9bd8b0d0832"
+          ],
+          "after": null,
+          "packet": "PUBLIC_COMPANION_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PUBLIC_COMPANION_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc-public-companion-closure/schema-current-preimages.tar",
+        "archive_sha256": "0c4fa3a12087ede4ee98705c58441df9d70e61e13c6c8371459ca97cda7a1994",
+        "member": "source/adl/tools/skills/docs/FINDING_TO_ISSUE_PLANNER_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "327c2178aaf40cb4335db1786a4aa9bd8b0d0832",
+        "sha256": "cc4abc16ed080d8a32769c19fdc34d060dd78105498fae63596067032a25d628"
+      }
+    },
+    {
+      "path": "adl/tools/skills/docs/MULTI_AGENT_REPO_REVIEW_SKILL_SUITE.md",
+      "before": [
+        "100644",
+        "9f49bd71b38f3ca4985db316bd780bcef243e27d"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "42c3166e5a30dbd0aab00fff7019da58904e9925",
+      "approval_reference": "PUBLIC_COMPANION_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "42c3166e5a30dbd0aab00fff7019da58904e9925",
+          "before": [
+            "100644",
+            "9f49bd71b38f3ca4985db316bd780bcef243e27d"
+          ],
+          "after": null,
+          "packet": "PUBLIC_COMPANION_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PUBLIC_COMPANION_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc-public-companion-closure/schema-current-preimages.tar",
+        "archive_sha256": "0c4fa3a12087ede4ee98705c58441df9d70e61e13c6c8371459ca97cda7a1994",
+        "member": "source/adl/tools/skills/docs/MULTI_AGENT_REPO_REVIEW_SKILL_SUITE.md",
+        "mode": "100644",
+        "blob": "9f49bd71b38f3ca4985db316bd780bcef243e27d",
+        "sha256": "a776823162f0ea4ae4b2944ace454ee33cc4f809ef21f4986848d171d4075a33"
+      }
+    },
+    {
+      "path": "adl/tools/skills/docs/PRODUCT_REPORT_WRITER_SKILL_INPUT_SCHEMA.md",
+      "before": [
+        "100644",
+        "09fbc9a0a2365699835fca8f5afc27620682b78e"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "42c3166e5a30dbd0aab00fff7019da58904e9925",
+      "approval_reference": "PUBLIC_COMPANION_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "42c3166e5a30dbd0aab00fff7019da58904e9925",
+          "before": [
+            "100644",
+            "09fbc9a0a2365699835fca8f5afc27620682b78e"
+          ],
+          "after": null,
+          "packet": "PUBLIC_COMPANION_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PUBLIC_COMPANION_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc-public-companion-closure/schema-current-preimages.tar",
+        "archive_sha256": "0c4fa3a12087ede4ee98705c58441df9d70e61e13c6c8371459ca97cda7a1994",
+        "member": "source/adl/tools/skills/docs/PRODUCT_REPORT_WRITER_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "09fbc9a0a2365699835fca8f5afc27620682b78e",
+        "sha256": "ca857d45343a82ffd212f91372d2f32b614086b0ce1394899ac261a700cd76fe"
+      }
+    },
+    {
+      "path": "adl/tools/skills/docs/REDACTION_AND_EVIDENCE_AUDITOR_SKILL_INPUT_SCHEMA.md",
+      "before": [
+        "100644",
+        "a21a546c54bdaab90fdd76dfee9cffef46676a0a"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "42c3166e5a30dbd0aab00fff7019da58904e9925",
+      "approval_reference": "PUBLIC_COMPANION_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "42c3166e5a30dbd0aab00fff7019da58904e9925",
+          "before": [
+            "100644",
+            "a21a546c54bdaab90fdd76dfee9cffef46676a0a"
+          ],
+          "after": null,
+          "packet": "PUBLIC_COMPANION_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PUBLIC_COMPANION_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc-public-companion-closure/schema-current-preimages.tar",
+        "archive_sha256": "0c4fa3a12087ede4ee98705c58441df9d70e61e13c6c8371459ca97cda7a1994",
+        "member": "source/adl/tools/skills/docs/REDACTION_AND_EVIDENCE_AUDITOR_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "a21a546c54bdaab90fdd76dfee9cffef46676a0a",
+        "sha256": "731fae0aada1d6efdc7dbfed750b587c79a5dcd24efb68a565b88a17cdf1832c"
+      }
+    },
+    {
+      "path": "adl/tools/skills/docs/REPO_ARCHITECTURE_REVIEW_SKILL_INPUT_SCHEMA.md",
+      "before": [
+        "100644",
+        "c7595f19de07ed845bee50c054af5baa51927bd1"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "42c3166e5a30dbd0aab00fff7019da58904e9925",
+      "approval_reference": "PUBLIC_COMPANION_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "42c3166e5a30dbd0aab00fff7019da58904e9925",
+          "before": [
+            "100644",
+            "c7595f19de07ed845bee50c054af5baa51927bd1"
+          ],
+          "after": null,
+          "packet": "PUBLIC_COMPANION_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PUBLIC_COMPANION_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc-public-companion-closure/schema-current-preimages.tar",
+        "archive_sha256": "0c4fa3a12087ede4ee98705c58441df9d70e61e13c6c8371459ca97cda7a1994",
+        "member": "source/adl/tools/skills/docs/REPO_ARCHITECTURE_REVIEW_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "c7595f19de07ed845bee50c054af5baa51927bd1",
+        "sha256": "335b0ec63afbcfb0dbf1fe1a7ba6236e2ce88b233052423a525f8e18f089b2e4"
+      }
+    },
+    {
+      "path": "adl/tools/skills/docs/REPO_CODE_REVIEW_SKILL_INPUT_SCHEMA.md",
+      "before": [
+        "100644",
+        "ba9b6f27f0f5cc64093b7eb0355208d79f85753b"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "42c3166e5a30dbd0aab00fff7019da58904e9925",
+      "approval_reference": "PUBLIC_COMPANION_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "42c3166e5a30dbd0aab00fff7019da58904e9925",
+          "before": [
+            "100644",
+            "ba9b6f27f0f5cc64093b7eb0355208d79f85753b"
+          ],
+          "after": null,
+          "packet": "PUBLIC_COMPANION_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PUBLIC_COMPANION_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc-public-companion-closure/schema-current-preimages.tar",
+        "archive_sha256": "0c4fa3a12087ede4ee98705c58441df9d70e61e13c6c8371459ca97cda7a1994",
+        "member": "source/adl/tools/skills/docs/REPO_CODE_REVIEW_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "ba9b6f27f0f5cc64093b7eb0355208d79f85753b",
+        "sha256": "2faae9979b3a05611ec01fe7b7e692ad1ef94418dc5b1086f65df7fc2e4fa549"
+      }
+    },
+    {
+      "path": "adl/tools/skills/docs/REPO_DEPENDENCY_REVIEW_SKILL_INPUT_SCHEMA.md",
+      "before": [
+        "100644",
+        "9a616189a2f68421c1c53c2fba6fe86fc27b7947"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "42c3166e5a30dbd0aab00fff7019da58904e9925",
+      "approval_reference": "PUBLIC_COMPANION_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "42c3166e5a30dbd0aab00fff7019da58904e9925",
+          "before": [
+            "100644",
+            "9a616189a2f68421c1c53c2fba6fe86fc27b7947"
+          ],
+          "after": null,
+          "packet": "PUBLIC_COMPANION_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PUBLIC_COMPANION_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc-public-companion-closure/schema-current-preimages.tar",
+        "archive_sha256": "0c4fa3a12087ede4ee98705c58441df9d70e61e13c6c8371459ca97cda7a1994",
+        "member": "source/adl/tools/skills/docs/REPO_DEPENDENCY_REVIEW_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "9a616189a2f68421c1c53c2fba6fe86fc27b7947",
+        "sha256": "0881bff4b0d5c4a64fd727280d5aba16e4b9a1651c45d2f3e84d58c83fd3548b"
+      }
+    },
+    {
+      "path": "adl/tools/skills/docs/REPO_DIAGRAM_PLANNER_SKILL_INPUT_SCHEMA.md",
+      "before": [
+        "100644",
+        "2110dbfae6610c95b960b0b3ec8ba7d6984b5b73"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "42c3166e5a30dbd0aab00fff7019da58904e9925",
+      "approval_reference": "PUBLIC_COMPANION_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "42c3166e5a30dbd0aab00fff7019da58904e9925",
+          "before": [
+            "100644",
+            "2110dbfae6610c95b960b0b3ec8ba7d6984b5b73"
+          ],
+          "after": null,
+          "packet": "PUBLIC_COMPANION_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PUBLIC_COMPANION_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc-public-companion-closure/schema-current-preimages.tar",
+        "archive_sha256": "0c4fa3a12087ede4ee98705c58441df9d70e61e13c6c8371459ca97cda7a1994",
+        "member": "source/adl/tools/skills/docs/REPO_DIAGRAM_PLANNER_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "2110dbfae6610c95b960b0b3ec8ba7d6984b5b73",
+        "sha256": "5da30b8423935d1b0d955ccbbec8e11704c423c000ca2887c72b95095ade99ef"
+      }
+    },
+    {
+      "path": "adl/tools/skills/docs/REPO_PACKET_BUILDER_SKILL_INPUT_SCHEMA.md",
+      "before": [
+        "100644",
+        "07e954f335347f4de9523d56c43b4cfbaeed7f68"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "42c3166e5a30dbd0aab00fff7019da58904e9925",
+      "approval_reference": "PUBLIC_COMPANION_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "42c3166e5a30dbd0aab00fff7019da58904e9925",
+          "before": [
+            "100644",
+            "07e954f335347f4de9523d56c43b4cfbaeed7f68"
+          ],
+          "after": null,
+          "packet": "PUBLIC_COMPANION_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PUBLIC_COMPANION_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc-public-companion-closure/schema-current-preimages.tar",
+        "archive_sha256": "0c4fa3a12087ede4ee98705c58441df9d70e61e13c6c8371459ca97cda7a1994",
+        "member": "source/adl/tools/skills/docs/REPO_PACKET_BUILDER_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "07e954f335347f4de9523d56c43b4cfbaeed7f68",
+        "sha256": "1f616babd2ec2fe3a104fc719f2fcbae1be843f9f02676b12d98f0499d128a8a"
+      }
+    },
+    {
+      "path": "adl/tools/skills/docs/REPO_REVIEW_CODE_SKILL_INPUT_SCHEMA.md",
+      "before": [
+        "100644",
+        "9a12bedefeb82f9e3f75fd593fce8f0d8f090e1b"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "42c3166e5a30dbd0aab00fff7019da58904e9925",
+      "approval_reference": "PUBLIC_COMPANION_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "42c3166e5a30dbd0aab00fff7019da58904e9925",
+          "before": [
+            "100644",
+            "9a12bedefeb82f9e3f75fd593fce8f0d8f090e1b"
+          ],
+          "after": null,
+          "packet": "PUBLIC_COMPANION_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PUBLIC_COMPANION_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc-public-companion-closure/schema-current-preimages.tar",
+        "archive_sha256": "0c4fa3a12087ede4ee98705c58441df9d70e61e13c6c8371459ca97cda7a1994",
+        "member": "source/adl/tools/skills/docs/REPO_REVIEW_CODE_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "9a12bedefeb82f9e3f75fd593fce8f0d8f090e1b",
+        "sha256": "00822aeb205ee6b024571cce5fe2edcb54ff5b71778b1599b4cc7199119b0ab8"
+      }
+    },
+    {
+      "path": "adl/tools/skills/docs/REPO_REVIEW_DOCS_SKILL_INPUT_SCHEMA.md",
+      "before": [
+        "100644",
+        "d8ea7cfd6c0a87a4affb4dbbd9fc623ab2573730"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "42c3166e5a30dbd0aab00fff7019da58904e9925",
+      "approval_reference": "PUBLIC_COMPANION_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "42c3166e5a30dbd0aab00fff7019da58904e9925",
+          "before": [
+            "100644",
+            "d8ea7cfd6c0a87a4affb4dbbd9fc623ab2573730"
+          ],
+          "after": null,
+          "packet": "PUBLIC_COMPANION_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PUBLIC_COMPANION_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc-public-companion-closure/schema-current-preimages.tar",
+        "archive_sha256": "0c4fa3a12087ede4ee98705c58441df9d70e61e13c6c8371459ca97cda7a1994",
+        "member": "source/adl/tools/skills/docs/REPO_REVIEW_DOCS_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "d8ea7cfd6c0a87a4affb4dbbd9fc623ab2573730",
+        "sha256": "ba36f7916e5a802fe1ba52b989006afb41f3639ff9f0b6383dbe4a008e9e2a44"
+      }
+    },
+    {
+      "path": "adl/tools/skills/docs/REPO_REVIEW_SECURITY_SKILL_INPUT_SCHEMA.md",
+      "before": [
+        "100644",
+        "f942978bc6b1fc8b52193f5e9ab39219c3b47ba9"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "42c3166e5a30dbd0aab00fff7019da58904e9925",
+      "approval_reference": "PUBLIC_COMPANION_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "42c3166e5a30dbd0aab00fff7019da58904e9925",
+          "before": [
+            "100644",
+            "f942978bc6b1fc8b52193f5e9ab39219c3b47ba9"
+          ],
+          "after": null,
+          "packet": "PUBLIC_COMPANION_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PUBLIC_COMPANION_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc-public-companion-closure/schema-current-preimages.tar",
+        "archive_sha256": "0c4fa3a12087ede4ee98705c58441df9d70e61e13c6c8371459ca97cda7a1994",
+        "member": "source/adl/tools/skills/docs/REPO_REVIEW_SECURITY_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "f942978bc6b1fc8b52193f5e9ab39219c3b47ba9",
+        "sha256": "628e029bd934a1b9db14cc08286dafe682c27c4df0bf3d156b1bdea4533529a3"
+      }
+    },
+    {
+      "path": "adl/tools/skills/docs/REPO_REVIEW_SYNTHESIS_SKILL_INPUT_SCHEMA.md",
+      "before": [
+        "100644",
+        "5ce99cf52034a569c8d734e89f6b3264c13fdfef"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "42c3166e5a30dbd0aab00fff7019da58904e9925",
+      "approval_reference": "PUBLIC_COMPANION_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "42c3166e5a30dbd0aab00fff7019da58904e9925",
+          "before": [
+            "100644",
+            "5ce99cf52034a569c8d734e89f6b3264c13fdfef"
+          ],
+          "after": null,
+          "packet": "PUBLIC_COMPANION_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PUBLIC_COMPANION_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc-public-companion-closure/schema-current-preimages.tar",
+        "archive_sha256": "0c4fa3a12087ede4ee98705c58441df9d70e61e13c6c8371459ca97cda7a1994",
+        "member": "source/adl/tools/skills/docs/REPO_REVIEW_SYNTHESIS_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "5ce99cf52034a569c8d734e89f6b3264c13fdfef",
+        "sha256": "b07132200673f54a0bae3665ff6dd78cf3f442f63408e9106653686b8f31cdaa"
+      }
+    },
+    {
+      "path": "adl/tools/skills/docs/REPO_REVIEW_TESTS_SKILL_INPUT_SCHEMA.md",
+      "before": [
+        "100644",
+        "a8e680ccdc79259a711981f8eadbb47b4f62b8f4"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "42c3166e5a30dbd0aab00fff7019da58904e9925",
+      "approval_reference": "PUBLIC_COMPANION_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "42c3166e5a30dbd0aab00fff7019da58904e9925",
+          "before": [
+            "100644",
+            "a8e680ccdc79259a711981f8eadbb47b4f62b8f4"
+          ],
+          "after": null,
+          "packet": "PUBLIC_COMPANION_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PUBLIC_COMPANION_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc-public-companion-closure/schema-current-preimages.tar",
+        "archive_sha256": "0c4fa3a12087ede4ee98705c58441df9d70e61e13c6c8371459ca97cda7a1994",
+        "member": "source/adl/tools/skills/docs/REPO_REVIEW_TESTS_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "a8e680ccdc79259a711981f8eadbb47b4f62b8f4",
+        "sha256": "2355befe3dc30e866f3d18924ef3677370ba342db7498b1b2c3ca9afa29c1743"
+      }
+    },
+    {
+      "path": "adl/tools/skills/docs/REVIEW_QUALITY_EVALUATOR_SKILL_INPUT_SCHEMA.md",
+      "before": [
+        "100644",
+        "0e91e8e8f3d3f9c20c2add83bea07be4696da916"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "42c3166e5a30dbd0aab00fff7019da58904e9925",
+      "approval_reference": "PUBLIC_COMPANION_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "42c3166e5a30dbd0aab00fff7019da58904e9925",
+          "before": [
+            "100644",
+            "0e91e8e8f3d3f9c20c2add83bea07be4696da916"
+          ],
+          "after": null,
+          "packet": "PUBLIC_COMPANION_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PUBLIC_COMPANION_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc-public-companion-closure/schema-current-preimages.tar",
+        "archive_sha256": "0c4fa3a12087ede4ee98705c58441df9d70e61e13c6c8371459ca97cda7a1994",
+        "member": "source/adl/tools/skills/docs/REVIEW_QUALITY_EVALUATOR_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "0e91e8e8f3d3f9c20c2add83bea07be4696da916",
+        "sha256": "71722ca76f1c6f45e9b4531f30224dab25bbefb24d742b444021650e582f014b"
+      }
+    },
+    {
+      "path": "adl/tools/skills/docs/REVIEW_READINESS_CLEANUP_SKILL_INPUT_SCHEMA.md",
+      "before": [
+        "100644",
+        "fb9dc584563109438f9fd576d80f7029ac10ef8a"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "42c3166e5a30dbd0aab00fff7019da58904e9925",
+      "approval_reference": "PUBLIC_COMPANION_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "42c3166e5a30dbd0aab00fff7019da58904e9925",
+          "before": [
+            "100644",
+            "fb9dc584563109438f9fd576d80f7029ac10ef8a"
+          ],
+          "after": null,
+          "packet": "PUBLIC_COMPANION_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PUBLIC_COMPANION_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc-public-companion-closure/schema-current-preimages.tar",
+        "archive_sha256": "0c4fa3a12087ede4ee98705c58441df9d70e61e13c6c8371459ca97cda7a1994",
+        "member": "source/adl/tools/skills/docs/REVIEW_READINESS_CLEANUP_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "fb9dc584563109438f9fd576d80f7029ac10ef8a",
+        "sha256": "7a985daadb37d08885aa559d96b7e895cbc61e53de940e29c227191bace7ec5e"
+      }
+    },
+    {
+      "path": "adl/tools/skills/docs/REVIEW_TO_TEST_PLANNER_SKILL_INPUT_SCHEMA.md",
+      "before": [
+        "100644",
+        "1f67f6f365576077a9316deb779a60f2ee4f1778"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "42c3166e5a30dbd0aab00fff7019da58904e9925",
+      "approval_reference": "PUBLIC_COMPANION_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "42c3166e5a30dbd0aab00fff7019da58904e9925",
+          "before": [
+            "100644",
+            "1f67f6f365576077a9316deb779a60f2ee4f1778"
+          ],
+          "after": null,
+          "packet": "PUBLIC_COMPANION_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PUBLIC_COMPANION_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csdlc-public-companion-closure/schema-current-preimages.tar",
+        "archive_sha256": "0c4fa3a12087ede4ee98705c58441df9d70e61e13c6c8371459ca97cda7a1994",
+        "member": "source/adl/tools/skills/docs/REVIEW_TO_TEST_PLANNER_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "1f67f6f365576077a9316deb779a60f2ee4f1778",
+        "sha256": "e1d1ef3575f621a04187e8c717c308dae30713cbb0818913caeb75608c36f851"
+      }
+    },
+    {
+      "path": "docs/csdlc-v3/INTENT_COMMANDS.md",
+      "before": [
+        "100644",
+        "0bae0dc05ed3ca1c2e77168db05a7b3e6a2cb351"
+      ],
+      "after": [
+        "100644",
+        "83f7a8c8b78fd0ee89be50e5d49ba77b1b90665f"
+      ],
+      "action": "modify",
+      "implementation_commit": "42c3166e5a30dbd0aab00fff7019da58904e9925",
+      "approval_reference": "PUBLIC_COMPANION_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "42c3166e5a30dbd0aab00fff7019da58904e9925",
+          "before": [
+            "100644",
+            "0bae0dc05ed3ca1c2e77168db05a7b3e6a2cb351"
+          ],
+          "after": [
+            "100644",
+            "83f7a8c8b78fd0ee89be50e5d49ba77b1b90665f"
+          ],
+          "packet": "PUBLIC_COMPANION_FAMILY_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/codefriend-ci-ingestion.md",
+      "before": [
+        "100644",
+        "228374c8e3720a3afb024875e9532e2ad366ec71"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "84ea944470de7f47d88b2dfe9a77d8cf680ab152",
+      "approval_reference": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "84ea944470de7f47d88b2dfe9a77d8cf680ab152",
+          "before": [
+            "100644",
+            "228374c8e3720a3afb024875e9532e2ad366ec71"
+          ],
+          "after": null,
+          "packet": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/current-preimages.tar",
+        "archive_sha256": "002830403f55a56aeea04b3b50a70e59810ed259b1bb19f31c96e53d9654f058",
+        "member": "source/docs/codefriend-ci-ingestion.md",
+        "mode": "100644",
+        "blob": "228374c8e3720a3afb024875e9532e2ad366ec71",
+        "sha256": "8112e2d99e992815ba20a7053fd256239404ee4db0ce8b3ffb48557e70a5382c"
+      }
+    },
+    {
+      "path": "docs/codefriend/ARCHITECTURE_DRIFT.md",
+      "before": [
+        "100644",
+        "8a98bd0aecaa13d7e2c6fcac65fc4e384ceb3109"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "84ea944470de7f47d88b2dfe9a77d8cf680ab152",
+      "approval_reference": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "84ea944470de7f47d88b2dfe9a77d8cf680ab152",
+          "before": [
+            "100644",
+            "8a98bd0aecaa13d7e2c6fcac65fc4e384ceb3109"
+          ],
+          "after": null,
+          "packet": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/current-preimages.tar",
+        "archive_sha256": "002830403f55a56aeea04b3b50a70e59810ed259b1bb19f31c96e53d9654f058",
+        "member": "source/docs/codefriend/ARCHITECTURE_DRIFT.md",
+        "mode": "100644",
+        "blob": "8a98bd0aecaa13d7e2c6fcac65fc4e384ceb3109",
+        "sha256": "33e75acb9411b828901e0ec775f36279695821f7c962b3a2857294e54c396e62"
+      }
+    },
+    {
+      "path": "docs/codefriend/ARCHITECTURE_RATIONALE.md",
+      "before": [
+        "100644",
+        "a490d3b6096cfcc0e7e89534ce263fe9f46dfc2e"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "84ea944470de7f47d88b2dfe9a77d8cf680ab152",
+      "approval_reference": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "84ea944470de7f47d88b2dfe9a77d8cf680ab152",
+          "before": [
+            "100644",
+            "a490d3b6096cfcc0e7e89534ce263fe9f46dfc2e"
+          ],
+          "after": null,
+          "packet": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/current-preimages.tar",
+        "archive_sha256": "002830403f55a56aeea04b3b50a70e59810ed259b1bb19f31c96e53d9654f058",
+        "member": "source/docs/codefriend/ARCHITECTURE_RATIONALE.md",
+        "mode": "100644",
+        "blob": "a490d3b6096cfcc0e7e89534ce263fe9f46dfc2e",
+        "sha256": "838967475fe36fc99f1b8f9d17646dd4f67867248a7c321cf521a4a4a1e786ea"
+      }
+    },
+    {
+      "path": "docs/codefriend/CYCLE_REVIEW_BRIDGE.md",
+      "before": [
+        "100644",
+        "3f7e42df86735c6d0e6155d34ff3b06624c83f43"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "84ea944470de7f47d88b2dfe9a77d8cf680ab152",
+      "approval_reference": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "84ea944470de7f47d88b2dfe9a77d8cf680ab152",
+          "before": [
+            "100644",
+            "3f7e42df86735c6d0e6155d34ff3b06624c83f43"
+          ],
+          "after": null,
+          "packet": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/current-preimages.tar",
+        "archive_sha256": "002830403f55a56aeea04b3b50a70e59810ed259b1bb19f31c96e53d9654f058",
+        "member": "source/docs/codefriend/CYCLE_REVIEW_BRIDGE.md",
+        "mode": "100644",
+        "blob": "3f7e42df86735c6d0e6155d34ff3b06624c83f43",
+        "sha256": "f43aa6cff8e3d2487eff0f7419409fc2c31eeed0ef794bb36497c51c3f2be7dc"
+      }
+    },
+    {
+      "path": "docs/codefriend/EVIDENCE_CORE.md",
+      "before": [
+        "100644",
+        "738aea0e177ff9563201e8017d5fbf1cf8c4e494"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "84ea944470de7f47d88b2dfe9a77d8cf680ab152",
+      "approval_reference": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "84ea944470de7f47d88b2dfe9a77d8cf680ab152",
+          "before": [
+            "100644",
+            "738aea0e177ff9563201e8017d5fbf1cf8c4e494"
+          ],
+          "after": null,
+          "packet": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/current-preimages.tar",
+        "archive_sha256": "002830403f55a56aeea04b3b50a70e59810ed259b1bb19f31c96e53d9654f058",
+        "member": "source/docs/codefriend/EVIDENCE_CORE.md",
+        "mode": "100644",
+        "blob": "738aea0e177ff9563201e8017d5fbf1cf8c4e494",
+        "sha256": "82e1dc1ec4c3415ce0b1557b1011265add2c44d33b79f0d188550477482a8e28"
+      }
+    },
+    {
+      "path": "docs/codefriend/FITNESS_CI.md",
+      "before": [
+        "100644",
+        "59933592d31a3b7dc4baff10ad5c764815747bf6"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "84ea944470de7f47d88b2dfe9a77d8cf680ab152",
+      "approval_reference": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "84ea944470de7f47d88b2dfe9a77d8cf680ab152",
+          "before": [
+            "100644",
+            "59933592d31a3b7dc4baff10ad5c764815747bf6"
+          ],
+          "after": null,
+          "packet": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/current-preimages.tar",
+        "archive_sha256": "002830403f55a56aeea04b3b50a70e59810ed259b1bb19f31c96e53d9654f058",
+        "member": "source/docs/codefriend/FITNESS_CI.md",
+        "mode": "100644",
+        "blob": "59933592d31a3b7dc4baff10ad5c764815747bf6",
+        "sha256": "f511e34513b21d812fc76599b8e3062173f7d9941f675e66f7b1f3f990c3725b"
+      }
+    },
+    {
+      "path": "docs/codefriend/GITHUB_INGESTION.md",
+      "before": [
+        "100644",
+        "1aa1f79a835b4fbc929eb23d0f33d382f7d30954"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "84ea944470de7f47d88b2dfe9a77d8cf680ab152",
+      "approval_reference": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "84ea944470de7f47d88b2dfe9a77d8cf680ab152",
+          "before": [
+            "100644",
+            "1aa1f79a835b4fbc929eb23d0f33d382f7d30954"
+          ],
+          "after": null,
+          "packet": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/current-preimages.tar",
+        "archive_sha256": "002830403f55a56aeea04b3b50a70e59810ed259b1bb19f31c96e53d9654f058",
+        "member": "source/docs/codefriend/GITHUB_INGESTION.md",
+        "mode": "100644",
+        "blob": "1aa1f79a835b4fbc929eb23d0f33d382f7d30954",
+        "sha256": "51671d7b0788f4c88b4a234cee55d72488125582ac63876deafb73f743ccc0c6"
+      }
+    },
+    {
+      "path": "docs/codefriend/HTML_EXPORT.md",
+      "before": [
+        "100644",
+        "4a326a31c9548155ff50d55de2f023135449b78e"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "84ea944470de7f47d88b2dfe9a77d8cf680ab152",
+      "approval_reference": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "84ea944470de7f47d88b2dfe9a77d8cf680ab152",
+          "before": [
+            "100644",
+            "4a326a31c9548155ff50d55de2f023135449b78e"
+          ],
+          "after": null,
+          "packet": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/current-preimages.tar",
+        "archive_sha256": "002830403f55a56aeea04b3b50a70e59810ed259b1bb19f31c96e53d9654f058",
+        "member": "source/docs/codefriend/HTML_EXPORT.md",
+        "mode": "100644",
+        "blob": "4a326a31c9548155ff50d55de2f023135449b78e",
+        "sha256": "dd90ac68dead57d413e61dc6a209e8620bc116c51c8a0b57213073b40b7e3a3b"
+      }
+    },
+    {
+      "path": "docs/codefriend/LOCAL_AGENT.md",
+      "before": [
+        "100644",
+        "8ade880d7135833910300f2d77dcc78504a64e37"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "84ea944470de7f47d88b2dfe9a77d8cf680ab152",
+      "approval_reference": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "84ea944470de7f47d88b2dfe9a77d8cf680ab152",
+          "before": [
+            "100644",
+            "8ade880d7135833910300f2d77dcc78504a64e37"
+          ],
+          "after": null,
+          "packet": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/current-preimages.tar",
+        "archive_sha256": "002830403f55a56aeea04b3b50a70e59810ed259b1bb19f31c96e53d9654f058",
+        "member": "source/docs/codefriend/LOCAL_AGENT.md",
+        "mode": "100644",
+        "blob": "8ade880d7135833910300f2d77dcc78504a64e37",
+        "sha256": "aca49e56e1961d9f71a7372f29a048eb0d3501b5da176b9b9a4346e61a4fdab6"
+      }
+    },
+    {
+      "path": "docs/codefriend/LOCAL_INGESTION.md",
+      "before": [
+        "100644",
+        "9891cc809b79e3b88f6f2b25cbc91708274e1e20"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "84ea944470de7f47d88b2dfe9a77d8cf680ab152",
+      "approval_reference": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "84ea944470de7f47d88b2dfe9a77d8cf680ab152",
+          "before": [
+            "100644",
+            "9891cc809b79e3b88f6f2b25cbc91708274e1e20"
+          ],
+          "after": null,
+          "packet": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/current-preimages.tar",
+        "archive_sha256": "002830403f55a56aeea04b3b50a70e59810ed259b1bb19f31c96e53d9654f058",
+        "member": "source/docs/codefriend/LOCAL_INGESTION.md",
+        "mode": "100644",
+        "blob": "9891cc809b79e3b88f6f2b25cbc91708274e1e20",
+        "sha256": "4d22fdd01ecda951d4de5fdf6ee1c7105fa87fa08e74fd850d63ef8fb26ed58a"
+      }
+    },
+    {
+      "path": "docs/codefriend/MARKDOWN_EXPORT.md",
+      "before": [
+        "100644",
+        "fd4918541bb25afb8cb62a754e518a6c6ca1b971"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "84ea944470de7f47d88b2dfe9a77d8cf680ab152",
+      "approval_reference": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "84ea944470de7f47d88b2dfe9a77d8cf680ab152",
+          "before": [
+            "100644",
+            "fd4918541bb25afb8cb62a754e518a6c6ca1b971"
+          ],
+          "after": null,
+          "packet": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/current-preimages.tar",
+        "archive_sha256": "002830403f55a56aeea04b3b50a70e59810ed259b1bb19f31c96e53d9654f058",
+        "member": "source/docs/codefriend/MARKDOWN_EXPORT.md",
+        "mode": "100644",
+        "blob": "fd4918541bb25afb8cb62a754e518a6c6ca1b971",
+        "sha256": "0b83e8e3dda3e20b61e0adfde72b7d06c2931407adee81a3e4ff6b8e421ca655"
+      }
+    },
+    {
+      "path": "docs/codefriend/MEMORY_COMPARISON.md",
+      "before": [
+        "100644",
+        "48ef9c7173a15da7a6eeb62310e8320e5a94b8ec"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "84ea944470de7f47d88b2dfe9a77d8cf680ab152",
+      "approval_reference": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "84ea944470de7f47d88b2dfe9a77d8cf680ab152",
+          "before": [
+            "100644",
+            "48ef9c7173a15da7a6eeb62310e8320e5a94b8ec"
+          ],
+          "after": null,
+          "packet": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/current-preimages.tar",
+        "archive_sha256": "002830403f55a56aeea04b3b50a70e59810ed259b1bb19f31c96e53d9654f058",
+        "member": "source/docs/codefriend/MEMORY_COMPARISON.md",
+        "mode": "100644",
+        "blob": "48ef9c7173a15da7a6eeb62310e8320e5a94b8ec",
+        "sha256": "8566719249852d91e22c47ce7a318de579f8756ffc5642afb8e894a59c92433a"
+      }
+    },
+    {
+      "path": "docs/codefriend/PDF_EXPORT.md",
+      "before": [
+        "100644",
+        "64cba95ee1246856b0737fcf188cbed791185a75"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "84ea944470de7f47d88b2dfe9a77d8cf680ab152",
+      "approval_reference": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "84ea944470de7f47d88b2dfe9a77d8cf680ab152",
+          "before": [
+            "100644",
+            "64cba95ee1246856b0737fcf188cbed791185a75"
+          ],
+          "after": null,
+          "packet": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/current-preimages.tar",
+        "archive_sha256": "002830403f55a56aeea04b3b50a70e59810ed259b1bb19f31c96e53d9654f058",
+        "member": "source/docs/codefriend/PDF_EXPORT.md",
+        "mode": "100644",
+        "blob": "64cba95ee1246856b0737fcf188cbed791185a75",
+        "sha256": "a9e415bf60665e53f8a72c8354242245abc3e16f041f418826106015911a92ad"
+      }
+    },
+    {
+      "path": "docs/codefriend/REVIEW_ASSESSMENTS.md",
+      "before": [
+        "100644",
+        "7244d23170781ad87f3af44f332ff5c4e9cd52e4"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "84ea944470de7f47d88b2dfe9a77d8cf680ab152",
+      "approval_reference": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "84ea944470de7f47d88b2dfe9a77d8cf680ab152",
+          "before": [
+            "100644",
+            "7244d23170781ad87f3af44f332ff5c4e9cd52e4"
+          ],
+          "after": null,
+          "packet": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/current-preimages.tar",
+        "archive_sha256": "002830403f55a56aeea04b3b50a70e59810ed259b1bb19f31c96e53d9654f058",
+        "member": "source/docs/codefriend/REVIEW_ASSESSMENTS.md",
+        "mode": "100644",
+        "blob": "7244d23170781ad87f3af44f332ff5c4e9cd52e4",
+        "sha256": "bb0ab1d889572fea1142960899b7589e397cbbbb7c92502614179d3064e345c4"
+      }
+    },
+    {
+      "path": "docs/codefriend/SERVER.md",
+      "before": [
+        "100644",
+        "d8801293513048fd940c4dc461434e83606d75b1"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "84ea944470de7f47d88b2dfe9a77d8cf680ab152",
+      "approval_reference": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "84ea944470de7f47d88b2dfe9a77d8cf680ab152",
+          "before": [
+            "100644",
+            "d8801293513048fd940c4dc461434e83606d75b1"
+          ],
+          "after": null,
+          "packet": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/current-preimages.tar",
+        "archive_sha256": "002830403f55a56aeea04b3b50a70e59810ed259b1bb19f31c96e53d9654f058",
+        "member": "source/docs/codefriend/SERVER.md",
+        "mode": "100644",
+        "blob": "d8801293513048fd940c4dc461434e83606d75b1",
+        "sha256": "e762d946335ca7e90d3624a0c4a417d81440b56f8c77422dee05759c9ed93281"
+      }
+    },
+    {
+      "path": "docs/codefriend/TEST_PLANNING.md",
+      "before": [
+        "100644",
+        "685189e39ca474b5aa4a7cadfbe27a84bebb0060"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "84ea944470de7f47d88b2dfe9a77d8cf680ab152",
+      "approval_reference": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "84ea944470de7f47d88b2dfe9a77d8cf680ab152",
+          "before": [
+            "100644",
+            "685189e39ca474b5aa4a7cadfbe27a84bebb0060"
+          ],
+          "after": null,
+          "packet": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/current-preimages.tar",
+        "archive_sha256": "002830403f55a56aeea04b3b50a70e59810ed259b1bb19f31c96e53d9654f058",
+        "member": "source/docs/codefriend/TEST_PLANNING.md",
+        "mode": "100644",
+        "blob": "685189e39ca474b5aa4a7cadfbe27a84bebb0060",
+        "sha256": "884a844d82e28a07c48e82ad415eaf46260acf98e5f1323a3fe437b252a86560"
+      }
+    },
+    {
+      "path": "docs/codefriend/fixtures/vector-scope.json",
+      "before": [
+        "100644",
+        "0398c2d8b1d7e5dd3662a112f80a24970eedc088"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "84ea944470de7f47d88b2dfe9a77d8cf680ab152",
+      "approval_reference": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "84ea944470de7f47d88b2dfe9a77d8cf680ab152",
+          "before": [
+            "100644",
+            "0398c2d8b1d7e5dd3662a112f80a24970eedc088"
+          ],
+          "after": null,
+          "packet": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/current-preimages.tar",
+        "archive_sha256": "002830403f55a56aeea04b3b50a70e59810ed259b1bb19f31c96e53d9654f058",
+        "member": "source/docs/codefriend/fixtures/vector-scope.json",
+        "mode": "100644",
+        "blob": "0398c2d8b1d7e5dd3662a112f80a24970eedc088",
+        "sha256": "76c8e36abc9cc4a9f7c61ab71eade0e43cd6478a42a2b1e4f994fc9924f2f244"
+      }
+    },
+    {
+      "path": "docs/codefriend/README.md",
+      "before": null,
+      "after": [
+        "100644",
+        "ae324ed20f837e571cedca13b3b8cb6c04a4d18c"
+      ],
+      "action": "add",
+      "implementation_commit": "84ea944470de7f47d88b2dfe9a77d8cf680ab152",
+      "approval_reference": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "84ea944470de7f47d88b2dfe9a77d8cf680ab152",
+          "before": null,
+          "after": [
+            "100644",
+            "ae324ed20f837e571cedca13b3b8cb6c04a4d18c"
+          ],
+          "packet": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/demo_v0871_operator_surface.sh",
+      "before": [
+        "100755",
+        "a90c5273cc33120d4307192ae181e0ccc7052341"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "1eb50b3eefb1fe41ad39d1c8dd2fd1e6971387d2",
+      "approval_reference": "RUNTIME_DEMO_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "1eb50b3eefb1fe41ad39d1c8dd2fd1e6971387d2",
+          "before": [
+            "100755",
+            "a90c5273cc33120d4307192ae181e0ccc7052341"
+          ],
+          "after": null,
+          "packet": "RUNTIME_DEMO_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_DEMO_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-remaining-tool-reconciliation/runtime-five/preimages.tar",
+        "archive_sha256": "b6474fc92f3b5a966e9eb1aeba1cb3706fe7bc509d21a84385f0433a8c53bdca",
+        "member": "adl/tools/demo_v0871_operator_surface.sh",
+        "mode": "100755",
+        "blob": "a90c5273cc33120d4307192ae181e0ccc7052341",
+        "sha256": "7390fcfa31735e62576bd50307d57d0b11a4fc2b842bc30bfaa2cbbb6aede519"
+      }
+    },
+    {
+      "path": "adl/tools/demo_v0871_runtime_state.sh",
+      "before": [
+        "100755",
+        "6cfda577374af99516488e340ef2856302a20d45"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "1eb50b3eefb1fe41ad39d1c8dd2fd1e6971387d2",
+      "approval_reference": "RUNTIME_DEMO_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "1eb50b3eefb1fe41ad39d1c8dd2fd1e6971387d2",
+          "before": [
+            "100755",
+            "6cfda577374af99516488e340ef2856302a20d45"
+          ],
+          "after": null,
+          "packet": "RUNTIME_DEMO_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_DEMO_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-remaining-tool-reconciliation/runtime-five/preimages.tar",
+        "archive_sha256": "b6474fc92f3b5a966e9eb1aeba1cb3706fe7bc509d21a84385f0433a8c53bdca",
+        "member": "adl/tools/demo_v0871_runtime_state.sh",
+        "mode": "100755",
+        "blob": "6cfda577374af99516488e340ef2856302a20d45",
+        "sha256": "14b8eda558a9283ed66f55dba315403c26a2e87b9b8fdade6b030f43c412cc28"
+      }
+    },
+    {
+      "path": "adl/tools/demo_v087_control_plane.sh",
+      "before": [
+        "100755",
+        "72c8d31a6a5221339ebd4a3372a279788bb71e66"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "1eb50b3eefb1fe41ad39d1c8dd2fd1e6971387d2",
+      "approval_reference": "RUNTIME_DEMO_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "1eb50b3eefb1fe41ad39d1c8dd2fd1e6971387d2",
+          "before": [
+            "100755",
+            "72c8d31a6a5221339ebd4a3372a279788bb71e66"
+          ],
+          "after": null,
+          "packet": "RUNTIME_DEMO_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_DEMO_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-remaining-tool-reconciliation/runtime-five/preimages.tar",
+        "archive_sha256": "b6474fc92f3b5a966e9eb1aeba1cb3706fe7bc509d21a84385f0433a8c53bdca",
+        "member": "adl/tools/demo_v087_control_plane.sh",
+        "mode": "100755",
+        "blob": "72c8d31a6a5221339ebd4a3372a279788bb71e66",
+        "sha256": "e9c063eea3fe5e9daaec9a5fc6543310bbea31d062d059d2cd5b79ef86251993"
+      }
+    },
+    {
+      "path": "adl/tools/test_demo_v0871_operator_surface.sh",
+      "before": [
+        "100755",
+        "a062fcb2911308be656089b0654290202c291cd4"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "1eb50b3eefb1fe41ad39d1c8dd2fd1e6971387d2",
+      "approval_reference": "RUNTIME_DEMO_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "1eb50b3eefb1fe41ad39d1c8dd2fd1e6971387d2",
+          "before": [
+            "100755",
+            "a062fcb2911308be656089b0654290202c291cd4"
+          ],
+          "after": null,
+          "packet": "RUNTIME_DEMO_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_DEMO_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-remaining-tool-reconciliation/runtime-five/preimages.tar",
+        "archive_sha256": "b6474fc92f3b5a966e9eb1aeba1cb3706fe7bc509d21a84385f0433a8c53bdca",
+        "member": "adl/tools/test_demo_v0871_operator_surface.sh",
+        "mode": "100755",
+        "blob": "a062fcb2911308be656089b0654290202c291cd4",
+        "sha256": "44d093a0fbe42312d0ffce60d9294fe5073f247514b9a178d6f7a59d2d984cfc"
+      }
+    },
+    {
+      "path": "adl/tools/test_demo_v0871_runtime_state.sh",
+      "before": [
+        "100755",
+        "140cc800a54458c4d09fbf2db201f67b8fdfb627"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "1eb50b3eefb1fe41ad39d1c8dd2fd1e6971387d2",
+      "approval_reference": "RUNTIME_DEMO_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "1eb50b3eefb1fe41ad39d1c8dd2fd1e6971387d2",
+          "before": [
+            "100755",
+            "140cc800a54458c4d09fbf2db201f67b8fdfb627"
+          ],
+          "after": null,
+          "packet": "RUNTIME_DEMO_FAMILY_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_DEMO_FAMILY_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-remaining-tool-reconciliation/runtime-five/preimages.tar",
+        "archive_sha256": "b6474fc92f3b5a966e9eb1aeba1cb3706fe7bc509d21a84385f0433a8c53bdca",
+        "member": "adl/tools/test_demo_v0871_runtime_state.sh",
+        "mode": "100755",
+        "blob": "140cc800a54458c4d09fbf2db201f67b8fdfb627",
+        "sha256": "5559354f1aa90140fb2f7aedb4655f5f1ab81a4fec92a5526ea8729aa7f4a472"
+      }
+    },
+    {
+      "path": "adl/tools/demo_v087_suite.sh",
+      "before": [
+        "100755",
+        "2e65f54ca1027b358bfe33a66a537d199753e951"
+      ],
+      "after": [
+        "100755",
+        "d85940819eb3357d3b1f629ff0e93e6498d917d2"
+      ],
+      "action": "modify",
+      "implementation_commit": "1eb50b3eefb1fe41ad39d1c8dd2fd1e6971387d2",
+      "approval_reference": "RUNTIME_DEMO_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "1eb50b3eefb1fe41ad39d1c8dd2fd1e6971387d2",
+          "before": [
+            "100755",
+            "2e65f54ca1027b358bfe33a66a537d199753e951"
+          ],
+          "after": [
+            "100755",
+            "d85940819eb3357d3b1f629ff0e93e6498d917d2"
+          ],
+          "packet": "RUNTIME_DEMO_FAMILY_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/demo_v0871_restartability.sh",
+      "before": [
+        "100755",
+        "b55e0f426409129eaaf4a274756ba3042bd6f686"
+      ],
+      "after": [
+        "100755",
+        "4142a6ee7f2685d3e7b7ffe6f9a23357da23a36c"
+      ],
+      "action": "modify",
+      "implementation_commit": "1eb50b3eefb1fe41ad39d1c8dd2fd1e6971387d2",
+      "approval_reference": "RUNTIME_DEMO_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "1eb50b3eefb1fe41ad39d1c8dd2fd1e6971387d2",
+          "before": [
+            "100755",
+            "b55e0f426409129eaaf4a274756ba3042bd6f686"
+          ],
+          "after": [
+            "100755",
+            "4142a6ee7f2685d3e7b7ffe6f9a23357da23a36c"
+          ],
+          "packet": "RUNTIME_DEMO_FAMILY_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/demo_v0871_shepherd_recovery.sh",
+      "before": [
+        "100755",
+        "76be369e1fd70ef1c8bf4b38b492748925333efd"
+      ],
+      "after": [
+        "100755",
+        "9eacf353c9bf7f6d9b25f504a9cc0876d5062bc1"
+      ],
+      "action": "modify",
+      "implementation_commit": "1eb50b3eefb1fe41ad39d1c8dd2fd1e6971387d2",
+      "approval_reference": "RUNTIME_DEMO_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "1eb50b3eefb1fe41ad39d1c8dd2fd1e6971387d2",
+          "before": [
+            "100755",
+            "76be369e1fd70ef1c8bf4b38b492748925333efd"
+          ],
+          "after": [
+            "100755",
+            "9eacf353c9bf7f6d9b25f504a9cc0876d5062bc1"
+          ],
+          "packet": "RUNTIME_DEMO_FAMILY_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/demo_v0871_review_surface.sh",
+      "before": [
+        "100755",
+        "5030b07bed7fc0d83a02709d0186c58906d6b10d"
+      ],
+      "after": [
+        "100755",
+        "2257989c958e1867ab9d8c7bb1643c986b56bffe"
+      ],
+      "action": "modify",
+      "implementation_commit": "1eb50b3eefb1fe41ad39d1c8dd2fd1e6971387d2",
+      "approval_reference": "RUNTIME_DEMO_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "1eb50b3eefb1fe41ad39d1c8dd2fd1e6971387d2",
+          "before": [
+            "100755",
+            "5030b07bed7fc0d83a02709d0186c58906d6b10d"
+          ],
+          "after": [
+            "100755",
+            "2257989c958e1867ab9d8c7bb1643c986b56bffe"
+          ],
+          "packet": "RUNTIME_DEMO_FAMILY_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/demo_v0871_quality_gate.sh",
+      "before": [
+        "100755",
+        "50b7d40fa0f9494ca962c765b66497a2d0eda4f7"
+      ],
+      "after": [
+        "100755",
+        "554c5a6844834c27208ede903ac92a020b859282"
+      ],
+      "action": "modify",
+      "implementation_commit": "1eb50b3eefb1fe41ad39d1c8dd2fd1e6971387d2",
+      "approval_reference": "RUNTIME_DEMO_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "1eb50b3eefb1fe41ad39d1c8dd2fd1e6971387d2",
+          "before": [
+            "100755",
+            "50b7d40fa0f9494ca962c765b66497a2d0eda4f7"
+          ],
+          "after": [
+            "100755",
+            "554c5a6844834c27208ede903ac92a020b859282"
+          ],
+          "packet": "RUNTIME_DEMO_FAMILY_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/demo_v0871_integrated_runtime.sh",
+      "before": [
+        "100755",
+        "608d5698aac535db9911b0866839146e26106499"
+      ],
+      "after": [
+        "100755",
+        "ad3ee0d0b56a66d1ddc44ef3ac636a7a260c6656"
+      ],
+      "action": "modify",
+      "implementation_commit": "1eb50b3eefb1fe41ad39d1c8dd2fd1e6971387d2",
+      "approval_reference": "RUNTIME_DEMO_FAMILY_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "1eb50b3eefb1fe41ad39d1c8dd2fd1e6971387d2",
+          "before": [
+            "100755",
+            "608d5698aac535db9911b0866839146e26106499"
+          ],
+          "after": [
+            "100755",
+            "ad3ee0d0b56a66d1ddc44ef3ac636a7a260c6656"
+          ],
+          "packet": "RUNTIME_DEMO_FAMILY_APPLIED.json"
+        }
+      ]
     }
   ],
   "missing_entries": [],
@@ -83104,9 +84788,104 @@
         "docs/tooling/TOOL_SURFACE_REGISTRY.md"
       ],
       "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "PUBLIC_COMPANION_FAMILY_APPLIED.json",
+      "sha256": "a010ec8045e1c994e87dff0121a62256eca8a84832042c48996b1c7973e2b72c",
+      "commit": "42c3166e5a30dbd0aab00fff7019da58904e9925",
+      "files": 23,
+      "removals": 21,
+      "scope_sha256": "1262bd064d7a5de23d2a165205e53d94716f82241d741aabd3e7fbf48364e999",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl/tools/skills/docs/ADR_CURATOR_SKILL_INPUT_SCHEMA.md",
+        "adl/tools/skills/docs/ARCHITECTURE_DIAGRAM_REVIEWER_SKILL_INPUT_SCHEMA.md",
+        "adl/tools/skills/docs/ARCHITECTURE_FITNESS_FUNCTION_AUTHOR_SKILL_INPUT_SCHEMA.md",
+        "adl/tools/skills/docs/DIAGRAM_AUTHOR_SKILL_INPUT_SCHEMA.md",
+        "adl/tools/skills/docs/FINDING_TO_ISSUE_PLANNER_SKILL_INPUT_SCHEMA.md",
+        "adl/tools/skills/docs/MULTI_AGENT_REPO_REVIEW_SKILL_SUITE.md",
+        "adl/tools/skills/docs/PRODUCT_REPORT_WRITER_SKILL_INPUT_SCHEMA.md",
+        "adl/tools/skills/docs/REDACTION_AND_EVIDENCE_AUDITOR_SKILL_INPUT_SCHEMA.md",
+        "adl/tools/skills/docs/REPO_ARCHITECTURE_REVIEW_SKILL_INPUT_SCHEMA.md",
+        "adl/tools/skills/docs/REPO_CODE_REVIEW_SKILL_INPUT_SCHEMA.md",
+        "adl/tools/skills/docs/REPO_DEPENDENCY_REVIEW_SKILL_INPUT_SCHEMA.md",
+        "adl/tools/skills/docs/REPO_DIAGRAM_PLANNER_SKILL_INPUT_SCHEMA.md",
+        "adl/tools/skills/docs/REPO_PACKET_BUILDER_SKILL_INPUT_SCHEMA.md",
+        "adl/tools/skills/docs/REPO_REVIEW_CODE_SKILL_INPUT_SCHEMA.md",
+        "adl/tools/skills/docs/REPO_REVIEW_DOCS_SKILL_INPUT_SCHEMA.md",
+        "adl/tools/skills/docs/REPO_REVIEW_SECURITY_SKILL_INPUT_SCHEMA.md",
+        "adl/tools/skills/docs/REPO_REVIEW_SYNTHESIS_SKILL_INPUT_SCHEMA.md",
+        "adl/tools/skills/docs/REPO_REVIEW_TESTS_SKILL_INPUT_SCHEMA.md",
+        "adl/tools/skills/docs/REVIEW_QUALITY_EVALUATOR_SKILL_INPUT_SCHEMA.md",
+        "adl/tools/skills/docs/REVIEW_READINESS_CLEANUP_SKILL_INPUT_SCHEMA.md",
+        "adl/tools/skills/docs/REVIEW_TO_TEST_PLANNER_SKILL_INPUT_SCHEMA.md",
+        "adl/tools/skills/docs/OPERATIONAL_SKILLS_GUIDE.md",
+        "docs/csdlc-v3/INTENT_COMMANDS.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json",
+      "sha256": "049291bea38773ee92711aee039f0c3004371fa9e50018e413d7ce562f236557",
+      "commit": "84ea944470de7f47d88b2dfe9a77d8cf680ab152",
+      "files": 20,
+      "removals": 19,
+      "scope_sha256": "83aba14f60059a669e3c4b7e29545fbef538b774bdca51eb693aa849091c92e6",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "docs/codefriend-ci-ingestion.md",
+        "docs/codefriend/ARCHITECTURE_DRIFT.md",
+        "docs/codefriend/ARCHITECTURE_RATIONALE.md",
+        "docs/codefriend/CHANGE_IMPACT.md",
+        "docs/codefriend/CYCLE_REVIEW_BRIDGE.md",
+        "docs/codefriend/EVIDENCE_CORE.md",
+        "docs/codefriend/FITNESS_CI.md",
+        "docs/codefriend/GITHUB_INGESTION.md",
+        "docs/codefriend/HTML_EXPORT.md",
+        "docs/codefriend/LOCAL_AGENT.md",
+        "docs/codefriend/LOCAL_INGESTION.md",
+        "docs/codefriend/MARKDOWN_EXPORT.md",
+        "docs/codefriend/MEMORY_COMPARISON.md",
+        "docs/codefriend/MEMORY_PALACE.md",
+        "docs/codefriend/PDF_EXPORT.md",
+        "docs/codefriend/REVIEW_ASSESSMENTS.md",
+        "docs/codefriend/SERVER.md",
+        "docs/codefriend/TEST_PLANNING.md",
+        "docs/codefriend/fixtures/vector-scope.json",
+        "docs/codefriend/README.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "RUNTIME_DEMO_FAMILY_APPLIED.json",
+      "sha256": "2a6747cb9124d481c58b7b57ba873f37014614051533ed87a724dfc5c83d54c6",
+      "commit": "1eb50b3eefb1fe41ad39d1c8dd2fd1e6971387d2",
+      "files": 13,
+      "removals": 5,
+      "scope_sha256": "945416ae5f803c91e66d5e04c8f3d35430400a41e3d12e87bf5c6a37c9635866",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl/tools/demo_v0871_operator_surface.sh",
+        "adl/tools/demo_v0871_runtime_state.sh",
+        "adl/tools/demo_v087_control_plane.sh",
+        "adl/tools/test_demo_v0871_operator_surface.sh",
+        "adl/tools/test_demo_v0871_runtime_state.sh",
+        "adl/tools/demo_v087_suite.sh",
+        "adl/tools/demo_v0871_restartability.sh",
+        "adl/tools/demo_v0871_shepherd_recovery.sh",
+        "adl/tools/demo_v0871_review_surface.sh",
+        "adl/tools/demo_v0871_quality_gate.sh",
+        "adl/tools/demo_v0871_integrated_runtime.sh",
+        "adl/tools/README.md",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
     }
   ],
-  "baseline_deletion_count": 2575,
+  "baseline_deletion_count": 2620,
   "transient_removed_paths": [
     "adl/tools/test_issue872_historical_manifest.py"
   ]

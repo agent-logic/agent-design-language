@@ -206,7 +206,8 @@
       },
       "after": {
         "mode": "100755",
-        "sha256": "00e6b05f88dc918ce160832b858ce146a295edc221b1823dd143155bab65f732"
+        "sha256": "00e6b05f88dc918ce160832b858ce146a295edc221b1823dd143155bab65f732",
+        "blob": "d85940819eb3357d3b1f629ff0e93e6498d917d2"
       }
     },
     {
@@ -219,7 +220,8 @@
       },
       "after": {
         "mode": "100755",
-        "sha256": "4220abb17c69b171494538be1613031ab768491e89c9745d1561d027b925c47c"
+        "sha256": "4220abb17c69b171494538be1613031ab768491e89c9745d1561d027b925c47c",
+        "blob": "4142a6ee7f2685d3e7b7ffe6f9a23357da23a36c"
       }
     },
     {
@@ -232,7 +234,8 @@
       },
       "after": {
         "mode": "100755",
-        "sha256": "72fb0e2f7de06f0a198fc70800f11ba6f415356edc20141d11e5cf6a372793bd"
+        "sha256": "72fb0e2f7de06f0a198fc70800f11ba6f415356edc20141d11e5cf6a372793bd",
+        "blob": "9eacf353c9bf7f6d9b25f504a9cc0876d5062bc1"
       }
     },
     {
@@ -245,7 +248,8 @@
       },
       "after": {
         "mode": "100755",
-        "sha256": "14e0c45f5b555a14c72bcd33a03326cf8151c6469a60213b32cf329828163d5c"
+        "sha256": "14e0c45f5b555a14c72bcd33a03326cf8151c6469a60213b32cf329828163d5c",
+        "blob": "2257989c958e1867ab9d8c7bb1643c986b56bffe"
       }
     },
     {
@@ -258,7 +262,8 @@
       },
       "after": {
         "mode": "100755",
-        "sha256": "555e5bb16013d3a6c9f84794f2b12d968625e228498f5678efe52dae8460ad8f"
+        "sha256": "555e5bb16013d3a6c9f84794f2b12d968625e228498f5678efe52dae8460ad8f",
+        "blob": "554c5a6844834c27208ede903ac92a020b859282"
       }
     },
     {
@@ -271,7 +276,8 @@
       },
       "after": {
         "mode": "100755",
-        "sha256": "6b642896cef6d0892abc24cbf7901df4cbdcd799def003078e6a86e4e923cbe4"
+        "sha256": "6b642896cef6d0892abc24cbf7901df4cbdcd799def003078e6a86e4e923cbe4",
+        "blob": "ad3ee0d0b56a66d1ddc44ef3ac636a7a260c6656"
       }
     },
     {
@@ -284,7 +290,8 @@
       },
       "after": {
         "mode": "100644",
-        "sha256": "59946eaae1b675edea53ecbb202b00e61453ad28098cf64a2f488baab0d9593e"
+        "sha256": "59946eaae1b675edea53ecbb202b00e61453ad28098cf64a2f488baab0d9593e",
+        "blob": "6966b08d9ef141fdbd966e0d692f563f95a8423d"
       }
     },
     {
@@ -297,7 +304,8 @@
       },
       "after": {
         "mode": "100644",
-        "sha256": "75bf946a7219a8981cb6ef2111aa2c957658e7fa8d7440b277561545546faab1"
+        "sha256": "75bf946a7219a8981cb6ef2111aa2c957658e7fa8d7440b277561545546faab1",
+        "blob": "a5406109d258ab40313fa0d8478b750edc3c4174"
       }
     }
   ],
@@ -380,5 +388,19 @@
     "result": "PASS",
     "boundary": "Only isolated prefixes executed; no product/aggregate children invoked."
   },
-  "application_verification": "13preimage modes/bytes and afterimages verified; actual registry regenerated exactly; no repeatedtests."
+  "application_verification": "13preimage modes/bytes and afterimages verified; actual registry regenerated exactly; no repeatedtests.",
+  "after_identity_completion": {
+    "source_commit": "1eb50b3eefb1fe41ad39d1c8dd2fd1e6971387d2",
+    "paths": [
+      "adl/tools/demo_v087_suite.sh",
+      "adl/tools/demo_v0871_restartability.sh",
+      "adl/tools/demo_v0871_shepherd_recovery.sh",
+      "adl/tools/demo_v0871_review_surface.sh",
+      "adl/tools/demo_v0871_quality_gate.sh",
+      "adl/tools/demo_v0871_integrated_runtime.sh",
+      "adl/tools/README.md",
+      "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+    ],
+    "method": "Existing mode and SHA256 verified against committed Git objects; missing blob IDs added without changing any source bytes or proof claim."
+  }
 }
