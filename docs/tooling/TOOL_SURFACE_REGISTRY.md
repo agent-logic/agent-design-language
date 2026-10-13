@@ -31,7 +31,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 - `primary`: 9
 - `supported shim`: 0
 - `internal helper`: 571
-- `historical evidence`: 46
+- `historical evidence`: 45
 - `archive candidate`: 0
 - `remove candidate`: 2
 
@@ -281,6 +281,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/run_pr_fast_test_lane.sh` | tool surface | historical evidence | Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing. |
 | `adl/tools/run_pvf_ci_release_policy_fixture.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_pvf_validation_lane.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
+| `adl/tools/run_runtime_gateway_owner_contract.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_runtime_v3_guardian_soak.sh` | tool surface | historical evidence | Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing. |
 | `adl/tools/run_runtime_v3_operational_proof.sh` | tool surface | historical evidence | Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing. |
 | `adl/tools/run_slow_proof_family.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
@@ -499,7 +500,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_run_pvf_validation_lane.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_run_runtime_v3_guardian_soak.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_run_v0913_proof_validation_lane.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_run_v0917_csm_api_gateway_bridge_proof.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_run_validation_manager_nessus_lane.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_run_wp08_acip_sns_live_proof.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_run_wp08_aws_signal_integration_live_proof.sh` | tool surface | internal helper | Focused regression or contract test helper. |
@@ -507,7 +507,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_run_wp08_heartbeat_live_proof.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_run_wp08_local_polis_ssm_proof.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_run_wp08_polis_storage_live_proof.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_runtime_v3_cross_binary_generation.sh` | tool surface | historical evidence | Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing. |
 | `adl/tools/test_runtime_v3_generation_install.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_runtime_v3_operational_selector.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_rust_cache_env.sh` | tool surface | internal helper | Focused regression or contract test helper. |
@@ -675,11 +674,11 @@ Source skill directories only; installed skill admission is not inventoried here
 
 | Surface | Kind | Classification | Notes |
 | --- | --- | --- | --- |
-| `adl/tools/skills/arxiv-paper-writer` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
-| `adl/tools/skills/medium-article-writer` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
-| `adl/tools/skills/pr-closeout` | skill | primary | Primary skill in the governed issue/sprint lifecycle. |
-| `adl/tools/skills/pr-run` | skill | historical evidence | Partial historical ADL compatibility reference; use the selected native owner for current lifecycle commands. |
-| `adl/tools/skills/sprint-review` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
+| `adl/tools/arxiv-paper-writer` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
+| `adl/tools/medium-article-writer` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
+| `adl/tools/pr-closeout` | skill | primary | Primary skill in the governed issue/sprint lifecycle. |
+| `adl/tools/pr-run` | skill | historical evidence | Partial historical ADL compatibility reference; use the selected native owner for current lifecycle commands. |
+| `adl/tools/sprint-review` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
 
 ## Historical Evidence Artifacts
 
