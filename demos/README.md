@@ -161,9 +161,6 @@ Use these categories consistently:
   heavyweight validation or release-tail surfaces that are useful for review and ceremony work, but should not be treated as ordinary quick demos.
 
 Current heavyweight proof-package examples:
-- `bash adl/tools/demo_v0871_suite.sh`
-- `bash adl/tools/demo_v0871_quality_gate.sh`
-- `bash adl/tools/demo_v0871_release_review_package.sh`
 - `bash adl/tools/demo_v088_review_surface.sh`
 - `bash adl/tools/demo_v0891_quality_gate.sh`
 - `bash adl/tools/demo_v0891_wp13_demo_integration.sh`
@@ -182,14 +179,11 @@ When planning a demo sweep, do not assume every proof-package command above belo
 - `v0.87.1/codex_ollama_operational_skills_demo.md`
 - `v0.87.1/claude_chatgpt_multi_agent_discussion_demo.md`
 
-Use `bash adl/tools/demo_v0871_suite.sh` for the canonical WP-13 demo-suite
-entrypoint. It runs the currently implemented `v0.87.1` proof surfaces and
-writes a suite manifest at `artifacts/v0871/suite/demo_manifest.json`.
-
-Treat that suite as the current reviewer starting point for the milestone.
-It is a heavyweight reviewer proof package, not an ordinary quick demo.
-The live-provider D13L companion proof remains explicit and credential-gated
-rather than part of the default suite.
+The former WP-13 suite, quality gate and release-review aggregate are
+[historical contracts](../docs/tooling/V0871_HISTORICAL_AGGREGATE.md).
+Their source-tree lifecycle, trace and aggregate assertions were explicitly
+retired with the v1 execution route. Individual provider and multi-agent demos
+retain their separate execution requirements and are not newly qualified here.
 
 Use `v0.87.1/codex_ollama_operational_skills_demo.md` for a bounded demo that
 installs the tracked skills into a demo-local `CODEX_HOME`, points Codex CLI at

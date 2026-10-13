@@ -30,7 +30,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 9
 - `supported shim`: 0
-- `internal helper`: 569
+- `internal helper`: 552
 - `historical evidence`: 45
 - `archive candidate`: 0
 - `remove candidate`: 2
@@ -106,24 +106,12 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/demo_smoke_v07_story.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_steering_queue_checkpoint.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v086_control_path.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
-| `adl/tools/demo_v0871_docs_review.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
-| `adl/tools/demo_v0871_integrated_runtime.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
-| `adl/tools/demo_v0871_lifecycle.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v0871_multi_agent_discussion.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v0871_provider_chatgpt.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v0871_provider_http.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v0871_provider_local_ollama.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v0871_provider_mock.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
-| `adl/tools/demo_v0871_quality_gate.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v0871_real_multi_agent_discussion.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
-| `adl/tools/demo_v0871_release_review_package.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
-| `adl/tools/demo_v0871_resilience_failure.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
-| `adl/tools/demo_v0871_restartability.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
-| `adl/tools/demo_v0871_review_surface.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
-| `adl/tools/demo_v0871_runtime_environment.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
-| `adl/tools/demo_v0871_shepherd_recovery.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
-| `adl/tools/demo_v0871_suite.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
-| `adl/tools/demo_v0871_trace_runtime.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v087_operational_skills.sh` | tool surface | historical evidence | Historical bundle-install and inventory contract; original recursive acceptance remains separate from owner resource proof. |
 | `adl/tools/demo_v087_provider_portability.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v087_reviewer_package.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
@@ -370,10 +358,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_demo_v0871_provider_mock.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v0871_provider_parallel.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v0871_real_multi_agent_discussion.sh` | tool surface | historical evidence | Historical credentialed provider acceptance contract; five real calls remain unqualified. |
-| `adl/tools/test_demo_v0871_review_surface.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_demo_v0871_review_tail_rows.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_demo_v0871_runtime_rows.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_demo_v0871_suite.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v088_deep_agents_comparative_proof.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v088_instinct_review_surface.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v088_paper_sonata.sh` | tool surface | internal helper | Focused regression or contract test helper. |
@@ -566,7 +550,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/update_latest_reports.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/update_reports_index.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/uts_benchmark_runner.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
-| `adl/tools/v0871_demo_common.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/validate_architecture_docs.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_aws_runtime_platform_static.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_ci_workflow_policy.rb` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |

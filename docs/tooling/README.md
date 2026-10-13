@@ -131,7 +131,7 @@ Important repo-local tooling surfaces include:
   review validation; the removed `adl tooling` multiplexer is not an
   operational route.
 - `bash adl/tools/demo_v0871_operator_surface.sh` — canonical `v0.87.1` operator-surface demo for runtime bring-up and proof-surface inspection
-- `bash adl/tools/demo_v0871_review_surface.sh` — canonical `v0.87.1` reviewer walkthrough package across operator and runtime-state proof roots
+- [Historical v0.87.1 aggregate](V0871_HISTORICAL_AGGREGATE.md) — retired runtime reviewer walkthrough and aggregate assertion custody.
 - `bash adl/tools/run_validation_manager_nessus_lane.sh` — validation-manager
   wrapper that consumes one eligible local lane and routes it to the Nessus
   remote runner; see [Nessus Validation Manager Lane](NESSUS_VALIDATION_MANAGER_LANE.md)
@@ -176,13 +176,14 @@ Use `bash adl/tools/demo_v0871_operator_surface.sh` as the smallest repo-local p
 ## Runtime Review Surface
 
 For `v0.87.1`, the bounded runtime reviewer contract is:
-- one canonical walkthrough command via `bash adl/tools/demo_v0871_review_surface.sh`
+- a historical D8 walkthrough whose original command is retired; see [aggregate custody](V0871_HISTORICAL_AGGREGATE.md)
 - one canonical package manifest at `artifacts/v0871/review_surface/demo_manifest.json`
 - one canonical reviewer guide at `artifacts/v0871/review_surface/README.md`
 - one stable package ordering rooted in D6 operator proof and D7 runtime-state proof
 
-The historical review package requires a current direct validator before it can
-be advertised as an executable proof route.
+This historical review package is not an executable ADL proof route. Its original
+assertions remain in Git and retirement custody; owner component results do not
+qualify the retired aggregate.
 
 ## Notes
 

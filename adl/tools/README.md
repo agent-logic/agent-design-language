@@ -14,7 +14,7 @@ Keep behavioral and milestone narrative in canonical docs, not here.
 - `.adl/bin/csdlc-v2/`: retained owner binaries only for explicitly authorized rollback or bounded transition remediation.
 - Runtime owns `adl/tools/demo_v0871_operator_surface.sh`: the qualified mock operator-surface consumer is preserved there.
 - Runtime owns `adl/tools/demo_v0871_runtime_state.sh`: the qualified mock paused/completed persistence consumer is preserved there. Retained ADL aggregate callers require an absolute `RUNTIME_DEMO_SOURCE_ROOT` pointing to the reviewed complete Runtime checkout and the owner-required `ADL_RUNTIME_BIN`; missing source selection refuses before effects. This routing does not qualify the aggregate, live providers, or historical recovery expectations.
-- `demo_v0871_suite.sh`: canonical `v0.87.1` WP-13 demo-suite entrypoint for the implemented provider, operator, runtime-state, review-surface, and multi-agent proof surfaces.
+- The v0.87.1 WP-13 aggregate is retired; see [retired v0.87.1 aggregate contract](../../docs/tooling/V0871_HISTORICAL_AGGREGATE.md). Individual provider demos retain separate qualification obligations.
 - Historical compatibility-card link repair and bootstrap SOR materialization are retired. Use the selected native C-SDLC owner for current card operations; it does not restore the old duplicate-root/symlink contract.
 - `demo_v0871_multi_agent_discussion.sh`: canonical `v0.87.1` bounded multi-agent discussion proof wrapper for a five-turn Claude + ChatGPT runtime demo.
 - `demo_v0871_real_multi_agent_discussion.sh`: live-provider companion demo that calls real OpenAI and Anthropic APIs through a local ADL completion adapter using operator-managed keys; a missing-credentials skip in the paired test is a non-proving disposition, not live-provider proof.
@@ -72,8 +72,7 @@ bash adl/tools/demo_v0871_real_multi_agent_discussion.sh
 # validate the generated bounded multi-agent transcript artifact
 python3 adl/tools/validate_multi_agent_transcript.py artifacts/v0871/multi_agent_discussion/transcript.md
 
-# run the current v0.87.1 milestone demo-suite proof package
-bash adl/tools/demo_v0871_suite.sh
+# The v0.87.1 aggregate is historical; see docs/tooling/V0871_HISTORICAL_AGGREGATE.md
 
 # initialize through the semantic issue intent, then inspect through read-only owners
 .adl/bin/native-v3/csdlc prepare <issue> --plan <plan.json>
