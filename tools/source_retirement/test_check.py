@@ -167,5 +167,29 @@ class InventoryAndCustodyTests(unittest.TestCase):
                 check.ROOT = old_root
 
 
+class CodeFriendBatchTests(unittest.TestCase):
+    def setUp(self):
+        self.batch = check.committed_json(check.PACKET / 'CODEFRIEND_SIX_HELPER_APPLIED.json')
+        self.before = check.tree(check.CODEFRIEND_IMPLEMENTATION + '^')
+        self.after = check.tree(check.CODEFRIEND_IMPLEMENTATION)
+
+    def test_exact_batch_and_scope_refusal(self):
+        self.assertEqual(check.check_codefriend_batch(self.batch, self.before, self.after, set()),
+                         set(check.CODEFRIEND_REMOVALS.values()))
+        self.batch['removed'][0]['id'] = 'RD07-1288'
+        with self.assertRaisesRegex(ValueError, 'scope changed'):
+            check.check_codefriend_batch(self.batch, self.before, self.after, set())
+
+    def test_preimage_and_custody_refusal(self):
+        for kind in ('mode', 'archive_member_sha256'):
+            batch = copy.deepcopy(self.batch)
+            if kind == 'mode':
+                batch['removed'][0]['before']['mode'] = '100755'
+            else:
+                batch['removed'][0]['rollback'][kind] = '0' * 64
+            with self.assertRaisesRegex(ValueError, 'identity mismatch'):
+                check.check_codefriend_batch(batch, self.before, self.after, set())
+
+
 if __name__ == '__main__':
     unittest.main()

@@ -5,6 +5,7 @@ import hashlib
 import json
 from pathlib import Path
 import subprocess
+import tarfile
 
 ROOT = Path(__file__).resolve().parents[2]
 PACKET = Path('docs/milestones/v0.93.1/repository-decomposition/rd07-1223')
@@ -15,7 +16,7 @@ INVENTORY_SHA256 = 'a22fa6306245ddb3916cf4cb3021286a2d91ebfe77ca719eb7b1039d9f6d
 CAPTURED_IDENTITIES_SHA256 = 'e306e5a70ae7792fd2fef91449a0285d665126375a28c0dd05914724fe1bdebe'
 ARCHIVE_SHA256 = '12205043566913435c25ea414b1fd9148b46727821f7bfefd5d452cfe47a1c17'
 # Independently reviewed existing execution overlay; changing this pin requires review.
-EXECUTION_APPROVAL_SHA256 = 'd31f90405c620e500128433ecd59b29657ac89067e48d95724e3314a815439cb'
+EXECUTION_APPROVAL_SHA256 = 'd8dc1c33261321d88e0ddccba4d58c111c23ca2bbff2ebbd77feee1faa3aa8c9'
 COMPONENTS = ('infra/ddns', 'infra/aws/runtime/log-archive', 'infra/aws/runtime/agent-checkpoint-archive')
 PROTECTED = ('csdlc-v3/operator/authority-selector.json', 'csdlc-v3/operator/native-authority-receipt.json',
              'docs/templates/prompts/current.json', 'adl/tools/install_owner_binaries.sh',
@@ -235,6 +236,38 @@ def check_references(actual, allowed):
     require(not (set(actual) - set(allowed)), 'unclassified retained reference: ' + ', '.join(sorted(set(actual) - set(allowed))))
 
 
+
+CODEFRIEND_BATCH_SHA256 = '15b0314612954fff556a87c957baf60a73873d1535da7bc925b9abaca98dec1f'
+CODEFRIEND_IMPLEMENTATION = '40dd5b4ce90d6f5fc89db77501788ad30505a292'
+CODEFRIEND_REMOVALS = {
+    'RD07-1281': 'adl/tools/codefriend_drift_installed_proof.py',
+    'RD07-1286': 'adl/tools/codefriend_fitness_installed_proof.py',
+    'RD07-1287': 'adl/tools/codefriend_impact_installed_proof.py',
+    'RD07-1289': 'adl/tools/codefriend_palace_installed_proof.py',
+    'RD07-1290': 'adl/tools/codefriend_rationale_installed_proof.py',
+    'RD07-1291': 'adl/tools/codefriend_structure_installed_proof.py',
+}
+
+
+def check_codefriend_batch(batch, before_tree, after_tree, prior_removed):
+    rows = batch['removed']
+    require(len(rows) == 6 and {r['id']: r['path'] for r in rows} == CODEFRIEND_REMOVALS,
+            'CodeFriend removal scope changed')
+    paths = {r['path'] for r in rows}
+    require(not paths.intersection(prior_removed), 'CodeFriend batch overlaps prior removals')
+    require(batch['rollback_archive']['sha256'] == ARCHIVE_SHA256, 'CodeFriend archive changed')
+    for row in rows:
+        path, before = row['path'], row['before']
+        require(before_tree.get(path) == [before['mode'], before['blob']] and
+                row['after'] is None and path not in after_tree, 'CodeFriend applied identity mismatch')
+        custody = row['rollback']
+        require(custody['archive_member'] == 'source/' + path and
+                custody['archive_member_sha256'] == before['sha256'] and
+                custody['current_bytes_match_archive'] is True and not custody['supplement_required'],
+                'CodeFriend rollback identity mismatch')
+    return paths
+
+
 def run():
     ledger = committed_json(PACKET / 'DISPOSITION_REGISTER.json')
     observed = tree(ledger['observed_main'])
@@ -256,6 +289,13 @@ def run():
     require([r['path'] for r in cutover['paths'] if r['action'] == 'delete'] == [extra], 'public cutover deletion scope changed')
     require(extra not in tree(cutover['implementation_commit']) and extra in tree(cutover['base_head']), 'cutover removal custody mismatch')
     removed.add(extra)
+    batch_bytes = committed_bytes(PACKET / 'CODEFRIEND_SIX_HELPER_APPLIED.json')
+    require(hashlib.sha256(batch_bytes).hexdigest() == CODEFRIEND_BATCH_SHA256,
+            'CodeFriend applied packet changed')
+    batch = json.loads(batch_bytes)
+    removed.update(check_codefriend_batch(batch, tree(CODEFRIEND_IMPLEMENTATION + '^'),
+                                         tree(CODEFRIEND_IMPLEMENTATION), removed))
+    require(len(removed) == 77, 'executed removal count changed')
     overlay_bytes = committed_bytes(PACKET / 'EXECUTION_OVERLAY.json')
     overlay = json.loads(overlay_bytes)
     require(overlay['status'] == 'complete' and not overlay['missing_entries'],
@@ -272,7 +312,15 @@ def run():
         if path.startswith('.csdlc/') and not path.startswith(('.csdlc/issues/1223/', '.csdlc/v3/issues/1223/', '.csdlc/evidence/1223/', '.csdlc/transactions/')):
             require(candidate.get(path) == identity, 'historical lifecycle evidence changed: ' + path)
     metadata = Path(git('rev-parse', '--path-format=absolute', '--git-common-dir'))
-    check_rollback(metadata / 'csdlc-v3/local/evidence/1223/retirement/baseline.tar.gz')
+    archive_path = metadata / 'csdlc-v3/local/evidence/1223/retirement/baseline.tar.gz'
+    check_rollback(archive_path)
+    with tarfile.open(archive_path, 'r:gz') as archive:
+        for row in batch['removed']:
+            member = archive.getmember(row['rollback']['archive_member'])
+            require(member.isfile() and member.mode == int(row['rollback']['mode'], 8),
+                    'CodeFriend archive member mode changed')
+            require(hashlib.sha256(archive.extractfile(member).read()).hexdigest() == row['before']['sha256'],
+                    'CodeFriend archive member bytes changed')
     scanned = {}
     for component in COMPONENTS:
         names = ('RETIREMENT_BATCH_01_DDNS', 'RETIREMENT_BATCH_02_LOG_ARCHIVE',
@@ -302,7 +350,7 @@ def run():
         check_references(refs, allowed)
         scanned[component] = len(refs)
     return {'schema': 'adl.source_retirement.guard.v1', 'status': 'passed', 'head': git('rev-parse', 'HEAD'),
-            'candidate_rows': 4134, 'existing_branch_removals': 34, 'approved_component_removals': 36, 'public_cutover_removals': 1, 'additional_inventory_paths': 22, 'total_removals': len(removed), 'direct_reference_files': scanned,
+            'candidate_rows': 4134, 'existing_branch_removals': 34, 'approved_component_removals': 36, 'public_cutover_removals': 1, 'codefriend_helper_removals': 6, 'additional_inventory_paths': 22, 'total_removals': len(removed), 'direct_reference_files': scanned,
             'limits': ['Preparation guard only; no new deletion approval.',
                        'Direct component-path references only; dynamic and indirect consumers still require review.',
                        'Rollback digest is checked separately from functional restore and installed product proof.',

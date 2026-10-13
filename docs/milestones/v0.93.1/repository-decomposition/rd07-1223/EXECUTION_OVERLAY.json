@@ -6,7 +6,7 @@
   "execution_authorized": false,
   "original_inventory_count": 4134,
   "additional_inventory_count": 22,
-  "executed_deletion_count": 71,
+  "executed_deletion_count": 77,
   "entries": [
     {
       "path": ".github/workflows/ci.yaml",
@@ -1388,12 +1388,27 @@
       "before": null,
       "after": [
         "100644",
-        "9e6dae1ee100b09ca30fcfd826fcc9ea2cebd926"
+        "e03e51c548962f13fe5ad48247e3e1d7f6da1ba6"
       ],
       "implementation_commit": "6030a16305699af338e41c27f2abcac893c078f3",
       "approval_reference": "PUBLIC_WORKSPACE_CLOSURE.json",
       "review_reference": "review_1223_applied_components six-file PASS",
-      "source_chain_reference": "PUBLIC_WORKSPACE_CLOSURE.json:tools/source_retirement/README.md"
+      "source_chain_reference": "PUBLIC_WORKSPACE_CLOSURE.json:tools/source_retirement/README.md",
+      "supplemental_source_chain": [
+        {
+          "status": "pending independent review and parent commit",
+          "source_before_commit": "738e94575a2fc30cc8970bb79586ac570b293887",
+          "before": [
+            "100644",
+            "9e6dae1ee100b09ca30fcfd826fcc9ea2cebd926"
+          ],
+          "after": [
+            "100644",
+            "e03e51c548962f13fe5ad48247e3e1d7f6da1ba6"
+          ],
+          "reason": "Document exact reviewed six-helper removal boundary and preserve historical counts."
+        }
+      ]
     },
     {
       "path": "adl/src/lib.rs",
@@ -1440,6 +1455,466 @@
       "prior_reviewed_identity": [
         "100644",
         "c4b00fe6c63a04eaba08eb33c3fc0085a2db8b03"
+      ]
+    },
+    {
+      "path": "adl/tools/codefriend_drift_installed_proof.py",
+      "action": "remove",
+      "before": [
+        "100644",
+        "cbf71010ed4aacb5abc3d8eb38ca35add821d7db"
+      ],
+      "after": null,
+      "implementation_commit": "40dd5b4ce90d6f5fc89db77501788ad30505a292",
+      "approval_reference": "CODEFRIEND_SIX_HELPER_APPLIED.json",
+      "review_reference": "review_1223_applied_components exact six removals and eight callers PASS",
+      "source_chain": [
+        {
+          "commit": "40dd5b4ce90d6f5fc89db77501788ad30505a292",
+          "before": [
+            "100644",
+            "cbf71010ed4aacb5abc3d8eb38ca35add821d7db"
+          ],
+          "after": null
+        }
+      ],
+      "rollback_custody": {
+        "archive": {
+          "git_common_relative": "csdlc-v3/local/evidence/1223/retirement/baseline.tar.gz",
+          "sha256": "12205043566913435c25ea414b1fd9148b46727821f7bfefd5d452cfe47a1c17"
+        },
+        "archive_member": "source/adl/tools/codefriend_drift_installed_proof.py",
+        "mode": "0o644",
+        "current_bytes_match_archive": true,
+        "archive_member_sha256": "da8df42fb40eff9e8c4fa730aeb94c6e5a5756642eeb245b238a99d029bc5193",
+        "supplement_required": false
+      }
+    },
+    {
+      "path": "adl/tools/codefriend_fitness_installed_proof.py",
+      "action": "remove",
+      "before": [
+        "100644",
+        "a42e45502097b519c156a4268bdf50498e708c6a"
+      ],
+      "after": null,
+      "implementation_commit": "40dd5b4ce90d6f5fc89db77501788ad30505a292",
+      "approval_reference": "CODEFRIEND_SIX_HELPER_APPLIED.json",
+      "review_reference": "review_1223_applied_components exact six removals and eight callers PASS",
+      "source_chain": [
+        {
+          "commit": "40dd5b4ce90d6f5fc89db77501788ad30505a292",
+          "before": [
+            "100644",
+            "a42e45502097b519c156a4268bdf50498e708c6a"
+          ],
+          "after": null
+        }
+      ],
+      "rollback_custody": {
+        "archive": {
+          "git_common_relative": "csdlc-v3/local/evidence/1223/retirement/baseline.tar.gz",
+          "sha256": "12205043566913435c25ea414b1fd9148b46727821f7bfefd5d452cfe47a1c17"
+        },
+        "archive_member": "source/adl/tools/codefriend_fitness_installed_proof.py",
+        "mode": "0o644",
+        "current_bytes_match_archive": true,
+        "archive_member_sha256": "3c418a3997b7608793154226f4a9aa10a729705c73ac49b5d0a70488118d630d",
+        "supplement_required": false
+      }
+    },
+    {
+      "path": "adl/tools/codefriend_impact_installed_proof.py",
+      "action": "remove",
+      "before": [
+        "100644",
+        "961e2b9a6540b0879850e65ca737c27ffc800856"
+      ],
+      "after": null,
+      "implementation_commit": "40dd5b4ce90d6f5fc89db77501788ad30505a292",
+      "approval_reference": "CODEFRIEND_SIX_HELPER_APPLIED.json",
+      "review_reference": "review_1223_applied_components exact six removals and eight callers PASS",
+      "source_chain": [
+        {
+          "commit": "40dd5b4ce90d6f5fc89db77501788ad30505a292",
+          "before": [
+            "100644",
+            "961e2b9a6540b0879850e65ca737c27ffc800856"
+          ],
+          "after": null
+        }
+      ],
+      "rollback_custody": {
+        "archive": {
+          "git_common_relative": "csdlc-v3/local/evidence/1223/retirement/baseline.tar.gz",
+          "sha256": "12205043566913435c25ea414b1fd9148b46727821f7bfefd5d452cfe47a1c17"
+        },
+        "archive_member": "source/adl/tools/codefriend_impact_installed_proof.py",
+        "mode": "0o644",
+        "current_bytes_match_archive": true,
+        "archive_member_sha256": "c3f7f878e394d8ea6046334b4cab85cce7ae55247b78cea924a5f7aba782de6c",
+        "supplement_required": false
+      }
+    },
+    {
+      "path": "adl/tools/codefriend_palace_installed_proof.py",
+      "action": "remove",
+      "before": [
+        "100644",
+        "9fa185f52404e5c4949e97fd4783f7535c2f8c0e"
+      ],
+      "after": null,
+      "implementation_commit": "40dd5b4ce90d6f5fc89db77501788ad30505a292",
+      "approval_reference": "CODEFRIEND_SIX_HELPER_APPLIED.json",
+      "review_reference": "review_1223_applied_components exact six removals and eight callers PASS",
+      "source_chain": [
+        {
+          "commit": "40dd5b4ce90d6f5fc89db77501788ad30505a292",
+          "before": [
+            "100644",
+            "9fa185f52404e5c4949e97fd4783f7535c2f8c0e"
+          ],
+          "after": null
+        }
+      ],
+      "rollback_custody": {
+        "archive": {
+          "git_common_relative": "csdlc-v3/local/evidence/1223/retirement/baseline.tar.gz",
+          "sha256": "12205043566913435c25ea414b1fd9148b46727821f7bfefd5d452cfe47a1c17"
+        },
+        "archive_member": "source/adl/tools/codefriend_palace_installed_proof.py",
+        "mode": "0o644",
+        "current_bytes_match_archive": true,
+        "archive_member_sha256": "daa9351f24ce8b114a92bac9f85a6672993f52a8fc1fc1f1668b011f3833ee8b",
+        "supplement_required": false
+      }
+    },
+    {
+      "path": "adl/tools/codefriend_rationale_installed_proof.py",
+      "action": "remove",
+      "before": [
+        "100644",
+        "ac0d2f8ed1c46d4b1e06727a8a79dbd93c63e9a3"
+      ],
+      "after": null,
+      "implementation_commit": "40dd5b4ce90d6f5fc89db77501788ad30505a292",
+      "approval_reference": "CODEFRIEND_SIX_HELPER_APPLIED.json",
+      "review_reference": "review_1223_applied_components exact six removals and eight callers PASS",
+      "source_chain": [
+        {
+          "commit": "40dd5b4ce90d6f5fc89db77501788ad30505a292",
+          "before": [
+            "100644",
+            "ac0d2f8ed1c46d4b1e06727a8a79dbd93c63e9a3"
+          ],
+          "after": null
+        }
+      ],
+      "rollback_custody": {
+        "archive": {
+          "git_common_relative": "csdlc-v3/local/evidence/1223/retirement/baseline.tar.gz",
+          "sha256": "12205043566913435c25ea414b1fd9148b46727821f7bfefd5d452cfe47a1c17"
+        },
+        "archive_member": "source/adl/tools/codefriend_rationale_installed_proof.py",
+        "mode": "0o644",
+        "current_bytes_match_archive": true,
+        "archive_member_sha256": "5ecf0004e366aabb87141e96c95cb1b949d3cfd0ea31a164dd4c9d45e831094e",
+        "supplement_required": false
+      }
+    },
+    {
+      "path": "adl/tools/codefriend_structure_installed_proof.py",
+      "action": "remove",
+      "before": [
+        "100644",
+        "697fc50ad9d68e4e0032c3f066f39847f2f88bc2"
+      ],
+      "after": null,
+      "implementation_commit": "40dd5b4ce90d6f5fc89db77501788ad30505a292",
+      "approval_reference": "CODEFRIEND_SIX_HELPER_APPLIED.json",
+      "review_reference": "review_1223_applied_components exact six removals and eight callers PASS",
+      "source_chain": [
+        {
+          "commit": "40dd5b4ce90d6f5fc89db77501788ad30505a292",
+          "before": [
+            "100644",
+            "697fc50ad9d68e4e0032c3f066f39847f2f88bc2"
+          ],
+          "after": null
+        }
+      ],
+      "rollback_custody": {
+        "archive": {
+          "git_common_relative": "csdlc-v3/local/evidence/1223/retirement/baseline.tar.gz",
+          "sha256": "12205043566913435c25ea414b1fd9148b46727821f7bfefd5d452cfe47a1c17"
+        },
+        "archive_member": "source/adl/tools/codefriend_structure_installed_proof.py",
+        "mode": "0o644",
+        "current_bytes_match_archive": true,
+        "archive_member_sha256": "6427cb011566ab74a28f2d1a429847941da13f48be8edeb00c5e02d93a609009",
+        "supplement_required": false
+      }
+    },
+    {
+      "path": "adl/tests/fixtures/codefriend/drift/PVF.json",
+      "action": "modify",
+      "before": [
+        "100644",
+        "2dff0b263497944f24605a2331117af576357f05"
+      ],
+      "after": [
+        "100644",
+        "af5685ee643f577cd1891ddb730bae5931322b27"
+      ],
+      "implementation_commit": "40dd5b4ce90d6f5fc89db77501788ad30505a292",
+      "approval_reference": "CODEFRIEND_SIX_HELPER_APPLIED.json",
+      "review_reference": "review_1223_applied_components exact six removals and eight callers PASS",
+      "source_chain": [
+        {
+          "commit": "40dd5b4ce90d6f5fc89db77501788ad30505a292",
+          "before": [
+            "100644",
+            "2dff0b263497944f24605a2331117af576357f05"
+          ],
+          "after": [
+            "100644",
+            "af5685ee643f577cd1891ddb730bae5931322b27"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "adl/tests/fixtures/codefriend/impact/PVF.json",
+      "action": "modify",
+      "before": [
+        "100644",
+        "4100a41132bbaa87e4b33c0a65ad3a20cf98f800"
+      ],
+      "after": [
+        "100644",
+        "fc16a9189eaf948d2301ff0e9b0ec5d4159d9617"
+      ],
+      "implementation_commit": "40dd5b4ce90d6f5fc89db77501788ad30505a292",
+      "approval_reference": "CODEFRIEND_SIX_HELPER_APPLIED.json",
+      "review_reference": "review_1223_applied_components exact six removals and eight callers PASS",
+      "source_chain": [
+        {
+          "commit": "40dd5b4ce90d6f5fc89db77501788ad30505a292",
+          "before": [
+            "100644",
+            "4100a41132bbaa87e4b33c0a65ad3a20cf98f800"
+          ],
+          "after": [
+            "100644",
+            "fc16a9189eaf948d2301ff0e9b0ec5d4159d9617"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "adl/tests/fixtures/codefriend/palace/PVF.json",
+      "action": "modify",
+      "before": [
+        "100644",
+        "dbc9e0660d88b75e1bf00a9594124ac0bd7e3baf"
+      ],
+      "after": [
+        "100644",
+        "566da116c27b3d5c325d002eb161de6d9a21a0f9"
+      ],
+      "implementation_commit": "40dd5b4ce90d6f5fc89db77501788ad30505a292",
+      "approval_reference": "CODEFRIEND_SIX_HELPER_APPLIED.json",
+      "review_reference": "review_1223_applied_components exact six removals and eight callers PASS",
+      "source_chain": [
+        {
+          "commit": "40dd5b4ce90d6f5fc89db77501788ad30505a292",
+          "before": [
+            "100644",
+            "dbc9e0660d88b75e1bf00a9594124ac0bd7e3baf"
+          ],
+          "after": [
+            "100644",
+            "566da116c27b3d5c325d002eb161de6d9a21a0f9"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "adl/tests/fixtures/codefriend/rationale/PVF.json",
+      "action": "modify",
+      "before": [
+        "100644",
+        "c463e861a508dfa450af6ce41a14626169769e98"
+      ],
+      "after": [
+        "100644",
+        "9111d3a8ad07ab5baf3d8388df6373fffd0eb74f"
+      ],
+      "implementation_commit": "40dd5b4ce90d6f5fc89db77501788ad30505a292",
+      "approval_reference": "CODEFRIEND_SIX_HELPER_APPLIED.json",
+      "review_reference": "review_1223_applied_components exact six removals and eight callers PASS",
+      "source_chain": [
+        {
+          "commit": "40dd5b4ce90d6f5fc89db77501788ad30505a292",
+          "before": [
+            "100644",
+            "c463e861a508dfa450af6ce41a14626169769e98"
+          ],
+          "after": [
+            "100644",
+            "9111d3a8ad07ab5baf3d8388df6373fffd0eb74f"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "docs/codefriend/CHANGE_IMPACT.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "a095a6dd5001c088aecaf2361cac4b7e6121f5ba"
+      ],
+      "after": [
+        "100644",
+        "0187ae5ed39947ce7f73f253eb34cbb925f2b162"
+      ],
+      "implementation_commit": "40dd5b4ce90d6f5fc89db77501788ad30505a292",
+      "approval_reference": "CODEFRIEND_SIX_HELPER_APPLIED.json",
+      "review_reference": "review_1223_applied_components exact six removals and eight callers PASS",
+      "source_chain": [
+        {
+          "commit": "40dd5b4ce90d6f5fc89db77501788ad30505a292",
+          "before": [
+            "100644",
+            "a095a6dd5001c088aecaf2361cac4b7e6121f5ba"
+          ],
+          "after": [
+            "100644",
+            "0187ae5ed39947ce7f73f253eb34cbb925f2b162"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "docs/codefriend/LOCAL_FITNESS_PROOF_INVENTORY.json",
+      "action": "modify",
+      "before": [
+        "100644",
+        "900dc7d104913ef79098eef7f7f94206faf68df0"
+      ],
+      "after": [
+        "100644",
+        "8fc6178286747889eddf9d84e2cfc9412ea0fd3e"
+      ],
+      "implementation_commit": "40dd5b4ce90d6f5fc89db77501788ad30505a292",
+      "approval_reference": "CODEFRIEND_SIX_HELPER_APPLIED.json",
+      "review_reference": "review_1223_applied_components exact six removals and eight callers PASS",
+      "source_chain": [
+        {
+          "commit": "40dd5b4ce90d6f5fc89db77501788ad30505a292",
+          "before": [
+            "100644",
+            "900dc7d104913ef79098eef7f7f94206faf68df0"
+          ],
+          "after": [
+            "100644",
+            "8fc6178286747889eddf9d84e2cfc9412ea0fd3e"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "docs/codefriend/MEMORY_PALACE.md",
+      "action": "modify",
+      "before": [
+        "100644",
+        "ff4d6b3233be6b9956f739e6403d131cfd349094"
+      ],
+      "after": [
+        "100644",
+        "b1f03f0f71242a2746c8f91bb5e2d4a7a62c8434"
+      ],
+      "implementation_commit": "40dd5b4ce90d6f5fc89db77501788ad30505a292",
+      "approval_reference": "CODEFRIEND_SIX_HELPER_APPLIED.json",
+      "review_reference": "review_1223_applied_components exact six removals and eight callers PASS",
+      "source_chain": [
+        {
+          "commit": "40dd5b4ce90d6f5fc89db77501788ad30505a292",
+          "before": [
+            "100644",
+            "ff4d6b3233be6b9956f739e6403d131cfd349094"
+          ],
+          "after": [
+            "100644",
+            "b1f03f0f71242a2746c8f91bb5e2d4a7a62c8434"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "action": "add",
+      "before": null,
+      "after": [
+        "100644",
+        "eff5d80e20903d0ee0bf5188bb95088b7f31e5ef"
+      ],
+      "implementation_commit": "40dd5b4ce90d6f5fc89db77501788ad30505a292",
+      "approval_reference": "CODEFRIEND_SIX_HELPER_APPLIED.json",
+      "review_reference": "review_1223_applied_components exact six removals and eight callers PASS",
+      "source_chain": [
+        {
+          "commit": "387ca92b99f04cd9f73c45d23711fa9cfecccaae",
+          "before": null,
+          "after": [
+            "100644",
+            "28d88727232f7634acd16bf6b2c75792512fb192"
+          ]
+        },
+        {
+          "commit": "8ae73ceccf87e8aa99aab21854e18fc2a41a2bdf",
+          "before": [
+            "100644",
+            "28d88727232f7634acd16bf6b2c75792512fb192"
+          ],
+          "after": [
+            "100644",
+            "5e11d09534cc42680cabf5a5f9a68fa16eff0b61"
+          ]
+        },
+        {
+          "commit": "5edd4bf7452227fbfa83e990ffd496baeba6a3c0",
+          "before": [
+            "100644",
+            "5e11d09534cc42680cabf5a5f9a68fa16eff0b61"
+          ],
+          "after": [
+            "100644",
+            "348839ac6aab7fb69fc9820d76d53aed3e6ab9e4"
+          ]
+        },
+        {
+          "commit": "d1a18b5758a80ffcfa6acce0be436637e4c76e0d",
+          "before": [
+            "100644",
+            "348839ac6aab7fb69fc9820d76d53aed3e6ab9e4"
+          ],
+          "after": [
+            "100644",
+            "d93a263899bc94af09e9013b8d57b164bca64d80"
+          ]
+        },
+        {
+          "commit": "40dd5b4ce90d6f5fc89db77501788ad30505a292",
+          "before": [
+            "100644",
+            "d93a263899bc94af09e9013b8d57b164bca64d80"
+          ],
+          "after": [
+            "100644",
+            "eff5d80e20903d0ee0bf5188bb95088b7f31e5ef"
+          ]
+        }
       ]
     }
   ],
@@ -5461,7 +5936,87 @@
       "archive_member_readback_matches": true,
       "execution": false,
       "limits": "Create-only supplemental source archive and readback; not behavioral execution or independent storage backup."
-    }
+    },
+    "codefriend_six_helpers": [
+      {
+        "path": "adl/tools/codefriend_drift_installed_proof.py",
+        "before": {
+          "mode": "100644",
+          "blob": "cbf71010ed4aacb5abc3d8eb38ca35add821d7db",
+          "sha256": "da8df42fb40eff9e8c4fa730aeb94c6e5a5756642eeb245b238a99d029bc5193"
+        },
+        "archive_member": "source/adl/tools/codefriend_drift_installed_proof.py",
+        "mode": "0o644",
+        "current_bytes_match_archive": true,
+        "archive_member_sha256": "da8df42fb40eff9e8c4fa730aeb94c6e5a5756642eeb245b238a99d029bc5193",
+        "supplement_required": false
+      },
+      {
+        "path": "adl/tools/codefriend_fitness_installed_proof.py",
+        "before": {
+          "mode": "100644",
+          "blob": "a42e45502097b519c156a4268bdf50498e708c6a",
+          "sha256": "3c418a3997b7608793154226f4a9aa10a729705c73ac49b5d0a70488118d630d"
+        },
+        "archive_member": "source/adl/tools/codefriend_fitness_installed_proof.py",
+        "mode": "0o644",
+        "current_bytes_match_archive": true,
+        "archive_member_sha256": "3c418a3997b7608793154226f4a9aa10a729705c73ac49b5d0a70488118d630d",
+        "supplement_required": false
+      },
+      {
+        "path": "adl/tools/codefriend_impact_installed_proof.py",
+        "before": {
+          "mode": "100644",
+          "blob": "961e2b9a6540b0879850e65ca737c27ffc800856",
+          "sha256": "c3f7f878e394d8ea6046334b4cab85cce7ae55247b78cea924a5f7aba782de6c"
+        },
+        "archive_member": "source/adl/tools/codefriend_impact_installed_proof.py",
+        "mode": "0o644",
+        "current_bytes_match_archive": true,
+        "archive_member_sha256": "c3f7f878e394d8ea6046334b4cab85cce7ae55247b78cea924a5f7aba782de6c",
+        "supplement_required": false
+      },
+      {
+        "path": "adl/tools/codefriend_palace_installed_proof.py",
+        "before": {
+          "mode": "100644",
+          "blob": "9fa185f52404e5c4949e97fd4783f7535c2f8c0e",
+          "sha256": "daa9351f24ce8b114a92bac9f85a6672993f52a8fc1fc1f1668b011f3833ee8b"
+        },
+        "archive_member": "source/adl/tools/codefriend_palace_installed_proof.py",
+        "mode": "0o644",
+        "current_bytes_match_archive": true,
+        "archive_member_sha256": "daa9351f24ce8b114a92bac9f85a6672993f52a8fc1fc1f1668b011f3833ee8b",
+        "supplement_required": false
+      },
+      {
+        "path": "adl/tools/codefriend_rationale_installed_proof.py",
+        "before": {
+          "mode": "100644",
+          "blob": "ac0d2f8ed1c46d4b1e06727a8a79dbd93c63e9a3",
+          "sha256": "5ecf0004e366aabb87141e96c95cb1b949d3cfd0ea31a164dd4c9d45e831094e"
+        },
+        "archive_member": "source/adl/tools/codefriend_rationale_installed_proof.py",
+        "mode": "0o644",
+        "current_bytes_match_archive": true,
+        "archive_member_sha256": "5ecf0004e366aabb87141e96c95cb1b949d3cfd0ea31a164dd4c9d45e831094e",
+        "supplement_required": false
+      },
+      {
+        "path": "adl/tools/codefriend_structure_installed_proof.py",
+        "before": {
+          "mode": "100644",
+          "blob": "697fc50ad9d68e4e0032c3f066f39847f2f88bc2",
+          "sha256": "6427cb011566ab74a28f2d1a429847941da13f48be8edeb00c5e02d93a609009"
+        },
+        "archive_member": "source/adl/tools/codefriend_structure_installed_proof.py",
+        "mode": "0o644",
+        "current_bytes_match_archive": true,
+        "archive_member_sha256": "6427cb011566ab74a28f2d1a429847941da13f48be8edeb00c5e02d93a609009",
+        "supplement_required": false
+      }
+    ]
   },
   "independent_subset_review": {
     "reviewer": "review_1223_public_facade",
@@ -5533,6 +6088,30 @@
       ],
       "reviewer": "review_1223_public_facade",
       "verdict": "PASS"
+    },
+    {
+      "packet": "CODEFRIEND_SIX_HELPER_APPLIED.json",
+      "sha256": "15b0314612954fff556a87c957baf60a73873d1535da7bc925b9abaca98dec1f",
+      "implementation_commit": "40dd5b4ce90d6f5fc89db77501788ad30505a292",
+      "paths": [
+        "adl/tools/codefriend_drift_installed_proof.py",
+        "adl/tools/codefriend_fitness_installed_proof.py",
+        "adl/tools/codefriend_impact_installed_proof.py",
+        "adl/tools/codefriend_palace_installed_proof.py",
+        "adl/tools/codefriend_rationale_installed_proof.py",
+        "adl/tools/codefriend_structure_installed_proof.py",
+        "adl/tests/fixtures/codefriend/drift/PVF.json",
+        "adl/tests/fixtures/codefriend/impact/PVF.json",
+        "adl/tests/fixtures/codefriend/palace/PVF.json",
+        "adl/tests/fixtures/codefriend/rationale/PVF.json",
+        "docs/codefriend/CHANGE_IMPACT.md",
+        "docs/codefriend/LOCAL_FITNESS_PROOF_INVENTORY.json",
+        "docs/codefriend/MEMORY_PALACE.md",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ],
+      "reviewer": "review_1223_applied_components",
+      "verdict": "PASS",
+      "boundary": "Six existing reviewed removals and eight caller changes only; broader proposals remain conditional."
     }
   ]
 }

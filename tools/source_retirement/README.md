@@ -4,7 +4,12 @@ The immutable original register preserves 4,134 ordered identities. The current
 combined ledger classifies those same rows and 22 additional paths separately.
 Conditional proposals never authorize deletion. The executed boundary is 34
 original removals, 36 approved component removals, and one public-cutover removal:
-`RD07-2113 adl/tools/test_select_validation_lanes.sh` (71 total).
+`RD07-2113 adl/tools/test_select_validation_lanes.sh` (71 historical total), plus
+six reviewed CodeFriend helper removals (77 executed removals total).
+`CODEFRIEND_SIX_HELPER_APPLIED.json` pins those six IDs, their exact preimages,
+commit `40dd5b4ce90d6f5fc89db77501788ad30505a292`, and baseline archive members.
+Its eight caller repairs preserve historical assertions and qualified owner routing.
+The wider CodeFriend proposals remain conditional.
 
 `check.py` reads committed Git objects, including approval packets. It verifies
 original identities, combined counts, disjoint held groups, exact executed deletion
@@ -19,6 +24,9 @@ rollback custody. The supplemental five-file public caller repair extends the
 overlay to 78 paths; its exact before/after identities and review are recorded
 in `PUBLIC_OWNER_CALLER_REPAIR.json`. Its 38 original public
 cutover entries preserve actual applied hashes, separately from prepared hashes.
+Later supplemental reviews preserve the intervening source chains. The six-helper
+batch adds six explicit removal entries and reconciles eight caller identities
+without replacing the original baseline or earlier review records.
 The completed manifest is pinned by `EXECUTION_APPROVAL_SHA256` in the guard.
 
 The overlay admits only these existing reviewed changes. Conditional proposals

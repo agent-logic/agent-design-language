@@ -7,8 +7,8 @@
   "original_count": 4134,
   "counts": {
     "retain_resolved": 527,
-    "proposed_owner_transfer_with_consumer_qualification": 516,
-    "preserve_approved_removal": 70,
+    "proposed_owner_transfer_with_consumer_qualification": 510,
+    "preserve_approved_removal": 76,
     "proposed_remove_with_entire_source_family": 1874,
     "retain_public_source_or_fixture": 124,
     "preserve_reviewed_consumer_repair": 18,
@@ -19,7 +19,7 @@
     "proposed_remove_construction_qualified_infrastructure": 216
   },
   "additional_current_source_paths": 22,
-  "preservation": "Original inventory and baseline archive unchanged;70 prior approved removals preserved; no new deletion applied",
+  "preservation": "Original inventory and baseline archive unchanged; 70 prior approved removals plus six reviewed CodeFriend helper removals classified preserve_approved_removal. The separately recorded public-cutover removal RD07-2113 preserves its reviewed consumer-repair classification; total executed deletions 77. Other proposals remain conditional.",
   "review_boundary": "Exact paths and Git identities are pinned. Proposed removals remain conditional; this is not a claim that caller closure or all successor tests are qualified.",
   "known_prerequisites": {
     "codefriend": "Issue102 e14ff1b08b7ef01f838404bca8ecdf47c1318ac1 passed all39suites409Linux tests,0failed0ignored,174.293s; exacthead and clean source before/after. Evidence FastWork c1223/evidence/codefriend/issue102-e14ff1b0-full, transcriptSHA256c7944f7e0403ba485b377868b1bd85e91eeee0ecce3f79920de3e86c813cfa1a. Focused1 and parallel47 diagnostics also passed; prior dc2 redelivery failure did not reproduce and its cause is not claimed fixed. Earlier failures retained. One macOS-only case, actual hosted installed-acquisition CI proof and owner publication remain separate.",
@@ -29894,12 +29894,8 @@
         "blob": "cbf71010ed4aacb5abc3d8eb38ca35add821d7db"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "coherent caller and component disposition",
-        "scoped_operator_decision",
-        "retain original preservation and rollback evidence"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
@@ -29922,7 +29918,22 @@
         "status": "original_installed_consumer_passed",
         "review": "Independent bounded evidence review PASS; QUALIFICATION_REVIEW.json retained with source evidence."
       },
-      "historical_hold_reason": "hold_no_proven_current_successor_mapping"
+      "historical_hold_reason": "hold_no_proven_current_successor_mapping",
+      "prior_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "coherent caller and component disposition",
+          "scoped_operator_decision",
+          "retain original preservation and rollback evidence"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CODEFRIEND_SIX_HELPER_APPLIED.json",
+        "sha256": "15b0314612954fff556a87c957baf60a73873d1535da7bc925b9abaca98dec1f",
+        "implementation_commit": "40dd5b4ce90d6f5fc89db77501788ad30505a292",
+        "reviewer": "review_1223_applied_components",
+        "authorization_interpretation": "Renewed bounded local implementation; no broader proposal authorization."
+      }
     },
     {
       "id": "RD07-1282",
@@ -30024,12 +30035,8 @@
         "blob": "a42e45502097b519c156a4268bdf50498e708c6a"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "coherent caller and component disposition",
-        "scoped_operator_decision",
-        "retain original preservation and rollback evidence"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
@@ -30052,7 +30059,22 @@
         "status": "original_installed_consumer_passed",
         "review": "Independent bounded evidence review PASS; QUALIFICATION_REVIEW.json retained with source evidence."
       },
-      "historical_hold_reason": "hold_no_proven_current_successor_mapping"
+      "historical_hold_reason": "hold_no_proven_current_successor_mapping",
+      "prior_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "coherent caller and component disposition",
+          "scoped_operator_decision",
+          "retain original preservation and rollback evidence"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CODEFRIEND_SIX_HELPER_APPLIED.json",
+        "sha256": "15b0314612954fff556a87c957baf60a73873d1535da7bc925b9abaca98dec1f",
+        "implementation_commit": "40dd5b4ce90d6f5fc89db77501788ad30505a292",
+        "reviewer": "review_1223_applied_components",
+        "authorization_interpretation": "Renewed bounded local implementation; no broader proposal authorization."
+      }
     },
     {
       "id": "RD07-1287",
@@ -30064,12 +30086,8 @@
         "blob": "961e2b9a6540b0879850e65ca737c27ffc800856"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "coherent caller and component disposition",
-        "scoped_operator_decision",
-        "retain original preservation and rollback evidence"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
@@ -30092,7 +30110,22 @@
         "status": "original_installed_consumer_passed",
         "review": "Independent bounded evidence review PASS; QUALIFICATION_REVIEW.json retained with source evidence."
       },
-      "historical_hold_reason": "hold_no_proven_current_successor_mapping"
+      "historical_hold_reason": "hold_no_proven_current_successor_mapping",
+      "prior_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "coherent caller and component disposition",
+          "scoped_operator_decision",
+          "retain original preservation and rollback evidence"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CODEFRIEND_SIX_HELPER_APPLIED.json",
+        "sha256": "15b0314612954fff556a87c957baf60a73873d1535da7bc925b9abaca98dec1f",
+        "implementation_commit": "40dd5b4ce90d6f5fc89db77501788ad30505a292",
+        "reviewer": "review_1223_applied_components",
+        "authorization_interpretation": "Renewed bounded local implementation; no broader proposal authorization."
+      }
     },
     {
       "id": "RD07-1288",
@@ -30132,12 +30165,8 @@
         "blob": "9fa185f52404e5c4949e97fd4783f7535c2f8c0e"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "coherent caller and component disposition",
-        "scoped_operator_decision",
-        "retain original preservation and rollback evidence"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
@@ -30160,7 +30189,22 @@
         "status": "original_installed_consumer_passed",
         "review": "Independent bounded evidence review PASS; QUALIFICATION_REVIEW.json retained with source evidence."
       },
-      "historical_hold_reason": "hold_no_proven_current_successor_mapping"
+      "historical_hold_reason": "hold_no_proven_current_successor_mapping",
+      "prior_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "coherent caller and component disposition",
+          "scoped_operator_decision",
+          "retain original preservation and rollback evidence"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CODEFRIEND_SIX_HELPER_APPLIED.json",
+        "sha256": "15b0314612954fff556a87c957baf60a73873d1535da7bc925b9abaca98dec1f",
+        "implementation_commit": "40dd5b4ce90d6f5fc89db77501788ad30505a292",
+        "reviewer": "review_1223_applied_components",
+        "authorization_interpretation": "Renewed bounded local implementation; no broader proposal authorization."
+      }
     },
     {
       "id": "RD07-1290",
@@ -30172,12 +30216,8 @@
         "blob": "ac0d2f8ed1c46d4b1e06727a8a79dbd93c63e9a3"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "coherent caller and component disposition",
-        "scoped_operator_decision",
-        "retain original preservation and rollback evidence"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
@@ -30200,7 +30240,22 @@
         "status": "original_installed_consumer_passed",
         "review": "Independent bounded evidence review PASS; QUALIFICATION_REVIEW.json retained with source evidence."
       },
-      "historical_hold_reason": "hold_no_proven_current_successor_mapping"
+      "historical_hold_reason": "hold_no_proven_current_successor_mapping",
+      "prior_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "coherent caller and component disposition",
+          "scoped_operator_decision",
+          "retain original preservation and rollback evidence"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CODEFRIEND_SIX_HELPER_APPLIED.json",
+        "sha256": "15b0314612954fff556a87c957baf60a73873d1535da7bc925b9abaca98dec1f",
+        "implementation_commit": "40dd5b4ce90d6f5fc89db77501788ad30505a292",
+        "reviewer": "review_1223_applied_components",
+        "authorization_interpretation": "Renewed bounded local implementation; no broader proposal authorization."
+      }
     },
     {
       "id": "RD07-1291",
@@ -30212,12 +30267,8 @@
         "blob": "697fc50ad9d68e4e0032c3f066f39847f2f88bc2"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "coherent caller and component disposition",
-        "scoped_operator_decision",
-        "retain original preservation and rollback evidence"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
@@ -30240,7 +30291,22 @@
         "status": "original_installed_consumer_passed",
         "review": "Independent bounded evidence review PASS; QUALIFICATION_REVIEW.json retained with source evidence."
       },
-      "historical_hold_reason": "hold_no_proven_current_successor_mapping"
+      "historical_hold_reason": "hold_no_proven_current_successor_mapping",
+      "prior_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "coherent caller and component disposition",
+          "scoped_operator_decision",
+          "retain original preservation and rollback evidence"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CODEFRIEND_SIX_HELPER_APPLIED.json",
+        "sha256": "15b0314612954fff556a87c957baf60a73873d1535da7bc925b9abaca98dec1f",
+        "implementation_commit": "40dd5b4ce90d6f5fc89db77501788ad30505a292",
+        "reviewer": "review_1223_applied_components",
+        "authorization_interpretation": "Renewed bounded local implementation; no broader proposal authorization."
+      }
     },
     {
       "id": "RD07-1292",
