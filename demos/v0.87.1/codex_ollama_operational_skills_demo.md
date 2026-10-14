@@ -131,7 +131,7 @@ The script will:
    - `stp-editor`
    - `sip-editor`
 4. resolve the model capability profile from
-   `adl/tools/local_model_capabilities.v1.json`
+   [Runtime capability registry](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/adl/tools/local_model_capabilities.v1.json)
 5. choose one of two execution modes:
    - `native_tool_calling` for tool-capable local models such as `gpt-oss:latest`
    - `semantic_tool_fallback` for non-tool local models such as `deepseek-r1:latest`
@@ -177,7 +177,7 @@ with `--phase bootstrap` after the edit rather than requiring a bound
 execution branch.
 
 The capability declaration is explicit in
-`adl/tools/local_model_capabilities.v1.json`, and the run manifest records both
+[Runtime capability registry](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/adl/tools/local_model_capabilities.v1.json), and the run manifest records both
 the selected capability profile and the execution mode that was used.
 
 ## Artifact Layout

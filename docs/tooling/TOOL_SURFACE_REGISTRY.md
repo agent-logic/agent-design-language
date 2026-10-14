@@ -30,7 +30,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 7
 - `supported shim`: 0
-- `internal helper`: 290
+- `internal helper`: 287
 - `historical evidence`: 24
 - `archive candidate`: 0
 - `remove candidate`: 0
@@ -115,10 +115,8 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/issue607_probe_runtime.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/issue607_qualify_warm_polis.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/lib` | tool surface | internal helper | Directory containing bounded helper assets, scripts, or proof inputs. |
-| `adl/tools/local_model_capabilities.v1.json` | tool surface | internal helper | Visible tool surface retained for bounded support work. |
 | `adl/tools/mcp` | tool surface | internal helper | Directory containing bounded helper assets, scripts, or proof inputs. |
 | `adl/tools/mock_ollama_v0_4.sh` | tool surface | internal helper | Mock helper used for focused testing or proof. |
-| `adl/tools/native_qwen_assisted_generation_benchmark.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/owner_binary_resolution.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/polis_status_for_ssm.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/polis_status_for_ssm_qts.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
@@ -140,7 +138,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/resolve_ci_backend.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/revision_validation_inventory.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/run_adl_v2_standalone.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
-| `adl/tools/run_anrm_gemma_shepherd_trials.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_authoritative_coverage_lane.sh` | tool surface | historical evidence | Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing. |
 | `adl/tools/run_aws_spot_builder_image_validation.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_aws_spot_remote_validation_lane.sh` | tool surface | historical evidence | Historical Infrastructure source route retired by #1223; command refuses execution. Original assertions remain in Git and retirement custody; run the reviewed owner route. |
