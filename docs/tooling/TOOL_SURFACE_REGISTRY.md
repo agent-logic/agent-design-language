@@ -30,7 +30,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 7
 - `supported shim`: 0
-- `internal helper`: 338
+- `internal helper`: 333
 - `historical evidence`: 24
 - `archive candidate`: 0
 - `remove candidate`: 0
@@ -183,11 +183,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/run_runtime_gateway_owner_contract.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_v0913_proof_validation_lane.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_v0914_multi_agent_workcell_proof.sh` | tool surface | historical evidence | Historical model-backed v0.91.4 workcell rehearsal; retained manifest and review artifacts do not qualify a new execution, including its provider-active dry-run path. |
-| `adl/tools/run_v0915_multi_agent_quality_comparison.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
-| `adl/tools/run_v0915_openrouter_matrix.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
-| `adl/tools/run_v0915_remote_gemma_watcher_probe.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
-| `adl/tools/run_v0916_agent_suitability_panel.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
-| `adl/tools/run_v0916_deepseek_suitability.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_v0917_csm_api_gateway_bridge_live_proof.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_v0917_csm_continuity_capsule_4910_proof.sh` | tool surface | historical evidence | Infrastructure-owned manual proof; retained ADL copy is historical source evidence. Use agent-logic-infrastructure owner delivery; resolver proof does not qualify full behavior. |
 | `adl/tools/run_v0917_csm_otlp_4904_proof.sh` | tool surface | historical evidence | Infrastructure-owned manual proof; retained ADL copy is historical source evidence. Use agent-logic-infrastructure owner delivery; resolver proof does not qualify full behavior. |
