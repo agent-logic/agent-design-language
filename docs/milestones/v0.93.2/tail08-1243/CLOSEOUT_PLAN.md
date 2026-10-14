@@ -29,7 +29,7 @@ Named owners are assigned at execution admission; the roles below are accountabl
 
 ## CodeFriend launch compatibility
 
-v0.93.1 delivers a ready-to-deploy CodeFriend candidate and wait-list mechanism; it is not proof of public launch. CodeFriend #92 remains the existing later launch route. Public deployment requires an explicit exact candidate, audience, environment and budget decision. Preserve the accepted report/provenance/verification contract, private repository handling and waiting-list behavior. Changes must identify compatibility and rollback evidence for affected consumers. Do not repeat the older release-plan sentence that assigns Beta 1 public launch to v0.93.1.
+v0.93.1 is required to deliver a ready-to-deploy CodeFriend candidate and wait-list mechanism; it is not proof of public launch. CodeFriend #92 remains the existing later launch route. Public deployment requires an explicit exact candidate, audience, environment and budget decision. Preserve the accepted report/provenance/verification contract, private repository handling and waiting-list behavior. Changes must identify compatibility and rollback evidence for affected consumers. Do not repeat the older release-plan sentence that assigns Beta 1 public launch to v0.93.1.
 
 ## Evidence and deferral contract
 
