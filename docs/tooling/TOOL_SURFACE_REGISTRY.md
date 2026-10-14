@@ -30,7 +30,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 7
 - `supported shim`: 0
-- `internal helper`: 223
+- `internal helper`: 221
 - `historical evidence`: 17
 - `archive candidate`: 0
 - `remove candidate`: 0
@@ -69,9 +69,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/compute_ccc_v0.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/csdlc_obs_ready_canary.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/demo_d11_signed_remote.sh` | tool surface | historical evidence | Historical signed-remote contract; current public ADL does not supply its Runtime binary or test interfaces. |
-| `adl/tools/demo_five_command_run.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v087_operational_skills.sh` | tool surface | historical evidence | Historical bundle-install and inventory contract; original recursive acceptance remains separate from owner resource proof. |
-| `adl/tools/demo_v087_trace_truth.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v0891_arxiv_manuscript_workflow.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v090_architecture_document_generation.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v090_codebuddy_review_showcase.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |

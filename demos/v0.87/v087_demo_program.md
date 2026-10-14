@@ -26,6 +26,8 @@ The historical aggregate populated artifact roots under:
 
 ### D1 Trace v1 substrate truth
 
+The ADL wrapper is retired; the [exact Runtime source scenario](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/adl/tools/demo_v087_trace_truth.sh) retains its original command and mock-backed workflow. The command below is historical ADL provenance, not current ADL execution or a new Runtime acceptance claim.
+
 ```bash
 bash adl/tools/demo_v087_trace_truth.sh
 ```
