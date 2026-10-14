@@ -324,3 +324,9 @@ Current total: 3,178 actions and 3,177 baseline deletions plus one transient bri
 The committed source packets retire historical wrapper, stock, mixed coverage, Godel/AEE and benchmark residues with exact original custody and bounded proof distinctions preserved. Forty-four removals belong to the original inventory; the local authoritative coverage runner is an existing member of the separate22 additional paths, not a new supplemental path. Arxiv field-document validation and its two actual local guides remain with their original assertions; no new test pass or owner equivalence is inferred.
 
 Current total: 3,223 actions and 3,222 baseline deletions plus one transient bridge. Twelve supplemental and three separately observed paths remain outside immutable4,134+22. Both distributed holds remain unresolved.
+
+## Distributed archival and provider helper closure
+
+Sixty-five committed original-inventory removals bind distributed historical/manual custody, provider suitability history and seven orphan deterministic mock helpers, CSM resources and exact adapter contracts. Both distributed holds close through their explicitly reviewed archival contract transfer; original historical three-platform evidence is not current Runtime execution. Ollama1441 remains for six surviving script consumers; Gemini1436 is now retired after both Provider15 callers; CSM four independently unresolved resources remain untouched. No original test or live acceptance is inferred.
+
+Current total: 3,288 actions and 3,287 baseline deletions plus one transient bridge. Twelve supplemental and three separately observed paths remain outside immutable4,134+22. Zero explicit holds does not establish final public-package or whole-issue qualification.
