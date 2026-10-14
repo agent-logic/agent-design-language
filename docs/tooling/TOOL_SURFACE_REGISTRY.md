@@ -30,7 +30,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 7
 - `supported shim`: 0
-- `internal helper`: 307
+- `internal helper`: 305
 - `historical evidence`: 24
 - `archive candidate`: 0
 - `remove candidate`: 0
@@ -57,8 +57,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | --- | --- | --- | --- |
 | `adl/tools/BURST_FINAL_SUMMARY_TEMPLATE.md` | tool surface | internal helper | Visible tool surface retained for bounded support work. |
 | `adl/tools/README.md` | tool surface | internal helper | Visible tool surface retained for bounded support work. |
-| `adl/tools/adl_provider_adapter.rs` | tool surface | internal helper | Visible tool surface retained for bounded support work. |
-| `adl/tools/adl_provider_adapter_with_budget.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/archive_run_artifacts.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/batched_checks.sh` | tool surface | primary | Local validation entrypoint; use the current declared public validation contract. |
 | `adl/tools/build_issue509_runtime_bundle_on_relay.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |

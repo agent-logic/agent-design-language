@@ -49,11 +49,6 @@ fn main() {
         paths.push(resource.into());
         println!("cargo:rerun-if-changed={}", root.join(resource).display());
     }
-    paths.push("adl/tools/adl_provider_adapter.rs".into());
-    println!(
-        "cargo:rerun-if-changed={}",
-        root.join("adl/tools/adl_provider_adapter.rs").display()
-    );
     // Cargo reruns on both detached HEAD changes and ordinary branch commits.
     for reference in [
         Some("HEAD".to_string()),
