@@ -2,7 +2,7 @@
   "schema": "adl.source_retirement.final_validation.v1",
   "issue": 1223,
   "source_revision": "ad8204be76528a2c13ffabf5ee1e2672df475c8b",
-  "status": "qualified_source_reused_by_reviewed_unused_file_removal_correspondence_native_delivery_pending",
+  "status": "bounded_final_local_qualification_and_review_complete_native_delivery_pending",
   "accounting": {
     "original_rows": 4134,
     "captured_additional_rows": 22,
@@ -17,40 +17,39 @@
   },
   "retirement": {
     "result": {
-      "head": "ad8204be76528a2c13ffabf5ee1e2672df475c8b",
+      "head": "0e2c059565fd1d35f7d74fad289d0d4ccc904537",
       "command": "cargo test --offline --locked --manifest-path tools/source_retirement/validator/Cargo.toml --test retirement_contract",
       "exit_code": 0,
       "wrapper_tests": 2,
-      "duration_seconds": 47.48,
-      "source_guard": "passed",
-      "complete_python_negative_suite": "passed",
+      "python_regression_cases": 57,
+      "duration_seconds": 48.43,
+      "executed_actions": 3407,
+      "baseline_deletions": 3405,
+      "transients": 2,
+      "original_inventory": 4134,
+      "additional_inventory": 22,
       "logs": {
-        "root-retirement.stdout": "8c2b6b8a7b341846b257c05a8766da7fd35431d6dca77809c9cd66951407fb68",
-        "root-retirement.stderr": "e452c3e0e36bb8f655f0d7c492cd567b5ba82d96c72cf8e7c2e6327050d220b5"
-      },
-      "preceding_failure_preserved": "/Volumes/FastWork/c1223/additional-twenty-one-guard-postmerge/root-retirement.stdout"
+        "root-retirement.stdout": "9e24131d610f699d730b652cc6ab68d129108e6a41eca6d29bd5e979b9c43710",
+        "root-retirement.stderr": "0a87ff61e3492544c147dd3d52b936743db4729561344ec6418fcec7b6596e8f"
+      }
     },
     "python_test_methods": 57,
     "rust_wrapper_tests": 2,
     "evidence": [
       {
-        "path": "/Volumes/FastWork/c1223/zero-hold-regression-fixture-fix/ROOT_VALIDATION.json",
-        "sha256": "0d79e6a761a8f24e1bd3b106610dce5a97ca2c379818c016f8f40fecd1b44cad"
+        "path": "/Volumes/FastWork/c1223/orphan-run-final-guard-records/ROOT_VALIDATION.json",
+        "sha256": "94d24511f313932bd7c749c991541cf4fbb0b4bb4ebdecb6e1deb8a48e1018f1"
       },
       {
-        "path": "/Volumes/FastWork/c1223/zero-hold-regression-fixture-fix/root-retirement.stdout",
-        "sha256": "8c2b6b8a7b341846b257c05a8766da7fd35431d6dca77809c9cd66951407fb68"
+        "path": "/Volumes/FastWork/c1223/orphan-run-final-guard-records/root-retirement.stdout",
+        "sha256": "9e24131d610f699d730b652cc6ab68d129108e6a41eca6d29bd5e979b9c43710"
       },
       {
-        "path": "/Volumes/FastWork/c1223/zero-hold-regression-fixture-fix/root-retirement.stderr",
-        "sha256": "e452c3e0e36bb8f655f0d7c492cd567b5ba82d96c72cf8e7c2e6327050d220b5"
+        "path": "/Volumes/FastWork/c1223/orphan-run-final-guard-records/root-retirement.stderr",
+        "sha256": "0a87ff61e3492544c147dd3d52b936743db4729561344ec6418fcec7b6596e8f"
       }
     ],
-    "preceding_failure": {
-      "path": "/Volumes/FastWork/c1223/additional-twenty-one-guard-postmerge/root-retirement.stdout",
-      "sha256": "0f18dd4dc5fa11ebfc5bb0936716c4ab905e63c02d73adcf3ef0c5b11d070ac5"
-    },
-    "limit": "Actual 57-case/wrapper2 result is at ad8204 before the one-row strict guard update. Current guard integration requires its own focused validation; no new exact-head test execution claimed."
+    "limit": "Actual complete retirement guard proof at0e2c059565. Linux/macOS product qualification remains atad8204 with explicit compiled-source correspondence; no heavy rerun implied."
   },
   "linux": {
     "status": "passed",
@@ -224,19 +223,183 @@
     ],
     "runtime": "Authenticated installed Runtime archive direct-owner/adapter eleven functional cases plus successful pause/resume. Legacy comparison preserved one help difference, resolved by six exact public parser cases; logging retains both truthful dispatch events and clock normalization limits. These are prior recorded-source cases, not a new ad8204 authentic-owner invocation.",
     "codefriend": "Authentic installed CodeFriend smoke plus legacy ingestion and refusal comparisons; issue104 separately qualifies original installed consumers. Synthetic final CLI routing tests do not replace these authentic-owner records.",
-    "remaining_exact_gap": "No fresh ad8204 public CLI invocation against authentic installed private Runtime and CodeFriend is asserted by the current Linux/installed results. Prior owner qualification plus reviewed source correspondence may be reused only with explicit acceptance disposition; the existing retained_cli_gate final_candidate_installed_parity remains pending until that disposition or actual bounded proof.",
     "limits": [
       "Counts from different owner packets overlap and must not be summed.",
-      "No live providers, service activation, or complete private-product parity inferred."
-    ]
+      "No live providers, service activation, or complete private-product parity inferred.",
+      "CF e93 local ingestion/refusal scope only; actual harness FAIL and skipped final verifier remain explicit in adjudication."
+    ],
+    "prior_gap": "No fresh ad8204 public CLI invocation against authentic installed private Runtime and CodeFriend is asserted by the current Linux/installed results. Prior owner qualification plus reviewed source correspondence may be reused only with explicit acceptance disposition; the existing retained_cli_gate final_candidate_installed_parity remains pending until that disposition or actual bounded proof.",
+    "disposition": "FINAL_AUTHENTIC_CLI_DISPOSITION.json",
+    "status": "bounded_gate_satisfied_with_preserved_harness_failure",
+    "codefriend_final_actual_commands": {
+      "cli_total": 6,
+      "real_owner_executions": 4,
+      "selector_preexec_refusals": 2,
+      "positive_pair_exits": [
+        0,
+        0
+      ],
+      "positive_packet_equality": "exact parsed JSON equality; no normalization",
+      "negative_pair_exits": [
+        1,
+        1
+      ],
+      "negative_stdout_stderr": "byte-identical; checkout_not_found",
+      "missing_prefix_exit": 1,
+      "wrong_archive_exit": 1
+    }
   },
   "remaining_delivery": [
-    "Independent final records/source review",
-    "Required PR checks and native review/publication/reconciliation/finish/clean",
-    "Resolve explicit retained CLI authentic-owner final-candidate parity disposition; five-artifact proof alone is insufficient"
+    "Required PR checks and native review/publication/reconciliation/finish/clean"
   ],
   "native_cards_modified": false,
   "tests_run_by_this_record_preparation": false,
   "composed_source_revision": "2095d3707487cfd8e5a9239691cea96f6f4a31a3",
-  "source_correspondence": "FINAL_SOURCE_CORRESPONDENCE.json"
+  "source_correspondence": "FINAL_SOURCE_CORRESPONDENCE.json",
+  "final_guard_source_revision": "0e2c059565fd1d35f7d74fad289d0d4ccc904537",
+  "prior_retirement_result": {
+    "result": {
+      "head": "ad8204be76528a2c13ffabf5ee1e2672df475c8b",
+      "command": "cargo test --offline --locked --manifest-path tools/source_retirement/validator/Cargo.toml --test retirement_contract",
+      "exit_code": 0,
+      "wrapper_tests": 2,
+      "duration_seconds": 47.48,
+      "source_guard": "passed",
+      "complete_python_negative_suite": "passed",
+      "logs": {
+        "root-retirement.stdout": "8c2b6b8a7b341846b257c05a8766da7fd35431d6dca77809c9cd66951407fb68",
+        "root-retirement.stderr": "e452c3e0e36bb8f655f0d7c492cd567b5ba82d96c72cf8e7c2e6327050d220b5"
+      },
+      "preceding_failure_preserved": "/Volumes/FastWork/c1223/additional-twenty-one-guard-postmerge/root-retirement.stdout"
+    },
+    "python_test_methods": 57,
+    "rust_wrapper_tests": 2,
+    "evidence": [
+      {
+        "path": "/Volumes/FastWork/c1223/zero-hold-regression-fixture-fix/ROOT_VALIDATION.json",
+        "sha256": "0d79e6a761a8f24e1bd3b106610dce5a97ca2c379818c016f8f40fecd1b44cad"
+      },
+      {
+        "path": "/Volumes/FastWork/c1223/zero-hold-regression-fixture-fix/root-retirement.stdout",
+        "sha256": "8c2b6b8a7b341846b257c05a8766da7fd35431d6dca77809c9cd66951407fb68"
+      },
+      {
+        "path": "/Volumes/FastWork/c1223/zero-hold-regression-fixture-fix/root-retirement.stderr",
+        "sha256": "e452c3e0e36bb8f655f0d7c492cd567b5ba82d96c72cf8e7c2e6327050d220b5"
+      }
+    ],
+    "preceding_failure": {
+      "path": "/Volumes/FastWork/c1223/additional-twenty-one-guard-postmerge/root-retirement.stdout",
+      "sha256": "0f18dd4dc5fa11ebfc5bb0936716c4ab905e63c02d73adcf3ef0c5b11d070ac5"
+    },
+    "limit": "Actual 57-case/wrapper2 result is at ad8204 before the one-row strict guard update. Current guard integration requires its own focused validation; no new exact-head test execution claimed."
+  },
+  "final_independent_review": {
+    "result": {
+      "status": "PASS",
+      "head": "0e2c059565fd1d35f7d74fad289d0d4ccc904537",
+      "finding": "FI01",
+      "disposition": "Closed by removal of uncompiled adl/src/cli/run.rs at2095d3707487cfd8e5a9239691cea96f6f4a31a3",
+      "actual_guard": {
+        "head": "0e2c059565fd1d35f7d74fad289d0d4ccc904537",
+        "command": "cargo test --offline --locked --manifest-path tools/source_retirement/validator/Cargo.toml --test retirement_contract",
+        "exit_code": 0,
+        "wrapper_tests": 2,
+        "python_regression_cases": 57,
+        "duration_seconds": 48.43,
+        "executed_actions": 3407,
+        "baseline_deletions": 3405,
+        "transients": 2,
+        "original_inventory": 4134,
+        "additional_inventory": 22,
+        "logs": {
+          "root-retirement.stdout": "9e24131d610f699d730b652cc6ab68d129108e6a41eca6d29bd5e979b9c43710",
+          "root-retirement.stderr": "0a87ff61e3492544c147dd3d52b936743db4729561344ec6418fcec7b6596e8f"
+        }
+      },
+      "root_validation_sha256": "94d24511f313932bd7c749c991541cf4fbb0b4bb4ebdecb6e1deb8a48e1018f1",
+      "loaded_case_count": 57,
+      "loaded_cases": [
+        "ExecutionOverlayTests.test_conditional_path_cannot_be_deleted",
+        "ExecutionOverlayTests.test_duplicate_path_refuses",
+        "ExecutionOverlayTests.test_exact_retained_repair_and_approved_deletion",
+        "ExecutionOverlayTests.test_explicit_removal_requires_custody",
+        "ExecutionOverlayTests.test_extra_deletion_outside_inventory_refuses",
+        "ExecutionOverlayTests.test_incomplete_manifest_refuses",
+        "ExecutionOverlayTests.test_later_unapproved_change_or_mode_refuses",
+        "ExecutionOverlayTests.test_proposal_cannot_authorize_removal",
+        "ExecutionOverlayTests.test_removed_path_cannot_reappear",
+        "ExecutionOverlayTests.test_stale_before_identity_refuses",
+        "ExecutionOverlayTests.test_unreviewed_provenance_refuses",
+        "InventoryAndCustodyTests.test_additional_overlap_refuses",
+        "InventoryAndCustodyTests.test_committed_input_ignores_dirty_override",
+        "InventoryAndCustodyTests.test_current_committed_denominator_and_groups",
+        "InventoryAndCustodyTests.test_incomplete_hold_group_refuses",
+        "InventoryAndCustodyTests.test_missing_and_corrupt_rollback_refuse",
+        "InventoryAndCustodyTests.test_operational_reference_not_historical",
+        "InventoryAndCustodyTests.test_original_and_additional_captured_identity_refuse_tampering",
+        "InventoryAndCustodyTests.test_original_false_approval_refuses",
+        "InventoryAndCustodyTests.test_reordered_inventory_refuses",
+        "CodeFriendBatchTests.test_exact_batch_and_scope_refusal",
+        "CodeFriendBatchTests.test_preimage_and_custody_refusal",
+        "CodeFriendFamilyTests.test_exact_family_and_repeated_scope_refusal",
+        "CodeFriendFamilyTests.test_family_preimage_and_custody_refusal",
+        "CsdlcFamilyTests.test_exact_scope_and_duplicate_removal_refusal",
+        "CsdlcFamilyTests.test_preimage_and_custody_tamper_refuse",
+        "CsdlcFamilyTests.test_protected_authority_and_history_refuse",
+        "CsdlcFamilyTests.test_substituted_archive_refuses_before_readback",
+        "RuntimeFamilyTests.test_exact_scope_and_repeat_refusal",
+        "RuntimeFamilyTests.test_preimage_and_custody_refuse",
+        "RuntimeFamilyTests.test_protected_paths_refuse",
+        "RuntimeFamilyTests.test_retained_public_identity_refuses",
+        "RuntimeFamilyTests.test_substituted_supplement_refuses",
+        "InfrastructureFamilyTests.test_caller_and_custody_drift_refuse",
+        "InfrastructureFamilyTests.test_exact_scope_and_repeat_refusal",
+        "InfrastructureFamilyTests.test_identity_substitution_and_resurrection_refuse",
+        "InfrastructureFamilyTests.test_substituted_archive_refuses",
+        "TransientBridgeTests.test_changed_custody_blob_refuses",
+        "TransientBridgeTests.test_different_absent_path_refuses",
+        "TransientBridgeTests.test_exact_add_then_remove",
+        "TransientBridgeTests.test_missing_add_chain_refuses",
+        "TransientBridgeTests.test_missing_removal_chain_refuses",
+        "TransientRuntimeResourcesTests.test_changed_custody_blob_refuses",
+        "TransientRuntimeResourcesTests.test_different_absent_path_refuses",
+        "TransientRuntimeResourcesTests.test_exact_add_then_remove",
+        "TransientRuntimeResourcesTests.test_missing_add_chain_refuses",
+        "TransientRuntimeResourcesTests.test_missing_removal_chain_refuses",
+        "RecentOwnerFamilyTests.test_added_helper_cannot_replace_existing_file",
+        "RecentOwnerFamilyTests.test_exact_families_and_custody",
+        "RecentOwnerFamilyTests.test_expanded_scope_and_repeat_refuse",
+        "RecentOwnerFamilyTests.test_source_resurrection_and_caller_drift_refuse",
+        "RecentOwnerFamilyTests.test_substituted_archive_refuses",
+        "RecentOwnerFamilyTests.test_wrong_custody_member_bytes_refuse",
+        "RecentOwnerFamilyTests.test_zero_removal_caller_repair_has_no_removal_authority",
+        "SeparatelyObservedRetirementTests.test_captured_frozen_baseline_and_approval_boundaries",
+        "SeparatelyObservedRetirementTests.test_exact_separate_baseline_paths_pass",
+        "SeparatelyObservedRetirementTests.test_outside_inventory_scope_and_provenance_cannot_expand"
+      ],
+      "source_correspondence": {
+        "qualification_source": "ad8204be76528a2c13ffabf5ee1e2672df475c8b",
+        "retirement_source": "2095d3707487cfd8e5a9239691cea96f6f4a31a3",
+        "identical_inputs_between_these_sources": 185,
+        "unchanged_at_final_head": 182,
+        "three_changed_guard_inputs_proven_by_final_guard": [
+          "tools/source_retirement/README.md",
+          "tools/source_retirement/check.py",
+          "tools/source_retirement/test_check.py"
+        ],
+        "compiled_product_inputs_unchanged": true
+      },
+      "after_b148": "Three record files only100755to100644; identical blobs.",
+      "limits": [
+        "Actual Linux/macOS execution remains atad8204; this is exact source correspondence, not a fresh broad run.",
+        "Authentic final CodeFriend proof pending; no native delivery or owner integration claim."
+      ],
+      "review_tests_executed": 0
+    },
+    "evidence": {
+      "path": "/Volumes/FastWork/c1223/orphan-run-final-guard-records/FINAL_REVIEW_DISPOSITION.json",
+      "sha256": "1c64e582ef65ec00709dfd8d049e791cba27f51509dfeb5fdb3c8f6473e5fc76"
+    }
+  }
 }

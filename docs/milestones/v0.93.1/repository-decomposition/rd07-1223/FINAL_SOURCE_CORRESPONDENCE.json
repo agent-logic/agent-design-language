@@ -754,5 +754,52 @@
     "path": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/ORPHAN_PRIVATE_RUN_ONE_APPLIED.json",
     "sha256": "9c75d6ba489e4f05f587b0c6ac9dfc92f576e9f8d3499fe5c2c4a9f82118a1fa"
   },
-  "new_execution_claimed": false
+  "new_execution_claimed": false,
+  "final_guard_source": "0e2c059565fd1d35f7d74fad289d0d4ccc904537",
+  "final_guard_correspondence": {
+    "original_comparison_count": 185,
+    "unchanged_at_final_head": 182,
+    "changed_guard_inputs": {
+      "tools/source_retirement/README.md": {
+        "prior": [
+          "100644",
+          "507f4ab630b4b2071f783f52b541e34b577ff608"
+        ],
+        "current": [
+          "100644",
+          "5a2b14cb4224bf70cffd55aa1ab6801df447b701"
+        ]
+      },
+      "tools/source_retirement/check.py": {
+        "prior": [
+          "100644",
+          "55672134ecfea021c6905e77b2a6e7b43291dfcf"
+        ],
+        "current": [
+          "100644",
+          "26bab3a6125f7573fd38aec92101a543da6a3fb7"
+        ]
+      },
+      "tools/source_retirement/test_check.py": {
+        "prior": [
+          "100644",
+          "200deee83d8edba0923072e7c3b4ae67c24351e5"
+        ],
+        "current": [
+          "100644",
+          "7a752ed5fbc3e27eade146bac66042a1e424802d"
+        ]
+      }
+    },
+    "actual_final_guard": {
+      "path": "/Volumes/FastWork/c1223/orphan-run-final-guard-records/ROOT_VALIDATION.json",
+      "sha256": "94d24511f313932bd7c749c991541cf4fbb0b4bb4ebdecb6e1deb8a48e1018f1"
+    },
+    "independent_review": {
+      "path": "/Volumes/FastWork/c1223/orphan-run-final-guard-records/FINAL_REVIEW_DISPOSITION.json",
+      "sha256": "1c64e582ef65ec00709dfd8d049e791cba27f51509dfeb5fdb3c8f6473e5fc76"
+    },
+    "compiled_product_inputs_unchanged": true,
+    "new_linux_or_macos_execution_claimed": false
+  }
 }

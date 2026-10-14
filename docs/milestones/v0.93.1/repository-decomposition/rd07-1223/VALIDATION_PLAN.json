@@ -141,8 +141,6 @@
     "held_rows": 0
   },
   "remaining_execution_gates": [
-    "final_authentic_owner_cli_parity_disposition",
-    "independent_exact_head_review",
     "required_pr_checks",
     "native_publication_integration_finish_and_cleanup"
   ],
@@ -151,12 +149,13 @@
   "independent_repository_builds": "INDEPENDENT_REPOSITORY_BUILDS.json",
   "retained_cli_gate": {
     "required": true,
-    "status": "final_linux_public_cli_passed_authentic_owner_prior_evidence_disposition_pending",
+    "status": "bounded_final_gate_satisfied_by_reviewed_runtime_reuse_and_authentic_codefriend_selector_evidence",
     "plan": "LEGACY_PUBLIC_CLI_PARTITION.json",
     "scope": "Public CLI behavior plus authenticated private-owner consumer parity after partition; five-package proof alone is insufficient",
     "no_legacy_cli_retirement_authorized": true,
     "preliminary_record": "PUBLIC_FACADE_CLOSURE.json",
-    "final_candidate_installed_parity": "pending"
+    "final_candidate_installed_parity": "FINAL_AUTHENTIC_CLI_DISPOSITION.json",
+    "limits": "Runtime prior authenticated transport reused under source correspondence; CF e93 local ingestion/refusal and selector boundaries actual. Preserved harness FAIL/skipped final verifier separately adjudicated, not full legacy752 parity."
   },
   "legacy_cli_parser_proof": {
     "lane": "local_contract",
