@@ -235,3 +235,20 @@ local-proof test. This exercises local ACIP and feed serialization; the recorded
 qualification ran in an isolated container. The route grants no paid-provider,
 hosted Observatory, HTTPS, or native admission claim.
 Existing positive/Observatory matrices and traces remain historical owner evidence.
+
+## Runtime operator guide custody
+
+These split Runtime documents are preserved at the exact owner revision below.
+Document transfer does not establish cloud deployment, provider calls, service
+health or current native acceptance. Retained ADL tests and executable fixtures
+keep their separate qualification requirements.
+
+- [docs/providers/provider-profile-hot-loading.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/docs/providers/provider-profile-hot-loading.md)
+- [docs/tooling/CALL_CLAUDE_FABLE_5.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/docs/tooling/CALL_CLAUDE_FABLE_5.md)
+- [docs/tooling/CODEX_USAGE_WATCHER.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/docs/tooling/CODEX_USAGE_WATCHER.md)
+- [docs/tooling/LOCAL_POLIS_SSM_OPERATIONS.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/docs/tooling/LOCAL_POLIS_SSM_OPERATIONS.md)
+- [docs/tooling/RUNTIME_AWS_ACIP_SNS.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/docs/tooling/RUNTIME_AWS_ACIP_SNS.md)
+- [docs/tooling/RUNTIME_AWS_HEARTBEAT.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/docs/tooling/RUNTIME_AWS_HEARTBEAT.md)
+- [docs/tooling/RUNTIME_AWS_SIGNAL_INTEGRATION.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/docs/tooling/RUNTIME_AWS_SIGNAL_INTEGRATION.md)
+- [docs/tooling/RUNTIME_CLOUD_CONTROL_CLOUDFRONT.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/docs/tooling/RUNTIME_CLOUD_CONTROL_CLOUDFRONT.md)
+- [docs/tooling/RUNTIME_POLIS_DURABLE_STORAGE.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/docs/tooling/RUNTIME_POLIS_DURABLE_STORAGE.md)
