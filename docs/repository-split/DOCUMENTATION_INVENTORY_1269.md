@@ -1,5 +1,9 @@
 # #1269 post-split documentation inventory
 
+These are initial audit checkout/tree snapshots, including legacy local origins.
+The [delivery checklist](DOCUMENTATION_DELIVERY_1269.md) records canonical
+Agent Logic publication candidates and final dispositions.
+
 Primary documents are the requested review scope. Related guidance is flagged by source references and needs line-by-line disposition; a match is not automatic permission to rewrite. Historical reviews, ADRs, milestones, proof, manuscripts and custody records remain unchanged.
 
 ## agent-design-language

@@ -44,3 +44,6 @@ ADL milestones, ADRs and custody records remain evidence of their original state
 The [document inventory](repository-split/DOCUMENTATION_INVENTORY_1269.md) lists
 the primary documents and related candidates by reviewed repository revision.
 It is an audit scope, not a claim that every candidate needs a change.
+
+See the [delivery checklist](repository-split/DOCUMENTATION_DELIVERY_1269.md) for
+all 13 PRs, retained-document decisions, validation and adapter follow-up.
