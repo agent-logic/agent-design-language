@@ -509,26 +509,6 @@
       "reason": "podcast_static_demo_surface_requires_diff_hygiene_and_demo_smoke"
     },
     {
-      "id": "html_observatory_tooling_syntax",
-      "lane_class": "cli_workflow",
-      "default_surface": "tooling",
-      "owner": "review",
-      "resource_class": "tiny",
-      "proof_role": "tooling_contract",
-      "requirement_ids": [
-        "html_observatory_tooling_syntax"
-      ],
-      "path_selectors": [
-        "adl/tools/test_html_observatory.sh"
-      ],
-      "path_hints": [
-        "adl/tools/test_html_observatory.sh"
-      ],
-      "command": "bash -n adl/tools/test_html_observatory.sh",
-      "run_command": "bash -n adl/tools/test_html_observatory.sh",
-      "reason": "html_observatory_shell_tooling_changes_require_direct_syntax_proof"
-    },
-    {
       "id": "provider_neutral_multi_agent_proof",
       "lane_class": "cli_workflow",
       "default_surface": "tooling",
@@ -557,26 +537,6 @@
       "command": "python3 tools/runtime_contracts/run_provider_neutral_proof.py",
       "run_command": "python3 tools/runtime_contracts/run_provider_neutral_proof.py",
       "reason": "provider_neutral_multi_agent_proof_surface_requires_focused_demo_packet_validation"
-    },
-    {
-      "id": "html_observatory_roster_javascript_syntax",
-      "lane_class": "cli_workflow",
-      "default_surface": "tooling",
-      "owner": "review",
-      "resource_class": "tiny",
-      "proof_role": "tooling_contract",
-      "requirement_ids": [
-        "html_observatory_roster_javascript_syntax"
-      ],
-      "path_selectors": [
-        "adl/tools/validate_v092_html_observatory_roster.mjs"
-      ],
-      "path_hints": [
-        "adl/tools/validate_v092_html_observatory_roster.mjs"
-      ],
-      "command": "test -f adl/tools/validate_v092_html_observatory_roster.mjs && node --check adl/tools/validate_v092_html_observatory_roster.mjs",
-      "run_command": "test -f adl/tools/validate_v092_html_observatory_roster.mjs && node --check adl/tools/validate_v092_html_observatory_roster.mjs",
-      "reason": "html_observatory_roster_javascript_changes_require_direct_syntax_proof"
     },
     {
       "id": "wp08_local_polis_ssm_proof",
@@ -1015,16 +975,14 @@
         "infra/rustysd/**",
         "infra/horust/**",
         "infra/runtime-v3/**",
-        "infra/systemd/adl-runtime-kernel.service",
-        "adl/tools/validate_v0917_html_observatory.py"
+        "infra/systemd/adl-runtime-kernel.service"
       ],
       "path_hints": [
         "adl-runtime-kernel/**",
         "infra/rustysd/**",
         "infra/horust/**",
         "infra/runtime-v3/**",
-        "infra/systemd/adl-runtime-kernel.service",
-        "adl/tools/validate_v0917_html_observatory.py"
+        "infra/systemd/adl-runtime-kernel.service"
       ],
       "command": "cargo test --manifest-path adl-runtime-kernel/Cargo.toml && cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --all-targets -- -D warnings",
       "run_command": "cargo test --manifest-path adl-runtime-kernel/Cargo.toml && cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --all-targets -- -D warnings",
