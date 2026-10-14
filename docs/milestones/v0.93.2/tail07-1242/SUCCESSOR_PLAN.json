@@ -1814,10 +1814,11 @@
   "issue_observations": [
     {
       "number": 1223,
-      "state": "OPEN",
+      "state": "CLOSED",
       "title": "[v0.93.1][Follow-up] Complete coherent source retirement after the repository split",
       "url": "https://github.com/agent-logic/agent-design-language/issues/1223",
-      "repository": "agent-logic/agent-design-language"
+      "repository": "agent-logic/agent-design-language",
+      "observation_source": "PR1273 merged retirement and1232 reconciled evidence"
     },
     {
       "number": 1241,
@@ -1921,8 +1922,8 @@
   "residual_handoff": [
     {
       "id": "ADL-1223",
-      "status": "pending",
-      "required": "Final source retirement, exact repository/artifact lockset and acceptance. Observed sources are not accepted lockset."
+      "status": "source_retirement_delivered",
+      "required": "Reuse merged PR1273 audit and five-repository build evidence; do not infer selected seven-role installed release lockset correspondence. Native closeout is asynchronous."
     },
     {
       "id": "ADL-1241",
@@ -1941,8 +1942,8 @@
     },
     {
       "id": "ADL-1232",
-      "status": "interim_only",
-      "required": "Reuse reviewed matrix at68c38b733afd99468cd888883568e939b9982401; no final quality-gate acceptance."
+      "status": "reviewed_not_ready_decision",
+      "required": "Consume quality matrix at ea597506c370f6de3d997fbd46fa3ba2a0150d3f; remaining installed-lockset, CodeFriend101 andADL1269 gaps are explicit. This is not release acceptance."
     }
   ],
   "identity_rules": [
@@ -1956,5 +1957,13 @@
     "Accepted product/template/runtime versions and final lockset must come from final predecessor handoff; none inferred from this roster.",
     "No builds, CI dispatch, providers, deployments, shared tools or product changes."
   ],
-  "canonical_reconciliation_pending": "This scoped overlay reuses1259 rather than duplicating its package. Once predecessor residuals are accepted, apply the same scoped decisions consistently to canonical execution graph, issue wave, specifications, WBS, sprint, vision, proof coverage, feature routes and handoff before final1242 acceptance."
+  "canonical_reconciliation_pending": "This scoped overlay reuses1259 rather than duplicating its package. Once predecessor residuals are accepted, apply the same scoped decisions consistently to canonical execution graph, issue wave, specifications, WBS, sprint, vision, proof coverage, feature routes and handoff before final1242 acceptance.",
+  "post_retirement_reconciliation": {
+    "merge": "791e44216659a14eeb95c8a05f79e965709b3421",
+    "pr": 1273,
+    "reviewed_head": "129e5017508ac958311cf44553d20fddb997fa34",
+    "quality_matrix_commit": "ea597506c370f6de3d997fbd46fa3ba2a0150d3f",
+    "quality_matrix_sha256": "9c0317b33d5ec8bd0e14ba62012cde326f19d8dbe9f2d1592123da349a96b5aa",
+    "boundary": "Source retirement delivered. Final seven-role installed release lockset correspondence remains pending; native closeout is asynchronous."
+  }
 }

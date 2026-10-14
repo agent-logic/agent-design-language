@@ -12,8 +12,8 @@ The full proposed roster retains source acceptance and negative cases, repositor
 
 ## Residual handoff and sequence
 
-1. Preserve #1232’s reviewed interim matrix unchanged; consume its final candidate reconciliation when available.
-2. Consume #1223’s exact accepted repository/artifact lockset and #1241’s accepted findings and residual dispositions. Both remain pending.
+1. Consume #1232’s reconciled matrix at `ea597506c370f6de3d997fbd46fa3ba2a0150d3f`: source retirement is delivered, but the release quality decision remains NOT_READY.
+2. Reuse #1223’s merged PR #1273 at `791e44216659a14eeb95c8a05f79e965709b3421` and recorded five-repository build evidence. Selected seven-role installed release-lockset correspondence and #1241’s accepted findings/residual dispositions remain pending. Native closeout runs asynchronously.
 3. Consume #1269 README and CodeFriend #101 template-quality owner results without duplicating their work.
 4. Reconcile this overlay into the existing canonical graph, issue wave, specifications, WBS, sprint, vision, proof coverage, feature routes and handoff. Reuse #1259; create no second milestone package.
 5. Obtain bounded final review and native acceptance/publication before successor opening. This preparation is not a closing PR for #1242.
