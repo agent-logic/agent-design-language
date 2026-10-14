@@ -17,12 +17,12 @@
       ],
       "after": [
         "100644",
-        "3e6d9c487383f34c8fe63839c97f7f83c52bae5a"
+        "89092da10a1e4fe7d0ed69e000fcdbd82106d823"
       ],
-      "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
-      "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
-      "review_reference": "review_1223_applied_components exact77/112 review",
-      "source_chain_reference": "proposed_reconciled_entries:.github/workflows/ci.yaml",
+      "implementation_commit": "c0a9983bac18f9bab3a03134b8fe58c8083b95ae",
+      "approval_reference": "PR1273_PROVIDER_FIXES.json",
+      "review_reference": "review_1273_provider_fixes PASS and finding closure",
+      "source_chain_reference": "PR1273_PROVIDER_FIXES.json:.github/workflows/ci.yaml",
       "supplemental_source_chain": [
         {
           "commit": "3788ec9b21de45669bc4b770ef44cde787a6773b",
@@ -47,6 +47,50 @@
             "3e6d9c487383f34c8fe63839c97f7f83c52bae5a"
           ],
           "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ],
+      "prior_reviewed_transitions": [
+        {
+          "path": ".github/workflows/ci.yaml",
+          "action": "modify",
+          "before": [
+            "100644",
+            "9e65e9cb3406d275c2d559d45110216f89ed4731"
+          ],
+          "after": [
+            "100644",
+            "3e6d9c487383f34c8fe63839c97f7f83c52bae5a"
+          ],
+          "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
+          "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
+          "review_reference": "review_1223_applied_components exact77/112 review",
+          "source_chain_reference": "proposed_reconciled_entries:.github/workflows/ci.yaml",
+          "supplemental_source_chain": [
+            {
+              "commit": "3788ec9b21de45669bc4b770ef44cde787a6773b",
+              "before": [
+                "100644",
+                "9c6f703e8c48d0bbf25fc1e2ea7dd72023f5c0b0"
+              ],
+              "after": [
+                "100644",
+                "b022060133a88be28fb5f7325d3408c434a462e6"
+              ],
+              "packet": "MIXED_CI_CONTRACT_APPLIED.json"
+            },
+            {
+              "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+              "before": [
+                "100644",
+                "b022060133a88be28fb5f7325d3408c434a462e6"
+              ],
+              "after": [
+                "100644",
+                "3e6d9c487383f34c8fe63839c97f7f83c52bae5a"
+              ],
+              "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+            }
+          ]
         }
       ]
     },
@@ -66766,12 +66810,12 @@
       ],
       "after": [
         "100755",
-        "0a8444d0f026b3800ee776957419817f0cba35f1"
+        "fc72ecf7e0a94204c5bee4df870f0615225a306e"
       ],
-      "implementation_commit": "6030a16305699af338e41c27f2abcac893c078f3",
-      "approval_reference": "PUBLIC_WORKSPACE_CLOSURE.json",
-      "review_reference": "review_1223_applied_components six-file PASS",
-      "source_chain_reference": "PUBLIC_WORKSPACE_CLOSURE.json:tools/public_adl/test_ci_contract.py",
+      "implementation_commit": "c0a9983bac18f9bab3a03134b8fe58c8083b95ae",
+      "approval_reference": "PR1273_PROVIDER_FIXES.json",
+      "review_reference": "review_1273_provider_fixes PASS and finding closure",
+      "source_chain_reference": "PR1273_PROVIDER_FIXES.json:tools/public_adl/test_ci_contract.py",
       "prior_reviewed_transitions": [
         {
           "path": "tools/public_adl/test_ci_contract.py",
@@ -66788,6 +66832,22 @@
           "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
           "review_reference": "review_1223_applied_components exact77/112 review",
           "source_chain_reference": "proposed_reconciled_entries:tools/public_adl/test_ci_contract.py"
+        },
+        {
+          "path": "tools/public_adl/test_ci_contract.py",
+          "action": "modify",
+          "before": [
+            "100755",
+            "61fb0e2bb89a84d82f8b40b1953039b21407b267"
+          ],
+          "after": [
+            "100755",
+            "0a8444d0f026b3800ee776957419817f0cba35f1"
+          ],
+          "implementation_commit": "6030a16305699af338e41c27f2abcac893c078f3",
+          "approval_reference": "PUBLIC_WORKSPACE_CLOSURE.json",
+          "review_reference": "review_1223_applied_components six-file PASS",
+          "source_chain_reference": "PUBLIC_WORKSPACE_CLOSURE.json:tools/public_adl/test_ci_contract.py"
         }
       ]
     },
@@ -100486,12 +100546,12 @@
       "before": null,
       "after": [
         "100644",
-        "c688a4f55c3eafde304bd084e126370cd436658c"
+        "3efd28dcacdedc508c350b8748b5c8ff1d30c8a7"
       ],
       "action": "add",
-      "implementation_commit": "928247eab189aeb70bddb608320a238592979045",
-      "approval_reference": "COVERAGE_THIRTEEN_APPLIED.json",
-      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "implementation_commit": "c0a9983bac18f9bab3a03134b8fe58c8083b95ae",
+      "approval_reference": "PR1273_PROVIDER_FIXES.json",
+      "review_reference": "review_1273_provider_fixes PASS and finding closure",
       "source_chain": [
         {
           "commit": "9cde440e207a71358b7c95c53265c575d7f2fba5",
@@ -100514,7 +100574,45 @@
           ],
           "packet": "COVERAGE_THIRTEEN_APPLIED.json"
         }
-      ]
+      ],
+      "prior_reviewed_transitions": [
+        {
+          "path": "tools/public_adl/test_coverage.py",
+          "before": null,
+          "after": [
+            "100644",
+            "c688a4f55c3eafde304bd084e126370cd436658c"
+          ],
+          "action": "add",
+          "implementation_commit": "928247eab189aeb70bddb608320a238592979045",
+          "approval_reference": "COVERAGE_THIRTEEN_APPLIED.json",
+          "review_reference": "Independent source/caller review PASS and parent exact application review",
+          "source_chain": [
+            {
+              "commit": "9cde440e207a71358b7c95c53265c575d7f2fba5",
+              "before": null,
+              "after": [
+                "100644",
+                "542fe191c78c35b9e73be33c14c38a3edf0f3583"
+              ],
+              "packet": "PUBLIC_COVERAGE_QUALIFICATION.json"
+            },
+            {
+              "commit": "928247eab189aeb70bddb608320a238592979045",
+              "before": [
+                "100644",
+                "542fe191c78c35b9e73be33c14c38a3edf0f3583"
+              ],
+              "after": [
+                "100644",
+                "c688a4f55c3eafde304bd084e126370cd436658c"
+              ],
+              "packet": "COVERAGE_THIRTEEN_APPLIED.json"
+            }
+          ]
+        }
+      ],
+      "source_chain_reference": "PR1273_PROVIDER_FIXES.json:tools/public_adl/test_coverage.py"
     },
     {
       "path": "adl/tools/demo_v0871_provider_http.sh",
@@ -112734,6 +112832,48 @@
           "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
         }
       ]
+    },
+    {
+      "path": ".github/workflows/nightly-coverage-ratchet.yaml",
+      "before": [
+        "100644",
+        "31a72b3731a8033344c15fc1a487f6c7afe93f02"
+      ],
+      "after": [
+        "100644",
+        "e31744223e5523cc98ef37f422a01515288193f9"
+      ],
+      "action": "modify",
+      "implementation_commit": "c0a9983bac18f9bab3a03134b8fe58c8083b95ae",
+      "approval_reference": "PR1273_PROVIDER_FIXES.json",
+      "review_reference": "review_1273_provider_fixes PASS and finding closure",
+      "source_chain_reference": "PR1273_PROVIDER_FIXES.json:.github/workflows/nightly-coverage-ratchet.yaml"
+    },
+    {
+      "path": "tools/public_adl/coverage.py",
+      "before": null,
+      "after": [
+        "100644",
+        "2fb452f3316581737f8d2905e37209b7cb839f73"
+      ],
+      "action": "add",
+      "implementation_commit": "c0a9983bac18f9bab3a03134b8fe58c8083b95ae",
+      "approval_reference": "PR1273_PROVIDER_FIXES.json",
+      "review_reference": "review_1273_provider_fixes PASS and finding closure",
+      "source_chain_reference": "PR1273_PROVIDER_FIXES.json:tools/public_adl/coverage.py"
+    },
+    {
+      "path": "tools/public_adl/coverage_inventory.json",
+      "before": null,
+      "after": [
+        "100644",
+        "83e1209f9c0a0952b2457b8fcea00668683b59e9"
+      ],
+      "action": "add",
+      "implementation_commit": "c0a9983bac18f9bab3a03134b8fe58c8083b95ae",
+      "approval_reference": "PR1273_PROVIDER_FIXES.json",
+      "review_reference": "review_1273_provider_fixes PASS and finding closure",
+      "source_chain_reference": "PR1273_PROVIDER_FIXES.json:tools/public_adl/coverage_inventory.json"
     }
   ],
   "missing_entries": [],
@@ -121632,6 +121772,24 @@
         "adl/src/cli/run.rs"
       ],
       "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "PR1273_PROVIDER_FIXES.json",
+      "sha256": "4a38da5623c8f17a62e0b5ef9b28e0033da4984b3b2d40246af9eb935358ad00",
+      "commit": "c0a9983bac18f9bab3a03134b8fe58c8083b95ae",
+      "files": 6,
+      "removals": 0,
+      "reviewer": "review_1273_provider_fixes",
+      "verdict": "PASS",
+      "paths": [
+        ".github/workflows/ci.yaml",
+        ".github/workflows/nightly-coverage-ratchet.yaml",
+        "tools/public_adl/coverage.py",
+        "tools/public_adl/coverage_inventory.json",
+        "tools/public_adl/test_ci_contract.py",
+        "tools/public_adl/test_coverage.py"
+      ],
+      "boundary": "Provider review fixes only; no additional removals; existing custody unchanged."
     }
   ],
   "baseline_deletion_count": 3405,
