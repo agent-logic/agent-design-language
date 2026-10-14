@@ -351,7 +351,7 @@ Use `./adl/tools/demo_v086_review_surface.sh` for the one-command reviewer entry
 - `artifacts/v086/review_surface/README.txt`
 - `artifacts/v086/review_surface/index.txt`
 
-Use `./adl/tools/demo_v086_control_path.sh` for the primary bounded cognitive-path proof surface. It generates:
+The historical monolith control-path shell route is retired. Its original expected artifacts remain:
 - `artifacts/v086/control_path/demo-g-v086-control-path/summary.txt`
 - `artifacts/v086/control_path/demo-g-v086-control-path/arbitration.json`
 - `artifacts/v086/control_path/demo-g-v086-control-path/freedom_gate.json`
@@ -368,14 +368,12 @@ Use `./adl/tools/demo_v086_control_path.sh` for the primary bounded cognitive-pa
 
 Use `v0.85/v085_demo_program.md` for the canonical milestone review order.
 
-Use `adl/tools/demo_steering_queue_checkpoint.sh` for the bounded
-steering/checkpoint/resume proof surface. It emits:
+The historical monolith steering/checkpoint shell route is retired. Its original artifact requirements remain:
 - `.adl/runs/v0-85-hitl-steering-demo/pause_state.json`
 - `.adl/runs/v0-85-hitl-steering-demo/run.json`
 - `.adl/reports/demo-steering-queue-checkpoint/steer.json`
 
-Use `adl/tools/demo_hitl_editor_review.sh` for the bounded editor/review
-workflow proof surface. It emits:
+The historical editor demo used the retired `editor_action start` interface. Its original artifact requirement remains:
 - `.adl/reports/demo-hitl-editor-review/editor_review_demo_manifest.v1.json`
 
 Use `v0.85/godel_hypothesis_engine_demo.md` for the milestone-facing WP-10 review

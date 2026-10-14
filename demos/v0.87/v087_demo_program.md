@@ -1,5 +1,7 @@
 # v0.87 Demo Program
 
+Historical boundary: the editor start, monolith steering/checkpoint, and shared-ObsMem shell routes named below were retired in #1223. Their original assertions and artifacts remain historical obligations, not current passing proof. The independent `adl-runtime` trace-truth route and current editor adapter/assets are retained.
+
 This records the historical `v0.87` substrate demo program. The aggregate and
 reviewer-package wrapper below are retired after the monolithic tooling route
 was sunset. Individual child demos have separate owner and qualification
@@ -43,7 +45,7 @@ Primary proof surface:
 ### D3 Shared ObsMem foundation coherence
 
 ```bash
-bash adl/tools/demo_v087_shared_obsmem.sh
+# Historical retired command: bash adl/tools/demo_v087_shared_obsmem.sh
 ```
 
 Primary proof surface:

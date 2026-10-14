@@ -1,5 +1,7 @@
 # ADL v0.85 Demo Program
 
+Historical boundary: the editor start, monolith steering/checkpoint, and shared-ObsMem shell routes named below were retired in #1223. Their original assertions and artifacts remain historical obligations, not current passing proof. The independent `adl-runtime` trace-truth route and current editor adapter/assets are retained.
+
 The Gödel/AEE shell commands below are historical ADL monolith interfaces, retired in #1223. Original scenario and artifact requirements remain historical obligations; this page does not establish a current execution or equivalent Runtime acceptance. Preserved owner source is available in the [Runtime checkout](https://github.com/agent-logic/agent-logic-runtime/tree/7d0db620ad79c50ff5d8fabf0fb543183583d05c/adl/tools) and [Infrastructure archive](https://github.com/agent-logic/agent-logic-infrastructure/tree/ed02d55985482a0dbb1469951d36efef931b63e2/adl/tools).
 
 This is the canonical reviewer order for the `v0.85` milestone demos.
@@ -12,7 +14,7 @@ milestone's strongest claims in a legible order with clear proof surfaces.
 ### 1. Steering / Queueing / Checkpoint
 
 ```bash
-adl/tools/demo_steering_queue_checkpoint.sh
+# Historical retired command: adl/tools/demo_steering_queue_checkpoint.sh
 ```
 
 Review:
@@ -25,7 +27,7 @@ Primary proof:
 ### 2. HITL Editor / Review Workflow
 
 ```bash
-adl/tools/demo_hitl_editor_review.sh
+# Historical retired command: adl/tools/demo_hitl_editor_review.sh
 ```
 
 Review:
