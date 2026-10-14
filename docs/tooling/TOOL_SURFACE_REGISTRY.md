@@ -30,7 +30,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 7
 - `supported shim`: 0
-- `internal helper`: 394
+- `internal helper`: 392
 - `historical evidence`: 29
 - `archive candidate`: 0
 - `remove candidate`: 0
@@ -239,7 +239,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/setup_required_coverage_toolchain.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/setup_wp08_s3_obsmem_archive_policy.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/suitability_specs` | tool surface | internal helper | Directory containing bounded helper assets, scripts, or proof inputs. |
-| `adl/tools/test_adl_milestone_creator_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_adl_runtime_compatibility.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_archive_run_artifacts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_arxiv_paper_writer_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
@@ -324,7 +323,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_multiagent_podcast_audio_policy.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_obsmem_handoff_packet.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_owner_binary_install.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_planning_doc_editor_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_podcast_launch_packet.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_podcast_studio_v2_packet.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_portable_contract_normalizer_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
