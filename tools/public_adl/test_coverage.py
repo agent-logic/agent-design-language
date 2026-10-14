@@ -37,6 +37,27 @@ class CoverageContract(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'missing production'):
             self.check()
 
+    def test_test_like_source_requires_explicit_inventory_exclusion(self):
+        files = self.reports['a']['data'][0]['files']
+        for path in ('a/src/tests.rs', 'a/src/tests/production.rs', 'a/tests/integration.rs'):
+            with self.subTest(path=path):
+                extra = copy.deepcopy(files[0])
+                extra['filename'] = str(self.root / path)
+                extra['summary']['lines']['covered'] = 0
+                files.append(extra)
+                with self.assertRaisesRegex(ValueError, 'unexpected repository source'):
+                    self.check()
+                self.inventory['packages'][0]['test_sources'] = [path]
+                rows, _ = self.check()
+                self.assertNotIn(path, rows)
+                self.inventory['packages'][0]['test_sources'] = []
+                files.pop()
+
+    def test_test_exclusion_cannot_hide_owned_production_source(self):
+        self.inventory['packages'][0]['test_sources'] = ['a/src/main.rs']
+        with self.assertRaisesRegex(ValueError, 'overlaps production'):
+            self.check()
+
     def test_missing_package_and_malformed_report(self):
         for report in [{}, {'a': {}}, {'a': {'type': 'llvm.coverage.json.export', 'data': []}}]:
             with self.subTest(report=report), self.assertRaises(ValueError):

@@ -20,12 +20,16 @@ def check_rows(reports, inventory, root):
     """Choose exactly one owner report per source file, without percentage averaging."""
     owners = {}
     declarations = set()
+    test_sources = set()
     for package in inventory['packages']:
         declarations.update(package.get('declaration_only', []))
+        test_sources.update(package.get('test_sources', []))
         for path in package['sources']:
             if path in owners:
                 raise ValueError('duplicate source ownership: ' + path)
             owners[path] = package['name']
+    if test_sources & set(owners):
+        raise ValueError('test exclusion overlaps production source')
     if set(reports) != {p['name'] for p in inventory['packages']}:
         raise ValueError('missing or unexpected package reports')
     rows = {}
@@ -46,7 +50,7 @@ def check_rows(reports, inventory, root):
                     raise ValueError('duplicate measured file: ' + relative)
                 seen.add(relative)
                 if relative not in owners:
-                    if '/tests/' in '/' + relative or relative.endswith('/tests.rs'):
+                    if relative in test_sources:
                         continue
                     raise ValueError('unexpected repository source in coverage: ' + relative)
                 if owners[relative] != package:

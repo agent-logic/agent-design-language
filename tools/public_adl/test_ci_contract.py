@@ -92,9 +92,17 @@ def check_nightly_report() -> None:
                 "thresholds": {"full_file": 80, "full_aggregate": 90},
                 "files": {"adl/src/lib.rs": {"covered": 95, "count": 100}}}
         result_path = root / "result.json"
-        for case in ("passed", "failed", "missing"):
+        for case in ("passed", "failed", "missing", "malformed_json", "empty_denominator", "missing_field", "malformed_files"):
             if case == "missing":
                 result_path.unlink()
+            elif case == "malformed_json":
+                result_path.write_text('{')
+            elif case == "empty_denominator":
+                result_path.write_text(json.dumps(dict(data, line_count=0)))
+            elif case == "malformed_files":
+                result_path.write_text(json.dumps(dict(data, files=[])))
+            elif case == "missing_field":
+                result_path.write_text(json.dumps({"schema": "adl.public_coverage.v1"}))
             else:
                 data["status"] = case
                 data["failures"] = [] if case == "passed" else ["public aggregate below 90% line floor"]
@@ -102,13 +110,17 @@ def check_nightly_report() -> None:
             result = subprocess.run([sys.executable, "-B", "-c", script], env=env, capture_output=True, text=True)
             assert result.returncode == (0 if case == "passed" else 1), result.stderr
             report = (root / "nightly-public-coverage-report.md").read_text()
-            expected = {"passed": "95.00%", "failed": "below 90% line floor", "missing": "Coverage result was not produced"}[case]
+            expected = {"passed": "95.00%", "failed": "below 90% line floor", "missing": "Coverage result was not produced"}.get(case, "Coverage result is malformed or unreadable")
             assert expected in report
             assert report in summary.read_text()
 
 
 def main() -> None:
     check_nightly_report()
+    workflow = (ROOT / '.github/workflows/ci.yaml').read_text()
+    guardrails = job_block(workflow, 'adl_tooling_contracts')
+    for name in ('test_pr_closing_linkage.sh', 'check_pr_closing_linkage.sh'):
+        assert 'adl/tools/' + name not in guardrails, 'retired owner guardrail remains in public CI'
     selector = json.loads(
         (ROOT / "adl/config/validation_lane_selector.public.v1.json").read_text()
     )

@@ -61,23 +61,30 @@ jobs:
                    '- Invocation: manual workflow dispatch',
                    '- Coverage step: ' + os.environ['COVERAGE_OUTCOME'],
                    '- Required floors: 90% aggregate and 80% per measured file', '']
-          if result.is_file():
-              data = json.loads(result.read_text())
-              assert data['schema'] == 'adl.public_coverage.v1' and data['mode'] == 'full'
-              assert data['line_count'] > 0
-              assert data['thresholds']['full_file'] == 80 and data['thresholds']['full_aggregate'] == 90
-              lines += ['- Source: `' + data['source_head'] + '`',
-                        '- Measured lines: ' + str(data['covered_lines']) + '/' + str(data['line_count']),
-                        '- Total coverage: %.2f%%' % (100 * data['covered_lines'] / data['line_count']),
-                        '', '## Coverage failures']
-              lines += ['- ' + failure for failure in data['failures']] or ['- None']
-              lines += ['', '## Lowest measured files']
-              measured = [(path, row) for path, row in data['files'].items() if row['count'] > 0]
-              for path, row in sorted(measured, key=lambda item: (item[1]['covered'] / item[1]['count'], item[0]))[:10]:
-                  lines.append('- `%s`: %d/%d (%.2f%%)' % (path, row['covered'], row['count'], 100 * row['covered'] / row['count']))
-              failed = data['status'] != 'passed' or bool(data['failures'])
-          else:
-              lines += ['## Blocker', '- Coverage result was not produced; inspect retained execution logs.']
+          try:
+              if result.is_file():
+                  data = json.loads(result.read_text())
+                  if data['schema'] != 'adl.public_coverage.v1' or data['mode'] != 'full':
+                      raise ValueError('unexpected coverage schema or mode')
+                  if data['line_count'] <= 0:
+                      raise ValueError('empty coverage denominator')
+                  if data['thresholds']['full_file'] != 80 or data['thresholds']['full_aggregate'] != 90:
+                      raise ValueError('unexpected coverage thresholds')
+                  lines += ['- Source: `' + data['source_head'] + '`',
+                            '- Measured lines: ' + str(data['covered_lines']) + '/' + str(data['line_count']),
+                            '- Total coverage: %.2f%%' % (100 * data['covered_lines'] / data['line_count']),
+                            '', '## Coverage failures']
+                  lines += ['- ' + failure for failure in data['failures']] or ['- None']
+                  lines += ['', '## Lowest measured files']
+                  measured = [(path, row) for path, row in data['files'].items() if row['count'] > 0]
+                  for path, row in sorted(measured, key=lambda item: (item[1]['covered'] / item[1]['count'], item[0]))[:10]:
+                      lines.append('- `%s`: %d/%d (%.2f%%)' % (path, row['covered'], row['count'], 100 * row['covered'] / row['count']))
+                  failed = data['status'] != 'passed' or bool(data['failures'])
+              else:
+                  lines += ['## Blocker', '- Coverage result was not produced; inspect retained execution logs.']
+                  failed = True
+          except (OSError, ValueError, KeyError, TypeError, AttributeError, ZeroDivisionError) as error:
+              lines += ['## Blocker', '- Coverage result is malformed or unreadable: ' + type(error).__name__ + '; inspect retained execution logs.']
               failed = True
           report = Path(os.environ['RUNNER_TEMP']) / 'nightly-public-coverage-report.md'
           report.write_text('\n'.join(lines) + '\n')
