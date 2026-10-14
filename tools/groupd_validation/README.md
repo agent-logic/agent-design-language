@@ -27,7 +27,10 @@ All three independent Cargo roots passed on Rust 1.92.0 with `--locked` tests,
 format checks and strict all-target Clippy:
 
 - adl-characterization: 35 tests passed.
-- adl-resilience: 4 tests passed.
+- adl-resilience: 4 tests passed in the historical Group D record. The source
+  and four original unit tests now belong to Runtime (`adl-resilience/`); #1223
+  separately qualified the unchanged unit tests offline at Runtime revision
+  `7d0db620ad79c50ff5d8fabf0fb543183583d05c`. This does not qualify a Runtime service.
 - tools/remote_validation: 12 tests passed.
 
 The dependency scaffold replay selected all 13 material Cargo lockfiles supplied
