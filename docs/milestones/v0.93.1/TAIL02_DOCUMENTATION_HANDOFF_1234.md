@@ -4,7 +4,9 @@ Status: **preparation, pending predecessor and final-candidate acceptance**. Thi
 
 ## Evidence baseline and candidate
 
-The current-state quality matrix is `docs/milestones/v0.93.1/quality-gate-1232/EVIDENCE_MATRIX.json` at ADL commit `68c38b733afd99468cd888883568e939b9982401`, SHA-256 `f8c4b7ae66b7b4d1df604f7eabc5d9cb5813a33e8de957127fab0ae15acec737`. Its independent review passes the **evidence handoff**, not final release acceptance. #1232 remains open. The matrix observes seven repository *roles* in the historical RD-11 candidate; it does not say seven repositories changed or require seven new reviews. The final #1223 lockset and clean-clone/build correspondence are pending.
+The current-state quality matrix is `docs/milestones/v0.93.1/quality-gate-1232/EVIDENCE_MATRIX.json` at ADL commit `68c38b733afd99468cd888883568e939b9982401`, SHA-256 `f8c4b7ae66b7b4d1df604f7eabc5d9cb5813a33e8de957127fab0ae15acec737`. Its independent review passes the **evidence handoff**, not final release acceptance. #1232 remains open and this matrix predates #1223's merge. The matrix observes seven repository *roles* in the historical RD-11 candidate; it does not say seven repositories changed or require seven new reviews. The final seven-role release lockset and exact correspondence remain for #1232/RD-11 reconciliation.
+
+ADL #1223 source retirement is now closed through [PR #1273](https://github.com/agent-logic/agent-design-language/pull/1273): reviewed source `129e5017508ac958311cf44553d20fddb997fa34`, merge `791e44216659a14eeb95c8a05f79e965709b3421`, with 8/8 PR checks successful. Its tracked `FINAL_VALIDATION.json` at the merge has SHA-256 `cb7715c71a96d5b30a470723b7fbbe6159786da5e88731d3b39c3d17a51f96f4` and records five public packages, seven isolated consumer cases, 21 UTS fixtures, five negative cases and a separate fresh-clone Linux source qualification at its declared source `ad8204be76528a2c13ffabf5ee1e2672df475c8b`. That record was written before merge and still names native delivery as pending; the live merge/issue readback supersedes that procedural status, not its source-bound proof limits. It does not qualify every later role/head, repair CodeFriend #101, or turn the historical RD-11 candidate into the final release lockset.
 
 | Surface | Exact retained identity | What it establishes |
 | --- | --- | --- |
@@ -13,7 +15,7 @@ The current-state quality matrix is `docs/milestones/v0.93.1/quality-gate-1232/E
 | Product CI package | run `38030979163`, artifact `11661624501`, archive SHA-256 `2bf22aa1d0f354c5a719d26a07c92f0fbd39a890733f4d7336bed80b943c2c0c` | Archived candidate provenance, not a live deployment. |
 | Qualified website bridge | `62b34f30a7042c10e35cbd5924841305bf68d106` | Exact site source accepted with that CodeFriend candidate; the later observed website `main` is not automatically accepted. |
 
-The source references and their full byte hashes are indexed as S1–S8 in the #1232 matrix. S2 is the ADL #1150 terminal qualification manifest; S3–S7 are CodeFriend requirements, installed catalog, qualification reconciliation, deployment readiness and historical launch lockset at CodeFriend commit `188dd2b701be0a4acce1ec510559fdff119fd4c7`. S1 is the historical RD-11 candidate, not a final #1223 result. Do not substitute a newer `main` head for any accepted identity.
+The source references and their full byte hashes are indexed as S1–S8 in the #1232 matrix. S2 is the ADL #1150 terminal qualification manifest; S3–S7 are CodeFriend requirements, installed catalog, qualification reconciliation, deployment readiness and historical launch lockset at CodeFriend commit `188dd2b701be0a4acce1ec510559fdff119fd4c7`. S1 is the historical RD-11 candidate, not the accepted #1223 retirement result or a final release lockset. Do not substitute a newer `main` head for any accepted identity.
 
 ## Documentation and claim review
 
@@ -33,7 +35,7 @@ The CodeFriend onboarding and operations pages retain earlier Sprint 1 identity 
 1. Authenticate the #1232 matrix bytes and independent review at the stated ADL commit; read its `decision`, `acceptance_authority`, all 15 gate rows and two retained adverse observations. Its 44/44 catalog count is the full catalog, not a smaller subset. If #1232 has not been accepted for the final candidate, record the missing predecessor rather than calling this packet complete.
 2. Compare S2–S7 identities to the exact CodeFriend/website candidate above. Sample one passed row, the original failed Linux Vector group, Q03's witness limitation and the open #101 defect. Do not add overlapping test denominators or rerun product CI solely to read this packet.
 3. Check final user/operator documentation for CLI and website entry points, approved access, scope/retention, support/feedback, stop and recovery paths, installed artifact identity, readable outputs and known limits. Record the page revision and audience for each claim. Any page still pointing at an old Sprint 1 candidate needs an explicit historical label or a bounded owner correction.
-4. Obtain #1223's final role/edge lockset and TAIL-03/#1236's publication candidate when they exist. Classify changed versus unchanged roles from that ledger. Verify changed interfaces and retained proof for unchanged roles; do not presume seven changed repositories or seven new builds.
+4. Reconcile #1223's merged source-retirement result with #1232's final quality decision and TAIL-03/#1236's publication candidate when available. Classify changed versus unchanged roles from the resulting lockset. Verify changed interfaces and retained proof for unchanged roles; do not presume seven changed repositories or seven new builds.
 5. Put public-safe identity, status, counts and redacted finding summaries in the tracked report. Keep raw tester/repository content, authorization receipts, credentials, provider records, private installed traces and private evidence locations in the access-controlled packet. A public link to a private artifact is not an accessible evidence index. Verify each authorized link and hash before distributing a packet.
 
 The reviewer should return a findings-first report with exact file/revision, consequence, owner and disposition, plus an explicit `not_proven` or `changes_required` result where evidence is missing. TAIL-05 owns independent external review; TAIL-06 owns accepted-finding remediation or explicit deferral. This TAIL-02 packet neither sends material to reviewers nor decides those results.
@@ -42,7 +44,7 @@ The reviewer should return a findings-first report with exact file/revision, con
 
 | Owner | Required answer |
 | --- | --- |
-| ADL #1232 / #1223 | What is the accepted final quality decision and seven-role lockset, including actual changed-role and interface set? The reviewed current-state matrix is insufficient. |
+| ADL #1232 / RD-11 | How does merged #1223 source retirement change the final quality decision and seven-role lockset, including the actual changed-role and interface set? The reviewed pre-merge matrix is insufficient. |
 | ADL #1269 and CodeFriend #101 | Which exact final user/operator pages and representative readable exports can the reviewer use? Resolve stale identity blocks and open readability findings. |
 | TAIL-03/#1236 | What are the frozen source/artifact/document versions, public/private destinations, access permissions and approved disclosure manifest? |
 | Launch/support owner | What audience, feedback channel, stop path and retention wording are approved for the final reviewer packet? |
