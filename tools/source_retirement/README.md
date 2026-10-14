@@ -318,3 +318,9 @@ Current total: 3,147 actions and 3,146 baseline deletions plus one transient bri
 These committed families retire historical provider demonstrations, the Medium resource compatibility wrapper, the old Runtime compatibility interface, and the unconditional Observatory refusal stub. Exact original assertions and adverse evidence remain in custody. RD07-1957 prior retention is explicitly superseded by historical retirement; its five original paid calls remain unqualified. Inert routing checks are not live provider qualification. The current prompt-editor absence/schema guard remains retained without a new execution claim.
 
 Current total: 3,178 actions and 3,177 baseline deletions plus one transient bridge. Twelve supplemental and three separately observed paths remain outside immutable4,134+22. Both distributed holds remain unresolved.
+
+## Wrapper, stock and coverage residue closure
+
+The committed source packets retire historical wrapper, stock, mixed coverage, Godel/AEE and benchmark residues with exact original custody and bounded proof distinctions preserved. Forty-four removals belong to the original inventory; the local authoritative coverage runner is an existing member of the separate22 additional paths, not a new supplemental path. Arxiv field-document validation and its two actual local guides remain with their original assertions; no new test pass or owner equivalence is inferred.
+
+Current total: 3,223 actions and 3,222 baseline deletions plus one transient bridge. Twelve supplemental and three separately observed paths remain outside immutable4,134+22. Both distributed holds remain unresolved.
