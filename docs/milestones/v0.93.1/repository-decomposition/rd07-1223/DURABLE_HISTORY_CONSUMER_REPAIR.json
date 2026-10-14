@@ -1,0 +1,32 @@
+{
+  "issue": 1223,
+  "candidate": "RD07-2237",
+  "status": "reviewed_consumer_repair_applied",
+  "patch_sha256": "4e627f7640a37a3c69e35190b06da606e1247ae4303852a4d6f446d6bc824bb8",
+  "fixture_original_blob": "4de3e9ddaecf3513bb1a406ae9f9090c8bd0cccd",
+  "fixture_sha256": "f716f9be1a178cdaa2968d02db2980bcbbeadcc095e781e8632075ad1c50940d",
+  "approval": "Planning #12 explicitly authorized exact reviewed patch application in WorkerBee #18 chat.",
+  "review": {
+    "status": "PASS_PROPOSAL",
+    "patch_sha256": "4e627f7640a37a3c69e35190b06da606e1247ae4303852a4d6f446d6bc824bb8",
+    "review": "Exact historical fixture bytes independently compared to pinned Git blob; only checker input path and truthful historical labels change. All terminal and marker checks remain. README separates Runtime execution obligation.",
+    "approval_boundary": "Proposal only; no original deletion, current Runtime proof, native authority or scoped retirement approval implied.",
+    "test_execution": false
+  },
+  "assertion_preservation": {
+    "result": "passed_static_executable_AST_comparison",
+    "excluded_differences": [
+      "module docstring",
+      "test_path lookup",
+      "proof_boundary scope label"
+    ],
+    "all_other_executable_AST_unchanged": true,
+    "checker_executed": false,
+    "meaning": "No terminal, ancestry, schema, issue identity, generation, digest, marker check, exit behavior or success structure changed outside declared historical scope/path labels."
+  },
+  "validation": "Exact original fixture bytes and Python syntax verified after application; reviewed executable assertion correspondence reused.",
+  "checker_executed": false,
+  "runtime_execution_proven": false,
+  "original_source_removed": false,
+  "retirement_authorized": false
+}

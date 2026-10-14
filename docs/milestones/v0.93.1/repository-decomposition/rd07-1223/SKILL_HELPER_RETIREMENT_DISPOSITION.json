@@ -1,0 +1,53 @@
+{
+  "schema": "adl.rd07.skill-helper-disposition.v1",
+  "rows": [
+    {
+      "id": "RD07-1712",
+      "path": "adl/tools/skills/pr-stack-manager/scripts/analyze_pr_stack.py",
+      "source_sha256": "d27c67fb4968d0bec3259a32c1d43cd6a84de6e87a84f959bdc2c84f2b4fb8e6",
+      "proposed_action": "retain_public_source_or_fixture",
+      "reason": "Standalone standard-library JSON stack analyzer; preserve dependency/missing/base-drift/cycle/blocked-status schema."
+    },
+    {
+      "id": "RD07-1724",
+      "path": "adl/tools/skills/records-hygiene/scripts/analyze_records_hygiene.py",
+      "source_sha256": "38fffb64f397926ada5b3e6df4b51f3464e3b3893bab30fd9a9da52db9091de5",
+      "proposed_action": "retain_public_source_or_fixture",
+      "reason": "Standalone standard-library JSON record analyzer; preserve integration/status/placeholder drift and blocked findings schema."
+    },
+    {
+      "id": "RD07-1304",
+      "path": "adl/tools/demo_codex_ollama_operational_skills.sh",
+      "source_sha256": "675b0179398da0cbbfd1194010a62594836e128a4310d3dde3f4b9535a9bc7a5",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
+      "reason": "Unconditional retirement diagnostic and exit2 precede workspace/provider effects; preserve old dry-run assertions as historical."
+    },
+    {
+      "id": "RD07-1946",
+      "path": "adl/tools/test_demo_codex_ollama_operational_skills.sh",
+      "source_sha256": "90421dc2f342c39782f27156d28c3ee4ea093210098faad21bd5d9f0b7815296",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
+      "reason": "Paired test invokes retired1304 under set-e, so cannot reach artifacts; no provider rerun needed to establish retirement."
+    },
+    {
+      "id": "RD07-2027",
+      "path": "adl/tools/test_issue_lifecycle_shepherd_contract.sh",
+      "source_sha256": "3a39a6c8cf88a3948e8de394fefe56b2b5fbc2f320423849a339a1b9380a1071",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
+      "reason": "Existing failed contract depends on obsolete default_workflow link; preserve Shepherd state/route assertions and failure without restoring stale active guidance."
+    }
+  ],
+  "required_before_retirement": [
+    "Repair registry/demo/skill guidance and surviving caller expectations",
+    "Retire1304and1946together",
+    "Retain3748Shepherd contract independently;2027retirement does not delete that document",
+    "Scoped retirement decision"
+  ],
+  "independent_review": {
+    "reviewer": "review_1223_historical_retention",
+    "result": "Five dispositions source reviewed; remaining12skill holds preserved",
+    "evidence": "SKILL_OPERATIONAL_HOLD_MAPPING.json, REVIEWED_SKILL_OWNER_TRANSFERS.json and ORIGINAL_CONSUMER_BATCH_QUALIFICATION.json inspected; referenced evidence hashes verified"
+  },
+  "validation": "No new execution claimed; independent source-only review preserves original adverse results.",
+  "execution_authorized": false
+}

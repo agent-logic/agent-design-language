@@ -1,5 +1,5 @@
-use ::adl::adl::AdlDoc;
-use ::adl::schema::validate_adl_yaml;
+use ::adl_legacy_contracts::adl::AdlDoc;
+use ::adl_legacy_contracts::schema::validate_adl_yaml;
 
 #[test]
 fn schema_accepts_examples_adl_0_1() {
@@ -65,7 +65,7 @@ extra_nope: true
     assert!(msg.contains("schema validation failed"));
 }
 
-use ::adl::schema;
+use ::adl_legacy_contracts::schema;
 use serde_json::Value as JsonValue;
 
 /// Helper: validate a YAML string with the *loose* compiled schema

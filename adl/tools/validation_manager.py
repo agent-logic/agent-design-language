@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import contextlib
 import hashlib
 import json
 import os
@@ -19,12 +20,9 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[2]
 SELECTOR = ROOT / "adl/tools/select_validation_lanes.sh"
-SLOW_PROOF_FAMILIES = ROOT / "adl/config/slow_proof_families.v0.91.6.json"
-DEFAULT_MANIFEST = ROOT / "adl/config/validation_lane_selector.v0.91.6.json"
+SLOW_PROOF_FAMILIES = ROOT / "adl/config/slow_proof_families.public.v1.json"
+DEFAULT_MANIFEST = ROOT / "adl/config/validation_lane_selector.public.v1.json"
 NESSUS_REMOTE_RUNNER = "bash adl/tools/run_nessus_remote_validation.sh"
-AWS_SPOT_REMOTE_RUNNER = "bash adl/tools/run_aws_spot_remote_validation_lane.sh"
-AWS_CODEFRIEND_BUILD_RUNNER = "bash adl/tools/run_aws_codefriend_build_lane.sh"
-AWS_CODEFRIEND_BUILD_RUNNER_PATH = ROOT / "adl/tools/run_aws_codefriend_build_lane.sh"
 VALIDATION_PLATFORMS = ("auto", "local", "nessus", "aws_spot", "codebuild", "wuji")
 BUILD_ACTION_LOG_SCHEMA = "adl.build_action_log.v1"
 BUILD_ACTION_LOG_MANIFEST_SCHEMA = "adl.build_action_log_manifest.v1"
@@ -35,12 +33,14 @@ def fail(message: str) -> None:
     raise SystemExit(2)
 
 
-def load_slow_proof_families() -> dict[str, Any]:
-    payload = json.loads(SLOW_PROOF_FAMILIES.read_text())
+def load_slow_proof_families(path: Path = SLOW_PROOF_FAMILIES) -> dict[str, Any]:
+    payload = json.loads(path.read_text())
     if payload.get("schema_version") != "adl.slow_proof_families.v1":
         fail("slow-proof families config returned unsupported schema_version")
     if not isinstance(payload.get("families"), list):
         fail("slow-proof families config must expose a families array")
+    if payload["families"]:
+        fail("retired private slow-proof families; use product owner validation routes")
     return payload
 
 
@@ -82,6 +82,18 @@ def load_manifest(path: Path) -> dict[str, Any]:
         fail(f"validation manifest is not valid JSON: {exc}")
     if manifest.get("schema_version") != "adl.validation_lane_selector.v1":
         fail("validation manifest returned unsupported schema_version")
+    surfaces = manifest.get("special_surfaces")
+    if not isinstance(surfaces, dict):
+        fail("public validation manifest requires a special_surfaces object")
+    for name in ("release_gate_review", "slow_proof_review", "rust_pr_fast"):
+        surface = surfaces.get(name)
+        if not isinstance(surface, dict):
+            fail("public validation manifest requires an explicit object for " + name)
+        if surface.get("default_surface") != "public" or (
+            name == "rust_pr_fast" and surface.get("planner") != "manifest_command"
+        ):
+            fail("retired private validation mode: " + name
+                 + "; use adl/config/validation_lane_selector.public.v1.json and product owner validation routes")
     return manifest
 
 
@@ -229,6 +241,8 @@ def validation_split_contract(
     escalation_required: bool,
     escalation_reasons: list[dict[str, Any]],
 ) -> dict[str, Any]:
+    if slow_proof_families:
+        fail("retired private slow-proof families; use product owner validation routes")
     return {
         "schema_version": "adl.validation_split.v1",
         "fast_lane": {
@@ -238,17 +252,7 @@ def validation_split_contract(
             "pr_publication_sufficient": pr_publication_sufficient,
             "execution_model": "local_fast_lane",
         },
-        "slow_families": [
-            {
-                "id": family["id"],
-                "feature": family["feature"],
-                "proof_role": family.get("proof_role", "slow_proof"),
-                "disposition": "reserved_for_explicit_family_selection",
-                "owner": "slow_proof_family_runner",
-                "command": f"bash adl/tools/run_slow_proof_family.sh --family {family['id']} --run",
-            }
-            for family in slow_proof_families
-        ],
+        "slow_families": [],
         "fanout_policy": {
             "mode": "explicit_family_selection",
             "missing_or_unmapped_proof": "fail_closed",
@@ -323,120 +327,8 @@ def docs_only_paths(paths: list[str]) -> bool:
     return all(path.endswith(".md") or path.startswith("docs/") for path in paths)
 
 
-def slow_proof_pr_fanout_workflow_disposition(changed_paths: list[str]) -> bool:
-    changed = set(changed_paths)
-    allowed = {
-        ".github/workflows/ci.yaml",
-        "adl/config/slow_proof_families.v0.91.6.json",
-        "adl/config/validation_lane_selector.v0.91.6.json",
-        "adl/src/runtime_v2/private_state_observatory.rs",
-        "adl/src/runtime_v2/tests.rs",
-        "adl/tools/check_coverage_impact.sh",
-        "adl/tools/ci_path_policy.sh",
-        "adl/tools/run_pr_fast_test_lane.sh",
-        "adl/tools/run_slow_proof_family.sh",
-        "adl/tools/skills/docs/CI_RUNTIME_POLICY_GUIDE.md",
-        "adl/tools/test_check_coverage_impact.sh",
-        "adl/tools/test_ci_runtime_contracts.sh",
-        "adl/tools/test_run_pr_fast_test_lane.sh",
-        "adl/tools/test_slow_proof_lane_contract.sh",
-        "adl/tools/validation_manager.py",
-        "adl/tools/test_validation_manager.sh",
-    }
-    if not changed or not changed <= allowed:
-        return False
-    if ".github/workflows/ci.yaml" not in changed:
-        return False
-    if "adl/tools/test_ci_runtime_contracts.sh" not in changed:
-        return False
-
-    workflow = (ROOT / ".github/workflows/ci.yaml").read_text()
-    contract = (ROOT / "adl/tools/test_ci_runtime_contracts.sh").read_text()
-    manager = (ROOT / "adl/tools/validation_manager.py").read_text()
-    manager_contract = (ROOT / "adl/tools/test_validation_manager.sh").read_text()
-    slow_config = (ROOT / "adl/config/slow_proof_families.v0.91.6.json").read_text()
-    coverage_impact = (ROOT / "adl/tools/check_coverage_impact.sh").read_text()
-    coverage_impact_contract = (ROOT / "adl/tools/test_check_coverage_impact.sh").read_text()
-    slow_runner = (ROOT / "adl/tools/run_slow_proof_family.sh").read_text()
-    slow_contract = (ROOT / "adl/tools/test_slow_proof_lane_contract.sh").read_text()
-    runtime_tests = (ROOT / "adl/src/runtime_v2/tests.rs").read_text()
-    required_workflow_fragments = [
-        "adl-slow-proof:",
-        "needs: adl_path_policy",
-        "needs.adl_path_policy.outputs.slow_proof_contract_required == 'true'",
-        "shard: [1, 2, 3, 4]",
-        'bash tools/run_slow_proof_family.sh --family all --run --partition "count:${{ matrix.shard }}/4"',
-    ]
-    required_contract_fragments = [
-        'job_block("adl-slow-proof")',
-        "slow_proof_contract_required == 'true'",
-        "shard: [1, 2, 3, 4]",
-        'bash tools/run_slow_proof_family.sh --family all --run --partition "count:${{ matrix.shard }}/4"',
-        "must not use a broad slow-proof-tests run",
-    ]
-    required_slow_config_fragments = [
-        '"module_selectors"',
-        "runtime_v2::tests::governed_learning_substrate::",
-        "runtime_v2::tests::intelligence_metric_architecture::",
-        "runtime_v2::tests::memory_identity_architecture::",
-        "runtime_v2::tests::private_state_observatory::",
-        "runtime_v2::tests::observatory_flagship::",
-    ]
-    required_slow_runner_fragments = [
-        'family_id == "all"',
-        "module_selectors",
-        'command_run=(cargo nextest run --lib --features "$feature" -E "$filter_expression")',
-        "--partition",
-    ]
-    required_coverage_impact_fragments = [
-        "adl/src/runtime_v2/private_state_observatory.rs",
-        "private_state_observatory",
-    ]
-    required_coverage_impact_contract_fragments = [
-        "private-state-observatory-changed.txt",
-        "private_state_observatory",
-    ]
-    required_slow_contract_fragments = [
-        "all-family slow-proof filter missing selector",
-        "all-family slow-proof run must not use the broad runtime_v2_ substring filter",
-        "slow runtime_v2 module is not gated",
-    ]
-    required_runtime_test_fragments = [
-        'feature = "slow-proof-runtime"',
-        'feature = "slow-proof-private-state"',
-        'feature = "slow-proof-observatory"',
-        "mod governed_learning_substrate;",
-        "mod intelligence_metric_architecture;",
-        "mod memory_identity_architecture;",
-        "mod private_state_observatory;",
-        "mod observatory_flagship;",
-    ]
-    required_manager_fragments = [
-        "release_gate_slow_proof_pr_fanout_disposition",
-        "slow_proof_pr_fanout_workflow_disposition(changed_paths)",
-        'node["status"] = "disposition_recorded"',
-    ]
-    required_manager_contract_fragments = [
-        "slow-proof-workflow.txt",
-        "pr_publication_sufficient",
-        "disposition_recorded",
-    ]
-    return (
-        all(fragment in workflow for fragment in required_workflow_fragments)
-        and all(fragment in contract for fragment in required_contract_fragments)
-        and all(fragment in slow_config for fragment in required_slow_config_fragments)
-        and all(fragment in coverage_impact for fragment in required_coverage_impact_fragments)
-        and all(fragment in coverage_impact_contract for fragment in required_coverage_impact_contract_fragments)
-        and all(fragment in slow_runner for fragment in required_slow_runner_fragments)
-        and all(fragment in slow_contract for fragment in required_slow_contract_fragments)
-        and all(fragment in runtime_tests for fragment in required_runtime_test_fragments)
-        and all(fragment in manager for fragment in required_manager_fragments)
-        and all(fragment in manager_contract for fragment in required_manager_contract_fragments)
-    )
-
-
-def build_profile(plan: dict[str, Any], guardrails: dict[str, Any], manifest_path: Path) -> dict[str, Any]:
-    slow_proof_config = load_slow_proof_families()
+def build_profile(plan: dict[str, Any], guardrails: dict[str, Any], manifest_path: Path, *, slow_proof_families_path: Path = SLOW_PROOF_FAMILIES) -> dict[str, Any]:
+    slow_proof_config = load_slow_proof_families(slow_proof_families_path)
     slow_proof_families = slow_proof_config.get("families", [])
     lanes = plan.get("lanes", {})
     changed_paths = plan.get("changed_paths", [])
@@ -456,37 +348,6 @@ def build_profile(plan: dict[str, Any], guardrails: dict[str, Any], manifest_pat
         for lane_id, lane in lanes.items()
         if lane.get("status") in {"escalated", "release_gate_required"}
     ]
-    blocked_lane_ids = {lane_id for lane_id, _lane in blocked}
-    rust_lane_for_disposition = lanes.get("rust_pr_fast")
-    slow_proof_contract_only_disposition = (
-        blocked_lane_ids <= {"rust_pr_fast", "slow_proof_review", "release_gate_review"}
-        and "rust_pr_fast" in blocked_lane_ids
-        and "slow_proof_review" in blocked_lane_ids
-        and isinstance(rust_lane_for_disposition, dict)
-        and str(rust_lane_for_disposition.get("mode", "")).strip() == "contract_only"
-        and str(rust_lane_for_disposition.get("reason", "")).strip()
-        == "slow_proof_inventory_change_covered_by_contract_check"
-    )
-    release_gate_slow_proof_pr_fanout_disposition = (
-        bool(blocked_lane_ids)
-        and blocked_lane_ids <= {"release_gate_review", "slow_proof_review", "rust_pr_fast"}
-        and "release_gate_review" in blocked_lane_ids
-        and slow_proof_pr_fanout_workflow_disposition(changed_paths)
-    )
-    soft_disposition_recorded = (
-        (
-            slow_proof_contract_only_disposition
-            and (
-                "release_gate_review" not in blocked_lane_ids
-                or release_gate_slow_proof_pr_fanout_disposition
-            )
-        )
-        or (
-            release_gate_slow_proof_pr_fanout_disposition
-            and blocked_lane_ids <= {"release_gate_review", "slow_proof_review"}
-        )
-    )
-    effective_blocked = [] if soft_disposition_recorded else blocked
 
     run = []
     behavior_surfaces = []
@@ -526,6 +387,11 @@ def build_profile(plan: dict[str, Any], guardrails: dict[str, Any], manifest_pat
             "reason": "reserved for coverage or release policy selection",
         },
     ]
+    if "deferred_obligations" in plan:
+        not_run = [
+            {"surface": surface, "reason": reason}
+            for surface, reason in sorted(plan["deferred_obligations"].items())
+        ]
     not_run.extend(
         {
             "surface": f"slow_proof/{family['id']}",
@@ -544,7 +410,7 @@ def build_profile(plan: dict[str, Any], guardrails: dict[str, Any], manifest_pat
     )
 
     escalation_required = (
-        bool(effective_blocked)
+        bool(blocked)
         or len(selected) > selected_lane_limit
         or unmapped_change_gap
     )
@@ -552,17 +418,6 @@ def build_profile(plan: dict[str, Any], guardrails: dict[str, Any], manifest_pat
     for lane_id, lane in blocked:
         behavior = lane_behavior_surface(lane_id, lane)
         behavior_surfaces.append(behavior)
-        if (
-            slow_proof_contract_only_disposition
-            and lane_id in {"rust_pr_fast", "slow_proof_review"}
-        ) or (
-            release_gate_slow_proof_pr_fanout_disposition
-            and lane_id in {"release_gate_review", "slow_proof_review"}
-        ):
-            node = validation_dag_node(lane_id, lane, behavior["id"])
-            node["status"] = "disposition_recorded"
-            dag_nodes.append(node)
-            continue
         dag_nodes.append(validation_dag_node(lane_id, lane, behavior["id"]))
         manifest_rule = manifest_rule_for(lane)
         matched_paths = lane.get("matched_paths", [])
@@ -665,9 +520,7 @@ def build_profile(plan: dict[str, Any], guardrails: dict[str, Any], manifest_pat
         filter_tokens = split_csv(rust_lane.get("filter_tokens", ""))
         mode = str(rust_lane.get("mode", "")).strip()
         matched_paths = rust_lane.get("matched_paths", [])
-        if mode in pr_fast_guardrails["blocked_modes"] and not (
-            slow_proof_contract_only_disposition and mode == "contract_only"
-        ):
+        if mode in pr_fast_guardrails["blocked_modes"]:
             escalation_required = True
             add_diagnostic(
                 diagnostics,
@@ -755,11 +608,11 @@ def build_profile(plan: dict[str, Any], guardrails: dict[str, Any], manifest_pat
         status = "no_validation_needed"
     elif escalation_required:
         status = "escalation_required"
-    elif plan.get("aggregate_status") != "selected" and not soft_disposition_recorded:
+    elif plan.get("aggregate_status") != "selected":
         status = "not_runnable"
 
     pr_publication_sufficient = (
-        (bool(plan.get("pr_publication_sufficient")) or soft_disposition_recorded)
+        bool(plan.get("pr_publication_sufficient"))
         and not unmapped_change_gap
         and not escalation_required
         and status == "ready_to_run"
@@ -790,19 +643,8 @@ def build_profile(plan: dict[str, Any], guardrails: dict[str, Any], manifest_pat
             "edges": [],
             "compression_note": "profile validates behavior surfaces rather than enumerating every test-bearing module",
         },
-        "slow_proof_families": [
-            {
-                "id": family["id"],
-                "feature": family["feature"],
-                "proof_role": family.get("proof_role", "slow_proof"),
-                "description": family.get("description", ""),
-                "selection_mode": "manual_only",
-                "command": f"bash adl/tools/run_slow_proof_family.sh --family {family['id']} --run",
-                "sample_tests": family.get("sample_tests", []),
-            }
-            for family in slow_proof_families
-        ],
-        "estimated_cost": estimate_cost(selected, effective_blocked),
+        "slow_proof_families": [],
+        "estimated_cost": estimate_cost(selected, blocked),
         "escalation": {
             "required": escalation_required,
             "reasons": escalation_reasons,
@@ -976,7 +818,18 @@ def nessus_platform_candidate(profile: dict[str, Any], eligibility: dict[str, An
     )
 
 
-def aws_spot_platform_candidate(profile: dict[str, Any], eligibility: dict[str, Any]) -> dict[str, Any]:
+def aws_spot_platform_candidate(profile: dict[str, Any], eligibility: dict[str, Any], owner_runner: str | None = None) -> dict[str, Any]:
+    # This validates command availability only, never owner admission or paid-run authority.
+    runner = Path(owner_runner) if owner_runner else None
+    if runner is None or not runner.is_absolute() or not runner.is_file() or not os.access(runner, os.X_OK):
+        return platform_candidate(
+            platform="aws_spot", decision="rejected",
+            reason="AWS Spot requires --aws-spot-owner-runner naming an absolute executable owner runner",
+            cache_posture="warm_ebs_cache:/mnt/adl-cache",
+            cost_posture="aws_spot_instance_plus_retained_ebs_storage",
+            wrapper=None,
+        )
+    wrapper = shell_quote(str(runner))
     command = eligibility["command"]
     if eligibility["status"] != "ready_to_run":
         return platform_candidate(
@@ -985,7 +838,7 @@ def aws_spot_platform_candidate(profile: dict[str, Any], eligibility: dict[str, 
             reason=f"validation profile status {eligibility['status']} is not remote-runnable",
             cache_posture="warm_ebs_cache:/mnt/adl-cache",
             cost_posture="aws_spot_instance_plus_retained_ebs_storage",
-            wrapper=AWS_SPOT_REMOTE_RUNNER,
+            wrapper=wrapper,
         )
     if eligibility["escalation_required"]:
         return platform_candidate(
@@ -994,7 +847,7 @@ def aws_spot_platform_candidate(profile: dict[str, Any], eligibility: dict[str, 
             reason="validation profile already requires escalation",
             cache_posture="warm_ebs_cache:/mnt/adl-cache",
             cost_posture="aws_spot_instance_plus_retained_ebs_storage",
-            wrapper=AWS_SPOT_REMOTE_RUNNER,
+            wrapper=wrapper,
         )
     if eligibility["runtime_class"] in {"none", "tiny", "escalated"}:
         return platform_candidate(
@@ -1003,7 +856,7 @@ def aws_spot_platform_candidate(profile: dict[str, Any], eligibility: dict[str, 
             reason=f"runtime_class {eligibility['runtime_class']} is not cost-appropriate for AWS Spot",
             cache_posture="warm_ebs_cache:/mnt/adl-cache",
             cost_posture="aws_spot_instance_plus_retained_ebs_storage",
-            wrapper=AWS_SPOT_REMOTE_RUNNER,
+            wrapper=wrapper,
         )
     if not eligibility["deterministic_or_evidence_bound"]:
         return platform_candidate(
@@ -1012,7 +865,7 @@ def aws_spot_platform_candidate(profile: dict[str, Any], eligibility: dict[str, 
             reason="AWS Spot routing supports deterministic or evidence-bound lanes only",
             cache_posture="warm_ebs_cache:/mnt/adl-cache",
             cost_posture="aws_spot_instance_plus_retained_ebs_storage",
-            wrapper=AWS_SPOT_REMOTE_RUNNER,
+            wrapper=wrapper,
             caveats=[f"unsupported_determinism={','.join(eligibility['unsupported_determinism'])}"],
         )
     if not command:
@@ -1022,19 +875,19 @@ def aws_spot_platform_candidate(profile: dict[str, Any], eligibility: dict[str, 
             reason="AWS Spot routing requires a validation command",
             cache_posture="warm_ebs_cache:/mnt/adl-cache",
             cost_posture="aws_spot_instance_plus_retained_ebs_storage",
-            wrapper=AWS_SPOT_REMOTE_RUNNER,
+            wrapper=wrapper,
         )
     return platform_candidate(
         platform="aws_spot",
         decision="eligible",
         reason="non-tiny deterministic profile can use the warm-EBS AWS Spot lane when credentials and cache are available",
         command=(
-            f"{AWS_SPOT_REMOTE_RUNNER} --command {shell_quote(command)} "
+            f"{wrapper} --command {shell_quote(command)} "
             "--instance-type m7a.2xlarge --print-command"
         ),
         cache_posture="warm_ebs_cache:/mnt/adl-cache",
         cost_posture="aws_spot_instance_plus_retained_ebs_storage",
-        wrapper=AWS_SPOT_REMOTE_RUNNER,
+        wrapper=wrapper,
         caveats=[
             "requires Agent Logic AWS profile or GitHub OIDC role",
             "requires retained EBS cache attachment for warm-cache proof",
@@ -1044,52 +897,14 @@ def aws_spot_platform_candidate(profile: dict[str, Any], eligibility: dict[str, 
 
 
 def codebuild_platform_candidate(profile: dict[str, Any], eligibility: dict[str, Any]) -> dict[str, Any]:
-    wrapper_exists = AWS_CODEFRIEND_BUILD_RUNNER_PATH.exists()
-    if not wrapper_exists:
-        return platform_candidate(
-            platform="codebuild",
-            decision="rejected",
-            reason="CodeBuild wrapper is not present on this branch; merge or rebase the #4838 CodeFriend build lane first",
-            cache_posture="stable_local_target_cache_plus_s3_sccache_when_wrapper_available",
-            cost_posture="aws_codebuild_compute_minutes",
-            wrapper=AWS_CODEFRIEND_BUILD_RUNNER,
-            caveats=["dependency_issue=#4838", "dependency_pr=#4865"],
-        )
-    if eligibility["status"] != "ready_to_run":
-        return platform_candidate(
-            platform="codebuild",
-            decision="rejected",
-            reason=f"validation profile status {eligibility['status']} is not CodeBuild-runnable",
-            cache_posture="stable_local_target_cache_plus_s3_sccache",
-            cost_posture="aws_codebuild_compute_minutes",
-            wrapper=AWS_CODEFRIEND_BUILD_RUNNER,
-        )
-    if eligibility["escalation_required"]:
-        return platform_candidate(
-            platform="codebuild",
-            decision="rejected",
-            reason="validation profile already requires escalation",
-            cache_posture="stable_local_target_cache_plus_s3_sccache",
-            cost_posture="aws_codebuild_compute_minutes",
-            wrapper=AWS_CODEFRIEND_BUILD_RUNNER,
-        )
     return platform_candidate(
         platform="codebuild",
-        decision="eligible",
-        reason="profile can use the scalable CodeFriend CodeBuild lane when the wrapper, project, builder image, and caches are available",
-        command=(
-            f"{AWS_CODEFRIEND_BUILD_RUNNER} --project-name adl-codefriend-build "
-            "--dry-run --print-command "
-            "--env ADL_CODEFRIEND_BUILD_COMMAND='bash adl/tools/run_pr_fast_test_lane.sh'"
-        ),
-        cache_posture="stable_local_target_cache_plus_s3_sccache",
-        cost_posture="aws_codebuild_compute_minutes",
-        wrapper=AWS_CODEFRIEND_BUILD_RUNNER,
-        caveats=[
-            "requires Agent Logic AWS CodeBuild project and service role",
-            "requires builder image and S3 sccache to be configured",
-            "requires explicit live trigger outside validation-manager",
-        ],
+        decision="rejected",
+        reason="CodeFriend CodeBuild source moved to agent-logic/codefriend and agent-logic/agent-logic-infrastructure; no ADL launcher is retained",
+        cache_posture="not_applicable",
+        cost_posture="no_launch",
+        launch_posture="retired_in_adl",
+        caveats=["successor cloud activation requires its separate authorization"],
     )
 
 
@@ -1118,7 +933,7 @@ def platform_routing_decision(profile: dict[str, Any], args: argparse.Namespace)
     candidates = [
         local_platform_candidate(profile, eligibility),
         nessus_platform_candidate(profile, eligibility),
-        aws_spot_platform_candidate(profile, eligibility),
+        aws_spot_platform_candidate(profile, eligibility, getattr(args, "aws_spot_owner_runner", None)),
         codebuild_platform_candidate(profile, eligibility),
         wuji_platform_candidate(profile, eligibility),
     ]
@@ -1383,20 +1198,24 @@ def run_profile(profile: dict[str, Any], args: argparse.Namespace) -> int:
     if platform_routing:
         selected_platform = platform_routing.get("selected_platform")
         if platform_routing.get("decision") != "selected":
-            print_text(profile)
+            with contextlib.redirect_stdout(sys.stderr):
+                print_text(profile)
             print("validation_manager: refusing --run because the requested validation platform is not eligible", file=sys.stderr)
             return 1
         if selected_platform != "local":
-            print_text(profile)
+            with contextlib.redirect_stdout(sys.stderr):
+                print_text(profile)
             print("validation_manager: refusing --run because platform routing is dry-run only for non-local platforms", file=sys.stderr)
             return 1
     remote_runner = profile.get("remote_runner")
     if remote_runner and remote_runner.get("decision") != "selected":
-        print_text(profile)
+        with contextlib.redirect_stdout(sys.stderr):
+            print_text(profile)
         print("validation_manager: refusing --run because the requested remote runner is not eligible", file=sys.stderr)
         return 1
     if profile["status"] not in {"ready_to_run", "no_validation_needed"}:
-        print_text(profile)
+        with contextlib.redirect_stdout(sys.stderr):
+            print_text(profile)
         print("validation_manager: refusing --run for non-runnable profile", file=sys.stderr)
         return 1
     failed = False
@@ -1427,6 +1246,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     source.add_argument("--changed-files", type=Path)
     source.add_argument("--include-working-tree", action="store_true")
     parser.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST)
+    parser.add_argument("--slow-proof-families", type=Path, default=SLOW_PROOF_FAMILIES)
     parser.add_argument("--base", default="origin/main")
     parser.add_argument("--head", default="HEAD")
     parser.add_argument("--max-selected-lanes", type=int, default=8)
@@ -1434,6 +1254,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--report-out", type=Path)
     parser.add_argument("--run", action="store_true")
     parser.add_argument("--build-action-log-dir", type=Path)
+    parser.add_argument("--aws-spot-owner-runner", help="Absolute executable owner runner for AWS Spot advice; grants no execution authority")
     parser.add_argument("--remote-runner", choices=["nessus"])
     parser.add_argument("--remote-command")
     parser.add_argument("--remote-artifact-dir", type=Path)
@@ -1447,7 +1268,8 @@ def main(argv: list[str]) -> int:
     plan = selector_plan(args)
     manifest_path = args.manifest.resolve() if args.manifest else DEFAULT_MANIFEST
     guardrails = manager_guardrails(load_manifest(manifest_path), args.max_selected_lanes)
-    profile = build_profile(plan, guardrails, manifest_path)
+    profile = build_profile(plan, guardrails, manifest_path, slow_proof_families_path=args.slow_proof_families)
+    profile["slow_proof_families_path"] = str(args.slow_proof_families)
     platform_routing = platform_routing_decision(profile, args)
     if platform_routing:
         profile["platform_routing"] = platform_routing

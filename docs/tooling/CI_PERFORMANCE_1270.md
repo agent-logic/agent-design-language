@@ -1,3 +1,5 @@
+Historical private C-SDLC lane record. After #1223, ADL uses the public workflow; the retired standalone lane and its checker are not current ADL instructions. These measurements and eight local cases describe #1270's pre-split change, not current public coverage performance or successor installed acceptance.
+
 # ADL CI performance: issue 1270
 
 Part of agent-logic/cognitive-sdlc#205.

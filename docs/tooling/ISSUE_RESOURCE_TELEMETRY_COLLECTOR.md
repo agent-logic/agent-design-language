@@ -1,9 +1,16 @@
 # Issue Resource Telemetry Collector
 
+> Historical v1 collector reference. The public ADL CLI rejects the retired
+> `adl tooling` multiplexer. The commands below document its historical contract
+> and are not current execution instructions; no equivalent native v3 collector
+> is asserted here. See [Current C-SDLC authority](../csdlc-v3/CURRENT_AUTHORITY.md).
+> Preserve the privacy and private-evidence rules below for existing records.
+> This reference grants no authority to upload telemetry or manifests.
+
 `#4298` adds the first bounded local collector for issue resource telemetry and
 `#4299` extends it with private archive and multi-host rollout support.
 
-## Command
+## Historical Commands
 
 ```text
 adl tooling issue-resource-telemetry collect \

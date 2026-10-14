@@ -1,4 +1,8 @@
+> Infrastructure source and execution for the Terraform paths below moved to [agent-logic-infrastructure](https://github.com/agent-logic/agent-logic-infrastructure/tree/61c2806b6274b1003aa42f02adec99faf5f2a74b/infra). Run applicable commands from that owner checkout with its reviewed inputs. These retained procedures and historical outcomes do not establish new cloud or deployment acceptance.
+
 # GCP-D private platform foundation
+
+The maintained [runbook and Terraform source](https://github.com/agent-logic/agent-logic-infrastructure/blob/main/docs/operations/cloud/gcp/platform-foundation/README.md) belong to `agent-logic-infrastructure`. Run the infrastructure commands below from that repository. This ADL copy preserves the migration context; infrastructure changes belong in the successor repository.
 
 This runbook brings up the private GCP foundation for disposable CSM workloads.
 It is intentionally boring: one custom-mode VPC, one private subnet, IAP and OS
@@ -106,3 +110,11 @@ terraform destroy
 For this issue, local static proof is allowed. Live GCP apply/destroy proof
 requires explicit operator authorization and must not print, copy, retain, or
 commit credentials.
+
+## Readback owner route
+
+The command example above is relative to the Infrastructure owner checkout,
+not this ADL checkout. Select the [pinned readback script](https://github.com/agent-logic/agent-logic-infrastructure/blob/61c2806b6274b1003aa42f02adec99faf5f2a74b/docs/operations/cloud/gcp/platform-foundation/readback-disposable-residue.sh)
+with its colocated Terraform inputs. The retained five fake-tool cases establish
+argument/refusal and read-command behavior only. Optional read failures are
+suppressed by the original script, so exit zero is not proof of cloud absence.

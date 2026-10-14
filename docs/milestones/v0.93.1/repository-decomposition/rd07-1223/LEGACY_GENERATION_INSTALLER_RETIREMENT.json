@@ -1,0 +1,32 @@
+{
+  "schema": "adl.rd07.reviewed-historical-contracts.v1",
+  "rows": [
+    {
+      "id": "RD07-2109",
+      "path": "adl/tools/test_runtime_v3_generation_install.sh",
+      "source_sha256": "3fcea1000fc295e2e23ff54ea253b8d8a0ab413da41d130e04b5e807d4f24b6c",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
+      "assertion_dispositions": [
+        "Recorded-predecessor rollback and stable-CSM launcher repair/routing are explicitly historical proposed retirement scope.",
+        "Preserve original escaped-predecessor, unchanged-current refusal, tampering and missing-active-CSM assertions as historical evidence.",
+        "Current Runtime installer uses versions/<archive-sha256>, atomic current, explicit activate --sha256; intentional interface predates147 in ce156315.",
+        "Runtime147 twelve passing tests qualify only the current package interface; no old protocol equivalence or cutover authorization follows.",
+        "Reconcile all original installer callers before removal;2108 and2110 remain held."
+      ]
+    }
+  ],
+  "basis": [
+    "Explicit old-interface retirement proposal, not successor-equivalence claim."
+  ],
+  "required_before_retirement": [
+    "Reconcile active owner-lane, aggregate, registry and documentation callers.",
+    "Preserve independent source-family and behavioral obligations.",
+    "Exact scoped retirement decision."
+  ],
+  "independent_review": {
+    "reviewer": "review_1223_public_facade",
+    "result": "Source-only review supports conditional historical disposition with enumerated surviving obligations."
+  },
+  "validation": "No tests or builds run; no successor behavioral equivalence claimed.",
+  "execution_authorized": false
+}

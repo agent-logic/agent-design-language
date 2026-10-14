@@ -1,0 +1,97 @@
+{
+  "schema": "adl1223.pvf_retention.v1",
+  "original_rows": [
+    "RD07-1499",
+    "RD07-1500",
+    "RD07-2057",
+    "RD07-2097",
+    "RD07-2204"
+  ],
+  "proposed_action": "retain_public_source_or_fixture",
+  "source_head": "9161477bbf12ca95f5842869fd1cead44b0f095a",
+  "reason": "Generic explicit-manifest runner, schema validator and original deterministic fixtures do not depend on removed Rust product source. Preserve their entire six-file closure in ADL. Historical lane labels are fixture inputs, not current private product execution.",
+  "inputs": [
+    {
+      "path": "adl/tools/run_pvf_ci_release_policy_fixture.sh",
+      "blob": "8df744b375677873cb0ba4a3fd596a661ae97073",
+      "sha256": "02541c934596a435f54a68218a0412a926d2083542d6b920ca6f91776d5764a9",
+      "original_inventory_member": true
+    },
+    {
+      "path": "adl/tools/run_pvf_validation_lane.sh",
+      "blob": "3befec35944f5728a2bd296273b764712fafc267",
+      "sha256": "3ffa7fb95c6152bb9006ad3deaca2584771e06c44fa148faa61fc4f393c70f71",
+      "original_inventory_member": true
+    },
+    {
+      "path": "adl/tools/test_pvf_ci_release_policy.sh",
+      "blob": "da2b96bde3b50cdc35aded9d5bf75db38665ff96",
+      "sha256": "25ed4c12e40cb0d0e097e491af989898295b899c6ab931cb2ee0fd3fef1ac960",
+      "original_inventory_member": true
+    },
+    {
+      "path": "adl/tools/test_run_pvf_validation_lane.sh",
+      "blob": "7c60b591457ceec5e5089622c0044f06f057a97a",
+      "sha256": "cbad1379fa0014e5998890a09d77d3a120c32ce8a6798a93c476d25ff2744366",
+      "original_inventory_member": true
+    },
+    {
+      "path": "adl/tools/validate_pvf_manifest.py",
+      "blob": "6166e68cf5cb6673324be7ec66241ba350be7ab4",
+      "sha256": "51af6ceb32a65305ecc3f457afdea03e5a1b8f1d3f16ba153a21cec5c838bb3b",
+      "original_inventory_member": true
+    },
+    {
+      "path": "docs/milestones/v0.91.4/features/PVF_CI_RELEASE_POLICY_MANIFEST_v0.91.4.json",
+      "blob": "7cf1543a5aad26c968b5c455f64cbeb02f9d462a",
+      "sha256": "3c89ec793015a92d8f86814f0063981ae90257d33a939aaa523e32e3268b5259",
+      "original_inventory_member": false
+    }
+  ],
+  "execution": {
+    "results": [
+      {
+        "script": "test_run_pvf_validation_lane.sh",
+        "exit_code": 0,
+        "seconds": 4.557871041004546,
+        "stdout_sha256": "c339d75c6f16eaf5284b193fef1f7cb7adab4055e7990a01b4a6673249b93396",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "script": "test_pvf_ci_release_policy.sh",
+        "exit_code": 0,
+        "seconds": 2.181018874995061,
+        "stdout_sha256": "e011757bc4ec9016e8e8ca0804516228d6e43117af846d0efb87650509bba999",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "boundary": "Original shell fixture suites; generated fake lane commands and historical fixture manifest only. No Cargo build, provider, cloud or runtime execution."
+  },
+  "original_assertion_scope": [
+    "Seven outcome statuses and failing aggregate",
+    "Parallel start timing of three fake lanes",
+    "Credential-required lane blocked without explicit opt-in",
+    "Matching release-only lane requires release gate; unmatched lane skipped",
+    "Invalid lane-class manifest rejected before execution",
+    "Three historical CI/release scenarios and exact aggregate/lane statuses"
+  ],
+  "non_claims": [
+    "No native lifecycle admission",
+    "No live provider or Runtime execution",
+    "No actual artifact cache equivalence: reused is a fixture status",
+    "Not a replacement for current public pipeline acceptance"
+  ],
+  "pvf": {
+    "lane": "local_contract",
+    "proof_role": "original shell runner and policy fixture",
+    "determinism": "fixture-bound with original0.75s timing assertion",
+    "resources": "small CPU/tempfiles",
+    "release_gate": "retained helper regression"
+  },
+  "retained_external_inventory_input": "docs/milestones/v0.91.4/features/PVF_CI_RELEASE_POLICY_MANIFEST_v0.91.4.json",
+  "source_deletion": false,
+  "independent_review": {
+    "reviewer": "review_1223_historical_retention",
+    "result": "No actionable findings; six-file closure and original proof verified without rerun"
+  }
+}

@@ -1,0 +1,590 @@
+{
+  "schema": "adl1223.aws_remote_family_applied.v1",
+  "status": "applied_worktree_pending_root_review_and_commit",
+  "predecessor_commit": "5860e28608d93c29d2d599a5392162a29e62dd59",
+  "proposal": {
+    "path": "/Volumes/FastWork/c1223/aws-remote-family-prepared-patch/PATCH.json",
+    "sha256": "09bcf7b89051bfda3f7db7e67c738501c0d7d5bf0ebcd864ef39cc2d400e4570"
+  },
+  "reviewed_patch": {
+    "path": "/Volumes/FastWork/c1223/aws-remote-family-prepared-patch/aws-remote-family.patch",
+    "sha256": "c554f4f4f7c52e1252cb6a8f4ad5508cb8bb737e5dfee2b0d8b7a34a20eed6c3"
+  },
+  "scope": {
+    "source_files_removed": 14,
+    "caller_files_modified": 10,
+    "original_denominator": 4134,
+    "existing_additional_denominator": 22,
+    "caller_files_added": 1
+  },
+  "original_row_ids": [
+    "RD07-4094",
+    "RD07-4095",
+    "RD07-4096",
+    "RD07-4097",
+    "RD07-4098",
+    "RD07-4099",
+    "RD07-4100",
+    "RD07-4101",
+    "RD07-4102",
+    "RD07-4103",
+    "RD07-4104",
+    "RD07-4105",
+    "RD07-0422",
+    "RD07-0005"
+  ],
+  "files": [
+    {
+      "path": "tools/aws_remote_validation/BOOTSTRAP_IDENTITIES.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "a9e68ecf17b533bff84039a6ccbc1c3830c13283",
+        "sha256": "de8b363ea0390badd2d5bc156ff74274b335ae6ce269acfb137404129f56a549"
+      },
+      "after": null,
+      "archive_member": "source/tools/aws_remote_validation/BOOTSTRAP_IDENTITIES.md"
+    },
+    {
+      "path": "tools/aws_remote_validation/Cargo.lock",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "cac161cec38344d57d72fd6ac817be352f74de3a",
+        "sha256": "1d077118cd96fc78c06530b822e0f7ad750602a3c79369f946cd4fb77d809a9a"
+      },
+      "after": null,
+      "archive_member": "source/tools/aws_remote_validation/Cargo.lock"
+    },
+    {
+      "path": "tools/aws_remote_validation/Cargo.toml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "9a8916ae12fabfacc124e2cc3c7c2b885c73be37",
+        "sha256": "a99c28520b9ff4bf7e177ffd5b1470b4d51038841380c39214acffe1da7cf8a2"
+      },
+      "after": null,
+      "archive_member": "source/tools/aws_remote_validation/Cargo.toml"
+    },
+    {
+      "path": "tools/aws_remote_validation/scripts/remote_validation_runner.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "fa4b2c0435c5e96807eb8a82294ac9b5015da2e4",
+        "sha256": "656b940ed773962ab700bed9350fecd04381ecd154fd7f3e1718c8d1a2e365f6"
+      },
+      "after": null,
+      "archive_member": "source/tools/aws_remote_validation/scripts/remote_validation_runner.sh"
+    },
+    {
+      "path": "tools/aws_remote_validation/scripts/ssh_debug_control.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "d4a7a8fa6cac7a8f6965c7341d239f14f976a754",
+        "sha256": "a57a236d9186c769e67ae337e45c21a1b7930d456622a2aee49534086811f71f"
+      },
+      "after": null,
+      "archive_member": "source/tools/aws_remote_validation/scripts/ssh_debug_control.sh"
+    },
+    {
+      "path": "tools/aws_remote_validation/scripts/test_verified_bootstrap.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "5ba28b60a4a84fd860723eb76cdf62621ab7398a",
+        "sha256": "a4ad414236e0d342768e2ae40dee591efa209173a9aa9efcb51bd8a8e6ddf2d2"
+      },
+      "after": null,
+      "archive_member": "source/tools/aws_remote_validation/scripts/test_verified_bootstrap.py"
+    },
+    {
+      "path": "tools/aws_remote_validation/scripts/verified_bootstrap.pvf.json",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "211b13ca86afe6637027af782f3630e9433cb6e7",
+        "sha256": "34d7212628a35fe3c27d66f89f467feb9596230bd9713c2d6dca4b3f3e202bed"
+      },
+      "after": null,
+      "archive_member": "source/tools/aws_remote_validation/scripts/verified_bootstrap.pvf.json"
+    },
+    {
+      "path": "tools/aws_remote_validation/scripts/verified_bootstrap.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "0721b5532e52a2c18482a21e49886120a2b1ba4e",
+        "sha256": "798c2186498f0ad092597029dd041f1b8f212e46560b418b51485e7dd6cf4643"
+      },
+      "after": null,
+      "archive_member": "source/tools/aws_remote_validation/scripts/verified_bootstrap.py"
+    },
+    {
+      "path": "tools/aws_remote_validation/src/aws_remote_validation.rs",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "056990e76a0a7aa2fa964bbb7f04a9f15ff4308d",
+        "sha256": "a989931507b3f14feaf11be641630ae6737c6011add64d13596412bcf85e198f"
+      },
+      "after": null,
+      "archive_member": "source/tools/aws_remote_validation/src/aws_remote_validation.rs"
+    },
+    {
+      "path": "tools/aws_remote_validation/src/bin/adl_aws_remote_validation.rs",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "328573f7abf371440aeef719c09971fb93b77353",
+        "sha256": "b77442dda65d529e15910be9df24572e3d51dd7252be35d0c27da05f09f1e49a"
+      },
+      "after": null,
+      "archive_member": "source/tools/aws_remote_validation/src/bin/adl_aws_remote_validation.rs"
+    },
+    {
+      "path": "tools/aws_remote_validation/src/cli/observability.rs",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "013e4c6af9fef8b8163c065ee2df981391a7bee8",
+        "sha256": "ddb157715799c8b1e187ad45f106d103dffddf822116f712023e0f68bab6ddba"
+      },
+      "after": null,
+      "archive_member": "source/tools/aws_remote_validation/src/cli/observability.rs"
+    },
+    {
+      "path": "tools/aws_remote_validation/tests/portable_adapter.rs",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "4344d337657eb54173872a361d4a43bd9582778e",
+        "sha256": "89a95f94ed0eff04bf12a796b758a942390f0070ca53da05b696e0fb73902d94"
+      },
+      "after": null,
+      "archive_member": "source/tools/aws_remote_validation/tests/portable_adapter.rs"
+    },
+    {
+      "path": "adl/src/bin/adl_aws_remote_validation.rs",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "ed4f68d77d855c4f4495268bf04aaa0af09df0ee",
+        "sha256": "1de35b9876f2da6d3e0917c7894072cc224323c813b0219d0b3c4e41363462ae"
+      },
+      "after": null,
+      "archive_member": "source/adl/src/bin/adl_aws_remote_validation.rs"
+    },
+    {
+      "path": ".github/workflows/aws-spot-remote-validation.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "b9b9ac73592f3d8a784e5b23a7b2e2d03a045ccf",
+        "sha256": "da8ff049f5ef86d578d2a4f5ceacd9788344b1943909fe0d4d1e4f8fc656e878"
+      },
+      "after": null,
+      "archive_member": "source/.github/workflows/aws-spot-remote-validation.yaml"
+    },
+    {
+      "path": "adl/tools/install_aws_remote_validation_tool.sh",
+      "action": "modify",
+      "before": {
+        "mode": "100755",
+        "blob": "d25daf5b0c9ac4640b517681d96f60fda7ba7245",
+        "sha256": "160aed41c949f6b3dcf3507ee043e7030dfac2790604157e650ec449abcb50a9"
+      },
+      "after": {
+        "mode": "100755",
+        "blob": "7a27c084f58560d4d53818f057ac5d6a591f51e1",
+        "sha256": "f0ec056e9df5f9007a16a6a62f6580a7a40c2419cc87deb1b3165c7f52b1c799"
+      },
+      "archive_member": "source/adl/tools/install_aws_remote_validation_tool.sh"
+    },
+    {
+      "path": "adl/tools/run_aws_spot_remote_validation_lane.sh",
+      "action": "modify",
+      "before": {
+        "mode": "100755",
+        "blob": "f2ac6b16f57a64ad18abcfb0854fee8442cd6c10",
+        "sha256": "1762d23c121489437c8d80af48fc7f34ed4eac07abb0083e6f55d21286841dd8"
+      },
+      "after": {
+        "mode": "100755",
+        "blob": "a161ea422dfd2514d4f4f9a55e30abaf178cba0a",
+        "sha256": "f55ec679c58c479a668cb3ff40f00db6d7d6a2f74895cec5232308ca3343371b"
+      },
+      "archive_member": "source/adl/tools/run_aws_spot_remote_validation_lane.sh"
+    },
+    {
+      "path": "adl/tools/test_run_aws_spot_ci_profile.sh",
+      "action": "modify",
+      "before": {
+        "mode": "100755",
+        "blob": "a52a866fe27c9fcdc26a657e866ae7ab48394f81",
+        "sha256": "cc15d25c86fa3f6fddde4607428ed5bb2c5b602cb2f2f6d7f870c9196d779598"
+      },
+      "after": {
+        "mode": "100755",
+        "blob": "91623b22fef5b710eda47416dab7fe9a8c840fbe",
+        "sha256": "c4b1c15966cf82433171863781ef2581cb521d20d499e4ed59ea47bded8eb321"
+      },
+      "archive_member": "source/adl/tools/test_run_aws_spot_ci_profile.sh"
+    },
+    {
+      "path": "adl/tools/test_run_aws_spot_builder_image_validation.sh",
+      "action": "modify",
+      "before": {
+        "mode": "100755",
+        "blob": "16b94e284732826bb30689eea4e54f037bf7f3fd",
+        "sha256": "adc7c9d0b4018deb414a6db76216b0d5923362490830687a7a0c5173ff1e6ec3"
+      },
+      "after": {
+        "mode": "100755",
+        "blob": "107af3b83f4c23154d68fcdcc0f1cf09286d217a",
+        "sha256": "ff8fcffbb1c0708041f6361110ac441f1a52dade60d383bd41f31474d67a8684"
+      },
+      "archive_member": "source/adl/tools/test_run_aws_spot_builder_image_validation.sh"
+    },
+    {
+      "path": "tools/groupd_validation/src/lib.rs",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "07c8d3e425fd3ceadc70c79ab492b26811aac1dd",
+        "sha256": "3dd1968fe5a7f6005ca0aa4afbea84ddeabacdc7dacae21de1c84231f25fea2f"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "5c31fb69d78c72de8a28246b861bf1b6033fa5b0",
+        "sha256": "dff3c6ee01b81992f2d8c78cb31d4e681c7cd040f3e2d577c329f0f82d31f410"
+      },
+      "archive_member": "source/tools/groupd_validation/src/lib.rs"
+    },
+    {
+      "path": "tools/groupd_validation/README.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "57fbbda17be899f2f20076e1ae57df57035112f5",
+        "sha256": "19f9d79c58f7f0f7511ff5f81a794dcb4080518d5ab12a8e49825fa898f40b7c"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "f3bff9babdca1242eb66b2ab98495e650dcc3bdb",
+        "sha256": "4b211c8a472ea401ec3946bac0a3c5ab551be78b2728c6fcad8369961522be62"
+      },
+      "archive_member": "source/tools/groupd_validation/README.md"
+    },
+    {
+      "path": "docs/tooling/AWS_SPOT_REMOTE_VALIDATION_LANE.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "16d8b18a30b226073e54e13a4c997a8bef4ad68d",
+        "sha256": "72da3a36d3de67a0b4ca5193fea18ab9454d666e6096205e319cb5a34f7249cf"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "d9361c6dd54bc3e5a13827d817f80733f154efb0",
+        "sha256": "896e6e587357593e3f5487c9b638e9eedd5b659cf04aff43e9a18785f305bbbf"
+      },
+      "archive_member": "source/docs/tooling/AWS_SPOT_REMOTE_VALIDATION_LANE.md"
+    },
+    {
+      "path": "adl/config/validation_lane_selector.v0.91.6.json",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "a085c014c3191dc9c9be317cdc1e272a961a0e63",
+        "sha256": "253f935bfb3307fa2c137dd55c386bcd6f8250445484a3bcf9dbc9ff732248a8"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "ca1d1744e7a0f8146f27181237cababd61dfb06d",
+        "sha256": "258b0bf552984288733e26d1f4a6a404a3325d0c1514792d567b2f96deed1b03"
+      },
+      "archive_member": "source/adl/config/validation_lane_selector.v0.91.6.json"
+    },
+    {
+      "path": "adl/tools/generate_tool_surface_registry.py",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "6af211a07af42cf872d95b1d34737ca4b73f0d4f",
+        "sha256": "0113fc3d8ad29233c98d7e3c5285d5dcc5943f84cdfa122ea6411a8ca8d2912f"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "db5146cebd6e168ca5c66aa61f41cf783b0ffde3",
+        "sha256": "1528456dee5f1b9916bbd2bae9af805f1d56d0ec6da01c1234e6cb8995865677"
+      },
+      "archive_member": "source/adl/tools/generate_tool_surface_registry.py"
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "a144ace290458dc3dc11b3e8e8f37aa901b23b26",
+        "sha256": "66bf6428c822b61eb9e7b34ce9075534beab4d2826468fec872889fa9a6bd7ef"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "3ad46b99d92b4fc4b773265d206f1985302acd59",
+        "sha256": "79f9908286b3821880e719278afc41e7114f6d6697a82c27597baecb385c29cd"
+      },
+      "archive_member": "source/docs/tooling/TOOL_SURFACE_REGISTRY.md"
+    },
+    {
+      "path": "tools/groupd_validation/run_dependency_inventory.py",
+      "action": "add",
+      "before": null,
+      "after": {
+        "mode": "100644",
+        "blob": "9efdebbd91b4991832f8a45991c436bfb4e223e2",
+        "sha256": "0c8a5de037d16b105a7658d26c4d4e56b6895a045ac6b6260ab8d4c273c4c618"
+      },
+      "archive_member": null
+    }
+  ],
+  "owner_source": [
+    {
+      "path": "tools/aws_remote_validation/BOOTSTRAP_IDENTITIES.md",
+      "owner_path": "tools/aws_remote_validation/BOOTSTRAP_IDENTITIES.md",
+      "owner_revision": "61c2806b6274b1003aa42f02adec99faf5f2a74b",
+      "owner_mode": "100644",
+      "owner_blob": "a9e68ecf17b533bff84039a6ccbc1c3830c13283",
+      "owner_sha256": "de8b363ea0390badd2d5bc156ff74274b335ae6ce269acfb137404129f56a549",
+      "identical_to_adl": true,
+      "identical_to_qualified_ed02_source": true
+    },
+    {
+      "path": "tools/aws_remote_validation/Cargo.lock",
+      "owner_path": "tools/aws_remote_validation/Cargo.lock",
+      "owner_revision": "61c2806b6274b1003aa42f02adec99faf5f2a74b",
+      "owner_mode": "100644",
+      "owner_blob": "cac161cec38344d57d72fd6ac817be352f74de3a",
+      "owner_sha256": "1d077118cd96fc78c06530b822e0f7ad750602a3c79369f946cd4fb77d809a9a",
+      "identical_to_adl": true,
+      "identical_to_qualified_ed02_source": true
+    },
+    {
+      "path": "tools/aws_remote_validation/Cargo.toml",
+      "owner_path": "tools/aws_remote_validation/Cargo.toml",
+      "owner_revision": "61c2806b6274b1003aa42f02adec99faf5f2a74b",
+      "owner_mode": "100644",
+      "owner_blob": "9a8916ae12fabfacc124e2cc3c7c2b885c73be37",
+      "owner_sha256": "a99c28520b9ff4bf7e177ffd5b1470b4d51038841380c39214acffe1da7cf8a2",
+      "identical_to_adl": true,
+      "identical_to_qualified_ed02_source": true
+    },
+    {
+      "path": "tools/aws_remote_validation/scripts/remote_validation_runner.sh",
+      "owner_path": "tools/aws_remote_validation/scripts/remote_validation_runner.sh",
+      "owner_revision": "61c2806b6274b1003aa42f02adec99faf5f2a74b",
+      "owner_mode": "100644",
+      "owner_blob": "bc7371afc2ec90de4dc3c56d0983271433ae9a50",
+      "owner_sha256": "b605c2c6784b1d128e3726b2568b71e9b1ede834bb450a68cb83633d62a1e169",
+      "identical_to_adl": false,
+      "identical_to_qualified_ed02_source": false
+    },
+    {
+      "path": "tools/aws_remote_validation/scripts/ssh_debug_control.sh",
+      "owner_path": "tools/aws_remote_validation/scripts/ssh_debug_control.sh",
+      "owner_revision": "61c2806b6274b1003aa42f02adec99faf5f2a74b",
+      "owner_mode": "100755",
+      "owner_blob": "d4a7a8fa6cac7a8f6965c7341d239f14f976a754",
+      "owner_sha256": "a57a236d9186c769e67ae337e45c21a1b7930d456622a2aee49534086811f71f",
+      "identical_to_adl": true,
+      "identical_to_qualified_ed02_source": true
+    },
+    {
+      "path": "tools/aws_remote_validation/scripts/test_verified_bootstrap.py",
+      "owner_path": "tools/aws_remote_validation/scripts/test_verified_bootstrap.py",
+      "owner_revision": "61c2806b6274b1003aa42f02adec99faf5f2a74b",
+      "owner_mode": "100644",
+      "owner_blob": "5ba28b60a4a84fd860723eb76cdf62621ab7398a",
+      "owner_sha256": "a4ad414236e0d342768e2ae40dee591efa209173a9aa9efcb51bd8a8e6ddf2d2",
+      "identical_to_adl": true,
+      "identical_to_qualified_ed02_source": true
+    },
+    {
+      "path": "tools/aws_remote_validation/scripts/verified_bootstrap.pvf.json",
+      "owner_path": "tools/aws_remote_validation/scripts/verified_bootstrap.pvf.json",
+      "owner_revision": "61c2806b6274b1003aa42f02adec99faf5f2a74b",
+      "owner_mode": "100644",
+      "owner_blob": "211b13ca86afe6637027af782f3630e9433cb6e7",
+      "owner_sha256": "34d7212628a35fe3c27d66f89f467feb9596230bd9713c2d6dca4b3f3e202bed",
+      "identical_to_adl": true,
+      "identical_to_qualified_ed02_source": true
+    },
+    {
+      "path": "tools/aws_remote_validation/scripts/verified_bootstrap.py",
+      "owner_path": "tools/aws_remote_validation/scripts/verified_bootstrap.py",
+      "owner_revision": "61c2806b6274b1003aa42f02adec99faf5f2a74b",
+      "owner_mode": "100644",
+      "owner_blob": "0721b5532e52a2c18482a21e49886120a2b1ba4e",
+      "owner_sha256": "798c2186498f0ad092597029dd041f1b8f212e46560b418b51485e7dd6cf4643",
+      "identical_to_adl": true,
+      "identical_to_qualified_ed02_source": true
+    },
+    {
+      "path": "tools/aws_remote_validation/src/aws_remote_validation.rs",
+      "owner_path": "tools/aws_remote_validation/src/aws_remote_validation.rs",
+      "owner_revision": "61c2806b6274b1003aa42f02adec99faf5f2a74b",
+      "owner_mode": "100644",
+      "owner_blob": "9ece914125e1fd6e646c88f8dd597dd844e2b172",
+      "owner_sha256": "b624e6166ea95b68339a7566839162e317d3cc1aff89652b488d162ee96abcf2",
+      "identical_to_adl": false,
+      "identical_to_qualified_ed02_source": true
+    },
+    {
+      "path": "tools/aws_remote_validation/src/bin/adl_aws_remote_validation.rs",
+      "owner_path": "tools/aws_remote_validation/src/bin/adl_aws_remote_validation.rs",
+      "owner_revision": "61c2806b6274b1003aa42f02adec99faf5f2a74b",
+      "owner_mode": "100644",
+      "owner_blob": "328573f7abf371440aeef719c09971fb93b77353",
+      "owner_sha256": "b77442dda65d529e15910be9df24572e3d51dd7252be35d0c27da05f09f1e49a",
+      "identical_to_adl": true,
+      "identical_to_qualified_ed02_source": true
+    },
+    {
+      "path": "tools/aws_remote_validation/src/cli/observability.rs",
+      "owner_path": "tools/aws_remote_validation/src/cli/observability.rs",
+      "owner_revision": "61c2806b6274b1003aa42f02adec99faf5f2a74b",
+      "owner_mode": "100644",
+      "owner_blob": "013e4c6af9fef8b8163c065ee2df981391a7bee8",
+      "owner_sha256": "ddb157715799c8b1e187ad45f106d103dffddf822116f712023e0f68bab6ddba",
+      "identical_to_adl": true,
+      "identical_to_qualified_ed02_source": true
+    },
+    {
+      "path": "tools/aws_remote_validation/tests/portable_adapter.rs",
+      "owner_path": "tools/aws_remote_validation/tests/portable_adapter.rs",
+      "owner_revision": "61c2806b6274b1003aa42f02adec99faf5f2a74b",
+      "owner_mode": "100644",
+      "owner_blob": "4344d337657eb54173872a361d4a43bd9582778e",
+      "owner_sha256": "89a95f94ed0eff04bf12a796b758a942390f0070ca53da05b696e0fb73902d94",
+      "identical_to_adl": true,
+      "identical_to_qualified_ed02_source": true
+    },
+    {
+      "path": "adl/src/bin/adl_aws_remote_validation.rs",
+      "owner_path": "tools/aws_remote_validation/src/bin/adl_aws_remote_validation.rs",
+      "owner_revision": "61c2806b6274b1003aa42f02adec99faf5f2a74b",
+      "owner_mode": "100644",
+      "owner_blob": "328573f7abf371440aeef719c09971fb93b77353",
+      "owner_sha256": "b77442dda65d529e15910be9df24572e3d51dd7252be35d0c27da05f09f1e49a",
+      "identical_to_adl": false,
+      "identical_to_qualified_ed02_source": true
+    },
+    {
+      "path": ".github/workflows/aws-spot-remote-validation.yaml",
+      "owner_path": ".github/workflows/aws-spot-remote-validation.yaml",
+      "owner_revision": "61c2806b6274b1003aa42f02adec99faf5f2a74b",
+      "owner_mode": "100644",
+      "owner_blob": "b9b9ac73592f3d8a784e5b23a7b2e2d03a045ccf",
+      "owner_sha256": "da8ff049f5ef86d578d2a4f5ceacd9788344b1943909fe0d4d1e4f8fc656e878",
+      "identical_to_adl": true,
+      "identical_to_qualified_ed02_source": true
+    }
+  ],
+  "rollback": {
+    "path": "/Volumes/FastWork/c1223/aws-remote-family-prepared-patch/preimages.tar",
+    "sha256": "1127b5d479732004da7abbbdd41ecc3be8c34fbd74b392e7ea804e8d59505b8c",
+    "members": 24
+  },
+  "registry_rollback": {
+    "git_object": "5860e28608d93c29d2d599a5392162a29e62dd59:docs/tooling/TOOL_SURFACE_REGISTRY.md",
+    "sha256": "66bf6428c822b61eb9e7b34ce9075534beab4d2826468fec872889fa9a6bd7ef",
+    "reason": "Original external archive registry predates CSDL83; actual composed preimage independently pinned in predecessor Git. Other23 archive preimages match actualcurrent."
+  },
+  "evidence": [
+    {
+      "path": "/Volumes/FastWork/c1223/evidence/infrastructure/ADAPTER_RESULT.json",
+      "sha256": "1530b49f5510d488a86479462d7c415a51db4b95486196ec4c6907c6aa522c9c"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/evidence/infrastructure/adapter-build.log",
+      "sha256": "aa7c9da67c02b8546aecec6e340187f3811e98b20ef146377b4dff7f1008bb40"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/evidence/infrastructure/build-adapter.py",
+      "sha256": "dd79c5661b2d338cfab53076caf61571cddbe391a05515707420f619484802e2"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/evidence/infrastructure/RESULT.json",
+      "sha256": "5564111ec4b3be6367691aca475e0c4f241a188c14ba70c267ff78b3f8cfc97e"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/evidence/infrastructure/qualification.json",
+      "sha256": "50e540af38dc4429d80278201f59b7b62660932755e0b09d78807e6c51f8d64f"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/evidence/infrastructure/build.log",
+      "sha256": "09e9308239953d5a9c09af56cd0700e5525b8c80e86b44a13b01e7fc3b5e0cdd"
+    }
+  ],
+  "dependency_owner_resources": {
+    "artifact": "/Volumes/FastWork/c1223/evidence/codefriend/issue104-installed-preparation/codefriend-review-skills-v1.tar",
+    "artifact_sha256": "4ae4847f60a4b2cfd0504deb30fa01ae31db781f6a29ebad2255bbcba81113c4",
+    "artifact_id": 11803531674,
+    "candidate": "e93a457ad6325017627a66a2abe31a3376fa28fd",
+    "resources": {
+      "repo-dependency-review/SKILL.md": "575a532a05fed00f6d8f399ef0b369bae316b0ff768f78a3e3fabd3718ec7157",
+      "repo-dependency-review/adl-skill.yaml": "f17ac9a943828f6ece3139fb3d41a4b4e33a485f56e3078bb2c9bdb89a7f0269",
+      "repo-dependency-review/agents/openai.yaml": "047e87eb6e867f45288ab2f83ec3dc4f1036a15de7d9dc6399345a4b351cf9ce",
+      "repo-dependency-review/references/dependency-playbook.md": "1ee5ed9f6ee506f6c7c8c8619cf25ac404952d63105579ae73bc640161df7348",
+      "repo-dependency-review/references/output-contract.md": "7148e4fb8dddffab6291de368dc3a2afe06165b5ea9ce3d3b7147abfa50ac03a",
+      "repo-dependency-review/scripts/prepare_dependency_review.py": "626cc3f275d7f0409014a9b6561d4ade236cf69e1ffcde899e5d6708e1545a18",
+      "repo-dependency-review/scripts/test_prepare_dependency_review.py": "15dd9382577b65df82c078dd43eec091eede972fa4ff51739e329107e599a4b1"
+    }
+  },
+  "focused_dependency_routing": {
+    "path": "/Volumes/FastWork/c1223/aws-remote-family-prepared-patch/dependency-routing-proof/RESULT.json",
+    "sha256": "6f6082824c05facde1fa11b511d734933ae551bfae4bffc3b343dc2c1f739cf9",
+    "status": "PASS",
+    "limits": "Five root/resource refusals and one authentic original six-case Python suite. No Rust adapter build/full137-suite/cloud/provider invocation."
+  },
+  "qualification_limits": {
+    "adapter": "Existing isolated compile/install of Infrastructure owner with pinned public portable contract passed; not a CLI test run or live AWS qualification.",
+    "bootstrap": "24 original tests observed passed in build.log; test and helper byte-identical ADL/ed02/61c2806.",
+    "adverse": "Overall initial Infrastructure RESULT remains failed exit137 and qualification command record includes earlier CodeFriend contract failure. Neither is overwritten by adapter or bootstrap sub-result.",
+    "later_owner_runner": "ed02 to61c2806 adds ADL_ISSUE414_RUNTIME_INSTALL_RECEIPT export only in remote_validation_runner; source correspondence, not new live execution.",
+    "legacy_adl_binary": "RD07-0422 is excluded by public manifest; its missing adjacent module already retired. Owner binary differs; old wrapper source/assertions preserved in rollback. Full historical CLI-case equivalence not inferred.",
+    "tests": "Original proposal ran no tests. This incremental repair ran only five routing refusals and the exact six-case authenticated owner Python suite; no Rust/full adapter suite or cloud.",
+    "overall_failure": "Historical initial Infrastructure RESULT exited137; this is an exit code, not a137-test denominator. Retained earlier command failures remain unmodified.",
+    "focused_tests": "Original six-case Python suite passed; five distinct routing refusals exited2 as expected. No Rust adapter or complete suite rerun.",
+    "current_application": "No tests/builds/cloud/providers/native operations rerun during application."
+  },
+  "caller_closure": {
+    "current_ci": "Current .github/workflows/ci.yaml has no aws-spot reusable workflow reference; former workflow source is removed rather than cross-repo checkout/build.",
+    "refusals": [
+      "adl/tools/install_aws_remote_validation_tool.sh",
+      "adl/tools/run_aws_spot_remote_validation_lane.sh",
+      "adl/tools/test_run_aws_spot_ci_profile.sh",
+      "adl/tools/test_run_aws_spot_builder_image_validation.sh"
+    ],
+    "legacy_selector": "Source-era command/run_command now invokes explicit refusal. Its path fixtures and match semantics stay historical; no test pass invented.",
+    "groupd": "Infrastructure bootstrap call removed with original24-case owner proof preserved. Dependency inventory invokes retained local adapter with explicit authenticated CodeFriend resource root; all seven family inputs pinned before untouched six Python cases execute. No silent skip.",
+    "registry": "Prospectively generated exact current topology with four new historical refusal classifications; regenerate after application if parallel families change topology.",
+    "preserved_synthetic_fixtures": [
+      "adl/tools/test_ci_path_policy.sh",
+      "adl/tools/test_check_coverage_impact.sh",
+      "adl/tools/test_merge_coverage_summaries.sh"
+    ],
+    "history": "Immutable milestones, .csdlc, source fixtures and prior evidence unchanged. Dynamic invocations not exhaustively proven absent."
+  },
+  "review": "Parent authorized final reviewed patchc554f4... and packet09bcf7...; independent source/caller and incremental dependency routing reviews reported PASS. Proposal pending-review text is historical, not the current review disposition.",
+  "verification": {
+    "preimages": "All23 non-registry existing preimages match reviewed hashes/blobs/modes; new helper absent; all24 archive member hashes/modes verified. Current registry pinned to predecessor Git.",
+    "registry": "Actual generator rerun; exactly4 internal-helper to historical-refusal row changes; preserves all existing CF/conversion/CSDL83 topology.",
+    "diff_check": "PASS",
+    "ledger_guard_overlay": "Not modified;4134original+22additional identities preserved; original14 IDs recorded. Parent integrates authority separately.",
+    "preexisting_dirty_binary": "Preserved unrelated872deletion outside scope.",
+    "stage_commit": "Not performed."
+  }
+}

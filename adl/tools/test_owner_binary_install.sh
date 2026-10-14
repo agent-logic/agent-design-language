@@ -34,11 +34,11 @@ EOF_CARGO
 printf 'pub fn seed() {}\n' >"$repo/adl/src/lib.rs"
 printf '# fixture lock\n' >"$repo/adl/Cargo.lock"
 printf 'fn main() {}\n' >"$repo/adl/tools/adl_provider_adapter.rs"
-cat >"$source_bin_dir/adl-pr-closeout" <<'EOF_BIN'
+cat >"$source_bin_dir/adl" <<'EOF_BIN'
 #!/usr/bin/env bash
-printf 'closeout-v1:%s\n' "$*"
+printf 'public-v1:%s\n' "$*"
 EOF_BIN
-chmod +x "$source_bin_dir/adl-pr-closeout"
+chmod +x "$source_bin_dir/adl"
 
 (
   cd "$repo"
@@ -49,13 +49,13 @@ chmod +x "$source_bin_dir/adl-pr-closeout"
   git commit -q -m "init"
 )
 
-stable_bin="$repo/.adl/bin/adl-pr-closeout"
-provenance="$repo/.adl/bin/.provenance/adl-pr-closeout.sha256"
+stable_bin="$repo/.adl/bin/adl"
+provenance="$repo/.adl/bin/.provenance/adl.sha256"
 
 (
   cd "$repo"
   "$BASH_BIN" adl/tools/install_owner_binaries.sh \
-    --bin adl-pr-closeout \
+    --bin adl \
     --source-bin-dir "$source_bin_dir" \
     --no-build >/dev/null
 )
@@ -77,7 +77,7 @@ sleep 1
 (
   cd "$repo"
   "$BASH_BIN" adl/tools/install_owner_binaries.sh \
-    --bin adl-pr-closeout \
+    --bin adl \
     --source-bin-dir "$source_bin_dir" \
     --no-build >/dev/null
 )
@@ -93,7 +93,7 @@ resolved="$(
   source adl/tools/owner_binary_resolution.sh
   root="$(adl_owner_manifest_root)"
   primary="$(adl_owner_primary_root "$root")"
-  adl_owner_stable_binary_if_fresh adl-pr-closeout "$root" "$primary"
+  adl_owner_stable_binary_if_fresh adl "$root" "$primary"
 )"
 [[ "$resolved" == "$stable_bin" ]] || {
   echo "assertion failed: resolver did not select fresh stable owner binary" >&2
@@ -109,7 +109,7 @@ stale_resolved="$(
   source adl/tools/owner_binary_resolution.sh
   root="$(adl_owner_manifest_root)"
   primary="$(adl_owner_primary_root "$root")"
-  adl_owner_stable_binary_if_fresh adl-pr-closeout "$root" "$primary"
+  adl_owner_stable_binary_if_fresh adl "$root" "$primary"
 )"
 stale_status=$?
 set -e
@@ -118,16 +118,16 @@ set -e
   exit 1
 }
 
-cat >"$source_bin_dir/adl-pr-closeout" <<'EOF_BIN'
+cat >"$source_bin_dir/adl" <<'EOF_BIN'
 #!/usr/bin/env bash
-printf 'closeout-v2:%s\n' "$*"
+printf 'public-v2:%s\n' "$*"
 EOF_BIN
-chmod +x "$source_bin_dir/adl-pr-closeout"
+chmod +x "$source_bin_dir/adl"
 sleep 1
 (
   cd "$repo"
   "$BASH_BIN" adl/tools/install_owner_binaries.sh \
-    --bin adl-pr-closeout \
+    --bin adl \
     --source-bin-dir "$source_bin_dir" \
     --no-build >/dev/null
 )
@@ -136,12 +136,13 @@ mtime_after_update="$(mtime_seconds "$stable_bin")"
   echo "assertion failed: changed source did not intentionally replace stable binary" >&2
   exit 1
 }
-grep -Fq 'closeout-v2' "$stable_bin" || {
+grep -Fq 'public-v2' "$stable_bin" || {
   echo "assertion failed: stable binary content was not updated after source change" >&2
   exit 1
 }
 
-printf 'pub fn untracked_owner_input() {}\n' >"$repo/adl/src/untracked_owner_input.rs"
+mkdir -p "$repo/adl-legacy-contracts/src"
+printf 'pub fn untracked_owner_input() {}\n' >"$repo/adl-legacy-contracts/src/untracked_owner_input.rs"
 set +e
 untracked_resolved="$(
   cd "$repo"
@@ -149,7 +150,7 @@ untracked_resolved="$(
   source adl/tools/owner_binary_resolution.sh
   root="$(adl_owner_manifest_root)"
   primary="$(adl_owner_primary_root "$root")"
-  adl_owner_stable_binary_if_fresh adl-pr-closeout "$root" "$primary"
+  adl_owner_stable_binary_if_fresh adl "$root" "$primary"
 )"
 untracked_status=$?
 set -e
@@ -157,7 +158,7 @@ set -e
   echo "assertion failed: resolver accepted stale stable owner binary after untracked source was added" >&2
   exit 1
 }
-rm -f "$repo/adl/src/untracked_owner_input.rs"
+rm -f "$repo/adl-legacy-contracts/src/untracked_owner_input.rs"
 
 printf 'fn main() { let _provider_source_changed = true; }\n' >"$repo/adl/tools/adl_provider_adapter.rs"
 set +e
@@ -167,12 +168,12 @@ provider_source_resolved="$(
   source adl/tools/owner_binary_resolution.sh
   root="$(adl_owner_manifest_root)"
   primary="$(adl_owner_primary_root "$root")"
-  adl_owner_stable_binary_if_fresh adl-pr-closeout "$root" "$primary"
+  adl_owner_stable_binary_if_fresh adl "$root" "$primary"
 )"
 provider_source_status=$?
 set -e
-[[ "$provider_source_status" -ne 0 && -z "$provider_source_resolved" ]] || {
-  echo "assertion failed: resolver accepted stale stable owner binary after provider adapter source changed" >&2
+[[ "$provider_source_status" -eq 0 && "$provider_source_resolved" == "$stable_bin" ]] || {
+  echo "assertion failed: private provider adapter change invalidated public owner binary" >&2
   exit 1
 }
 git -C "$repo" checkout -- adl/tools/adl_provider_adapter.rs
@@ -184,19 +185,19 @@ cp "$RESOLUTION_SRC" "$nogit/adl/tools/owner_binary_resolution.sh"
 chmod +x "$nogit/adl/tools/install_owner_binaries.sh"
 cp "$repo/adl/Cargo.toml" "$nogit/adl/Cargo.toml"
 printf 'pub fn nongit_seed() {}\n' >"$nogit/adl/src/lib.rs"
-cat >"$tmpdir/nogit-source-bins/adl-pr-closeout" <<'EOF_BIN'
+cat >"$tmpdir/nogit-source-bins/adl" <<'EOF_BIN'
 #!/usr/bin/env bash
-printf 'closeout-nongit:%s\n' "$*"
+printf 'public-nongit:%s\n' "$*"
 EOF_BIN
-chmod +x "$tmpdir/nogit-source-bins/adl-pr-closeout"
+chmod +x "$tmpdir/nogit-source-bins/adl"
 (
   cd "$nogit"
   "$BASH_BIN" adl/tools/install_owner_binaries.sh \
-    --bin adl-pr-closeout \
+    --bin adl \
     --source-bin-dir "$tmpdir/nogit-source-bins" \
     --no-build >/dev/null
 )
-"$nogit/.adl/bin/adl-pr-closeout" | grep -Fq 'closeout-nongit:' || {
+"$nogit/.adl/bin/adl" | grep -Fq 'public-nongit:' || {
   echo "assertion failed: non-git stable owner binary install did not produce runnable binary" >&2
   exit 1
 }
@@ -220,10 +221,7 @@ EOF_VECTOR
 chmod +x "$default_repo/adl/tools/install_vector_component.sh"
 cp "$repo/adl/Cargo.toml" "$default_repo/adl/Cargo.toml"
 printf 'pub fn default_seed() {}\n' >"$default_repo/adl/src/lib.rs"
-default_bins=(
-  adl adl-runtime csm csmctl adl-review adl-process adl-remote
-  adl-aws-remote-validation adl-provider-adapter
-)
+default_bins=(adl adl-process)
 for bin in "${default_bins[@]}"; do
   cat >"$default_source_bin_dir/$bin" <<EOF_BIN
 #!/usr/bin/env bash
@@ -237,12 +235,12 @@ done
     --source-bin-dir "$default_source_bin_dir" \
     --no-build >/dev/null
 )
-[[ -x "$default_repo/.adl/bin/csm" ]] || {
-  echo "assertion failed: default stable owner binary install omitted csm" >&2
+[[ -x "$default_repo/.adl/bin/adl-process" ]] || {
+  echo "assertion failed: default stable owner binary install omitted adl-process" >&2
   exit 1
 }
-"$default_repo/.adl/bin/csm" | grep -Fq 'csm-default:' || {
-  echo "assertion failed: default stable csm binary install did not produce runnable csm" >&2
+"$default_repo/.adl/bin/adl-process" | grep -Fq 'adl-process-default:' || {
+  echo "assertion failed: default stable process binary install did not produce runnable process binary" >&2
   exit 1
 }
 
@@ -258,7 +256,7 @@ EOF_VECTOR
 chmod +x "$incomplete_repo/adl/tools/install_vector_component.sh"
 cp "$repo/adl/Cargo.toml" "$incomplete_repo/adl/Cargo.toml"
 printf 'pub fn incomplete_default_seed() {}\n' >"$incomplete_repo/adl/src/lib.rs"
-for bin in adl csm csmctl adl-remote adl-aws-remote-validation adl-provider-adapter; do
+for bin in adl; do
   cat >"$incomplete_source_bins/$bin" <<EOF_BIN
 #!/usr/bin/env bash
 printf '$bin:%s\n' "\$*"
@@ -280,7 +278,7 @@ set -e
   cat "$default_install_log" >&2
   exit 1
 }
-for bin in adl csm csmctl adl-remote adl-aws-remote-validation adl-provider-adapter; do
+for bin in adl; do
   [[ -x "$incomplete_repo/.adl/bin/$bin" ]] || {
     echo "assertion failed: default no-build install did not install current owner binary $bin" >&2
     cat "$default_install_log" >&2
@@ -303,7 +301,7 @@ set +e
 (
   cd "$incomplete_repo"
   "$BASH_BIN" adl/tools/install_owner_binaries.sh \
-    --bin definitely-missing-owner-binary \
+    --bin adl-process \
     --source-bin-dir "$incomplete_source_bins" \
     --no-build >"$explicit_missing_log" 2>&1
 )
@@ -319,6 +317,15 @@ grep -Fq "install_owner_binaries: missing built source binary" "$explicit_missin
   cat "$explicit_missing_log" >&2
   exit 1
 }
+
+for private_bin in adl-runtime csm codefriend definitely-missing-owner-binary; do
+  set +e
+  "$BASH_BIN" "$INSTALL_SRC" --bin "$private_bin" --no-build >"$tmpdir/private-refusal.log" 2>&1
+  private_status=$?
+  set -e
+  [[ "$private_status" -eq 2 ]]
+  grep -Fq 'not a public ADL binary' "$tmpdir/private-refusal.log"
+done
 
 fake_cargo_dir="$tmpdir/fake-cargo-bin"
 owner_build_root="$tmpdir/owner-build"
@@ -364,6 +371,7 @@ assert_lock_restored_after_build() {
   }
 }
 
+printf '// force the public fixture through the build path\n' >>"$repo/adl/src/lib.rs"
 cp "$repo/adl/Cargo.lock" "$tmpdir/clean-lock.before"
 assert_lock_restored_after_build "$tmpdir/clean-lock.before" 101 "$tmpdir/removed-target.log"
 grep -Fq -- '--locked' "$tmpdir/fake-cargo.log" || {
@@ -381,30 +389,16 @@ assert_lock_restored_after_build "$tmpdir/user-lock.before" 0 "$tmpdir/dependenc
 
 echo "owner binary stable install: ok"
 
-# PVF #856: native owner selection, source provenance and no-op installation.
-# The native owner flow also installs the reviewed operator manual (#861).
-cp "$ROOT_DIR/adl/tools/install_csdlc_man_pages.sh" "$repo/adl/tools/"
-mkdir -p "$repo/docs/csdlc-v3/man"
-cp -R "$ROOT_DIR/docs/csdlc-v3/man/man1" "$repo/docs/csdlc-v3/man/"
-mkdir -p "$repo/csdlc-v3/src"
-printf '[package]\nname = "csdlc-v3"\nversion = "0.1.0"\n' >"$repo/csdlc-v3/Cargo.toml"
-printf '# native fixture lock\n' >"$repo/csdlc-v3/Cargo.lock"
-printf 'fn main() {}\n' >"$repo/csdlc-v3/src/main.rs"
-printf '#!/usr/bin/env bash\necho native-fixture\n' >"$source_bin_dir/csdlc"
-chmod +x "$source_bin_dir/csdlc"
-"$BASH_BIN" "$repo/adl/tools/install_owner_binaries.sh" --bin csdlc --source-bin-dir "$source_bin_dir" --no-build >/dev/null
-native_bin="$repo/.adl/bin/native-v3/csdlc"
-native_provenance="$repo/.adl/bin/native-v3/.provenance/csdlc.sha256"
-[[ -x "$native_bin" && -f "$native_provenance" ]]
-[[ -f "$repo/.adl/bin/native-v3/share/man/man1/csdlc.1" ]]
-native_hash="$(cat "$native_provenance")"
-printf '// unrelated ADL change\n' >>"$repo/adl/src/lib.rs"
-noop="$("$BASH_BIN" "$repo/adl/tools/install_owner_binaries.sh" --bin csdlc --source-bin-dir "$source_bin_dir" --no-build)"
-[[ "$noop" == *'owner-binary unchanged: csdlc'* ]]
-printf '// changed native input\n' >>"$repo/csdlc-v3/src/main.rs"
-"$BASH_BIN" "$repo/adl/tools/install_owner_binaries.sh" --bin csdlc --source-bin-dir "$source_bin_dir" --no-build >/dev/null
-[[ "$(cat "$native_provenance")" != "$native_hash" ]]
-if "$BASH_BIN" "$repo/adl/tools/install_owner_binaries.sh" --bin csdlc --bin adl --no-build >/dev/null 2>&1; then
-  echo 'mixed-manifest owner install accepted' >&2; exit 1
+# PVF: deterministic isolated ADL consumer tooling contract.
+# C-SDLC source-copy installation is retired. Exercise selected-package lookup,
+# no-write preservation and refusals through the dedicated fixture. Its fake
+# package proves neither native admission nor actual manual rendering.
+"$BASH_BIN" "$ROOT_DIR/docs/csdlc-v3/man/test_install.sh"
+
+# Retired transition source installation must refuse without creating an install.
+transition_dir="$tmpdir/transition-refused"
+if "$BASH_BIN" "$ROOT_DIR/adl/tools/install_owner_binaries.sh" --bin csdlc-transition --stable-bin-dir "$transition_dir" --no-build >"$tmpdir/transition.log" 2>&1; then
+  echo 'retired transition source installation accepted' >&2; exit 1
 fi
-echo 'PASS native v3 stable install provenance'
+grep -Fq 'qualified C-SDLC owner package' "$tmpdir/transition.log"
+[[ ! -e "$transition_dir" ]]

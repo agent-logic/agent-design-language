@@ -6,12 +6,12 @@ usage() {
 Usage:
   adl/tools/workflow_guardrails.sh main-write [--repo <path>]
   adl/tools/workflow_guardrails.sh safe-report-command (--command <text> | --file <path>)
-  adl/tools/workflow_guardrails.sh card-drift --issue <number> [--root <repo-root>]
+  adl/tools/workflow_guardrails.sh card-drift --request <path> --registry <path> --registrations <path> [--root <repo-root>] [--csdlc <installed-path>]
 
 Workflow guardrails for Sprint 3 / WP-16:
 - fail closed on dirty tracked writes from main/master
 - reject unsafe shell command shapes for Markdown report generation
-- delegate card-drift checks to typed `csdlc-doctor`
+- delegate card-drift checks to native `csdlc doctor` with caller-provided inputs
 EOF
 }
 
@@ -131,25 +131,32 @@ has_unsafe_command_substitution() {
 }
 
 cmd_card_drift() {
-  local issue=""
-  local repo_root=""
+  local repo_root="$default_repo_root" request="" registry="" registrations="" csdlc=""
   while [[ $# -gt 0 ]]; do
     case "$1" in
-      --issue) issue="${2:-}"; shift 2 ;;
-      --root) repo_root="${2:-}"; shift 2 ;;
+      --root|--request|--registry|--registrations|--csdlc)
+        [[ $# -ge 2 && -n "$2" ]] || die "card-drift: missing value for $1"
+        case "$1" in
+          --root) repo_root="$2" ;;
+          --request) request="$2" ;;
+          --registry) registry="$2" ;;
+          --registrations) registrations="$2" ;;
+          --csdlc) csdlc="$2" ;;
+        esac
+        shift 2 ;;
       -h|--help) usage; exit 0 ;;
       *) die "card-drift: unknown arg: $1" ;;
     esac
   done
-  [[ -n "$issue" ]] || die "card-drift: missing --issue"
-  repo_root="$(repo_root_from "${repo_root:-$default_repo_root}")"
-
-  local install="${repo_root}/.adl/bin/csdlc-v2/csdlc-install"
-  local doctor="${repo_root}/.adl/bin/csdlc-v2/csdlc-doctor"
-  [[ -x "$install" ]] || die "card-drift: missing installed typed selector: $install"
-  [[ -x "$doctor" ]] || die "card-drift: missing installed typed doctor: $doctor"
-  "$install" resolve --repo "$repo_root" --issue "$issue" >/dev/null
-  "$doctor" --repo "$repo_root" --issue "$issue"
+  [[ -n "$request" && -n "$registry" && -n "$registrations" ]] || die "card-drift: --request, --registry and --registrations are required"
+  local input
+  for input in "$request" "$registry" "$registrations"; do
+    [[ -f "$input" ]] || die "card-drift: missing input file: $input"
+  done
+  csdlc="${csdlc:-$repo_root/.adl/bin/native-v3/csdlc}"
+  [[ -x "$csdlc" ]] || die "card-drift: missing installed native owner: $csdlc"
+  # Native doctor validates authority and issue identity; this wrapper supplies none.
+  "$csdlc" doctor --request "$request" --registry "$registry" --registrations "$registrations" --repo-root "$repo_root"
 }
 
 subcommand="${1:-}"

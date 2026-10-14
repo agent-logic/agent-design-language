@@ -1,0 +1,58 @@
+{
+  "schema": "adl.rd07.csm-otlp-partial-qualification.v1",
+  "rows": [
+    "RD07-1515"
+  ],
+  "classification": "partial_consumer_qualification_with_adverse_observations",
+  "result": {
+    "path": "/Volumes/FastWork/c1223/csm-otlp-original-qualification/result.json",
+    "sha256": "922498e583457bf605ec551edbe948f83a8e0ad9087aefcf96db0f15953600e8"
+  },
+  "observed": {
+    "collector_requests": 8,
+    "exporter_status": {
+      "endpoint": "<configured>",
+      "endpoint_configured": true,
+      "error": null,
+      "http_status": 200,
+      "protocol": "otlp_http_json",
+      "schema": "adl.otel.exporter_status.v1",
+      "status": "success",
+      "updated_at": "2026-10-13T16:06:48.065149+00:00"
+    },
+    "collector_completed": true,
+    "csm_stdout_valid_json": true,
+    "embedded_api_failure_retained": "adl_event schema=adl.observability.event.v1 command=csm stage=runtime_api_embedded result=failed error=failed_binding_CSM_runtime_API_listener_role=main_runtime_api_bind_addr=127.0.0.1:19997_remediation_hint=free_127.0.0.1:19997_or_pass_an_explicit_reserved_CSM_port_override",
+    "chronosense_time_sync": {
+      "confidence": "high",
+      "drift_status": "within_sntp_reported_bounds",
+      "failure_state": null,
+      "health": "synced",
+      "mode": "csm_in_process_async_sntp_client",
+      "observed_at_rfc3339": "2026-10-13T16:06:47.291875+00:00",
+      "parsed_offset_seconds": -0.0004320264561101794,
+      "parsed_uncertainty_seconds": 0.010354830068536103,
+      "poll_command": "rsntp::AsyncSntpClient",
+      "port_policy": "csm_in_process_async_sntp_client_ephemeral_udp_no_csm_udp_123_listener_no_shellout",
+      "raw_summary": "peer=time.cloudflare.com",
+      "reason": "runtime_sntp_client_reports_active_source",
+      "schema_version": "chronosense_time_sync_status.v1",
+      "source": "rsntp::AsyncSntpClient in-process runtime sampler",
+      "substrate": "SNTP"
+    }
+  },
+  "limits": [
+    "Runner succeeded and OTLP loopback delivery is observed; this is not complete daemon or runtime acceptance.",
+    "Embedded runtime API bind failed at 127.0.0.1:19997; original stderr retained, no retry or port override.",
+    "Workflow declares allow_network:false, while runtime status self-reports active SNTP peer time.cloudflare.com, observed_at and measured offset. No packet capture or transport observation establishes an actual outbound request. With no OS network isolation, strict loopback-only execution is NOT established.",
+    "No credentials inherited; no build/download/AWS/model-provider command invoked by runner.",
+    "Original summary references negative unit tests, but this attempt did not execute malformed-endpoint, unavailable-collector, or redaction unit tests.",
+    "No hosted telemetry, OTLP/gRPC or metrics acceptance."
+  ],
+  "independent_review": "review_1223_public_facade verified hashes and bounded result; no repeated run required for truthful disposition.",
+  "hold_preserved": true,
+  "next_action": "Keep original protocol obligation; owner assessment of API bind and SNTP behavior is separate from successful eight-request HTTP-JSON export. No speculative rerun or full-runtime claim.",
+  "execution_authorized": false,
+  "prior_result_sha256": "b31f4e93bc814d9a1f136fe5a8263acba7906c4f7d619335f40150ece5e67b32",
+  "result_annotation_update": "Clarifies self-reported SNTP sampling versus unobserved network transport; adds exact original assertions and API bind-failure effect. Logs and proof unchanged, no rerun."
+}

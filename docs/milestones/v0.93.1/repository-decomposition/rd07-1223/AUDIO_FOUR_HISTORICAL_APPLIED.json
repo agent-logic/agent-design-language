@@ -1,0 +1,273 @@
+{
+  "schema": "adl1223.hey_jude_audio_historical_four.v1",
+  "status": "applied",
+  "source_head": "f6854e87213b3e815b733d91155f987c47bc8377",
+  "original_baseline": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+  "removed_count": 4,
+  "rows": [
+    {
+      "id": "RD07-1370",
+      "path": "adl/tools/demo_v0911_five_agent_hey_jude_audio.sh",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "c24d5dc33d47fa779722af844ff9e34dd738a215"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/demo_v0911_five_agent_hey_jude_audio.sh"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1990",
+      "path": "adl/tools/test_demo_v0911_five_agent_hey_jude_audio.sh",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "d3bf16c0288d6c6210a28e0bc98b9191090fa53c"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/test_demo_v0911_five_agent_hey_jude_audio.sh"
+        ]
+      }
+    },
+    {
+      "id": "RD07-2185",
+      "path": "adl/tools/validate_five_agent_hey_jude_audio_demo.py",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "03dcc8b4fdbc866057ca1b9dd5a8133a6dcb415a"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/validate_five_agent_hey_jude_audio_demo.py"
+        ]
+      }
+    },
+    {
+      "id": "RD07-2186",
+      "path": "adl/tools/validate_five_agent_music_demo.py",
+      "owner": "agent-logic-infrastructure",
+      "component": "agent-logic-infrastructure-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "9bd5c7ebba6def3bad3d565984c90a8c0575e2f6"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+        "exact_successor_paths": [
+          "adl/tools/validate_five_agent_music_demo.py"
+        ]
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "adl/tools/demo_v0911_five_agent_hey_jude_audio.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "9ec09b7e0359fb436c0a8484e1d787434a3f3f6f",
+        "sha256": "845b6cc968e0a9561ec9d7c56ad0a69529f95f9e65f28fbe076ebdb3140968ec"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_demo_v0911_five_agent_hey_jude_audio.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "d3bf16c0288d6c6210a28e0bc98b9191090fa53c",
+        "sha256": "9b6aeffffa97c5856a9f86911eb79f7079b3d50c5900917fa32b1797e9fadf7b"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/validate_five_agent_hey_jude_audio_demo.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "03dcc8b4fdbc866057ca1b9dd5a8133a6dcb415a",
+        "sha256": "848d061466ea2d926e29bc1ee3ef709d4e5f7b7f44b577b2af9f1e2be48ca434"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/validate_five_agent_music_demo.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "9bd5c7ebba6def3bad3d565984c90a8c0575e2f6",
+        "sha256": "58528fbc453d7a67dcc7557ebbc17e89ff235d73248710c98c9a3a11da56f6cb"
+      },
+      "after": null
+    },
+    {
+      "path": "demos/README.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "39bd146fb3037eadf96f5a07524dcc5e31ecc1ce",
+        "sha256": "95fe2d71084833d50d64f4e1e7cdc3e7b5035ea7c6f57efd758f43e5bcfa9b60"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "935c3945c2c939626c08012a8607ea73a09f896d",
+        "sha256": "54c01d34895de1c1cf68b6a1bb4e0ce63f02dd025f92656b25189f1a94cc1be6"
+      }
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "eeaf1ae7afdb2ff48484904aa685c88315171772",
+        "sha256": "20f1ac2800184678aa1d1e290a47514837f82f96f16f6de4b142fdea592ff7ea"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "0376ae4b0e3cc72b10038abceb92c69ac720519b",
+        "sha256": "fdac8826cb608cd86e1486aa969ce126817764e1f99f6635ec8418e029530be3"
+      }
+    }
+  ],
+  "owner_inputs": [
+    {
+      "path": "adl/tools/demo_v0911_five_agent_hey_jude_audio.sh",
+      "repository": "/Volumes/FastWork/runtime-installer147/agent-logic-runtime",
+      "revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "identity": {
+        "mode": "100644",
+        "blob": "c24d5dc33d47fa779722af844ff9e34dd738a215",
+        "sha256": "89a9610e63416c3942ff68e437c2d2677fd72725f4ef9174a4e4a1f1c5937476"
+      },
+      "exact_current": false,
+      "source_delta": "--- currentADL\n+++ owner\n@@ -82,23 +82,16 @@\n     --output \"$out_path\"\n }\n \n-# The retired monolith producer is not an implicit source-episode fallback.\n-# Validate the explicit existing episode before credential reads or output deletion.\n-python3 - \"$SOURCE_DIR\" \"$OUT_DIR\" <<'PY_SOURCE'\n-import pathlib, sys\n-source, output = (pathlib.Path(p).resolve() for p in sys.argv[1:])\n-if not (source / \"transcript.md\").is_file():\n-    raise SystemExit(\"Set ADL_HEY_JUDE_AUDIO_SOURCE_DIR to an existing episode; the historical producer is retired\")\n-if source == output or output in source.parents:\n-    raise SystemExit(\"Source episode must be outside the audio output directory\")\n-PY_SOURCE\n-\n if [[ \"${ADL_HEY_JUDE_AUDIO_TEST_TONES:-0}\" != \"1\" ]]; then\n   load_key OPENAI_API_KEY \"$OPENAI_KEY_FILE\"\n fi\n \n rm -rf \"$OUT_DIR\"\n mkdir -p \"$SEGMENTS_DIR\"\n+\n+if [[ ! -f \"$SOURCE_DIR/transcript.md\" ]]; then\n+  bash \"$ROOT_DIR/adl/tools/demo_v0891_five_agent_hey_jude.sh\" \"$SOURCE_DIR\"\n+fi\n \n python3 \"$ROOT_DIR/adl/tools/validate_five_agent_music_demo.py\" \"$SOURCE_DIR\" >/dev/null\n \n"
+    },
+    {
+      "path": "adl/tools/test_demo_v0911_five_agent_hey_jude_audio.sh",
+      "repository": "/Volumes/FastWork/runtime-installer147/agent-logic-runtime",
+      "revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "identity": {
+        "mode": "100644",
+        "blob": "d3bf16c0288d6c6210a28e0bc98b9191090fa53c",
+        "sha256": "9b6aeffffa97c5856a9f86911eb79f7079b3d50c5900917fa32b1797e9fadf7b"
+      },
+      "exact_current": true,
+      "source_delta": ""
+    },
+    {
+      "path": "adl/tools/validate_five_agent_hey_jude_audio_demo.py",
+      "repository": "/Volumes/FastWork/runtime-installer147/agent-logic-runtime",
+      "revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "identity": {
+        "mode": "100644",
+        "blob": "03dcc8b4fdbc866057ca1b9dd5a8133a6dcb415a",
+        "sha256": "848d061466ea2d926e29bc1ee3ef709d4e5f7b7f44b577b2af9f1e2be48ca434"
+      },
+      "exact_current": true,
+      "source_delta": ""
+    },
+    {
+      "path": "adl/tools/validate_five_agent_music_demo.py",
+      "repository": "/Users/daniel/git/agent-logic-infrastructure",
+      "revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+      "identity": {
+        "mode": "100644",
+        "blob": "9bd5c7ebba6def3bad3d565984c90a8c0575e2f6",
+        "sha256": "58528fbc453d7a67dcc7557ebbc17e89ff235d73248710c98c9a3a11da56f6cb"
+      },
+      "exact_current": true,
+      "source_delta": ""
+    }
+  ],
+  "evidence": [
+    {
+      "path": "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/docs/milestones/v0.93.1/repository-decomposition/rd07-1223/PROVIDER_SHELL_TWENTY_THREE_APPLIED.json",
+      "sha256": "0918632c08355e5568b2b99f2b625812035f2dacb83b32b9b1cd165081052b35"
+    },
+    {
+      "path": "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSDLC_EXACT_COPY_TEST_DISPOSITIONS.json",
+      "sha256": "af4ce18ae8978a75ab2fbfd26d5a584710e70f24ec99c89dbb561a950eab314e"
+    },
+    {
+      "path": "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSDLC_PRIOR_COMPONENT_RESOURCE_CORRESPONDENCE.json",
+      "sha256": "f3a9a11067936553e840206365b17f557c7fbe40a496d1e5f41e6f54edcdc868"
+    }
+  ],
+  "custody": {
+    "path": "/Volumes/FastWork/c1223/audio-midi-podcast-family/historical-four-r2/current-original.tar",
+    "sha256": "094c805764219df79d6a61a8fa1280b1b0ac9b79abc03d27e8ea912d5bea462b",
+    "current_members": 6,
+    "original_members": 4
+  },
+  "patch": {
+    "path": "/Volumes/FastWork/c1223/audio-midi-podcast-family/historical-four-r2/four-and-registry.patch",
+    "sha256": "b40d4d1e2cf1ef7ed15b5d46030297ce17948de58d04789499a999864b49fd45"
+  },
+  "assertion_dispositions": {
+    "1370": "Manual Runtime media renderer; original implicit source generation is historical, and reviewed Provider23 explicit external-source preflight retained exactly in current custody/full owner diff. Five voice inserts, backing mix, metadata, lyric/path and mastering requirements are not newly qualified. No public package or CLI consumer.",
+    "1990": "Original40second synthetic backing, test-tone mode, two validators and eight generatedartifact existence checks preserved. It assumes implicit source generation within OUT/source_episode, which is incompatible with later required external-source preflight. Retire this historical aggregate, do not manufacture a passing replacement.",
+    "2185": "Eightfile checks, schema/source-id, exact five-speaker set/count, positive timing windows, copyright note/lyric refusal and nonemptyWAV preserved as original historical assertions.",
+    "2186": "Ninefile music packet, exactfiveparticipants/sections, transcript coverage, MIDI event/cue span, manifest schema and lyric/path refusal preserved. Only surviving caller was1370; retired together."
+  },
+  "caller_closure": {
+    "executable": "Only1990 invokes1370/2185; only1370 invokes2186. Allfour retire together. No public package/CLI/installer caller uses this HeyJude family.",
+    "preserved": "Current podcast renderer and original2038 installer-facing audio-policy test are distinct and unchanged. Immutable media/historical evidence and earlier reviewed Provider23 preflight proof remain.",
+    "registry": "Actual renderer removes exactlyfour top-level helper rows; no provider execution."
+  },
+  "limits": [
+    "Historical ADL scenario retirement; source custody in Runtime/Infrastructure is not current equivalent behavior or installed/media qualification.",
+    "No audio/model/provider/network/test/build execution.",
+    "Original4134+22 unchanged; no supplemental removals.",
+    "Source-layout mismatch recorded explicitly; no new behavior repair or synthetic source fixture."
+  ],
+  "proposal_source_head": "f6854e87213b3e815b733d91155f987c47bc8377",
+  "review": {
+    "status": "PASS",
+    "reviewer": "review_1223_public_facade",
+    "proposal_sha256": "9ac54e4efb87fb25de6058737a79f06b5e22d63833da0a418ec6515c57d7da6a",
+    "scope": "Reviewed source/caller/custody composition; all individual qualification and historical limits preserved."
+  }
+}

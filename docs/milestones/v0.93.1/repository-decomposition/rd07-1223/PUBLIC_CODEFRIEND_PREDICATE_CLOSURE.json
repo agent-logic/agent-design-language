@@ -1,0 +1,24 @@
+{
+  "schema": "adl.rd07.public-codefriend-predicate-closure.v1",
+  "implementation_commit": "b3d6a2ec6545ae9cc7a47d15edb8abc6534474a6",
+  "path": "adl/src/cli/codefriend_owner.rs",
+  "before": [
+    "100644",
+    "c4b00fe6c63a04eaba08eb33c3fc0085a2db8b03"
+  ],
+  "after": [
+    "100644",
+    "9d21acce4c7ecda4683d78511fb98d02227519f4"
+  ],
+  "observed_main_identity": null,
+  "independent_review": {
+    "reviewer": "review_1223_public_facade",
+    "result": "PASS",
+    "scope": "Exact boolean equivalence: missing/non-string/empty receipt values rejected, nonempty context comparison unchanged; Option::is_none_or supported by pinned Rust1.92"
+  },
+  "validation": {
+    "prior_linux_cli_clippy_failure": "/Volumes/FastWork/c1223/final-linux-public/cli-continuation-8117efe160/RESULT.json",
+    "current_cli_continuation": "Running separately; no terminal pass claimed in this source approval"
+  },
+  "boundary": "Approves only exact reviewed predicate normalization. Prior public selector implementation remains separately reviewed source; no new deletion or installed owner acceptance."
+}

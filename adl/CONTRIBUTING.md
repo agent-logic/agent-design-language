@@ -1,12 +1,12 @@
-# Contributing to ADL Runtime (ADL Reference Runtime)
+# Contributing to the ADL public CLI
 
-ADL Runtime is the **reference runtime + CLI** for Agent Design Language (ADL).
+This package provides the portable planning and installed-product CLI for Agent Design Language (ADL). Runtime implementation belongs to the [Runtime repository](https://github.com/agent-logic/agent-logic-runtime); lifecycle tooling belongs to [C-SDLC](https://github.com/agent-logic/cognitive-sdlc).
 
 All contribution workflow, governance, and repository-wide policies are defined in the root:
 
 - `../CONTRIBUTING.md`
 
-This file exists only to clarify ADL Runtime-specific expectations and to prevent process drift.
+This file exists only to clarify public CLI expectations and to prevent process drift.
 
 ---
 
@@ -20,12 +20,12 @@ Please read:
 
 ---
 
-## ADL Runtime-Specific Expectations
+## Public CLI Expectations
 
 In addition to the root contribution rules:
 
 - Default unit tests remain **hermetic**. Integration and live-provider proof follows the declared PVF lane and resource/authorization policy; it is not part of the default unit-test promise.
-- Runtime changes must not alter deterministic planning semantics.
+- Public CLI changes must preserve deterministic planning semantics.
 - Changes affecting ADL meaning must be proposed in `/adl-spec` first.
 - Coverage discipline (>=80% per file or documented exception) applies.
 
@@ -33,14 +33,12 @@ If unsure whether a change affects language semantics vs runtime implementation,
 
 ---
 
-## Quick Local Validation (from `adl/`)
+## Focused Local Validation (from repository root)
 
 ```bash
-cargo fmt --all -- --check
-cargo clippy --all-targets -- -D warnings
-cargo test
+bash tools/public_adl/run_cli_ci.sh
 ```
 
 ---
 
-ADL Runtime defers to the root `CONTRIBUTING.md` for all process, workflow, and governance rules.
+The public CLI defers to the root `CONTRIBUTING.md` for all process, workflow, and governance rules.

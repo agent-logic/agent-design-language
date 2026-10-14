@@ -1,0 +1,98 @@
+{
+  "schema": "adl.rd07.gpu5795-historical-retention.v1",
+  "rows": [
+    "RD07-1526"
+  ],
+  "disposition": "Retain historical source and exact original evidence custody; not a current public ADL workflow.",
+  "source_inventory": [
+    {
+      "path": "adl/tools/run_wp5795_aws_gpu_proof.sh",
+      "sha256": "4eeba934e4413ad719851578b9caa8fbc6bbac356031085d5ee8f9c25d08e3bf"
+    },
+    {
+      "path": ".csdlc/evidence/5795/aws-runner-syntax.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".csdlc/evidence/5795/exact-head-hygiene.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".csdlc/evidence/5795/foundation/aws-deadline-reaper.json",
+      "sha256": "6c0204584a5d1174b51952eeb92a75943031f20d5f23a549315b8a5020ca92d1"
+    },
+    {
+      "path": ".csdlc/evidence/5795/foundation/aws-gpu-preflight.json",
+      "sha256": "f8b8061fa359306b58c84b0c5b75863e0e2884c5c713b0f7e61b9e147674d918"
+    },
+    {
+      "path": ".csdlc/evidence/5795/foundation/aws-lock-collision.json",
+      "sha256": "c4fce7dd721232e22344e98517447a2130b33d42ecf3f113a11b5f39712eaa0e"
+    },
+    {
+      "path": ".csdlc/evidence/5795/foundation/kernel-clippy.log",
+      "sha256": "9ebdb51b45ca75dd6a697713c2c7507f6907015d4414c39091a076b702ae898e"
+    },
+    {
+      "path": ".csdlc/evidence/5795/foundation/mac-mlx-real-local-model-smoke.json",
+      "sha256": "b4c6d4182b84beecce411489cf63a3ff8819a36031954e2b47e28fe18584d08c"
+    },
+    {
+      "path": ".csdlc/evidence/5795/foundation/portable-model-publication.json",
+      "sha256": "5a0379b09c79ba444325ecdd33e08700a95621b5df2ade9800132a4664fbd04a"
+    },
+    {
+      "path": ".csdlc/evidence/5795/foundation/real-local-model.log",
+      "sha256": "3323c9eb700f9a1ea2b6bbc2abe89be1c89808316ff88b33713fe261b9005661"
+    },
+    {
+      "path": ".csdlc/evidence/5795/foundation/runtime-clippy.log",
+      "sha256": "cf6669b9eb203c2e1bbf1dea666b371b0761de1933cb7ba7f944d72a890771a1"
+    },
+    {
+      "path": ".csdlc/evidence/5795/foundation/sha256sums.txt",
+      "sha256": "c74cbb65f2203e602d493122b828970007efa0217e8cddb7d47e91badec5b307"
+    },
+    {
+      "path": ".csdlc/evidence/5795/foundation/shepherd-contract.log",
+      "sha256": "feeafa165c609401f427dfd3effcd9ebd8127871fa868c45151a69ab2be1fccb"
+    },
+    {
+      "path": ".csdlc/evidence/5795/mac-mlx-real-local-model-smoke.log",
+      "sha256": "aef37f4a96f8f41065ff033c14f00feea142313a34ff569338a0cd7f1d2f5375"
+    },
+    {
+      "path": ".csdlc/evidence/5795/post-revoke-doctor.json",
+      "sha256": "e2393c92a7691641b3711651ee0e7937ffcdeed1c303173a0fd8bf7d422347e3"
+    },
+    {
+      "path": ".csdlc/evidence/5795/readiness-doctor.json",
+      "sha256": "8a9d8fce14886730a6d41a4b352bdbb018a75aeb4b1de27ceb3fd1b18f255bac"
+    },
+    {
+      "path": ".csdlc/evidence/5795/shepherd-foundation-contract.log",
+      "sha256": "dc8ab4aa6c6bb229fb24f8ae01d385e38c3009924aa582d877f371c3f6f6648d"
+    },
+    {
+      "path": ".csdlc/evidence/5795/shepherd-kernel-clippy.log",
+      "sha256": "d7dae192715495fa89ccbe279af3efb9792c1dae1768228e369035e68a1df673"
+    },
+    {
+      "path": ".csdlc/evidence/5795/shepherd-runtime-clippy.log",
+      "sha256": "ec0a2d415e2d8a4843bbb34ad7ef3aa70d659b4475df20a7dfb849726aead0bb"
+    }
+  ],
+  "contract": [
+    "Single-node SSM transport, versioned Gemma/Ollama artifact manifest and checksums.",
+    "Source-account proof dependency .csdlc/evidence/5823/aws-profile-verification.json remains unchanged.",
+    "Owner-bound versioned S3 lock and deadline reaper/guest/local cleanup paths.",
+    "Machine-local state default requires explicit adaptation before any future owner continuation."
+  ],
+  "limits": [
+    "No preflight, AWS call, provider/model run or new execution qualified.",
+    "Issue345 two-node Terraform runner is a different contract; not equivalent evidence.",
+    "Historical receipts remain historical; no current account/resource truth inferred."
+  ],
+  "reviewer": "review_1223_public_facade",
+  "execution_authorized": false
+}

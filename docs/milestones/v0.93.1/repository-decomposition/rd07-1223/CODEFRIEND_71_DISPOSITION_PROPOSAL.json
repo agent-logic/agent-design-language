@@ -1,0 +1,634 @@
+{
+  "original_inventory_count": 4134,
+  "owner_revision": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+  "status": "reviewable_conditional_proposal_no_deletion_authority",
+  "scope_count": 71,
+  "rows": [
+    {
+      "id": "RD07-1543",
+      "path": "adl/tools/skills/adr-curator/SKILL.md",
+      "successor": "review-skills/adr-curator/SKILL.md",
+      "proposal": "transfer_review_skill_to_owner_with_contract_navigation_cutover",
+      "source_delta": "contract/renderer paths only",
+      "remaining_gate": "existing owner skill qualification and ADL caller navigation cutover; no new execution inferred"
+    },
+    {
+      "id": "RD07-1544",
+      "path": "adl/tools/skills/adr-curator/adl-skill.yaml",
+      "successor": "review-skills/adr-curator/adl-skill.yaml",
+      "proposal": "transfer_review_skill_to_owner_with_contract_navigation_cutover",
+      "source_delta": "contract/renderer paths only",
+      "remaining_gate": "existing owner skill qualification and ADL caller navigation cutover; no new execution inferred"
+    },
+    {
+      "id": "RD07-1549",
+      "path": "adl/tools/skills/architecture-diagram-reviewer/SKILL.md",
+      "successor": "review-skills/architecture-diagram-reviewer/SKILL.md",
+      "proposal": "transfer_review_skill_to_owner_with_contract_navigation_cutover",
+      "source_delta": "contract/renderer paths only",
+      "remaining_gate": "existing owner skill qualification and ADL caller navigation cutover; no new execution inferred"
+    },
+    {
+      "id": "RD07-1550",
+      "path": "adl/tools/skills/architecture-diagram-reviewer/adl-skill.yaml",
+      "successor": "review-skills/architecture-diagram-reviewer/adl-skill.yaml",
+      "proposal": "transfer_review_skill_to_owner_with_contract_navigation_cutover",
+      "source_delta": "contract/renderer paths only",
+      "remaining_gate": "existing owner skill qualification and ADL caller navigation cutover; no new execution inferred"
+    },
+    {
+      "id": "RD07-1555",
+      "path": "adl/tools/skills/architecture-fitness-function-author/SKILL.md",
+      "successor": "review-skills/architecture-fitness-function-author/SKILL.md",
+      "proposal": "transfer_review_skill_to_owner_with_contract_navigation_cutover",
+      "source_delta": "contract/renderer paths only",
+      "remaining_gate": "existing owner skill qualification and ADL caller navigation cutover; no new execution inferred"
+    },
+    {
+      "id": "RD07-1556",
+      "path": "adl/tools/skills/architecture-fitness-function-author/adl-skill.yaml",
+      "successor": "review-skills/architecture-fitness-function-author/adl-skill.yaml",
+      "proposal": "transfer_review_skill_to_owner_with_contract_navigation_cutover",
+      "source_delta": "contract/renderer paths only",
+      "remaining_gate": "existing owner skill qualification and ADL caller navigation cutover; no new execution inferred"
+    },
+    {
+      "id": "RD07-1560",
+      "path": "adl/tools/skills/architecture-fitness-function-author/scripts/author_architecture_fitness_functions.py",
+      "successor": "review-skills/architecture-fitness-function-author/scripts/author_architecture_fitness_functions.py",
+      "proposal": "transfer_review_skill_to_owner_with_contract_navigation_cutover",
+      "source_delta": "generic reviewed-project validation command replaces ADL-wide commands",
+      "remaining_gate": "existing owner skill qualification and ADL caller navigation cutover; no new execution inferred"
+    },
+    {
+      "id": "RD07-1571",
+      "path": "adl/tools/skills/diagram-author/SKILL.md",
+      "successor": "review-skills/diagram-author/SKILL.md",
+      "proposal": "transfer_review_skill_to_owner_with_contract_navigation_cutover",
+      "source_delta": "contract/renderer paths only",
+      "remaining_gate": "existing owner skill qualification and ADL caller navigation cutover; no new execution inferred"
+    },
+    {
+      "id": "RD07-1572",
+      "path": "adl/tools/skills/diagram-author/adl-skill.yaml",
+      "successor": "review-skills/diagram-author/adl-skill.yaml",
+      "proposal": "transfer_review_skill_to_owner_with_contract_navigation_cutover",
+      "source_delta": "contract/renderer paths only",
+      "remaining_gate": "existing owner skill qualification and ADL caller navigation cutover; no new execution inferred"
+    },
+    {
+      "id": "RD07-1574",
+      "path": "adl/tools/skills/diagram-author/references/diagram-playbook.md",
+      "successor": "review-skills/diagram-author/references/diagram-playbook.md",
+      "proposal": "transfer_review_skill_to_owner_with_contract_navigation_cutover",
+      "source_delta": "contract/renderer paths only",
+      "remaining_gate": "existing owner skill qualification and ADL caller navigation cutover; no new execution inferred"
+    },
+    {
+      "id": "RD07-1636",
+      "path": "adl/tools/skills/finding-to-issue-planner/adl-skill.yaml",
+      "successor": "review-skills/finding-to-issue-planner/adl-skill.yaml",
+      "proposal": "transfer_review_skill_to_owner_with_contract_navigation_cutover",
+      "source_delta": "contract/renderer paths only",
+      "remaining_gate": "existing owner skill qualification and ADL caller navigation cutover; no new execution inferred"
+    },
+    {
+      "id": "RD07-1714",
+      "path": "adl/tools/skills/product-report-writer/adl-skill.yaml",
+      "successor": "review-skills/product-report-writer/adl-skill.yaml",
+      "proposal": "transfer_review_skill_to_owner_with_contract_navigation_cutover",
+      "source_delta": "contract/renderer paths only",
+      "remaining_gate": "existing owner skill qualification and ADL caller navigation cutover; no new execution inferred"
+    },
+    {
+      "id": "RD07-1726",
+      "path": "adl/tools/skills/redaction-and-evidence-auditor/adl-skill.yaml",
+      "successor": "review-skills/redaction-and-evidence-auditor/adl-skill.yaml",
+      "proposal": "transfer_review_skill_to_owner_with_contract_navigation_cutover",
+      "source_delta": "contract/renderer paths only",
+      "remaining_gate": "existing owner skill qualification and ADL caller navigation cutover; no new execution inferred"
+    },
+    {
+      "id": "RD07-1743",
+      "path": "adl/tools/skills/repo-architecture-review/SKILL.md",
+      "successor": "review-skills/repo-architecture-review/SKILL.md",
+      "proposal": "transfer_review_skill_to_owner_with_contract_navigation_cutover",
+      "source_delta": "contract/renderer paths only",
+      "remaining_gate": "existing owner skill qualification and ADL caller navigation cutover; no new execution inferred"
+    },
+    {
+      "id": "RD07-1744",
+      "path": "adl/tools/skills/repo-architecture-review/adl-skill.yaml",
+      "successor": "review-skills/repo-architecture-review/adl-skill.yaml",
+      "proposal": "transfer_review_skill_to_owner_with_contract_navigation_cutover",
+      "source_delta": "contract/renderer paths only",
+      "remaining_gate": "existing owner skill qualification and ADL caller navigation cutover; no new execution inferred"
+    },
+    {
+      "id": "RD07-1750",
+      "path": "adl/tools/skills/repo-code-review/adl-skill.yaml",
+      "successor": "review-skills/repo-code-review/adl-skill.yaml",
+      "proposal": "transfer_review_skill_to_owner_with_contract_navigation_cutover",
+      "source_delta": "contract/renderer paths only",
+      "remaining_gate": "existing owner skill qualification and ADL caller navigation cutover; no new execution inferred"
+    },
+    {
+      "id": "RD07-1755",
+      "path": "adl/tools/skills/repo-dependency-review/SKILL.md",
+      "successor": "review-skills/repo-dependency-review/SKILL.md",
+      "proposal": "transfer_review_skill_to_owner_with_contract_navigation_cutover",
+      "source_delta": "contract/renderer paths only",
+      "remaining_gate": "existing owner skill qualification and ADL caller navigation cutover; no new execution inferred"
+    },
+    {
+      "id": "RD07-1756",
+      "path": "adl/tools/skills/repo-dependency-review/adl-skill.yaml",
+      "successor": "review-skills/repo-dependency-review/adl-skill.yaml",
+      "proposal": "transfer_review_skill_to_owner_with_contract_navigation_cutover",
+      "source_delta": "contract/renderer paths only",
+      "remaining_gate": "existing owner skill qualification and ADL caller navigation cutover; no new execution inferred"
+    },
+    {
+      "id": "RD07-1762",
+      "path": "adl/tools/skills/repo-diagram-planner/SKILL.md",
+      "successor": "review-skills/repo-diagram-planner/SKILL.md",
+      "proposal": "transfer_review_skill_to_owner_with_contract_navigation_cutover",
+      "source_delta": "contract/renderer paths only",
+      "remaining_gate": "existing owner skill qualification and ADL caller navigation cutover; no new execution inferred"
+    },
+    {
+      "id": "RD07-1763",
+      "path": "adl/tools/skills/repo-diagram-planner/adl-skill.yaml",
+      "successor": "review-skills/repo-diagram-planner/adl-skill.yaml",
+      "proposal": "transfer_review_skill_to_owner_with_contract_navigation_cutover",
+      "source_delta": "contract/renderer paths only",
+      "remaining_gate": "existing owner skill qualification and ADL caller navigation cutover; no new execution inferred"
+    },
+    {
+      "id": "RD07-1769",
+      "path": "adl/tools/skills/repo-packet-builder/adl-skill.yaml",
+      "successor": "review-skills/repo-packet-builder/adl-skill.yaml",
+      "proposal": "transfer_review_skill_to_owner_with_contract_navigation_cutover",
+      "source_delta": "contract/renderer paths only",
+      "remaining_gate": "existing owner skill qualification and ADL caller navigation cutover; no new execution inferred"
+    },
+    {
+      "id": "RD07-1771",
+      "path": "adl/tools/skills/repo-packet-builder/references/output-contract.md",
+      "successor": "review-skills/repo-packet-builder/references/output-contract.md",
+      "proposal": "transfer_review_skill_to_owner_with_contract_navigation_cutover",
+      "source_delta": "contract/renderer paths only",
+      "remaining_gate": "existing owner skill qualification and ADL caller navigation cutover; no new execution inferred"
+    },
+    {
+      "id": "RD07-1775",
+      "path": "adl/tools/skills/repo-packet-builder/tests/README.md",
+      "successor": "review-skills/repo-packet-builder/tests/README.md",
+      "proposal": "transfer_review_skill_to_owner_with_contract_navigation_cutover",
+      "source_delta": "contract/renderer paths only",
+      "remaining_gate": "existing owner skill qualification and ADL caller navigation cutover; no new execution inferred"
+    },
+    {
+      "id": "RD07-1779",
+      "path": "adl/tools/skills/repo-review-code/SKILL.md",
+      "successor": "review-skills/repo-review-code/SKILL.md",
+      "proposal": "transfer_review_skill_to_owner_with_contract_navigation_cutover",
+      "source_delta": "contract/renderer paths only",
+      "remaining_gate": "existing owner skill qualification and ADL caller navigation cutover; no new execution inferred"
+    },
+    {
+      "id": "RD07-1780",
+      "path": "adl/tools/skills/repo-review-code/adl-skill.yaml",
+      "successor": "review-skills/repo-review-code/adl-skill.yaml",
+      "proposal": "transfer_review_skill_to_owner_with_contract_navigation_cutover",
+      "source_delta": "contract/renderer paths only",
+      "remaining_gate": "existing owner skill qualification and ADL caller navigation cutover; no new execution inferred"
+    },
+    {
+      "id": "RD07-1782",
+      "path": "adl/tools/skills/repo-review-code/references/output-contract.md",
+      "successor": "review-skills/repo-review-code/references/output-contract.md",
+      "proposal": "transfer_review_skill_to_owner_with_contract_navigation_cutover",
+      "source_delta": "contract/renderer paths only",
+      "remaining_gate": "existing owner skill qualification and ADL caller navigation cutover; no new execution inferred"
+    },
+    {
+      "id": "RD07-1783",
+      "path": "adl/tools/skills/repo-review-docs/SKILL.md",
+      "successor": "review-skills/repo-review-docs/SKILL.md",
+      "proposal": "transfer_review_skill_to_owner_with_contract_navigation_cutover",
+      "source_delta": "contract/renderer paths only",
+      "remaining_gate": "existing owner skill qualification and ADL caller navigation cutover; no new execution inferred"
+    },
+    {
+      "id": "RD07-1784",
+      "path": "adl/tools/skills/repo-review-docs/adl-skill.yaml",
+      "successor": "review-skills/repo-review-docs/adl-skill.yaml",
+      "proposal": "transfer_review_skill_to_owner_with_contract_navigation_cutover",
+      "source_delta": "contract/renderer paths only",
+      "remaining_gate": "existing owner skill qualification and ADL caller navigation cutover; no new execution inferred"
+    },
+    {
+      "id": "RD07-1786",
+      "path": "adl/tools/skills/repo-review-docs/references/output-contract.md",
+      "successor": "review-skills/repo-review-docs/references/output-contract.md",
+      "proposal": "transfer_review_skill_to_owner_with_contract_navigation_cutover",
+      "source_delta": "contract/renderer paths only",
+      "remaining_gate": "existing owner skill qualification and ADL caller navigation cutover; no new execution inferred"
+    },
+    {
+      "id": "RD07-1787",
+      "path": "adl/tools/skills/repo-review-security/SKILL.md",
+      "successor": "review-skills/repo-review-security/SKILL.md",
+      "proposal": "transfer_review_skill_to_owner_with_contract_navigation_cutover",
+      "source_delta": "contract/renderer paths only",
+      "remaining_gate": "existing owner skill qualification and ADL caller navigation cutover; no new execution inferred"
+    },
+    {
+      "id": "RD07-1788",
+      "path": "adl/tools/skills/repo-review-security/adl-skill.yaml",
+      "successor": "review-skills/repo-review-security/adl-skill.yaml",
+      "proposal": "transfer_review_skill_to_owner_with_contract_navigation_cutover",
+      "source_delta": "contract/renderer paths only",
+      "remaining_gate": "existing owner skill qualification and ADL caller navigation cutover; no new execution inferred"
+    },
+    {
+      "id": "RD07-1790",
+      "path": "adl/tools/skills/repo-review-security/references/output-contract.md",
+      "successor": "review-skills/repo-review-security/references/output-contract.md",
+      "proposal": "transfer_review_skill_to_owner_with_contract_navigation_cutover",
+      "source_delta": "contract/renderer paths only",
+      "remaining_gate": "existing owner skill qualification and ADL caller navigation cutover; no new execution inferred"
+    },
+    {
+      "id": "RD07-1791",
+      "path": "adl/tools/skills/repo-review-synthesis/SKILL.md",
+      "successor": "review-skills/repo-review-synthesis/SKILL.md",
+      "proposal": "transfer_review_skill_to_owner_with_contract_navigation_cutover",
+      "source_delta": "contract/renderer paths only",
+      "remaining_gate": "existing owner skill qualification and ADL caller navigation cutover; no new execution inferred"
+    },
+    {
+      "id": "RD07-1792",
+      "path": "adl/tools/skills/repo-review-synthesis/adl-skill.yaml",
+      "successor": "review-skills/repo-review-synthesis/adl-skill.yaml",
+      "proposal": "transfer_review_skill_to_owner_with_contract_navigation_cutover",
+      "source_delta": "contract/renderer paths only",
+      "remaining_gate": "existing owner skill qualification and ADL caller navigation cutover; no new execution inferred"
+    },
+    {
+      "id": "RD07-1794",
+      "path": "adl/tools/skills/repo-review-synthesis/references/output-contract.md",
+      "successor": "review-skills/repo-review-synthesis/references/output-contract.md",
+      "proposal": "transfer_review_skill_to_owner_with_contract_navigation_cutover",
+      "source_delta": "contract/renderer paths only",
+      "remaining_gate": "existing owner skill qualification and ADL caller navigation cutover; no new execution inferred"
+    },
+    {
+      "id": "RD07-1795",
+      "path": "adl/tools/skills/repo-review-tests/SKILL.md",
+      "successor": "review-skills/repo-review-tests/SKILL.md",
+      "proposal": "transfer_review_skill_to_owner_with_contract_navigation_cutover",
+      "source_delta": "contract/renderer paths only",
+      "remaining_gate": "existing owner skill qualification and ADL caller navigation cutover; no new execution inferred"
+    },
+    {
+      "id": "RD07-1796",
+      "path": "adl/tools/skills/repo-review-tests/adl-skill.yaml",
+      "successor": "review-skills/repo-review-tests/adl-skill.yaml",
+      "proposal": "transfer_review_skill_to_owner_with_contract_navigation_cutover",
+      "source_delta": "contract/renderer paths only",
+      "remaining_gate": "existing owner skill qualification and ADL caller navigation cutover; no new execution inferred"
+    },
+    {
+      "id": "RD07-1798",
+      "path": "adl/tools/skills/repo-review-tests/references/output-contract.md",
+      "successor": "review-skills/repo-review-tests/references/output-contract.md",
+      "proposal": "transfer_review_skill_to_owner_with_contract_navigation_cutover",
+      "source_delta": "contract/renderer paths only",
+      "remaining_gate": "existing owner skill qualification and ADL caller navigation cutover; no new execution inferred"
+    },
+    {
+      "id": "RD07-1811",
+      "path": "adl/tools/skills/review-quality-evaluator/adl-skill.yaml",
+      "successor": "review-skills/review-quality-evaluator/adl-skill.yaml",
+      "proposal": "transfer_review_skill_to_owner_with_contract_navigation_cutover",
+      "source_delta": "contract/renderer paths only",
+      "remaining_gate": "existing owner skill qualification and ADL caller navigation cutover; no new execution inferred"
+    },
+    {
+      "id": "RD07-1817",
+      "path": "adl/tools/skills/review-readiness-cleanup/adl-skill.yaml",
+      "successor": "review-skills/review-readiness-cleanup/adl-skill.yaml",
+      "proposal": "transfer_review_skill_to_owner_with_contract_navigation_cutover",
+      "source_delta": "contract/renderer paths only",
+      "remaining_gate": "existing owner skill qualification and ADL caller navigation cutover; no new execution inferred"
+    },
+    {
+      "id": "RD07-1822",
+      "path": "adl/tools/skills/review-to-test-planner/SKILL.md",
+      "successor": "review-skills/review-to-test-planner/SKILL.md",
+      "proposal": "transfer_review_skill_to_owner_with_contract_navigation_cutover",
+      "source_delta": "contract/renderer paths only",
+      "remaining_gate": "existing owner skill qualification and ADL caller navigation cutover; no new execution inferred"
+    },
+    {
+      "id": "RD07-1823",
+      "path": "adl/tools/skills/review-to-test-planner/adl-skill.yaml",
+      "successor": "review-skills/review-to-test-planner/adl-skill.yaml",
+      "proposal": "transfer_review_skill_to_owner_with_contract_navigation_cutover",
+      "source_delta": "contract/renderer paths only",
+      "remaining_gate": "existing owner skill qualification and ADL caller navigation cutover; no new execution inferred"
+    },
+    {
+      "id": "RD07-3404",
+      "path": "docs/codefriend/ARCHITECTURE.md",
+      "successors": [
+        "docs/codefriend/ARCHITECTURE.md"
+      ],
+      "proposal": "conditional_owner_transfer",
+      "remaining_gate": "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
+    },
+    {
+      "id": "RD07-3405",
+      "path": "docs/codefriend/ARCHITECTURE_DRIFT.md",
+      "successors": [
+        "docs/codefriend/ARCHITECTURE_DRIFT.md"
+      ],
+      "proposal": "conditional_owner_transfer",
+      "remaining_gate": "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
+    },
+    {
+      "id": "RD07-3408",
+      "path": "docs/codefriend/ARCHITECTURE_RATIONALE.md",
+      "successors": [
+        "docs/codefriend/ARCHITECTURE_RATIONALE.md"
+      ],
+      "proposal": "conditional_owner_transfer",
+      "remaining_gate": "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
+    },
+    {
+      "id": "RD07-3409",
+      "path": "docs/codefriend/CHANGE_IMPACT.md",
+      "successors": [
+        "docs/codefriend/CHANGE_IMPACT.md"
+      ],
+      "proposal": "conditional_owner_transfer",
+      "remaining_gate": "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
+    },
+    {
+      "id": "RD07-3410",
+      "path": "docs/codefriend/CYCLE_REVIEW_BRIDGE.md",
+      "successors": [
+        "docs/codefriend/CYCLE_REVIEW_BRIDGE.md"
+      ],
+      "proposal": "conditional_owner_transfer",
+      "remaining_gate": "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
+    },
+    {
+      "id": "RD07-3412",
+      "path": "docs/codefriend/EVIDENCE_CORE.md",
+      "successors": [
+        "docs/codefriend/EVIDENCE_CORE.md"
+      ],
+      "proposal": "conditional_owner_transfer",
+      "remaining_gate": "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
+    },
+    {
+      "id": "RD07-3416",
+      "path": "docs/codefriend/GITHUB_INGESTION.md",
+      "successors": [
+        "docs/codefriend/GITHUB_INGESTION.md"
+      ],
+      "proposal": "conditional_owner_transfer",
+      "remaining_gate": "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
+    },
+    {
+      "id": "RD07-3418",
+      "path": "docs/codefriend/HTML_EXPORT.md",
+      "successors": [
+        "docs/codefriend/HTML_EXPORT.md"
+      ],
+      "proposal": "conditional_owner_transfer",
+      "remaining_gate": "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
+    },
+    {
+      "id": "RD07-3419",
+      "path": "docs/codefriend/LOCAL_AGENT.md",
+      "successors": [
+        "docs/codefriend/LOCAL_AGENT.md"
+      ],
+      "proposal": "conditional_owner_transfer",
+      "remaining_gate": "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
+    },
+    {
+      "id": "RD07-3420",
+      "path": "docs/codefriend/LOCAL_FITNESS.md",
+      "successors": [
+        "docs/codefriend/LOCAL_FITNESS.md"
+      ],
+      "proposal": "conditional_owner_transfer",
+      "remaining_gate": "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
+    },
+    {
+      "id": "RD07-3423",
+      "path": "docs/codefriend/LOCAL_INGESTION.md",
+      "successors": [
+        "docs/codefriend/LOCAL_INGESTION.md"
+      ],
+      "proposal": "conditional_owner_transfer",
+      "remaining_gate": "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
+    },
+    {
+      "id": "RD07-3428",
+      "path": "docs/codefriend/MARKDOWN_EXPORT.md",
+      "successors": [
+        "docs/codefriend/MARKDOWN_EXPORT.md"
+      ],
+      "proposal": "conditional_owner_transfer",
+      "remaining_gate": "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
+    },
+    {
+      "id": "RD07-3429",
+      "path": "docs/codefriend/MEMORY_COMPARISON.md",
+      "successors": [
+        "docs/codefriend/MEMORY_COMPARISON.md"
+      ],
+      "proposal": "conditional_owner_transfer",
+      "remaining_gate": "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
+    },
+    {
+      "id": "RD07-3432",
+      "path": "docs/codefriend/MEMORY_PALACE.md",
+      "successors": [
+        "docs/codefriend/MEMORY_PALACE.md"
+      ],
+      "proposal": "conditional_owner_transfer",
+      "remaining_gate": "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
+    },
+    {
+      "id": "RD07-3433",
+      "path": "docs/codefriend/PDF_EXPORT.md",
+      "successors": [
+        "docs/codefriend/PDF_EXPORT.md"
+      ],
+      "proposal": "conditional_owner_transfer",
+      "remaining_gate": "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
+    },
+    {
+      "id": "RD07-3434",
+      "path": "docs/codefriend/REVIEW_ASSESSMENTS.md",
+      "successors": [
+        "docs/codefriend/REVIEW_ASSESSMENTS.md"
+      ],
+      "proposal": "conditional_owner_transfer",
+      "remaining_gate": "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
+    },
+    {
+      "id": "RD07-3435",
+      "path": "docs/codefriend/RUST_PARSER_BOUNDS.md",
+      "successors": [
+        "docs/codefriend/RUST_PARSER_BOUNDS.md"
+      ],
+      "proposal": "conditional_owner_transfer",
+      "remaining_gate": "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
+    },
+    {
+      "id": "RD07-3437",
+      "path": "docs/codefriend/TEST_PLANNING.md",
+      "successors": [
+        "docs/codefriend/TEST_PLANNING.md"
+      ],
+      "proposal": "conditional_owner_transfer",
+      "remaining_gate": "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
+    },
+    {
+      "id": "RD07-3438",
+      "path": "docs/codefriend/fixtures/vector-scope.json",
+      "successors": [
+        "docs/codefriend/fixtures/vector-scope.json"
+      ],
+      "proposal": "conditional_owner_transfer",
+      "remaining_gate": "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
+    },
+    {
+      "id": "RD07-4108",
+      "path": "tools/codefriend_host/ci/interrupted-report.json",
+      "successors": [
+        "tools/codefriend_host/ci/interrupted-report.json"
+      ],
+      "proposal": "conditional_owner_transfer",
+      "remaining_gate": "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
+    },
+    {
+      "id": "RD07-4113",
+      "path": "tools/codefriend_host/idle_stop.py",
+      "successors": [
+        "tools/codefriend_host/idle_stop.py"
+      ],
+      "proposal": "conditional_owner_transfer",
+      "remaining_gate": "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
+    },
+    {
+      "id": "RD07-4114",
+      "path": "tools/codefriend_host/initialize_registry.py",
+      "successors": [
+        "tools/codefriend_host/initialize_registry.py"
+      ],
+      "proposal": "conditional_owner_transfer",
+      "remaining_gate": "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
+    },
+    {
+      "id": "RD07-4115",
+      "path": "tools/codefriend_host/probe_linux_control.py",
+      "successors": [
+        "tools/codefriend_host/probe_linux_control.py"
+      ],
+      "proposal": "conditional_owner_transfer",
+      "remaining_gate": "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
+    },
+    {
+      "id": "RD07-4123",
+      "path": "tools/codefriend_host/systemd/codefriend-gateway.service",
+      "successors": [
+        "tools/codefriend_host/systemd/codefriend-gateway.service"
+      ],
+      "proposal": "conditional_owner_transfer",
+      "remaining_gate": "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
+    },
+    {
+      "id": "RD07-4124",
+      "path": "tools/codefriend_host/systemd/codefriend-idle-stop.service",
+      "successors": [
+        "tools/codefriend_host/systemd/codefriend-idle-stop.service"
+      ],
+      "proposal": "conditional_owner_transfer",
+      "remaining_gate": "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
+    },
+    {
+      "id": "RD07-4125",
+      "path": "tools/codefriend_host/systemd/codefriend-idle-stop.timer",
+      "successors": [
+        "tools/codefriend_host/systemd/codefriend-idle-stop.timer"
+      ],
+      "proposal": "conditional_owner_transfer",
+      "remaining_gate": "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
+    },
+    {
+      "id": "RD07-4131",
+      "path": "tools/codefriend_host/test_idle_stop.py",
+      "successors": [
+        "tools/codefriend_host/test_idle_stop.py"
+      ],
+      "proposal": "conditional_owner_transfer",
+      "remaining_gate": "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
+    },
+    {
+      "id": "RD07-4132",
+      "path": "tools/codefriend_host/test_initialize_registry.py",
+      "successors": [
+        "tools/codefriend_host/test_initialize_registry.py"
+      ],
+      "proposal": "conditional_owner_transfer",
+      "remaining_gate": "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
+    },
+    {
+      "id": "RD07-4133",
+      "path": "tools/codefriend_host/test_linux_transport.py",
+      "successors": [
+        "tools/codefriend_host/test_linux_transport.py"
+      ],
+      "proposal": "conditional_owner_transfer",
+      "remaining_gate": "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
+    }
+  ],
+  "remaining_unresolved_ids": [
+    "RD07-0003",
+    "RD07-0006",
+    "RD07-0007",
+    "RD07-1279",
+    "RD07-1281",
+    "RD07-1286",
+    "RD07-1287",
+    "RD07-1288",
+    "RD07-1289",
+    "RD07-1290",
+    "RD07-1291",
+    "RD07-1902",
+    "RD07-1934",
+    "RD07-3209",
+    "RD07-3219",
+    "RD07-3227",
+    "RD07-3268",
+    "RD07-3403",
+    "RD07-3415",
+    "RD07-3436",
+    "RD07-4106",
+    "RD07-4107",
+    "RD07-4109",
+    "RD07-4110",
+    "RD07-4111",
+    "RD07-4112",
+    "RD07-4134"
+  ]
+}

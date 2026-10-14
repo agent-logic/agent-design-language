@@ -1,10 +1,10 @@
 use std::collections::HashMap;
 
-use ::adl::adl::{
+use ::adl_legacy_contracts::adl::{
     AdlDoc, AgentSpec, PromptSpec, RunDefaults, RunSpec, StepSpec, TaskSpec, WorkflowKind,
     WorkflowSpec,
 };
-use ::adl::resolve;
+use ::adl_legacy_contracts::resolve;
 
 mod helpers;
 use helpers::unique_test_temp_dir;

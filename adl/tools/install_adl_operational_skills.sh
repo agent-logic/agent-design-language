@@ -8,7 +8,11 @@ if [[ -z "${repo_root}" ]]; then
 fi
 
 codex_home="${CODEX_HOME:-$HOME/.codex}"
-source_root="${ADL_OPERATIONAL_SKILLS_SOURCE_ROOT:-${repo_root}/adl/tools/skills}"
+source_root="${ADL_OPERATIONAL_SKILLS_SOURCE_ROOT:-}"
+if [[ "$source_root" != /* || ! -d "$source_root" ]]; then
+  echo "Select a complete reviewed owner skill distribution with absolute ADL_OPERATIONAL_SKILLS_SOURCE_ROOT; the split ADL source tree is not a complete installation input." >&2
+  exit 2
+fi
 dest_root="${codex_home}/skills"
 install_mode="${ADL_OPERATIONAL_SKILLS_INSTALL_MODE:-copy}"
 

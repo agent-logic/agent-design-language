@@ -1,6 +1,12 @@
 # AWS CodeFriend Build Dispatch Boundary
 
-The `aws-codefriend-build` workflow is a manual, operator-dispatched path.
+> Historical dispatch-boundary record. The ADL workflow and launcher named below
+> were retired by #1223; these commands are not available in the current ADL
+> checkout. See `AWS_CODEFRIEND_BUILD_LANE.md` for the separate disabled
+> CodeFriend/Infrastructure successor boundary. This page does not authorize
+> a current cloud build.
+
+The former `aws-codefriend-build` workflow was a manual, operator-dispatched path.
 Only repository maintainers with GitHub Actions workflow-dispatch permission
 should use it. It is not a pull-request trigger and it is not an unattended
 provider endpoint.

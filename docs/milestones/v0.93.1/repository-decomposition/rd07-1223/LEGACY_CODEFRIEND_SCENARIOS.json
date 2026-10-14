@@ -1,0 +1,4778 @@
+{
+  "source_revision": "9cfd035aac2a44637b3c8026bd40b669579a8c7f",
+  "successor_revision": "273089b0ecbe20e1979654e0faeaca0604398de1",
+  "files": 37,
+  "source_test_count": 338,
+  "exact_name_count": 0,
+  "successor_rust_files_scanned": 139,
+  "parser_limit": "Recognizes adjacent Rust test/tokio::test/async_std::test attributes; generated tests/macros and external scripts need separate comparison. Exact names are correspondence only.",
+  "rows": [
+    {
+      "id": "RD07-0966",
+      "path": "adl/tests/codefriend_agent_publication.rs",
+      "test_count": 8,
+      "exact_name_count": 0,
+      "scenarios": [
+        {
+          "name": "native_generated_preparation_validates_three_formats_without_granting_approval",
+          "line": 189,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "recomputed_transport_hash_does_not_authorize_changed_native_challenge_or_owner",
+          "line": 204,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "prepared_receipt_cannot_be_relabelled_complete_or_bypass_owned_report_validation",
+          "line": 226,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "shared_builder_preserves_all_thirteen_original_owner_bytes_for_snapshot_encodings",
+          "line": 249,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "v2_builder_preserves_all_thirteen_admitted_owner_bytes_for_snapshot_encodings",
+          "line": 254,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "publication_preparation_bounds_the_single_snapshot_for_both_versions",
+          "line": 259,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "publication_job_observation_rechecks_local_authority_before_upload_and_ack",
+          "line": 461,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "public_local_relay_renders_three_real_formats_and_preserves_withheld_decision",
+          "line": 495,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        }
+      ],
+      "feature_source_candidates": [
+        {
+          "module": "evidence",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/evidence/assessments.rs",
+            "crates/codefriend/src/codefriend/evidence/contracts.rs",
+            "crates/codefriend/src/codefriend/evidence/mod.rs",
+            "crates/codefriend/src/codefriend/evidence/store.rs"
+          ]
+        },
+        {
+          "module": "ingestion",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/ingestion/ci.rs",
+            "crates/codefriend/src/codefriend/ingestion/github.rs",
+            "crates/codefriend/src/codefriend/ingestion/javascript_runtime.rs",
+            "crates/codefriend/src/codefriend/ingestion/local.rs",
+            "crates/codefriend/src/codefriend/ingestion/mod.rs"
+          ]
+        },
+        {
+          "module": "integration",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/integration.rs",
+            "crates/codefriend/src/codefriend/integration/journey.rs",
+            "crates/codefriend/src/codefriend/integration/journey/local_publication_attachment.rs",
+            "crates/codefriend/src/codefriend/integration/journey/owned_baseline.rs",
+            "crates/codefriend/src/codefriend/integration/journey/owned_palace.rs",
+            "crates/codefriend/src/codefriend/integration/journey/publication_attachment.rs"
+          ]
+        }
+      ],
+      "explicit_retirement_evidence": null,
+      "acceptance": "Pending scenario correspondence and exact installed proof; no retirement inferred from missing names.",
+      "source_feature_evidence": [
+        {
+          "path": "crates/codefriend/src/codefriend/agent/publication.rs",
+          "entries": [
+            {
+              "line": 23,
+              "text": "pub struct Binding {"
+            },
+            {
+              "line": 37,
+              "text": "pub struct Decision {"
+            },
+            {
+              "line": 45,
+              "text": "pub struct Job {"
+            },
+            {
+              "line": 58,
+              "text": "pub struct TerminalSummary {"
+            }
+          ],
+          "interpretation": "Feature-owner candidate from source module and public symbols; not equivalent scenario proof"
+        }
+      ],
+      "retirement_search_scope": "No explicit scenario retirement decision located in successor README/docs for these37files; source feature remains represented. Not an exhaustive search of issue history.",
+      "next_action": "Compare listed legacy assertions to standalone installed or owned-journey cases for this feature. Reuse matched current proof; retain or port only unmatched required cases. Source name absence is not a failed test."
+    },
+    {
+      "id": "RD07-0967",
+      "path": "adl/tests/codefriend_agent_receipt.rs",
+      "test_count": 9,
+      "exact_name_count": 0,
+      "scenarios": [
+        {
+          "name": "missing_ack_recovers_by_get_and_restart_reobserves_exact_receipt",
+          "line": 253,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "forged_bindings_and_schema_are_rejected_without_retention",
+          "line": 277,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "changed_authenticated_receipt_never_overwrites_retained_binding",
+          "line": 308,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "expiry_scrubs_receipt_but_preserves_no_replay_reservation",
+          "line": 324,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "remote_revocation_and_changed_consent_fail_closed",
+          "line": 335,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "unpair_scrubs_receipt_and_retains_tombstone",
+          "line": 351,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "cancelled_missing_receipt_and_expired_pairing_do_not_create_receipt",
+          "line": 366,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "malformed_complete_report_is_rejected_even_with_recomputed_digest",
+          "line": 383,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "expiry_during_receipt_observation_prevents_retention",
+          "line": 397,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        }
+      ],
+      "feature_source_candidates": [
+        {
+          "module": "agent",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/agent.rs",
+            "crates/codefriend/src/codefriend/agent/cycle_bridge.rs",
+            "crates/codefriend/src/codefriend/agent/journey.rs",
+            "crates/codefriend/src/codefriend/agent/journey/delivery.rs",
+            "crates/codefriend/src/codefriend/agent/journey/verification.rs",
+            "crates/codefriend/src/codefriend/agent/publication.rs"
+          ]
+        },
+        {
+          "module": "evidence",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/evidence/assessments.rs",
+            "crates/codefriend/src/codefriend/evidence/contracts.rs",
+            "crates/codefriend/src/codefriend/evidence/mod.rs",
+            "crates/codefriend/src/codefriend/evidence/store.rs"
+          ]
+        }
+      ],
+      "explicit_retirement_evidence": null,
+      "acceptance": "Pending scenario correspondence and exact installed proof; no retirement inferred from missing names.",
+      "source_feature_evidence": [
+        {
+          "path": "crates/codefriend/src/codefriend/agent.rs",
+          "entries": [
+            {
+              "line": 4,
+              "text": "pub mod journey;"
+            },
+            {
+              "line": 5,
+              "text": "pub mod publication;"
+            },
+            {
+              "line": 38,
+              "text": "pub struct Consent {"
+            },
+            {
+              "line": 53,
+              "text": "pub fn validate(&self, now: u64) -> Result<()> {"
+            }
+          ],
+          "interpretation": "Feature-owner candidate from source module and public symbols; not equivalent scenario proof"
+        },
+        {
+          "path": "crates/codefriend/src/codefriend/agent/journey/verification.rs",
+          "entries": [
+            {
+              "line": 7,
+              "text": "pub struct VerificationContext {"
+            },
+            {
+              "line": 379,
+              "text": "pub fn verify_stage(result: &StageResult, context: &VerificationContext, now: u64) -> Result<()> {"
+            }
+          ],
+          "interpretation": "Feature-owner candidate from source module and public symbols; not equivalent scenario proof"
+        }
+      ],
+      "retirement_search_scope": "No explicit scenario retirement decision located in successor README/docs for these37files; source feature remains represented. Not an exhaustive search of issue history.",
+      "next_action": "Compare listed legacy assertions to standalone installed or owned-journey cases for this feature. Reuse matched current proof; retain or port only unmatched required cases. Source name absence is not a failed test."
+    },
+    {
+      "id": "RD07-0968",
+      "path": "adl/tests/codefriend_baseline_repeat.rs",
+      "test_count": 1,
+      "exact_name_count": 0,
+      "scenarios": [
+        {
+          "name": "genuine_repeated_review_results_retain_compare_and_keep_original_expiry",
+          "line": 42,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        }
+      ],
+      "feature_source_candidates": [],
+      "explicit_retirement_evidence": null,
+      "acceptance": "Pending scenario correspondence and exact installed proof; no retirement inferred from missing names.",
+      "source_feature_evidence": [
+        {
+          "path": "crates/codefriend/src/codefriend/memory/baseline.rs",
+          "entries": [
+            {
+              "line": 21,
+              "text": "pub struct BaselineRef {"
+            },
+            {
+              "line": 27,
+              "text": "pub fn from_record(record: &ReviewRecord) -> Result<Self> {"
+            },
+            {
+              "line": 38,
+              "text": "pub fn storage_identity(&self) -> Result<String> {"
+            },
+            {
+              "line": 42,
+              "text": "pub fn validate(&self) -> Result<()> {"
+            }
+          ],
+          "interpretation": "Feature-owner candidate from source module and public symbols; not equivalent scenario proof"
+        }
+      ],
+      "retirement_search_scope": "No explicit scenario retirement decision located in successor README/docs for these37files; source feature remains represented. Not an exhaustive search of issue history.",
+      "next_action": "Compare listed legacy assertions to standalone installed or owned-journey cases for this feature. Reuse matched current proof; retain or port only unmatched required cases. Source name absence is not a failed test."
+    },
+    {
+      "id": "RD07-0969",
+      "path": "adl/tests/codefriend_cf_cog.rs",
+      "test_count": 18,
+      "exact_name_count": 0,
+      "scenarios": [
+        {
+          "name": "version_dispatch_preserves_original_v1_payload_and_source_authority",
+          "line": 20,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "allowed_graph_is_deterministic_and_evidence_linked",
+          "line": 176,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "explicit_boundary_policy_distinguishes_allowed_and_forbidden",
+          "line": 198,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "cycle_and_coupling_report_real_directed_edges",
+          "line": 220,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "unsupported_constructs_and_external_edges_cannot_claim_complete",
+          "line": 251,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "syntax_uncertainty_preserves_references_and_exact_reasons",
+          "line": 272,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "missing_module_parse_error_and_unsupported_language_are_partial",
+          "line": 329,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "manifest_dependencies_are_declared_not_invented_resolved_code",
+          "line": 341,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "root_super_paths_and_missing_boundaries_do_not_invent_edges",
+          "line": 359,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "output_readback_rejects_tampering_and_never_overwrites",
+          "line": 377,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "deletion_and_expiry_deny_saved_report_retrieval",
+          "line": 395,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "invalid_policy_and_bounds_fail_closed",
+          "line": 414,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "output_symlinks_are_rejected",
+          "line": 427,
+          "attributes": "#[cfg(unix)]\n#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "real_cli_admits_reports_and_reads_persisted_artifact",
+          "line": 444,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "malformed_root_with_manifest_returns_partial_without_dangling_edges",
+          "line": 517,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "policy_changes_invalidate_run_compatibility",
+          "line": 531,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "extern_crate_and_unresolved_types_are_explicit_unknowns",
+          "line": 540,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "pathological_rust_is_partial_before_recursive_parsing",
+          "line": 549,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        }
+      ],
+      "feature_source_candidates": [
+        {
+          "module": "architecture",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/architecture/artifact.rs",
+            "crates/codefriend/src/codefriend/architecture/drift.rs",
+            "crates/codefriend/src/codefriend/architecture/drift_v2.rs",
+            "crates/codefriend/src/codefriend/architecture/four_plus_one.rs",
+            "crates/codefriend/src/codefriend/architecture/four_plus_one/generation.rs",
+            "crates/codefriend/src/codefriend/architecture/four_plus_one/render.rs",
+            "crates/codefriend/src/codefriend/architecture/impact.rs",
+            "crates/codefriend/src/codefriend/architecture/impact_v2.rs",
+            "crates/codefriend/src/codefriend/architecture/mod.rs",
+            "crates/codefriend/src/codefriend/architecture/rationale.rs",
+            "crates/codefriend/src/codefriend/architecture/rationale_v2.rs",
+            "crates/codefriend/src/codefriend/architecture/structure.rs"
+          ]
+        },
+        {
+          "module": "evidence",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/evidence/assessments.rs",
+            "crates/codefriend/src/codefriend/evidence/contracts.rs",
+            "crates/codefriend/src/codefriend/evidence/mod.rs",
+            "crates/codefriend/src/codefriend/evidence/store.rs"
+          ]
+        }
+      ],
+      "explicit_retirement_evidence": null,
+      "acceptance": "Pending scenario correspondence and exact installed proof; no retirement inferred from missing names.",
+      "source_feature_evidence": [
+        {
+          "path": "crates/codefriend/src/codefriend/architecture/artifact.rs",
+          "entries": [
+            {
+              "line": 10,
+              "text": "pub enum BoundaryPolicyArtifact {"
+            },
+            {
+              "line": 18,
+              "text": "pub enum StructureArtifact {"
+            },
+            {
+              "line": 23,
+              "text": "pub enum ChangeSetArtifact {"
+            },
+            {
+              "line": 30,
+              "text": "pub enum ImpactArtifact {"
+            }
+          ],
+          "interpretation": "Feature-owner candidate from source module and public symbols; not equivalent scenario proof"
+        }
+      ],
+      "retirement_search_scope": "No explicit scenario retirement decision located in successor README/docs for these37files; source feature remains represented. Not an exhaustive search of issue history.",
+      "next_action": "Compare listed legacy assertions to standalone installed or owned-journey cases for this feature. Reuse matched current proof; retain or port only unmatched required cases. Source name absence is not a failed test."
+    },
+    {
+      "id": "RD07-0970",
+      "path": "adl/tests/codefriend_cf_cog_drift.rs",
+      "test_count": 10,
+      "exact_name_count": 0,
+      "scenarios": [
+        {
+          "name": "original_store_pair_compares_without_readmission_and_preserves_lifetimes",
+          "line": 166,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "introduced_removed_edges_and_cross_layer_explanations",
+          "line": 257,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "unchanged_and_line_relocation_have_stable_shared_identity",
+          "line": 314,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "repeated_edge_locations_do_not_create_identity_collisions",
+          "line": 346,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "partial_narrower_and_policy_changes_never_resolve",
+          "line": 367,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "actual_baseline_storage_is_required_and_deletion_revokes",
+          "line": 394,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "artifacts_reject_tamper_expiry_and_deleted_evidence",
+          "line": 412,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "malformed_graph_version_and_ambiguous_identity_reject",
+          "line": 438,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "bad_artifacts_reject_without_partial_success",
+          "line": 456,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "installed_dispatch_retains_real_graphs_and_reads_drift",
+          "line": 481,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        }
+      ],
+      "feature_source_candidates": [
+        {
+          "module": "architecture",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/architecture/artifact.rs",
+            "crates/codefriend/src/codefriend/architecture/drift.rs",
+            "crates/codefriend/src/codefriend/architecture/drift_v2.rs",
+            "crates/codefriend/src/codefriend/architecture/four_plus_one.rs",
+            "crates/codefriend/src/codefriend/architecture/four_plus_one/generation.rs",
+            "crates/codefriend/src/codefriend/architecture/four_plus_one/render.rs",
+            "crates/codefriend/src/codefriend/architecture/impact.rs",
+            "crates/codefriend/src/codefriend/architecture/impact_v2.rs",
+            "crates/codefriend/src/codefriend/architecture/mod.rs",
+            "crates/codefriend/src/codefriend/architecture/rationale.rs",
+            "crates/codefriend/src/codefriend/architecture/rationale_v2.rs",
+            "crates/codefriend/src/codefriend/architecture/structure.rs"
+          ]
+        },
+        {
+          "module": "evidence",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/evidence/assessments.rs",
+            "crates/codefriend/src/codefriend/evidence/contracts.rs",
+            "crates/codefriend/src/codefriend/evidence/mod.rs",
+            "crates/codefriend/src/codefriend/evidence/store.rs"
+          ]
+        }
+      ],
+      "explicit_retirement_evidence": null,
+      "acceptance": "Pending scenario correspondence and exact installed proof; no retirement inferred from missing names.",
+      "source_feature_evidence": [
+        {
+          "path": "crates/codefriend/src/codefriend/architecture/drift.rs",
+          "entries": [
+            {
+              "line": 21,
+              "text": "pub struct FactTrace {"
+            },
+            {
+              "line": 27,
+              "text": "pub struct DriftReport {"
+            },
+            {
+              "line": 129,
+              "text": "pub fn architecture_drift_reporter("
+            },
+            {
+              "line": 140,
+              "text": "pub fn architecture_drift_reporter_pair("
+            }
+          ],
+          "interpretation": "Feature-owner candidate from source module and public symbols; not equivalent scenario proof"
+        }
+      ],
+      "retirement_search_scope": "No explicit scenario retirement decision located in successor README/docs for these37files; source feature remains represented. Not an exhaustive search of issue history.",
+      "next_action": "Compare listed legacy assertions to standalone installed or owned-journey cases for this feature. Reuse matched current proof; retain or port only unmatched required cases. Source name absence is not a failed test."
+    },
+    {
+      "id": "RD07-0971",
+      "path": "adl/tests/codefriend_cf_cog_impact.rs",
+      "test_count": 10,
+      "exact_name_count": 0,
+      "scenarios": [
+        {
+          "name": "direct_transitive_cross_boundary_and_unaffected_have_exact_witnesses",
+          "line": 159,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "multiple_roots_keep_distinct_paths_and_normalize_order",
+          "line": 213,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "cycle_terminates_and_explains_each_affected_node",
+          "line": 241,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "unsupported_symbols_and_outside_modules_are_partial_not_safe",
+          "line": 269,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "unknown_graph_edges_never_become_no_impact",
+          "line": 289,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "stale_malformed_duplicate_and_bounded_changes_fail_precisely",
+          "line": 305,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "artifact_roundtrip_tamper_overwrite_deletion_and_expiry",
+          "line": 353,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "pair_bound_rejects_dense_cycle_without_truncating_claims",
+          "line": 383,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "artifact_input_guards_reject_malformed_oversize_and_unsafe_paths",
+          "line": 412,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "product_cli_creates_and_consumes_impact_with_strict_inputs",
+          "line": 456,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        }
+      ],
+      "feature_source_candidates": [
+        {
+          "module": "impact",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/architecture/impact.rs"
+          ]
+        }
+      ],
+      "explicit_retirement_evidence": null,
+      "acceptance": "Pending scenario correspondence and exact installed proof; no retirement inferred from missing names.",
+      "source_feature_evidence": [
+        {
+          "path": "crates/codefriend/src/codefriend/architecture/impact.rs",
+          "entries": [
+            {
+              "line": 22,
+              "text": "pub enum ChangeTarget {"
+            },
+            {
+              "line": 28,
+              "text": "pub struct ChangeSet {"
+            },
+            {
+              "line": 37,
+              "text": "pub struct Impact {"
+            },
+            {
+              "line": 50,
+              "text": "pub struct ImpactReport {"
+            }
+          ],
+          "interpretation": "Feature-owner candidate from source module and public symbols; not equivalent scenario proof"
+        }
+      ],
+      "retirement_search_scope": "No explicit scenario retirement decision located in successor README/docs for these37files; source feature remains represented. Not an exhaustive search of issue history.",
+      "next_action": "Compare listed legacy assertions to standalone installed or owned-journey cases for this feature. Reuse matched current proof; retain or port only unmatched required cases. Source name absence is not a failed test."
+    },
+    {
+      "id": "RD07-0972",
+      "path": "adl/tests/codefriend_cf_cog_rationale.rs",
+      "test_count": 10,
+      "exact_name_count": 0,
+      "scenarios": [
+        {
+          "name": "accepted_rationale_traces_graph_deployment_and_source_revision",
+          "line": 154,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "candidate_superseded_unknown_status_and_missing_are_not_accepted",
+          "line": 185,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "conflicts_are_same_key_accepted_choices_not_candidate_or_different_decisions",
+          "line": 214,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "unknown_deployment_and_unavailable_evidence_preserve_unknowns",
+          "line": 259,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "malformed_or_mismatched_adrs_and_instructions_never_grant_authority",
+          "line": 298,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "stale_tampered_out_of_scope_and_bounded_claims_reject",
+          "line": 338,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "persistence_recomputes_and_denies_tamper_delete_expiry_and_overwrite",
+          "line": 386,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "malformed_deployment_partial_graph_and_source_size_fail_closed",
+          "line": 413,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "artifact_guards_deny_malformed_large_and_unsafe_inputs",
+          "line": 467,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "product_cli_creates_and_consumes_rationale_with_strict_inputs",
+          "line": 502,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        }
+      ],
+      "feature_source_candidates": [
+        {
+          "module": "architecture",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/architecture/artifact.rs",
+            "crates/codefriend/src/codefriend/architecture/drift.rs",
+            "crates/codefriend/src/codefriend/architecture/drift_v2.rs",
+            "crates/codefriend/src/codefriend/architecture/four_plus_one.rs",
+            "crates/codefriend/src/codefriend/architecture/four_plus_one/generation.rs",
+            "crates/codefriend/src/codefriend/architecture/four_plus_one/render.rs",
+            "crates/codefriend/src/codefriend/architecture/impact.rs",
+            "crates/codefriend/src/codefriend/architecture/impact_v2.rs",
+            "crates/codefriend/src/codefriend/architecture/mod.rs",
+            "crates/codefriend/src/codefriend/architecture/rationale.rs",
+            "crates/codefriend/src/codefriend/architecture/rationale_v2.rs",
+            "crates/codefriend/src/codefriend/architecture/structure.rs"
+          ]
+        },
+        {
+          "module": "rationale",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/architecture/rationale.rs"
+          ]
+        }
+      ],
+      "explicit_retirement_evidence": null,
+      "acceptance": "Pending scenario correspondence and exact installed proof; no retirement inferred from missing names.",
+      "source_feature_evidence": [
+        {
+          "path": "crates/codefriend/src/codefriend/architecture/rationale.rs",
+          "entries": [
+            {
+              "line": 18,
+              "text": "pub struct BoundarySelection {"
+            },
+            {
+              "line": 26,
+              "text": "pub struct RationaleSelection {"
+            },
+            {
+              "line": 34,
+              "text": "pub struct Decision {"
+            },
+            {
+              "line": 43,
+              "text": "pub struct RationaleSource {"
+            }
+          ],
+          "interpretation": "Feature-owner candidate from source module and public symbols; not equivalent scenario proof"
+        }
+      ],
+      "retirement_search_scope": "No explicit scenario retirement decision located in successor README/docs for these37files; source feature remains represented. Not an exhaustive search of issue history.",
+      "next_action": "Compare listed legacy assertions to standalone installed or owned-journey cases for this feature. Reuse matched current proof; retain or port only unmatched required cases. Source name absence is not a failed test."
+    },
+    {
+      "id": "RD07-0973",
+      "path": "adl/tests/codefriend_cf_gov.rs",
+      "test_count": 11,
+      "exact_name_count": 0,
+      "scenarios": [
+        {
+          "name": "fitness_dispatch_preserves_v1_bytes_and_original_store_validation",
+          "line": 17,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "literal_imports_pass_fail_and_stable_evidence",
+          "line": 155,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "raw_identifiers_do_not_bypass_boundary",
+          "line": 176,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "unprovable_inputs_are_errors_not_passes",
+          "line": 191,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "invalid_policy_is_rejected_and_policy_is_run_identity",
+          "line": 240,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "tamper_and_deleted_admission_fail_readback",
+          "line": 275,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "cli_reports_distinct_outcomes_and_create_only_artifacts",
+          "line": 286,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "cli_invalid_arguments_and_policy_are_machine_readable_errors",
+          "line": 327,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "cli_rejects_symlink_and_oversized_input",
+          "line": 365,
+          "attributes": "#[cfg(unix)]\n#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "bounded_parser_accepts_normal_files_and_denies_recursive_chains",
+          "line": 393,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "bounded_parser_preserves_unassessed_macro_refusal",
+          "line": 428,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        }
+      ],
+      "feature_source_candidates": [
+        {
+          "module": "governance",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/governance/artifact.rs",
+            "crates/codefriend/src/codefriend/governance/ci.rs",
+            "crates/codefriend/src/codefriend/governance/ci_v2.rs",
+            "crates/codefriend/src/codefriend/governance/language.rs",
+            "crates/codefriend/src/codefriend/governance/local.rs",
+            "crates/codefriend/src/codefriend/governance/mod.rs"
+          ]
+        }
+      ],
+      "explicit_retirement_evidence": null,
+      "acceptance": "Pending scenario correspondence and exact installed proof; no retirement inferred from missing names.",
+      "source_feature_evidence": [
+        {
+          "path": "crates/codefriend/src/codefriend/governance/local.rs",
+          "entries": [
+            {
+              "line": 14,
+              "text": "pub struct Rule {"
+            },
+            {
+              "line": 22,
+              "text": "pub struct Policy {"
+            },
+            {
+              "line": 27,
+              "text": "pub fn validate(&self) -> Result<()> {"
+            },
+            {
+              "line": 76,
+              "text": "pub enum Status {"
+            }
+          ],
+          "interpretation": "Feature-owner candidate from source module and public symbols; not equivalent scenario proof"
+        }
+      ],
+      "retirement_search_scope": "No explicit scenario retirement decision located in successor README/docs for these37files; source feature remains represented. Not an exhaustive search of issue history.",
+      "next_action": "Compare listed legacy assertions to standalone installed or owned-journey cases for this feature. Reuse matched current proof; retain or port only unmatched required cases. Source name absence is not a failed test."
+    },
+    {
+      "id": "RD07-0974",
+      "path": "adl/tests/codefriend_cf_gov_ci.rs",
+      "test_count": 7,
+      "exact_name_count": 0,
+      "scenarios": [
+        {
+          "name": "installed_process_contract_preserves_pass_fail_error_and_local_parity",
+          "line": 152,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "independently_pinned_identities_and_original_status_are_required",
+          "line": 198,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "missing_truncated_tampered_and_stale_artifacts_fail_closed",
+          "line": 222,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "command_failure_without_report_retains_original_error",
+          "line": 275,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "malformed_cli_arguments_and_managed_output_are_denied",
+          "line": 296,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "unrelated_executable_zero_without_artifacts_is_not_success",
+          "line": 315,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "optimized_python_rejects_mismatched_receipt_identity",
+          "line": 349,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        }
+      ],
+      "feature_source_candidates": [],
+      "explicit_retirement_evidence": null,
+      "acceptance": "Pending scenario correspondence and exact installed proof; no retirement inferred from missing names.",
+      "source_feature_evidence": [
+        {
+          "path": "crates/codefriend/src/codefriend/governance/ci.rs",
+          "entries": [
+            {
+              "line": 11,
+              "text": "pub struct Expected {"
+            },
+            {
+              "line": 18,
+              "text": "pub fn validate(&self) -> Result<()> {"
+            },
+            {
+              "line": 34,
+              "text": "pub struct Receipt {"
+            },
+            {
+              "line": 48,
+              "text": "pub fn rejected(original_exit: i32) -> Self {"
+            }
+          ],
+          "interpretation": "Feature-owner candidate from source module and public symbols; not equivalent scenario proof"
+        }
+      ],
+      "retirement_search_scope": "No explicit scenario retirement decision located in successor README/docs for these37files; source feature remains represented. Not an exhaustive search of issue history.",
+      "next_action": "Compare listed legacy assertions to standalone installed or owned-journey cases for this feature. Reuse matched current proof; retain or port only unmatched required cases. Source name absence is not a failed test."
+    },
+    {
+      "id": "RD07-0975",
+      "path": "adl/tests/codefriend_cf_memory.rs",
+      "test_count": 12,
+      "exact_name_count": 0,
+      "scenarios": [
+        {
+          "name": "four_classifications_preserve_stable_identity_and_revision_references",
+          "line": 168,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "incompatible_and_partial_coverage_never_resolves_findings",
+          "line": 237,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "missing_tampered_and_colliding_baselines_fail_closed",
+          "line": 272,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "deletion_expiry_and_saved_delta_readback_require_live_baselines",
+          "line": 315,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "backend_substitution_cannot_bypass_reference_identity",
+          "line": 348,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "persisted_delta_tampering_and_unsafe_paths_are_rejected",
+          "line": 367,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "actual_cli_retains_compares_reads_and_deletes",
+          "line": 407,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "invalid_roots_and_malformed_artifacts_leave_existing_content",
+          "line": 531,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "same_run_distinct_results_coexist_and_tuple_deletion_does_not_delete_sibling",
+          "line": 558,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "legacy_records_load_unchanged_and_run_tombstones_deny_all_variants",
+          "line": 586,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "deleting_legacy_record_scrubs_payload_and_preserves_run_wide_tombstone",
+          "line": 618,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "capacity_is_shared_by_legacy_records_new_results_and_tombstones",
+          "line": 658,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        }
+      ],
+      "feature_source_candidates": [],
+      "explicit_retirement_evidence": null,
+      "acceptance": "Pending scenario correspondence and exact installed proof; no retirement inferred from missing names.",
+      "source_feature_evidence": [
+        {
+          "path": "crates/codefriend/src/codefriend/memory/mod.rs",
+          "entries": [
+            {
+              "line": 2,
+              "text": "pub mod baseline;"
+            },
+            {
+              "line": 3,
+              "text": "pub mod comparison;"
+            },
+            {
+              "line": 4,
+              "text": "pub mod palace;"
+            },
+            {
+              "line": 5,
+              "text": "pub mod palace_authority;"
+            }
+          ],
+          "interpretation": "Feature-owner candidate from source module and public symbols; not equivalent scenario proof"
+        }
+      ],
+      "retirement_search_scope": "No explicit scenario retirement decision located in successor README/docs for these37files; source feature remains represented. Not an exhaustive search of issue history.",
+      "next_action": "Compare listed legacy assertions to standalone installed or owned-journey cases for this feature. Reuse matched current proof; retain or port only unmatched required cases. Source name absence is not a failed test."
+    },
+    {
+      "id": "RD07-0976",
+      "path": "adl/tests/codefriend_ci_ingestion.rs",
+      "test_count": 1,
+      "exact_name_count": 0,
+      "scenarios": [
+        {
+          "name": "ci_production_route_conformance",
+          "line": 3,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        }
+      ],
+      "feature_source_candidates": [
+        {
+          "module": "ingestion",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/ingestion/ci.rs",
+            "crates/codefriend/src/codefriend/ingestion/github.rs",
+            "crates/codefriend/src/codefriend/ingestion/javascript_runtime.rs",
+            "crates/codefriend/src/codefriend/ingestion/local.rs",
+            "crates/codefriend/src/codefriend/ingestion/mod.rs"
+          ]
+        }
+      ],
+      "explicit_retirement_evidence": null,
+      "acceptance": "Pending scenario correspondence and exact installed proof; no retirement inferred from missing names.",
+      "source_feature_evidence": [
+        {
+          "path": "crates/codefriend/src/codefriend/ingestion/ci.rs",
+          "entries": [
+            {
+              "line": 9,
+              "text": "pub struct Receipt {"
+            },
+            {
+              "line": 19,
+              "text": "pub fn validate_metadata(metadata: &BTreeMap<String, String>) -> Result<()> {"
+            },
+            {
+              "line": 39,
+              "text": "pub fn acquire("
+            },
+            {
+              "line": 66,
+              "text": "pub fn validate(&self, packet: &Packet) -> Result<()> {"
+            }
+          ],
+          "interpretation": "Feature-owner candidate from source module and public symbols; not equivalent scenario proof"
+        }
+      ],
+      "retirement_search_scope": "No explicit scenario retirement decision located in successor README/docs for these37files; source feature remains represented. Not an exhaustive search of issue history.",
+      "next_action": "Compare listed legacy assertions to standalone installed or owned-journey cases for this feature. Reuse matched current proof; retain or port only unmatched required cases. Source name absence is not a failed test."
+    },
+    {
+      "id": "RD07-0977",
+      "path": "adl/tests/codefriend_drift_v2.rs",
+      "test_count": 6,
+      "exact_name_count": 0,
+      "scenarios": [
+        {
+          "name": "incomplete_graphs_retain_original_refs_and_observed_fact_traces",
+          "line": 196,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "both_original_owners_and_retained_records_remain_required",
+          "line": 238,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "tampered_traces_backend_references_and_aggregate_output_fail_closed",
+          "line": 258,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "postwrite_original_baseline_expiry_removes_new_artifact",
+          "line": 300,
+          "attributes": "#[cfg(unix)]\n#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "existing_drift_cli_uses_two_original_admissions_in_same_store",
+          "line": 322,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "cross_version_drift_rejects_before_baseline_lookup",
+          "line": 436,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        }
+      ],
+      "feature_source_candidates": [
+        {
+          "module": "architecture",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/architecture/artifact.rs",
+            "crates/codefriend/src/codefriend/architecture/drift.rs",
+            "crates/codefriend/src/codefriend/architecture/drift_v2.rs",
+            "crates/codefriend/src/codefriend/architecture/four_plus_one.rs",
+            "crates/codefriend/src/codefriend/architecture/four_plus_one/generation.rs",
+            "crates/codefriend/src/codefriend/architecture/four_plus_one/render.rs",
+            "crates/codefriend/src/codefriend/architecture/impact.rs",
+            "crates/codefriend/src/codefriend/architecture/impact_v2.rs",
+            "crates/codefriend/src/codefriend/architecture/mod.rs",
+            "crates/codefriend/src/codefriend/architecture/rationale.rs",
+            "crates/codefriend/src/codefriend/architecture/rationale_v2.rs",
+            "crates/codefriend/src/codefriend/architecture/structure.rs"
+          ]
+        },
+        {
+          "module": "language",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/governance/language.rs",
+            "crates/codefriend/src/codefriend/language/imports.rs",
+            "crates/codefriend/src/codefriend/language/mod.rs",
+            "crates/codefriend/src/codefriend/language/owner.rs",
+            "crates/codefriend/src/codefriend/language/parser.rs",
+            "crates/codefriend/src/codefriend/language/resolver.rs"
+          ]
+        }
+      ],
+      "explicit_retirement_evidence": null,
+      "acceptance": "Pending scenario correspondence and exact installed proof; no retirement inferred from missing names.",
+      "source_feature_evidence": [
+        {
+          "path": "crates/codefriend/src/codefriend/architecture/drift_v2.rs",
+          "entries": [
+            {
+              "line": 25,
+              "text": "pub struct FactTraceV2 {"
+            },
+            {
+              "line": 31,
+              "text": "pub struct DriftReportV2 {"
+            },
+            {
+              "line": 187,
+              "text": "pub fn architecture_drift_reporter_v2_pair("
+            },
+            {
+              "line": 240,
+              "text": "pub fn validate_pair("
+            }
+          ],
+          "interpretation": "Feature-owner candidate from source module and public symbols; not equivalent scenario proof"
+        }
+      ],
+      "retirement_search_scope": "No explicit scenario retirement decision located in successor README/docs for these37files; source feature remains represented. Not an exhaustive search of issue history.",
+      "next_action": "Compare listed legacy assertions to standalone installed or owned-journey cases for this feature. Reuse matched current proof; retain or port only unmatched required cases. Source name absence is not a failed test."
+    },
+    {
+      "id": "RD07-0978",
+      "path": "adl/tests/codefriend_evidence.rs",
+      "test_count": 11,
+      "exact_name_count": 0,
+      "scenarios": [
+        {
+          "name": "local_adapter_cli_admission_restart_identity_and_deletion",
+          "line": 123,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "expiry_uses_live_clock_and_repeat_cannot_renew",
+          "line": 205,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "interrupted_publication_and_tombstone_cleanup_never_expose_partial_content",
+          "line": 231,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "tampered_provenance_and_rehashed_retention_are_rejected_on_reopen",
+          "line": 254,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "unsafe_packets_rejected_before_any_retained_content_and_source_omission",
+          "line": 278,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "shared_consumers_reject_collisions_missing_evidence_and_versions",
+          "line": 382,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "comparisons_require_compatible_complete_coverage_and_preserve_outcomes",
+          "line": 407,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "exact_publication_binding_invalidates_each_changed_surface",
+          "line": 479,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "store_rejects_symlinks_and_unowned_directories",
+          "line": 538,
+          "attributes": "#[cfg(unix)]\n#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "canonical_versioned_fixture_is_shared_by_all_consumers",
+          "line": 549,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "bootstrap_interruptions_leave_target_unowned_and_unrelated_paths_unchanged",
+          "line": 599,
+          "attributes": "#[cfg(unix)]\n#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        }
+      ],
+      "feature_source_candidates": [
+        {
+          "module": "evidence",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/evidence/assessments.rs",
+            "crates/codefriend/src/codefriend/evidence/contracts.rs",
+            "crates/codefriend/src/codefriend/evidence/mod.rs",
+            "crates/codefriend/src/codefriend/evidence/store.rs"
+          ]
+        },
+        {
+          "module": "ingestion",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/ingestion/ci.rs",
+            "crates/codefriend/src/codefriend/ingestion/github.rs",
+            "crates/codefriend/src/codefriend/ingestion/javascript_runtime.rs",
+            "crates/codefriend/src/codefriend/ingestion/local.rs",
+            "crates/codefriend/src/codefriend/ingestion/mod.rs"
+          ]
+        }
+      ],
+      "explicit_retirement_evidence": null,
+      "acceptance": "Pending scenario correspondence and exact installed proof; no retirement inferred from missing names.",
+      "source_feature_evidence": [
+        {
+          "path": "crates/codefriend/src/codefriend/evidence/mod.rs",
+          "entries": [
+            {
+              "line": 3,
+              "text": "pub mod assessments;"
+            },
+            {
+              "line": 4,
+              "text": "pub mod contracts;"
+            },
+            {
+              "line": 5,
+              "text": "pub mod store;"
+            },
+            {
+              "line": 10,
+              "text": "pub fn hash<T: Serialize>(value: &T) -> Result<String> {"
+            }
+          ],
+          "interpretation": "Feature-owner candidate from source module and public symbols; not equivalent scenario proof"
+        },
+        {
+          "path": "crates/codefriend/src/codefriend/evidence/store.rs",
+          "entries": [
+            {
+              "line": 43,
+              "text": "pub struct Store {"
+            },
+            {
+              "line": 145,
+              "text": "pub fn root_path(&self) -> &Path {"
+            },
+            {
+              "line": 148,
+              "text": "pub fn open(root: &Path, clock: impl Fn() -> u64 + 'static) -> Result<Self> {"
+            },
+            {
+              "line": 262,
+              "text": "pub fn admit(&self, packet: Packet, retention: Retention) -> Result<Admission> {"
+            }
+          ],
+          "interpretation": "Feature-owner candidate from source module and public symbols; not equivalent scenario proof"
+        }
+      ],
+      "retirement_search_scope": "No explicit scenario retirement decision located in successor README/docs for these37files; source feature remains represented. Not an exhaustive search of issue history.",
+      "next_action": "Compare listed legacy assertions to standalone installed or owned-journey cases for this feature. Reuse matched current proof; retain or port only unmatched required cases. Source name absence is not a failed test."
+    },
+    {
+      "id": "RD07-0979",
+      "path": "adl/tests/codefriend_four_plus_one.rs",
+      "test_count": 16,
+      "exact_name_count": 0,
+      "scenarios": [
+        {
+          "name": "four_plus_one_accepts_honest_partial_and_rejects_false_complete",
+          "line": 140,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "four_plus_one_rejects_forged_source_and_revision",
+          "line": 152,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "four_plus_one_rejects_dangling_trace_and_expired_admission",
+          "line": 167,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "four_plus_one_preserves_evidenced_conflicts_as_partial",
+          "line": 185,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "four_plus_one_generation_populates_all_views_and_failure_scenario",
+          "line": 393,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "four_plus_one_generation_denies_deleted_source_after_execution",
+          "line": 421,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "four_plus_one_generation_rejects_model_identity_and_duplicate_keys",
+          "line": 438,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "four_plus_one_render_preserves_sources_crosslinks_and_escapes_labels",
+          "line": 451,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "four_plus_one_artifacts_are_create_only_and_private",
+          "line": 481,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "four_plus_one_empty_views_and_traces_require_actionable_gaps",
+          "line": 515,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "four_plus_one_render_retains_isolated_entities",
+          "line": 552,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "four_plus_one_approved_exports_preserve_diagrams_and_reject_tampering",
+          "line": 575,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "four_plus_one_accepts_complete_json_fence_but_not_truncated_or_extra_text",
+          "line": 747,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "four_plus_one_derives_membership_only_from_declared_relationship_endpoints",
+          "line": 769,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "four_plus_one_structure_seed_preserves_edges_without_inventing_runtime",
+          "line": 799,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "four_plus_one_cli_generates_retrievable_package_and_refuses_overwrite",
+          "line": 823,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        }
+      ],
+      "feature_source_candidates": [
+        {
+          "module": "architecture",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/architecture/artifact.rs",
+            "crates/codefriend/src/codefriend/architecture/drift.rs",
+            "crates/codefriend/src/codefriend/architecture/drift_v2.rs",
+            "crates/codefriend/src/codefriend/architecture/four_plus_one.rs",
+            "crates/codefriend/src/codefriend/architecture/four_plus_one/generation.rs",
+            "crates/codefriend/src/codefriend/architecture/four_plus_one/render.rs",
+            "crates/codefriend/src/codefriend/architecture/impact.rs",
+            "crates/codefriend/src/codefriend/architecture/impact_v2.rs",
+            "crates/codefriend/src/codefriend/architecture/mod.rs",
+            "crates/codefriend/src/codefriend/architecture/rationale.rs",
+            "crates/codefriend/src/codefriend/architecture/rationale_v2.rs",
+            "crates/codefriend/src/codefriend/architecture/structure.rs"
+          ]
+        },
+        {
+          "module": "evidence",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/evidence/assessments.rs",
+            "crates/codefriend/src/codefriend/evidence/contracts.rs",
+            "crates/codefriend/src/codefriend/evidence/mod.rs",
+            "crates/codefriend/src/codefriend/evidence/store.rs"
+          ]
+        }
+      ],
+      "explicit_retirement_evidence": null,
+      "acceptance": "Pending scenario correspondence and exact installed proof; no retirement inferred from missing names.",
+      "source_feature_evidence": [
+        {
+          "path": "crates/codefriend/src/codefriend/architecture/four_plus_one.rs",
+          "entries": [
+            {
+              "line": 14,
+              "text": "pub enum View {"
+            },
+            {
+              "line": 31,
+              "text": "pub enum Basis {"
+            },
+            {
+              "line": 39,
+              "text": "pub struct Citation {"
+            },
+            {
+              "line": 48,
+              "text": "pub fn validate(&self, admission: &Admission) -> Result<()> {"
+            }
+          ],
+          "interpretation": "Feature-owner candidate from source module and public symbols; not equivalent scenario proof"
+        }
+      ],
+      "retirement_search_scope": "No explicit scenario retirement decision located in successor README/docs for these37files; source feature remains represented. Not an exhaustive search of issue history.",
+      "next_action": "Compare listed legacy assertions to standalone installed or owned-journey cases for this feature. Reuse matched current proof; retain or port only unmatched required cases. Source name absence is not a failed test."
+    },
+    {
+      "id": "RD07-0980",
+      "path": "adl/tests/codefriend_github_ingestion.rs",
+      "test_count": 8,
+      "exact_name_count": 0,
+      "scenarios": [
+        {
+          "name": "exact_commit_and_pr_acquire_real_git_blobs_with_local_parity",
+          "line": 259,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "transport_pin_and_incomplete_failures_are_sanitized",
+          "line": 288,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "omissions_limits_and_hostile_paths_preserve_local_guards",
+          "line": 325,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "invalid_identity_and_fixture_endpoints_fail_before_transport",
+          "line": 405,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "installed_command_executes_transport_and_reads_packet_without_credentials",
+          "line": 444,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "aggregate_metadata_is_bounded_across_individually_valid_responses",
+          "line": 501,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "fork_pull_request_records_requested_and_actual_repository_separately",
+          "line": 517,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "installed_transport_failure_and_compatibility_logs_never_capture_credentials",
+          "line": 554,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        }
+      ],
+      "feature_source_candidates": [
+        {
+          "module": "github",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/ingestion/github.rs"
+          ]
+        },
+        {
+          "module": "ingestion",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/ingestion/ci.rs",
+            "crates/codefriend/src/codefriend/ingestion/github.rs",
+            "crates/codefriend/src/codefriend/ingestion/javascript_runtime.rs",
+            "crates/codefriend/src/codefriend/ingestion/local.rs",
+            "crates/codefriend/src/codefriend/ingestion/mod.rs"
+          ]
+        }
+      ],
+      "explicit_retirement_evidence": null,
+      "acceptance": "Pending scenario correspondence and exact installed proof; no retirement inferred from missing names.",
+      "source_feature_evidence": [
+        {
+          "path": "crates/codefriend/src/codefriend/ingestion/github.rs",
+          "entries": [
+            {
+              "line": 27,
+              "text": "pub struct Transport {"
+            },
+            {
+              "line": 35,
+              "text": "pub fn github(token: Option<&str>) -> Result<Self> {"
+            },
+            {
+              "line": 38,
+              "text": "pub fn fixture(base: &str) -> Result<Self> {"
+            },
+            {
+              "line": 154,
+              "text": "pub enum Input {"
+            }
+          ],
+          "interpretation": "Feature-owner candidate from source module and public symbols; not equivalent scenario proof"
+        }
+      ],
+      "retirement_search_scope": "No explicit scenario retirement decision located in successor README/docs for these37files; source feature remains represented. Not an exhaustive search of issue history.",
+      "next_action": "Compare listed legacy assertions to standalone installed or owned-journey cases for this feature. Reuse matched current proof; retain or port only unmatched required cases. Source name absence is not a failed test."
+    },
+    {
+      "id": "RD07-0981",
+      "path": "adl/tests/codefriend_impact_v2.rs",
+      "test_count": 4,
+      "exact_name_count": 0,
+      "scenarios": [
+        {
+          "name": "source_paths_have_deterministic_import_witnesses_without_absence_claims",
+          "line": 155,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "selection_binds_exact_graph_revision_and_admitted_identity",
+          "line": 190,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "original_owner_tampering_retention_and_aggregate_output_are_enforced",
+          "line": 223,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "expiry_after_impact_write_removes_new_output",
+          "line": 253,
+          "attributes": "#[cfg(unix)]\n#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        }
+      ],
+      "feature_source_candidates": [
+        {
+          "module": "architecture",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/architecture/artifact.rs",
+            "crates/codefriend/src/codefriend/architecture/drift.rs",
+            "crates/codefriend/src/codefriend/architecture/drift_v2.rs",
+            "crates/codefriend/src/codefriend/architecture/four_plus_one.rs",
+            "crates/codefriend/src/codefriend/architecture/four_plus_one/generation.rs",
+            "crates/codefriend/src/codefriend/architecture/four_plus_one/render.rs",
+            "crates/codefriend/src/codefriend/architecture/impact.rs",
+            "crates/codefriend/src/codefriend/architecture/impact_v2.rs",
+            "crates/codefriend/src/codefriend/architecture/mod.rs",
+            "crates/codefriend/src/codefriend/architecture/rationale.rs",
+            "crates/codefriend/src/codefriend/architecture/rationale_v2.rs",
+            "crates/codefriend/src/codefriend/architecture/structure.rs"
+          ]
+        },
+        {
+          "module": "language",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/governance/language.rs",
+            "crates/codefriend/src/codefriend/language/imports.rs",
+            "crates/codefriend/src/codefriend/language/mod.rs",
+            "crates/codefriend/src/codefriend/language/owner.rs",
+            "crates/codefriend/src/codefriend/language/parser.rs",
+            "crates/codefriend/src/codefriend/language/resolver.rs"
+          ]
+        }
+      ],
+      "explicit_retirement_evidence": null,
+      "acceptance": "Pending scenario correspondence and exact installed proof; no retirement inferred from missing names.",
+      "source_feature_evidence": [
+        {
+          "path": "crates/codefriend/src/codefriend/architecture/impact_v2.rs",
+          "entries": [
+            {
+              "line": 25,
+              "text": "pub enum ChangeTargetV2 {"
+            },
+            {
+              "line": 31,
+              "text": "pub struct ChangeSetV2 {"
+            },
+            {
+              "line": 40,
+              "text": "pub struct ImpactV2 {"
+            },
+            {
+              "line": 52,
+              "text": "pub struct ImpactReportV2 {"
+            }
+          ],
+          "interpretation": "Feature-owner candidate from source module and public symbols; not equivalent scenario proof"
+        }
+      ],
+      "retirement_search_scope": "No explicit scenario retirement decision located in successor README/docs for these37files; source feature remains represented. Not an exhaustive search of issue history.",
+      "next_action": "Compare listed legacy assertions to standalone installed or owned-journey cases for this feature. Reuse matched current proof; retain or port only unmatched required cases. Source name absence is not a failed test."
+    },
+    {
+      "id": "RD07-0982",
+      "path": "adl/tests/codefriend_ingestion.rs",
+      "test_count": 11,
+      "exact_name_count": 0,
+      "scenarios": [
+        {
+          "name": "installed_acquisition_readback_relocation_and_dirty_policy",
+          "line": 99,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "partial_missing_unsafe_binary_and_unknown_analysis_are_explicit",
+          "line": 148,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "rejects_bounds_paths_revisions_origin_and_overwrite_without_source_mutation",
+          "line": 240,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "tracked_symlink_and_symlink_output_escape_are_rejected",
+          "line": 300,
+          "attributes": "#[cfg(unix)]\n#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "reader_rejects_tampered_identity_claims_content_and_unknown_fields",
+          "line": 330,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "compatibility_logging_and_errors_keep_stdout_json_and_inputs_private",
+          "line": 351,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "production_reader_rejects_unsafe_content_even_with_recomputed_digests",
+          "line": 375,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "subsequent_nested_array_and_escaped_credentials_never_enter_packets",
+          "line": 403,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "git_sha1_and_sha256_blob_identity_is_verified_by_production_reader",
+          "line": 483,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "ordinary_json_values_duplicate_parents_and_toml_remain_admissible",
+          "line": 537,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "javascript_runtime_header_references_do_not_relax_literal_privacy_guards",
+          "line": 573,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        }
+      ],
+      "feature_source_candidates": [
+        {
+          "module": "ingestion",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/ingestion/ci.rs",
+            "crates/codefriend/src/codefriend/ingestion/github.rs",
+            "crates/codefriend/src/codefriend/ingestion/javascript_runtime.rs",
+            "crates/codefriend/src/codefriend/ingestion/local.rs",
+            "crates/codefriend/src/codefriend/ingestion/mod.rs"
+          ]
+        }
+      ],
+      "explicit_retirement_evidence": null,
+      "acceptance": "Pending scenario correspondence and exact installed proof; no retirement inferred from missing names.",
+      "source_feature_evidence": [
+        {
+          "path": "crates/codefriend/src/codefriend/ingestion/local.rs",
+          "entries": [
+            {
+              "line": 68,
+              "text": "pub fn acquire(root: &Path, repository: &str, revision: &str, scope: Scope) -> Result<Packet> {"
+            },
+            {
+              "line": 205,
+              "text": "pub fn write_packet(root: &Path, output: &Path, packet: &Packet) -> Result<()> {"
+            }
+          ],
+          "interpretation": "Feature-owner candidate from source module and public symbols; not equivalent scenario proof"
+        }
+      ],
+      "retirement_search_scope": "No explicit scenario retirement decision located in successor README/docs for these37files; source feature remains represented. Not an exhaustive search of issue history.",
+      "next_action": "Compare listed legacy assertions to standalone installed or owned-journey cases for this feature. Reuse matched current proof; retain or port only unmatched required cases. Source name absence is not a failed test."
+    },
+    {
+      "id": "RD07-0983",
+      "path": "adl/tests/codefriend_integration.rs",
+      "test_count": 7,
+      "exact_name_count": 0,
+      "scenarios": [
+        {
+          "name": "challenge_binds_identity_artifacts_destination_and_decision_head",
+          "line": 10,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "retained_review_builds_verified_publication_bundle_without_approval",
+          "line": 166,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "website_approval_authenticates_rejects_stale_binding_and_expires_payloads",
+          "line": 214,
+          "attributes": "#[tokio::test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "interrupted_preparation_does_not_block_distinct_format_bundles",
+          "line": 790,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "hosted_journey_reuses_original_admission_and_completed_review",
+          "line": 833,
+          "attributes": "#[tokio::test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "hosted_v2_journey_preserves_native_versions_gaps_and_original_owners",
+          "line": 838,
+          "attributes": "#[tokio::test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "hosted_privacy_omissions_continue_through_approval_and_exports",
+          "line": 843,
+          "attributes": "#[tokio::test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        }
+      ],
+      "feature_source_candidates": [
+        {
+          "module": "evidence",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/evidence/assessments.rs",
+            "crates/codefriend/src/codefriend/evidence/contracts.rs",
+            "crates/codefriend/src/codefriend/evidence/mod.rs",
+            "crates/codefriend/src/codefriend/evidence/store.rs"
+          ]
+        },
+        {
+          "module": "integration",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/integration.rs",
+            "crates/codefriend/src/codefriend/integration/journey.rs",
+            "crates/codefriend/src/codefriend/integration/journey/local_publication_attachment.rs",
+            "crates/codefriend/src/codefriend/integration/journey/owned_baseline.rs",
+            "crates/codefriend/src/codefriend/integration/journey/owned_palace.rs",
+            "crates/codefriend/src/codefriend/integration/journey/publication_attachment.rs"
+          ]
+        },
+        {
+          "module": "publication",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/agent/publication.rs",
+            "crates/codefriend/src/codefriend/publication/approval.rs",
+            "crates/codefriend/src/codefriend/publication/architecture.rs",
+            "crates/codefriend/src/codefriend/publication/html.rs",
+            "crates/codefriend/src/codefriend/publication/manifest.rs",
+            "crates/codefriend/src/codefriend/publication/markdown.rs",
+            "crates/codefriend/src/codefriend/publication/mod.rs",
+            "crates/codefriend/src/codefriend/publication/pdf.rs",
+            "crates/codefriend/src/codefriend/publication/relay.rs",
+            "crates/codefriend/src/codefriend/publication/report_template.rs"
+          ]
+        },
+        {
+          "module": "rationale",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/architecture/rationale.rs"
+          ]
+        },
+        {
+          "module": "review",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/review/lanes.rs",
+            "crates/codefriend/src/codefriend/review/mod.rs",
+            "crates/codefriend/src/codefriend/review/runner.rs",
+            "crates/codefriend/src/codefriend/review/synthesis.rs"
+          ]
+        }
+      ],
+      "explicit_retirement_evidence": null,
+      "acceptance": "Pending scenario correspondence and exact installed proof; no retirement inferred from missing names.",
+      "source_feature_evidence": [
+        {
+          "path": "crates/codefriend/src/codefriend/integration.rs",
+          "entries": [
+            {
+              "line": 6,
+              "text": "pub mod journey;"
+            },
+            {
+              "line": 21,
+              "text": "pub struct PublicationChallenge {"
+            },
+            {
+              "line": 38,
+              "text": "pub fn prepare("
+            },
+            {
+              "line": 87,
+              "text": "pub fn digest(&self) -> &str {"
+            }
+          ],
+          "interpretation": "Feature-owner candidate from source module and public symbols; not equivalent scenario proof"
+        }
+      ],
+      "retirement_search_scope": "No explicit scenario retirement decision located in successor README/docs for these37files; source feature remains represented. Not an exhaustive search of issue history.",
+      "next_action": "Compare listed legacy assertions to standalone installed or owned-journey cases for this feature. Reuse matched current proof; retain or port only unmatched required cases. Source name absence is not a failed test."
+    },
+    {
+      "id": "RD07-0984",
+      "path": "adl/tests/codefriend_journey.rs",
+      "test_count": 21,
+      "exact_name_count": 0,
+      "scenarios": [
+        {
+          "name": "actual_offline_stages_preserve_source_and_never_claim_full_journey",
+          "line": 116,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "cli_executes_native_offline_journey_and_reports_pending_not_complete",
+          "line": 164,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "cli_rejects_unknown_authority_fields_before_creating_outputs",
+          "line": 187,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "malformed_scope_and_wrong_provenance_cannot_reach_dispatch_boundary",
+          "line": 204,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "failed_fitness_is_terminal_and_source_is_unchanged",
+          "line": 225,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "foreign_impact_graph_fails_explicitly_and_cannot_be_retried",
+          "line": 244,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "impact_and_compatible_second_revision_drift_use_retained_native_records",
+          "line": 267,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "existing_output_and_source_nested_outputs_are_rejected_without_mutation",
+          "line": 320,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "symlink_output_alias_cannot_write_inside_source",
+          "line": 337,
+          "attributes": "#[cfg(unix)]\n#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "generated_four_lane_review_flows_through_three_separately_approved_exports",
+          "line": 351,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "durable_resume_reconstructs_owners_and_keeps_pending_denominator",
+          "line": 535,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "resume_rejects_retained_artifact_tampering_and_uncheckpointed_outputs",
+          "line": 551,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "resume_rejects_missing_checkpoint_or_manifest",
+          "line": 563,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "compiled_cli_dispatch_can_observe_a_resumed_journey",
+          "line": 575,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "failed_review_continuation_survives_restart_without_another_dispatch",
+          "line": 605,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "resume_rejects_broadened_private_record_permissions",
+          "line": 628,
+          "attributes": "#[cfg(unix)]\n#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "resume_rejects_source_changes_and_deleted_admission",
+          "line": 652,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "ci_continuation_pins_original_provenance",
+          "line": 669,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "actual_journey_continuations_complete_all_eighteen_stages_and_resume",
+          "line": 861,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "actual_journey_four_plus_one_generates_resumes_exports_and_rejects_replay",
+          "line": 866,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "case_alias_source_output_and_store_are_rejected_before_writes",
+          "line": 1179,
+          "attributes": "#[cfg(target_os = \"macos\")]\n#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        }
+      ],
+      "feature_source_candidates": [
+        {
+          "module": "ingestion",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/ingestion/ci.rs",
+            "crates/codefriend/src/codefriend/ingestion/github.rs",
+            "crates/codefriend/src/codefriend/ingestion/javascript_runtime.rs",
+            "crates/codefriend/src/codefriend/ingestion/local.rs",
+            "crates/codefriend/src/codefriend/ingestion/mod.rs"
+          ]
+        },
+        {
+          "module": "integration",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/integration.rs",
+            "crates/codefriend/src/codefriend/integration/journey.rs",
+            "crates/codefriend/src/codefriend/integration/journey/local_publication_attachment.rs",
+            "crates/codefriend/src/codefriend/integration/journey/owned_baseline.rs",
+            "crates/codefriend/src/codefriend/integration/journey/owned_palace.rs",
+            "crates/codefriend/src/codefriend/integration/journey/publication_attachment.rs"
+          ]
+        }
+      ],
+      "explicit_retirement_evidence": null,
+      "acceptance": "Pending scenario correspondence and exact installed proof; no retirement inferred from missing names.",
+      "source_feature_evidence": [
+        {
+          "path": "crates/codefriend/src/codefriend/integration/journey.rs",
+          "entries": [
+            {
+              "line": 23,
+              "text": "pub(crate) mod owned_baseline;"
+            },
+            {
+              "line": 24,
+              "text": "pub(crate) mod owned_palace;"
+            },
+            {
+              "line": 29,
+              "text": "pub enum StageStatus {"
+            },
+            {
+              "line": 37,
+              "text": "pub struct Stage {"
+            }
+          ],
+          "interpretation": "Feature-owner candidate from source module and public symbols; not equivalent scenario proof"
+        }
+      ],
+      "retirement_search_scope": "No explicit scenario retirement decision located in successor README/docs for these37files; source feature remains represented. Not an exhaustive search of issue history.",
+      "next_action": "Compare listed legacy assertions to standalone installed or owned-journey cases for this feature. Reuse matched current proof; retain or port only unmatched required cases. Source name absence is not a failed test."
+    },
+    {
+      "id": "RD07-0985",
+      "path": "adl/tests/codefriend_journey_v2.rs",
+      "test_count": 4,
+      "exact_name_count": 0,
+      "scenarios": [
+        {
+          "name": "rust_journey_retains_gaps_and_rejects_resealed_erasure",
+          "line": 211,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "java_journey_retains_original_admission_and_gaps",
+          "line": 220,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "python_journey_retains_original_admission_and_gaps",
+          "line": 229,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "javascript_journey_retains_original_admission_and_gaps",
+          "line": 238,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        }
+      ],
+      "feature_source_candidates": [
+        {
+          "module": "architecture",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/architecture/artifact.rs",
+            "crates/codefriend/src/codefriend/architecture/drift.rs",
+            "crates/codefriend/src/codefriend/architecture/drift_v2.rs",
+            "crates/codefriend/src/codefriend/architecture/four_plus_one.rs",
+            "crates/codefriend/src/codefriend/architecture/four_plus_one/generation.rs",
+            "crates/codefriend/src/codefriend/architecture/four_plus_one/render.rs",
+            "crates/codefriend/src/codefriend/architecture/impact.rs",
+            "crates/codefriend/src/codefriend/architecture/impact_v2.rs",
+            "crates/codefriend/src/codefriend/architecture/mod.rs",
+            "crates/codefriend/src/codefriend/architecture/rationale.rs",
+            "crates/codefriend/src/codefriend/architecture/rationale_v2.rs",
+            "crates/codefriend/src/codefriend/architecture/structure.rs"
+          ]
+        },
+        {
+          "module": "language",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/governance/language.rs",
+            "crates/codefriend/src/codefriend/language/imports.rs",
+            "crates/codefriend/src/codefriend/language/mod.rs",
+            "crates/codefriend/src/codefriend/language/owner.rs",
+            "crates/codefriend/src/codefriend/language/parser.rs",
+            "crates/codefriend/src/codefriend/language/resolver.rs"
+          ]
+        }
+      ],
+      "explicit_retirement_evidence": null,
+      "acceptance": "Pending scenario correspondence and exact installed proof; no retirement inferred from missing names.",
+      "source_feature_evidence": [
+        {
+          "path": "crates/codefriend/src/codefriend/agent/journey.rs",
+          "entries": [
+            {
+              "line": 15,
+              "text": "pub mod verification;"
+            },
+            {
+              "line": 28,
+              "text": "pub struct Binding {"
+            },
+            {
+              "line": 45,
+              "text": "pub enum Request {"
+            },
+            {
+              "line": 94,
+              "text": "pub enum Artifact {"
+            }
+          ],
+          "interpretation": "Feature-owner candidate from source module and public symbols; not equivalent scenario proof"
+        }
+      ],
+      "retirement_search_scope": "No explicit scenario retirement decision located in successor README/docs for these37files; source feature remains represented. Not an exhaustive search of issue history.",
+      "next_action": "Compare listed legacy assertions to standalone installed or owned-journey cases for this feature. Reuse matched current proof; retain or port only unmatched required cases. Source name absence is not a failed test."
+    },
+    {
+      "id": "RD07-0986",
+      "path": "adl/tests/codefriend_language.rs",
+      "test_count": 7,
+      "exact_name_count": 0,
+      "scenarios": [
+        {
+          "name": "four_languages_preserve_original_packet_validation",
+          "line": 138,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "resealed_wrong_source_and_expired_reports_fail",
+          "line": 151,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "source_spans_and_reference_targets_are_checked",
+          "line": 164,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "coverage_and_scope_cannot_be_silently_dropped",
+          "line": 206,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "policy_and_aggregate_output_bounds_are_enforced",
+          "line": 220,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "fully_resealed_text_and_cross_language_claims_fail",
+          "line": 235,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "fully_resealed_cross_language_import_target_is_rejected",
+          "line": 304,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        }
+      ],
+      "feature_source_candidates": [],
+      "explicit_retirement_evidence": null,
+      "acceptance": "Pending scenario correspondence and exact installed proof; no retirement inferred from missing names.",
+      "source_feature_evidence": [
+        {
+          "path": "crates/codefriend/src/codefriend/language/mod.rs",
+          "entries": [
+            {
+              "line": 4,
+              "text": "pub mod owner;"
+            },
+            {
+              "line": 5,
+              "text": "pub mod parser;"
+            },
+            {
+              "line": 19,
+              "text": "pub enum Language {"
+            },
+            {
+              "line": 27,
+              "text": "pub struct Span {"
+            }
+          ],
+          "interpretation": "Feature-owner candidate from source module and public symbols; not equivalent scenario proof"
+        }
+      ],
+      "retirement_search_scope": "No explicit scenario retirement decision located in successor README/docs for these37files; source feature remains represented. Not an exhaustive search of issue history.",
+      "next_action": "Compare listed legacy assertions to standalone installed or owned-journey cases for this feature. Reuse matched current proof; retain or port only unmatched required cases. Source name absence is not a failed test."
+    },
+    {
+      "id": "RD07-0987",
+      "path": "adl/tests/codefriend_language_fitness.rs",
+      "test_count": 11,
+      "exact_name_count": 0,
+      "scenarios": [
+        {
+          "name": "four_languages_literal_violations_and_supported_absence",
+          "line": 136,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "unresolved_and_conditional_imports_never_pass",
+          "line": 193,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "conclusive_violation_retains_other_unknowns",
+          "line": 206,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "resolved_edges_fail_but_external_edges_are_unknown",
+          "line": 227,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "recomputation_retention_and_resource_failures_are_errors",
+          "line": 261,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "raw_rust_identifier_is_unknown_and_v2_dispatch_preserves_payload",
+          "line": 283,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "no_proven_edge_does_not_claim_complete_dependency_coverage",
+          "line": 311,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "embedded_record_overhead_cannot_escape_the_total_report_cap",
+          "line": 336,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "real_cli_v2_run_read_preserves_status_and_raw_input_limit",
+          "line": 358,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "privacy_omissions_are_unknown_while_available_violations_still_fail",
+          "line": 445,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "privacy_filtered_manifest_continues_with_explicit_dependency_gap",
+          "line": 489,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        }
+      ],
+      "feature_source_candidates": [
+        {
+          "module": "evidence",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/evidence/assessments.rs",
+            "crates/codefriend/src/codefriend/evidence/contracts.rs",
+            "crates/codefriend/src/codefriend/evidence/mod.rs",
+            "crates/codefriend/src/codefriend/evidence/store.rs"
+          ]
+        },
+        {
+          "module": "governance",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/governance/artifact.rs",
+            "crates/codefriend/src/codefriend/governance/ci.rs",
+            "crates/codefriend/src/codefriend/governance/ci_v2.rs",
+            "crates/codefriend/src/codefriend/governance/language.rs",
+            "crates/codefriend/src/codefriend/governance/local.rs",
+            "crates/codefriend/src/codefriend/governance/mod.rs"
+          ]
+        },
+        {
+          "module": "language",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/governance/language.rs",
+            "crates/codefriend/src/codefriend/language/imports.rs",
+            "crates/codefriend/src/codefriend/language/mod.rs",
+            "crates/codefriend/src/codefriend/language/owner.rs",
+            "crates/codefriend/src/codefriend/language/parser.rs",
+            "crates/codefriend/src/codefriend/language/resolver.rs"
+          ]
+        }
+      ],
+      "explicit_retirement_evidence": null,
+      "acceptance": "Pending scenario correspondence and exact installed proof; no retirement inferred from missing names.",
+      "source_feature_evidence": [
+        {
+          "path": "crates/codefriend/src/codefriend/governance/language.rs",
+          "entries": [
+            {
+              "line": 17,
+              "text": "pub enum StaticSelector {"
+            },
+            {
+              "line": 77,
+              "text": "pub enum Rule {"
+            },
+            {
+              "line": 111,
+              "text": "pub struct Policy {"
+            },
+            {
+              "line": 117,
+              "text": "pub fn validate(&self) -> Result<()> {"
+            }
+          ],
+          "interpretation": "Feature-owner candidate from source module and public symbols; not equivalent scenario proof"
+        }
+      ],
+      "retirement_search_scope": "No explicit scenario retirement decision located in successor README/docs for these37files; source feature remains represented. Not an exhaustive search of issue history.",
+      "next_action": "Compare listed legacy assertions to standalone installed or owned-journey cases for this feature. Reuse matched current proof; retain or port only unmatched required cases. Source name absence is not a failed test."
+    },
+    {
+      "id": "RD07-0988",
+      "path": "adl/tests/codefriend_language_fitness_ci.rs",
+      "test_count": 3,
+      "exact_name_count": 0,
+      "scenarios": [
+        {
+          "name": "native_v2_receipt_unknown_is_valid_but_never_success_and_pins_live_source",
+          "line": 129,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "actual_ci_run_and_wrapper_preserve_pass_fail_unknown_for_four_languages",
+          "line": 177,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "ci_run_missing_store_does_not_create_store_or_output",
+          "line": 363,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        }
+      ],
+      "feature_source_candidates": [
+        {
+          "module": "evidence",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/evidence/assessments.rs",
+            "crates/codefriend/src/codefriend/evidence/contracts.rs",
+            "crates/codefriend/src/codefriend/evidence/mod.rs",
+            "crates/codefriend/src/codefriend/evidence/store.rs"
+          ]
+        },
+        {
+          "module": "governance",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/governance/artifact.rs",
+            "crates/codefriend/src/codefriend/governance/ci.rs",
+            "crates/codefriend/src/codefriend/governance/ci_v2.rs",
+            "crates/codefriend/src/codefriend/governance/language.rs",
+            "crates/codefriend/src/codefriend/governance/local.rs",
+            "crates/codefriend/src/codefriend/governance/mod.rs"
+          ]
+        },
+        {
+          "module": "language",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/governance/language.rs",
+            "crates/codefriend/src/codefriend/language/imports.rs",
+            "crates/codefriend/src/codefriend/language/mod.rs",
+            "crates/codefriend/src/codefriend/language/owner.rs",
+            "crates/codefriend/src/codefriend/language/parser.rs",
+            "crates/codefriend/src/codefriend/language/resolver.rs"
+          ]
+        }
+      ],
+      "explicit_retirement_evidence": null,
+      "acceptance": "Pending scenario correspondence and exact installed proof; no retirement inferred from missing names.",
+      "source_feature_evidence": [
+        {
+          "path": "crates/codefriend/src/codefriend/governance/ci_v2.rs",
+          "entries": [
+            {
+              "line": 12,
+              "text": "pub struct Receipt {"
+            },
+            {
+              "line": 25,
+              "text": "pub fn rejected(original_exit: i32) -> Self {"
+            },
+            {
+              "line": 40,
+              "text": "pub fn verify("
+            }
+          ],
+          "interpretation": "Feature-owner candidate from source module and public symbols; not equivalent scenario proof"
+        }
+      ],
+      "retirement_search_scope": "No explicit scenario retirement decision located in successor README/docs for these37files; source feature remains represented. Not an exhaustive search of issue history.",
+      "next_action": "Compare listed legacy assertions to standalone installed or owned-journey cases for this feature. Reuse matched current proof; retain or port only unmatched required cases. Source name absence is not a failed test."
+    },
+    {
+      "id": "RD07-0989",
+      "path": "adl/tests/codefriend_language_parser.rs",
+      "test_count": 11,
+      "exact_name_count": 0,
+      "scenarios": [
+        {
+          "name": "four_modern_language_sources_emit_actual_named_facts",
+          "line": 127,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "malformed_source_retains_error_spans_and_partial_coverage",
+          "line": 141,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "actual_parser_obeys_node_depth_fact_and_output_limits",
+          "line": 181,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "extension_mismatch_is_explicit_not_false_syntax_success",
+          "line": 206,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "parser_results_are_deterministic_and_unicode_spans_are_source_backed",
+          "line": 219,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "deleted_original_store_entry_cannot_be_replaced_by_retained_snapshot",
+          "line": 245,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "store_clock_expiry_rejects_old_caller_time_and_preserves_original_deadline",
+          "line": 255,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "expiry_between_extraction_and_return_discards_the_report",
+          "line": 268,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "four_languages_resolve_actual_imports_to_original_admitted_sources",
+          "line": 306,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "conditional_rust_ancestors_cannot_resolve_descendant_imports",
+          "line": 361,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "javascript_does_not_guess_a_loader_extension_policy",
+          "line": 386,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        }
+      ],
+      "feature_source_candidates": [],
+      "explicit_retirement_evidence": null,
+      "acceptance": "Pending scenario correspondence and exact installed proof; no retirement inferred from missing names.",
+      "source_feature_evidence": [
+        {
+          "path": "crates/codefriend/src/codefriend/language/parser.rs",
+          "entries": [
+            {
+              "line": 197,
+              "text": "pub(super) fn analyze("
+            }
+          ],
+          "interpretation": "Feature-owner candidate from source module and public symbols; not equivalent scenario proof"
+        }
+      ],
+      "retirement_search_scope": "No explicit scenario retirement decision located in successor README/docs for these37files; source feature remains represented. Not an exhaustive search of issue history.",
+      "next_action": "Compare listed legacy assertions to standalone installed or owned-journey cases for this feature. Reuse matched current proof; retain or port only unmatched required cases. Source name absence is not a failed test."
+    },
+    {
+      "id": "RD07-0990",
+      "path": "adl/tests/codefriend_plat_memory.rs",
+      "test_count": 10,
+      "exact_name_count": 0,
+      "scenarios": [
+        {
+          "name": "production_second_review_is_deterministic_and_retains_only_shared_digest_references",
+          "line": 210,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "missing_corrupt_pointer_and_tampered_kernel_packet_are_denied_without_repair",
+          "line": 260,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "wrong_identity_continuity_run_and_stale_observation_are_denied",
+          "line": 346,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "partial_narrower_and_version_changed_runs_remain_not_comparable",
+          "line": 382,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "deleted_baseline_and_expired_evidence_cannot_be_retrieved_or_reindexed",
+          "line": 415,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "working_set_is_bounded_and_duplicates_and_unselected_baselines_are_denied",
+          "line": 435,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "untrusted_keys_do_not_create_a_palace",
+          "line": 472,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "production_prepare_preserves_successor_lineage_and_failure_is_atomic",
+          "line": 485,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "cli_palace_roundtrip_and_managed_path_guards",
+          "line": 492,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "repeated_run_distinct_results_use_versioned_tuple_anchors",
+          "line": 643,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        }
+      ],
+      "feature_source_candidates": [],
+      "explicit_retirement_evidence": null,
+      "acceptance": "Pending scenario correspondence and exact installed proof; no retirement inferred from missing names.",
+      "source_feature_evidence": [
+        {
+          "path": "crates/codefriend/src/codefriend/memory/palace.rs",
+          "entries": [
+            {
+              "line": 21,
+              "text": "pub struct IndexRequest {"
+            },
+            {
+              "line": 30,
+              "text": "pub struct RetrieveRequest {"
+            },
+            {
+              "line": 43,
+              "text": "pub struct PalaceReceipt {"
+            },
+            {
+              "line": 54,
+              "text": "pub struct RetrievedComparison {"
+            }
+          ],
+          "interpretation": "Feature-owner candidate from source module and public symbols; not equivalent scenario proof"
+        }
+      ],
+      "retirement_search_scope": "No explicit scenario retirement decision located in successor README/docs for these37files; source feature remains represented. Not an exhaustive search of issue history.",
+      "next_action": "Compare listed legacy assertions to standalone installed or owned-journey cases for this feature. Reuse matched current proof; retain or port only unmatched required cases. Source name absence is not a failed test."
+    },
+    {
+      "id": "RD07-0991",
+      "path": "adl/tests/codefriend_rationale_v2.rs",
+      "test_count": 6,
+      "exact_name_count": 0,
+      "scenarios": [
+        {
+          "name": "admitted_context_adr_and_deployment_are_evidence_not_authority",
+          "line": 178,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "conflicting_and_absent_decisions_remain_explicit_unknowns",
+          "line": 234,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "original_owner_retention_tamper_and_aggregate_bounds",
+          "line": 268,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "postwrite_expiry_removes_new_rationale_artifact",
+          "line": 307,
+          "attributes": "#[cfg(unix)]\n#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "duplicate_deployment_keys_are_rejected_instead_of_selecting_last_value",
+          "line": 330,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "existing_rationale_cli_dispatches_v2_without_re_admission",
+          "line": 347,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        }
+      ],
+      "feature_source_candidates": [
+        {
+          "module": "architecture",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/architecture/artifact.rs",
+            "crates/codefriend/src/codefriend/architecture/drift.rs",
+            "crates/codefriend/src/codefriend/architecture/drift_v2.rs",
+            "crates/codefriend/src/codefriend/architecture/four_plus_one.rs",
+            "crates/codefriend/src/codefriend/architecture/four_plus_one/generation.rs",
+            "crates/codefriend/src/codefriend/architecture/four_plus_one/render.rs",
+            "crates/codefriend/src/codefriend/architecture/impact.rs",
+            "crates/codefriend/src/codefriend/architecture/impact_v2.rs",
+            "crates/codefriend/src/codefriend/architecture/mod.rs",
+            "crates/codefriend/src/codefriend/architecture/rationale.rs",
+            "crates/codefriend/src/codefriend/architecture/rationale_v2.rs",
+            "crates/codefriend/src/codefriend/architecture/structure.rs"
+          ]
+        },
+        {
+          "module": "language",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/governance/language.rs",
+            "crates/codefriend/src/codefriend/language/imports.rs",
+            "crates/codefriend/src/codefriend/language/mod.rs",
+            "crates/codefriend/src/codefriend/language/owner.rs",
+            "crates/codefriend/src/codefriend/language/parser.rs",
+            "crates/codefriend/src/codefriend/language/resolver.rs"
+          ]
+        }
+      ],
+      "explicit_retirement_evidence": null,
+      "acceptance": "Pending scenario correspondence and exact installed proof; no retirement inferred from missing names.",
+      "source_feature_evidence": [
+        {
+          "path": "crates/codefriend/src/codefriend/architecture/rationale_v2.rs",
+          "entries": [
+            {
+              "line": 23,
+              "text": "pub struct RationaleSelectionV2 {"
+            },
+            {
+              "line": 31,
+              "text": "pub struct RationaleReportV2 {"
+            },
+            {
+              "line": 167,
+              "text": "pub fn architecture_rationale_reporter_v2("
+            },
+            {
+              "line": 373,
+              "text": "pub fn validate(&self, store: &Store, now: u64) -> Result<()> {"
+            }
+          ],
+          "interpretation": "Feature-owner candidate from source module and public symbols; not equivalent scenario proof"
+        }
+      ],
+      "retirement_search_scope": "No explicit scenario retirement decision located in successor README/docs for these37files; source feature remains represented. Not an exhaustive search of issue history.",
+      "next_action": "Compare listed legacy assertions to standalone installed or owned-journey cases for this feature. Reuse matched current proof; retain or port only unmatched required cases. Source name absence is not a failed test."
+    },
+    {
+      "id": "RD07-0992",
+      "path": "adl/tests/codefriend_remediate.rs",
+      "test_count": 9,
+      "exact_name_count": 0,
+      "scenarios": [
+        {
+          "name": "remediation_plan_orders_traceable_bounded_actions",
+          "line": 174,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "remediation_plan_resolves_evidence_ids_to_review_record_paths",
+          "line": 197,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "remediation_plan_preserves_dot_directories_and_root_files",
+          "line": 210,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "remediation_plan_preserves_ingestion_valid_paths_with_spaces",
+          "line": 227,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "remediation_reader_rejects_tampered_paths_acceptance_and_cycles",
+          "line": 237,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "installed_cli_generates_and_reads_remediation_plan",
+          "line": 266,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "installed_cli_rejects_bare_synthetic_synthesis",
+          "line": 327,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "remediation_reader_rejects_unrelated_action_substitution",
+          "line": 341,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "remediation_reader_rejects_missing_evidence_and_tampered_bundle",
+          "line": 367,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        }
+      ],
+      "feature_source_candidates": [
+        {
+          "module": "review",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/review/lanes.rs",
+            "crates/codefriend/src/codefriend/review/mod.rs",
+            "crates/codefriend/src/codefriend/review/runner.rs",
+            "crates/codefriend/src/codefriend/review/synthesis.rs"
+          ]
+        }
+      ],
+      "explicit_retirement_evidence": null,
+      "acceptance": "Pending scenario correspondence and exact installed proof; no retirement inferred from missing names.",
+      "source_feature_evidence": [
+        {
+          "path": "crates/codefriend/src/codefriend/actions/remediation.rs",
+          "entries": [
+            {
+              "line": 26,
+              "text": "pub struct RemediationOptions {"
+            },
+            {
+              "line": 33,
+              "text": "pub struct RemediationAction {"
+            },
+            {
+              "line": 52,
+              "text": "pub struct OmittedFinding {"
+            },
+            {
+              "line": 60,
+              "text": "pub struct RemediationPlan {"
+            }
+          ],
+          "interpretation": "Feature-owner candidate from source module and public symbols; not equivalent scenario proof"
+        }
+      ],
+      "retirement_search_scope": "No explicit scenario retirement decision located in successor README/docs for these37files; source feature remains represented. Not an exhaustive search of issue history.",
+      "next_action": "Compare listed legacy assertions to standalone installed or owned-journey cases for this feature. Reuse matched current proof; retain or port only unmatched required cases. Source name absence is not a failed test."
+    },
+    {
+      "id": "RD07-0993",
+      "path": "adl/tests/codefriend_render_html.rs",
+      "test_count": 6,
+      "exact_name_count": 0,
+      "scenarios": [
+        {
+          "name": "installed_renderer_emits_navigable_bound_report_and_manifest",
+          "line": 308,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "renderer_escapes_hostile_markup_and_preserves_long_content",
+          "line": 359,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "renderer_refuses_withheld_approval_wrong_identity_and_tampering",
+          "line": 378,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "empty_findings_have_explicit_complete_output",
+          "line": 416,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "html_and_markdown_preserve_complete_governed_semantics",
+          "line": 430,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "assessment_details_and_observations_survive_approved_exports",
+          "line": 536,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        }
+      ],
+      "feature_source_candidates": [
+        {
+          "module": "evidence",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/evidence/assessments.rs",
+            "crates/codefriend/src/codefriend/evidence/contracts.rs",
+            "crates/codefriend/src/codefriend/evidence/mod.rs",
+            "crates/codefriend/src/codefriend/evidence/store.rs"
+          ]
+        },
+        {
+          "module": "review",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/review/lanes.rs",
+            "crates/codefriend/src/codefriend/review/mod.rs",
+            "crates/codefriend/src/codefriend/review/runner.rs",
+            "crates/codefriend/src/codefriend/review/synthesis.rs"
+          ]
+        }
+      ],
+      "explicit_retirement_evidence": null,
+      "acceptance": "Pending scenario correspondence and exact installed proof; no retirement inferred from missing names.",
+      "source_feature_evidence": [
+        {
+          "path": "crates/codefriend/src/codefriend/publication/html.rs",
+          "entries": [
+            {
+              "line": 114,
+              "text": "pub struct HtmlRenderOptions {"
+            },
+            {
+              "line": 128,
+              "text": "pub struct HtmlManifest {"
+            },
+            {
+              "line": 158,
+              "text": "pub struct HtmlRenderResult {"
+            },
+            {
+              "line": 168,
+              "text": "pub fn render_html(options: HtmlRenderOptions) -> Result<HtmlRenderResult> {"
+            }
+          ],
+          "interpretation": "Feature-owner candidate from source module and public symbols; not equivalent scenario proof"
+        }
+      ],
+      "retirement_search_scope": "No explicit scenario retirement decision located in successor README/docs for these37files; source feature remains represented. Not an exhaustive search of issue history.",
+      "next_action": "Compare listed legacy assertions to standalone installed or owned-journey cases for this feature. Reuse matched current proof; retain or port only unmatched required cases. Source name absence is not a failed test."
+    },
+    {
+      "id": "RD07-0994",
+      "path": "adl/tests/codefriend_render_md.rs",
+      "test_count": 5,
+      "exact_name_count": 0,
+      "scenarios": [
+        {
+          "name": "installed_renderer_emits_complete_bound_report_and_manifest",
+          "line": 194,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "renderer_refuses_missing_or_withheld_approval_and_identity_drift",
+          "line": 274,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "renderer_refuses_changed_approved_artifacts_and_missing_provenance",
+          "line": 326,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "renderer_handles_empty_and_long_partial_evidence_without_claim_drift",
+          "line": 351,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "renderer_escapes_links_and_rechecks_secret_like_claims",
+          "line": 388,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        }
+      ],
+      "feature_source_candidates": [
+        {
+          "module": "evidence",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/evidence/assessments.rs",
+            "crates/codefriend/src/codefriend/evidence/contracts.rs",
+            "crates/codefriend/src/codefriend/evidence/mod.rs",
+            "crates/codefriend/src/codefriend/evidence/store.rs"
+          ]
+        }
+      ],
+      "explicit_retirement_evidence": null,
+      "acceptance": "Pending scenario correspondence and exact installed proof; no retirement inferred from missing names.",
+      "source_feature_evidence": [
+        {
+          "path": "crates/codefriend/src/codefriend/publication/markdown.rs",
+          "entries": [
+            {
+              "line": 66,
+              "text": "pub(super) struct ReportVisuals {"
+            },
+            {
+              "line": 72,
+              "text": "pub(super) fn report_visuals("
+            },
+            {
+              "line": 164,
+              "text": "pub struct MarkdownRenderOptions {"
+            },
+            {
+              "line": 178,
+              "text": "pub struct MarkdownManifest {"
+            }
+          ],
+          "interpretation": "Feature-owner candidate from source module and public symbols; not equivalent scenario proof"
+        }
+      ],
+      "retirement_search_scope": "No explicit scenario retirement decision located in successor README/docs for these37files; source feature remains represented. Not an exhaustive search of issue history.",
+      "next_action": "Compare listed legacy assertions to standalone installed or owned-journey cases for this feature. Reuse matched current proof; retain or port only unmatched required cases. Source name absence is not a failed test."
+    },
+    {
+      "id": "RD07-0995",
+      "path": "adl/tests/codefriend_render_pdf.rs",
+      "test_count": 4,
+      "exact_name_count": 0,
+      "scenarios": [
+        {
+          "name": "installed_renderer_emits_extractable_multipage_pdf_and_bound_manifest",
+          "line": 209,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "renderer_refuses_withheld_approval_renderer_drift_and_tampering",
+          "line": 375,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "renderer_rejects_invalid_font",
+          "line": 429,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "renderer_rejects_font_without_complete_glyph_coverage",
+          "line": 444,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        }
+      ],
+      "feature_source_candidates": [
+        {
+          "module": "evidence",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/evidence/assessments.rs",
+            "crates/codefriend/src/codefriend/evidence/contracts.rs",
+            "crates/codefriend/src/codefriend/evidence/mod.rs",
+            "crates/codefriend/src/codefriend/evidence/store.rs"
+          ]
+        }
+      ],
+      "explicit_retirement_evidence": null,
+      "acceptance": "Pending scenario correspondence and exact installed proof; no retirement inferred from missing names.",
+      "source_feature_evidence": [
+        {
+          "path": "crates/codefriend/src/codefriend/publication/pdf.rs",
+          "entries": [
+            {
+              "line": 99,
+              "text": "pub struct PdfRenderOptions {"
+            },
+            {
+              "line": 114,
+              "text": "pub struct PdfManifest {"
+            },
+            {
+              "line": 152,
+              "text": "pub struct PdfRenderResult {"
+            },
+            {
+              "line": 163,
+              "text": "pub fn render_pdf(options: PdfRenderOptions) -> Result<PdfRenderResult> {"
+            }
+          ],
+          "interpretation": "Feature-owner candidate from source module and public symbols; not equivalent scenario proof"
+        }
+      ],
+      "retirement_search_scope": "No explicit scenario retirement decision located in successor README/docs for these37files; source feature remains represented. Not an exhaustive search of issue history.",
+      "next_action": "Compare listed legacy assertions to standalone installed or owned-journey cases for this feature. Reuse matched current proof; retain or port only unmatched required cases. Source name absence is not a failed test."
+    },
+    {
+      "id": "RD07-0996",
+      "path": "adl/tests/codefriend_review.rs",
+      "test_count": 16,
+      "exact_name_count": 0,
+      "scenarios": [
+        {
+          "name": "installed_review_run_executes_four_isolated_provider_lanes",
+          "line": 301,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "review_run_fails_closed_for_assessments_without_admitted_evidence",
+          "line": 368,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "review_run_fails_closed_when_provider_omits_assessments_field",
+          "line": 403,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "review_run_rejects_existing_output_directory_before_provider_execution",
+          "line": 432,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "review_run_rejects_provider_assigned_projection_rule",
+          "line": 457,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "review_run_persists_incomplete_lane_for_positive_observation_with_defect_details",
+          "line": 490,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "review_run_rejects_provider_templates_with_preloaded_input",
+          "line": 536,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "review_shell_start_inspect_and_withhold_publication_tracks_operator_state",
+          "line": 561,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "review_shell_retry_preserves_failed_attempt_evidence",
+          "line": 616,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "review_shell_cancel_settles_active_run_without_losing_attempt_artifacts",
+          "line": 670,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "review_shell_retry_after_cancel_archives_cancel_request_and_completes_new_attempt",
+          "line": 733,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "review_shell_immediate_retry_after_cancel_preserves_active_attempt_settlement",
+          "line": 813,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "review_shell_rejects_retry_while_active_provider_attempt_is_incomplete",
+          "line": 942,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "review_shell_retry_after_pre_run_failure_uses_settlement_marker",
+          "line": 1026,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "review_shell_serializes_concurrent_retries_before_provider_dispatch",
+          "line": 1110,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "review_shell_cancel_during_final_lane_does_not_fabricate_completion",
+          "line": 1197,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        }
+      ],
+      "feature_source_candidates": [
+        {
+          "module": "evidence",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/evidence/assessments.rs",
+            "crates/codefriend/src/codefriend/evidence/contracts.rs",
+            "crates/codefriend/src/codefriend/evidence/mod.rs",
+            "crates/codefriend/src/codefriend/evidence/store.rs"
+          ]
+        }
+      ],
+      "explicit_retirement_evidence": null,
+      "acceptance": "Pending scenario correspondence and exact installed proof; no retirement inferred from missing names.",
+      "source_feature_evidence": [
+        {
+          "path": "crates/codefriend/src/codefriend/review/runner.rs",
+          "entries": [
+            {
+              "line": 55,
+              "text": "pub struct OperationCancellation {"
+            },
+            {
+              "line": 59,
+              "text": "pub struct InvocationCancellation {"
+            },
+            {
+              "line": 66,
+              "text": "pub fn begin_invocation(&self) -> Result<InvocationCancellation> {"
+            },
+            {
+              "line": 88,
+              "text": "pub fn cancel(&self) {"
+            }
+          ],
+          "interpretation": "Feature-owner candidate from source module and public symbols; not equivalent scenario proof"
+        }
+      ],
+      "retirement_search_scope": "No explicit scenario retirement decision located in successor README/docs for these37files; source feature remains represented. Not an exhaustive search of issue history.",
+      "next_action": "Compare listed legacy assertions to standalone installed or owned-journey cases for this feature. Reuse matched current proof; retain or port only unmatched required cases. Source name absence is not a failed test."
+    },
+    {
+      "id": "RD07-0997",
+      "path": "adl/tests/codefriend_review_assessments.rs",
+      "test_count": 20,
+      "exact_name_count": 0,
+      "scenarios": [
+        {
+          "name": "native_v4_website_compatibility_fixture_generator",
+          "line": 175,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "mixed_assessments_bind_receipts_and_project_only_defects",
+          "line": 267,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "valid_nonactionable_only_is_successful_even_with_explicit_privacy_coverage",
+          "line": 352,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "wrong_file_support_retains_incomplete_run_not_empty_success",
+          "line": 390,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "citation_utf8_and_actionability_and_aggregate_bounds_fail_closed",
+          "line": 435,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "legacy_complete_and_privacy_run_bytes_omit_assessment_fields",
+          "line": 458,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "logical_defect_identity_survives_assessment_changes_and_original_revision_changes",
+          "line": 499,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "conflicting_receipts_for_same_logical_defect_are_incomplete_not_silently_deduplicated",
+          "line": 561,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "remedy_only_change_preserves_logical_identity_but_changes_assessment",
+          "line": 580,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "privacy_assessments_traverse_original_store_planner_and_publication",
+          "line": 617,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "unique_quotes_derive_utf8_crlf_spans_and_ignore_legacy_offsets",
+          "line": 670,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "overlapping_quotes_are_ambiguous_even_with_claimed_offsets",
+          "line": 702,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "mixed_claims_keep_supported_siblings_and_drop_entire_unsupported_assessment",
+          "line": 713,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "fenced_json_requires_one_whole_response_payload",
+          "line": 755,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "all_unsupported_is_distinct_from_genuinely_empty_assessments",
+          "line": 781,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "historical_assessment_lane_v2_remains_readable_with_verified_spans",
+          "line": 796,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "historical_v3_mixed_assessment_coverage_remains_consumable",
+          "line": 824,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "mixed_assessment_gaps_traverse_original_store_planner_and_publication",
+          "line": 878,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "verbatim_prompt_preserves_original_bytes_and_json_quotes",
+          "line": 983,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "verbatim_prompt_examples_include_complete_shapes_without_padding_requirement",
+          "line": 1033,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        }
+      ],
+      "feature_source_candidates": [
+        {
+          "module": "actions",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/actions/mod.rs",
+            "crates/codefriend/src/codefriend/actions/remediation.rs",
+            "crates/codefriend/src/codefriend/actions/test_plan.rs"
+          ]
+        },
+        {
+          "module": "evidence",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/evidence/assessments.rs",
+            "crates/codefriend/src/codefriend/evidence/contracts.rs",
+            "crates/codefriend/src/codefriend/evidence/mod.rs",
+            "crates/codefriend/src/codefriend/evidence/store.rs"
+          ]
+        },
+        {
+          "module": "publication",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/agent/publication.rs",
+            "crates/codefriend/src/codefriend/publication/approval.rs",
+            "crates/codefriend/src/codefriend/publication/architecture.rs",
+            "crates/codefriend/src/codefriend/publication/html.rs",
+            "crates/codefriend/src/codefriend/publication/manifest.rs",
+            "crates/codefriend/src/codefriend/publication/markdown.rs",
+            "crates/codefriend/src/codefriend/publication/mod.rs",
+            "crates/codefriend/src/codefriend/publication/pdf.rs",
+            "crates/codefriend/src/codefriend/publication/relay.rs",
+            "crates/codefriend/src/codefriend/publication/report_template.rs"
+          ]
+        },
+        {
+          "module": "review",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/review/lanes.rs",
+            "crates/codefriend/src/codefriend/review/mod.rs",
+            "crates/codefriend/src/codefriend/review/runner.rs",
+            "crates/codefriend/src/codefriend/review/synthesis.rs"
+          ]
+        }
+      ],
+      "explicit_retirement_evidence": null,
+      "acceptance": "Pending scenario correspondence and exact installed proof; no retirement inferred from missing names.",
+      "source_feature_evidence": [
+        {
+          "path": "crates/codefriend/src/codefriend/evidence/assessments.rs",
+          "entries": [
+            {
+              "line": 22,
+              "text": "pub fn bounded<T: Serialize>(value: &T, limit: usize) -> Result<()> {"
+            },
+            {
+              "line": 43,
+              "text": "pub enum AssessmentKind {"
+            },
+            {
+              "line": 50,
+              "text": "pub struct DefectDetails {"
+            },
+            {
+              "line": 66,
+              "text": "pub struct ProviderCitation {"
+            }
+          ],
+          "interpretation": "Feature-owner candidate from source module and public symbols; not equivalent scenario proof"
+        }
+      ],
+      "retirement_search_scope": "No explicit scenario retirement decision located in successor README/docs for these37files; source feature remains represented. Not an exhaustive search of issue history.",
+      "next_action": "Compare listed legacy assertions to standalone installed or owned-journey cases for this feature. Reuse matched current proof; retain or port only unmatched required cases. Source name absence is not a failed test."
+    },
+    {
+      "id": "RD07-0999",
+      "path": "adl/tests/codefriend_structure_v2.rs",
+      "test_count": 8,
+      "exact_name_count": 0,
+      "scenarios": [
+        {
+          "name": "four_languages_produce_source_bound_edges_without_complete_claim",
+          "line": 141,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "graph_findings_keep_cycle_and_coupling_witnesses_bounded",
+          "line": 233,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "tampering_and_original_owner_expiry_deletion_are_rejected",
+          "line": 258,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "v2_requires_explicit_layers_and_does_not_accept_fake_rust_policy",
+          "line": 284,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "inline_rust_import_is_not_a_file_cycle",
+          "line": 299,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "expiry_after_artifact_write_removes_only_new_artifact",
+          "line": 311,
+          "attributes": "#[cfg(unix)]\n#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "existing_architecture_cli_reports_and_reads_java_v2",
+          "line": 330,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "architecture_dispatch_retains_original_admission_authority",
+          "line": 491,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        }
+      ],
+      "feature_source_candidates": [
+        {
+          "module": "architecture",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/architecture/artifact.rs",
+            "crates/codefriend/src/codefriend/architecture/drift.rs",
+            "crates/codefriend/src/codefriend/architecture/drift_v2.rs",
+            "crates/codefriend/src/codefriend/architecture/four_plus_one.rs",
+            "crates/codefriend/src/codefriend/architecture/four_plus_one/generation.rs",
+            "crates/codefriend/src/codefriend/architecture/four_plus_one/render.rs",
+            "crates/codefriend/src/codefriend/architecture/impact.rs",
+            "crates/codefriend/src/codefriend/architecture/impact_v2.rs",
+            "crates/codefriend/src/codefriend/architecture/mod.rs",
+            "crates/codefriend/src/codefriend/architecture/rationale.rs",
+            "crates/codefriend/src/codefriend/architecture/rationale_v2.rs",
+            "crates/codefriend/src/codefriend/architecture/structure.rs"
+          ]
+        },
+        {
+          "module": "language",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/governance/language.rs",
+            "crates/codefriend/src/codefriend/language/imports.rs",
+            "crates/codefriend/src/codefriend/language/mod.rs",
+            "crates/codefriend/src/codefriend/language/owner.rs",
+            "crates/codefriend/src/codefriend/language/parser.rs",
+            "crates/codefriend/src/codefriend/language/resolver.rs"
+          ]
+        }
+      ],
+      "explicit_retirement_evidence": null,
+      "acceptance": "Pending scenario correspondence and exact installed proof; no retirement inferred from missing names.",
+      "source_feature_evidence": [
+        {
+          "path": "crates/codefriend/src/codefriend/architecture/structure_v2.rs",
+          "entries": [
+            {
+              "line": 24,
+              "text": "pub struct BoundaryPolicyV2 {"
+            },
+            {
+              "line": 30,
+              "text": "pub fn validate(&self, a: &Admission) -> Result<()> {"
+            },
+            {
+              "line": 49,
+              "text": "pub struct NodeV2 {"
+            },
+            {
+              "line": 60,
+              "text": "pub struct EdgeV2 {"
+            }
+          ],
+          "interpretation": "Feature-owner candidate from source module and public symbols; not equivalent scenario proof"
+        }
+      ],
+      "retirement_search_scope": "No explicit scenario retirement decision located in successor README/docs for these37files; source feature remains represented. Not an exhaustive search of issue history.",
+      "next_action": "Compare listed legacy assertions to standalone installed or owned-journey cases for this feature. Reuse matched current proof; retain or port only unmatched required cases. Source name absence is not a failed test."
+    },
+    {
+      "id": "RD07-1000",
+      "path": "adl/tests/codefriend_synthesis.rs",
+      "test_count": 6,
+      "exact_name_count": 0,
+      "scenarios": [
+        {
+          "name": "synthesis_deduplicates_and_preserves_disagreement",
+          "line": 216,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "synthesis_rejects_incomplete_lane_sets",
+          "line": 246,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "synthesis_rejects_unsupported_lane_contract_versions",
+          "line": 269,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "synthesis_flags_same_severity_distinct_claim_variants",
+          "line": 292,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "installed_cli_writes_create_only_synthesis_artifacts",
+          "line": 333,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "privacy_omissions_preserve_failed_guards_and_explicit_synthesis_coverage",
+          "line": 380,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        }
+      ],
+      "feature_source_candidates": [
+        {
+          "module": "evidence",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/evidence/assessments.rs",
+            "crates/codefriend/src/codefriend/evidence/contracts.rs",
+            "crates/codefriend/src/codefriend/evidence/mod.rs",
+            "crates/codefriend/src/codefriend/evidence/store.rs"
+          ]
+        },
+        {
+          "module": "review",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/review/lanes.rs",
+            "crates/codefriend/src/codefriend/review/mod.rs",
+            "crates/codefriend/src/codefriend/review/runner.rs",
+            "crates/codefriend/src/codefriend/review/synthesis.rs"
+          ]
+        }
+      ],
+      "explicit_retirement_evidence": null,
+      "acceptance": "Pending scenario correspondence and exact installed proof; no retirement inferred from missing names.",
+      "source_feature_evidence": [
+        {
+          "path": "crates/codefriend/src/codefriend/review/synthesis.rs",
+          "entries": [
+            {
+              "line": 23,
+              "text": "pub struct SynthesisOptions {"
+            },
+            {
+              "line": 30,
+              "text": "pub struct SynthesisSource {"
+            },
+            {
+              "line": 44,
+              "text": "pub struct SynthesizedFinding {"
+            },
+            {
+              "line": 58,
+              "text": "pub struct ReviewSynthesis {"
+            }
+          ],
+          "interpretation": "Feature-owner candidate from source module and public symbols; not equivalent scenario proof"
+        }
+      ],
+      "retirement_search_scope": "No explicit scenario retirement decision located in successor README/docs for these37files; source feature remains represented. Not an exhaustive search of issue history.",
+      "next_action": "Compare listed legacy assertions to standalone installed or owned-journey cases for this feature. Reuse matched current proof; retain or port only unmatched required cases. Source name absence is not a failed test."
+    },
+    {
+      "id": "RD07-1001",
+      "path": "adl/tests/codefriend_testplan.rs",
+      "test_count": 12,
+      "exact_name_count": 0,
+      "scenarios": [
+        {
+          "name": "test_plan_maps_every_traceable_finding_to_executable_case",
+          "line": 130,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "test_plan_omits_findings_without_repository_path",
+          "line": 149,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "test_plan_preserves_dot_directories_and_root_files",
+          "line": 166,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "test_plan_consumes_tracked_predecessor_synthesis_with_concrete_mapping",
+          "line": 192,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "test_plan_reader_rejects_placeholder_untraceable_or_non_test_cases",
+          "line": 233,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "installed_cli_generates_and_reads_test_plan_without_source_mutation",
+          "line": 254,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "generator_rejects_standalone_or_tampered_synthesis_bundle",
+          "line": 341,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "reader_rejects_plan_manifest_synthesis_and_partition_tampering",
+          "line": 375,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "admitted_ids_with_opaque_anchors_produce_source_bound_v2_without_fixture_guessing",
+          "line": 487,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "admitted_mapping_rejects_unknown_duplicate_or_mismatched_identity",
+          "line": 515,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "admitted_v2_file_owner_requires_original_store_and_rejects_deletion_expiry_and_tamper",
+          "line": 538,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "admitted_mixed_privacy_and_unsupported_sources_preserve_real_coverage",
+          "line": 584,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        }
+      ],
+      "feature_source_candidates": [
+        {
+          "module": "evidence",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/evidence/assessments.rs",
+            "crates/codefriend/src/codefriend/evidence/contracts.rs",
+            "crates/codefriend/src/codefriend/evidence/mod.rs",
+            "crates/codefriend/src/codefriend/evidence/store.rs"
+          ]
+        },
+        {
+          "module": "review",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/review/lanes.rs",
+            "crates/codefriend/src/codefriend/review/mod.rs",
+            "crates/codefriend/src/codefriend/review/runner.rs",
+            "crates/codefriend/src/codefriend/review/synthesis.rs"
+          ]
+        }
+      ],
+      "explicit_retirement_evidence": null,
+      "acceptance": "Pending scenario correspondence and exact installed proof; no retirement inferred from missing names.",
+      "source_feature_evidence": [
+        {
+          "path": "crates/codefriend/src/codefriend/actions/test_plan.rs",
+          "entries": [
+            {
+              "line": 30,
+              "text": "pub struct TestPlanOptions {"
+            },
+            {
+              "line": 37,
+              "text": "pub struct TestCasePlan {"
+            },
+            {
+              "line": 58,
+              "text": "pub struct OmittedFinding {"
+            },
+            {
+              "line": 66,
+              "text": "pub struct TestPlan {"
+            }
+          ],
+          "interpretation": "Feature-owner candidate from source module and public symbols; not equivalent scenario proof"
+        }
+      ],
+      "retirement_search_scope": "No explicit scenario retirement decision located in successor README/docs for these37files; source feature remains represented. Not an exhaustive search of issue history.",
+      "next_action": "Compare listed legacy assertions to standalone installed or owned-journey cases for this feature. Reuse matched current proof; retain or port only unmatched required cases. Source name absence is not a failed test."
+    },
+    {
+      "id": "RD07-1002",
+      "path": "adl/tests/codefriend_update_cycle.rs",
+      "test_count": 12,
+      "exact_name_count": 0,
+      "scenarios": [
+        {
+          "name": "activity_selection_is_canonical_independent_and_testing_goal_is_conditional",
+          "line": 186,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "selected_activities_only_produce_bound_proposals_without_coverage_claims",
+          "line": 237,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "generated_artifacts_and_gaps_require_admitted_source_evidence",
+          "line": 285,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "prompt_subset_limits_citations_but_preserves_full_path_disposition_truth",
+          "line": 320,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "diagrams_require_mermaid_syntax_and_an_exact_render_manifest",
+          "line": 420,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "documentation_proposals_require_create_or_update_classification",
+          "line": 471,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "aggregate_revalidates_embedded_review_content_beyond_its_digest",
+          "line": 520,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "review_activity_accepts_successful_partial_review_with_explicit_coverage",
+          "line": 558,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "invalid_or_failed_activity_output_is_explicit_and_does_not_dispatch_unselected_work",
+          "line": 600,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "uncertain_provider_effect_is_not_downgraded_to_an_activity_failure",
+          "line": 632,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "review_selection_cannot_claim_completion_without_the_bound_review_result",
+          "line": 648,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "assessment_cycle_preserves_generation_and_rejects_mixed_lane_contracts",
+          "line": 670,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        }
+      ],
+      "feature_source_candidates": [
+        {
+          "module": "activities",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/activities.rs"
+          ]
+        },
+        {
+          "module": "evidence",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/evidence/assessments.rs",
+            "crates/codefriend/src/codefriend/evidence/contracts.rs",
+            "crates/codefriend/src/codefriend/evidence/mod.rs",
+            "crates/codefriend/src/codefriend/evidence/store.rs"
+          ]
+        }
+      ],
+      "explicit_retirement_evidence": null,
+      "acceptance": "Pending scenario correspondence and exact installed proof; no retirement inferred from missing names.",
+      "source_feature_evidence": [
+        {
+          "path": "crates/codefriend/src/codefriend/cycle_bridge.rs",
+          "entries": [
+            {
+              "line": 17,
+              "text": "pub(crate) fn review(cycle: &UpdateCycleResult) -> Result<&FourPerspectiveReviewRun> {"
+            },
+            {
+              "line": 39,
+              "text": "pub(crate) struct Capsule {"
+            },
+            {
+              "line": 52,
+              "text": "pub fn validate(&self, cycle: &UpdateCycleResult, now: u64) -> Result<()> {"
+            },
+            {
+              "line": 109,
+              "text": "pub fn capture(root: &Path, cycle: &UpdateCycleResult, now: u64) -> Result<Self> {"
+            }
+          ],
+          "interpretation": "Feature-owner candidate from source module and public symbols; not equivalent scenario proof"
+        }
+      ],
+      "retirement_search_scope": "No explicit scenario retirement decision located in successor README/docs for these37files; source feature remains represented. Not an exhaustive search of issue history.",
+      "next_action": "Compare listed legacy assertions to standalone installed or owned-journey cases for this feature. Reuse matched current proof; retain or port only unmatched required cases. Source name absence is not a failed test."
+    },
+    {
+      "id": "RD07-1003",
+      "path": "adl/tests/codefriend_ux.rs",
+      "test_count": 7,
+      "exact_name_count": 0,
+      "scenarios": [
+        {
+          "name": "installed_prepare_approve_inspect_and_atomic_local_admission",
+          "line": 123,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "installed_commands_reject_bad_flags_and_record_withholding_and_invalidation",
+          "line": 315,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "withheld_invalidated_and_changed_identity_are_denied_until_new_approval",
+          "line": 432,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "revoked_approval_cannot_be_replayed_from_an_alternate_or_truncated_store",
+          "line": 609,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "rollback_anchor_must_be_external_to_the_decision_store",
+          "line": 706,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "incomplete_runs_missing_provenance_and_manifest_attacks_fail_closed",
+          "line": 738,
+          "attributes": "#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        },
+        {
+          "name": "symlink_artifacts_and_destination_collision_leave_no_partial_target",
+          "line": 810,
+          "attributes": "#[cfg(unix)]\n#[test]",
+          "exact_named_tests": [],
+          "non_test_name_mentions": [],
+          "classification": "name_absent_requires_scenario_mapping"
+        }
+      ],
+      "feature_source_candidates": [
+        {
+          "module": "evidence",
+          "successor_paths": [
+            "crates/codefriend/src/codefriend/evidence/assessments.rs",
+            "crates/codefriend/src/codefriend/evidence/contracts.rs",
+            "crates/codefriend/src/codefriend/evidence/mod.rs",
+            "crates/codefriend/src/codefriend/evidence/store.rs"
+          ]
+        }
+      ],
+      "explicit_retirement_evidence": null,
+      "acceptance": "Pending scenario correspondence and exact installed proof; no retirement inferred from missing names.",
+      "source_feature_evidence": [
+        {
+          "path": "crates/codefriend/src/codefriend/operator/mod.rs",
+          "entries": [
+            {
+              "line": 30,
+              "text": "pub struct RetryAuthority {"
+            },
+            {
+              "line": 36,
+              "text": "pub struct OperatorStartOptions {"
+            },
+            {
+              "line": 47,
+              "text": "pub enum OperatorReviewStatus {"
+            },
+            {
+              "line": 58,
+              "text": "pub struct OperatorAttempt {"
+            }
+          ],
+          "interpretation": "Feature-owner candidate from source module and public symbols; not equivalent scenario proof"
+        }
+      ],
+      "retirement_search_scope": "No explicit scenario retirement decision located in successor README/docs for these37files; source feature remains represented. Not an exhaustive search of issue history.",
+      "next_action": "Compare listed legacy assertions to standalone installed or owned-journey cases for this feature. Reuse matched current proof; retain or port only unmatched required cases. Source name absence is not a failed test."
+    }
+  ]
+}

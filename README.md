@@ -147,7 +147,7 @@ cargo run --manifest-path adl/Cargo.toml -- demo demo-h-v0891-adversarial-self-a
 ```
 
 Review the v0.91
-[ChatGPT + Gemini + Claude triad conversation](demos/v0.91/chatgpt_gemini_claude_triad_conversation_demo.md)
+[ChatGPT + Gemini + Claude triad conversation](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.91/chatgpt_gemini_claude_triad_conversation_demo.md)
 from issue
 [#2764](https://github.com/danielbaustin/agent-design-language/issues/2764).
 

@@ -1,0 +1,66 @@
+{
+  "schema": "adl.rd07.podcast-source-retention.v1",
+  "rows": [
+    {
+      "id": "RD07-1381",
+      "path": "adl/tools/demo_v0918_podcast_launch.sh",
+      "source_sha256": "8a8f6f412d2bed8a9930689f767a62fd9d8627a4564db8b25cc64c9963189329",
+      "proposed_action": "retain_public_source_or_fixture"
+    },
+    {
+      "id": "RD07-1396",
+      "path": "adl/tools/generate_podcast_launch_packet.py",
+      "source_sha256": "5519b11057de47762cadc05c33091fc0e4c8da7cd9dfb4dc0927278774d9a7c7",
+      "proposed_action": "retain_public_source_or_fixture"
+    },
+    {
+      "id": "RD07-2047",
+      "path": "adl/tools/test_podcast_launch_packet.sh",
+      "source_sha256": "73bce6c4b507606ede3ab9180ef1f47e0755814d958d9ce28ab180d435af5506",
+      "proposed_action": "retain_public_source_or_fixture"
+    },
+    {
+      "id": "RD07-2200",
+      "path": "adl/tools/validate_podcast_launch_packet.py",
+      "source_sha256": "3e79e37137d7c0e0e21d94c0a180bb700ca64b5fbd81c3a1f331df3d1d0a97cd",
+      "proposed_action": "retain_public_source_or_fixture"
+    },
+    {
+      "id": "RD07-1371",
+      "path": "adl/tools/demo_v0911_multiagent_podcast_audio.sh",
+      "source_sha256": "3cfd34d25e9664dad2bdd7af34c668c926830579b2655900b4c66dbd84318b73",
+      "proposed_action": "retain_public_source_or_fixture"
+    },
+    {
+      "id": "RD07-1372",
+      "path": "adl/tools/demo_v0911_multiagent_podcast_pilot.sh",
+      "source_sha256": "f468edd26303244dbc3b7b7c44b6f082d665e82b42d9c1a83c021a3a887c7869",
+      "proposed_action": "retain_public_source_or_fixture"
+    },
+    {
+      "id": "RD07-1459",
+      "path": "adl/tools/real_chatgpt_gemini_claude_provider_adapter.py",
+      "source_sha256": "7615308b1199b9657a447d70e7fb56467a43e3b5d09c1921366508029b81e3d7",
+      "proposed_action": "retain_public_source_or_fixture"
+    }
+  ],
+  "scope": "User excludes website/non-code repositories from split cleanup; preserve existing podcast generation/validation source with retained website assets.",
+  "closure": [
+    "1381 launch calls1396 generator,2200 validator and1371 audio",
+    "1396 uses retained podcast_launch_5711 episodes and studio-reference digest assets",
+    "2047 exercises launch/generator/validator plus24-turn synthetic audio and negative checks",
+    "1371 missing-transcript/script fallback calls1372pilot",
+    "1372 calls1459 standard-library provider adapter, retained0386 workflow example and public adl CLI",
+    "2200 production mode requires archived metadata/provenance/enclosures/QA/storage/release assets"
+  ],
+  "external_execution_prerequisites": [
+    "Accepted external Runtime executable for public CLI forwarding",
+    "Provider credentials/services for pilot or provider audio paths"
+  ],
+  "proof_boundary": "Source retention only. PODCAST_HTTP_RETENTION.json qualifies1462-1464loopback serving, not these generation/audio/production or fallback behaviors. No provider/audio/device execution or new qualification.",
+  "independent_review": {
+    "reviewer": "review_1223_applied_components",
+    "result": "Seven-row closure plus already-retained0386 confirmed; public CLI requires no private Runtime source"
+  },
+  "execution_authorized": false
+}

@@ -1,0 +1,33 @@
+{
+  "schema": "adl.rd07.retirement_batch_result.v1",
+  "issue": 1223,
+  "batch": "02-log-archive",
+  "status": "applied_after_independent_review",
+  "reviewed_manifest_sha256": "eb8855ab5573e3b895120c8a5439abb6fc12b380b5a4a74684eea7a93e064df8",
+  "source_revision": "e5364915cebbc53fac576cf8d568abbd85feccf4",
+  "removed_component": "infra/aws/runtime/log-archive",
+  "removed_paths": 8,
+  "component_absent_after_apply": true,
+  "retained_reference_classification": {
+    "active_source_workflow_validation_or_operation_references": 0,
+    "historical_evidence_inventory_or_inert_fixture_files": 19,
+    "classification": "All exact path references remain only in immutable lifecycle/evidence/inventory records or the inert issue-520 changed-path fixture."
+  },
+  "preservation": {
+    "archive_sha256": "12205043566913435c25ea414b1fd9148b46727821f7bfefd5d452cfe47a1c17",
+    "original_revision": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+    "batch_restore_paths_verified": 8,
+    "batch_restore_mismatches": 0
+  },
+  "focused_checks": {
+    "manifest_json_parse": "pass",
+    "exact_deletion_count": "pass",
+    "component_absent": "pass",
+    "retained_reference_classification": "pass",
+    "git_diff_check": "pass"
+  },
+  "deferred": [
+    "final public ADL qualification at the committed retirement candidate",
+    "native exact-head review and publication"
+  ]
+}

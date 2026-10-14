@@ -1,0 +1,154 @@
+{
+  "schema": "adl.public_coverage_inventory.v1",
+  "issue": 1223,
+  "policy": "existing 90% full aggregate / 80% full per-file and PR changed-file; no private denominator exclusions",
+  "packages": [
+    {
+      "name": "adl",
+      "manifest": "adl/Cargo.toml",
+      "selection": [
+        "--lib",
+        "--bins",
+        "--test",
+        "adl_tests",
+        "--test",
+        "resolve_tests",
+        "--test",
+        "schema_tests",
+        "--test",
+        "public_process",
+        "--test",
+        "issue_327_removed_tooling",
+        "--test",
+        "public_observation"
+      ],
+      "sources": [
+        "adl/src/bin/adl_process.rs",
+        "adl/src/cli/codefriend_owner.rs",
+        "adl/src/cli/observability.rs",
+        "adl/src/cli/process_cmd.rs",
+        "adl/src/cli/process_cmd/args.rs",
+        "adl/src/cli/public_dispatch.rs",
+        "adl/src/cli/public_workflow.rs",
+        "adl/src/cli/resume_args.rs",
+        "adl/src/cli/runtime_owner.rs",
+        "adl/src/cli/session_cmd.rs",
+        "adl/src/cli/usage.rs",
+        "adl/src/cli/workflow_args.rs",
+        "adl/src/cli/workflow_display.rs",
+        "adl/src/control_plane.rs",
+        "adl/src/lib.rs",
+        "adl/src/main.rs",
+        "adl/src/session_ledger.rs"
+      ],
+      "declaration_only": [
+        "adl/src/lib.rs"
+      ],
+      "test_sources": [
+        "adl/tests/adl_tests.rs",
+        "adl/tests/cli_smoke/process_status.rs",
+        "adl/tests/helpers.rs",
+        "adl/tests/issue_327_removed_tooling.rs",
+        "adl/tests/public_observation.rs",
+        "adl/tests/public_process.rs",
+        "adl/tests/resolve_tests.rs",
+        "adl/tests/schema_tests.rs"
+      ]
+    },
+    {
+      "name": "adl-schema",
+      "manifest": "adl-schema/Cargo.toml",
+      "selection": [],
+      "sources": [
+        "adl-schema/src/lib.rs",
+        "adl-schema/src/model_identity.rs",
+        "adl-schema/src/provider.rs",
+        "adl-schema/src/syntax.rs"
+      ],
+      "declaration_only": [
+        "adl-schema/src/lib.rs",
+        "adl-schema/src/provider.rs"
+      ],
+      "declaration_reasons": {
+        "adl-schema/src/provider.rs": "Struct/type/enum declarations and derives only; no handwritten function or impl; LLVM emits no source-line row at Rust1.92."
+      },
+      "test_sources": [
+        "adl-schema/tests/declaration_contract.rs"
+      ]
+    },
+    {
+      "name": "adl-uts",
+      "manifest": "adl-uts/Cargo.toml",
+      "selection": [],
+      "sources": [
+        "adl-uts/src/conformance.rs",
+        "adl-uts/src/lib.rs"
+      ],
+      "declaration_only": [],
+      "test_sources": []
+    },
+    {
+      "name": "adl-language",
+      "manifest": "adl-v2/crates/adl-language/Cargo.toml",
+      "selection": [],
+      "sources": [
+        "adl-v2/crates/adl-language/src/canonical.rs",
+        "adl-v2/crates/adl-language/src/diagnostic.rs",
+        "adl-v2/crates/adl-language/src/lib.rs",
+        "adl-v2/crates/adl-language/src/model.rs",
+        "adl-v2/crates/adl-language/src/parse.rs",
+        "adl-v2/crates/adl-language/src/validate.rs"
+      ],
+      "declaration_only": [
+        "adl-v2/crates/adl-language/src/model.rs"
+      ],
+      "declaration_reasons": {
+        "adl-v2/crates/adl-language/src/model.rs": "Struct/type/enum declarations and derives only; no handwritten function or impl; LLVM emits no source-line row at Rust1.92."
+      },
+      "test_sources": [
+        "adl-v2/crates/adl-language/tests/characterization_parity.rs",
+        "adl-v2/crates/adl-language/tests/language.rs"
+      ]
+    },
+    {
+      "name": "adl-compiler",
+      "manifest": "adl-v2/crates/adl-compiler/Cargo.toml",
+      "selection": [],
+      "sources": [
+        "adl-v2/crates/adl-compiler/src/lib.rs"
+      ],
+      "declaration_only": [],
+      "test_sources": [
+        "adl-v2/crates/adl-compiler/tests/characterization_parity.rs",
+        "adl-v2/crates/adl-compiler/tests/common/mod.rs",
+        "adl-v2/crates/adl-compiler/tests/deterministic_replay.rs",
+        "adl-v2/crates/adl-compiler/tests/limits_and_diagnostics.rs",
+        "adl-v2/crates/adl-compiler/tests/stable_identity.rs"
+      ]
+    },
+    {
+      "name": "adl-legacy-contracts",
+      "manifest": "adl-legacy-contracts/Cargo.toml",
+      "selection": [],
+      "sources": [
+        "adl-legacy-contracts/src/adl.rs",
+        "adl-legacy-contracts/src/adl/loading.rs",
+        "adl-legacy-contracts/src/adl/types.rs",
+        "adl-legacy-contracts/src/adl/validation.rs",
+        "adl-legacy-contracts/src/cognitive_transition_schema.rs",
+        "adl-legacy-contracts/src/execution_plan.rs",
+        "adl-legacy-contracts/src/lib.rs",
+        "adl-legacy-contracts/src/plan.rs",
+        "adl-legacy-contracts/src/prompt.rs",
+        "adl-legacy-contracts/src/resolve.rs",
+        "adl-legacy-contracts/src/schema.rs",
+        "adl-legacy-contracts/src/trace_schema_v1.rs"
+      ],
+      "declaration_only": [],
+      "test_sources": [
+        "adl-legacy-contracts/src/adl/tests.rs",
+        "adl-legacy-contracts/tests/retained_contract_edges.rs"
+      ]
+    }
+  ]
+}

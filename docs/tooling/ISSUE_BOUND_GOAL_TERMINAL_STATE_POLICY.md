@@ -74,11 +74,13 @@ When goal completion is captured in durable workflow artifacts, also record:
 
 ## Tooling Hook
 
-Use `adl/tools/check_issue_goal_terminal_state.py` for a fail-closed terminal
-state evaluation:
+The original terminal-state evaluator is distributed by Cognitive-SDLC under
+`resources/docs/skill-distributions/planning-utilities/original/`. Select that
+authenticated package resource root explicitly for the historical contract;
+this helper does not confer native lifecycle or completion authority:
 
 ```bash
-python3 adl/tools/check_issue_goal_terminal_state.py \
+python3 "$CSDLC_PLANNING_SOURCE_ROOT/adl/tools/check_issue_goal_terminal_state.py" \
   --goal-kind implementation \
   --pr-state open \
   --checks-state green \

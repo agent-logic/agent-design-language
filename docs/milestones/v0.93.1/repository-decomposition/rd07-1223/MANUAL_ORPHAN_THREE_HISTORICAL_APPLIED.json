@@ -1,0 +1,236 @@
+{
+  "status": "applied",
+  "source_head": "4f92a0667dffbd9f3da7928a74b572e76366acf3",
+  "original_baseline": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+  "removed_count": 3,
+  "rows": [
+    {
+      "id": "RD07-1232",
+      "path": "adl/tools/BURST_FINAL_SUMMARY_TEMPLATE.md",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "7590d82adbd91ceee205f263f4b2efdc9760ae99"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/skill-distributions/planning-utilities/original/adl/tools/BURST_FINAL_SUMMARY_TEMPLATE.md"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1387",
+      "path": "adl/tools/diagnose_browser_routes.py",
+      "owner": "agent-logic-infrastructure",
+      "component": "agent-logic-infrastructure-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "44caa7f24d030f20cc67f3b3a5056f1653c5be4c"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+        "exact_successor_paths": [
+          "adl/tools/diagnose_browser_routes.py"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1393",
+      "path": "adl/tools/fix_git_main_sync.sh",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "0b404874753d903f4eeff69a74c3c9ac4cb26faf"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "same_path_changed",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": []
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "adl/tools/BURST_FINAL_SUMMARY_TEMPLATE.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "7590d82adbd91ceee205f263f4b2efdc9760ae99",
+        "sha256": "3aeaa69bbe351997543de81ad3934584993a993733800b63a25182ddf71fdf83"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/diagnose_browser_routes.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "44caa7f24d030f20cc67f3b3a5056f1653c5be4c",
+        "sha256": "8c0338f6b873663524cc4bd635a98614dd68136bd9cd6aa389975d9e60404153"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/fix_git_main_sync.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "0b404874753d903f4eeff69a74c3c9ac4cb26faf",
+        "sha256": "3675d91de3239b7654e83ab097b672b8ff0492e4b2b79b829bacdf913b99889f"
+      },
+      "after": null
+    },
+    {
+      "path": "docs/tooling/README.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "a04108c2c38c4a1e1f2ea3f6b538133f154f43be",
+        "sha256": "3972d16bfc82ca99d079f013ee8c187d9733f560abc4f2d94b181f5360fb5d77"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "ab49bb4fa804e259e3f058ad58a23a3a65975bc5",
+        "sha256": "01d6ec078d69ccf7ddd8c26692139481ab23be28f2bcaf0cbe9e0ad75cf7dd49"
+      }
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "e14685ec4cb94a475887d52bb08b54fe09976e74",
+        "sha256": "4c45e900c0bc51545493707acd3c713721c2ff822fc0a5ac8bbe026b45cd77a5"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "d7ab8ac45d4f3fdd05412852c251617bd1b24cc6",
+        "sha256": "77c6ad84fa15ffb9b95360b33b9678c8b33143f520ce87881fd8f3df09684162"
+      }
+    }
+  ],
+  "owner_inputs": [
+    {
+      "original_path": "adl/tools/BURST_FINAL_SUMMARY_TEMPLATE.md",
+      "path": "docs/skill-distributions/planning-utilities/original/adl/tools/BURST_FINAL_SUMMARY_TEMPLATE.md",
+      "repository": "/Users/daniel/git/cognitive-sdlc",
+      "revision": "d316340c212800ff523f957b1bf290db68d8efad",
+      "identity": {
+        "mode": "100644",
+        "blob": "7590d82adbd91ceee205f263f4b2efdc9760ae99",
+        "sha256": "3aeaa69bbe351997543de81ad3934584993a993733800b63a25182ddf71fdf83"
+      },
+      "exact_source_bytes": true
+    },
+    {
+      "original_path": "adl/tools/diagnose_browser_routes.py",
+      "path": "adl/tools/diagnose_browser_routes.py",
+      "repository": "/Volumes/FastWork/c1223/infrastructure14/agent-logic-infrastructure",
+      "revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+      "identity": {
+        "mode": "100755",
+        "blob": "44caa7f24d030f20cc67f3b3a5056f1653c5be4c",
+        "sha256": "8c0338f6b873663524cc4bd635a98614dd68136bd9cd6aa389975d9e60404153"
+      },
+      "exact_source_bytes": true
+    },
+    {
+      "original_path": "adl/tools/fix_git_main_sync.sh",
+      "path": "adl/tools/fix_git_main_sync.sh",
+      "repository": "/Users/daniel/git/cognitive-sdlc",
+      "revision": "d316340c212800ff523f957b1bf290db68d8efad",
+      "identity": {
+        "mode": "100644",
+        "blob": "085d8f61c7c4e46c89930a25e3298c2b4f3416a4",
+        "sha256": "b403b2a782adb20391146f3932600d227a555b3a3dd030f444932ed0a2a0b675"
+      },
+      "exact_source_bytes": false
+    },
+    {
+      "path": "tools/git_main_sync.py",
+      "repository": "/Users/daniel/git/cognitive-sdlc",
+      "revision": "d316340c212800ff523f957b1bf290db68d8efad",
+      "identity": {
+        "mode": "100644",
+        "blob": "9c916aaf86539b20271a013e5233c41fddf4cb1c",
+        "sha256": "7a9c2c5af822b3bfee245d883667940cae5faf266eca6d1e9efc968a380e15a7"
+      },
+      "role": "Explicit resource-root wrapper dependency; source inspected only, not executed."
+    }
+  ],
+  "evidence": [
+    {
+      "path": "/Volumes/FastWork/c1223/manual-orphan-three-retirement/composed-4f92a066/owner-sync-difference.patch",
+      "sha256": "790276ed50ed60bde00d6e87a1396e22efd37d987789cac4f3d645179a7973c7"
+    }
+  ],
+  "custody": {
+    "path": "/Volumes/FastWork/c1223/manual-orphan-three-retirement/composed-4f92a066/current-original.tar",
+    "sha256": "5bb7520b88b7ebfa697236472846eb1ed6e8b7648639afd859f1a59b19cf4c06",
+    "current_members": 5,
+    "original_members": 3
+  },
+  "patch": {
+    "path": "/Volumes/FastWork/c1223/manual-orphan-three-retirement/composed-4f92a066/three-and-navigation.patch",
+    "sha256": "1eb4e71770ecb503d332bee015947e837d80dc084b42ec9bd62e016c797d7948"
+  },
+  "dispositions": {
+    "RD07-1232": "Exact archived planning-utilities template custody; historical burst template retirement, no current lifecycle authority.",
+    "RD07-1387": "Exact Infrastructure manual diagnostic source transfer. Known browser paths/profile checks, default open -Ra and version probes, optional HEAD/headless behavior remain manual obligations; no environment capability proof claimed.",
+    "RD07-1393": "Changed delivered CSDL administrative replacement. Original clean-tree check then checkout main/fetch origin main/merge --ff-only preserved in Git/archive. Successor wrapper instead requires CSDLC_RESOURCE_ROOT and executes pinned tools/git_main_sync.py: explicit locking, clean-tree checks, hooks/submodule-disabled Git environment, fetched-commit validation and preservation receipts. Not represented as identical behavior, installed qualification or native lifecycle completion."
+  },
+  "caller_closure": {
+    "active_inbound": "Bounded tracked ADL tools/config/public tooling/workflows/demos/tooling-doc scan found no caller outside registry. New guide records exact source destinations.",
+    "registry_removed_rows": 3,
+    "registry_added_rows": 0
+  },
+  "limits": [
+    "No browser/app launch, HTTP, Git mutation, model/provider/cloud/build or original behavior test was executed.",
+    "Manual source delivery is not operational acceptance; the changed owner Git helper is not an automatic migration action.",
+    "Archived template is retained owner evidence, not an installed/current planning command.",
+    "Original identities and current bytes/modes remain frozen; no lifecycle cards or immutable receipts changed."
+  ],
+  "composition": {
+    "prior_reviewed_proposal": {
+      "path": "/Volumes/FastWork/c1223/manual-orphan-three-retirement/PROPOSAL.json",
+      "sha256": "68a0c7698144881dd712310937fa8284873bf288b2e29723b459dc3c233188f1"
+    },
+    "changed_file_identities": [
+      "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+    ],
+    "scope": "Three sources and manual navigation unchanged. Actual registry minus3/zeroadded preserves WP12 and Workcell."
+  },
+  "proposal_source_head": "4f92a0667dffbd9f3da7928a74b572e76366acf3",
+  "review": {
+    "status": "PASS",
+    "reviewer": "review_1223_public_facade",
+    "proposal_sha256": "afb503f0da63643db1aad1c1391d2315954dec7da5a36525713eb490bf20bc61",
+    "scope": "Reviewed source/caller/custody composition; all individual qualification and historical limits preserved."
+  }
+}

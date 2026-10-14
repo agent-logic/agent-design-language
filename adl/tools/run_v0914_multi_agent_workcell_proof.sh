@@ -5,8 +5,19 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 ARTIFACT_ROOT_DEFAULT="$ROOT_DIR/artifacts/v0914/multi_agent_workcell"
 TRACKED_REVIEW_ROOT_DEFAULT="$ROOT_DIR/docs/milestones/v0.91.4/review/multi_agent_workcell"
 MANIFEST_DEFAULT="$TRACKED_REVIEW_ROOT_DEFAULT/workcell_proof_manifest.json"
-STATE_VALIDATOR="$ROOT_DIR/adl/tools/validate_multi_agent_workcell_state.py"
-PLANNER="$ROOT_DIR/adl/tools/plan_multi_agent_workcell.py"
+# Original planning producers are distributed by Cognitive-SDLC after #1223.
+# This selects source resources only; it does not qualify the historical live demo.
+PLANNING_ROOT="${CSDLC_PLANNING_SOURCE_ROOT:-}"
+if [[ -z "$PLANNING_ROOT" || "$PLANNING_ROOT" != /* || ! -d "$PLANNING_ROOT" ]]; then
+  echo "Set CSDLC_PLANNING_SOURCE_ROOT to the authenticated planning-utilities/original resource root." >&2
+  exit 2
+fi
+STATE_VALIDATOR="$PLANNING_ROOT/adl/tools/validate_multi_agent_workcell_state.py"
+PLANNER="$PLANNING_ROOT/adl/tools/plan_multi_agent_workcell.py"
+if [[ ! -f "$STATE_VALIDATOR" || ! -f "$PLANNER" ]]; then
+  echo "Selected planning resource root lacks the workcell planner or state validator." >&2
+  exit 2
+fi
 LOCAL_MODEL_A_DEFAULT="deepseek-r1:8b"
 LOCAL_MODEL_B_DEFAULT="gemma4:26b"
 LOCAL_MODEL_C_DEFAULT="Qwen3.5:35b-a3b"
@@ -876,8 +887,8 @@ Timing evidence is recorded in:
 
 ## Validation
 
-- \`python3 adl/tools/plan_multi_agent_workcell.py docs/milestones/v0.91.4/review/multi_agent_workcell/workcell_proof_manifest.json --json-out docs/milestones/v0.91.4/review/multi_agent_workcell/workcell_proof_plan_${PROOF_DATE}.json\`
-- \`python3 adl/tools/validate_multi_agent_workcell_state.py docs/milestones/v0.91.4/review/multi_agent_workcell/workcell_proof_state_${PROOF_DATE}.json\`
+- \`python3 "$PLANNER" docs/milestones/v0.91.4/review/multi_agent_workcell/workcell_proof_manifest.json --json-out docs/milestones/v0.91.4/review/multi_agent_workcell/workcell_proof_plan_${PROOF_DATE}.json\`
+- \`python3 "$STATE_VALIDATOR" docs/milestones/v0.91.4/review/multi_agent_workcell/workcell_proof_state_${PROOF_DATE}.json\`
 - \`bash adl/tools/run_v0914_multi_agent_workcell_proof.sh --artifact-root artifacts/v0914/multi_agent_workcell --tracked-review-root docs/milestones/v0.91.4/review/multi_agent_workcell\`
 __PACKET__
 

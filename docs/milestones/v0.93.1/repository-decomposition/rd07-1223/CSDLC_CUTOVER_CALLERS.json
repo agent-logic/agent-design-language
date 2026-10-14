@@ -1,0 +1,1008 @@
+{
+  "schema": "adl.source_retirement.csdlc_cutover_callers.v1",
+  "issue": 1223,
+  "head": "83fa3f508f1cebc3a380dbbabce03e8f8d91e7d4",
+  "scope": "Tracked .github, adl/tools, adl/config, tools and manifests; literal csdlc-v2/ or csdlc-v3/ references; excludes source-retirement guard and skills",
+  "limits": "Literal reference scan, not complete dynamic dependency closure. Historical records untouched. No deletion authority.",
+  "files": [
+    {
+      "path": ".github/workflows/ci.yaml",
+      "references": [
+        {
+          "line": 218,
+          "source": "        run: bash adl/tools/run_cargo_validation.sh cargo test --locked --manifest-path csdlc-v2/Cargo.toml"
+        },
+        {
+          "line": 221,
+          "source": "        run: bash adl/tools/run_cargo_validation.sh cargo fmt --manifest-path csdlc-v2/Cargo.toml --all -- --check"
+        },
+        {
+          "line": 224,
+          "source": "        run: bash adl/tools/run_cargo_validation.sh cargo clippy --locked --manifest-path csdlc-v2/Cargo.toml --all-targets -- -D warnings"
+        },
+        {
+          "line": 365,
+          "source": "        run: bash adl/tools/run_cargo_validation.sh cargo test --locked --manifest-path csdlc-v3/Cargo.toml"
+        },
+        {
+          "line": 368,
+          "source": "        run: bash adl/tools/run_cargo_validation.sh cargo fmt --manifest-path csdlc-v3/Cargo.toml --all -- --check"
+        },
+        {
+          "line": 371,
+          "source": "        run: bash adl/tools/run_cargo_validation.sh cargo clippy --locked --manifest-path csdlc-v3/Cargo.toml --all-targets -- -D warnings"
+        },
+        {
+          "line": 724,
+          "source": "          path: .git/csdlc-v3/local/public-adl-proof/1192/"
+        }
+      ],
+      "required_cutover": "Remove local C-SDLC crate build/test/format/lint lanes only with external owner contract coverage; retain ADL-specific consumer integration checks.",
+      "status": "not_implemented"
+    },
+    {
+      "path": "adl/config/validation_lane_selector.v0.91.6.json",
+      "references": [
+        {
+          "line": 153,
+          "source": "        \"csdlc-v2/**\""
+        },
+        {
+          "line": 156,
+          "source": "        \"csdlc-v2/**\""
+        },
+        {
+          "line": 158,
+          "source": "      \"command\": \"bash adl/tools/run_cargo_validation.sh cargo test --locked --manifest-path csdlc-v2/Cargo.toml && bash adl/tools/run_cargo_validation.sh cargo fmt --manifest-path csdlc-v2/Cargo.toml --all -- --check && bash adl/tools/run_cargo_validation.sh cargo clippy --locked --manifest-path csdlc-v2/Cargo.toml --all-targets -- -D warnings\","
+        },
+        {
+          "line": 159,
+          "source": "      \"run_command\": \"bash adl/tools/run_cargo_validation.sh cargo test --locked --manifest-path csdlc-v2/Cargo.toml && bash adl/tools/run_cargo_validation.sh cargo fmt --manifest-path csdlc-v2/Cargo.toml --all -- --check && bash adl/tools/run_cargo_validation.sh cargo clippy --locked --manifest-path csdlc-v2/Cargo.toml --all-targets -- -D warnings\","
+        },
+        {
+          "line": 172,
+          "source": "        \"csdlc-v3/**\""
+        },
+        {
+          "line": 175,
+          "source": "        \"csdlc-v3/**\""
+        },
+        {
+          "line": 177,
+          "source": "      \"command\": \"bash adl/tools/run_cargo_validation.sh cargo test --locked --manifest-path csdlc-v3/Cargo.toml && bash adl/tools/run_cargo_validation.sh cargo fmt --manifest-path csdlc-v3/Cargo.toml --all -- --check && bash adl/tools/run_cargo_validation.sh cargo clippy --locked --manifest-path csdlc-v3/Cargo.toml --all-targets -- -D warnings\","
+        },
+        {
+          "line": 178,
+          "source": "      \"run_command\": \"bash adl/tools/run_cargo_validation.sh cargo test --locked --manifest-path csdlc-v3/Cargo.toml && bash adl/tools/run_cargo_validation.sh cargo fmt --manifest-path csdlc-v3/Cargo.toml --all -- --check && bash adl/tools/run_cargo_validation.sh cargo clippy --locked --manifest-path csdlc-v3/Cargo.toml --all-targets -- -D warnings\","
+        },
+        {
+          "line": 242,
+          "source": "        \"csdlc-v2/src/edit.rs\","
+        },
+        {
+          "line": 243,
+          "source": "        \"csdlc-v2/src/markdown.rs\","
+        },
+        {
+          "line": 244,
+          "source": "        \"csdlc-v2/src/bin/csdlc-edit.rs\","
+        },
+        {
+          "line": 245,
+          "source": "        \"csdlc-v2/src/bin/csdlc-validate.rs\""
+        },
+        {
+          "line": 249,
+          "source": "        \"csdlc-v2/src/edit.rs\","
+        },
+        {
+          "line": 250,
+          "source": "        \"csdlc-v2/src/markdown.rs\","
+        },
+        {
+          "line": 251,
+          "source": "        \"csdlc-v2/src/bin/csdlc-edit.rs\","
+        },
+        {
+          "line": 252,
+          "source": "        \"csdlc-v2/src/bin/csdlc-validate.rs\""
+        },
+        {
+          "line": 254,
+          "source": "      \"command\": \"cargo test --manifest-path csdlc-v2/Cargo.toml --no-run\","
+        },
+        {
+          "line": 255,
+          "source": "      \"run_command\": \"cargo test --manifest-path csdlc-v2/Cargo.toml\","
+        },
+        {
+          "line": 268,
+          "source": "        \"csdlc-v2/operator/skills/**\","
+        },
+        {
+          "line": 269,
+          "source": "        \"csdlc-v2/operator/generation-selector.json\""
+        },
+        {
+          "line": 272,
+          "source": "        \"csdlc-v2/operator/skills/**\","
+        },
+        {
+          "line": 273,
+          "source": "        \"csdlc-v2/operator/generation-selector.json\""
+        },
+        {
+          "line": 275,
+          "source": "      \"command\": \"cargo test --manifest-path csdlc-v2/Cargo.toml --no-run\","
+        },
+        {
+          "line": 276,
+          "source": "      \"run_command\": \"cargo test --manifest-path csdlc-v2/Cargo.toml\","
+        },
+        {
+          "line": 745,
+          "source": "        \"csdlc-v2/**\","
+        },
+        {
+          "line": 758,
+          "source": "        \"csdlc-v2/**\","
+        },
+        {
+          "line": 770,
+          "source": "      \"command\": \"cargo test --manifest-path csdlc-v2/Cargo.toml --no-run\","
+        },
+        {
+          "line": 771,
+          "source": "      \"run_command\": \"cargo test --manifest-path csdlc-v2/Cargo.toml\","
+        }
+      ],
+      "required_cutover": "Reclassify C-SDLC producer validation to successor; keep ADL consumer and public package validation. Repair selection and tests together.",
+      "status": "not_implemented"
+    },
+    {
+      "path": "adl/tools/README.md",
+      "references": [
+        {
+          "line": 10,
+          "source": "- `.adl/bin/csdlc-v2/`: retained owner binaries only for explicitly authorized rollback or bounded transition remediation."
+        },
+        {
+          "line": 21,
+          "source": "- `release_ceremony.sh`: nonmutating native v3 release candidate preflight; requires an exact typed candidate request and stable owner. See `docs/csdlc-v3/RELEASE_PREFLIGHT.md`."
+        },
+        {
+          "line": 126,
+          "source": ".adl/bin/csdlc-v2/csdlc-edit --repo <worktree> apply --request <edit-request.json>"
+        },
+        {
+          "line": 127,
+          "source": ".adl/bin/csdlc-v2/csdlc-validate --root <worktree> finalize --request <finalize-request.json>"
+        },
+        {
+          "line": 130,
+          "source": ".adl/bin/csdlc-v2/csdlc-validate --root <worktree> finalize --request <finalize-request.json>"
+        },
+        {
+          "line": 131,
+          "source": ".adl/bin/csdlc-v2/csdlc-review record --request <review-request.json>"
+        },
+        {
+          "line": 132,
+          "source": ".adl/bin/csdlc-v2/csdlc-publish publish --request <publication-request.json>"
+        },
+        {
+          "line": 152,
+          "source": "    authority remains defined by `../../docs/csdlc-v3/CURRENT_AUTHORITY.md`"
+        }
+      ],
+      "required_cutover": "Repair installation/validation documentation links and repository context together with executable route.",
+      "status": "not_implemented"
+    },
+    {
+      "path": "adl/tools/batched_checks.sh",
+      "references": [
+        {
+          "line": 35,
+          "source": "run_step \"C-SDLC v2 installer\" \"$ROOT/csdlc-v2/target/debug/csdlc-install\" --help"
+        }
+      ],
+      "required_cutover": "Inspect matched executable/config use; route active producer operations to successor, preserve retained transition fixtures, or retire complete caller and its tests with explicit rationale.",
+      "status": "not_implemented"
+    },
+    {
+      "path": "adl/tools/build_v0917_closeout_register.sh",
+      "references": [
+        {
+          "line": 27,
+          "source": "receipt_path=\".git/csdlc-v2/closeout/$number.json\""
+        },
+        {
+          "line": 30,
+          "source": "  receipt_file=\"$common_git_dir/csdlc-v2/closeout/$number.json\""
+        }
+      ],
+      "required_cutover": "Inspect matched executable/config use; route active producer operations to successor, preserve retained transition fixtures, or retire complete caller and its tests with explicit rationale.",
+      "status": "not_implemented"
+    },
+    {
+      "path": "adl/tools/ci_path_policy.sh",
+      "references": [
+        {
+          "line": 1724,
+          "source": "        csdlc-v2/*)"
+        },
+        {
+          "line": 1727,
+          "source": "        csdlc-v3/*)"
+        },
+        {
+          "line": 1821,
+          "source": "          csdlc-v3/*)"
+        },
+        {
+          "line": 2018,
+          "source": "    adl-schema/*|adl-legacy-contracts/*|adl-uts/*|adl-provider-core/*|adl/src/*|adl/tests/*|adl/Cargo.toml|adl/Cargo.lock|adl/build.rs|adl-v2/*|csdlc-v2/*|csdlc-v3/*|adl-characterization/*|adl-resilience/*|tools/remote_validation/*|tools/remote_validation_distribution/*)"
+        }
+      ],
+      "required_cutover": "Inspect matched executable/config use; route active producer operations to successor, preserve retained transition fixtures, or retire complete caller and its tests with explicit rationale.",
+      "status": "not_implemented"
+    },
+    {
+      "path": "adl/tools/csdlc_obs_ready_canary.sh",
+      "references": [
+        {
+          "line": 28,
+          "source": "  if [[ -x ./.adl/bin/csdlc-v2/csdlc-issue && -x ./.adl/bin/csdlc-v2/csdlc-validate && -x ./.adl/bin/csdlc-v2/csdlc-edit && -x ./.adl/bin/csdlc-v2/csdlc-doctor ]]; then"
+        },
+        {
+          "line": 33,
+          "source": "  CARGO_TARGET_DIR=\"$build_root\" cargo run --quiet --locked --manifest-path csdlc-v2/Cargo.toml --bin csdlc-install -- install --repo . --destination \"$ROOT/.adl/bin/csdlc-v2\" >/dev/null"
+        },
+        {
+          "line": 97,
+          "source": "      {\"lane\":\"v3-local-canary\",\"proof_role\":\"Run the single csdlc binary local preparation path as non-authoritative cutover evidence.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"run\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--bin\",\"csdlc\",\"--\",\"local\",\"--request\",\".csdlc/prepared/issues/511/v3-local-request.json\",\"--registry\",\"docs/templates/prompts/current.json\",\"--registrations\",\".csdlc/prepared/issues/511/v3-local-registrations.json\"],\"parallel_group\":\"cutover-canary\",\"defer_reason\":null}"
+        },
+        {
+          "line": 215,
+          "source": "      {\"lane\":\"v3-local-canary\",\"proof_role\":\"Run the single csdlc binary local preparation path as non-authoritative cutover evidence.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"run\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--bin\",\"csdlc\",\"--\",\"local\",\"--request\",\".csdlc/prepared/issues/512/v3-local-request.json\",\"--registry\",\"docs/templates/prompts/current.json\",\"--registrations\",\".csdlc/prepared/issues/512/v3-local-registrations.json\"],\"parallel_group\":\"cutover-canary\",\"defer_reason\":null}"
+        },
+        {
+          "line": 273,
+          "source": "    ./.adl/bin/csdlc-v2/csdlc-issue --root . create --request \".csdlc/prepared/issues/${issue}/bootstrap-request.json\""
+        },
+        {
+          "line": 281,
+          "source": "  doctor_json=\"$(./.adl/bin/csdlc-v2/csdlc-doctor --repo . --issue \"$issue\" || true)\""
+        },
+        {
+          "line": 300,
+          "source": "  ./.adl/bin/csdlc-v2/csdlc-edit apply --request \".csdlc/prepared/issues/${issue}/advance-ready.json\""
+        },
+        {
+          "line": 305,
+          "source": "  cargo run --quiet --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- local \\"
+        },
+        {
+          "line": 319,
+          "source": "./.adl/bin/csdlc-v2/csdlc-validate --root . issue --issue 511"
+        },
+        {
+          "line": 320,
+          "source": "./.adl/bin/csdlc-v2/csdlc-validate --root . issue --issue 512"
+        },
+        {
+          "line": 327,
+          "source": "./.adl/bin/csdlc-v2/csdlc-doctor --repo . --issue 511 > .csdlc/evidence/511/doctor-after-canary.json"
+        },
+        {
+          "line": 328,
+          "source": "./.adl/bin/csdlc-v2/csdlc-doctor --repo . --issue 512 > .csdlc/evidence/512/doctor-after-canary.json || true"
+        }
+      ],
+      "required_cutover": "Inspect matched executable/config use; route active producer operations to successor, preserve retained transition fixtures, or retire complete caller and its tests with explicit rationale.",
+      "status": "not_implemented"
+    },
+    {
+      "path": "adl/tools/demo_v089_multi_agent_repo_code_review.sh",
+      "references": [
+        {
+          "line": 41,
+          "source": "csdlc-v2/tests/gate10a.rs"
+        },
+        {
+          "line": 210,
+          "source": "Location: csdlc-v2/tests/gate10a.rs"
+        },
+        {
+          "line": 327,
+          "source": "Location: csdlc-v2/tests/gate10a.rs"
+        }
+      ],
+      "required_cutover": "Inspect matched executable/config use; route active producer operations to successor, preserve retained transition fixtures, or retire complete caller and its tests with explicit rationale.",
+      "status": "not_implemented"
+    },
+    {
+      "path": "adl/tools/demo_v090_codebuddy_review_showcase.sh",
+      "references": [
+        {
+          "line": 101,
+          "source": "  - csdlc-v2/tests/gate10a.rs"
+        }
+      ],
+      "required_cutover": "Inspect matched executable/config use; route active producer operations to successor, preserve retained transition fixtures, or retire complete caller and its tests with explicit rationale.",
+      "status": "not_implemented"
+    },
+    {
+      "path": "adl/tools/install_csdlc_man_pages.sh",
+      "references": [
+        {
+          "line": 10,
+          "source": "SOURCE=\"$ROOT_DIR/docs/csdlc-v3/man/man1\""
+        }
+      ],
+      "required_cutover": "Inspect matched executable/config use; route active producer operations to successor, preserve retained transition fixtures, or retire complete caller and its tests with explicit rationale.",
+      "status": "not_implemented"
+    },
+    {
+      "path": "adl/tools/install_owner_binaries.sh",
+      "references": [
+        {
+          "line": 75,
+          "source": "    SOURCE_PATHS=(csdlc-v3/Cargo.toml csdlc-v3/Cargo.lock csdlc-v3/src)"
+        },
+        {
+          "line": 76,
+          "source": "    MANIFEST=\"$ROOT_DIR/csdlc-v3/Cargo.toml\""
+        }
+      ],
+      "required_cutover": "Replace source-hashing/build route for csdlc with explicit qualified package installation/selection; retain other owner targets until their own cutover.",
+      "status": "not_implemented"
+    },
+    {
+      "path": "adl/tools/rd01_repository_audit.py",
+      "references": [
+        {
+          "line": 135,
+          "source": "    assert classify('csdlc-v2/Cargo.toml')['owner'] == 'csdlc'"
+        }
+      ],
+      "required_cutover": "Inspect matched executable/config use; route active producer operations to successor, preserve retained transition fixtures, or retire complete caller and its tests with explicit rationale.",
+      "status": "not_implemented"
+    },
+    {
+      "path": "adl/tools/run_issue872_conversion_rehearsal.py",
+      "references": [
+        {
+          "line": 164,
+          "source": "    operation_root = common / \"csdlc-v3/local/conversion-rehearsals\" / operation"
+        },
+        {
+          "line": 324,
+          "source": "    shutil.copytree(authority_checkout / \"csdlc-v3/operator\","
+        },
+        {
+          "line": 325,
+          "source": "                    primary / \"csdlc-v3/operator\", dirs_exist_ok=True)"
+        },
+        {
+          "line": 326,
+          "source": "    shutil.copy2(authority_checkout / \"csdlc-v3/Cargo.toml\","
+        },
+        {
+          "line": 327,
+          "source": "                 primary / \"csdlc-v3/Cargo.toml\")"
+        },
+        {
+          "line": 424,
+          "source": "    linked_authority = linked / \"csdlc-v3/operator/authority-selector.json\""
+        },
+        {
+          "line": 454,
+          "source": "    fault_state = common / \"csdlc-v3/local\""
+        },
+        {
+          "line": 475,
+          "source": "    fence_path = common / \"csdlc-v3/local/conversion-rehearsals\" / operation / \"conversion.fence\""
+        },
+        {
+          "line": 753,
+          "source": "    operation_root = common / \"csdlc-v3/local/conversion-rehearsals\" / operation"
+        },
+        {
+          "line": 830,
+          "source": "    local_issue_root = common / \"csdlc-v3/local/issues\""
+        },
+        {
+          "line": 872,
+          "source": "        relocation_source = relocation_common / \"csdlc-v3/local/issues\" / str(item[\"issue\"])"
+        },
+        {
+          "line": 873,
+          "source": "        relocation_semantic = relocation_common / \"csdlc-v3/semantic/issues\" / str(item[\"issue\"]) / \"current.json\""
+        },
+        {
+          "line": 874,
+          "source": "        relocation_projection = relocation_common / \"csdlc-v3/local/projections\" / str(item[\"issue\"]) / \"state.json\""
+        },
+        {
+          "line": 877,
+          "source": "            Path(item[\"source\"]) / \"git-common/csdlc-v3/semantic/issues\" / str(item[\"issue\"]),"
+        },
+        {
+          "line": 909,
+          "source": "        local_generated = (common / \"csdlc-v3/local/issues\" / str(item[\"issue\"])"
+        },
+        {
+          "line": 912,
+          "source": "        copy_tree_source = common / \"csdlc-v3/semantic/issues\" / str(item[\"issue\"])"
+        },
+        {
+          "line": 913,
+          "source": "        projection_generated = common / \"csdlc-v3/local/projections\" / str(item[\"issue\"])"
+        },
+        {
+          "line": 917,
+          "source": "            generated / \"git-common/csdlc-v3/semantic/issues\" / str(item[\"issue\"]),"
+        }
+      ],
+      "required_cutover": "Inspect matched executable/config use; route active producer operations to successor, preserve retained transition fixtures, or retire complete caller and its tests with explicit rationale.",
+      "status": "not_implemented"
+    },
+    {
+      "path": "adl/tools/run_owner_validation_lane.sh",
+      "references": [
+        {
+          "line": 98,
+          "source": "    cargo test --locked --manifest-path csdlc-v2/Cargo.toml --test gate10a"
+        }
+      ],
+      "required_cutover": "Reclassify C-SDLC producer validation to successor; keep ADL consumer and public package validation. Repair selection and tests together.",
+      "status": "not_implemented"
+    },
+    {
+      "path": "adl/tools/test_build_v0916_workflow_metric_backfill_inventory.py",
+      "references": [
+        {
+          "line": 101,
+          "source": "                (common_git_dir / \"csdlc-v2/requests\").glob("
+        }
+      ],
+      "required_cutover": "Inspect matched executable/config use; route active producer operations to successor, preserve retained transition fixtures, or retire complete caller and its tests with explicit rationale.",
+      "status": "not_implemented"
+    },
+    {
+      "path": "adl/tools/test_card_editor_repair_examples.sh",
+      "references": [
+        {
+          "line": 14,
+          "source": "cargo test --quiet --locked --manifest-path csdlc-v2/Cargo.toml --test gate2 \\"
+        },
+        {
+          "line": 20,
+          "source": "cargo test --quiet --locked --manifest-path csdlc-v2/Cargo.toml --test gate2 \\"
+        }
+      ],
+      "required_cutover": "Inspect matched executable/config use; route active producer operations to successor, preserve retained transition fixtures, or retire complete caller and its tests with explicit rationale.",
+      "status": "not_implemented"
+    },
+    {
+      "path": "adl/tools/test_card_prompt.sh",
+      "references": [
+        {
+          "line": 12,
+          "source": "cargo run --quiet --locked --manifest-path csdlc-v2/Cargo.toml --bin csdlc-edit -- --help >/dev/null"
+        },
+        {
+          "line": 14,
+          "source": "rg -q 'csdlc-edit' csdlc-v2/operator/skills/csdlc-v2-card-editor/SKILL.md"
+        }
+      ],
+      "required_cutover": "Inspect matched executable/config use; route active producer operations to successor, preserve retained transition fixtures, or retire complete caller and its tests with explicit rationale.",
+      "status": "not_implemented"
+    },
+    {
+      "path": "adl/tools/test_ci_path_policy.sh",
+      "references": [
+        {
+          "line": 107,
+          "source": "  assert_file_has \"$workflow\" 'cargo test --locked --manifest-path csdlc-v3/Cargo.toml'"
+        },
+        {
+          "line": 108,
+          "source": "  assert_file_has \"$workflow\" 'cargo clippy --locked --manifest-path csdlc-v3/Cargo.toml --all-targets -- -D warnings'"
+        },
+        {
+          "line": 122,
+          "source": "  assert_file_has \"$workflow\" 'path: .git/csdlc-v3/local/public-adl-proof/1192/'"
+        },
+        {
+          "line": 463,
+          "source": "  mkdir -p csdlc-v2/tests"
+        },
+        {
+          "line": 464,
+          "source": "  printf '#[test]\\nfn gate7_contract() {}\\n' > csdlc-v2/tests/gate7_lifecycle.rs"
+        },
+        {
+          "line": 465,
+          "source": "  git add csdlc-v2/tests/gate7_lifecycle.rs"
+        },
+        {
+          "line": 477,
+          "source": "  mkdir -p csdlc-v3/src"
+        },
+        {
+          "line": 478,
+          "source": "  printf 'pub fn v3() {}\\n' > csdlc-v3/src/lib.rs"
+        },
+        {
+          "line": 479,
+          "source": "  git add csdlc-v3/src/lib.rs"
+        },
+        {
+          "line": 508,
+          "source": "  mkdir -p csdlc-v2/operator/skills/example"
+        },
+        {
+          "line": 509,
+          "source": "  printf 'contract\\n' > csdlc-v2/operator/skills/example/SKILL.md"
+        },
+        {
+          "line": 510,
+          "source": "  git add csdlc-v2/operator/skills/example/SKILL.md"
+        },
+        {
+          "line": 529,
+          "source": "  mkdir -p adl-runtime-kernel/src csdlc-v2/operator/skills/example"
+        },
+        {
+          "line": 531,
+          "source": "  printf 'contract\\n' > csdlc-v2/operator/skills/example/SKILL.md"
+        },
+        {
+          "line": 532,
+          "source": "  git add adl-runtime-kernel/src/governed_operations.rs csdlc-v2/operator/skills/example/SKILL.md"
+        },
+        {
+          "line": 1119,
+          "source": "  mkdir -p csdlc-v2/src/bin"
+        },
+        {
+          "line": 1120,
+          "source": "  printf 'fn publish_request_is_typed() {}\\n' > csdlc-v2/src/bin/csdlc-publish.rs"
+        },
+        {
+          "line": 1121,
+          "source": "  printf 'fn closeout_request_is_typed() {}\\n' > csdlc-v2/src/bin/csdlc-closeout.rs"
+        },
+        {
+          "line": 1122,
+          "source": "  git add csdlc-v2/src/bin/csdlc-publish.rs csdlc-v2/src/bin/csdlc-closeout.rs"
+        },
+        {
+          "line": 1138,
+          "source": "  mkdir -p adl/src/bin adl/src/runtime_v2 csdlc-v2/src/bin"
+        },
+        {
+          "line": 1145,
+          "source": "  printf 'fn closeout_request_is_typed() {}\\n' > csdlc-v2/src/bin/csdlc-closeout.rs"
+        },
+        {
+          "line": 1152,
+          "source": "    csdlc-v2/src/bin/csdlc-closeout.rs"
+        },
+        {
+          "line": 1173,
+          "source": "  mkdir -p csdlc-v2/src/bin csdlc-v2/tests \\"
+        },
+        {
+          "line": 1176,
+          "source": "  printf 'fn doctor_is_typed() {}\\n' > csdlc-v2/src/bin/csdlc-doctor.rs"
+        },
+        {
+          "line": 1177,
+          "source": "  printf 'fn closeout_is_typed() {}\\n' > csdlc-v2/src/bin/csdlc-closeout.rs"
+        },
+        {
+          "line": 1178,
+          "source": "  printf 'fn edit_is_typed() {}\\n' > csdlc-v2/src/bin/csdlc-edit.rs"
+        },
+        {
+          "line": 1179,
+          "source": "  printf 'fn validate_is_typed() {}\\n' > csdlc-v2/src/bin/csdlc-validate.rs"
+        },
+        {
+          "line": 1180,
+          "source": "  printf 'pub fn semantic_edit() {}\\n' > csdlc-v2/src/edit.rs"
+        },
+        {
+          "line": 1181,
+          "source": "  printf 'pub fn markdown_ast() {}\\n' > csdlc-v2/src/markdown.rs"
+        },
+        {
+          "line": 1182,
+          "source": "  printf '#[test]\\nfn terminal_review_status_is_typed() {}\\n' > csdlc-v2/tests/gate7_lifecycle.rs"
+        },
+        {
+          "line": 1185,
+          "source": "  git add csdlc-v2/src/bin/csdlc-doctor.rs \\"
+        },
+        {
+          "line": 1186,
+          "source": "    csdlc-v2/src/bin/csdlc-closeout.rs \\"
+        },
+        {
+          "line": 1187,
+          "source": "    csdlc-v2/src/bin/csdlc-edit.rs \\"
+        },
+        {
+          "line": 1188,
+          "source": "    csdlc-v2/src/bin/csdlc-validate.rs \\"
+        },
+        {
+          "line": 1189,
+          "source": "    csdlc-v2/src/edit.rs \\"
+        },
+        {
+          "line": 1190,
+          "source": "    csdlc-v2/src/markdown.rs \\"
+        },
+        {
+          "line": 1191,
+          "source": "    csdlc-v2/tests/gate7_lifecycle.rs \\"
+        },
+        {
+          "line": 2012,
+          "source": "    csdlc-v2/src \\"
+        },
+        {
+          "line": 2013,
+          "source": "    csdlc-v2/tests \\"
+        },
+        {
+          "line": 2033,
+          "source": "  printf 'pub fn review() {}\\n' > csdlc-v2/src/review.rs"
+        },
+        {
+          "line": 2034,
+          "source": "  printf '#[test]\\nfn gate4() {}\\n' > csdlc-v2/tests/gate4.rs"
+        },
+        {
+          "line": 2045,
+          "source": "    csdlc-v2/src/review.rs \\"
+        },
+        {
+          "line": 2046,
+          "source": "    csdlc-v2/tests/gate4.rs \\"
+        },
+        {
+          "line": 2069,
+          "source": "  mkdir -p adl/config adl/src/cli adl/tools csdlc-v2/src/bin csdlc-v2/tests docs/milestones/v0.91.7/review/runtime/wp08_cloudfront_4915 docs/tooling"
+        },
+        {
+          "line": 2074,
+          "source": "  cat > csdlc-v2/src/bin/csdlc-closeout.rs <<'EOF'"
+        },
+        {
+          "line": 2077,
+          "source": "  cat > csdlc-v2/src/cards.rs <<'EOF'"
+        },
+        {
+          "line": 2080,
+          "source": "  cat > csdlc-v2/tests/gate7_lifecycle.rs <<'EOF'"
+        },
+        {
+          "line": 2148,
+          "source": "    csdlc-v2/src/bin/csdlc-closeout.rs \\"
+        },
+        {
+          "line": 2149,
+          "source": "    csdlc-v2/src/cards.rs \\"
+        },
+        {
+          "line": 2150,
+          "source": "    csdlc-v2/tests/gate7_lifecycle.rs \\"
+        }
+      ],
+      "required_cutover": "Inspect matched executable/config use; route active producer operations to successor, preserve retained transition fixtures, or retire complete caller and its tests with explicit rationale.",
+      "status": "not_implemented"
+    },
+    {
+      "path": "adl/tools/test_cli_wrapper_migration_contract.sh",
+      "references": [
+        {
+          "line": 17,
+          "source": "cargo run --quiet --locked --manifest-path \"$ROOT_DIR/csdlc-v2/Cargo.toml\" --bin csdlc-install -- --help >/dev/null"
+        },
+        {
+          "line": 18,
+          "source": "cargo run --quiet --locked --manifest-path \"$ROOT_DIR/csdlc-v2/Cargo.toml\" --bin csdlc-bind -- --help >/dev/null"
+        }
+      ],
+      "required_cutover": "Inspect matched executable/config use; route active producer operations to successor, preserve retained transition fixtures, or retire complete caller and its tests with explicit rationale.",
+      "status": "not_implemented"
+    },
+    {
+      "path": "adl/tools/test_completed_output_validation.sh",
+      "references": [
+        {
+          "line": 9,
+          "source": "cargo run --quiet --locked --manifest-path \"$ROOT/csdlc-v2/Cargo.toml\" --bin csdlc-validate -- --help >/dev/null"
+        }
+      ],
+      "required_cutover": "Reclassify C-SDLC producer validation to successor; keep ADL consumer and public package validation. Repair selection and tests together.",
+      "status": "not_implemented"
+    },
+    {
+      "path": "adl/tools/test_csdlc_prompt_editor.sh",
+      "references": [
+        {
+          "line": 17,
+          "source": "cargo run --quiet --locked --manifest-path \"$ROOT/csdlc-v2/Cargo.toml\" --bin csdlc-edit -- --help >/dev/null"
+        }
+      ],
+      "required_cutover": "Inspect matched executable/config use; route active producer operations to successor, preserve retained transition fixtures, or retire complete caller and its tests with explicit rationale.",
+      "status": "not_implemented"
+    },
+    {
+      "path": "adl/tools/test_owner_binary_install.sh",
+      "references": [
+        {
+          "line": 387,
+          "source": "mkdir -p \"$repo/docs/csdlc-v3/man\""
+        },
+        {
+          "line": 388,
+          "source": "cp -R \"$ROOT_DIR/docs/csdlc-v3/man/man1\" \"$repo/docs/csdlc-v3/man/\""
+        },
+        {
+          "line": 389,
+          "source": "mkdir -p \"$repo/csdlc-v3/src\""
+        },
+        {
+          "line": 390,
+          "source": "printf '[package]\\nname = \"csdlc-v3\"\\nversion = \"0.1.0\"\\n' >\"$repo/csdlc-v3/Cargo.toml\""
+        },
+        {
+          "line": 391,
+          "source": "printf '# native fixture lock\\n' >\"$repo/csdlc-v3/Cargo.lock\""
+        },
+        {
+          "line": 392,
+          "source": "printf 'fn main() {}\\n' >\"$repo/csdlc-v3/src/main.rs\""
+        },
+        {
+          "line": 404,
+          "source": "printf '// changed native input\\n' >>\"$repo/csdlc-v3/src/main.rs\""
+        }
+      ],
+      "required_cutover": "Inspect matched executable/config use; route active producer operations to successor, preserve retained transition fixtures, or retire complete caller and its tests with explicit rationale.",
+      "status": "not_implemented"
+    },
+    {
+      "path": "adl/tools/test_prompt_spec_lint.sh",
+      "references": [
+        {
+          "line": 12,
+          "source": "cargo run --quiet --locked --manifest-path csdlc-v2/Cargo.toml --bin csdlc-validate -- --help >/dev/null"
+        },
+        {
+          "line": 13,
+          "source": "rg -q 'csdlc-validate' csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md"
+        }
+      ],
+      "required_cutover": "Inspect matched executable/config use; route active producer operations to successor, preserve retained transition fixtures, or retire complete caller and its tests with explicit rationale.",
+      "status": "not_implemented"
+    },
+    {
+      "path": "adl/tools/test_review_card_surface.sh",
+      "references": [
+        {
+          "line": 9,
+          "source": "cargo run --quiet --locked --manifest-path \"$ROOT/csdlc-v2/Cargo.toml\" --bin csdlc-review -- --help >/dev/null"
+        }
+      ],
+      "required_cutover": "Inspect matched executable/config use; route active producer operations to successor, preserve retained transition fixtures, or retire complete caller and its tests with explicit rationale.",
+      "status": "not_implemented"
+    },
+    {
+      "path": "adl/tools/test_run_cargo_validation.sh",
+      "references": [
+        {
+          "line": 48,
+          "source": "ADL_CARGO_BUILD_ROOT=\"$explicit\" bash \"$WRAPPER\" \"$fake\" --manifest-path csdlc-v2/Cargo.toml >/dev/null"
+        },
+        {
+          "line": 49,
+          "source": "[[ ! -e \"$ROOT_DIR/csdlc-v2/target\" ]]"
+        },
+        {
+          "line": 50,
+          "source": "[[ ! -L \"$ROOT_DIR/csdlc-v2/target\" ]]"
+        }
+      ],
+      "required_cutover": "Reclassify C-SDLC producer validation to successor; keep ADL consumer and public package validation. Repair selection and tests together.",
+      "status": "not_implemented"
+    },
+    {
+      "path": "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
+      "references": [
+        {
+          "line": 41,
+          "source": "! grep -q 'git-common-dir\\|csdlc-v2/issue345' \"$RUNNER\" || fail \"runner still uses Git common state\""
+        }
+      ],
+      "required_cutover": "Inspect matched executable/config use; route active producer operations to successor, preserve retained transition fixtures, or retire complete caller and its tests with explicit rationale.",
+      "status": "not_implemented"
+    },
+    {
+      "path": "adl/tools/test_select_validation_lanes.sh",
+      "references": [
+        {
+          "line": 99,
+          "source": "printf 'M\\tcsdlc-v2/tests/gate7_lifecycle.rs\\n' >\"$csdlc_v2\""
+        }
+      ],
+      "required_cutover": "Reclassify C-SDLC producer validation to successor; keep ADL consumer and public package validation. Repair selection and tests together.",
+      "status": "not_implemented"
+    },
+    {
+      "path": "adl/tools/test_structured_prompt_validation.sh",
+      "references": [
+        {
+          "line": 17,
+          "source": "cargo test --quiet --locked --manifest-path csdlc-v2/Cargo.toml --test gate2 \\"
+        },
+        {
+          "line": 19,
+          "source": "cargo test --quiet --locked --manifest-path csdlc-v2/Cargo.toml --test gate2 \\"
+        },
+        {
+          "line": 24,
+          "source": "cargo test --quiet --locked --manifest-path csdlc-v2/Cargo.toml --test gate4 \\"
+        },
+        {
+          "line": 26,
+          "source": "cargo test --quiet --locked --manifest-path csdlc-v2/Cargo.toml --test gate4 \\"
+        },
+        {
+          "line": 31,
+          "source": "rg -q 'csdlc-validate' csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md"
+        }
+      ],
+      "required_cutover": "Reclassify C-SDLC producer validation to successor; keep ADL consumer and public package validation. Repair selection and tests together.",
+      "status": "not_implemented"
+    },
+    {
+      "path": "adl/tools/test_validation_manager.sh",
+      "references": [
+        {
+          "line": 635,
+          "source": "M\tcsdlc-v2/src/github.rs"
+        },
+        {
+          "line": 636,
+          "source": "M\tcsdlc-v2/tests/gate_github_actions.rs"
+        },
+        {
+          "line": 664,
+          "source": "    \"csdlc-v2/src/github.rs\","
+        },
+        {
+          "line": 665,
+          "source": "    \"csdlc-v2/tests/gate_github_actions.rs\","
+        },
+        {
+          "line": 673,
+          "source": "M\tcsdlc-v2/src/github.rs"
+        },
+        {
+          "line": 674,
+          "source": "M\tcsdlc-v2/tests/gate_github_actions.rs"
+        }
+      ],
+      "required_cutover": "Reclassify C-SDLC producer validation to successor; keep ADL consumer and public package validation. Repair selection and tests together.",
+      "status": "not_implemented"
+    },
+    {
+      "path": "adl/tools/test_workflow_guardrails.sh",
+      "references": [
+        {
+          "line": 97,
+          "source": "  cat >\"$repo/.adl/bin/csdlc-v2/csdlc-install\" <<EOF"
+        },
+        {
+          "line": 103,
+          "source": "  cat >\"$repo/.adl/bin/csdlc-v2/csdlc-doctor\" <<EOF"
+        },
+        {
+          "line": 109,
+          "source": "  chmod +x \"$repo/.adl/bin/csdlc-v2/csdlc-install\" \"$repo/.adl/bin/csdlc-v2/csdlc-doctor\""
+        }
+      ],
+      "required_cutover": "Inspect matched executable/config use; route active producer operations to successor, preserve retained transition fixtures, or retire complete caller and its tests with explicit rationale.",
+      "status": "not_implemented"
+    },
+    {
+      "path": "adl/tools/test_xcl_terraform_provider_major_bounds.sh",
+      "references": [
+        {
+          "line": 102,
+          "source": "  local scratch=\"$git_common_dir/csdlc-v3/test-artifacts/765-provider-major-bounds/self-test-$$\""
+        }
+      ],
+      "required_cutover": "Inspect matched executable/config use; route active producer operations to successor, preserve retained transition fixtures, or retire complete caller and its tests with explicit rationale.",
+      "status": "not_implemented"
+    },
+    {
+      "path": "adl/tools/validate_csdlc_v2_supply_chain.sh",
+      "references": [
+        {
+          "line": 43,
+          "source": "        \"path\": \"csdlc-v2/Cargo.lock\","
+        }
+      ],
+      "required_cutover": "Inspect matched executable/config use; route active producer operations to successor, preserve retained transition fixtures, or retire complete caller and its tests with explicit rationale.",
+      "status": "not_implemented"
+    },
+    {
+      "path": "adl/tools/validate_issue872_generation9_fixture.py",
+      "references": [
+        {
+          "line": 206,
+          "source": "    if \"/.csdlc/\" in text or \"/.git/csdlc-v3/local/\" in text or \"/.adl/bin/\" in text:"
+        }
+      ],
+      "required_cutover": "Inspect matched executable/config use; route active producer operations to successor, preserve retained transition fixtures, or retire complete caller and its tests with explicit rationale.",
+      "status": "not_implemented"
+    },
+    {
+      "path": "adl/tools/validate_v0913_quality_gate_review_surfaces.py",
+      "references": [
+        {
+          "line": 25,
+          "source": "        \"Card Lifecycle Integration\": \".adl/bin/csdlc-v2/csdlc-doctor --repo . --issue 3201\","
+        }
+      ],
+      "required_cutover": "Inspect matched executable/config use; route active producer operations to successor, preserve retained transition fixtures, or retire complete caller and its tests with explicit rationale.",
+      "status": "not_implemented"
+    },
+    {
+      "path": "adl/tools/validate_v0922_runtime_qualification.py",
+      "references": [
+        {
+          "line": 397,
+          "source": "    protected_root = protected_root or repository_root / \".git/csdlc-v3/local\""
+        }
+      ],
+      "required_cutover": "Inspect matched executable/config use; route active producer operations to successor, preserve retained transition fixtures, or retire complete caller and its tests with explicit rationale.",
+      "status": "not_implemented"
+    },
+    {
+      "path": "adl/tools/workflow_guardrails.sh",
+      "references": [
+        {
+          "line": 147,
+          "source": "  local install=\"${repo_root}/.adl/bin/csdlc-v2/csdlc-install\""
+        },
+        {
+          "line": 148,
+          "source": "  local doctor=\"${repo_root}/.adl/bin/csdlc-v2/csdlc-doctor\""
+        }
+      ],
+      "required_cutover": "Inspect matched executable/config use; route active producer operations to successor, preserve retained transition fixtures, or retire complete caller and its tests with explicit rationale.",
+      "status": "not_implemented"
+    },
+    {
+      "path": "tools/public_adl/test_ci_contract.py",
+      "references": [
+        {
+          "line": 55,
+          "source": "    assert \"path: .git/csdlc-v3/local/public-adl-proof/1192/\" in job"
+        }
+      ],
+      "required_cutover": "Inspect matched executable/config use; route active producer operations to successor, preserve retained transition fixtures, or retire complete caller and its tests with explicit rationale.",
+      "status": "not_implemented"
+    }
+  ]
+}

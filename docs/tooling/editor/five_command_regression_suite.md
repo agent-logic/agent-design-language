@@ -1,51 +1,21 @@
-# Five-Command Regression Suite
+# Historical Five-Command Regression Suite
 
-This is the canonical regression entrypoint for the historical five-command editing lifecycle.
+The shell five-command aggregate and its historical closeout, demo-refusal,
+and `adl_pr_cycle` installer companions were retired by #1223. They are not
+current execution entrypoints. Native C-SDLC v3 is the post-V3-F authority;
+see [current authority](../../csdlc-v3/CURRENT_AUTHORITY.md).
 
-Issue #505 / V3-F is the pending tooling changeover decision. Until that
-operator-reviewed cutover is approved, merged, and terminally reconciled,
-C-SDLC v2 remains the live lifecycle authority. This suite is retained
-historical evidence, not live routing guidance.
+The exact aggregate, child assertions and prior documentation remain in Git
+and the #1223 retirement custody archive. Their historical v2 routing and
+mocked `pr.sh` behavior are not native-v3 acceptance evidence.
 
-Run:
+Surviving child tests keep independent dispositions. In particular, operational
+skill installation still requires an explicitly selected authentic complete
+historical source layout. Card/schema and wrapper-absence guards remain local
+public contracts; retiring the aggregate does not retire those assertions or
+claim that their original legacy lifecycle behavior transferred.
 
-- `bash adl/tools/test_five_command_regression_suite.sh`
-
-## What It Covers
-
-The suite preserves historical regression evidence for the retired
-five-command authoring surface. It is not live lifecycle routing guidance;
-C-SDLC v2 remains live authority until explicit V3-F/#505 cutover.
-
-1. `pr init`
-2. `pr start`
-3. `pr run`
-4. `pr finish`
-
-It also verifies:
-
-- the installed `adl_pr_cycle` skill remains historical-only and matches the
-  tracked blocking contract
-- the legacy browser/editor adapter remains bounded to `pr start` compatibility
-- the current editor docs do not overclaim direct browser execution for lifecycle commands
-- the bounded demo still emits the expected lifecycle artifacts
-
-## Suite Components
-
-- `adl/tools/test_pr_init.sh`
-- `adl/tools/test_pr_create.sh`
-- `adl/tools/test_pr_start_template_validation.sh`
-- `adl/tools/test_install_adl_pr_cycle_skill.sh`
-- `adl/tools/test_pr_run.sh`
-- `adl/tools/test_pr_finish_default_stage_root.sh`
-- `adl/tools/test_pr_finish_relative_card_paths.sh`
-- `adl/tools/test_editor_action.sh`
-- `adl/tools/test_demo_five_command_editing.sh`
-- `adl/tools/test_five_command_editor_truth.sh`
-
-## Why This Is The Proof Surface
-
-This suite is the deterministic historical guardrail for the five-command
-editing story retained in the repo.
-
-It does not invent a second lifecycle. Instead, it reuses the real command tests, the bounded demo, and the editor truth contract checks so drift in commands, artifacts, or browser claims fails in one place.
+The process-drift aggregate is also retired: its four structured-prompt Rust
+filters belong to deleted historical producers. Its sprint-conductor child
+retains its independent original assertions and qualification obligation.
+Neither aggregate retirement counts as a passing test run.

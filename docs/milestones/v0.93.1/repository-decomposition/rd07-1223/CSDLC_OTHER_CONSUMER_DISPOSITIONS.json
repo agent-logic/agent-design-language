@@ -1,0 +1,928 @@
+{
+  "schema": "adl1223.csdlc_other_consumer_disposition_proposal.v1",
+  "head": "68d2f7afa39d3b3acf19023836704296e8742970",
+  "original_inventory_count": 4134,
+  "scope_rows": 51,
+  "method": "Read relevant contributor/config/registry/schema/template documents, parent demo README/proof packets and static JS behavior; bounded tracked full-path references exclude lifecycle/milestone/review archives. No tests or modifications. Family retention is unchanged-history scope, not execution qualification.",
+  "expected_retention_rows": 49,
+  "consumer_repair_rows": 2,
+  "rows": [
+    {
+      "id": "RD07-0323",
+      "path": "adl/.gitignore",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "12cf0289e32c2521ab6c30dea173f5b5f95bc931"
+      },
+      "proposed_disposition": "retain_public_build_hygiene",
+      "reason": "Remaining public ADL Cargo package still needs target and coverage ignore rules; not a C-SDLC implementation.",
+      "source_evidence": [
+        "File contains /target and local coverage artifact patterns; adl/Cargo.toml remains public CLI manifest."
+      ],
+      "bounded_literal_callers": [],
+      "remaining_repairs": [],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-0324",
+      "path": "adl/CONTRIBUTING.md",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "6d4b847a46c21bf385e1eba845ccafae2cad6522"
+      },
+      "proposed_disposition": "repair_public_contributor_navigation",
+      "reason": "Document calls public ADL package the reference Runtime; update framing to public CLI/package and link separate Runtime owner without changing policy.",
+      "source_evidence": [
+        "adl/CONTRIBUTING.md:1-5,25-31 still reference Runtime; remaining adl/Cargo.toml is public CLI."
+      ],
+      "bounded_literal_callers": [
+        "HEAD:adl/tools/skills/repo-packet-builder/tests/fixtures/issue-520-changed-paths.txt:4051:adl/CONTRIBUTING.md"
+      ],
+      "remaining_repairs": [
+        "Review exact documentation edit with final consumer delta; preserve root contribution links and deterministic language expectations."
+      ],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-0327",
+      "path": "adl/config/slow_proof_families.v0.91.6.json",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "8e0e864bc5eb93baa4d90b5922e47b342388d2a8"
+      },
+      "proposed_disposition": "transfer_runtime_validation_selectors_with_callers",
+      "reason": "All four families select Runtime private module proofs; live ADL validation_inventory/manager/selector references must be removed or rerouted coherently before transfer.",
+      "source_evidence": [
+        "JSON families runtime/private_state/observatory/security select runtime_v2 modules.",
+        ".github/workflows/ci.yaml:1271-1319 selects adl-slow-proof only for workflow_dispatch, four manual shards, run_slow_proof_family all. Not ordinary PR automatic acceptance.",
+        "Runtime315 adl/Cargo.toml:40-48 retains all four slow-proof family feature names, but original selector config and runner are absent.",
+        "Runtime current private-package workflow:177-178 explicitly runs selected runtime/security tests; does not demonstrate all four-family manual transfer."
+      ],
+      "bounded_literal_callers": [
+        "HEAD:adl/config/validation_lane_selector.v0.91.6.json:1720:        \"adl/config/slow_proof_families.v0.91.6.json\",",
+        "HEAD:adl/config/validation_lane_selector.v0.91.6.json:1727:        \"adl/config/slow_proof_families.v0.91.6.json\",",
+        "HEAD:adl/tools/select_validation_lanes.py:317:                \"adl/config/slow_proof_families.v0.91.6.json\",",
+        "HEAD:adl/tools/test_validation_manager.sh:529:M\tadl/config/slow_proof_families.v0.91.6.json",
+        "HEAD:adl/tools/validation_inventory.py:21:SLOW_PROOF_FAMILIES = ROOT / \"adl/config/slow_proof_families.v0.91.6.json\"",
+        "HEAD:adl/tools/validation_inventory.py:34:    \"adl/config/slow_proof_families.v0.91.6.json\",",
+        "HEAD:adl/tools/validation_inventory.py:259:        \"adl/config/slow_proof_families.v0.91.6.json\",",
+        "HEAD:adl/tools/validation_manager.py:22:SLOW_PROOF_FAMILIES = ROOT / \"adl/config/slow_proof_families.v0.91.6.json\"",
+        "HEAD:adl/tools/validation_manager.py:328:        \"adl/config/slow_proof_families.v0.91.6.json\",",
+        "HEAD:adl/tools/validation_manager.py:355:    slow_config = (ROOT / \"adl/config/slow_proof_families.v0.91.6.json\").read_text()"
+      ],
+      "remaining_repairs": [
+        "Preserve explicit manual four-family feature/selector/runner obligation in Runtime; reuse current owner workflow or documented manual route rather than adding ordinary PR gate. Repair/remove ADL validation_inventory.py, validation_manager.py, selector and tests coherently during final CI cutover."
+      ],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-0394",
+      "path": "adl/schemas/structured_implementation_prompt.contract.yaml",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "0444e69ab01700c9e2e8ebd0afa448acc71f9de3"
+      },
+      "proposed_disposition": "retain_template_compatibility_history",
+      "reason": "Retain unchanged compatibility contracts/fallbacks and historical card provenance; no activation of v1 or v2 commands.",
+      "source_evidence": [
+        "docs/templates/prompts/current.json:53-56 explicitly retains input/output compatibility paths.",
+        "docs/templates/CARD_LIFECYCLE_TEMPLATE_TARGETS.md records schema/template compatibility provenance."
+      ],
+      "bounded_literal_callers": [
+        "HEAD:docs/templates/CARD_LIFECYCLE_TEMPLATE_TARGETS.md:38:- `adl/schemas/structured_implementation_prompt.contract.yaml`",
+        "HEAD:docs/templates/CARD_LIFECYCLE_TEMPLATE_TARGETS.md:91:  `adl/schemas/structured_implementation_prompt.contract.yaml`",
+        "HEAD:docs/tooling/structured-prompt-contracts.md:38:- `adl/schemas/structured_implementation_prompt.contract.yaml`"
+      ],
+      "remaining_repairs": [],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-0395",
+      "path": "adl/schemas/structured_output_record.contract.yaml",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "8d5387c3ecda7bbf6c8d1534c8483a913d37a310"
+      },
+      "proposed_disposition": "retain_template_compatibility_history",
+      "reason": "Retain unchanged compatibility contracts/fallbacks and historical card provenance; no activation of v1 or v2 commands.",
+      "source_evidence": [
+        "docs/templates/prompts/current.json:53-56 explicitly retains input/output compatibility paths.",
+        "docs/templates/CARD_LIFECYCLE_TEMPLATE_TARGETS.md records schema/template compatibility provenance."
+      ],
+      "bounded_literal_callers": [
+        "HEAD:docs/templates/CARD_LIFECYCLE_TEMPLATE_TARGETS.md:39:- `adl/schemas/structured_output_record.contract.yaml`",
+        "HEAD:docs/templates/CARD_LIFECYCLE_TEMPLATE_TARGETS.md:207:- current schema filename: `adl/schemas/structured_output_record.contract.yaml`",
+        "HEAD:docs/tooling/structured-prompt-contracts.md:39:- `adl/schemas/structured_output_record.contract.yaml`"
+      ],
+      "remaining_repairs": [],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-0396",
+      "path": "adl/schemas/structured_task_prompt.contract.yaml",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "a8406c95ff7c7312f8ef2197f1a1201dca49d818"
+      },
+      "proposed_disposition": "retain_template_compatibility_history",
+      "reason": "Retain unchanged compatibility contracts/fallbacks and historical card provenance; no activation of v1 or v2 commands.",
+      "source_evidence": [
+        "docs/templates/prompts/current.json:53-56 explicitly retains input/output compatibility paths.",
+        "docs/templates/CARD_LIFECYCLE_TEMPLATE_TARGETS.md records schema/template compatibility provenance."
+      ],
+      "bounded_literal_callers": [
+        "HEAD:docs/templates/CARD_LIFECYCLE_TEMPLATE_TARGETS.md:109:- current schema filename: `adl/schemas/structured_task_prompt.contract.yaml`",
+        "HEAD:docs/tooling/structured-prompt-contracts.md:37:- `adl/schemas/structured_task_prompt.contract.yaml`"
+      ],
+      "remaining_repairs": [],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-0956",
+      "path": "adl/templates/cards/input_card_template.md",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "65cd9099241a79fd92ce38525e49b0657cc1c7d8"
+      },
+      "proposed_disposition": "retain_template_compatibility_history",
+      "reason": "Retain unchanged compatibility contracts/fallbacks and historical card provenance; no activation of v1 or v2 commands.",
+      "source_evidence": [
+        "docs/templates/prompts/current.json:53-56 explicitly retains input/output compatibility paths.",
+        "docs/templates/CARD_LIFECYCLE_TEMPLATE_TARGETS.md records schema/template compatibility provenance."
+      ],
+      "bounded_literal_callers": [
+        "HEAD:docs/planning/PR_CONTROL_PLANE_DECRUFT_COMPATIBILITY_CUT_PLAN.md:97:- stale references that make `adl/templates/cards/input_card_template.md` or",
+        "HEAD:docs/templates/CARD_LIFECYCLE_TEMPLATE_TARGETS.md:36:- `adl/templates/cards/input_card_template.md`",
+        "HEAD:docs/templates/CARD_LIFECYCLE_TEMPLATE_TARGETS.md:89:- compatibility generator template: `adl/templates/cards/input_card_template.md`",
+        "HEAD:docs/templates/prompts/current.json:54:    \"sip\": [\"adl/templates/cards/input_card_template.md\", \".adl/templates/input_card_template.md\"],"
+      ],
+      "remaining_repairs": [],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-0957",
+      "path": "adl/templates/cards/output_card_template.md",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "4b88249cce0cafd5e99f2cf91c2396dad16be2c5"
+      },
+      "proposed_disposition": "retain_template_compatibility_history",
+      "reason": "Retain unchanged compatibility contracts/fallbacks and historical card provenance; no activation of v1 or v2 commands.",
+      "source_evidence": [
+        "docs/templates/prompts/current.json:53-56 explicitly retains input/output compatibility paths.",
+        "docs/templates/CARD_LIFECYCLE_TEMPLATE_TARGETS.md records schema/template compatibility provenance."
+      ],
+      "bounded_literal_callers": [
+        "HEAD:adl/templates/cards/output_card_template.md:4:Compatibility fallback: `adl/templates/cards/output_card_template.md`",
+        "HEAD:docs/planning/PR_CONTROL_PLANE_DECRUFT_COMPATIBILITY_CUT_PLAN.md:98:  `adl/templates/cards/output_card_template.md` sound canonical.",
+        "HEAD:docs/records/v0.87.1/legacy-issue-records/v0.87.1/tasks/issue-1589__v0-87-1-skills-normalize-repo-code-review-skill-input-schema-and-docs/sor.md:3:Canonical Template Source: `adl/templates/cards/output_card_template.md`",
+        "HEAD:docs/records/v0.87.1/legacy-issue-records/v0.87.1/tasks/issue-1592__v0-87-1-tools-make-pr-finish-stage-canonical-ignored-adl-issue-bundles-during-publication/sor.md:3:Canonical Template Source: `adl/templates/cards/output_card_template.md`",
+        "HEAD:docs/records/v0.87.1/legacy-issue-records/v0.87.1/tasks/issue-1593__v0-87-1-tools-make-allow-gitignore-truthful-for-pr-finish-publication/sor.md:3:Canonical Template Source: `adl/templates/cards/output_card_template.md`",
+        "HEAD:docs/records/v0.87.1/legacy-issue-records/v0.87.1/tasks/issue-1594__v0-87-1-skills-enforce-repo-code-review-contract-checks-in-ci-and-batched-checks/sor.md:3:Canonical Template Source: `adl/templates/cards/output_card_template.md`",
+        "HEAD:docs/records/v0.87.1/legacy-issue-records/v0.87.1/tasks/issue-1595__v0-87-1-tools-auto-attach-pr-janitor-on-pr-open/sor.md:3:Canonical Template Source: `adl/templates/cards/output_card_template.md`",
+        "HEAD:docs/records/v0.87.1/legacy-issue-records/v0.87.1/tasks/issue-1596__v0-87-1-tools-make-closeout-automatic-after-merge-closure/sor.md:3:Canonical Template Source: `adl/templates/cards/output_card_template.md`",
+        "HEAD:docs/records/v0.87.1/legacy-issue-records/v0.87.1/tasks/issue-1597__tools-add-milestone-doc-drift-checks-to-pr-finish/sor.md:3:Canonical Template Source: `adl/templates/cards/output_card_template.md`",
+        "HEAD:docs/records/v0.87.1/legacy-issue-records/v0.87.1/tasks/issue-1607__v0-87-1-tools-enforce-github-issue-metadata-parity-with-canonical-adl-v0-87-1-issue-prompts/sor.md:3:Canonical Template Source: `adl/templates/cards/output_card_template.md`",
+        "HEAD:docs/records/v0.87.1/legacy-issue-records/v0.87.1/tasks/issue-1634__hide-compromised-issues-1609-1626-and-preserve-only-approved-survivors/sor.md:3:Canonical Template Source: `adl/templates/cards/output_card_template.md`",
+        "HEAD:docs/records/v0.87.1/legacy-issue-records/v0.87/tasks/issue-1378__v0-87-maintainability-split-learning-export-rs-by-responsibility/sor.md:3:Canonical Template Source: `adl/templates/cards/output_card_template.md`",
+        "HEAD:docs/records/v0.87.1/legacy-issue-records/v0.87/tasks/issue-1379__v0-87-maintainability-split-execute-tests-runtime-artifacts-rs-by-responsibility/sor.md:3:Canonical Template Source: `adl/templates/cards/output_card_template.md`",
+        "HEAD:docs/records/v0.87.1/legacy-issue-records/v0.87/tasks/issue-1402__v0-87-maintainability-split-cli-tooling-cmd-rs-by-responsibility/sor.md:3:Canonical Template Source: `adl/templates/cards/output_card_template.md`",
+        "HEAD:docs/records/v0.87.1/legacy-issue-records/v0.87/tasks/issue-1414__v0-87-wp-18-review-findings-remediation/sor.md:3:Canonical Template Source: `adl/templates/cards/output_card_template.md`",
+        "HEAD:docs/templates/CARD_LIFECYCLE_TEMPLATE_TARGETS.md:37:- `adl/templates/cards/output_card_template.md`",
+        "HEAD:docs/templates/CARD_LIFECYCLE_TEMPLATE_TARGETS.md:206:- compatibility generator template: `adl/templates/cards/output_card_template.md`",
+        "HEAD:docs/templates/prompts/current.json:55:    \"sor\": [\"adl/templates/cards/output_card_template.md\", \".adl/templates/output_card_template.md\"]"
+      ],
+      "remaining_repairs": [],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-3118",
+      "path": "demos/fixtures/codex_ollama_operational_skills_demo/semantic_fallback_response.json",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "c44ba8ea603e268565a1d79b95860086b86daf56"
+      },
+      "proposed_disposition": "retain_versioned_adl_demonstration",
+      "reason": "Versioned ADL showcase/example/fixture retained unchanged as a coherent family; source split does not require deleting ADL examples. Not a current lifecycle authority or a new demo execution/Unity validation claim.",
+      "source_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links."
+      ],
+      "bounded_literal_callers": [
+        "HEAD:adl/tools/test_demo_codex_ollama_semantic_fallback.sh:9:RESPONSE_FIXTURE=\"$ROOT_DIR/demos/fixtures/codex_ollama_operational_skills_demo/semantic_fallback_response.json\""
+      ],
+      "remaining_repairs": [],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-3119",
+      "path": "demos/fixtures/codex_ollama_operational_skills_demo/workspace/.adl/v0.87.1/bodies/issue-9001-v0-87-1-tools-demo-codex-cli-ollama-operational-skills.md",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "ce0788b110ac1e65ead625b3836f59724ad142f9"
+      },
+      "proposed_disposition": "retain_versioned_adl_demonstration",
+      "reason": "Versioned ADL showcase/example/fixture retained unchanged as a coherent family; source split does not require deleting ADL examples. Not a current lifecycle authority or a new demo execution/Unity validation claim.",
+      "source_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links."
+      ],
+      "bounded_literal_callers": [],
+      "remaining_repairs": [],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-3120",
+      "path": "demos/fixtures/codex_ollama_operational_skills_demo/workspace/.adl/v0.87.1/tasks/issue-9001__v0-87-1-tools-demo-codex-cli-ollama-operational-skills/sip.md",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "53e9a7b52d94a7d08eceadf6b589da7cfb6ba3a9"
+      },
+      "proposed_disposition": "retain_versioned_adl_demonstration",
+      "reason": "Versioned ADL showcase/example/fixture retained unchanged as a coherent family; source split does not require deleting ADL examples. Not a current lifecycle authority or a new demo execution/Unity validation claim.",
+      "source_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links."
+      ],
+      "bounded_literal_callers": [],
+      "remaining_repairs": [],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-3121",
+      "path": "demos/fixtures/codex_ollama_operational_skills_demo/workspace/.adl/v0.87.1/tasks/issue-9001__v0-87-1-tools-demo-codex-cli-ollama-operational-skills/stp.md",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "5c9ebdf2e17e7cd33ba6b3502b49074d1797f821"
+      },
+      "proposed_disposition": "retain_versioned_adl_demonstration",
+      "reason": "Versioned ADL showcase/example/fixture retained unchanged as a coherent family; source split does not require deleting ADL examples. Not a current lifecycle authority or a new demo execution/Unity validation claim.",
+      "source_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links."
+      ],
+      "bounded_literal_callers": [],
+      "remaining_repairs": [],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-3154",
+      "path": "demos/fixtures/gemma4_issue_clerk_demo/invalid_response.json",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "f33359e898970925eae77483d20e0220f07703a6"
+      },
+      "proposed_disposition": "retain_versioned_adl_demonstration",
+      "reason": "Versioned ADL showcase/example/fixture retained unchanged as a coherent family; source split does not require deleting ADL examples. Not a current lifecycle authority or a new demo execution/Unity validation claim.",
+      "source_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links."
+      ],
+      "bounded_literal_callers": [
+        "HEAD:adl/tools/test_demo_v089_gemma4_issue_clerk.sh:7:INVALID_FIXTURE=\"$ROOT_DIR/demos/fixtures/gemma4_issue_clerk_demo/invalid_response.json\""
+      ],
+      "remaining_repairs": [],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-3155",
+      "path": "demos/fixtures/gemma4_issue_clerk_demo/valid_response.json",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "538cf718487e85f8a20856f4f80f0495111d6d35"
+      },
+      "proposed_disposition": "retain_versioned_adl_demonstration",
+      "reason": "Versioned ADL showcase/example/fixture retained unchanged as a coherent family; source split does not require deleting ADL examples. Not a current lifecycle authority or a new demo execution/Unity validation claim.",
+      "source_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links."
+      ],
+      "bounded_literal_callers": [
+        "HEAD:adl/tools/test_demo_v089_gemma4_issue_clerk.sh:6:VALID_FIXTURE=\"$ROOT_DIR/demos/fixtures/gemma4_issue_clerk_demo/valid_response.json\"",
+        "HEAD:demos/v0.89/gemma4_issue_clerk_demo.md:71:ADL_GEMMA4_RESPONSE_FILE=demos/fixtures/gemma4_issue_clerk_demo/valid_response.json \\"
+      ],
+      "remaining_repairs": [],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-3190",
+      "path": "demos/v0.85/hitl_editor_review_demo.md",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "58cb7349c0062959b9e17bb84f4a1e3e36f754e6"
+      },
+      "proposed_disposition": "retain_versioned_adl_demonstration",
+      "reason": "Versioned ADL showcase/example/fixture retained unchanged as a coherent family; source split does not require deleting ADL examples. Not a current lifecycle authority or a new demo execution/Unity validation claim.",
+      "source_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links."
+      ],
+      "bounded_literal_callers": [
+        "HEAD:demos/v0.85/v085_demo_program.md:30:- `demos/v0.85/hitl_editor_review_demo.md`"
+      ],
+      "remaining_repairs": [],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-3196",
+      "path": "demos/v0.87.1/codex_ollama_operational_skills_demo.md",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "06008f89f14e4c6cc042393b84bd7e7f716ddd8c"
+      },
+      "proposed_disposition": "retain_versioned_adl_demonstration",
+      "reason": "Versioned ADL showcase/example/fixture retained unchanged as a coherent family; source split does not require deleting ADL examples. Not a current lifecycle authority or a new demo execution/Unity validation claim.",
+      "source_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links."
+      ],
+      "bounded_literal_callers": [],
+      "remaining_repairs": [],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-3207",
+      "path": "demos/v0.89/gemma4_issue_clerk_demo.md",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "8fe0820555f05ad06b34f71bc2d01ab866d0b2af"
+      },
+      "proposed_disposition": "retain_versioned_adl_demonstration",
+      "reason": "Versioned ADL showcase/example/fixture retained unchanged as a coherent family; source split does not require deleting ADL examples. Not a current lifecycle authority or a new demo execution/Unity validation claim.",
+      "source_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links."
+      ],
+      "bounded_literal_callers": [
+        "HEAD:adl/tools/skills/docs/DEMO_OPERATOR_SKILL_INPUT_SCHEMA.md:102:  demo_doc_path: demos/v0.89/gemma4_issue_clerk_demo.md",
+        "HEAD:adl/tools/skills/docs/OPERATIONAL_SKILLS_GUIDE.md:2393:  demo_doc_path: demos/v0.89/gemma4_issue_clerk_demo.md",
+        "HEAD:demos/v0.89/gemma4_issue_clerk_demo.md:71:ADL_GEMMA4_RESPONSE_FILE=demos/fixtures/gemma4_issue_clerk_demo/valid_response.json \\"
+      ],
+      "remaining_repairs": [],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-3234",
+      "path": "demos/v0.91.3/adl_podcast_studio_v2_episode_card.html",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "dbb523ee74fb2a963034746f4954d7a9806bd81f"
+      },
+      "proposed_disposition": "retain_versioned_adl_demonstration",
+      "reason": "Versioned ADL showcase/example/fixture retained unchanged as a coherent family; source split does not require deleting ADL examples. Not a current lifecycle authority or a new demo execution/Unity validation claim.",
+      "source_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links."
+      ],
+      "bounded_literal_callers": [
+        "HEAD:adl/tools/demo_v0913_podcast_studio_v2.sh:6:CARD_PATH=\"$ROOT_DIR/demos/v0.91.3/adl_podcast_studio_v2_episode_card.html\"",
+        "HEAD:adl/tools/generate_podcast_studio_v2_packet.py:14:DEFAULT_CARD_PATH = ROOT / \"demos/v0.91.3/adl_podcast_studio_v2_episode_card.html\"",
+        "HEAD:adl/tools/run_v0913_proof_validation_lane.sh:101:  \"$ROOT_DIR/demos/v0.91.3/adl_podcast_studio_v2_episode_card.html\" \\",
+        "HEAD:adl/tools/test_podcast_studio_v2_packet.sh:6:CARD_PATH=\"$ROOT_DIR/demos/v0.91.3/adl_podcast_studio_v2_episode_card.html\""
+      ],
+      "remaining_repairs": [],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-3235",
+      "path": "demos/v0.91.3/agent-logic-logo.png",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "855dc6816e56fea6701e23cc3d1be2381f20cfcf"
+      },
+      "proposed_disposition": "retain_versioned_adl_demonstration",
+      "reason": "Versioned ADL showcase/example/fixture retained unchanged as a coherent family; source split does not require deleting ADL examples. Not a current lifecycle authority or a new demo execution/Unity validation claim.",
+      "source_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links."
+      ],
+      "bounded_literal_callers": [
+        "HEAD:adl/tools/generate_podcast_studio_v2_packet.py:16:DEFAULT_LOGO_PATH = ROOT / \"demos/v0.91.3/agent-logic-logo.png\""
+      ],
+      "remaining_repairs": [],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-3236",
+      "path": "demos/v0.91.3/five_minute_sprint_console_demo.css",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "c31335927884bb1c6161a296f66c196dcd8a85e8"
+      },
+      "proposed_disposition": "retain_versioned_adl_demonstration",
+      "reason": "Versioned ADL showcase/example/fixture retained unchanged as a coherent family; source split does not require deleting ADL examples. Not a current lifecycle authority or a new demo execution/Unity validation claim.",
+      "source_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links."
+      ],
+      "bounded_literal_callers": [
+        "HEAD:adl/tools/test_five_minute_sprint_console_packet.sh:7:CSS_FILE=\"${ROOT}/demos/v0.91.3/five_minute_sprint_console_demo.css\""
+      ],
+      "remaining_repairs": [],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-3237",
+      "path": "demos/v0.91.3/five_minute_sprint_console_demo.html",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "4545a2878a8bbfbde313db26bc1e615f5b35e232"
+      },
+      "proposed_disposition": "retain_versioned_adl_demonstration",
+      "reason": "Versioned ADL showcase/example/fixture retained unchanged as a coherent family; source split does not require deleting ADL examples. Not a current lifecycle authority or a new demo execution/Unity validation claim.",
+      "source_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links."
+      ],
+      "bounded_literal_callers": [
+        "HEAD:adl/tools/demo_v0913_five_minute_sprint_console.sh:6:FILE_PATH=\"${ROOT}/demos/v0.91.3/five_minute_sprint_console_demo.html\"",
+        "HEAD:adl/tools/demo_v0913_five_minute_sprint_console.sh:19:  printf 'http://127.0.0.1:%s/demos/v0.91.3/five_minute_sprint_console_demo.html\\n' \"${PORT}\"",
+        "HEAD:adl/tools/demo_v0913_five_minute_sprint_console.sh:23:echo \"Serving sprint console demo on http://127.0.0.1:${PORT}/demos/v0.91.3/five_minute_sprint_console_demo.html\"",
+        "HEAD:adl/tools/test_five_minute_sprint_console_packet.sh:6:HTML_FILE=\"${ROOT}/demos/v0.91.3/five_minute_sprint_console_demo.html\""
+      ],
+      "remaining_repairs": [],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-3238",
+      "path": "demos/v0.91.3/five_minute_sprint_console_demo.js",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "1ee05c5d94f4044edec876f3dbde4334ce713171"
+      },
+      "proposed_disposition": "retain_versioned_adl_demonstration",
+      "reason": "Versioned ADL showcase/example/fixture retained unchanged as a coherent family; source split does not require deleting ADL examples. Not a current lifecycle authority or a new demo execution/Unity validation claim.",
+      "source_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links."
+      ],
+      "bounded_literal_callers": [
+        "HEAD:adl/tools/test_five_minute_sprint_console_packet.sh:8:JS_FILE=\"${ROOT}/demos/v0.91.3/five_minute_sprint_console_demo.js\"",
+        "HEAD:demos/v0.91.3/five_minute_sprint_console_demo.js:221:    path: \"demos/v0.91.3/starharvest_five_minute_sprint_demo.html\","
+      ],
+      "remaining_repairs": [],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-3239",
+      "path": "demos/v0.91.3/starharvest_five_minute_sprint_demo.css",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "9d3e1ee745932b4ac46c01b7b6685baa8f7d4aca"
+      },
+      "proposed_disposition": "retain_versioned_adl_demonstration",
+      "reason": "Versioned ADL showcase/example/fixture retained unchanged as a coherent family; source split does not require deleting ADL examples. Not a current lifecycle authority or a new demo execution/Unity validation claim.",
+      "source_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links."
+      ],
+      "bounded_literal_callers": [
+        "HEAD:adl/tools/test_five_minute_html_game_packet.sh:7:CSS_FILE=\"${ROOT}/demos/v0.91.3/starharvest_five_minute_sprint_demo.css\""
+      ],
+      "remaining_repairs": [],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-3240",
+      "path": "demos/v0.91.3/starharvest_five_minute_sprint_demo.html",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "b6c19677a7a74f6990580bc4194f75d5987d9bbb"
+      },
+      "proposed_disposition": "retain_versioned_adl_demonstration",
+      "reason": "Versioned ADL showcase/example/fixture retained unchanged as a coherent family; source split does not require deleting ADL examples. Not a current lifecycle authority or a new demo execution/Unity validation claim.",
+      "source_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links."
+      ],
+      "bounded_literal_callers": [
+        "HEAD:adl/tools/demo_v0913_starharvest_html_game.sh:6:FILE_PATH=\"${ROOT}/demos/v0.91.3/starharvest_five_minute_sprint_demo.html\"",
+        "HEAD:adl/tools/demo_v0913_starharvest_html_game.sh:19:  printf 'http://127.0.0.1:%s/demos/v0.91.3/starharvest_five_minute_sprint_demo.html\\n' \"${PORT}\"",
+        "HEAD:adl/tools/demo_v0913_starharvest_html_game.sh:23:echo \"Serving Starharvest demo on http://127.0.0.1:${PORT}/demos/v0.91.3/starharvest_five_minute_sprint_demo.html\"",
+        "HEAD:adl/tools/test_five_minute_html_game_packet.sh:6:HTML_FILE=\"${ROOT}/demos/v0.91.3/starharvest_five_minute_sprint_demo.html\"",
+        "HEAD:demos/v0.91.3/five_minute_sprint_console_demo.js:221:    path: \"demos/v0.91.3/starharvest_five_minute_sprint_demo.html\","
+      ],
+      "remaining_repairs": [],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-3241",
+      "path": "demos/v0.91.3/starharvest_five_minute_sprint_demo.js",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "f3b0a227cdcebd46552a32fb8e904e8d19eefd43"
+      },
+      "proposed_disposition": "retain_versioned_adl_demonstration",
+      "reason": "Versioned ADL showcase/example/fixture retained unchanged as a coherent family; source split does not require deleting ADL examples. Not a current lifecycle authority or a new demo execution/Unity validation claim.",
+      "source_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links."
+      ],
+      "bounded_literal_callers": [
+        "HEAD:adl/tools/test_five_minute_html_game_packet.sh:8:JS_FILE=\"${ROOT}/demos/v0.91.3/starharvest_five_minute_sprint_demo.js\""
+      ],
+      "remaining_repairs": [],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-3242",
+      "path": "demos/v0.91.4/adl_creative_room_demo.html",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "0602b9a3e478dc16b51ab8817bfc89d136049a6f"
+      },
+      "proposed_disposition": "retain_versioned_adl_demonstration",
+      "reason": "Versioned ADL showcase/example/fixture retained unchanged as a coherent family; source split does not require deleting ADL examples. Not a current lifecycle authority or a new demo execution/Unity validation claim.",
+      "source_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links."
+      ],
+      "bounded_literal_callers": [],
+      "remaining_repairs": [],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-3243",
+      "path": "demos/v0.91.4/celestial-rescue-unity/Assets/Scenes/CelestialRescue.unity",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "ea6fada8900e0bc9bede62e1035f5f7e7818ea64"
+      },
+      "proposed_disposition": "retain_versioned_adl_demonstration",
+      "reason": "Versioned ADL showcase/example/fixture retained unchanged as a coherent family; source split does not require deleting ADL examples. Not a current lifecycle authority or a new demo execution/Unity validation claim.",
+      "source_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links."
+      ],
+      "bounded_literal_callers": [],
+      "remaining_repairs": [],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-3244",
+      "path": "demos/v0.91.4/celestial-rescue-unity/Assets/Scenes/CelestialRescue.unity.meta",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "68459ae8ae27fa751af9e9dc980237431ab0e236"
+      },
+      "proposed_disposition": "retain_versioned_adl_demonstration",
+      "reason": "Versioned ADL showcase/example/fixture retained unchanged as a coherent family; source split does not require deleting ADL examples. Not a current lifecycle authority or a new demo execution/Unity validation claim.",
+      "source_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links."
+      ],
+      "bounded_literal_callers": [],
+      "remaining_repairs": [],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-3245",
+      "path": "demos/v0.91.4/celestial-rescue-unity/Assets/Scripts/CelestialRescueBootstrap.cs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "b91970fe4a4ff032626850f4fd9a722cb253e818"
+      },
+      "proposed_disposition": "retain_versioned_adl_demonstration",
+      "reason": "Versioned ADL showcase/example/fixture retained unchanged as a coherent family; source split does not require deleting ADL examples. Not a current lifecycle authority or a new demo execution/Unity validation claim.",
+      "source_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links."
+      ],
+      "bounded_literal_callers": [],
+      "remaining_repairs": [],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-3246",
+      "path": "demos/v0.91.4/celestial-rescue-unity/Assets/Scripts/CelestialRescueBootstrap.cs.meta",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "7273faecea2fd534b4ba973e3523c5e2e71f3706"
+      },
+      "proposed_disposition": "retain_versioned_adl_demonstration",
+      "reason": "Versioned ADL showcase/example/fixture retained unchanged as a coherent family; source split does not require deleting ADL examples. Not a current lifecycle authority or a new demo execution/Unity validation claim.",
+      "source_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links."
+      ],
+      "bounded_literal_callers": [],
+      "remaining_repairs": [],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-3247",
+      "path": "demos/v0.91.4/celestial-rescue-unity/Assets/Scripts/CelestialRescueGame.cs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "a93c1f27a488b4435b5e36ef80cc046c07ecab90"
+      },
+      "proposed_disposition": "retain_versioned_adl_demonstration",
+      "reason": "Versioned ADL showcase/example/fixture retained unchanged as a coherent family; source split does not require deleting ADL examples. Not a current lifecycle authority or a new demo execution/Unity validation claim.",
+      "source_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links."
+      ],
+      "bounded_literal_callers": [],
+      "remaining_repairs": [],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-3248",
+      "path": "demos/v0.91.4/celestial-rescue-unity/Assets/Scripts/CelestialRescueGame.cs.meta",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "87c53b3363bfee681eb0a7a8cb4fc1e0b15fb6f7"
+      },
+      "proposed_disposition": "retain_versioned_adl_demonstration",
+      "reason": "Versioned ADL showcase/example/fixture retained unchanged as a coherent family; source split does not require deleting ADL examples. Not a current lifecycle authority or a new demo execution/Unity validation claim.",
+      "source_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links."
+      ],
+      "bounded_literal_callers": [],
+      "remaining_repairs": [],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-3249",
+      "path": "demos/v0.91.4/celestial-rescue-unity/Assets/Scripts/HudController.cs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "ff7992c7aba566d9301a2500fe5be611dca48c06"
+      },
+      "proposed_disposition": "retain_versioned_adl_demonstration",
+      "reason": "Versioned ADL showcase/example/fixture retained unchanged as a coherent family; source split does not require deleting ADL examples. Not a current lifecycle authority or a new demo execution/Unity validation claim.",
+      "source_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links."
+      ],
+      "bounded_literal_callers": [],
+      "remaining_repairs": [],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-3250",
+      "path": "demos/v0.91.4/celestial-rescue-unity/Assets/Scripts/HudController.cs.meta",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "55124a0bc3421caac133589f0939cfbcae701947"
+      },
+      "proposed_disposition": "retain_versioned_adl_demonstration",
+      "reason": "Versioned ADL showcase/example/fixture retained unchanged as a coherent family; source split does not require deleting ADL examples. Not a current lifecycle authority or a new demo execution/Unity validation claim.",
+      "source_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links."
+      ],
+      "bounded_literal_callers": [],
+      "remaining_repairs": [],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-3251",
+      "path": "demos/v0.91.4/celestial-rescue-unity/Assets/Scripts/OxygenTimer.cs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "0d594e7c26411d3e23179773ed04b7cb4a11c63b"
+      },
+      "proposed_disposition": "retain_versioned_adl_demonstration",
+      "reason": "Versioned ADL showcase/example/fixture retained unchanged as a coherent family; source split does not require deleting ADL examples. Not a current lifecycle authority or a new demo execution/Unity validation claim.",
+      "source_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links."
+      ],
+      "bounded_literal_callers": [],
+      "remaining_repairs": [],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-3252",
+      "path": "demos/v0.91.4/celestial-rescue-unity/Assets/Scripts/OxygenTimer.cs.meta",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "7139c438465ad3a62322e7d676d7bed1eac4f4d0"
+      },
+      "proposed_disposition": "retain_versioned_adl_demonstration",
+      "reason": "Versioned ADL showcase/example/fixture retained unchanged as a coherent family; source split does not require deleting ADL examples. Not a current lifecycle authority or a new demo execution/Unity validation claim.",
+      "source_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links."
+      ],
+      "bounded_literal_callers": [],
+      "remaining_repairs": [],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-3253",
+      "path": "demos/v0.91.4/celestial-rescue-unity/Assets/Scripts/SatelliteBeacon.cs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "bcdbd70be2b0cec11c511191ff9a974dfd7dbdf8"
+      },
+      "proposed_disposition": "retain_versioned_adl_demonstration",
+      "reason": "Versioned ADL showcase/example/fixture retained unchanged as a coherent family; source split does not require deleting ADL examples. Not a current lifecycle authority or a new demo execution/Unity validation claim.",
+      "source_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links."
+      ],
+      "bounded_literal_callers": [],
+      "remaining_repairs": [],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-3254",
+      "path": "demos/v0.91.4/celestial-rescue-unity/Assets/Scripts/SatelliteBeacon.cs.meta",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "0516dde25364320a4bb9b4c18af7eeb5882aee07"
+      },
+      "proposed_disposition": "retain_versioned_adl_demonstration",
+      "reason": "Versioned ADL showcase/example/fixture retained unchanged as a coherent family; source split does not require deleting ADL examples. Not a current lifecycle authority or a new demo execution/Unity validation claim.",
+      "source_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links."
+      ],
+      "bounded_literal_callers": [],
+      "remaining_repairs": [],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-3255",
+      "path": "demos/v0.91.4/celestial-rescue-unity/Assets/Scripts/ShipController.cs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "a21ed6077ed9771b08a496d554c609da5007ee08"
+      },
+      "proposed_disposition": "retain_versioned_adl_demonstration",
+      "reason": "Versioned ADL showcase/example/fixture retained unchanged as a coherent family; source split does not require deleting ADL examples. Not a current lifecycle authority or a new demo execution/Unity validation claim.",
+      "source_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links."
+      ],
+      "bounded_literal_callers": [],
+      "remaining_repairs": [],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-3256",
+      "path": "demos/v0.91.4/celestial-rescue-unity/Assets/Scripts/ShipController.cs.meta",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "62a1915d98c3313437175b5aca1f3228f2fe3d20"
+      },
+      "proposed_disposition": "retain_versioned_adl_demonstration",
+      "reason": "Versioned ADL showcase/example/fixture retained unchanged as a coherent family; source split does not require deleting ADL examples. Not a current lifecycle authority or a new demo execution/Unity validation claim.",
+      "source_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links."
+      ],
+      "bounded_literal_callers": [],
+      "remaining_repairs": [],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-3257",
+      "path": "demos/v0.91.4/celestial-rescue-unity/Assets/UI/CelestialRescueHUD.uss",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "a71117e41e6327d3263a93b1b1a391d4235b7e77"
+      },
+      "proposed_disposition": "retain_versioned_adl_demonstration",
+      "reason": "Versioned ADL showcase/example/fixture retained unchanged as a coherent family; source split does not require deleting ADL examples. Not a current lifecycle authority or a new demo execution/Unity validation claim.",
+      "source_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links."
+      ],
+      "bounded_literal_callers": [],
+      "remaining_repairs": [],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-3258",
+      "path": "demos/v0.91.4/celestial-rescue-unity/Assets/UI/CelestialRescueHUD.uss.meta",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "d2ef82da06e04304bab280ae44dc4ab12e230176"
+      },
+      "proposed_disposition": "retain_versioned_adl_demonstration",
+      "reason": "Versioned ADL showcase/example/fixture retained unchanged as a coherent family; source split does not require deleting ADL examples. Not a current lifecycle authority or a new demo execution/Unity validation claim.",
+      "source_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links."
+      ],
+      "bounded_literal_callers": [],
+      "remaining_repairs": [],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-3259",
+      "path": "demos/v0.91.4/celestial-rescue-unity/Assets/UI/CelestialRescueHUD.uxml",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "e4085c762c32dc5c5b9037e49659689caef05cf6"
+      },
+      "proposed_disposition": "retain_versioned_adl_demonstration",
+      "reason": "Versioned ADL showcase/example/fixture retained unchanged as a coherent family; source split does not require deleting ADL examples. Not a current lifecycle authority or a new demo execution/Unity validation claim.",
+      "source_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links."
+      ],
+      "bounded_literal_callers": [],
+      "remaining_repairs": [],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-3260",
+      "path": "demos/v0.91.4/celestial-rescue-unity/Assets/UI/CelestialRescueHUD.uxml.meta",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "af4b0b071213c657fda29819d379e077bea0806c"
+      },
+      "proposed_disposition": "retain_versioned_adl_demonstration",
+      "reason": "Versioned ADL showcase/example/fixture retained unchanged as a coherent family; source split does not require deleting ADL examples. Not a current lifecycle authority or a new demo execution/Unity validation claim.",
+      "source_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links."
+      ],
+      "bounded_literal_callers": [],
+      "remaining_repairs": [],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-3261",
+      "path": "demos/v0.91.4/celestial-rescue-unity/PROOF_PACKET.md",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "72e6529c42ad794e83a72305f5780aa630bef4d5"
+      },
+      "proposed_disposition": "retain_versioned_adl_demonstration",
+      "reason": "Versioned ADL showcase/example/fixture retained unchanged as a coherent family; source split does not require deleting ADL examples. Not a current lifecycle authority or a new demo execution/Unity validation claim.",
+      "source_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links."
+      ],
+      "bounded_literal_callers": [],
+      "remaining_repairs": [],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-3262",
+      "path": "demos/v0.91.4/celestial-rescue-unity/Packages/manifest.json",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "3aa0e5267cec50a4f3fe99c6091dd706904628ba"
+      },
+      "proposed_disposition": "retain_versioned_adl_demonstration",
+      "reason": "Versioned ADL showcase/example/fixture retained unchanged as a coherent family; source split does not require deleting ADL examples. Not a current lifecycle authority or a new demo execution/Unity validation claim.",
+      "source_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links."
+      ],
+      "bounded_literal_callers": [],
+      "remaining_repairs": [],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-3263",
+      "path": "demos/v0.91.4/celestial-rescue-unity/Packages/packages-lock.json",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "9ca956fbad30665e5eeff92551cb52eb0f99d2b2"
+      },
+      "proposed_disposition": "retain_versioned_adl_demonstration",
+      "reason": "Versioned ADL showcase/example/fixture retained unchanged as a coherent family; source split does not require deleting ADL examples. Not a current lifecycle authority or a new demo execution/Unity validation claim.",
+      "source_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links."
+      ],
+      "bounded_literal_callers": [],
+      "remaining_repairs": [],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-3264",
+      "path": "demos/v0.91.4/celestial-rescue-unity/ProjectSettings/EditorBuildSettings.asset",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "2132d889d539c0b6f3b6df978d4094516abad74c"
+      },
+      "proposed_disposition": "retain_versioned_adl_demonstration",
+      "reason": "Versioned ADL showcase/example/fixture retained unchanged as a coherent family; source split does not require deleting ADL examples. Not a current lifecycle authority or a new demo execution/Unity validation claim.",
+      "source_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links."
+      ],
+      "bounded_literal_callers": [],
+      "remaining_repairs": [],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-3265",
+      "path": "demos/v0.91.4/celestial-rescue-unity/ProjectSettings/ProjectSettings.asset",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "c3460e8d343f889d3a041de971a084fabbde6ab4"
+      },
+      "proposed_disposition": "retain_versioned_adl_demonstration",
+      "reason": "Versioned ADL showcase/example/fixture retained unchanged as a coherent family; source split does not require deleting ADL examples. Not a current lifecycle authority or a new demo execution/Unity validation claim.",
+      "source_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links."
+      ],
+      "bounded_literal_callers": [],
+      "remaining_repairs": [],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-3266",
+      "path": "demos/v0.91.4/celestial-rescue-unity/ProjectSettings/ProjectVersion.txt",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "496bb97f0ff00b5e48b4b6f1f1240126adc14a44"
+      },
+      "proposed_disposition": "retain_versioned_adl_demonstration",
+      "reason": "Versioned ADL showcase/example/fixture retained unchanged as a coherent family; source split does not require deleting ADL examples. Not a current lifecycle authority or a new demo execution/Unity validation claim.",
+      "source_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links."
+      ],
+      "bounded_literal_callers": [],
+      "remaining_repairs": [],
+      "deletion_authorized": false
+    },
+    {
+      "id": "RD07-3267",
+      "path": "demos/v0.91.4/celestial-rescue-unity/README.md",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "87800206db8c5033bf1945c8ab37624551c9f886"
+      },
+      "proposed_disposition": "retain_versioned_adl_demonstration",
+      "reason": "Versioned ADL showcase/example/fixture retained unchanged as a coherent family; source split does not require deleting ADL examples. Not a current lifecycle authority or a new demo execution/Unity validation claim.",
+      "source_evidence": [
+        "Versioned demos paths and parent demo README/proof packet define bounded showcase/fixture role; preserve sibling source/assets and historical links."
+      ],
+      "bounded_literal_callers": [],
+      "remaining_repairs": [],
+      "deletion_authorized": false
+    }
+  ],
+  "deletion_authorized": false
+}

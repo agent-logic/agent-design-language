@@ -1,0 +1,202 @@
+{
+  "schema": "adl1223.runtime905_two_retirement.v1",
+  "status": "applied",
+  "source_head": "403aa6df4fa992c48c14c467848feaf34b64d76e",
+  "removed_count": 2,
+  "rows": [
+    {
+      "id": "RD07-1425",
+      "path": "adl/tools/issue905_runtime_speculative_retest.py",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "87b209373121a9b61f513874cc1b5f579c8dd0e9"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/issue905_runtime_speculative_retest.py"
+        ]
+      }
+    },
+    {
+      "id": "RD07-2024",
+      "path": "adl/tools/test_issue905_runtime_speculative_retest.py",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "2d4ae47c3ec0528efb16935f95b48db1fddc0af3"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/test_issue905_runtime_speculative_retest.py"
+        ]
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "adl/tools/issue905_runtime_speculative_retest.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "87b209373121a9b61f513874cc1b5f579c8dd0e9",
+        "sha256": "d18c8947cc145380b61b5d51e02dbb1ce57f0e7d18ecc3ed2d5c2abc58683a08"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_issue905_runtime_speculative_retest.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "2d4ae47c3ec0528efb16935f95b48db1fddc0af3",
+        "sha256": "94ba30ebfe6a52c0fb0442bf3d912ff2f17a0b52179b4dcca2b1a0aef3c06ca0"
+      },
+      "after": null
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "89c804b3313f921aa6ae53a74d716e0c709e8f86",
+        "sha256": "928eeb3146d3bf719e86d47ac50554a8c5ae74a4f30077e29552246da70eeb00"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "f2fbcb1884b55478c6aebdf7a155e2f4410b00f0",
+        "sha256": "570dda74cf37ed146513c118560f001ad6aed9f40b1a969f7e4d9c35e8e62303"
+      }
+    }
+  ],
+  "owner_revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+  "owner_inputs": [
+    {
+      "path": "adl/tools/issue905_runtime_speculative_retest.py",
+      "owner_revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "owner_mode": "100644",
+      "mode": "100644",
+      "blob": "87b209373121a9b61f513874cc1b5f579c8dd0e9",
+      "sha256": "d18c8947cc145380b61b5d51e02dbb1ce57f0e7d18ecc3ed2d5c2abc58683a08",
+      "current_exact": true
+    },
+    {
+      "path": "adl/tools/test_issue905_runtime_speculative_retest.py",
+      "owner_revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "owner_mode": "100644",
+      "mode": "100644",
+      "blob": "2d4ae47c3ec0528efb16935f95b48db1fddc0af3",
+      "sha256": "94ba30ebfe6a52c0fb0442bf3d912ff2f17a0b52179b4dcca2b1a0aef3c06ca0",
+      "current_exact": true
+    }
+  ],
+  "qualification": {
+    "status": "PASS",
+    "original_scripts_executed": 1,
+    "tests": [
+      {
+        "argv": [
+          "python3",
+          "-B",
+          "adl/tools/test_issue905_runtime_speculative_retest.py"
+        ],
+        "exit_code": 0,
+        "timeout": false,
+        "seconds": 0.2985599439998623,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "53ec6bfd32b426a23950e2fbbff5aba6e95df6d3ed7324d3edb40dd8151e63f8",
+        "source_after_exact": true
+      }
+    ],
+    "source_before_exact": true,
+    "source_before_after_exact": true,
+    "denominators": {
+      "original_scripts": 1,
+      "original_unittest_methods": 11,
+      "product_processes": 0
+    },
+    "scope": "Original11 speculative retest safety methods with unchanged original mocks; no actual model/Runtime/provider execution or installed/native qualification."
+  },
+  "actual_unittest_result": "One unchanged original script:11 safety and cleanup methods, OK without skips/timeouts. Original mocks preserved; no real model or Runtime execution.",
+  "evidence": [
+    {
+      "path": "/Volumes/FastWork/c1223/runtime905-two-original-plan/PLAN.json",
+      "sha256": "966554c6b82a1550394d856dae5d09f5dba1e5fecf05dc2a62cd9cb9cf1469b8"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime905-two-original-plan/EXECUTION_PINS.json",
+      "sha256": "7967501b965125c2860933753eac49ab8dcfeeeab8f66b6a851f3967e86ee519"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime905-two-original-plan/current-owner-custody.tar",
+      "sha256": "cff2d23a378356acab4c1008272f16a2ca8e6e2a68e72f70bdc8afa78ef30589"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime905-two-original-plan/execution/RESULT.json",
+      "sha256": "cb3fc65d7f1f6b021856c5ba56878b95af4c4e68967d76de8d630904405214a8"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime905-two-original-plan/execution/output/result.json",
+      "sha256": "e96200dae402816f5761df233656e6e016feb51bcfe895aca8bcd0c86240f683"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime905-two-original-plan/execution/output/case-1/stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime905-two-original-plan/execution/output/case-1/stderr",
+      "sha256": "53ec6bfd32b426a23950e2fbbff5aba6e95df6d3ed7324d3edb40dd8151e63f8"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime905-two-original-plan/execution/CONTAINER.json",
+      "sha256": "286570606cd5739119cc8e866192d4cec125e46bb3ed16619863498424a5bc52"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime905-two-original-plan/retirement/CALLERS.txt",
+      "sha256": "14312d8dee605a0046c7dfb0004c2632e82b17a0d672ce226387236583e60466"
+    }
+  ],
+  "custody": {
+    "path": "/Volumes/FastWork/c1223/runtime905-two-original-plan/retirement/current-and-original-preimages.tar",
+    "sha256": "85f07f00a214a04d7fed33b94153ce56532d6fd952754bb823ba05f7ebbd4d37",
+    "current_members": 3,
+    "original_members": 2
+  },
+  "patch": {
+    "path": "/Volumes/FastWork/c1223/runtime905-two-original-plan/retirement/runtime905-two-and-registry.patch",
+    "sha256": "4aa6dfd0aeb9b965f2aa8e477278fad0a0b833c906b809432df110064c84ede6"
+  },
+  "caller_closure": "Only active source caller is paired original test importing producer. Producer live dependency issue855_provider_lifecycle remains owner source; do not remove it in this pair. No current publicCI/selector consumer found. Actualregistry regeneration removes exactly2toolrows preserving Runtime901 and Demo3 absences. Historical issue905 records unchanged.",
+  "limits": [
+    "Original mocked speculative-retest safety contracts only; no live model generation, performance benefit, installed/native acceptance or service execution.",
+    "Both files exact owner7d0 and current ADL; original11method assertions and mocks unchanged.",
+    "Production lifecycle/cryptography helper and installed Runtime binaries remain Runtime owner dependencies; original test-owned lifecycle ModuleType is not new glue or live qualification.",
+    "No original rerun or shared source edits by proposal."
+  ],
+  "review": {
+    "status": "PASS",
+    "reviewer": "/root/review_1223_historical_retention",
+    "proposal_sha256": "7a93f8f019056ad200275bba948333f9afbd1179b379128fbb47df565752ffe9",
+    "scope": "Exact source, original11 mock safety assertions, current/original custody and caller closure; no actual runtime performance qualification."
+  }
+}

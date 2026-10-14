@@ -1,3 +1,5 @@
+> Source ownership after the repository split: controller, registry, probe, unit files, and host manifest tests are delivered by [CodeFriend at e93a457](https://github.com/agent-logic/codefriend/tree/e93a457ad6325017627a66a2abe31a3376fa28fd/tools/codefriend_host), authenticated product artifact `11804671827`. ADL no longer supplies these local source files. The installation discussion below describes the installed layout and its separate deployment obligations. The archived original [`ci/smoke.py`](https://github.com/agent-logic/agent-design-language/blob/9707731d50f4209c07e3f7193d8be254ab6b9167/tools/codefriend_host/ci/smoke.py) and its typed interrupted-report fixture use the historical ADL CLI; they are historical obligations, not a qualified successor smoke command. Source qualification covers 36 original host methods plus one added owner method; it does not establish live systemd, website, provider, or host acceptance.
+
 # CodeFriend host idle controller (#1077)
 
 These are installation inputs, not deployed service evidence. No command here
@@ -119,7 +121,8 @@ or start any existing runtime to run it. Empty fixture credentials and a provide
 endpoint that cannot dispatch are sufficient; no provider call is needed.
 
 ```
-python3 tools/codefriend_host/probe_linux_control.py \
+case "$CODEFRIEND_HOST_SOURCE_ROOT" in /*) ;; *) exit 2;; esac
+python3 "$CODEFRIEND_HOST_SOURCE_ROOT/tools/codefriend_host/probe_linux_control.py" \
   --website-pid <fixture-pid> --website-revision <installed-commit> \
   --gateway-pid <fixture-pid> --gateway-revision <installed-commit>
 ```

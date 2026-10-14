@@ -1,0 +1,80 @@
+{
+  "schema": "adl1223.milestone_dashboard_test_retention.v1",
+  "source_head": "5c394d49ff952d5a8dee927bfe732bfe2538afcf",
+  "status": "proposed_records_only",
+  "rows": [
+    {
+      "original_row": {
+        "id": "RD07-2035",
+        "path": "adl/tools/test_milestone_dashboard.sh",
+        "owner": "agent-logic-infrastructure",
+        "component": "agent-logic-infrastructure-mapped-tools",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "f0f66af5a82545dae5d05f0e60759673ad60d6e4"
+        },
+        "existing_action": "retain",
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ],
+        "successor_mapping": {
+          "mapping": "same_path_changed",
+          "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+          "exact_successor_paths": []
+        }
+      },
+      "current_identity": {
+        "mode": "100755",
+        "blob": "f0f66af5a82545dae5d05f0e60759673ad60d6e4",
+        "sha256": "183cc9e704795e15a4af96be1b5ae7a70eabca3bc4af3bed316546cf12998be7"
+      },
+      "proposed_action": "retain_resolved",
+      "reason": "Original test validates five already retained ADL milestone-dashboard resources3814\u20133818: required HTML/JS IDs and static evidence vocabulary, bundled dataset identity/freshness, redaction/path hygiene, and mandatory Node VM renderer with fetch throwing unless explicit live mode. No copied private owner source or live service is needed. Preserve coherent consumer for retained dashboard."
+    }
+  ],
+  "retained_dependencies": [
+    {
+      "id": "RD07-3814",
+      "path": "docs/tooling/milestone-dashboard/README.md",
+      "action": "retain_resolved",
+      "sha256": "4dd957be973adc3106022340fb9d11dcb438ce339bf6db3c9fe3d0ea7df97e2c"
+    },
+    {
+      "id": "RD07-3815",
+      "path": "docs/tooling/milestone-dashboard/dashboard.js",
+      "action": "retain_resolved",
+      "sha256": "38006d338705211b8766d6d62bc7312a17caf8731054b764af1548ad6236fb88"
+    },
+    {
+      "id": "RD07-3816",
+      "path": "docs/tooling/milestone-dashboard/data/v0.90.4.js",
+      "action": "retain_resolved",
+      "sha256": "9e55c105e2c3c782b554ddd9571d79bc16b3cfd3da5bd4f78d17675e1c83f6f4"
+    },
+    {
+      "id": "RD07-3817",
+      "path": "docs/tooling/milestone-dashboard/index.html",
+      "action": "retain_resolved",
+      "sha256": "a222c4ee1bb7858a91e24c808320ee59dc2b13db0def786e4b022430c222bfc0"
+    },
+    {
+      "id": "RD07-3818",
+      "path": "docs/tooling/milestone-dashboard/style.css",
+      "action": "retain_resolved",
+      "sha256": "24d3c8382950e09fd9b7a695dd5abd7a2b28d080c94c11837ee94b84eabe0066"
+    }
+  ],
+  "limits": [
+    "No tests, Node or browser executed in this review. No current-pass or live Observatory claim.",
+    "Original Node validation is mandatory: missing Node fails. Full source body unchanged; no execution or pass is asserted.",
+    "No source removal or original identity change."
+  ],
+  "prior_proposal": {
+    "path": "/Volumes/FastWork/c1223/remaining-tool265-family-audit/MILESTONE_DASHBOARD_TEST_RETENTION.json",
+    "sha256": "893d55a22a9f0b65d159716120bb42c1c6ff1465da7d948aa1574f3ae88a530a",
+    "correction": "Current script explicitly fails if Node unavailable; initial optional-branch wording corrected without source changes."
+  }
+}

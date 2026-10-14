@@ -1,0 +1,36 @@
+{
+  "schema": "adl.rd07.historical-registry-repair.v1",
+  "rows": [
+    "RD07-1306",
+    "RD07-1337",
+    "RD07-1957",
+    "RD07-2146",
+    "RD07-2189"
+  ],
+  "changes": [
+    "Classify five reviewed historical contracts as historical evidence, preserving their unqualified outcomes.",
+    "Exclude local __pycache__ from deterministic registry enumeration.",
+    "Regenerated output removes stale2113 selector-test entry already deleted by951a4c097f; no new deletion."
+  ],
+  "files": [
+    {
+      "path": "adl/tools/generate_tool_surface_registry.py",
+      "sha256": "abef2172733128b48810cbe09bb50e1b974fbef8e45630899d4c8e3f5957af31"
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "sha256": "5f88184a9f3a9225840324365cb0381003b5b55105d0f2437aef808bbc7070a6"
+    }
+  ],
+  "validation": {
+    "generator_check": "PASS",
+    "diff_check": "PASS",
+    "scope": "Source inventory classification only; does not repair all executable callers or establish product acceptance."
+  },
+  "review": {
+    "reviewer": "review_1223_applied_components",
+    "finding": "P2 local __pycache__ enumeration",
+    "fix": "Explicitly exclude __pycache__; preserve on-disk cache and regenerate."
+  },
+  "execution_authorized": false
+}

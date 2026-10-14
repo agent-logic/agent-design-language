@@ -49,8 +49,8 @@ places to use it:
 
 - after `pr run <issue>` binds a fresh issue worktree and before the first
   focused Rust validation command
-- before owner-lane validation such as
-  `bash adl/tools/run_owner_validation_lane.sh csdlc|runtime|review|all`
+- before public CLI validation with
+  `bash tools/public_adl/run_cli_ci.sh`; private owners use their own qualified lanes
 - on EC2 or remote builders after checkout/worktree setup and before the first
   Rust validation pass
 
@@ -85,7 +85,9 @@ helper through:
 - root `AGENTS.md`, under the normal issue execution and validation flow
 - `adl/tools/skills/pr-run/SKILL.md`, before bounded validation
 - typed v2 doctor/bind guidance, when routing to execution
-- `adl/tools/skills/docs/CI_RUNTIME_POLICY_GUIDE.md`, under build acceleration
+- The historical `CI_RUNTIME_POLICY_GUIDE.md` under the selected Cognitive-SDLC
+  package's `resources/docs/skill-distributions/active-lifecycle/original-v1/adl/tools/skills/docs/`;
+  this archived guidance does not grant current validation or lifecycle authority
 - `adl/config/validation_lane_selector.v0.91.6.json`, which assigns the helper
   and its contract test to `rust_dependency_cache_warmup_contracts`
 

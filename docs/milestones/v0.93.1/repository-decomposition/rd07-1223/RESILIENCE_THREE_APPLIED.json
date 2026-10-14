@@ -1,0 +1,232 @@
+{
+  "schema": "adl1223.resilience_three_retirement.v1",
+  "status": "applied",
+  "source_head": "48d6993e20bd9bef0d81d4a08d8d8a64026671a8",
+  "original_baseline": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+  "removed_count": 3,
+  "rows": [
+    {
+      "id": "RD07-0040",
+      "path": "adl-resilience/Cargo.lock",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-other-consumers",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "95854d01a5b7438a6eb3764a95dbe8b152778495"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "coherent component and caller cutover",
+        "qualified owner adoption; exact source correspondence alone is insufficient"
+      ],
+      "successor_mapping": {
+        "mapping": "same_path_changed",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_200_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
+        "proposal": "accept_version_only_owner_delta_subject_to_component_qualification",
+        "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      }
+    },
+    {
+      "id": "RD07-0041",
+      "path": "adl-resilience/Cargo.toml",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-other-consumers",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "43dee0bfe7ae17c7008897d5cdfe793aa69b4d85"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "coherent component and caller cutover",
+        "qualified owner adoption; exact source correspondence alone is insufficient"
+      ],
+      "successor_mapping": {
+        "mapping": "same_path_changed",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_200_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
+        "proposal": "accept_version_only_owner_delta_subject_to_component_qualification",
+        "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      }
+    },
+    {
+      "id": "RD07-0042",
+      "path": "adl-resilience/src/lib.rs",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-other-consumers",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "5f200c14c75c8079844bdacac6e6ce182c44a912"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "coherent component and caller cutover",
+        "qualified owner adoption; exact source correspondence alone is insufficient"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl-resilience/src/lib.rs"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_200_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
+        "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+        "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "adl-resilience/Cargo.lock",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "95854d01a5b7438a6eb3764a95dbe8b152778495",
+        "sha256": "a380f9afeb90232f3fbe8dee2fee0ddea3acb86bfb52743f3374698d822d8d2c"
+      },
+      "after": null
+    },
+    {
+      "path": "adl-resilience/Cargo.toml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "43dee0bfe7ae17c7008897d5cdfe793aa69b4d85",
+        "sha256": "95de576c2de0bed2b89f48bf8b241a6cfe01d050eff87d447496447133758f7d"
+      },
+      "after": null
+    },
+    {
+      "path": "adl-resilience/src/lib.rs",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "5f200c14c75c8079844bdacac6e6ce182c44a912",
+        "sha256": "9c98ac51d7a4a48e9050f7b394b7abda5308be6146cd301e6a44a9c79c1b78a3"
+      },
+      "after": null
+    },
+    {
+      "path": "tools/groupd_validation/README.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "3353eb73053878744faee43e0545ffebf1cd9cd4",
+        "sha256": "b9873ba413c6f843123f6f8b0dd0e18aeb3b479a16908e6637b2a7541935f769"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "26eb08c6b05b11ead4e11b3cc236a6099825abd7",
+        "sha256": "9bd336425a90c7b2162c2248c677c0099fd7c1c1521cbd7c919b2d1c256612fa"
+      }
+    }
+  ],
+  "owner_revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+  "owner_inputs": [
+    {
+      "path": "adl-resilience/Cargo.toml",
+      "sha256": "9e624ac8bcd0c0a2eb6df48ea8a39cae3ca85a27d9f85bec3ace91b90d5a8bb7",
+      "owner_mode": "100644",
+      "blob": "be4b7f4689ba3fe8acbf80499bd0772d0c916bc0"
+    },
+    {
+      "path": "adl-resilience/Cargo.lock",
+      "sha256": "38e75751e74ed6c56038df37d10146010cbd9fc9d75cf2476050dbe896cb42be",
+      "owner_mode": "100644",
+      "blob": "78d651dbc843aea4a73ff6f83ff0a8ea3b3f12d2"
+    },
+    {
+      "path": "adl-resilience/src/lib.rs",
+      "sha256": "9c98ac51d7a4a48e9050f7b394b7abda5308be6146cd301e6a44a9c79c1b78a3",
+      "owner_mode": "100644",
+      "blob": "5f200c14c75c8079844bdacac6e6ce182c44a912"
+    }
+  ],
+  "qualification": {
+    "status": "PASS",
+    "exit": 0,
+    "timeout": false,
+    "seconds": 6.570311869996658,
+    "original_methods": 4,
+    "inputs_before_after_exact": true
+  },
+  "denominator": "Four unchanged library unit methods;12assertion expressions, including2inside64-iteration loop. No Runtime service or broad suite.",
+  "source_correspondence": "lib.rs exact; manifest and lock differ only package version0.92.1 to0.93.1. Registry dependency identities/checksums unchanged.",
+  "evidence": [
+    {
+      "path": "/Volumes/FastWork/c1223/resilience-three-original-r2-plan/PLAN.json",
+      "sha256": "01988845f90c0540f51f052f6a218ad7d8a95033e24e2406562b324fe312c0e6"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/resilience-three-original-r2-plan/EXECUTION_PINS.json",
+      "sha256": "64c53f8863cace985c683cd0529773c846d9420ef71d4edd9a38ba32580de666"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/resilience-three-original-r2-plan/execution/RESULT.json",
+      "sha256": "31b6aa12a3bc2d1523dae05639a4882780126909d44effc1870621705d2cde89"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/resilience-three-original-r2-plan/execution/CONTAINER.json",
+      "sha256": "505014fc40989e2a37560272f1e9bf89fd51de1dd3056a04fba2873540953435"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/resilience-three-original-r2-plan/execution/output/RESULT.json",
+      "sha256": "bcb5dcc1eb15c2440ed9f23419ecb6e4198507719059e8346a7ad154af016673"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/resilience-three-original-r2-plan/execution/output/stdout",
+      "sha256": "d1643f88e2615af347627db33be7e106b520e506e3894d85bc80a58eb576f43e"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/resilience-three-original-r2-plan/execution/output/stderr",
+      "sha256": "6f831249535e9ad033713dbe37aeef279f98f2e71dcb2627a62b127b136462ce"
+    }
+  ],
+  "custody": [
+    {
+      "path": "/Volumes/FastWork/c1223/resilience-three-original-r2-plan/retirement/current-original.tar",
+      "sha256": "51bc9a13656d403abd868caa373fcdf0addbbead10d8992fc7505a2059cd282f",
+      "members": 7
+    }
+  ],
+  "patch": {
+    "path": "/Volumes/FastWork/c1223/resilience-three-original-r2-plan/retirement/three-and-navigation.patch",
+    "sha256": "8b36e1f14e4f0f7d96ffc560cb889c6e5640852fa777524f8039a0ea84b6bae8"
+  },
+  "caller_closure": [
+    "Public adl/Cargo.toml has no dependency and build=false: adl/build.rs watchlist is inert, retained unchanged.",
+    "Historical v0.91.6 selector is rejected by current loader; its obsolete crate lane remains historical evidence.",
+    "RD01 inventory is historical audit data, not source execution.",
+    "GroupD README original4-test result retained and current Runtime source navigation added.",
+    "CSDL Github boundary describes shared resilience conceptual ownership, not a path dependency.",
+    "No helper registry row for root Rust crate, no registry change needed."
+  ],
+  "limits": [
+    "Four original library unit tests only; no Runtime service, provider, network or broad suite acceptance.",
+    "Minimal crate/dependency compilation in exact cached image, offline locked and networknone; no host mounts.",
+    "Original4134+22 identities untouched; no ledger or shared source changes."
+  ],
+  "review": {
+    "status": "PASS",
+    "reviewer": "/root/review_1223_public_facade",
+    "proposal_sha256": "d8e8608c855ea2c20b05eaf589eb778abdba82979fb3b96caedeff08f618e8fd",
+    "scope": "Four original unit methods, source/dependency correspondence and custody; no broad Runtime suite."
+  }
+}

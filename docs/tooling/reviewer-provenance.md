@@ -1,6 +1,6 @@
 # Reviewer Output Provenance
 
-This document defines the first bounded provenance-verification surface for deterministic review output artifacts.
+This document describes the retained historical `card_review_output.v1` validator for deterministic review output artifacts. It does not create current C-SDLC review authority.
 
 ## Purpose
 
@@ -14,12 +14,15 @@ This slice focuses on deterministic review outputs because they already:
 
 ## Verification Entry Point
 
-Use:
+Select the read-only companion from an authenticated C-SDLC package, then run:
 
 ```bash
-adl tooling verify-review-output-provenance \
+export CSDLC_HISTORICAL_REVIEW_PROVENANCE_BIN="$CSDLC_PACKAGE_ROOT/resources/tools/historical-review-provenance/bin/csdlc-historical-review-provenance"
+bash adl/tools/verify_review_output_provenance.sh \
   --review docs/tooling/examples/reviewer-provenance/good_review_output_661.yaml
 ```
+
+`CSDLC_PACKAGE_ROOT` must name the delivered package for this platform. The wrapper requires the explicit executable and never builds ADL or falls back to a retired command. `ADL_TOOLING_MANIFEST_ROOT`, when supplied, selects the historical input repository root; it does not require a Cargo manifest.
 
 ## What It Verifies
 

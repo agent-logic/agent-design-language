@@ -1,0 +1,228 @@
+{
+  "schema": "adl1223.legacy_typed_wrapper_disposition.v1",
+  "source_owner_snapshot": {
+    "repository": "agent-logic/cognitive-sdlc",
+    "head": "b3dc3d7dd8f89e38a3ff410be3bf0c9045d4b3ca",
+    "meaning": "Current local source inspection; not authenticated installed acceptance."
+  },
+  "original_rows": [
+    {
+      "id": "RD07-1916",
+      "path": "adl/tools/test_card_editor_repair_examples.sh",
+      "identity": {
+        "mode": "100755",
+        "blob": "fd809615828bad0ae1828f1fa578709a9cf5ceae"
+      },
+      "source_sha256": "66042252004ec5cdd1529b5ae64b0762898370ed3064ad327c56f1b8235a2db5"
+    },
+    {
+      "id": "RD07-1917",
+      "path": "adl/tools/test_card_editor_skill_contracts.sh",
+      "identity": {
+        "mode": "100755",
+        "blob": "88dc643670670bed129b8de8b8f874a34af21aa1"
+      },
+      "source_sha256": "cb5e05da7b8b97d1a3a6e95107412edf1da60fa6c432db6fee6aa6f4e9088e29"
+    },
+    {
+      "id": "RD07-1919",
+      "path": "adl/tools/test_card_prompt.sh",
+      "identity": {
+        "mode": "100755",
+        "blob": "5f745a0c6afa3281b90c8079c41b5a595fe84155"
+      },
+      "source_sha256": "98bb3ff907ff51e0c7b44564776f31c1b02ca775ddf0721cee968eb12e3814fc"
+    },
+    {
+      "id": "RD07-1932",
+      "path": "adl/tools/test_cli_wrapper_migration_contract.sh",
+      "identity": {
+        "mode": "100755",
+        "blob": "5b6c85788aa943b51dd1be59930bf06379ef0cdc"
+      },
+      "source_sha256": "14cdd770c61e4c13eb69a531e546f4aa27c8b3ac7939953d3a59d236ed790b6b"
+    },
+    {
+      "id": "RD07-1935",
+      "path": "adl/tools/test_completed_output_validation.sh",
+      "identity": {
+        "mode": "100755",
+        "blob": "166b0b78e9297a6c300b050d644c14a99060fecd"
+      },
+      "source_sha256": "a3d18f6a4129779961952ca68753ff6704a81cd739b313d72c7e5b368a2882d0"
+    },
+    {
+      "id": "RD07-2053",
+      "path": "adl/tools/test_prompt_spec_lint.sh",
+      "identity": {
+        "mode": "100755",
+        "blob": "7f36dd154168b4e7e271e3ada89bb94515c9df7b"
+      },
+      "source_sha256": "4ac599c6bb5fbacd096a4c2e80ccc0d24d636be7db4ccdcdc338ced4da2a830f"
+    },
+    {
+      "id": "RD07-2071",
+      "path": "adl/tools/test_review_card_surface.sh",
+      "identity": {
+        "mode": "100755",
+        "blob": "0f5ecfc33897b1932dab02bb70354300cd988cf3"
+      },
+      "source_sha256": "9b830d0eb7e0e602a2255cc8c4abe4f33e47dce8e82f65e5e1a3446a2d3d10ad"
+    },
+    {
+      "id": "RD07-2121",
+      "path": "adl/tools/test_structured_prompt_validation.sh",
+      "identity": {
+        "mode": "100755",
+        "blob": "e5856eebd81805e50b3eeced3d7172b333c01109"
+      },
+      "source_sha256": "ecc906e5916249e75ee15e8324c6eaa1c641a0d91ed8d25b5137c22797df7cb7"
+    }
+  ],
+  "removed_filters": [
+    {
+      "filter": "issue_5337_preparation_converts_to_complete_implementation_truth_with_typed_edits",
+      "removed_by": "52e0be6ff871ec3174f1f1896e5b2aec2f46d95f",
+      "historical_source": "csdlc-v2/tests/gate2.rs",
+      "historical_parent_blob": "67374b217f29a1e1c0aa71930f808badfc3d4e8d",
+      "historical_function_line": 2579,
+      "historical_function_sha256": "9b4d6b84c50a57e791e9499dffd02b9874ed7c5e34b24552c2d2f004c15c3287",
+      "present_current_owner": false
+    },
+    {
+      "filter": "planning_replacements_reject_invalid_requests_without_mutation",
+      "removed_by": "52e0be6ff871ec3174f1f1896e5b2aec2f46d95f",
+      "historical_source": "csdlc-v2/tests/gate2.rs",
+      "historical_parent_blob": "67374b217f29a1e1c0aa71930f808badfc3d4e8d",
+      "historical_function_line": 2762,
+      "historical_function_sha256": "d7f13a85ee8a5d410aff930aaf4a4e3ebdfb96590708785ed01a89529dcdeec1",
+      "present_current_owner": false
+    },
+    {
+      "filter": "bootstrap_constructs_all_six_cards_and_ready_doctor",
+      "removed_by": "52e0be6ff871ec3174f1f1896e5b2aec2f46d95f",
+      "historical_source": "csdlc-v2/tests/gate2.rs",
+      "historical_parent_blob": "67374b217f29a1e1c0aa71930f808badfc3d4e8d",
+      "historical_function_line": 2173,
+      "historical_function_sha256": "88c5615602485d5435e73a2b8c3c2ede37560a9260b671d7576b6911a06caaeb",
+      "present_current_owner": false
+    },
+    {
+      "filter": "native_registry_is_required_and_shape_checked_before_issue_authoring",
+      "removed_by": "52e0be6ff871ec3174f1f1896e5b2aec2f46d95f",
+      "historical_source": "csdlc-v2/tests/gate2.rs",
+      "historical_parent_blob": "67374b217f29a1e1c0aa71930f808badfc3d4e8d",
+      "historical_function_line": 333,
+      "historical_function_sha256": "b3b7cd448fe1a15ed134f2e0f6163fbc4f45cc0e05b71923a04d3cca7df1b0a4",
+      "present_current_owner": false
+    }
+  ],
+  "surviving_gate4_filters": [
+    "finalize_is_one_atomic_implemented_transition_and_failure_writes_no_state",
+    "validate_cli_redacts_machine_readable_command"
+  ],
+  "historical_replacement": "#5886 replaced Gate2 with actual_binaries_create_validate_doctor_and_bind_without_claims; this is a changed contract, not automatic assertion equivalence.",
+  "groups": [
+    {
+      "ids": [
+        "RD07-1916",
+        "RD07-1917",
+        "RD07-2121"
+      ],
+      "scope": "Original real edit/bootstrap/invalid-request/finalize/redaction behavior plus grouped skill assertions.",
+      "required": "Map semantic obligations to exact owner tests and retained historical distinctions; reject zero-match filtered runs. Grouped skill test1917 inherits1916 dependency. Do not substitute help-only checks."
+    },
+    {
+      "ids": [
+        "RD07-1919",
+        "RD07-1932",
+        "RD07-1935",
+        "RD07-2053",
+        "RD07-2071"
+      ],
+      "scope": "Five CLI-help/sunset-wrapper contracts, including registry/template and retired-route assertions.",
+      "required": "Choose current native owner routing or explicit historical compatibility retention; preserve absence of sunset routes and template anti-reference checks. No default operational v2 invocation."
+    }
+  ],
+  "v3_source_candidates": [
+    {
+      "path": "csdlc-v3/tests/local_commands.rs",
+      "filter": "registry_substitution_is_rejected_before_issue_staging",
+      "scope": "Registry substitution refusal before issue/staging mutation; not all original bootstrap assertions."
+    },
+    {
+      "path": "csdlc-v3/tests/installed_amendment_classification.rs",
+      "filter": "installed_edit_rejects_misclassified_and_unapproved_amendments_without_mutation",
+      "scope": "Amendment classification/refusal; not proof of original sixteen-edit workflow."
+    },
+    {
+      "path": "csdlc-v3/tests/installed_intent_commands.rs",
+      "filter": "installed_prepare_bind_edit_and_observations_use_canonical_context",
+      "scope": "Current canonical-context flow; source pointer only, no equivalence/execution claim."
+    }
+  ],
+  "passive_package_boundary": "Delivered active-lifecycle CONTRACT.json explicitly legacy_equivalence:false and native_execution_proven:false. Source-invariant overlap does not discharge original wrapper semantics.",
+  "execution": false,
+  "build": false,
+  "retirement_authorized": false,
+  "native_owner_proposal": {
+    "path": "/Volumes/FastWork/c1223/native-v3-wrapper-proposal",
+    "proposal_sha256": "b7267c9742534e951bb2c955d4b81da19c208770042eb4412160b31230f089bf",
+    "source_delta": {
+      "path": "tools/verify_native_sunset_contracts.py",
+      "sha256": "c81f3d9b48a124d4989ee64c01ed4f490cac5dd66bd7b39397000f00ef10fb7f"
+    },
+    "source_test_delta": {
+      "path": "tools/test_native_sunset_contracts.py",
+      "sha256": "c9411f976e0645cddd4bb9bcc7101b76291554a7958bfc597dde58e36357855e"
+    },
+    "source_test_result": {
+      "passed": 3,
+      "failed": 0,
+      "seconds": 0.049,
+      "checks": [
+        "current source accepted",
+        "restored lint wrapper rejected",
+        "historical template lint reference rejected"
+      ],
+      "native_execution": false,
+      "build": false,
+      "scratch_root": "/Volumes/FastWork/c1223",
+      "source_root": "/Users/daniel/git/cognitive-sdlc"
+    },
+    "pvf": {
+      "lane_class": "fast_unit",
+      "proof_role": "source_contract_negative_and_command_discovery",
+      "determinism": "deterministic_local",
+      "resource_profile": "local_cpu_filesystem_small",
+      "release_gate": false
+    },
+    "review_disposition": "ROOT_REVIEW.json finding fixed: removed both executable fullhashreads and --sha256. Caller supplies selected canonical executable path; help is discovery only, no admission claim.",
+    "delivery": "Native issue251 created and authenticated-reconciled; Planning12 owns setup/delivery. Source proposal not yet delivered owner qualification.",
+    "delivery_issue": {
+      "repository": "agent-logic/cognitive-sdlc",
+      "issue": 251,
+      "url": "https://github.com/agent-logic/cognitive-sdlc/issues/251",
+      "owner": "Planning #12",
+      "creation_status": "completed",
+      "authenticated_receipt": {
+        "schema": "csdlc.v3.github_mutation_receipt.v2",
+        "repository": "agent-logic/cognitive-sdlc",
+        "issue": 251,
+        "pull_request": null,
+        "expected_head_sha": "92779b3a8376182b691aad45258435ffb9c095f0",
+        "operation_digest": "9fcb9d111d75c5d39a443920419f17c50a12fb25bc90654575935b9f01581ba5",
+        "response_digest": null,
+        "readback_digest": "a6811ebefea0386d9d0ebcc76e41f12d2045f2505ea5155888dce998e627bb48",
+        "intent_digest": "3a50f55488192fd954a00546fb88fe846ef85c77a6acd68c67613104228367ae",
+        "reconciliation_digest": "ec60a5faaab61c2aa8c7b4f6f6f55d4e47737a00d102984a944bc5fbb27e03d4",
+        "adapter": "github-api-operational",
+        "authenticated": true,
+        "idempotent_replay": true
+      },
+      "evidence_path": "/Volumes/FastWork/c1223/native-v3-wrapper-proposal/create-reconciled-result.json",
+      "evidence_sha256": "ce48b29cd184123d7e97d0056de12a7f502b81bd21fea160db6ff87ae2dda7bb",
+      "boundary": "Issue creation/reconciliation only. Bound implementation, real help discovery, CI/publication and finalADLcaller retirement remain; fiveoriginalrows stillheld."
+    }
+  }
+}

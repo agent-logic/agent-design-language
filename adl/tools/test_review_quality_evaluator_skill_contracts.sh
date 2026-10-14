@@ -2,7 +2,11 @@
 set -euo pipefail
 
 repo_root="$(git rev-parse --show-toplevel)"
-skills_root="${repo_root}/adl/tools/skills"
+skills_root="${ADL_REVIEW_SKILL_CONTRACT_ROOT:-}"
+if [[ "$skills_root" != /* || ! -d "$skills_root" ]]; then
+  echo "Select the authentic original review-skill fixture with ADL_REVIEW_SKILL_CONTRACT_ROOT; current owner layout uses its separately qualified contracts." >&2
+  exit 2
+fi
 tmpdir="$(mktemp -d)"
 trap 'rm -rf "${tmpdir}"' EXIT
 

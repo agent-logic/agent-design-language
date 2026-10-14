@@ -1,0 +1,215 @@
+{
+  "schema": "adl1223.runtime_construction_templates_four.v1",
+  "status": "applied",
+  "source_head": "833360ac5fe5ff71b88082bded75cef1a09a6801",
+  "removed_count": 4,
+  "rows": [
+    {
+      "id": "RD07-4088",
+      "path": "infra/runtime-portable/README.md",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-infrastructure",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "d6230e6785f4165c33b29d780e0100cfdbd243af"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_construction_qualified_infrastructure",
+      "required_before_execution": [
+        "construction_proof_for_exact_root",
+        "inbound_operational_callers_routed",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "infra/runtime-portable/README.md"
+        ]
+      }
+    },
+    {
+      "id": "RD07-4089",
+      "path": "infra/runtime-portable/runtime-workload-contract.v1.json",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-infrastructure",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "45a500615be7088889ca4678fe6ac5edf0a132fd"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_construction_qualified_infrastructure",
+      "required_before_execution": [
+        "construction_proof_for_exact_root",
+        "inbound_operational_callers_routed",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "infra/runtime-portable/runtime-workload-contract.v1.json"
+        ]
+      }
+    },
+    {
+      "id": "RD07-4090",
+      "path": "infra/runtime-v3/agents/ember.axioma.yaml",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-infrastructure",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "c63f1c50a7dd922f9837ce0406dedbe9f80586d9"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_construction_qualified_infrastructure",
+      "required_before_execution": [
+        "construction_proof_for_exact_root",
+        "inbound_operational_callers_routed",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "infra/runtime-v3/agents/ember.axioma.yaml"
+        ]
+      }
+    },
+    {
+      "id": "RD07-4091",
+      "path": "infra/runtime-v3/runtime-api-5665.toml",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-infrastructure",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "f3dd2d1b1805b13af6089b714715cce6a96cc0ee"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_construction_qualified_infrastructure",
+      "required_before_execution": [
+        "construction_proof_for_exact_root",
+        "inbound_operational_callers_routed",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "infra/runtime-v3/runtime-api-5665.toml"
+        ]
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "infra/runtime-portable/README.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "d6230e6785f4165c33b29d780e0100cfdbd243af",
+        "sha256": "b72a5a6585ffc0f30c46c40ff0aed45e2c1bc09eeb5492d4588180146ad214db"
+      },
+      "after": null
+    },
+    {
+      "path": "infra/runtime-portable/runtime-workload-contract.v1.json",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "45a500615be7088889ca4678fe6ac5edf0a132fd",
+        "sha256": "60c022659a3c01ee10b91db48c8193e019da8fc345c380725de6752ef3a4901e"
+      },
+      "after": null
+    },
+    {
+      "path": "infra/runtime-v3/agents/ember.axioma.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "c63f1c50a7dd922f9837ce0406dedbe9f80586d9",
+        "sha256": "530fb4d14584b92f1a05aad21fef8518e674086cfe00a4bb08c73bc20f6f346e"
+      },
+      "after": null
+    },
+    {
+      "path": "infra/runtime-v3/runtime-api-5665.toml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "f3dd2d1b1805b13af6089b714715cce6a96cc0ee",
+        "sha256": "da8b499c988f8cde63f6a245827ae39330c3204bfd41bdce104d04f0897a70e4"
+      },
+      "after": null
+    }
+  ],
+  "owner_inputs": [
+    {
+      "repository": "agent-logic/agent-logic-runtime",
+      "revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "path": "infra/runtime-portable/README.md",
+      "sha256": "b72a5a6585ffc0f30c46c40ff0aed45e2c1bc09eeb5492d4588180146ad214db",
+      "mode": "100644"
+    },
+    {
+      "repository": "agent-logic/agent-logic-runtime",
+      "revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "path": "infra/runtime-portable/runtime-workload-contract.v1.json",
+      "sha256": "60c022659a3c01ee10b91db48c8193e019da8fc345c380725de6752ef3a4901e",
+      "mode": "100644"
+    },
+    {
+      "repository": "agent-logic/agent-logic-runtime",
+      "revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "path": "infra/runtime-v3/agents/ember.axioma.yaml",
+      "sha256": "530fb4d14584b92f1a05aad21fef8518e674086cfe00a4bb08c73bc20f6f346e",
+      "mode": "100644"
+    },
+    {
+      "repository": "agent-logic/agent-logic-runtime",
+      "revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "path": "infra/runtime-v3/runtime-api-5665.toml",
+      "sha256": "da8b499c988f8cde63f6a245827ae39330c3204bfd41bdce104d04f0897a70e4",
+      "mode": "100644"
+    }
+  ],
+  "custody": {
+    "path": "/Volumes/FastWork/c1223/runtime-construction-four/prepared/current-and-original-preimages.tar",
+    "sha256": "bd01ca8c829ff5e01b7fb5ab23071bac3116ee2d330d50f77e256853f4a5865c",
+    "current_members": 4,
+    "original_members": 4,
+    "original_revision": "248f00e359e412f6bc0061ac88be9ff374e3a212"
+  },
+  "evidence": [
+    {
+      "path": "/Volumes/FastWork/c1223/runtime-construction-four/prepared/CALLERS.txt",
+      "sha256": "e9eed8a937a6a3711bf4444f6c7433de6e0b970df9734f971d7c928a7835f388"
+    }
+  ],
+  "preserved_historical_outputs": [
+    {
+      "path": "adl/tools/skills/repo-packet-builder/tests/fixtures/issue-520-changed-paths.txt",
+      "sha256": "59c4c5de57d5aac07549a97bf508c00cbc2b5234e63f984a2eece6a8e07acb33"
+    }
+  ],
+  "caller_closure": "No active ADL production reader or current test reads these four template files. Literal matches are the README linking the paired contract and a retained synthetic changed-path classifier fixture. Historical milestone/issue references remain unchanged. No installed configuration, service or owner source is changed.",
+  "disposition": "Retire inactive ADL construction/example resources with exact retained Runtime source custody. This is not replacement runtime behavior qualification. README and workload contract move together; two old Runtime configuration examples are preserved at the immutable owner revision.",
+  "limits": [
+    "Original XCL AWS/GCP recovery/qualification expectations, provider differences and operator-gated live deployment remain historical design requirements, not claimed passing here.",
+    "Ember example references runtime-init.toml, already absent from ADL; no live Vertex/model capability or deployment is asserted.",
+    "runtime-api-5665 template configuration is not evidence of a healthy/authenticated API or telemetry.",
+    "No tests, builds, deployments, licensing, providers, model or native operations executed.",
+    "Original4134 identities and22captured additions remain unchanged."
+  ],
+  "patch": {
+    "path": "/Volumes/FastWork/c1223/runtime-construction-four/prepared/four.patch",
+    "sha256": "12fed18f74b9dae973b161181a1d83f9aefcdddd71c315b90db35e36271d0966"
+  },
+  "proposal_source_head": "833360ac5fe5ff71b88082bded75cef1a09a6801",
+  "review": {
+    "status": "PASS",
+    "reviewer": "/root/review_1223_historical_retention",
+    "proposal_sha256": "127ec6e3e4ffcde7942eefe990b8f952a4b0130b7c6e4b1997515fc866927d65",
+    "scope": "Reviewed source/caller/custody composition; all individual qualification and historical limits preserved."
+  }
+}

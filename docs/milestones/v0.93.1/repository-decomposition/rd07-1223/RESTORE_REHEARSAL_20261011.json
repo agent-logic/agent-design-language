@@ -1,0 +1,9 @@
+{
+  "issue": 1223,
+  "original_candidates_restored": 4134,
+  "license_files": 2,
+  "blob_byte_mode_mismatches": 0,
+  "archive_sha256": "12205043566913435c25ea414b1fd9148b46727821f7bfefd5d452cfe47a1c17",
+  "scope": "original-source restoration only; not replacement qualification or deletion approval",
+  "initial_attempt": "preserved4134source files, then stopped on separate licenses prefix; both explicit license entries restored and all4134source files reverified"
+}

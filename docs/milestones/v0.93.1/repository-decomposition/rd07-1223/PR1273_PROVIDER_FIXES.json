@@ -1,0 +1,95 @@
+{
+  "schema": "adl.source_retirement.provider_review_fixes.v1",
+  "issue": 1223,
+  "commit": "c0a9983bac18f9bab3a03134b8fe58c8083b95ae",
+  "parent": "fbfa90bdb4b1a3b237d8297e1feca6f0ab4d58c7",
+  "files": [
+    {
+      "path": ".github/workflows/ci.yaml",
+      "before": [
+        "100644",
+        "3e6d9c487383f34c8fe63839c97f7f83c52bae5a"
+      ],
+      "after": [
+        "100644",
+        "89092da10a1e4fe7d0ed69e000fcdbd82106d823"
+      ],
+      "action": "modify"
+    },
+    {
+      "path": ".github/workflows/nightly-coverage-ratchet.yaml",
+      "before": [
+        "100644",
+        "eb75dc2f063264022e8ec337cfecbb9a3ac75236"
+      ],
+      "after": [
+        "100644",
+        "e31744223e5523cc98ef37f422a01515288193f9"
+      ],
+      "action": "modify"
+    },
+    {
+      "path": "tools/public_adl/coverage.py",
+      "before": [
+        "100644",
+        "bf7f8a3f8782ad6180457277c65e1e2a5088b403"
+      ],
+      "after": [
+        "100644",
+        "2fb452f3316581737f8d2905e37209b7cb839f73"
+      ],
+      "action": "modify"
+    },
+    {
+      "path": "tools/public_adl/coverage_inventory.json",
+      "before": [
+        "100644",
+        "663c80f2afde260badefff35a248681c8e5fd616"
+      ],
+      "after": [
+        "100644",
+        "83e1209f9c0a0952b2457b8fcea00668683b59e9"
+      ],
+      "action": "modify"
+    },
+    {
+      "path": "tools/public_adl/test_ci_contract.py",
+      "before": [
+        "100755",
+        "0a8444d0f026b3800ee776957419817f0cba35f1"
+      ],
+      "after": [
+        "100755",
+        "fc72ecf7e0a94204c5bee4df870f0615225a306e"
+      ],
+      "action": "modify"
+    },
+    {
+      "path": "tools/public_adl/test_coverage.py",
+      "before": [
+        "100644",
+        "c688a4f55c3eafde304bd084e126370cd436658c"
+      ],
+      "after": [
+        "100644",
+        "3efd28dcacdedc508c350b8748b5c8ff1d30c8a7"
+      ],
+      "action": "modify"
+    }
+  ],
+  "removals": 0,
+  "approval_reference": "Operator requested Claude and Gemini reviews then instructed carry on",
+  "review": {
+    "reviewer": "review_1273_provider_fixes",
+    "verdict": "PASS after malformed-files finding corrected and closure verified"
+  },
+  "validation": [
+    "10 coverage contracts PASS",
+    "CI contract including seven report scenarios PASS"
+  ],
+  "limits": [
+    "Hosted CI pending at corrective head",
+    "Native reconciliation, finish and cleanup not complete",
+    "Prior retirement guard failure preserved: stale test_ci_contract.py identity"
+  ]
+}
