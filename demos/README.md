@@ -103,23 +103,14 @@ If you want the ADL architecture document generation proof packet:
 bash adl/tools/demo_v090_architecture_document_generation.sh
 ```
 
-If you want the fixture-backed CSM Observatory static console:
+The original fixture-backed CSM static console and operator report are retained in
+[Runtime source](https://github.com/agent-logic/agent-logic-runtime/blob/0c5b129decab8ab71738e19967c46d39b5f4afad/demos/v0.90.1/). Their ADL source
+entrypoints were retired by #1223. Offline original-input checks are separate from
+installed Runtime or live Observatory qualification.
 
-```text
-demos/v0.90.1/csm_observatory_static_console.html
-```
-
-If you want the fixture-backed CSM Observatory operator report:
-
-```bash
-bash adl/tools/test_demo_v0901_csm_observatory_operator_report.sh
-```
-
-If you want the command-driven CSM Observatory demo bundle:
-
-```bash
-bash adl/tools/demo_v0901_csm_observatory.sh
-```
+The historical command-driven CSM demo source remains at
+`adl/tools/demo_v0901_csm_observatory.sh` pending custody and caller closure.
+It has not been requalified against the current ADL CLI.
 
 If you want the current C-SDLC mini-sprint HTML game demo:
 
@@ -313,26 +304,17 @@ Sonata manuscript review/revision proof packet. It preserves the delivered
 v0.88/v0.89 baseline while adding source/draft/review/revision separation,
 addressed revision requests, and an explicit no-submission publication gate.
 
-### v0.90.1 Runtime v2 and CSM Observatory demos
+### v0.90.1 Runtime v2 and CSM Observatory source
 
-- `v0.90.1/csm_observatory_static_console.md`
-- `v0.90.1/csm_observatory_operator_report.md`
-- `v0.90.1/csm_observatory_cli_demo.md`
+The [original static console and operator report](https://github.com/agent-logic/agent-logic-runtime/blob/0c5b129decab8ab71738e19967c46d39b5f4afad/demos/v0.90.1/)
+are held in Runtime source. The [governed prototype](https://github.com/agent-logic/agent-logic-runtime/blob/0c5b129decab8ab71738e19967c46d39b5f4afad/demos/v0.90.4/)
+also remains an owner source artifact. These links identify source custody;
+local composed-fixture checks do not prove a standalone installed owner package
+or a live CSM run.
 
-Use `v0.90.1/csm_observatory_static_console.html` for the first read-only CSM
-Observatory prototype. It renders the fixture-backed proto-csm-01 visibility
-packet into a control-room surface with manifold header, citizen constellation,
-kernel pulse, Freedom Gate docket, trace ribbon, and read-only operator action
-rail.
-
-Use `bash adl/tools/test_demo_v0901_csm_observatory_operator_report.sh` to
-validate the packet-to-report proof surface. The generated Markdown report is a
-compact reviewer artifact for manifold status, citizen state, invariant risk,
-Freedom Gate decisions, trace tail, operator-action boundaries, and caveats.
-
-Use `bash adl/tools/demo_v0901_csm_observatory.sh` for the first command-driven
-Observatory demo bundle. It emits the packet copy, operator report, static
-console reference, and demo manifest from one ADL CLI command.
+`v0.90.1/csm_observatory_cli_demo.md`, its Cargo producer, and the original
+visibility fixture remain in ADL pending original-custody and caller closure.
+Their retention does not establish that the current ADL CLI can run the old demo.
 
 ### v0.90.2 publication field-test demos
 

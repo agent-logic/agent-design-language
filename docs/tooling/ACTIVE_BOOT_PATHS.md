@@ -11,7 +11,7 @@ binaries does not imply several C-SDLC control planes.
 | C-SDLC issue preparation, binding, editing, validation, diagnosis, scheduling, and eligibility | `.adl/bin/native-v3/csdlc <route> --request <file>` | authenticated repository launcher: `.adl/bin/native-v3/csdlc`; canonical stable install destination: `.adl/bin/csdlc` | `csdlc-v3/src/main.rs`; `csdlc-v3/src/commands/local/` | `csdlc-v3/operator/authority-selector.json`, its authenticated receipt, typed request, prompt registry, and worktree registration | active lifecycle authority |
 | C-SDLC review, GitHub issue/PR operations, publication, finish, and cleanup | `.adl/bin/native-v3/csdlc review`, `github-issue`, `github-pr`, `publish`, `finish`, and `clean` | authenticated repository launcher: `.adl/bin/native-v3/csdlc`; canonical stable install destination: `.adl/bin/csdlc` | `csdlc-v3/src/review/`, `csdlc-v3/src/publication/`, and `csdlc-v3/src/commands/terminal.rs` | the same selector and receipt plus exact-head typed remote or terminal requests | active lifecycle authority |
 | ADL language/compiler CLI | `adl` | `.adl/bin/adl` | `adl/src/main.rs` and `adl/src/cli/` | ADL source/configuration supplied to the requested product command | product surface, not C-SDLC authority |
-| Polis service and Runtime API control | `csm runtime-v3 <route>` | `.adl/runtime-v3/current/bin/csm` for the permanent Wuji installation; `.adl/bin/csm` for generated developer tooling | `adl/src/bin/csm.rs` and `adl/src/cli/csm_runtime_v3_cmd.rs` | the active Runtime init/configuration file and service-manager state described by `START_CSM_RUNBOOK.md` | product/runtime control surface, not C-SDLC authority |
+| Polis service and Runtime API control | `csm runtime-v3 <route>` | `.adl/runtime-v3/current/bin/csm` for the permanent Wuji installation; `.adl/bin/csm` for generated developer tooling | `adl/src/bin/csm.rs` and `adl/src/cli/csm_runtime_v3_cmd.rs` | the active Runtime init/configuration file and service-manager state described by the [Runtime source runbook](https://github.com/agent-logic/agent-logic-runtime/blob/0c5b129decab8ab71738e19967c46d39b5f4afad/docs/tooling/START_CSM_RUNBOOK.md) | product/runtime control surface, not C-SDLC authority |
 | Runtime Guardian | started and supervised by the `csm runtime-v3` service path | `.adl/runtime-v3/current/bin/adl-runtime-guardian` | `adl-runtime/src/bin/adl-runtime-guardian.rs` | Runtime init file, service-manager environment, and Guardian supervision contract | product/runtime process |
 | Runtime kernel and HTTPS/WSS API | started by Guardian; not an independent lifecycle route | `.adl/runtime-v3/current/bin/adl-runtime-kernel` | `adl-runtime-kernel/src/bin/adl-runtime-kernel.rs` | Runtime init file plus kernel-owned authenticated API and state configuration | product/runtime process |
 | Retained C-SDLC v2 | no ordinary entrypoint | `.adl/bin/csdlc-v2/` when deliberately installed for an approved exception | `csdlc-v2/` | explicit operator-authorized rollback or bounded transition-remediation contract only | retained rollback/transition-only source |
@@ -36,8 +36,8 @@ locations for the same lifecycle owner, not two authorities. Verify provenance
 before use. ADL product owner binaries are installed separately by
 `adl/tools/install_owner_binaries.sh`; that script does not grant C-SDLC
 authority. The permanent Runtime installation is governed by
-[`START_CSM_RUNBOOK.md`](START_CSM_RUNBOOK.md), which keeps exactly one active
-kernel binary and one Guardian-supervised service path.
+[the Runtime source runbook](https://github.com/agent-logic/agent-logic-runtime/blob/0c5b129decab8ab71738e19967c46d39b5f4afad/docs/tooling/START_CSM_RUNBOOK.md).
+This source-custody link does not verify an installed artifact or a live service.
 
 The focused authority contract is:
 
