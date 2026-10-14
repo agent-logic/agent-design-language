@@ -1,0 +1,64 @@
+{
+  "schema": "csdlc.v3.intent_plan.v1",
+  "slug": "ci-performance",
+  "cards": {
+    "sip": {
+      "goal": "Reduce original ADL repository CI latency while preserving all required tests and gates.",
+      "required_outcome": "Reviewed CI performance PR with deterministic profile contract proof and hosted timing comparison.",
+      "non_goals": "No removed tests, live service changes, paid inference, deployment or shared installed binary replacement."
+    },
+    "stp": {
+      "goal": "Accelerate measured installed-command test execution and expensive debug linking.",
+      "target_files_surfaces": ".github/workflows/ci.yaml; adl/tools CI profile proof; docs/tooling performance evidence.",
+      "deliverables": "Optimized test-profile CI configuration, focused workflow contract, honest baseline and pending hosted timing.",
+      "validation_plan": "Deterministic workflow/profile contract, Ruby workflow policy, full unchanged hosted Rust lanes, independent exact-head review."
+    },
+    "spp": {
+      "plan_summary": "Set level1 optimization for the measured C-SDLC v3 test job while retaining debug assertions and overflow checks; disable debug symbols and incremental compilation for that ephemeral lane. Preserve every test, format and Clippy command and required aggregate. Add focused workflow contract and document baseline. Validate locally, independently review, publish and measure hosted result.",
+      "acceptance_criteria_inline": "All existing Rust test invocations and required gates retained; local contracts pass and hosted exact-head comparison documents wall and runner times without premature speedup claims.",
+      "notes_risks_inline": "Optimization trades compilation time for reduced repeated installed-binary execution and hashing. Debug symbols omitted from CI diagnostics only; no stable installed binary changes.",
+      "validation_plan_inline": "Focused Python profile contract and Ruby workflow policy locally; full Rust tests/format/Clippy in hosted CI.",
+      "dependencies_inline": "ADL1270 opened under cognitive-sdlc205; current main and run38499336594 evidence available.",
+      "repo_inputs_inline": ".github/workflows/ci.yaml, run_cargo_validation.sh, Cargo profile defaults, installed test fixture copying CARGO_BIN_EXE_csdlc.",
+      "target_files_surfaces_inline": ".github/workflows/ci.yaml; adl/tools CI profile proof; docs/tooling CI performance evidence.",
+      "deliverables_inline": "CI test optimization, regression contract, reviewed PR and honest measured comparison."
+    },
+    "vpp": {
+      "planned_pvf_lane": "ci-contracts",
+      "proof_role": "Required CI profile/coverage preservation contract",
+      "determinism_posture": "Local static workflow checks; hosted Rust integration separately required",
+      "resource_profile": "Small CPU local proof, normal GitHub CI; no paid providers",
+      "release_gate_status": "Existing adl-ci and coverage gates retained"
+    },
+    "srp": {
+      "review_scope": "CI profile semantics, complete unchanged test inventory and required gates, failure propagation, honest performance evidence.",
+      "review_instructions": "Reject dropped tests, disabled assertions, unproven speedup claims, deployment or installed binary changes.",
+      "review_evidence_requirements": "Exact candidate diff, focused contract output, baseline run38499336594, hosted CI when available.",
+      "reviewer_constraints": "Independent read-only review; no remote writes.",
+      "refusal_policy": "Refuse coverage loss or false success.",
+      "follow_up_routing": "Return actionable findings to ADL1270 implementer.",
+      "review_results": {
+        "status": "not_run"
+      }
+    },
+    "sor": {}
+  },
+  "validators": [
+    {
+      "id": "candidate-diff-hygiene",
+      "program": "git",
+      "args": [
+        "diff",
+        "--check"
+      ],
+      "success_marker": "git diff --check completed",
+      "timeout_seconds": 60
+    }
+  ],
+  "publication": {
+    "base": "main",
+    "title": "Accelerate ADL installed-command CI tests",
+    "body": "Optimize the slow installed-command CI lane while preserving all existing tests and gates.\n\nCloses #1270\nPart of agent-logic/cognitive-sdlc#205",
+    "draft": true
+  }
+}
