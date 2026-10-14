@@ -12,7 +12,7 @@ validation surface.
 | Cognitive Spacetime runtime | `csm` | canonical |
 | CSM administration | `csmctl` | planned; no C-SDLC commands belong here |
 | Runtime compatibility | `adl-runtime` | compatibility product surface outside C-SDLC authority |
-| Review compatibility | `adl-review` | compatibility product surface outside C-SDLC authority |
+| Review owner | CodeFriend owner package | historical `adl-review` wrapper retired; use the separately qualified owner command contract |
 
 ## C-SDLC lifecycle authority
 

@@ -6,6 +6,8 @@ The goal of this directory is to make ADL’s tooling surfaces understandable an
 
 ## Start Here
 
+- The excluded `adl-review` wrapper, fixed issue414 llama baseline runner, and original-v1 card-editor skill aggregate are retired. Original review compatibility and live-model/restore assertions remain historical evidence in Git and #1223 custody. Public ADL review dispatch remains available through the qualified CodeFriend owner; no new review or live-model qualification is claimed.
+
 - The v0.91.4 evidence-bundle, merge-readiness and observation-memory aggregation scripts are retired historical tooling. Their original assertions and source remain in Git and the #1223 custody record. The immutable v0.91.4 packets retain their original commands as historical evidence; those commands are no longer current ADL entrypoints. This retirement does not claim current native lifecycle or successor test equivalence.
 
 - The v0.91.7 closeout-register generator, legacy CodeFriend CI selector/aggregate, Opus adapter contract test and original v1 Shepherd link test are retired historical tooling. Their source/assertions remain in Git and retirement custody. Existing closeout registers and the [Shepherd contract](ISSUE_LIFECYCLE_SHEPHERD_CONTRACT.md) remain historical evidence; they do not replace current native terminal authority or establish current provider/CI acceptance.

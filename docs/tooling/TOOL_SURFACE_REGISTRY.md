@@ -30,8 +30,8 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 7
 - `supported shim`: 0
-- `internal helper`: 363
-- `historical evidence`: 27
+- `internal helper`: 362
+- `historical evidence`: 26
 - `archive candidate`: 0
 - `remove candidate`: 0
 
@@ -186,7 +186,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/run_fable5_uts_acceptance.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_issue268_remote_resident_qualification.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_issue268_six_hour_spot_qualification.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
-| `adl/tools/run_issue414_llama_baseline.sh` | tool surface | historical evidence | Historical ADL live-model baseline route retired by #1223; refuses execution. Original model, CSM and restore assertions remain unqualified and preserved in custody. |
 | `adl/tools/run_issue509_gcp_drt_d_qualification.sh` | tool surface | historical evidence | Historical Infrastructure source route retired by #1223; command refuses execution. Original assertions remain in Git and retirement custody; run the reviewed owner route. |
 | `adl/tools/run_issue607_warm_polis.sh` | tool surface | historical evidence | Historical Infrastructure source route retired by #1223; command refuses execution. Original assertions remain in Git and retirement custody; run the reviewed owner route. |
 | `adl/tools/run_issue900_continuity_negatives.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
@@ -228,7 +227,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_arxiv_paper_writer_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_batched_checks_no_codexpr_usage_banner.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_card_editor_repair_examples.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_card_editor_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_card_prompt.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_card_reviewer_fixture.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_ccc_v0_instrumentation.sh` | tool surface | internal helper | Focused regression or contract test helper. |

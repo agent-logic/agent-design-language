@@ -7,15 +7,17 @@ than operational authority.
 ## ADL product owners
 
 ADL product owner binaries use the stable generated directory `.adl/bin/`.
-Install commands such as `adl`, `csm`, `csmctl`, `adl-review`, and the
-provider/remote helpers with:
+Install the public `adl` and `adl-process` commands with:
 
 ```sh
 bash adl/tools/install_owner_binaries.sh
 ```
 
-That script installs product commands from reviewed `adl/` source. It does not
-install or select C-SDLC lifecycle authority.
+That script installs these two public commands from reviewed `adl/` source.
+Runtime, CodeFriend, and C-SDLC binaries come from their separately qualified
+owner packages. The historical `adl-review` source wrapper is retired; use
+the CodeFriend owner command contract. `--bin csdlc` only locates manuals for
+an already selected package and does not build or replace lifecycle authority.
 
 ## C-SDLC lifecycle owner
 
